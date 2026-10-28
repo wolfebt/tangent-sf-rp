@@ -160,7 +160,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
 
   return (
     <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
-      <div className={`bg-[#121824] border rounded-xl w-[96vw] max-w-7xl p-4 sm:p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-6 flex flex-col max-h-[96vh] sm:max-h-[96dvh] ${isOver ? 'border-red-500/80 ring-2 ring-red-500/60' : 'border-cyan-500/60'}`}>
+      <div className={`bg-[#121824] border rounded-xl w-[96vw] max-w-7xl p-4 sm:p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-6 flex flex-col ${isOver ? 'border-red-500/80 ring-2 ring-red-500/60' : 'border-cyan-500/60'}`}>
         
         {/* Header */}
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-3 shrink-0">
@@ -507,7 +507,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 </span>
               </h4>
 
-              <div className="bg-slate-950/80 border border-slate-800 rounded divide-y divide-slate-800/70 max-h-60 overflow-y-auto text-xs">
+              <div className="bg-slate-950/80 border border-slate-800 rounded divide-y divide-slate-800/70 text-xs">
                 {experienceAwards.length === 0 ? (
                   <div className="p-5 text-center text-slate-500 italic">
                     No experience awards logged yet. Use the tool above to grant session, story, or epic AP!
@@ -636,7 +636,12 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                                 maxSelectable={maxTraits}
                                 selectedTraits={characterData?.occuAllocations?.traits || []}
                                 recommendedTraits={occTraits}
-                                allTraits={allTraitsMerged}
+                                allTraits={[
+                                  ...(occuObj?.traits_detail || []),
+                                  ...(secondaryOccuObj?.traits_detail || []),
+                                  ...COMMON_OCCUPATIONAL_TRAITS,
+                                  ...allTraitsMerged
+                                ]}
                                 onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, maxTraits)}
                                 onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
                                 colorTheme="sky"
@@ -756,7 +761,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                                 maxSelectable={maxTraits}
                                 selectedTraits={characterData?.originAllocations?.traits || []}
                                 recommendedTraits={origTraits}
-                                allTraits={allTraitsMerged}
+                                allTraits={[
+                                  ...(originObj?.traits_detail || []),
+                                  ...(secondaryOriginObj?.traits_detail || []),
+                                  ...allTraitsMerged
+                                ]}
                                 onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, maxTraits)}
                                 onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
                                 colorTheme="emerald"
@@ -1125,7 +1134,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
             <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
               Detailed Expenditures List
             </h4>
-            <div className="bg-slate-950/80 border border-slate-800 rounded flex-1 overflow-y-auto text-xs divide-y divide-slate-800/60 max-h-72">
+            <div className="bg-slate-950/80 border border-slate-800 rounded flex-1 text-xs divide-y divide-slate-800/60">
               {itemizedList.length === 0 ? (
                 <div className="p-6 text-center text-slate-500 italic">No point expenditures recorded.</div>
               ) : (

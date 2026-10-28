@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Detective (Savant). You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case."
-mechanic: "You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case."
+mechanic: "+2 bonus on any checks related to resisting intimidation or coercion when pursuing a case"
 rules: "Signature Trait (1 CP) — The Detective (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Detective (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Detective (Savant). You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.
+Signature trait of The Detective (Savant). Specialized training and proficiency when pursuing a case.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to resisting intimidation or coercion when pursuing a case.
++2 bonus on any checks related to resisting intimidation or coercion when pursuing a case

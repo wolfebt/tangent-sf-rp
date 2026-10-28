@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort."
-mechanic: "You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort."
+mechanic: "+2 bonus to Diplomacy checks when offering spiritual guidance or comfort"
 rules: "Signature Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Mystic (Visionarie) / The Oracle (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.
+Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Specialized training and proficiency when offering spiritual guidance or comfort.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy checks when offering spiritual guidance or comfort.
++2 bonus to Diplomacy checks when offering spiritual guidance or comfort

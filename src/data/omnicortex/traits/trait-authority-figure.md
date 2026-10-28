@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Bailiff (Sentinel). Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law."
-mechanic: "Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law."
+mechanic: "+2 bonus on Diplomacy checks when interacting with civilians or enforcing the law"
 rules: "Signature Trait (1 CP) — The Bailiff (Sentinel)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Bailiff (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Bailiff (Sentinel). Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.
+Signature trait of The Bailiff (Sentinel). Specialized training and proficiency when interacting with civilians or enforcing the law.
 
 ## Mechanics & Benefit
-Gain +2 bonus on Diplomacy checks when interacting with civilians or enforcing the law.
++2 bonus on Diplomacy checks when interacting with civilians or enforcing the law

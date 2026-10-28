@@ -17,7 +17,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Navigation Knowledge Scouts have excellent navigational
-mechanic: +2 Navigation (Knowledge)
+mechanic: "+2 Navigation (Knowledge)"
 ---
 # Navigation
 

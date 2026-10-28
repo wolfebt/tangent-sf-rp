@@ -17,7 +17,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Unarmed Combat Many adepts are highly
-mechanic: +2 Unarmed Combat
+mechanic: "+2 Unarmed Combat"
 ---
 # Martial Arts Mastery
 

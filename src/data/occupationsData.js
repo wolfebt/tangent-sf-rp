@@ -106,9 +106,18 @@ export const DEFAULT_OCCUPATIONS = [
         "tier": "Basic",
         "classification": "Occupational Trait",
         "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-        "mechanic": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
+        "mechanic": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same",
         "bonus": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+        "mechanics": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same",
+        "modifiers": [],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-heightened-senses",
@@ -118,7 +127,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
         "mechanic": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
         "bonus": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+        "mechanics": "Gains access to purchase Sensory Features - Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
+        "modifiers": [],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-martial-arts-mastery",
@@ -128,7 +146,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
         "mechanic": "+2 Unarmed Combat",
         "bonus": "+2 Unarmed Combat",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
+        "mechanics": "+2 Unarmed Combat",
+        "modifiers": [
+          {
+            "target": "Unarmed Combat Many adepts are highly",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Unarmed Combat Many adepts are highly"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Unarmed Combat Many adepts are highly\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Unarmed Combat Many adepts are highly",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mastery-of-a-discipline",
@@ -138,7 +174,32 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
         "mechanic": "+2 to a Metafocus Discipline",
         "bonus": "+2 to a Metafocus Discipline",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
+        "mechanics": "+2 to a Metafocus Discipline",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "Metafocus Discipline Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mystical-or-spiritual-connection",
@@ -148,7 +209,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
         "mechanic": "+1 Attune and +1 Insight",
         "bonus": "+1 Attune and +1 Insight",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
+        "mechanics": "+1 Attune and +1 Insight",
+        "modifiers": [
+          {
+            "target": "Insight Adepts may have a deep connection to mystical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Insight Adepts may have a deep connection to mystical"
+          },
+          {
+            "target": "Spiritual forces",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Spiritual forces"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Insight Adepts may have a deep connection to mystical\n[Modifier] +1 to Spiritual forces\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Insight Adepts may have a deep connection to mystical",
+          "[Modifier] +1 to Spiritual forces",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -158,7 +245,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-special-equipment",
@@ -168,7 +274,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
         "mechanic": "+2 Equipment",
         "bonus": "+2 Equipment",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
+        "mechanics": "+2 Equipment",
+        "modifiers": [
+          {
+            "target": "equipment-bonus",
+            "type": "combat",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Equipment"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Equipment",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-special-ability",
@@ -178,7 +302,18 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "May be taken multiple times for a different Special Ability.",
         "mechanic": "Special Ability at level 1 (which are afterwards improved as a skill)",
         "bonus": "Special Ability at level 1 (which are afterwards improved as a skill)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "May be taken multiple times for a different Special Ability.",
+        "mechanics": "Special Ability at level 1 (which are afterwards improved as a skill)",
+        "modifiers": [],
+        "rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+        "special_rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+        "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.\n[Prerequisite] None (though usually tied to Species or Origin).",
+        "notesList": [
+          "[Rule] Multiple: May be purchased separately for different categories/types",
+          "[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+          "[Prerequisite] None (though usually tied to Species or Origin)."
+        ]
       },
       {
         "id": "trait-specialized-skills",
@@ -188,7 +323,42 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
         "mechanic": "+2 to a Skill of Choice",
         "bonus": "+2 to a Skill of Choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+        "mechanics": "+2 to a Skill of Choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-versatility",
@@ -198,7 +368,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.",
         "mechanic": "+1 to Karma Point",
         "bonus": "+1 to Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.",
+        "mechanics": "+1 to Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma Point",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Point"
+          },
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic General (1 CP).",
+        "special_rules": "Basic General (1 CP).",
+        "notes": "[Modifier] +1 to Karma Point\n[Modifier] +1 to Karma Pool\n[Rule] Basic General (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Point",
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic General (1 CP)."
+        ]
       }
     ]
   },
@@ -306,10 +502,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-combat-skills",
@@ -319,7 +550,29 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Combat and proficiency with firearms and weapons",
         "mechanic": "+2 to a Combat Skill of Choice",
         "bonus": "+2 to a Combat Skill of Choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Combat and proficiency with firearms and weapons",
+        "mechanics": "+2 to a Combat Skill of Choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-deception",
@@ -329,7 +582,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Disguise, impersonation, and deception",
         "mechanic": "+2 Disguise and Cover Checks",
         "bonus": "+2 Disguise and Cover Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Disguise, impersonation, and deception",
+        "mechanics": "+2 Disguise and Cover Checks",
+        "modifiers": [
+          {
+            "target": "Disguise",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Disguise"
+          },
+          {
+            "target": "Cover",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Cover"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Disguise\n[Modifier] +2 to Cover\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Disguise",
+          "[Modifier] +2 to Cover",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-guile",
@@ -339,7 +618,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Good at devising clever solutions",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Good at devising clever solutions",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-investigation",
@@ -349,7 +646,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Gathering information, analyzing data, and conducting surveillance",
         "mechanic": "+2 Investigation and Gather Information",
         "bonus": "+2 Investigation and Gather Information",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gathering information, analyzing data, and conducting surveillance",
+        "mechanics": "+2 Investigation and Gather Information",
+        "modifiers": [
+          {
+            "target": "Investigation",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Investigation"
+          },
+          {
+            "target": "Gather Information",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Gather Information"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Investigation\n[Modifier] +2 to Gather Information\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Investigation",
+          "[Modifier] +2 to Gather Information",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-languages",
@@ -359,7 +682,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Fluency in multiple languages",
         "mechanic": "+2 Linguistic Knowledge",
         "bonus": "+2 Linguistic Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Fluency in multiple languages",
+        "mechanics": "+2 Linguistic Knowledge",
+        "modifiers": [
+          {
+            "target": "Linguistic Knowledge Fluency in multiple languages",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mental-resilience",
@@ -369,7 +710,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Withstand psychological challenges",
         "mechanic": "+2 Willpower Checks",
         "bonus": "+2 Willpower Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Withstand psychological challenges",
+        "mechanics": "+2 Willpower Checks",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Will Checks"
+          },
+          {
+            "target": "Willpower",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Willpower"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Will Checks",
+          "[Modifier] +2 to Willpower",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-networking",
@@ -379,7 +746,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Gathering information, acquiring resources, and gaining assistance",
         "mechanic": "Gather Information checks at Advantage",
         "bonus": "Gather Information checks at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gathering information, acquiring resources, and gaining assistance",
+        "mechanics": "Gather Information checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Networking Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Networking Gather Information Checks"
+          },
+          {
+            "target": "& Benefit Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on & Benefit Gather Information Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] Advantage on Networking Gather Information Checks\n[Modifier] Advantage on & Benefit Gather Information Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Networking Gather Information Checks",
+          "[Modifier] Advantage on & Benefit Gather Information Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-persuasion",
@@ -389,7 +782,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
         "mechanic": "+1 Manipulation Skills and Etiquette Checks",
         "bonus": "+1 Manipulation Skills and Etiquette Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
+        "mechanics": "+1 Manipulation Skills and Etiquette Checks",
+        "modifiers": [
+          {
+            "target": "Manipulation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Manipulation"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Manipulation",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-physical-fitness",
@@ -399,7 +810,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Endurance and strength",
         "mechanic": "+1 Might and Fortitude Checks",
         "bonus": "+1 Might and Fortitude Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Endurance and strength",
+        "mechanics": "+1 Might and Fortitude Checks",
+        "modifiers": [
+          {
+            "target": "Might",
+            "type": "save",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 on Might Checks"
+          }
+        ],
+        "rules": "Basic Physical (1 CP).",
+        "special_rules": "Basic Physical (1 CP).",
+        "notes": "[Modifier] +1 on Might Checks\n[Rule] Basic Physical (1 CP).",
+        "notesList": [
+          "[Modifier] +1 on Might Checks",
+          "[Rule] Basic Physical (1 CP)."
+        ]
       },
       {
         "id": "trait-quick-thinking",
@@ -409,7 +838,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
         "mechanic": "+2 Initiative",
         "bonus": "+2 Initiative",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
+        "mechanics": "+2 Initiative",
+        "modifiers": [
+          {
+            "target": "initiative-mod",
+            "type": "combat",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Initiative"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Initiative",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-stealth",
@@ -419,7 +866,49 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Operating covertly, sneaking, hiding, and remaining undetected",
         "mechanic": "+2 Stealth",
         "bonus": "+2 Stealth",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
+        "mechanics": "+2 Stealth",
+        "modifiers": [
+          {
+            "target": "Stealth Operating covertly",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth Operating covertly"
+          },
+          {
+            "target": "Sneaking",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Sneaking"
+          },
+          {
+            "target": "Hiding",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Hiding"
+          },
+          {
+            "target": "Remaining undetected",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Remaining undetected"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Stealth Operating covertly\n[Modifier] +2 to Sneaking\n[Modifier] +2 to Hiding\n[Modifier] +2 to Remaining undetected\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Stealth Operating covertly",
+          "[Modifier] +2 to Sneaking",
+          "[Modifier] +2 to Hiding",
+          "[Modifier] +2 to Remaining undetected",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-survival-skills",
@@ -429,7 +918,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
         "mechanic": "+2 Survival",
         "bonus": "+2 Survival",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
+        "mechanics": "+2 Survival",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technology",
@@ -439,7 +946,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
         "mechanic": "+2 Technology Knowledge",
         "bonus": "+2 Technology Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
+        "mechanics": "+2 Technology Knowledge",
+        "modifiers": [
+          {
+            "target": "Technology Knowledge",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Technology Knowledge"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Technology Knowledge",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-travel",
@@ -449,7 +974,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain",
         "mechanic": "+2 Piloting and Navigation",
         "bonus": "+2 Piloting and Navigation",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain",
+        "mechanics": "+2 Piloting and Navigation",
+        "modifiers": [
+          {
+            "target": "Piloting",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Piloting"
+          },
+          {
+            "target": "Navigation",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Navigation"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Piloting\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Piloting",
+          "[Modifier] +2 to Navigation",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -554,10 +1105,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-attention-to-detail",
@@ -567,7 +1153,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Meticulous and detail-oriented",
         "mechanic": "Mastercrafting Checks made at Advantage",
         "bonus": "Mastercrafting Checks made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Meticulous and detail-oriented",
+        "mechanics": "Mastercrafting Checks made at Advantage",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-attention-to-safety",
@@ -577,7 +1181,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
         "mechanic": "Prototyping Checks gain a +4 bonus",
         "bonus": "Prototyping Checks gain a +4 bonus",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
+        "mechanics": "Prototyping Checks gain a +4 bonus",
+        "modifiers": [
+          {
+            "target": "Awareness of safety protocols",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Awareness of safety protocols"
+          },
+          {
+            "target": "Ensuring that their creations are safe to use",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Ensuring that their creations are safe to use"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +4 to Awareness of safety protocols\n[Modifier] +4 to Ensuring that their creations are safe to use\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +4 to Awareness of safety protocols",
+          "[Modifier] +4 to Ensuring that their creations are safe to use",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-business-acumen",
@@ -587,7 +1217,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to handle financial and administrative aspects of their profession",
         "mechanic": "+2 Administration Knowledge",
         "bonus": "+2 Administration Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to handle financial and administrative aspects of their profession",
+        "mechanics": "+2 Administration Knowledge",
+        "modifiers": [
+          {
+            "target": "Administration",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Administration"
+          },
+          {
+            "target": "Business Knowledge",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Business Knowledge"
+          }
+        ],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Modifier] +2 to Administration\n[Modifier] +2 to Business Knowledge\n[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Administration",
+          "[Modifier] +2 to Business Knowledge",
+          "[Rule] Basic Mental (1 CP)."
+        ]
       },
       {
         "id": "trait-creativity",
@@ -597,7 +1253,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Creative mindset and ability to think outside the box",
         "mechanic": "+1 Karma",
         "bonus": "+1 Karma",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Creative mindset and ability to think outside the box",
+        "mechanics": "+1 Karma",
+        "modifiers": [
+          {
+            "target": "Karma Point",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Point"
+          },
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Modifier] +1 to Karma Point\n[Modifier] +1 to Karma Pool\n[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Point",
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Mental (1 CP)."
+        ]
       },
       {
         "id": "trait-environmental-awareness",
@@ -607,7 +1289,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Awareness of environmental factors that could impact construction",
         "mechanic": "+2 Alertness",
         "bonus": "+2 Alertness",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Awareness of environmental factors that could impact construction",
+        "mechanics": "+2 Alertness",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mecha-physics",
@@ -617,7 +1317,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Comprehensive understanding of physics",
         "mechanic": "+2 to Engineering",
         "bonus": "+2 to Engineering",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Comprehensive understanding of physics",
+        "mechanics": "+2 to Engineering",
+        "modifiers": [
+          {
+            "target": "Engineering Comprehensive understanding of physics",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Engineering Comprehensive understanding of physics"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Engineering Comprehensive understanding of physics\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Engineering Comprehensive understanding of physics",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-machine-affinity",
@@ -627,7 +1345,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Natural aptitude for working with machinery and tools",
         "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
         "bonus": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Natural aptitude for working with machinery and tools",
+        "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+        "modifiers": [
+          {
+            "target": "Technology Knowledge Natural aptitude for working with machinery",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Technology Knowledge Natural aptitude for working with machinery"
+          },
+          {
+            "target": "Tools",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Tools"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery\n[Modifier] +2 to Tools\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery",
+          "[Modifier] +2 to Tools",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-patience",
@@ -637,7 +1381,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Patience and willingness to put in the necessary time and effort",
         "mechanic": "Meticulous skill check bonus is increased by 1 per stage",
         "bonus": "Meticulous skill check bonus is increased by 1 per stage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Patience and willingness to put in the necessary time and effort",
+        "mechanics": "Meticulous skill check bonus is increased by 1 per stage",
+        "modifiers": [
+          {
+            "target": "Per stage",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Per stage"
+          }
+        ],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Modifier] +1 to Per stage\n[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Per stage",
+          "[Rule] Basic Mental (1 CP)."
+        ]
       },
       {
         "id": "trait-persistence",
@@ -647,7 +1409,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to persevere through challenges",
         "mechanic": "+1 Willpower Checks",
         "bonus": "+1 Willpower Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to persevere through challenges",
+        "mechanics": "+1 Willpower Checks",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving-skills",
@@ -657,7 +1437,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Strong analytical and problem-solving skills",
         "mechanic": "+2 Logic Checks",
         "bonus": "+2 Logic Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Strong analytical and problem-solving skills",
+        "mechanics": "+2 Logic Checks",
+        "modifiers": [
+          {
+            "target": "Logic",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Logic Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Logic Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-teamwork",
@@ -667,7 +1465,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to work well with others",
         "mechanic": "+1 to Aid",
         "bonus": "+1 to Aid",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to work well with others",
+        "mechanics": "+1 to Aid",
+        "modifiers": [
+          {
+            "target": "Aid bonuses",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Aid bonuses"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Aid bonuses",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technical-knowledge",
@@ -677,7 +1493,27 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
         "mechanic": "+2 Vocation Skill",
         "bonus": "+2 Vocation Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
+        "mechanics": "+2 Vocation Skill",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "mental_vocations"
+          ],
+          "group_label": "Vocation Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technological-aptitude",
@@ -687,7 +1523,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Natural aptitude for understanding and operating advanced technology",
         "mechanic": "+2 Technology Knowledge",
         "bonus": "+2 Technology Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Natural aptitude for understanding and operating advanced technology",
+        "mechanics": "+2 Technology Knowledge",
+        "modifiers": [
+          {
+            "target": "Technology Knowledge",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Technology Knowledge"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Technology Knowledge\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Technology Knowledge",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-time-management",
@@ -697,7 +1551,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Excellent time management skills",
         "mechanic": "Reduce Rush modifiers to Skill checks by 2",
         "bonus": "Reduce Rush modifiers to Skill checks by 2",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Excellent time management skills",
+        "mechanics": "Reduce Rush modifiers to Skill checks by 2",
+        "modifiers": [],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Rule] Basic Mental (1 CP)."
+        ]
       }
     ]
   },
@@ -801,10 +1664,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-communication",
@@ -814,7 +1712,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "+2 Culture and Language checks",
         "mechanic": "+2 Culture and Language checks",
         "bonus": "+2 Culture & Language",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "+2 Culture and Language checks",
+        "mechanics": "+2 Culture and Language checks",
+        "modifiers": [
+          {
+            "target": "Culture",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Culture"
+          },
+          {
+            "target": "Language",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Language"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Culture\n[Modifier] +2 to Language\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Culture",
+          "[Modifier] +2 to Language",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-ethical-awareness",
@@ -824,7 +1748,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "+2 Insight checks and Diplomacy when acting ethically",
         "mechanic": "+2 Insight checks and Diplomacy when acting ethically",
         "bonus": "+2 Insight & Ethics",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "+2 Insight checks and Diplomacy when acting ethically",
+        "mechanics": "+2 Insight checks and Diplomacy when acting ethically",
+        "modifiers": [
+          {
+            "target": "Insight",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Insight"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Insight",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-financial-expertise",
@@ -834,7 +1776,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "+2 Business and Appraisal checks",
         "mechanic": "+2 Business and Appraisal checks",
         "bonus": "+2 Business & Appraisal",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "+2 Business and Appraisal checks",
+        "mechanics": "+2 Business and Appraisal checks",
+        "modifiers": [
+          {
+            "target": "Business",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Business"
+          },
+          {
+            "target": "Appraisal",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Appraisal"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Business\n[Modifier] +2 to Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Business",
+          "[Modifier] +2 to Appraisal",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-high-social-standing",
@@ -844,7 +1812,41 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "+2 to Wealth Score and Etiquette checks",
         "mechanic": "+2 to Wealth Score and Etiquette checks",
         "bonus": "+2 Wealth & Etiquette",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "+2 to Wealth Score and Etiquette checks",
+        "mechanics": "+2 to Wealth Score and Etiquette checks",
+        "modifiers": [
+          {
+            "target": "Wealth Score",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Wealth Score"
+          },
+          {
+            "target": "Etiquette",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Etiquette"
+          },
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Wealth Score"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Wealth Score\n[Modifier] +2 to Etiquette\n[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Wealth Score",
+          "[Modifier] +2 to Etiquette",
+          "[Modifier] +2 Wealth Score",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-management",
@@ -854,7 +1856,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "+2 Administration and Leadership checks",
         "mechanic": "+2 Administration and Leadership checks",
         "bonus": "+2 Administration",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "+2 Administration and Leadership checks",
+        "mechanics": "+2 Administration and Leadership checks",
+        "modifiers": [
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 Wealth Score"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 Wealth Score",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-negotiation",
@@ -864,7 +1884,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
         "mechanic": "+1 all Manipulation Skills",
         "bonus": "+1 all Manipulation Skills",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
+        "mechanics": "+1 all Manipulation Skills",
+        "modifiers": [
+          {
+            "target": "Manipulation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Manipulation"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Manipulation",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-networking",
@@ -874,7 +1912,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Gathering information, acquiring resources, and gaining assistance",
         "mechanic": "Gather Information checks at Advantage",
         "bonus": "Gather Information checks at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gathering information, acquiring resources, and gaining assistance",
+        "mechanics": "Gather Information checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Networking Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Networking Gather Information Checks"
+          },
+          {
+            "target": "& Benefit Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on & Benefit Gather Information Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] Advantage on Networking Gather Information Checks\n[Modifier] Advantage on & Benefit Gather Information Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Networking Gather Information Checks",
+          "[Modifier] Advantage on & Benefit Gather Information Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving",
@@ -884,7 +1948,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adept at identifying and solving problems.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "Once per Day may reroll a Mental Skill Check",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adept at identifying and solving problems.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-strategic-thinking",
@@ -894,7 +1967,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "+2 Tactics and Logic checks",
         "mechanic": "+2 Tactics and Logic checks",
         "bonus": "+2 Tactics & Logic",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "+2 Tactics and Logic checks",
+        "mechanics": "+2 Tactics and Logic checks",
+        "modifiers": [
+          {
+            "target": "Tactics",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Tactics"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Tactics\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Tactics",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -1008,7 +2099,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may be more prone to violence and aggression than the average person",
         "mechanic": "+2 Intimidation",
         "bonus": "+2 Intimidation",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may be more prone to violence and aggression than the average person",
+        "mechanics": "+2 Intimidation",
+        "modifiers": [
+          {
+            "target": "Intimidation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Intimidation"
+          },
+          {
+            "target": "Breach",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Breach"
+          }
+        ],
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Modifier] +1 to Intimidation\n[Modifier] +1 to Breach\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Intimidation",
+          "[Modifier] +1 to Breach",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-b-e",
@@ -1018,7 +2135,14 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Experience with breaking and entering into secure locations",
         "mechanic": "+2 all checks to the Infiltration of a physical location",
         "bonus": "+2 all checks to the Infiltration of a physical location",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Experience with breaking and entering into secure locations",
+        "mechanics": "+2 all checks to the Infiltration of a physical location",
+        "modifiers": [],
+        "rules": "",
+        "special_rules": "",
+        "notes": "",
+        "notesList": []
       },
       {
         "id": "trait-combat-training",
@@ -1028,7 +2152,29 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may have experience with hand-to-hand combat or the use of weapons",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 to a Combat Skill of choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may have experience with hand-to-hand combat or the use of weapons",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-deception",
@@ -1038,7 +2184,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Disguise, impersonation, and deception",
         "mechanic": "+2 Disguise and Cover Checks",
         "bonus": "+2 Disguise and Cover Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Disguise, impersonation, and deception",
+        "mechanics": "+2 Disguise and Cover Checks",
+        "modifiers": [
+          {
+            "target": "Disguise",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Disguise"
+          },
+          {
+            "target": "Cover",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Cover"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Disguise\n[Modifier] +2 to Cover\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Disguise",
+          "[Modifier] +2 to Cover",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-hacking",
@@ -1048,7 +2220,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Experience with hacking into computer systems and stealing information",
         "mechanic": "+2 all checks to the Infiltration of a digital domain",
         "bonus": "+2 all checks to the Infiltration of a digital domain",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Experience with hacking into computer systems and stealing information",
+        "mechanics": "+2 all checks to the Infiltration of a digital domain",
+        "modifiers": [],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-networking",
@@ -1058,7 +2239,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Gathering information, acquiring resources, and gaining assistance",
         "mechanic": "Gather Information checks at Advantage",
         "bonus": "Gather Information checks at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gathering information, acquiring resources, and gaining assistance",
+        "mechanics": "Gather Information checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Networking Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Networking Gather Information Checks"
+          },
+          {
+            "target": "& Benefit Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on & Benefit Gather Information Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] Advantage on Networking Gather Information Checks\n[Modifier] Advantage on & Benefit Gather Information Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Networking Gather Information Checks",
+          "[Modifier] Advantage on & Benefit Gather Information Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -1068,7 +2275,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-risk-taking",
@@ -1078,7 +2304,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may be more willing to take risks and engage in dangerous behavior",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may be more willing to take risks and engage in dangerous behavior",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-self-preservation",
@@ -1088,7 +2332,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-smooth",
@@ -1098,7 +2360,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
         "mechanic": "+2 Bluff",
         "bonus": "+2 Bluff",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
+        "mechanics": "+2 Bluff",
+        "modifiers": [
+          {
+            "target": "Bluff",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Bluff"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Bluff\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Bluff",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-stalker",
@@ -1108,7 +2388,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Skilled at moving quietly and avoiding detection",
         "mechanic": "May take 10 on Stealth Checks",
         "bonus": "May take 10 on Stealth Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Skilled at moving quietly and avoiding detection",
+        "mechanics": "May take 10 on Stealth Checks",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          },
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth"
+          }
+        ],
+        "rules": "Basic Species Trait (1 CP).",
+        "special_rules": "Basic Species Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Modifier] +2 to Stealth",
+          "[Rule] Basic Species Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-street-smarts",
@@ -1118,7 +2424,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may have a deep understanding of the criminal underworld and how to navigate it",
         "mechanic": "+2 Streetwise",
         "bonus": "+2 Streetwise",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may have a deep understanding of the criminal underworld and how to navigate it",
+        "mechanics": "+2 Streetwise",
+        "modifiers": [
+          {
+            "target": "Streetwise",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Streetwise"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] +2 to Streetwise\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Streetwise",
+          "[Rule] Basic Social (1 CP)."
+        ]
       }
     ]
   },
@@ -1232,10 +2556,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-adventurous-spirit",
@@ -1243,9 +2602,28 @@ export const DEFAULT_OCCUPATIONS = [
         "tier": "Basic",
         "classification": "Occupational Trait",
         "description": "Strong sense of adventure and are always seeking new experiences and challenges",
-        "mechanic": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc.",
+        "mechanic": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc",
         "bonus": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc.",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Strong sense of adventure and are always seeking new experiences and challenges",
+        "mechanics": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-aggressiveness",
@@ -1255,7 +2633,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may be more prone to violence and aggression than the average person",
         "mechanic": "+2 Intimidation",
         "bonus": "+2 Intimidation",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may be more prone to violence and aggression than the average person",
+        "mechanics": "+2 Intimidation",
+        "modifiers": [
+          {
+            "target": "Intimidation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Intimidation"
+          },
+          {
+            "target": "Breach",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Breach"
+          }
+        ],
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Modifier] +1 to Intimidation\n[Modifier] +1 to Breach\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Intimidation",
+          "[Modifier] +1 to Breach",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-caution",
@@ -1265,7 +2669,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
         "mechanic": "+2 Insight",
         "bonus": "+2 Insight",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
+        "mechanics": "+2 Insight",
+        "modifiers": [
+          {
+            "target": "Insight",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Insight"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Insight",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-combat-training",
@@ -1275,7 +2697,29 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may have experience with hand-to-hand combat or the use of weapons",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 to a Combat Skill of choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may have experience with hand-to-hand combat or the use of weapons",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-fearlessness",
@@ -1285,7 +2729,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Seem fearless and willing to take risks in order to achieve their goals",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Seem fearless and willing to take risks in order to achieve their goals",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-jack-of-all-trades",
@@ -1295,7 +2757,28 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
         "mechanic": "May use any skill without formal training",
         "bonus": "May use any skill without formal training",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
+        "mechanics": "May use any skill without formal training",
+        "modifiers": [
+          {
+            "target": "All Skills",
+            "type": "untrained",
+            "value": 0,
+            "mode": "conditional",
+            "isSituational": true,
+            "condition": "Untrained skill checks",
+            "description": "May attempt any skill check untrained without suffering CR penalties"
+          }
+        ],
+        "rules": "Prerequisite: Intellect 2.",
+        "special_rules": "Prerequisite: Intellect 2.",
+        "notes": "[Modifier] May attempt any skill check untrained without suffering CR penalties\n[Rule] Prerequisite: Intellect 2.\n[Prerequisite] Intellect 2",
+        "notesList": [
+          "[Modifier] May attempt any skill check untrained without suffering CR penalties",
+          "[Rule] Prerequisite: Intellect 2.",
+          "[Prerequisite] Intellect 2"
+        ]
       },
       {
         "id": "trait-loyalty",
@@ -1305,7 +2788,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
         "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
         "bonus": "Domination and Mind-Control Resistance Checks are made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
+        "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Will Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Will Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mobility",
@@ -1315,7 +2816,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Often on the move, traveling from place to place and exploring new territories",
         "mechanic": "+2 Equipment (Vehicle)",
         "bonus": "+2 Equipment (Vehicle)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Often on the move, traveling from place to place and exploring new territories",
+        "mechanics": "+2 Equipment (Vehicle)",
+        "modifiers": [
+          {
+            "target": "defense-mod",
+            "type": "combat",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 Defense"
+          }
+        ],
+        "rules": "Prerequisite: Agility 2, Dodge.",
+        "special_rules": "Prerequisite: Agility 2, Dodge.",
+        "notes": "[Modifier] +4 Defense\n[Rule] Prerequisite: Agility 2, Dodge.\n[Prerequisite] Agility 2, Dodge",
+        "notesList": [
+          "[Modifier] +4 Defense",
+          "[Rule] Prerequisite: Agility 2, Dodge.",
+          "[Prerequisite] Agility 2, Dodge"
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -1325,7 +2845,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-scavenging",
@@ -1335,7 +2874,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
         "mechanic": "+2 Salvage checks",
         "bonus": "+2 Salvage checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
+        "mechanics": "+2 Salvage checks",
+        "modifiers": [
+          {
+            "target": "Salvage",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Salvage"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Salvage\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Salvage",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-self-sufficiency",
@@ -1345,7 +2902,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Often self-sufficient and able to take care of themselves without relying on others",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Often self-sufficient and able to take care of themselves without relying on others",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-stalker",
@@ -1355,7 +2930,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Skilled at moving quietly and avoiding detection",
         "mechanic": "May take 10 on Stealth Checks",
         "bonus": "May take 10 on Stealth Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Skilled at moving quietly and avoiding detection",
+        "mechanics": "May take 10 on Stealth Checks",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          },
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth"
+          }
+        ],
+        "rules": "Basic Species Trait (1 CP).",
+        "special_rules": "Basic Species Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Modifier] +2 to Stealth",
+          "[Rule] Basic Species Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-street-smarts",
@@ -1365,7 +2966,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may have a deep understanding of the criminal underworld and how to navigate it",
         "mechanic": "+2 Streetwise",
         "bonus": "+2 Streetwise",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may have a deep understanding of the criminal underworld and how to navigate it",
+        "mechanics": "+2 Streetwise",
+        "modifiers": [
+          {
+            "target": "Streetwise",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Streetwise"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] +2 to Streetwise\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Streetwise",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-survival",
@@ -1375,7 +2994,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
         "mechanic": "+2 Survival",
         "bonus": "+2 Survival",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
+        "mechanics": "+2 Survival",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-unpredictability",
@@ -1385,7 +3022,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries",
         "mechanic": "+2 Initiative",
         "bonus": "+2 Initiative",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries",
+        "mechanics": "+2 Initiative",
+        "modifiers": [
+          {
+            "target": "initiative-mod",
+            "type": "combat",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Initiative"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Initiative",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -1488,10 +3143,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-charismatic",
@@ -1501,7 +3191,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Outgoing and charming",
         "mechanic": "May take 10 on Diplomacy",
         "bonus": "May take 10 on Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Outgoing and charming",
+        "mechanics": "May take 10 on Diplomacy",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "take_10",
+            "value": 10,
+            "mode": "inherent",
+            "description": "May take 10 on Diplomacy Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] May take 10 on Diplomacy Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] May take 10 on Diplomacy Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-confident",
@@ -1511,7 +3219,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Comfortable in the spotlight",
         "mechanic": "+2 Willpower",
         "bonus": "+2 Willpower",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Comfortable in the spotlight",
+        "mechanics": "+2 Willpower",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Will Checks"
+          },
+          {
+            "target": "Willpower Comfortable in the spotlight",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Willpower Comfortable in the spotlight"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Comfortable in the spotlight\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Will Checks",
+          "[Modifier] +2 to Willpower Comfortable in the spotlight",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-creative",
@@ -1521,7 +3255,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Skilled at coming up with new ideas",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Skilled at coming up with new ideas",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-energetic",
@@ -1531,7 +3283,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "High levels of energy and enthusiasm",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "High levels of energy and enthusiasm",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-fans",
@@ -1541,7 +3311,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Has a loyal following of fans",
         "mechanic": "+2 Wealth and +1 Manipulations with Fans",
         "bonus": "+2 Wealth and +1 Manipulations with Fans",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Has a loyal following of fans",
+        "mechanics": "+2 Wealth and +1 Manipulations with Fans",
+        "modifiers": [
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Wealth Score"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Wealth Score",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-fellow-artists",
@@ -1551,7 +3339,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Has close relationships with other performers",
         "mechanic": "Gather Information checks made at Advantage when dealing with the entertainment scene",
         "bonus": "Gather Information checks made at Advantage when dealing with the entertainment scene",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Has close relationships with other performers",
+        "mechanics": "Gather Information checks made at Advantage when dealing with the entertainment scene",
+        "modifiers": [
+          {
+            "target": "Fellow Artists Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Fellow Artists Gather Information Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Fellow Artists Gather Information Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Fellow Artists Gather Information Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-freedom",
@@ -1561,7 +3367,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Values independence and self-expression",
         "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
         "bonus": "Domination and Mind-Control Resistance Checks are made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Values independence and self-expression",
+        "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Will Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Will Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-fun",
@@ -1571,7 +3395,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Values having a good time and making others happy",
         "mechanic": "Regain a Karma Point when a crowd enjoys your performance",
         "bonus": "Regain a Karma Point when a crowd enjoys your performance",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Values having a good time and making others happy",
+        "mechanics": "Regain a Karma Point when a crowd enjoys your performance",
+        "modifiers": [],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-venues",
@@ -1581,7 +3414,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Has strong ties to certain performance venues",
         "mechanic": "+2 Equipment (Hideout) and +1 Wealth",
         "bonus": "+2 Equipment (Hideout) and +1 Wealth",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Has strong ties to certain performance venues",
+        "mechanics": "+2 Equipment (Hideout) and +1 Wealth",
+        "modifiers": [
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 Wealth Score"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 Wealth Score",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -1688,10 +3539,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-appraisal",
@@ -1701,7 +3587,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
         "mechanic": "+2 to any Appraisal check",
         "bonus": "+2 to any Appraisal check",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
+        "mechanics": "+2 to any Appraisal check",
+        "modifiers": [
+          {
+            "target": "Any Appraisal",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Any Appraisal"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Any Appraisal\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Any Appraisal",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-business-acumen",
@@ -1711,7 +3615,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to handle financial and administrative aspects of their profession",
         "mechanic": "+2 Administration Knowledge",
         "bonus": "+2 Administration Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to handle financial and administrative aspects of their profession",
+        "mechanics": "+2 Administration Knowledge",
+        "modifiers": [
+          {
+            "target": "Administration",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Administration"
+          },
+          {
+            "target": "Business Knowledge",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Business Knowledge"
+          }
+        ],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Modifier] +2 to Administration\n[Modifier] +2 to Business Knowledge\n[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Administration",
+          "[Modifier] +2 to Business Knowledge",
+          "[Rule] Basic Mental (1 CP)."
+        ]
       },
       {
         "id": "trait-charismatic",
@@ -1721,7 +3651,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Outgoing and charming",
         "mechanic": "May take 10 on Diplomacy",
         "bonus": "May take 10 on Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Outgoing and charming",
+        "mechanics": "May take 10 on Diplomacy",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "take_10",
+            "value": 10,
+            "mode": "inherent",
+            "description": "May take 10 on Diplomacy Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] May take 10 on Diplomacy Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] May take 10 on Diplomacy Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-cultural-awareness",
@@ -1731,7 +3679,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
         "mechanic": "+2 Culture Knowledge",
         "bonus": "+2 Culture Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
+        "mechanics": "+2 Culture Knowledge",
+        "modifiers": [
+          {
+            "target": "Culture Knowledge Merchants are culturally aware",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Culture Knowledge Merchants are culturally aware"
+          },
+          {
+            "target": "Sensitive",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Sensitive"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Culture Knowledge Merchants are culturally aware\n[Modifier] +2 to Sensitive\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Culture Knowledge Merchants are culturally aware",
+          "[Modifier] +2 to Sensitive",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-linguistics",
@@ -1741,7 +3715,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
         "mechanic": "+2 Linguistic Knowledge",
         "bonus": "+2 Linguistic Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
+        "mechanics": "+2 Linguistic Knowledge",
+        "modifiers": [
+          {
+            "target": "Linguistic Knowledge Merchants often possess linguistic",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Linguistic Knowledge Merchants often possess linguistic"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-logistics",
@@ -1751,7 +3743,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
         "mechanic": "+2 Wealth Checks",
         "bonus": "+2 Wealth Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
+        "mechanics": "+2 Wealth Checks",
+        "modifiers": [
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Wealth Score"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Wealth Score\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Wealth Score",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-negotiation",
@@ -1761,7 +3771,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
         "mechanic": "+1 all Manipulation Skills",
         "bonus": "+1 all Manipulation Skills",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
+        "mechanics": "+1 all Manipulation Skills",
+        "modifiers": [
+          {
+            "target": "Manipulation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Manipulation"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Manipulation",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-networking",
@@ -1771,7 +3799,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Gathering information, acquiring resources, and gaining assistance",
         "mechanic": "Gather Information checks at Advantage",
         "bonus": "Gather Information checks at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gathering information, acquiring resources, and gaining assistance",
+        "mechanics": "Gather Information checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Networking Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Networking Gather Information Checks"
+          },
+          {
+            "target": "& Benefit Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on & Benefit Gather Information Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] Advantage on Networking Gather Information Checks\n[Modifier] Advantage on & Benefit Gather Information Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Networking Gather Information Checks",
+          "[Modifier] Advantage on & Benefit Gather Information Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-product-knowledge",
@@ -1781,7 +3835,28 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
         "mechanic": "+2 to a Knowledge or Vocation Skill",
         "bonus": "+2 to a Knowledge or Vocation Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
+        "mechanics": "+2 to a Knowledge or Vocation Skill",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "mental_knowledges",
+            "mental_vocations"
+          ],
+          "group_label": "Knowledge & Vocation Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -1791,7 +3866,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-risk-management",
@@ -1801,7 +3895,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -1905,7 +4017,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to analyze data and information to make informed decisions",
         "mechanic": "+2 Alertness",
         "bonus": "+2 Alertness",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to analyze data and information to make informed decisions",
+        "mechanics": "+2 Alertness",
+        "modifiers": [
+          {
+            "target": "Alertness Ability to analyze data",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness Ability to analyze data"
+          },
+          {
+            "target": "Information to make informed decisions",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Information to make informed decisions"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness Ability to analyze data\n[Modifier] +2 to Information to make informed decisions\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness Ability to analyze data",
+          "[Modifier] +2 to Information to make informed decisions",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-conflict-resolution",
@@ -1915,7 +4053,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
         "mechanic": "+2 Diplomacy",
         "bonus": "+2 Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
+        "mechanics": "+2 Diplomacy",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Diplomacy"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Diplomacy",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-creativity",
@@ -1925,7 +4081,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Creative mindset and ability to think outside the box",
         "mechanic": "+1 Karma",
         "bonus": "+1 Karma",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Creative mindset and ability to think outside the box",
+        "mechanics": "+1 Karma",
+        "modifiers": [
+          {
+            "target": "Karma Point",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Point"
+          },
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Modifier] +1 to Karma Point\n[Modifier] +1 to Karma Pool\n[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Point",
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Mental (1 CP)."
+        ]
       },
       {
         "id": "trait-emotional-intelligence",
@@ -1935,7 +4117,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
         "mechanic": "+2 Insight",
         "bonus": "+2 Insight",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
+        "mechanics": "+2 Insight",
+        "modifiers": [
+          {
+            "target": "Insight",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Insight"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Insight\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Insight",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-flexibility",
@@ -1945,7 +4145,42 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-integrity",
@@ -1955,7 +4190,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
         "mechanic": "+1 Karma",
         "bonus": "+1 Karma",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
+        "mechanics": "+1 Karma",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-languages",
@@ -1965,7 +4218,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Fluency in multiple languages",
         "mechanic": "+2 Linguistic Knowledge",
         "bonus": "+2 Linguistic Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Fluency in multiple languages",
+        "mechanics": "+2 Linguistic Knowledge",
+        "modifiers": [
+          {
+            "target": "Linguistic Knowledge Fluency in multiple languages",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-negotiation",
@@ -1975,7 +4246,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
         "mechanic": "+1 all Manipulation Skills",
         "bonus": "+1 all Manipulation Skills",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
+        "mechanics": "+1 all Manipulation Skills",
+        "modifiers": [
+          {
+            "target": "Manipulation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Manipulation"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] +1 to Manipulation\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Manipulation",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-networking",
@@ -1985,7 +4274,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Gathering information, acquiring resources, and gaining assistance",
         "mechanic": "Gather Information checks at Advantage",
         "bonus": "Gather Information checks at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gathering information, acquiring resources, and gaining assistance",
+        "mechanics": "Gather Information checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Networking Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Networking Gather Information Checks"
+          },
+          {
+            "target": "& Benefit Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on & Benefit Gather Information Checks"
+          }
+        ],
+        "rules": "Basic Social (1 CP).",
+        "special_rules": "Basic Social (1 CP).",
+        "notes": "[Modifier] Advantage on Networking Gather Information Checks\n[Modifier] Advantage on & Benefit Gather Information Checks\n[Rule] Basic Social (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Networking Gather Information Checks",
+          "[Modifier] Advantage on & Benefit Gather Information Checks",
+          "[Rule] Basic Social (1 CP)."
+        ]
       },
       {
         "id": "trait-time-management",
@@ -1995,7 +4310,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Excellent time management skills",
         "mechanic": "Reduce Rush modifiers to Skill checks by 2",
         "bonus": "Reduce Rush modifiers to Skill checks by 2",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Excellent time management skills",
+        "mechanics": "Reduce Rush modifiers to Skill checks by 2",
+        "modifiers": [],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Rule] Basic Mental (1 CP)."
+        ]
       }
     ]
   },
@@ -2100,10 +4424,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-attention-to-detail",
@@ -2113,7 +4472,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Meticulous and detail-oriented",
         "mechanic": "Mastercrafting Checks made at Advantage",
         "bonus": "Mastercrafting Checks made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Meticulous and detail-oriented",
+        "mechanics": "Mastercrafting Checks made at Advantage",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-collaboration",
@@ -2123,7 +4500,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Able to effectively communicate and work with colleagues.",
         "mechanic": "additional +1 to Aid bonuses",
         "bonus": "additional +1 to Aid bonuses",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to effectively communicate and work with colleagues.",
+        "mechanics": "additional +1 to Aid bonuses",
+        "modifiers": [
+          {
+            "target": "Aid bonuses received",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Aid bonuses received"
+          },
+          {
+            "target": "Granted",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Granted"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Aid bonuses received\n[Modifier] +1 to Granted\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Aid bonuses received",
+          "[Modifier] +1 to Granted",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-continuous-learning",
@@ -2133,7 +4536,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Has a thirst for knowledge and is committed to lifelong learning.",
         "mechanic": "All Learning Checks are made at Advantage",
         "bonus": "All Learning Checks are made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
+        "mechanics": "All Learning Checks are made at Advantage",
+        "modifiers": [
+          {
+            "target": "Continuous Learning All Learning",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Continuous Learning All Learning Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Continuous Learning All Learning Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Continuous Learning All Learning Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-critical-thinking",
@@ -2143,7 +4564,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Possess strong critical thinking skills.",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Possess strong critical thinking skills.",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-ethical-conduct",
@@ -2153,7 +4592,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adheres to ethical standards in research and work.",
         "mechanic": "+2 to any Manipulation checks when taking an Ethical side",
         "bonus": "+2 to any Manipulation checks when taking an Ethical side",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adheres to ethical standards in research and work.",
+        "mechanics": "+2 to any Manipulation checks when taking an Ethical side",
+        "modifiers": [
+          {
+            "target": "Any Manipulation",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Any Manipulation"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Any Manipulation\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Any Manipulation",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-metacognition",
@@ -2163,7 +4620,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Aware of own cognitive abilities and strategies.",
         "mechanic": "+1 to Logic and Willpower Checks",
         "bonus": "+1 to Logic and Willpower Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Aware of own cognitive abilities and strategies.",
+        "mechanics": "+1 to Logic and Willpower Checks",
+        "modifiers": [
+          {
+            "target": "Logic",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Logic"
+          },
+          {
+            "target": "Willpower",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Willpower"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Logic\n[Modifier] +1 to Willpower\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Logic",
+          "[Modifier] +1 to Willpower",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-patience",
@@ -2173,7 +4656,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Patience and willingness to put in the necessary time and effort",
         "mechanic": "Meticulous skill check bonus is increased by 1 per stage",
         "bonus": "Meticulous skill check bonus is increased by 1 per stage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Patience and willingness to put in the necessary time and effort",
+        "mechanics": "Meticulous skill check bonus is increased by 1 per stage",
+        "modifiers": [
+          {
+            "target": "Per stage",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Per stage"
+          }
+        ],
+        "rules": "Basic Mental (1 CP).",
+        "special_rules": "Basic Mental (1 CP).",
+        "notes": "[Modifier] +1 to Per stage\n[Rule] Basic Mental (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Per stage",
+          "[Rule] Basic Mental (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving",
@@ -2183,7 +4684,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adept at identifying and solving problems.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "Once per Day may reroll a Mental Skill Check",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adept at identifying and solving problems.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technological-innovation",
@@ -2191,9 +4701,27 @@ export const DEFAULT_OCCUPATIONS = [
         "tier": "Basic",
         "classification": "Occupational Trait",
         "description": "Able to create, adapt, and improve technology in novel ways.",
-        "mechanic": "Knowledge (Technology) checks made at Advantage.",
+        "mechanic": "Knowledge (Technology) checks made at Advantage",
         "bonus": "Knowledge (Technology) checks made at Advantage.",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to create, adapt, and improve technology in novel ways.",
+        "mechanics": "Knowledge (Technology) checks made at Advantage",
+        "modifiers": [
+          {
+            "target": "Technological innovation Knowledge Technology",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Technological innovation Knowledge Technology Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Technological innovation Knowledge Technology Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Technological innovation Knowledge Technology Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -2300,10 +4828,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-camouflage",
@@ -2313,7 +4876,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.",
         "mechanic": "May use Stealth at normal movement speed",
         "bonus": "May use Stealth at normal movement speed",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.",
+        "mechanics": "May use Stealth at normal movement speed",
+        "modifiers": [
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Stealth"
+          }
+        ],
+        "rules": "Basic Species Trait (1 CP).",
+        "special_rules": "Basic Species Trait (1 CP).",
+        "notes": "[Modifier] +4 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +4 to Stealth",
+          "[Rule] Basic Species Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-combat-training",
@@ -2323,7 +4904,29 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may have experience with hand-to-hand combat or the use of weapons",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 to a Combat Skill of choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may have experience with hand-to-hand combat or the use of weapons",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-curiosity",
@@ -2331,9 +4934,27 @@ export const DEFAULT_OCCUPATIONS = [
         "tier": "Basic",
         "classification": "Occupational Trait",
         "description": "Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.",
-        "mechanic": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc.",
+        "mechanic": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc",
         "bonus": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc.",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.",
+        "mechanics": "Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Diplomacy"
+          }
+        ],
+        "rules": "Basic General (1 CP).",
+        "special_rules": "Basic General (1 CP).",
+        "notes": "[Modifier] +4 to Diplomacy\n[Rule] Basic General (1 CP).",
+        "notesList": [
+          "[Modifier] +4 to Diplomacy",
+          "[Rule] Basic General (1 CP)."
+        ]
       },
       {
         "id": "trait-independence",
@@ -2343,7 +4964,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-keen-observation",
@@ -2353,7 +4992,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
         "mechanic": "Take 10 on Alertness Checks",
         "bonus": "Take 10 on Alertness Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
+        "mechanics": "Take 10 on Alertness Checks",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "take_10",
+            "value": 10,
+            "mode": "inherent",
+            "description": "May take 10 on Alertness Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] May take 10 on Alertness Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-navigation",
@@ -2363,7 +5020,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
         "mechanic": "+2 Navigation (Knowledge)",
         "bonus": "+2 Navigation (Knowledge)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
+        "mechanics": "+2 Navigation (Knowledge)",
+        "modifiers": [
+          {
+            "target": "Navigation Knowledge Scouts have excellent navigational",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Navigation Knowledge Scouts have excellent navigational"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-physical-fitness",
@@ -2373,7 +5048,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Endurance and strength",
         "mechanic": "+1 Might and Fortitude Checks",
         "bonus": "+1 Might and Fortitude Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Endurance and strength",
+        "mechanics": "+1 Might and Fortitude Checks",
+        "modifiers": [
+          {
+            "target": "Might",
+            "type": "save",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 on Might Checks"
+          }
+        ],
+        "rules": "Basic Physical (1 CP).",
+        "special_rules": "Basic Physical (1 CP).",
+        "notes": "[Modifier] +1 on Might Checks\n[Rule] Basic Physical (1 CP).",
+        "notesList": [
+          "[Modifier] +1 on Might Checks",
+          "[Rule] Basic Physical (1 CP)."
+        ]
       },
       {
         "id": "trait-pilot",
@@ -2383,7 +5076,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
         "mechanic": "+2 Pilot and Navigation",
         "bonus": "+2 Pilot and Navigation",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
+        "mechanics": "+2 Pilot and Navigation",
+        "modifiers": [
+          {
+            "target": "Pilot",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Pilot"
+          },
+          {
+            "target": "Navigation",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Navigation"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Pilot\n[Modifier] +2 to Navigation\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Pilot",
+          "[Modifier] +2 to Navigation",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -2393,7 +5112,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-stalker",
@@ -2403,7 +5141,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Skilled at moving quietly and avoiding detection",
         "mechanic": "May take 10 on Stealth Checks",
         "bonus": "May take 10 on Stealth Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Skilled at moving quietly and avoiding detection",
+        "mechanics": "May take 10 on Stealth Checks",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          },
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth"
+          }
+        ],
+        "rules": "Basic Species Trait (1 CP).",
+        "special_rules": "Basic Species Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Modifier] +2 to Stealth",
+          "[Rule] Basic Species Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-survival-skills",
@@ -2413,7 +5177,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
         "mechanic": "+2 Survival",
         "bonus": "+2 Survival",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
+        "mechanics": "+2 Survival",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-terrain-expert",
@@ -2423,7 +5205,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.",
         "mechanic": "+2 to Stealth, Survival and Defense in chosen Terrain",
         "bonus": "+2 to Stealth, Survival and Defense in chosen Terrain",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.",
+        "mechanics": "+2 to Stealth, Survival and Defense in chosen Terrain",
+        "modifiers": [
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Stealth\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Stealth",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -2531,10 +5331,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-attention-to-detail",
@@ -2544,7 +5379,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Meticulous and detail-oriented",
         "mechanic": "Mastercrafting Checks made at Advantage",
         "bonus": "Mastercrafting Checks made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Meticulous and detail-oriented",
+        "mechanics": "Mastercrafting Checks made at Advantage",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-combat-training",
@@ -2554,7 +5407,29 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Criminals may have experience with hand-to-hand combat or the use of weapons",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 to a Combat Skill of choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Criminals may have experience with hand-to-hand combat or the use of weapons",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-cool",
@@ -2564,7 +5439,41 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Able to remain calm and focused even in high-pressure situations",
         "mechanic": "+2 Willpower",
         "bonus": "+2 Willpower",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to remain calm and focused even in high-pressure situations",
+        "mechanics": "+2 Willpower",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Will Checks"
+          },
+          {
+            "target": "Willpower Able to remain calm",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Willpower Able to remain calm"
+          },
+          {
+            "target": "Focused even in high-pressure situations",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Focused even in high-pressure situations"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Able to remain calm\n[Modifier] +2 to Focused even in high-pressure situations\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Will Checks",
+          "[Modifier] +2 to Willpower Able to remain calm",
+          "[Modifier] +2 to Focused even in high-pressure situations",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-cunning",
@@ -2574,7 +5483,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
         "mechanic": "Additional +1 to appropriate maneuvers from having Edge",
         "bonus": "Additional +1 to appropriate maneuvers from having Edge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
+        "mechanics": "Additional +1 to appropriate maneuvers from having Edge",
+        "modifiers": [
+          {
+            "target": "Appropriate maneuvers from having Edge",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Appropriate maneuvers from having Edge"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Appropriate maneuvers from having Edge\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Appropriate maneuvers from having Edge",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-discipline",
@@ -2584,7 +5511,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
         "mechanic": "+2 Soldier Vocation",
         "bonus": "+2 Soldier Vocation",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
+        "mechanics": "+2 Soldier Vocation",
+        "modifiers": [
+          {
+            "target": "Soldier Vocation",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Soldier Vocation"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Soldier Vocation",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-loyal",
@@ -2594,7 +5539,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Fiercely loyal to their comrades and their mission",
         "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
         "bonus": "Domination and Mind-Control Resistance Checks are made at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Fiercely loyal to their comrades and their mission",
+        "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Will Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Will Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-observant",
@@ -2604,7 +5567,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Alert and observant, constantly scanning the area for potential threats",
         "mechanic": "May take 10 on Alertness Checks",
         "bonus": "May take 10 on Alertness Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Alert and observant, constantly scanning the area for potential threats",
+        "mechanics": "May take 10 on Alertness Checks",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "take_10",
+            "value": 10,
+            "mode": "inherent",
+            "description": "May take 10 on Alertness Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] May take 10 on Alertness Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] May take 10 on Alertness Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-physical-prowess",
@@ -2614,7 +5595,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Physically fit and strong, can endure long periods of physical activity and combat",
         "mechanic": "+1 Might and Fortitude Checks",
         "bonus": "+1 Might and Fortitude Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
+        "mechanics": "+1 Might and Fortitude Checks",
+        "modifiers": [
+          {
+            "target": "Might",
+            "type": "save",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 on Might Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 on Might Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 on Might Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-rapid-response",
@@ -2624,7 +5623,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Able to respond quickly to threats and can act decisively in high-pressure situations",
         "mechanic": "+2 Initiative",
         "bonus": "+2 Initiative",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
+        "mechanics": "+2 Initiative",
+        "modifiers": [
+          {
+            "target": "initiative-mod",
+            "type": "combat",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Initiative"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Initiative\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Initiative",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourceful",
@@ -2634,7 +5651,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Able to make weapons out of anything and can adapt to new situations quickly",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-stalker",
@@ -2644,7 +5680,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Skilled at moving quietly and avoiding detection",
         "mechanic": "May take 10 on Stealth Checks",
         "bonus": "May take 10 on Stealth Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Skilled at moving quietly and avoiding detection",
+        "mechanics": "May take 10 on Stealth Checks",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          },
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth"
+          }
+        ],
+        "rules": "Basic Species Trait (1 CP).",
+        "special_rules": "Basic Species Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Modifier] +2 to Stealth\n[Rule] Basic Species Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Modifier] +2 to Stealth",
+          "[Rule] Basic Species Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-strategic",
@@ -2654,7 +5716,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-team-oriented",
@@ -2664,7 +5744,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Able to work in teams and coordinate their efforts to achieve their objectives",
         "mechanic": "additional +1 to Aid bonuses",
         "bonus": "additional +1 to Aid bonuses",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
+        "mechanics": "additional +1 to Aid bonuses",
+        "modifiers": [
+          {
+            "target": "Aid bonuses",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Aid bonuses"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Aid bonuses",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-versatile",
@@ -2674,7 +5772,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-well-equipped",
@@ -2684,7 +5800,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Equipped with the latest technology and weaponry",
         "mechanic": "+2 Equipment",
         "bonus": "+2 Equipment",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Equipped with the latest technology and weaponry",
+        "mechanics": "+2 Equipment",
+        "modifiers": [
+          {
+            "target": "equipment-bonus",
+            "type": "combat",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Equipment"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 Equipment\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Equipment",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       }
     ]
   },
@@ -2791,10 +5925,45 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Adaptability",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "Improvisation, problem-solving, and quick thinking",
+        "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 to a specific Skill Check, may change assigned Skill daily",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-expertise",
@@ -2804,7 +5973,42 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "In-depth knowledge and experience in a particular area",
         "mechanic": "+2 to a Skill Specialization of choice",
         "bonus": "+2 to a Skill Specialization of choice",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "In-depth knowledge and experience in a particular area",
+        "mechanics": "+2 to a Skill Specialization of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-leadership",
@@ -2814,7 +6018,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to lead a team or make critical decisions",
         "mechanic": "+2 Leadership",
         "bonus": "+2 Leadership",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to lead a team or make critical decisions",
+        "mechanics": "+2 Leadership",
+        "modifiers": [
+          {
+            "target": "Leadership",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Leadership"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Leadership",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-physical-and-mental-resilience",
@@ -2824,7 +6046,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to endure harsh conditions or high-stress situations",
         "mechanic": "+1 Willpower and Fortitude",
         "bonus": "+1 Willpower and Fortitude",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to endure harsh conditions or high-stress situations",
+        "mechanics": "+1 Willpower and Fortitude",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 on Will Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 on Will Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 on Will Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving",
@@ -2834,7 +6074,16 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adept at identifying and solving problems.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "Once per Day may reroll a Mental Skill Check",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adept at identifying and solving problems.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -2844,7 +6093,26 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "Once per Day make a Skill Check of choice at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-team-player",
@@ -2854,7 +6122,33 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Ability to communicate effectively and collaborate with others",
         "mechanic": "additional +1 to Aid bonuses",
         "bonus": "additional +1 to Aid bonuses",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to communicate effectively and collaborate with others",
+        "mechanics": "additional +1 to Aid bonuses",
+        "modifiers": [
+          {
+            "target": "Aid bonuses Ability to communicate effectively",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Aid bonuses Ability to communicate effectively"
+          },
+          {
+            "target": "Collaborate with others",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Collaborate with others"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +1 to Aid bonuses Ability to communicate effectively\n[Modifier] +1 to Collaborate with others\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Aid bonuses Ability to communicate effectively",
+          "[Modifier] +1 to Collaborate with others",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technological-proficiency",
@@ -2864,7 +6158,25 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Proficiency in advanced technology",
         "mechanic": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
         "bonus": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Proficiency in advanced technology",
+        "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
+        "modifiers": [
+          {
+            "target": "Technology Knowledge Proficiency in advanced technology",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Technology Knowledge Proficiency in advanced technology"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-versatility",
@@ -2874,15 +6186,38 @@ export const DEFAULT_OCCUPATIONS = [
         "description": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.",
         "mechanic": "+1 to Karma Point",
         "bonus": "+1 to Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.",
+        "mechanics": "+1 to Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma Point",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Point"
+          },
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic General (1 CP).",
+        "special_rules": "Basic General (1 CP).",
+        "notes": "[Modifier] +1 to Karma Point\n[Modifier] +1 to Karma Pool\n[Rule] Basic General (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Point",
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic General (1 CP)."
+        ]
       }
     ]
   }
 ];
 
-/**
- * Common Occupational Traits available to all professions in Tangent
- */
 export const COMMON_OCCUPATIONAL_TRAITS = [
   {
     "id": "trait-background",
@@ -2893,7 +6228,7 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
     "classification": "Mental",
     "cp": 1,
     "bp": 1,
-    "description": "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation. Gain one Trait from a SECONDARY Chosen Occupation.",
+    "description": "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation.",
     "costs": {
       "cp": 1,
       "bp": 1,
@@ -2903,7 +6238,17 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "mechanic": "Gain one Trait from a SECONDARY Chosen Occupation",
+    "desc": "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation.",
+    "mechanics": "Gain one Trait from a SECONDARY Chosen Occupation",
+    "modifiers": [],
+    "rules": "Basic Common Occupational Trait (1 CP).",
+    "special_rules": "Basic Common Occupational Trait (1 CP).",
+    "notes": "[Rule] Basic Common Occupational Trait (1 CP).",
+    "notesList": [
+      "[Rule] Basic Common Occupational Trait (1 CP)."
+    ]
   },
   {
     "id": "trait-trade-tools",
@@ -2914,7 +6259,7 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
     "classification": "Physical",
     "cp": 1,
     "bp": 1,
-    "description": "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession. +2 Equipment",
+    "description": "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession.",
     "modifiers": [
       {
         "target": "equipment",
@@ -2932,7 +6277,17 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "mechanic": "+2 Equipment",
+    "desc": "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession.",
+    "mechanics": "+2 Equipment",
+    "rules": "Basic Common Occupational Trait (1 CP).",
+    "special_rules": "Basic Common Occupational Trait (1 CP).",
+    "notes": "[Modifier] equipment: +2\n[Rule] Basic Common Occupational Trait (1 CP).",
+    "notesList": [
+      "[Modifier] equipment: +2",
+      "[Rule] Basic Common Occupational Trait (1 CP)."
+    ]
   },
   {
     "id": "trait-high-pay",
@@ -2943,7 +6298,7 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
     "classification": "Social",
     "cp": 1,
     "bp": 1,
-    "description": "Benefit for doing their job well. +2 Wealth",
+    "description": "Benefit for doing their job well.",
     "modifiers": [
       {
         "target": "wealth",
@@ -2961,7 +6316,17 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "mechanic": "+2 Wealth",
+    "desc": "Benefit for doing their job well.",
+    "mechanics": "+2 Wealth",
+    "rules": "Basic Common Occupational Trait (1 CP).",
+    "special_rules": "Basic Common Occupational Trait (1 CP).",
+    "notes": "[Modifier] wealth: +2\n[Rule] Basic Common Occupational Trait (1 CP).",
+    "notesList": [
+      "[Modifier] wealth: +2",
+      "[Rule] Basic Common Occupational Trait (1 CP)."
+    ]
   },
   {
     "id": "trait-professionalism",
@@ -2972,7 +6337,7 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
     "classification": "Social",
     "cp": 1,
     "bp": 1,
-    "description": "Benefit of being known to do their job well. +2 Reputation",
+    "description": "Benefit of being known to do their job well.",
     "modifiers": [
       {
         "target": "reputation",
@@ -2990,6 +6355,16 @@ export const COMMON_OCCUPATIONAL_TRAITS = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "mechanic": "+2 Reputation",
+    "desc": "Benefit of being known to do their job well.",
+    "mechanics": "+2 Reputation",
+    "rules": "Basic Common Occupational Trait (1 CP).",
+    "special_rules": "Basic Common Occupational Trait (1 CP).",
+    "notes": "[Modifier] reputation: +2\n[Rule] Basic Common Occupational Trait (1 CP).",
+    "notesList": [
+      "[Modifier] reputation: +2",
+      "[Rule] Basic Common Occupational Trait (1 CP)."
+    ]
   }
 ];

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.
+Modular chassis hardpoints designed to integrate armor plating directly into the frame.
+
+## Mechanics & Benefit
+Armor and Armor Upgrades may be installed as internal Augmentations (Requires: Synthetic, TL2)

@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-equipment-framework"
-name: "99. Tech (Equipment): Framework"
+name: "Tech (Equipment): Framework"
 fileName: "99.Tech.Equipment.Framework.md"
 relPath: "architect/technology/equipment/99.Tech.Equipment.Framework.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 32
+order: 27
 perspective: "architect"
 entry_type: "Tech Matrix (equipment)"
 tl: 3

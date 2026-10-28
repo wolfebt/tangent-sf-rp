@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Uncanny Senses (Vibration)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Surface trichobothria hairs detect mechanical oscillations and subtle acoustic waves across floors, walls, and connecting hive-mesh webs, defeating surprises and pinpointing movement within 60 ft.
+Sensory trichobothria detect surface micro-vibrations and structural stress through ground and hive-mesh.
+
+## Mechanics & Benefit
+60 ft tremorsense along surfaces (150 ft across web meshes); cannot be caught flat-footed or surprised by ground foes

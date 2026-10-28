@@ -33,6 +33,7 @@ import {
   Target
 } from 'lucide-react';
 import FolioTooltip from '../shared/FolioTooltip';
+import SkillChoiceSelector from '../shared/SkillChoiceSelector';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 import AugmentationsManager from '../augmentations/AugmentationsManager';
@@ -90,11 +91,38 @@ const ALL_TRAIT_LOOKUP = [
  */
 const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
   if (!traitIdOrName) return null;
-  if (typeof traitIdOrName === 'object' && traitIdOrName !== null && (traitIdOrName.name || traitIdOrName.title)) {
+  const rawStr = typeof traitIdOrName === 'object' ? (traitIdOrName.id || traitIdOrName.name || traitIdOrName.title || '') : String(traitIdOrName);
+  const clean = String(rawStr).trim().toLowerCase();
+  const normalized = clean.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
+
+  // Check pillar-specific traits_detail first (e.g. Occupation or Origin specific traits)
+  if (speciesContext && Array.isArray(speciesContext.traits_detail)) {
+    const detailFound = speciesContext.traits_detail.find(t => {
+      const tId = (t.id || '').toLowerCase();
+      const tName = (t.name || t.title || '').toLowerCase();
+      const tNorm = tName.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
+      return tId === clean || tName === clean || tNorm === normalized;
+    });
+    if (detailFound) {
+      const canonicalMatch = ALL_TRAIT_LOOKUP.find(t => {
+        const tId = (t.id || '').toLowerCase();
+        const tName = (t.name || t.title || '').toLowerCase();
+        const tNorm = tName.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
+        return tId === clean || tName === clean || tNorm === normalized;
+      });
+      return {
+        ...(canonicalMatch || {}),
+        ...detailFound,
+        ...(typeof traitIdOrName === 'object' ? traitIdOrName : {}),
+        description: detailFound.description || detailFound.desc || canonicalMatch?.description || '',
+        mechanic: detailFound.mechanic || detailFound.mechanics || canonicalMatch?.mechanic || ''
+      };
+    }
+  }
+
+  if (typeof traitIdOrName === 'object' && traitIdOrName !== null && (traitIdOrName.description || traitIdOrName.desc) && (traitIdOrName.mechanic || traitIdOrName.mechanics)) {
     return traitIdOrName;
   }
-  const clean = String(traitIdOrName).trim().toLowerCase();
-  const normalized = clean.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
   
   const found = ALL_TRAIT_LOOKUP.find(t => {
     const tId = (t.id || '').toLowerCase();
@@ -103,7 +131,9 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
     return tId === clean || tName === clean || tNorm === normalized;
   });
 
-  if (found) return found;
+  if (found) {
+    return typeof traitIdOrName === 'object' ? { ...found, ...traitIdOrName, description: traitIdOrName.description || found.description, mechanic: traitIdOrName.mechanic || found.mechanic } : found;
+  }
 
   const formatted = formatSpeciesTrait(traitIdOrName, speciesContext);
   if (formatted && formatted.name && formatted.name !== 'Species Adaptation') {
@@ -114,8 +144,8 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
       trait_type: formatted.category || 'Species Trait',
       trait_tier: 'Basic',
       cp: 1,
-      description: formatted.tooltip?.description || `${formatted.name} species trait.`,
-      mechanic: formatted.tooltip?.rules || '',
+      description: formatted.description || formatted.tooltip?.description || `${formatted.name} species trait.`,
+      mechanic: formatted.mechanic || formatted.tooltip?.rules || '',
       rules: formatted.tooltip?.rules || '',
       modifiers: []
     };
@@ -894,11 +924,23 @@ export const FeaturesTab = ({
         );
 
         const canonicalCost = getCanonicalTraitCost(item);
+        const pillarContext = columnCategory === 'Occupation'
+          ? (columnsData.occupation?.obj || columnsData.occupation?.secObj)
+          : columnCategory === 'Origin'
+          ? (columnsData.origin?.obj || columnsData.origin?.secObj)
+          : columnCategory === 'Species'
+          ? columnsData.species?.obj
+          : null;
+        const resolvedTrait = findCanonicalTrait(item, pillarContext);
         const canonicalTrait = ALL_CANONICAL_TRAITS.find(ct => ct.id === item.id || normalizeLookupName(ct.name) === cleanName);
-        const package_traits = (item.package_traits && item.package_traits.length > 0) ? item.package_traits : (canonicalTrait?.package_traits || []);
+        const package_traits = (item.package_traits && item.package_traits.length > 0) ? item.package_traits : (resolvedTrait?.package_traits || canonicalTrait?.package_traits || []);
 
         combined.push({
-          ...(typeof item === 'object' ? item : { name: item }),
+          ...(canonicalTrait || {}),
+          ...(resolvedTrait || {}),
+          ...(typeof item === 'object' ? item : { name: resolvedTrait?.name || item }),
+          description: (typeof item === 'object' && (item.description || item.desc)) || resolvedTrait?.description || canonicalTrait?.description || '',
+          mechanic: (typeof item === 'object' && (item.mechanic || item.mechanics)) || resolvedTrait?.mechanic || canonicalTrait?.mechanic || '',
           columnCategory,
           cleanName,
           package_traits,
@@ -911,10 +953,12 @@ export const FeaturesTab = ({
   }, [
     characterData.traits,
     characterData.features,
+    characterData.archetypeAllocations,
     characterData.speciesAllocations,
     characterData.occuAllocations,
     characterData.originAllocations,
-    characterData.factionAllocations
+    characterData.factionAllocations,
+    columnsData
   ]);
 
   const isTraitAcquired = (traitNameOrId) => {
@@ -984,7 +1028,7 @@ export const FeaturesTab = ({
     const collectOriginTraits = (orig, label) => {
       if (!orig || !Array.isArray(orig.traits)) return;
       orig.traits.forEach(tId => {
-        const canonical = findCanonicalTrait(tId);
+        const canonical = findCanonicalTrait(tId, orig);
         if (canonical) {
           result.origin.push({
             ...canonical,
@@ -1002,7 +1046,7 @@ export const FeaturesTab = ({
     const collectOccuTraits = (occu, label) => {
       if (!occu || !Array.isArray(occu.traits)) return;
       occu.traits.forEach(tId => {
-        const canonical = findCanonicalTrait(tId);
+        const canonical = findCanonicalTrait(tId, occu);
         if (canonical) {
           result.occupation.push({
             ...canonical,
@@ -2006,7 +2050,7 @@ export const FeaturesTab = ({
                         )}
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                      <div className="space-y-2">
                         {filteredTraits.map((trait, tIdx) => {
                           const name = trait.name || trait.title || 'Trait';
                           const tier = trait.trait_tier || 'Basic';
@@ -2031,7 +2075,7 @@ export const FeaturesTab = ({
                                   badge={`${col} Trait`}
                                   badgeColor={colColor}
                                   description={trait.description || 'Acquired column heritage trait.'}
-                                  formula={trait.mechanic || undefined}
+                                  formula={trait.mechanic ? `[${trait.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                                   modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
                                   cost={costDisplay}
                                   tags={[tier, col].filter(Boolean)}
@@ -2045,6 +2089,17 @@ export const FeaturesTab = ({
                                     </span>
                                   </div>
                                 </FolioTooltip>
+                                {trait.description && (
+                                  <p className="text-[11px] text-slate-300 leading-snug">
+                                    {trait.description}
+                                  </p>
+                                )}
+                                {trait.mechanic && (
+                                  <p className="text-[10px] font-mono text-emerald-400/90 leading-snug">
+                                    [{trait.mechanic.replace(/^\[|\]$/g, '')}]
+                                  </p>
+                                )}
+                                <SkillChoiceSelector item={trait} itemType="trait" compact />
                               </div>
                               <div className="flex items-center gap-1.5 shrink-0">
                                 <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 font-bold">
@@ -2114,7 +2169,7 @@ export const FeaturesTab = ({
                         )}
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                      <div className="space-y-2">
                         {filteredFeatures.map((feat, fIdx) => {
                           const name = feat.name || feat.title || 'Feature';
                           const cat = feat.category || feat.type || 'General';
@@ -2171,6 +2226,7 @@ export const FeaturesTab = ({
                                     })()}
                                   </div>
                                 </FolioTooltip>
+                                <SkillChoiceSelector item={feat} itemType="feature" compact />
                               </div>
                               <div className="flex items-center gap-1.5 shrink-0">
                                 <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-bold">
@@ -2240,7 +2296,7 @@ export const FeaturesTab = ({
                         )}
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                      <div className="space-y-2">
                         {filteredMetaItems.map((meta, mIdx) => {
                           const name = meta.name || meta.title || 'Power';
                           const cp = meta.cp !== undefined ? meta.cp : (meta.metaSubtype === 'Discipline' ? 3 : 1);
@@ -2325,7 +2381,7 @@ export const FeaturesTab = ({
                         )}
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                      <div className="space-y-2">
                         {filteredAugs.map((aug, aIdx) => {
                           const name = aug.name || aug.title || 'Augmentation';
                           const cp = aug.cp !== undefined ? aug.cp : 2;
@@ -2408,7 +2464,7 @@ export const FeaturesTab = ({
                         )}
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+                      <div className="space-y-2">
                         {filteredHindrances.map((hind, hIdx) => {
                           const name = hind.name || hind.title || 'Hindrance';
                           const cp = hind.cp !== undefined ? hind.cp : 3;
@@ -2706,142 +2762,7 @@ export const FeaturesTab = ({
                             </div>
 
                             {/* Operator Skill Option Selector Row (When modifier_options enabled or group choice modifier exists) */}
-                            {(() => {
-                              const groupChoiceMod = Array.isArray(item.modifiers) ? item.modifiers.find(m => m.type === 'skill' && m.mode === 'group_choice') : null;
-                              const isGroupPool = item.modifier_options?.mode === 'group_pool' || Boolean(groupChoiceMod);
-
-                              if (isGroupPool) {
-                                const groupKeys = item.modifier_options?.group_keys || (groupChoiceMod?.group_keys ? groupChoiceMod.group_keys : (groupChoiceMod?.group_key ? [groupChoiceMod.group_key] : ['mental_vocations']));
-                                const maxSkills = item.modifier_options?.max_skills || groupChoiceMod?.max_choices || 2;
-                                const bonusVal = item.modifier_options?.value || groupChoiceMod?.value || 2;
-                                const groupLabel = item.modifier_options?.group_label || groupChoiceMod?.group_label || groupChoiceMod?.target || 'Skill Group Choice';
-
-                                const selectedSkills = Array.isArray(item.selected_skills) ? item.selected_skills : (item.selected_skill ? [item.selected_skill] : []);
-                                const isComplete = selectedSkills.length >= maxSkills;
-
-                                // Collect eligible skills from the assigned group(s)
-                                const eligibleSkills = [];
-                                (groupKeys || []).forEach(gKey => {
-                                  const sec = (SKILL_CATEGORY_SECTIONS || []).find(s => s.key === gKey);
-                                  if (sec && Array.isArray(sec.skills)) {
-                                    sec.skills.forEach(sk => {
-                                      if (!eligibleSkills.some(existing => existing.name === sk.name)) {
-                                        eligibleSkills.push(sk);
-                                      }
-                                    });
-                                  }
-                                });
-
-                                return (
-                                  <div className="pt-1 pb-1 border-t border-slate-900 flex flex-col gap-1.5 font-mono text-xs">
-                                    <div className="flex items-center justify-between gap-1.5 flex-wrap">
-                                      <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-bold">
-                                        <Target size={11} className="text-amber-400 shrink-0" />
-                                        <span>Skill Group: <strong className="text-white">{groupLabel}</strong></span>
-                                      </div>
-                                      {isComplete ? (
-                                        <span className="text-[9px] font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-600/60 px-1.5 py-0.2 rounded">
-                                          Selected ({selectedSkills.length}/{maxSkills}) • +{bonusVal} to each
-                                        </span>
-                                      ) : (
-                                        <span className="text-[9px] font-bold text-amber-300 bg-amber-950/80 border border-amber-600/60 px-1.5 py-0.2 rounded animate-pulse">
-                                          Pick {maxSkills - selectedSkills.length} more ({selectedSkills.length}/{maxSkills})
-                                        </span>
-                                      )}
-                                    </div>
-
-                                    {/* Selected Skill Chips */}
-                                    {selectedSkills.length > 0 && (
-                                      <div className="flex flex-wrap gap-1 items-center">
-                                        {selectedSkills.map(skName => (
-                                          <span
-                                            key={skName}
-                                            className="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/60 text-amber-200 text-[11px] font-bold flex items-center gap-1 shadow-sm"
-                                          >
-                                            <span>{skName}</span>
-                                            <span className="text-amber-400 font-extrabold">+{bonusVal}</span>
-                                            <button
-                                              type="button"
-                                              onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleToggleFeatureGroupSkill(item, skName, maxSkills);
-                                              }}
-                                              className="ml-0.5 text-amber-400/80 hover:text-red-400 cursor-pointer font-bold px-0.5"
-                                              title="Remove this skill"
-                                            >
-                                              ×
-                                            </button>
-                                          </span>
-                                        ))}
-                                      </div>
-                                    )}
-
-                                    {/* Dropdown to add a skill from the group if not at max */}
-                                    {selectedSkills.length < maxSkills && (
-                                      <select
-                                        value=""
-                                        onChange={(e) => {
-                                          if (e.target.value) {
-                                            handleToggleFeatureGroupSkill(item, e.target.value, maxSkills);
-                                          }
-                                        }}
-                                        className="w-full py-1 px-2 rounded text-xs font-mono font-medium outline-none bg-amber-950/40 border border-amber-500/50 text-amber-200 hover:border-amber-400 cursor-pointer"
-                                      >
-                                        <option value="" disabled className="bg-slate-950 text-slate-400">
-                                          -- Select Skill from {groupLabel} (+{bonusVal}) [{selectedSkills.length}/{maxSkills}] --
-                                        </option>
-                                        {eligibleSkills
-                                          .filter(sk => !selectedSkills.includes(sk.name))
-                                          .map(sk => (
-                                            <option key={sk.name} value={sk.name} className="bg-slate-950 text-slate-100">
-                                              {sk.name} ({sk.subcategory || sk.group || 'Skill'})
-                                            </option>
-                                          ))}
-                                      </select>
-                                    )}
-                                  </div>
-                                );
-                              }
-
-                              // Predefined options pool
-                              if (item.modifier_options?.enabled && Array.isArray(item.modifier_options.options) && item.modifier_options.options.length > 0) {
-                                return (
-                                  <div className="pt-1 pb-0.5 border-t border-slate-900 flex flex-col gap-1">
-                                    <div className="flex items-center justify-between gap-1.5">
-                                      <div className="flex items-center gap-1 text-[10px] font-mono text-amber-400 font-bold">
-                                        <Target size={11} className="text-amber-400 shrink-0" />
-                                        <span>Applied Skill Check Modifier:</span>
-                                      </div>
-                                      {!item.selected_option_id && (
-                                        <span className="text-[9px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-600/60 px-1.5 py-0.2 rounded animate-pulse">
-                                          Selection Required
-                                        </span>
-                                      )}
-                                    </div>
-                                    <select
-                                      value={item.selected_option_id || ''}
-                                      onChange={(e) => handleSelectFeatureOption(item, e.target.value)}
-                                      className={`w-full py-1 px-2 rounded text-xs font-mono font-medium outline-none transition-all cursor-pointer ${
-                                        item.selected_option_id
-                                          ? 'bg-amber-950/40 border border-amber-500/50 text-amber-200 hover:border-amber-400'
-                                          : 'bg-amber-950/70 border border-amber-500 text-amber-100 ring-1 ring-amber-400/50'
-                                      }`}
-                                    >
-                                      <option value="" disabled className="bg-slate-950 text-slate-400">
-                                        -- Choose Applied Skill {item.modifier_options.mode === 'pair' ? 'Pair' : 'Option'} --
-                                      </option>
-                                      {item.modifier_options.options.map(opt => (
-                                        <option key={opt.id} value={opt.id} className="bg-slate-950 text-slate-100">
-                                          {opt.label || (opt.skills || [opt.skill]).join(' & ')}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </div>
-                                );
-                              }
-
-                              return null;
-                            })()}
+                            <SkillChoiceSelector item={item} itemType="feature" compact />
 
                             {/* Line 2: Notes / Category & Controls */}
                             <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
@@ -3097,6 +3018,8 @@ export const FeaturesTab = ({
                           </div>
                         </FolioTooltip>
                       </div>
+
+                      {acquired && <SkillChoiceSelector item={feat} itemType="feature" compact />}
 
                       {/* Line 2: Category / Notes & Controls */}
                       <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
@@ -3477,6 +3400,8 @@ export const FeaturesTab = ({
                         </FolioTooltip>
                       </div>
 
+                      {acquired && <SkillChoiceSelector item={feat} itemType="feature" compact />}
+
                       {/* Line 2: Category / Notes & Controls */}
                       <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
                         <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
@@ -3720,7 +3645,7 @@ export const FeaturesTab = ({
                             badge={`${tCol} Trait`}
                             badgeColor={tColor}
                             description={t.description || 'Acquired column heritage trait.'}
-                            formula={t.mechanic || undefined}
+                            formula={t.mechanic ? `[${t.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                             modifiers={Array.isArray(t.modifiers) ? t.modifiers : []}
                             cost={tCost}
                             tags={[t.trait_tier || 'Basic', tCol].filter(Boolean)}
@@ -3759,6 +3684,19 @@ export const FeaturesTab = ({
                           </button>
                         </div>
                       </div>
+
+                      {t.description && (
+                        <p className="text-[11px] text-slate-300 leading-snug">
+                          {t.description}
+                        </p>
+                      )}
+                      {t.mechanic && (
+                        <p className="text-[10px] font-mono text-emerald-400/90 leading-snug">
+                          [{t.mechanic.replace(/^\[|\]$/g, '')}]
+                        </p>
+                      )}
+
+                      <SkillChoiceSelector item={t} itemType="trait" compact />
 
                       {t.package_traits && t.package_traits.length > 0 && (
                         <div className="flex flex-wrap gap-1 pt-1 border-t border-slate-900">
@@ -3867,7 +3805,7 @@ export const FeaturesTab = ({
                               badge={trait.trait_type || 'Species Trait'}
                               badgeColor="cyan"
                               description={trait.description || 'Species heritage trait.'}
-                              formula={trait.mechanic || undefined}
+                              formula={trait.mechanic ? `[${trait.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
                               prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
@@ -3882,6 +3820,19 @@ export const FeaturesTab = ({
                               </h5>
                             </FolioTooltip>
                           </div>
+
+                          {trait.description && (
+                            <p className="text-[11px] text-slate-300 leading-snug">
+                              {trait.description}
+                            </p>
+                          )}
+                          {trait.mechanic && (
+                            <p className="text-[10px] font-mono text-cyan-300/90 leading-snug">
+                              [{trait.mechanic.replace(/^\[|\]$/g, '')}]
+                            </p>
+                          )}
+
+                          {acquired && <SkillChoiceSelector item={trait} itemType="trait" compact />}
 
                           {/* Packaged Sublist Pills */}
                           {trait.package_traits && trait.package_traits.length > 0 && (
@@ -4052,7 +4003,7 @@ export const FeaturesTab = ({
                               badge="Origin Trait"
                               badgeColor="emerald"
                               description={trait.description || 'Origin heritage trait.'}
-                              formula={trait.mechanic || undefined}
+                              formula={trait.mechanic ? `[${trait.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
                               prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
@@ -4067,6 +4018,19 @@ export const FeaturesTab = ({
                               </h5>
                             </FolioTooltip>
                           </div>
+
+                          {trait.description && (
+                            <p className="text-[11px] text-slate-300 leading-snug">
+                              {trait.description}
+                            </p>
+                          )}
+                          {trait.mechanic && (
+                            <p className="text-[10px] font-mono text-emerald-400/90 leading-snug">
+                              [{trait.mechanic.replace(/^\[|\]$/g, '')}]
+                            </p>
+                          )}
+
+                          {acquired && <SkillChoiceSelector item={trait} itemType="trait" compact />}
 
                           {/* Line 2: Tier / Notes & Controls */}
                           <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
@@ -4221,7 +4185,7 @@ export const FeaturesTab = ({
                               badge="Occupation Trait"
                               badgeColor="sky"
                               description={trait.description || 'Occupation heritage trait.'}
-                              formula={trait.mechanic || undefined}
+                              formula={trait.mechanic ? `[${trait.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
                               prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
@@ -4236,6 +4200,19 @@ export const FeaturesTab = ({
                               </h5>
                             </FolioTooltip>
                           </div>
+
+                          {trait.description && (
+                            <p className="text-[11px] text-slate-300 leading-snug">
+                              {trait.description}
+                            </p>
+                          )}
+                          {trait.mechanic && (
+                            <p className="text-[10px] font-mono text-sky-300/90 leading-snug">
+                              [{trait.mechanic.replace(/^\[|\]$/g, '')}]
+                            </p>
+                          )}
+
+                          {acquired && <SkillChoiceSelector item={trait} itemType="trait" compact />}
 
                           {/* Line 2: Tier / Notes & Controls */}
                           <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
@@ -4390,7 +4367,7 @@ export const FeaturesTab = ({
                                 badge="Faction Trait"
                                 badgeColor="purple"
                                 description={trait.description || 'Faction heritage trait.'}
-                                formula={trait.mechanic || undefined}
+                                formula={trait.mechanic ? `[${trait.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                                 modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
                                 prerequisites={prereqResult.prerequisiteText}
                                 prerequisiteMet={!isPrereqUnmet}
@@ -4405,6 +4382,19 @@ export const FeaturesTab = ({
                                 </h5>
                               </FolioTooltip>
                             </div>
+
+                            {trait.description && (
+                              <p className="text-[11px] text-slate-300 leading-snug">
+                                {trait.description}
+                              </p>
+                            )}
+                            {trait.mechanic && (
+                              <p className="text-[10px] font-mono text-purple-300/90 leading-snug">
+                                [{trait.mechanic.replace(/^\[|\]$/g, '')}]
+                              </p>
+                            )}
+
+                            {acquired && <SkillChoiceSelector item={trait} itemType="trait" compact />}
 
                             {/* Line 2: Tier / Notes & Controls */}
                             <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
@@ -4554,7 +4544,7 @@ export const FeaturesTab = ({
                               badge="Archetype Trait"
                               badgeColor="amber"
                               description={trait.description || 'Archetype trait.'}
-                              formula={trait.mechanic || undefined}
+                              formula={trait.mechanic ? `[${trait.mechanic.replace(/^\[|\]$/g, '')}]` : undefined}
                               modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
                               prerequisites={prereqResult.prerequisiteText}
                               prerequisiteMet={!isPrereqUnmet}
@@ -4569,6 +4559,19 @@ export const FeaturesTab = ({
                               </h5>
                             </FolioTooltip>
                           </div>
+
+                          {trait.description && (
+                            <p className="text-[11px] text-slate-300 leading-snug">
+                              {trait.description}
+                            </p>
+                          )}
+                          {trait.mechanic && (
+                            <p className="text-[10px] font-mono text-amber-300/90 leading-snug">
+                              [{trait.mechanic.replace(/^\[|\]$/g, '')}]
+                            </p>
+                          )}
+
+                          {acquired && <SkillChoiceSelector item={trait} itemType="trait" compact />}
 
                           <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
                             <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">

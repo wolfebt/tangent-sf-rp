@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Breathe Air and Water equally well, +10 to Swim Speed.
+Dual respiratory organs and aquatic physiology suited to both terrestrial and submerged habitats.
 
 ## Mechanics & Benefit
-Breathe Air and Water equally well, +10 to Swim Speed.
+Breathe air and water equally well, +10 ft to Swim Speed

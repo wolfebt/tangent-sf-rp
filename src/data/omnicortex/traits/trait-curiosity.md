@@ -22,5 +22,5 @@ modifiers: []
 ## Description
 An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.
 
-## Mechanics
-+4 bonus on Diplomacy checks to gather information, and Knowledge checks.
+## Mechanics & Benefit
++4 bonus on Diplomacy checks to gather information, and Knowledge checks

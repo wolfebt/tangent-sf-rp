@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Handle Animal
-mechanic: +2 Insight and +2 Handle Animal Checks while being Friendly to other creature
+mechanic: "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature"
 ---
 # Empathy
 

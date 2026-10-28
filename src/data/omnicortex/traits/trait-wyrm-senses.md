@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Take Features from any Acute Sense Line. Req: Dragon Apotheosis.
+Supreme draconic sensory omnipotence across all perceptual spectrums.
+
+## Mechanics & Benefit
+May take Features from any Acute Sense line (Requires: Dragon Apotheosis)

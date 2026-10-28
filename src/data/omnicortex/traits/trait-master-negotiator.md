@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie). Gain +2 bonus on Diplomacy checks to negotiate deals or contracts."
-mechanic: "Gain +2 bonus on Diplomacy checks to negotiate deals or contracts."
+mechanic: "+2 bonus on Diplomacy checks to negotiate deals or contracts"
 rules: "Signature Trait (1 CP) — The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie). Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.
+Signature trait of The Bureaucrat (Sentinel) / The Arbitrator (Visionarie) / The Envoy (Visionarie). Dedicated aptitude and training to negotiate deals or contracts.
 
 ## Mechanics & Benefit
-Gain +2 bonus on Diplomacy checks to negotiate deals or contracts.
++2 bonus on Diplomacy checks to negotiate deals or contracts

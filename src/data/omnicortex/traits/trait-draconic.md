@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Access to purchase various Dragon Traits
+Dormant draconic bloodline and genetic markers inherited from ancient dragon lineages.
+
+## Mechanics & Benefit
+Grants access to purchase Dragon lineage traits

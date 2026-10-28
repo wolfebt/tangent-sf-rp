@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-mecha-forgeprotocol"
-name: "99. Tech (Mecha): Forge Protocol"
+name: "Tech (Mecha): Forge Protocol"
 fileName: "99.Tech.Mecha.ForgeProtocol.md"
 relPath: "architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 37
+order: 32
 perspective: "architect"
 entry_type: "Tech Matrix (mecha)"
 tl: 3

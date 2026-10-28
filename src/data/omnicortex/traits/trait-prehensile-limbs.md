@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.
+Flexible tentacles or secondary manipulators capable of independent fine motor control.
 
 ## Mechanics & Benefit
-Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.
+Fully prehensile off-hands/tentacles; grants Advantage on applicable manipulation and grapple checks

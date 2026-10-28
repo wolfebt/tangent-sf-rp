@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Heals 20% of damage ignored. Ranked. Req: Energy Immunity.
+Metabolic conversion matrix that channels resisted energy directly into cellular repair.
+
+## Mechanics & Benefit
+Heals 20% of ignored energy damage (Ranked; Requires: Energy Immunity)

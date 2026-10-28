@@ -19,7 +19,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Collaborate with others
-mechanic: additional +1 to Aid bonuses
+mechanic: "additional +1 to Aid bonuses"
 ---
 # Team Player
 

@@ -11,9 +11,7 @@ description: >-
   Philosophical tolerance that bridges deep cultural, religious, and alien
   divides.
 modifiers: []
-mechanic: >-
-  Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom
-  score for both parties
+mechanic: "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties"
 ---
 # Open-Mindedness
 

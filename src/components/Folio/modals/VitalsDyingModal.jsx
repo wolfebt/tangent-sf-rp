@@ -263,7 +263,7 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Content Area */}
-        <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-1">
+        <div className="space-y-6">
 
           {/* Section: Philosophy & Starting Pools */}
           {(activeTab === 'all') && (

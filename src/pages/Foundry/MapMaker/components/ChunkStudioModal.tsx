@@ -51,6 +51,12 @@ import {
   renderChunkThumbnailDataUrl
 } from '../../../../services/mapChunkCompilerService';
 import { SCIENCE_FANTASY_SEED_CHUNKS } from '../../../../data/seed_chunks/science_fantasy_chunks';
+import {
+  HIFI_CHROMA_TILE_PRESETS,
+  synthesizeTileDataUrl,
+  type TileSynthesisRecipe
+} from '../../../../engine/assets/MicroTileSynthesizer';
+import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
 import { showToast } from '../../../../context/ToastContext';
 
 export interface ChunkStudioModalProps {
@@ -118,8 +124,27 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   const [categoryFilter, setCategoryFilter] = useState<ChunkCategory | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTool, setActiveTool] = useState<WorkbenchTool>('tile');
-  const [selectedTileBrush, setSelectedTileBrush] = useState(TILE_PALETTE[0]);
+  const [customTileBrushes, setCustomTileBrushes] = useState<
+    Array<{
+      id: string;
+      label: string;
+      material: string;
+      color: string;
+      textureUrl?: string;
+      isLiquid: boolean;
+      liquidType?: 'water' | 'acid' | 'magma' | 'cryo';
+      movementCost?: number;
+    }>
+  >([]);
+  const allTileBrushes = useMemo(
+    () => [...TILE_PALETTE, ...customTileBrushes],
+    [customTileBrushes]
+  );
+  const [selectedTileBrush, setSelectedTileBrush] = useState<(typeof TILE_PALETTE)[number] & { textureUrl?: string; movementCost?: number }>(TILE_PALETTE[0]);
   const [eraseTileMode, setEraseTileMode] = useState(false);
+  const [isChunkTileSynthOpen, setIsChunkTileSynthOpen] = useState(false);
+  const [chunkSynthPrompt, setChunkSynthPrompt] = useState('');
+  const [isChunkSynthLoading, setIsChunkSynthLoading] = useState(false);
   const [selectedWallType, setSelectedWallType] = useState<'solid' | 'door' | 'window' | 'one_way'>('solid');
   const [selectedAssetPreset, setSelectedAssetPreset] = useState(ASSET_PRESETS[0]);
   const [selectedSocketType, setSelectedSocketType] = useState<(typeof SOCKET_TYPES)[number]>('bulkhead_door');
@@ -253,6 +278,68 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
     });
   };
 
+  const handleSynthesizeChunkTileBrush = (recipe: TileSynthesisRecipe, andFillAll = false) => {
+    const texUrl = synthesizeTileDataUrl({ ...recipe, resolution: 128 });
+    const newBrush = {
+      id: `synth_${recipe.id}_${Date.now().toString(36)}`,
+      label: `✨ ${recipe.name}`,
+      material: recipe.vtt.material,
+      color: recipe.palette.secondary || recipe.palette.primary,
+      textureUrl: texUrl,
+      isLiquid: Boolean(recipe.vtt.isLiquid),
+      liquidType:
+        recipe.vtt.hazardType === 'acid_corrosive'
+          ? ('acid' as const)
+          : recipe.vtt.hazardType === 'thermal_fire'
+            ? ('magma' as const)
+            : undefined,
+      movementCost: recipe.vtt.movementCost || 1
+    };
+    setCustomTileBrushes((prev) => [...prev, newBrush]);
+    setSelectedTileBrush(newBrush as any);
+    setEraseTileMode(false);
+    setIsChunkTileSynthOpen(false);
+
+    if (andFillAll) {
+      const W = workingChunk.widthCells;
+      const H = workingChunk.heightCells;
+      const nextTiles: ChunkTileCell[] = [];
+      for (let r = 0; r < H; r++) {
+        for (let c = 0; c < W; c++) {
+          nextTiles.push({
+            col: c,
+            row: r,
+            terrainTypeId: newBrush.id,
+            label: newBrush.label,
+            material: newBrush.material,
+            color: newBrush.color,
+            textureUrl: newBrush.textureUrl,
+            isLiquid: newBrush.isLiquid,
+            liquidType: newBrush.liquidType,
+            movementCost: newBrush.movementCost,
+            elevationOffsetFt: 0
+          });
+        }
+      }
+      setWorkingChunk((prev) => ({ ...prev, tiles: nextTiles }));
+      showToast({ type: 'success', text: `Synthesized & filled chunk with "${recipe.name}"!` });
+    } else {
+      showToast({ type: 'success', text: `Added synthesized tile brush "${recipe.name}"!` });
+    }
+  };
+
+  const handleChunkPromptSynth = async (andFillAll = false) => {
+    if (!chunkSynthPrompt.trim()) return;
+    setIsChunkSynthLoading(true);
+    try {
+      const { recipe } = await synthesizeTileRecipeFromPrompt(chunkSynthPrompt);
+      handleSynthesizeChunkTileBrush(recipe, andFillAll);
+      setChunkSynthPrompt('');
+    } finally {
+      setIsChunkSynthLoading(false);
+    }
+  };
+
   const handleFillFloorTiles = () => {
     const W = workingChunk.widthCells;
     const H = workingChunk.heightCells;
@@ -266,9 +353,10 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
           label: selectedTileBrush.label,
           material: selectedTileBrush.material,
           color: selectedTileBrush.color,
+          textureUrl: (selectedTileBrush as any).textureUrl,
           isLiquid: selectedTileBrush.isLiquid,
           liquidType: (selectedTileBrush as any).liquidType,
-          movementCost: selectedTileBrush.isLiquid ? 2 : 1,
+          movementCost: (selectedTileBrush as any).movementCost ?? (selectedTileBrush.isLiquid ? 2 : 1),
           elevationOffsetFt: 0
         });
       }
@@ -306,9 +394,10 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
               label: selectedTileBrush.label,
               material: selectedTileBrush.material,
               color: selectedTileBrush.color,
+              textureUrl: (selectedTileBrush as any).textureUrl,
               isLiquid: selectedTileBrush.isLiquid,
               liquidType: (selectedTileBrush as any).liquidType,
-              movementCost: selectedTileBrush.isLiquid ? 2 : 1,
+              movementCost: (selectedTileBrush as any).movementCost ?? (selectedTileBrush.isLiquid ? 2 : 1),
               elevationOffsetFt: 0
             }
           ]
@@ -890,12 +979,12 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                   <select
                     value={selectedTileBrush.id}
                     onChange={(e) => {
-                      const found = TILE_PALETTE.find((p) => p.id === e.target.value);
-                      if (found) setSelectedTileBrush(found);
+                      const found = allTileBrushes.find((p) => p.id === e.target.value);
+                      if (found) setSelectedTileBrush(found as any);
                     }}
                     className="px-2 py-1 rounded bg-slate-950 border border-slate-700 text-xs text-slate-200"
                   >
-                    {TILE_PALETTE.map((p) => (
+                    {allTileBrushes.map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.label}
                       </option>
@@ -918,6 +1007,15 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                     className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-600 text-[11px] text-cyan-300 cursor-pointer"
                   >
                     Fill All
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsChunkTileSynthOpen((v) => !v)}
+                    className="flex items-center space-x-1 px-2 py-1 rounded bg-purple-900/80 hover:bg-purple-800 border border-purple-600 text-[11px] text-purple-200 font-semibold cursor-pointer"
+                    title="Synthesize a custom HIFI CHROMA seamless tile brush for this chunk"
+                  >
+                    <Sparkles className="w-3 h-3 text-purple-300" />
+                    <span>+ Synth Tile</span>
                   </button>
                 </>
               )}
@@ -991,6 +1089,73 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
               )}
             </div>
           </div>
+
+          {/* Inline HIFI CHROMA Chunk Tile Synthesizer Bar */}
+          {isChunkTileSynthOpen && (
+            <div className="px-3 py-2.5 bg-slate-950 border-b border-purple-800/70 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+              <div className="flex items-center gap-2 flex-1 min-w-[260px]">
+                <Sparkles className="w-4 h-4 text-purple-400 shrink-0" />
+                <input
+                  type="text"
+                  value={chunkSynthPrompt}
+                  onChange={(e) => setChunkSynthPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleChunkPromptSynth(false);
+                    }
+                  }}
+                  placeholder="Describe chunk tile (e.g. 'rusted starship grate over glowing green acid', 'cryo frost deck')..."
+                  className="flex-1 bg-slate-900 border border-purple-700/60 rounded px-2.5 py-1 text-xs text-slate-100 focus:outline-none focus:border-purple-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleChunkPromptSynth(false)}
+                  disabled={isChunkSynthLoading || !chunkSynthPrompt.trim()}
+                  className="px-2.5 py-1 rounded bg-purple-700 hover:bg-purple-600 disabled:opacity-40 text-white font-semibold"
+                >
+                  {isChunkSynthLoading ? '...' : 'Add Brush'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleChunkPromptSynth(true)}
+                  disabled={isChunkSynthLoading || !chunkSynthPrompt.trim()}
+                  className="px-2.5 py-1 rounded bg-cyan-700 hover:bg-cyan-600 disabled:opacity-40 text-white font-semibold"
+                >
+                  Synth & Fill All
+                </button>
+              </div>
+              <div className="flex items-center gap-2">
+                <select
+                  defaultValue=""
+                  onChange={(e) => {
+                    const preset = HIFI_CHROMA_TILE_PRESETS.find((p) => p.id === e.target.value);
+                    if (preset) {
+                      handleSynthesizeChunkTileBrush(preset, false);
+                      e.target.value = '';
+                    }
+                  }}
+                  className="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-cyan-300"
+                >
+                  <option value="" disabled>
+                    Or Pick HIFI CHROMA Preset...
+                  </option>
+                  {HIFI_CHROMA_TILE_PRESETS.map((preset) => (
+                    <option key={preset.id} value={preset.id}>
+                      {preset.catalogCode ? `[${preset.catalogCode}] ` : ''}{preset.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => setIsChunkTileSynthOpen(false)}
+                  className="text-slate-400 hover:text-white px-1"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Live D4 Orientation & Flip Verification Bar */}
           <div className="px-3 py-2 bg-slate-950 border-b border-cyan-950 flex flex-wrap items-center justify-between gap-2">
@@ -1131,6 +1296,17 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
                           strokeWidth={1}
                           className="group-hover:stroke-cyan-400 transition-colors"
                         />
+                        {tile?.textureUrl && (
+                          <image
+                            href={tile.textureUrl}
+                            x={c * cellPx}
+                            y={r * cellPx}
+                            width={cellPx}
+                            height={cellPx}
+                            preserveAspectRatio="none"
+                            className="pointer-events-none"
+                          />
+                        )}
                         {tile?.isLiquid && (
                           <circle
                             cx={(c + 0.5) * cellPx}
@@ -1798,7 +1974,7 @@ export const ChunkStudioModal: React.FC<ChunkStudioModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="w-full max-w-7xl h-[90vh] rounded-xl border border-cyan-500/40 overflow-hidden shadow-2xl flex flex-col">
         {content}
       </div>

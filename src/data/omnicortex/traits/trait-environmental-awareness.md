@@ -11,7 +11,7 @@ description: >-
   Highly attuned to ocean currents, pressure gradients, thermal vents, and
   atmospheric shifts affecting survival.
 modifiers: []
-mechanic: +2 Alertness
+mechanic: "+2 Alertness"
 ---
 # Environmental Awareness
 

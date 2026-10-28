@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-modular-planetary-matrix"
-name: "99. MODULAR PLANETARY MATRIX"
+name: "MODULAR PLANETARY MATRIX"
 fileName: "99. MODULAR PLANETARY MATRIX.md"
 relPath: "architect/99. MODULAR PLANETARY MATRIX.md"
 isMasterDoc: true
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 21
+order: 16
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3

@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Gain +2 racial bonus to divide amongst noted skills.
+Innate cultural or biological aptitude in specialized fields.
 
 ## Mechanics & Benefit
-Gain +2 racial bonus to divide amongst noted skills.
++2 racial bonus to divide among noted skills

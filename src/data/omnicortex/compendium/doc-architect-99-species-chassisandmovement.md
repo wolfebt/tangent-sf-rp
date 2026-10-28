@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-species-chassisandmovement"
-name: "99. Species: Chassis Types, Size & Movement"
+name: "Species: Chassis Types, Size & Movement"
 fileName: "99.Species.ChassisAndMovement.md"
 relPath: "architect/species/99.Species.ChassisAndMovement.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-species-matrix"
-order: 15
+order: 10
 perspective: "architect"
 entry_type: "Species Design Matrix"
 tl: 3

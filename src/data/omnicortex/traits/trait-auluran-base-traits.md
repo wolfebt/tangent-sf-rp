@@ -53,20 +53,13 @@ package_traits:
 ---
 # Auluran Base Traits
 
-**Category**: TRAITS  
-**Tier**: Elite  
-**Type**: Species Trait  
-**CP Cost**: 9  
+**Category**: TRAITS
+**Tier**: Elite
+**Type**: Species Trait
+**CP Cost**: 9
 
 ## Description
 The predatory biomechanical chassis of the Auluran felinoid species.
 
-## Mechanics
-Includes Biotechnology Affinity [2 CP], Low Light Vision [1 CP], Prehensile Limbs / Tail [3 CP], Scent [1 CP], and Natural Weapons (1d6 claws/fangs) [2 CP]. Total package value: 9 CP.
-
-## Packaged Traits Sublist
-* **Biotechnology Affinity** [2 CP / Advanced]: Innate capacity to interface with, cultivate, and manipulate living symbiotic biotechnology.
-* **Low Light Vision** [1 CP / Basic]: Feline night sight; see twice as well in dim light with expanded IR/UV spectrum.
-* **Prehensile Limbs & Tail** [3 CP / Physical]: Fully prehensile feet and tail providing +2 to Climbing and Balance checks and off-hand dexterity.
-* **Scent** [1 CP / Basic]: Acute olfactory sensory cluster granting +4 to Tracking and Medical Diagnosis.
-* **Natural Weapons (Claws & Teeth)** [2 CP / Advanced]: Retractable predatory claws and prominent sharp teeth dealing 1d6 lethal damage.
+## Mechanics & Benefit
+Includes Biotechnology Affinity [2 CP], Low Light Vision [1 CP], Prehensile Limbs / Tail [3 CP], Scent [1 CP], and Natural Weapons (1d6 claws/fangs) [2 CP]. Total package value: 9 CP

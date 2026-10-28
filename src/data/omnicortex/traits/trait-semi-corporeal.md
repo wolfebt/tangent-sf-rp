@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-DR30 vs physical, able to Phase through solid matter, Solidify at will.
+Partially phased matter state capable of passing through solid walls and shrugging off kinetic force.
 
 ## Mechanics & Benefit
-DR30 vs physical, able to Phase through solid matter, Solidify at will.
+DR 30 vs physical damage; can phase through solid matter and solidify at will

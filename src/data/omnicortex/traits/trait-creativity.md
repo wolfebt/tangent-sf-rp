@@ -21,3 +21,6 @@ modifiers: []
 
 ## Description
 Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.
+
+## Mechanics & Benefit
++1 Karma Point

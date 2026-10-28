@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Racer (Operative). You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations."
-mechanic: "You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations."
+mechanic: "+2 bonus on any checks related to piloting under pressure or in high-stakes situations"
 rules: "Signature Trait (1 CP) — The Racer (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Racer (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Racer (Operative). You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.
+Signature trait of The Racer (Operative). Specialized expertise and intuition in piloting under pressure or in high-stakes situations.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to piloting under pressure or in high-stakes situations.
++2 bonus on any checks related to piloting under pressure or in high-stakes situations

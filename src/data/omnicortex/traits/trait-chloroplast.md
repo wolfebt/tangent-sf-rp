@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Gain sustenance from and Double Healing rate while in daylight equivalent light.
+Photosynthetic dermal cells that convert solar radiation directly into cellular energy.
+
+## Mechanics & Benefit
+Gain sustenance and double natural healing rate while in daylight-equivalent light

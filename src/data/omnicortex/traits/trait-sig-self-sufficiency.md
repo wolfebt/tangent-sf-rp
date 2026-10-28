@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Culinarian (Sentinel) / The Homesteader (Sentinel). You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools."
-mechanic: "You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools."
+mechanic: "+2 bonus to all checks related to homesteading, such as farming, building structures, and crafting tools"
 rules: "Signature Trait (1 CP) — The Culinarian (Sentinel) / The Homesteader (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Culinarian (Sentinel) / The Homesteader (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Culinarian (Sentinel) / The Homesteader (Sentinel). You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.
+Signature trait of The Culinarian (Sentinel) / The Homesteader (Sentinel). Specialized expertise and intuition in homesteading, such as farming, building structures, and crafting tools.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to all checks related to homesteading, such as farming, building structures, and Vocation skilling tools.
++2 bonus to all checks related to homesteading, such as farming, building structures, and crafting tools

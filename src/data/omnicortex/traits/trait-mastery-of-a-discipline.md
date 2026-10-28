@@ -12,7 +12,7 @@ description: >-
   honed their abilities within this discipline and can utilize them more
   effectively.
 modifiers: []
-mechanic: +2 to a Metafocus Discipline
+mechanic: "+2 to a Metafocus Discipline"
 ---
 # Mastery of a Discipline
 

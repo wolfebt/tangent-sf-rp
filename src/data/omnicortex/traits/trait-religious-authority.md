@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Priest (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion."
-mechanic: "You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion."
+mechanic: "+2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion"
 rules: "Signature Trait (1 CP) — The Priest (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Priest (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Priest (Visionarie). You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.
+Signature trait of The Priest (Visionarie). Specialized training and proficiency when interacting with followers of the Impyrium's state religion.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion.
++2 bonus to Diplomacy checks when interacting with followers of the Impyrium's state religion

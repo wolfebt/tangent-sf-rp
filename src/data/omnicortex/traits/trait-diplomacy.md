@@ -11,7 +11,7 @@ description: >-
   Negotiating trade pacts and peaceful relations with rival outposts and
   indigenous factions.
 modifiers: []
-mechanic: +2 Diplomacy
+mechanic: "+2 Diplomacy"
 ---
 # Diplomacy
 

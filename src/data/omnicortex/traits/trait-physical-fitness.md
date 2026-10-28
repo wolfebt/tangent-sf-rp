@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.
+Superior cardiovascular endurance, stamina, and physical conditioning.
+
+## Mechanics & Benefit
++1 Might and Fortitude Checks

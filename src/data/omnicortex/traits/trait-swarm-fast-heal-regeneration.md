@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Fast Heal & Regeneration (Swarm)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-The swarm constantly births new members to replace those lost, regenerating 2 Health/Vitality per round in combat and fully restoring mass during a Light Rest.
+Continuous internal birth cycle rapidly replenishes fallen insects and lost swarm mass.
+
+## Mechanics & Benefit
+Recovers 2 Health/Vitality per round in combat; fully restores mass over a Light Rest

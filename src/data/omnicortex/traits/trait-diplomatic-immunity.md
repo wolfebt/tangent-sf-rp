@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Envoy (Visionarie). You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories."
-mechanic: "You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories."
+mechanic: "Granted diplomatic immunity, safe passage, and consular privileges across recognizing faction territories"
 rules: "Signature Trait (1 CP) — The Envoy (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Envoy (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Envoy (Visionarie). You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.
+Signature trait of The Envoy (Visionarie). Official diplomatic credentials recognized across major interstellar governments and neutral sectors.
 
 ## Mechanics & Benefit
-You are granted diplomatic immunity by many factions, granting you safe passage and certain privileges in their territories.
+Granted diplomatic immunity, safe passage, and consular privileges across recognizing faction territories

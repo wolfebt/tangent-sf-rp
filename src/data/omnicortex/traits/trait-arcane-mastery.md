@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Magus (Savant). You gain a +2 bonus to discipline checks."
-mechanic: "You gain a +2 bonus to discipline checks."
+mechanic: "+2 bonus to discipline checks"
 rules: "Signature Trait (1 CP) — The Magus (Savant)."
 modifiers: [{"target":"Discipline","type":"skill","value":2,"mode":"inherent","description":"+2 to Discipline"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Discipline","type":"skill","value":2,"mode":"inherent","d
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Magus (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Magus (Savant). You gain a +2 bonus to discipline checks.
+Signature trait of The Magus (Savant). Specialized archetype training and mastery in arcane mastery.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to discipline checks.
++2 bonus to discipline checks

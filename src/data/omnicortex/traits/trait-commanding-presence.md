@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie). You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals."
-mechanic: "You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals."
+mechanic: "+2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals"
 rules: "Signature Trait (1 CP) — The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie)."
 modifiers: [{"target":"Leadership","type":"skill","value":2,"mode":"inherent","description":"+2 to Leadership"},{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Leadership","type":"skill","value":2,"mode":"inherent","d
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie). You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.
+Signature trait of The Foreman (Sentinel) / The Shipmaster (Sentinel) / The Commander (Visionarie) / The Kingpin (Visionarie). Specialized training and proficiency when addressing your crew, negotiating deals, or intimidating rivals.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals.
++2 bonus to Leadership and Diplomacy checks when addressing your crew, negotiating deals, or intimidating rivals

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Attacks made against members in dim light have 30% miss chance.
+Dermal light-scattering or umbral resonance that obscures the character’s silhouette in low light.
+
+## Mechanics & Benefit
+Attacks against you in dim light suffer a 30% miss chance

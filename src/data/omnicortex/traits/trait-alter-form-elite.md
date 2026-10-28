@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.
+Master-level cellular metamorphosis capable of complete biometric and structural mimicry.
 
 ## Mechanics & Benefit
-Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.
+Change appearance (+10 Disguise), gender, and adjust minor traits within base category

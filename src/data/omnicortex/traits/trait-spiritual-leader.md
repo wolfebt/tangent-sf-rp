@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Cult Leader (Visionarie). Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion."
-mechanic: "Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion."
+mechanic: "+2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion"
 rules: "Signature Trait (1 CP) — The Cult Leader (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Cult Leader (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Cult Leader (Visionarie). Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.
+Signature trait of The Cult Leader (Visionarie). Specialized expertise and intuition in guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.
 
 ## Mechanics & Benefit
-Gain +2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion.
++2 bonus on any checks related to guiding and motivating your followers, resolving disputes within the cult, or maintaining their loyalty and devotion

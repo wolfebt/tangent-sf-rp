@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-02-economy-interstellartrade"
-name: "02 Economy: Interstellar Trade & Commerce"
+name: "Economy: Interstellar Trade & Commerce"
 fileName: "02.Economy.InterstellarTrade.md"
 relPath: "architect/economy/02.Economy.InterstellarTrade.md"
 isMasterDoc: false

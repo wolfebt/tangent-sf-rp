@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 on Fortitude Checks
-mechanic: +2 Fortitude Checks
+mechanic: "+2 Fortitude Checks"
 ---
 # Physical Endurance
 

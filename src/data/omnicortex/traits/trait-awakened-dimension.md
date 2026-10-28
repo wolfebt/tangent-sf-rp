@@ -14,13 +14,13 @@ modifiers: []
 ---
 # Awakened (Dimension)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Instinctive understanding of spatial folds, micro-wormholes, teleportation vectors, and dimensional gateways.
 
-## Mechanics
-Grants innate access to the Attune skill and Dimensional/Spatial metaphysics, enabling short-range spatial shifting, blink maneuvers, and spatial anchor attunement.
+## Mechanics & Benefit
+Grants innate access to the Attune skill and Dimensional/Spatial metaphysics, enabling short-range spatial shifting, blink maneuvers, and spatial anchor attunement

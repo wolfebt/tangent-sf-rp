@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-augmentations-cybernetic"
-name: "99. Tech (Augmentations): Cybernetic"
+name: "Tech (Augmentations): Cybernetic"
 fileName: "99.Tech.Augmentations.Cybernetic.md"
 relPath: "architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 34
+order: 29
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3

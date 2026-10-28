@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-metaphysics-metatechmatrix"
-name: "99. Metaphysics: Meta-Tech Matrix"
+name: "Metaphysics: Meta-Tech Matrix"
 fileName: "99.Metaphysics.MetaTechMatrix.md"
 relPath: "architect/metaphysics/99.Metaphysics.MetaTechMatrix.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "doc-architect-99-metaphysics"
-order: 46
+order: 41
 perspective: "architect"
 entry_type: "Metaphysics Matrix"
 tl: 3

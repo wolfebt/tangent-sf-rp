@@ -789,6 +789,7 @@ export const SpeciesTraitSelector = ({
           tier: (t.trait_tier || t.tier || (t.bp === 4 ? 'elite' : t.bp === 2 ? 'advanced' : 'basic')).toLowerCase(),
           classification: t.classification || t.type || 'Physical',
           description: t.description || t.desc || t.mechanics || t.mechanic || 'Canonical biological trait effect.',
+          mechanic: (t.mechanic || t.mechanics || '').replace(/^\[|\]$/g, '').trim(),
           modifiers: t.modifiers || []
         });
       }
@@ -1170,6 +1171,11 @@ export const SpeciesTraitSelector = ({
           <p className="text-[11px] text-slate-300 line-clamp-2 leading-relaxed font-sans">
             {trait.description}
           </p>
+          {trait.mechanic && (
+            <p className="text-[10px] font-mono text-purple-300/90 leading-snug">
+              [{trait.mechanic}]
+            </p>
+          )}
 
           {/* Equipped Choices Badges if any */}
           {isSelected && equippedInstances.some(inst => inst.choiceLabel) && (

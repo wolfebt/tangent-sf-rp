@@ -26,7 +26,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 Wealth Score
-mechanic: +2 to Wealth Score and Etiquette checks
+mechanic: "+2 to Wealth Score and Etiquette checks"
 ---
 # High social standing
 

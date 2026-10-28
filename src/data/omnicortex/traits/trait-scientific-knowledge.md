@@ -11,7 +11,7 @@ description: >-
   Expertise in planetary geology, atmospheric biology, or agricultural
   terraforming.
 modifiers: []
-mechanic: +2 to Science Knowledge
+mechanic: "+2 to Science Knowledge"
 ---
 # Scientific Knowledge
 

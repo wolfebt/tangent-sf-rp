@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+4 bonus on Fortitude saves against disease and poison
+Vigorous immune system and physiological resistance to biological contagions and venoms.
 
 ## Mechanics & Benefit
 +4 bonus on Fortitude saves against disease and poison

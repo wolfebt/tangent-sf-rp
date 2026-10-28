@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Effectively doubles age categories.
+Slowed telomere attrition that doubles the natural lifespan across all maturity stages.
+
+## Mechanics & Benefit
+Effectively doubles all age categories

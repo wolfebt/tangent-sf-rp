@@ -184,13 +184,28 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }
       const exportDate = new Date().toLocaleString();
 
       const rowsHtml = (printableMessages || []).map((msg, idx) => {
-        let timestamp = '';
+        let d = null;
         if (msg.createdAt?.toDate) {
-          timestamp = msg.createdAt.toDate().toLocaleString();
+          d = msg.createdAt.toDate();
+        } else if (typeof msg.createdAt?.seconds === 'number') {
+          d = new Date(msg.createdAt.seconds * 1000);
         } else if (msg.createdLocalAt) {
-          timestamp = new Date(msg.createdLocalAt).toLocaleString();
-        } else {
-          timestamp = 'SYNCED';
+          d = new Date(msg.createdLocalAt);
+        } else if (msg.createdAt) {
+          d = new Date(msg.createdAt);
+        } else if (msg.timestamp) {
+          d = new Date(msg.timestamp);
+        }
+
+        let timestamp = 'SYNCED';
+        if (d && !isNaN(d.getTime())) {
+          const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+          const hours = String(d.getHours()).padStart(2, '0');
+          const minutes = String(d.getMinutes()).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          const month = months[d.getMonth()];
+          const year = String(d.getFullYear()).slice(-2);
+          timestamp = `${hours}:${minutes} - ${day}${month}${year}`;
         }
 
         const sender = msg.senderHandle || 'Unknown Operator';

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Relic Hunter (Savant). You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance."
-mechanic: "You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance."
+mechanic: "+2 bonus on any checks related to determining their age, origin, or cultural significance"
 rules: "Signature Trait (1 CP) — The Relic Hunter (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Relic Hunter (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Relic Hunter (Savant). You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.
+Signature trait of The Relic Hunter (Savant). You have a talent for identifying and interpreting ancient artifacts.
 
 ## Mechanics & Benefit
-You have a talent for identifying and interpreting ancient artifacts, gaining +2 bonus on any checks related to determining their age, origin, or cultural significance.
++2 bonus on any checks related to determining their age, origin, or cultural significance

@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 Equipment
-mechanic: +2 Equipment
+mechanic: "+2 Equipment"
 ---
 # Well-Equipped
 
@@ -24,7 +24,7 @@ mechanic: +2 Equipment
 **CP Cost**: 1
 
 ## Description
-Equipped with the latest technology and weaponry   *+2 Equipment* #
+Equipped with the latest technology and weaponry
 
 ## Mechanics & Benefit
 +2 Equipment

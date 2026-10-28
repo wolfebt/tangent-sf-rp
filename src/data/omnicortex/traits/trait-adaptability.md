@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to A specific
-mechanic: '+2 to a specific Skill Check, may change assigned Skill daily'
+mechanic: "+2 to a specific Skill Check, may change assigned Skill daily"
 ---
 # Adaptability
 
@@ -26,7 +26,7 @@ mechanic: '+2 to a specific Skill Check, may change assigned Skill daily'
 **CP Cost**: 1
 
 ## Description
-The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.
+Ability to quickly learn and adapt to new technologies, environments, or situations
 
 ## Mechanics & Benefit
 +2 to a specific Skill Check, may change assigned Skill daily

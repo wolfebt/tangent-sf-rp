@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Shapechange to alter size category 1 step up or down.
+Mass-shifting cellular structure capable of expanding or compressing physical stature.
+
+## Mechanics & Benefit
+Shapechange to alter size category 1 step up or down

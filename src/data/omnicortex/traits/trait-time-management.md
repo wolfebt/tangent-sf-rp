@@ -21,3 +21,6 @@ modifiers: []
 
 ## Description
 Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.
+
+## Mechanics & Benefit
+Reduce Rush modifiers to Skill checks by 2

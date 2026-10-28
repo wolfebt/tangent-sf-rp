@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Field Medic (Sentinel). Gain +2 bonus on a Medicine check to heal allies while in combat."
-mechanic: "Gain +2 bonus on a Medicine check to heal allies while in combat."
+mechanic: "+2 bonus on a Medicine check to heal allies while in combat"
 rules: "Signature Trait (1 CP) — The Field Medic (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Field Medic (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Field Medic (Sentinel). Gain +2 bonus on a Medicine check to heal allies while in combat.
+Signature trait of The Field Medic (Sentinel). Specialized archetype training and mastery in combat medic.
 
 ## Mechanics & Benefit
-Gain +2 bonus on a Medicine check to heal allies while in combat.
++2 bonus on a Medicine check to heal allies while in combat

@@ -19,7 +19,7 @@ modifiers: [{"target":"equipment-bonus","type":"combat","value":2,"mode":"inhere
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Vagabond (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description

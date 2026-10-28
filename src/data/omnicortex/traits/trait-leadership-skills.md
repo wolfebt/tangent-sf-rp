@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Leadership
-mechanic: +2 Leadership Checks
+mechanic: "+2 Leadership Checks"
 ---
 # Leadership Skills
 

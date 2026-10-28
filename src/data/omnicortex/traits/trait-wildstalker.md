@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Marshal (Sentinel). You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness."
-mechanic: "You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness."
+mechanic: "+2 on Survival checks to endure harsh conditions and track criminals in the wilderness"
 rules: "Signature Trait (1 CP) — The Marshal (Sentinel)."
 modifiers: [{"target":"Survival","type":"skill","value":2,"mode":"inherent","description":"+2 to Survival"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Survival","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Marshal (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Marshal (Sentinel). You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.
+Signature trait of The Marshal (Sentinel). Dedicated aptitude and training to endure harsh conditions and track criminals in the wilderness.
 
 ## Mechanics & Benefit
-You gain +2 on Survival checks to endure harsh conditions and track criminals in the wilderness.
++2 on Survival checks to endure harsh conditions and track criminals in the wilderness

@@ -21,3 +21,6 @@ modifiers: []
 
 ## Description
 Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.
+
+## Mechanics & Benefit
++2 Streetwise Checks

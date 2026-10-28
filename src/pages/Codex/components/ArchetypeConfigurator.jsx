@@ -18,6 +18,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
+import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 
 const SPHERES = [
   { id: 'sentinels', name: 'Sentinels (The Stabilizers)', focus: 'Logistics, Protection, Tradition, and Economy' },
@@ -469,30 +470,64 @@ export const ArchetypeConfigurator = ({
           Iconic 1 CP Signature Traits defining this archetype's narrative momentum and tactical flair:
         </p>
 
-        <div className="flex flex-wrap gap-2 pt-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
           {signatureFeatures.length === 0 ? (
             <span className="text-xs text-slate-500 italic font-mono">No signature traits listed.</span>
           ) : (
-            signatureFeatures.map(feat => (
-              <span
-                key={feat}
-                className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-purple-950/60 border border-purple-500/40 text-purple-200 flex items-center gap-1.5 shadow-sm"
-              >
-                <Sparkles size={11} className="text-purple-400" />
-                <span>{feat}</span>
-                <span className="px-1 rounded text-[10px] bg-purple-500/20 text-purple-300">1 CP</span>
-                {isEditMode && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveFeature(feat)}
-                    className="text-slate-400 hover:text-red-400 transition-colors ml-0.5 cursor-pointer"
-                    title="Remove trait"
-                  >
-                    <X size={12} />
-                  </button>
-                )}
-              </span>
-            ))
+            signatureFeatures.map(feat => {
+              const rawName = typeof feat === 'object' ? (feat.name || feat.id || '') : String(feat);
+              const cleanName = rawName.replace(/^trait-(?:sig-)?/i, '').replace(/[-_]/g, ' ').toLowerCase().trim();
+              const catalogTraits = [...(dbData?.traits || []), ...ALL_CANONICAL_TRAITS];
+              const match = catalogTraits.find(ct => {
+                const ctName = (ct.name || '').toLowerCase().trim();
+                const ctId = (ct.id || '').toLowerCase().trim();
+                const ctClean = ctId.replace(/^trait-(?:sig-)?/i, '').replace(/[-_]/g, ' ');
+                return ctName === rawName.toLowerCase().trim() || ctName === cleanName || ctClean === cleanName;
+              });
+              const desc = (typeof feat === 'object' && (feat.description || feat.desc)) || match?.description || match?.desc || '';
+              const mech = ((typeof feat === 'object' && (feat.mechanic || feat.mechanics)) || match?.mechanic || match?.mechanics || '').replace(/^\[|\]$/g, '').trim();
+
+              return (
+                <div
+                  key={rawName}
+                  className="p-3 rounded-xl text-xs bg-purple-950/30 border border-purple-500/40 text-purple-100 flex flex-col justify-between gap-1.5 shadow-sm"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-2 font-mono font-bold">
+                      <div className="flex items-center gap-1.5 text-purple-200">
+                        <Sparkles size={12} className="text-purple-400 shrink-0" />
+                        <span>{match?.name || rawName}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                          1 CP
+                        </span>
+                        {isEditMode && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFeature(feat)}
+                            className="text-slate-400 hover:text-red-400 transition-colors ml-0.5 cursor-pointer"
+                            title="Remove trait"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    {desc && (
+                      <p className="text-[11px] text-slate-300 leading-relaxed font-sans">
+                        {desc}
+                      </p>
+                    )}
+                  </div>
+                  {mech && (
+                    <div className="pt-1.5 border-t border-purple-500/20 text-[10px] font-mono text-amber-300 font-bold">
+                      [{mech}]
+                    </div>
+                  )}
+                </div>
+              );
+            })
           )}
         </div>
 

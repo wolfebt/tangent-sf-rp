@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to AC while not attacking."
-mechanic: "You gain a +2 bonus to AC while not attacking."
+mechanic: "+2 bonus to AC while not attacking"
 rules: "Signature Trait (1 CP) — The Peacekeeper (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Peacekeeper (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Peacekeeper (Visionarie). You gain a +2 bonus to AC while not attacking.
+Signature trait of The Peacekeeper (Visionarie). Specialized archetype training and mastery in defensive stance.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to AC while not attacking.
++2 bonus to AC while not attacking

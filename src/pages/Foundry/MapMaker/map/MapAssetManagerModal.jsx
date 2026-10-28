@@ -4,6 +4,12 @@ import { MAP_TYPES, PENCIL_COLORS } from './MapConstants';
 import { getTerrainsForScale, getObjectsForScale, getCategoriesForScale } from './MapAssetCatalog';
 import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures';
 import AssetDrawingStudio from './AssetDrawingStudio';
+import {
+  HIFI_CHROMA_TILE_PRESETS,
+  TILE_FAMILY_METADATA,
+  synthesizeTileDataUrl
+} from '../../../../engine/assets/MicroTileSynthesizer';
+import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
 import { confirmTypedDeletion } from '../../../../utils/confirmationUtils';
 import { showToast } from '../../../../context/ToastContext';
 
@@ -42,6 +48,8 @@ export default function MapAssetManagerModal({
   // Selected asset for editing/viewing (null = creation mode)
   const [editingAsset, setEditingAsset] = useState(null);
   const [isEditingCustom, setIsEditingCustom] = useState(false);
+  const [quickSynthPrompt, setQuickSynthPrompt] = useState('');
+  const [isQuickSynthLoading, setIsQuickSynthLoading] = useState(false);
 
   // Form State - Terrain
   const [terrainForm, setTerrainForm] = useState({
@@ -242,6 +250,60 @@ export default function MapAssetManagerModal({
     e.target.value = '';
   };
 
+  // Apply a HIFI CHROMA TileSynthesisRecipe to the active Terrain or Object form
+  const handleApplySynthesizedRecipe = (recipe, dataUrl) => {
+    const texUrl = dataUrl || synthesizeTileDataUrl(recipe);
+    const famLabel = TILE_FAMILY_METADATA[recipe.family]?.label || 'Synthesized';
+    const engineSummary = `Material: ${recipe.vtt.material} | Move: ${recipe.vtt.movementCost}x | Friction: ${recipe.vtt.slipperyFriction}${
+      recipe.vtt.isHazard
+        ? ` | Hazard: ${recipe.vtt.damageFormula} (DC ${recipe.vtt.saveDc || 14} ${recipe.vtt.saveAttribute || 'Reflex (AGI)'})`
+        : ''
+    }`;
+
+    if (activeTab === 'terrains') {
+      setTerrainForm((prev) => ({
+        ...prev,
+        label: prev.label.trim() ? prev.label : recipe.name,
+        color: recipe.palette.secondary || prev.color,
+        desc: prev.desc.trim()
+          ? prev.desc
+          : `${famLabel}${recipe.catalogCode ? ` [${recipe.catalogCode}]` : ''} — HIFI CHROMA Ligne Claire seamless tile.`,
+        engineProps: engineSummary,
+        textureUrl: texUrl
+      }));
+    } else {
+      setObjectForm((prev) => ({
+        ...prev,
+        label: prev.label.trim() ? prev.label : recipe.name,
+        color: recipe.palette.accent || prev.color,
+        category: recipe.vtt.isHazard ? 'Hazards' : prev.category || 'Synthesized',
+        hazard: recipe.vtt.isHazard
+          ? `${recipe.vtt.damageFormula} (DC ${recipe.vtt.saveDc || 14})`
+          : prev.hazard,
+        desc: prev.desc.trim()
+          ? prev.desc
+          : `${famLabel} — Cover: ${recipe.vtt.cover} | ${engineSummary}`,
+        engineProps: engineSummary,
+        imageUrl: texUrl
+      }));
+    }
+    showToast({
+      type: 'success',
+      text: `Synthesized "${recipe.name}" with 2d10 VTT mechanics!`
+    });
+  };
+
+  const handleQuickPromptSynthesize = async () => {
+    if (!quickSynthPrompt.trim()) return;
+    setIsQuickSynthLoading(true);
+    try {
+      const { recipe } = await synthesizeTileRecipeFromPrompt(quickSynthPrompt);
+      handleApplySynthesizedRecipe(recipe);
+    } finally {
+      setIsQuickSynthLoading(false);
+    }
+  };
+
   const handleSaveTerrainSubmit = (e) => {
     if (e) e.preventDefault();
     if (!terrainForm.label.trim()) {
@@ -291,8 +353,8 @@ export default function MapAssetManagerModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
-      <div className="bg-[#161b22] border-2 border-cyan-400/80 rounded-xl w-full max-w-7xl max-h-[88vh] sm:max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden text-slate-100 font-sans">
+    <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 overflow-y-auto select-none font-sans">
+      <div className="bg-[#161b22] border-2 border-cyan-400/80 rounded-xl w-full max-w-7xl max-h-[90vh] flex flex-col shadow-[0_0_50px_rgba(6,182,212,0.3)] overflow-hidden text-slate-100 font-sans">
         
         {/* Header */}
         <div className="px-6 py-3 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between flex-wrap gap-2">
@@ -672,6 +734,58 @@ export default function MapAssetManagerModal({
                   </div>
                 </div>
 
+                {/* HIFI CHROMA Quick Tile Synthesizer Bar */}
+                <div className="bg-[#0d1117] border border-purple-800/60 rounded-xl p-3 flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                      <span>✨</span> HIFI CHROMA Instant Tile & Mechanics Synthesizer
+                    </span>
+                    <select
+                      defaultValue=""
+                      onChange={(e) => {
+                        const preset = HIFI_CHROMA_TILE_PRESETS.find((p) => p.id === e.target.value);
+                        if (preset) {
+                          handleApplySynthesizedRecipe(preset);
+                          e.target.value = '';
+                        }
+                      }}
+                      className="bg-[#161b22] border border-purple-700/60 rounded px-2 py-0.5 text-[10px] text-cyan-300"
+                    >
+                      <option value="" disabled>
+                        ⚡ Load HIFI CHROMA Preset ({HIFI_CHROMA_TILE_PRESETS.length})...
+                      </option>
+                      {HIFI_CHROMA_TILE_PRESETS.map((preset) => (
+                        <option key={preset.id} value={preset.id}>
+                          {preset.catalogCode ? `[${preset.catalogCode}] ` : ''}{preset.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={quickSynthPrompt}
+                      onChange={(e) => setQuickSynthPrompt(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleQuickPromptSynthesize();
+                        }
+                      }}
+                      placeholder="Prompt-to-Tile (e.g. 'rusted starship grate over glowing green acid pool', 'cracked cryo glacier ice')..."
+                      className="flex-1 bg-[#161b22] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-purple-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleQuickPromptSynthesize}
+                      disabled={isQuickSynthLoading || !quickSynthPrompt.trim()}
+                      className="px-3 py-1.5 bg-purple-700 hover:bg-purple-600 disabled:opacity-40 text-white rounded text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all"
+                    >
+                      {isQuickSynthLoading ? 'Synthesizing...' : '✨ Synthesize Tile'}
+                    </button>
+                  </div>
+                </div>
+
                 {/* TERRAIN ATTRIBUTES FORM */}
                 {activeTab === 'terrains' && (
                   <form onSubmit={handleSaveTerrainSubmit} className="flex flex-col gap-3.5">
@@ -1037,6 +1151,7 @@ export default function MapAssetManagerModal({
                       : `Object Sprite Studio (${objectForm.label || 'New Object'})`
                   }
                   assetType={activeTab === 'terrains' ? 'terrain' : 'object'}
+                  onSynthesizeRecipe={handleApplySynthesizedRecipe}
                 />
 
                 <div className="flex items-center justify-between pt-2 border-t border-[#0D5C63]/40">

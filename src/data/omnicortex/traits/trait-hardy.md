@@ -35,7 +35,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 racial bonus on saving throws against poison, spells, and spell-like abilities.
+Robust metabolism and innate cellular resilience against toxins and hostile energies.
 
 ## Mechanics & Benefit
-+2 racial bonus on saving throws against poison, spells, and spell-like abilities.
++2 racial bonus on saving throws against poison, spells, and spell-like abilities

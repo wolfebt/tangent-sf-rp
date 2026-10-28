@@ -16,9 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Study Checks
-mechanic: >-
-  Those under the Enlightened character’s tutelage may make Study Checks at
-  Advantage
+mechanic: "Those under the Enlightened character’s tutelage may make Study Checks at Advantage"
 ---
 # Mentorship
 

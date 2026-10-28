@@ -26,4 +26,4 @@ modifiers:
 All Fatigue checks are made at Advantage and at twice the interval time.
 
 ## Mechanics & Benefit
-All Fatigue checks are made at Advantage and at twice the interval time.
+Advantage on all saves/checks against fatigue, exhaustion, and prolonged exertion; interval duration is doubled

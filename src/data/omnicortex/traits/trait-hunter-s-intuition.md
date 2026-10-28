@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Manhunter (Operative). You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes."
-mechanic: "You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes."
+mechanic: "+2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes"
 rules: "Signature Trait (1 CP) — The Manhunter (Operative)."
 modifiers: [{"target":"Survival","type":"skill","value":2,"mode":"inherent","description":"+2 to Survival"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Survival","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Manhunter (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Manhunter (Operative). You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.
+Signature trait of The Manhunter (Operative). Dedicated aptitude and training to track targets and Alertness checks to spot clues or anticipate ambushes.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes.
++2 bonus to Survival checks to track targets and Alertness checks to spot clues or anticipate ambushes

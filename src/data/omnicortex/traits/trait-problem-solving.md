@@ -11,7 +11,7 @@ description: >-
   Overcoming technical and environmental crises that arise during terraforming
   and settlement.
 modifiers: []
-mechanic: Once per Day may reroll a Mental Skill Check
+mechanic: "Once per Day may reroll a Mental Skill Check"
 ---
 # Problem Solving
 

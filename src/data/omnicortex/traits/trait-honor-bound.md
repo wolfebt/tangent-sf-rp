@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Honor-Bound Any One check per day Checks
-mechanic: 'Any One check per day at Advantage, but must be for another'
+mechanic: "Any One check per day at Advantage, but must be for another"
 ---
 # Honor-Bound
 

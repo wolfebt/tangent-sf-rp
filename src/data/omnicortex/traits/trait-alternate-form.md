@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-An additional ‘Natural’ Form.
+Dimorphic or metamorphic biology possessing a second natural physical form.
+
+## Mechanics & Benefit
+Can shift into an additional natural form

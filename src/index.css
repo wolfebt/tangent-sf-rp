@@ -26,21 +26,16 @@ textarea {
   field-sizing: content;
 }
 
-/* Responsive custom scrollbars — only visible when containers overflow */
-/* Responsive custom scrollbars — Charcoal track, Cyan thumb */
+/* Hide visible scrollbars globally while preserving smooth native scrolling */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  display: none;
+  width: 0;
+  height: 0;
 }
-::-webkit-scrollbar-track {
-  background: var(--color-slider-track, #12161f);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(34, 211, 238, 0.25);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 211, 238, 0.5);
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* Range input slider styling (Charcoal track, Cyan thumb) */

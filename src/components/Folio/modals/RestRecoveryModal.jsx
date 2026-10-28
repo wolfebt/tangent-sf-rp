@@ -447,7 +447,7 @@ const RestRecoveryModal = ({ isOpen, onClose }) => {
           </div>
         ) : (
           /* CODEX TAB: Complete canonical rules text */
-          <div className="space-y-6 max-h-[550px] overflow-y-auto pr-2 text-xs leading-relaxed text-slate-300">
+          <div className="space-y-6 text-xs leading-relaxed text-slate-300">
             
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-2">
               <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Revolutionary (Visionarie). You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies."
-mechanic: "You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies."
+mechanic: "+2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies"
 rules: "Signature Trait (1 CP) — The Revolutionary (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"},{"target":"Leadership","type":"skill","value":2,"mode":"inherent","description":"+2 to Leadership"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Revolutionary (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Revolutionary (Visionarie). You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.
+Signature trait of The Revolutionary (Visionarie). Specialized training and proficiency when addressing crowds, rallying support, or negotiating with potential allies.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies.
++2 bonus to Diplomacy and Leadership checks when addressing crowds, rallying support, or negotiating with potential allies

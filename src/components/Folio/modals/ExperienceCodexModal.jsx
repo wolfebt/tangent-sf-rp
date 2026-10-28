@@ -215,7 +215,7 @@ export const ExperienceCodexModal = ({
         </div>
 
         {/* Tab Content */}
-        <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+        <div className="space-y-4">
 
           {/* TAB 1: Core Mechanics & The Increment Rule */}
           {activeTab === 'core' && (

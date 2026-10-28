@@ -17,7 +17,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 Wealth Score
-mechanic: +2 Wealth Checks
+mechanic: "+2 Wealth Checks"
 ---
 # Logistics
 

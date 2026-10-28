@@ -17,7 +17,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Mechanical
-mechanic: +2 to Mechanical Skill Checks
+mechanic: "+2 to Mechanical Skill Checks"
 ---
 # Mechanical Skills
 

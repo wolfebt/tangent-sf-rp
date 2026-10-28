@@ -15,10 +15,13 @@ modifiers: []
 ---
 # Multidextrous (4 Arms)
 
-**Category**: TRAITS  
-**Tier**: Elite  
-**Type**: Species Trait  
-**CP Cost**: 4  
+**Category**: TRAITS
+**Tier**: Elite
+**Type**: Species Trait
+**CP Cost**: 4
 
 ## Description
-Four articulated upper limbs ending in sharp, clawed digits. Operates all four hands with primary dexterity, suffering no off-hand penalties in combat or technical tasks, and dealing 1d6 + Str Lethal natural damage.
+Four articulate upper limbs terminating in sharp clawed digits with zero off-hand penalties.
+
+## Mechanics & Benefit
+Zero off-hand attack or interaction penalty; can perform simultaneous multi-arm tasks; claw attacks deal 1d6 + Str

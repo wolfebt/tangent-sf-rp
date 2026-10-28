@@ -914,8 +914,13 @@ export const UnifiedRelationalSelectorModal = ({
                                 {item.type || item.category || 'Standard'}
                               </span>
                             </td>
-                            <td className="py-2.5 px-3 text-slate-400 max-w-xs truncate hidden md:table-cell">
-                              {item.description || '—'}
+                            <td className="py-2.5 px-3 text-slate-400 max-w-xs hidden md:table-cell">
+                              <div className="truncate">{item.description || '—'}</div>
+                              {(item.mechanic || item.mechanics) && (
+                                <div className="text-[10px] font-mono text-emerald-400/90 truncate">
+                                  [{String(item.mechanic || item.mechanics).replace(/^\[|\]$/g, '')}]
+                                </div>
+                              )}
                             </td>
                           </tr>
                         );
@@ -927,7 +932,7 @@ export const UnifiedRelationalSelectorModal = ({
             ) : (
               <VirtualizedList
                 items={filteredItems}
-                itemHeight={72}
+                itemHeight={84}
                 resetScrollDeps={[searchTerm, categoryFilter, sourceCollection, items.length]}
                 getKey={(item, index) => item.id || item.name || index}
                 containerClassName="flex-1 overflow-y-auto p-4 bg-slate-950/40"
@@ -942,7 +947,7 @@ export const UnifiedRelationalSelectorModal = ({
                       <div
                         key={itemKey}
                         onClick={() => toggleItem(val)}
-                        className={`p-3 rounded-lg border cursor-pointer transition-all flex items-start gap-3 h-[64px] box-border ${
+                        className={`p-2.5 rounded-lg border cursor-pointer transition-all flex items-start gap-3 h-[76px] box-border ${
                           isChecked
                             ? 'bg-cyan-950/80 border-cyan-400 text-white shadow-[0_0_12px_rgba(34,211,238,0.25)]'
                             : isCategoryGroup
@@ -986,6 +991,11 @@ export const UnifiedRelationalSelectorModal = ({
                           </div>
                           {item.description && (
                             <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{item.description}</p>
+                          )}
+                          {(item.mechanic || item.mechanics) && (
+                            <p className="text-[10px] font-mono text-emerald-400/90 line-clamp-1">
+                              [{String(item.mechanic || item.mechanics).replace(/^\[|\]$/g, '')}]
+                            </p>
                           )}
                         </div>
                       </div>

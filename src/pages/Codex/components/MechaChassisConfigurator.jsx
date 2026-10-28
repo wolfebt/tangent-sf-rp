@@ -186,7 +186,7 @@ export const MechaChassisConfigurator = ({
             <label className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-1.5 block">
               Chassis Size & Scale (14 Size Classes)
             </label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-[220px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {Object.entries(MECHA_SIZES).map(([sizeKey, sDef]) => {
                 const isSelected = size === sizeKey;
                 return (
@@ -254,7 +254,7 @@ export const MechaChassisConfigurator = ({
             <label className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-1.5 block">
               Locomotion & Propulsion Drive
             </label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 max-h-[220px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
               {MECHA_PROPULSION.map((prop) => {
                 const isSelected = propulsion === prop.id;
                 return (
@@ -325,7 +325,7 @@ export const MechaChassisConfigurator = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-[320px] overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {MECHA_ARMOR_TYPES.map((arm) => {
               const isSelected = isArmorSelected(arm.id);
               const scaledMounts = arm.baseMountMult * Math.max(1, Math.round(sizeDef.scaleMult));
@@ -358,7 +358,7 @@ export const MechaChassisConfigurator = ({
 
       {/* TAB 4: MODULES & SYSTEMS */}
       {activeTab === 'Modules & Systems' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-[350px] overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           {MECHA_MODULES.map((mod) => {
             const isSelected = isModuleSelected(mod.id);
             return (

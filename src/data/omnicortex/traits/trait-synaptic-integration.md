@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Synaptic Integration
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-The Syndess can slot directly into any Kitin mecha’s Synaptic Node. While integrated, they use their own Intellect and Agility for all vehicle checks and ignore all G-force or high-velocity penalties.
+Can slot into Kitin mecha Synaptic Node, using own Intellect and Agility for vehicle checks and ignoring G-force penalties.
+
+## Mechanics & Benefit
+1-round bio-neural sync; use own Int/Agi for all vehicle checks; immune to G-force and high-velocity inertia

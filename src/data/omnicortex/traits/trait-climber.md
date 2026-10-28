@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.
+Mastery over vertical and inverted surface navigation without speed degradation.
 
 ## Mechanics & Benefit
-Traverse vertical and inverted surfaces at full speed (40 ft/rd); +2 bonus on Climbing checks.
+Traverse vertical walls and inverted ceilings at full ground speed (40 ft/rd); +2 on Athletics (Climbing) checks

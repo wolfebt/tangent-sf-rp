@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Muscle (Sentinel). You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads."
-mechanic: "You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads."
+mechanic: "+2 bonus to Athletics checks related to physical labor and carrying heavy loads"
 rules: "Signature Trait (1 CP) — The Muscle (Sentinel)."
 modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","description":"+2 to Athletics"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Muscle (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Muscle (Sentinel). You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.
+Signature trait of The Muscle (Sentinel). Specialized expertise and intuition in physical labor and carrying heavy loads.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Athletics checks related to physical labor and carrying heavy loads.
++2 bonus to Athletics checks related to physical labor and carrying heavy loads

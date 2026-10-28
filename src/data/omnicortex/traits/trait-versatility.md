@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.
+Adaptable skill set allowing the character to perform a wide variety of tasks without specialized preparation.
+
+## Mechanics & Benefit
++1 Karma Point

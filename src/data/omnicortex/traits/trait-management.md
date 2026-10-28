@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 Wealth Score
-mechanic: +1 Wealth and +1 Leadership
+mechanic: "+1 Wealth and +1 Leadership"
 ---
 # Management
 

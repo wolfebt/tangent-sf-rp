@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Social Manipulation
-mechanic: +1 all Social Manipulation Skills and Culture Knowledge
+mechanic: "+1 all Social Manipulation Skills and Culture Knowledge"
 ---
 # Social Skills
 

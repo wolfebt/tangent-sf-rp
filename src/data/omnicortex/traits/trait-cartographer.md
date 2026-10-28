@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant). You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain."
-mechanic: "You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain."
+mechanic: "+2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain"
 rules: "Signature Trait (1 CP) — The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant). You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.
+Signature trait of The Pioneer (Operative) / The Navigator (Savant) / The Xeno-surveyor (Savant). You can create detailed maps and charts.
 
 ## Mechanics & Benefit
-You can create detailed maps and charts, gaining +2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain.
++2 bonus on any checks related to recalling geographical information or navigating unfamiliar terrain

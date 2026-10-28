@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-02-economy-and-wealth"
-name: "02 ECONOMY AND WEALTH"
+name: "ECONOMY AND WEALTH"
 fileName: "02 ECONOMY AND WEALTH.md"
 relPath: "architect/02 ECONOMY AND WEALTH.md"
 isMasterDoc: true

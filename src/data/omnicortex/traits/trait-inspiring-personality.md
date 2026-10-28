@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Magnetic personal charisma that uplifts allies and commands public attention."
-mechanic: "You gain a +2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies."
+mechanic: "+2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies"
 rules: "Signature Trait (1 CP) — The Icon (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"},{"target":"Performance","type":"skill","value":2,"mode":"inherent","description":"+2 to Performance"},{"target":"Leadership","type":"skill","value":2,"mode":"inherent","description":"+2 to Leadership"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Icon (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Magnetic personal charisma that uplifts allies and commands public attention.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies.
++2 bonus to Diplomacy, Performance, and Leadership checks when rallying crowds or inspiring allies

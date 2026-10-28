@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Botany
-mechanic: +2 to Botany Checks
+mechanic: "+2 to Botany Checks"
 ---
 # Botanical Knowledge
 

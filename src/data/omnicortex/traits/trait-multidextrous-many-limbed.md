@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Multidextrous (Many-Limbed)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Possesses 30+ micro-limbs for fine repairs, fluid management, and multitasking across the mecha’s biological subsystems. A single pilot manages duties equivalent to 4 humanoid crew members.
+30+ micro-limbs for fine repairs, fluid nutrient routing, and concurrent subsystem multitasking.
+
+## Mechanics & Benefit
+Manage 4 humanoid crew roles concurrently (pilot, gunner, engineer, sensor operator); fine internal maintenance

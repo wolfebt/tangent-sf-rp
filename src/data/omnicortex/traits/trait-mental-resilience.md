@@ -19,7 +19,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Willpower
-mechanic: +2 Willpower Checks
+mechanic: "+2 Willpower Checks"
 ---
 # Mental Resilience
 

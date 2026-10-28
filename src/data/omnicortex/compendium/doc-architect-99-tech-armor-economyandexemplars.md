@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-armor-economyandexemplars"
-name: "99. Tech (Armor): Armor Economy & Exemplars"
+name: "Tech (Armor): Armor Economy & Exemplars"
 fileName: "99.Tech.Armor.EconomyAndExemplars.md"
 relPath: "architect/technology/armor/99.Tech.Armor.EconomyAndExemplars.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 31
+order: 26
 perspective: "architect"
 entry_type: "Tech Matrix (armor)"
 tl: 3

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Xenologist (Savant). You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements."
-mechanic: "You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements."
+mechanic: "+2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements"
 rules: "Signature Trait (1 CP) — The Xenologist (Savant)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Xenologist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Xenologist (Savant). You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.
+Signature trait of The Xenologist (Savant). You have a deep understanding of different cultures and customs.
 
 ## Mechanics & Benefit
-You have a deep understanding of different cultures and customs, gaining a +2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements.
++2 bonus to Diplomacy checks when interacting with foreign dignitaries or negotiating trade agreements

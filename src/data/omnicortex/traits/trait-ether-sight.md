@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.
+Trans-dimensional ocular perception tuned to invisible, phased, and astral phenomena.
+
+## Mechanics & Benefit
+See invisible targets, phased/dimensional entities, and bioluminescent/metaphysical auras

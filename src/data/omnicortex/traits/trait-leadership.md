@@ -11,7 +11,7 @@ description: >-
   Guiding fellow colonists through crises and establishing order in remote
   settlements.
 modifiers: []
-mechanic: +2 Leadership
+mechanic: "+2 Leadership"
 ---
 # Leadership
 

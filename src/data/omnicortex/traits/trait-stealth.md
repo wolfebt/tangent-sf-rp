@@ -29,7 +29,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Remaining undetected
-mechanic: +2 Stealth
+mechanic: "+2 Stealth"
 ---
 # Stealth
 

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Animals treat character as a Predator & Dangerous, Wary.
+Apex predatory aura that causes natural beasts to recoil in wariness.
+
+## Mechanics & Benefit
+Animals treat the character as a dangerous predator and remain wary

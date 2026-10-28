@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Activist (Visionarie). You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause."
-mechanic: "You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause."
+mechanic: "+2 bonus to Diplomacy checks when speaking on behalf of a group or cause"
 rules: "Signature Trait (1 CP) — The Activist (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Activist (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Activist (Visionarie). You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.
+Signature trait of The Activist (Visionarie). Specialized training and proficiency when speaking on behalf of a group or cause.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy checks when speaking on behalf of a group or cause.
++2 bonus to Diplomacy checks when speaking on behalf of a group or cause

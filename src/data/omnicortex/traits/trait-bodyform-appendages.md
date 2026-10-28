@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).
+Controlled morphic growth of supplemental limbs or propulsion organs.
+
+## Mechanics & Benefit
+Shapechange to gain 2 additional limbs (arms, legs, tentacles, wings, or fins)

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Doomsayer (Visionarie). Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic."
-mechanic: "Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic."
+mechanic: "+2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic"
 rules: "Signature Trait (1 CP) — The Doomsayer (Visionarie)."
 modifiers: [{"target":"Intimidation","type":"skill","value":2,"mode":"inherent","description":"+2 to Intimidation"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Intimidation","type":"skill","value":2,"mode":"inherent",
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Doomsayer (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Doomsayer (Visionarie). Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.
+Signature trait of The Doomsayer (Visionarie). Your presence instills fear and despair in others.
 
 ## Mechanics & Benefit
-Your presence instills fear and despair in others, gaining a +2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic.
++2 bonus to Intimidation checks and +2 bonus on any checks related to demoralizing opponents or spreading panic

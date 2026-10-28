@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.
+Membranous wing-flaps stretching between limbs that catch air currents for controlled gliding.
+
+## Mechanics & Benefit
+Gliding speed of 2x Ground Speed using Acrobatics; requires special top clothing

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Raider (Operative). You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments."
-mechanic: "You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments."
+mechanic: "+2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments"
 rules: "Signature Trait (1 CP) — The Raider (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Raider (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Raider (Operative). You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.
+Signature trait of The Raider (Operative). Specialized expertise and intuition in combat or survival in harsh environments.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments.
++2 bonus to any two Combat skills and +2 bonus on any checks related to combat or survival in harsh environments

@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+10 feet to Base Movement Speed and +1 to Initiative.
+Naturally swift locomotion and rapid reflex reaction times.
 
 ## Mechanics & Benefit
-+10 feet to Base Movement Speed and +1 to Initiative.
++10 feet to Base Movement Speed and +1 bonus to Initiative checks

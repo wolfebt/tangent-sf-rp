@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The High Commander (Sentinel). Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear."
-mechanic: "Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear."
+mechanic: "+2 bonus on morale checks and saving throws against fear"
 rules: "Signature Trait (1 CP) — The High Commander (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The High Commander (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The High Commander (Sentinel). Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.
+Signature trait of The High Commander (Sentinel). Your presence bolsters your troops.
 
 ## Mechanics & Benefit
-Your presence bolsters your troops. grant them +2 bonus on morale checks and saving throws against fear.
++2 bonus on morale checks and saving throws against fear

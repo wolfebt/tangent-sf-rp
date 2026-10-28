@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20
+Padded footfalls and predatory grace allowing rapid movement without sound.
+
+## Mechanics & Benefit
+Reduce Stealth penalty for moving by 5; Stealth checks while running take -20

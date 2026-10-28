@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Arbitrator (Visionarie). You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions."
-mechanic: "You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions."
+mechanic: "+2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions"
 rules: "Signature Trait (1 CP) — The Arbitrator (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Arbitrator (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Arbitrator (Visionarie). You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.
+Signature trait of The Arbitrator (Visionarie). Specialized training and proficiency when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions.
++2 bonus to Diplomacy checks when mediating disputes, negotiating peace treaties, or de-escalating tensions between factions

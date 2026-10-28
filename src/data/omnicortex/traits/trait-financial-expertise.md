@@ -21,7 +21,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Appraisal
-mechanic: +2 Business and Appraisal checks
+mechanic: "+2 Business and Appraisal checks"
 ---
 # Financial expertise
 

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "A flurry of authorized permits, regulatory mastery, and supply-chain re-routing."
-mechanic: "Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission."
+mechanic: "Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission"
 rules: "Signature Trait (1 CP) — The Bureaucrat (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Bureaucrat (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 A flurry of authorized permits, regulatory mastery, and supply-chain re-routing.
 
 ## Mechanics & Benefit
-Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission.
+Whenever the party attempts to purchase gear, secure legal transit permits, or acquire faction assets, the Complexity (CR) of the task is reduced by 5. Write-offs and financial loopholes allow the team to recover 15% of credits spent on gear or repairs at the end of a mission

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Will regrow lost Limbs and Organs with recovery of Health.
+Potent stem-cell regeneration capable of regrowing severed limbs and vital organs.
+
+## Mechanics & Benefit
+Regrows lost limbs and organs as Health is recovered

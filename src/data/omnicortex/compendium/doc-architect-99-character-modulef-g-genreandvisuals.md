@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-character-modulef-g-genreandvisuals"
-name: "99. Character (Modules F–G): Genre & Visual Semiotics"
+name: "Character (Modules F–G): Genre & Visual Semiotics"
 fileName: "99.Character.ModuleF_G.GenreAndVisuals.md"
 relPath: "architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 13
+order: 8
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3

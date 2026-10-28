@@ -174,7 +174,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
         </div>
 
         {/* Content Area */}
-        <div className="space-y-2.5 overflow-y-auto pr-1 flex-1 max-h-[58vh]">
+        <div className="space-y-2.5 flex-1">
 
           {/* Section: Pool Basics */}
           {activeTab === 'all' && (

@@ -14,7 +14,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Manipulation
-mechanic: +1 Manipulation Skills and Etiquette Checks
+mechanic: "+1 Manipulation Skills and Etiquette Checks"
 ---
 # Persuasion
 

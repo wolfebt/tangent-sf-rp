@@ -590,7 +590,7 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
           </div>
 
           {/* 16-Domain Interactive Sliders (7 Cols) */}
-          <div className="lg:col-span-7 p-4 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-3 max-h-[500px] overflow-y-auto pr-2">
+          <div className="lg:col-span-7 p-4 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-3">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-teal-400 mb-2">
               Civilization Domain Advancement (0–5)
             </h3>

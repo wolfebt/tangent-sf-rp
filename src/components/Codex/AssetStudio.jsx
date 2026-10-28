@@ -1548,17 +1548,17 @@ export const AssetStudio = ({
 
 
       {/* ── Studio Body with Left Navigation Rail + Workbench Viewport ── */}
-      <div className="flex-1 flex overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
 
         {/* ── Standardized Left Navigation Sidebar with Expanding Subcategory Branch ── */}
         <nav 
           aria-label="Studio Sub-Sections"
-          className="w-40 sm:w-44 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-r border-slate-800/90 flex flex-col justify-between py-2.5 px-2 select-none z-20 font-sans shadow-lg"
+          className="w-full md:w-44 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-b md:border-b-0 md:border-r border-slate-800/90 flex flex-col justify-between py-2 md:py-2.5 px-2 select-none z-20 font-sans shadow-lg"
         >
           {/* Top Section: Matrix Brand Crest + Category & Expanding Subcategory Branch */}
-          <div className="flex flex-col gap-1.5 w-full overflow-y-auto no-scrollbar min-h-0">
+          <div className="flex flex-row md:flex-col flex-wrap md:flex-nowrap gap-1.5 w-full overflow-y-auto no-scrollbar min-h-0 items-center md:items-stretch">
             {/* Top Matrix Crest / Icon */}
-            <div className="flex items-center gap-2.5 px-1.5 py-1 mb-1 border-b border-slate-800/80 pb-2">
+            <div className="hidden md:flex items-center gap-2.5 px-1.5 py-1 mb-1 border-b border-slate-800/80 pb-2">
               <div 
                 className="w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 shadow-lg"
                 style={{
@@ -1588,7 +1588,7 @@ export const AssetStudio = ({
               const isBranchExpanded = hasSubItems && (isActive ? isGeneticsBranchOpen : false);
 
               return (
-                <div key={item.id} className="flex flex-col gap-0.5 w-full">
+                <div key={item.id} className="flex flex-col gap-0.5 flex-1 md:flex-none min-w-[110px] md:w-full">
                   <button
                     type="button"
                     onClick={() => {
@@ -1721,7 +1721,7 @@ export const AssetStudio = ({
           </div>
 
           {/* Bottom Rail System Metadata / Package Cost Status */}
-          <div className="w-full flex flex-col gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
+          <div className="hidden md:flex w-full flex-col gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
             {isSpeciesStudio && speciesSummary && (
               <div className="w-full px-2 py-1.5 rounded-lg bg-purple-950/60 border border-purple-500/40 flex items-center justify-between text-[9.5px] font-mono">
                 <span className="text-slate-300 uppercase font-bold">Package Cost</span>
@@ -2467,7 +2467,7 @@ export const AssetStudio = ({
                       </div>
                       <div className="space-y-1 flex flex-col">
                         <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase">Live Formatted Preview</span>
-                        <div className="flex-1 p-4 bg-slate-950/70 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[500px]">
+                        <div className="flex-1 p-4 bg-slate-950/70 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
                           <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
                             {formData.body || formData.lore || '*No narrative lore recorded.*'}
                           </ReactMarkdown>
@@ -2856,7 +2856,7 @@ export const AssetStudio = ({
                     <span>Copy JSON</span>
                   </button>
                 </div>
-                <pre className="text-[11px] text-emerald-300/90 overflow-x-auto max-h-96 leading-relaxed bg-black/50 p-3 rounded-lg border border-slate-800/80">
+                <pre className="text-[11px] text-emerald-300/90 overflow-x-auto leading-relaxed bg-black/50 p-3 rounded-lg border border-slate-800/80">
                   {JSON.stringify(formData, null, 2)}
                 </pre>
               </div>

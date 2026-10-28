@@ -11,7 +11,7 @@ description: >-
   Everyday expertise with neural datalinks, cybernetic interfaces, personal
   comm-arrays, and citywide grids.
 modifiers: []
-mechanic: +2 to Knowledges of Computer and Technology
+mechanic: "+2 to Knowledges of Computer and Technology"
 ---
 # Tech-Savvy
 

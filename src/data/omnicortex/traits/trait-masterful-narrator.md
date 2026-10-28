@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Chronicler (Visionarie). You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion."
-mechanic: "You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion."
+mechanic: "+2 bonus to Performance checks to deliver captivating stories and create a sense of immersion"
 rules: "Signature Trait (1 CP) — The Chronicler (Visionarie)."
 modifiers: [{"target":"Performance","type":"skill","value":2,"mode":"inherent","description":"+2 to Performance"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Performance","type":"skill","value":2,"mode":"inherent","
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Chronicler (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Chronicler (Visionarie). You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.
+Signature trait of The Chronicler (Visionarie). Dedicated aptitude and training to deliver captivating stories and create a sense of immersion.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Performance checks to deliver captivating stories and create a sense of immersion.
++2 bonus to Performance checks to deliver captivating stories and create a sense of immersion

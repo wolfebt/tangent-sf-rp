@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 Wealth Score
-mechanic: +2 Wealth and +1 Manipulations with Fans
+mechanic: "+2 Wealth and +1 Manipulations with Fans"
 ---
 # Fans
 

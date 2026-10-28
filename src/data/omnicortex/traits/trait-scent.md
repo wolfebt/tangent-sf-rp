@@ -30,7 +30,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).
+Heightened olfactory receptors capable of identifying individuals, trails, and biochemical states by smell.
 
 ## Mechanics & Benefit
-Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).
+Identify by smell; +4 to Track and Medical Diagnosis checks

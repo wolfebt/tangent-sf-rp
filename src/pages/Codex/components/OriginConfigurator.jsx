@@ -16,6 +16,7 @@ import {
   Coins
 } from 'lucide-react';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
+import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 
 /**
  * OriginConfigurator
@@ -63,7 +64,7 @@ export const OriginConfigurator = ({
 
   // Resolve detailed trait objects from dbData or traits_detail
   const resolvedTraits = useMemo(() => {
-    const catalogTraits = dbData?.traits || [];
+    const catalogTraits = [...(dbData?.traits || []), ...ALL_CANONICAL_TRAITS];
     const traitsDetail = Array.isArray(formData.traits_detail) ? formData.traits_detail : [];
 
     return traits.map(traitItem => {
@@ -324,9 +325,9 @@ export const OriginConfigurator = ({
                 <div className="pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono">
                   <span className="text-amber-300 font-bold flex items-center gap-1">
                     <span>⚡</span>
-                    <span>{bonus}</span>
+                    <span>[{String(bonus).replace(/^\[|\]$/g, '')}]</span>
                   </span>
-                  <span className="text-emerald-400 font-semibold">
+                  <span className="text-emerald-400 font-semibold shrink-0 ml-2">
                     1 CP Tier
                   </span>
                 </div>

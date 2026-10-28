@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-character-modulec-e-biologysoullifepath"
-name: "99. Character (Modules C–E): Biology, Soul & Lifepath"
+name: "Character (Modules C–E): Biology, Soul & Lifepath"
 fileName: "99.Character.ModuleC_E.BiologySoulLifepath.md"
 relPath: "architect/characters/99.Character.ModuleC_E.BiologySoulLifepath.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 12
+order: 7
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3

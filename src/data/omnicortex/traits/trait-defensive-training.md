@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+2 dodge bonus to Defense.
+Conditioned evasive footwork and spatial defense against incoming attacks.
 
 ## Mechanics & Benefit
-+2 dodge bonus to Defense.
++2 dodge bonus to Defense

@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-metaphysics"
-name: "99. METAPHYSICS"
+name: "METAPHYSICS"
 fileName: "99. METAPHYSICS.md"
 relPath: "architect/99. METAPHYSICS.md"
 isMasterDoc: true
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 44
+order: 39
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3

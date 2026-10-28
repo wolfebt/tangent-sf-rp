@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Hive Mind (Swarm)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-The swarm is a single distributed consciousness. Immune to single-target precision attacks and critical hits; cannot be killed unless more than 75% of the swarm mass is annihilated by area-of-effect damage.
+Distributed swarm consciousness immune to single-target precision trauma and critical hits.
+
+## Mechanics & Benefit
+Cannot be killed unless >75% of swarm biomass is destroyed by area-of-effect damage

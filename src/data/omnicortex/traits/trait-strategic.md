@@ -11,9 +11,7 @@ description: >-
   Deep understanding of tactical staging, supply lines, crossfire corridors, and
   coordinated assaults.
 modifiers: []
-mechanic: >-
-  Those following the plan will receive a bonus pool to be used during the
-  operation equal to the characters Intellect Score + 2
+mechanic: "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2"
 ---
 # Strategic
 

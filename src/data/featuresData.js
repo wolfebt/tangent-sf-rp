@@ -1148,15 +1148,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": true,
     "prerequisites": "Chosen Combat Skill 1",
     "prerequisite_text": "Chosen Combat Skill 1",
-    "modifiers": [
-      {
-        "target": "Combat Skill",
-        "type": "skill",
-        "value": 2,
-        "mode": "competence",
-        "description": "+2 competence bonus to chosen Combat Skill per stage"
-      }
-    ],
+    "modifiers": [],
     "description": "The character has dedicated extensive training and conditioning to a specific combat discipline, achieving superior accuracy and consistency with that fighting style.",
     "mechanic": "Gain a **\\+2 bonus** to a chosen Combat Skill (such as Marksmanship, Melee Weapons, Unarmed Combat, Heavy Weapons, or Gunnery).",
     "rules": "\\[Ranked / Multiple\\] This feature may be purchased once per Skill Stage in the chosen Combat Skill: Novice (1+), Trained (6+), Expert (11+), Master (16+), and Pinnacle (20), up to a maximum \\+10 bonus. It may also be purchased separately for different Combat Skills.",
@@ -1171,7 +1163,19 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Ranked / Multiple\\] This feature may be purchased once per Skill Stage in the chosen Combat Skill:...",
       "[Prerequisite] Chosen Combat Skill 1"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "combat_archaic",
+        "combat_modern",
+        "combat_advanced"
+      ],
+      "group_label": "Combat Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "combat-combat-specialist",
@@ -2664,15 +2668,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": true,
     "prerequisites": "Key Ability Score (Intellect, Wisdom, or Charisma) 1+",
     "prerequisite_text": "Key Ability Score (Intellect, Wisdom, or Charisma) 1+",
-    "modifiers": [
-      {
-        "target": "Checks with those specific",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Checks with those specific"
-      }
-    ],
+    "modifiers": [],
     "description": "The character possesses a natural affinity for specific metaphysical interactions, grasping the nuance of shaping energy more intuitively than others.",
     "mechanic": "Choose two specific **Discipline Skills** (e.g., *Thermal* and *Telekinetic*, or *Biomancy* and *Necromancy*). You gain a **\\+2 Bonus** to checks with those specific skills.  \n* **Purpose:** To demonstrate innate talent in specific areas of magic or psionics without necessarily having broad mastery.",
     "rules": "This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skills.",
@@ -2686,7 +2682,22 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. It may be selected again to apply to two different Discipline skil...",
       "[Prerequisite] Key Ability Score (Intellect, Wisdom, or Charisma) 1+"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "Discipline Skills",
+      "max_skills": 2,
+      "value": 2
+    }
   },
   {
     "id": "discipline-awakened",
@@ -2722,7 +2733,22 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**. Taking it a second time allows you to awaken a different Metafocus...",
       "[Prerequisite] None (often taken at Character Creation)."
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "Discipline Skills",
+      "max_skills": 2,
+      "value": 2
+    }
   },
   {
     "id": "discipline-balanced-center",
@@ -2967,15 +2993,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "Discipline Focus (in the same skill), Discipline Skill 11 (Expert)",
     "prerequisite_text": "Discipline Focus (in the same skill), Discipline Skill 11 (Expert)",
-    "modifiers": [
-      {
-        "target": "Discipline",
-        "type": "skill",
-        "value": 4,
-        "mode": "competence",
-        "description": "+4 with chosen Discipline Skill (Affecting Severity)"
-      }
-    ],
+    "modifiers": [],
     "description": "The character has mastered the nuances of a specific energy form.",
     "mechanic": "The bonus to the chosen Discipline Skill increases to **\\+4**.",
     "rules": "Prerequisite: Discipline Focus (in the same skill), Discipline Skill 11 (Expert).",
@@ -2988,7 +3006,22 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +4 with chosen Discipline Skill (Affecting Severity)",
       "[Rule] Prerequisite: Discipline Focus (in the same skill), Discipline Skill 11 (Expert).",
       "[Prerequisite] Discipline Focus (in the same skill), Discipline Skill 11 (Expert)"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "Discipline Skills",
+      "max_skills": 1,
+      "value": 4
+    }
   },
   {
     "id": "discipline-discipline-focus",
@@ -3011,15 +3044,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": true,
     "prerequisites": "Chosen Discipline Skill 6 (Trained)",
     "prerequisite_text": "Chosen Discipline Skill 6 (Trained)",
-    "modifiers": [
-      {
-        "target": "Checks made with that",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Checks made with that"
-      }
-    ],
+    "modifiers": [],
     "description": "The character has specialized in shaping a specific type of energy or reality.",
     "mechanic": "Choose one Discipline Skill (e.g., *Summoning*, *Projection*, *Elemental*). You gain a **\\+2 Bonus** to checks made with that skill.  \n* **Mechanics:** In Tangent, the **Discipline Skill Check** determines the **Severity** (Damage, Duration, or Potency) of the effect. This feature directly increases the raw power of the ability.",
     "rules": "This feature is **\\[Multiple\\]**; you may take it for different Discipline skills.",
@@ -3033,7 +3058,22 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]**; you may take it for different Discipline skills.",
       "[Prerequisite] Chosen Discipline Skill 6 (Trained)"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "Discipline Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "discipline-discipline-mastery",
@@ -3056,15 +3096,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "Discipline Expertise (in the same skill), Discipline Skill 16 (Master)",
     "prerequisite_text": "Discipline Expertise (in the same skill), Discipline Skill 16 (Master)",
-    "modifiers": [
-      {
-        "target": "Discipline",
-        "type": "skill",
-        "value": 6,
-        "mode": "competence",
-        "description": "+6 with chosen Discipline Skill (Affecting Severity)"
-      }
-    ],
+    "modifiers": [],
     "description": "The character is a virtuoso of their chosen art, capable of unleashing devastating power.",
     "mechanic": "The bonus to the chosen Discipline Skill increases to **\\+6**.",
     "rules": "Prerequisite: Discipline Expertise (in the same skill), Discipline Skill 16 (Master).",
@@ -3077,7 +3109,22 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +6 with chosen Discipline Skill (Affecting Severity)",
       "[Rule] Prerequisite: Discipline Expertise (in the same skill), Discipline Skill 16 (Master).",
       "[Prerequisite] Discipline Expertise (in the same skill), Discipline Skill 16 (Master)"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "Discipline Skills",
+      "max_skills": 1,
+      "value": 6
+    }
   },
   {
     "id": "discipline-empowered-strike",
@@ -5986,20 +6033,6 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "The Skill being attempted must be at **Rank 5 (Novice) or lower**.",
     "modifiers": [
       {
-        "target": "Temporary Ranks in a specific",
-        "type": "skill",
-        "value": 5,
-        "mode": "inherent",
-        "description": "+5 to Temporary Ranks in a specific"
-      },
-      {
-        "target": "For a short time",
-        "type": "skill",
-        "value": -10,
-        "mode": "penalty",
-        "description": "-10 to For a short time"
-      },
-      {
         "target": "Karma",
         "type": "karma",
         "value": 1,
@@ -6021,7 +6054,32 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +1 to Karma Pool",
       "[Rule] Prerequisite: The Skill being attempted must be at **Rank 5 (Novice) or lower**..",
       "[Prerequisite] The Skill being attempted must be at **Rank 5 (Novice) or lower**."
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "physical",
+        "mental_general",
+        "mental_knowledges",
+        "mental_vocations",
+        "social_expression",
+        "social_manipulation",
+        "combat_archaic",
+        "combat_modern",
+        "combat_advanced",
+        "meta_general",
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "All Skills",
+      "max_skills": 1,
+      "value": 5
+    }
   },
   {
     "id": "karma-believer",
@@ -6622,15 +6680,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "None",
     "prerequisite_text": "None",
-    "modifiers": [
-      {
-        "target": "Both",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Both"
-      }
-    ],
+    "modifiers": [],
     "description": "The character possesses a flare for the creative arts.",
     "mechanic": "Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **\\+2 Bonus** to both.",
     "rules": "",
@@ -6641,7 +6691,18 @@ export const DEFAULT_FEATURES = [
     "notes": "[Modifier] +2 to Both",
     "notesList": [
       "[Modifier] +2 to Both"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "mental_vocations",
+        "social_expression"
+      ],
+      "group_label": "Performance & Vocation Skills",
+      "max_skills": 2,
+      "value": 2
+    }
   },
   {
     "id": "skill-attractive",
@@ -6735,7 +6796,17 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on Biotech Prototyping checks (Roll 3d10, take best 2)",
       "[Rule] Prerequisite: Biology, Botany, or Medicine Rank 11.",
       "[Prerequisite] Biology, Botany, or Medicine Rank 11"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "mental_vocations"
+      ],
+      "group_label": "Vocation Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "skill-coding-master",
@@ -7046,15 +7117,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "Charisma 1",
     "prerequisite_text": "Charisma 1",
-    "modifiers": [
-      {
-        "target": "social-expression",
-        "type": "skill",
-        "value": 1,
-        "mode": "competence",
-        "description": "+1 competence bonus to any Performance check"
-      }
-    ],
+    "modifiers": [],
     "description": "The character is a born performer, capable of holding an audience's attention.",
     "mechanic": "Gain a **\\+1 Bonus** to **Any Performance Check**.",
     "rules": "This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance types (Singing, Dancing, Acting, etc.).",
@@ -7068,7 +7131,17 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] This feature is **\\[Ranked\\]** (Limited by Charisma). Rank 3 would grant a \\+3 to all Performance ty...",
       "[Prerequisite] Charisma 1"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "social_expression"
+      ],
+      "group_label": "Expression & Performance Skills",
+      "max_skills": 1,
+      "value": 1
+    }
   },
   {
     "id": "skill-gearhead",
@@ -7603,22 +7676,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "Crafting 6",
     "prerequisite_text": "Crafting 6",
-    "modifiers": [
-      {
-        "target": "Crafting",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to Crafting"
-      },
-      {
-        "target": "The CR limit of what you can create allowing for more complex modifications",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to The CR limit of what you can create allowing for more complex modifications"
-      }
-    ],
+    "modifiers": [],
     "description": "The character creates items of superior quality and durability.",
     "mechanic": "Gain a **\\+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **\\+2** to the CR limit of what you can create (allowing for more complex modifications).",
     "rules": "Prerequisite: Crafting 6.",
@@ -7632,7 +7690,17 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to The CR limit of what you can create allowing for more complex modifications",
       "[Rule] Prerequisite: Crafting 6.",
       "[Prerequisite] Crafting 6"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "mental_vocations"
+      ],
+      "group_label": "Crafting & Vocation Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "skill-medic",
@@ -8175,22 +8243,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": true,
     "prerequisites": "Chosen Skill Rank 1",
     "prerequisite_text": "Chosen Skill Rank 1",
-    "modifiers": [
-      {
-        "target": "The chosen",
-        "type": "skill",
-        "value": 2,
-        "mode": "inherent",
-        "description": "+2 to The chosen"
-      },
-      {
-        "target": "From this feature",
-        "type": "skill",
-        "value": 8,
-        "mode": "inherent",
-        "description": "+8 to From this feature"
-      }
-    ],
+    "modifiers": [],
     "description": "The character has dedicated significant effort to mastering a specific skill.",
     "mechanic": "Gain a **\\+2 Bonus** to the chosen skill.",
     "rules": "This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill each time you reach a new Skill Stage (Novice, Trained, Expert, Master) to stack the bonuses. (e.g., A Master (Rank 16\\) with 4 ranks of Skill Focus has a total \\+8 bonus from this feature).",
@@ -8206,7 +8259,32 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] This feature is **\\[Multiple\\]** and **\\[Ranked\\]**. You may purchase it again for the *same* skill ...",
       "[Prerequisite] Chosen Skill Rank 1"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "physical",
+        "mental_general",
+        "mental_knowledges",
+        "mental_vocations",
+        "social_expression",
+        "social_manipulation",
+        "combat_archaic",
+        "combat_modern",
+        "combat_advanced",
+        "meta_general",
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "All Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "skill-skill-mastery",
@@ -8252,7 +8330,32 @@ export const DEFAULT_FEATURES = [
       "[Modifier] May Take 10 on all focused skills (Rank 11+) even in combat",
       "[Rule] Prerequisite: Skill Focus (any two), Focused Skills at Rank 11+ (Expert).",
       "[Prerequisite] Skill Focus (any two), Focused Skills at Rank 11+ (Expert)"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "physical",
+        "mental_general",
+        "mental_knowledges",
+        "mental_vocations",
+        "social_expression",
+        "social_manipulation",
+        "combat_archaic",
+        "combat_modern",
+        "combat_advanced",
+        "meta_general",
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "Focused Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "skill-skill-specialization",
@@ -8275,17 +8378,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": true,
     "prerequisites": "Chosen Skill Rank 6 (Trained)",
     "prerequisite_text": "Chosen Skill Rank 6 (Trained)",
-    "modifiers": [
-      {
-        "target": "chosen_skill",
-        "type": "specialization",
-        "value": 1,
-        "mode": "specialization",
-        "isSituational": true,
-        "condition": "Narrow specialization focus",
-        "description": "Adds specialization level (+1 to +10) directly to narrow domain tasks"
-      }
-    ],
+    "modifiers": [],
     "description": "The character drills deep into a specific niche of a broad skill.",
     "mechanic": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).  \n* **Mechanics:** When making a check in that specialization, you add your **Base Rank \\+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).",
     "rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
@@ -8299,7 +8392,32 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.",
       "[Prerequisite] Chosen Skill Rank 6 (Trained)"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "physical",
+        "mental_general",
+        "mental_knowledges",
+        "mental_vocations",
+        "social_expression",
+        "social_manipulation",
+        "combat_archaic",
+        "combat_modern",
+        "combat_advanced",
+        "meta_general",
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "All Skills",
+      "max_skills": 1,
+      "value": 2
+    }
   },
   {
     "id": "skill-social",
@@ -8341,7 +8459,32 @@ export const DEFAULT_FEATURES = [
     "notes": "[Modifier] +1 to Charisma",
     "notesList": [
       "[Modifier] +1 to Charisma"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "physical",
+        "mental_general",
+        "mental_knowledges",
+        "mental_vocations",
+        "social_expression",
+        "social_manipulation",
+        "combat_archaic",
+        "combat_modern",
+        "combat_advanced",
+        "meta_general",
+        "meta_dimension",
+        "meta_energy",
+        "meta_entropy",
+        "meta_illusion",
+        "meta_matter",
+        "meta_mental"
+      ],
+      "group_label": "All Skills",
+      "max_skills": 1,
+      "value": 1
+    }
   },
   {
     "id": "skill-spacer",
@@ -8698,7 +8841,17 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Virtual ranks in Knowledge skills based on Intellect",
       "[Rule] Prerequisite: Knowledge 6, Intellect 2.",
       "[Prerequisite] Knowledge 6, Intellect 2"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "mental_knowledges"
+      ],
+      "group_label": "Knowledge Skills",
+      "max_skills": 1,
+      "value": 1
+    }
   },
   {
     "id": "skill-versatile-performer",
@@ -8721,17 +8874,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": false,
     "prerequisites": "Perform 6, Intellect 2",
     "prerequisite_text": "Perform 6, Intellect 2",
-    "modifiers": [
-      {
-        "target": "social-expression",
-        "type": "virtual_ranks",
-        "value": 1,
-        "mode": "conditional",
-        "isSituational": true,
-        "condition": "1 rank per Intellect bonus > 1",
-        "description": "Virtual ranks in Performance skills based on Intellect"
-      }
-    ],
+    "modifiers": [],
     "description": "The character is a multi-talented artist.",
     "mechanic": "You gain \"Virtual Skills\" in the Performance category. For every point of Intellect Bonus, gain access to another Performance type (Singing, Dancing, Oratory) at your base rank.",
     "rules": "Prerequisite: Perform 6, Intellect 2.",
@@ -8744,7 +8887,17 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Virtual ranks in Performance skills based on Intellect",
       "[Rule] Prerequisite: Perform 6, Intellect 2.",
       "[Prerequisite] Perform 6, Intellect 2"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "social_expression"
+      ],
+      "group_label": "Expression & Performance Skills",
+      "max_skills": 1,
+      "value": 1
+    }
   },
   {
     "id": "skill-versatile-professional",
@@ -8790,7 +8943,17 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Virtual ranks in Vocation skills based on Intellect",
       "[Rule] Prerequisite: Vocation 6, Intellect 2.",
       "[Prerequisite] Vocation 6, Intellect 2"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "group_pool",
+      "group_keys": [
+        "mental_vocations"
+      ],
+      "group_label": "Vocation Skills",
+      "max_skills": 1,
+      "value": 1
+    }
   },
   {
     "id": "special-acute-sense",
@@ -9069,15 +9232,7 @@ export const DEFAULT_FEATURES = [
     "is_multiple": true,
     "prerequisites": "Charisma",
     "prerequisite_text": "Charisma",
-    "modifiers": [
-      {
-        "target": "Gain a second companion",
-        "type": "skill",
-        "value": 40,
-        "mode": "inherent",
-        "description": "+40 to Gain a second companion"
-      }
-    ],
+    "modifiers": [],
     "description": "The character has a loyal follower, pet, droid, or mount.",
     "mechanic": "You gain a loyal NPC ally built with **40 Character Points**.",
     "rules": "\\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 CP) or gain a second companion.",
@@ -9092,7 +9247,18 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 CP) or g...",
       "[Prerequisite] Charisma"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "single",
+      "options": [
+        "Tactical Drone (Synthetic Recon/Assault Platform)",
+        "Bio-Construct / Cyber-Beast (Engineered Organic Companion)",
+        "Executive Cohort (Loyal Lieutenant / Specialist Officer)",
+        "Metaphysical Guide (Aetheric / Entropic Manifestation)",
+        "Field Automaton (Heavy Security / Logistics Android)"
+      ]
+    }
   },
   {
     "id": "special-cripple",
@@ -9588,7 +9754,18 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] Multiple selections allowed."
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "single",
+      "options": [
+        "Aquatic (Breathe underwater, resist hydrostatic pressure up to 50 atm)",
+        "Atmospheric (Breathe methane, ammonia, CO2, and toxic atmospheric mixes)",
+        "Vacuum Sustenance (Sustain life in hard vacuum for up to 10 minutes)",
+        "Low-Oxygen / Hypobaric (Function unimpeded in razor-thin alpine atmospheres)",
+        "Bio-Filter / Contagion Seal (Lungs/spiracles filter all airborne pathogens and spores)"
+      ]
+    }
   },
   {
     "id": "special-low-light-vision",
@@ -9821,7 +9998,17 @@ export const DEFAULT_FEATURES = [
       "[Rule] Multiple: May be purchased separately for different categories/types",
       "[Rule] \\[Multiple\\] Can be taken for different hazards.",
       "[Prerequisite] Stamina 1"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "single",
+      "options": [
+        "Disease (Biological pathogens, plagues, cellular rot)",
+        "Poison (Venoms, neurotoxins, synthetic chemical agents)",
+        "Radiation (Ionizing fallout, stellar radiation, nuclear wash)",
+        "Magic / Metaphysical Hazards (Aetheric backlash, psychic fallout, cursed zones)"
+      ]
+    }
   },
   {
     "id": "special-scent",
@@ -10114,7 +10301,82 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Intellect 3, Technology (Knowledge) 11.",
       "[Prerequisite] Intellect 3, Technology (Knowledge) 11"
-    ]
+    ],
+    "modifier_options": {
+      "enabled": true,
+      "mode": "single",
+      "group_label": "Field of Study",
+      "options": [
+        {
+          "id": "tl-agri",
+          "label": "Agriculture"
+        },
+        {
+          "id": "tl-arch",
+          "label": "Architecture"
+        },
+        {
+          "id": "tl-biotech",
+          "label": "Biotechnology"
+        },
+        {
+          "id": "tl-commerce",
+          "label": "Commerce"
+        },
+        {
+          "id": "tl-comm",
+          "label": "Communication"
+        },
+        {
+          "id": "tl-devices",
+          "label": "Devices"
+        },
+        {
+          "id": "tl-edu",
+          "label": "Education"
+        },
+        {
+          "id": "tl-energy",
+          "label": "Energy"
+        },
+        {
+          "id": "tl-mfg",
+          "label": "Manufacturing"
+        },
+        {
+          "id": "tl-materials",
+          "label": "Materials"
+        },
+        {
+          "id": "tl-med",
+          "label": "Medicine"
+        },
+        {
+          "id": "tl-metasci",
+          "label": "Meta Sciences"
+        },
+        {
+          "id": "tl-sci",
+          "label": "Science"
+        },
+        {
+          "id": "tl-society",
+          "label": "Society"
+        },
+        {
+          "id": "tl-ai",
+          "label": "Synthetic Intelligence"
+        },
+        {
+          "id": "tl-trans",
+          "label": "Transportation"
+        },
+        {
+          "id": "tl-weapons",
+          "label": "Weaponry"
+        }
+      ]
+    }
   },
   {
     "id": "special-telepathy",

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Protector (Sentinel). You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger."
-mechanic: "You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger."
+mechanic: "+2 bonus on any checks related to noticing potential threats or reacting to sudden danger"
 rules: "Signature Trait (1 CP) — The Protector (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Protector (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Protector (Sentinel). You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.
+Signature trait of The Protector (Sentinel). You are always alert and aware of your surroundings.
 
 ## Mechanics & Benefit
-You are always alert and aware of your surroundings, gaining +2 bonus on any checks related to noticing potential threats or reacting to sudden danger.
++2 bonus on any checks related to noticing potential threats or reacting to sudden danger

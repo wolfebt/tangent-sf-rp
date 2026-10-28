@@ -16,9 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Any Agriculture based
-mechanic: >-
-  +2 to any Agriculture based checks in a prepared grow area and to prepare and
-  maintain an area.
+mechanic: "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area"
 ---
 # Sustainable Practices
 
@@ -31,4 +29,4 @@ mechanic: >-
 Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.
 
 ## Mechanics & Benefit
-+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.
++2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area

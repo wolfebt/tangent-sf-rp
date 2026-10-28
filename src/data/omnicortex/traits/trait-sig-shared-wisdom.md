@@ -19,7 +19,7 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Mentor (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description

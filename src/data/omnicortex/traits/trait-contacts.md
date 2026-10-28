@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Contacts Gather Information Checks
-mechanic: Gather Information checks at Advantage
+mechanic: "Gather Information checks at Advantage"
 ---
 # Contacts
 

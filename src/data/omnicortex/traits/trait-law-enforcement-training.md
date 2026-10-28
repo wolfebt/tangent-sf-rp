@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Bailiff (Sentinel). You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence."
-mechanic: "You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence."
+mechanic: "+2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence"
 rules: "Signature Trait (1 CP) — The Bailiff (Sentinel)."
 modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","description":"+2 to Athletics"},{"target":"Investigation","type":"skill","value":2,"mode":"inherent","description":"+2 to Investigation"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Bailiff (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Bailiff (Sentinel). You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.
+Signature trait of The Bailiff (Sentinel). Specialized training and proficiency when pursuing suspects, subduing criminals, or gathering evidence.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence.
++2 bonus to Athletics and Investigation checks when pursuing suspects, subduing criminals, or gathering evidence

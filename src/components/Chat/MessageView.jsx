@@ -198,21 +198,48 @@ export const MessageView = ({
     setTimeout(() => setCopiedMessageId(null), 2000);
   };
 
-  const formatTimestamp = (msg) => {
+  const parseMessageDate = (msg) => {
+    if (!msg) return null;
     if (msg.createdAt?.toDate) {
-      return msg.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return msg.createdAt.toDate();
+    }
+    if (typeof msg.createdAt?.seconds === 'number') {
+      return new Date(msg.createdAt.seconds * 1000);
     }
     if (msg.createdLocalAt) {
-      return new Date(msg.createdLocalAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return new Date(msg.createdLocalAt);
     }
-    return '';
+    if (msg.createdAt) {
+      return new Date(msg.createdAt);
+    }
+    if (msg.timestamp?.toDate) {
+      return msg.timestamp.toDate();
+    }
+    if (typeof msg.timestamp?.seconds === 'number') {
+      return new Date(msg.timestamp.seconds * 1000);
+    }
+    if (msg.timestamp) {
+      return new Date(msg.timestamp);
+    }
+    return null;
+  };
+
+  const MONTHS_SHORT = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+  const formatTimestamp = (msg) => {
+    const d = parseMessageDate(msg);
+    if (!d || isNaN(d.getTime())) return '';
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = MONTHS_SHORT[d.getMonth()];
+    const year = String(d.getFullYear()).slice(-2);
+    return `${hours}:${minutes} - ${day}${month}${year}`;
   };
 
   const getMessageTimeMs = (msg) => {
-    if (msg.createdAt?.toDate) return msg.createdAt.toDate().getTime();
-    if (msg.createdLocalAt) return new Date(msg.createdLocalAt).getTime();
-    if (msg.timestamp) return new Date(msg.timestamp).getTime();
-    return 0;
+    const d = parseMessageDate(msg);
+    return d && !isNaN(d.getTime()) ? d.getTime() : 0;
   };
 
   // Safe formatting of roll items

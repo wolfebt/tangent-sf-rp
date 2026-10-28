@@ -28,4 +28,4 @@ modifiers:
 Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.
 
 ## Mechanics & Benefit
-Special equipment allocation granting personal vehicle or biomorphic docking privileges; +4 Wealth for personal property.
++4 bonus to Wealth score dedicated specifically to acquiring or maintaining personal biomorphic mecha or gear

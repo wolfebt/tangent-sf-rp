@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 to Specific Vocation.
+Innate manual dexterity and cultural tradition in a specialized trade or craft.
 
 ## Mechanics & Benefit
-+2 to Specific Vocation.
++2 bonus to a specific Vocation skill

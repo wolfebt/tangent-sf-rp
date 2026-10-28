@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Animals treat character as Trusting & Neutral, Friendly.
+Innate sylvan resonance that calms wild fauna and inspires instinctive trust.
+
+## Mechanics & Benefit
+Animals treat the character as Trusting, Neutral, or Friendly by default

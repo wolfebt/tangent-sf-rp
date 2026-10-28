@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 to Trip and Balance Checks and usable as a Club.
+Muscular counterbalance tail used for agile maneuvers and sweeping strikes.
 
 ## Mechanics & Benefit
-+2 to Trip and Balance Checks and usable as a Club.
++2 to Trip and Balance checks; usable as a club

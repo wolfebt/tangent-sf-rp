@@ -26,7 +26,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.
+Explosive reserve of physical adrenaline and cellular force.
 
 ## Mechanics & Benefit
-Once per encounter or light rest, summon an explosive reserve of physical adrenaline or cellular force.
+Once per encounter or Light Rest, gainAdvantage or +2 boost on a Strength or Might check

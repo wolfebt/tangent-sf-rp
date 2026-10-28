@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Telepathic
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Innate mind-to-mind psychic communication within the swarm and with external sentient lifeforms within 100 feet without physical speech organs.
+Innate psychic mind-to-mind communication within the swarm and with external minds out to 100 ft.
+
+## Mechanics & Benefit
+Communicate mentally with any sentient lifeform within 100 ft without speech

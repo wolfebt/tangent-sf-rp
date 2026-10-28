@@ -11,7 +11,7 @@ description: >-
   Practiced coordination in gang work, shift labor, and complex multi-person
   tasks.
 modifiers: []
-mechanic: additional +1 to Aid bonuses
+mechanic: "additional +1 to Aid bonuses"
 ---
 # Teamwork
 

@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Hive-Link (Minor)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Basic telepathic receptivity to follow Collective commands. Receives mental broadcasts within 5 miles, synchronizes Initiative with commanders, and gains +2 saves against external mental coercion.
+Basic telepathic receptivity to follow Collective commands and synchronize with hive leadership.
+
+## Mechanics & Benefit
+Receives telepathic broadcasts within 5 miles; syncs Initiative with commanders; +2 saves vs non-collective mental effects

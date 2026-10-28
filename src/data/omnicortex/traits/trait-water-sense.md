@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Blindsense 30 feet against creatures touching the same body of water.
+Hydro-pressure lateral organs that detect movement and vibrations through liquid mediums.
+
+## Mechanics & Benefit
+Blindsense 30 feet against creatures touching the same body of water

@@ -89,7 +89,7 @@ package_traits:
 **CP Cost**: 14
 
 ## Description
-The fundamental mechanical and digitized chassis of artificial sentient entities.
+Inorganic chassis properties: Digitized Mind, Robotic Strength, Resilient Design, Immune to biological poison and disease.
 
 ## Mechanics & Benefit
-The fundamental mechanical and digitized chassis of artificial sentient entities.
+Immune to biological toxins, disease, and asphyxiation; vulnerable to electromagnetic damage

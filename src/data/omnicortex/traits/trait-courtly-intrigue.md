@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Aristocrat (Visionarie). Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court."
-mechanic: "Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court."
+mechanic: "+2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court"
 rules: "Signature Trait (1 CP) — The Aristocrat (Visionarie)."
 modifiers: [{"target":"Insight","type":"skill","value":2,"mode":"inherent","description":"+2 to Insight"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Insight","type":"skill","value":2,"mode":"inherent","desc
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Aristocrat (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Aristocrat (Visionarie). Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.
+Signature trait of The Aristocrat (Visionarie). Specialized training and proficiency when navigating social situations or uncovering plots within the Dynasty court.
 
 ## Mechanics & Benefit
-Gain +2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court.
++2 bonus on a Bluff or Insight check when navigating social situations or uncovering plots within the Dynasty court

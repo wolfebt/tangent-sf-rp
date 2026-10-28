@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Broker (Sentinel). You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements."
-mechanic: "You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements."
+mechanic: "+2 bonus to Diplomacy checks when negotiating prices or securing trade agreements"
 rules: "Signature Trait (1 CP) — The Broker (Sentinel)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Broker (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Broker (Sentinel). You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.
+Signature trait of The Broker (Sentinel). Specialized training and proficiency when negotiating prices or securing trade agreements.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy checks when negotiating prices or securing trade agreements.
++2 bonus to Diplomacy checks when negotiating prices or securing trade agreements

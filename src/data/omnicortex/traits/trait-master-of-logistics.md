@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Quartermaster (Sentinel). You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew."
-mechanic: "You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew."
+mechanic: "+2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew"
 rules: "Signature Trait (1 CP) — The Quartermaster (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Quartermaster (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Quartermaster (Sentinel). You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.
+Signature trait of The Quartermaster (Sentinel). Specialized expertise and intuition in managing the crew's inventory, securing supplies, or distributing loot among the crew.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew.
++2 bonus on any checks related to managing the crew's inventory, securing supplies, or distributing loot among the crew

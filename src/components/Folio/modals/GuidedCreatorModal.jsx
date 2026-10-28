@@ -2017,7 +2017,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-y-auto pr-2 pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 pb-4">
           {items.map(item => {
             const name = item.name || item.title || item.id;
             const isSelected = selectedName === name;
@@ -2199,7 +2199,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         </div>
 
         {/* Species Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-y-auto pr-1 pb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 pb-4">
           {filteredSpecies.map(sp => {
             const isSelected = draft['char-species'] === sp.name || draft['char-species'] === sp.title || draft['char-species'] === sp.id;
             const bpCost = parseInt(sp.cp_cost ?? sp.cp ?? 10, 10);
@@ -2453,7 +2453,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
           {/* Origin Column */}
           <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex flex-col">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
@@ -2520,7 +2520,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 />
               </div>
             ) : (
-              <div className="space-y-2 max-h-72 overflow-y-auto pr-1 flex-1">
+              <div className="space-y-2 flex-1">
                 {filteredOrigins.map(org => {
                   const name = org.name || org.title || org.id;
                   const isSelected = draft['char-origin'] === name;
@@ -2718,7 +2718,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 />
               </div>
             ) : (
-              <div className="space-y-2 max-h-72 overflow-y-auto pr-1 flex-1">
+              <div className="space-y-2 flex-1">
                 {filteredFactions.map(fac => {
                   const name = fac.name || fac.title || fac.id;
                   const isSelected = draft['char-faction'] === name;
@@ -2907,7 +2907,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         </div>
 
         {/* Occupations Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-y-auto pr-1 pb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 pb-2">
           {filteredOccupations.map(occ => {
             const name = occ.name || occ.title || occ.id;
             const isSelected = draft['char-occu'] === name;
@@ -3362,7 +3362,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
           {/* Column 1: Technology Level */}
           <div className="space-y-3">
             <div className="flex justify-between items-center border-b border-cyan-900/50 pb-1.5">
@@ -3573,7 +3573,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+        <div className="flex-1 space-y-4">
           {/* 1. Species Traits & Features (Inherent + Optional Pools) */}
           <div className="p-4 rounded-xl border border-cyan-500/40 bg-slate-900/60 space-y-3">
             <div className="flex items-center justify-between border-b border-cyan-900/40 pb-2">
@@ -3590,20 +3590,34 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
             {/* Inherent species traits summary badges */}
             {inherentSpeciesTraits.length > 0 && (
-              <div className="p-2.5 rounded-lg bg-slate-950/70 border border-cyan-500/30 space-y-1.5">
+              <div className="p-2.5 rounded-lg bg-slate-950/70 border border-cyan-500/30 space-y-2">
                 <div className="text-[11px] font-bold text-cyan-300 flex items-center gap-1.5">
                   <span>🧬 Inherent Biological Traits (Granted Free):</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {inherentSpeciesTraits.map((t, idx) => (
-                    <span
-                      key={idx}
-                      className="text-[11px] px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-200 border border-cyan-500/40 font-mono"
-                      title={t.description || ''}
-                    >
-                      {t.name || t.title || t}
-                    </span>
-                  ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {inherentSpeciesTraits.map((t, idx) => {
+                    const info = formatSpeciesTrait(t, selectedSpeciesObj);
+                    return (
+                      <div
+                        key={idx}
+                        className="p-2 rounded-lg bg-cyan-950/50 text-cyan-100 border border-cyan-500/40 flex flex-col gap-0.5"
+                      >
+                        <span className="text-xs font-mono font-bold text-cyan-200">
+                          {info.label || info.name || t.name || t}
+                        </span>
+                        {info.description && (
+                          <p className="text-[11px] text-slate-300 leading-snug">
+                            {info.description}
+                          </p>
+                        )}
+                        {info.mechanic && (
+                          <p className="text-[10px] font-mono text-cyan-300/90 leading-snug">
+                            [{info.mechanic}]
+                          </p>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -3664,7 +3678,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 maxSelectable={origMaxTraits}
                 selectedTraits={draft.originAllocations?.traits || []}
                 recommendedTraits={origTraits}
-                allTraits={dbData.traits}
+                allTraits={[
+                  ...(selectedOriginObj?.traits_detail || []),
+                  ...(selectedSecondaryOriginObj?.traits_detail || []),
+                  ...(dbData.traits || [])
+                ]}
                 onToggleTrait={(tName, tObj) => togglePoolTrait('originAllocations', tName, tObj, origMaxTraits)}
                 onRemoveTrait={(tName) => removePoolTrait('originAllocations', tName)}
                 colorTheme="emerald"
@@ -3728,7 +3746,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               maxSelectable={occMaxTraits}
               selectedTraits={draft.occuAllocations?.traits || []}
               recommendedTraits={occTraits}
-              allTraits={dbData.traits}
+              allTraits={[
+                ...(selectedOccupationObj?.traits_detail || []),
+                ...(selectedSecondaryOccupationObj?.traits_detail || []),
+                ...COMMON_OCCUPATIONAL_TRAITS,
+                ...(dbData.traits || [])
+              ]}
               onToggleTrait={(tName, tObj) => togglePoolTrait('occuAllocations', tName, tObj, occMaxTraits)}
               onRemoveTrait={(tName) => removePoolTrait('occuAllocations', tName)}
               colorTheme="sky"
@@ -3824,7 +3847,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+        <div className="flex-1 space-y-4">
           {/* BASTION Foundation Co-Pilot Banner */}
           <div className="p-3.5 bg-gradient-to-r from-cyan-950/60 via-slate-900 to-sky-950/60 border border-cyan-500/40 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
             <div className="flex items-center gap-2.5">
@@ -4411,9 +4434,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         </div>
 
         {/* Two-Column Browser & Manifest View */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
           {/* Left Column: Catalog Browser */}
-          <div className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800 flex flex-col overflow-hidden">
+          <div className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800 flex flex-col">
             <div className="flex items-center justify-between gap-2 border-b border-slate-800 pb-2.5 mb-2.5">
               <span className="text-xs font-bold text-cyan-300 uppercase tracking-wide flex items-center gap-1.5">
                 <Search size={14} /> Catalog Browser ({catalogItems.length})
@@ -4436,7 +4459,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+            <div className="flex-1 space-y-2">
               {catalogItems.length === 0 ? (
                 <div className="p-6 text-center text-xs text-slate-500 italic">
                   No catalog items found matching "{propertySearchQuery}". Try another category or add a custom item.
@@ -4612,7 +4635,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </div>
 
           {/* Right Column: Persona Manifest */}
-          <div className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800 flex flex-col overflow-hidden">
+          <div className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800 flex flex-col">
             <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-2.5">
               <span className="text-xs font-bold text-emerald-400 uppercase tracking-wide flex items-center gap-1.5">
                 <Briefcase size={14} /> Persona Manifest ({totalItemCount} Assets)
@@ -4622,7 +4645,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               </span>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-3 pr-1">
+            <div className="flex-1 space-y-3">
               {totalItemCount === 0 ? (
                 <div className="p-8 text-center text-xs text-slate-500 flex flex-col items-center justify-center h-full space-y-2">
                   <Package size={28} className="text-slate-600" />
@@ -4820,7 +4843,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           </div>
         )}
         
-        <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-xl space-y-5 shadow-xl flex-1 overflow-y-auto pr-2">
+        <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-xl space-y-5 shadow-xl flex-1">
           <div className="grid grid-cols-2 gap-4 border-b border-slate-800 pb-4">
             <div>
               <span className="text-xs font-bold text-slate-500 block uppercase">Persona Name</span>
@@ -4920,7 +4943,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           {/* All Trained Skills Tag Cloud */}
           <div className="border-b border-slate-800 pb-4 space-y-2">
             <span className="text-xs font-bold text-slate-500 block uppercase">All Trained Skills</span>
-            <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+            <div className="flex flex-wrap gap-1.5">
               {allTrainedSkillsList.length === 0 ? (
                 <span className="text-xs text-slate-500 italic">No skills trained.</span>
               ) : (
@@ -4938,7 +4961,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           {/* All Acquired Traits & Features Tag Cloud */}
           <div className="border-b border-slate-800 pb-4 space-y-2">
             <span className="text-xs font-bold text-slate-500 block uppercase">Acquired Traits &amp; Features</span>
-            <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+            <div className="flex flex-wrap gap-1.5">
               {summaryTraits.size === 0 && summaryFeatures.size === 0 ? (
                 <span className="text-xs text-slate-500 italic">None selected.</span>
               ) : (
@@ -5175,7 +5198,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                       {resonantKeywords.length} Resonances / {posKeywordsList.length} Total
                     </span>
                   </div>
-                  <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto pr-1">
+                  <div className="flex flex-wrap gap-1">
                     {posKeywordsList.length === 0 ? (
                       <span className="text-[11px] text-slate-500 italic">No keywords registered on current chassis.</span>
                     ) : (
@@ -5401,7 +5424,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 </button>
               </div>
             )}
-            <div className="flex-1 overflow-y-auto p-6 md:p-8">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-5 md:p-8">
               {renderStepContent()}
             </div>
 

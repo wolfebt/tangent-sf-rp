@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Swashbuckler (Operative). You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons."
-mechanic: "You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons."
+mechanic: "+2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons"
 rules: "Signature Trait (1 CP) — The Swashbuckler (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Swashbuckler (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Swashbuckler (Operative). You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.
+Signature trait of The Swashbuckler (Operative). Specialized expertise and intuition in using a variety of weapons, including firearms, blades, and improvised weapons.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons.
++2 bonus on any checks related to using a variety of weapons, including firearms, blades, and improvised weapons

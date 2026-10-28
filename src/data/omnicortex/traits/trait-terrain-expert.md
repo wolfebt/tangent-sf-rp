@@ -12,7 +12,7 @@ description: >-
   terrains, which may be taken multiple times for different terrain types.   *+2
   to Stealth, Survival and Defense in chosen Terrain* #
 modifiers: []
-mechanic: '+2 to Stealth, Survival and Defense in chosen Terrain'
+mechanic: "+2 to Stealth, Survival and Defense in chosen Terrain"
 ---
 # Terrain Expert
 
@@ -22,7 +22,7 @@ mechanic: '+2 to Stealth, Survival and Defense in chosen Terrain'
 **CP Cost**: 1
 
 ## Description
-Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #
+Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.
 
 ## Mechanics & Benefit
 +2 to Stealth, Survival and Defense in chosen Terrain

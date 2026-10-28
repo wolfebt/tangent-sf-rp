@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+4 bonus on all Appraise checks.
+Keen eye for assessing material purity, craftsmanship, and market value.
 
 ## Mechanics & Benefit
-+4 bonus on all Appraise checks.
++4 bonus on all Appraise checks

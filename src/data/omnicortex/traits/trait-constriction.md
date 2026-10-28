@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.
+Powerful coiling musculature capable of crushing grappled prey.
+
+## Mechanics & Benefit
+Grants Improved and Greater Grapple; crushing damage equals 2x Unarmed damage

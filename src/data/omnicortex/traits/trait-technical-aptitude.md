@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Maintenance Chief (Sentinel) / The Maker (Savant). Gain +2 bonus on checks to repair or improve technology."
-mechanic: "Gain +2 bonus on checks to repair or improve technology."
+mechanic: "+2 bonus on checks to repair or improve technology"
 rules: "Signature Trait (1 CP) — The Maintenance Chief (Sentinel) / The Maker (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Maintenance Chief (Sentinel) / The Maker (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Maintenance Chief (Sentinel) / The Maker (Savant). Gain +2 bonus on checks to repair or improve technology.
+Signature trait of The Maintenance Chief (Sentinel) / The Maker (Savant). Dedicated aptitude and training to repair or improve technology.
 
 ## Mechanics & Benefit
-Gain +2 bonus on checks to repair or improve technology.
++2 bonus on checks to repair or improve technology

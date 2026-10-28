@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Company Man (Sentinel). You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities."
-mechanic: "You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities."
+mechanic: "+2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities"
 rules: "Signature Trait (1 CP) — The Company Man (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Company Man (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Company Man (Sentinel). You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.
+Signature trait of The Company Man (Sentinel). You have the full support and resources of your corporation.
 
 ## Mechanics & Benefit
-You have the full support and resources of your corporation, gain +2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities.
++2 bonus on any checks related to acquiring information, securing permits, or influencing local authorities

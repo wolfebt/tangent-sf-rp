@@ -14,13 +14,13 @@ modifiers: []
 ---
 # Awakened (Cosmic)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Attunement to astral radiation, stellar currents, and primordial cosmic energies.
 
-## Mechanics
-Grants innate access to the Attune skill and Cosmic metaphysical disciplines, manipulating plasma, gravitational fluxes, and stellar radiation.
+## Mechanics & Benefit
+Grants innate access to the Attune skill and Cosmic metaphysical disciplines, manipulating plasma, gravitational fluxes, and stellar radiation

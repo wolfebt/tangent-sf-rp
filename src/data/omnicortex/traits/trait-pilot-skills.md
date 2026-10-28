@@ -11,7 +11,7 @@ description: >-
   Piloting atmospheric hovercraft and armored rovers through corrosive dust
   storms and boiling seas.
 modifiers: []
-mechanic: +2 Piloting
+mechanic: "+2 Piloting"
 ---
 # Pilot Skills
 

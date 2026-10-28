@@ -21,7 +21,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to One Metafocus
-mechanic: +1 to Attune and one Metafocus Skill
+mechanic: "+1 to Attune and one Metafocus Skill"
 ---
 # Spiritual Awareness
 

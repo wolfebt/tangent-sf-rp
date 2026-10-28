@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.
+Full ambidextrous neural coordination across all secondary limbs and tails.
+
+## Mechanics & Benefit
+Additional limbs/tail are usable as main hands with zero off-hand penalties (Requires: Additional Limbs/Tail)

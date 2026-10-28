@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Geneticist (Savant). You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments."
-mechanic: "You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments."
+mechanic: "+2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments"
 rules: "Signature Trait (1 CP) — The Geneticist (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Geneticist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Geneticist (Savant). You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.
+Signature trait of The Geneticist (Savant). Specialized expertise and intuition in adapting existing technology or biological systems for new purposes or environments.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments.
++2 bonus on any checks related to adapting existing technology or biological systems for new purposes or environments

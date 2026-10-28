@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Slipping behind an unaware target unseen and striking with lethal precision."
-mechanic: "Passive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR)."
+mechanic: "Passive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR)"
 rules: "Signature Trait (1 CP) — The Silent Blade (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Silent Blade (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Slipping behind an unaware target unseen and striking with lethal precision.
 
 ## Mechanics & Benefit
-Passive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR).
+Passive: When attacking a target while completely hidden or undetected, your attack automatically deals critical damage and physical weapons bypass target Damage Reduction (DR)

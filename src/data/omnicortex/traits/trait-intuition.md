@@ -11,7 +11,7 @@ description: >-
   Heightened sixth sense allowing the operative to anticipate predatory ambushes
   and sudden cave-ins.
 modifiers: []
-mechanic: Re-Roll any one failed Perception check per day
+mechanic: "Re-Roll any one failed Perception check per day"
 ---
 # Intuition
 

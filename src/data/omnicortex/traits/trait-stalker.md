@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Gain +2 bonus to Perception and Stealth checks versus one target.
+Focused predatory lock on a designated quarry.
 
 ## Mechanics & Benefit
-Gain +2 bonus to Perception and Stealth checks versus one target.
++2 bonus to Perception and Stealth checks versus one designated target

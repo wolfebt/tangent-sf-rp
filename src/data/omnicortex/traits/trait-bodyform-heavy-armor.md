@@ -26,7 +26,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).
+Dense siege-grade carapace grown over the body during morphic transformation.
 
 ## Mechanics & Benefit
-Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).
+Shapechange to gain heavy protective plating (doubles Bodyform Armor bonus to DR)

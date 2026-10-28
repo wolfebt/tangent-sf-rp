@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Magus (Savant). +2 bonus to combine different spells to create unique and powerful effects."
-mechanic: "+2 bonus to combine different spells to create unique and powerful effects."
+mechanic: "+2 bonus to combine different spells to create unique and powerful effects"
 rules: "Signature Trait (1 CP) — The Magus (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Magus (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Magus (Savant). +2 bonus to combine different spells to create unique and powerful effects.
+Signature trait of The Magus (Savant). Specialized archetype training and mastery in spell weaving.
 
 ## Mechanics & Benefit
-+2 bonus to combine different spells to create unique and powerful effects.
++2 bonus to combine different spells to create unique and powerful effects

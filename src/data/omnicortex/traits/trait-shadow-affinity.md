@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Gain +5 to Stealth when in Shadowy or Dim area.
+Natural comfort and stealth proficiency within dimly lit or umbral environments.
 
 ## Mechanics & Benefit
-Gain +5 to Stealth when in Shadowy or Dim area.
++5 bonus to Stealth checks when in shadowy or dim areas

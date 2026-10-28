@@ -21,7 +21,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Stealth
-mechanic: +2 Athletics and Stealth Skills (in Urban and developed areas)
+mechanic: "+2 Athletics and Stealth Skills (in Urban and developed areas)"
 ---
 # Urban Survival
 

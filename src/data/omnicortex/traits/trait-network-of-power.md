@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Kingpin (Visionarie). You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals."
-mechanic: "You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals."
+mechanic: "+2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals"
 rules: "Signature Trait (1 CP) — The Kingpin (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Kingpin (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Kingpin (Visionarie). You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.
+Signature trait of The Kingpin (Visionarie). You have established a network of influence within the criminal underworld.
 
 ## Mechanics & Benefit
-You have established a network of influence within the criminal underworld, gain +2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals.
++2 bonus on any checks related to acquiring resources, bribing officials, or intimidating rivals

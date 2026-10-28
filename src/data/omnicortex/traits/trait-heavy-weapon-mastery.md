@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Demolisher (Sentinel) / The Combat-saboteur (Operative). You gain a +2 bonus to attack rolls with heavy weapons."
-mechanic: "You gain a +2 bonus to attack rolls with heavy weapons."
+mechanic: "+2 bonus to attack rolls with heavy weapons"
 rules: "Signature Trait (1 CP) — The Demolisher (Sentinel) / The Combat-saboteur (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Demolisher (Sentinel) / The Combat-saboteur (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Demolisher (Sentinel) / The Combat-saboteur (Operative). You gain a +2 bonus to attack rolls with heavy weapons.
+Signature trait of The Demolisher (Sentinel) / The Combat-saboteur (Operative). Specialized archetype training and mastery in heavy weapon mastery.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to attack rolls with heavy weapons.
++2 bonus to attack rolls with heavy weapons

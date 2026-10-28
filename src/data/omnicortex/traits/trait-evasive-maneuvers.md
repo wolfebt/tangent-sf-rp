@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Split-second jinking and vector thrusters that slip incoming lock-ons and opportunity fire."
-mechanic: "Gain +2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed."
+mechanic: "+2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed"
 rules: "Signature Trait (1 CP) — The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative)."
 modifiers: [{"target":"defense-mod","type":"combat","value":2,"mode":"inherent","description":"+2 to defense-mod"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"defense-mod","type":"combat","value":2,"mode":"inherent",
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Ace (Operative) / The Escapologist (Operative) / The Privateer (Operative) / The Smuggler (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Split-second jinking and vector thrusters that slip incoming lock-ons and opportunity fire.
 
 ## Mechanics & Benefit
-Gain +2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed.
++2 Dodge Defense when moving at least half your speed or piloting a vehicle at cruising speed

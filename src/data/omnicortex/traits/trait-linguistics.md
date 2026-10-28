@@ -17,7 +17,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Linguistic Knowledge Merchants often possess linguistic
-mechanic: +2 Linguistic Knowledge
+mechanic: "+2 Linguistic Knowledge"
 ---
 # Linguistics
 

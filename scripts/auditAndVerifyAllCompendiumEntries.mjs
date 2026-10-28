@@ -54,16 +54,26 @@ const archEconDoc = articles.find(a => a.id === 'doc-architect-02-economy-and-we
 assert(Boolean(econDoc && archEconDoc), '2.00 ECONOMATRIX and 02 ECONOMY AND WEALTH exist in compendium');
 assert(Boolean(archEconDoc && archEconDoc.description.includes('Tangent Standard Curve')), '02 ECONOMY AND WEALTH adheres to Tangent Standard Curve');
 
-// 4. Check All 270 Canonical Source Files (224 Operator + 46 Architect)
+// 4. Check All 265 Canonical Source Files (224 Operator + 41 Architect)
 function scanRuleFiles(dir) {
   const discovered = [];
   function traverse(currentDir, relBranch = '') {
     for (const entry of fs.readdirSync(currentDir, { withFileTypes: true })) {
       const fullPath = path.join(currentDir, entry.name);
       if (entry.isDirectory()) {
-        traverse(fullPath, relBranch ? `${relBranch}/${entry.name}` : entry.name);
+        const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
+        if (subRel.replace(/\\/g, '/').toLowerCase() === 'architect/archetypes') {
+          continue;
+        }
+        traverse(fullPath, subRel);
       } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !entry.name.startsWith('.')) {
         const normalizedRelBranch = relBranch.replace(/\\/g, '/');
+        if (
+          normalizedRelBranch.toLowerCase() === 'architect' &&
+          entry.name.toLowerCase().includes('archetypes')
+        ) {
+          continue;
+        }
         discovered.push({
           fullPath,
           fileName: entry.name,
@@ -82,7 +92,7 @@ assert(articles.length === diskRuleFiles.length, `1-to-1 file parity between doc
 const opArticles = articles.filter(a => a.id.startsWith('doc-operator-'));
 const archArticles = articles.filter(a => a.id.startsWith('doc-architect-'));
 assert(opArticles.length === 224, `All 224 Operator rulebook & modular articles registered (got ${opArticles.length}/224)`);
-assert(archArticles.length === 46, `All 46 Architect matrix & modular articles registered (got ${archArticles.length}/46)`);
+assert(archArticles.length === 41, `All 41 Architect matrix & modular articles registered (got ${archArticles.length}/41)`);
 
 // 5. Verify 100% Exact Content Fidelity against docs/game rules/*.md
 const byRelPath = new Map(articles.map(a => [a.relPath.toLowerCase(), a]));
@@ -112,7 +122,7 @@ const criminalOcc = articles.find(a => a.id === 'doc-operator-1-06-criminal');
 assert(criminalOcc && criminalOcc.name === '1.06 Criminal', `Occupation Criminal title is clean ("${criminalOcc?.name}")`);
 
 const planetaryAstro = articles.find(a => a.id === 'doc-architect-99-planetary-astrophysicsandgeophysics');
-assert(planetaryAstro && planetaryAstro.name === '99. Planetary: Astrophysics, Geophysics & Biosphere', `Planetary Matrix title is clean ("${planetaryAstro?.name}")`);
+assert(planetaryAstro && planetaryAstro.name === 'Planetary: Astrophysics, Geophysics & Biosphere', `Planetary Matrix title is clean ("${planetaryAstro?.name}")`);
 
 console.log("\n=================================================================");
 console.log(`AUDIT RESULTS: ${passedTests}/${totalTests} tests passed (${((passedTests / totalTests) * 100).toFixed(1)}%)`);

@@ -22,10 +22,13 @@ modifiers:
 ---
 # Mimetic Form
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed).
+Thin human-mimetic dermis and endoskeleton allowing disguise as human when antennae are concealed (+2 Disguise/Deception).
+
+## Mechanics & Benefit
++2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed)

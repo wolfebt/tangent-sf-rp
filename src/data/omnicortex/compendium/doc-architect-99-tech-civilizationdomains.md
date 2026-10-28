@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-civilizationdomains"
-name: "99. Tech: Civilization Aspects & Domains"
+name: "Tech: Civilization Aspects & Domains"
 fileName: "99.Tech.CivilizationDomains.md"
 relPath: "architect/technology/core/99.Tech.CivilizationDomains.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 27
+order: 22
 perspective: "architect"
 entry_type: "Tech Matrix (core)"
 tl: 3

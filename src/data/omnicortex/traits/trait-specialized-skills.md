@@ -12,7 +12,7 @@ description: >-
   or mystical arts. They may have extensive training and knowledge in their
   chosen field, allowing them to excel in their profession.
 modifiers: []
-mechanic: +2 to a Skill of Choice
+mechanic: "+2 to a Skill of Choice"
 ---
 # Specialized Skills
 

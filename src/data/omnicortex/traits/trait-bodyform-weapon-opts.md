@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Upgraded Bodyform Weapons, +1 option slot. Ranked.
+Specialized morphic evolutions that enhance natural weaponry.
 
 ## Mechanics & Benefit
-Upgraded Bodyform Weapons, +1 option slot. Ranked.
+Upgrades Bodyform Weapons with +1 option slot (Ranked)

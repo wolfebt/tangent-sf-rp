@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+4 bonus on Survival checks made underground.
+Subterranean evolutionary heritage attuned to caverns, tunnels, and deep-crust environments.
 
 ## Mechanics & Benefit
-+4 bonus on Survival checks made underground.
++4 bonus on Survival checks made underground

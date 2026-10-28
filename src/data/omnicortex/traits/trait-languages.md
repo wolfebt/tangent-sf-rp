@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Linguistic Knowledge Fluency in multiple languages
-mechanic: +2 Linguistic Knowledge
+mechanic: "+2 Linguistic Knowledge"
 ---
 # Languages
 

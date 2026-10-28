@@ -11,7 +11,7 @@ description: >-
   Deep technical specialization in metallurgy, chemical processing, or
   structural robotics.
 modifiers: []
-mechanic: +2 to a Vocation Specialization
+mechanic: "+2 to a Vocation Specialization"
 ---
 # Specialized Knowledge
 

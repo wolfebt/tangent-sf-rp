@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-mecha-componentsandweapons"
-name: "99. Tech (Mecha): Components, VFT & Weapons"
+name: "Tech (Mecha): Components, VFT & Weapons"
 fileName: "99.Tech.Mecha.ComponentsAndWeapons.md"
 relPath: "architect/technology/mecha/99.Tech.Mecha.ComponentsAndWeapons.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 38
+order: 33
 perspective: "architect"
 entry_type: "Tech Matrix (mecha)"
 tl: 3

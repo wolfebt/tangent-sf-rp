@@ -9,7 +9,7 @@ costs:
   bp: 1
 description: 'Gathering information, analyzing data, and conducting surveillance'
 modifiers: []
-mechanic: +2 Investigation and Gather Information
+mechanic: "+2 Investigation and Gather Information"
 ---
 # Investigation
 

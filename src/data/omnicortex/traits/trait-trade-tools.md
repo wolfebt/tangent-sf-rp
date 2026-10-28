@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Standard occupational gear, specialized toolkits, and field equipment.
+Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession.
+
+## Mechanics & Benefit
++2 Equipment

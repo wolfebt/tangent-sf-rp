@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Clear vision in all levels of Light or Darkness (UV, seeing luminescence).
+Full-spectrum ultraviolet and bioluminescent ocular sensitivity in total darkness.
+
+## Mechanics & Benefit
+Clear vision in all levels of light or darkness (including UV and luminescence)

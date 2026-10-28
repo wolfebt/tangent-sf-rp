@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Planetologist (Savant). You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions."
-mechanic: "You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions."
+mechanic: "+2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions"
 rules: "Signature Trait (1 CP) — The Planetologist (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Planetologist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Planetologist (Savant). You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.
+Signature trait of The Planetologist (Savant). You have experience conducting field research in diverse planetary environments.
 
 ## Mechanics & Benefit
-You have experience conducting field research in diverse planetary environments, gaining +2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions.
++2 bonus on any checks related to navigating treacherous terrain, identifying potential hazards, or adapting to extreme conditions

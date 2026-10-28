@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.
+Unstoppable forward momentum when charging or driving through enemy lines.
 
 ## Mechanics & Benefit
-+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.
++2 bonus on combat maneuver checks to bull rush or overrun an opponent

@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Any Manipulation
-mechanic: +2 to any Manipulation checks when taking an Ethical side
+mechanic: "+2 to any Manipulation checks when taking an Ethical side"
 ---
 # Ethical conduct
 

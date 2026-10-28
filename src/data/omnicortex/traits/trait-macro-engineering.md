@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Architect (Savant). You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies."
-mechanic: "You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies."
+mechanic: "+2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies"
 rules: "Signature Trait (1 CP) — The Architect (Savant)."
 modifiers: [{"target":"Vocation","type":"skill","value":2,"mode":"inherent","description":"+2 to Vocation"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Vocation","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Architect (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Architect (Savant). You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.
+Signature trait of The Architect (Savant). Specialized training and proficiency when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies.
++2 bonus to Vocation skill and Technology checks when constructing or repairing large structures such as roads, bridges, tunnels and arcologies

@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Once per Long Rest make a Reflex Check at Advantage.
+Uncanny feline agility and instinct for twisting away from sudden danger.
 
 ## Mechanics & Benefit
-Once per Long Rest make a Reflex Check at Advantage.
+Once per Long Rest, make a Reflex Check at Advantage

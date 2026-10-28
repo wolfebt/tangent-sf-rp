@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Undead, Elementals and others not classified as Living by normal standards.
+Animated construct, elemental, or undead state devoid of standard organic biology.
+
+## Mechanics & Benefit
+Not classified as Living; immune to biological effects, bleed, sleep, poison, and disease

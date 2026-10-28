@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Manhunter (Operative). You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters."
-mechanic: "You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters."
+mechanic: "+2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters"
 rules: "Signature Trait (1 CP) — The Manhunter (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Manhunter (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Manhunter (Operative). You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.
+Signature trait of The Manhunter (Operative). Specialized expertise and intuition in pursuing a target, including chases, interrogations, and combat encounters.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters.
++2 bonus on any checks related to pursuing a target, including chases, interrogations, and combat encounters

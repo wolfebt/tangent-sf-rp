@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Commander (Visionarie). Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids."
-mechanic: "Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids."
+mechanic: "+2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids"
 rules: "Signature Trait (1 CP) — The Commander (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Commander (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Commander (Visionarie). Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.
+Signature trait of The Commander (Visionarie). Specialized expertise and intuition in leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.
 
 ## Mechanics & Benefit
-Gain +2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids.
++2 bonus on any checks related to leading and coordinating your crew in combat, navigating through dangerous territories, or planning and executing raids

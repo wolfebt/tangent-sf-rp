@@ -47,7 +47,7 @@ package_traits:
 **CP Cost**: 5
 
 ## Description
-The foundational biological and metaphysical chassis of the Aeld lineage.
+Inherent ancestral adaptations of the Aeld: Awakened (Arcane) [2], Lifespan 600+ [1], and Immune to Sleep [2].
 
 ## Mechanics & Benefit
-The foundational biological and metaphysical chassis of the Aeld lineage.
+Awakened (Arcane), Extended Lifespan 600+, Sleep Immunity

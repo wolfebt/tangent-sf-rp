@@ -14,13 +14,13 @@ modifiers: []
 ---
 # Awakened (Mental)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Direct neural attunement, accelerated mental calculation, and telepathic network interfacing.
 
-## Mechanics
-Grants innate access to the Attune skill and Mental psionics, allowing telepathic synchronization and cognitive defense bonuses.
+## Mechanics & Benefit
+Grants innate access to the Attune skill and Mental psionics, allowing telepathic synchronization and cognitive defense bonuses

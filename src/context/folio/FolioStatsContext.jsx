@@ -680,12 +680,25 @@ export const FolioStatsSliceProvider = ({ children }) => {
       // Check choice-based modifier_options (group_pool or single/pair options) or group_choice modifiers
       const rawOptions = (typeof feat === 'object' && feat.modifier_options) ? feat.modifier_options : enriched?.modifier_options;
       const groupChoiceMod = Array.isArray(enriched?.modifiers) ? enriched.modifiers.find(m => m.type === 'skill' && m.mode === 'group_choice') : null;
+      const featRank = Math.max(1, parseInt((typeof feat === 'object' ? feat.rank : undefined) ?? enriched?.rank ?? 1, 10) || 1);
+      const isRankedFeat = Boolean((typeof feat === 'object' && feat.is_ranked) || enriched?.is_ranked);
+      const rankMult = isRankedFeat ? featRank : 1;
+
+      const cleanFeatId = String((typeof feat === 'object' ? feat.id : '') || enriched?.id || '').trim().toLowerCase();
+      const cleanFeatName = normalizeTraitName(fName || '').toLowerCase();
+      const featSelMap = characterData?.featureSkillSelections || {};
+      const featMapEntry = (cleanFeatId && featSelMap[cleanFeatId]) || (cleanFeatName && featSelMap[cleanFeatName]) || null;
 
       if ((rawOptions && rawOptions.enabled && rawOptions.mode === 'group_pool') || groupChoiceMod) {
-        const optValue = parseInt(rawOptions?.value ?? groupChoiceMod?.value ?? 2, 10) || 2;
-        const selectedSkills = Array.isArray(feat?.selected_skills) 
-          ? feat.selected_skills 
-          : (feat?.selected_skill ? [feat.selected_skill] : (Array.isArray(enriched?.selected_skills) ? enriched.selected_skills : []));
+        const baseOptValue = parseInt(rawOptions?.value ?? groupChoiceMod?.value ?? 2, 10) || 2;
+        const optValue = baseOptValue * rankMult;
+        const rawSel = (typeof feat === 'object' && Array.isArray(feat.selected_skills) && feat.selected_skills.length > 0)
+          ? feat.selected_skills
+          : ((typeof feat === 'object' && feat.selected_skill) ? [feat.selected_skill] : null);
+        const mapSel = Array.isArray(featMapEntry?.selected_skills)
+          ? featMapEntry.selected_skills
+          : (Array.isArray(featMapEntry) ? featMapEntry : (featMapEntry?.selected_skill ? [featMapEntry.selected_skill] : null));
+        const selectedSkills = rawSel || mapSel || (Array.isArray(enriched?.selected_skills) ? enriched.selected_skills : []);
         const groupLabel = rawOptions?.group_label || groupChoiceMod?.group_label || groupChoiceMod?.target || 'Skill Group Choice';
 
         selectedSkills.forEach(skillTarget => {
@@ -708,11 +721,15 @@ export const FolioStatsSliceProvider = ({ children }) => {
           }
         });
       } else if (rawOptions && rawOptions.enabled && Array.isArray(rawOptions.options) && rawOptions.options.length > 0) {
-        const selectedId = (typeof feat === 'object' && feat.selected_option_id) ? feat.selected_option_id : enriched?.selected_option_id;
-        const activeOption = rawOptions.options.find(opt => opt.id === selectedId) || (rawOptions.options.length === 1 ? rawOptions.options[0] : null);
+        const selectedId = (typeof feat === 'object' && feat.selected_option_id)
+          ? feat.selected_option_id
+          : (featMapEntry?.selected_option_id || (typeof featMapEntry === 'string' ? featMapEntry : enriched?.selected_option_id));
+        const activeOption = rawOptions.options.find(opt => typeof opt === 'object' && opt.id === selectedId)
+          || (rawOptions.options.length === 1 && typeof rawOptions.options[0] === 'object' ? rawOptions.options[0] : null);
 
         if (activeOption) {
-          const optValue = parseInt(activeOption.value !== undefined ? activeOption.value : (rawOptions.value || 2), 10) || 2;
+          const baseOptValue = parseInt(activeOption.value !== undefined ? activeOption.value : (rawOptions.value || 2), 10) || 2;
+          const optValue = baseOptValue * rankMult;
           const targetSkills = Array.isArray(activeOption.skills) 
             ? activeOption.skills 
             : (activeOption.skill ? [activeOption.skill] : []);
@@ -829,6 +846,85 @@ export const FolioStatsSliceProvider = ({ children }) => {
             activeTraitModifiers.push({ source: tName, target: cKey, value: val, description: mod.description });
           }
         });
+      }
+
+      // Check choice-based modifier_options (group_pool or single/pair options) on Traits
+      const rawTraitOptions = (typeof trait === 'object' && trait.modifier_options) ? trait.modifier_options : enriched?.modifier_options;
+      const traitGroupChoiceMod = Array.isArray(enriched?.modifiers) ? enriched.modifiers.find(m => m.type === 'skill' && m.mode === 'group_choice') : null;
+      const traitRank = Math.max(1, parseInt((typeof trait === 'object' ? trait.rank : undefined) ?? enriched?.rank ?? 1, 10) || 1);
+      const isRankedTrait = Boolean((typeof trait === 'object' && trait.is_ranked) || enriched?.is_ranked);
+      const traitRankMult = isRankedTrait ? traitRank : 1;
+
+      const cleanTraitId = String((typeof trait === 'object' ? trait.id : '') || enriched?.id || '').trim().toLowerCase();
+      const cleanTraitName = normalizeTraitName(tName || '').toLowerCase();
+      const traitSelMap = characterData?.traitSkillSelections || {};
+      const traitMapEntry = (cleanTraitId && traitSelMap[cleanTraitId]) || (cleanTraitName && traitSelMap[cleanTraitName]) || null;
+
+      if ((rawTraitOptions && rawTraitOptions.enabled && rawTraitOptions.mode === 'group_pool') || traitGroupChoiceMod) {
+        const baseOptValue = parseInt(rawTraitOptions?.value ?? traitGroupChoiceMod?.value ?? 2, 10) || 2;
+        const optValue = baseOptValue * traitRankMult;
+        const rawSel = (typeof trait === 'object' && Array.isArray(trait.selected_skills) && trait.selected_skills.length > 0)
+          ? trait.selected_skills
+          : ((typeof trait === 'object' && trait.selected_skill) ? [trait.selected_skill] : null);
+        const mapSel = Array.isArray(traitMapEntry?.selected_skills)
+          ? traitMapEntry.selected_skills
+          : (Array.isArray(traitMapEntry) ? traitMapEntry : (traitMapEntry?.selected_skill ? [traitMapEntry.selected_skill] : null));
+        const selectedSkills = rawSel || mapSel || (Array.isArray(enriched?.selected_skills) ? enriched.selected_skills : []);
+        const groupLabel = rawTraitOptions?.group_label || traitGroupChoiceMod?.group_label || traitGroupChoiceMod?.target || 'Skill Group Choice';
+
+        selectedSkills.forEach(skillTarget => {
+          const sKey = (skillTarget || '').toLowerCase().trim();
+          if (sKey) {
+            skillMods[sKey] = (skillMods[sKey] || 0) + optValue;
+            activeTraitModifiers.push({
+              source: `${tName} [${skillTarget}]`,
+              target: skillTarget,
+              value: optValue,
+              description: `${tName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${groupLabel})`
+            });
+            activeSkillModifiers.push({
+              source: `${tName} [${skillTarget}]`,
+              sourceType: 'trait',
+              target: skillTarget,
+              value: optValue,
+              description: `${tName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${groupLabel})`
+            });
+          }
+        });
+      } else if (rawTraitOptions && rawTraitOptions.enabled && Array.isArray(rawTraitOptions.options) && rawTraitOptions.options.length > 0) {
+        const selectedId = (typeof trait === 'object' && trait.selected_option_id)
+          ? trait.selected_option_id
+          : (traitMapEntry?.selected_option_id || (typeof traitMapEntry === 'string' ? traitMapEntry : enriched?.selected_option_id));
+        const activeOption = rawTraitOptions.options.find(opt => typeof opt === 'object' && opt.id === selectedId)
+          || (rawTraitOptions.options.length === 1 && typeof rawTraitOptions.options[0] === 'object' ? rawTraitOptions.options[0] : null);
+
+        if (activeOption) {
+          const baseOptValue = parseInt(activeOption.value !== undefined ? activeOption.value : (rawTraitOptions.value || 2), 10) || 2;
+          const optValue = baseOptValue * traitRankMult;
+          const targetSkills = Array.isArray(activeOption.skills)
+            ? activeOption.skills
+            : (activeOption.skill ? [activeOption.skill] : []);
+
+          targetSkills.forEach(skillTarget => {
+            const sKey = (skillTarget || '').toLowerCase().trim();
+            if (sKey) {
+              skillMods[sKey] = (skillMods[sKey] || 0) + optValue;
+              activeTraitModifiers.push({
+                source: `${tName} [${activeOption.label || activeOption.id || 'Selected Option'}]`,
+                target: skillTarget,
+                value: optValue,
+                description: `${tName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${activeOption.label || activeOption.id})`
+              });
+              activeSkillModifiers.push({
+                source: `${tName} [${activeOption.label || activeOption.id || 'Selected Option'}]`,
+                sourceType: 'trait',
+                target: skillTarget,
+                value: optValue,
+                description: `${tName}: ${optValue >= 0 ? '+' : ''}${optValue} to ${skillTarget} (${activeOption.label || activeOption.id})`
+              });
+            }
+          });
+        }
       }
     });
 
@@ -1741,6 +1837,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
           showToast({ type: 'warning', text: `Maximum of ${maxFeatures} features already selected in this pool.` });
           return prev;
         }
+        updatedPoolFeats = [...currentFeats, cleanTitle];
         const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
         const rawFeatObj = {
           id: featureDetail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
@@ -1946,6 +2043,95 @@ export const FolioStatsSliceProvider = ({ children }) => {
     triggerSave();
   }, [setCharacterData, triggerSave]);
 
+  const updateTraitSkillSelection = useCallback((traitOrName, selectionPayload = {}) => {
+    if (!traitOrName) return;
+    const rawId = typeof traitOrName === 'object' ? String(traitOrName.id || '').trim().toLowerCase() : '';
+    const rawName = typeof traitOrName === 'object' ? (traitOrName.name || traitOrName.title || traitOrName.id || '') : String(traitOrName);
+    const cleanName = normalizeTraitName(rawName).toLowerCase();
+
+    setCharacterData(prev => {
+      const nextTraitSelections = { ...(prev.traitSkillSelections || {}) };
+      if (rawId) {
+        nextTraitSelections[rawId] = { ...(nextTraitSelections[rawId] || {}), ...selectionPayload };
+      }
+      if (cleanName) {
+        nextTraitSelections[cleanName] = { ...(nextTraitSelections[cleanName] || {}), ...selectionPayload };
+      }
+
+      const matchesTrait = (t) => {
+        if (!t) return false;
+        const tId = typeof t === 'object' ? String(t.id || '').trim().toLowerCase() : '';
+        const tName = normalizeTraitName(typeof t === 'object' ? (t.name || t.title || t.id) : String(t)).toLowerCase();
+        return (rawId && tId === rawId) || (cleanName && tName === cleanName);
+      };
+
+      const nextTraits = Array.isArray(prev.traits)
+        ? prev.traits.map(t => {
+            if (!matchesTrait(t)) return t;
+            const baseObj = typeof t === 'object' ? t : { name: String(t) };
+            return { ...baseObj, ...selectionPayload };
+          })
+        : prev.traits;
+
+      const nextFeatures = Array.isArray(prev.features)
+        ? prev.features.map(f => {
+            if (!matchesTrait(f)) return f;
+            const baseObj = typeof f === 'object' ? f : { name: String(f) };
+            return { ...baseObj, ...selectionPayload };
+          })
+        : prev.features;
+
+      const updates = {
+        ...prev,
+        traitSkillSelections: nextTraitSelections,
+        traits: nextTraits,
+        features: nextFeatures
+      };
+      triggerSave?.(updates);
+      return updates;
+    });
+  }, [setCharacterData, triggerSave]);
+
+  const updateFeatureSkillSelection = useCallback((featureOrName, selectionPayload = {}) => {
+    if (!featureOrName) return;
+    const rawId = typeof featureOrName === 'object' ? String(featureOrName.id || '').trim().toLowerCase() : '';
+    const rawName = typeof featureOrName === 'object' ? (featureOrName.name || featureOrName.title || featureOrName.id || '') : String(featureOrName);
+    const cleanName = normalizeTraitName(rawName).toLowerCase();
+
+    setCharacterData(prev => {
+      const nextFeatSelections = { ...(prev.featureSkillSelections || {}) };
+      if (rawId) {
+        nextFeatSelections[rawId] = { ...(nextFeatSelections[rawId] || {}), ...selectionPayload };
+      }
+      if (cleanName) {
+        nextFeatSelections[cleanName] = { ...(nextFeatSelections[cleanName] || {}), ...selectionPayload };
+      }
+
+      const matchesFeat = (f) => {
+        if (!f) return false;
+        const fId = typeof f === 'object' ? String(f.id || '').trim().toLowerCase() : '';
+        const fName = normalizeTraitName(typeof f === 'object' ? (f.name || f.title || f.id) : String(f)).toLowerCase();
+        return (rawId && fId === rawId) || (cleanName && fName === cleanName);
+      };
+
+      const nextFeatures = Array.isArray(prev.features)
+        ? prev.features.map(f => {
+            if (!matchesFeat(f)) return f;
+            const baseObj = typeof f === 'object' ? f : { name: String(f) };
+            return { ...baseObj, ...selectionPayload };
+          })
+        : prev.features;
+
+      const updates = {
+        ...prev,
+        featureSkillSelections: nextFeatSelections,
+        features: nextFeatures
+      };
+      triggerSave?.(updates);
+      return updates;
+    });
+  }, [setCharacterData, triggerSave]);
+
   const value = {
     computedModifiers,
     saveMods: computedModifiers.saveMods,
@@ -1974,7 +2160,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
     handleDeleteSkill,
     handleAddSpecialization,
     handleUpdateSpecialization,
-    handleDeleteSpecialization
+    handleDeleteSpecialization,
+    updateTraitSkillSelection,
+    updateFeatureSkillSelection
   };
 
   return (

@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Technology Knowledge Proficiency in advanced technology
-mechanic: Additional +1 from Equipment Bonus and +2 Technology (Knowledge)
+mechanic: "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)"
 ---
 # Technological proficiency
 

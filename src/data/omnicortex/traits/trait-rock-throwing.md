@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.
+Massive upper-body leverage tuned for hurling boulders and heavy debris.
+
+## Mechanics & Benefit
+Thrown rocks have a 60 ft range increment and deal 2d6 + 1.5x Str damage (Requires: Large)

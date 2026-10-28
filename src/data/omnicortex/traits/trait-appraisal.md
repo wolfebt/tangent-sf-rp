@@ -17,7 +17,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Any Appraisal
-mechanic: +2 to any Appraisal check
+mechanic: "+2 to any Appraisal check"
 ---
 # Appraisal
 

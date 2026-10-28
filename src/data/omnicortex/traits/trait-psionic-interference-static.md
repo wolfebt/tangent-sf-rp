@@ -31,7 +31,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.
+Discordant psionic static causing mental feedback in orderly telepathic networks.
 
 ## Mechanics & Benefit
-Discordant psychic frequency imposes -2 on Manelli Psionic/Wisdom checks; Kitin Chorus communication in immediate vicinity is disrupted and rolled at Disadvantage.
+Manelli within range suffer -2 on Psionic/Wisdom checks; Kitin Chorus communications within 30 ft rolled at Disadvantage

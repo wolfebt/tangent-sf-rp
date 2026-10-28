@@ -33,7 +33,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+2 racial bonus on all saving throws.
+Profound synchronistic fortune that turns lethal hazards into narrow escapes.
 
 ## Mechanics & Benefit
-+2 racial bonus on all saving throws.
++2 racial bonus on all saving throws

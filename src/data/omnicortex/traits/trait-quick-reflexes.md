@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Ace (Operative) / The Quick-draw (Operative). Gain +2 on initiative rolls."
-mechanic: "Gain +2 on initiative rolls."
+mechanic: "+2 on initiative rolls"
 rules: "Signature Trait (1 CP) — The Ace (Operative) / The Quick-draw (Operative)."
 modifiers: [{"target":"initiative-mod","type":"combat","value":2,"mode":"inherent","description":"+2 to initiative-mod"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"initiative-mod","type":"combat","value":2,"mode":"inheren
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Ace (Operative) / The Quick-draw (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Ace (Operative) / The Quick-draw (Operative). Gain +2 on initiative rolls.
+Signature trait of The Ace (Operative) / The Quick-draw (Operative). Specialized archetype training and mastery in quick reflexes.
 
 ## Mechanics & Benefit
-Gain +2 on initiative rolls.
++2 on initiative rolls

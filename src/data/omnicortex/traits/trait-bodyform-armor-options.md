@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Upgraded Bodyform Armor, +1 option slot. Ranked.
+Enhanced morphic carapace capable of manifesting specialized defensive adaptations.
 
 ## Mechanics & Benefit
-Upgraded Bodyform Armor, +1 option slot. Ranked.
+Upgrades Bodyform Armor with +1 option slot (Ranked)

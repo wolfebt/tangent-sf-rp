@@ -74,7 +74,12 @@ async function run() {
   console.log('Drawer header has ARCHITECT MATRICES:', archDrawerHeader > 0);
 
   const archButtons = await page.locator('aside >> button').allInnerTexts();
-  const archArticles = archButtons.filter(t => t.includes('99.') || t.includes('02'));
+  const archArticles = archButtons.filter(t =>
+    t.includes('ECONOMY AND WEALTH') ||
+    t.includes('MODULAR') ||
+    t.includes('TECHNOLOGY') ||
+    t.includes('METAPHYSICS')
+  );
   console.log('Visible Architect articles count:', archArticles.length);
   console.log('First 3 Architect articles in drawer:', archArticles.slice(0, 3).map(s => s.replace(/\n/g, ' ')));
 

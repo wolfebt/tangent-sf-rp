@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Insight
-mechanic: +2 Insight checks and Diplomacy when acting ethically
+mechanic: "+2 Insight checks and Diplomacy when acting ethically"
 ---
 # Ethical awareness
 

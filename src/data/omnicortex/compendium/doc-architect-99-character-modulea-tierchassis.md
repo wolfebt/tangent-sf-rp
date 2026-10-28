@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-character-modulea-tierchassis"
-name: "99. Character (Module A): The Tier Chassis"
+name: "Character (Module A): The Tier Chassis"
 fileName: "99.Character.ModuleA.TierChassis.md"
 relPath: "architect/characters/99.Character.ModuleA.TierChassis.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 10
+order: 5
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3

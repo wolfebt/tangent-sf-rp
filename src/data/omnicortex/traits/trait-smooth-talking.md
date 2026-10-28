@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Etiquette
-mechanic: +2 Etiquette Checks
+mechanic: "+2 Etiquette Checks"
 ---
 # Smooth Talking
 

@@ -177,7 +177,7 @@ export const FolioSidebar = ({
       {/* In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned or collapsed) */}
       <div
         className={`shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
-          isPinned ? 'w-56 sm:w-60' : 'w-14 sm:w-16'
+          isPinned ? 'w-14 sm:w-16 md:w-56 lg:w-60' : 'w-14 sm:w-16'
         }`}
         aria-hidden="true"
       />

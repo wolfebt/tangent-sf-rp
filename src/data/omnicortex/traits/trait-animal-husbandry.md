@@ -21,7 +21,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Caring for livestock
-mechanic: +2 to Animal Handling
+mechanic: "+2 to Animal Handling"
 ---
 # Animal Husbandry
 

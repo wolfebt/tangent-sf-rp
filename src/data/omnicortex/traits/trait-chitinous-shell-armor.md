@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].
+Dense obsidian chitinous shell providing natural base DR 10 against physical, energy, and chemical trauma.
 
 ## Mechanics & Benefit
-Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10].
+Base 10 Damage Reduction (DR 10) against physical, direct energy, and chemical damage

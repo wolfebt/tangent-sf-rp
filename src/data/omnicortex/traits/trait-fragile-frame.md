@@ -26,7 +26,7 @@ modifiers:
 **CP Cost**: -2
 
 ## Description
-Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.
+Outside of a mecha or containment tube, the organism has a fragile physiology and suffers a -2 penalty to physical saves.
 
 ## Mechanics & Benefit
-Outside of a mecha or containment tube, the Syndess has a fragile physiology and suffers a -2 penalty to physical saves.
+-2 penalty to all physical saving throws (Fortitude/Reflex/Stamina) when exposed outside of mecha or protective pod

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Ascetic (Visionarie) / The Spirit-walker (Visionarie). Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence."
-mechanic: "Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence."
+mechanic: "+2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence"
 rules: "Signature Trait (1 CP) — The Ascetic (Visionarie) / The Spirit-walker (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Ascetic (Visionarie) / The Spirit-walker (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Ascetic (Visionarie) / The Spirit-walker (Visionarie). Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.
+Signature trait of The Ascetic (Visionarie) / The Spirit-walker (Visionarie). Specialized expertise and intuition in meditation, prayer, or communicating with spiritual entities or planes of existence.
 
 ## Mechanics & Benefit
-Gain +2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence.
++2 bonus on any checks related to meditation, prayer, or communicating with spiritual entities or planes of existence

@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.
+Four specialized legs engineered for high-impact jumping, +4 Stability, and +10 ft Groundspeed.
 
 ## Mechanics & Benefit
-Specialized quadrupedal legs for high-impact jumping, +4 Stability, and +10 ft Groundspeed.
++4 racial Stability against trips and knockdowns; +10 ft horizontal leap and +5 ft vertical jump bonus

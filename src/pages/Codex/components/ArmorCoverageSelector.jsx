@@ -239,7 +239,7 @@ export const ArmorCoverageSelector = ({
 
       {/* Tab 2: Defensive Socket Modules */}
       {activeTab === 'Modules' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {ARMOR_MODULES.map((mod) => {
             const selected = isModuleSelected(mod.id);
             return (

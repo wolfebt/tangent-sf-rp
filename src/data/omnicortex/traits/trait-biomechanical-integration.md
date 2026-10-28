@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Cyberneticist (Savant). You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes."
-mechanic: "You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes."
+mechanic: "+2 bonus on any checks related to adapting cybernetics for specific individuals or purposes"
 rules: "Signature Trait (1 CP) — The Cyberneticist (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Cyberneticist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Cyberneticist (Savant). You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.
+Signature trait of The Cyberneticist (Savant). You have a deep understanding of the interface between biology and technology.
 
 ## Mechanics & Benefit
-You have a deep understanding of the interface between biology and technology, gain +2 bonus on any checks related to adapting cybernetics for specific individuals or purposes.
++2 bonus on any checks related to adapting cybernetics for specific individuals or purposes

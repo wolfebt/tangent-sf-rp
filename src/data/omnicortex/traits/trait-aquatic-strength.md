@@ -24,7 +24,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+1 size category for Combat, Strength or other checks while in water.
+Hydrodynamic musculature that generates immense leverage when submerged.
 
 ## Mechanics & Benefit
-+1 size category for Combat, Strength or other checks while in water.
++1 effective size category for Combat, Strength, and physical checks while in water

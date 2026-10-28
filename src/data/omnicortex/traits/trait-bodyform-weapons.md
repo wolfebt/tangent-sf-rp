@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Shapechange to gain ‘Natural Weaponry’ based on Size
+Morphic bone spurs, claws, or blades grown directly from the limbs.
+
+## Mechanics & Benefit
+Shapechange to gain Natural Weaponry scaled to current Size

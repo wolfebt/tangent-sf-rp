@@ -19,7 +19,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Cover
-mechanic: +2 Disguise and Cover Checks
+mechanic: "+2 Disguise and Cover Checks"
 ---
 # Deception
 

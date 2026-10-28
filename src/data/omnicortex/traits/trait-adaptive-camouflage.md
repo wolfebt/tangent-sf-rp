@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Ghost (Operative). Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature."
-mechanic: "Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature."
+mechanic: "Obfuscate Feature"
 rules: "Signature Trait (1 CP) — The Ghost (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Ghost (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Ghost (Operative). Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.
+Signature trait of The Ghost (Operative). Your cybernetic implants allow you to blend seamlessly into your surroundings.
 
 ## Mechanics & Benefit
-Your cybernetic implants allow you to blend seamlessly into your surroundings, granting Obfuscate Feature.
+Obfuscate Feature

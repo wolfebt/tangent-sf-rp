@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.
+Natural coloration or dermal patterning that blends into a native biome.
 
 ## Mechanics & Benefit
-Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.
++4 bonus on Stealth checks within one chosen favored terrain type

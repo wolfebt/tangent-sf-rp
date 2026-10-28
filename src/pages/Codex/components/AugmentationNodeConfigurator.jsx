@@ -244,7 +244,7 @@ export const AugmentationNodeConfigurator = ({
 
       {/* TAB 2: AUGMENTATION CATEGORIES */}
       {activeTab === 'Categories' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 max-h-[380px] overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           {Object.entries(AUGMENTATION_CATEGORIES).map(([catKey, catDef]) => {
             const isSelected = category === catKey;
             return (

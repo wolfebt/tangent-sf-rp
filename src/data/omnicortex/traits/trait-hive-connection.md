@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Allows members to mentally share information on different levels (Special).
+Shared telepathic sub-routines linking members of a collective consciousness.
+
+## Mechanics & Benefit
+Mentally share information and sensory data across hive members

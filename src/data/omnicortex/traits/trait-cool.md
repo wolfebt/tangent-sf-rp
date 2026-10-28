@@ -24,7 +24,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Focused even in high-pressure situations
-mechanic: +2 Willpower
+mechanic: "+2 Willpower"
 ---
 # Cool
 

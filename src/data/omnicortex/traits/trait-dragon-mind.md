@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.
+Ancient draconic mental fortress impervious to psychic coercion.
 
 ## Mechanics & Benefit
-Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.
+Make all Mental Resistance checks at Advantage (Requires: Dragonkin, Wis 2)

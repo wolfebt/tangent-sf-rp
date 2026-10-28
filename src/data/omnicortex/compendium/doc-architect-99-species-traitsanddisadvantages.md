@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-species-traitsanddisadvantages"
-name: "99. Species: Traits Catalog & Disadvantages"
+name: "Species: Traits Catalog & Disadvantages"
 fileName: "99.Species.TraitsAndDisadvantages.md"
 relPath: "architect/species/99.Species.TraitsAndDisadvantages.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-species-matrix"
-order: 16
+order: 11
 perspective: "architect"
 entry_type: "Species Design Matrix"
 tl: 3

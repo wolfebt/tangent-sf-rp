@@ -35,6 +35,16 @@ import {
   getAssetVisualFallback, 
   TEXTURE_PRESET_LIBRARY 
 } from '../../../../engine/assets/assetVisualFallbacks';
+import {
+  HIFI_CHROMA_TILE_PRESETS,
+  TILE_FAMILY_METADATA,
+  type TileSynthesisRecipe,
+  compileRecipeToAssetUnit,
+  synthesizeTileDataUrl,
+  generateAutoTileVariants4Bit,
+  generateStateTextures
+} from '../../../../engine/assets/MicroTileSynthesizer';
+import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
 import { showToast } from '../../../../context/ToastContext';
 
 export interface AssetStudioTabProps {
@@ -68,6 +78,20 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
   const [isStudioModalOpen, setIsStudioModalOpen] = useState(false);
   const [isDrawingStudioOpen, setIsDrawingStudioOpen] = useState(false);
   const [isPresetPickerOpen, setIsPresetPickerOpen] = useState(false);
+  const [isTileSynthModalOpen, setIsTileSynthModalOpen] = useState(false);
+
+  // HIFI CHROMA Tile Synthesizer Forge state
+  const [tileRecipe, setTileRecipe] = useState<TileSynthesisRecipe>(HIFI_CHROMA_TILE_PRESETS[0]);
+  const [tilePrompt, setTilePrompt] = useState('');
+  const [isTileAiLoading, setIsTileAiLoading] = useState(false);
+  const [tileAiSource, setTileAiSource] = useState('');
+  const [includeAutoTiles, setIncludeAutoTiles] = useState(false);
+  const [includeStateTextures, setIncludeStateTextures] = useState(true);
+
+  const liveTilePreviewUrl = useMemo(() => {
+    if (!isTileSynthModalOpen) return '';
+    return synthesizeTileDataUrl({ ...tileRecipe, resolution: 128 });
+  }, [isTileSynthModalOpen, tileRecipe]);
 
   // Viewport & Error tracking
   const [imageErrorMap, setImageErrorMap] = useState<Record<string, boolean>>({});
@@ -176,6 +200,84 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
     showToast({ type: 'success', text: `Saved custom texture for "${selectedUnit.name}"` });
   };
 
+  const handleSynthesizeRecipeToSelected = (recipe: TileSynthesisRecipe, dataUrl?: string) => {
+    if (!selectedUnit) return;
+    const tex = dataUrl || synthesizeTileDataUrl(recipe);
+    const isAutoTile = recipe.outputMode === 'marching_squares_4bit' || includeAutoTiles;
+    const variants = isAutoTile ? generateAutoTileVariants4Bit(recipe, 64) : [tex];
+    const stateTextures = includeStateTextures ? generateStateTextures(recipe) : { pristine: tex };
+
+    const updated: AssetUnit = {
+      ...selectedUnit,
+      visuals: {
+        ...selectedUnit.visuals,
+        baseTexture: tex,
+        thumbnail: tex,
+        variants,
+        auto_tile: isAutoTile ? 'marching_squares_4bit' : selectedUnit.visuals.auto_tile,
+        stateTextures
+      },
+      vtt_properties: {
+        ...selectedUnit.vtt_properties,
+        blocks_movement: recipe.vtt.blocksMovement,
+        blocks_vision: recipe.vtt.blocksVision,
+        terrain: {
+          material: recipe.vtt.material,
+          movementCost: recipe.vtt.movementCost,
+          slipperyFriction: recipe.vtt.slipperyFriction,
+          footstepSfxCategory: `footstep_${recipe.vtt.material.split('_')[0]}`
+        },
+        dynamicLighting: recipe.vtt.emitsLight
+          ? {
+              emits: true,
+              color: recipe.palette.glow || recipe.palette.accent,
+              intensity: Math.max(0.5, recipe.ligneClaire.emissiveStrength * 2),
+              radiusBrightFt: recipe.vtt.lightRadiusBrightFt ?? 10,
+              radiusDimFt: recipe.vtt.lightRadiusDimFt ?? 20,
+              castsShadows: true,
+              animation: recipe.vtt.lightAnimation || 'pulse'
+            }
+          : selectedUnit.vtt_properties.dynamicLighting,
+        hazard: recipe.vtt.isHazard
+          ? {
+              hazardType: recipe.vtt.hazardType || 'plasma_leak',
+              damageFormula: recipe.vtt.damageFormula || '2d10+4 plasma',
+              triggerTiming: 'on_enter',
+              saveDc: {
+                attribute: recipe.vtt.saveAttribute || 'Reflex (AGI)',
+                target: recipe.vtt.saveDc ?? 14
+              }
+            }
+          : selectedUnit.vtt_properties.hazard
+      }
+    };
+    handleSaveAsset(updated);
+    setImageErrorMap(prev => ({ ...prev, [selectedUnit.unit_id]: false }));
+    showToast({ type: 'success', text: `Synthesized "${recipe.name}" + 2d10 VTT mechanics onto "${selectedUnit.name}"` });
+  };
+
+  const handleMintNewTileUnit = () => {
+    const newUnit = compileRecipeToAssetUnit(tileRecipe, {
+      includeAutoTiles: includeAutoTiles || tileRecipe.outputMode === 'marching_squares_4bit',
+      includeStateTextures
+    });
+    handleIngestUnits([newUnit]);
+    setIsTileSynthModalOpen(false);
+    showToast({ type: 'success', text: `Minted synthesized AssetUnit "${newUnit.name}" into catalog!` });
+  };
+
+  const handleTilePromptGenerate = async () => {
+    if (!tilePrompt.trim()) return;
+    setIsTileAiLoading(true);
+    try {
+      const { recipe, source } = await synthesizeTileRecipeFromPrompt(tilePrompt, tileRecipe);
+      setTileRecipe(recipe);
+      setTileAiSource(source === 'gemini_flash' ? '⚡ Gemini Flash' : '🧠 Semantic Engine');
+    } finally {
+      setIsTileAiLoading(false);
+    }
+  };
+
   const backdropClasses = {
     checker: 'bg-[linear-gradient(45deg,#1e293b_25%,transparent_25%),linear-gradient(-45deg,#1e293b_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#1e293b_75%),linear-gradient(-45deg,transparent_75%,#1e293b_75%)] [background-size:16px_16px] [background-position:0_0,0_8px,8px_-8px,-8px_0] bg-slate-950',
     dark: 'bg-[#090d13]',
@@ -236,6 +338,16 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
               </button>
             </>
           )}
+
+          <button
+            type="button"
+            onClick={() => setIsTileSynthModalOpen(true)}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-white font-mono text-xs font-semibold transition-all shadow-md shadow-purple-950/60"
+            title="HIFI CHROMA Micro-Tile Synthesizer — Generate Seamless Tiles, 4-Bit Auto-Tiles & VTT Hazards"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Synthesize Tile Unit</span>
+          </button>
 
           <button
             type="button"
@@ -599,9 +711,9 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
 
       {/* MODAL 1: Dedicated Image & Canvas Drawing Studio */}
       {isDrawingStudioOpen && selectedUnit && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-sm p-4 pt-14 sm:pt-16 pb-8 overflow-y-auto animate-in fade-in duration-200">
-          <div className="bg-slate-900 border border-cyan-800 rounded-xl shadow-2xl shadow-cyan-950/80 w-full max-w-5xl flex flex-col h-[85vh] max-h-[calc(100vh-5.5rem)] overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-cyan-900/50">
+        <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-cyan-800 rounded-xl shadow-2xl shadow-cyan-950/80 w-full max-w-5xl flex flex-col h-[88vh] max-h-[92vh] overflow-hidden">
+            <div className="shrink-0 flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-cyan-900/50">
               <div className="flex items-center space-x-2">
                 <Paintbrush className="w-4 h-4 text-cyan-400" />
                 <h2 className="text-sm font-mono font-semibold text-slate-100 uppercase tracking-wider">
@@ -616,7 +728,7 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="flex-1 p-4 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 min-h-0 p-4 overflow-y-auto custom-scrollbar">
               <AssetDrawingStudio
                 key={selectedUnit.unit_id}
                 initialImage={activeImageUrl}
@@ -624,7 +736,176 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
                 label={`Drawing Studio — ${selectedUnit.name}`}
                 onChange={() => {}}
                 onSaveToAsset={handleDrawingStudioSave}
+                onSynthesizeRecipe={handleSynthesizeRecipeToSelected}
               />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 1B: HIFI CHROMA Tile Unit Synthesizer Modal */}
+      {isTileSynthModalOpen && (
+        <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-purple-700 rounded-xl shadow-2xl w-full max-w-3xl flex flex-col max-h-[90vh] overflow-hidden">
+            <div className="shrink-0 flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-purple-900/50">
+              <div className="flex items-center space-x-2">
+                <Sparkles className="w-4 h-4 text-purple-400" />
+                <h2 className="text-sm font-mono font-semibold text-slate-100 uppercase tracking-wider">
+                  HIFI CHROMA Micro-Tile Unit Synthesizer
+                </h2>
+                {tileAiSource && (
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-700">
+                    {tileAiSource}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsTileSynthModalOpen(false)}
+                className="text-slate-400 hover:text-slate-200 p-1 rounded hover:bg-slate-800"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 text-xs font-mono custom-scrollbar">
+              {/* Prompt-to-Recipe Bar */}
+              <div className="flex gap-2 bg-slate-950 p-3 rounded-lg border border-purple-800/50">
+                <input
+                  type="text"
+                  value={tilePrompt}
+                  onChange={(e) => setTilePrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleTilePromptGenerate();
+                    }
+                  }}
+                  placeholder="Describe tile (e.g., 'rusted starship grate over glowing green acid pool', 'cracked cryo glacier ice')..."
+                  className="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-slate-100 focus:outline-none focus:border-purple-400"
+                />
+                <button
+                  type="button"
+                  onClick={handleTilePromptGenerate}
+                  disabled={isTileAiLoading || !tilePrompt.trim()}
+                  className="px-3 py-1.5 rounded bg-purple-700 hover:bg-purple-600 disabled:opacity-40 text-white font-semibold uppercase"
+                >
+                  {isTileAiLoading ? 'Synthesizing...' : '⚡ AI / Semantic Recipe'}
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div className="md:col-span-7 space-y-3">
+                  <div>
+                    <label className="block text-[10px] uppercase text-slate-400 mb-1">
+                      Tile Unit Name
+                    </label>
+                    <input
+                      type="text"
+                      value={tileRecipe.name}
+                      onChange={(e) => setTileRecipe(prev => ({ ...prev, name: e.target.value }))}
+                      className="w-full bg-slate-950 border border-slate-700 rounded px-2.5 py-1.5 text-cyan-300 font-bold"
+                    />
+                  </div>
+
+                  {/* Preset Quick Picker */}
+                  <div>
+                    <label className="block text-[10px] uppercase text-slate-400 mb-1">
+                      Canonical HIFI CHROMA Presets ({HIFI_CHROMA_TILE_PRESETS.length})
+                    </label>
+                    <div className="grid grid-cols-2 gap-1.5 max-h-40 overflow-y-auto pr-1 custom-scrollbar">
+                      {HIFI_CHROMA_TILE_PRESETS.map((preset) => (
+                        <button
+                          key={preset.id}
+                          type="button"
+                          onClick={() => {
+                            setTileRecipe(JSON.parse(JSON.stringify(preset)));
+                            setIncludeAutoTiles(preset.outputMode === 'marching_squares_4bit');
+                          }}
+                          className={`p-2 rounded border text-left transition-all ${
+                            tileRecipe.id === preset.id
+                              ? 'border-cyan-400 bg-cyan-950/70 text-cyan-200'
+                              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-600'
+                          }`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <span className="truncate font-semibold">{preset.name}</span>
+                            {preset.catalogCode && (
+                              <span className="text-[9px] text-cyan-400 ml-1">{preset.catalogCode}</span>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Compilation Options */}
+                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
+                    <label className="flex items-center gap-2 cursor-pointer text-cyan-300">
+                      <input
+                        type="checkbox"
+                        checked={includeAutoTiles}
+                        onChange={(e) => setIncludeAutoTiles(e.target.checked)}
+                        className="accent-cyan-400"
+                      />
+                      <span>Generate 16-Variant 4-Bit Marching Squares Auto-Tile Set</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer text-emerald-300">
+                      <input
+                        type="checkbox"
+                        checked={includeStateTextures}
+                        onChange={(e) => setIncludeStateTextures(e.target.checked)}
+                        className="accent-emerald-400"
+                      />
+                      <span>Generate 5 Environmental State Textures (Pristine/Damaged/Destroyed/Overgrown/Corrupted)</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Live 2x2 Seamless Preview & VTT Mechanics */}
+                <div className="md:col-span-5 flex flex-col items-center gap-3 bg-slate-950 border border-slate-800 rounded-lg p-3">
+                  <span className="text-[10px] uppercase text-cyan-400 self-start">
+                    2×2 Seamless Toroidal Preview
+                  </span>
+                  <div
+                    className="w-40 h-40 rounded border border-cyan-800 shadow-inner"
+                    style={{
+                      backgroundImage: liveTilePreviewUrl ? `url("${liveTilePreviewUrl}")` : 'none',
+                      backgroundSize: '50% 50%',
+                      backgroundRepeat: 'repeat'
+                    }}
+                  />
+                  <div className="w-full text-[11px] space-y-1 text-slate-300 border-t border-slate-800 pt-2">
+                    <div>Family: <span className="text-cyan-300">{TILE_FAMILY_METADATA[tileRecipe.family]?.label}</span></div>
+                    <div>Material: <span className="text-cyan-300">{tileRecipe.vtt.material}</span> ({tileRecipe.vtt.movementCost}x move)</div>
+                    {tileRecipe.vtt.isHazard && (
+                      <div className="text-amber-300">Hazard: {tileRecipe.vtt.damageFormula} (DC {tileRecipe.vtt.saveDc})</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="shrink-0 flex items-center justify-end gap-2 px-4 py-3 bg-slate-950 border-t border-slate-800 text-xs font-mono">
+              {selectedUnit && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleSynthesizeRecipeToSelected(tileRecipe);
+                    setIsTileSynthModalOpen(false);
+                  }}
+                  className="px-3 py-1.5 rounded bg-cyan-900 hover:bg-cyan-800 text-cyan-200 border border-cyan-700 font-semibold"
+                >
+                  Apply to "{selectedUnit.name}"
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleMintNewTileUnit}
+                className="px-4 py-1.5 rounded bg-purple-600 hover:bg-purple-500 text-white font-semibold shadow-lg"
+              >
+                ✨ Mint New AssetUnit to Catalog
+              </button>
             </div>
           </div>
         </div>
@@ -632,8 +913,8 @@ export const AssetStudioTab: React.FC<AssetStudioTabProps> = ({ onStampAssetOnMa
 
       {/* MODAL 2: Preset Textures & Sprites Library */}
       {isPresetPickerOpen && selectedUnit && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-sm p-4 pt-16 sm:pt-20 pb-8 overflow-y-auto animate-in fade-in duration-200">
-          <div className="bg-slate-900 border border-cyan-800 rounded-xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[80vh] overflow-hidden">
+        <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+          <div className="bg-slate-900 border border-cyan-800 rounded-xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[85vh] overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-cyan-900/50">
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-4 h-4 text-cyan-400" />

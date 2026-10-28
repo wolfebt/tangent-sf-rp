@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Enhanced Biotechnology
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Advanced biological affinity and seamless neurological manipulation of living technology, bio-grafts, and biomorphic carapaces.
+Direct physiological compatibility and neural control over living technology, bio-grafts, and biomorphic carapaces.
+
+## Mechanics & Benefit
+Instant integration with living items; Advantage on biotech calibration and commands

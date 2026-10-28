@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Shapechange to gain a protective layer.
+Morphic dermal hardening that forms a protective outer shell on command.
+
+## Mechanics & Benefit
+Shapechange to gain a natural protective armor layer

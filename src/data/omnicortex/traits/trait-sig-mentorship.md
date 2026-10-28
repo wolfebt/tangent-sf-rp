@@ -19,7 +19,7 @@ modifiers: [{"target":"Tutelage may make Study","type":"check_advantage","value"
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Mentor (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description

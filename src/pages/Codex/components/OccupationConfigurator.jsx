@@ -16,6 +16,7 @@ import {
   Tag
 } from 'lucide-react';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
+import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 
 /**
  * Common Traits available to all Occupations per 1.06 OCCUPATIONS.md
@@ -99,9 +100,10 @@ export const OccupationConfigurator = ({
     return [];
   }, [formData.traits]);
 
-  // Resolve detailed trait objects from dbData or catalog
+  // Resolve detailed trait objects from traits_detail, dbData, or canonical catalog
   const resolvedTraits = useMemo(() => {
-    const catalogTraits = dbData?.traits || dbData?.trait || [];
+    const catalogTraits = [...(dbData?.traits || dbData?.trait || []), ...ALL_CANONICAL_TRAITS];
+    const traitsDetail = Array.isArray(formData.traits_detail) ? formData.traits_detail : [];
 
     return traits.map(traitItem => {
       if (typeof traitItem === 'object' && traitItem !== null) {
@@ -109,6 +111,14 @@ export const OccupationConfigurator = ({
       }
       const rawName = String(traitItem);
       const cleanName = rawName.replace(/^trait-/, '').replace(/-/g, ' ').toLowerCase();
+
+      // Check traits_detail first
+      const fromDetail = traitsDetail.find(td => {
+        const tdName = (td.name || td.id || '').toLowerCase();
+        const tdClean = tdName.replace(/^trait-/, '').replace(/-/g, ' ');
+        return tdName === cleanName || tdClean === cleanName || tdName === rawName.toLowerCase();
+      });
+      if (fromDetail) return fromDetail;
 
       // Check global traits catalog
       const fromCatalog = catalogTraits.find(ct => {
@@ -129,7 +139,7 @@ export const OccupationConfigurator = ({
         bonus: '+2 Vocational Bonus'
       };
     });
-  }, [traits, dbData?.traits, dbData?.trait]);
+  }, [traits, formData.traits_detail, dbData?.traits, dbData?.trait]);
 
   // Handlers for adding/removing items
   const handleAddSkill = () => {
@@ -447,10 +457,10 @@ export const OccupationConfigurator = ({
                 {/* Mechanic Bonus Badge */}
                 <div className="pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[10px] font-mono">
                   <span className="text-amber-300 font-bold flex items-center gap-1">
-                    <Zap size={11} className="text-amber-400" />
-                    <span>{bonus}</span>
+                    <Zap size={11} className="text-amber-400 shrink-0" />
+                    <span>[{String(bonus).replace(/^\[|\]$/g, '')}]</span>
                   </span>
-                  <span className="text-emerald-400 font-semibold">
+                  <span className="text-emerald-400 font-semibold shrink-0 ml-2">
                     Tier 1
                   </span>
                 </div>

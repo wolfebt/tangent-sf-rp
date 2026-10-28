@@ -14,10 +14,13 @@ modifiers: []
 ---
 # G-Force Immunity
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Internal fluid dampening allows the organism to survive extreme maneuvers and turns that would turn a humanoid to jelly. Grants complete immunity to G-LOC, blackout, redout, and acceleration trauma.
+Internal fluid dampening allows survival through extreme supersonic turns and decelerations.
+
+## Mechanics & Benefit
+Total physiological immunity to blackout, redout, vertigo, and high-G crushing forces

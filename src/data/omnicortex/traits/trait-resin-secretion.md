@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Resin Secretion
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Exudes fast-curing Hive-Resin used to seal breaches, repair vehicle/mecha plating, and anchor defensive positions against vacuum and pressure hazards.
+Fast-curing Hive-Resin glands for field repairs, patching vehicle/mecha breaches, and airtight seals.
+
+## Mechanics & Benefit
+Restores 2d6 Structure Points or seals hull breaches in 1 round; cures to titanium-grade tensile strength

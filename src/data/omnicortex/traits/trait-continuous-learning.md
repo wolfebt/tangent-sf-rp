@@ -14,7 +14,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Continuous Learning All Learning Checks
-mechanic: All Learning Checks are made at Advantage
+mechanic: "All Learning Checks are made at Advantage"
 ---
 # Continuous Learning
 

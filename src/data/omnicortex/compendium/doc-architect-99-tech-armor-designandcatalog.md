@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-armor-designandcatalog"
-name: "99. Tech (Armor): Armor Design & Catalog"
+name: "Tech (Armor): Armor Design & Catalog"
 fileName: "99.Tech.Armor.DesignAndCatalog.md"
 relPath: "architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 30
+order: 25
 perspective: "architect"
 entry_type: "Tech Matrix (armor)"
 tl: 3

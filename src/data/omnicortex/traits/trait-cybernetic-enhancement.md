@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Cyberneticist (Savant). You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants."
-mechanic: "You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants."
+mechanic: "+2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants"
 rules: "Signature Trait (1 CP) — The Cyberneticist (Savant)."
 modifiers: [{"target":"Medicine","type":"skill","value":2,"mode":"inherent","description":"+2 to Medicine"},{"target":"Technology","type":"skill","value":2,"mode":"inherent","description":"+2 to Technology"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Medicine","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Cyberneticist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Cyberneticist (Savant). You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.
+Signature trait of The Cyberneticist (Savant). Specialized expertise and intuition in cybernetics, including installation, repair, and modification of cybernetic implants.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants.
++2 bonus to Medicine and Technology checks related to cybernetics, including installation, repair, and modification of cybernetic implants

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Members of this race select one extra feature of their choice.
+Natural evolutionary versatility that grants an additional specialized capability.
+
+## Mechanics & Benefit
+Select one extra Feature of choice

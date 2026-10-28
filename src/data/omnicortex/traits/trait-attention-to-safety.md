@@ -21,7 +21,7 @@ modifiers:
     value: 4
     mode: inherent
     description: +4 to Ensuring that their creations are safe to use
-mechanic: Prototyping Checks gain a +4 bonus
+mechanic: "Prototyping Checks gain a +4 bonus"
 ---
 # Attention to Safety
 

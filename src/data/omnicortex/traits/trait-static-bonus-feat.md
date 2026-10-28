@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Choose one feat with no prerequisites. All members gain this feat as a bonus feat.
+Universal racial conditioning that imparts a foundational feat to all members.
+
+## Mechanics & Benefit
+Gain one chosen feat with no prerequisites as a bonus feat

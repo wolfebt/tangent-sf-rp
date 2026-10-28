@@ -775,7 +775,18 @@ export const ArchitectDocketBlock = ({
                   <div className="truncate">
                     <span>@{block.createdByHandle || 'Architect'}</span>
                     <span className="mx-1">•</span>
-                    <span>{new Date(block.createdAt || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    <span>{(() => {
+                      const raw = block.createdAt || Date.now();
+                      const d = raw?.toDate ? raw.toDate() : (typeof raw?.seconds === 'number' ? new Date(raw.seconds * 1000) : new Date(raw));
+                      if (!d || isNaN(d.getTime())) return '';
+                      const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                      const hours = String(d.getHours()).padStart(2, '0');
+                      const minutes = String(d.getMinutes()).padStart(2, '0');
+                      const day = String(d.getDate()).padStart(2, '0');
+                      const month = months[d.getMonth()];
+                      const year = String(d.getFullYear()).slice(-2);
+                      return `${hours}:${minutes} - ${day}${month}${year}`;
+                    })()}</span>
                   </div>
 
                   <div className="flex items-center gap-1 shrink-0">

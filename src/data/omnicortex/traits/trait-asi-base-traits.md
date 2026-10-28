@@ -59,4 +59,4 @@ package_traits:
 The supernatural chassis of ancient fey lineages connected to primal nature and illusion.
 
 ## Mechanics & Benefit
-The supernatural chassis of ancient fey lineages connected to primal nature and illusion.
+Grants Ageless [2 CP], Obfuscate [2 CP], and Sleepless [2 CP]

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Does not suffer penalties nor show any signs of aging.
+Arrested cellular senescence that prevents physical deterioration over time.
+
+## Mechanics & Benefit
+Suffers no aging penalties and shows no physical signs of aging

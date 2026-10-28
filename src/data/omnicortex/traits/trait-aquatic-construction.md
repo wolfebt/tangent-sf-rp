@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Construction
-mechanic: +2 to all Construction Checks
+mechanic: "+2 to all Construction Checks"
 ---
 # Aquatic Construction
 

@@ -11,7 +11,7 @@ description: >-
   Meticulous observation that spots minute anomalies, data flaws, and sensory
   inconsistencies.
 modifiers: []
-mechanic: +2 Alertness
+mechanic: "+2 Alertness"
 ---
 # Attention to Detail
 

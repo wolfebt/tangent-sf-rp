@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Marshal (Sentinel). You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds."
-mechanic: "You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds."
+mechanic: "+2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds"
 rules: "Signature Trait (1 CP) — The Marshal (Sentinel)."
 modifiers: [{"target":"Intimidation","type":"skill","value":2,"mode":"inherent","description":"+2 to Intimidation"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Intimidation","type":"skill","value":2,"mode":"inherent",
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Marshal (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Marshal (Sentinel). You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.
+Signature trait of The Marshal (Sentinel). Specialized expertise and intuition in enforcing law and order in the Outworlds.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds.
++2 bonus to Intimidation checks and +2 bonus on any checks related to enforcing law and order in the Outworlds

@@ -14,7 +14,7 @@ modifiers:
     value: 10
     mode: inherent
     description: May take 10 on Alertness Checks
-mechanic: May take 10 on Alertness Checks
+mechanic: "May take 10 on Alertness Checks"
 ---
 # Observant
 

@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.
+eloquent vocal resonance and persuasive social mastery.
 
 ## Mechanics & Benefit
-+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.
++2 bonus on Diplomacy and Bluff checks; can shift attitude up to three steps

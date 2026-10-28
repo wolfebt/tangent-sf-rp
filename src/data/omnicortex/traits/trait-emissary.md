@@ -30,7 +30,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Once per day make a check at advantage for Bluff or Diplomacy.
+Refined diplomatic poise and persuasive training for cross-cultural negotiation.
 
 ## Mechanics & Benefit
-Once per day make a check at advantage for Bluff or Diplomacy.
+Once per day, make a Bluff or Diplomacy check at Advantage

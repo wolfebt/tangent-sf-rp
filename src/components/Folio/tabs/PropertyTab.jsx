@@ -236,7 +236,7 @@ export const PropertyTab = ({
             No {config.title.toLowerCase()} items registered in character dossier. Click "+ Add {config.title}" to browse catalog or create a custom build.
           </div>
         ) : (
-          <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
+          <div className="space-y-2">
             {list.map((item, idx) => {
               const isObj = typeof item === 'object' && item !== null;
               const name = isObj ? (item.name || item.title || 'Item') : String(item);

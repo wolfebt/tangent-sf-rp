@@ -419,7 +419,7 @@ export const DBMWikiView = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(() => {
     if (typeof window === 'undefined') return true;
     try {
-      return localStorage.getItem('compendium_rail_drawer_open') !== 'false';
+      return window.innerWidth < 768 ? false : localStorage.getItem('compendium_rail_drawer_open') !== 'false';
     } catch {
       return true;
     }
@@ -506,11 +506,31 @@ export const DBMWikiView = ({
   } = useMemo(() => {
     const rawItems = currentItems || [];
 
-    // Strictly keep only canonical 1.00 Operator and 5.00 Architect articles
-    const sourceOfTruthItems = rawItems.filter(item => {
-      const id = (item.id || '').toLowerCase();
-      return id.startsWith('doc-operator-') || id.startsWith('doc-architect-');
-    });
+    // Strictly keep only canonical 1.00 Operator and 5.00 Architect articles (excluding legacy architect archetypes)
+    const sourceOfTruthItems = rawItems
+      .filter(item => {
+        const id = (item.id || '').toLowerCase();
+        const sub = (item.subfolder || item.relPath || '').toLowerCase();
+        if (
+          id.startsWith('doc-architect-99-archetypes') ||
+          sub.startsWith('architect/archetypes') ||
+          (id.startsWith('doc-architect-') && (item.name || '').toUpperCase().includes('ARCHETYPES'))
+        ) {
+          return false;
+        }
+        return id.startsWith('doc-operator-') || id.startsWith('doc-architect-');
+      })
+      .map(item => {
+        const id = (item.id || '').toLowerCase();
+        const isArchItem = id.startsWith('doc-architect-') || item.perspective === 'architect' || item.category === 'architect_matrix';
+        if (isArchItem && item.name) {
+          const cleanName = item.name.replace(/^(?:02|99\.?|\d+(?:\.\d+)*\.?)\s*[-—:]?\s*/, '').trim();
+          if (cleanName && cleanName !== item.name) {
+            return { ...item, name: cleanName };
+          }
+        }
+        return item;
+      });
 
     const itemMap = new Map();
     sourceOfTruthItems.forEach(item => {
@@ -786,6 +806,9 @@ export const DBMWikiView = ({
     if (!item) return;
 
     setSelectedArticleId(item.id);
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsDrawerOpen(false);
+    }
 
     // Auto-expand ancestor folders for this article
     const ancestors = articleAncestorsMap[item.id] || [];
@@ -1018,6 +1041,7 @@ export const DBMWikiView = ({
     if (targetArticle.id && USER_GUIDE_SECTIONS.some(s => s.id === targetArticle.id)) {
       setActiveTab('guide');
       setActiveGuideSectionId(targetArticle.id);
+      if (typeof window !== 'undefined' && window.innerWidth < 768) setIsDrawerOpen(false);
       try {
         localStorage.setItem('compendium_active_tab', 'guide');
         localStorage.setItem('compendium_active_guide_section', targetArticle.id);
@@ -1231,7 +1255,7 @@ export const DBMWikiView = ({
   return (
     <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden h-full relative shadow-xl">
       {/* Mobile / Narrow View Guide Section Modal Overlay */}
-      {isMobileGuideOpen && activeTab === 'guide' && (
+      {false && isMobileGuideOpen && activeTab === 'guide' && (
         <div className="fixed inset-0 z-[200] bg-[#0d1117]/98 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 pt-12 md:hidden">
           <div className="bg-[#0d1117] border border-cyan-500/50 rounded-xl w-full h-full shadow-[0_0_30px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col">
             <div className="p-3 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
@@ -1266,7 +1290,7 @@ export const DBMWikiView = ({
       )}
 
       {/* Mobile / Narrow View Full Article Modal Overlay */}
-      {selectedArticleId && activeArticle && (
+      {false && selectedArticleId && activeArticle && (
         <div className="fixed inset-0 z-[200] bg-[#0d1117]/98 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 pt-12 md:hidden">
           <div className="bg-[#0d1117] border border-cyan-500/50 rounded-xl w-full h-full shadow-[0_0_30px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col">
             {/* Mobile Modal Header */}
@@ -1718,7 +1742,7 @@ export const DBMWikiView = ({
                       onClick={() => {
                         AudioService?.playTerminalBeep?.(1100, 0.02);
                         setActiveGuideSectionId(sec.id);
-                        setIsMobileGuideOpen(true);
+                        if (typeof window !== 'undefined' && window.innerWidth < 768) setIsDrawerOpen(false);
                         try {
                           localStorage.setItem('compendium_active_guide_section', sec.id);
                         } catch {}
@@ -1838,7 +1862,7 @@ export const DBMWikiView = ({
       </aside>
 
       {/* RIGHT PANEL: Article Viewer / Content Display (Desktop Side-by-Side) */}
-      <div className="flex flex-col flex-1 max-md:hidden relative h-full overflow-hidden">
+      <div className={`flex flex-col flex-1 ${isDrawerOpen ? 'max-md:hidden' : ''} relative h-full overflow-hidden`}>
         {activeTab === 'guide' ? (
           <UserGuideView
             activeSectionId={activeGuideSectionId}
@@ -1853,7 +1877,7 @@ export const DBMWikiView = ({
             nextItem={currentNextArticle}
           />
         ) : (
-          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-6 lg:p-8 pb-28 bg-slate-900/95 scroll-smooth">
+          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-28 bg-slate-900/95 scroll-smooth">
           {activeArticle ? (
             <div className="w-full space-y-6">
               {/* Header & Controls */}
@@ -2038,7 +2062,7 @@ export const DBMWikiView = ({
                       <span>Modular Sub-Documents in {activeArticle.name} ({activeDirectChildren.length})</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 max-h-56 overflow-y-auto pr-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
                     {activeDirectChildren.map(sub => {
                       const subChildrenCount = descendantCountMap[sub.id] || 0;
                       return (
@@ -2065,7 +2089,7 @@ export const DBMWikiView = ({
               )}
 
               {/* Main Content Body */}
-              <div className="bg-slate-950 border border-slate-800/90 p-6 lg:p-7 rounded-xl text-slate-200 text-sm leading-relaxed shadow-inner">
+              <div className="bg-slate-950 border border-slate-800/90 p-4 sm:p-6 lg:p-7 rounded-xl text-slate-200 text-sm leading-relaxed shadow-inner">
                 <div className="text-slate-300 font-sans">
                   {articleBodyText ? (
                     <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>

@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 natural armor bonus.
+Thickened hide, dense bone, or dermal scales that deflect incoming blows.
 
 ## Mechanics & Benefit
-+2 natural armor bonus.
++2 natural armor bonus

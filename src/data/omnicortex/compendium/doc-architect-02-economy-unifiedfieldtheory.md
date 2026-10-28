@@ -1,6 +1,6 @@
 ---
 id: "doc-architect-02-economy-unifiedfieldtheory"
-name: "02 Economy: Economic Unified Field Theory"
+name: "Economy: Economic Unified Field Theory"
 fileName: "02.Economy.UnifiedFieldTheory.md"
 relPath: "architect/economy/02.Economy.UnifiedFieldTheory.md"
 isMasterDoc: false

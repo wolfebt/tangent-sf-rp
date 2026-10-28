@@ -21,7 +21,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Language
-mechanic: +2 Culture and Language checks
+mechanic: "+2 Culture and Language checks"
 ---
 # Communication
 

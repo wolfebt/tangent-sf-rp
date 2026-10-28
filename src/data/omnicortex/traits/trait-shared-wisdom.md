@@ -9,9 +9,7 @@ costs:
   bp: 1
 description: Imparting profound advice and guiding allies through precarious trials.
 modifiers: []
-mechanic: >-
-  Any Check to Aid, Guide or Instruct another (granting them a bonus) may be
-  made at Advantage
+mechanic: "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage"
 ---
 # Shared Wisdom
 

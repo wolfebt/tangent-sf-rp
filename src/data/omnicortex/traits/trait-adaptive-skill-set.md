@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-4 point bonus allotted in a pool. Ranked.
+Modular cognitive pathways that reallocate skill proficiencies as needed.
+
+## Mechanics & Benefit
+4-point skill bonus pool that can be reassigned (Ranked)

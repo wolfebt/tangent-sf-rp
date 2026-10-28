@@ -14,13 +14,13 @@ modifiers: []
 ---
 # Awakened (Arcane)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Innate metaphysical spark channeled through arcane geometry, runic formulations, and harmonic cosmological currents.
+Innate biological attunement to mystical and arcane frequencies, allowing direct manipulation of meta-phenomena.
 
-## Mechanics
-Grants innate access to the Attune skill, Arcane discipline metaphysical abilities, and allows wielding magi-tech and arcane focuses with Intellect as the primary governing attribute.
+## Mechanics & Benefit
+Grants innate Metaphysics casting capability for Arcane disciplines

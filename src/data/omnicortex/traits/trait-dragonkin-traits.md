@@ -43,19 +43,13 @@ package_traits:
 ---
 # Dragonkin Traits
 
-**Category**: TRAITS  
-**Tier**: Elite  
-**Type**: Species Trait  
-**CP Cost**: 6  
+**Category**: TRAITS
+**Tier**: Elite
+**Type**: Species Trait
+**CP Cost**: 6
 
 ## Description
 Innate draconic heritage passed down through ancient bloodlines.
 
-## Mechanics
-Gain Low Light Vision [1 CP], Sharp Senses (+2 Awareness checks) [1 CP], Natural Armor / Scales (DR 2) [2 CP], and Natural Attacks (Claws, Fangs, or Horns dealing 1d6 lethal damage) [2 CP]. Total package value: 6 CP.
-
-## Packaged Traits Sublist
-* **Low Light Vision** [1 CP / Basic]: Draconic night vision; see twice as well in dim light with expanded spectrum.
-* **Sharp Senses (Dragon Senses)** [1 CP / Basic]: Keen draconic perceptual awareness granting +2 bonus on Awareness and Insight checks.
-* **Draconic Scales (DR 2)** [2 CP / Advanced]: Thick leathery or crystalline scales providing natural armor DR 2.
-* **Natural Attacks (Claws, Fangs & Horns)** [2 CP / Advanced]: Retractable predatory claws, sharp fangs, or crown horns dealing 1d6 lethal damage.
+## Mechanics & Benefit
+Gain Low Light Vision [1 CP], Sharp Senses (+2 Awareness checks) [1 CP], Natural Armor / Scales (DR 2) [2 CP], and Natural Attacks (Claws, Fangs, or Horns dealing 1d6 lethal damage) [2 CP]. Total package value: 6 CP

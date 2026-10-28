@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.
+Complete molecular invulnerability to a specific elemental or energy spectrum.
 
 ## Mechanics & Benefit
-Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.
+Completely immune to one specific Energy Damage type (Requires: Sta 2, DR 20 vs that Energy)

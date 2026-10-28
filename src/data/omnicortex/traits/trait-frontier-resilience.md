@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Settler (Sentinel). You gain +2 on saving throws against environmental hazards."
-mechanic: "You gain +2 on saving throws against environmental hazards."
+mechanic: "+2 on saving throws against environmental hazards"
 rules: "Signature Trait (1 CP) — The Settler (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Settler (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Settler (Sentinel). You gain +2 on saving throws against environmental hazards.
+Signature trait of The Settler (Sentinel). Specialized archetype training and mastery in frontier resilience.
 
 ## Mechanics & Benefit
-You gain +2 on saving throws against environmental hazards.
++2 on saving throws against environmental hazards

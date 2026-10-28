@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 on Might Checks
-mechanic: +2 Might Checks
+mechanic: "+2 Might Checks"
 ---
 # Physical Strength
 

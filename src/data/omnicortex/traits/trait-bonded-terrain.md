@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 dodge bonus to AC when in a specific terrain type.
+Instinctive spatial awareness and defensive footing within a native environment.
 
 ## Mechanics & Benefit
-+2 dodge bonus to AC when in a specific terrain type.
++2 dodge bonus to AC when in a specific chosen terrain type

@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Limited Flight
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Short bursts of elytra-powered flight granting 2x Land Speed for 1 round of movement, 2x Jump distance, and immunity to falling damage via Slow Fall.
+Elytra wing-bursts granting 2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall.
+
+## Mechanics & Benefit
+Fly at 2x Land Speed for 1 round; double jump distance; immune to falling damage via Slow Fall

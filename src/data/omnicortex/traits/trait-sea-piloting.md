@@ -11,7 +11,7 @@ description: >-
   Operation of submersibles, high-speed hydrofoils, personal jets, and colossal
   floating platforms.
 modifiers: []
-mechanic: '+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft'
+mechanic: "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft"
 ---
 # Sea Piloting
 

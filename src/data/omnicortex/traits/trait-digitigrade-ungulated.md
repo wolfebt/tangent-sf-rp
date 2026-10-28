@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+10 Movement Speed and +4 Stability, Special pants and Boots needed.
+Elevated toe-walking or hooved lower limb anatomy built for rapid sprinting and balance.
 
 ## Mechanics & Benefit
-+10 Movement Speed and +4 Stability, Special pants and Boots needed.
++10 ft Movement Speed and +4 Stability; requires specialized pants and boots

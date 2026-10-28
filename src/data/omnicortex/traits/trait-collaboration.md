@@ -11,7 +11,7 @@ description: >-
   Working smoothly with interdisciplinary research teams and effectively sharing
   breakthroughs.
 modifiers: []
-mechanic: additional +1 to Aid bonuses received and granted
+mechanic: "additional +1 to Aid bonuses received and granted"
 ---
 # Collaboration
 

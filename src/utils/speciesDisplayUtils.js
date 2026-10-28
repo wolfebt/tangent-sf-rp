@@ -532,23 +532,58 @@ const cleanTraitName = (rawStr) => {
  * where Category is "Humanoid Special Ability", "Special Ability", or "Trait"
  */
 export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
-  if (!rawTrait) return { name: '', category: 'Trait', label: '', tooltip: {} };
+  if (!rawTrait) return { name: '', category: 'Trait', label: '', description: '', mechanic: '', tooltip: {} };
 
   const rawId = typeof rawTrait === 'object' ? (rawTrait.id || rawTrait.name || '') : String(rawTrait);
   const cleanId = rawId.toLowerCase().trim();
+  const objDesc = typeof rawTrait === 'object' ? (rawTrait.description || rawTrait.desc || '') : '';
+  const objMech = typeof rawTrait === 'object' ? (rawTrait.mechanic || rawTrait.mechanics || rawTrait.bonus || '') : '';
+
+  // 0. Check pillar context traits_detail (e.g. Occupation or Origin specific trait definitions)
+  if (speciesContext && Array.isArray(speciesContext.traits_detail)) {
+    const detailMatch = speciesContext.traits_detail.find(t =>
+      t.id?.toLowerCase() === cleanId ||
+      t.name?.toLowerCase() === cleanId ||
+      t.id?.toLowerCase() === `trait-${cleanId}`
+    );
+    if (detailMatch) {
+      const name = detailMatch.name || cleanTraitName(cleanId);
+      const description = detailMatch.description || detailMatch.desc || objDesc || '';
+      const mechanic = (detailMatch.mechanic || detailMatch.mechanics || detailMatch.bonus || objMech || '').replace(/^\[|\]$/g, '');
+      return {
+        id: detailMatch.id || rawId,
+        name,
+        category: 'Trait',
+        label: `${name} - Trait`,
+        description,
+        mechanic,
+        tooltip: {
+          title: `${name} (Trait)`,
+          badge: 'Trait',
+          description,
+          formula: mechanic ? `[${mechanic}]` : undefined,
+          rules: mechanic ? `[${mechanic}]` : ''
+        }
+      };
+    }
+  }
 
   // 1. Check known curated trait descriptions
   if (KNOWN_SPECIES_TRAIT_DESCRIPTIONS[cleanId]) {
     const k = KNOWN_SPECIES_TRAIT_DESCRIPTIONS[cleanId];
+    const mechanic = (k.rules || objMech || '').replace(/\.$/, '');
     return {
       id: rawId,
       name: k.name,
       category: k.category,
       label: `${k.name} - ${k.category}`,
+      description: k.description,
+      mechanic,
       tooltip: {
         title: `${k.name} (${k.category})`,
         badge: k.category,
         description: k.description,
+        formula: mechanic ? `[${mechanic}]` : undefined,
         rules: k.rules
       }
     };
@@ -558,7 +593,8 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
   const canonical = ALL_CANONICAL_TRAITS.find(t =>
     t.id?.toLowerCase() === cleanId ||
     t.name?.toLowerCase() === cleanId ||
-    t.id?.toLowerCase() === `trait-${cleanId}`
+    t.id?.toLowerCase() === `trait-${cleanId}` ||
+    t.id?.toLowerCase() === `trait-sig-${cleanId}`
   );
 
   if (canonical) {
@@ -568,15 +604,20 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     }
     const name = canonical.name;
     const label = `${name} - ${cat}`;
+    const description = objDesc || canonical.description || canonical.desc || canonical.body?.split('\n\n## Description\n')?.[1]?.split('\n\n')[0] || `${name} trait.`;
+    const mechanic = (objMech || canonical.mechanic || canonical.mechanics || '').replace(/^\[|\]$/g, '');
     return {
       id: canonical.id || rawId,
       name,
       category: cat,
       label,
+      description,
+      mechanic,
       tooltip: {
         title: `${name} (${cat})`,
         badge: cat,
-        description: canonical.description || canonical.body?.split('\n\n## Description\n')?.[1]?.split('\n\n')[0] || `${name} species trait.`,
+        description,
+        formula: mechanic ? `[${mechanic}]` : undefined,
         rules: canonical.special_rules || canonical.rules || canonical.notes || '',
         cost: canonical.bp ? `${canonical.bp} BP` : undefined
       }

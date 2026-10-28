@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Smuggler (Operative). Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods."
-mechanic: "Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods."
+mechanic: "+2 bonus on any checks related to hiding or retrieving smuggled goods"
 rules: "Signature Trait (1 CP) — The Smuggler (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Smuggler (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Smuggler (Operative). Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.
+Signature trait of The Smuggler (Operative). Your ship or vehicle has expertly concealed compartments for smuggling contraband.
 
 ## Mechanics & Benefit
-Your ship or vehicle has expertly concealed compartments for smuggling contraband, granting +2 bonus on any checks related to hiding or retrieving smuggled goods.
++2 bonus on any checks related to hiding or retrieving smuggled goods

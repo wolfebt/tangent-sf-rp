@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Changes color, +5 Stealth or may take 10 on Stealth checks.
+Chromatophore skin cells that actively shift color and pattern to match surroundings.
 
 ## Mechanics & Benefit
-Changes color, +5 Stealth or may take 10 on Stealth checks.
++5 bonus to Stealth checks and may Take 10 on Stealth checks

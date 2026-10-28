@@ -21,3 +21,6 @@ modifiers: []
 
 ## Description
 Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.
+
+## Mechanics & Benefit
++2 to Administration and Business Knowledge Checks

@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-metaphysics-invocationmatrix"
-name: "99. Metaphysics: Invocation Matrix"
+name: "Metaphysics: Invocation Matrix"
 fileName: "99.Metaphysics.InvocationMatrix.md"
 relPath: "architect/metaphysics/99.Metaphysics.InvocationMatrix.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "doc-architect-99-metaphysics"
-order: 45
+order: 40
 perspective: "architect"
 entry_type: "Metaphysics Matrix"
 tl: 3

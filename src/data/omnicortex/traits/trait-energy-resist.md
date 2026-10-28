@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.
+Dermal insulation or cellular grounding against a specific elemental energy.
 
 ## Mechanics & Benefit
-DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.
+DR 10 vs one chosen energy type (Pyro, Cryo, Sonic, Voltic, or Corrosive); Multiple/Ranked

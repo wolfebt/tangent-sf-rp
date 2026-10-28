@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.
+True aerodynamic or anti-gravitic flight capability.
+
+## Mechanics & Benefit
+Flight Speed of 2x Ground Speed with Average Maneuverability (uses Acrobatics skill)

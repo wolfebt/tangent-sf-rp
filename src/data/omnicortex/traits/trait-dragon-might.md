@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.
+Immense draconic sinew and leverage surpassing normal size limitations.
+
+## Mechanics & Benefit
+Lift objects and grapple as if 1 size category larger (Requires: Dragonkin, Str 4)

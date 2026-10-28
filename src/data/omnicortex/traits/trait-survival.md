@@ -11,7 +11,7 @@ description: >-
   Ability to survive in harsh environments, such as deserts or post-apocalyptic
   wastelands, by finding food, water, and shelter
 modifiers: []
-mechanic: +2 Survival
+mechanic: "+2 Survival"
 ---
 # Survival
 

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Two members can share same square. If attacking same foe, considered flanking.
+Coordinated pack movement allowing two allies to fight seamlessly in the same space.
+
+## Mechanics & Benefit
+Two members may share the same square; if attacking the same foe, both count as flanking

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.
+Redundant backup consciousness core that restores a destroyed synthetic unit without trauma.
+
+## Mechanics & Benefit
+Revivification without loss of Karma or Experience and no trauma penalty (Requires: Synthetic, TL4)

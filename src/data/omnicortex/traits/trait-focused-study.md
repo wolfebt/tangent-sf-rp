@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Gain Skill Focus in a skill of their choice.
+Dedicated cognitive conditioning and specialized training in a chosen discipline.
+
+## Mechanics & Benefit
+Gain Skill Focus in one chosen skill

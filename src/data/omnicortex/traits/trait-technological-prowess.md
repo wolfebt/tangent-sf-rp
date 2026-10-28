@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Ghost (Operative). You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements."
-mechanic: "You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements."
+mechanic: "+2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements"
 rules: "Signature Trait (1 CP) — The Ghost (Operative)."
 modifiers: [{"target":"Technology","type":"skill","value":2,"mode":"inherent","description":"+2 to Technology"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Technology","type":"skill","value":2,"mode":"inherent","d
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Ghost (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Ghost (Operative). You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.
+Signature trait of The Ghost (Operative). Specialized expertise and intuition in hacking, disabling security systems, or utilizing cybernetic enhancements.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements.
++2 bonus to Technology checks related to hacking, disabling security systems, or utilizing cybernetic enhancements

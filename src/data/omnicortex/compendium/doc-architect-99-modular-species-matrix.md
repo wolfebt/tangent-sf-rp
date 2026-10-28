@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-modular-species-matrix"
-name: "99. MODULAR SPECIES MATRIX"
+name: "MODULAR SPECIES MATRIX"
 fileName: "99. MODULAR SPECIES MATRIX.md"
 relPath: "architect/99. MODULAR SPECIES MATRIX.md"
 isMasterDoc: true
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 14
+order: 9
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3

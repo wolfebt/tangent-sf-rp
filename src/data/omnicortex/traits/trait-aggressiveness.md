@@ -30,7 +30,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.
+Decisive tactical aggression in combat and high-pressure breach engagements.
 
 ## Mechanics & Benefit
-Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.
++1 bonus to Intimidation and breach actions

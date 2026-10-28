@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+4 racial bonus on Swim checks and may take 10 on swimming checks.
+Streamlined aquatic anatomy adapted for effortless underwater propulsion.
 
 ## Mechanics & Benefit
-+4 racial bonus on Swim checks and may take 10 on swimming checks.
++4 racial bonus on Swim checks and may always Take 10 on Swim checks

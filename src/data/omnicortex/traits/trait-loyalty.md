@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Will Checks
-mechanic: Domination and Mind-Control Resistance Checks are made at Advantage
+mechanic: "Domination and Mind-Control Resistance Checks are made at Advantage"
 ---
 # Loyalty
 

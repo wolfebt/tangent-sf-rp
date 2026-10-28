@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Weaver
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Abdominal spinnerets weave high-tensile silk filaments of Hive-Resin, creating adhesive snares to entangle enemies or constructing structural safety nets, hanging bivouacs, and anchor lines.
+Spinnerets produce and manipulate high-tensile natural webbing made from specialized Hive-Resin.
+
+## Mechanics & Benefit
+Ranged web snare out to 40 ft (entangles target; DC 15 + Sta to break); weave 200 ft rappels and safety nets

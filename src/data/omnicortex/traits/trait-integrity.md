@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Karma Pool
-mechanic: +1 Karma
+mechanic: "+1 Karma"
 ---
 # Integrity
 

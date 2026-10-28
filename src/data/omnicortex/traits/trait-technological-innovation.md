@@ -14,7 +14,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Technological innovation Knowledge Technology Checks
-mechanic: Knowledge (Technology) checks made at Advantage.
+mechanic: "Knowledge (Technology) checks made at Advantage"
 ---
 # Technological innovation
 
@@ -27,4 +27,4 @@ mechanic: Knowledge (Technology) checks made at Advantage.
 Able to create, adapt, and improve technology in novel ways.
 
 ## Mechanics & Benefit
-Knowledge (Technology) checks made at Advantage.
+Knowledge (Technology) checks made at Advantage

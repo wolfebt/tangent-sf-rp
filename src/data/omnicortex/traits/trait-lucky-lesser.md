@@ -33,7 +33,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+1 racial bonus on all saving throws.
+Subtle probabilistic favor and instinct for avoiding catastrophe.
 
 ## Mechanics & Benefit
-+1 racial bonus on all saving throws.
++1 racial bonus on all saving throws

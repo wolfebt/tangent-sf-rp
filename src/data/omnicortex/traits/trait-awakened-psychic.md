@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Awakened (Psychic)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Conductors of the Hive’s psionic Chorus. Possesses the innate metaphysical spark granting access to the Attune skill and mental focus disciplines (Intellect or Wisdom).
+Conductor of the Hive’s psionic Chorus, granting access to Attune and mental focus disciplines.
+
+## Mechanics & Benefit
+Gains Attune skill and 2 mental discipline skills (Intellect or Wisdom focused)

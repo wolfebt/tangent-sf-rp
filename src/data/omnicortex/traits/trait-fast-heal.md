@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Daily Recovery of Health and Vitality during a Light Rest (repeatable).
+Accelerated cellular mitosis that rapidly knits wounds during brief rest periods.
+
+## Mechanics & Benefit
+Recover Health and Vitality daily during a Light Rest (Repeatable)

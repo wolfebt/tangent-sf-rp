@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Blind Sense (EM/Vibration)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Perceives surroundings via mecha sensors and external bio-arrays within a 30 ft radius (or 60 ft cone), feeling electromagnetic waveforms and surface vibrations as tactile skin sensations.
+Perceives environment through mecha sensors and external bio-arrays via electromagnetic and vibration resonance.
+
+## Mechanics & Benefit
+30 ft blindsense sensing subtle EM fields, hull stresses, and vibrations through mecha surface as personal skin

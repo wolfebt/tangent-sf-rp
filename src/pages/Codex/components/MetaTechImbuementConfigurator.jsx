@@ -165,7 +165,7 @@ export const MetaTechImbuementConfigurator = ({ formData = {}, onChange }) => {
           <label className="text-[10px] uppercase font-bold text-slate-400 block">
             Passive Matter & Force Enhancements (+5 DC per Socket)
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {META_TECH_PASSIVE_CATALOG.map(mod => {
               const isSelected = selectedPassives.includes(mod.id);
               return (

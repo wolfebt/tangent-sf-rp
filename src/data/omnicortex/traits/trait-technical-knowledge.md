@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Vocation
-mechanic: +2 Vocation Skill
+mechanic: "+2 Vocation Skill"
 ---
 # Technical Knowledge
 

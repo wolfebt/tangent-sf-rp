@@ -15,7 +15,7 @@ modifiers:
     mode: situational
     condition: 1/Day
     description: One Skill Check of choice at Advantage per day
-mechanic: Once per Day make a Skill Check of choice at Advantage
+mechanic: "Once per Day make a Skill Check of choice at Advantage"
 ---
 # Resourceful
 

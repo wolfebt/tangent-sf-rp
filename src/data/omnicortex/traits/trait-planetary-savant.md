@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Planetologist (Savant) / The Xeno-surveyor (Savant). You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments."
-mechanic: "You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments."
+mechanic: "+2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments"
 rules: "Signature Trait (1 CP) — The Planetologist (Savant) / The Xeno-surveyor (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Planetologist (Savant) / The Xeno-surveyor (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Planetologist (Savant) / The Xeno-surveyor (Savant). You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.
+Signature trait of The Planetologist (Savant) / The Xeno-surveyor (Savant). Specialized expertise and intuition in planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments.
++2 bonus to Geology (Knowledge) checks related to planetary formations and any checks related to analyzing geological samples, identifying mineral deposits, or assessing the habitability of different environments

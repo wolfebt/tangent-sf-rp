@@ -11,7 +11,7 @@ description: >-
   Familiarity with advanced technologies, including hacking, surveillance
   equipment, and advanced weapons
 modifiers: []
-mechanic: +2 Technology Knowledge
+mechanic: "+2 Technology Knowledge"
 ---
 # Technology
 

@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.
+Natural charm and magnetism that puts strangers at ease and bolsters leadership.
+
+## Mechanics & Benefit
+May take 10 on Diplomacy Checks

@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.
+Powerful leathery draconic wings capable of high-speed aerial flight.
+
+## Mechanics & Benefit
+Fly Speed equal to 3x Ground Speed (Requires: Dragonkin, Exoskeleton)

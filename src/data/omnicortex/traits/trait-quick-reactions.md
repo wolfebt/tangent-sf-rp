@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Use double Agility score to calculate base Initiative. Req: Racial Agility +1.
+Hyper-myelinated reflex arcs that react to threats before conscious thought.
 
 ## Mechanics & Benefit
-Use double Agility score to calculate base Initiative. Req: Racial Agility +1.
+Double Agility score when calculating base Initiative (Requires: Racial Agility +1)

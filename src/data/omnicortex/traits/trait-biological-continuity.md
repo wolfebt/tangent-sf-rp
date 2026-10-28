@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Biological Continuity
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Inherited generational genetic stability grants immunity to cellular senescence and DNA decay, while bypassing cellular rejection checks when grafting organic wetware or piloting biomorphic vessels.
+Monogenetic genomic stabilization grants immunity to clone decay and allows effortless interface with biomorphic wetware.
+
+## Mechanics & Benefit
+Immune to cellular senescence/retroviruses; ignores cellular rejection checks for organic sockets and mecha

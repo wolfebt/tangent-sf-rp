@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Raider (Operative). You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force."
-mechanic: "You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force."
+mechanic: "+2 bonus on any checks related to intimidation, interrogation, or extracting information through force"
 rules: "Signature Trait (1 CP) — The Raider (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Raider (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Raider (Operative). You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.
+Signature trait of The Raider (Operative). Specialized expertise and intuition in intimidation, interrogation, or extracting information through force.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to intimidation, interrogation, or extracting information through force.
++2 bonus on any checks related to intimidation, interrogation, or extracting information through force

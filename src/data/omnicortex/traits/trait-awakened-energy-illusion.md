@@ -14,13 +14,13 @@ modifiers: []
 ---
 # Awakened (Energy/Illusion)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Innate power over electromagnetic photons, prismatic light refractions, and sensory phantasms.
 
-## Mechanics
-Grants innate access to the Attune skill and Illusion/Energy manipulation, creating photorealistic sensory holographic illusions and manipulating light wavelengths.
+## Mechanics & Benefit
+Grants innate access to the Attune skill and Illusion/Energy manipulation, creating photorealistic sensory holographic illusions and manipulating light wavelengths

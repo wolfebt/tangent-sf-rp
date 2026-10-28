@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger."
-mechanic: "Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger."
+mechanic: "Divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger"
 rules: "Signature Trait (1 CP) — The Mystic (Visionarie) / The Oracle (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Mystic (Visionarie) / The Oracle (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.
+Signature trait of The Mystic (Visionarie) / The Oracle (Visionarie). Specialized expertise and intuition in predicting outcomes or anticipating danger.
 
 ## Mechanics & Benefit
-Gain divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger.
+Divine insights into future events, granting +2 on any checks related to predicting outcomes or anticipating danger

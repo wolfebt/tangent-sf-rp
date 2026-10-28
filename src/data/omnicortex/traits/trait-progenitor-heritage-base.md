@@ -86,7 +86,7 @@ package_traits:
 **CP Cost**: 26
 
 ## Description
-The godlike chassis of the cosmic precursor architects.
+The godlike genetic and dimensional chassis of the cosmic precursor architects.
 
 ## Mechanics & Benefit
-The godlike chassis of the cosmic precursor architects.
+Grants innate Precursor spatial, technological, and molecular manipulation capabilities

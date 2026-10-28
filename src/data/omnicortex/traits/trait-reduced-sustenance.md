@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Eat and drink half typical.
+Highly efficient metabolic conservation requiring minimal food and water intake.
+
+## Mechanics & Benefit
+Requires only half the typical food and drink

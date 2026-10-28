@@ -116,7 +116,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               No {title.toLowerCase()} items added
             </div>
           ) : (
-            <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+            <div className="space-y-1.5">
               {list.map((item, idx) => {
                 const isObj = typeof item === 'object' && item !== null;
                 const name = isObj ? (item.name || item.title || 'Item') : String(item);
@@ -314,7 +314,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
 
-            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+            <div className="space-y-2">
               {attacks.length === 0 ? (
                 <div className="text-xs text-slate-500 italic py-2 text-center">No attack entries</div>
               ) : (
@@ -419,7 +419,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
 
-            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+            <div className="space-y-2">
               {armors.length === 0 ? (
                 <div className="text-xs text-slate-500 italic py-2 text-center">No defense entries</div>
               ) : (

@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Base Category, Change Appearance only (+5 to Disguise).
+Minor cellular or dermal mutability allowing superficial cosmetic changes within your base category.
 
 ## Mechanics & Benefit
-Base Category, Change Appearance only (+5 to Disguise).
+Change appearance within base category (+5 to Disguise checks)

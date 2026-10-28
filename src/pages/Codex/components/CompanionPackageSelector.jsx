@@ -245,7 +245,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
 
       {/* Tab 1: Form Packages */}
       {activeTab === 'form' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-72 overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
           {COMPANION_FORM_PACKAGES.map(form => {
             const isSelected = selectedForm === form.id;
             return (
@@ -285,7 +285,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
 
       {/* Tab 2: Function Packages */}
       {activeTab === 'functions' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {COMPANION_FUNCTION_PACKAGES.map(func => {
             const isSelected = selectedFunctions.includes(func.id);
             return (
@@ -316,7 +316,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
 
       {/* Tab 3: Bond Features */}
       {activeTab === 'bonds' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {COMPANION_BOND_FEATURES.map(bond => {
             const isSelected = selectedBonds.includes(bond.id);
             return (

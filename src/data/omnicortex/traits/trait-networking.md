@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.
+A wide network of professional and informal contacts across industries, syndicates, and governments.
+
+## Mechanics & Benefit
+Gather Information checks made at Advantage

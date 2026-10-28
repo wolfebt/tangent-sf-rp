@@ -29,7 +29,6 @@ const PREFERRED_OP_MASTER_ORDER = [
 
 const PREFERRED_ARCH_MASTER_ORDER = [
   '02 ECONOMY AND WEALTH.md',
-  '99. ARCHETYPES.md',
   '99. MODULAR CHARACTER MATRIX.md',
   '99. MODULAR SPECIES MATRIX.md',
   '99. MODULAR FACTION MATRIX.md',
@@ -54,7 +53,6 @@ const SUBFOLDER_TO_MASTER_ID = {
   'operator/metaphysics': 'doc-operator-4-00-metaphysics',
   // Architect subfolders
   'architect/economy': 'doc-architect-02-economy-and-wealth',
-  'architect/archetypes': 'doc-architect-99-archetypes',
   'architect/characters': 'doc-architect-99-modular-character-matrix',
   'architect/species': 'doc-architect-99-modular-species-matrix',
   'architect/companions': 'doc-architect-99-modular-companion-matrix',
@@ -288,11 +286,6 @@ const CUSTOM_SUBARTICLE_ORDER = [
   // 02 Economy
   '02.Economy.UnifiedFieldTheory.md',
   '02.Economy.InterstellarTrade.md',
-  // 99 Archetypes
-  '99.Archetypes.A_D.md',
-  '99.Archetypes.E_L.md',
-  '99.Archetypes.M_R.md',
-  '99.Archetypes.S_Z.md',
   // 99 Modular Character Matrix
   '99.Character.ModuleA.TierChassis.md',
   '99.Character.ModuleB.CompetencyRoles.md',
@@ -469,13 +462,17 @@ function formatArticleDisplayName(fileObj) {
   const isRootMaster = fileObj.relBranch === 'operator' || fileObj.relBranch === 'architect';
 
   if (isRootMaster) {
-    return cleanFileName
+    const formatted = cleanFileName
       .replace(/\s*\(\d+\)$/, '')
       .replace(/\s*\(work\)/i, '')
       .replace(/\.\s*\.+/, '. ')
       .replace(/&nbsp;/gi, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+    if (fileObj.relBranch === 'architect') {
+      return formatted.replace(/^(?:02|99\.?|\d+(?:\.\d+)*\.?)\s*[-—:]?\s*/i, '').trim();
+    }
+    return formatted;
   }
 
   // Subfolder file: e.g. "1.01.VitalityHealthStructure", "1.03.Aeld.Alterian", "99.Tech.Mecha.ForgeProtocol"
@@ -500,15 +497,14 @@ function formatArticleDisplayName(fileObj) {
   }
 
   if (parts.length >= 2 && (parts[0] === '02' || parts[0] === '99')) {
-    const numPrefix = parts[0] === '99' ? '99.' : '02';
     const rest = parts.slice(1).map(humanizeToken);
     if (rest.length >= 3) {
-      return `${numPrefix} ${rest[0]} (${rest[1]}): ${rest.slice(2).join(' — ')}`;
+      return `${rest[0]} (${rest[1]}): ${rest.slice(2).join(' — ')}`;
     }
     if (rest.length === 2) {
-      return `${numPrefix} ${rest[0]}: ${rest[1]}`;
+      return `${rest[0]}: ${rest[1]}`;
     }
-    return `${numPrefix} ${rest.join(': ')}`;
+    return rest.join(': ');
   }
 
   return cleanFileName;
@@ -536,6 +532,9 @@ function scanRuleFiles(rulesDir) {
       const fullPath = path.join(currentDir, entry.name);
       if (entry.isDirectory()) {
         const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
+        if (subRel.replace(/\\/g, '/').toLowerCase() === 'architect/archetypes') {
+          continue;
+        }
         traverse(fullPath, subRel);
       } else if (
         entry.isFile() &&
@@ -544,6 +543,12 @@ function scanRuleFiles(rulesDir) {
         !entry.name.startsWith('.')
       ) {
         const normalizedRelBranch = relBranch.replace(/\\/g, '/');
+        if (
+          normalizedRelBranch.toLowerCase() === 'architect' &&
+          entry.name.toLowerCase().includes('archetypes')
+        ) {
+          continue;
+        }
         discovered.push({
           fullPath,
           fileName: entry.name,

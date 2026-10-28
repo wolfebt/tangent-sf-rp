@@ -465,7 +465,7 @@ export const ArchitectureArchitectGuidance = ({
             </div>
 
             {/* Rendered Chips */}
-            <div className="min-h-[60px] max-h-[140px] overflow-y-auto p-2.5 bg-slate-950/90 border border-slate-800/80 rounded-lg flex flex-wrap gap-1.5 items-center content-start">
+            <div className="min-h-[60px] p-2.5 bg-slate-950/90 border border-slate-800/80 rounded-lg flex flex-wrap gap-1.5 items-center content-start">
               {filteredKeywords.length === 0 ? (
                 <span className="text-[11px] font-mono text-slate-400 italic">
                   {keywordsList.length === 0 ? 'No positive keywords defined yet.' : 'No keywords matching search.'}
@@ -555,7 +555,7 @@ export const ArchitectureArchitectGuidance = ({
             </div>
 
             {/* Rendered Chips */}
-            <div className="min-h-[60px] max-h-[140px] overflow-y-auto p-2.5 bg-slate-950/90 border border-slate-800/80 rounded-lg flex flex-wrap gap-1.5 items-center content-start">
+            <div className="min-h-[60px] p-2.5 bg-slate-950/90 border border-slate-800/80 rounded-lg flex flex-wrap gap-1.5 items-center content-start">
               {filteredNegativeKeywords.length === 0 ? (
                 <span className="text-[11px] font-mono text-slate-400 italic">
                   {negativeKeywordsList.length === 0 ? 'No negative railguards defined.' : 'No railguards matching search.'}

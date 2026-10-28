@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+4 racial Stability bonus while standing on the ground.
+Low center of gravity and sure-footed stance that resists knockdowns and trips.
 
 ## Mechanics & Benefit
-+4 racial Stability bonus while standing on the ground.
++4 racial Stability bonus while standing on the ground

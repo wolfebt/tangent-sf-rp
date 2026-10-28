@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-weaponry-forgeprotocol"
-name: "99. Tech (Weaponry): Forge Protocol"
+name: "Tech (Weaponry): Forge Protocol"
 fileName: "99.Tech.Weaponry.ForgeProtocol.md"
 relPath: "architect/technology/weaponry/99.Tech.Weaponry.ForgeProtocol.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 28
+order: 23
 perspective: "architect"
 entry_type: "Tech Matrix (weaponry)"
 tl: 3

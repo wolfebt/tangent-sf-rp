@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to A specific
-mechanic: '+2 to a specific Skill Check, may change assigned Skill daily'
+mechanic: "+2 to a specific Skill Check, may change assigned Skill daily"
 ---
 # Flexibility
 

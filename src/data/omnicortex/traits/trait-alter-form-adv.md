@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.
+Advanced cellular plasticity allowing changes to appearance, gender, and minor physical traits.
 
 ## Mechanics & Benefit
-Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.
+Change appearance (+5 Disguise), gender, and adjust minor traits within base category

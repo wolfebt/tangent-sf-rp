@@ -19,7 +19,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Tools
-mechanic: Additional +1 from Equipment Bonus and +2 Technology (Knowledge)
+mechanic: "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)"
 ---
 # Machine Affinity
 

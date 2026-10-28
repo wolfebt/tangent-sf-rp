@@ -11,7 +11,7 @@ description: >-
   Rely on their wits and cunning to achieve their objectives, often using
   deception and misdirection to outsmart their enemies
 modifiers: []
-mechanic: Additional +1 to appropriate maneuvers from having Edge
+mechanic: "Additional +1 to appropriate maneuvers from having Edge"
 ---
 # Cunning
 

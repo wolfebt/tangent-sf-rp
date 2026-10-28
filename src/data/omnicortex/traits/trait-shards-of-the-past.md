@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-Pick two skills. Gain +2 racial bonus on both. Represents past lives.
+Echoes of ancestral or past-life memories imparting intuitive knowledge.
 
 ## Mechanics & Benefit
-Pick two skills. Gain +2 racial bonus on both. Represents past lives.
+Choose two skills and gain a +2 racial bonus on both

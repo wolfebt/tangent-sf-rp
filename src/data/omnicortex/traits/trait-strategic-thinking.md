@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Tactics
-mechanic: +2 Tactics and Logic checks
+mechanic: "+2 Tactics and Logic checks"
 ---
 # Strategic thinking
 

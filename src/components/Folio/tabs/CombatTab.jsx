@@ -569,7 +569,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
           )}
 
           {/* Attack Table */}
-          <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+          <div className="space-y-2">
             {attacks.length === 0 ? (
               <div className="text-xs text-slate-400 italic py-6 text-center border border-dashed border-slate-800 rounded-lg space-y-2.5">
                 <p>No active offensive attacks configured.</p>
@@ -896,7 +896,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
           )}
 
           {/* Armor Table */}
-          <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+          <div className="space-y-2">
             {armors.length === 0 ? (
               <div className="text-xs text-slate-400 italic py-6 text-center border border-dashed border-slate-800 rounded-lg space-y-2.5">
                 <p>No defensive protection entries configured.</p>

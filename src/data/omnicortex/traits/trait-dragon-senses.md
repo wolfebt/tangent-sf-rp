@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.
+Apex draconic sensory acuity that misses no detail within its territory.
 
 ## Mechanics & Benefit
-Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.
+Make all Awareness checks at Advantage (Requires: Dragonkin, Awareness 11)

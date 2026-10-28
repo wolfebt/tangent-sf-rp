@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Missionary (Visionarie). You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need."
-mechanic: "You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need."
+mechanic: "+2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need"
 rules: "Signature Trait (1 CP) — The Missionary (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Missionary (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Missionary (Visionarie). You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.
+Signature trait of The Missionary (Visionarie). Specialized expertise and intuition in providing spiritual guidance, resolving religious disputes, or comforting those in need.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need.
++2 bonus on any checks related to providing spiritual guidance, resolving religious disputes, or comforting those in need

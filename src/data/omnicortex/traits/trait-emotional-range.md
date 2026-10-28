@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Thespian (Operative). You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation."
-mechanic: "You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation."
+mechanic: "+2 bonus on any checks related to acting or impersonation"
 rules: "Signature Trait (1 CP) — The Thespian (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Thespian (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Thespian (Operative). You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.
+Signature trait of The Thespian (Operative). You can convincingly portray a wide range of emotions and characters.
 
 ## Mechanics & Benefit
-You can convincingly portray a wide range of emotions and characters, gaining +2 bonus on any checks related to acting or impersonation.
++2 bonus on any checks related to acting or impersonation

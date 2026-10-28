@@ -11,7 +11,7 @@ description: >-
   Ability to resolve conflicts effectively and find solutions that satisfy all
   parties involved
 modifiers: []
-mechanic: +2 Diplomacy
+mechanic: "+2 Diplomacy"
 ---
 # Conflict resolution
 

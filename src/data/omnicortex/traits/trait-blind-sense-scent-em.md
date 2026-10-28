@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Blind Sense (Scent/EM)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Delicate antennae perceive bio-energetic, electromagnetic, and olfactory fields in a 30 ft radius.
+Delicate sensory antennae detect bio-energetic, electromagnetic, and olfactory plumes within 30 ft radius.
+
+## Mechanics & Benefit
+30 ft radius blindsense sensing movement, electrical signals, and scent plumes

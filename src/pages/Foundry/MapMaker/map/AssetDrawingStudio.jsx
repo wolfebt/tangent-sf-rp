@@ -1,5 +1,12 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { useConfirm } from '../../../../context/ConfirmContext';
+import {
+  HIFI_CHROMA_TILE_PRESETS,
+  TILE_FAMILY_METADATA,
+  synthesizeTileDataUrl,
+  generateAutoTileVariants4Bit
+} from '../../../../engine/assets/MicroTileSynthesizer';
+import { synthesizeTileRecipeFromPrompt } from '../../../../services/tileAiRecipeService';
 
 const PRESET_PALETTES = {
   'Cyber & Neon': [
@@ -64,6 +71,17 @@ function rgbToHex(r, g, b) {
   }).join('');
 }
 
+/**
+ * @param {object} props
+ * @param {string} [props.initialImage]
+ * @param {(dataUrl: string) => void} [props.onChange]
+ * @param {number} [props.width]
+ * @param {number} [props.height]
+ * @param {string} [props.label]
+ * @param {string} [props.assetType]
+ * @param {(dataUrl: string) => void} [props.onSaveToAsset]
+ * @param {(recipe: any, dataUrl?: string) => void} [props.onSynthesizeRecipe]
+ */
 export default function AssetDrawingStudio({
   initialImage = '',
   onChange,
@@ -71,7 +89,8 @@ export default function AssetDrawingStudio({
   height = 256,
   label = 'Asset Image Canvas & Studio',
   assetType = 'terrain', // 'terrain' | 'object'
-  onSaveToAsset
+  onSaveToAsset,
+  onSynthesizeRecipe
 }) {
   const confirm = useConfirm();
   const mainCanvasRef = useRef(null);
@@ -107,14 +126,22 @@ export default function AssetDrawingStudio({
   const [history, setHistory] = useState([]);
   const [historyStep, setHistoryStep] = useState(-1);
 
-  // Active procedural generator modal/panel
+  // Active procedural generator modal/panel (HIFI CHROMA Micro-Tile Synthesizer)
   const [showGeneratorModal, setShowGeneratorModal] = useState(false);
-  const [activeGenType, setActiveGenType] = useState('noise'); // 'noise' | 'grid' | 'nebula' | 'veins'
-  const [genColorA, setGenColorA] = useState('#0f172a');
-  const [genColorB, setGenColorB] = useState('#06b6d4');
-  const [genColorC, setGenColorC] = useState('#38bdf8');
-  const [genScale, setGenScale] = useState(20);
-  const [genDetail, setGenDetail] = useState(4);
+  const [synthRecipe, setSynthRecipe] = useState(() =>
+    assetType === 'object'
+      ? HIFI_CHROMA_TILE_PRESETS.find((p) => p.outputMode === 'decal_overlay') || HIFI_CHROMA_TILE_PRESETS[0]
+      : HIFI_CHROMA_TILE_PRESETS[0]
+  );
+  const [synthPrompt, setSynthPrompt] = useState('');
+  const [isAiSynthLoading, setIsAiSynthLoading] = useState(false);
+  const [synthSourceBadge, setSynthSourceBadge] = useState('');
+  const [synthFamilyFilter, setSynthFamilyFilter] = useState('all');
+
+  const synthPreviewDataUrl = useMemo(() => {
+    if (!showGeneratorModal) return '';
+    return synthesizeTileDataUrl({ ...synthRecipe, resolution: 128 });
+  }, [showGeneratorModal, synthRecipe]);
 
   // Keep track of loaded image ID to prevent re-load loops on local changes
   const loadedImageRef = useRef(null);
@@ -770,144 +797,69 @@ export default function AssetDrawingStudio({
     if (onChange) onChange(canvas.toDataURL('image/png'));
   };
 
-  // Procedural Synthesizers
-  const generateProceduralTexture = (type) => {
+  // HIFI CHROMA Micro-Tile Synthesizer Handlers
+  const handleAiSynthPrompt = async () => {
+    if (!synthPrompt.trim()) return;
+    setIsAiSynthLoading(true);
+    try {
+      const { recipe, source } = await synthesizeTileRecipeFromPrompt(synthPrompt, synthRecipe);
+      setSynthRecipe(recipe);
+      setSynthSourceBadge(source === 'gemini_flash' ? '⚡ Gemini Flash Recipe' : '🧠 Semantic Engine');
+    } finally {
+      setIsAiSynthLoading(false);
+    }
+  };
+
+  const applySynthesizedTileToCanvas = () => {
     const canvas = mainCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     const w = canvas.width;
     const h = canvas.height;
 
-    ctx.clearRect(0, 0, w, h);
+    if (synthRecipe.outputMode === 'marching_squares_4bit') {
+      // Render all 16 4-bit Marching Squares variants as a 4x4 atlas sheet onto the canvas
+      const cellPx = 64;
+      const variants = generateAutoTileVariants4Bit(synthRecipe, cellPx);
+      let loadedCount = 0;
+      ctx.clearRect(0, 0, w, h);
+      const subW = w / 4;
+      const subH = h / 4;
 
-    const [r1, g1, b1] = parseColorToRgba(genColorA, 100);
-    const [r2, g2, b2] = parseColorToRgba(genColorB, 100);
-    const [r3, g3, b3] = parseColorToRgba(genColorC, 100);
-
-    if (type === 'noise') {
-      // Fractal value noise generator
-      const imgData = ctx.createImageData(w, h);
-      const data = imgData.data;
-      const scale = Math.max(5, genScale);
-
-      for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-          const idx = (y * w + x) * 4;
-          // Simple multi-frequency sine wave synthesis for seamless texture
-          const nx = (x / w) * Math.PI * 2 * (scale / 10);
-          const ny = (y / h) * Math.PI * 2 * (scale / 10);
-
-          let val = Math.sin(nx) * Math.cos(ny) * 0.5 + 0.5;
-          val += (Math.sin(nx * 2 + 1.2) * Math.cos(ny * 2 + 0.8) * 0.25);
-          val += (Math.sin(nx * 4 + 2.5) * Math.cos(ny * 4 + 1.7) * 0.125);
-          val = Math.max(0, Math.min(1, val));
-
-          // Interpolate between colors
-          let r, g, b;
-          if (val < 0.5) {
-            const t = val * 2;
-            r = r1 + (r2 - r1) * t;
-            g = g1 + (g2 - g1) * t;
-            b = b1 + (b2 - b1) * t;
-          } else {
-            const t = (val - 0.5) * 2;
-            r = r2 + (r3 - r2) * t;
-            g = g2 + (g3 - g2) * t;
-            b = b2 + (b3 - b2) * t;
+      variants.forEach((vUrl, idx) => {
+        const img = new Image();
+        img.onload = () => {
+          const col = idx % 4;
+          const row = Math.floor(idx / 4);
+          ctx.drawImage(img, col * subW, row * subH, subW, subH);
+          loadedCount += 1;
+          if (loadedCount === 16) {
+            saveToHistory();
+            const finalDataUrl = canvas.toDataURL('image/png');
+            if (onSynthesizeRecipe) {
+              onSynthesizeRecipe(synthRecipe, finalDataUrl);
+            }
           }
-
-          data[idx] = Math.round(r);
-          data[idx + 1] = Math.round(g);
-          data[idx + 2] = Math.round(b);
-          data[idx + 3] = 255;
-        }
-      }
-      ctx.putImageData(imgData, 0, 0);
-    } else if (type === 'grid') {
-      // Sci-fi Tactical Hull & Grid Plates
-      ctx.fillStyle = genColorA;
-      ctx.fillRect(0, 0, w, h);
-
-      const cellSize = Math.max(16, genScale * 2);
-      ctx.strokeStyle = genColorB;
-      ctx.lineWidth = 2;
-
-      for (let x = 0; x < w; x += cellSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-      for (let y = 0; y < h; y += cellSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-      }
-
-      // Bevel accents and corner rivets
-      ctx.fillStyle = genColorC;
-      for (let x = 0; x < w; x += cellSize) {
-        for (let y = 0; y < h; y += cellSize) {
-          ctx.fillRect(x + 2, y + 2, 4, 4);
-          ctx.fillRect(x + cellSize - 6, y + 2, 4, 4);
-          ctx.fillRect(x + 2, y + cellSize - 6, 4, 4);
-          ctx.fillRect(x + cellSize - 6, y + cellSize - 6, 4, 4);
-        }
-      }
-    } else if (type === 'nebula') {
-      // Cosmic Space Nebula & Starfield
-      ctx.fillStyle = genColorA;
-      ctx.fillRect(0, 0, w, h);
-
-      // Nebula cloud puffs
-      for (let i = 0; i < 8; i++) {
-        const cx = Math.random() * w;
-        const cy = Math.random() * h;
-        const rad = Math.random() * (w * 0.4) + (w * 0.2);
-        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
-        grad.addColorStop(0, genColorB + '99');
-        grad.addColorStop(0.5, genColorC + '44');
-        grad.addColorStop(1, 'transparent');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, w, h);
-      }
-
-      // Star clusters
-      const starCount = Math.floor((w * h) / 400);
-      for (let s = 0; s < starCount; s++) {
-        const sx = Math.random() * w;
-        const sy = Math.random() * h;
-        const sSize = Math.random() * 2 + 0.5;
-        const bright = Math.random() > 0.3 ? '#ffffff' : genColorC;
-        ctx.fillStyle = bright;
-        ctx.fillRect(sx, sy, sSize, sSize);
-      }
-    } else if (type === 'veins') {
-      // Fissures / Crystal Veins
-      ctx.fillStyle = genColorA;
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.strokeStyle = genColorB;
-      ctx.shadowColor = genColorC;
-      ctx.shadowBlur = 8;
-      ctx.lineWidth = 3;
-
-      for (let i = 0; i < 6; i++) {
-        ctx.beginPath();
-        let vx = Math.random() * w;
-        let vy = Math.random() * h;
-        ctx.moveTo(vx, vy);
-        for (let step = 0; step < 12; step++) {
-          vx += (Math.random() - 0.5) * (w / 3);
-          vy += (Math.random() - 0.5) * (h / 3);
-          ctx.lineTo(vx, vy);
-        }
-        ctx.stroke();
-      }
+        };
+        img.src = vUrl;
+      });
+      setShowGeneratorModal(false);
+      return;
     }
 
-    saveToHistory();
+    const targetRes = w >= 256 ? 256 : 128;
+    const synthesizedUrl = synthesizeTileDataUrl({ ...synthRecipe, resolution: targetRes });
+    const img = new Image();
+    img.onload = () => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      saveToHistory();
+      const finalDataUrl = canvas.toDataURL('image/png');
+      if (onSynthesizeRecipe) {
+        onSynthesizeRecipe(synthRecipe, finalDataUrl);
+      }
+    };
+    img.src = synthesizedUrl;
     setShowGeneratorModal(false);
   };
 
@@ -946,14 +898,14 @@ export default function AssetDrawingStudio({
             <span>↪️</span> Redo
           </button>
 
-          {/* Procedural Generator Button */}
+          {/* HIFI CHROMA Micro-Tile Synthesizer Button */}
           <button
             type="button"
             onClick={() => setShowGeneratorModal(true)}
             className="px-2.5 py-1 bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-700 rounded text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1 shadow-md"
-            title="Procedural Synthesizers (Noise, Grids, Nebulae, Veins)"
+            title="HIFI CHROMA Micro-Tile Synthesizer (Seamless Tiles, 4-Bit Auto-Tiles, Hazards & Decals)"
           >
-            <span>✨</span> Generator...
+            <span>✨</span> Tile Synth...
           </button>
 
           {/* File Upload to Canvas */}
@@ -1491,101 +1443,433 @@ export default function AssetDrawingStudio({
 
       </div>
 
-      {/* Procedural Synthesizer Modal */}
+      {/* HIFI CHROMA Micro-Tile Synthesizer Modal */}
       {showGeneratorModal && (
-        <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
-          <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-md p-5 shadow-2xl text-slate-100 flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
-            <div className="flex items-center justify-between border-b border-[#0D5C63]/40 pb-2">
-              <h3 className="text-sm font-bold uppercase text-[#22d3ee] tracking-wider flex items-center gap-2">
-                <span>✨</span> Procedural Texture Synthesizer
-              </h3>
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto select-none font-sans">
+          <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-3xl p-5 shadow-2xl text-slate-100 flex flex-col gap-3 max-h-[90vh] overflow-hidden">
+            <div className="shrink-0 flex items-center justify-between border-b border-[#0D5C63]/40 pb-2.5">
+              <div>
+                <h3 className="text-sm font-bold uppercase text-[#22d3ee] tracking-wider flex items-center gap-2">
+                  <span>✨</span> HIFI CHROMA Micro-Tile Synthesizer
+                </h3>
+                <p className="text-[10px] text-slate-400">
+                  Ligne Claire / Bande Dessinée Toroidal Seamless Tiles, 4-Bit Auto-Tiles & Tactical Decals
+                </p>
+              </div>
               <button
                 type="button"
                 onClick={() => setShowGeneratorModal(false)}
-                className="text-slate-400 hover:text-white font-bold"
+                className="text-slate-400 hover:text-white font-bold px-2 py-1"
               >
                 ✕
               </button>
             </div>
 
-            <div className="flex flex-col gap-3 text-xs">
-              <div className="flex flex-col gap-1">
-                <label className="font-bold text-slate-300 uppercase text-[10px]">Synthesis Type</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { id: 'noise', label: '🌌 Planetary Noise', desc: 'Organic rock, water, gas clouds' },
-                    { id: 'grid', label: '🧱 Sci-Fi Hull Grid', desc: 'Plating, decks, panels' },
-                    { id: 'nebula', label: '⭐ Deep Space Nebula', desc: 'Star clusters & dust clouds' },
-                    { id: 'veins', label: '🌋 Fissures & Veins', desc: 'Lava rifts, crystals' }
-                  ].map(t => (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => setActiveGenType(t.id)}
-                      className={`p-2 rounded border text-left flex flex-col gap-0.5 transition-all ${
-                        activeGenType === t.id
-                          ? 'border-[#22d3ee] bg-cyan-950/80 text-cyan-300 font-bold'
-                          : 'border-slate-800 bg-[#0d1117] text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      <span>{t.label}</span>
-                      <span className="text-[9px] text-slate-500">{t.desc}</span>
-                    </button>
-                  ))}
-                </div>
+            <div className="flex-1 min-h-0 overflow-y-auto pr-1 flex flex-col gap-4 custom-scrollbar">
+            {/* Natural-Language Prompt-to-Recipe Bar */}
+            <div className="flex flex-col gap-1.5 bg-[#0d1117] border border-purple-800/60 rounded-lg p-3">
+              <div className="flex items-center justify-between">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                  <span>🧠</span> AI / Semantic Prompt-to-Recipe
+                </label>
+                {synthSourceBadge && (
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-purple-950/90 text-purple-300 border border-purple-700/60">
+                    {synthSourceBadge}
+                  </span>
+                )}
               </div>
-
-              {/* Color Gradient Stops */}
-              <div className="flex flex-col gap-1.5">
-                <label className="font-bold text-slate-300 uppercase text-[10px]">Palette Gradient Stops</label>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1">
-                    <span className="text-[10px] text-slate-400">Base:</span>
-                    <input
-                      type="color"
-                      value={genColorA}
-                      onChange={e => setGenColorA(e.target.value)}
-                      className="w-7 h-7 rounded border border-[#0D5C63]/60 cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-[10px] text-slate-400">Mid:</span>
-                    <input
-                      type="color"
-                      value={genColorB}
-                      onChange={e => setGenColorB(e.target.value)}
-                      className="w-7 h-7 rounded border border-[#0D5C63]/60 cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-[10px] text-slate-400">Highlight:</span>
-                    <input
-                      type="color"
-                      value={genColorC}
-                      onChange={e => setGenColorC(e.target.value)}
-                      className="w-7 h-7 rounded border border-[#0D5C63]/60 cursor-pointer"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Scale Slider */}
-              <div className="flex flex-col gap-1">
-                <div className="flex justify-between items-center text-[10px] font-bold text-slate-300">
-                  <span>Frequency / Feature Scale</span>
-                  <span className="text-cyan-400 font-mono">{genScale}</span>
-                </div>
+              <div className="flex gap-2">
                 <input
-                  type="range"
-                  min="5"
-                  max="60"
-                  value={genScale}
-                  onChange={e => setGenScale(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-800 rounded accent-cyan-400 cursor-pointer"
+                  type="text"
+                  value={synthPrompt}
+                  onChange={(e) => setSynthPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAiSynthPrompt();
+                    }
+                  }}
+                  placeholder="e.g. 'rusted starship grate over glowing green acid pool' or 'cracked cryo glacier ice'"
+                  className="flex-1 bg-[#161b22] border border-slate-700 rounded px-2.5 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-purple-400"
                 />
+                <button
+                  type="button"
+                  onClick={handleAiSynthPrompt}
+                  disabled={isAiSynthLoading || !synthPrompt.trim()}
+                  className="px-3 py-1.5 bg-purple-700 hover:bg-purple-600 disabled:opacity-40 text-white rounded text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all"
+                >
+                  {isAiSynthLoading ? 'Synthesizing...' : '⚡ Generate Recipe'}
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs">
+              {/* Left Column: Preset Catalog & Procedural Families (7 cols) */}
+              <div className="md:col-span-7 flex flex-col gap-3">
+                {/* Canonical Preset Selector */}
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="font-bold text-slate-300 uppercase text-[10px]">
+                      Canonical HIFI CHROMA Presets ({HIFI_CHROMA_TILE_PRESETS.length})
+                    </label>
+                    <select
+                      value={synthFamilyFilter}
+                      onChange={(e) => setSynthFamilyFilter(e.target.value)}
+                      className="bg-[#0d1117] border border-slate-700 rounded px-2 py-0.5 text-[10px] text-cyan-300"
+                    >
+                      <option value="all">All Biomes & Families</option>
+                      {Object.entries(TILE_FAMILY_METADATA).map(([famKey, meta]) => (
+                        <option key={famKey} value={famKey}>
+                          {meta.icon} {meta.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1">
+                    {HIFI_CHROMA_TILE_PRESETS.filter(
+                      (p) => synthFamilyFilter === 'all' || p.family === synthFamilyFilter
+                    ).map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => {
+                          setSynthRecipe(JSON.parse(JSON.stringify(preset)));
+                          setSynthSourceBadge(`📦 Preset ${preset.catalogCode || ''}`);
+                        }}
+                        className={`p-2 rounded border text-left flex flex-col gap-0.5 transition-all ${
+                          synthRecipe.id === preset.id
+                            ? 'border-[#22d3ee] bg-cyan-950/80 text-cyan-200 font-bold'
+                            : 'border-slate-800 bg-[#0d1117] text-slate-300 hover:border-slate-600'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="truncate text-[11px]">{preset.name}</span>
+                          {preset.catalogCode && (
+                            <span className="text-[9px] font-mono text-cyan-400 shrink-0">
+                              {preset.catalogCode}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          {[
+                            preset.palette.primary,
+                            preset.palette.secondary,
+                            preset.palette.accent,
+                            preset.palette.glow || preset.palette.ink
+                          ].map((sw, idx) => (
+                            <span
+                              key={idx}
+                              className="w-2.5 h-2.5 rounded-sm border border-black/40"
+                              style={{ backgroundColor: sw }}
+                            />
+                          ))}
+                          <span className="text-[9px] text-slate-500 ml-auto">
+                            {preset.vtt.isHazard ? '⚠️ Hazard' : preset.vtt.material}
+                          </span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Procedural Family & Output Mode */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-300 uppercase text-[10px]">
+                      Procedural Family
+                    </label>
+                    <select
+                      value={synthRecipe.family}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({ ...prev, family: e.target.value }))
+                      }
+                      className="bg-[#0d1117] border border-slate-700 rounded px-2 py-1.5 text-xs text-slate-200"
+                    >
+                      {Object.entries(TILE_FAMILY_METADATA).map(([famKey, meta]) => (
+                        <option key={famKey} value={famKey}>
+                          {meta.icon} {meta.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label className="font-bold text-slate-300 uppercase text-[10px]">
+                      Output Mode
+                    </label>
+                    <select
+                      value={synthRecipe.outputMode}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          outputMode: e.target.value,
+                          geometry: {
+                            ...prev.geometry,
+                            transparentBg: e.target.value !== 'seamless_single'
+                          }
+                        }))
+                      }
+                      className="bg-[#0d1117] border border-slate-700 rounded px-2 py-1.5 text-xs text-cyan-300 font-bold"
+                    >
+                      <option value="seamless_single">🔁 Seamless Repeating Tile</option>
+                      <option value="marching_squares_4bit">🧩 4-Bit Auto-Tile Atlas (4×4)</option>
+                      <option value="decal_overlay">🎯 Alpha Decal / Prop Stamp</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* HIFI CHROMA Palette Pickers */}
+                <div className="flex flex-col gap-1.5 bg-[#0d1117] border border-slate-800 rounded-lg p-2.5">
+                  <div className="flex items-center justify-between">
+                    <label className="font-bold text-slate-300 uppercase text-[10px]">
+                      HIFI CHROMA Palette & Ink
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          seed: Math.floor(Math.random() * 89999) + 1000
+                        }))
+                      }
+                      className="text-[10px] text-cyan-400 hover:text-cyan-300 font-mono"
+                    >
+                      🎲 Seed #{synthRecipe.seed} (Re-Roll)
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-5 gap-2">
+                    {[
+                      { key: 'primary', label: 'Primary' },
+                      { key: 'secondary', label: 'Secondary' },
+                      { key: 'accent', label: 'Accent' },
+                      { key: 'ink', label: 'Ink Line' },
+                      { key: 'glow', label: 'Glow/FX' }
+                    ].map(({ key, label: colLabel }) => (
+                      <div key={key} className="flex flex-col items-center gap-1">
+                        <input
+                          type="color"
+                          value={synthRecipe.palette[key] || '#38bdf8'}
+                          onChange={(e) =>
+                            setSynthRecipe((prev) => ({
+                              ...prev,
+                              palette: { ...prev.palette, [key]: e.target.value }
+                            }))
+                          }
+                          className="w-8 h-7 rounded border border-[#0D5C63]/60 cursor-pointer bg-transparent"
+                        />
+                        <span className="text-[9px] text-slate-400">{colLabel}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Ligne Claire & Geometry Sliders */}
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2 bg-[#0d1117] border border-slate-800 rounded-lg p-2.5">
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-400">Cell / Plate Scale</span>
+                      <span className="text-cyan-300 font-mono">{synthRecipe.geometry.scale}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="1"
+                      max="6"
+                      step="1"
+                      value={synthRecipe.geometry.scale}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          geometry: { ...prev.geometry, scale: Number(e.target.value) }
+                        }))
+                      }
+                      className="w-full h-1 bg-slate-800 rounded accent-cyan-400"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-400">Ligne Claire Ink Weight</span>
+                      <span className="text-cyan-300 font-mono">
+                        {synthRecipe.ligneClaire.inkWeight.toFixed(1)}px
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="3.5"
+                      step="0.2"
+                      value={synthRecipe.ligneClaire.inkWeight}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          ligneClaire: { ...prev.ligneClaire, inkWeight: Number(e.target.value) }
+                        }))
+                      }
+                      className="w-full h-1 bg-slate-800 rounded accent-cyan-400"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-400">Cross-Hatch Shadows</span>
+                      <span className="text-cyan-300 font-mono">
+                        {Math.round(synthRecipe.ligneClaire.crossHatchDensity * 100)}%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={synthRecipe.ligneClaire.crossHatchDensity}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          ligneClaire: {
+                            ...prev.ligneClaire,
+                            crossHatchDensity: Number(e.target.value)
+                          }
+                        }))
+                      }
+                      className="w-full h-1 bg-slate-800 rounded accent-cyan-400"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-400">Weathering & Grime</span>
+                      <span className="text-cyan-300 font-mono">
+                        {Math.round(synthRecipe.ligneClaire.weathering * 100)}%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={synthRecipe.ligneClaire.weathering}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          ligneClaire: { ...prev.ligneClaire, weathering: Number(e.target.value) }
+                        }))
+                      }
+                      className="w-full h-1 bg-slate-800 rounded accent-cyan-400"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex justify-between text-[10px]">
+                      <span className="text-slate-400">Emissive Seam Glow</span>
+                      <span className="text-cyan-300 font-mono">
+                        {Math.round(synthRecipe.ligneClaire.emissiveStrength * 100)}%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={synthRecipe.ligneClaire.emissiveStrength}
+                      onChange={(e) =>
+                        setSynthRecipe((prev) => ({
+                          ...prev,
+                          ligneClaire: {
+                            ...prev.ligneClaire,
+                            emissiveStrength: Number(e.target.value)
+                          }
+                        }))
+                      }
+                      className="w-full h-1 bg-slate-800 rounded accent-cyan-400"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2">
+                    <label className="flex items-center gap-1.5 cursor-pointer text-[10px] font-bold text-amber-300">
+                      <input
+                        type="checkbox"
+                        checked={synthRecipe.ligneClaire.hazardStripes}
+                        onChange={(e) =>
+                          setSynthRecipe((prev) => ({
+                            ...prev,
+                            ligneClaire: { ...prev.ligneClaire, hazardStripes: e.target.checked }
+                          }))
+                        }
+                        className="accent-amber-400"
+                      />
+                      ⚠️ Hazard Chevrons
+                    </label>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#0D5C63]/40">
+              {/* Right Column: Live 2x2 Seamless Tiling Preview & VTT Mechanics Readout (5 cols) */}
+              <div className="md:col-span-5 flex flex-col gap-3">
+                <div className="flex flex-col gap-1.5 bg-[#0d1117] border border-slate-800 rounded-lg p-3 items-center">
+                  <span className="text-[10px] font-bold uppercase text-cyan-300 tracking-wider self-start">
+                    Live 2×2 Toroidal Seamless Preview
+                  </span>
+                  <div
+                    className="w-44 h-44 rounded-lg border border-[#0D5C63] shadow-inner overflow-hidden"
+                    style={{
+                      backgroundImage: synthPreviewDataUrl ? `url("${synthPreviewDataUrl}")` : 'none',
+                      backgroundSize: '50% 50%',
+                      backgroundRepeat: 'repeat',
+                      backgroundColor: '#090d16'
+                    }}
+                  />
+                  <span className="text-[10px] text-slate-400 font-mono truncate max-w-full">
+                    {synthRecipe.name}
+                  </span>
+                </div>
+
+                {/* Auto-Inferred Tangent 2d10 VTT Mechanics Card */}
+                <div className="flex flex-col gap-1.5 bg-[#0d1117] border border-slate-800 rounded-lg p-3 text-[11px]">
+                  <span className="text-[10px] font-bold uppercase text-emerald-400 tracking-wider">
+                    ⚙️ Auto-Wired 2d10 VTT Mechanics
+                  </span>
+                  <div className="grid grid-cols-2 gap-1 text-slate-300">
+                    <div>
+                      <span className="text-slate-500">Material:</span>{' '}
+                      <span className="font-mono text-cyan-300">{synthRecipe.vtt.material}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-500">Move Cost:</span>{' '}
+                      <span className="font-mono">{synthRecipe.vtt.movementCost}x</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-500">Friction:</span>{' '}
+                      <span className="font-mono">{synthRecipe.vtt.slipperyFriction}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-500">Cover:</span>{' '}
+                      <span className="font-mono">{synthRecipe.vtt.cover}</span>
+                    </div>
+                  </div>
+                  {synthRecipe.vtt.emitsLight && (
+                    <div className="text-[10px] text-cyan-300 bg-cyan-950/40 border border-cyan-800/50 rounded px-2 py-1">
+                      💡 Dynamic Light: {synthRecipe.vtt.lightRadiusBrightFt || 10}ft bright /{' '}
+                      {synthRecipe.vtt.lightRadiusDimFt || 20}ft dim ({synthRecipe.vtt.lightAnimation || 'pulse'})
+                    </div>
+                  )}
+                  {synthRecipe.vtt.isHazard && (
+                    <div className="text-[10px] text-amber-300 bg-amber-950/40 border border-amber-800/50 rounded px-2 py-1">
+                      ☣️ Hazard: {synthRecipe.vtt.damageFormula} • DC {synthRecipe.vtt.saveDc || 14}{' '}
+                      {synthRecipe.vtt.saveAttribute || 'Reflex (AGI)'}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <div className="shrink-0 flex items-center justify-between gap-2 pt-3 border-t border-[#0D5C63]/40">
+              <span className="text-[10px] text-slate-400">
+                {synthRecipe.outputMode === 'marching_squares_4bit'
+                  ? 'Renders a 16-variant 4-Bit Marching Squares Auto-Tile Atlas onto the canvas.'
+                  : 'Renders a 100% seamless toroidal tile onto the canvas & syncs VTT stats.'}
+              </span>
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setShowGeneratorModal(false)}
@@ -1595,10 +1879,10 @@ export default function AssetDrawingStudio({
                 </button>
                 <button
                   type="button"
-                  onClick={() => generateProceduralTexture(activeGenType)}
+                  onClick={applySynthesizedTileToCanvas}
                   className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-bold uppercase text-xs shadow-lg"
                 >
-                  Synthesize onto Canvas
+                  ✨ Synthesize onto Canvas
                 </button>
               </div>
             </div>

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Protective life-force and warded energy weave into an immediate defensive barrier for allies."
-mechanic: "Reaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden."
+mechanic: "Reaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden"
 rules: "Signature Trait (1 CP) — The Warden (Sentinel)."
 modifiers: [{"target":"defense-mod","type":"combat","value":3,"mode":"inherent","description":"+3 to defense-mod"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"defense-mod","type":"combat","value":3,"mode":"inherent",
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Warden (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Protective life-force and warded energy weave into an immediate defensive barrier for allies.
 
 ## Mechanics & Benefit
-Reaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden.
+Reaction (when an ally within 10m is targeted): The targeted ally gains +3 Defense against the triggering attack. If the attack still hits, damage is halved and the remaining half is transferred to the Warden

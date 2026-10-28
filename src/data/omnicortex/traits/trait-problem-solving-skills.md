@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 on Logic Checks
-mechanic: +2 Logic Checks
+mechanic: "+2 Logic Checks"
 ---
 # Problem-Solving Skills
 

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Physiology shifts to be compatible with the new environment.
+Reactive morphic physiology that reconfigures to survive hostile environments.
+
+## Mechanics & Benefit
+Shift physiology to become compatible with a new environment

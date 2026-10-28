@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Engineering Comprehensive understanding of physics
-mechanic: +2 to Engineering
+mechanic: "+2 to Engineering"
 ---
 # Mecha-Physics
 

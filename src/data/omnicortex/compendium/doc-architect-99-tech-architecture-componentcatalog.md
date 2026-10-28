@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-architecture-componentcatalog"
-name: "99. Tech (Architecture): Component Engineering Catalog"
+name: "Tech (Architecture): Component Engineering Catalog"
 fileName: "99.Tech.Architecture.ComponentCatalog.md"
 relPath: "architect/technology/architecture/99.Tech.Architecture.ComponentCatalog.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 41
+order: 36
 perspective: "architect"
 entry_type: "Tech Matrix (architecture)"
 tl: 3

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.
+Draconic ocular evolution piercing darkness, thermal gradients, or ethereal auras.
+
+## Mechanics & Benefit
+Choose one vision mode from the Low-Light Vision line (Dark, Ether, or Thermal); may take multiple times

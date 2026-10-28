@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Hair-trigger combat reflexes and lightning draw speed on the opening beat of an engagement."
-mechanic: "You gain a +2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat."
+mechanic: "+2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat"
 rules: "Signature Trait (1 CP) — The Quick-draw (Operative)."
 modifiers: [{"target":"initiative-mod","type":"combat","value":2,"mode":"inherent","description":"+2 to initiative-mod"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"initiative-mod","type":"combat","value":2,"mode":"inheren
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Quick-draw (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Hair-trigger combat reflexes and lightning draw speed on the opening beat of an engagement.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat.
++2 bonus to Initiative checks and may draw or ready a weapon as a free action at the start of combat

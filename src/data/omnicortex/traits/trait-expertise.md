@@ -9,7 +9,7 @@ costs:
   bp: 1
 description: In-depth knowledge and experience in a particular area
 modifiers: []
-mechanic: +2 to a Skill Specialization of choice
+mechanic: "+2 to a Skill Specialization of choice"
 ---
 # Expertise
 

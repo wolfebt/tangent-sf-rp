@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Roboticist (Savant). You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones."
-mechanic: "You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones."
+mechanic: "+2 bonus to Technology checks when creating, repairing, or modifying robots and drones"
 rules: "Signature Trait (1 CP) — The Roboticist (Savant)."
 modifiers: [{"target":"Technology","type":"skill","value":2,"mode":"inherent","description":"+2 to Technology"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Technology","type":"skill","value":2,"mode":"inherent","d
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Roboticist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Roboticist (Savant). You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.
+Signature trait of The Roboticist (Savant). Specialized training and proficiency when creating, repairing, or modifying robots and drones.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Technology checks when creating, repairing, or modifying robots and drones.
++2 bonus to Technology checks when creating, repairing, or modifying robots and drones

@@ -19,7 +19,7 @@ modifiers: [{"target":"Logic","type":"save","value":1,"mode":"inherent","descrip
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Philosopher (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description

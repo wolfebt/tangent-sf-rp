@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).
+Predatory life-drain metabolism that converts stolen vitality into raw physical power.
+
+## Mechanics & Benefit
+Gain +1 to a Physical Ability per 2 points of Stamina drained (Lethal at 3 + Sta)

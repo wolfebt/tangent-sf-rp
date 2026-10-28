@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Warden (Sentinel). You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment."
-mechanic: "You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment."
+mechanic: "+1 to your attack roll and damage roll when in a natural environment"
 rules: "Signature Trait (1 CP) — The Warden (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Warden (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Warden (Sentinel). You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.
+Signature trait of The Warden (Sentinel). You can channel the power of nature to enhance your attacks.
 
 ## Mechanics & Benefit
-You can channel the power of nature to enhance your attacks, add +1 to your attack roll and damage roll when in a natural environment.
++1 to your attack roll and damage roll when in a natural environment

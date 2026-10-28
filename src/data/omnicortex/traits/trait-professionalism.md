@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Recognized industry standing and professional reliability.
+Benefit of being known to do their job well.
+
+## Mechanics & Benefit
++2 Reputation

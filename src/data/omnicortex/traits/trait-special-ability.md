@@ -13,7 +13,7 @@ description: >-
   elemental control, or advanced hacking abilities.   May be taken multiple
   times for a different Special Ability.
 modifiers: []
-mechanic: Special Ability at level 1 (which are afterwards improved as a skill)
+mechanic: "Special Ability at level 1 (which are afterwards improved as a skill)"
 ---
 # Special Ability
 

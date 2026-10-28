@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.
+Obvious, tank-like chitinous shell or heavy armor plating encasing the body.
 
 ## Mechanics & Benefit
-DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.
+DR (Strength + 2) x 4 [Min Str 4, Obvious, requires special clothing]

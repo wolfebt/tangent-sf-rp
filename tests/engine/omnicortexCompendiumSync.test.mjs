@@ -28,7 +28,7 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
     assert(seedIds.has(id), `Markdown file ${file} is missing from compendiumSeed.json`);
   });
 
-  // Verify all 14 Operator Master Chapters + 9 Architect Master Matrices + sample modular sub-docs
+  // Verify all 14 Operator Master Chapters + 8 Architect Master Matrices + sample modular sub-docs
   const coreDocIds = [
     'doc-operator-1-00-introduction',
     'doc-operator-1-01-character-creation',
@@ -45,7 +45,6 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
     'doc-operator-3-00-combat',
     'doc-operator-4-00-metaphysics',
     'doc-architect-02-economy-and-wealth',
-    'doc-architect-99-archetypes',
     'doc-architect-99-metaphysics',
     'doc-architect-99-modular-character-matrix',
     'doc-architect-99-modular-companion-matrix',
@@ -61,6 +60,18 @@ test('Omnicortex Compendium: 1-to-1 Parity between Markdown Files and compendium
     'doc-architect-99-tech-mecha-forgeprotocol',
     'doc-architect-99-metaphysics-invocationmatrix'
   ];
+
+  // Ensure legacy architect archetypes section is removed from Architect compendium list
+  assert(!seedIds.has('doc-architect-99-archetypes'), 'Legacy doc-architect-99-archetypes must not be in Architect compendium');
+
+  // Ensure Architect section names do not have leading numbers like "02" or "99."
+  const archEntries = seed.filter(s => s.perspective === 'architect');
+  archEntries.forEach(entry => {
+    assert(
+      !/^(?:02|99\.?)\s/.test(entry.name),
+      `Architect section "${entry.name}" (${entry.id}) should not start with a number prefix like "02" or "99."`
+    );
+  });
 
   coreDocIds.forEach(docId => {
     assert(seedIds.has(docId), `Critical game rule doc ${docId} missing from compendiumSeed.json`);

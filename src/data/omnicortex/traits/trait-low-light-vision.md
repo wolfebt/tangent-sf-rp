@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-See twice as well in low light, Improved Spectrum Vision (lower IR and UV).
+Enhanced retinal photoreceptors sensitive to dim illumination and extended light wavelengths.
+
+## Mechanics & Benefit
+See twice as far in low light; improved spectrum vision into lower IR and UV

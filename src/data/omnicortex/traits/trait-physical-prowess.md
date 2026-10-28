@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 on Might Checks
-mechanic: +1 Might and Fortitude Checks
+mechanic: "+1 Might and Fortitude Checks"
 ---
 # Physical Prowess
 

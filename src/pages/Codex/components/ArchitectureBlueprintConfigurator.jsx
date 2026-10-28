@@ -641,7 +641,7 @@ export const ArchitectureBlueprintConfigurator = ({
             Select rooms and major facilities to install. Standard facilities are absorbed by the Footprint DC. High-complexity facilities trigger the <strong>Highest Complexity Rule</strong>.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[500px] overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {ARCHITECTURE_FACILITIES.map(fac => {
               const selected = isItemSelected('specialized_modules', fac.id);
               return (

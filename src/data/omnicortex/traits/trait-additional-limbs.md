@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Another pair of prehensile limbs; Arms, Tentacles or other.
+Secondary pair of functional limbs such as arms, tentacles, or manipulators.
+
+## Mechanics & Benefit
+Grants an additional pair of prehensile limbs (arms, tentacles, or other)

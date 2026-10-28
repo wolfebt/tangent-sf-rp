@@ -11,7 +11,7 @@ description: >-
   Disciplined and able to follow orders without question, even in high-pressure
   situations
 modifiers: []
-mechanic: +2 Soldier Vocation
+mechanic: "+2 Soldier Vocation"
 ---
 # Discipline
 

@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).
+Hybrid internal endoskeleton and external chitinous framework granting natural DR +5.
 
 ## Mechanics & Benefit
-Combined endoskeleton and exoskeleton providing natural Damage Reduction (DR +5).
++5 Damage Reduction (DR 5) against all physical and kinetic trauma; immune to bone fractures from falls

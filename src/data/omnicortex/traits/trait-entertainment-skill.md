@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to A Non-Combat
-mechanic: +2 to a Non-Combat Skill of choice
+mechanic: "+2 to a Non-Combat Skill of choice"
 ---
 # Entertainment Skill
 

@@ -11,7 +11,7 @@ description: >-
   Vicious close-quarters brawl techniques using brass knuckles, concealed shivs,
   and dirty tactics in tight alleys.
 modifiers: []
-mechanic: +1 Unarmed Combat and Defense
+mechanic: "+1 Unarmed Combat and Defense"
 ---
 # Street Fighting
 

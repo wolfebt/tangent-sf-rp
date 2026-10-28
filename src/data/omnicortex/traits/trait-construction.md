@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Settler (Sentinel). You gain a +2 bonus to checks to build or repair structures."
-mechanic: "You gain a +2 bonus to checks to build or repair structures."
+mechanic: "+2 bonus to checks to build or repair structures"
 rules: "Signature Trait (1 CP) — The Settler (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Settler (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Settler (Sentinel). You gain a +2 bonus to checks to build or repair structures.
+Signature trait of The Settler (Sentinel). Dedicated aptitude and training to build or repair structures.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to checks to build or repair structures.
++2 bonus to checks to build or repair structures

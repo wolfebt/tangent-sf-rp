@@ -535,7 +535,7 @@ export const DiscreetFateOverrideModal = ({
                   No advancement awards recorded yet. Awards granted by the GM in the VTT will appear here.
                 </div>
               ) : (
-                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                <div className="space-y-1.5">
                   {recentAwards.map((award, idx) => (
                     <div key={idx} className="p-2 rounded bg-slate-900/80 border border-slate-800 text-xs flex justify-between items-center">
                       <div>
@@ -555,7 +555,7 @@ export const DiscreetFateOverrideModal = ({
 
         {/* Tab 3: Canonical Rules Codex */}
         {activeTab === 'codex' && (
-          <div className="space-y-3 text-xs text-slate-300 max-h-[55vh] overflow-y-auto pr-1">
+          <div className="space-y-3 text-xs text-slate-300">
             {/* Quick Codex Modal Launchers */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-2">
               <button

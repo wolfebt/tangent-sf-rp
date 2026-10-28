@@ -172,6 +172,8 @@ const FolioFacadeBridge = ({ children }) => {
     handleAddSpecialization: stats.handleAddSpecialization,
     handleUpdateSpecialization: stats.handleUpdateSpecialization,
     handleDeleteSpecialization: stats.handleDeleteSpecialization,
+    updateTraitSkillSelection: stats.updateTraitSkillSelection,
+    updateFeatureSkillSelection: stats.updateFeatureSkillSelection,
 
     // ═══════════════════════════════════════════════════════════
     // FOLIO INVENTORY & COMPANIONS SLICE

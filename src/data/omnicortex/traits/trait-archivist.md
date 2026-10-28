@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Archivist (Savant). * A meticulous organizer and curator of knowledge who maintains and manages vast collections of information."
-mechanic: "* A meticulous organizer and curator of knowledge who maintains and manages vast collections of information."
+mechanic: "+2 bonus to Academics, Investigation, and Knowledge checks when researching or cataloging records"
 rules: "Signature Trait (1 CP) — The Archivist (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Archivist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Archivist (Savant). * A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.
+Signature trait of The Archivist (Savant). A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.
 
 ## Mechanics & Benefit
-* A meticulous organizer and curator of knowledge who maintains and manages vast collections of information.
++2 bonus to Academics, Investigation, and Knowledge checks when researching or cataloging records

@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+4 racial bonus on Perception checks and immune to flanking.
+Compound or multi-directional ocular organs providing a 360-degree field of view.
 
 ## Mechanics & Benefit
-+4 racial bonus on Perception checks and immune to flanking.
++4 racial bonus on Perception checks and immunity to flanking

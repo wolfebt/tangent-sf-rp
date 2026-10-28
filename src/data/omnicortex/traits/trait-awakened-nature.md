@@ -14,13 +14,13 @@ modifiers: []
 ---
 # Awakened (Nature)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
 Primal ecological resonance with living planetary biomes, fauna, flora, and natural leylines.
 
-## Mechanics
-Grants innate access to the Attune skill, Nature discipline metaphysical abilities, and communion with ecological and primal planetary currents using Wisdom as the primary governing attribute.
+## Mechanics & Benefit
+Grants innate access to the Attune skill, Nature discipline metaphysical abilities, and communion with ecological and primal planetary currents using Wisdom as the primary governing attribute

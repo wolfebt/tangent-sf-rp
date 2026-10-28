@@ -9,7 +9,7 @@ costs:
   bp: 1
 description: Able to work in teams and coordinate their efforts to achieve their objectives
 modifiers: []
-mechanic: additional +1 to Aid bonuses
+mechanic: "additional +1 to Aid bonuses"
 ---
 # Team-Oriented
 

@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-mecha-automataandgear"
-name: "99. Tech (Mecha): Automata, Specialized Gear & Economics"
+name: "Tech (Mecha): Automata, Specialized Gear & Economics"
 fileName: "99.Tech.Mecha.AutomataAndGear.md"
 relPath: "architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 39
+order: 34
 perspective: "architect"
 entry_type: "Tech Matrix (mecha)"
 tl: 3

@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Survival
-mechanic: +2 Survival Skill Checks
+mechanic: "+2 Survival Skill Checks"
 ---
 # Survival Skills
 

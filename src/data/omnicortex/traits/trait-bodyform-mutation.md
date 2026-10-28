@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Adjust to a Racial Trait of which prerequisites are possessed. Ranked.
+Directed genetic plasticity allowing temporary manifestation of racial traits.
+
+## Mechanics & Benefit
+Shift to gain any Racial Trait for which prerequisites are met (Ranked)

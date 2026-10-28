@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Venomous Saliva
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Injected (Bite), DC 11 + 2xSta, Paralytic 1hr (Drugged on Success). Prereq: Toxic Blood, Sta 2.
+Needle-like teeth deliver injected paralytic neurotoxin on bite (Injected DC 11 + 2xSta, Paralytic 1hr).
+
+## Mechanics & Benefit
+Injected bite venom: DC 11 + 2xSta Fortitude save or suffer Paralytic condition for 1 hour (Drugged on save)

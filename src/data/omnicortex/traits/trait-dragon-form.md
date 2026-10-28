@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Alternate Form of a Large size Dragon
+Full draconic metamorphosis into a Large winged dragon chassis.
+
+## Mechanics & Benefit
+Assume the Alternate Form of a Large-sized Dragon

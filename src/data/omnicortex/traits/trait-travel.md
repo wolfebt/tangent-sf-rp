@@ -11,7 +11,7 @@ description: >-
   Piloting spacecraft, driving ground vehicles, and navigating through
   unfamiliar terrain   *+2 Piloting and Navigation*  #
 modifiers: []
-mechanic: +2 Piloting and Navigation
+mechanic: "+2 Piloting and Navigation"
 ---
 # Travel
 
@@ -21,7 +21,7 @@ mechanic: +2 Piloting and Navigation
 **CP Cost**: 1
 
 ## Description
-Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #
+Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain
 
 ## Mechanics & Benefit
 +2 Piloting and Navigation

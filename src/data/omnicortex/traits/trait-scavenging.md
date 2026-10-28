@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Salvage
-mechanic: +2 Salvage checks
+mechanic: "+2 Salvage checks"
 ---
 # Scavenging
 

@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 Initiative
-mechanic: +2 Initiative
+mechanic: "+2 Initiative"
 ---
 # Unpredictability
 
@@ -26,7 +26,7 @@ mechanic: +2 Initiative
 **CP Cost**: 1
 
 ## Description
-Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #
+Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries
 
 ## Mechanics & Benefit
 +2 Initiative

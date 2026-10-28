@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-planetary-astrophysicsandgeophysics"
-name: "99. Planetary: Astrophysics, Geophysics & Biosphere"
+name: "Planetary: Astrophysics, Geophysics & Biosphere"
 fileName: "99.Planetary.AstrophysicsAndGeophysics.md"
 relPath: "architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 22
+order: 17
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3

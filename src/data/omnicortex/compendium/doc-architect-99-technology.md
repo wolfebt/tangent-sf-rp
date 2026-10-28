@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-technology"
-name: "99. TECHNOLOGY"
+name: "TECHNOLOGY"
 fileName: "99. TECHNOLOGY.md"
 relPath: "architect/99. TECHNOLOGY.md"
 isMasterDoc: true
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 25
+order: 20
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3

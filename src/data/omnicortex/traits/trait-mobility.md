@@ -14,7 +14,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 Equipment
-mechanic: +2 Equipment (Vehicle)
+mechanic: "+2 Equipment (Vehicle)"
 ---
 # Mobility
 

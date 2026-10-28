@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Philosopher (Visionarie). You gain +2 on any saving throw against mental effects."
-mechanic: "You gain +2 on any saving throw against mental effects."
+mechanic: "+2 on any saving throw against mental effects"
 rules: "Signature Trait (1 CP) — The Philosopher (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Philosopher (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Philosopher (Visionarie). You gain +2 on any saving throw against mental effects.
+Signature trait of The Philosopher (Visionarie). Specialized archetype training and mastery in enlightened mind.
 
 ## Mechanics & Benefit
-You gain +2 on any saving throw against mental effects.
++2 on any saving throw against mental effects

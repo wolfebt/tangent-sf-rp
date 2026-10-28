@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-Six legged, +8 Stability, +20 movement speed. Special Accommodations.
+Six-limbed lower body providing extraordinary stability and rapid ground traversal.
 
 ## Mechanics & Benefit
-Six legged, +8 Stability, +20 movement speed. Special Accommodations.
++8 Stability and +20 ft Movement Speed; requires special accommodations

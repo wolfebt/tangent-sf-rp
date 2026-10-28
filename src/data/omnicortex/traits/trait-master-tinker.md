@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+2 bonus on Disable Device and Engineering.
+Instinctive mechanical intuition for complex mechanisms, locks, and circuitry.
 
 ## Mechanics & Benefit
-+2 bonus on Disable Device and Engineering.
++2 bonus on Disable Device and Engineering checks

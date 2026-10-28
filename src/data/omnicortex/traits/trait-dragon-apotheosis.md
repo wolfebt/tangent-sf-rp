@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.
+Culmination of draconic ascension unlocking true wyrm capabilities.
+
+## Mechanics & Benefit
+Gain Type-Specific Dragon Ability and access to Advanced Dragon Abilities (Requires: Dragon Form)

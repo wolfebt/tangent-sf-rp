@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Higher compensation and retainer fees for elite vocational service.
+Benefit for doing their job well.
+
+## Mechanics & Benefit
++2 Wealth

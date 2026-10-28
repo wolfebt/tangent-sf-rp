@@ -14,7 +14,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 on Will Checks
-mechanic: +1 Willpower and Fortitude
+mechanic: "+1 Willpower and Fortitude"
 ---
 # Physical and mental resilience
 

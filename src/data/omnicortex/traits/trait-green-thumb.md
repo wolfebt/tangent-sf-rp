@@ -11,7 +11,7 @@ description: >-
   Natural talent for nurturing plants and making them thrive even in challenging
   environments. Has a knack for identifying needs of different plants.
 modifiers: []
-mechanic: Checks involving nurturing and helping plants may be made at Advantage
+mechanic: "Checks involving nurturing and helping plants may be made at Advantage"
 ---
 # Green Thumb
 

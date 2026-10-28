@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Daredevil (Operative). You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear."
-mechanic: "You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear."
+mechanic: "+2 bonus on any checks to resist fear"
 rules: "Signature Trait (1 CP) — The Daredevil (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Daredevil (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Daredevil (Operative). You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.
+Signature trait of The Daredevil (Operative). You have a remarkable ability to remain calm under pressure.
 
 ## Mechanics & Benefit
-You have a remarkable ability to remain calm under pressure, gaining +2 bonus on any checks to resist fear.
++2 bonus on any checks to resist fear

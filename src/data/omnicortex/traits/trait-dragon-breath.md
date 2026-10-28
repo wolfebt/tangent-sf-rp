@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].
+Internal elemental organ capable of expelling a devastating torrent of draconic energy.
+
+## Mechanics & Benefit
+Breath Weapon: 30 ft Cone or 60 ft Line of Energy dealing [Str x d8] damage

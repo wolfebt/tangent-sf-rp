@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-See Infra-Red/heat patterns, track passage of a warm target without light.
+Infrared thermoreceptors that visualize heat signatures and residual warmth in darkness.
+
+## Mechanics & Benefit
+See infrared heat patterns and track warm targets without ambient light

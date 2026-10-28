@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Socialite (Visionarie). You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons."
-mechanic: "You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons."
+mechanic: "+2 bonus on any checks related to acquiring or selling rare or restricted weapons"
 rules: "Signature Trait (1 CP) — The Socialite (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Socialite (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Socialite (Visionarie). You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.
+Signature trait of The Socialite (Visionarie). You have access to a network of suppliers and buyers in the black market.
 
 ## Mechanics & Benefit
-You have access to a network of suppliers and buyers in the black market, granting +2 bonus on any checks related to acquiring or selling rare or restricted weapons.
++2 bonus on any checks related to acquiring or selling rare or restricted weapons

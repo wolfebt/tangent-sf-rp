@@ -22,7 +22,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Sensitive
-mechanic: +2 Culture Knowledge
+mechanic: "+2 Culture Knowledge"
 ---
 # Cultural Awareness
 

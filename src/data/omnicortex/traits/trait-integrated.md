@@ -33,7 +33,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+1 bonus on Bluff, Disguise, and Knowledge (local) checks.
+Seamless cultural assimilation into cosmopolitan hubs and local social networks.
 
 ## Mechanics & Benefit
-+1 bonus on Bluff, Disguise, and Knowledge (local) checks.
++1 bonus on Bluff, Disguise, and Knowledge (Local) checks

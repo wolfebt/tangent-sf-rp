@@ -11,7 +11,7 @@ description: >-
   In-depth mastery of underworld syndicates, secret black-clinic passwords, and
   surveillance blindspots.
 modifiers: []
-mechanic: +2 Streetwise (additional +1 in Home City)
+mechanic: "+2 Streetwise (additional +1 in Home City)"
 ---
 # Streetwise
 

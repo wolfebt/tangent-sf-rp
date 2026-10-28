@@ -19,7 +19,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Willpower Comfortable in the spotlight
-mechanic: +2 Willpower
+mechanic: "+2 Willpower"
 ---
 # Confident
 

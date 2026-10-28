@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.
+Devastating kinetic impact when hurtling full-speed into an opponent.
+
+## Mechanics & Benefit
+Charge attacks deal double weapon/natural damage dice plus 1.5x Strength bonus

@@ -21,3 +21,6 @@ modifiers: []
 
 ## Description
 Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.
+
+## Mechanics & Benefit
++1 to all Manipulation Skills

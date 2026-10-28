@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-levels"
-name: "99. Tech: Technology Levels (TL 0–X)"
+name: "Tech: Technology Levels (TL 0–X)"
 fileName: "99.Tech.Levels.md"
 relPath: "architect/technology/core/99.Tech.Levels.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 26
+order: 21
 perspective: "architect"
 entry_type: "Tech Matrix (core)"
 tl: 3

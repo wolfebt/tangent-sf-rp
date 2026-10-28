@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Torpor (Universal)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Requires only 4 hours of conscious inactivity; immune to sleep effects. Conscious vigilance maintained.
+Requires only 4 hours of conscious inactivity to rest; immune to involuntary sleep, stupor, and sleep-inducing magic.
+
+## Mechanics & Benefit
+4-hour conscious rest; complete immunity to sleep effects while maintaining situational awareness

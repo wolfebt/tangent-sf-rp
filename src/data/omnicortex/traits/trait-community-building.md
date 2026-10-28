@@ -12,7 +12,7 @@ description: >-
   with other farmers, suppliers, and customers. Can negotiate deals, organize
   cooperative efforts, and foster camaraderie.
 modifiers: []
-mechanic: Once per Day may reroll a Social Skill Check
+mechanic: "Once per Day may reroll a Social Skill Check"
 ---
 # Community Building
 

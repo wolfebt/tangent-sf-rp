@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-A Claw, Fang, Horn or other attack form.
+Anatomical combat weapons such as retractable claws, fangs, horns, or talons.
+
+## Mechanics & Benefit
+Grants a natural Claw, Fang, Horn, or similar melee attack form (1d6 base damage)

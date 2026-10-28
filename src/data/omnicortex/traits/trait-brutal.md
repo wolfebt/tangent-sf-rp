@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Growths/Spurs doubling Str damage bonus to natural damage (Lethal).
+Calcified bone spurs and serrated growths that turn natural strikes into lethal trauma.
+
+## Mechanics & Benefit
+Doubles Strength damage bonus on natural weapon attacks and deals Lethal damage

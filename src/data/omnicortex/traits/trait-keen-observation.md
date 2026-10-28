@@ -16,7 +16,7 @@ modifiers:
     value: 10
     mode: inherent
     description: May take 10 on Alertness Checks
-mechanic: Take 10 on Alertness Checks
+mechanic: "Take 10 on Alertness Checks"
 ---
 # Keen Observation
 

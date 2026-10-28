@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Methodical clinical and investigative deduction applied to crime scenes, autopsies, and trace evidence."
-mechanic: "You gain a +2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence."
+mechanic: "+2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence"
 rules: "Signature Trait (1 CP) — The Forensic Pathologist (Savant)."
 modifiers: [{"target":"Medicine","type":"skill","value":2,"mode":"inherent","description":"+2 to Medicine"},{"target":"Investigation","type":"skill","value":2,"mode":"inherent","description":"+2 to Investigation"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Medicine","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Forensic Pathologist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Methodical clinical and investigative deduction applied to crime scenes, autopsies, and trace evidence.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence.
++2 bonus to Medicine and Investigation checks when examining crime scenes, autopsies, toxins, or biological evidence

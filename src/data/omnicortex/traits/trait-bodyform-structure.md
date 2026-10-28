@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.
+Internal biomechanical reconfiguration that redistributes physical attributes.
+
+## Mechanics & Benefit
+Once per day, reallocate Physical Ability scores in equal trade for the entire day (Ranked)

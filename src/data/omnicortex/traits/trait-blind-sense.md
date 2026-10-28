@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Sense unseen objects in a 30 ft Radius or Cone of 60 ft.
+Non-visual sensory organs that detect nearby creatures and objects through air or vibration.
+
+## Mechanics & Benefit
+Sense unseen objects in a 30 ft radius or 60 ft cone

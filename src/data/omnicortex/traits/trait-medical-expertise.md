@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Forensic Pathologist (Savant). You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions."
-mechanic: "You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions."
+mechanic: "+2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions"
 rules: "Signature Trait (1 CP) — The Forensic Pathologist (Savant)."
 modifiers: [{"target":"Medicine","type":"skill","value":2,"mode":"inherent","description":"+2 to Medicine"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Medicine","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Forensic Pathologist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Forensic Pathologist (Savant). You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.
+Signature trait of The Forensic Pathologist (Savant). Dedicated aptitude and training to diagnose and treat injuries, illnesses, and other medical conditions.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions.
++2 bonus to Medicine checks to diagnose and treat injuries, illnesses, and other medical conditions

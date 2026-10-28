@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.
+High-resolution non-visual spatial mapping via echolocation, electromagnetic, or gravitic sense.
+
+## Mechanics & Benefit
+Accurately target unseen objects within a 30 ft radius or 60 ft cone without sight

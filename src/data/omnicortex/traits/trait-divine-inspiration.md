@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Cult Leader (Visionarie) / The Missionary (Visionarie). You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion."
-mechanic: "You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion."
+mechanic: "+2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion"
 rules: "Signature Trait (1 CP) — The Cult Leader (Visionarie) / The Missionary (Visionarie)."
 modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","description":"+2 to Diplomacy"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Diplomacy","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Cult Leader (Visionarie) / The Missionary (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Cult Leader (Visionarie) / The Missionary (Visionarie). You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.
+Signature trait of The Cult Leader (Visionarie) / The Missionary (Visionarie). Specialized training and proficiency when attempting to convert others to your faith or inspire religious devotion.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion.
++2 bonus to Diplomacy checks when attempting to convert others to your faith or inspire religious devotion

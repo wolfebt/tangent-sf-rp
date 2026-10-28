@@ -9,7 +9,7 @@ costs:
   bp: 1
 description: Natural aptitude for understanding and operating advanced technology
 modifiers: []
-mechanic: +2 Technology Knowledge
+mechanic: "+2 Technology Knowledge"
 ---
 # Technological Aptitude
 

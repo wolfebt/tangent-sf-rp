@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Zealot (Visionarie). You gain +2 bonus on saving throws against invasive mental effects."
-mechanic: "You gain +2 bonus on saving throws against invasive mental effects."
+mechanic: "+2 bonus on saving throws against invasive mental effects"
 rules: "Signature Trait (1 CP) — The Zealot (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Zealot (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Zealot (Visionarie). You gain +2 bonus on saving throws against invasive mental effects.
+Signature trait of The Zealot (Visionarie). Specialized archetype training and mastery in unwavering conviction.
 
 ## Mechanics & Benefit
-You gain +2 bonus on saving throws against invasive mental effects.
++2 bonus on saving throws against invasive mental effects

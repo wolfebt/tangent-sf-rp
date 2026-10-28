@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Security Officer (Sentinel). You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats."
-mechanic: "You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats."
+mechanic: "+2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats"
 rules: "Signature Trait (1 CP) — The Security Officer (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Security Officer (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Security Officer (Sentinel). You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.
+Signature trait of The Security Officer (Sentinel). Specialized expertise and intuition in defending sacred sites, protecting artifacts, or battling supernatural threats.
 
 ## Mechanics & Benefit
-You gain a +2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats.
++2 bonus on any checks related to defending sacred sites, protecting artifacts, or battling supernatural threats

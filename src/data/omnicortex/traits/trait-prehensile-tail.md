@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.
+Dexterous grasping tail capable of holding tools and anchoring balance.
 
 ## Mechanics & Benefit
-+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.
++2 to Climbing and Balance checks; usable as an off-hand (requires special pants)

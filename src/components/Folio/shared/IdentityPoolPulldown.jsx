@@ -11,6 +11,7 @@ import {
   PillarMarkerDots
 } from '../../../utils/pillarRecommendations.jsx';
 import FolioTooltip from './FolioTooltip';
+import SkillChoiceSelector from './SkillChoiceSelector';
 import { showToast } from '../../../context/ToastContext';
 
 const PRIMARY_ATTRIBUTES = [
@@ -701,11 +702,21 @@ export const expandFeatureGroupPatterns = (recommendedFeatures = [], allFeatures
  * Intelligent Trait Pattern Expander: Expands group expressions into specific trait lists.
  */
 export const expandTraitGroupPatterns = (recommendedTraits = [], allTraits = ALL_CANONICAL_TRAITS) => {
-  const catalog = (allTraits && allTraits.length >= ALL_CANONICAL_TRAITS.length)
-    ? allTraits
-    : Array.from(new Map([...ALL_CANONICAL_TRAITS, ...(allTraits || [])].map(t => [t.id || t.name, t])).values());
+  const catalogMap = new Map();
+  ALL_CANONICAL_TRAITS.forEach(t => {
+    const key = (t.id || t.name || '').toLowerCase();
+    if (key) catalogMap.set(key, t);
+  });
+  if (Array.isArray(allTraits)) {
+    [...allTraits].reverse().forEach(t => {
+      const key = (t.id || t.name || '').toLowerCase();
+      if (key) catalogMap.set(key, { ...(catalogMap.get(key) || {}), ...t });
+    });
+  }
+  const catalog = Array.from(catalogMap.values());
   const nameToTraitMap = new Map();
-  catalog.forEach(t => {
+  const registerTrait = (t) => {
+    if (!t) return;
     const tName = (t.name || t.title || '').trim();
     if (tName) {
       nameToTraitMap.set(tName.toLowerCase(), t);
@@ -715,7 +726,11 @@ export const expandTraitGroupPatterns = (recommendedTraits = [], allTraits = ALL
     if (tId) {
       nameToTraitMap.set(tId, t);
     }
-  });
+  };
+  ALL_CANONICAL_TRAITS.forEach(registerTrait);
+  if (Array.isArray(allTraits)) {
+    [...allTraits].reverse().forEach(registerTrait);
+  }
 
   const rawList = Array.isArray(recommendedTraits) ? recommendedTraits : [recommendedTraits];
   const expandedItemsMap = new Map();
@@ -733,15 +748,16 @@ export const expandTraitGroupPatterns = (recommendedTraits = [], allTraits = ALL
 
     let directTrait = nameToTraitMap.get(lower) || nameToTraitMap.get(cleanNorm);
     if (directTrait) {
-      const tName = directTrait.name || directTrait.title;
+      const mergedTrait = typeof raw === 'object' ? { ...directTrait, ...raw } : directTrait;
+      const tName = mergedTrait.name || mergedTrait.title;
       if (!expandedItemsMap.has(tName.toLowerCase())) {
         expandedItemsMap.set(tName.toLowerCase(), {
-          ...directTrait,
+          ...mergedTrait,
           name: tName,
-          groupLabel: directTrait.classification || directTrait.trait_tier || 'Trait',
-          sourceTag: directTrait.classification || 'Specific'
+          groupLabel: mergedTrait.classification || mergedTrait.trait_tier || 'Trait',
+          sourceTag: mergedTrait.classification || 'Specific'
         });
-        groupFiltersFound.add(directTrait.classification || directTrait.trait_tier || 'Specific');
+        groupFiltersFound.add(mergedTrait.classification || mergedTrait.trait_tier || 'Specific');
       }
       return;
     }
@@ -1203,44 +1219,47 @@ export const FeatureMultiselectPulldown = ({
         ) : (
           selectedFeatures.map((feat) => {
             const fName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
-            const cleanTitle = normalizeTraitName(fName);
-            const desc = typeof feat === 'object' ? (feat.description || feat.mechanic || '') : '';
-            const featPillars = pillarFeatureSets ? getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData) : [];
-            const cat = typeof feat === 'object' ? (feat.category || feat.groupLabel || categoryLabel) : categoryLabel;
-            const featMods = Array.isArray(feat?.modifiers) ? feat.modifiers : [];
+            const enrichedFeat = enrichItemWithModifiers(feat) || feat;
+            const cleanTitle = normalizeTraitName(enrichedFeat?.name || fName);
+            const desc = enrichedFeat?.description || enrichedFeat?.mechanic || '';
+            const featPillars = pillarFeatureSets ? getPillarFeatureRecommendations(enrichedFeat, pillarFeatureSets, characterData) : [];
+            const cat = enrichedFeat?.category || enrichedFeat?.groupLabel || categoryLabel;
+            const featMods = Array.isArray(enrichedFeat?.modifiers) ? enrichedFeat.modifiers : [];
             return (
-              <span
-                key={cleanTitle || fName}
-                className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${theme.tag}`}
-              >
-                {featPillars.length > 0 ? (
-                  <PillarMarkerDots recommendations={featPillars} />
-                ) : (
-                  <Sparkles size={10} className="shrink-0 text-amber-400" />
-                )}
-                <FolioTooltip
-                  title={cleanTitle}
-                  badge={cat || 'Feature'}
-                  badgeColor="amber"
-                  description={desc || 'No description provided.'}
-                  cost={typeof feat === 'object' && feat.cp !== undefined ? `${feat.cp} CP` : undefined}
-                  modifiers={featMods}
-                  prerequisites={typeof feat === 'object' ? feat.prerequisite : undefined}
-                  rules={typeof feat === 'object' ? (feat.rules || feat.rule) : undefined}
-                  notes={typeof feat === 'object' ? (feat.notes || feat.note) : undefined}
-                  showInfoIcon={false}
+              <div key={cleanTitle || fName} className="w-full space-y-1">
+                <span
+                  className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold inline-flex items-center gap-1.5 ${theme.tag}`}
                 >
-                  <span className="truncate max-w-[200px] cursor-help">{cleanTitle}</span>
-                </FolioTooltip>
-                <button
-                  type="button"
-                  onClick={() => onRemoveFeature && onRemoveFeature(fName)}
-                  className="text-slate-400 hover:text-red-400 font-bold ml-0.5 shrink-0"
-                  title="Remove feature"
-                >
-                  <X size={10} />
-                </button>
-              </span>
+                  {featPillars.length > 0 ? (
+                    <PillarMarkerDots recommendations={featPillars} />
+                  ) : (
+                    <Sparkles size={10} className="shrink-0 text-amber-400" />
+                  )}
+                  <FolioTooltip
+                    title={cleanTitle}
+                    badge={cat || 'Feature'}
+                    badgeColor="amber"
+                    description={desc || 'No description provided.'}
+                    cost={typeof enrichedFeat === 'object' && enrichedFeat.cp !== undefined ? `${enrichedFeat.cp} CP` : undefined}
+                    modifiers={featMods}
+                    prerequisites={typeof enrichedFeat === 'object' ? enrichedFeat.prerequisite : undefined}
+                    rules={typeof enrichedFeat === 'object' ? (enrichedFeat.rules || enrichedFeat.rule) : undefined}
+                    notes={typeof enrichedFeat === 'object' ? (enrichedFeat.notes || enrichedFeat.note) : undefined}
+                    showInfoIcon={false}
+                  >
+                    <span className="truncate max-w-[200px] cursor-help">{cleanTitle}</span>
+                  </FolioTooltip>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveFeature && onRemoveFeature(fName)}
+                    className="text-slate-400 hover:text-red-400 font-bold ml-0.5 shrink-0"
+                    title="Remove feature"
+                  >
+                    <X size={10} />
+                  </button>
+                </span>
+                <SkillChoiceSelector item={enrichedFeat} itemType="feature" compact />
+              </div>
             );
           })
         )}
@@ -1248,7 +1267,7 @@ export const FeatureMultiselectPulldown = ({
 
       {/* Pulldown Tray */}
       {isOpen && (
-        <div className="p-3 bg-slate-950 border border-slate-700 rounded-lg space-y-2.5 shadow-2xl animate-in fade-in-50 duration-100 mt-1 max-h-80 flex flex-col">
+        <div className="p-3 bg-slate-950 border border-slate-700 rounded-lg space-y-2.5 shadow-2xl animate-in fade-in-50 duration-100 mt-1 flex flex-col">
           {/* Package Requirement Banner */}
           {packageNotes.length > 0 && (
             <div className="p-2 rounded-lg bg-amber-950/40 border border-amber-500/40 flex items-start gap-2 text-xs text-amber-200">
@@ -1338,7 +1357,7 @@ export const FeatureMultiselectPulldown = ({
           )}
 
           {/* Feature List */}
-          <div className="overflow-y-auto space-y-1.5 flex-1 pr-1">
+          <div className="space-y-1.5 flex-1">
             {displayedItems.length === 0 ? (
               <div className="p-4 text-center text-xs text-slate-500 font-mono">
                 No matching features found.
@@ -1467,11 +1486,17 @@ export const TraitMultiselectPulldown = ({
   const dropdownRef = useRef(null);
 
   const traitCatalog = useMemo(() => {
-    if (!allTraits || allTraits.length === 0) return ALL_CANONICAL_TRAITS;
-    if (allTraits.length >= ALL_CANONICAL_TRAITS.length) return allTraits;
     const map = new Map();
-    ALL_CANONICAL_TRAITS.forEach(t => map.set(t.id || t.name, t));
-    allTraits.forEach(t => map.set(t.id || t.name, { ...(map.get(t.id || t.name) || {}), ...t }));
+    ALL_CANONICAL_TRAITS.forEach(t => {
+      const key = (t.id || t.name || '').toLowerCase();
+      if (key) map.set(key, t);
+    });
+    if (Array.isArray(allTraits)) {
+      [...allTraits].reverse().forEach(t => {
+        const key = (t.id || t.name || '').toLowerCase();
+        if (key) map.set(key, { ...(map.get(key) || {}), ...t });
+      });
+    }
     return Array.from(map.values());
   }, [allTraits]);
 
@@ -1496,6 +1521,28 @@ export const TraitMultiselectPulldown = ({
     return expandTraitGroupPatterns(recommendedTraits, traitCatalog);
   }, [recommendedTraits, traitCatalog]);
 
+  // Lookup helper for resolving selected trait strings/objects against recommendedItems & traitCatalog
+  const resolveTraitRecord = (rawTrait) => {
+    const tName = typeof rawTrait === 'object' ? (rawTrait.name || rawTrait.title || rawTrait.id || '') : String(rawTrait || '');
+    const clean = normalizeTraitName(tName).toLowerCase();
+    const lower = tName.toLowerCase().trim();
+    const match = recommendedItems.find(i =>
+      (i.name || '').toLowerCase() === lower ||
+      normalizeTraitName(i.name || '').toLowerCase() === clean ||
+      (i.id || '').toLowerCase() === lower ||
+      (i.id || '').toLowerCase() === `trait-${clean.replace(/\s+/g, '-')}`
+    ) || traitCatalog.find(i =>
+      (i.name || '').toLowerCase() === lower ||
+      normalizeTraitName(i.name || '').toLowerCase() === clean ||
+      (i.id || '').toLowerCase() === lower ||
+      (i.id || '').toLowerCase() === `trait-${clean.replace(/\s+/g, '-')}`
+    );
+    if (typeof rawTrait === 'object' && rawTrait !== null) {
+      return { ...(match || {}), ...rawTrait };
+    }
+    return match || null;
+  };
+
   // Derived Category Filter Chips including Directives and Railguards
   const traitCategoryChips = useMemo(() => {
     const list = groupFilters.length > 1 ? groupFilters : ['All'];
@@ -1517,6 +1564,8 @@ export const TraitMultiselectPulldown = ({
     return sourceList.map(item => {
       const name = item.name || item.title || '';
       const cleanName = normalizeTraitName(name);
+      const rawMech = (item.mechanic || item.mechanics || item.bonus || '').replace(/^\[|\]$/g, '').trim();
+      const rawDesc = (item.description || item.desc || '').trim();
       return {
         id: item.id || `trait_${name}`,
         name: cleanName || name,
@@ -1524,7 +1573,11 @@ export const TraitMultiselectPulldown = ({
         category: item.trait_type || item.category || categoryLabel,
         tier: item.trait_tier || 'Basic',
         classification: item.classification || item.type || 'General',
-        description: item.description || item.desc || item.mechanics || '',
+        description: rawDesc || rawMech || '',
+        mechanic: rawMech,
+        modifiers: item.modifiers,
+        rules: item.rules || item.special_rules,
+        notes: item.notes || item.note,
         groupLabel: item.groupLabel || item.classification || 'Trait',
         sourceTag: item.sourceTag || 'General',
         keywords: item.keywords || '',
@@ -1554,6 +1607,7 @@ export const TraitMultiselectPulldown = ({
       if (!query) return true;
       const name = item.name.toLowerCase();
       const desc = item.description.toLowerCase();
+      const mech = (item.mechanic || '').toLowerCase();
       const cat = item.category.toLowerCase();
       const tier = (item.tier || '').toLowerCase();
       const kw = (item.keywords || '').toLowerCase();
@@ -1563,6 +1617,7 @@ export const TraitMultiselectPulldown = ({
       return (
         name.includes(query) ||
         desc.includes(query) ||
+        mech.includes(query) ||
         cat.includes(query) ||
         tier.includes(query) ||
         kw.includes(query) ||
@@ -1635,10 +1690,10 @@ export const TraitMultiselectPulldown = ({
         </div>
       </div>
 
-      {/* Selected Traits Chips */}
-      <div className="flex flex-wrap gap-1.5 min-h-[26px]">
+      {/* Selected Traits Cards */}
+      <div className="space-y-1.5 min-h-[26px]">
         {selectedTraits.length === 0 ? (
-          <span className="text-[10px] text-slate-500 italic py-0.5">
+          <span className="text-[10px] text-slate-500 italic py-0.5 block">
             {allowExtraWithCpCost 
               ? `No traits selected in this pool yet (Choose ${maxSelectable} free, +${extraCpCost} CP each for extra).`
               : `No traits selected in this pool yet (Choose up to ${maxSelectable}).`}
@@ -1646,43 +1701,63 @@ export const TraitMultiselectPulldown = ({
         ) : (
           selectedTraits.map((trait, idx) => {
             const tName = typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait);
-            const cleanTitle = normalizeTraitName(tName);
-            const desc = typeof trait === 'object' ? (trait.description || trait.desc || '') : '';
-            const tier = typeof trait === 'object' ? trait.tier : undefined;
-            const cat = typeof trait === 'object' ? trait.classification : undefined;
-            const traitMods = typeof trait === 'object' && Array.isArray(trait?.modifiers) ? trait.modifiers : [];
+            const resolved = resolveTraitRecord(trait);
+            const cleanTitle = normalizeTraitName(resolved?.name || tName);
+            const desc = resolved?.description || resolved?.desc || '';
+            const mech = (resolved?.mechanic || resolved?.mechanics || resolved?.bonus || '').replace(/^\[|\]$/g, '').trim();
+            const tier = resolved?.trait_tier || resolved?.tier;
+            const cat = resolved?.classification;
+            const traitMods = Array.isArray(resolved?.modifiers) ? resolved.modifiers : [];
             const isExtraPaid = allowExtraWithCpCost && idx >= maxSelectable;
             return (
-              <span
+              <div
                 key={cleanTitle || tName}
-                className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${
-                  isExtraPaid ? 'bg-amber-950/50 border-amber-500/50 text-amber-200' : theme.tag
+                className={`p-2 rounded-lg border text-xs flex flex-col gap-0.5 ${
+                  isExtraPaid ? 'bg-amber-950/30 border-amber-500/50 text-amber-100' : 'bg-slate-900/80 border-slate-700/80 text-slate-200'
                 }`}
               >
-                <Sparkles size={10} className={`shrink-0 ${isExtraPaid ? 'text-amber-400' : 'text-emerald-400'}`} />
-                <FolioTooltip
-                  title={cleanTitle}
-                  badge={isExtraPaid ? `+${extraCpCost} CP Paid Trait` : (tier || cat || 'Trait')}
-                  badgeColor={isExtraPaid ? 'amber' : (tier === 'Elite' ? 'purple' : tier === 'Advanced' ? 'sky' : 'emerald')}
-                  description={desc || 'No description provided.'}
-                  modifiers={traitMods}
-                  rules={typeof trait === 'object' ? (trait.rules || trait.rule) : undefined}
-                  notes={typeof trait === 'object' ? (trait.notes || trait.note) : undefined}
-                  showInfoIcon={false}
-                >
-                  <span className="truncate max-w-[200px] cursor-help">
-                    {cleanTitle} {isExtraPaid ? `(+${extraCpCost} CP)` : ''}
-                  </span>
-                </FolioTooltip>
-                <button
-                  type="button"
-                  onClick={() => onRemoveTrait && onRemoveTrait(tName)}
-                  className="text-slate-400 hover:text-red-400 font-bold ml-0.5 shrink-0"
-                  title="Remove trait"
-                >
-                  <X size={10} />
-                </button>
-              </span>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <Sparkles size={11} className={`shrink-0 ${isExtraPaid ? 'text-amber-400' : 'text-emerald-400'}`} />
+                    <FolioTooltip
+                      title={cleanTitle}
+                      badge={isExtraPaid ? `+${extraCpCost} CP Paid Trait` : (tier || cat || 'Trait')}
+                      badgeColor={isExtraPaid ? 'amber' : (tier === 'Elite' ? 'purple' : tier === 'Advanced' ? 'sky' : 'emerald')}
+                      description={desc || 'No description provided.'}
+                      formula={mech ? `[${mech}]` : undefined}
+                      modifiers={traitMods}
+                      rules={resolved?.rules || resolved?.special_rules}
+                      notes={resolved?.notes || resolved?.note}
+                      showInfoIcon={true}
+                    >
+                      <span className={`font-bold font-mono text-[11px] cursor-help ${isExtraPaid ? 'text-amber-200' : 'text-emerald-200'}`}>
+                        {cleanTitle} {isExtraPaid ? `(+${extraCpCost} CP)` : ''}
+                      </span>
+                    </FolioTooltip>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onRemoveTrait && onRemoveTrait(tName)}
+                    className="text-slate-400 hover:text-red-400 font-bold ml-1 shrink-0 p-0.5"
+                    title="Remove trait"
+                  >
+                    <X size={11} />
+                  </button>
+                </div>
+                {desc && (
+                  <p className="text-[11px] text-slate-300 leading-snug pl-4">
+                    {desc}
+                  </p>
+                )}
+                {mech && (
+                  <p className="text-[10px] font-mono text-emerald-400/90 leading-snug pl-4">
+                    [{mech}]
+                  </p>
+                )}
+                <div className="pl-4">
+                  <SkillChoiceSelector item={resolved || trait} itemType="trait" compact />
+                </div>
+              </div>
             );
           })
         )}
@@ -1690,7 +1765,7 @@ export const TraitMultiselectPulldown = ({
 
       {/* Pulldown Tray */}
       {isOpen && (
-        <div className="p-3 bg-slate-950 border border-slate-700 rounded-lg space-y-2.5 shadow-2xl animate-in fade-in-50 duration-100 mt-1 max-h-80 flex flex-col">
+        <div className="p-3 bg-slate-950 border border-slate-700 rounded-lg space-y-2.5 shadow-2xl animate-in fade-in-50 duration-100 mt-1 flex flex-col">
           {/* Package Requirement Banner */}
           {packageNotes.length > 0 && (
             <div className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/40 flex items-start gap-2 text-xs text-emerald-200">
@@ -1777,7 +1852,7 @@ export const TraitMultiselectPulldown = ({
           )}
 
           {/* Trait Selection List */}
-          <div className="overflow-y-auto space-y-1 pr-1 max-h-52 divide-y divide-slate-800/40">
+          <div className="space-y-1.5 divide-y divide-slate-800/40">
             {displayedItems.length === 0 ? (
               <div className="p-4 text-center text-xs text-slate-500 italic">
                 No matching traits found for &quot;{searchQuery}&quot;.
@@ -1810,7 +1885,7 @@ export const TraitMultiselectPulldown = ({
                         onToggleTrait && onToggleTrait(trait.name, trait, maxSelectable);
                       }
                     }}
-                    className={`px-2.5 py-1.5 rounded-lg border text-xs cursor-pointer transition-all flex items-center justify-between gap-2 ${
+                    className={`px-2.5 py-2 rounded-lg border text-xs cursor-pointer transition-all flex items-start justify-between gap-2 ${
                       isSelected
                         ? 'bg-emerald-950/60 border-emerald-400/80 text-emerald-100 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
                         : isAtCapacity && !allowExtraWithCpCost
@@ -1818,40 +1893,54 @@ export const TraitMultiselectPulldown = ({
                           : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-600 hover:bg-slate-800/70'
                     }`}
                   >
-                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                      <FolioTooltip
-                        title={trait.name}
-                        badge={trait.tier || trait.classification || 'Trait'}
-                        badgeColor={trait.tier === 'Elite' ? 'purple' : trait.tier === 'Advanced' ? 'sky' : 'emerald'}
-                        description={trait.description || 'No description provided.'}
-                        modifiers={traitMods}
-                        rules={trait.rules || trait.rule}
-                        notes={trait.notes || trait.note}
-                        showInfoIcon={true}
-                      >
-                        <span className={`font-bold truncate ${isSelected ? 'text-emerald-200' : 'text-slate-200'}`}>
-                          {trait.name}
-                        </span>
-                      </FolioTooltip>
+                    <div className="flex flex-col gap-0.5 flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <FolioTooltip
+                          title={trait.name}
+                          badge={trait.tier || trait.classification || 'Trait'}
+                          badgeColor={trait.tier === 'Elite' ? 'purple' : trait.tier === 'Advanced' ? 'sky' : 'emerald'}
+                          description={trait.description || 'No description provided.'}
+                          formula={trait.mechanic ? `[${trait.mechanic}]` : undefined}
+                          modifiers={traitMods}
+                          rules={trait.rules || trait.rule}
+                          notes={trait.notes || trait.note}
+                          showInfoIcon={true}
+                        >
+                          <span className={`font-bold ${isSelected ? 'text-emerald-200' : 'text-slate-100'}`}>
+                            {trait.name}
+                          </span>
+                        </FolioTooltip>
 
-                      <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono border shrink-0 ${tierColor}`}>
-                        {trait.tier}
-                      </span>
-
-                      {trait.classification && (
-                        <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400 shrink-0 hidden sm:inline-block">
-                          {trait.classification}
+                        <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono border shrink-0 ${tierColor}`}>
+                          {trait.tier}
                         </span>
+
+                        {trait.classification && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400 shrink-0 hidden sm:inline-block">
+                            {trait.classification}
+                          </span>
+                        )}
+
+                        {allowExtraWithCpCost && !isSelected && selectedCount >= maxSelectable && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-amber-950/80 border border-amber-500/60 text-amber-300 font-bold shrink-0">
+                            +{extraCpCost} CP
+                          </span>
+                        )}
+                      </div>
+
+                      {trait.description && (
+                        <p className="text-[11px] text-slate-300 leading-snug">
+                          {trait.description}
+                        </p>
                       )}
-
-                      {allowExtraWithCpCost && !isSelected && selectedCount >= maxSelectable && (
-                        <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-amber-950/80 border border-amber-500/60 text-amber-300 font-bold shrink-0">
-                          +{extraCpCost} CP
-                        </span>
+                      {trait.mechanic && (
+                        <p className="text-[10px] font-mono text-emerald-400/90 leading-snug">
+                          [{trait.mechanic}]
+                        </p>
                       )}
                     </div>
 
-                    <div className="shrink-0 flex items-center">
+                    <div className="shrink-0 flex items-center pt-0.5">
                       <div className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${
                         isSelected
                           ? 'bg-emerald-500 border-emerald-400 text-slate-950'
@@ -2083,7 +2172,7 @@ export const SkillPoolRankPulldown = ({
 
       {/* Pulldown Tray */}
       {isOpen && (
-        <div className="p-3 bg-slate-950 border border-slate-700 rounded-lg space-y-2.5 shadow-2xl animate-in fade-in-50 duration-100 mt-1 max-h-80 flex flex-col">
+        <div className="p-3 bg-slate-950 border border-slate-700 rounded-lg space-y-2.5 shadow-2xl animate-in fade-in-50 duration-100 mt-1 flex flex-col">
           {/* Package Requirement Banner */}
           {packageNotes.length > 0 && (
             <div className="p-2 rounded-lg bg-sky-950/40 border border-sky-500/40 flex items-start gap-2 text-xs text-sky-200">
@@ -2171,7 +2260,7 @@ export const SkillPoolRankPulldown = ({
           )}
 
           {/* Skill Items List */}
-          <div className="overflow-y-auto space-y-1.5 flex-1 pr-1">
+          <div className="space-y-1.5 flex-1">
             {displayedItems.length === 0 ? (
               <div className="p-4 text-center text-xs text-slate-500 font-mono">
                 No matching skills found.

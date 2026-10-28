@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Daredevil (Operative). You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance."
-mechanic: "You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance."
+mechanic: "+2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance"
 rules: "Signature Trait (1 CP) — The Daredevil (Operative)."
 modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","description":"+2 to Athletics"},{"target":"Acrobatics","type":"skill","value":2,"mode":"inherent","description":"+2 to Acrobatics"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Daredevil (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Daredevil (Operative). You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.
+Signature trait of The Daredevil (Operative). Dedicated aptitude and training to perform feats of strength, agility, and endurance.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance.
++2 bonus to Athletics and Acrobatics checks to perform feats of strength, agility, and endurance

@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-weaponry-catalog"
-name: "99. Tech (Weaponry): Catalog"
+name: "Tech (Weaponry): Catalog"
 fileName: "99.Tech.Weaponry.Catalog.md"
 relPath: "architect/technology/weaponry/99.Tech.Weaponry.Catalog.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 29
+order: 24
 perspective: "architect"
 entry_type: "Tech Matrix (weaponry)"
 tl: 3

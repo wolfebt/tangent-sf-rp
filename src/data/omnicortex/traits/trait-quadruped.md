@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-Four legged, +4 Stability, +10 movement speed. Special Accommodations.
+Four-legged stance providing superior ground speed and resistance to knockdown.
 
 ## Mechanics & Benefit
-Four legged, +4 Stability, +10 movement speed. Special Accommodations.
++4 Stability and +10 ft Movement Speed; requires special accommodations

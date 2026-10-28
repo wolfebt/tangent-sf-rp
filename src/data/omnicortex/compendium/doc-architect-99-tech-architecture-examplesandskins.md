@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-architecture-examplesandskins"
-name: "99. Tech (Architecture): Examples, Cultural Skins & Economics"
+name: "Tech (Architecture): Examples, Cultural Skins & Economics"
 fileName: "99.Tech.Architecture.ExamplesAndSkins.md"
 relPath: "architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 43
+order: 38
 perspective: "architect"
 entry_type: "Tech Matrix (architecture)"
 tl: 3

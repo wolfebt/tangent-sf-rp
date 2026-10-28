@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Does not require food/drink, may eat/digest elixirs for effects.
+Self-sustaining metabolic synthesis that bypasses the need for conventional food and water.
+
+## Mechanics & Benefit
+Does not require food or drink; may still consume elixirs for their effects

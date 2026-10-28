@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-No penalties or Damage from one set environment type. Multiple.
+Physiological adaptation to a specific harsh planetary or environmental biome.
+
+## Mechanics & Benefit
+No penalties or damage from one chosen environment type (may be taken multiple times)

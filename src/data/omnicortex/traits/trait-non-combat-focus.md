@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to A Vocation
-mechanic: +2 to a Vocation Skill of choice
+mechanic: "+2 to a Vocation Skill of choice"
 ---
 # Non-Combat Focus
 

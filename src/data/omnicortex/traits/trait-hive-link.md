@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Hive-Link
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Constant telepathic connection to all Kitin Strains. Conductors of the Hive Chorus.
+Constant telepathic link to the Collective and all Kitin Strains, synchronizing thoughts with the psionic Chorus.
+
+## Mechanics & Benefit
+Uninterrupted telepathic mesh with hive members; prevents surprise when allies are vigilant

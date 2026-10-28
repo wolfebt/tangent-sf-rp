@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Officer (Visionarie). You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units."
-mechanic: "You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units."
+mechanic: "+2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units"
 rules: "Signature Trait (1 CP) — The Officer (Visionarie)."
 modifiers: [{"target":"Tactics","type":"skill","value":2,"mode":"inherent","description":"+2 to Tactics"},{"target":"Leadership","type":"skill","value":2,"mode":"inherent","description":"+2 to Leadership"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Tactics","type":"skill","value":2,"mode":"inherent","desc
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Officer (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Officer (Visionarie). You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.
+Signature trait of The Officer (Visionarie). Specialized expertise and intuition in planning and executing military operations or coordinating the efforts of multiple units.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units.
++2 bonus to Tactics and Leadership checks, and +2 bonus on any checks related to planning and executing military operations or coordinating the efforts of multiple units

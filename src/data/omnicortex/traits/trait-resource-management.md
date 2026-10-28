@@ -11,7 +11,7 @@ description: >-
   Meticulous rationing of food, water, battery cells, and structural spare
   parts.
 modifiers: []
-mechanic: Wealth Checks for Basic Resources made at Advantage
+mechanic: "Wealth Checks for Basic Resources made at Advantage"
 ---
 # Resource Management
 

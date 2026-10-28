@@ -11,7 +11,7 @@ description: >-
   Harmonious disposition that de-escalates hostility through tranquil presence
   and negotiation.
 modifiers: []
-mechanic: +2 to Diplomacy for peaceful meditations
+mechanic: "+2 to Diplomacy for peaceful meditations"
 ---
 # Peaceful Nature
 

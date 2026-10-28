@@ -26,7 +26,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Engineering
-mechanic: '+1 to Mechanical, Electrical and Engineering Skill Checks'
+mechanic: "+1 to Mechanical, Electrical and Engineering Skill Checks"
 ---
 # Mechanical Aptitude
 

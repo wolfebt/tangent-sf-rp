@@ -635,7 +635,7 @@ export const CompanionsTab = () => {
                 <span className="text-purple-400 font-bold uppercase">{activeChassis.label}</span>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-40 overflow-y-auto p-1 bg-slate-950/60 rounded-xl border border-slate-800/80">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 p-1 bg-slate-950/60 rounded-xl border border-slate-800/80">
                 {FORM_PACKAGES.map(f => (
                   <button
                     key={f.id}

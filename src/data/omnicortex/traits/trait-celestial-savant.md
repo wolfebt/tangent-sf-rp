@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Astromancer (Savant). You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances."
-mechanic: "You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances."
+mechanic: "+2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances"
 rules: "Signature Trait (1 CP) — The Astromancer (Savant)."
 modifiers: [{"target":"Knowledge Astrophysics","type":"skill","value":2,"mode":"inherent","description":"+2 to Knowledge Astrophysics"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Knowledge Astrophysics","type":"skill","value":2,"mode":"
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Astromancer (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Astromancer (Savant). You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.
+Signature trait of The Astromancer (Savant). Specialized expertise and intuition in understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances.
++2 bonus to Knowledge (Astrophysics) checks and +2 bonus on any checks related to understanding astronomical phenomena, identifying celestial objects, or calculating interstellar distances

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Able to absorb, power and use technological devices. Req: Synthetic, TL5.
+Nanite and hardline interface arrays that absorb and power external technological devices.
+
+## Mechanics & Benefit
+Absorb, power, and directly operate technological devices internally (Requires: Synthetic, TL5)

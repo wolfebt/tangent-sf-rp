@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 racial bonus on Diplomacy and Sense Motive checks.
+Cosmopolitan intuition tuned to dense cityscapes, civic crowds, and social reading.
 
 ## Mechanics & Benefit
-+2 racial bonus on Diplomacy and Sense Motive checks.
++2 racial bonus on Diplomacy and Sense Motive checks

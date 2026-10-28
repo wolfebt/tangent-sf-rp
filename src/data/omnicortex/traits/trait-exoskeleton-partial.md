@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.
+Concealable leathery or scaled dermal plating reinforcing vital areas of the body.
 
 ## Mechanics & Benefit
-DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.
+DR (Strength + 2) x 2 [Min Str 2, Concealable]

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Muscle (Sentinel). You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession."
-mechanic: "You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession."
+mechanic: "+2 bonus on any checks related to your chosen profession"
 rules: "Signature Trait (1 CP) — The Muscle (Sentinel)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Muscle (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Muscle (Sentinel). You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.
+Signature trait of The Muscle (Sentinel). You are proficient in a particular trade.
 
 ## Mechanics & Benefit
-You are proficient in a particular trade, gaining +2 bonus on any checks related to your chosen profession.
++2 bonus on any checks related to your chosen profession

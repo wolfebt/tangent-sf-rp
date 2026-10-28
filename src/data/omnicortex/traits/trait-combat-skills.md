@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to A Combat
-mechanic: +2 to a Combat Skill of choice
+mechanic: "+2 to a Combat Skill of choice"
 ---
 # Combat Skills
 

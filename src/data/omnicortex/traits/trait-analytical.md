@@ -19,7 +19,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Information to make informed decisions
-mechanic: +2 Alertness
+mechanic: "+2 Alertness"
 ---
 # Analytical
 

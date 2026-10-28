@@ -21,3 +21,6 @@ modifiers: []
 
 ## Description
 Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.
+
+## Mechanics & Benefit
+Meticulous skill check bonus is increased by +1 per stage

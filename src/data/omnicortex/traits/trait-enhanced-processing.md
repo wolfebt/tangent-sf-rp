@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Strategist (Savant). You gain a +2 bonus to Investigation and Insight checks to analyze data or situations."
-mechanic: "You gain a +2 bonus to Investigation and Insight checks to analyze data or situations."
+mechanic: "+2 bonus to Investigation and Insight checks to analyze data or situations"
 rules: "Signature Trait (1 CP) — The Strategist (Savant)."
 modifiers: [{"target":"Investigation","type":"skill","value":2,"mode":"inherent","description":"+2 to Investigation"},{"target":"Insight","type":"skill","value":2,"mode":"inherent","description":"+2 to Insight"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Investigation","type":"skill","value":2,"mode":"inherent"
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Strategist (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Strategist (Savant). You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.
+Signature trait of The Strategist (Savant). Dedicated aptitude and training to analyze data or situations.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Investigation and Insight checks to analyze data or situations.
++2 bonus to Investigation and Insight checks to analyze data or situations

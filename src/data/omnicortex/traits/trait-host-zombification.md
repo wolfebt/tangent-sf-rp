@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Host Zombification
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-The swarm can flow into, occupy, and puppeteer the corpses of other organisms or damaged biomorphic husks, utilizing them as ablative armored shells and adopting their physical size and strength.
+Swarm inhabits and mechanically puppets corpses or damaged biomorphic husks as armored shells.
+
+## Mechanics & Benefit
+Adopts host size, base Strength, and native DR; husk absorbs damage first as an ablative shell

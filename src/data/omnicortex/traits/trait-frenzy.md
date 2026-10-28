@@ -36,7 +36,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).
+Adrenaline-fueled berserker response triggered by physical trauma in combat.
 
 ## Mechanics & Benefit
-1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).
+1/day when taking damage, enter frenzy for 1 minute (+2 Con/Str, -2 AC)

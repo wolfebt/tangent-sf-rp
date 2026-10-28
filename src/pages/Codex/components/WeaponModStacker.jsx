@@ -145,7 +145,7 @@ export const WeaponModStacker = ({
 
       {/* Category Content: Standard Mods */}
       {['Optics', 'Muzzle', 'Frame', 'Payload'].includes(activeCategory) && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {WEAPON_MODIFICATIONS.filter(m => m.category === activeCategory).map((mod) => {
             const selected = isModSelected(mod.id);
             return (

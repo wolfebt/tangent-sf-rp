@@ -23,6 +23,7 @@ import {
   SkillPoolRankPulldown
 } from '../shared/IdentityPoolPulldown';
 import FolioTooltip from '../shared/FolioTooltip';
+import SkillChoiceSelector from '../shared/SkillChoiceSelector';
 import {
   formatSpeciesType,
   formatSpeciesSize,
@@ -1149,7 +1150,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
         )}
 
         {/* Catalog Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-72 sm:max-h-96 overflow-y-auto pr-1 custom-scrollbar">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
           {filteredItems.map(item => {
             const itemName = item.name || item.title || item.id;
             const isSelected = (currentSelected || '').toLowerCase() === itemName.toLowerCase();
@@ -1557,20 +1558,55 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                     <span className="text-[10px] font-mono font-bold uppercase text-amber-400 block">
                       Signature Traits (1 CP Each • Options & Selections):
                     </span>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {signatureTraits.map(tName => {
                         const acquired = getFeatureAcquiredStatus(tName, characterData);
+                        const info = formatSpeciesTrait(tName, selectedArchetype);
                         return (
-                          <span
+                          <FolioTooltip
                             key={tName}
-                            className={`px-2.5 py-1 rounded text-xs font-mono border ${
-                              acquired
-                                ? 'bg-amber-950/80 border-amber-500/70 text-amber-200 font-bold'
-                                : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                            }`}
+                            title={info.tooltip.title || tName}
+                            badge="Signature Trait (1 CP)"
+                            badgeColor="amber"
+                            description={info.description || info.tooltip.description}
+                            formula={info.mechanic ? `[${info.mechanic}]` : info.tooltip.formula}
+                            rules={info.tooltip.rules}
+                            showInfoIcon={false}
                           >
-                            {tName} [1 CP] {acquired ? '✓' : ''}
-                          </span>
+                            <div
+                              className={`p-2.5 rounded-lg text-xs border flex flex-col gap-0.5 cursor-help transition-all ${
+                                acquired
+                                  ? 'bg-amber-950/60 border-amber-500/70 text-amber-100'
+                                  : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between gap-2 font-mono font-bold">
+                                <span className={acquired ? 'text-amber-200' : 'text-slate-200'}>
+                                  {info.name || tName}
+                                </span>
+                                <span className="text-[10px] text-amber-400 shrink-0">
+                                  [1 CP] {acquired ? '✓' : ''}
+                                </span>
+                              </div>
+                              {info.description && (
+                                <p className="text-[11px] text-slate-300 font-sans leading-snug">
+                                  {info.description}
+                                </p>
+                              )}
+                              {info.mechanic && (
+                                <p className="text-[10px] font-mono text-amber-300/90 leading-snug">
+                                  [{info.mechanic}]
+                                </p>
+                              )}
+                              {acquired && (
+                                <SkillChoiceSelector
+                                  item={info.canonical || { name: info.name || info.label, mechanic: info.mechanic }}
+                                  itemType="trait"
+                                  compact
+                                />
+                              )}
+                            </div>
+                          </FolioTooltip>
                         );
                       })}
                     </div>
@@ -2212,7 +2248,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                   {inherentTraitsList.length > 0 && (
                     <div className="text-xs font-mono space-y-1.5 bg-slate-900/40 p-3 rounded-lg border border-slate-800/60">
                       <span className="text-cyan-400 font-bold uppercase block text-[10px]">Inherent Guaranteed Traits:</span>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {inherentTraitsList.map((traitItem, idx) => {
                           const info = formatSpeciesTrait(traitItem, selectedSpecies);
                           const badgeColor = info.category === 'Humanoid Special Ability'
@@ -2227,13 +2263,33 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                               badge={info.tooltip.badge}
                               badgeColor={badgeColor}
                               description={info.tooltip.description}
+                              formula={info.tooltip.formula}
                               rules={info.tooltip.rules}
                               cost={info.tooltip.cost}
                             >
-                              <span className="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/60 text-cyan-100 font-semibold flex items-center gap-1.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/70 transition-all select-none">
-                                <span>🧬</span>
-                                <span>{info.label} ✓</span>
-                              </span>
+                              <div className="p-2.5 rounded-lg bg-cyan-950/50 border border-cyan-500/50 text-cyan-100 flex flex-col gap-0.5 cursor-help hover:border-cyan-300 hover:bg-cyan-900/40 transition-all select-none">
+                                <div className="flex items-center gap-1.5 font-semibold">
+                                  <span>🧬</span>
+                                  <span>{info.label} ✓</span>
+                                </div>
+                                {info.description && (
+                                  <p className="text-[11px] text-slate-300 font-sans leading-snug pl-5">
+                                    {info.description}
+                                  </p>
+                                )}
+                                {info.mechanic && (
+                                  <p className="text-[10px] font-mono text-cyan-300/90 leading-snug pl-5">
+                                    [{info.mechanic}]
+                                  </p>
+                                )}
+                                <div className="pl-5">
+                                  <SkillChoiceSelector
+                                    item={info.canonical || { name: info.name || info.label, mechanic: info.mechanic }}
+                                    itemType="trait"
+                                    compact
+                                  />
+                                </div>
+                              </div>
                             </FolioTooltip>
                           );
                         })}
@@ -2689,7 +2745,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                     maxSelectable={occMaxTraits}
                     selectedTraits={characterData.occuAllocations?.traits || []}
                     recommendedTraits={occTraits}
-                    allTraits={allCanonicalAndDbTraits}
+                    allTraits={[
+                      ...(selectedOccupation?.traits_detail || []),
+                      ...(selectedSecondaryOccupation?.traits_detail || []),
+                      ...COMMON_OCCUPATIONAL_TRAITS,
+                      ...allCanonicalAndDbTraits
+                    ]}
                     onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, occMaxTraits)}
                     onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
                     colorTheme="sky"
@@ -3212,7 +3273,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                     maxSelectable={maxOrigTraits}
                     selectedTraits={characterData.originAllocations?.traits || []}
                     recommendedTraits={origTraits}
-                    allTraits={allCanonicalAndDbTraits}
+                    allTraits={[
+                      ...(selectedOrigin?.traits_detail || []),
+                      ...(selectedSecondaryOrigin?.traits_detail || []),
+                      ...allCanonicalAndDbTraits
+                    ]}
                     onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, maxOrigTraits)}
                     onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
                     colorTheme="emerald"
@@ -4820,7 +4885,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                     <h4 className="font-bold text-slate-200 uppercase tracking-wider text-[11px] text-amber-400">
                       Features, Traits & Bonuses ({allTraits.length})
                     </h4>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {allTraits.map(t => {
                         const acquired = getFeatureAcquiredStatus(t, characterData);
                         const info = formatSpeciesTrait(t, inspectItem.item);
@@ -4831,18 +4896,41 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                             badge={info.tooltip.badge}
                             badgeColor={info.category === 'Humanoid Special Ability' ? 'purple' : info.category === 'Special Ability' ? 'amber' : 'cyan'}
                             description={info.tooltip.description}
+                            formula={info.tooltip.formula}
                             rules={info.tooltip.rules}
                             cost={info.tooltip.cost}
                           >
-                            <span 
-                              className={`px-2.5 py-1 rounded text-xs font-mono border cursor-help transition-colors ${
+                            <div 
+                              className={`p-2.5 rounded-lg text-xs border cursor-help transition-colors flex flex-col gap-0.5 ${
                                 acquired
-                                  ? 'bg-amber-950/80 border-amber-500 text-amber-200 font-bold'
-                                  : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                                  ? 'bg-amber-950/60 border-amber-500 text-amber-100'
+                                  : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
                               }`}
                             >
-                              {info.label} {acquired ? '✓' : ''}
-                            </span>
+                              <div className="flex items-center justify-between gap-2 font-mono font-bold">
+                                <span className={acquired ? 'text-amber-200' : 'text-slate-200'}>
+                                  {info.label}
+                                </span>
+                                {acquired && <span className="text-amber-400">✓</span>}
+                              </div>
+                              {info.description && (
+                                <p className="text-[11px] text-slate-300 font-sans leading-snug">
+                                  {info.description}
+                                </p>
+                              )}
+                              {info.mechanic && (
+                                <p className="text-[10px] font-mono text-amber-300/90 leading-snug">
+                                  [{info.mechanic}]
+                                </p>
+                              )}
+                              {acquired && (
+                                <SkillChoiceSelector
+                                  item={info.canonical || { name: info.name || info.label, mechanic: info.mechanic }}
+                                  itemType="trait"
+                                  compact
+                                />
+                              )}
+                            </div>
                           </FolioTooltip>
                         );
                       })}

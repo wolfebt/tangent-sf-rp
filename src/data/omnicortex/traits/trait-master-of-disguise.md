@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative). You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration."
-mechanic: "You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration."
+mechanic: "+2 bonus on any checks related to disguise or infiltration"
 rules: "Signature Trait (1 CP) — The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative). You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.
+Signature trait of The Grifter (Operative) / The Shadow-stepper (Operative) / The Silent Blade (Operative). You can expertly alter your appearance and blend into crowds.
 
 ## Mechanics & Benefit
-You can expertly alter your appearance and blend into crowds, gaining +2 bonus on any checks related to disguise or infiltration.
++2 bonus on any checks related to disguise or infiltration

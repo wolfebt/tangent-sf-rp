@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-companion-functionandexamples"
-name: "99. Companion: Function Packages & Examples"
+name: "Companion: Function Packages & Examples"
 fileName: "99.Companion.FunctionAndExamples.md"
 relPath: "architect/companions/99.Companion.FunctionAndExamples.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-companion-matrix"
-order: 20
+order: 15
 perspective: "architect"
 entry_type: "Companion Matrix Module"
 tl: 3

@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Senator (Visionarie). You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions."
-mechanic: "You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions."
+mechanic: "+2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions"
 rules: "Signature Trait (1 CP) — The Senator (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Senator (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Senator (Visionarie). You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.
+Signature trait of The Senator (Visionarie). You have cultivated a network of contacts and allies within the political arena.
 
 ## Mechanics & Benefit
-You have cultivated a network of contacts and allies within the political arena, gaining +2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions.
++2 bonus on any checks related to gathering information, brokering deals, or influencing policy decisions

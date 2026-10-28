@@ -14,15 +14,10 @@ export const FEATURE_CATEGORIES = [
   'Ability',
   'Combat',
   'Discipline',
-  'Meta',
   'General',
-  'Skill',
   'Karma',
-  'Special',
-  'Physical',
-  'Social',
-  'Augmentation',
-  'Hindrance'
+  'Skill',
+  'Special'
 ];
 
 function syncFeatures() {

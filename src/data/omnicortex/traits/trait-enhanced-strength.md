@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Enhanced Strength
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Biomechanical musculature and leveraged skeletal joints treat the organism as one size category larger when calculating lifting, carrying, dragging limits, and grappling resistance.
+Biomechanical musculature treating the creature as one size category larger for lift and carry.
+
+## Mechanics & Benefit
+Counts as 1 size category larger (Medium counts as Large) for lifting capacity, dragging limit, and grappling

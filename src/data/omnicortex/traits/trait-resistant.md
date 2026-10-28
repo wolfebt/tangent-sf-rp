@@ -28,7 +28,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+2 racial bonus on saving throws against mind-affecting effects and poison.
+Hardened neural and metabolic defenses against toxins and mental intrusion.
 
 ## Mechanics & Benefit
-+2 racial bonus on saving throws against mind-affecting effects and poison.
++2 racial bonus on saving throws against mind-affecting effects and poison

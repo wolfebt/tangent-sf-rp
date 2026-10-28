@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Blind Sight (Swarm)
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Distributed micro-acoustic, chemical, and electromagnetic resonance allows the swarm to accurately perceive and target unseen objects and creatures in a 30 ft radius (or 60 ft cone) without optical vision.
+Distributed resonance allows precise non-visual targeting in a 30 ft radius or 60 ft cone.
+
+## Mechanics & Benefit
+Accurately target unseen objects within 30 ft; completely immune to darkness and blinding effects

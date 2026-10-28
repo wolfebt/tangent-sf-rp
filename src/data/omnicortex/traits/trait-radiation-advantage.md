@@ -14,10 +14,13 @@ modifiers: []
 ---
 # Radiation Advantage
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Heavy-element chitin and stabilized cellular matrices grant Advantage on all Stamina, Survival, and physical checks against ionizing radiation and fallout, while halving any raw damage or strain inflicted by radiological hazards.
+Heavy-element chitin and cellular stability grant Advantage on all radiation checks and half radiation damage.
+
+## Mechanics & Benefit
+Advantage on Stamina/Survival saves vs ionizing radiation/fallout; 50% damage reduction against radiation

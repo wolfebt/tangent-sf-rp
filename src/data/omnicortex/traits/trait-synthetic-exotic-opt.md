@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.
+Bespoke cyber-engineering that replicates organic racial traits via technological hardware.
+
+## Mechanics & Benefit
+Gain a synthetic version of any Racial Trait or Special Feature (Requires: Synthetic, Multiple)

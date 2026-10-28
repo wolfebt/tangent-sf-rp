@@ -31,7 +31,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Tactical armor
-mechanic: +2 Equipment
+mechanic: "+2 Equipment"
 ---
 # Milspec Gear
 

@@ -16,7 +16,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 Wealth Score
-mechanic: +2 Equipment (Hideout) and +1 Wealth
+mechanic: "+2 Equipment (Hideout) and +1 Wealth"
 ---
 # Venues
 
@@ -26,7 +26,7 @@ mechanic: +2 Equipment (Hideout) and +1 Wealth
 **CP Cost**: 1
 
 ## Description
-Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #
+Has strong ties to certain performance venues
 
 ## Mechanics & Benefit
 +2 Equipment (Hideout) and +1 Wealth

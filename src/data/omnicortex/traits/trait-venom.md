@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)
+Specialized venom glands delivering hemotoxic, neurotoxic, or cytotoxic payloads.
+
+## Mechanics & Benefit
+Natural attack delivers chosen venom type: Hemotoxic (Str/Sta), Neurotoxic (Agi/Sensory), or Cytotoxic (Corrosive)

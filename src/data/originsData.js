@@ -42,7 +42,33 @@ export const DEFAULT_ORIGINS = [
         "description": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
         "mechanic": "+2 to Animal Handling",
         "bonus": "+2 Animal Handling",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.",
+        "mechanics": "+2 to Animal Handling",
+        "modifiers": [
+          {
+            "target": "Animal Handling Expertise in raising",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Animal Handling Expertise in raising"
+          },
+          {
+            "target": "Caring for livestock",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Caring for livestock"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Animal Handling Expertise in raising\n[Modifier] +2 to Caring for livestock\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Animal Handling Expertise in raising",
+          "[Modifier] +2 to Caring for livestock",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-botanical-knowledge",
@@ -52,7 +78,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
         "mechanic": "+2 to Botany Checks",
         "bonus": "+2 Botany Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.",
+        "mechanics": "+2 to Botany Checks",
+        "modifiers": [
+          {
+            "target": "Botany",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Botany"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Botany\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Botany",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-community-building",
@@ -62,7 +106,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
         "mechanic": "Once per Day may reroll a Social Skill Check",
         "bonus": "1/Day Social Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Values community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster camaraderie.",
+        "mechanics": "Once per Day may reroll a Social Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-green-thumb",
@@ -72,7 +125,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
         "mechanic": "Checks involving nurturing and helping plants may be made at Advantage",
         "bonus": "Advantage on Plant Care Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Natural talent for nurturing plants and making them thrive even in challenging environments. Has a knack for identifying needs of different plants.",
+        "mechanics": "Checks involving nurturing and helping plants may be made at Advantage",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mechanical-skills",
@@ -82,7 +144,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
         "mechanic": "+2 to Mechanical Skill Checks",
         "bonus": "+2 Mechanical Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Mechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems.",
+        "mechanics": "+2 to Mechanical Skill Checks",
+        "modifiers": [
+          {
+            "target": "Mechanical",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Mechanical"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Mechanical\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Mechanical",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -92,7 +172,26 @@ export const DEFAULT_ORIGINS = [
         "description": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "The character is able to make the most of limited resources and find creative solutions to problems, especially important where resources may be scarce.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-survival-skills",
@@ -102,7 +201,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
         "mechanic": "+2 Survival Skill Checks",
         "bonus": "+2 Survival Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Survival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient.",
+        "mechanics": "+2 Survival Skill Checks",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-sustainable-practices",
@@ -110,9 +227,27 @@ export const DEFAULT_ORIGINS = [
         "tier": "Basic",
         "classification": "Origin Trait",
         "description": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
-        "mechanic": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.",
+        "mechanic": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area",
         "bonus": "+2 Agriculture Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Knowledgeable about sustainable farming practices and strives to minimize environmental impact. Prioritizes organic methods and water conservation.",
+        "mechanics": "+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area",
+        "modifiers": [
+          {
+            "target": "Any Agriculture based",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Any Agriculture based"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Any Agriculture based\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Any Agriculture based",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "Agri-Worlds are essential for mass food production. These worlds typically have low development and population, ranging from small rural houses, barns, and silos to expansive mega-structure Arcologies and preservation biospheres.",
@@ -191,7 +326,42 @@ export const DEFAULT_ORIGINS = [
         "description": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 Daily Floating Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-aquatic-construction",
@@ -201,7 +371,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
         "mechanic": "+2 to all Construction Checks",
         "bonus": "+2 Construction Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.",
+        "mechanics": "+2 to all Construction Checks",
+        "modifiers": [
+          {
+            "target": "Construction",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Construction"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Construction\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Construction",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-curiosity",
@@ -209,9 +397,27 @@ export const DEFAULT_ORIGINS = [
         "tier": "Basic",
         "classification": "Origin Trait",
         "description": "Natural curiosity about oceanic depths and alien ecologies, driving exploration of underwater anomalies.",
-        "mechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session - creature, area, technology, etc.",
+        "mechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session - creature, area, technology, etc",
         "bonus": "Karma on Discovery",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Natural curiosity about oceanic depths and alien ecologies, driving exploration of underwater anomalies.",
+        "mechanics": "Regain a Karma Point on the first encounter when dealing with something new during the session - creature, area, technology, etc",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Diplomacy"
+          }
+        ],
+        "rules": "Basic General (1 CP).",
+        "special_rules": "Basic General (1 CP).",
+        "notes": "[Modifier] +4 to Diplomacy\n[Rule] Basic General (1 CP).",
+        "notesList": [
+          "[Modifier] +4 to Diplomacy",
+          "[Rule] Basic General (1 CP)."
+        ]
       },
       {
         "id": "trait-empathy",
@@ -221,7 +427,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.",
         "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
         "bonus": "+2 Insight & Animal Handling",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.",
+        "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+        "modifiers": [
+          {
+            "target": "Handle Animal",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Handle Animal"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Handle Animal",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-environmental-awareness",
@@ -231,7 +455,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
         "mechanic": "+2 Alertness",
         "bonus": "+2 Alertness",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.",
+        "mechanics": "+2 Alertness",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-sea-piloting",
@@ -241,7 +483,49 @@ export const DEFAULT_ORIGINS = [
         "description": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
         "mechanic": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
         "bonus": "+2 Seacraft Piloting",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.",
+        "mechanics": "+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft",
+        "modifiers": [
+          {
+            "target": "Seacraft Operation - Submersibles",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Seacraft Operation - Submersibles"
+          },
+          {
+            "target": "Boats",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Boats"
+          },
+          {
+            "target": "Hovercraft",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Hovercraft"
+          },
+          {
+            "target": "Aircraft",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Aircraft"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Seacraft Operation - Submersibles\n[Modifier] +2 to Boats\n[Modifier] +2 to Hovercraft\n[Modifier] +2 to Aircraft\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Seacraft Operation - Submersibles",
+          "[Modifier] +2 to Boats",
+          "[Modifier] +2 to Hovercraft",
+          "[Modifier] +2 to Aircraft",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -251,7 +535,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Creative solutions with limited supplies aboard remote vessels and isolated marine domes.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Creative solutions with limited supplies aboard remote vessels and isolated marine domes.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-survival-skills",
@@ -261,7 +564,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Navigating underwater terrain, avoiding pelagic predators, and finding fresh water and shelter.",
         "mechanic": "+2 Survival Skill Checks",
         "bonus": "+2 Survival Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Navigating underwater terrain, avoiding pelagic predators, and finding fresh water and shelter.",
+        "mechanics": "+2 Survival Skill Checks",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "This world is mostly covered in water, with over 85% of its surface being water of various depths. Habitats include anchored land installations, submerged pressurized domes, floating flotilla cities, and marine research platforms.",
@@ -337,7 +658,42 @@ export const DEFAULT_ORIGINS = [
         "description": "Ability to adapt to new alien planetary biomes and unexpected environmental hurdles.",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 Daily Floating Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Ability to adapt to new alien planetary biomes and unexpected environmental hurdles.",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-adventurous-spirit",
@@ -347,7 +703,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Willingness to explore uncharted planetary regions and venture into the unknown frontier.",
         "mechanic": "One Skill Check at Advantage per day",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Willingness to explore uncharted planetary regions and venture into the unknown frontier.",
+        "mechanics": "One Skill Check at Advantage per day",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-community-building",
@@ -357,7 +732,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Fostering cooperation and social cohesion essential for frontier settlement survival.",
         "mechanic": "Once per Day may reroll a Social Skill Check",
         "bonus": "1/Day Social Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Fostering cooperation and social cohesion essential for frontier settlement survival.",
+        "mechanics": "Once per Day may reroll a Social Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-diplomacy",
@@ -367,7 +751,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
         "mechanic": "+2 Diplomacy",
         "bonus": "+2 Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Negotiating trade pacts and peaceful relations with rival outposts and indigenous factions.",
+        "mechanics": "+2 Diplomacy",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Diplomacy"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Diplomacy",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-leadership",
@@ -377,7 +779,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Guiding fellow colonists through crises and establishing order in remote settlements.",
         "mechanic": "+2 Leadership",
         "bonus": "+2 Leadership",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Guiding fellow colonists through crises and establishing order in remote settlements.",
+        "mechanics": "+2 Leadership",
+        "modifiers": [
+          {
+            "target": "Leadership",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Leadership"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Leadership",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving",
@@ -387,7 +807,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "1/Day Mental Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Overcoming technical and environmental crises that arise during terraforming and settlement.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resource-management",
@@ -397,7 +826,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Managing reserves of power, water, rations, and modular building components.",
         "mechanic": "Wealth Checks for Basic Resources made at Advantage",
         "bonus": "Advantage on Basic Wealth Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Managing reserves of power, water, rations, and modular building components.",
+        "mechanics": "Wealth Checks for Basic Resources made at Advantage",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-scientific-knowledge",
@@ -407,7 +845,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
         "mechanic": "+2 to Science Knowledge",
         "bonus": "+2 Science Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Expertise in planetary geology, atmospheric biology, or agricultural terraforming.",
+        "mechanics": "+2 to Science Knowledge",
+        "modifiers": [
+          {
+            "target": "Science Knowledge",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Science Knowledge"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Science Knowledge\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Science Knowledge",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-survival-skills",
@@ -417,7 +873,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Frontier wilderness survival, hazardous weather navigation, and shelter fabrication.",
         "mechanic": "+2 Survival Skill Checks",
         "bonus": "+2 Survival Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Frontier wilderness survival, hazardous weather navigation, and shelter fabrication.",
+        "mechanics": "+2 Survival Skill Checks",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or easily movable modular structures prevail on new planetary territories.",
@@ -499,7 +973,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Deep sense of empathy and compassion for sentient beings and spirits.",
         "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly",
         "bonus": "+2 Insight & Animal Handling",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Deep sense of empathy and compassion for sentient beings and spirits.",
+        "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly",
+        "modifiers": [
+          {
+            "target": "Handle Animal",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Handle Animal"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Handle Animal",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-curiosity",
@@ -509,7 +1001,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Philosophical and metaphysical curiosity driving exploration into arcane mysteries.",
         "mechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session",
         "bonus": "Karma on Discovery",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Philosophical and metaphysical curiosity driving exploration into arcane mysteries.",
+        "mechanics": "Regain a Karma Point on the first encounter when dealing with something new during the session",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Diplomacy"
+          }
+        ],
+        "rules": "Basic General (1 CP).",
+        "special_rules": "Basic General (1 CP).",
+        "notes": "[Modifier] +4 to Diplomacy\n[Rule] Basic General (1 CP).",
+        "notesList": [
+          "[Modifier] +4 to Diplomacy",
+          "[Rule] Basic General (1 CP)."
+        ]
       },
       {
         "id": "trait-mentorship",
@@ -519,7 +1029,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
         "mechanic": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
         "bonus": "Advantage on Student Study Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Guiding pupils and imparting ancient wisdom to accelerate their intellectual and spiritual growth.",
+        "mechanics": "Those under the Enlightened character’s tutelage may make Study Checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Study",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Study Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Study Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Study Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-open-mindedness",
@@ -529,7 +1057,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Receptiveness to foreign philosophies, traditions, and exotic worldviews.",
         "mechanic": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
         "bonus": "Reduce Stigma by Wisdom",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Receptiveness to foreign philosophies, traditions, and exotic worldviews.",
+        "mechanics": "Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-peaceful-nature",
@@ -539,7 +1076,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
         "mechanic": "+2 to Diplomacy for peaceful meditations",
         "bonus": "+2 Peaceful Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Harmonious disposition that de-escalates hostility through tranquil presence and negotiation.",
+        "mechanics": "+2 to Diplomacy for peaceful meditations",
+        "modifiers": [
+          {
+            "target": "Diplomacy for peaceful meditations",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Diplomacy for peaceful meditations"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Diplomacy for peaceful meditations\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Diplomacy for peaceful meditations",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving-skills",
@@ -549,7 +1104,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Clarity of thought and meditative contemplation applied to intellectual quandaries.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "1/Day Mental Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Clarity of thought and meditative contemplation applied to intellectual quandaries.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [
+          {
+            "target": "Logic",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Logic Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Logic Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-shared-wisdom",
@@ -559,7 +1132,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Imparting profound advice and guiding allies through precarious trials.",
         "mechanic": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
         "bonus": "Advantage on Aid Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Imparting profound advice and guiding allies through precarious trials.",
+        "mechanics": "Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-spiritual-awareness",
@@ -569,7 +1151,41 @@ export const DEFAULT_ORIGINS = [
         "description": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
         "mechanic": "+1 to Attune and one Metafocus Skill",
         "bonus": "+1 Attune & Metafocus",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Strong metaphysical attunement to ley lines, astral resonance, and psychic currents.",
+        "mechanics": "+1 to Attune and one Metafocus Skill",
+        "modifiers": [
+          {
+            "target": "Attune",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Attune"
+          }
+        ],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "Metafocus Discipline Skills",
+          "max_skills": 1,
+          "value": 1
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Attune\n[Skill Group Choice] Pick up to 1 skills (+1)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Attune",
+          "[Skill Group Choice] Pick up to 1 skills (+1)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them metaphysically active. Adept Occupations and Metafocus Disciplines flourish here.",
@@ -648,7 +1264,29 @@ export const DEFAULT_ORIGINS = [
         "description": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 Chosen Combat Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Hardened combat training honed against ravenous apex predators and hostile environmental hazards.",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-intuition",
@@ -658,7 +1296,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
         "mechanic": "Re-Roll any one failed Perception check per day",
         "bonus": "1/Day Perception Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+        "mechanics": "Re-Roll any one failed Perception check per day",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mental-toughness",
@@ -668,7 +1315,33 @@ export const DEFAULT_ORIGINS = [
         "description": "Withstanding psychic horrors, atmospheric hallucinations, and paralyzing terror.",
         "mechanic": "+2 Willpower Checks",
         "bonus": "+2 Willpower Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Withstanding psychic horrors, atmospheric hallucinations, and paralyzing terror.",
+        "mechanics": "+2 Willpower Checks",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Will Checks"
+          },
+          {
+            "target": "Willpower",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Willpower"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Will Checks",
+          "[Modifier] +2 to Willpower",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-physical-endurance",
@@ -678,7 +1351,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Withstanding toxic atmosphere, radioactive fallout, dehydration, and exhaustion.",
         "mechanic": "+2 Fortitude Checks",
         "bonus": "+2 Fortitude Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Withstanding toxic atmosphere, radioactive fallout, dehydration, and exhaustion.",
+        "mechanics": "+2 Fortitude Checks",
+        "modifiers": [
+          {
+            "target": "Fortitude",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Fortitude Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 on Fortitude Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Fortitude Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-pilot-skills",
@@ -688,7 +1379,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
         "mechanic": "+2 Piloting",
         "bonus": "+2 Piloting",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Piloting atmospheric hovercraft and armored rovers through corrosive dust storms and boiling seas.",
+        "mechanics": "+2 Piloting",
+        "modifiers": [
+          {
+            "target": "Piloting",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Piloting"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Piloting\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Piloting",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -698,7 +1407,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Improvising survival tools and extracting water from poisoned soil.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Improvising survival tools and extracting water from poisoned soil.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-survival-skills",
@@ -708,7 +1436,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Tracking apex fauna, locating uncorrupted subterranean aquifers, and constructing sealed shelters.",
         "mechanic": "+2 Survival Skill Checks",
         "bonus": "+2 Survival Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Tracking apex fauna, locating uncorrupted subterranean aquifers, and constructing sealed shelters.",
+        "mechanics": "+2 Survival Skill Checks",
+        "modifiers": [
+          {
+            "target": "Survival",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Survival"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Survival\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Survival",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technical-skills",
@@ -718,7 +1464,41 @@ export const DEFAULT_ORIGINS = [
         "description": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
         "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
         "bonus": "+1 Tech Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Repairing air recyclers, EVA suits, and life-support units under extreme pressure.",
+        "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+        "modifiers": [
+          {
+            "target": "Mechanical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Mechanical"
+          },
+          {
+            "target": "Electrical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Electrical"
+          },
+          {
+            "target": "Engineering",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Engineering"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Mechanical",
+          "[Modifier] +1 to Electrical",
+          "[Modifier] +1 to Engineering",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "It is uncommon to find a civilization in a dangerous or poisonous world, but hardy survivor clans have chosen or been forced to live in radiation wastelands, toxic swamps, and extreme geothermal death worlds.",
@@ -798,7 +1578,42 @@ export const DEFAULT_ORIGINS = [
         "description": "Adjusting rapidly to shifting manufacturing quotas, boiler hazards, and mechanical breakdowns.",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 Daily Floating Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adjusting rapidly to shifting manufacturing quotas, boiler hazards, and mechanical breakdowns.",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-mechanical-aptitude",
@@ -808,7 +1623,41 @@ export const DEFAULT_ORIGINS = [
         "description": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
         "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
         "bonus": "+1 Mechanical/Electrical/Eng Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Natural talent for working with heavy machinery, hydraulic presses, automated assembly lines, and smelters.",
+        "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+        "modifiers": [
+          {
+            "target": "Mechanical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Mechanical"
+          },
+          {
+            "target": "Electrical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Electrical"
+          },
+          {
+            "target": "Engineering",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Engineering"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Mechanical",
+          "[Modifier] +1 to Electrical",
+          "[Modifier] +1 to Engineering",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-physical-strength",
@@ -818,7 +1667,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
         "mechanic": "+2 Might Checks",
         "bonus": "+2 Might Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Above-average muscle power developed through grueling shifts in ore refineries and foundries.",
+        "mechanics": "+2 Might Checks",
+        "modifiers": [
+          {
+            "target": "Might",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Might Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 on Might Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Might Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-practicality",
@@ -828,7 +1695,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Focused on functional, no-nonsense solutions over abstract or untested theories.",
         "mechanic": "+2 Logic Checks",
         "bonus": "+2 Logic Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Focused on functional, no-nonsense solutions over abstract or untested theories.",
+        "mechanics": "+2 Logic Checks",
+        "modifiers": [
+          {
+            "target": "Logic",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Logic Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Logic Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving-skills",
@@ -838,7 +1723,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Diagnosing operational bottlenecks and fixing systemic failures on the plant floor.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "1/Day Mental Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Diagnosing operational bottlenecks and fixing systemic failures on the plant floor.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [
+          {
+            "target": "Logic",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Logic Checks"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Logic Checks",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -848,7 +1751,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Salvaging scrap parts and fabricating replacement gears on short notice.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Salvaging scrap parts and fabricating replacement gears on short notice.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-risk-taking",
@@ -858,7 +1780,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Willing to take calculated physical risks in hazardous high-heat, high-voltage environments.",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-specialized-knowledge",
@@ -868,7 +1808,27 @@ export const DEFAULT_ORIGINS = [
         "description": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
         "mechanic": "+2 to a Vocation Specialization",
         "bonus": "+2 Vocation Specialization",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Deep technical specialization in metallurgy, chemical processing, or structural robotics.",
+        "mechanics": "+2 to a Vocation Specialization",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "mental_vocations"
+          ],
+          "group_label": "Vocation Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-teamwork",
@@ -878,7 +1838,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Flawless synchronization with crewmates operating heavy tandem machinery.",
         "mechanic": "additional +1 to Aid bonuses",
         "bonus": "+1 Aid Bonus",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Flawless synchronization with crewmates operating heavy tandem machinery.",
+        "mechanics": "additional +1 to Aid bonuses",
+        "modifiers": [
+          {
+            "target": "Aid bonuses",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Aid bonuses"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Aid bonuses\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Aid bonuses",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "These worlds are developed to exploit available natural resources and are designed for maximum efficiency. Heavy blast walls, automated smelters, toxic smokestacks, and modular worker complexes dominate.",
@@ -956,7 +1934,42 @@ export const DEFAULT_ORIGINS = [
         "description": "Gracefully adjusting to high-society protocols and guest demands across diverse social tiers.",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 Daily Floating Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gracefully adjusting to high-society protocols and guest demands across diverse social tiers.",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-diplomacy",
@@ -966,7 +1979,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Mastery in maintaining cordial relations, resolving delicate feuds, and managing elite clientele.",
         "mechanic": "+2 Diplomacy",
         "bonus": "+2 Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Mastery in maintaining cordial relations, resolving delicate feuds, and managing elite clientele.",
+        "mechanics": "+2 Diplomacy",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Diplomacy"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Diplomacy\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Diplomacy",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-entertainment-skill",
@@ -976,7 +2007,32 @@ export const DEFAULT_ORIGINS = [
         "description": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
         "mechanic": "+2 to a Non-Combat Skill of choice",
         "bonus": "+2 Non-Combat Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Excellence in musical performance, culinary arts, somatic exhibitions, or creative entertainment.",
+        "mechanics": "+2 to a Non-Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation"
+          ],
+          "group_label": "Non-Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-lifestyle-preferences",
@@ -986,7 +2042,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Refined appreciation for luxurious fabrics, exotic beverages, and opulent surroundings.",
         "mechanic": "+1 Wealth and +1 Diplomacy",
         "bonus": "+1 Wealth & Diplomacy",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Refined appreciation for luxurious fabrics, exotic beverages, and opulent surroundings.",
+        "mechanics": "+1 Wealth and +1 Diplomacy",
+        "modifiers": [
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 Wealth Score"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 Wealth Score",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-non-combat-focus",
@@ -996,7 +2070,27 @@ export const DEFAULT_ORIGINS = [
         "description": "Deep dedication to peaceful craftsmanship, service excellence, and cultural mastery.",
         "mechanic": "+2 to a Vocation Skill of choice",
         "bonus": "+2 Vocation Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Deep dedication to peaceful craftsmanship, service excellence, and cultural mastery.",
+        "mechanics": "+2 to a Vocation Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "mental_vocations"
+          ],
+          "group_label": "Vocation Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-optimistic",
@@ -1006,7 +2100,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
         "mechanic": "+1 to Karma Pool",
         "bonus": "+1 Karma Pool",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Irrepressible cheerfulness and positive mindset that helps weather tense diplomatic disputes.",
+        "mechanics": "+1 to Karma Pool",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-management",
@@ -1016,7 +2128,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Organizing private events, overseeing luxury resort operations, and directing staff.",
         "mechanic": "+1 Wealth and +1 Leadership",
         "bonus": "+1 Wealth & Leadership",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Organizing private events, overseeing luxury resort operations, and directing staff.",
+        "mechanics": "+1 Wealth and +1 Leadership",
+        "modifiers": [
+          {
+            "target": "Wealth",
+            "type": "wealth",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 Wealth Score"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 Wealth Score\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 Wealth Score",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -1026,7 +2156,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Improvising solutions to keep guests satisfied and operations smooth.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Improvising solutions to keep guests satisfied and operations smooth.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-smooth-talking",
@@ -1036,7 +2185,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Charismatic charm, silver-tongued rhetoric, and impeccable manners.",
         "mechanic": "+2 Etiquette Checks",
         "bonus": "+2 Etiquette Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Charismatic charm, silver-tongued rhetoric, and impeccable manners.",
+        "mechanics": "+2 Etiquette Checks",
+        "modifiers": [
+          {
+            "target": "Etiquette",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Etiquette"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Etiquette\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Etiquette",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. High-end resort cities, private gambling spires, pristine beaches, and artistic sanctuaries cater to elites and tourists.",
@@ -1115,7 +2282,29 @@ export const DEFAULT_ORIGINS = [
         "description": "Rigorous drills in small-arms tactics, hand-to-hand combat, and tactical room-clearing.",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 Chosen Combat Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Rigorous drills in small-arms tactics, hand-to-hand combat, and tactical room-clearing.",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-disciplined",
@@ -1125,7 +2314,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Iron resolve, strict adherence to chain-of-command, and composure under enemy artillery fire.",
         "mechanic": "+2 Soldier Vocation",
         "bonus": "+2 Soldier Vocation",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Iron resolve, strict adherence to chain-of-command, and composure under enemy artillery fire.",
+        "mechanics": "+2 Soldier Vocation",
+        "modifiers": [
+          {
+            "target": "Soldier Vocation",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Soldier Vocation"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Soldier Vocation\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Soldier Vocation",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-honor-bound",
@@ -1135,7 +2342,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
         "mechanic": "Any One check per day at Advantage, but must be for another",
         "bonus": "1/Day Advantage for Ally",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Unshakable personal code of honor, willing to lay down one’s life to protect comrades.",
+        "mechanics": "Any One check per day at Advantage, but must be for another",
+        "modifiers": [
+          {
+            "target": "Honor-Bound Any One check per day",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Honor-Bound Any One check per day Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Honor-Bound Any One check per day Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Honor-Bound Any One check per day Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-leadership",
@@ -1145,7 +2370,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Proven battlefield command experience inspiring fireteams to advance against overwhelming odds.",
         "mechanic": "+2 Leadership Checks",
         "bonus": "+2 Leadership Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Proven battlefield command experience inspiring fireteams to advance against overwhelming odds.",
+        "mechanics": "+2 Leadership Checks",
+        "modifiers": [
+          {
+            "target": "Leadership",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Leadership"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Leadership",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-loyal",
@@ -1155,7 +2398,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
         "mechanic": "Domination and Mind-Control Resistance Checks are made at Advantage",
         "bonus": "Advantage vs Mind Control",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.",
+        "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+        "modifiers": [
+          {
+            "target": "Will",
+            "type": "save_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Will Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] Advantage on Will Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] Advantage on Will Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-milspec-gear",
@@ -1165,7 +2426,49 @@ export const DEFAULT_ORIGINS = [
         "description": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
         "mechanic": "+2 Equipment",
         "bonus": "+2 Equipment Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Trained to utilize and field-strip military-grade ordinance and tactical armor.",
+        "mechanics": "+2 Equipment",
+        "modifiers": [
+          {
+            "target": "equipment-bonus",
+            "type": "combat",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 Equipment"
+          },
+          {
+            "target": "Trained to utilize",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Trained to utilize"
+          },
+          {
+            "target": "Field-strip military-grade ordinance",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Field-strip military-grade ordinance"
+          },
+          {
+            "target": "Tactical armor",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Tactical armor"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 Equipment\n[Modifier] +2 to Trained to utilize\n[Modifier] +2 to Field-strip military-grade ordinance\n[Modifier] +2 to Tactical armor\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 Equipment",
+          "[Modifier] +2 to Trained to utilize",
+          "[Modifier] +2 to Field-strip military-grade ordinance",
+          "[Modifier] +2 to Tactical armor",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-pilot-skills",
@@ -1175,7 +2478,25 @@ export const DEFAULT_ORIGINS = [
         "description": "High-speed tactical dropship, attack gunship, and armored personnel carrier operation.",
         "mechanic": "+2 Piloting",
         "bonus": "+2 Piloting",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "High-speed tactical dropship, attack gunship, and armored personnel carrier operation.",
+        "mechanics": "+2 Piloting",
+        "modifiers": [
+          {
+            "target": "Piloting",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Piloting"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Piloting\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Piloting",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-strategic",
@@ -1185,7 +2506,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
         "mechanic": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
         "bonus": "Strategic Bonus Pool (INT+2)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.",
+        "mechanics": "Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-tough",
@@ -1195,7 +2525,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Rugged physical resilience and mental endurance forged through harsh bootcamp conditioning.",
         "mechanic": "+1 Fortitude and Willpower Checks",
         "bonus": "+1 Fortitude & Willpower",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Rugged physical resilience and mental endurance forged through harsh bootcamp conditioning.",
+        "mechanics": "+1 Fortitude and Willpower Checks",
+        "modifiers": [
+          {
+            "target": "armor-dr",
+            "type": "combat",
+            "value": 5,
+            "mode": "inherent",
+            "description": "+5 DR"
+          }
+        ],
+        "rules": "Prerequisite: Stamina 1.",
+        "special_rules": "Prerequisite: Stamina 1.",
+        "notes": "[Modifier] +5 DR\n[Rule] Prerequisite: Stamina 1.\n[Prerequisite] Stamina 1",
+        "notesList": [
+          "[Modifier] +5 DR",
+          "[Rule] Prerequisite: Stamina 1.",
+          "[Prerequisite] Stamina 1"
+        ]
       }
     ],
     "description": "Whether a fortified border fortress, orbital garrison, or dedicated planetary training ground, a pervasive military hierarchy governs every aspect of daily life. Fortified bunkers and security corridors prevail.",
@@ -1274,7 +2623,42 @@ export const DEFAULT_ORIGINS = [
         "description": "Quickly modifying laboratory hypotheses and diagnostic parameters when anomalous data appears.",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 Daily Floating Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Quickly modifying laboratory hypotheses and diagnostic parameters when anomalous data appears.",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-analytical-thinking",
@@ -1284,7 +2668,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
         "mechanic": "+2 Logic Checks",
         "bonus": "+2 Logic Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Analyzing complex telemetry, identifying cryptographic patterns, and drawing rigorous empirical conclusions.",
+        "mechanics": "+2 Logic Checks",
+        "modifiers": [
+          {
+            "target": "Logic",
+            "type": "save",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 on Logic Checks"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 on Logic Checks\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 on Logic Checks",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-attention-to-detail",
@@ -1294,7 +2696,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Keen eye for micro-fluctuations in sensor readouts and microscopic material fractures.",
         "mechanic": "+2 Alertness",
         "bonus": "+2 Alertness",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Keen eye for micro-fluctuations in sensor readouts and microscopic material fractures.",
+        "mechanics": "+2 Alertness",
+        "modifiers": [
+          {
+            "target": "Alertness",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Alertness"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Alertness\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Alertness",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-collaboration",
@@ -1304,7 +2724,33 @@ export const DEFAULT_ORIGINS = [
         "description": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
         "mechanic": "additional +1 to Aid bonuses received and granted",
         "bonus": "+1 Aid Given/Received",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Working smoothly with interdisciplinary research teams and effectively sharing breakthroughs.",
+        "mechanics": "additional +1 to Aid bonuses received and granted",
+        "modifiers": [
+          {
+            "target": "Aid bonuses received",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Aid bonuses received"
+          },
+          {
+            "target": "Granted",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Granted"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Aid bonuses received\n[Modifier] +1 to Granted\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Aid bonuses received",
+          "[Modifier] +1 to Granted",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-curiosity",
@@ -1314,7 +2760,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Inquiring mind that revels in deciphering unknown alien relics and anomalous physics.",
         "mechanic": "Regain a Karma Point on the first encounter when dealing with something new during the session",
         "bonus": "Karma on Discovery",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Inquiring mind that revels in deciphering unknown alien relics and anomalous physics.",
+        "mechanics": "Regain a Karma Point on the first encounter when dealing with something new during the session",
+        "modifiers": [
+          {
+            "target": "Diplomacy",
+            "type": "skill",
+            "value": 4,
+            "mode": "inherent",
+            "description": "+4 to Diplomacy"
+          }
+        ],
+        "rules": "Basic General (1 CP).",
+        "special_rules": "Basic General (1 CP).",
+        "notes": "[Modifier] +4 to Diplomacy\n[Rule] Basic General (1 CP).",
+        "notesList": [
+          "[Modifier] +4 to Diplomacy",
+          "[Rule] Basic General (1 CP)."
+        ]
       },
       {
         "id": "trait-intellectualism",
@@ -1324,7 +2788,38 @@ export const DEFAULT_ORIGINS = [
         "description": "High academic pedigree and deep foundational mastery across scientific domains.",
         "mechanic": "+2 Academics and +2 to a Mental Skill Specialization",
         "bonus": "+2 Academics & Spec",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "High academic pedigree and deep foundational mastery across scientific domains.",
+        "mechanics": "+2 Academics and +2 to a Mental Skill Specialization",
+        "modifiers": [
+          {
+            "target": "Academics",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Academics"
+          }
+        ],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations"
+          ],
+          "group_label": "Mental Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Academics\n[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Academics",
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-persistence",
@@ -1334,7 +2829,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Relentless dedication that refuses to abandon stalled experiments or inscrutable ciphers.",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-problem-solving",
@@ -1344,7 +2857,16 @@ export const DEFAULT_ORIGINS = [
         "description": "Developing creative scientific workarounds to containment failures and computational limits.",
         "mechanic": "Once per Day may reroll a Mental Skill Check",
         "bonus": "1/Day Mental Reroll",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Developing creative scientific workarounds to containment failures and computational limits.",
+        "mechanics": "Once per Day may reroll a Mental Skill Check",
+        "modifiers": [],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-studious",
@@ -1354,7 +2876,27 @@ export const DEFAULT_ORIGINS = [
         "description": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
         "mechanic": "+2 to a Knowledge of choice",
         "bonus": "+2 Chosen Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Gained encyclopedic familiarity with specialized academic archives and historical treatises.",
+        "mechanics": "+2 to a Knowledge of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "mental_knowledges"
+          ],
+          "group_label": "Knowledge Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject, housing clean rooms, orbital observatories, and supercomputer arrays.",
@@ -1432,7 +2974,29 @@ export const DEFAULT_ORIGINS = [
         "description": "Zero-g boarding tactics, depressurization combat, and close-quarters defense in cramped starship corridors.",
         "mechanic": "+2 to a Combat Skill of choice",
         "bonus": "+2 Chosen Combat Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Zero-g boarding tactics, depressurization combat, and close-quarters defense in cramped starship corridors.",
+        "mechanics": "+2 to a Combat Skill of choice",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced"
+          ],
+          "group_label": "Combat Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Combat (1 CP).",
+        "special_rules": "Basic Combat (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Combat (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Combat (1 CP)."
+        ]
       },
       {
         "id": "trait-independence",
@@ -1442,7 +3006,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
         "mechanic": "+1 Karma Point",
         "bonus": "+1 Karma Point",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Self-reliance and autonomy nurtured through years of solitary deep-space voyages far beyond comms reach.",
+        "mechanics": "+1 Karma Point",
+        "modifiers": [
+          {
+            "target": "Karma",
+            "type": "karma",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Karma Pool"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Karma Pool\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Karma Pool",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-leadership-skills",
@@ -1452,7 +3034,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
         "mechanic": "+2 Leadership Checks",
         "bonus": "+2 Leadership Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Maintaining crew morale, resolving hull-fever quarrels, and commanding maneuvers during asteroid transit.",
+        "mechanics": "+2 Leadership Checks",
+        "modifiers": [
+          {
+            "target": "Leadership",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Leadership"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Leadership\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Leadership",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-pilot-skills",
@@ -1462,7 +3062,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Precise orbital docking, RCS thruster calibration, hyperlane vector alignment, and evasive rolls.",
         "mechanic": "+2 Piloting",
         "bonus": "+2 Piloting",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Precise orbital docking, RCS thruster calibration, hyperlane vector alignment, and evasive rolls.",
+        "mechanics": "+2 Piloting",
+        "modifiers": [
+          {
+            "target": "Piloting",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Piloting"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Piloting\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Piloting",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-resourcefulness",
@@ -1472,7 +3090,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Conserving O2, recycling reaction mass, and jury-rigging blown conduits with minimal spare parts.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Conserving O2, recycling reaction mass, and jury-rigging blown conduits with minimal spare parts.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-smooth-talking",
@@ -1482,7 +3119,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Persuading station customs officers, negotiating black-market fuel rates, and bluffing privateers.",
         "mechanic": "+2 Bluff",
         "bonus": "+2 Bluff",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Persuading station customs officers, negotiating black-market fuel rates, and bluffing privateers.",
+        "mechanics": "+2 Bluff",
+        "modifiers": [
+          {
+            "target": "Etiquette",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Etiquette"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Etiquette\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Etiquette",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-technical-skills",
@@ -1492,7 +3147,41 @@ export const DEFAULT_ORIGINS = [
         "description": "Calibrating life support scrubbing arrays, micro-meteorite hull patches, and reactor coolant seals.",
         "mechanic": "+1 to Mechanical, Electrical and Engineering Skill Checks",
         "bonus": "+1 Tech Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Calibrating life support scrubbing arrays, micro-meteorite hull patches, and reactor coolant seals.",
+        "mechanics": "+1 to Mechanical, Electrical and Engineering Skill Checks",
+        "modifiers": [
+          {
+            "target": "Mechanical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Mechanical"
+          },
+          {
+            "target": "Electrical",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Electrical"
+          },
+          {
+            "target": "Engineering",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Engineering"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Mechanical\n[Modifier] +1 to Electrical\n[Modifier] +1 to Engineering\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Mechanical",
+          "[Modifier] +1 to Electrical",
+          "[Modifier] +1 to Engineering",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-toughness",
@@ -1502,7 +3191,33 @@ export const DEFAULT_ORIGINS = [
         "description": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
         "mechanic": "+1 Fortitude and Willpower Checks",
         "bonus": "+1 Fortitude & Willpower",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Withstanding microgravity bone loss, cosmic radiation exposure, and rapid cabin pressure fluctuations.",
+        "mechanics": "+1 Fortitude and Willpower Checks",
+        "modifiers": [
+          {
+            "target": "Fortitude",
+            "type": "save",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 on Fortitude Checks"
+          },
+          {
+            "target": "Willpower",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Willpower"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 on Fortitude Checks\n[Modifier] +1 to Willpower\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 on Fortitude Checks",
+          "[Modifier] +1 to Willpower",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       }
     ],
     "description": "Some people do not have a home planet, instead choosing to travel the stars. They spend most of their time on generation ships, orbital trade rings, and hollowed-out asteroid stations, rarely setting foot on planetary dirt.",
@@ -1581,7 +3296,42 @@ export const DEFAULT_ORIGINS = [
         "description": "Adapting to shifting turf wars, sudden police sweeps, and rapid socio-economic volatility in the megacity.",
         "mechanic": "+2 to a specific Skill Check, may change assigned Skill daily",
         "bonus": "+2 Daily Floating Skill",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Adapting to shifting turf wars, sudden police sweeps, and rapid socio-economic volatility in the megacity.",
+        "mechanics": "+2 to a specific Skill Check, may change assigned Skill daily",
+        "modifiers": [],
+        "modifier_options": {
+          "enabled": true,
+          "mode": "group_pool",
+          "group_keys": [
+            "physical",
+            "mental_general",
+            "mental_knowledges",
+            "mental_vocations",
+            "social_expression",
+            "social_manipulation",
+            "combat_archaic",
+            "combat_modern",
+            "combat_advanced",
+            "meta_general",
+            "meta_dimension",
+            "meta_energy",
+            "meta_entropy",
+            "meta_illusion",
+            "meta_matter",
+            "meta_mental"
+          ],
+          "group_label": "All Skills",
+          "max_skills": 1,
+          "value": 2
+        },
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Skill Group Choice] Pick up to 1 skills (+2)\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Skill Group Choice] Pick up to 1 skills (+2)",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-contacts",
@@ -1591,7 +3341,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
         "mechanic": "Gather Information checks at Advantage",
         "bonus": "Advantage on Gather Info",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Extensive web of street informants, back-alley chop-docs, corporate middle-managers, and black-market fences.",
+        "mechanics": "Gather Information checks at Advantage",
+        "modifiers": [
+          {
+            "target": "Contacts Gather Information",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "inherent",
+            "description": "Advantage on Contacts Gather Information Checks"
+          }
+        ],
+        "rules": "Prerequisite: Charisma 1.",
+        "special_rules": "Prerequisite: Charisma 1.",
+        "notes": "[Modifier] Advantage on Contacts Gather Information Checks\n[Rule] Prerequisite: Charisma 1.\n[Prerequisite] Charisma 1",
+        "notesList": [
+          "[Modifier] Advantage on Contacts Gather Information Checks",
+          "[Rule] Prerequisite: Charisma 1.",
+          "[Prerequisite] Charisma 1"
+        ]
       },
       {
         "id": "trait-resourceful",
@@ -1601,7 +3370,26 @@ export const DEFAULT_ORIGINS = [
         "description": "Hustling to turn junk electronics into functional surveillance taps and finding angles where none seem to exist.",
         "mechanic": "Once per Day make a Skill Check of choice at Advantage",
         "bonus": "1/Day Skill at Advantage",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Hustling to turn junk electronics into functional surveillance taps and finding angles where none seem to exist.",
+        "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+        "modifiers": [
+          {
+            "target": "Skill Choice",
+            "type": "check_advantage",
+            "value": 1,
+            "mode": "situational",
+            "condition": "1/Day",
+            "description": "One Skill Check of choice at Advantage per day"
+          }
+        ],
+        "rules": "Basic Occupational Trait (1 CP).",
+        "special_rules": "Basic Occupational Trait (1 CP).",
+        "notes": "[Modifier] One Skill Check of choice at Advantage per day\n[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Modifier] One Skill Check of choice at Advantage per day",
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-social-skills",
@@ -1611,7 +3399,25 @@ export const DEFAULT_ORIGINS = [
         "description": "Navigating layered corporate boardrooms, gang shakedowns, and multicultural street markets.",
         "mechanic": "+1 all Social Manipulation Skills and Culture Knowledge",
         "bonus": "+1 Social & Culture Checks",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Navigating layered corporate boardrooms, gang shakedowns, and multicultural street markets.",
+        "mechanics": "+1 all Social Manipulation Skills and Culture Knowledge",
+        "modifiers": [
+          {
+            "target": "Social Manipulation",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Social Manipulation"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Social Manipulation\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Social Manipulation",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-street-fighting",
@@ -1621,7 +3427,33 @@ export const DEFAULT_ORIGINS = [
         "description": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
         "mechanic": "+1 Unarmed Combat and Defense",
         "bonus": "+1 Unarmed & Defense",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Vicious close-quarters brawl techniques using brass knuckles, concealed shivs, and dirty tactics in tight alleys.",
+        "mechanics": "+1 Unarmed Combat and Defense",
+        "modifiers": [
+          {
+            "target": "Unarmed Combat",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Unarmed Combat"
+          },
+          {
+            "target": "Defense",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to Defense"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to Unarmed Combat\n[Modifier] +1 to Defense\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to Unarmed Combat",
+          "[Modifier] +1 to Defense",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-streetwise",
@@ -1631,7 +3463,25 @@ export const DEFAULT_ORIGINS = [
         "description": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
         "mechanic": "+2 Streetwise (additional +1 in Home City)",
         "bonus": "+2 Streetwise (+1 Home City)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "In-depth mastery of underworld syndicates, secret black-clinic passwords, and surveillance blindspots.",
+        "mechanics": "+2 Streetwise (additional +1 in Home City)",
+        "modifiers": [
+          {
+            "target": "In Home City",
+            "type": "skill",
+            "value": 1,
+            "mode": "inherent",
+            "description": "+1 to In Home City"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +1 to In Home City\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +1 to In Home City",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-tech-savvy",
@@ -1641,7 +3491,33 @@ export const DEFAULT_ORIGINS = [
         "description": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
         "mechanic": "+2 to Knowledges of Computer and Technology",
         "bonus": "+2 Computer & Tech Knowledge",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Everyday expertise with neural datalinks, cybernetic interfaces, personal comm-arrays, and citywide grids.",
+        "mechanics": "+2 to Knowledges of Computer and Technology",
+        "modifiers": [
+          {
+            "target": "Knowledges of Computer",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Knowledges of Computer"
+          },
+          {
+            "target": "Technology",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Technology"
+          }
+        ],
+        "rules": "Basic Origin Trait (1 CP).",
+        "special_rules": "Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Knowledges of Computer\n[Modifier] +2 to Technology\n[Rule] Basic Origin Trait (1 CP).",
+        "notesList": [
+          "[Modifier] +2 to Knowledges of Computer",
+          "[Modifier] +2 to Technology",
+          "[Rule] Basic Origin Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-urban-survival",
@@ -1651,7 +3527,32 @@ export const DEFAULT_ORIGINS = [
         "description": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
         "mechanic": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
         "bonus": "+2 Athletics & Stealth (Urban)",
-        "cpCost": 1
+        "cpCost": 1,
+        "desc": "Acrobatic freerunning across neon rooftops, blending invisibly into crowds, and evasion of police drones.",
+        "mechanics": "+2 Athletics and Stealth Skills (in Urban and developed areas)",
+        "modifiers": [
+          {
+            "target": "Athletics",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Athletics"
+          },
+          {
+            "target": "Stealth",
+            "type": "skill",
+            "value": 2,
+            "mode": "inherent",
+            "description": "+2 to Stealth"
+          }
+        ],
+        "rules": "",
+        "special_rules": "",
+        "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Stealth",
+        "notesList": [
+          "[Modifier] +2 to Athletics",
+          "[Modifier] +2 to Stealth"
+        ]
       }
     ],
     "description": "People who live in cities, from large metropolises to vertical arcologies, experience high population density, rapid technological integration, ground and air vehicles, and vibrant street cultures.",

@@ -310,8 +310,8 @@ export const TraitTooltipCard = ({
             <Sparkles size={11} className="text-purple-400 shrink-0" />
             <span>Game Mechanics & Rules Effect</span>
           </div>
-          <p className="text-[10.5px] text-purple-100/90 leading-snug font-sans">
-            {trait.mechanics || trait.mechanic}
+          <p className="text-[10.5px] text-purple-100/90 leading-snug font-mono">
+            [{(trait.mechanics || trait.mechanic).replace(/^\[|\]$/g, '')}]
           </p>
         </div>
       )}

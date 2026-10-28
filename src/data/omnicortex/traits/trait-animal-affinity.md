@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Instinctive empathic rapport with beasts, mounts, and xeno-fauna."
-mechanic: "You gain a +2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna."
+mechanic: "+2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna"
 rules: "Signature Trait (1 CP) — The Beast-handler (Sentinel)."
 modifiers: [{"target":"Animal Handling","type":"skill","value":2,"mode":"inherent","description":"+2 to Animal Handling"},{"target":"Survival","type":"skill","value":2,"mode":"inherent","description":"+2 to Survival"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Animal Handling","type":"skill","value":2,"mode":"inheren
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Beast-handler (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
 Instinctive empathic rapport with beasts, mounts, and xeno-fauna.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna.
++2 bonus to Animal Handling and Survival checks when calming, training, or directing beasts and xeno-fauna

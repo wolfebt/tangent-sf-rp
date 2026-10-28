@@ -29,4 +29,4 @@ modifiers:
 Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.
 
 ## Mechanics & Benefit
-Innate metaphysical masking that dampens personal presence, scrying signatures, and casual biological detection.
+Imposes Disadvantage on visual, sensor, and psionic detection attempts against you

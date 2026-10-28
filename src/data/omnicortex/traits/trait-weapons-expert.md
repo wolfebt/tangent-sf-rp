@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Munitions Magnate (Sentinel). You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment."
-mechanic: "You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment."
+mechanic: "+2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment"
 rules: "Signature Trait (1 CP) — The Munitions Magnate (Sentinel)."
 modifiers: [{"target":"Technology","type":"skill","value":2,"mode":"inherent","description":"+2 to Technology"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Technology","type":"skill","value":2,"mode":"inherent","d
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Munitions Magnate (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Munitions Magnate (Sentinel). You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.
+Signature trait of The Munitions Magnate (Sentinel). Specialized expertise and intuition in the operation and maintenance of weapons and military equipment.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment.
++2 bonus to Technology checks related to the operation and maintenance of weapons and military equipment

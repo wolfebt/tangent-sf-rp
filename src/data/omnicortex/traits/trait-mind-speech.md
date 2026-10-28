@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Telepathic Communication to one subject within 500 ft. Ranked.
+Directed psionic projection allowing silent mind-to-mind dialogue.
+
+## Mechanics & Benefit
+Telepathic communication with one subject within 500 ft (Ranked)

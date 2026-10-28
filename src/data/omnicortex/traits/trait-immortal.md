@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.
+Transcendent biological permanence immune to natural death, toxins, and contagion.
+
+## Mechanics & Benefit
+Cannot die of natural causes and immune to all poisons and diseases (Requires: Ageless)

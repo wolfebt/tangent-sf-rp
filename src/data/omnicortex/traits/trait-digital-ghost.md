@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant). You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm."
-mechanic: "You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm."
+mechanic: "+2 bonus on any checks related to stealth or infiltration in the digital realm"
 rules: "Signature Trait (1 CP) — The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant). You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.
+Signature trait of The Shadow-stepper (Operative) / The Slicer (Operative) / The Decker (Savant). You can move through cyberspace undetected.
 
 ## Mechanics & Benefit
-You can move through cyberspace undetected, gaining +2 bonus on any checks related to stealth or infiltration in the digital realm.
++2 bonus on any checks related to stealth or infiltration in the digital realm

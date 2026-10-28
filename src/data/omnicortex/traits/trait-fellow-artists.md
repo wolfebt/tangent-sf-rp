@@ -14,9 +14,7 @@ modifiers:
     value: 1
     mode: inherent
     description: Advantage on Fellow Artists Gather Information Checks
-mechanic: >-
-  Gather Information checks made at Advantage when dealing with the
-  entertainment scene
+mechanic: "Gather Information checks made at Advantage when dealing with the entertainment scene"
 ---
 # Fellow Artists
 

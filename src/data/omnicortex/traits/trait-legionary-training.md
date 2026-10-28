@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Legionnaire (Sentinel). You gain a +2 bonus to Athletics checks."
-mechanic: "You gain a +2 bonus to Athletics checks."
+mechanic: "+2 bonus to Athletics checks"
 rules: "Signature Trait (1 CP) — The Legionnaire (Sentinel)."
 modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","description":"+2 to Athletics"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Athletics","type":"skill","value":2,"mode":"inherent","de
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Legionnaire (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Legionnaire (Sentinel). You gain a +2 bonus to Athletics checks.
+Signature trait of The Legionnaire (Sentinel). Specialized archetype training and mastery in legionary training.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Athletics checks.
++2 bonus to Athletics checks

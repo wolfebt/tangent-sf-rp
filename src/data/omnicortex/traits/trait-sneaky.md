@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+2 racial bonus on Stealth checks.
+Light-footed posture and instinct for remaining unnoticed.
 
 ## Mechanics & Benefit
-+2 racial bonus on Stealth checks.
++2 racial bonus on Stealth checks

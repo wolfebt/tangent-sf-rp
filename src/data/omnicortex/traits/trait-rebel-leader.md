@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Revolutionary (Visionarie). You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations."
-mechanic: "You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations."
+mechanic: "+2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations"
 rules: "Signature Trait (1 CP) — The Revolutionary (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Revolutionary (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Revolutionary (Visionarie). You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.
+Signature trait of The Revolutionary (Visionarie). Specialized expertise and intuition in organizing and leading rebel forces, inspiring morale, or planning strategic operations.
 
 ## Mechanics & Benefit
-You gain +2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations.
++2 bonus on any checks related to organizing and leading rebel forces, inspiring morale, or planning strategic operations

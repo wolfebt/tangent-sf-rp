@@ -16,7 +16,7 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to A Mental
-mechanic: +2 Academics and +2 to a Mental Skill Specialization
+mechanic: "+2 Academics and +2 to a Mental Skill Specialization"
 ---
 # Intellectualism
 

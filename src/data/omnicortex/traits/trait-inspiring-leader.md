@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Officer (Visionarie). You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement."
-mechanic: "You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement."
+mechanic: "+2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement"
 rules: "Signature Trait (1 CP) — The Officer (Visionarie)."
 modifiers: [{"target":"Leadership","type":"skill","value":2,"mode":"inherent","description":"+2 to Leadership"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Leadership","type":"skill","value":2,"mode":"inherent","d
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Officer (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Officer (Visionarie). You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.
+Signature trait of The Officer (Visionarie). Specialized expertise and intuition in inciting rebellion or leading a resistance movement.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement.
++2 bonus to Leadership checks to rally and inspire others, and +2 bonus on any checks related to inciting rebellion or leading a resistance movement

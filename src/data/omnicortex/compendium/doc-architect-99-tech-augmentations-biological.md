@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-augmentations-biological"
-name: "99. Tech (Augmentations): Biological"
+name: "Tech (Augmentations): Biological"
 fileName: "99.Tech.Augmentations.Biological.md"
 relPath: "architect/technology/augmentations/99.Tech.Augmentations.Biological.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 35
+order: 30
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3

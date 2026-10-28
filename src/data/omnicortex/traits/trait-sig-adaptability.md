@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Vagabond (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.
+Ability to quickly learn and adapt to new technologies, environments, or situations.
 
 ## Mechanics & Benefit
 +2 to a specific Skill Check, may change assigned Skill daily

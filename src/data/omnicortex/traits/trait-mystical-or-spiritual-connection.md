@@ -22,7 +22,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Spiritual forces
-mechanic: +1 Attune and +1 Insight
+mechanic: "+1 Attune and +1 Insight"
 ---
 # Mystical or Spiritual Connection
 

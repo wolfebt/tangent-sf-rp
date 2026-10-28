@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Pathfinder (Operative) / The Pioneer (Operative). You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories."
-mechanic: "You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories."
+mechanic: "+2 bonus to Survival checks to navigate through wilderness and uncharted territories"
 rules: "Signature Trait (1 CP) — The Pathfinder (Operative) / The Pioneer (Operative)."
 modifiers: [{"target":"Survival","type":"skill","value":2,"mode":"inherent","description":"+2 to Survival"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Survival","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Pathfinder (Operative) / The Pioneer (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Pathfinder (Operative) / The Pioneer (Operative). You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.
+Signature trait of The Pathfinder (Operative) / The Pioneer (Operative). Dedicated aptitude and training to navigate through wilderness and uncharted territories.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Survival checks to navigate through wilderness and uncharted territories.
++2 bonus to Survival checks to navigate through wilderness and uncharted territories

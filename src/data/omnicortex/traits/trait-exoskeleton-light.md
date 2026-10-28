@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.
+Noticeable heavy scales or chitinous plating covering the body.
 
 ## Mechanics & Benefit
-DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.
+DR (Strength + 2) x 3 [Min Str 3, Noticeable, requires special clothing]

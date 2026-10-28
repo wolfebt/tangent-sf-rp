@@ -11,7 +11,7 @@ description: >-
   Most field scouts are pilots, as they need to navigate and operate spacecraft
   or other vehicles during their explorations.
 modifiers: []
-mechanic: +2 Pilot and Navigation
+mechanic: "+2 Pilot and Navigation"
 ---
 # Pilot
 

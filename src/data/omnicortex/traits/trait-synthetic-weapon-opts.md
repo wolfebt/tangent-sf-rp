@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Synthetic Weapon Opts
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.
+Integrated weapon mounts and power feeds built into a synthetic frame.
+
+## Mechanics & Benefit
+Weapons and Weapon Upgrades may be installed as internal Augmentations (Requires: Synthetic, TL2)

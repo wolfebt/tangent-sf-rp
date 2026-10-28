@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-tech-augmentations-metaphysical"
-name: "99. Tech (Augmentations): Metaphysical"
+name: "Tech (Augmentations): Metaphysical"
 fileName: "99.Tech.Augmentations.Metaphysical.md"
 relPath: "architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 36
+order: 31
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3

@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Venom Spit
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Contact, DC 11 + 2xSta, Blind for 10+ minutes. Prereq: Toxic Blood, Sta 2.
+Contact ranged spit attack that blinds targets with ocular neurotoxin (Contact DC 11 + 2xSta, Blind for 10+ minutes).
+
+## Mechanics & Benefit
+Contact ranged spit: DC 11 + 2xSta save or suffer Blindness for 10+ minutes

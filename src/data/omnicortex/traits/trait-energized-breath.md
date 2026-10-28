@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 4
 
 ## Description
-Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.
+Metaphysical overcharge that infuses draconic breath with raw arcane force.
+
+## Mechanics & Benefit
+Roll Breath Weapon damage at Advantage; half of the damage is treated as magical/metaphysical

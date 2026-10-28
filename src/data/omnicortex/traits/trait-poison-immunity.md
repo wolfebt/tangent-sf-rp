@@ -12,10 +12,13 @@ modifiers: []
 ---
 # Poison Immunity
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Automatically Save versus any Poisonous Substances. Complete physiological immunity to metabolic and xenobiological toxins.
+Impervious to all poisonous substances, environmental toxins, and chemical irritants.
+
+## Mechanics & Benefit
+Automatically succeed on all saves versus any poisonous substances

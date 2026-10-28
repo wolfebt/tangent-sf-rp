@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Ability to converse with plants.
+Bio-empathic resonance with botanical lifeforms and root networks.
+
+## Mechanics & Benefit
+Ability to commune and converse with plants and flora

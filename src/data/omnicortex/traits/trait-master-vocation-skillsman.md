@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Armorer (Sentinel). You gain a +2 bonus to Vocation skill checks to create or repair objects."
-mechanic: "You gain a +2 bonus to Vocation skill checks to create or repair objects."
+mechanic: "+2 bonus to Vocation skill checks to create or repair objects"
 rules: "Signature Trait (1 CP) — The Armorer (Sentinel)."
 modifiers: [{"target":"Vocation","type":"skill","value":2,"mode":"inherent","description":"+2 to Vocation"}]
 ---
@@ -19,11 +19,11 @@ modifiers: [{"target":"Vocation","type":"skill","value":2,"mode":"inherent","des
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Armorer (Sentinel))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Armorer (Sentinel). You gain a +2 bonus to Vocation skill checks to create or repair objects.
+Signature trait of The Armorer (Sentinel). Dedicated aptitude and training to create or repair objects.
 
 ## Mechanics & Benefit
-You gain a +2 bonus to Vocation skill checks to create or repair objects.
++2 bonus to Vocation skill checks to create or repair objects

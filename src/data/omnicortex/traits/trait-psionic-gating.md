@@ -25,7 +25,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.
+Cryptographic Chorus filtering grants +2 Mental DR and imposes Disadvantage on foreign psionic intrusions.
 
 ## Mechanics & Benefit
-The mind is harmonized with the cryptographic frequency filters of the Chorus, imposing Disadvantage on foreign psionic intrusions.
++2 Mental DR; hostile telepathic scans and mind-control effects roll at Disadvantage

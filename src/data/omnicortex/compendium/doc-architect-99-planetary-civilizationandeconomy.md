@@ -1,13 +1,13 @@
 ---
 id: "doc-architect-99-planetary-civilizationandeconomy"
-name: "99. Planetary: Civilization, Economy & Infrastructure"
+name: "Planetary: Civilization, Economy & Infrastructure"
 fileName: "99.Planetary.CivilizationAndEconomy.md"
 relPath: "architect/planetary/99.Planetary.CivilizationAndEconomy.md"
 isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 23
+order: 18
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3

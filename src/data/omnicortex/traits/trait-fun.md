@@ -9,7 +9,7 @@ costs:
   bp: 1
 description: Values having a good time and making others happy
 modifiers: []
-mechanic: Regain a Karma Point when a crowd enjoys your performance
+mechanic: "Regain a Karma Point when a crowd enjoys your performance"
 ---
 # Fun
 

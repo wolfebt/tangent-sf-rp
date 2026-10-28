@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Activist (Visionarie). You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests."
-mechanic: "You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests."
+mechanic: "+2 bonus on any checks related to social movements or protests"
 rules: "Signature Trait (1 CP) — The Activist (Visionarie)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Activist (Visionarie))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Activist (Visionarie). You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.
+Signature trait of The Activist (Visionarie). You can rally and organize people.
 
 ## Mechanics & Benefit
-You can rally and organize people, gaining +2 bonus on any checks related to social movements or protests.
++2 bonus on any checks related to social movements or protests

@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-May change between specific features during a Light Rest. Ranked.
+Metamorphic physiology capable of reconfiguring active biological traits during rest.
+
+## Mechanics & Benefit
+May swap between specific designated features during a Light Rest (Ranked)

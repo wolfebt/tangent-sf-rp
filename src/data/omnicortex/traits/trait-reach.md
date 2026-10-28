@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Reach of 10 feet.
+Elongated limbs and extended physical frame allowing strikes at greater distance.
+
+## Mechanics & Benefit
+Natural melee reach of 10 feet

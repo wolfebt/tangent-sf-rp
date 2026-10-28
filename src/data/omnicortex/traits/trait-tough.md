@@ -21,7 +21,7 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Willpower
-mechanic: +1 Fortitude and Willpower Checks
+mechanic: "+1 Fortitude and Willpower Checks"
 ---
 # Tough
 

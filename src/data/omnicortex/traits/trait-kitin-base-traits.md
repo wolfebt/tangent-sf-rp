@@ -57,7 +57,7 @@ package_traits:
 **CP Cost**: 8
 
 ## Description
-Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].
+The fundamental heritage of all Kitin Strains: Awakened (Psychic) [2], Biotechnology [2], Hive Connection / Hive-Link [2], Sleepless / Torpor [2].
 
 ## Mechanics & Benefit
-Awakened (Psychic) [2], Biotechnology [2], Hive Connection [2], Sleepless/Torpor [2].
+Awakened (Psychic), Biotechnology, Hive-Link telepathy, and Torpor conscious rest

@@ -11,7 +11,7 @@ description: >-
   Gained encyclopedic familiarity with specialized academic archives and
   historical treatises.
 modifiers: []
-mechanic: +2 to a Knowledge of choice
+mechanic: "+2 to a Knowledge of choice"
 ---
 # Studious
 

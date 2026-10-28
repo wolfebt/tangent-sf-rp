@@ -21,6 +21,9 @@ function scanAllRuleFiles(dir) {
       const fullPath = path.join(currentDir, entry.name);
       if (entry.isDirectory()) {
         const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
+        if (subRel.replace(/\\/g, '/').toLowerCase() === 'architect/archetypes') {
+          continue;
+        }
         traverse(fullPath, subRel);
       } else if (
         entry.isFile() &&
@@ -28,6 +31,13 @@ function scanAllRuleFiles(dir) {
         !entry.name.toLowerCase().endsWith('.bak') &&
         !entry.name.startsWith('.')
       ) {
+        const normalizedRelBranch = relBranch.replace(/\\/g, '/');
+        if (
+          normalizedRelBranch.toLowerCase() === 'architect' &&
+          entry.name.toLowerCase().includes('archetypes')
+        ) {
+          continue;
+        }
         discovered.push({
           fullPath,
           fileName: entry.name,

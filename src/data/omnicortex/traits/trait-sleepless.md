@@ -18,4 +18,7 @@ modifiers: []
 **CP Cost**: 2
 
 ## Description
-Does not require sleep, may rest to regain metaphysical energy.
+Continuous neural cycle that eliminates the biological need for unconscious sleep.
+
+## Mechanics & Benefit
+Does not require sleep; may rest consciously to regain metaphysical energy

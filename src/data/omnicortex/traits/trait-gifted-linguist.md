@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 2
 
 ## Description
-+4 racial bonus on Linguistics checks.
+Neurological aptitude for decoding grammar, phonetics, and alien syntax.
 
 ## Mechanics & Benefit
-+4 racial bonus on Linguistics checks.
++4 racial bonus on Linguistics checks

@@ -23,7 +23,7 @@ modifiers:
 **CP Cost**: 4
 
 ## Description
-1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.
+Phoenix-like cellular or metaphysical resurrection protocol triggered upon death.
 
 ## Mechanics & Benefit
-1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.
+1/day attempt to self-resurrect (Cost: 1 Karma, Constitution Check CR 20; Requires: Immortal)

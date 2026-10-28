@@ -16,10 +16,13 @@ modifiers:
 ---
 # Genetic Memory
 
-**Category**: TRAITS  
-**Tier**: Advanced  
-**Type**: Species Trait  
-**CP Cost**: 2  
+**Category**: TRAITS
+**Tier**: Advanced
+**Type**: Species Trait
+**CP Cost**: 2
 
 ## Description
-Inheritance of ancestral knowledge and Genomatrix blueprints. Cumulative, fragmented memory bank of ancestors.
+Inheritance of ancestral knowledge, cultural memory, and Genomatrix blueprints passed through biological lineage.
+
+## Mechanics & Benefit
+Grants ancestral recall on Lore/History/Science and intuitive comprehension of biotech blueprints

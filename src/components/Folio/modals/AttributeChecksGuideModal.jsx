@@ -161,7 +161,7 @@ const AttributeChecksGuideModal = ({ isOpen, onClose, characterData = {}, getAtt
         </div>
 
         {/* Content Area */}
-        <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-1">
+        <div className="space-y-6">
 
           {/* Section: Core Formula & Economy */}
           {(activeTab === 'all' || activeTab === 'dcs') && (

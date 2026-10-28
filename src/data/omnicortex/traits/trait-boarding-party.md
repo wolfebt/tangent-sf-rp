@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Shock Trooper (Sentinel) / The Swashbuckler (Operative). Bonus of +2 to attacks during ship boarding actions, whether attacking or defending."
-mechanic: "Bonus of +2 to attacks during ship boarding actions, whether attacking or defending."
+mechanic: "Bonus of +2 to attacks during ship boarding actions, whether attacking or defending"
 rules: "Signature Trait (1 CP) — The Shock Trooper (Sentinel) / The Swashbuckler (Operative)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Shock Trooper (Sentinel) / The Swashbuckler (Operative))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Shock Trooper (Sentinel) / The Swashbuckler (Operative). Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.
+Signature trait of The Shock Trooper (Sentinel) / The Swashbuckler (Operative). Specialized archetype training and mastery in boarding party.
 
 ## Mechanics & Benefit
-Bonus of +2 to attacks during ship boarding actions, whether attacking or defending.
+Bonus of +2 to attacks during ship boarding actions, whether attacking or defending

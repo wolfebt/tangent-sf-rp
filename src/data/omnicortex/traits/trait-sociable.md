@@ -20,4 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.
+Warm, approachable demeanor that quickly repairs strained social interactions.
+
+## Mechanics & Benefit
+If a Diplomacy check to change attitude fails by 5 or more, may retry within 24 hours

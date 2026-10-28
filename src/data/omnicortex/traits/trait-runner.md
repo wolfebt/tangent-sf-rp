@@ -33,7 +33,7 @@ modifiers:
 **CP Cost**: 1
 
 ## Description
-+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running
+High-endurance respiratory and muscular conditioning built for sustained overland sprinting.
 
 ## Mechanics & Benefit
-+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running
++4 racial bonus on saves to avoid fatigue, exhaustion, or ill effects from running

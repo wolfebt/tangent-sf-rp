@@ -11,7 +11,7 @@ costs:
   cp: 1
   bp: 1
 description: "Signature trait of The Architect (Savant). You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks."
-mechanic: "You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks."
+mechanic: "+2 bonus on any checks related to large-scale construction projects or complex engineering tasks"
 rules: "Signature Trait (1 CP) — The Architect (Savant)."
 modifiers: []
 ---
@@ -19,11 +19,11 @@ modifiers: []
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Archetype Trait (The Architect (Savant))
+**Type**: Archetype Trait
 **CP Cost**: 1
 
 ## Description
-Signature trait of The Architect (Savant). You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.
+Signature trait of The Architect (Savant). You can coordinate the efforts of multiple drones or units simultaneously.
 
 ## Mechanics & Benefit
-You can coordinate the efforts of multiple drones or units simultaneously, gaining +2 bonus on any checks related to large-scale construction projects or complex engineering tasks.
++2 bonus on any checks related to large-scale construction projects or complex engineering tasks
