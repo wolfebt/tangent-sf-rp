@@ -1425,11 +1425,13 @@ export function getSkillCheckBreakdown(skill, characterData = {}, dbData = {}, e
 
   // Scan Traits (explicit + inherent species/archetype + allocation pools)
   const allTraits = [...(Array.isArray(characterData.traits) ? characterData.traits : [])];
-  const speciesRef = characterData?.species ? String(characterData.species).toLowerCase() : '';
+  const rawSpeciesVal = characterData?.['char-species'] || characterData?.species || '';
+  const speciesRef = rawSpeciesVal ? String(rawSpeciesVal).toLowerCase() : '';
   const speciesObj = speciesRef && Array.isArray(DEFAULT_SPECIES)
     ? DEFAULT_SPECIES.find(s => (s.id || '').toLowerCase() === speciesRef || (s.name || '').toLowerCase() === speciesRef)
     : null;
-  const archetypeRef = characterData?.archetype ? String(characterData.archetype).toLowerCase() : '';
+  const rawArchetypeVal = characterData?.['char-archetype'] || characterData?.archetype || '';
+  const archetypeRef = rawArchetypeVal ? String(rawArchetypeVal).toLowerCase() : '';
   const archetypeObj = archetypeRef && Array.isArray(DEFAULT_ARCHETYPES)
     ? DEFAULT_ARCHETYPES.find(a => (a.id || '').toLowerCase() === archetypeRef || (a.name || '').toLowerCase() === archetypeRef)
     : null;

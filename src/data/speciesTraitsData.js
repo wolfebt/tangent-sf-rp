@@ -19922,30 +19922,54 @@ export const getTraitById = (id) => ALL_CANONICAL_TRAITS.find(t => t.id === id);
  * classification, type, CP, BP, costs, description, mechanic, rules, note, modifiers)
  * for Codex Matrix editing, Folio sheet rendering, or Omnicortex DBM inspection.
  */
-export const getEnrichedTraitData = (trait) => {
-  if (!trait) return null;
-  const rawId = (trait.id || '').toString().trim();
+export const getEnrichedTraitData = (rawInput) => {
+  if (!rawInput) return null;
+  const trait = typeof rawInput === 'object' ? rawInput : { name: String(rawInput) };
+  const isGenId = (s) => /\d{10,}(?:[-_\s]+[a-z0-9]{2,10})?/i.test(String(s || ''));
+  const normKey = (s) => String(s || '')
+    .trim()
+    .toLowerCase()
+    .replace(/^(?:trait|feature)[-_](?:sig[-_])?/i, '')
+    .replace(/[-_]?traits?$/i, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+  const rawId = !isGenId(trait.id) ? (trait.id || '').toString().trim() : '';
   const cleanId = rawId.replace(/^trait-(?:sig-)?/i, '').toLowerCase();
-  const rawName = (trait.name || trait.title || '').toString().trim().toLowerCase();
+  const rawName = !isGenId(trait.name || trait.title) ? (trait.name || trait.title || '').toString().trim() : '';
+  const normId = normKey(rawId);
+  const normName = normKey(rawName);
 
   const canonical = ALL_CANONICAL_TRAITS.find(t => {
     const tId = (t.id || '').toString().trim().toLowerCase();
     const tCleanId = tId.replace(/^trait-(?:sig-)?/i, '');
     const tName = (t.name || t.title || '').toString().trim().toLowerCase();
-    return (rawId && tId === rawId.toLowerCase()) ||
+    const tNormId = normKey(tId);
+    const tNormName = normKey(tName);
+    return (rawId && (tId === rawId.toLowerCase() || tName === rawId.toLowerCase())) ||
            (cleanId && tCleanId === cleanId) ||
-           (rawName && tName === rawName);
+           (rawName && (tName === rawName.toLowerCase() || tId === rawName.toLowerCase())) ||
+           (normId && (tNormId === normId || tNormName === normId)) ||
+           (normName && (tNormName === normName || tNormId === normName));
   });
 
-  const name = trait.name || trait.title || canonical?.name || canonical?.title || 'Trait';
-  const id = trait.id || canonical?.id || `trait-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  const isSlugOrGenName = !rawName || /^(?:trait|feature)[-_]/i.test(rawName) || isGenId(rawName);
+  const name = (!isSlugOrGenName && (!canonical?.name || normKey(rawName) !== normKey(canonical.name)))
+    ? rawName
+    : (canonical?.name || canonical?.title || (rawName ? rawName.replace(/^(?:trait|feature)[-_]/i, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Trait'));
+  const id = (rawId && !isGenId(rawId)) ? rawId : (canonical?.id || trait.id || `trait-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
   const rawTraitType = trait.trait_type || canonical?.trait_type || trait.sourceDetail || 'Species Trait';
   const trait_type = rawTraitType === 'Signature Trait' ? 'Archetype Trait' : rawTraitType;
   const trait_tier = trait.trait_tier || canonical?.trait_tier || 'Basic';
   const classification = trait.classification || canonical?.classification || trait.type || canonical?.type || 'Physical';
   const cp = trait.cp !== undefined ? Number(trait.cp) : (canonical?.cp !== undefined ? Number(canonical.cp) : 1);
   const bp = trait.bp !== undefined ? Number(trait.bp) : (canonical?.bp !== undefined ? Number(canonical.bp) : cp);
-  const description = trait.description || trait.desc || canonical?.description || canonical?.desc || '';
+  const rawDesc = (trait.description || trait.desc || '').toString().trim();
+  const isCorruptedDesc = !rawDesc || /\b\d{10,}\b/.test(rawDesc) || /is an innate .* granted by this species lineage/i.test(rawDesc);
+  const cleanRawDesc = isCorruptedDesc
+    ? ''
+    : rawDesc.replace(/\s+#+\s*$/, '').replace(/\s*\*([^*]+)\*\s*$/, '').trim();
+  const description = cleanRawDesc || canonical?.description || canonical?.desc || '';
   const mechanic = trait.mechanic || trait.mechanics || canonical?.mechanic || canonical?.mechanics || '';
   const note = trait.note || trait.notes || canonical?.note || canonical?.notes || '';
   const rules = trait.rules || trait.special_rules || canonical?.rules || canonical?.special_rules || `${trait_tier} ${trait_type} (${cp} CP).`;

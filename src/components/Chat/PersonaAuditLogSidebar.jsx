@@ -24,11 +24,12 @@ import { AudioService } from '../../services/audioService';
  * vitals fluctuations, and combat events.
  */
 export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
-  const { activePersona, personaRoster = [], roster = [] } = useFolio() || {};
+  const { characterData, activePersona, personaRoster = [], roster = [] } = useFolio() || {};
   const { userHandle } = useAuth() || {};
 
-  const currentPersona = activePersona || personaRoster[0] || roster[0] || null;
-  const personaId = currentPersona?.id || currentPersona?.characterId || null;
+  const currentPersona = activePersona || (characterData?.['char-name'] ? characterData : null) || personaRoster[0] || roster[0] || null;
+  const personaId = currentPersona?.['character-doc-id'] || currentPersona?.id || currentPersona?.characterId || null;
+  const personaName = currentPersona?.['char-name'] || currentPersona?.name || 'Local Operative';
 
   const [logs, setLogs] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all'); // 'all' | 'checks' | 'vitals' | 'combat'
@@ -69,8 +70,9 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
   const handleCopyLogs = () => {
     if (logs.length === 0) return;
     const textData = logs.map(l => {
-      const time = l.timestamp?.toDate ? l.timestamp.toDate().toLocaleTimeString() : new Date(l.timestamp || Date.now()).toLocaleTimeString();
-      return `[${time}] ${l.actionType}: ${l.description || l.title || ''}`;
+      const rawTime = l.createdAt || l.createdLocalAt || l.timestamp;
+      const time = rawTime?.toDate ? rawTime.toDate().toLocaleTimeString() : new Date(rawTime || Date.now()).toLocaleTimeString();
+      return `[${time}] ${l.actionType}: ${l.summary || l.description || l.title || ''}`;
     }).join('\n');
 
     navigator.clipboard.writeText(textData);
@@ -108,7 +110,7 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
               AUDIT TELEMETRY
             </h3>
             <span className="text-[10px] font-mono text-slate-500 block truncate">
-              {currentPersona ? currentPersona.name : 'System Telemetry'}
+              {currentPersona ? personaName : 'System Telemetry'}
             </span>
           </div>
         </div>
@@ -130,14 +132,14 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
       <div className="p-2.5 bg-slate-900/40 border-b border-slate-800/80 flex items-center justify-between font-mono text-xs shrink-0">
         <div className="flex items-center gap-2 min-w-0">
           <div className="w-6 h-6 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-[10.5px] font-bold text-cyan-300 shrink-0">
-            {(currentPersona?.name || 'OP').substring(0, 2).toUpperCase()}
+            {(personaName || 'OP').substring(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
             <span className="font-bold text-slate-200 block truncate text-[11px]">
-              {currentPersona?.name || 'Local Operative'}
+              {personaName}
             </span>
             <span className="text-[9.5px] text-slate-400 block truncate">
-              {currentPersona?.archetype || currentPersona?.species || 'Active Persona'}
+              {currentPersona?.['char-archetype'] || currentPersona?.archetype || currentPersona?.['char-species'] || currentPersona?.species || 'Active Persona'}
             </span>
           </div>
         </div>
@@ -181,12 +183,18 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
             const badge = getActionBadge(log.actionType);
             const timeStr = (() => {
               try {
-                const d = log.timestamp?.toDate ? log.timestamp.toDate() : (log.timestamp ? new Date(log.timestamp) : new Date());
+                const rawTime = log.createdAt || log.createdLocalAt || log.timestamp;
+                const d = rawTime?.toDate ? rawTime.toDate() : (rawTime ? new Date(rawTime) : new Date());
                 return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
               } catch {
                 return '';
               }
             })();
+
+            const detailVal = log.details || log.detail;
+            const detailStr = typeof detailVal === 'object' && detailVal !== null
+              ? Object.entries(detailVal).map(([k, v]) => `${k}: ${v}`).join(' • ')
+              : detailVal;
 
             return (
               <div
@@ -204,12 +212,12 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
                 </div>
 
                 <p className="text-[11px] text-slate-200 font-sans leading-relaxed pt-0.5">
-                  {log.description || log.text || log.title || 'Telemetry entry recorded.'}
+                  {log.summary || log.description || log.text || log.title || 'Telemetry entry recorded.'}
                 </p>
 
-                {log.detail && (
+                {detailStr && (
                   <div className="p-1 rounded bg-slate-900/80 border border-slate-800/80 text-[10px] text-cyan-300/90 font-mono">
-                    {log.detail}
+                    {detailStr}
                   </div>
                 )}
               </div>

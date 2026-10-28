@@ -426,66 +426,6 @@ export const FolioSidebar = ({
           })}
         </div>
 
-        {/* Quick Launch Save to Cloud Action */}
-        {onSave && (
-          <div className="pt-1.5 mt-auto border-t border-slate-800/80 shrink-0 w-full">
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1200, 0.03);
-                onSave();
-              }}
-              disabled={saveStatus === 'saving'}
-              onMouseEnter={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                setHoveredItem({
-                  item: {
-                    label: saveStatus === 'saved' ? 'Cloud Synced' : saveStatus === 'saving' ? 'Saving to Cloud...' : 'Save to Cloud',
-                    sublabel: 'Persist dossier to Roster & Cloud Vault'
-                  },
-                  rect
-                });
-              }}
-              onMouseLeave={() => setHoveredItem(null)}
-              className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 ${
-                isExpanded ? 'px-2 justify-between' : 'px-1 justify-center'
-              } ${
-                saveStatus === 'saving'
-                  ? 'bg-amber-950/60 border-amber-500/50 text-amber-300 animate-pulse'
-                  : saveStatus === 'saved'
-                  ? 'bg-emerald-950/50 hover:bg-emerald-900/60 border-emerald-500/50 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                  : 'bg-slate-900/80 hover:bg-cyan-950/70 border-cyan-500/40 text-cyan-300 hover:border-cyan-400'
-              }`}
-              title={isExpanded ? undefined : `Save to Cloud (${saveStatus === 'saved' ? 'Synced' : saveStatus})`}
-              aria-label="Save to Cloud"
-            >
-              <div className="flex items-center gap-2 min-w-0">
-                <div className={`relative w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 border ${
-                  saveStatus === 'saved'
-                    ? 'border-emerald-500/40 bg-emerald-950/60 text-emerald-300'
-                    : 'border-cyan-500/40 bg-cyan-950/60 text-cyan-400'
-                }`}>
-                  <Save size={15} className={saveStatus === 'saving' ? 'animate-spin' : ''} />
-                </div>
-                {isExpanded && (
-                  <div className="flex flex-col text-left min-w-0 truncate">
-                    <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-200 group-hover:text-white truncate">
-                      Save to Cloud
-                    </span>
-                    <span className="text-[9px] font-mono text-slate-400 truncate">
-                      {saveStatus === 'saving' ? 'Syncing...' : saveStatus === 'saved' ? 'Terran Net Synced' : 'Sync to Roster'}
-                    </span>
-                  </div>
-                )}
-              </div>
-              {isExpanded && saveStatus === 'saved' && (
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)] mr-1 shrink-0" />
-              )}
-            </button>
-          </div>
-        )}
-
-
         {/* Topmost Portal Tooltip */}
         {hoveredItem && !isExpanded && typeof document !== 'undefined' && createPortal(
           <div

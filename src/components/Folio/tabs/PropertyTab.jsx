@@ -420,23 +420,37 @@ export const PropertyTab = ({
 
   return (
     <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
-      {/* Property Category Navigation Bar */}
-      <div className="flex flex-wrap items-center justify-between border-b border-cyan-900/60 pb-2.5 gap-2.5">
+      {/* Property Category Navigation Bar & Compact Encumbrance Telemetry */}
+      <div className="flex flex-wrap items-center justify-between border-b border-cyan-900/60 pb-3 gap-2.5">
         <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
-          {onBackToHub && (
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.02);
-                onBackToHub();
-              }}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer bg-slate-900 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-950 hover:border-cyan-400 shadow-sm mr-1"
-              title="Return to Personal Property Hub"
-            >
-              <span>◀</span>
-              <span>Hub</span>
-            </button>
-          )}
+          {(() => {
+            const totalItemsCount = Object.values(PROPERTY_CONFIG).reduce(
+              (sum, cfg) => sum + getArray(cfg.key, cfg.altKey).length,
+              0
+            );
+            const isAllActive = !activeSection || activeSection === 'all';
+            return (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.02);
+                  if (onNavigate) onNavigate('property');
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  isAllActive
+                    ? 'bg-cyan-950 border border-cyan-500 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
+                    : 'bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-slate-200'
+                }`}
+                title="Show All Personal Property & Holdings"
+              >
+                <Briefcase size={13} className="text-cyan-400" />
+                <span>All Property</span>
+                <span className="px-1.5 py-0.2 rounded bg-slate-950 text-[10px] text-cyan-300 font-mono">
+                  {totalItemsCount}
+                </span>
+              </button>
+            );
+          })()}
 
           {Object.entries(PROPERTY_CONFIG).map(([secKey, cfg]) => {
             const isSecActive = activeSection === secKey;
@@ -467,79 +481,39 @@ export const PropertyTab = ({
             );
           })}
         </div>
-      </div>
 
-      {/* Property Overview Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-cyan-900/60 pb-3">
-        <div>
-          <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-cyan-300 flex items-center gap-2">
-            <span className="p-1 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-400">
-              <Briefcase size={18} />
-            </span>
-            Personal Property &amp; Domain Holdings
-          </h2>
-          <p className="text-xs text-slate-400">
-            Armaments, defenses, technical gear, vehicle hangars, bases &amp; architectural real estate
-          </p>
-        </div>
-      </div>
-
-      {/* Persona Carrying Capacity & Encumbrance Status Card */}
-      <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5 shadow-md">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Scale size={16} className="text-cyan-400" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-              Carrying Capacity &amp; Encumbrance Load
-            </span>
-            <span className="text-[10px] font-mono text-slate-400">
-              (STR +{strScore} • {sizeKey} Chassis)
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {isOverburdened ? (
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-red-950 border border-red-500 text-red-300 animate-pulse">
-                ⚠️ Overburdened (-2 Reflex, Half Speed)
-              </span>
-            ) : isEncumbered ? (
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950 border border-amber-500 text-amber-300">
-                ⚖️ Encumbered (-1 Reflex)
-              </span>
-            ) : (
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-emerald-950 border border-emerald-500 text-emerald-300">
-                ✓ Unencumbered
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Visual Encumbrance Progress Meter */}
-        <div className="space-y-1">
-          <div className="flex justify-between text-[11px] font-mono">
+        {/* Compact Carrying Capacity & Encumbrance Pill */}
+        <FolioTooltip
+          title="Carrying Capacity & Encumbrance"
+          badge={isOverburdened ? 'Overburdened' : isEncumbered ? 'Encumbered' : 'Unencumbered'}
+          badgeColor={isOverburdened ? 'rose' : isEncumbered ? 'amber' : 'emerald'}
+          description={`STR +${strScore} (${sizeKey} Chassis). Light load limit: ${lightCapacity} lbs. Exceeding light load imposes -1 Reflex; exceeding max capacity (${maxCapacity} lbs) imposes -2 Reflex and halves speed.`}
+          formula={`Carried: ${carriedWeight} lbs / Max: ${maxCapacity} lbs (${loadPercent}%)`}
+        >
+          <div className="flex items-center gap-2.5 bg-slate-950/90 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono shrink-0">
+            <Scale size={14} className={isOverburdened ? 'text-rose-400' : isEncumbered ? 'text-amber-400' : 'text-cyan-400'} />
             <span className="text-slate-300">
-              Carried Gear: <strong className={isOverburdened ? 'text-red-400' : isEncumbered ? 'text-amber-300' : 'text-cyan-300'}>{carriedWeight} lbs</strong>
+              Load: <strong className={isOverburdened ? 'text-rose-400' : isEncumbered ? 'text-amber-300' : 'text-cyan-300'}>{carriedWeight}</strong>/{maxCapacity} lbs
             </span>
-            <span className="text-slate-400">
-              Light: {lightCapacity} lbs • Max: <strong className="text-slate-200">{maxCapacity} lbs</strong>
+            <div className="w-16 h-1.5 rounded-full bg-slate-900 border border-slate-800 overflow-hidden hidden sm:block">
+              <div
+                className={`h-full transition-all duration-300 ${
+                  isOverburdened ? 'bg-rose-500' : isEncumbered ? 'bg-amber-500' : 'bg-cyan-500'
+                }`}
+                style={{ width: `${loadPercent}%` }}
+              />
+            </div>
+            <span className={`px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase border ${
+              isOverburdened
+                ? 'bg-red-950 border-red-500/60 text-red-300 animate-pulse'
+                : isEncumbered
+                ? 'bg-amber-950 border-amber-500/60 text-amber-300'
+                : 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300'
+            }`}>
+              {isOverburdened ? 'Overburdened' : isEncumbered ? 'Encumbered' : 'Light'}
             </span>
           </div>
-
-          <div className="w-full h-2 rounded-full bg-slate-900 border border-slate-800 overflow-hidden relative">
-            {/* 50% Threshold Marker */}
-            <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-slate-700 z-10" title="50% Light Load Limit" />
-            <div
-              className={`h-full transition-all duration-300 ${
-                isOverburdened
-                  ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]'
-                  : isEncumbered
-                  ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]'
-                  : 'bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.4)]'
-              }`}
-              style={{ width: `${loadPercent}%` }}
-            />
-          </div>
-        </div>
+        </FolioTooltip>
       </div>
 
       {/* Render Target Sections */}

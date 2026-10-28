@@ -140,44 +140,52 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
     });
   });
 
-  // Auto-sync weapons into attacks on initial load if attacks list is completely empty but weapons exist
+  const dismissedCombatItemsRef = React.useRef(new Set());
+
+  // Auto-sync unreadied weapons, natural attacks, and offensive invocations into attacks unless explicitly dismissed
   useEffect(() => {
-    if (attacks.length === 0 && weapons.length > 0) {
-      const initialAttacks = weapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal, computedModifiers));
-      updateField('attacks', initialAttacks);
-    }
-  }, []); // Run once on initial mount
+    const autoWeapons = unreadiedWeapons.filter(w => {
+      const key = (typeof w === 'object' ? (w.id || w.name || w.title) : String(w || '')).trim().toLowerCase();
+      return key && !dismissedCombatItemsRef.current.has(`atk:${key}`);
+    });
+    const autoNatural = unreadiedNaturalAttacks.filter(n => {
+      const key = (typeof n === 'object' ? (n.id || n.name || n.title) : String(n || '')).trim().toLowerCase();
+      return key && !dismissedCombatItemsRef.current.has(`atk:${key}`);
+    });
+    const autoInvocations = unreadiedInvocations.filter(inv => {
+      const key = (typeof inv === 'object' ? (inv.id || inv.name || inv.title) : String(inv || '')).trim().toLowerCase();
+      return key && !dismissedCombatItemsRef.current.has(`atk:${key}`);
+    });
 
-  // Auto-sync armoring into armor defenses on initial load if armor list is completely empty but armoring exists
+    if (autoWeapons.length > 0 || autoNatural.length > 0 || autoInvocations.length > 0) {
+      const nextAttacks = [
+        ...attacks,
+        ...autoWeapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal, computedModifiers)),
+        ...autoNatural.map(n => createAttackFromNaturalTrait(n, characterData, getAttrTotal, computedModifiers)),
+        ...autoInvocations.map(inv => createAttackFromInvocation(inv, characterData, getAttrTotal, computedModifiers))
+      ];
+      updateField('attacks', nextAttacks);
+    }
+  }, [unreadiedWeapons.length, unreadiedNaturalAttacks.length, unreadiedInvocations.length]);
+
+  // Auto-sync unreadied armoring into armor defenses unless explicitly dismissed
   useEffect(() => {
-    if (armors.length === 0 && armoring.length > 0) {
-      const initialArmors = armoring.map(a => createArmorFromItem(a));
-      updateField('armor', initialArmors);
+    const autoArmors = unreadiedArmors.filter(a => {
+      const key = (typeof a === 'object' ? (a.id || a.name || a.title) : String(a || '')).trim().toLowerCase();
+      return key && !dismissedCombatItemsRef.current.has(`arm:${key}`);
+    });
+    if (autoArmors.length > 0) {
+      updateField('armor', [...armors, ...autoArmors.map(a => createArmorFromItem(a))]);
     }
-  }, []); // Run once on initial mount
+  }, [unreadiedArmors.length]);
 
-  const readyAllWeapons = () => {
-    if (unreadiedWeapons.length === 0) return;
+  const syncAllUnreadiedAttacks = () => {
+    const totalUnreadied = unreadiedWeapons.length + unreadiedNaturalAttacks.length + unreadiedInvocations.length;
+    if (totalUnreadied === 0) return;
     const newAttacks = [
       ...attacks,
-      ...unreadiedWeapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal, computedModifiers))
-    ];
-    updateField('attacks', newAttacks);
-  };
-
-  const readyAllNatural = () => {
-    if (unreadiedNaturalAttacks.length === 0) return;
-    const newAttacks = [
-      ...attacks,
-      ...unreadiedNaturalAttacks.map(n => createAttackFromNaturalTrait(n, characterData, getAttrTotal, computedModifiers))
-    ];
-    updateField('attacks', newAttacks);
-  };
-
-  const readyAllInvocations = () => {
-    if (unreadiedInvocations.length === 0) return;
-    const newAttacks = [
-      ...attacks,
+      ...unreadiedWeapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal, computedModifiers)),
+      ...unreadiedNaturalAttacks.map(n => createAttackFromNaturalTrait(n, characterData, getAttrTotal, computedModifiers)),
       ...unreadiedInvocations.map(inv => createAttackFromInvocation(inv, characterData, getAttrTotal, computedModifiers))
     ];
     updateField('attacks', newAttacks);
@@ -208,8 +216,12 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
   };
 
   const removeAttack = async (index) => {
-    const atkName = attacks[index]?.name || 'Attack';
+    const target = attacks[index];
+    const atkName = target?.name || 'Attack';
     if (!(await confirmTypedDeletion(atkName, 'attack'))) return;
+    const key = (target?.weaponId || target?.sourceId || target?.id || target?.name || '').trim().toLowerCase();
+    if (key) dismissedCombatItemsRef.current.add(`atk:${key}`);
+    if (target?.name) dismissedCombatItemsRef.current.add(`atk:${target.name.trim().toLowerCase()}`);
     updateField('attacks', attacks.filter((_, i) => i !== index));
   };
 
@@ -225,8 +237,12 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
   };
 
   const removeArmor = async (index) => {
-    const armorName = armors[index]?.name || 'Armor';
+    const target = armors[index];
+    const armorName = target?.name || 'Armor';
     if (!(await confirmTypedDeletion(armorName, 'defense entry'))) return;
+    const key = (target?.armorId || target?.id || target?.name || '').trim().toLowerCase();
+    if (key) dismissedCombatItemsRef.current.add(`arm:${key}`);
+    if (target?.name) dismissedCombatItemsRef.current.add(`arm:${target.name.trim().toLowerCase()}`);
     updateField('armor', armors.filter((_, i) => i !== index));
   };
 
@@ -256,126 +272,66 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
 
   const toughnessTotal = (derivedStats?.toughness ?? 0) + (computedModifiers?.combatMods?.['armor-dr'] || 0);
 
+  const totalUnreadiedOffensive = unreadiedWeapons.length + unreadiedNaturalAttacks.length + unreadiedInvocations.length;
+
   return (
-    <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
-      {/* Header & Quick Telemetry */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-cyan-900/60 pb-3">
-        <div>
-          <h2 className="text-base sm:text-lg font-black uppercase tracking-wider text-cyan-300 flex items-center gap-2">
-            <span className="p-1 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-400">
-              <Crosshair size={18} />
-            </span>
-            Active Combat Systems
-          </h2>
-          <p className="text-xs text-slate-400">
-            Comprehensive offensive weaponry, tactical strikes, defensive armor carapaces &amp; resistance envelopes
-          </p>
-        </div>
-
-        {/* Combat Status Telemetry Badges & Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-          {/* View Filter Pill Switcher */}
-          <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-[11px] font-sans">
-            <button
-              type="button"
-              onClick={() => setCombatView('all')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer font-bold ${
-                combatView === 'all'
-                  ? 'bg-cyan-950 border border-cyan-500/50 text-cyan-300'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              All Systems
-            </button>
-            <button
-              type="button"
-              onClick={() => setCombatView('offensive')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer font-bold ${
-                combatView === 'offensive'
-                  ? 'bg-amber-950 border border-amber-500/50 text-amber-300'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              ⚔️ Offensive ({attacks.length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setCombatView('defensive')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer font-bold ${
-                combatView === 'defensive'
-                  ? 'bg-emerald-950 border border-emerald-500/50 text-emerald-300'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              🛡️ Defensive ({armors.length})
-            </button>
-          </div>
-
-          {/* Interactive Initiative Check Roller */}
-          <button
-            type="button"
-            onClick={(e) => {
-              openDiceRoller({
-                label: `Initiative ${initiativeTotal >= 0 ? `+${initiativeTotal}` : initiativeTotal}`,
-                baseModifier: initiativeTotal,
-                expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
-                rollMode: 'normal',
-                characterName: characterData['char-name'] || 'Persona',
-                personaId: characterData['character-doc-id'] || characterData.id,
-                autoRoll: e?.shiftKey || false
-              });
-            }}
-            className="bg-slate-900/90 hover:bg-slate-800 px-3 py-1.5 rounded-lg border border-rose-900 hover:border-rose-500/60 flex items-center gap-1.5 transition-colors cursor-pointer group shadow-sm"
-            title={`Check Initiative (2d10 + ${initiativeTotal}). Shift-click to quick-roll.`}
-          >
-            <span className="text-slate-400 text-[10px] uppercase font-bold group-hover:text-rose-300">Initiative:</span>
-            <span className="text-rose-400 font-bold text-sm">+{initiativeTotal}</span>
-            <Dices size={13} className="text-rose-400 opacity-70 group-hover:opacity-100" />
-          </button>
-
-          {/* Toughness Telemetry Badge */}
-          <FolioTooltip
-            title="Toughness Rating"
-            badge="Damage Mitigation"
-            badgeColor="emerald"
-            description="Direct damage reduction applied against physical wounds point-for-point. Derived from persona Stamina."
-            formula="Toughness = Stamina Base + Stamina Modifiers"
-            asWrapper={false}
-          >
-            <div className="bg-slate-900/90 px-3 py-1.5 rounded-lg border border-emerald-900 flex items-center gap-1.5 cursor-help">
-              <span className="text-slate-400 text-[10px] uppercase font-bold">Toughness:</span>
-              <span className="text-emerald-300 font-bold text-sm">+{derivedStats?.toughness ?? 0}</span>
-            </div>
-          </FolioTooltip>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* COMBAT PROFILE & DEFENSIVE METRICS BAR (BUILDER LOADOUT VIEW)     */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <div className="bg-slate-900/90 border border-cyan-900/60 rounded-xl p-4 shadow-xl space-y-4">
+    <div className="tab-panel active p-4 space-y-5 pb-20 w-full">
+      {/* Unified Combat Command Header & Defenses Matrix */}
+      <div className="bg-slate-900/90 border border-cyan-900/60 rounded-xl p-4 shadow-xl space-y-3.5">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-b border-cyan-950 pb-3">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-cyan-950/80 border border-cyan-500/60 text-cyan-300">
-              <Shield className="w-5 h-5" />
+            <div className="p-1.5 rounded-lg bg-cyan-950/80 border border-cyan-500/60 text-cyan-300">
+              <Crosshair className="w-4 h-4" />
             </div>
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-2">
-                <span>Combat Profile &amp; Defenses Matrix</span>
-              </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Calculated operational ratings, parry thresholds, ranged evasion tolerances, and passive toughness.
-              </p>
-            </div>
+            <h2 className="text-sm sm:text-base font-black uppercase tracking-wider text-cyan-300">
+              Combat Systems &amp; Defenses
+            </h2>
           </div>
 
-          <div className="flex items-center gap-2.5 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap font-mono text-xs">
+            {/* View Filter Pill Switcher */}
+            <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-[11px] font-sans">
+              <button
+                type="button"
+                onClick={() => setCombatView('all')}
+                className={`px-2.5 py-1 rounded transition-colors cursor-pointer font-bold ${
+                  combatView === 'all'
+                    ? 'bg-cyan-950 border border-cyan-500/50 text-cyan-300'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                onClick={() => setCombatView('offensive')}
+                className={`px-2.5 py-1 rounded transition-colors cursor-pointer font-bold ${
+                  combatView === 'offensive'
+                    ? 'bg-amber-950 border border-amber-500/50 text-amber-300'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                ⚔️ Offensive ({attacks.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setCombatView('defensive')}
+                className={`px-2.5 py-1 rounded transition-colors cursor-pointer font-bold ${
+                  combatView === 'defensive'
+                    ? 'bg-emerald-950 border border-emerald-500/50 text-emerald-300'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                🛡️ Defensive ({armors.length})
+              </button>
+            </div>
+
             {/* Vitals Snapshot */}
-            <div className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono flex items-center gap-2">
+            <div className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono flex items-center gap-2">
               {isSynthetic ? (
                 <>
                   <span className="text-slate-500 font-bold uppercase">Structure:</span>
-                  <span className="text-amber-300 font-bold">{curStructure} / {maxStructure} SP</span>
+                  <span className="text-amber-300 font-bold">{curStructure}/{maxStructure} SP</span>
                 </>
               ) : (
                 <>
@@ -398,67 +354,109 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                   window.dispatchEvent(new CustomEvent('folio-view-mode-change', { detail: 'play' }));
                 }
               }}
-              className="px-3.5 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/80 text-cyan-200 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:border-cyan-400 cursor-pointer"
+              className="px-3 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/80 text-cyan-200 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:border-cyan-400 cursor-pointer"
               title="Switch to Tactical Play View for live combat triage, wound soaking, and active checks"
             >
-              <span>⚔️ Launch Tactical Play View &rarr;</span>
+              <span>⚔️ Tactical View &rarr;</span>
             </button>
           </div>
         </div>
 
-        {/* 4 Defensive Profile Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {/* 1. Initiative */}
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
-              <span>Initiative</span>
-              <Dices className="w-3.5 h-3.5 text-amber-400" />
-            </span>
-            <div className="flex items-baseline justify-between mt-1">
-              <span className="text-xl font-bold font-mono text-amber-300">+{initiativeTotal}</span>
-              <span className="text-[10px] font-mono text-slate-500">REF {reflexTotal >= 0 ? `+${reflexTotal}` : reflexTotal}</span>
-            </div>
-            <span className="text-[10px] text-slate-500 mt-1 truncate">2d10 + Reflex check</span>
-          </div>
+        {/* 4 Defensive Profile Cards (Hover for Formula, Click Initiative to Roll) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {/* 1. Initiative (Interactive Roll Trigger) */}
+          <FolioTooltip
+            title="Initiative Priority"
+            badge="Turn Order"
+            badgeColor="amber"
+            description="Determines turn order in tactical combat rounds. Click to roll Initiative check."
+            formula={`2d10 + Reflex (${reflexTotal >= 0 ? `+${reflexTotal}` : reflexTotal})${initiativeMod !== 0 ? ` + Mod (${initiativeMod >= 0 ? `+${initiativeMod}` : initiativeMod})` : ''}`}
+          >
+            <button
+              type="button"
+              onClick={(e) => {
+                openDiceRoller({
+                  label: `Initiative ${initiativeTotal >= 0 ? `+${initiativeTotal}` : initiativeTotal}`,
+                  baseModifier: initiativeTotal,
+                  expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
+                  rollMode: 'normal',
+                  characterName: characterData['char-name'] || 'Persona',
+                  personaId: characterData['character-doc-id'] || characterData.id,
+                  autoRoll: e?.shiftKey || false
+                });
+              }}
+              className="w-full p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/50 flex flex-col justify-between text-left transition-colors cursor-pointer group"
+            >
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 group-hover:text-amber-300 flex items-center justify-between w-full">
+                <span>Initiative</span>
+                <Dices className="w-3.5 h-3.5 text-amber-400" />
+              </span>
+              <div className="flex items-baseline justify-between mt-1 w-full">
+                <span className="text-lg font-bold font-mono text-amber-300">+{initiativeTotal}</span>
+                <span className="text-[10px] font-mono text-slate-500">REF {reflexTotal >= 0 ? `+${reflexTotal}` : reflexTotal}</span>
+              </div>
+            </button>
+          </FolioTooltip>
 
           {/* 2. Melee Defense (Parry) */}
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
-              <span>Melee Defense</span>
-              <Crosshair className="w-3.5 h-3.5 text-cyan-400" />
-            </span>
-            <div className="flex items-baseline justify-between mt-1">
-              <span className="text-xl font-bold font-mono text-cyan-300">{meleeDefenseTotal}</span>
-              <span className="text-[10px] font-mono text-slate-500">Parry / CQC</span>
+          <FolioTooltip
+            title="Melee Defense (Parry)"
+            badge="CQC Target DC"
+            badgeColor="cyan"
+            description="Target number opponents must meet or exceed on a 2d10 melee attack check to strike you in close combat."
+            formula="10 + max(AGI, STR) + max(Melee, Unarmed, Defense) + Mod"
+          >
+            <div className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-cyan-500/40 flex flex-col justify-between transition-colors">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                <span>Melee Defense</span>
+                <Crosshair className="w-3.5 h-3.5 text-cyan-400" />
+              </span>
+              <div className="flex items-baseline justify-between mt-1">
+                <span className="text-lg font-bold font-mono text-cyan-300">{meleeDefenseTotal}</span>
+                <span className="text-[10px] font-mono text-slate-500">Parry</span>
+              </div>
             </div>
-            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + AGI/STR + Melee/Defense</span>
-          </div>
+          </FolioTooltip>
 
           {/* 3. Ranged Defense (Evasion) */}
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
-              <span>Ranged Defense</span>
-              <Shield className="w-3.5 h-3.5 text-emerald-400" />
-            </span>
-            <div className="flex items-baseline justify-between mt-1">
-              <span className="text-xl font-bold font-mono text-emerald-300">{evasionTotal}</span>
-              <span className="text-[10px] font-mono text-slate-500">Evasion</span>
+          <FolioTooltip
+            title="Ranged Defense (Evasion)"
+            badge="Ranged Target DC"
+            badgeColor="emerald"
+            description="Target number opponents must meet or exceed on a 2d10 ranged attack check to hit you at distance."
+            formula="10 + AGI + max(Defense, Acrobatics) + Mod"
+          >
+            <div className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-emerald-500/40 flex flex-col justify-between transition-colors">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                <span>Ranged Defense</span>
+                <Shield className="w-3.5 h-3.5 text-emerald-400" />
+              </span>
+              <div className="flex items-baseline justify-between mt-1">
+                <span className="text-lg font-bold font-mono text-emerald-300">{evasionTotal}</span>
+                <span className="text-[10px] font-mono text-slate-500">Evasion</span>
+              </div>
             </div>
-            <span className="text-[10px] text-slate-500 mt-1 truncate">10 + AGI + Defense/Acrobatics</span>
-          </div>
+          </FolioTooltip>
 
           {/* 4. Toughness / Soak DR */}
-          <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
-              <span>Toughness / DR</span>
-              <Activity className="w-3.5 h-3.5 text-rose-400" />
-            </span>
-            <div className="flex items-baseline justify-between mt-1">
-              <span className="text-xl font-bold font-mono text-rose-300">+{toughnessTotal}</span>
-              <span className="text-[10px] font-mono text-slate-500">Base DR</span>
+          <FolioTooltip
+            title="Toughness & Armor Soak"
+            badge="Damage Reduction"
+            badgeColor="rose"
+            description="Passive physical damage reduction subtracted point-for-point from incoming wound damage."
+            formula="Toughness (Stamina) + Equipped Armor DR"
+          >
+            <div className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 hover:border-rose-500/40 flex flex-col justify-between transition-colors">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center justify-between">
+                <span>Toughness / DR</span>
+                <Activity className="w-3.5 h-3.5 text-rose-400" />
+              </span>
+              <div className="flex items-baseline justify-between mt-1">
+                <span className="text-lg font-bold font-mono text-rose-300">+{toughnessTotal}</span>
+                <span className="text-[10px] font-mono text-slate-500">Soak DR</span>
+              </div>
             </div>
-            <span className="text-[10px] text-slate-500 mt-1 truncate">Soaks physical damage</span>
-          </div>
+          </FolioTooltip>
         </div>
       </div>
 
@@ -502,37 +500,15 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                       <span>+ Add Weapon</span>
                     </button>
                   )}
-                  {unreadiedWeapons.length > 0 && (
+                  {totalUnreadiedOffensive > 0 && (
                     <button
                       type="button"
-                      onClick={readyAllWeapons}
-                      className="px-3 py-1.5 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.2)] cursor-pointer"
-                      title={`Ready ${unreadiedWeapons.length} unreadied weapon(s) from Property Weaponry`}
+                      onClick={syncAllUnreadiedAttacks}
+                      className="px-2.5 py-1.5 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer"
+                      title={`Sync ${totalUnreadiedOffensive} un-equipped weapon(s), natural attack(s), or invocation(s) into active loadout`}
                     >
-                      <span>⚔️</span>
-                      <span>Ready from Property ({unreadiedWeapons.length})</span>
-                    </button>
-                  )}
-                  {unreadiedNaturalAttacks.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={readyAllNatural}
-                      className="px-3 py-1.5 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(16,185,129,0.2)] cursor-pointer"
-                      title={`Ready ${unreadiedNaturalAttacks.length} natural attack(s) from Features/Traits`}
-                    >
-                      <span>🐾</span>
-                      <span>Ready Natural ({unreadiedNaturalAttacks.length})</span>
-                    </button>
-                  )}
-                  {unreadiedInvocations.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={readyAllInvocations}
-                      className="px-3 py-1.5 bg-purple-950/90 hover:bg-purple-900 border border-purple-500/60 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(168,85,247,0.2)] cursor-pointer"
-                      title={`Ready ${unreadiedInvocations.length} offensive invocation(s) into Combat Attacks`}
-                    >
-                      <span>🔮</span>
-                      <span>Ready Metaphysics ({unreadiedInvocations.length})</span>
+                      <span>🔄</span>
+                      <span>Sync Loadout (+{totalUnreadiedOffensive})</span>
                     </button>
                   )}
                   <button
@@ -584,31 +560,13 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                         ✨ + Add Weapon from Catalog
                       </button>
                     )}
-                    {unreadiedWeapons.length > 0 && (
+                    {totalUnreadiedOffensive > 0 && (
                       <button
                         type="button"
-                        onClick={readyAllWeapons}
+                        onClick={syncAllUnreadiedAttacks}
                         className="px-3 py-1 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 rounded text-xs font-bold transition-colors cursor-pointer"
                       >
-                        ⚔️ Ready {unreadiedWeapons.length} Weapon(s) from Property
-                      </button>
-                    )}
-                    {unreadiedNaturalAttacks.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={readyAllNatural}
-                        className="px-3 py-1 bg-emerald-950/90 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 rounded text-xs font-bold transition-colors cursor-pointer flex items-center gap-1"
-                      >
-                        🐾 Ready {unreadiedNaturalAttacks.length} Natural Attack(s)
-                      </button>
-                    )}
-                    {unreadiedInvocations.length > 0 && (
-                      <button
-                        type="button"
-                        onClick={readyAllInvocations}
-                        className="px-3 py-1 bg-purple-950/90 border border-purple-500/50 text-purple-300 hover:bg-purple-900 rounded text-xs font-bold transition-colors cursor-pointer flex items-center gap-1"
-                      >
-                        🔮 Ready {unreadiedInvocations.length} Invocation(s)
+                        🔄 Sync Loadout (+{totalUnreadiedOffensive})
                       </button>
                     )}
                     <button

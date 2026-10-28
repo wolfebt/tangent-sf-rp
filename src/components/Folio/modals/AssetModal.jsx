@@ -1,5 +1,6 @@
 import React from 'react';
 import { CodexManageModal } from '../../Codex/CodexManageModal';
+import { useAuth } from '../../../context/AuthContext';
 
 /**
  * AssetModal (Enhanced with Codex Matrix & Quick Spec Dual-Mode)
@@ -13,6 +14,7 @@ const AssetModal = ({
   onSaveAsset,
   onDeleteAsset
 }) => {
+  const { isAdmin } = useAuth() || {};
   if (!isOpen) return null;
 
   return (
@@ -22,8 +24,8 @@ const AssetModal = ({
       modalConfig={modalConfig}
       onSaveAsset={onSaveAsset}
       onDeleteAsset={onDeleteAsset}
-      devMode={true}
-      isAdmin={true}
+      devMode={Boolean(isAdmin)}
+      isAdmin={Boolean(isAdmin)}
     />
   );
 };

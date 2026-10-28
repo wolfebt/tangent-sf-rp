@@ -76,17 +76,17 @@ export function App() {
   useEffect(() => {
     const handleGlobalKeys = (e) => {
       // Alt+D or Option+D for dice dock
-      if (e.altKey && (e.key?.toLowerCase() === 'd' || e.code === 'KeyD')) {
+      if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key?.toLowerCase() === 'd' || e.code === 'KeyD')) {
         e.preventDefault();
         window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
       }
-      // Alt+C or Option+C for comms dock
-      if (e.altKey && (e.key?.toLowerCase() === 'c' || e.code === 'KeyC')) {
+      // Alt+R or Option+R for CommLink Relay dock
+      if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key?.toLowerCase() === 'r' || e.code === 'KeyR')) {
         e.preventDefault();
         setIsCommsDockOpen(prev => !prev);
       }
       // Ctrl+K or Cmd+K for command palette
-      if ((e.ctrlKey || e.metaKey) && (e.key?.toLowerCase() === 'k' || e.code === 'KeyK')) {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && (e.key?.toLowerCase() === 'k' || e.code === 'KeyK')) {
         e.preventDefault();
         setIsCommandPaletteOpen(prev => !prev);
       }

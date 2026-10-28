@@ -1368,6 +1368,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                       rank: 1,
                       cp: 5,
                       isInherent: true,
+                      isSpecialAbility: true,
+                      category: 'Special Ability',
                       recommended_species: [],
                       recommended_factions: [],
                       recommended_origins: [],

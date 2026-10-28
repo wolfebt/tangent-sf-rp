@@ -290,8 +290,40 @@ export default function FolioImageCropModal({
           borderWidth: 16
         });
       } else {
-        // Calculate crop bounds from canvas
-        finalResult = await processFolioImage(imageSrc, selectedSlot, null, {
+        // Calculate crop bounds from canvas transform (zoom & pan)
+        const canvas = canvasRef.current;
+        const width = canvas ? canvas.width : 480;
+        const height = canvas ? canvas.height : 480;
+        const targetAspect = currentSlotConfig.aspectRatio;
+        let frameW = width - 40;
+        let frameH = frameW / targetAspect;
+        if (frameH > height - 40) {
+          frameH = height - 40;
+          frameW = frameH * targetAspect;
+        }
+        const frameX = (width - frameW) / 2;
+        const frameY = (height - frameH) / 2;
+        const imgAspect = imageElement.width / imageElement.height;
+        let drawW, drawH;
+        if (imgAspect > targetAspect) {
+          drawH = frameH * zoom;
+          drawW = drawH * imgAspect;
+        } else {
+          drawW = frameW * zoom;
+          drawH = drawW / imgAspect;
+        }
+        const drawX = frameX + (frameW - drawW) / 2 + pan.x;
+        const drawY = frameY + (frameH - drawH) / 2 + pan.y;
+        const scaleX = imageElement.width / Math.max(1, drawW);
+        const scaleY = imageElement.height / Math.max(1, drawH);
+        const cropBounds = {
+          x: Math.max(0, Math.round((frameX - drawX) * scaleX)),
+          y: Math.max(0, Math.round((frameY - drawY) * scaleY)),
+          width: Math.min(imageElement.width, Math.max(1, Math.round(frameW * scaleX))),
+          height: Math.min(imageElement.height, Math.max(1, Math.round(frameH * scaleY)))
+        };
+
+        finalResult = await processFolioImage(imageSrc, selectedSlot, cropBounds, {
           quality: currentSlotConfig.quality
         });
       }

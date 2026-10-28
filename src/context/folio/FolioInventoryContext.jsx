@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import { db, auth } from '../../firebase';
 import { collectionGroup, query, where, getDocs, doc, setDoc } from 'firebase/firestore';
 import { useFolioIdentity, DEFAULT_CHARACTER } from './FolioIdentityContext';
@@ -13,6 +13,8 @@ export const DEFAULT_INVENTORY_FALLBACK = {
   addItemToInventory: () => {},
   addAbility: () => {},
   handleUpdateItem: () => {},
+  handleDeleteItem: () => {},
+  handleRemoveItem: () => {},
   companions: [],
   handleAddCompanion: () => {},
   handleUpdateCompanion: () => {},
@@ -377,6 +379,30 @@ export const FolioInventorySliceProvider = ({ children }) => {
     triggerSave();
   }, [setCharacterData, triggerSave]);
 
+  // Delete / Remove Item Handler (by index or predicate/id)
+  const handleDeleteItem = useCallback((key, indexOrId) => {
+    setCharacterData((prev) => {
+      const currentList = Array.isArray(prev[key]) ? [...prev[key]] : [];
+      let nextList;
+      if (typeof indexOrId === 'number') {
+        nextList = currentList.filter((_, idx) => idx !== indexOrId);
+      } else {
+        nextList = currentList.filter((it, idx) => {
+          if (it === indexOrId) return false;
+          if (typeof it === 'object' && it !== null) {
+            return (it.id || it.name || it.title || idx) !== indexOrId;
+          }
+          return true;
+        });
+      }
+      return {
+        ...prev,
+        [key]: nextList
+      };
+    });
+    triggerSave();
+  }, [setCharacterData, triggerSave]);
+
   // Companion and Cohort handlers
   const handleAddCompanion = useCallback((companion) => {
     if (!companion) return;
@@ -572,11 +598,13 @@ export const FolioInventorySliceProvider = ({ children }) => {
     return () => { isMounted = false; };
   }, []);
 
-  const value = {
+  const value = useMemo(() => ({
     handleAddItem,
     addItemToInventory,
     addAbility,
     handleUpdateItem,
+    handleDeleteItem,
+    handleRemoveItem: handleDeleteItem,
     companions: characterData?.companions || [],
     handleAddCompanion,
     handleUpdateCompanion,
@@ -585,7 +613,21 @@ export const FolioInventorySliceProvider = ({ children }) => {
     publicCatalog,
     togglePersonaVisibility,
     clonePublicPersona
-  };
+  }), [
+    handleAddItem,
+    addItemToInventory,
+    addAbility,
+    handleUpdateItem,
+    handleDeleteItem,
+    characterData?.companions,
+    handleAddCompanion,
+    handleUpdateCompanion,
+    handleDeleteCompanion,
+    handleToggleDeployCompanion,
+    publicCatalog,
+    togglePersonaVisibility,
+    clonePublicPersona
+  ]);
 
   return (
     <FolioInventoryContext.Provider value={value}>

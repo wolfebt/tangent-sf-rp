@@ -4241,6 +4241,13 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
   };
 
   const renderExecutiveDossier = () => {
+    const pendingPillars = [
+      characterData['char-species'] && !speciesAllocationMetrics?.isComplete ? { id: 'species', label: 'Species', color: 'border-cyan-500/60 bg-cyan-950/60 text-cyan-200 hover:bg-cyan-900' } : null,
+      characterData['char-occu'] && !occuAllocationMetrics?.isComplete ? { id: 'occupation', label: 'Occupation', color: 'border-sky-500/60 bg-sky-950/60 text-sky-200 hover:bg-sky-900' } : null,
+      characterData['char-origin'] && !originAllocationMetrics?.isComplete ? { id: 'origin', label: 'Origin', color: 'border-emerald-500/60 bg-emerald-950/60 text-emerald-200 hover:bg-emerald-900' } : null,
+      characterData['char-faction'] && !factionAllocationMetrics?.isComplete ? { id: 'faction', label: 'Faction', color: 'border-purple-500/60 bg-purple-950/60 text-purple-200 hover:bg-purple-900' } : null
+    ].filter(Boolean);
+
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-slate-800">
@@ -4251,9 +4258,32 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
             </span>
           </div>
           <span className="text-[10px] font-mono text-slate-400">
-            Click any pillar to open configuration modal
+            Click any pillar to configure
           </span>
         </div>
+
+        {/* Proactive Unspent Identity Pool Prompt (Auto-hides once all selected pillars are allocated) */}
+        {pendingPillars.length > 0 && (
+          <div className="p-2.5 rounded-xl bg-amber-950/30 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+            <div className="flex items-center gap-1.5 text-amber-300">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span className="font-bold">Unallocated Pillar Pools:</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {pendingPillars.map(p => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => openPillarModal(p.id)}
+                  className={`px-2 py-0.5 rounded border text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1 ${p.color}`}
+                >
+                  <span>Allocate {p.label}</span>
+                  <span>&rarr;</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* 5 Pillar Summary Cards */}
         <div className="grid grid-cols-1 gap-3">
@@ -4503,33 +4533,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
               </span>
             </div>
 
-            {/* Persona Name Tag as Catalog Link: Desktop style cyan and silver outline */}
-            <button
-              type="button"
-              onClick={handleReturnToCatalogClick}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 hover:border-cyan-300 transition-all cursor-pointer group shrink-0 active:scale-95 shadow-[0_0_10px_rgba(34,211,238,0.15)] text-right"
-              title="Active Persona — Click to Return to Persona Catalog"
-              aria-label={`Active Persona: ${characterData?.['char-name'] || 'Unnamed Persona'} - Return to Catalog`}
-            >
-              <Users size={12} className="text-cyan-400 group-hover:text-cyan-300 transition-colors shrink-0" />
-              <span
-                className="font-black text-xs sm:text-sm uppercase text-[#22d3ee] group-hover:text-cyan-200 transition-colors tracking-tight truncate max-w-[130px] xs:max-w-[180px] sm:max-w-[220px]"
-                style={{
-                  WebkitTextStroke: '1px #c0c0c0',
-                  paintOrder: 'stroke fill'
-                }}
-              >
-                {characterData?.['char-name'] || 'Unnamed Persona'}
+            {characterData?.['char-archetype'] && (
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/60 text-cyan-300 border border-cyan-500/40 font-bold uppercase tracking-wider shrink-0">
+                {characterData['char-archetype']}
               </span>
-              {characterData?.['char-archetype'] && (
-                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-500/40 font-bold hidden xs:inline shrink-0">
-                  {characterData['char-archetype']}
-                </span>
-              )}
-              <span className="text-[9px] font-mono text-slate-500 group-hover:text-cyan-300 transition-colors hidden xxs:inline group-hover:translate-x-0.5 transform">
-                &rarr;
-              </span>
-            </button>
+            )}
           </div>
           {renderBioSection()}
         </div>

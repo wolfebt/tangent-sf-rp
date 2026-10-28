@@ -184,7 +184,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   onClose();
                 }}
                 className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
-                title="Close Comms Modal (ESC / Alt+C)"
+                title="Close Comms Modal (ESC / Alt+R)"
               >
                 <X size={16} />
               </button>

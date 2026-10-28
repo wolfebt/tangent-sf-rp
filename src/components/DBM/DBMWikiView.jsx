@@ -1064,12 +1064,12 @@ export const DBMWikiView = ({
       if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) {
         return;
       }
-      if (e.altKey && e.key === 'ArrowLeft' && currentPrevArticle) {
+      if (e.altKey && e.key === 'ArrowLeft') {
         e.preventDefault();
-        handleNavigateArticle(currentPrevArticle);
-      } else if (e.altKey && e.key === 'ArrowRight' && currentNextArticle) {
+        if (currentPrevArticle) handleNavigateArticle(currentPrevArticle);
+      } else if (e.altKey && e.key === 'ArrowRight') {
         e.preventDefault();
-        handleNavigateArticle(currentNextArticle);
+        if (currentNextArticle) handleNavigateArticle(currentNextArticle);
       }
     };
 

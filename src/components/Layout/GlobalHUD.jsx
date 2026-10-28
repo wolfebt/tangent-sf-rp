@@ -190,6 +190,57 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     return () => window.removeEventListener('open-user-guide', handleCustomOpenGuide);
   }, [location.pathname]);
 
+  // Global Studio Navigation Hotkeys (Alt+H, Alt+F, Alt+C, Alt+S, Alt+X, Alt+A, Alt+M, Alt+G) & Mobile Nav Escape
+  useEffect(() => {
+    const handleGlobalNavHotkeys = (e) => {
+      if (e.key === 'Escape' && isMobileNavOpen) {
+        setIsMobileNavOpen(false);
+        return;
+      }
+
+      if (!e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
+      const key = e.key?.toLowerCase();
+      const code = e.code;
+
+      if (key === 'h' || code === 'KeyH') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/');
+      } else if (key === 'f' || code === 'KeyF') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/folio');
+      } else if (key === 'c' || code === 'KeyC') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/compendium');
+      } else if (key === 's' || code === 'KeyS') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/foundry/story');
+      } else if (key === 'x' || code === 'KeyX') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/codex');
+      } else if (key === 'a' || code === 'KeyA') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/foundry/aime');
+      } else if (key === 'm' || code === 'KeyM') {
+        e.preventDefault();
+        AudioService.playTerminalBeep(1150, 0.02);
+        navigate('/foundry/map');
+      } else if (key === 'g' || code === 'KeyG') {
+        e.preventDefault();
+        handleOpenGuide();
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalNavHotkeys);
+    return () => window.removeEventListener('keydown', handleGlobalNavHotkeys);
+  }, [navigate, isMobileNavOpen, location.pathname]);
+
   const triggerMasterImport = () => {
     if (!isAdmin) {
       toast({ 
@@ -313,6 +364,20 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               </button>
             );
           })()}
+
+          {/* Bastion AI Co-Pilot Trigger */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
+            }}
+            className="px-2 sm:px-2.5 py-1 rounded-lg bg-cyan-950/70 hover:bg-cyan-900/80 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all shadow-sm active:scale-95 shrink-0"
+            title="Toggle BASTION AI Assistant (Rules Codex & Persona Generator)"
+          >
+            <span>🤖</span>
+            <span className="hidden xs:inline">Bastion</span>
+          </button>
         </div>
       );
     }

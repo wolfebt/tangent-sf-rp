@@ -62,6 +62,8 @@ export const VisualStoryGraph = ({
   const dragStartRef = useRef({ mouseX: 0, mouseY: 0, nodeInitialX: 0, nodeInitialY: 0 });
   const [localNodePositions, setLocalNodePositions] = useState({});
   const [snapToGridEnabled, setSnapToGridEnabled] = useState(false);
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
+  const isSpacePressedRef = useRef(false);
 
   // ── CONNECTION WIRE DRAWING STATE ──
   const [isConnecting, setIsConnecting] = useState(false);
@@ -250,14 +252,18 @@ export const VisualStoryGraph = ({
 
   // ── CANVAS MOUSE PAN & DRAG HANDLERS ──
   const handleCanvasMouseDown = (e) => {
-    // If clicking on node, port, or pill, don't pan canvas
-    if (e.target.closest('.node-card') || e.target.closest('.node-port') || e.target.closest('.graph-edge-group')) {
-      return;
+    // Allow Space+Drag or Middle-Click+Drag anywhere on canvas (including over nodes)
+    if (!isSpacePressedRef.current && e.button !== 1) {
+      // If clicking on node, port, or pill without Space/Middle-Click, don't pan canvas
+      if (e.target.closest('.node-card') || e.target.closest('.node-port') || e.target.closest('.graph-edge-group')) {
+        return;
+      }
+      // Canvas background clicked: deselect
+      setSelectedNodeId(null);
+      setSelectedEdgeId(null);
+    } else {
+      e.preventDefault();
     }
-
-    // Canvas background clicked: deselect
-    setSelectedNodeId(null);
-    setSelectedEdgeId(null);
 
     setIsPanning(true);
     panStartRef.current = {
@@ -329,6 +335,9 @@ export const VisualStoryGraph = ({
 
   // ── NODE MOUSE DOWN (DRAG START) ──
   const handleNodeMouseDown = (e, node) => {
+    if (isSpacePressedRef.current || e.button === 1) {
+      return;
+    }
     e.stopPropagation();
     setSelectedNodeId(node.id);
     setSelectedEdgeId(null);
@@ -669,10 +678,19 @@ export const VisualStoryGraph = ({
     if (onSwitchView) onSwitchView('interactive');
   };
 
-  // ── KEYBOARD SHORTCUTS (DELETE, ESCAPE, DOCK) ──
+  // ── KEYBOARD SHORTCUTS (SPACE PAN, DELETE, ESCAPE, DOCK) ──
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+
+      if (e.key === ' ' && !e.ctrlKey && !e.altKey && !e.metaKey) {
+        e.preventDefault();
+        if (!e.repeat) {
+          isSpacePressedRef.current = true;
+          setIsSpacePressed(true);
+        }
+        return;
+      }
 
       if (e.key === 'Delete' || e.key === 'Backspace') {
         if (selectedEdgeId) {
@@ -697,8 +715,19 @@ export const VisualStoryGraph = ({
       }
     };
 
+    const handleKeyUp = (e) => {
+      if (e.key === ' ') {
+        isSpacePressedRef.current = false;
+        setIsSpacePressed(false);
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
   }, [selectedEdgeId, selectedNodeId, allLinks, flatNodes, isConnecting]);
 
   const selectedNode = flatNodes.find(n => n.id === selectedNodeId) || null;

@@ -2,6 +2,7 @@ import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData.js';
 import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData.js';
 import { BASIC_MOVEMENT_MODES } from '../data/speciesMovementData.js';
 import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
+import { DEFAULT_FEATURES } from '../data/featuresData.js';
 
 /**
  * Curated knowledge base for known species inherent traits across the Tangent Omnicortex,
@@ -511,9 +512,89 @@ export const formatSpeciesMovement = (rawMovement) => {
 };
 
 /**
+ * Detects auto-generated runtime/timestamp IDs (e.g., "trait_1792223406019_9e80", "trait_species_1792223406019_1qrv")
+ */
+export const isGeneratedTraitId = (str) => {
+  if (!str) return false;
+  const s = String(str).trim();
+  return /\d{10,}(?:[-_\s]+[a-z0-9]{2,10})?/i.test(s) ||
+         /^(?:trait|species|feat|feature|item|dis|aug|mod|spec|awakened|inv)[-_](?:sp[-_]|species[-_]|arch[-_]|fac[-_]|custom[-_])?\d{8,}/i.test(s);
+};
+
+/**
+ * Detects corrupted or generic fallback descriptions that should be replaced by canonical descriptions
+ */
+export const isCorruptedTraitDescription = (desc) => {
+  if (!desc) return true;
+  const s = String(desc).trim();
+  if (!s) return true;
+  if (/\b\d{10,}\b/.test(s)) return true;
+  if (/is an innate (?:trait|special ability|humanoid special ability) granted by this species lineage\.?$/i.test(s)) return true;
+  if (/^Character trait from chosen identity column\.?$/i.test(s)) return true;
+  if (/^Inherent trait granted by .+\.?$/i.test(s)) return true;
+  if (/species trait\.$/i.test(s) && s.split(/\s+/).length <= 5) return true;
+  return false;
+};
+
+/**
+ * Extracts inline markdown mechanic from description if present (e.g., "... *+2 Piloting and Navigation* #")
+ */
+export const extractInlineMarkdownMechanic = (desc) => {
+  if (!desc) return '';
+  const s = String(desc).trim().replace(/\s+#+\s*$/, '').trim();
+  const match = s.match(/\*([^*]+)\*\s*$/);
+  return match ? match[1].replace(/\\([+-])/g, '$1').trim() : '';
+};
+
+/**
+ * Cleans trailing markdown artifacts (e.g., "*+2 Piloting and Navigation* #" or trailing "#") from trait descriptions
+ */
+export const cleanTraitDescriptionText = (desc, mechanic = '') => {
+  if (!desc) return '';
+  let s = String(desc).trim();
+  s = s.replace(/\s+#+\s*$/, '').trim();
+  s = s.replace(/\s*\*([^*]+)\*\s*$/, (_, inner) => {
+    const cleanInner = inner.replace(/\\([+-])/g, '$1').trim();
+    if (!mechanic || mechanic.toLowerCase().includes(cleanInner.toLowerCase()) || /^[+-]\d/.test(cleanInner) || /advantage|disadvantage|check|bonus|reroll|karma/i.test(cleanInner)) {
+      return '';
+    }
+    return ` (${cleanInner})`;
+  }).trim();
+  s = s.replace(/\s+#+\s*$/, '').trim();
+  return s;
+};
+
+/**
+ * Normalizes a trait/feature identifier or name for resilient fuzzy matching across hyphens, underscores, and prefixes
+ */
+export const normalizeTraitLookupKey = (str) => {
+  if (!str || isGeneratedTraitId(str)) return '';
+  return String(str)
+    .trim()
+    .toLowerCase()
+    .replace(/^(?:trait|feature)[-_](?:sig[-_])?/i, '')
+    .replace(/[-_]?traits?$/i, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+};
+
+const KNOWN_SPECIES_TRAIT_NORMALIZED_MAP = (() => {
+  const map = new Map();
+  Object.entries(KNOWN_SPECIES_TRAIT_DESCRIPTIONS).forEach(([key, val]) => {
+    map.set(key.toLowerCase(), { key, val });
+    const normK = normalizeTraitLookupKey(key);
+    if (normK && !map.has(normK)) map.set(normK, { key, val });
+    const normN = normalizeTraitLookupKey(val.name);
+    if (normN && !map.has(normN)) map.set(normN, { key, val });
+  });
+  return map;
+})();
+
+/**
  * Clean and format trait names from slugs or raw strings.
  */
-const cleanTraitName = (rawStr) => {
+export const cleanTraitName = (rawStr) => {
+  if (!rawStr || isGeneratedTraitId(rawStr)) return '';
   let s = String(rawStr || '').trim();
   // Strip category prefixes
   s = s.replace(/^(trait|feature)[-_]/i, '');
@@ -534,22 +615,35 @@ const cleanTraitName = (rawStr) => {
 export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
   if (!rawTrait) return { name: '', category: 'Trait', label: '', description: '', mechanic: '', tooltip: {} };
 
-  const rawId = typeof rawTrait === 'object' ? (rawTrait.id || rawTrait.name || '') : String(rawTrait);
-  const cleanId = rawId.toLowerCase().trim();
-  const objDesc = typeof rawTrait === 'object' ? (rawTrait.description || rawTrait.desc || '') : '';
-  const objMech = typeof rawTrait === 'object' ? (rawTrait.mechanic || rawTrait.mechanics || rawTrait.bonus || '') : '';
+  const candidates = typeof rawTrait === 'object'
+    ? [rawTrait.id, rawTrait.name, rawTrait.title].filter(c => c && !isGeneratedTraitId(c)).map(c => String(c).trim())
+    : (!isGeneratedTraitId(rawTrait) ? [String(rawTrait).trim()] : []);
+
+  const rawId = candidates[0] || (typeof rawTrait === 'object' ? (rawTrait.name || rawTrait.title || '') : String(rawTrait));
+  const cleanId = String(rawId || '').toLowerCase().trim();
+  const normCandidates = candidates.map(c => normalizeTraitLookupKey(c)).filter(Boolean);
+
+  const rawObjDesc = typeof rawTrait === 'object' ? (rawTrait.description || rawTrait.desc || '') : '';
+  const inlineMech = extractInlineMarkdownMechanic(rawObjDesc);
+  const objMech = (typeof rawTrait === 'object' ? (rawTrait.mechanic || rawTrait.mechanics || rawTrait.bonus || '') : '') || inlineMech;
+  const objDesc = isCorruptedTraitDescription(rawObjDesc) ? '' : cleanTraitDescriptionText(rawObjDesc, objMech);
 
   // 0. Check pillar context traits_detail (e.g. Occupation or Origin specific trait definitions)
   if (speciesContext && Array.isArray(speciesContext.traits_detail)) {
-    const detailMatch = speciesContext.traits_detail.find(t =>
-      t.id?.toLowerCase() === cleanId ||
-      t.name?.toLowerCase() === cleanId ||
-      t.id?.toLowerCase() === `trait-${cleanId}`
-    );
+    const detailMatch = speciesContext.traits_detail.find(t => {
+      const tId = (t.id || '').toLowerCase();
+      const tName = (t.name || t.title || '').toLowerCase();
+      const tNormId = normalizeTraitLookupKey(tId);
+      const tNormName = normalizeTraitLookupKey(tName);
+      return candidates.some(c => {
+        const cl = c.toLowerCase();
+        return tId === cl || tName === cl || tId === `trait-${cl}`;
+      }) || normCandidates.some(nc => nc === tNormId || nc === tNormName);
+    });
     if (detailMatch) {
       const name = detailMatch.name || cleanTraitName(cleanId);
-      const description = detailMatch.description || detailMatch.desc || objDesc || '';
       const mechanic = (detailMatch.mechanic || detailMatch.mechanics || detailMatch.bonus || objMech || '').replace(/^\[|\]$/g, '');
+      const description = cleanTraitDescriptionText(detailMatch.description || detailMatch.desc || objDesc || '', mechanic);
       return {
         id: detailMatch.id || rawId,
         name,
@@ -568,12 +662,30 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     }
   }
 
-  // 1. Check known curated trait descriptions
-  if (KNOWN_SPECIES_TRAIT_DESCRIPTIONS[cleanId]) {
-    const k = KNOWN_SPECIES_TRAIT_DESCRIPTIONS[cleanId];
+  // 1. Check known curated trait descriptions across all non-generated candidates
+  let knownHit = null;
+  for (const cand of candidates) {
+    const cl = cand.toLowerCase();
+    if (KNOWN_SPECIES_TRAIT_DESCRIPTIONS[cl]) {
+      knownHit = { key: cl, val: KNOWN_SPECIES_TRAIT_DESCRIPTIONS[cl] };
+      break;
+    }
+    if (KNOWN_SPECIES_TRAIT_DESCRIPTIONS[`trait-${cl}`]) {
+      knownHit = { key: `trait-${cl}`, val: KNOWN_SPECIES_TRAIT_DESCRIPTIONS[`trait-${cl}`] };
+      break;
+    }
+    const norm = normalizeTraitLookupKey(cand);
+    if (norm && KNOWN_SPECIES_TRAIT_NORMALIZED_MAP.has(norm)) {
+      knownHit = KNOWN_SPECIES_TRAIT_NORMALIZED_MAP.get(norm);
+      break;
+    }
+  }
+
+  if (knownHit) {
+    const k = knownHit.val;
     const mechanic = (k.rules || objMech || '').replace(/\.$/, '');
     return {
-      id: rawId,
+      id: knownHit.key || rawId,
       name: k.name,
       category: k.category,
       label: `${k.name} - ${k.category}`,
@@ -589,13 +701,17 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     };
   }
 
-  // 2. Check canonical database
-  const canonical = ALL_CANONICAL_TRAITS.find(t =>
-    t.id?.toLowerCase() === cleanId ||
-    t.name?.toLowerCase() === cleanId ||
-    t.id?.toLowerCase() === `trait-${cleanId}` ||
-    t.id?.toLowerCase() === `trait-sig-${cleanId}`
-  );
+  // 2. Check canonical traits database
+  const canonical = ALL_CANONICAL_TRAITS.find(t => {
+    const tId = (t.id || '').toLowerCase();
+    const tName = (t.name || t.title || '').toLowerCase();
+    const tNormId = normalizeTraitLookupKey(tId);
+    const tNormName = normalizeTraitLookupKey(tName);
+    return candidates.some(c => {
+      const cl = c.toLowerCase();
+      return tId === cl || tName === cl || tId === `trait-${cl}` || tId === `trait-sig-${cl}`;
+    }) || normCandidates.some(nc => nc === tNormId || nc === tNormName);
+  });
 
   if (canonical) {
     let cat = 'Trait';
@@ -604,8 +720,9 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     }
     const name = canonical.name;
     const label = `${name} - ${cat}`;
-    const description = objDesc || canonical.description || canonical.desc || canonical.body?.split('\n\n## Description\n')?.[1]?.split('\n\n')[0] || `${name} trait.`;
     const mechanic = (objMech || canonical.mechanic || canonical.mechanics || '').replace(/^\[|\]$/g, '');
+    const rawCanonDesc = objDesc || canonical.description || canonical.desc || canonical.body?.split('\n\n## Description\n')?.[1]?.split('\n\n')[0] || `${name} trait.`;
+    const description = cleanTraitDescriptionText(rawCanonDesc, mechanic);
     return {
       id: canonical.id || rawId,
       name,
@@ -624,9 +741,44 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     };
   }
 
+  // 2b. Check canonical features database (for species inherent_features like special-sense-uncontrolled)
+  const canonicalFeat = DEFAULT_FEATURES.find(f => {
+    const fId = (f.id || '').toLowerCase();
+    const fName = (f.name || f.title || '').toLowerCase();
+    const fNormId = normalizeTraitLookupKey(fId);
+    const fNormName = normalizeTraitLookupKey(fName);
+    return candidates.some(c => {
+      const cl = c.toLowerCase();
+      return fId === cl || fName === cl;
+    }) || normCandidates.some(nc => nc === fNormId || nc === fNormName);
+  });
+
+  if (canonicalFeat) {
+    const cat = 'Trait';
+    const name = canonicalFeat.name;
+    const label = `${name} - ${cat}`;
+    const mechanic = (objMech || canonicalFeat.mechanic || canonicalFeat.mechanics || '').replace(/^\[|\]$/g, '');
+    const description = cleanTraitDescriptionText(objDesc || canonicalFeat.description || `${name} innate feature.`, mechanic);
+    return {
+      id: canonicalFeat.id || rawId,
+      name,
+      category: cat,
+      label,
+      description,
+      mechanic,
+      tooltip: {
+        title: `${name} (${cat})`,
+        badge: cat,
+        description,
+        formula: mechanic ? `[${mechanic}]` : undefined,
+        rules: canonicalFeat.special_rules || canonicalFeat.rules || mechanic || ''
+      }
+    };
+  }
+
   // 3. Fallback smart parsing for ad-hoc trait identifiers
   let category = 'Trait';
-  let innerStr = cleanId.replace(/^(trait|feature)[-_]/i, '');
+  let innerStr = (!isGeneratedTraitId(cleanId) ? cleanId : '').replace(/^(trait|feature)[-_]/i, '');
 
   if (innerStr.includes('humanoid-special-ability') || innerStr.includes('humanoid_special_ability')) {
     category = 'Humanoid Special Ability';
@@ -649,17 +801,20 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
   }
 
   const label = `${name} - ${category}`;
+  const fallbackDesc = objDesc || `${name} is an innate ${category.toLowerCase()} granted by this species lineage.`;
 
   return {
-    id: rawId,
+    id: !isGeneratedTraitId(rawId) ? rawId : `trait-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
     name,
     category,
     label,
+    description: fallbackDesc,
+    mechanic: objMech || '',
     tooltip: {
       title: `${name} (${category})`,
       badge: category,
-      description: `${name} is an innate ${category.toLowerCase()} granted by this species lineage.`,
-      rules: ''
+      description: fallbackDesc,
+      rules: objMech || ''
     }
   };
 };
@@ -682,8 +837,10 @@ export const getInherentSpeciesTraits = (selectedSpecies) => {
   const result = [];
 
   rawPool.forEach(item => {
-    const key = typeof item === 'object' ? (item.id || item.name || '') : String(item);
-    const cleanKey = key.toLowerCase().trim();
+    const rawKey = typeof item === 'object'
+      ? ((!isGeneratedTraitId(item.id) && item.id) || item.name || item.title || '')
+      : String(item);
+    const cleanKey = normalizeTraitLookupKey(rawKey) || rawKey.toLowerCase().trim();
     if (cleanKey && !seen.has(cleanKey)) {
       seen.add(cleanKey);
       result.push(item);

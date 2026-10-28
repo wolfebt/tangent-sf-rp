@@ -95,7 +95,10 @@ export function resolveFolioMenu(context, appState, handlers) {
         label: 'Open Roster Catalog',
         icon: User,
         shortcut: 'Roster',
-        onClick: () => window.dispatchEvent(new CustomEvent('open-folio-roster'))
+        onClick: () => {
+          window.dispatchEvent(new CustomEvent('open-folio-catalog'));
+          window.dispatchEvent(new CustomEvent('open-folio-roster'));
+        }
       },
       { type: 'divider' },
       {

@@ -342,7 +342,7 @@ export const MapObjectNode = ({
   );
 };
 
-export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onChange, onDoubleClick, isEraser, onErase, isLocked }) => {
+export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onChange, onDoubleClick, isEraser, onErase, isLocked, onDragMove, onDragEnd }) => {
   const shapeRef = useRef();
   const trRef = useRef();
   const [tokenImgObj, setTokenImgObj] = useState(null);
@@ -413,7 +413,11 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
         onClick={handleClick}
         onTap={handleClick}
         onDblClick={onDoubleClick}
+        onDragMove={(e) => {
+          if (onDragMove) onDragMove(e, shapeProps);
+        }}
         onDragEnd={(e) => {
+          if (onDragEnd) onDragEnd(e, shapeProps);
           onChange({
             ...shapeProps,
             x: e.target.x(),

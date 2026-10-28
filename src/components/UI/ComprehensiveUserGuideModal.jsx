@@ -56,6 +56,34 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'int
     }
   }, [isOpen, initialTab]);
 
+  // Keyboard navigation: Escape to close, Alt+Left / Alt+Right to cycle guide sections
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        AudioService?.playTerminalBeep?.(900, 0.02);
+        onClose?.();
+        return;
+      }
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
+      if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        e.preventDefault();
+        const idx = GUIDE_TABS.findIndex(t => t.id === activeTab);
+        if (e.key === 'ArrowLeft' && idx > 0) {
+          AudioService?.playTerminalBeep?.(1100, 0.02);
+          setActiveTab(GUIDE_TABS[idx - 1].id);
+        } else if (e.key === 'ArrowRight' && idx >= 0 && idx < GUIDE_TABS.length - 1) {
+          AudioService?.playTerminalBeep?.(1100, 0.02);
+          setActiveTab(GUIDE_TABS[idx + 1].id);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose, activeTab]);
+
   const activeTabMeta = useMemo(() => {
     return GUIDE_TABS.find(t => t.id === activeTab) || GUIDE_TABS[0];
   }, [activeTab]);

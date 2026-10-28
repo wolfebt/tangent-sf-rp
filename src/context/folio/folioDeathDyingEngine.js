@@ -68,8 +68,10 @@ export const useFolioDeathDying = ({
     const target = (personaRoster || []).find(matchesTarget) || (matchesTarget(characterData) ? characterData : null) || characterData;
     if (!target) return null;
 
-    const staTotal = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
-    const toughness = staTotal; // Stamina determines base Toughness
+    const staBase = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
+    const staMod = target['attr-stamina-mod'] ? parseInt(target['attr-stamina-mod'], 10) : 0;
+    const staTotal = Math.max(0, staBase + staMod);
+    const toughness = derivedStats?.toughness ?? staTotal; // Stamina determines base Toughness
 
     const isSynthetic = derivedStats?.isSynthetic || 
       String(target['char-species'] || '').toLowerCase().includes('synthetic') ||
@@ -198,17 +200,18 @@ export const useFolioDeathDying = ({
     if (!target) return null;
 
     const {
-      medicineCheckRoll = 0,
+      medicineCheckRoll,
       isMedicineSuccess = false,
       hasHealingEffect = false,
       force = false
     } = options || {};
 
-    // If caller triggered direct stabilization without check roll, or explicit force/healing flag
-    const effectiveSuccess = force || isMedicineSuccess || hasHealingEffect || (medicineCheckRoll === 0 && !isMedicineSuccess && !hasHealingEffect);
+    // Auto-stabilize only if caller triggered direct stabilization without a check roll, or passed an explicit force/healing/success flag
+    const hasExplicitRoll = medicineCheckRoll !== undefined && medicineCheckRoll !== null;
+    const effectiveSuccess = force || isMedicineSuccess || hasHealingEffect || (!hasExplicitRoll && !isMedicineSuccess && !hasHealingEffect);
 
     const result = stabilizeEntity({
-      medicineCheckRoll,
+      medicineCheckRoll: hasExplicitRoll ? medicineCheckRoll : 0,
       isMedicineSuccess: effectiveSuccess || isMedicineSuccess,
       hasHealingEffect: effectiveSuccess || hasHealingEffect
     });
@@ -256,7 +259,9 @@ export const useFolioDeathDying = ({
     const target = (personaRoster || []).find(matchesTarget) || (matchesTarget(characterData) ? characterData : null) || characterData;
     if (!target) return null;
 
-    const staScore = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
+    const staBase = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
+    const staMod = target['attr-stamina-mod'] ? parseInt(target['attr-stamina-mod'], 10) : 0;
+    const staScore = Math.max(0, staBase + staMod);
     const currentClock = target.death_clock !== undefined && target.death_clock !== null
       ? Number(target.death_clock)
       : calculateDeathClock(staScore);

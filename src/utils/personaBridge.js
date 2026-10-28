@@ -205,16 +205,26 @@ export const convertPersonaElementToFolio = (element) => {
     // Identity
     'char-name': name,
     'char-concept': fields['char-concept'] || attachedFolio['char-concept'] || '',
+    'char-archetype': fields['char-archetype'] || attachedFolio['char-archetype'] || '',
     'char-species': fields['char-species'] || attachedFolio['char-species'] || '',
     'char-occu': fields['char-occu'] || attachedFolio['char-occu'] || '',
+    'char-secondary-occu': fields['char-secondary-occu'] || attachedFolio['char-secondary-occu'] || '',
     'char-origin': fields['char-origin'] || attachedFolio['char-origin'] || '',
+    'char-secondary-origin': fields['char-secondary-origin'] || attachedFolio['char-secondary-origin'] || '',
     'char-faction': fields['char-faction'] || attachedFolio['char-faction'] || '',
+    'char-size': fields['char-size'] || attachedFolio['char-size'] || '',
     'char-age': fields['char-age'] || attachedFolio['char-age'] || '',
     'char-gender': fields['char-gender'] || attachedFolio['char-gender'] || '',
     'char-height': fields['char-height'] || attachedFolio['char-height'] || '',
     'char-weight': fields['char-weight'] || attachedFolio['char-weight'] || '',
     'char-style': fields['char-style'] || attachedFolio['char-style'] || '',
     'char-motive': fields['char-motive'] || attachedFolio['char-motive'] || '',
+
+    // Identity Pillar Allocation Pools
+    speciesAllocations: safeJsonParse(fields.speciesAllocations, attachedFolio.speciesAllocations || {}),
+    occuAllocations: safeJsonParse(fields.occuAllocations, attachedFolio.occuAllocations || {}),
+    originAllocations: safeJsonParse(fields.originAllocations, attachedFolio.originAllocations || {}),
+    factionAllocations: safeJsonParse(fields.factionAllocations, attachedFolio.factionAllocations || {}),
 
     // Vitals & Core Stats
     'starting-cp': parseNum(fields['starting-cp'] ?? attachedFolio['starting-cp'], 150),
@@ -226,9 +236,16 @@ export const convertPersonaElementToFolio = (element) => {
     'health': parseNum(fields.health ?? attachedFolio.health, 30),
     'vitality': parseNum(fields.vitality ?? attachedFolio.vitality, 30),
     'structure': parseNum(fields.structure ?? attachedFolio.structure, 60),
+    'current_health': parseNum(fields.current_health ?? attachedFolio.current_health ?? fields.health ?? attachedFolio.health, 30),
+    'current_vitality': parseNum(fields.current_vitality ?? attachedFolio.current_vitality ?? fields.vitality ?? attachedFolio.vitality, 30),
+    'current_structure': parseNum(fields.current_structure ?? attachedFolio.current_structure ?? fields.structure ?? attachedFolio.structure, 60),
     'karma': parseNum(fields.karma ?? attachedFolio.karma, 3),
     'plot-points': parseNum(fields['plot-points'] ?? attachedFolio['plot-points'], 0),
     'initiative-mod': parseNum(fields['initiative-mod'] ?? attachedFolio['initiative-mod'], 0),
+    earned_ap: parseNum(fields.earned_ap ?? attachedFolio.earned_ap, 0),
+    spent_ap: parseNum(fields.spent_ap ?? attachedFolio.spent_ap, 0),
+    experience_debt: parseNum(fields.experience_debt ?? attachedFolio.experience_debt, 0),
+    is_locked: Boolean(fields.is_locked ?? attachedFolio.is_locked ?? false),
 
     // 12 Attributes
     'attr-strength': parseNum(fields['attr-strength'] ?? attachedFolio['attr-strength'], 0),
@@ -275,10 +292,12 @@ export const convertPersonaElementToFolio = (element) => {
     romanticHistory: fields.romanticHistory || attachedFolio.romanticHistory || '',
     tags: fields.tags || attachedFolio.tags || '',
 
-    // Structured Arrays
+    // Structured Arrays & Media
     specializations: safeJsonParse(fields.specializations, attachedFolio.specializations || []),
     features: safeJsonParse(fields.features, attachedFolio.features || []),
+    traits: safeJsonParse(fields.traits, attachedFolio.traits || []),
     disadvantages: safeJsonParse(fields.disadvantages, attachedFolio.disadvantages || []),
+    hindrances: safeJsonParse(fields.hindrances, attachedFolio.hindrances || attachedFolio.disadvantages || []),
     augmentations: safeJsonParse(fields.augmentations, attachedFolio.augmentations || []),
     awakened: safeJsonParse(fields.awakened, attachedFolio.awakened || []),
     invocations: safeJsonParse(fields.invocations, attachedFolio.invocations || []),
@@ -289,8 +308,15 @@ export const convertPersonaElementToFolio = (element) => {
     weapons: safeJsonParse(fields.weapons, attachedFolio.weapons || []),
     armoring: safeJsonParse(fields.armoring, attachedFolio.armoring || []),
     mecha: safeJsonParse(fields.mecha, attachedFolio.mecha || []),
+    architecture: safeJsonParse(fields.architecture, attachedFolio.architecture || []),
+    companions: safeJsonParse(fields.companions, attachedFolio.companions || []),
     other: safeJsonParse(fields.other, attachedFolio.other || []),
-    notes: safeJsonParse(fields.notes, attachedFolio.notes || [{ text: '' }])
+    notes: safeJsonParse(fields.notes, attachedFolio.notes || [{ text: '' }]),
+    media: safeJsonParse(fields.media, attachedFolio.media || {}),
+    portrait: fields.portrait || attachedFolio.portrait || '',
+    token: fields.token || attachedFolio.token || '',
+    standee: fields.standee || attachedFolio.standee || '',
+    gallery: safeJsonParse(fields.gallery, attachedFolio.gallery || [])
   };
 
   const allKeys = new Set([...Object.keys(attachedFolio), ...Object.keys(fields)]);

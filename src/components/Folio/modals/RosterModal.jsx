@@ -248,7 +248,7 @@ export const RosterModal = ({
 
         {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-6">
-          {personaRoster.length === 0 ? (
+          {catalogTab === 'my-roster' && personaRoster.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed border-slate-800 rounded-lg">
               <h3 className="text-base font-bold text-slate-300 uppercase">No Saved Personas in Catalog</h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">

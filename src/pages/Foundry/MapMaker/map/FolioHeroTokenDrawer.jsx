@@ -90,6 +90,18 @@ export const FolioHeroTokenDrawer = ({
 
     members.forEach((m, idx) => {
       setTimeout(() => {
+        const matchedHero = heroes.find(h =>
+          (m.characterId && (h['character-doc-id'] === m.characterId || h.id === m.characterId)) ||
+          (m.characterName && (h['char-name'] || h.name || '').toLowerCase() === m.characterName.toLowerCase())
+        );
+        if (matchedHero) {
+          const stats = extractHeroStats(matchedHero);
+          onSummonToken({
+            ...stats,
+            haloColor: team.themeColor || stats.haloColor || '#22d3ee'
+          });
+          return;
+        }
         onSummonToken({
           heroId: m.uid || `sq_mem_${idx}`,
           name: m.characterName || m.displayName || `Operative ${idx + 1}`,

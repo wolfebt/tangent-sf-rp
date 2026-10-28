@@ -31,6 +31,16 @@ import {
   getEffectiveUserHandle 
 } from '../../utils/personaValidationUtils';
 import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import { getEnrichedTraitData } from '../../data/speciesTraitsData';
+import {
+  formatSpeciesTrait,
+  isGeneratedTraitId,
+  isCorruptedTraitDescription,
+  cleanTraitDescriptionText,
+  extractInlineMarkdownMechanic,
+  normalizeTraitLookupKey,
+  cleanTraitName
+} from '../../utils/speciesDisplayUtils';
 import { showToast } from '../ToastContext';
 import { showConfirm } from '../ConfirmContext';
 
@@ -170,6 +180,54 @@ export const sanitizeCharacterSkills = (charData) => {
       }
     }
   });
+
+  const healTraitOrFeatureEntry = (item, isTraitArray = true) => {
+    if (!item || typeof item !== 'object') return item;
+    const rawName = String(item.name || item.title || '').trim();
+    const rawDesc = String(item.description || item.desc || '').trim();
+    const isTraitLike = isTraitArray ||
+      String(item.category || item.trait_type || '').toLowerCase().includes('trait') ||
+      /^(?:trait|feature)[-_]/i.test(rawName);
+    if (!isTraitLike) return item;
+
+    const needsNameHeal = !rawName || /^(?:trait|feature)[-_]/i.test(rawName) || isGeneratedTraitId(rawName);
+    const needsDescHeal = isCorruptedTraitDescription(rawDesc) || /\s+#+\s*$/.test(rawDesc) || /\*[^*]+\*\s*#*$/.test(rawDesc);
+    const enriched = getEnrichedTraitData(item) || {};
+    const formatted = formatSpeciesTrait(item);
+    const bestCanonicalName = (enriched.name && !/^(?:trait|feature)[-_]/i.test(enriched.name) && !isGeneratedTraitId(enriched.name))
+      ? enriched.name
+      : ((formatted?.name && formatted.name !== 'Species Adaptation') ? formatted.name : '');
+    const needsPunctuationSync = Boolean(bestCanonicalName && rawName !== bestCanonicalName && normalizeTraitLookupKey(rawName) === normalizeTraitLookupKey(bestCanonicalName));
+
+    if (!needsNameHeal && !needsDescHeal && !needsPunctuationSync) return item;
+
+    const finalName = (needsNameHeal || needsPunctuationSync)
+      ? (bestCanonicalName || cleanTraitName(rawName) || rawName)
+      : rawName;
+    const inlineMech = extractInlineMarkdownMechanic(rawDesc);
+    const finalMech = item.mechanic || item.mechanics || enriched.mechanic || formatted?.mechanic || inlineMech || '';
+    const finalDesc = cleanTraitDescriptionText(
+      (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enriched.description || formatted?.description || '',
+      finalMech
+    );
+    const finalId = (!isGeneratedTraitId(item.id) && item.id) || (!isGeneratedTraitId(enriched.id) && enriched.id) || (!isGeneratedTraitId(formatted?.id) && formatted?.id) || item.id;
+
+    return {
+      ...item,
+      id: finalId,
+      name: finalName,
+      description: finalDesc,
+      ...(item.desc !== undefined ? { desc: finalDesc } : {}),
+      ...(finalMech ? { mechanic: finalMech, mechanics: finalMech } : {})
+    };
+  };
+
+  if (Array.isArray(result.traits)) {
+    result.traits = result.traits.map(t => healTraitOrFeatureEntry(t, true));
+  }
+  if (Array.isArray(result.features)) {
+    result.features = result.features.map(f => healTraitOrFeatureEntry(f, false));
+  }
 
   return result;
 };
@@ -617,23 +675,26 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     }
   }, [characterData, saveToCloudDebounced]);
 
-  // Auto-heal legacy baked species modifiers and residual archetype attributes on live state / HMR reload
+  // Auto-heal legacy baked species modifiers, residual archetype attributes, and corrupted trait slugs/descriptions on live state / HMR reload
   useEffect(() => {
     if (!characterData) return;
     if (characterData._needsCloudHealSave) {
-      const { _needsCloudHealSave, ...cleanHealed } = characterData;
-      const finalized = { ...cleanHealed, _attrHealedV3: true };
+      const { _needsCloudHealSave, ...cleanHealed } = sanitizeCharacterSkills(characterData);
+      const finalized = { ...cleanHealed, _attrHealedV3: true, _traitsHealedV1: true };
       setCharacterData(finalized);
       triggerSave(finalized);
       return;
     }
-    if (!characterData._attrHealedV3) {
-      const healed = sanitizeSubAttributes(characterData);
-      if (healed !== characterData) {
+    if (!characterData._attrHealedV3 || !characterData._traitsHealedV1) {
+      const traitSanitized = sanitizeCharacterSkills(characterData);
+      const healed = sanitizeSubAttributes(traitSanitized);
+      const traitsChanged = JSON.stringify(traitSanitized.traits) !== JSON.stringify(characterData.traits) ||
+                            JSON.stringify(traitSanitized.features) !== JSON.stringify(characterData.features);
+      if (healed !== traitSanitized || traitsChanged || !characterData._traitsHealedV1) {
         const { _needsCloudHealSave, ...cleanHealed } = healed;
-        const finalized = { ...cleanHealed, _attrHealedV3: true };
+        const finalized = { ...cleanHealed, _attrHealedV3: true, _traitsHealedV1: true };
         setCharacterData(finalized);
-        if (_needsCloudHealSave) {
+        if (_needsCloudHealSave || traitsChanged) {
           triggerSave(finalized);
         }
       }
@@ -1262,7 +1323,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   const isLocked = Boolean(characterData.is_locked);
   const folioPhase = characterData.folio_phase || 'development';
   const isReadyForVTT = Boolean(characterData.is_ready_for_vtt);
-  const allowPlayerOverride = Boolean(characterData.player_override);
+  const allowPlayerOverride = Boolean(characterData.player_override || characterData.allow_player_override);
   const isPlayerOverride = allowPlayerOverride;
   const isFolioLockedOut = isLocked && !allowPlayerOverride;
 
@@ -1374,7 +1435,9 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, [characterData, updateField]);
 
   const setPersonaAllowPlayerOverride = useCallback((allow) => {
-    updateField('player_override', Boolean(allow));
+    const val = Boolean(allow);
+    updateField('player_override', val);
+    updateField('allow_player_override', val);
   }, [updateField]);
 
   const clonePersonaVariant = useCallback((label = 'Variant') => {
@@ -1383,19 +1446,30 @@ export const FolioIdentitySliceProvider = ({ children }) => {
 
   const recordTrackedModification = useCallback((mod) => {
     const list = characterData.tracked_modifications || [];
-    const entry = { ...mod, id: `mod_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`, timestamp: new Date().toISOString() };
+    const entry = {
+      ...mod,
+      oldValue: mod?.oldValue !== undefined ? mod.oldValue : mod?.previousValue,
+      previousValue: mod?.previousValue !== undefined ? mod.previousValue : mod?.oldValue,
+      status: mod?.status || mod?.reviewStatus || 'pending',
+      reviewStatus: mod?.reviewStatus || mod?.status || 'pending',
+      id: `mod_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      timestamp: new Date().toISOString()
+    };
     updateField('tracked_modifications', [entry, ...list]);
   }, [characterData, updateField]);
 
   const reviewTrackedModification = useCallback((modId, status) => {
-    const list = (characterData.tracked_modifications || []).map(m => m.id === modId ? { ...m, reviewStatus: status } : m);
+    const list = (characterData.tracked_modifications || []).map(m =>
+      m.id === modId ? { ...m, status, reviewStatus: status, reviewedAt: new Date().toISOString() } : m
+    );
     updateField('tracked_modifications', list);
   }, [characterData, updateField]);
 
   const revertTrackedModification = useCallback((modId) => {
     const target = (characterData.tracked_modifications || []).find(m => m.id === modId);
-    if (target && target.field && target.previousValue !== undefined) {
-      updateField(target.field, target.previousValue);
+    const prevVal = target?.oldValue !== undefined ? target.oldValue : target?.previousValue;
+    if (target && target.field && prevVal !== undefined) {
+      updateField(target.field, prevVal);
     }
     const filtered = (characterData.tracked_modifications || []).filter(m => m.id !== modId);
     updateField('tracked_modifications', filtered);
@@ -1405,7 +1479,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     updateField('active_conditions', Array.isArray(conditions) ? conditions : []);
   }, [updateField]);
 
-  const value = {
+  const value = useMemo(() => ({
     characterData,
     setCharacterData,
     activeCharacter,
@@ -1457,7 +1531,55 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     revertTrackedModification,
     applyVTTStatusConditions,
     trackedModifications: characterData?.tracked_modifications || []
-  };
+  }), [
+    characterData,
+    setCharacterData,
+    activeCharacter,
+    updateField,
+    activeTab,
+    setActiveTab,
+    viewMode,
+    setViewMode,
+    isCharacterSelected,
+    setIsCharacterSelected,
+    personaRoster,
+    saveCurrentToRoster,
+    switchRosterCharacter,
+    deleteRosterCharacter,
+    duplicateRosterCharacter,
+    togglePersonaNetworkEngaged,
+    togglePersonaVttLock,
+    handleNewCharacter,
+    handleSaveLocal,
+    handleLoadLocal,
+    handleLoadCloud,
+    handleExportAsStoryElement,
+    triggerSave,
+    cloudSaveStatus,
+    lastSavedTime,
+    updateRosterCharacterNote,
+    applySpeciesAdjustments,
+    applyArchetypeChassis,
+    applyOccupationAdjustments,
+    applyOriginAdjustments,
+    applyFactionAdjustments,
+    applyIdentitySelection,
+    applyGuidedCharacter,
+    isLocked,
+    folioPhase,
+    isReadyForVTT,
+    allowPlayerOverride,
+    isPlayerOverride,
+    isFolioLockedOut,
+    lockPersona,
+    unlockPersona,
+    setPersonaAllowPlayerOverride,
+    clonePersonaVariant,
+    recordTrackedModification,
+    reviewTrackedModification,
+    revertTrackedModification,
+    applyVTTStatusConditions
+  ]);
 
   return (
     <FolioIdentityContext.Provider value={value}>

@@ -29,6 +29,7 @@ export const ConnectedFolioTab: React.FC = () => {
     characterData, 
     derivedStats, 
     getAttrTotal,
+    getSkillBreakdown,
     updateCharacterHealth,
     updateCharacterVitality
   } = folio;
@@ -113,6 +114,10 @@ export const ConnectedFolioTab: React.FC = () => {
   }, [characterData]);
 
   const getSkillTotal = useCallback((skill: any) => {
+    if (getSkillBreakdown && typeof skill === 'object' && skill.id) {
+      const bd = getSkillBreakdown(skill);
+      if (bd && typeof bd.score === 'number') return bd.score;
+    }
     const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
     const cleanId = sId.replace(/^[a-z]+-/, '');
     const rank = getSkillRank(skill);
@@ -121,13 +126,17 @@ export const ConnectedFolioTab: React.FC = () => {
 
     let baseAttrVal = 0;
     if (baseAttrKey) {
-      const attrVal = getNum(baseAttrKey);
-      const attrMod = getNum(`${baseAttrKey}-mod`);
-      baseAttrVal = attrVal + attrMod;
+      if (getAttrTotal) {
+        baseAttrVal = getAttrTotal(baseAttrKey);
+      } else {
+        const attrVal = getNum(baseAttrKey);
+        const attrMod = getNum(`${baseAttrKey}-mod`);
+        baseAttrVal = attrVal + attrMod;
+      }
     }
 
     return rank + baseAttrVal + mod;
-  }, [characterData, getSkillRank, getSkillMod]);
+  }, [characterData, getSkillRank, getSkillMod, getAttrTotal, getSkillBreakdown]);
 
   // Flatten skills from DEFAULT_SKILLS
   const flattenedSkills = useMemo(() => {
@@ -555,9 +564,11 @@ export const ConnectedFolioTab: React.FC = () => {
               <div className="space-y-1.5">
                 {invocations.map((inv: any, idx: number) => {
                   const invName = inv.name || inv.title || `Invocation #${idx + 1}`;
-                  const rank = inv.rank || 1;
-                  const dc = inv.baseDC || 15;
+                  const rank = parseInt(inv.rank, 10) || 1;
+                  const dc = parseInt(inv.baseDC, 10) || 15;
                   const disc = inv.discipline || 'Essence';
+                  const discSkillId = inv.skillId || 'meta-attune';
+                  const invMod = rank + getSkillTotal(discSkillId);
                   return (
                     <div
                       key={idx}
@@ -571,7 +582,7 @@ export const ConnectedFolioTab: React.FC = () => {
                           </span>
                         </div>
                         <div className="text-[10px] text-slate-500 font-mono mt-0.5">
-                          Rank: {rank} &bull; Target DC: {dc}
+                          Rank: {rank} &bull; Mod: {invMod >= 0 ? `+${invMod}` : invMod} &bull; Target DC: {dc}
                         </div>
                       </div>
 
@@ -580,9 +591,10 @@ export const ConnectedFolioTab: React.FC = () => {
                         onClick={(e) => {
                           openDiceRoller({
                             label: `${invName} Invocation (DC ${dc})`,
+                            baseModifier: invMod,
                             targetDC: dc,
                             targetNumber: dc,
-                            expression: '2d10',
+                            expression: `2d10${invMod !== 0 ? (invMod > 0 ? `+${invMod}` : `${invMod}`) : ''}`,
                             rollMode: 'normal',
                             characterName: charName,
                             autoRoll: (e as any)?.shiftKey || false
@@ -592,7 +604,7 @@ export const ConnectedFolioTab: React.FC = () => {
                         title={`Cast ${invName} (DC ${dc}). Shift-click to quick-roll.`}
                       >
                         <Zap size={11} className="text-purple-400" />
-                        <span>Cast (DC {dc})</span>
+                        <span>Cast ({invMod >= 0 ? `+${invMod}` : invMod} vs DC {dc})</span>
                       </button>
                     </div>
                   );

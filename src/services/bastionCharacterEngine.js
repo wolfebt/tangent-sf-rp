@@ -1303,6 +1303,7 @@ export const derivePillarAttributes = ({ archetype, species }) => {
 
   return {
     rawAttributes: baseScores,
+    archetypeRawAttrs: baseScores,
     speciesModifiers: speciesMods,
     finalAttributes: {
       ...finalAttrs,
@@ -2713,7 +2714,7 @@ export const synthesizeCharacterWithBastion = ({
     occupation,
     techLevel,
     rawAttributes,
-    dbData: { skills: skillsList, features: featuresList, traits: traitsList, weaponry: weaponryList, armoringList, gear: gearList, augmentationsList, mecha: mechaList, architecture: architectureList, other: otherList }
+    dbData: { skills: skillsList, features: featuresList, traits: traitsList, weaponry: weaponryList, armoring: armoringList, armoringList, gear: gearList, augmentations: augmentationsList, augmentationsList, mecha: mechaList, architecture: architectureList, other: otherList }
   });
 
   const attrData = derivePillarAttributes({ archetype, species });

@@ -11,10 +11,7 @@ import { Dices, ChevronDown, ChevronRight, Plus, Trash2, Coins, Receipt, Pencil,
 
 // Lazy Loaded Rules & Codex Modals
 const DiscreetFateOverrideModal = React.lazy(() => import('../modals/DiscreetFateOverrideModal'));
-const KarmaCodexModal = React.lazy(() => import('../modals/KarmaCodexModal'));
-const ExperienceCodexModal = React.lazy(() => import('../modals/ExperienceCodexModal'));
 const PerceptionEssenceMovementModal = React.lazy(() => import('../modals/PerceptionEssenceMovementModal'));
-const PerceptionRulesModal = React.lazy(() => import('../modals/PerceptionRulesModal'));
 
 const ATTRIBUTES = [
   {
@@ -208,12 +205,9 @@ const CoreStatsTab = () => {
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const [isFateOverrideOpen, setIsFateOverrideOpen] = useState(false);
-  const [isKarmaCodexOpen, setIsKarmaCodexOpen] = useState(false);
-  const [isExperienceCodexOpen, setIsExperienceCodexOpen] = useState(false);
   const [isCoreRulesModalOpen, setIsCoreRulesModalOpen] = useState(false);
-  const [isPerceptionRulesOpen, setIsPerceptionRulesOpen] = useState(false);
-  const [isMovementRulesOpen, setIsMovementRulesOpen] = useState(false);
   const [coreRulesInitialTab, setCoreRulesInitialTab] = useState('attributes');
+  const [isEssenceExpanded, setIsEssenceExpanded] = useState(false);
 
   const openRulesModal = (tab = 'attributes') => {
     setCoreRulesInitialTab(tab);
@@ -464,8 +458,37 @@ const CoreStatsTab = () => {
     }
   };
 
+  const isMetaAwakened = metaSkillsTotal > 0 || ['dimension', 'energy', 'entropy', 'illusion', 'matter', 'mental'].some(d => Boolean(characterData[`meta-${d}-unlocked`]));
+
   return (
     <div className="space-y-3">
+      {/* Unified Core Stats Toolbar: Single Codex & Fate/AP Override Entry Point */}
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900/60 border border-slate-800 rounded-lg px-3 py-1.5">
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <span className="font-bold uppercase tracking-wider text-cyan-400">Core Telemetry</span>
+          <span className="text-slate-600">•</span>
+          <span className="text-[10.5px]">Hover any stat or check for live formula &amp; modifier breakdown</span>
+        </div>
+        <div className="flex items-center gap-1.5 ml-auto">
+          <button
+            type="button"
+            onClick={() => setIsFateOverrideOpen(true)}
+            className="px-2 py-0.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-[10px] font-mono font-bold uppercase tracking-wider text-purple-300 transition-colors flex items-center gap-1 shadow-xs cursor-pointer"
+            title="Open Karma, Plot Points & Advancement Points (AP) Ledger / Overrides"
+          >
+            <span>✨</span> Fate &amp; AP Ledger
+          </button>
+          <button
+            type="button"
+            onClick={() => openRulesModal('attributes')}
+            className="px-2.5 py-0.5 rounded bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300 transition-colors flex items-center gap-1 shadow-xs cursor-pointer"
+            title="Open Unified Core Rules Codex (Attributes, Perception, Essence, Vitals, Rest, Movement & Wealth)"
+          >
+            <span>📖</span> Core Rules Codex
+          </button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         
         {/* Column 1: Core Attributes & Perception / Essence */}
@@ -477,18 +500,7 @@ const CoreStatsTab = () => {
                 <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                   Attributes &amp; Checks
                 </h3>
-                <span className="text-[9.5px] text-slate-400 font-mono hidden sm:inline">
-                  (Base = 2 + Attr × 2)
-                </span>
               </div>
-              <button
-                type="button"
-                onClick={() => openRulesModal('attributes')}
-                className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer ml-auto"
-                title="Open Attribute Checks & Saves Guide"
-              >
-                <span>🛡️</span> Checks &amp; Saves Guide
-              </button>
             </div>
 
             <div className="overflow-x-auto">
@@ -587,15 +599,9 @@ const CoreStatsTab = () => {
                               <span className={isSub ? 'text-slate-300 text-xs hover:text-cyan-300 transition-colors' : 'text-cyan-400 font-bold text-xs hover:text-cyan-200 transition-colors'}>
                                 {attr.name}
                               </span>
-                              {!isSub && (
-                                <span className="text-[8.5px] font-mono text-slate-500 font-normal">
-                                  {rawBase > 4 ? (
-                                    <span className="text-amber-400 font-bold" title="Exceeds standard creation cap (+4); requires species or augmentation modifiers">
-                                      (+{rawBase} &gt; +4 Cap)
-                                    </span>
-                                  ) : (
-                                    '(Cap +4)'
-                                  )}
+                              {!isSub && rawBase > 4 && (
+                                <span className="text-[8.5px] font-mono text-amber-400 font-bold" title="Exceeds standard creation cap (+4); requires species or augmentation modifiers">
+                                  (+{rawBase} &gt; +4 Cap)
                                 </span>
                               )}
                             </div>
@@ -694,20 +700,6 @@ const CoreStatsTab = () => {
                     Perception
                   </h3>
                 </FolioTooltip>
-                <span className="text-[10px] font-mono text-slate-400">
-                  (Base: INT {intellectTotal} + WIS {wisdomTotal} = {basePerception})
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5 ml-auto">
-                <button
-                  type="button"
-                  onClick={() => setIsPerceptionRulesOpen(true)}
-                  className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
-                  title="Open Perception Rules & Detection Codex"
-                >
-                  <span>👁️</span> Perception Rules
-                </button>
               </div>
             </div>
 
@@ -765,40 +757,42 @@ const CoreStatsTab = () => {
                 </div>
               </FolioTooltip>
 
-              <FolioTooltip
-                title="Metaphysical Perception"
-                badge="Etheric Detection"
-                badgeColor="amber"
-                description="Sensing active psionic energy, spatial distortions, dimensional rifts, invisible spirits, and metaphysical resonance."
-                formula="Meta = Base Perception + Attune (Rank + Mod)"
-                tags={['Attune', 'Psionics', 'Magic']}
-              >
-                <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
-                  <div>
-                    <span className="text-[9.5px] uppercase font-bold text-amber-400 block leading-tight">Meta</span>
-                    <span className="text-sm font-bold font-mono text-amber-300 block leading-tight">{metaPerception}</span>
-                    <span className="text-[8px] text-amber-400/80 font-mono block leading-tight">+{attuneBonus} Attune</span>
+              {isMetaAwakened && (
+                <FolioTooltip
+                  title="Metaphysical Perception"
+                  badge="Etheric Detection"
+                  badgeColor="amber"
+                  description="Sensing active psionic energy, spatial distortions, dimensional rifts, invisible spirits, and metaphysical resonance."
+                  formula="Meta = Base Perception + Attune (Rank + Mod)"
+                  tags={['Attune', 'Psionics', 'Magic']}
+                >
+                  <div className="flex flex-col justify-between bg-slate-800/50 p-1.5 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
+                    <div>
+                      <span className="text-[9.5px] uppercase font-bold text-amber-400 block leading-tight">Meta</span>
+                      <span className="text-sm font-bold font-mono text-amber-300 block leading-tight">{metaPerception}</span>
+                      <span className="text-[8px] text-amber-400/80 font-mono block leading-tight">+{attuneBonus} Attune</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDiceRoller({
+                          label: `Meta Perception ${metaPerception >= 0 ? `+${metaPerception}` : metaPerception}`,
+                          baseModifier: metaPerception,
+                          expression: `2d10${metaPerception !== 0 ? (metaPerception > 0 ? `+${metaPerception}` : `${metaPerception}`) : ''}`,
+                          rollMode: 'normal',
+                          characterName: characterData['char-name'] || 'Persona',
+                          autoRoll: e?.shiftKey || false
+                        });
+                      }}
+                      className="mt-0.5 py-0.5 px-1 bg-rose-950/90 hover:bg-rose-900 border border-rose-500/50 text-rose-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                      title={`Check Metaphysical Perception (2d10 + ${metaPerception}). Shift-click to quick-roll.`}
+                    >
+                      <Dices size={9} /> Check
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openDiceRoller({
-                        label: `Meta Perception ${metaPerception >= 0 ? `+${metaPerception}` : metaPerception}`,
-                        baseModifier: metaPerception,
-                        expression: `2d10${metaPerception !== 0 ? (metaPerception > 0 ? `+${metaPerception}` : `${metaPerception}`) : ''}`,
-                        rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Persona',
-                        autoRoll: e?.shiftKey || false
-                      });
-                    }}
-                    className="mt-0.5 py-0.5 px-1 bg-rose-950/90 hover:bg-rose-900 border border-rose-500/50 text-rose-300 rounded text-[8.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
-                    title={`Check Metaphysical Perception (2d10 + ${metaPerception}). Shift-click to quick-roll.`}
-                  >
-                    <Dices size={9} /> Check
-                  </button>
-                </div>
-              </FolioTooltip>
+                </FolioTooltip>
+              )}
 
               <FolioTooltip
                 title="Social Perception"
@@ -889,20 +883,6 @@ const CoreStatsTab = () => {
                     Fate
                   </h3>
                 </FolioTooltip>
-                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
-                  (Karma &amp; Plot Points)
-                </span>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-1.5 ml-auto">
-                <button
-                  type="button"
-                  onClick={() => setIsKarmaCodexOpen(true)}
-                  className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[9.5px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
-                  title="Open Karma Codex & Ledger"
-                >
-                  <span>☸️</span> Karma Codex
-                </button>
               </div>
             </div>
 
@@ -958,7 +938,6 @@ const CoreStatsTab = () => {
                           )}
                         </div>
                       </div>
-                      <span className="text-[8.5px] text-slate-400 font-sans text-center truncate">d20 Advantage / Reroll Reserve</span>
                     </div>
                   </FolioTooltip>
                 );
@@ -1006,7 +985,6 @@ const CoreStatsTab = () => {
                           )}
                         </div>
                       </div>
-                      <span className="text-[8.5px] text-slate-400 font-sans text-center truncate">Story Complications &amp; Creative Twists</span>
                     </div>
                   </FolioTooltip>
                 );
@@ -1014,9 +992,9 @@ const CoreStatsTab = () => {
             </div>
           </div>
 
-          {/* Essence Block (Positioned Under Fate) */}
+          {/* Essence Block (Auto-folds into a compact summary bar when Persona is Unawakened) */}
           <div className="bg-slate-900/60 border border-purple-900/50 rounded-lg p-2.5 space-y-2">
-            <div className="flex flex-wrap justify-between items-center border-b border-purple-900/60 pb-1.5 gap-2">
+            <div className={`flex flex-wrap justify-between items-center gap-2 ${(isMetaAwakened || isEssenceExpanded) ? 'border-b border-purple-900/60 pb-1.5' : ''}`}>
               <div className="flex flex-wrap items-center gap-2">
                 <FolioTooltip
                   title="Essence Capacity"
@@ -1031,84 +1009,88 @@ const CoreStatsTab = () => {
                     Essence
                   </h3>
                 </FolioTooltip>
-                <span className="text-[10px] font-mono text-slate-400">
-                  (Attrs: {primaryAttrsTotal} + Meta: {metaSkillsTotal} = {essenceTotal})
-                </span>
                 <div className="flex items-center gap-1.5 bg-slate-800 px-1.5 py-0.5 rounded border border-purple-500/40">
                   <span className="text-[9px] font-bold text-purple-300 uppercase">Capacity:</span>
                   <span className="text-xs font-mono font-bold text-purple-200">{essenceTotal}</span>
                 </div>
+                {!isMetaAwakened && (
+                  <span className="text-[9.5px] font-mono text-slate-400">
+                    (Dormant — Base Attrs +{primaryAttrsTotal})
+                  </span>
+                )}
               </div>
 
-              <div className="flex items-center gap-1.5 ml-auto">
+              {!isMetaAwakened && (
                 <button
                   type="button"
-                  onClick={() => openRulesModal('essence')}
-                  className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[9.5px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
-                  title="Open Essence Pool & Metaphysical Strain Rules Codex"
+                  onClick={() => setIsEssenceExpanded(prev => !prev)}
+                  className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[9.5px] font-mono text-slate-300 transition-colors flex items-center gap-1 cursor-pointer ml-auto"
                 >
-                  <span>🔮</span> Essence Rules
+                  <span>{isEssenceExpanded ? 'Hide Details' : 'Details'}</span>
+                  {isEssenceExpanded ? <ChevronDown size={11} /> : <ChevronRight size={11} />}
                 </button>
+              )}
+            </div>
+
+            {(isMetaAwakened || isEssenceExpanded) && (
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                <FolioTooltip
+                  title="Total Essence Capacity"
+                  badge="Total Pool"
+                  badgeColor="purple"
+                  description="Total metaphysical energy reserve of the character."
+                  formula="Essence = Primary Attributes + Meta Skills Total"
+                >
+                  <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-purple-700/60 text-center w-full hover:border-purple-400 transition-colors">
+                    <span className="text-[9.5px] uppercase font-bold text-purple-300 leading-tight">Total Essence</span>
+                    <span className="text-sm font-bold font-mono text-purple-200 leading-tight my-0.5">{essenceTotal}</span>
+                    <span className="text-[8px] text-purple-400/80 font-mono leading-tight">Pool Capacity</span>
+                  </div>
+                </FolioTooltip>
+
+                <FolioTooltip
+                  title="Ability Substrate"
+                  badge="Containment Vessel"
+                  badgeColor="cyan"
+                  description="The physiological and cognitive vessel housing metaphysical Code. Formed by the sum of all 6 core attributes."
+                  formula="Substrate = STR + AGI + STA + INT + WIS + CHA"
+                >
+                  <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-cyan-500/50 transition-colors">
+                    <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Substrate</span>
+                    <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{primaryAttrsTotal}</span>
+                    <span className="text-[8px] text-slate-500 font-mono leading-tight">6 Primary Attrs</span>
+                  </div>
+                </FolioTooltip>
+
+                <FolioTooltip
+                  title="The Conduit (Attune)"
+                  badge="Resonance Bandwidth"
+                  badgeColor="amber"
+                  description="Your operational resonance with the Void. Determines bandwidth for channeling metaphysical code safely."
+                  formula="Conduit = Attune Rank + Attune Mod"
+                >
+                  <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
+                    <span className="text-[9.5px] uppercase font-bold text-amber-400 leading-tight">Conduit</span>
+                    <span className="text-sm font-bold font-mono text-amber-300 leading-tight my-0.5">+{attuneBonus}</span>
+                    <span className="text-[8px] text-amber-400/80 font-mono leading-tight">Attune Skill</span>
+                  </div>
+                </FolioTooltip>
+
+                <FolioTooltip
+                  title="The Breadth (Disciplines)"
+                  badge="Disciplines Total"
+                  badgeColor="purple"
+                  description="Total ranks and modifiers across Dimension, Energy, Entropy, Illusion, Matter, and Mental skills."
+                  formula="Breadth = Sum of all Discipline Skills"
+                >
+                  <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-purple-400 transition-colors">
+                    <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Disciplines</span>
+                    <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{Math.max(0, metaSkillsTotal - attuneBonus)}</span>
+                    <span className="text-[8px] text-slate-500 font-mono leading-tight">Meta Skills</span>
+                  </div>
+                </FolioTooltip>
               </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-              <FolioTooltip
-                title="Total Essence Capacity"
-                badge="Total Pool"
-                badgeColor="purple"
-                description="Total metaphysical energy reserve of the character."
-                formula="Essence = Primary Attributes + Meta Skills Total"
-              >
-                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-purple-700/60 text-center w-full hover:border-purple-400 transition-colors">
-                  <span className="text-[9.5px] uppercase font-bold text-purple-300 leading-tight">Total Essence</span>
-                  <span className="text-sm font-bold font-mono text-purple-200 leading-tight my-0.5">{essenceTotal}</span>
-                  <span className="text-[8px] text-purple-400/80 font-mono leading-tight">Pool Capacity</span>
-                </div>
-              </FolioTooltip>
-
-              <FolioTooltip
-                title="Ability Substrate"
-                badge="Containment Vessel"
-                badgeColor="cyan"
-                description="The physiological and cognitive vessel housing metaphysical Code. Formed by the sum of all 6 core attributes."
-                formula="Substrate = STR + AGI + STA + INT + WIS + CHA"
-              >
-                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-cyan-500/50 transition-colors">
-                  <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Substrate</span>
-                  <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{primaryAttrsTotal}</span>
-                  <span className="text-[8px] text-slate-500 font-mono leading-tight">6 Primary Attrs</span>
-                </div>
-              </FolioTooltip>
-
-              <FolioTooltip
-                title="The Conduit (Attune)"
-                badge="Resonance Bandwidth"
-                badgeColor="amber"
-                description="Your operational resonance with the Void. Determines bandwidth for channeling metaphysical code safely."
-                formula="Conduit = Attune Rank + Attune Mod"
-              >
-                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-amber-700/60 text-center w-full hover:border-amber-400 transition-colors">
-                  <span className="text-[9.5px] uppercase font-bold text-amber-400 leading-tight">Conduit</span>
-                  <span className="text-sm font-bold font-mono text-amber-300 leading-tight my-0.5">+{attuneBonus}</span>
-                  <span className="text-[8px] text-amber-400/80 font-mono leading-tight">Attune Skill</span>
-                </div>
-              </FolioTooltip>
-
-              <FolioTooltip
-                title="The Breadth (Disciplines)"
-                badge="Disciplines Total"
-                badgeColor="purple"
-                description="Total ranks and modifiers across Dimension, Energy, Entropy, Illusion, Matter, and Mental skills."
-                formula="Breadth = Sum of all Discipline Skills"
-              >
-                <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-slate-700 text-center w-full hover:border-purple-400 transition-colors">
-                  <span className="text-[9.5px] uppercase font-bold text-slate-400 leading-tight">Disciplines</span>
-                  <span className="text-sm font-bold font-mono text-cyan-300 leading-tight my-0.5">+{Math.max(0, metaSkillsTotal - attuneBonus)}</span>
-                  <span className="text-[8px] text-slate-500 font-mono leading-tight">Meta Skills</span>
-                </div>
-              </FolioTooltip>
-            </div>
+            )}
           </div>
         </div>
 
@@ -1132,15 +1114,6 @@ const CoreStatsTab = () => {
                   </span>
                 )}
               </div>
-
-              <button
-                type="button"
-                onClick={() => openRulesModal('vitals')}
-                className="px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[9.5px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer ml-auto"
-                title="Open Vitality, Health, Structure & Dying Rules Codex"
-              >
-                <span>⚡</span> Vitals &amp; Dying Rules
-              </button>
             </div>
 
             {/* Row 1: Combat Readiness & Vitals (2 Columns: Initiative/Toughness and Vitality/Health) */}
@@ -1203,115 +1176,114 @@ const CoreStatsTab = () => {
                 </FolioTooltip>
               </div>
 
-              {/* Right Column: Vitality over Health */}
+              {/* Right Column: Physiology-Driven Vitals (Synthetic Structure OR Biological Vitality & Health) */}
               <div className="space-y-1.5">
-                <FolioTooltip
-                  title="Vitality (Non-Lethal)"
-                  badge="Non-Lethal Capacity"
-                  badgeColor="cyan"
-                  description="Combat poise, dodging stamina, and non-lethal stress buffer. Absorbs non-lethal damage directly. When non-lethal damage exceeds Vitality, excess spills into Health as lethal damage. Starting pool is 30 points; additional points cost 1 CP per 2 pt increase."
-                  formula={`Base: 30 + Purchased: ${derivedStats?.purchasedVitality || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
-                  cost="1 CP = +2 Vitality (Base: 30, Max: 5 × STA)"
-                  tags={['Non-Lethal', 'Vitality Buffer', 'Base 30', '1 CP / 2 pts']}
-                  className="w-full block"
-                >
-                  <div className="flex flex-col relative group w-full">
-                    <FolioInput
-                      id="vitality"
-                      label="Vitality (Non-Lethal)"
-                      type="number"
-                      value={getNum('vitality', derivedStats?.vitality || 30)}
-                      onChange={handleStatChange}
-                      labelColor="text-slate-300"
-                      labelSize="text-[10.5px]"
-                      inputClassName={`px-2 py-0.5 text-xs font-mono border ${derivedStats?.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
-                    />
-                    {derivedStats?.purchasedVitality > 0 && (
-                      <div className="absolute top-0 right-0 text-[8px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.2 rounded-bl">
-                        +{derivedStats.purchasedVitality}
+                {derivedStats?.isSynthetic ? (
+                  <FolioTooltip
+                    title="Structure Points (Synthetic Physiology)"
+                    badge="Chassis Integrity"
+                    badgeColor="amber"
+                    description="Synthetic and construct physiology uses Structure Points instead of separate Vitality and Health. Starting pool is 60 SP. Additional points cost 1 CP per 2 pt increase. Synthetics are immune to non-lethal damage, fatigue, and biological hazards."
+                    formula={`Base: 60 + Purchased: ${derivedStats?.purchasedStructure || 0}`}
+                    cost="1 CP = +2 Structure (Starting Pool: 60 SP)"
+                    tags={['Synthetic', 'Structure 60 SP', '1 CP / 2 pts']}
+                    className="w-full block"
+                  >
+                    <div className="p-2.5 rounded bg-amber-950/40 border border-amber-500/40 flex flex-col justify-between gap-2 text-xs font-mono min-h-[74px]">
+                      <div className="flex items-center justify-between gap-1.5">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm">⚙️</span>
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
+                            Synthetic Structure
+                          </div>
+                        </div>
+                        <span className="text-[9px] font-mono text-amber-400/90">(60 SP Base)</span>
                       </div>
-                    )}
-                  </div>
-                </FolioTooltip>
-
-                <FolioTooltip
-                  title="Health (Lethal)"
-                  badge="Physical Integrity"
-                  badgeColor="rose"
-                  description="Core bodily tissue and organ integrity. Depleted directly by lethal strikes or when non-lethal damage overflows depleted Vitality. Falling to 0 results in Incapacitation or Dying. Starting pool is 30 points; additional points cost 1 CP per 2 pt increase."
-                  formula={`Base: 30 + Purchased: ${derivedStats?.purchasedHealth || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
-                  cost="1 CP = +2 Health (Base: 30, Max: 5 × STA)"
-                  tags={['Lethal', 'Physical Integrity', 'Base 30', '1 CP / 2 pts']}
-                  className="w-full block"
-                >
-                  <div className="flex flex-col relative group w-full">
-                    <FolioInput
-                      id="health"
-                      label="Health (Lethal)"
-                      type="number"
-                      value={getNum('health', derivedStats?.health || 30)}
-                      onChange={handleStatChange}
-                      labelColor="text-slate-300"
-                      labelSize="text-[10.5px]"
-                      inputClassName={`px-2 py-0.5 text-xs font-mono border ${derivedStats?.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
-                    />
-                    {derivedStats?.purchasedHealth > 0 && (
-                      <div className="absolute top-0 right-0 text-[8px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.2 rounded-bl">
-                        +{derivedStats.purchasedHealth}
-                      </div>
-                    )}
-                  </div>
-                </FolioTooltip>
-              </div>
-            </div>
-
-            {/* Synthetic Structure Pool if applicable */}
-            {derivedStats?.isSynthetic && (
-              <FolioTooltip
-                title="Structure Points (Synthetic Physiology)"
-                badge="Chassis Integrity"
-                badgeColor="amber"
-                description="Synthetic and construct physiology uses Structure Points instead of separate Vitality and Health. Starting pool is 60 SP. Additional points cost 1 CP per 2 pt increase. Synthetics are immune to non-lethal damage, fatigue, and biological hazards."
-                formula={`Base: 60 + Purchased: ${derivedStats?.purchasedStructure || 0}`}
-                cost="1 CP = +2 Structure (Starting Pool: 60 SP)"
-                tags={['Synthetic', 'Structure 60 SP', '1 CP / 2 pts']}
-                className="w-full block"
-              >
-                <div className="p-2 rounded bg-amber-950/40 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm">⚙️</span>
-                    <div>
-                      <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1">
-                        <span>Synthetic Structure</span>
-                        <span className="text-[9px] font-normal text-amber-400 font-mono">(60 SP Base)</span>
-                      </div>
-                      <div className="text-[9px] text-amber-200/70 font-sans leading-none">
-                        Replaces separate Vitality &amp; Health. 1 CP = +2 Structure.
+                      <div className="flex items-center justify-between gap-1.5">
+                        <span className="text-[9.5px] text-slate-400 uppercase font-sans">Chassis Integrity:</span>
+                        {isSheetLocked ? (
+                          <span className="text-xs font-bold text-amber-200 bg-amber-900/60 px-2 py-0.5 rounded border border-amber-600/40">
+                            {derivedStats.structure} SP
+                          </span>
+                        ) : (
+                          <div className="flex items-center gap-1">
+                            <input
+                              id="structure"
+                              type="number"
+                              min="60"
+                              value={getNum('structure', derivedStats?.structure || 60)}
+                              onChange={(e) => handleStatChange('structure', e.target.value)}
+                              className="w-16 bg-slate-950 border border-amber-600/50 focus:border-amber-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-amber-200 outline-none"
+                            />
+                            <span className="text-[9.5px] text-amber-300 font-bold">SP</span>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    {isSheetLocked ? (
-                      <span className="text-xs font-bold text-amber-200 bg-amber-900/60 px-2 py-0.5 rounded border border-amber-600/40">
-                        {derivedStats.structure} SP
-                      </span>
-                    ) : (
-                      <div className="flex items-center gap-1">
-                        <label htmlFor="structure" className="text-[9.5px] text-slate-400 uppercase font-sans">Structure SP:</label>
-                        <input
-                          id="structure"
+                  </FolioTooltip>
+                ) : (
+                  <>
+                    <FolioTooltip
+                      title="Vitality (Non-Lethal)"
+                      badge="Non-Lethal Capacity"
+                      badgeColor="cyan"
+                      description="Combat poise, dodging stamina, and non-lethal stress buffer. Absorbs non-lethal damage directly. When non-lethal damage exceeds Vitality, excess spills into Health as lethal damage. Starting pool is 30 points; additional points cost 1 CP per 2 pt increase."
+                      formula={`Base: 30 + Purchased: ${derivedStats?.purchasedVitality || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
+                      cost="1 CP = +2 Vitality (Base: 30, Max: 5 × STA)"
+                      tags={['Non-Lethal', 'Vitality Buffer', 'Base 30', '1 CP / 2 pts']}
+                      className="w-full block"
+                    >
+                      <div className="flex flex-col relative group w-full">
+                        <FolioInput
+                          id="vitality"
+                          label="Vitality (Non-Lethal)"
                           type="number"
-                          min="60"
-                          value={getNum('structure', derivedStats?.structure || 60)}
-                          onChange={(e) => handleStatChange('structure', e.target.value)}
-                          className="w-14 bg-slate-950 border border-amber-600/50 focus:border-amber-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-amber-200 outline-none"
+                          value={getNum('vitality', derivedStats?.vitality || 30)}
+                          onChange={handleStatChange}
+                          labelColor="text-slate-300"
+                          labelSize="text-[10.5px]"
+                          inputClassName={`px-2 py-0.5 text-xs font-mono border ${derivedStats?.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
                         />
+                        {derivedStats?.purchasedVitality > 0 && (
+                          <div className="absolute top-0 right-0 text-[8px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.2 rounded-bl">
+                            +{derivedStats.purchasedVitality}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </div>
-              </FolioTooltip>
-            )}
+                    </FolioTooltip>
+
+                    <FolioTooltip
+                      title="Health (Lethal)"
+                      badge="Physical Integrity"
+                      badgeColor="rose"
+                      description="Core bodily tissue and organ integrity. Depleted directly by lethal strikes or when non-lethal damage overflows depleted Vitality. Falling to 0 results in Incapacitation or Dying. Starting pool is 30 points; additional points cost 1 CP per 2 pt increase."
+                      formula={`Base: 30 + Purchased: ${derivedStats?.purchasedHealth || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
+                      cost="1 CP = +2 Health (Base: 30, Max: 5 × STA)"
+                      tags={['Lethal', 'Physical Integrity', 'Base 30', '1 CP / 2 pts']}
+                      className="w-full block"
+                    >
+                      <div className="flex flex-col relative group w-full">
+                        <FolioInput
+                          id="health"
+                          label="Health (Lethal)"
+                          type="number"
+                          value={getNum('health', derivedStats?.health || 30)}
+                          onChange={handleStatChange}
+                          labelColor="text-slate-300"
+                          labelSize="text-[10.5px]"
+                          inputClassName={`px-2 py-0.5 text-xs font-mono border ${derivedStats?.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                        />
+                        {derivedStats?.purchasedHealth > 0 && (
+                          <div className="absolute top-0 right-0 text-[8px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.2 rounded-bl">
+                            +{derivedStats.purchasedHealth}
+                          </div>
+                        )}
+                      </div>
+                    </FolioTooltip>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Death & Dying / Mortality Status Banner */}
             {(() => {
@@ -1451,19 +1423,7 @@ const CoreStatsTab = () => {
                 <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                   Movement Modes
                 </h3>
-                <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
-                  (1 Turn = 6s • Ground Base: {characterData['move-walk'] || 30} ft)
-                </span>
               </div>
-              
-              <button
-                type="button"
-                onClick={() => setIsMovementRulesOpen(true)}
-                className="px-2 py-0.5 rounded bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-[9.5px] font-bold text-amber-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer shrink-0"
-                title="Open Movement Paces & Fatigue Rules Codex"
-              >
-                <span>🏃</span> Movement Rules
-              </button>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
@@ -1589,9 +1549,6 @@ const CoreStatsTab = () => {
                 <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 shrink-0">
                   Tech Level &amp; Meta Level
                 </h3>
-                <span className="text-[10px] font-mono text-slate-400 hidden md:inline truncate shrink-0">
-                  (<span className="hidden xl:inline">Setting Parameters: </span>10 CP / diff from 3)
-                </span>
               </div>
               <div className="flex items-center gap-2 text-[10px] font-mono shrink-0 ml-auto">
                 {(() => {
@@ -1769,19 +1726,7 @@ const CoreStatsTab = () => {
                     <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400 truncate">
                       Wealth &amp; Status
                     </h3>
-                    <span className="text-[9px] font-mono text-slate-400 hidden sm:inline shrink-0">
-                      (EUFT)
-                    </span>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => openRulesModal('wealth')}
-                    className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-[9.5px] font-bold text-amber-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer shrink-0"
-                    title="Open Tangent Economic Unified Field Theory &amp; Wealth Codex"
-                  >
-                    <span>💎</span> Codex
-                  </button>
                 </div>
 
                 {/* Unified Wealth Score & Financial Status Block */}
@@ -2334,20 +2279,6 @@ const CoreStatsTab = () => {
                     Advancement Points
                   </h3>
                 </FolioTooltip>
-                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
-                  (1 AP = 1 CP)
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5 ml-auto">
-                <button
-                  type="button"
-                  onClick={() => setIsExperienceCodexOpen(true)}
-                  className="px-2 py-0.5 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-[9.5px] font-bold text-emerald-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
-                  title="Open Advancement Points (AP) Codex & Progression Ledger"
-                >
-                  <span>✨</span> AP Codex
-                </button>
               </div>
             </div>
 
@@ -2477,46 +2408,6 @@ const CoreStatsTab = () => {
             characterData={characterData}
             getAttrTotal={getAttrTotal}
             derivedStats={derivedStats}
-          />
-        </React.Suspense>
-      )}
-
-      {/* Dedicated Perception Rules Modal */}
-      {isPerceptionRulesOpen && (
-        <React.Suspense fallback={null}>
-          <PerceptionRulesModal
-            isOpen={isPerceptionRulesOpen}
-            onClose={() => setIsPerceptionRulesOpen(false)}
-            characterData={characterData}
-            getAttrTotal={getAttrTotal}
-            derivedStats={derivedStats}
-          />
-        </React.Suspense>
-      )}
-
-      {/* Consolidated Karma Codex Modal */}
-      {isKarmaCodexOpen && (
-        <React.Suspense fallback={null}>
-          <KarmaCodexModal
-            isOpen={isKarmaCodexOpen}
-            onClose={() => setIsKarmaCodexOpen(false)}
-            charismaScore={getAttrTotal('attr-charisma')}
-            currentKarma={getNum('karma', derivedStats?.maxKarma ?? 3)}
-            maxKarma={derivedStats?.maxKarma ?? 3}
-            plotPoints={getNum('plot-points', 0)}
-          />
-        </React.Suspense>
-      )}
-
-      {/* Consolidated Advancement Points (AP) Codex Modal */}
-      {isExperienceCodexOpen && (
-        <React.Suspense fallback={null}>
-          <ExperienceCodexModal
-            isOpen={isExperienceCodexOpen}
-            onClose={() => setIsExperienceCodexOpen(false)}
-            earnedAP={Number(characterData?.earned_ap || 0)}
-            availableAP={economyBreakdown?.availableAP ?? Number(characterData?.earned_ap || 0)}
-            experienceDebt={Number(characterData?.experience_debt || 0)}
           />
         </React.Suspense>
       )}

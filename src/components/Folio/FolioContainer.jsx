@@ -12,7 +12,6 @@ import IdentityTab from './tabs/IdentityTab';
 import CoreStatsTab from './tabs/CoreStatsTab';
 import SkillsTab from './tabs/SkillsTab';
 import FeaturesTab from './tabs/FeaturesTab';
-import AbilitiesTab from './tabs/AbilitiesTab';
 import CombatTab from './tabs/CombatTab';
 import CompanionsTab from './tabs/CompanionsTab';
 import PropertyTab from './tabs/PropertyTab';
@@ -30,8 +29,6 @@ import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { AudioService } from '../../services/audioService';
 import { getFolioTombstones, isFolioPersonaDeleted, isPersonaEmptyTemplate } from '../../utils/personaValidationUtils';
 import RosterCatalogView from './views/RosterCatalogView';
-import FeaturesHubView from './views/FeaturesHubView';
-import PropertyHubView from './views/PropertyHubView';
 import TacticalPlayView from './views/TacticalPlayView';
 import { BreadcrumbNav } from '../UI/BreadcrumbNav';
 import { lazyWithRetry } from '../../utils/lazyWithRetry';
@@ -167,6 +164,34 @@ const FolioContainer = () => {
     window.addEventListener('open-folio-economy', handleOpenEconomy);
     return () => window.removeEventListener('open-folio-economy', handleOpenEconomy);
   }, []);
+
+  // Hotkeys Alt + 1-9 / 0 to switch Folio dossier tabs
+  useEffect(() => {
+    const FOLIO_TAB_KEYS = {
+      '1': 'identity',
+      '2': 'core-stats',
+      '3': 'skills',
+      '4': 'features',
+      '5': 'combat',
+      '6': 'companions',
+      '7': 'property',
+      '8': 'narrative',
+      '9': 'media',
+      '0': 'other'
+    };
+    const handleFolioTabHotkeys = (e) => {
+      if (!e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      const digit = e.key && FOLIO_TAB_KEYS[e.key] ? e.key : (e.code?.startsWith('Digit') ? e.code.replace('Digit', '') : null);
+      const targetTab = digit ? FOLIO_TAB_KEYS[digit] : null;
+      if (targetTab) {
+        e.preventDefault();
+        AudioService?.playTerminalBeep?.(1100, 0.02);
+        setActiveTab?.(targetTab);
+      }
+    };
+    window.addEventListener('keydown', handleFolioTabHotkeys);
+    return () => window.removeEventListener('keydown', handleFolioTabHotkeys);
+  }, [setActiveTab]);
 
   // Synchronize activeTab and character selection with URL query parameter (e.g. /folio?tab=catalog or /folio?char=123&tab=skills)
   useEffect(() => {
@@ -934,39 +959,40 @@ const FolioContainer = () => {
                   handleManualSave();
                 }}
                 disabled={cloudSaveStatus === 'saving'}
-                className={`min-h-[28px] px-2.5 py-1 rounded-md text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border shadow-xs select-none active:scale-95 ${
+                className={`min-h-[26px] px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border select-none ${
                   cloudSaveStatus === 'saving'
-                    ? 'bg-amber-950/70 border-amber-500/60 text-amber-300 animate-pulse'
-                    : cloudSaveStatus === 'saved'
-                    ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300 hover:bg-emerald-900/60 shadow-[0_0_8px_rgba(16,185,129,0.2)]'
+                    ? 'bg-amber-950/50 border-amber-500/40 text-amber-300 animate-pulse'
                     : cloudSaveStatus === 'error'
                     ? 'bg-red-950/70 border-red-500/60 text-red-300 hover:bg-red-900/60'
-                    : 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300 hover:bg-cyan-900/60 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
+                    : 'bg-slate-900/80 border-slate-700/70 text-slate-400 hover:text-emerald-300 hover:border-emerald-500/40'
                 }`}
                 title={
                   cloudSaveStatus === 'saving'
-                    ? 'Syncing Persona to Cloud Vault...'
+                    ? 'Auto-syncing Persona to Cloud Vault...'
                     : cloudSaveStatus === 'saved'
-                    ? `Cloud Synced (${lastSavedTime ? new Date(lastSavedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Saved'})`
-                    : cloudSaveStatus === 'offline'
-                    ? 'Saved to Local Roster (Sign in for Cloud Sync)'
-                    : 'Save Persona to Roster and Cloud'
+                    ? `Auto-Synced (${lastSavedTime ? new Date(lastSavedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : 'Synced'}) — Click to force sync`
+                    : cloudSaveStatus === 'error'
+                    ? 'Cloud Sync Error — Click to retry'
+                    : 'Auto-Saved to Local Roster (Click to force sync)'
                 }
-                aria-label="Save Persona to Cloud"
+                aria-label="Cloud Sync Status"
               >
-                <Save size={13} className={cloudSaveStatus === 'saving' ? 'animate-spin text-amber-400' : 'text-emerald-400'} />
+                <span className={`w-1.5 h-1.5 rounded-full ${
+                  cloudSaveStatus === 'saving'
+                    ? 'bg-amber-400 animate-ping'
+                    : cloudSaveStatus === 'error'
+                    ? 'bg-red-400'
+                    : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                }`} />
                 <span>
                   {cloudSaveStatus === 'saving'
-                    ? 'Saving...'
-                    : cloudSaveStatus === 'saved'
-                    ? 'Cloud Synced'
+                    ? 'Syncing...'
+                    : cloudSaveStatus === 'error'
+                    ? 'Retry Sync'
                     : cloudSaveStatus === 'offline'
-                    ? 'Save Local'
-                    : 'Save to Cloud'}
+                    ? 'Local Synced'
+                    : 'Synced'}
                 </span>
-                {cloudSaveStatus === 'saved' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-                )}
               </button>
             </div>
           ) : null
@@ -1156,16 +1182,15 @@ const FolioContainer = () => {
               {activeTab === 'companions' && (
                 <CompanionsTab />
               )}
-              {activeTab === 'property' && (
-                <PropertyHubView
-                  onSelectSection={(tabId) => handleSelectTab(tabId)}
-                  onOpenSelectorModal={handleOpenSelectorModal}
-                  onOpenAssetModal={handleOpenAssetModal}
-                />
-              )}
-              {(activeTab?.startsWith('property-') || activeTab === 'combat-gear') && (
+              {(activeTab === 'property' || activeTab?.startsWith('property-') || activeTab === 'combat-gear') && (
                 <PropertyTab
-                  activeSection={activeTab === 'combat-gear' ? 'gear' : (activeTab?.replace('property-', '') || 'gear')}
+                  activeSection={
+                    activeTab === 'property'
+                      ? 'all'
+                      : activeTab === 'combat-gear'
+                      ? 'gear'
+                      : (activeTab?.replace('property-', '') || 'all')
+                  }
                   onBackToHub={() => handleSelectTab('property')}
                   onNavigate={(tabId) => handleSelectTab(tabId)}
                   onOpenSelectorModal={handleOpenSelectorModal}

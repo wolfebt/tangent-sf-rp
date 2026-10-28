@@ -32,10 +32,10 @@ export const CommsHUDBar = ({
           handleToggle?.();
         }}
         className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer cyan-shadow-thin"
-        title="Toggle Floating CommLink Tray (Alt+C)"
+        title="Toggle Floating CommLink Tray (Alt+R)"
       >
         <Radio size={13} className="text-amber-400" />
-        <span className="hidden sm:inline">Tray (Alt+C)</span>
+        <span className="hidden sm:inline">Tray (Alt+R)</span>
       </button>
 
       <button

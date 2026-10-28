@@ -76,6 +76,22 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
     }
   }, [isOpen, activeGroup, activeChannelId, activeTab, refreshUserDirectory, selectChannel]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (showEnlargedQr) {
+          setShowEnlargedQr(false);
+          return;
+        }
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, showEnlargedQr, onClose]);
+
   if (!isOpen) return null;
 
   const isUserGM = activeGroup?.creatorId === currentUser?.uid || 

@@ -91,8 +91,6 @@ const CATEGORIES = [
 ];
 
 const BastionDrawer = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   const { characterData, updateField, applyGuidedCharacter } = useFolio();
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'generator'
   const [isMinimized, setIsMinimized] = useState(false);

@@ -131,42 +131,68 @@ export const FolioHUDBar = ({
         <span className={`font-bold ${isOver ? 'text-red-400' : 'text-amber-400'}`}>{spentCP}/{startingCP}</span>
       </button>
 
-      {/* Operative Catalog Navigation Trigger */}
+      {/* Operative Catalog Navigation Trigger (with Network Engagement Status Dot) */}
       <button
         type="button"
         onClick={() => {
           AudioService.playTerminalBeep(1150, 0.03);
           window.dispatchEvent(new CustomEvent('open-folio-catalog'));
         }}
-        className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[100px] xs:max-w-[130px] sm:max-w-[200px]"
-        title={characterData?.['char-name'] ? `Operative: ${characterData['char-name']} (Click to switch operative or open catalog)` : "Open Operative Catalog & Persona Roster"}
+        className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[110px] xs:max-w-[140px] sm:max-w-[210px]"
+        title={characterData?.['char-name'] ? `Operative: ${characterData['char-name']} (${isEngaged ? 'Network Engaged' : 'Standby'}) — Click to switch operative or open catalog` : "Open Operative Catalog & Persona Roster"}
       >
+        <span
+          className={`w-2 h-2 rounded-full shrink-0 ${
+            isEngaged
+              ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)]'
+              : 'bg-slate-500'
+          }`}
+          title={isEngaged ? 'Network Engaged' : 'Network Standby'}
+        />
         <Users size={13} className="text-cyan-400 shrink-0" />
         <span className="truncate">{characterData?.['char-name'] || 'Operative Catalog'}</span>
       </button>
 
-      {/* Network Engagement Quick Toggle */}
+      {/* Passive Cloud Sync Status Badge */}
       <button
         type="button"
         onClick={() => {
-          const docId = characterData?.['character-doc-id'] || characterData?.id;
-          if (docId && togglePersonaNetworkEngaged) {
-            togglePersonaNetworkEngaged(docId);
+          if (cloudSaveStatus === 'error') {
+            AudioService.playTerminalBeep(1200, 0.03);
+            window.dispatchEvent(new CustomEvent('trigger-folio-save'));
           }
         }}
-        className={`px-2 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shrink-0 border ${
-          isEngaged
-            ? 'bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-            : 'bg-slate-900/80 hover:bg-slate-800 text-slate-400 border-slate-700/60 hover:text-slate-200'
+        className={`hidden md:flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[10px] font-mono font-bold uppercase tracking-wider transition-all ${
+          cloudSaveStatus === 'saving'
+            ? 'bg-cyan-950/60 border-cyan-500/40 text-cyan-300 animate-pulse'
+            : cloudSaveStatus === 'error'
+              ? 'bg-rose-950/70 border-rose-500/60 text-rose-300 hover:bg-rose-900 cursor-pointer'
+              : 'bg-slate-950/70 border-slate-800 text-emerald-400/90 cursor-default'
         }`}
         title={
-          isEngaged
-            ? "Network Engaged: Persona is broadcast to the Terran Data Network and squad comms. Click to switch to Standby."
-            : "Network Standby: Persona is hidden from the network. Click to engage and broadcast to comms."
+          cloudSaveStatus === 'saving'
+            ? 'Auto-saving changes to Cloud...'
+            : cloudSaveStatus === 'error'
+              ? 'Cloud sync issue — click to retry'
+              : 'All changes automatically saved locally and synced to Cloud'
         }
       >
-        <Radio size={11} className={isEngaged ? "text-emerald-400 animate-soft-back-glow" : "text-slate-500"} />
-        <span className="hidden md:inline">{isEngaged ? 'ENGAGED' : 'STANDBY'}</span>
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${
+            cloudSaveStatus === 'saving'
+              ? 'bg-cyan-400'
+              : cloudSaveStatus === 'error'
+                ? 'bg-rose-400'
+                : 'bg-emerald-400'
+          }`}
+        />
+        <span>
+          {cloudSaveStatus === 'saving'
+            ? 'Syncing'
+            : cloudSaveStatus === 'error'
+              ? 'Retry Sync'
+              : 'Synced'}
+        </span>
       </button>
 
       {/* Bastion AI Trigger (Desktop/Tablet) */}
@@ -217,21 +243,21 @@ export const FolioHUDBar = ({
               </span>
               <span className="text-[9px] text-cyan-400 font-mono">ASSISTANT</span>
             </button>
-            {/* Save Dossier */}
+            {/* Cloud Sync Status / Force Sync */}
             <button
               onClick={() => {
                 AudioService.playTerminalBeep(1200, 0.03);
                 window.dispatchEvent(new CustomEvent('trigger-folio-save'));
               }}
               className="w-full text-left px-3 py-1.5 hover:bg-emerald-950/80 text-emerald-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer"
-              title="Save current persona sheet to Operative Roster and Cloud Storage"
+              title="All edits auto-save automatically. Click to force immediate cloud sync."
             >
               <span className="flex items-center gap-1.5">
                 <Save size={13} className="text-emerald-400" />
-                <span>Save Dossier</span>
+                <span>Cloud Auto-Sync</span>
               </span>
               <span className="text-[10px] text-emerald-400 font-mono">
-                {cloudSaveStatus === 'saving' ? 'Saving...' : cloudSaveStatus === 'saved' ? 'Saved' : 'Ready'}
+                {cloudSaveStatus === 'saving' ? '⟳ Syncing...' : cloudSaveStatus === 'error' ? '⚠ Retry' : '✓ Synced'}
               </span>
             </button>
 

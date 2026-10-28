@@ -485,10 +485,11 @@ export const FolioVitalsSliceProvider = ({ children }) => {
     characterData,
     setCharacterData,
     derivedStats: derivedStats || {},
-    awardExperience
+    awardExperience,
+    triggerSave
   });
 
-  const value = {
+  const value = useMemo(() => ({
     updateCharacterHealth,
     updateCharacterVitality,
     updateCharacterStructure,
@@ -523,7 +524,40 @@ export const FolioVitalsSliceProvider = ({ children }) => {
     isProtectedGameStat,
     isDynamicOperationalStat,
     isReadOnly
-  };
+  }), [
+    updateCharacterHealth,
+    updateCharacterVitality,
+    updateCharacterStructure,
+    updateCharacterHp,
+    applyCharacterDamage,
+    stabilizeCharacter,
+    advanceCharacterDeathTurn,
+    revivifyCharacter,
+    awardExperience,
+    payExperienceDebt,
+    takeCharacterRest,
+    resetDailyCharacterRests,
+    updateCharacterKarma,
+    awardCharacterKarma,
+    resetCharacterKarma,
+    awardPartyKarma,
+    awardPartyExperience,
+    spendKarma,
+    gainKarma,
+    resetKarmaToMax,
+    spendPlotPoint,
+    gainPlotPoint,
+    isInActiveGame,
+    activeGameSession,
+    setInActiveGame,
+    toggleActiveGameLock,
+    applyGMConfirmedUpdate,
+    isGMConfirmed,
+    setIsGMConfirmed,
+    isProtectedGameStat,
+    isDynamicOperationalStat,
+    isReadOnly
+  ]);
 
   return (
     <FolioVitalsContext.Provider value={value}>

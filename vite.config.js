@@ -138,11 +138,6 @@ export default defineConfig({
             cleanId.includes('src/components/Folio/modals/DiscreetFateOverrideModal') ||
             cleanId.includes('src/components/Folio/modals/KarmaCodexModal') ||
             cleanId.includes('src/components/Folio/modals/ExperienceCodexModal') ||
-            cleanId.includes('src/components/Folio/modals/PerceptionRulesModal') ||
-            cleanId.includes('src/components/Folio/modals/MovementRulesModal') ||
-            cleanId.includes('src/components/Folio/modals/RestRecoveryModal') ||
-            cleanId.includes('src/components/Folio/modals/VitalsDyingModal') ||
-            cleanId.includes('src/components/Folio/modals/AttributeChecksGuideModal') ||
             cleanId.includes('src/components/Folio/modals/AugmentationDiagnosticsModal')
           ) {
             return 'folio-rules-modals';

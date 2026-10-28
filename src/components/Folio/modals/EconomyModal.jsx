@@ -566,6 +566,21 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
         {/* TAB 2: IDENTITY POINT POOLS */}
         {activeTab === 'pools' && (
           <div className="space-y-5 overflow-y-auto pr-1 flex-1 min-h-0">
+            <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-lg bg-cyan-950/40 border border-cyan-500/40 text-xs">
+              <span className="text-cyan-200 font-mono">
+                Identity Pillar Point Pools Audit &amp; Quick Allocator
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  window.dispatchEvent(new CustomEvent('navigate-folio-tab', { detail: 'identity' }));
+                }}
+                className="px-2.5 py-1 rounded bg-cyan-600/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-200 font-mono font-bold text-[10px] uppercase tracking-wider cursor-pointer transition-colors"
+              >
+                Configure in Identity Tab &rarr;
+              </button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               {/* 1. OCCUPATION CARD */}

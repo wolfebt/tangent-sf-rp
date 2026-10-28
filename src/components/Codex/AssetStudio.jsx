@@ -964,6 +964,21 @@ export const AssetStudio = ({
     setErrorMessage('');
   };
 
+  // Ctrl+S / Cmd+S shortcut to save active Codex blueprint
+  useEffect(() => {
+    if (!isEditMode) return;
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && (e.key?.toLowerCase() === 's' || e.code === 'KeyS')) {
+        e.preventDefault();
+        if (!isSaving) {
+          handleSave(e);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  });
+
   // Save Handshake
   const handleSave = async (e) => {
     if (e) e.preventDefault();

@@ -1,4 +1,4 @@
-﻿import { 
+import { 
   collection, 
   doc, 
   getDoc, 
@@ -165,7 +165,7 @@ export const PersonaLogService = {
     const deliverCache = async () => {
       try {
         const cached = (await StorageService.getItem(cacheKey)) || [];
-        callback(cached.slice().reverse());
+        callback(cached.slice());
       } catch (e) {
         callback([]);
       }
@@ -186,9 +186,10 @@ export const PersonaLogService = {
           ...doc.data()
         }));
 
-        // Sync local storage cache
-        StorageService.setItem(cacheKey, logs.slice().reverse()).catch(() => {});
-        callback(logs);
+        const newestFirst = logs.slice().reverse();
+        // Sync local storage cache (newest-first, matching logAction)
+        StorageService.setItem(cacheKey, newestFirst).catch(() => {});
+        callback(newestFirst);
       }, (err) => {
         console.warn('[PersonaLogService] Error listening to persona log, using cache:', err);
         deliverCache();

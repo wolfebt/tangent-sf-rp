@@ -1,5 +1,5 @@
 import React, { useRef, useLayoutEffect, useEffect, useCallback } from 'react';
-import { useFolio } from '../../../context/FolioContext';
+import { useFolioIdentity } from '../../../context/folio/FolioIdentityContext';
 
 const FolioInput = ({
   id,
@@ -19,7 +19,7 @@ const FolioInput = ({
   readOnly = false,
   title = ''
 }) => {
-  const folio = useFolio();
+  const folio = useFolioIdentity();
   const isSheetLocked = Boolean(folio?.isLocked && !folio?.isPlayerOverride);
   const isInputDisabled = disabled || readOnly || isSheetLocked;
 

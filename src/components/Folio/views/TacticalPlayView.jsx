@@ -18,7 +18,15 @@ import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 import FolioTooltip from '../shared/FolioTooltip';
 import { getSpeciesRestProfile } from '../../../engines/tangentRestEngine';
-import { getInherentSpeciesTraits, formatSpeciesTrait } from '../../../utils/speciesDisplayUtils';
+import {
+  getInherentSpeciesTraits,
+  formatSpeciesTrait,
+  normalizeTraitLookupKey,
+  cleanTraitDescriptionText,
+  isCorruptedTraitDescription,
+  isGeneratedTraitId,
+  cleanTraitName
+} from '../../../utils/speciesDisplayUtils';
 import { resolveCatalogItem } from '../../../engines/tangentIdentityEngine';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { 
@@ -708,15 +716,25 @@ export const TacticalPlayView = ({
     const normalizeTrait = (raw, defaultSource, isGrantedDefault = false) => {
       if (!raw) return null;
       const feat = enrichItemWithModifiers(raw);
-      const name = typeof feat === 'object' ? (feat.name || feat.title || feat.id || '') : String(feat);
+      const formatted = formatSpeciesTrait(raw, specObj);
+      const rawName = typeof feat === 'object' ? (feat.name || feat.title || feat.id || '') : String(feat);
+      const isSlugOrGen = !rawName || /^(?:trait|feature)[-_]/i.test(rawName) || isGeneratedTraitId(rawName);
+      const bestName = (formatted?.name && formatted.name !== 'Species Adaptation') ? formatted.name : '';
+      const name = (!isSlugOrGen && (!bestName || normalizeTraitLookupKey(rawName) !== normalizeTraitLookupKey(bestName)))
+        ? rawName
+        : (bestName || cleanTraitName(rawName));
       if (!name) return null;
-      const desc = typeof feat === 'object' ? (feat.description || feat.desc || feat.summary || feat.effect || '') : '';
-      const rules = typeof feat === 'object' ? (feat.rules || feat.mechanic || '') : '';
+      const rawDesc = typeof feat === 'object' ? (feat.description || feat.desc || feat.summary || feat.effect || '') : '';
+      const rules = (typeof feat === 'object' ? (feat.rules || feat.mechanic || '') : '') || formatted?.mechanic || formatted?.tooltip?.rules || '';
+      const desc = cleanTraitDescriptionText(
+        (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || formatted?.description || formatted?.tooltip?.description || '',
+        rules
+      );
       const source = typeof feat === 'object' ? (feat.source || defaultSource) : defaultSource;
       const cp = typeof feat === 'object' && feat.cp !== undefined ? feat.cp : (isGrantedDefault ? 0 : 1);
       const isGranted = Boolean(isGrantedDefault || cp === 0 || feat.isGranted || feat.isInherent || source?.toLowerCase().includes('inherent') || defaultSource?.toLowerCase().includes('inherent'));
       return {
-        id: typeof feat === 'object' ? (feat.id || name) : name,
+        id: (!isGeneratedTraitId(feat?.id) && feat?.id) || (!isGeneratedTraitId(formatted?.id) && formatted?.id) || name,
         name,
         description: desc,
         rules,
@@ -731,8 +749,8 @@ export const TacticalPlayView = ({
     const seenNames = new Set();
     const addUnique = (list, item) => {
       if (!item) return;
-      const key = item.name.toLowerCase().trim();
-      if (!seenNames.has(key)) {
+      const key = normalizeTraitLookupKey(item.name) || item.name.toLowerCase().trim();
+      if (key && !seenNames.has(key)) {
         seenNames.add(key);
         list.push(item);
       }

@@ -180,6 +180,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
   const [showIdentitySummary, setShowIdentitySummary] = useState(true);
+  const [editingSkillAttrId, setEditingSkillAttrId] = useState(null);
+  const [showLockedDisciplines, setShowLockedDisciplines] = useState(false);
 
   const toggleCategory = useCallback((catKey) => {
     setExpandedCategories(prev => ({
@@ -463,13 +465,15 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
   // Calculate total active modifiers count
   const totalModifiersCount = useMemo(() => {
     let count = 0;
-    if (Array.isArray(characterData?.customSituationalModifiers)) {
+    if (Array.isArray(characterData?.situational_modifiers_notes)) {
+      count += characterData.situational_modifiers_notes.length;
+    } else if (Array.isArray(characterData?.customSituationalModifiers)) {
       count += characterData.customSituationalModifiers.length;
     }
     count += (computedModifiers?.activeEquipmentModifiers?.length || 0);
     count += (computedModifiers?.activeTraitModifiers?.length || 0);
     return count;
-  }, [characterData?.customSituationalModifiers, computedModifiers]);
+  }, [characterData?.situational_modifiers_notes, characterData?.customSituationalModifiers, computedModifiers]);
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
   const isSheetLocked = Boolean(isFolioLocked && !isPlayerOverride);
@@ -1109,26 +1113,46 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
             />
           )}
 
-          {/* Base Attr Select */}
-          {isSheetLocked ? (
-            <span className="col-span-3 text-center text-xs font-mono text-slate-300 font-semibold">
-              {baseAttrLabel}
-            </span>
+          {/* Base Attr Compact Badge (Opens Select on Click) */}
+          {isSheetLocked || (editingSkillAttrId !== skill.id) ? (
+            <div className="col-span-3 flex justify-center">
+              <button
+                type="button"
+                disabled={isSheetLocked || isDisciplineLocked || isStatsLocked}
+                onClick={() => {
+                  if (!isSheetLocked && !isDisciplineLocked && !isStatsLocked) {
+                    setEditingSkillAttrId(skill.id);
+                  }
+                }}
+                title={
+                  isSheetLocked || isDisciplineLocked || isStatsLocked
+                    ? baseAttrLabel
+                    : `Governing Attribute: ${baseAttrLabel || 'None'} — Click to change`
+                }
+                className={`px-2 py-0.5 rounded text-[10.5px] font-mono font-bold border transition-colors ${
+                  isDisciplineLocked || isStatsLocked
+                    ? 'bg-slate-950/60 border-slate-800/80 text-slate-600 cursor-not-allowed'
+                    : baseAttr
+                    ? 'bg-slate-900 hover:bg-cyan-950/60 border-slate-700/80 hover:border-cyan-500/50 text-cyan-300 cursor-pointer'
+                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800 text-slate-500 hover:text-slate-300 cursor-pointer'
+                }`}
+              >
+                {baseAttr ? baseAttrLabel.replace(/\s*\([^)]*\)/, '').slice(0, 3).toUpperCase() : '--'}
+              </button>
+            </div>
           ) : (
             <select
+              autoFocus
               value={baseAttr}
               disabled={isDisciplineLocked || isStatsLocked}
+              onBlur={() => setEditingSkillAttrId(null)}
               onChange={(e) => {
                 if (isDisciplineLocked || isStatsLocked) return;
                 updateField(`skill-${skill.id}-base`, e.target.value);
                 if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
+                setEditingSkillAttrId(null);
               }}
-              title={isStatsLocked ? 'Skill base attribute locked during active game session.' : undefined}
-              className={`col-span-3 bg-slate-950 border ${
-                isDisciplineLocked || isStatsLocked 
-                  ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
-                  : 'border-slate-700 focus:border-cyan-400 text-slate-300'
-              } rounded py-0.5 text-center outline-none text-xs`}
+              className="col-span-3 bg-slate-950 border border-cyan-400 text-slate-200 rounded py-0.5 text-center outline-none text-xs"
             >
               <option value="">--</option>
               {ATTRIBUTE_OPTIONS.map((opt) => (
@@ -1926,6 +1950,46 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
                   }
                 </div>
               </div>
+            ) : cat.key === 'meta' ? (
+              (() => {
+                const isGroupUnlocked = (g) => {
+                  const title = g.title || 'General';
+                  if (title === 'General') return true;
+                  const dk = title.toLowerCase();
+                  const hasTrainedSkill = g.skills.some(s => getSkillRank(s) > 0);
+                  return unlockedDisciplines.has(dk) || hasTrainedSkill;
+                };
+                const unlockedGroups = filteredGroups.filter(isGroupUnlocked);
+                const lockedGroups = filteredGroups.filter(g => !isGroupUnlocked(g));
+                const visibleGroups = (showLockedDisciplines || q.length > 0) ? filteredGroups : unlockedGroups;
+
+                return (
+                  <div className="space-y-4">
+                    <div className={visibleGroups.length > 1 || unmappedCustomSkills.length > 0 ? "grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" : "space-y-4"}>
+                      {visibleGroups.map((group, idx) =>
+                        renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`, cat.key)
+                      )}
+                      {unmappedCustomSkills.length > 0 &&
+                        renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
+                      }
+                    </div>
+                    {lockedGroups.length > 0 && !q && (
+                      <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2 rounded-lg bg-slate-900/80 border border-purple-900/50 text-xs font-mono">
+                        <span className="text-slate-400">
+                          🔒 <strong className="text-purple-300">{lockedGroups.length} Unawakened Discipline{lockedGroups.length === 1 ? '' : 's'}</strong> ({lockedGroups.map(g => g.title).join(', ')}) {showLockedDisciplines ? 'shown below' : 'auto-folded while dormant'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setShowLockedDisciplines(prev => !prev)}
+                          className="px-2.5 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300 font-bold text-[10.5px] uppercase tracking-wider transition-colors cursor-pointer"
+                        >
+                          {showLockedDisciplines ? 'Hide Dormant Disciplines' : `Show All Disciplines (${lockedGroups.length})`}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()
             ) : (
               <div className={filteredGroups.length > 1 || unmappedCustomSkills.length > 0 ? "grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" : "space-y-4"}>
                 {filteredGroups.map((group, idx) =>
@@ -2001,19 +2065,6 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
 
     return (
       <div className="space-y-4">
-        {/* Overview Banner */}
-        <div className="p-3.5 bg-slate-900/80 border border-cyan-900/60 rounded-xl space-y-1">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300 font-mono">
-              Identity Pillar Granted Skills & Source Packages
-            </h4>
-          </div>
-          <p className="text-[11px] text-slate-400">
-            Persona skills funded and granted through your Species lineage, Occupational career, Origin environment, Faction allegiance, and active cybernetics or traits.
-          </p>
-        </div>
-
         {/* Pillar Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {pillars.map(p => {
@@ -2156,78 +2207,74 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
     );
   };
 
+  const unallocatedSkillPillars = useMemo(() => {
+    const list = [];
+    if (characterData?.['char-species'] && identityPoolsBreakdown.species.allocated === 0) list.push('Species');
+    if (characterData?.['char-occu'] && identityPoolsBreakdown.occupation.allocated === 0) list.push('Occupation');
+    if (characterData?.['char-origin'] && identityPoolsBreakdown.origin.allocated === 0) list.push('Origin');
+    if (characterData?.['char-faction'] && identityPoolsBreakdown.faction.allocated === 0) list.push('Faction');
+    return list;
+  }, [characterData, identityPoolsBreakdown]);
+
   return (
     <div className="tab-panel active p-4 space-y-4 pb-20">
-      {/* Vertical 3-Pane Navigation Rail (Skills Catalog | Granted Skills | Modifiers) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
-        <button
-          type="button"
-          onClick={() => setActivePane('skills')}
-          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
-            activePane === 'skills'
-              ? 'bg-cyan-950/60 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.2)] text-white'
-              : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <div className="flex items-center gap-2.5">
-            <span className="text-lg">📚</span>
-            <div>
-              <div className="text-xs font-bold uppercase tracking-wider font-mono">Skills Catalog</div>
-              <div className="text-[10px] text-slate-400">Physical, Mental, Social, Combat, Meta</div>
-            </div>
-          </div>
-          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
-            activePane === 'skills' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/50' : 'bg-slate-950 text-slate-500'
-          }`}>
-            {categoryCounts.all}
-          </span>
-        </button>
+      {/* Compact Segmented Sub-Pane Bar & Unspent Pool Prompt */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-900/70 border border-slate-800 rounded-xl p-2">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setActivePane('skills')}
+            className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+              activePane === 'skills'
+                ? 'bg-cyan-950/80 border-cyan-400 text-cyan-200 shadow-xs'
+                : 'bg-slate-950/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <span>📚</span>
+            <span>Skills Catalog</span>
+            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-[10px] text-cyan-300">{categoryCounts.all}</span>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActivePane('granted')}
-          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
-            activePane === 'granted'
-              ? 'bg-purple-950/60 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-white'
-              : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <div className="flex items-center gap-2.5">
-            <span className="text-lg">✨</span>
-            <div>
-              <div className="text-xs font-bold uppercase tracking-wider font-mono">Granted Skills</div>
-              <div className="text-[10px] text-slate-400">Identity Pillars &amp; Source Grants</div>
-            </div>
-          </div>
-          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
-            activePane === 'granted' ? 'bg-purple-500/20 text-purple-300 border border-purple-400/50' : 'bg-slate-950 text-slate-500'
-          }`}>
-            {totalGrantedCount}
-          </span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActivePane('granted')}
+            className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+              activePane === 'granted'
+                ? 'bg-purple-950/80 border-purple-400 text-purple-200 shadow-xs'
+                : 'bg-slate-950/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <span>✨</span>
+            <span>Granted Skills</span>
+            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-[10px] text-purple-300">{totalGrantedCount}</span>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActivePane('modifiers')}
-          className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
-            activePane === 'modifiers'
-              ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.2)] text-white'
-              : 'bg-slate-900/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <div className="flex items-center gap-2.5">
-            <span className="text-lg">⚡</span>
-            <div>
-              <div className="text-xs font-bold uppercase tracking-wider font-mono">Skill Modifiers</div>
-              <div className="text-[10px] text-slate-400">Situational, Tactical &amp; Gear</div>
-            </div>
-          </div>
-          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
-            activePane === 'modifiers' ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50' : 'bg-slate-950 text-slate-500'
-          }`}>
-            {totalModifiersCount}
-          </span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActivePane('modifiers')}
+            className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 ${
+              activePane === 'modifiers'
+                ? 'bg-amber-950/80 border-amber-400 text-amber-200 shadow-xs'
+                : 'bg-slate-950/60 hover:bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <span>⚡</span>
+            <span>Skill Modifiers</span>
+            <span className="px-1.5 py-0.2 rounded bg-slate-950 text-[10px] text-amber-300">{totalModifiersCount}</span>
+          </button>
+        </div>
+
+        {unallocatedSkillPillars.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setActivePane('granted')}
+            className="px-2.5 py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/70 border border-amber-500/50 text-amber-300 text-[10.5px] font-mono font-bold flex items-center gap-1.5 cursor-pointer transition-colors"
+            title="Some selected Identity Pillars have 0 Skill Points allocated yet. Click to view Granted Skills breakdown."
+          >
+            <span>✨</span>
+            <span>Unallocated Pillar SP: {unallocatedSkillPillars.join(', ')}</span>
+          </button>
+        )}
       </div>
 
       {/* Pane Content Rendering */}
@@ -2237,15 +2284,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
       {activePane === 'skills' && (
         <div className="space-y-4">
           {/* Header Toolbar & Search Filter */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-3 gap-3">
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
-                Persona Skill Categories &amp; Specializations
-              </h3>
-              <p className="text-[11px] text-slate-400">
-                Skills max rank 20. Linked specializations max rank 10. Click any category header to expand or collapse.
-              </p>
-            </div>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-2.5 gap-3">
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-cyan-400">
+              Persona Skill Categories &amp; Specializations
+            </h3>
 
             <div className="flex flex-wrap items-center gap-2 shrink-0">
               {/* Trained Only Filter Toggle */}

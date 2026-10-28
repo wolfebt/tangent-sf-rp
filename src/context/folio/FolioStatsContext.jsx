@@ -18,6 +18,14 @@ import {
 } from '../../engines/tangentEntityEngines';
 import { getSpeciesRestProfile } from '../../engines/tangentRestEngine';
 import { calculateCharacterWealth } from '../../engines/tangentEconEngine';
+import { getEnrichedTraitData } from '../../data/speciesTraitsData';
+import { getEnrichedFeatureData } from '../../data/featuresData';
+import {
+  formatSpeciesTrait,
+  cleanTraitDescriptionText,
+  isCorruptedTraitDescription,
+  isGeneratedTraitId
+} from '../../utils/speciesDisplayUtils';
 import { showToast } from '../ToastContext';
 
 export const ATTR_NAME_TO_ID = {
@@ -1355,8 +1363,11 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
     const effectiveHealth = isSynthetic ? 0 : (baseHealth + purchasedHealth);
     const effectiveVitality = isSynthetic ? 0 : (baseVitality + purchasedVitality);
+    const effectivePurchasedStructure = isSynthetic
+      ? (purchasedStructure > 0 ? purchasedStructure : (purchasedHealth + purchasedVitality))
+      : purchasedStructure;
     const totalStructure = isSynthetic
-      ? (baseStructure + purchasedStructure + purchasedHealth + purchasedVitality)
+      ? (baseStructure + effectivePurchasedStructure)
       : (purchasedStructure > 0 ? (baseStructure + purchasedStructure) : 60);
 
     const speciesRestProfile = getSpeciesRestProfile(characterData);
@@ -1460,7 +1471,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
       }
 
       const currentStructure = parseInt(prev.structure, 10);
-      if (isNaN(currentStructure) || currentStructure !== derivedStats.structure) {
+      if (isNaN(currentStructure) || currentStructure < 60) {
         updates.structure = derivedStats.structure;
         needsUpdate = true;
       }
@@ -1678,21 +1689,33 @@ export const FolioStatsSliceProvider = ({ children }) => {
         const isFreeOriginTrait = isOrigin && currentTraits.length < 2;
         const isGrantedTrait = isOrigin ? isFreeOriginTrait : isGrantedPool;
 
+        const enrichedTrait = getEnrichedTraitData((traitDetail && (traitDetail.name || traitDetail.id)) ? traitDetail : cleanTitle) || {};
+        const formattedTrait = formatSpeciesTrait((traitDetail && (traitDetail.name || traitDetail.id)) ? traitDetail : cleanTitle);
+        const resolvedName = (enrichedTrait.name && !/^(?:trait|feature)[-_]/i.test(enrichedTrait.name) && !isGeneratedTraitId(enrichedTrait.name))
+          ? enrichedTrait.name
+          : ((formattedTrait?.name && formattedTrait.name !== 'Species Adaptation') ? formattedTrait.name : cleanTitle);
+        const resolvedMech = traitDetail.mechanic || traitDetail.mechanics || enrichedTrait.mechanic || formattedTrait?.mechanic || '';
+        const rawDesc = traitDetail.description || traitDetail.desc || '';
+        const resolvedDesc = cleanTraitDescriptionText(
+          (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enrichedTrait.description || formattedTrait?.description || '',
+          resolvedMech
+        );
+
         const rawTraitObj = {
-          id: traitDetail.id || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-          name: cleanTitle,
-          category: traitDetail.category || traitDetail.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupation Trait' : poolKey === 'factionAllocations' ? 'Faction Trait' : 'Species Trait'),
-          trait_type: traitDetail.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupational Trait' : poolKey === 'factionAllocations' ? 'Faction Trait' : 'Species Trait'),
-          trait_tier: traitDetail.trait_tier || traitDetail.tier || 'Basic',
-          classification: traitDetail.classification || 'Physical',
+          id: (!isGeneratedTraitId(traitDetail.id) && traitDetail.id) || (!isGeneratedTraitId(enrichedTrait.id) && enrichedTrait.id) || (!isGeneratedTraitId(formattedTrait?.id) && formattedTrait?.id) || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+          name: resolvedName,
+          category: traitDetail.category || traitDetail.trait_type || enrichedTrait.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupation Trait' : poolKey === 'factionAllocations' ? 'Faction Trait' : 'Species Trait'),
+          trait_type: traitDetail.trait_type || enrichedTrait.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupational Trait' : poolKey === 'factionAllocations' ? 'Faction Trait' : 'Species Trait'),
+          trait_tier: traitDetail.trait_tier || traitDetail.tier || enrichedTrait.trait_tier || 'Basic',
+          classification: traitDetail.classification || enrichedTrait.classification || 'Physical',
           source: poolKey === 'occuAllocations' ? 'occupation' : poolKey === 'originAllocations' ? 'origin' : poolKey === 'factionAllocations' ? 'faction' : poolKey === 'speciesAllocations' ? 'species' : poolKey.replace('Allocations', ''),
-          description: traitDetail.description || traitDetail.desc || traitDetail.mechanics || '',
-          mechanic: traitDetail.mechanic || traitDetail.mechanics || '',
-          mechanics: traitDetail.mechanics || traitDetail.mechanic || '',
-          rules: traitDetail.rules || traitDetail.special_rules || '',
-          special_rules: traitDetail.special_rules || traitDetail.rules || '',
-          notes: traitDetail.notes || '',
-          modifiers: Array.isArray(traitDetail.modifiers) ? traitDetail.modifiers : [],
+          description: resolvedDesc,
+          mechanic: resolvedMech,
+          mechanics: resolvedMech,
+          rules: traitDetail.rules || traitDetail.special_rules || enrichedTrait.rules || '',
+          special_rules: traitDetail.special_rules || traitDetail.rules || enrichedTrait.special_rules || '',
+          notes: traitDetail.notes || enrichedTrait.notes || '',
+          modifiers: Array.isArray(traitDetail.modifiers) && traitDetail.modifiers.length > 0 ? traitDetail.modifiers : (Array.isArray(enrichedTrait.modifiers) ? enrichedTrait.modifiers : []),
           bp: isGrantedTrait ? 0 : (traitDetail.bp !== undefined ? traitDetail.bp : 1),
           standaloneBp: traitDetail.bp !== undefined ? traitDetail.bp : 1,
           cp: isGrantedTrait ? 0 : (traitDetail.cp !== undefined ? traitDetail.cp : 1),
@@ -1839,18 +1862,29 @@ export const FolioStatsSliceProvider = ({ children }) => {
         }
         updatedPoolFeats = [...currentFeats, cleanTitle];
         const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
+        const enrichedFeat = getEnrichedFeatureData((featureDetail && (featureDetail.name || featureDetail.id)) ? featureDetail : cleanTitle) || {};
+        const resolvedName = (enrichedFeat.name && !/^(?:feature|trait)[-_]/i.test(enrichedFeat.name) && !isGeneratedTraitId(enrichedFeat.name))
+          ? enrichedFeat.name
+          : cleanTitle;
+        const resolvedMech = featureDetail.mechanic || featureDetail.mechanics || enrichedFeat.mechanic || '';
+        const rawDesc = featureDetail.description || featureDetail.desc || '';
+        const resolvedDesc = cleanTraitDescriptionText(
+          (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enrichedFeat.description || '',
+          resolvedMech
+        );
+
         const rawFeatObj = {
-          id: featureDetail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-          name: cleanTitle,
-          category: featureDetail.category || (poolKey === 'factionAllocations' ? 'Faction Feature' : poolKey === 'speciesAllocations' ? 'Species Feature' : poolKey === 'occuAllocations' ? 'Occupation Feature' : poolKey === 'originAllocations' ? 'Origin Feature' : 'General Feature'),
+          id: (!isGeneratedTraitId(featureDetail.id) && featureDetail.id) || (!isGeneratedTraitId(enrichedFeat.id) && enrichedFeat.id) || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+          name: resolvedName,
+          category: featureDetail.category || enrichedFeat.category || (poolKey === 'factionAllocations' ? 'Faction Feature' : poolKey === 'speciesAllocations' ? 'Species Feature' : poolKey === 'occuAllocations' ? 'Occupation Feature' : poolKey === 'originAllocations' ? 'Origin Feature' : 'General Feature'),
           source: poolKey === 'occuAllocations' ? 'occupation' : poolKey === 'originAllocations' ? 'origin' : poolKey === 'factionAllocations' ? 'faction' : poolKey === 'speciesAllocations' ? 'species' : poolKey.replace('Allocations', ''),
-          description: featureDetail.description || featureDetail.mechanic || '',
-          mechanic: featureDetail.mechanic || featureDetail.mechanics || '',
-          mechanics: featureDetail.mechanics || featureDetail.mechanic || '',
-          rules: featureDetail.rules || featureDetail.special_rules || '',
-          special_rules: featureDetail.special_rules || featureDetail.rules || '',
-          notes: featureDetail.notes || '',
-          modifiers: Array.isArray(featureDetail.modifiers) ? featureDetail.modifiers : [],
+          description: resolvedDesc || resolvedMech || '',
+          mechanic: resolvedMech,
+          mechanics: resolvedMech,
+          rules: featureDetail.rules || featureDetail.special_rules || enrichedFeat.rules || '',
+          special_rules: featureDetail.special_rules || featureDetail.rules || enrichedFeat.special_rules || '',
+          notes: featureDetail.notes || enrichedFeat.notes || '',
+          modifiers: Array.isArray(featureDetail.modifiers) && featureDetail.modifiers.length > 0 ? featureDetail.modifiers : (Array.isArray(enrichedFeat.modifiers) ? enrichedFeat.modifiers : []),
           cp: isGrantedPool ? 0 : (featureDetail.cp !== undefined ? featureDetail.cp : 3),
           standaloneCp: featureDetail.cp !== undefined ? featureDetail.cp : 3,
           isGranted: isGrantedPool
@@ -2132,7 +2166,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
     });
   }, [setCharacterData, triggerSave]);
 
-  const value = {
+  const speciesComponentData = useMemo(() => getSpeciesComponentDataset(), []);
+
+  const value = useMemo(() => ({
     computedModifiers,
     saveMods: computedModifiers.saveMods,
     activeFeatureModifiers: computedModifiers.activeFeatureModifiers,
@@ -2149,7 +2185,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
     computeSpentCP,
     enabledMovementModes,
     calculateFullSpeciesCost,
-    speciesComponentData: getSpeciesComponentDataset(),
+    speciesComponentData,
     allocatePoolSkillRank,
     togglePoolTrait,
     removePoolTrait,
@@ -2163,7 +2199,32 @@ export const FolioStatsSliceProvider = ({ children }) => {
     handleDeleteSpecialization,
     updateTraitSkillSelection,
     updateFeatureSkillSelection
-  };
+  }), [
+    computedModifiers,
+    getSkillBreakdown,
+    getAttrMod,
+    getAttrTotal,
+    getSubAttrBase,
+    derivedStats,
+    economyBreakdown,
+    computeSpentCP,
+    enabledMovementModes,
+    calculateFullSpeciesCost,
+    speciesComponentData,
+    allocatePoolSkillRank,
+    togglePoolTrait,
+    removePoolTrait,
+    togglePoolFeature,
+    removePoolFeature,
+    allocatePoolAttribute,
+    handleAddSkill,
+    handleDeleteSkill,
+    handleAddSpecialization,
+    handleUpdateSpecialization,
+    handleDeleteSpecialization,
+    updateTraitSkillSelection,
+    updateFeatureSkillSelection
+  ]);
 
   return (
     <FolioStatsContext.Provider value={value}>

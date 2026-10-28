@@ -851,6 +851,116 @@ export function evaluatePrerequisiteString(prereqInput, characterData, context =
   };
 }
 
+/**
+ * 1-Click Auto-Fulfill Prerequisite Helper
+ * Parses unmet prerequisite clauses on an item and applies the required attribute scores,
+ * skill ranks, or awakened disciplines directly via updateField / handleAddItem.
+ */
+export function fulfillItemPrerequisites(item, characterData, updateField, handleAddItem) {
+  if (!item || !characterData || !updateField) return false;
+  const rawPrereq = normalizePrerequisiteString(typeof item === 'object' ? (item.prerequisites ?? item.prereq) : '');
+  if (!rawPrereq) return false;
+
+  let changed = false;
+  const clauses = rawPrereq.split(/[,;]/).map(s => s.trim()).filter(Boolean);
+
+  for (const rawClause of clauses) {
+    const clause = rawClause.trim();
+    if (!clause || clause.toLowerCase() === 'none' || clause === '-') continue;
+
+    // 1. Key Ability Score
+    if (clause.toLowerCase().includes('key ability')) {
+      const numMatch = clause.match(/([0-9]+)/);
+      const reqVal = numMatch ? parseInt(numMatch[1], 10) : 1;
+      const intScore = getCharacterAttrScore(characterData, 'intellect');
+      const wisScore = getCharacterAttrScore(characterData, 'wisdom');
+      const chaScore = getCharacterAttrScore(characterData, 'charisma');
+      if (Math.max(intScore, wisScore, chaScore) < reqVal) {
+        updateField('attr-intellect', reqVal);
+        changed = true;
+      }
+      continue;
+    }
+
+    // 2. Attribute requirement
+    const attrRegex = /\b(strength|str|might|agility|agi|dex|reflex|stamina|sta|con|fortitude|fort|intellect|int|reason|logic|wisdom|wis|willpower|will|charisma|cha|presence|etiquette)\s*[:=]?\s*([0-9]+)\b/i;
+    const attrMatch = clause.match(attrRegex);
+    if (attrMatch) {
+      const attrName = attrMatch[1].toLowerCase();
+      const reqVal = parseInt(attrMatch[2], 10);
+      const canonicalKey = ATTR_MAP[attrName] || `attr-${attrName}`;
+      const currentVal = getCharacterAttrScore(characterData, attrName);
+      if (currentVal < reqVal) {
+        if (SUB_TO_PRIMARY[canonicalKey]) {
+          updateField(canonicalKey, reqVal);
+        } else {
+          const mod = parseInt(characterData[`${canonicalKey}-mod`] || 0, 10) || 0;
+          updateField(canonicalKey, Math.max(0, reqVal - mod));
+        }
+        changed = true;
+      }
+      continue;
+    }
+
+    // 3. Attune rank requirement
+    const attuneMatch = clause.match(/\battune\s*([0-9]+)\b/i);
+    if (attuneMatch) {
+      const reqRank = parseInt(attuneMatch[1], 10);
+      updateField('skill-meta-attune-rank', reqRank);
+      changed = true;
+      continue;
+    }
+
+    // 4. Combat Skill rank requirement
+    const combatSkillMatch = clause.match(/\bcombat\s*(?:skill|rank)?\s*([0-9]+)\b/i);
+    if (combatSkillMatch) {
+      const reqRank = parseInt(combatSkillMatch[1], 10);
+      updateField('skill-combat-melee-rank', reqRank);
+      changed = true;
+      continue;
+    }
+
+    // 5. Generic Skill rank requirement
+    const genericSkillMatch = clause.match(/\b(?:chosen\s*)?skill\s*(?:rank\s*)?([0-9]+)\b/i);
+    if (genericSkillMatch) {
+      const reqRank = parseInt(genericSkillMatch[1], 10);
+      updateField('skill-mental-alertness-rank', reqRank);
+      changed = true;
+      continue;
+    }
+
+    // 6. Named Skill rank requirement
+    const namedSkillMatch = clause.match(/\b(pilot|piloting|diplomacy|academics|knowledge|medicine|survival|crafting|stealth|investigation|computers|language|tactics|technology|trade|athletics|acrobatics|unarmed|melee|ranged|ballistic|energy)\s*([0-9]+)\b/i);
+    if (namedSkillMatch) {
+      const rawName = namedSkillMatch[1].toLowerCase();
+      const reqRank = parseInt(namedSkillMatch[2], 10);
+      const slug = rawName === 'pilot' ? 'piloting' : rawName;
+      updateField(`skill-${slug}-rank`, reqRank);
+      changed = true;
+      continue;
+    }
+
+    // 7. Awakened requirement
+    if (clause.toLowerCase().includes('awakened') && handleAddItem) {
+      const discMatch = clause.match(/awakened\s*\(([^)]+)\)/i);
+      const disc = discMatch ? discMatch[1].trim() : 'Energy';
+      if (!isDisciplineAwakened(characterData, disc)) {
+        handleAddItem('awakened', {
+          id: `awakened_${disc.toLowerCase()}_${Date.now()}`,
+          name: `Awakened (${disc})`,
+          discipline: disc,
+          cp: 3,
+          category: 'Metaphysics'
+        });
+        changed = true;
+      }
+      continue;
+    }
+  }
+
+  return changed;
+}
+
 export default {
   checkPrerequisite,
   evaluatePrerequisiteString,
@@ -862,5 +972,6 @@ export default {
   resolveItemCostDC,
   getCharacterWealthScore,
   checkPropertyWealthPrerequisite,
+  fulfillItemPrerequisites,
   PROPERTY_COLLECTIONS
 };

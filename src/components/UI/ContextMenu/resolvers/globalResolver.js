@@ -107,7 +107,7 @@ export function resolveGlobalMenu(context, appState, handlers) {
         id: 'comms-toggle-dock',
         label: 'Toggle Comm-Link Dock',
         icon: Radio,
-        shortcut: 'Alt+C',
+        shortcut: 'Alt+R',
         onClick: () => window.dispatchEvent(new CustomEvent('toggle-comms-dock'))
       },
       { type: 'divider' },
@@ -159,7 +159,7 @@ export function resolveGlobalMenu(context, appState, handlers) {
       id: 'quick-comms-link',
       label: 'Open Comm-Link',
       icon: Radio,
-      shortcut: 'Alt+C',
+      shortcut: 'Alt+R',
       onClick: () => window.dispatchEvent(new CustomEvent('toggle-comms-dock'))
     }
   );

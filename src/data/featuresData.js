@@ -10506,30 +10506,53 @@ export const getFeaturesByCategory = (category) =>
  * description, mechanic, rules, prerequisites, modifiers, keywords, TL, ML)
  * for Codex Matrix editing, Folio sheet rendering, or Omnicortex DBM inspection.
  */
-export const getEnrichedFeatureData = (feature) => {
-  if (!feature) return null;
-  const rawId = (feature.id || '').toString().trim();
+export const getEnrichedFeatureData = (rawInput) => {
+  if (!rawInput) return null;
+  const feature = typeof rawInput === 'object' ? rawInput : { name: String(rawInput) };
+  const isGenId = (s) => /\d{10,}(?:[-_\s]+[a-z0-9]{2,10})?/i.test(String(s || ''));
+  const normKey = (s) => String(s || '')
+    .trim()
+    .toLowerCase()
+    .replace(/^(?:feature|trait|ability|combat|discipline|general|karma|skill|special)[-_]/i, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+  const rawId = !isGenId(feature.id) ? (feature.id || '').toString().trim() : '';
   const cleanId = rawId.replace(/^(feature|trait)-/i, '').toLowerCase();
-  const rawName = (feature.name || feature.title || '').toString().trim().toLowerCase();
+  const rawName = !isGenId(feature.name || feature.title) ? (feature.name || feature.title || '').toString().trim() : '';
+  const normId = normKey(rawId);
+  const normName = normKey(rawName);
 
   const canonical = DEFAULT_FEATURES.find(f => {
     const fId = (f.id || '').toString().trim().toLowerCase();
     const fCleanId = fId.replace(/^(feature|trait)-/i, '');
     const fName = (f.name || f.title || '').toString().trim().toLowerCase();
-    return (rawId && fId === rawId.toLowerCase()) ||
+    const fNormId = normKey(fId);
+    const fNormName = normKey(fName);
+    return (rawId && (fId === rawId.toLowerCase() || fName === rawId.toLowerCase())) ||
            (cleanId && fCleanId === cleanId) ||
-           (rawName && fName === rawName);
+           (rawName && (fName === rawName.toLowerCase() || fId === rawName.toLowerCase())) ||
+           (normId && (fNormId === normId || fNormName === normId)) ||
+           (normName && (fNormName === normName || fNormId === normName));
   });
 
-  const name = feature.name || feature.title || canonical?.name || canonical?.title || 'Feature';
+  const isSlugOrGenName = !rawName || /^(?:feature|trait|ability|combat|discipline|general|karma|skill|special)[-_]/i.test(rawName) || isGenId(rawName);
+  const name = (!isSlugOrGenName && (!canonical?.name || normKey(rawName) !== normKey(canonical.name)))
+    ? rawName
+    : (canonical?.name || canonical?.title || (rawName ? rawName.replace(/^(?:feature|trait)[-_]/i, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : 'Feature'));
   const category = feature.category || canonical?.category || 'General';
   const type = feature.type || canonical?.type || category.toLowerCase();
-  const id = feature.id || canonical?.id || `feature-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  const id = (rawId && !isGenId(rawId)) ? rawId : (canonical?.id || feature.id || `feature-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
 
   const cp = feature.cp !== undefined ? Number(feature.cp) : (canonical?.cp !== undefined ? Number(canonical.cp) : 3);
   const bp = feature.bp !== undefined ? Number(feature.bp) : (canonical?.bp !== undefined ? Number(canonical.bp) : cp);
 
-  const description = feature.description || canonical?.description || '';
+  const rawDesc = (feature.description || feature.desc || '').toString().trim();
+  const isCorruptedDesc = !rawDesc || /\b\d{10,}\b/.test(rawDesc) || /is an innate .* granted by this species lineage/i.test(rawDesc);
+  const cleanRawDesc = isCorruptedDesc
+    ? ''
+    : rawDesc.replace(/\s+#+\s*$/, '').replace(/\s*\*([^*]+)\*\s*$/, '').trim();
+  const description = cleanRawDesc || canonical?.description || '';
   const mechanic = feature.mechanic || feature.mechanics || canonical?.mechanic || canonical?.mechanics || '';
   const rules = feature.rules || feature.special_rules || canonical?.rules || canonical?.special_rules || '';
   const prerequisites = feature.prerequisites || feature.prerequisite || canonical?.prerequisites || canonical?.prerequisite || 'None';

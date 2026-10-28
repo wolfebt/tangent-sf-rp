@@ -130,12 +130,14 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
     const slug = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const shortSkillId = `${prefix}-${slug}`;
     const fullId = `skill-${shortSkillId}`;
-    const rank = getNum(`${fullId}-rank`, 0);
+    const breakdown = folioCtx?.getSkillBreakdown ? folioCtx.getSkillBreakdown({ id: shortSkillId, name: skillName }) : null;
+    const rank = breakdown ? (breakdown.rank || 0) : getNum(`${fullId}-rank`, 0);
     const computedSkillMod = (computedMods?.skillMods?.[slug] || 0) +
       (slug !== shortSkillId ? (computedMods?.skillMods?.[shortSkillId] || 0) : 0);
-    const mod = getNum(`${fullId}-mod`, 0) + computedSkillMod;
-    const att = getStr(`${fullId}-att`, '');
-    const ttl = rank + mod;
+    const mod = breakdown ? (breakdown.mod || 0) : (getNum(`${fullId}-mod`, 0) + computedSkillMod);
+    const attRaw = breakdown?.attrKey || getStr(`${fullId}-base`, getStr(`${fullId}-att`, ''));
+    const att = String(attRaw).replace(/^attr-/, '').substring(0, 3).toUpperCase();
+    const ttl = breakdown ? (breakdown.score || 0) : (rank + mod);
 
     return (
       <tr key={skillName}>
@@ -589,14 +591,18 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                 <div className="border border-black p-1 bg-gray-50">
                   <div className="font-bold text-[8px] uppercase border-b border-black pb-0.5">ORIGIN TRAITS</div>
                   <div className="text-[8px] mt-1">
-                    {getStr('char-origin') ? `Origin: ${getStr('char-origin')}` : 'No origin traits'}
+                    {Array.isArray(characterData?.originAllocations?.traits) && characterData.originAllocations.traits.length > 0
+                      ? characterData.originAllocations.traits.map(t => typeof t === 'object' ? t.name : t).join(', ')
+                      : (getStr('char-origin') ? `Origin: ${getStr('char-origin')}` : 'No origin traits')}
                   </div>
                 </div>
 
                 <div className="border border-black p-1 bg-gray-50">
                   <div className="font-bold text-[8px] uppercase border-b border-black pb-0.5">OCCUPATION PERKS</div>
                   <div className="text-[8px] mt-1">
-                    {getStr('char-occu') ? `Occupation: ${getStr('char-occu')}` : 'No occupation perks'}
+                    {Array.isArray(characterData?.occuAllocations?.traits) && characterData.occuAllocations.traits.length > 0
+                      ? characterData.occuAllocations.traits.map(t => typeof t === 'object' ? t.name : t).join(', ')
+                      : (getStr('char-occu') ? `Occupation: ${getStr('char-occu')}` : 'No occupation perks')}
                   </div>
                 </div>
 
@@ -825,7 +831,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
           <div className="col-span-6 folio-box p-1 flex flex-col">
             <div className="folio-section-banner mb-1">GEAR & INVENTORY</div>
             <div className="flex-1 space-y-0.5">
-              {[...gear, ...weapons, ...armoring].map((g, i) => (
+              {[...gear, ...weapons, ...armoring, ...mecha, ...(getArray('architecture')), ...otherItems].map((g, i) => (
                 <div key={i} className="folio-line-row flex justify-between items-center px-1">
                   <span className="font-bold text-[8px]">{typeof g === 'object' ? g.name : g}</span>
                   <div className="text-[7.5px] font-mono space-x-2">
@@ -834,7 +840,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                   </div>
                 </div>
               ))}
-              {Array.from({ length: Math.max(0, 34 - (gear.length + weapons.length + armoring.length)) }).map((_, idx) => (
+              {Array.from({ length: Math.max(0, 34 - (gear.length + weapons.length + armoring.length + mecha.length + getArray('architecture').length + otherItems.length)) }).map((_, idx) => (
                 <div key={idx} className="folio-line-row h-4"></div>
               ))}
             </div>

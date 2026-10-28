@@ -843,7 +843,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     scale, setScale, position, setPosition,
     isDrawing,
     handleWheel, handleMouseDown, handleMouseMove, handleMouseUp,
-    wallStartPoint, wallPreviewEnd, rulerWaypoints, rulerPointer, clearRuler,
+    wallStartPoint, wallPreviewEnd, rulerWaypoints, setRulerWaypoints, rulerPointer, setRulerPointer, clearRuler,
     zoomBy, panBy, chunkPointerPos, chunkCaptureMarquee, setChunkCaptureMarquee
   } = useMapCanvasEvents({
     currentMap, activeMapId, updateMap, recordHistory,
@@ -1278,6 +1278,38 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
         return;
       }
 
+      if (e.key === 'Escape') {
+        if (isShortcutsModalOpen) {
+          setIsShortcutsModalOpen(false);
+          return;
+        }
+        if (isVttDrawerOpen) {
+          setIsVttDrawerOpen(false);
+          return;
+        }
+        if (isUvttModalOpen) {
+          setIsUvttModalOpen(false);
+          return;
+        }
+        if (rulerWaypoints && rulerWaypoints.length > 0) {
+          clearRuler();
+          return;
+        }
+        if (selectedId) {
+          setSelectedId(null);
+          return;
+        }
+        if (activeTool !== 'select') {
+          setActiveTool('select');
+          return;
+        }
+      }
+
+      // Do not trigger single-key canvas shortcuts when Ctrl, Alt, or Meta modifiers are held
+      if (e.ctrlKey || e.altKey || e.metaKey) {
+        return;
+      }
+
       if (e.key === 'r' || e.key === 'R') {
         if (activeTool === 'chunk') {
           setChunkRotationDeg(prev => ((prev + 90) % 360));
@@ -1314,8 +1346,18 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       }
 
       if (e.key === 'g' || e.key === 'G') {
-        const nextGrid = !currentMap?.gridMode || currentMap.gridMode === 'off' ? 'hex' : (currentMap.gridMode === 'hex' ? 'square' : 'off');
+        const nextGrid = (!gridMode || gridMode === 'none' || gridMode === 'off')
+          ? 'hex'
+          : (gridMode === 'hex' ? 'square' : 'none');
+        setGridMode(nextGrid);
         if (activeMapId) updateMap(activeMapId, { gridMode: nextGrid });
+      } else if (e.key === 'm' || e.key === 'M') {
+        if (activeTool === 'ruler') {
+          clearRuler();
+          setActiveTool('select');
+        } else {
+          setActiveTool('ruler');
+        }
       } else if (e.key === 'f' || e.key === 'F') {
         setActiveTool(prev => prev === 'fog' ? 'select' : 'fog');
       } else if (e.key === 'v' || e.key === 'V') {
@@ -1368,7 +1410,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [activeMapId, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap]);
+  }, [activeMapId, gridMode, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap, isShortcutsModalOpen, isVttDrawerOpen, isUvttModalOpen, rulerWaypoints, clearRuler, selectedChunkInstance]);
 
   const handleCommitPcgSector = ({
     terrains: generatedTerrains = [],
@@ -1741,8 +1783,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
 
             <div className="space-y-2 text-xs font-mono">
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
-                <span className="text-slate-300 font-medium">Toggle Grid Mode (Square / Hex / Off)</span>
+                <span className="text-slate-300 font-medium">Toggle Grid Mode (Hex / Square / Off)</span>
                 <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">G</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Deploy Tactical Laser Rangefinder</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">M</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Toggle Fog of War Tool</span>
@@ -1753,8 +1799,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">V</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
-                <span className="text-slate-300 font-medium">Pan Tool Mode</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">H</kbd>
+                <span className="text-slate-300 font-medium">Pan Tool / Temporary Pan</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">H / Space + Drag</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Cancel Action / Clear Ruler / Deselect</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-cyan-400 font-bold rounded border border-slate-700">Esc</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Delete Selected Canvas Node</span>
@@ -2560,6 +2610,17 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                           onErase={eraseElement}
                           onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) handleSelectToken(token.id); }}
                           onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
+                          onDragMove={(e) => {
+                            if (e.evt?.shiftKey || activeTool === 'ruler') {
+                              setRulerWaypoints([{ x: token.x, y: token.y }]);
+                              setRulerPointer({ x: e.target.x(), y: e.target.y() });
+                            }
+                          }}
+                          onDragEnd={() => {
+                            if (rulerWaypoints?.length > 0 && activeTool !== 'ruler') {
+                              clearRuler();
+                            }
+                          }}
                           onChange={(newAttrs) => {
                             const nextTokens = produce(tokens, draft => {
                               const index = draft.findIndex(t => t.id === token.id);

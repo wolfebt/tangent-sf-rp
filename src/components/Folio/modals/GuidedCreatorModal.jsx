@@ -11,8 +11,8 @@ import {
   Tag, AlertTriangle, Info, CheckCircle2, Sliders, HelpCircle, Cloud, CloudOff
 } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
-import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
-import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { DEFAULT_FEATURES, FEATURE_CATEGORIES, getEnrichedFeatureData } from '../../../data/featuresData';
+import { ALL_CANONICAL_TRAITS, getEnrichedTraitData } from '../../../data/speciesTraitsData';
 import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES, getGroupedArchetypes } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
 import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
@@ -54,7 +54,14 @@ import {
   calculateDCFromCredits, 
   resolveItemCostDC 
 } from '../../../engines/tangentEconEngine';
-import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
+import {
+  formatSpeciesTrait,
+  getInherentSpeciesTraits,
+  normalizeTraitLookupKey,
+  cleanTraitDescriptionText,
+  isCorruptedTraitDescription,
+  isGeneratedTraitId
+} from '../../../utils/speciesDisplayUtils';
 import { getEffectiveUserHandle } from '../../../utils/personaValidationUtils';
 
 /**
@@ -534,8 +541,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     spent += (draft.strength + draft.agility + draft.stamina + draft.intellect + draft.wisdom + draft.charisma) * 5;
     
     // Species Cost
-    if (selectedSpeciesObj && (selectedSpeciesObj.cp || selectedSpeciesObj.costs?.bp)) {
-      spent += parseInt(selectedSpeciesObj.cp ?? selectedSpeciesObj.costs?.bp, 10) || 0;
+    if (selectedSpeciesObj && (selectedSpeciesObj.cp_cost !== undefined || selectedSpeciesObj.cp !== undefined || selectedSpeciesObj.costs?.bp !== undefined)) {
+      spent += parseInt(selectedSpeciesObj.cp_cost ?? selectedSpeciesObj.cp ?? selectedSpeciesObj.costs?.bp, 10) || 0;
     }
 
     // Technology Level (TL 0-5; TL3 standard baseline; 10 CP per diff from 3)
@@ -637,27 +644,51 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     // Combine all unique traits
     const combinedTraitsMap = new Map();
     const traitDetailMap = new Map();
-    (dbData.traits || []).forEach(t => {
+    [
+      ...(dbData.traits || []),
+      ...(selectedOriginObj?.traits_detail || []),
+      ...(selectedSecondaryOriginObj?.traits_detail || []),
+      ...(selectedOccupationObj?.traits_detail || []),
+      ...(selectedSecondaryOccupationObj?.traits_detail || [])
+    ].forEach(t => {
+      if (!t) return;
       if (t.name) traitDetailMap.set(t.name.toLowerCase(), t);
       if (t.id) traitDetailMap.set(t.id.toLowerCase(), t);
+      const normN = normalizeTraitLookupKey(t.name);
+      if (normN && !traitDetailMap.has(normN)) traitDetailMap.set(normN, t);
+      const normI = normalizeTraitLookupKey(t.id);
+      if (normI && !traitDetailMap.has(normI)) traitDetailMap.set(normI, t);
     });
 
     const addTraitsFromPool = (pool, categoryLabel, isGranted = true, source = 'general') => {
+      const pillarCtx = source === 'origin' ? selectedOriginObj : source === 'occupation' ? selectedOccupationObj : source === 'species' ? selectedSpeciesObj : null;
       (pool?.traits || []).forEach((tName, idx) => {
-        const cleanName = typeof tName === 'object' ? (tName.name || tName.id) : String(tName);
-        if (!combinedTraitsMap.has(cleanName)) {
-          const detail = traitDetailMap.get(cleanName.toLowerCase()) || (typeof tName === 'object' ? tName : {});
+        const rawKey = typeof tName === 'object' ? (tName.name || tName.id) : String(tName);
+        const normKey = normalizeTraitLookupKey(rawKey) || rawKey.toLowerCase().trim();
+        if (normKey && !combinedTraitsMap.has(normKey)) {
+          const detail = traitDetailMap.get(rawKey.toLowerCase()) || traitDetailMap.get(normKey) || getEnrichedTraitData(tName) || {};
+          const formatted = formatSpeciesTrait(tName, pillarCtx);
+          const resolvedName = (detail.name && !/^(?:trait|feature)[-_]/i.test(detail.name) && !isGeneratedTraitId(detail.name))
+            ? detail.name
+            : (formatted?.name || rawKey);
+          const resolvedMechanic = detail.mechanic || detail.mechanics || formatted?.mechanic || '';
+          const rawDesc = detail.description || detail.desc || '';
+          const resolvedDesc = cleanTraitDescriptionText(
+            (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || formatted?.description || '',
+            resolvedMechanic
+          );
           const isOrigin = source === 'origin';
           const traitIsFree = isOrigin ? idx < 2 : isGranted;
-          combinedTraitsMap.set(cleanName, {
-            id: detail.id || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            name: cleanName,
+          combinedTraitsMap.set(normKey, {
+            id: (!isGeneratedTraitId(detail.id) && detail.id) || (!isGeneratedTraitId(formatted?.id) && formatted?.id) || `trait-${normKey.replace(/\s+/g, '-')}`,
+            name: resolvedName,
             category: detail.category || detail.trait_type || categoryLabel,
             trait_type: detail.trait_type || categoryLabel,
             trait_tier: detail.trait_tier || detail.tier || 'Basic',
             classification: detail.classification || 'Physical',
             source,
-            description: detail.description || detail.desc || detail.mechanics || '',
+            description: resolvedDesc,
+            mechanic: resolvedMechanic,
             bp: traitIsFree ? 0 : (detail.bp !== undefined ? detail.bp : 1),
             standaloneBp: detail.bp !== undefined ? detail.bp : 1,
             cp: traitIsFree ? 0 : 1,
@@ -676,19 +707,25 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     addTraitsFromPool(draft.generalAllocations, 'General Trait', false, 'general');
 
     // Add Inherent Species Traits if present
-    if (selectedSpeciesObj && Array.isArray(selectedSpeciesObj.inherent_features)) {
-      selectedSpeciesObj.inherent_features.forEach(trait => {
-        const traitName = typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait);
-        if (traitName && !combinedTraitsMap.has(traitName)) {
-          combinedTraitsMap.set(traitName, {
-            id: `trait_species_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+    if (selectedSpeciesObj) {
+      getInherentSpeciesTraits(selectedSpeciesObj).forEach(trait => {
+        const formatted = formatSpeciesTrait(trait, selectedSpeciesObj);
+        const traitName = formatted?.name || (typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait));
+        const normKey = normalizeTraitLookupKey(traitName) || String(traitName).toLowerCase().trim();
+        if (normKey && !combinedTraitsMap.has(normKey)) {
+          combinedTraitsMap.set(normKey, {
+            id: (!isGeneratedTraitId(formatted?.id) && formatted?.id) || `trait-${normKey.replace(/\s+/g, '-')}`,
             name: traitName,
             category: 'Species Inherent',
-            trait_type: 'Species Trait',
+            trait_type: formatted?.category || 'Species Trait',
             trait_tier: 'Basic',
             classification: 'Physical',
-            description: typeof trait === 'object' ? trait.description || trait.desc || '' : '',
-            bp: 0
+            source: 'species',
+            description: formatted?.description || '',
+            mechanic: formatted?.mechanic || '',
+            bp: 0,
+            cp: 0,
+            isGranted: true
           });
         }
       });
@@ -702,20 +739,31 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     (dbData.features || []).forEach(f => {
       if (f.name) featDetailMap.set(f.name.toLowerCase(), f);
       if (f.id) featDetailMap.set(f.id.toLowerCase(), f);
+      const normN = normalizeTraitLookupKey(f.name);
+      if (normN && !featDetailMap.has(normN)) featDetailMap.set(normN, f);
+      const normI = normalizeTraitLookupKey(f.id);
+      if (normI && !featDetailMap.has(normI)) featDetailMap.set(normI, f);
     });
 
     const addFeatsFromPool = (pool, categoryLabel, isGranted = true, source = 'general') => {
       (pool?.features || []).forEach(fName => {
-        const cleanName = typeof fName === 'object' ? (fName.name || fName.id) : String(fName);
-        if (!combinedFeaturesMap.has(cleanName)) {
-          const detail = featDetailMap.get(cleanName.toLowerCase()) || (typeof fName === 'object' ? fName : {});
-          combinedFeaturesMap.set(cleanName, {
-            id: detail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            name: cleanName,
+        const rawKey = typeof fName === 'object' ? (fName.name || fName.id) : String(fName);
+        const normKey = normalizeTraitLookupKey(rawKey) || rawKey.toLowerCase().trim();
+        if (normKey && !combinedFeaturesMap.has(normKey)) {
+          const detail = featDetailMap.get(rawKey.toLowerCase()) || featDetailMap.get(normKey) || getEnrichedFeatureData(fName) || {};
+          const resolvedName = (detail.name && !/^(?:feature|trait)[-_]/i.test(detail.name) && !isGeneratedTraitId(detail.name))
+            ? detail.name
+            : rawKey;
+          const resolvedMech = detail.mechanic || detail.mechanics || '';
+          const rawDesc = detail.description || detail.desc || '';
+          const resolvedDesc = cleanTraitDescriptionText(!isCorruptedTraitDescription(rawDesc) ? rawDesc : '', resolvedMech);
+          combinedFeaturesMap.set(normKey, {
+            id: (!isGeneratedTraitId(detail.id) && detail.id) || `feature-${normKey.replace(/\s+/g, '-')}`,
+            name: resolvedName,
             category: detail.category || categoryLabel,
             source,
-            description: detail.description || '',
-            mechanic: detail.mechanic || '',
+            description: resolvedDesc,
+            mechanic: resolvedMech,
             cp: isGranted ? 0 : (detail.cp !== undefined ? detail.cp : 3),
             standaloneCp: detail.cp !== undefined ? detail.cp : 3,
             isGranted
@@ -1387,6 +1435,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       const existing = typeof currentList[existingIndex] === 'object' ? { ...currentList[existingIndex] } : { name: currentList[existingIndex] };
       existing.qty = (parseInt(existing.qty || existing.quantity || 1, 10)) + 1;
       currentList[existingIndex] = existing;
+    } else {
       const costCr = parseInt(item.cost ?? item.price ?? item.credit_value ?? item.costs?.credits ?? 50, 10) || 0;
       const dcVal = item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== ''
         ? parseInt(item.craft_dc, 10)

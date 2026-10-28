@@ -721,17 +721,26 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
   };
 
-  // Close tray on Escape key
+  // Close tray on Escape key, or re-roll previous dice formula on Space key
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         onClose();
+        return;
+      }
+      const tag = e.target?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target?.isContentEditable) {
+        return;
+      }
+      if (e.key === ' ' && !e.repeat && !e.ctrlKey && !e.altKey && !e.metaKey) {
+        e.preventDefault();
+        handleRoll(customExpr);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, customExpr]);
 
   const handleRoll = async (expr = customExpr, overrideAdvantage = null, overrideConfig = null) => {
     // Resolve clamped advantageDice (-5 to +5)

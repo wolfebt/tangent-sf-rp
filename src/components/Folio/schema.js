@@ -262,7 +262,7 @@ export const characterSchema = z.object({
   notes: z.array(noteItemSchema).optional().default([{ text: '' }]),
 
   // Persona Lifecycle & VTT Readiness Lock
-  folio_phase: z.enum(['development', 'locked']).optional().default('development'),
+  folio_phase: z.enum(['development', 'locked', 'tactical']).optional().default('development'),
   is_locked: z.boolean().optional().default(false),
   is_ready_for_vtt: z.boolean().optional().default(false),
   locked_at: z.string().nullable().optional().default(null),

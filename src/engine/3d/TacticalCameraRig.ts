@@ -200,8 +200,8 @@ export class TacticalCameraRig {
   // --- POINTER EVENTS ---
 
   private onPointerDown = (e: PointerEvent) => {
-    // Only capture middle click (1), right click (2), or left click (0) with Alt or Space
-    if (e.button === 1 || e.button === 2 || (e.button === 0 && (e.altKey || e.shiftKey))) {
+    // Only capture middle click (1), right click (2), or left click (0) with Alt, Shift, or Space
+    if (e.button === 1 || e.button === 2 || (e.button === 0 && (e.altKey || e.shiftKey || this.activeKeys.has(' ')))) {
       this.isPointerDown = true;
       this.pointerButton = e.button;
       this.lastPointerX = e.clientX;
@@ -217,8 +217,8 @@ export class TacticalCameraRig {
     this.lastPointerX = e.clientX;
     this.lastPointerY = e.clientY;
 
-    if (this.pointerButton === 1 || (this.pointerButton === 0 && e.shiftKey)) {
-      // Middle-click or Shift+LeftDrag: PAN in camera ground plane
+    if (this.pointerButton === 1 || (this.pointerButton === 0 && (e.shiftKey || this.activeKeys.has(' ')))) {
+      // Middle-click, Shift+LeftDrag, or Space+LeftDrag: PAN in camera ground plane
       this.panByPixels(dx, dy);
     } else if (this.pointerButton === 2 || (this.pointerButton === 0 && e.altKey)) {
       // Right-click or Alt+LeftDrag: ROTATE
@@ -267,8 +267,10 @@ export class TacticalCameraRig {
 
     const key = e.key.toLowerCase();
 
-    // Step rotations
-    if (key === 'q') {
+    // Step rotations & Space pan modifier
+    if (key === ' ') {
+      this.activeKeys.add(' ');
+    } else if (key === 'q') {
       this.rotateTacticalAzimuth(false);
     } else if (key === 'e') {
       this.rotateTacticalAzimuth(true);
@@ -278,6 +280,9 @@ export class TacticalCameraRig {
   };
 
   private onKeyUp = (e: KeyboardEvent) => {
+    if (e.key === ' ') {
+      this.activeKeys.delete(' ');
+    }
     this.activeKeys.delete(e.key.toLowerCase());
   };
 

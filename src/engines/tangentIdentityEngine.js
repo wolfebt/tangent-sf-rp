@@ -24,6 +24,11 @@ import {
   getEnrichedTraitData
 } from '../data/speciesTraitsData.js';
 import { enrichItemWithModifiers } from './tangentModifierEngine.js';
+import {
+  formatSpeciesTrait,
+  isCorruptedTraitDescription,
+  isGeneratedTraitId
+} from '../utils/speciesDisplayUtils.js';
 
 export const PRIMARY_TO_SUB_ATTR_MAP = {
   'attr-strength': 'attr-might',
@@ -619,19 +624,24 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
 
     const addInherentFeat = (rawName, desc = '') => {
       if (!rawName) return;
-      const cleanTitle = normalizeTraitString(rawName);
+      const formatted = formatSpeciesTrait(rawName, newSpeciesObj);
+      const cleanTitle = (formatted?.name && formatted.name !== 'Species Adaptation') ? formatted.name : normalizeTraitString(rawName);
       if (!addedNames.has(cleanTitle.toLowerCase()) && !addedNames.has(String(rawName).toLowerCase())) {
         addedNames.add(cleanTitle.toLowerCase());
         const standalone = getStandaloneCost(rawName);
+        const resolvedDesc = (!isCorruptedTraitDescription(desc) ? desc : '') ||
+          (!isCorruptedTraitDescription(formatted?.description) ? formatted.description : '') ||
+          `Inherent trait granted by ${newSpeciesName}.`;
         const rawFeatObj = {
-          id: `feat_sp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+          id: (!isGeneratedTraitId(formatted?.id) && formatted?.id) || `feat_sp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
           category: 'Species Inherent',
           source: 'species',
           sourceName: newSpeciesName,
           cp: 0,
           standaloneCp: standalone,
-          description: desc || `Inherent trait granted by ${newSpeciesName}.`
+          description: resolvedDesc,
+          mechanic: formatted?.mechanic || ''
         };
         newFeaturesToAdd.push(enrichItemWithModifiers(rawFeatObj));
       }

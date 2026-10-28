@@ -956,6 +956,12 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
                       placeholder="A rogue AI awakens on a derelict starship..."
                       value={brainstormPrompt}
                       onChange={(e) => setBrainstormPrompt(e.target.value)}
+                      onKeyDown={(e) => {
+                        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !isGenerating) {
+                          e.preventDefault();
+                          handleGenerateConcepts();
+                        }
+                      }}
                     />
                     <button onClick={handleGenerateConcepts} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50 flex items-center gap-2">
                       {isGenerating ? (

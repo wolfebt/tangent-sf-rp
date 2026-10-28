@@ -114,6 +114,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       { key: 'Ctrl + K', action: 'Open Spotlight Omni-Search' },
       { key: 'Alt + D', action: 'Toggle Polyhedral Dice Dock' },
       { key: 'Alt + H', action: 'Navigate to Operations Hub' },
+      { key: 'Alt + G', action: 'Open Comprehensive User Guide' },
       { key: 'Esc', action: 'Close active drawer or modal' }
     ]
   },
@@ -175,7 +176,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     ],
     hotkeys: [
       { key: 'Alt + F', action: 'Open Persona Folio' },
-      { key: 'Alt + 1-8', action: 'Switch Folio dossier tabs' },
+      { key: 'Alt + 1-9 / 0', action: 'Switch Folio dossier tabs' },
       { key: 'Click Stat', action: 'Instant 2d10 attribute check' }
     ]
   },
@@ -224,6 +225,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       { key: 'Alt + C', action: 'Open Rules Compendium' },
       { key: 'Alt + Left', action: 'Navigate to Previous Rulebook Article' },
       { key: 'Alt + Right', action: 'Navigate to Next Rulebook Article' },
+      { key: '[ / ]', action: 'Toggle Omnicortex category drawer' },
       { key: '[[keyword]]', action: 'Create interactive rulebook hyperlink' }
     ]
   },
@@ -317,7 +319,9 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     hotkeys: [
       { key: 'Alt + S', action: 'Open Story Foundry' },
       { key: 'Space + Drag', action: 'Pan Story Weaver node canvas' },
-      { key: 'Ctrl + Scroll', action: 'Zoom node graph' }
+      { key: 'Scroll Wheel', action: 'Zoom node graph around cursor' },
+      { key: '[ / ]', action: 'Toggle Outliner / Inspector drawers' },
+      { key: 'Ctrl + Z / Y', action: 'Undo / Redo scenario tree changes' }
     ]
   },
   {
@@ -365,10 +369,13 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       'Tokens with the Concealed or Camouflaged status are automatically rendered translucent to players without high enough Perception.'
     ],
     hotkeys: [
-      { key: 'G', action: 'Toggle tactical grid overlay' },
+      { key: 'Alt + M', action: 'Open Tactical Map Maker' },
+      { key: 'G', action: 'Cycle tactical grid mode (Hex / Square / Off)' },
       { key: 'M', action: 'Deploy tactical laser rangefinder' },
+      { key: 'V / H / F / B', action: 'Select / Pan / Fog / Chunk Stamp tools' },
       { key: 'Shift + Drag', action: 'Measure token movement trajectory' },
-      { key: 'Middle Click / Space', action: 'Pan tactical map viewport' }
+      { key: 'Middle Click / Space', action: 'Pan tactical map viewport' },
+      { key: '?', action: 'Toggle Map Maker Hotkeys Legend' }
     ]
   },
   {
@@ -462,9 +469,9 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       'Pinned dockets persist across sessions, ensuring players always have access to mission directives when logging back in.'
     ],
     hotkeys: [
-      { key: 'Alt + R', action: 'Open CommLink Relay' },
-      { key: 'Enter', action: 'Focus Comms input bar' },
-      { key: 'Tab', action: 'Cycle between open frequency channels' }
+      { key: 'Alt + R', action: 'Toggle CommLink Relay Dock' },
+      { key: 'Enter', action: 'Send transmission (Shift + Enter for newline)' },
+      { key: 'Tab / Up / Down', action: 'Autocomplete slash commands (/roll, /whisper)' }
     ]
   },
   {
@@ -550,14 +557,22 @@ If the Check Result meets or exceeds the **Target Number (TN)**, the action succ
 |---|---|---|
 | **Ctrl + K** | Global | Spotlight Omni-Search across all articles, maps, and personas |
 | **Alt + D** | Global | Toggle Polyhedral 2d10 Dice Roller Dock |
+| **Alt + R** | Global | Toggle CommLink Relay tactical frequency dock |
 | **Alt + H** | Global | Jump to Operations Hub command flight deck |
 | **Alt + F** | Global | Jump to Persona Folio operative dossier |
 | **Alt + C** | Global | Jump to Omnicortex DBM Compendium rules |
+| **Alt + X** | Global | Jump to Codex & Economatrix worldbuilding studio |
 | **Alt + S** | Global | Jump to Story Foundry scenario weaver |
-| **Alt + Left / Right** | Compendium | Jump to Previous / Next rulebook article sequentially |
-| **G** | Map Maker | Toggle tactical battle map grid lines |
+| **Alt + M** | Global | Jump to Tactical Map Maker virtual tabletop |
+| **Alt + A** | Global | Jump to AIME narrative intelligence studio |
+| **Alt + G** | Global | Open Comprehensive Platform User Guide |
+| **Alt + Left / Right** | Compendium / Guide | Jump to Previous / Next rulebook article or guide chapter sequentially |
+| **Alt + 1-9 / 0** | Persona Folio | Switch directly between operative dossier tabs |
+| **G** | Map Maker | Toggle tactical battle map grid lines (Hex / Square / Off) |
 | **M** | Map Maker | Deploy tactical laser distance measurement tool |
-| **Space + Drag** | Maps / Story | Pan viewport canvas smoothly |
+| **V / H / F / B** | Map Maker | Switch to Select (\`V\`), Pan (\`H\`), Fog of War (\`F\`), or Chunk Stamp (\`B\`) tool |
+| **Space + Drag** | Maps / Story / Stage | Pan viewport canvas smoothly |
+| **Space** | Dice Dock | Re-roll active dice formula when Dice Dock is open |
 | **Esc** | Global | Close active modal, dismiss drawer, or cancel action |`
       },
       {

@@ -329,8 +329,10 @@ const PerceptionEssenceMovementModal = ({
   // ═══════════════════════════════════════════════════════════════════════
 
   // Vitals & Mortality
-  const curHealth = parseInt(characterData.health || 30, 10);
-  const curVitality = parseInt(characterData.vitality || 30, 10);
+  const maxHealth = parseInt(characterData.health || 30, 10);
+  const maxVitality = parseInt(characterData.vitality || 30, 10);
+  const curHealth = parseInt(characterData.current_health ?? maxHealth, 10);
+  const curVitality = parseInt(characterData.current_vitality ?? maxVitality, 10);
   const staminaScore = getAttrTotal('attr-stamina') || 0;
   const toughness = derivedStats?.toughness ?? staminaScore;
   const reflexTotal = getAttrTotal('check-reflex') || 0;
@@ -1198,7 +1200,7 @@ const PerceptionEssenceMovementModal = ({
                   <span className="text-rose-300">Character has active trauma debt. Settle debt using available AP.</span>
                   <button
                     type="button"
-                    onClick={() => payExperienceDebt(Math.min(experienceDebt, availableAP))}
+                    onClick={() => payExperienceDebt(characterData['character-doc-id'] || characterData.id || 'active', Math.min(experienceDebt, availableAP))}
                     className="px-3 py-1 bg-amber-700 hover:bg-amber-600 text-white rounded font-bold uppercase tracking-wider text-[11px]"
                   >
                     Repay Debt ({Math.min(experienceDebt, availableAP)} AP)

@@ -34,7 +34,7 @@ import {
 } from 'lucide-react';
 import FolioTooltip from '../shared/FolioTooltip';
 import SkillChoiceSelector from '../shared/SkillChoiceSelector';
-import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
+import { checkPrerequisite, fulfillItemPrerequisites } from '../../../utils/prerequisiteEvaluator';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 import AugmentationsManager from '../augmentations/AugmentationsManager';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
@@ -54,7 +54,16 @@ import {
 } from '../../../data/speciesTraitsData';
 import { DEFAULT_INVOCATIONS, getEnrichedInvocationData } from '../../../data/invocationsData';
 import { getEnrichedHindranceData } from '../../../data/speciesDisadvantagesData';
-import { formatSpeciesTrait, getInherentSpeciesTraits } from '../../../utils/speciesDisplayUtils';
+import {
+  formatSpeciesTrait,
+  getInherentSpeciesTraits,
+  isGeneratedTraitId,
+  isCorruptedTraitDescription,
+  cleanTraitDescriptionText,
+  extractInlineMarkdownMechanic,
+  normalizeTraitLookupKey,
+  cleanTraitName
+} from '../../../utils/speciesDisplayUtils';
 import { METAPHYSICAL_DISCIPLINES, SKILL_CATEGORY_SECTIONS } from '../../../data/skillsData';
 import { resolveCatalogItem } from '../../../engines/tangentIdentityEngine';
 import { getCanonicalTraitCost, formatGrantedCost } from '../../../engines/tangentEntityEngines';
@@ -69,11 +78,15 @@ import {
 } from '../../../utils/pillarRecommendations.jsx';
 
 /**
- * Normalizes feat/trait strings for matching
+ * Normalizes feat/trait strings or objects for matching
  */
-const normalizeLookupName = (name) => {
-  if (!name) return '';
-  return String(name).replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim().toLowerCase();
+const normalizeLookupName = (nameOrObj) => {
+  if (!nameOrObj) return '';
+  if (typeof nameOrObj === 'object') {
+    const cand = [nameOrObj.name, nameOrObj.title, nameOrObj.id].find(c => c && !isGeneratedTraitId(c));
+    return normalizeTraitLookupKey(cand || '');
+  }
+  return normalizeTraitLookupKey(nameOrObj);
 };
 
 // Unified trait lookup pool covering all canonical categories and species lineages
@@ -91,80 +104,120 @@ const ALL_TRAIT_LOOKUP = [
  */
 const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
   if (!traitIdOrName) return null;
-  const rawStr = typeof traitIdOrName === 'object' ? (traitIdOrName.id || traitIdOrName.name || traitIdOrName.title || '') : String(traitIdOrName);
+  const candidates = typeof traitIdOrName === 'object'
+    ? [traitIdOrName.name, traitIdOrName.title, traitIdOrName.id].filter(c => c && !isGeneratedTraitId(c)).map(c => String(c).trim())
+    : (!isGeneratedTraitId(traitIdOrName) ? [String(traitIdOrName).trim()] : []);
+
+  const rawStr = candidates[0] || (typeof traitIdOrName === 'object' ? (traitIdOrName.name || traitIdOrName.title || traitIdOrName.id || '') : String(traitIdOrName));
   const clean = String(rawStr).trim().toLowerCase();
-  const normalized = clean.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
+  const normCandidates = candidates.map(c => normalizeTraitLookupKey(c)).filter(Boolean);
+  const normalized = normCandidates[0] || normalizeTraitLookupKey(clean);
+
+  const rawObjDesc = typeof traitIdOrName === 'object' ? (traitIdOrName.description || traitIdOrName.desc || '') : '';
+  const inlineMech = extractInlineMarkdownMechanic(rawObjDesc);
+  const rawObjMech = (typeof traitIdOrName === 'object' ? (traitIdOrName.mechanic || traitIdOrName.mechanics || '') : '') || inlineMech;
+  const cleanObjDesc = isCorruptedTraitDescription(rawObjDesc) ? '' : cleanTraitDescriptionText(rawObjDesc, rawObjMech);
 
   // Check pillar-specific traits_detail first (e.g. Occupation or Origin specific traits)
   if (speciesContext && Array.isArray(speciesContext.traits_detail)) {
     const detailFound = speciesContext.traits_detail.find(t => {
       const tId = (t.id || '').toLowerCase();
       const tName = (t.name || t.title || '').toLowerCase();
-      const tNorm = tName.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
-      return tId === clean || tName === clean || tNorm === normalized;
+      const tNormId = normalizeTraitLookupKey(tId);
+      const tNormName = normalizeTraitLookupKey(tName);
+      return candidates.some(c => {
+        const cl = c.toLowerCase();
+        return tId === cl || tName === cl;
+      }) || normCandidates.some(nc => nc === tNormId || nc === tNormName);
     });
     if (detailFound) {
       const canonicalMatch = ALL_TRAIT_LOOKUP.find(t => {
         const tId = (t.id || '').toLowerCase();
         const tName = (t.name || t.title || '').toLowerCase();
-        const tNorm = tName.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
-        return tId === clean || tName === clean || tNorm === normalized;
+        const tNormId = normalizeTraitLookupKey(tId);
+        const tNormName = normalizeTraitLookupKey(tName);
+        return candidates.some(c => {
+          const cl = c.toLowerCase();
+          return tId === cl || tName === cl;
+        }) || normCandidates.some(nc => nc === tNormId || nc === tNormName);
       });
+      const resolvedMech = detailFound.mechanic || detailFound.mechanics || rawObjMech || canonicalMatch?.mechanic || '';
+      const resolvedDesc = cleanTraitDescriptionText(detailFound.description || detailFound.desc || cleanObjDesc || canonicalMatch?.description || '', resolvedMech);
       return {
         ...(canonicalMatch || {}),
         ...detailFound,
         ...(typeof traitIdOrName === 'object' ? traitIdOrName : {}),
-        description: detailFound.description || detailFound.desc || canonicalMatch?.description || '',
-        mechanic: detailFound.mechanic || detailFound.mechanics || canonicalMatch?.mechanic || ''
+        id: detailFound.id || canonicalMatch?.id || (!isGeneratedTraitId(traitIdOrName?.id) && traitIdOrName?.id) || clean,
+        name: detailFound.name || canonicalMatch?.name || cleanTraitName(rawStr),
+        description: resolvedDesc,
+        mechanic: resolvedMech
       };
     }
   }
 
-  if (typeof traitIdOrName === 'object' && traitIdOrName !== null && (traitIdOrName.description || traitIdOrName.desc) && (traitIdOrName.mechanic || traitIdOrName.mechanics)) {
-    return traitIdOrName;
-  }
-  
   const found = ALL_TRAIT_LOOKUP.find(t => {
     const tId = (t.id || '').toLowerCase();
     const tName = (t.name || t.title || '').toLowerCase();
-    const tNorm = tName.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
-    return tId === clean || tName === clean || tNorm === normalized;
+    const tNormId = normalizeTraitLookupKey(tId);
+    const tNormName = normalizeTraitLookupKey(tName);
+    return candidates.some(c => {
+      const cl = c.toLowerCase();
+      return tId === cl || tName === cl;
+    }) || normCandidates.some(nc => nc === tNormId || nc === tNormName);
   });
 
+  const formatted = formatSpeciesTrait(traitIdOrName, speciesContext);
+
   if (found) {
-    return typeof traitIdOrName === 'object' ? { ...found, ...traitIdOrName, description: traitIdOrName.description || found.description, mechanic: traitIdOrName.mechanic || found.mechanic } : found;
+    // If KNOWN_SPECIES_TRAIT_DESCRIPTIONS has a curated short name/description for species traits (e.g. Aeld Lineage), prefer its clean name/description when found.description is generic
+    const resolvedMech = rawObjMech || found.mechanic || found.mechanics || formatted?.mechanic || '';
+    const resolvedDesc = cleanTraitDescriptionText(cleanObjDesc || found.description || found.desc || formatted?.description || '', resolvedMech);
+    const resolvedName = found.name || formatted?.name || cleanTraitName(rawStr);
+    return typeof traitIdOrName === 'object'
+      ? {
+          ...found,
+          ...traitIdOrName,
+          id: found.id || (!isGeneratedTraitId(traitIdOrName.id) ? traitIdOrName.id : `trait-${ normalized.replace(/\s+/g, '-') }`),
+          name: resolvedName,
+          description: resolvedDesc,
+          mechanic: resolvedMech
+        }
+      : {
+          ...found,
+          name: resolvedName,
+          description: resolvedDesc,
+          mechanic: resolvedMech
+        };
   }
 
-  const formatted = formatSpeciesTrait(traitIdOrName, speciesContext);
   if (formatted && formatted.name && formatted.name !== 'Species Adaptation') {
+    const resolvedMech = rawObjMech || formatted.mechanic || formatted.tooltip?.rules || '';
+    const resolvedDesc = cleanTraitDescriptionText(cleanObjDesc || formatted.description || formatted.tooltip?.description || `${formatted.name} species trait.`, resolvedMech);
     return {
-      id: formatted.id || clean,
+      id: (!isGeneratedTraitId(formatted.id) && formatted.id) || clean,
       name: formatted.name,
       category: 'traits',
       trait_type: formatted.category || 'Species Trait',
       trait_tier: 'Basic',
       cp: 1,
-      description: formatted.description || formatted.tooltip?.description || `${formatted.name} species trait.`,
-      mechanic: formatted.mechanic || formatted.tooltip?.rules || '',
+      description: resolvedDesc,
+      mechanic: resolvedMech,
       rules: formatted.tooltip?.rules || '',
       modifiers: []
     };
   }
 
-  const formattedName = String(traitIdOrName)
-    .replace(/^(trait|feature)-/i, '')
-    .replace(/[-_]/g, ' ')
-    .replace(/\b\w/g, c => c.toUpperCase());
+  const formattedName = cleanTraitName(rawStr) || 'Trait';
 
   return {
-    id: clean.startsWith('trait-') ? clean : `trait-${clean.replace(/\s+/g, '-')}`,
+    id: (!isGeneratedTraitId(clean) && clean.startsWith('trait-')) ? clean : `trait-${(normalized || 'custom').replace(/\s+/g, '-')}`,
     name: formattedName,
     category: 'traits',
     trait_type: 'Column Trait',
     trait_tier: 'Basic',
     cp: 1,
-    description: 'Character trait from chosen identity column.',
-    mechanic: '',
+    description: cleanObjDesc || 'Character trait from chosen identity column.',
+    mechanic: rawObjMech || '',
     modifiers: []
   };
 };
@@ -382,8 +435,24 @@ export const FeaturesTab = ({
     const result = [];
     rawFeatures.forEach((item, idx) => {
       if (!isAwakenedItem(item) && !isAugmentationItem(item) && !isHindranceItem(item) && !isTraitItem(item)) {
+        const enriched = getEnrichedFeatureData(item) || {};
+        const itemObj = typeof item === 'object' ? item : { name: item };
+        const rawDesc = itemObj.description || itemObj.desc || '';
+        const inlineMech = extractInlineMarkdownMechanic(rawDesc);
+        const mech = itemObj.mechanic || itemObj.mechanics || enriched.mechanic || inlineMech || '';
+        const desc = cleanTraitDescriptionText((!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enriched.description || '', mech);
+        const rawName = itemObj.name || itemObj.title || '';
+        const isSlugOrGen = !rawName || /^(?:feature|trait|ability|combat|discipline|general|karma|skill|special)[-_]/i.test(rawName) || isGeneratedTraitId(rawName);
+        const cleanTitle = (!isSlugOrGen && (!enriched.name || normalizeTraitLookupKey(rawName) !== normalizeTraitLookupKey(enriched.name)))
+          ? rawName
+          : (enriched.name || cleanTraitName(rawName) || 'Feature');
         result.push({
-          ...(typeof item === 'object' ? item : { name: item }),
+          ...enriched,
+          ...itemObj,
+          id: (!isGeneratedTraitId(itemObj.id) && itemObj.id) || enriched.id || itemObj.id,
+          name: cleanTitle,
+          description: desc,
+          mechanic: mech,
           sourceList: 'features',
           sourceIndex: idx
         });
@@ -898,7 +967,7 @@ export const FeaturesTab = ({
     const seen = new Set();
     const combined = [];
     [...rawTraits, ...fromFeatures, ...fromAllocations].forEach((item) => {
-      const cleanName = normalizeLookupName(typeof item === 'object' ? (item.name || item.title || item.id || '') : item);
+      const cleanName = normalizeLookupName(item);
       if (cleanName && !seen.has(cleanName)) {
         seen.add(cleanName);
         
@@ -932,15 +1001,32 @@ export const FeaturesTab = ({
           ? columnsData.species?.obj
           : null;
         const resolvedTrait = findCanonicalTrait(item, pillarContext);
-        const canonicalTrait = ALL_CANONICAL_TRAITS.find(ct => ct.id === item.id || normalizeLookupName(ct.name) === cleanName);
+        const canonicalTrait = ALL_CANONICAL_TRAITS.find(ct => (!isGeneratedTraitId(item?.id) && ct.id === item?.id) || normalizeLookupName(ct.name) === cleanName || normalizeLookupName(ct.id) === cleanName);
         const package_traits = (item.package_traits && item.package_traits.length > 0) ? item.package_traits : (resolvedTrait?.package_traits || canonicalTrait?.package_traits || []);
+
+        const rawItemName = typeof item === 'object' ? (item.name || item.title || '') : String(item || '');
+        const isSlugOrGenName = !rawItemName || /^(?:trait|feature)[-_]/i.test(rawItemName) || isGeneratedTraitId(rawItemName);
+        const bestCanonicalName = resolvedTrait?.name || canonicalTrait?.name || '';
+        const finalName = (!isSlugOrGenName && (!bestCanonicalName || normalizeLookupName(rawItemName) !== normalizeLookupName(bestCanonicalName)))
+          ? rawItemName
+          : (bestCanonicalName || cleanTraitName(rawItemName) || 'Trait');
+
+        const rawItemDesc = typeof item === 'object' ? (item.description || item.desc || '') : '';
+        const inlineMech = extractInlineMarkdownMechanic(rawItemDesc);
+        const finalMechanic = (typeof item === 'object' && (item.mechanic || item.mechanics)) || resolvedTrait?.mechanic || canonicalTrait?.mechanic || inlineMech || '';
+        const finalDescription = cleanTraitDescriptionText(
+          (!isCorruptedTraitDescription(rawItemDesc) ? rawItemDesc : '') || resolvedTrait?.description || canonicalTrait?.description || '',
+          finalMechanic
+        );
 
         combined.push({
           ...(canonicalTrait || {}),
           ...(resolvedTrait || {}),
-          ...(typeof item === 'object' ? item : { name: resolvedTrait?.name || item }),
-          description: (typeof item === 'object' && (item.description || item.desc)) || resolvedTrait?.description || canonicalTrait?.description || '',
-          mechanic: (typeof item === 'object' && (item.mechanic || item.mechanics)) || resolvedTrait?.mechanic || canonicalTrait?.mechanic || '',
+          ...(typeof item === 'object' ? item : { name: finalName }),
+          id: (!isGeneratedTraitId(item?.id) && item?.id) || resolvedTrait?.id || canonicalTrait?.id || item?.id,
+          name: finalName,
+          description: finalDescription,
+          mechanic: finalMechanic,
           columnCategory,
           cleanName,
           package_traits,
@@ -1806,120 +1892,39 @@ export const FeaturesTab = ({
         const showAugs = overviewManifestFilter === 'augmentations' || (overviewManifestFilter === 'all' && augmentationsList.length > 0);
         const showHindrances = overviewManifestFilter === 'hindrances' || (overviewManifestFilter === 'all' && hindrancesList.length > 0);
 
+        const unspentTraitPools = [];
+        if (characterData?.['char-origin'] && (characterData?.originAllocations?.traits || []).length < 2) {
+          unspentTraitPools.push(`Origin (${2 - (characterData?.originAllocations?.traits || []).length} Trait)`);
+        }
+        if (characterData?.['char-occu'] && (characterData?.occuAllocations?.traits || []).length < 2) {
+          unspentTraitPools.push(`Occupation (${2 - (characterData?.occuAllocations?.traits || []).length} Trait)`);
+        }
+
         return (
-          <div className="space-y-6">
-            {/* Identity Columns Foundations Banner */}
-            <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shadow-sm">
-              <div className="flex items-center gap-2">
-                <Compass className="w-4 h-4 text-cyan-400" />
-                <span className="text-slate-300 font-bold uppercase tracking-wider">Active Column Foundations:</span>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-700 text-cyan-300">
-                  Species: <strong>{characterData['char-species'] || 'None'}</strong>
-                </span>
-                <span className="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-300">
-                  Origin: <strong>{characterData['char-origin'] || 'None'}</strong>
-                  {columnsData.origin.secName && ` (+ ${columnsData.origin.secName})`}
-                </span>
-                <span className="px-2 py-0.5 rounded bg-sky-950/80 border border-sky-700 text-sky-300">
-                  Occupation: <strong>{characterData['char-occu'] || 'None'}</strong>
-                  {columnsData.occupation.secName && ` (+ ${columnsData.occupation.secName})`}
-                </span>
-                <span className="px-2 py-0.5 rounded bg-purple-950/80 border border-purple-700 text-purple-300">
-                  Faction: <strong>{characterData['char-faction'] || 'None'}</strong>
-                </span>
-              </div>
-            </div>
-
-            {/* Aspect Hub: 5 Subsystem Capability Cards */}
-            <div className="space-y-2.5">
-              <div className="flex flex-wrap items-center justify-between gap-2 px-1">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-cyan-400" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-slate-200">
-                    Capability Subsystems (Aspect Hub)
-                  </h3>
+          <div className="space-y-4">
+            {unspentTraitPools.length > 0 && (
+              <div className="px-3 py-2 rounded-lg bg-amber-950/30 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div className="flex items-center gap-2 text-amber-200 font-mono">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span>Unallocated Identity Trait Pools: <strong>{unspentTraitPools.join(' • ')}</strong></span>
                 </div>
-                <span className="text-[10.5px] font-mono text-slate-400">
-                  Select any subsystem card below to inspect, allocate, or manage
-                </span>
+                <button
+                  type="button"
+                  onClick={() => handleNavigateToSubsystem('traits', 'features-traits')}
+                  className="px-2.5 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 font-mono font-bold text-[10px] uppercase tracking-wider cursor-pointer transition-colors"
+                >
+                  Allocate Traits &rarr;
+                </button>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 w-full items-stretch">
-                {featureSubsystems.map((opt) => {
-                  const Icon = opt.icon;
-                  return (
-                    <div
-                      key={opt.id}
-                      onClick={() => handleNavigateToSubsystem(opt.subTab, opt.id)}
-                      className={`bg-slate-900/80 hover:bg-slate-900/95 backdrop-blur-xl border ${opt.borderColor} ${opt.glowColor} rounded-xl p-3 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 flex flex-col justify-between group shadow-sm text-left`}
-                    >
-                      {/* Card Header & Content */}
-                      <div className="space-y-1.5">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex items-start gap-2 min-w-0">
-                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 mt-0.5 transition-transform duration-200 group-hover:scale-105 ${opt.iconBg}`}>
-                              <Icon size={14} />
-                            </div>
-
-                            <div className="min-w-0">
-                              <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-200 transition-colors uppercase tracking-wide leading-tight">
-                                {opt.title}
-                              </h3>
-                              <p className="text-[10px] font-mono text-slate-400 font-medium truncate mt-0.5">
-                                {opt.tagline}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col items-end shrink-0 pl-1">
-                            <span className={`px-1.5 py-0.5 rounded font-mono text-[9px] font-bold border ${opt.badgeBg}`}>
-                              {opt.count} {opt.unit}
-                            </span>
-                            {opt.extraCountText && (
-                              <span className="font-mono text-[8.5px] text-slate-400 mt-0.5 whitespace-nowrap">
-                                {opt.extraCountText}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <p className="text-[10.5px] text-slate-400/90 leading-snug line-clamp-2">
-                          {opt.description}
-                        </p>
-                      </div>
-
-                      {/* Card Footer Action */}
-                      <div className="mt-2.5 pt-1.5 border-t border-slate-800/80 flex items-center justify-between text-xs">
-                        <span className="font-mono font-bold text-slate-300 text-[10.5px]">
-                          {opt.cpText}
-                        </span>
-
-                        <div className={`flex items-center gap-1 font-bold uppercase tracking-wider text-[10px] ${opt.accentColor} group-hover:translate-x-0.5 transition-transform`}>
-                          <span>Manage</span>
-                          <ArrowRight size={11} className="group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
+            )}
             {/* Acquired Capabilities Manifest & Filtering Bar */}
-            <div className="space-y-4 pt-2">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-t border-slate-800/80 pt-4">
+            <div className="space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <Layers className="w-4 h-4 text-cyan-400" />
-                  <div>
-                    <h3 className="text-xs font-bold uppercase tracking-widest text-white">
-                      Acquired Capabilities Manifest
-                    </h3>
-                    <p className="text-[10.5px] text-slate-400">
-                      Live inventory of active persona traits, features, augmentations and powers
-                    </p>
-                  </div>
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-white">
+                    Acquired Capabilities Manifest
+                  </h3>
                 </div>
 
                 {/* Quick Search */}
@@ -3089,12 +3094,12 @@ export const FeaturesTab = ({
                             isPrereqUnmet ? (
                               <button
                                 type="button"
-                                disabled
-                                className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
-                                title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                onClick={() => fulfillItemPrerequisites(feat, characterData, updateField, handleAddItem)}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono text-rose-300 bg-rose-950/40 hover:bg-amber-950/70 hover:text-amber-200 border border-rose-800/60 hover:border-amber-500/60 flex items-center gap-1 cursor-pointer transition-colors"
+                                title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')} — Click to Auto-Fulfill Prerequisites`}
                               >
                                 <Lock className="w-3 h-3 text-rose-400" />
-                                <span>Locked</span>
+                                <span>Auto-Fulfill</span>
                               </button>
                             ) : (
                               <button
@@ -3474,12 +3479,12 @@ export const FeaturesTab = ({
                             ) : isPrereqUnmet ? (
                               <button
                                 type="button"
-                                disabled
-                                className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
-                                title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                onClick={() => fulfillItemPrerequisites(feat, characterData, updateField, handleAddItem)}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono text-rose-300 bg-rose-950/40 hover:bg-amber-950/70 hover:text-amber-200 border border-rose-800/60 hover:border-amber-500/60 flex items-center gap-1 cursor-pointer transition-colors"
+                                title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')} — Click to Auto-Fulfill Prerequisites`}
                               >
                                 <Lock className="w-3 h-3 text-rose-400" />
-                                <span>Locked</span>
+                                <span>Auto-Fulfill</span>
                               </button>
                             ) : (
                               <button

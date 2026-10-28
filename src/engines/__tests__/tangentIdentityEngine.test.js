@@ -13,6 +13,8 @@ import {
   syncIdentitySettingLevels
 } from '../tangentIdentityEngine.js';
 import { sanitizeSubAttributes } from '../../utils/attributeUtils.js';
+import { formatSpeciesTrait } from '../../utils/speciesDisplayUtils.js';
+import { getEnrichedTraitData } from '../../data/speciesTraitsData.js';
 
 describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine', () => {
 
@@ -722,6 +724,59 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
       // Calling sanitizeSubAttributes again on an already-valid character must return the identical object reference
       const secondPass = sanitizeSubAttributes(healed);
       assert.strictEqual(secondPass, healed, 'Must return identical reference when no changes are required');
+    });
+
+    it('resolves generated timestamp trait IDs, raw species slugs, unhyphenated names, and inline markdown descriptions cleanly', () => {
+      const nonCombat = formatSpeciesTrait({
+        id: 'trait_1792223406019_9e80',
+        name: 'Non Combat Focus',
+        description: '1792223406019 9e80 is an innate trait granted by this species lineage.'
+      });
+      assert.strictEqual(nonCombat.name, 'Non-Combat Focus');
+      assert.ok(!nonCombat.description.includes('1792223406019'), 'Generated timestamp must not leak into description');
+      assert.strictEqual(nonCombat.mechanic, '+2 to a Vocation Skill of choice');
+
+      const travel = formatSpeciesTrait({
+        id: 'trait_1792223406019_trvl',
+        name: 'Travel',
+        description: 'Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain *+2 Piloting and Navigation* #'
+      });
+      assert.strictEqual(travel.name, 'Travel');
+      assert.strictEqual(travel.description, 'Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain');
+      assert.strictEqual(travel.mechanic, '+2 Piloting and Navigation');
+
+      const aeldLineage = formatSpeciesTrait({
+        id: 'trait_species_1792223406019_1qrv',
+        name: 'trait-aeld-lineage-traits',
+        description: 'Species 1792223406019 1qrv is an innate trait granted by this species lineage.'
+      });
+      assert.strictEqual(aeldLineage.name, 'Aeld Lineage');
+      assert.ok(!aeldLineage.description.includes('1792223406019'));
+
+      const alterForm = formatSpeciesTrait({
+        id: 'trait_species_1792223406019_3g97',
+        name: 'trait-alter-form-humanoid-special-ability',
+        description: 'Species 1792223406019 3g97 is an innate trait granted by this species lineage.'
+      });
+      assert.strictEqual(alterForm.name, 'Alter Form');
+      assert.ok(alterForm.description.includes('Disguise'));
+
+      const senseAlignment = formatSpeciesTrait({
+        id: 'trait_species_1792223406019_1ai4',
+        name: 'trait-sense-alignment-intent',
+        description: 'Species 1792223406019 1ai4 is an innate trait granted by this species lineage.'
+      });
+      assert.strictEqual(senseAlignment.name, 'Sense Alignment / Intent');
+      assert.ok(senseAlignment.description.includes('60 ft radius'));
+
+      const enriched = getEnrichedTraitData({
+        id: 'trait_1792223406019_9e80',
+        name: 'Non Combat Focus',
+        description: '1792223406019 9e80 is an innate trait granted by this species lineage.'
+      });
+      assert.strictEqual(enriched.name, 'Non-Combat Focus');
+      assert.strictEqual(enriched.id, 'trait-non-combat-focus');
+      assert.ok(!enriched.description.includes('1792223406019'));
     });
   });
 });

@@ -247,6 +247,23 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
     }
   }, [isOpen, currentUser, initialTab]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (isGuideOpen) return;
+        if (isAiDrawerOpen) {
+          setIsAiDrawerOpen(false);
+          return;
+        }
+        e.preventDefault();
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, isGuideOpen, isAiDrawerOpen, onClose]);
+
   if (!isOpen) return null;
 
   const handleToggleAudioMute = () => {
