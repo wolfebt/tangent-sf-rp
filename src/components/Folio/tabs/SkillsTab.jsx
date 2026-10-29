@@ -2217,7 +2217,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
   }, [characterData, identityPoolsBreakdown]);
 
   return (
-    <div className="tab-panel active p-4 space-y-4 pb-20">
+    <div className="tab-panel active p-4 space-y-4 pb-20 w-full">
       {/* Compact Segmented Sub-Pane Bar & Unspent Pool Prompt */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-900/70 border border-slate-800 rounded-xl p-2">
         <div className="flex flex-wrap items-center gap-1.5">

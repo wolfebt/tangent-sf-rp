@@ -4521,8 +4521,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6 pb-20">
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in duration-150">
+    <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column: Persona Profile */}
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-2 pb-2 mb-3 border-b border-slate-800">

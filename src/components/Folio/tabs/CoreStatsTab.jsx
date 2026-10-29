@@ -461,7 +461,7 @@ const CoreStatsTab = () => {
   const isMetaAwakened = metaSkillsTotal > 0 || ['dimension', 'energy', 'entropy', 'illusion', 'matter', 'mental'].some(d => Boolean(characterData[`meta-${d}-unlocked`]));
 
   return (
-    <div className="space-y-3">
+    <div className="tab-panel active p-4 space-y-4 pb-20 w-full">
       {/* Unified Core Stats Toolbar: Single Codex & Fate/AP Override Entry Point */}
       <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900/60 border border-slate-800 rounded-lg px-3 py-1.5">
         <div className="flex items-center gap-2 text-xs font-mono text-slate-400">

@@ -445,10 +445,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   AudioService.playTerminalBeep(1150, 0.02);
                   if (isFolio) {
                     if (folio?.activeTab === 'catalog') {
+                      const charId = folio?.characterData?.['character-doc-id'] || folio?.characterData?.id;
+                      navigate(charId ? `/folio?tab=identity&char=${encodeURIComponent(charId)}` : '/folio?tab=identity');
                       folio.setActiveTab?.('identity');
                     } else {
                       folio.triggerSave?.();
-                      folio.setActiveTab?.('catalog');
+                      window.dispatchEvent(new CustomEvent('open-folio-catalog'));
                     }
                   } else {
                     navigate('/folio');

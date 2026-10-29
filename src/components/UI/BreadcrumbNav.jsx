@@ -61,7 +61,7 @@ export const BreadcrumbNav = ({
   return (
     <nav
       aria-label="Breadcrumb"
-      className={`flex items-center justify-between gap-2 px-3 py-1.5 bg-[#0a0f18]/90 border-b border-cyan-500/20 backdrop-blur-md text-xs font-mono select-none shrink-0 min-h-[38px] z-20 shadow-xs ${className}`}
+      className={`flex items-center justify-between gap-2 px-3 h-[38px] bg-[#0a0f18]/90 border-b border-cyan-500/20 backdrop-blur-md text-xs font-mono select-none shrink-0 z-20 shadow-xs overflow-hidden ${className}`}
     >
       {/* Left: Left Slot, Back Button & Crumb Trail */}
       <div className="flex items-center gap-1.5 min-w-0 overflow-x-auto no-scrollbar py-0.5">

@@ -76,6 +76,8 @@ const FolioContainer = () => {
   const [selectorConfig, setSelectorConfig] = useState(null);
 
   const fileInputRef = useRef(null);
+  const tabScrollContainerRef = useRef(null);
+  const lastSyncedSearchRef = useRef(null);
 
   const {
     activeTab: rawActiveTab,
@@ -165,6 +167,43 @@ const FolioContainer = () => {
     return () => window.removeEventListener('open-folio-economy', handleOpenEconomy);
   }, []);
 
+  // Seamless navigation helper that synchronizes active tab and character with browser history
+  const handleSelectTab = useCallback((newTab, newCharId = null, pushHistory = true, shouldSave = true) => {
+    if (shouldSave && newTab !== 'catalog') {
+      triggerSave();
+    }
+    const charId = newCharId || characterData?.['character-doc-id'] || characterData?.id;
+    const searchParams = new URLSearchParams(location.search);
+
+    if (newTab === 'catalog') {
+      searchParams.set('tab', 'catalog');
+      searchParams.delete('char');
+    } else {
+      searchParams.set('tab', newTab);
+      if (charId) {
+        searchParams.set('char', charId);
+      }
+    }
+
+    const newSearch = `?${searchParams.toString()}`;
+    lastSyncedSearchRef.current = newSearch;
+    if (location.search !== newSearch) {
+      if (pushHistory) {
+        navigate({ pathname: location.pathname, search: newSearch });
+      } else {
+        navigate({ pathname: location.pathname, search: newSearch }, { replace: true });
+      }
+    }
+    setActiveTab?.(newTab);
+    setIsSidebarOpen(false);
+    if (viewMode === 'play' && newTab !== 'combat') {
+      setViewMode('builder');
+    }
+    if (tabScrollContainerRef.current) {
+      tabScrollContainerRef.current.scrollTop = 0;
+    }
+  }, [triggerSave, characterData, location.search, location.pathname, navigate, setActiveTab, viewMode, setViewMode]);
+
   // Hotkeys Alt + 1-9 / 0 to switch Folio dossier tabs
   useEffect(() => {
     const FOLIO_TAB_KEYS = {
@@ -186,15 +225,18 @@ const FolioContainer = () => {
       if (targetTab) {
         e.preventDefault();
         AudioService?.playTerminalBeep?.(1100, 0.02);
-        setActiveTab?.(targetTab);
+        handleSelectTab(targetTab);
       }
     };
     window.addEventListener('keydown', handleFolioTabHotkeys);
     return () => window.removeEventListener('keydown', handleFolioTabHotkeys);
-  }, [setActiveTab]);
+  }, [handleSelectTab]);
 
   // Synchronize activeTab and character selection with URL query parameter (e.g. /folio?tab=catalog or /folio?char=123&tab=skills)
   useEffect(() => {
+    if (lastSyncedSearchRef.current === location.search) return;
+    lastSyncedSearchRef.current = location.search;
+
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
     const charParam = params.get('char');
@@ -210,9 +252,9 @@ const FolioContainer = () => {
     if (tabParam) {
       const validTabs = [
         'catalog', 'identity', 'core-stats', 'stats', 'skills',
-        'features', 'features-traits', 'features-hindrances', 'features-augmentations', 'features-metaphysics', 'features-awakened',
+        'features', 'features-standard', 'features-traits', 'features-hindrances', 'features-augmentations', 'features-metaphysics', 'features-awakened',
         'abilities', 'combat', 'companions',
-        'property', 'property-gear', 'property-vehicles', 'property-wealth', 'combat-gear',
+        'property', 'property-weaponry', 'property-armoring', 'property-gear', 'property-mech', 'property-architecture', 'property-other', 'property-vehicles', 'property-wealth', 'combat-gear',
         'narrative', 'media', 'visuals', 'other'
       ];
       if (validTabs.includes(tabParam)) {
@@ -223,39 +265,6 @@ const FolioContainer = () => {
       }
     }
   }, [location.search, characterData, switchRosterCharacter, activeTab, setActiveTab]);
-
-  // Seamless navigation helper that synchronizes active tab and character with browser history
-  const handleSelectTab = useCallback((newTab, newCharId = null, pushHistory = true, shouldSave = true) => {
-    if (shouldSave && newTab !== 'catalog') {
-      triggerSave();
-    }
-    const charId = newCharId || characterData?.['character-doc-id'] || characterData?.id;
-    const searchParams = new URLSearchParams(location.search);
-
-    if (newTab === 'catalog') {
-      searchParams.set('tab', 'catalog');
-      searchParams.delete('char');
-    } else {
-      searchParams.set('tab', newTab);
-      if (charId) {
-        searchParams.set('char', charId);
-      }
-    }
-
-    const newSearch = `?${searchParams.toString()}`;
-    if (location.search !== newSearch) {
-      if (pushHistory) {
-        navigate({ pathname: location.pathname, search: newSearch });
-      } else {
-        navigate({ pathname: location.pathname, search: newSearch }, { replace: true });
-      }
-    }
-    setActiveTab?.(newTab);
-    setIsSidebarOpen(false);
-    if (viewMode === 'play' && newTab !== 'combat') {
-      setViewMode('builder');
-    }
-  }, [triggerSave, characterData, location.search, location.pathname, navigate, setActiveTab, viewMode, setViewMode]);
 
   const handleSelectCharacter = useCallback((docId, targetTab = 'identity') => {
     switchRosterCharacter(docId);
@@ -1088,11 +1097,15 @@ const FolioContainer = () => {
         })()}
 
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
-        <div className={`flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20 ${(viewMode === 'play' || viewMode === 'preview') ? 'scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]' : ''}`} onBlur={() => {
-          if (activeTab !== 'catalog') {
-            triggerSave();
-          }
-        }}>
+        <div
+          ref={tabScrollContainerRef}
+          className={`flex-1 overflow-y-auto relative p-2.5 sm:p-5 pb-32 sm:pb-20 ${(viewMode === 'play' || viewMode === 'preview') ? 'scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]' : ''}`}
+          onBlur={() => {
+            if (activeTab !== 'catalog') {
+              triggerSave();
+            }
+          }}
+        >
           {activeTab === 'catalog' ? (
             <RosterCatalogView
               personaRoster={personaRoster}

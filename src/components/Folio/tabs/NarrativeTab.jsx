@@ -108,7 +108,7 @@ const NarrativeTab = () => {
   const currentSection = sections[activeTabIdx] || sections[0];
 
   return (
-    <div className="tab-panel active p-2 sm:p-4 space-y-4 pb-20 w-full">
+    <div className="tab-panel active p-4 space-y-4 pb-20 w-full">
       <div className="flex flex-wrap border-b border-cyan-900/50 mb-2 pb-1 gap-1">
         {sections.map((section, idx) => (
           <button 

@@ -45,7 +45,8 @@ import {
   Package,
   Building2,
   Wand2,
-  Users
+  Users,
+  ShieldAlert
 } from 'lucide-react';
 
 // Specialized DBM Sub-Widgets

@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
 export default function ElementsTab({ activeNode, onInsertElementMention }) {
   const { 
     elementsCatalog, 
+    updateSavedElement,
     deleteSavedElement 
   } = useStory();
 
@@ -87,8 +88,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
     if (updateSavedElement) {
       updateSavedElement(newElem.id, newElem);
     }
-    setEditingElement(newElem);
-    setIsEditModalOpen(true);
+    useAdeStore.getState().setEditingElement(newElem);
     AudioService.playCriticalChime(true);
   };
 

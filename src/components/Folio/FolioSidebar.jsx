@@ -142,12 +142,7 @@ export const FolioSidebar = ({
     }
 
     setActiveTab(item.id);
-
-    // Autocollapse if unpinned
-    if (!isPinned) {
-      setIsHovered(false);
-      setHoveredItem(null);
-    }
+    setHoveredItem(null);
 
     if (onClose && typeof window !== 'undefined' && window.innerWidth < 768) {
       onClose();
@@ -160,12 +155,7 @@ export const FolioSidebar = ({
       setViewMode('builder');
     }
     setActiveTab(child.id);
-
-    // Autocollapse if unpinned
-    if (!isPinned) {
-      setIsHovered(false);
-      setHoveredItem(null);
-    }
+    setHoveredItem(null);
 
     if (onClose && typeof window !== 'undefined' && window.innerWidth < 768) {
       onClose();
@@ -251,13 +241,10 @@ export const FolioSidebar = ({
               AudioService.playTerminalBeep(1150, 0.02);
               if (onSave) onSave();
               setActiveTab('catalog');
-              if (!isPinned) {
-                setIsHovered(false);
-                setHoveredItem(null);
-              }
+              setHoveredItem(null);
               if (onClose) onClose();
             }}
-            className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer border shrink-0 bg-gradient-to-br from-cyan-950/80 via-slate-900 to-blue-950/80 border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:scale-[1.02] ${
+            className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-colors cursor-pointer border shrink-0 bg-gradient-to-br from-cyan-950/80 via-slate-900 to-blue-950/80 border-cyan-500/50 shadow-[0_0_12px_rgba(6,182,212,0.25)] hover:border-cyan-400 ${
               isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
             }`}
             title={isExpanded ? undefined : `Active Persona: ${charName || 'Unnamed Persona'} • Click for Catalog`}

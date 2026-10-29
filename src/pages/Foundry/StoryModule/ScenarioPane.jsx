@@ -11,7 +11,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useStory } from '../../../context/CampaignContext';
 import { useToast } from '../../../context/ToastContext';
-import EditElementModal from '../ElementForge/EditElementModal';
 import CreateScenarioModal from './CreateScenarioModal';
 import { AddElementModal, getBreadcrumbPath, ScenarioOutlinerRail } from './ScenarioOutlinerTree';
 import { ScenarioCockpitDockPanel } from './ScenarioCockpitDock';
@@ -69,8 +68,6 @@ export default function ScenarioPane({
   const [isScenarioModalOpen, setIsScenarioModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
-  const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
-  const [editingModalElement, setEditingModalElement] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
   const [outlinerTab, setOutlinerTab] = useState('scenarios');
   const [outlinerElementTypeFilter, setOutlinerElementTypeFilter] = useState('All');
@@ -87,7 +84,10 @@ export default function ScenarioPane({
     setStoreCockpitDeck,
     isSplitView,
     setIsSplitView,
-    perspectiveMode
+    perspectiveMode,
+    studioMode,
+    setEditingModalElement,
+    setModal
   } = useAdeStore(
     useShallow((state) => ({
       storeWorkspaceTab: state.storyWorkspaceTab,
@@ -96,9 +96,14 @@ export default function ScenarioPane({
       setStoreCockpitDeck: state.setActiveCockpitDeck,
       isSplitView: state.isSplitView,
       setIsSplitView: state.setIsSplitView,
-      perspectiveMode: state.perspectiveMode
+      perspectiveMode: state.perspectiveMode,
+      studioMode: state.studioMode,
+      setEditingModalElement: state.setEditingElement,
+      setModal: state.setModal
     }))
   );
+
+  const setIsEditElementModalOpen = (val) => setModal('editElement', val);
 
   const rawDockTab = activeCockpitDeck || storeCockpitDeck || 'inspector';
   const dockTab = rawDockTab === 'aime' ? 'inspector' : rawDockTab;

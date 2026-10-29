@@ -188,7 +188,7 @@ export default function MediaTab() {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-150 pb-16">
+    <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
       {/* Header Banner */}
       <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
