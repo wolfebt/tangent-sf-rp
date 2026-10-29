@@ -105,7 +105,31 @@ export class Stage3DCompositor {
       this.lightingManager.syncLights(map.lights);
     }
 
-    // 5. Sync Tokens & Standees
+    // 5. Sync Interactive Map Objects & Props
+    this.propsGroup.clear();
+    if (Array.isArray(map.objects)) {
+      for (const obj of map.objects) {
+        if (obj.x === undefined || obj.y === undefined) continue;
+        const propHeight = obj.height || 24;
+        const propRadius = (obj.size || 28) / 2;
+        const propGeo = new THREE.CylinderGeometry(propRadius * 0.85, propRadius, propHeight, 8);
+        propGeo.translate(0, propHeight / 2, 0);
+        const propColor = obj.color || (obj.type === 'explosive_canister' ? '#ef4444' : obj.type === 'terminal' ? '#06b6d4' : '#f59e0b');
+        const propMat = new THREE.MeshStandardMaterial({
+          color: new THREE.Color(propColor),
+          roughness: 0.4,
+          metalness: 0.6
+        });
+        const propMesh = new THREE.Mesh(propGeo, propMat);
+        propMesh.name = `Prop_${obj.id || 'obj'}`;
+        propMesh.position.set(obj.x, 0, obj.y);
+        propMesh.castShadow = true;
+        propMesh.receiveShadow = true;
+        this.propsGroup.add(propMesh);
+      }
+    }
+
+    // 6. Sync Tokens & Standees
     this.syncTokens(tokens, selectedTokenId, targetTokenId, camera);
   }
 

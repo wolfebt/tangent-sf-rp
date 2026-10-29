@@ -2,6 +2,8 @@
 id: full-leg-assembly
 name: Full Leg Assembly
 category: augmentations
+location: "Legs / Feet"
+nodes: 40
 cost: 10240
 durability: '40'
 design_dc: 25
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 10240
-  nodes: 0
+  nodes: 40
   sockets: 0
   strain: 0
   focus: 0

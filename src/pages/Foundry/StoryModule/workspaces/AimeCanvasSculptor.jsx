@@ -101,15 +101,15 @@ export default function AimeCanvasSculptor({
 
   // Tone options from canonical AIME gems
   const toneOptions = useMemo(() => {
-    return AIME_CANONICAL_GEMS.tone?.options || [
-      'Serious', 'Humorous', 'Formal', 'Informative', 'Optimistic',
+    return AIME_CANONICAL_GEMS.Tone || AIME_CANONICAL_GEMS.tone?.options || [
+      'Serious', 'Humorous', 'Formal', 'Informal', 'Optimistic',
       'Pessimistic', 'Joyful', 'Sad', 'Hopeful', 'Cynical'
     ];
   }, []);
 
   // POV options from canonical AIME gems + active persona
   const povOptions = useMemo(() => {
-    const canonical = AIME_CANONICAL_GEMS.pointOfView?.options || [
+    const canonical = AIME_CANONICAL_GEMS['Point of View'] || AIME_CANONICAL_GEMS.pointOfView?.options || [
       'First Person', 'Third Person Limited', 'Third Person Omniscient', 'Second Person'
     ];
     const list = canonical.map(p => ({ label: p, value: p }));

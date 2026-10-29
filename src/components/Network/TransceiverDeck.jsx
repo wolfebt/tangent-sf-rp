@@ -242,7 +242,9 @@ export const TransceiverDeck = () => {
                 onClick={() => {
                   AudioService.playTerminalBeep(1250, 0.02);
                   setSpeakingMode?.('IC');
-                  setActivePopover(null);
+                  if (availablePersonas.length <= 1) {
+                    setActivePopover(null);
+                  }
                 }}
                 className={`px-2.5 py-1.5 rounded-lg border text-[10.5px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all ${
                   speakingMode === 'IC'

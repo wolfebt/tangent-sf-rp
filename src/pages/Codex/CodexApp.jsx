@@ -305,7 +305,7 @@ export const CodexApp = () => {
   };
 
   const handleDelete = async (item, e) => {
-    e.stopPropagation();
+    if (e?.stopPropagation) e.stopPropagation();
     const itemName = item.name || item.title || 'this entry';
     const confirmed = await confirmTypedDeletion(
       itemName,

@@ -2,6 +2,8 @@
 id: full-arm-assembly
 name: Full Arm Assembly
 category: augmentations
+location: "Arms / Hands"
+nodes: 30
 cost: 10240
 durability: '30'
 design_dc: 25
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 10240
-  nodes: 0
+  nodes: 30
   sockets: 0
   strain: 0
   focus: 0

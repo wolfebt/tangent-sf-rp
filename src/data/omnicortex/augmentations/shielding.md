@@ -2,6 +2,8 @@
 id: shielding
 name: Shielding
 category: augmentations
+location: "Torso / Core"
+nodes: 1
 cost: 640
 design_dc: 15
 craft_dc: 15

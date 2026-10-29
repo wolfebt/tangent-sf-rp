@@ -2,6 +2,8 @@
 id: matter-recon-forge
 name: Matter Recon Forge
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 655360
 design_dc: 40
 craft_dc: 40
@@ -9,10 +11,10 @@ description: Resurrects from single cell in 1d4 days.
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 5
+  bp: 5
   credits: 655360
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

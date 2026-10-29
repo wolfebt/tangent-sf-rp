@@ -2,6 +2,8 @@
 id: skinlike-synthskin
 name: Skinlike / Synthskin
 category: augmentations
+location: "Torso / Core"
+nodes: 0
 cost: 10240
 design_dc: 25
 craft_dc: 25

@@ -12,8 +12,10 @@ const PAYLOAD_PREFIX_YJS = 0x02;
 
 export class YjsProviderBridge {
   private doc: Y.Doc;
+  private ownsDoc: boolean;
   private room: Room;
   private isConnected: boolean = false;
+  private updateHandler?: (update: Uint8Array, origin: any) => void;
   
   // High-level CRDT structures mapped to Tangent mechanics
   public personaSheets: Y.Map<any>;
@@ -23,12 +25,13 @@ export class YjsProviderBridge {
   public campaignWiki: Y.Text;
   public scenarioManuscripts: Y.Map<any>;
 
-  constructor(room: Room) {
+  constructor(room: Room, existingDoc?: Y.Doc) {
     this.room = room;
+    this.ownsDoc = !existingDoc;
     
-    // Initialize the Yjs document with garbage collection enabled by default
-    // Prevents document history from ballooning indefinitely over a long campaign
-    this.doc = new Y.Doc({ gc: true });
+    // Reuse the caller's Yjs document when provided so local mutations and LiveKit sync share one CRDT instance
+    this.doc = existingDoc || new Y.Doc({ gc: true });
+    this.isConnected = room?.state === 'connected';
     
     // Map the CRDT structures
     this.personaSheets = this.doc.getMap('personas');
@@ -51,9 +54,9 @@ export class YjsProviderBridge {
     });
 
     this.room.on(RoomEvent.Connected, () => {
-      console.log('[Yjs Bridge] Connected to LiveKit. Broadcasting full state vector sync.');
+      console.log('[Yjs Bridge] Connected to LiveKit. Broadcasting full state update sync.');
       this.isConnected = true;
-      // Send our current state vector to peers so they can calculate what we are missing
+      // Send our current encoded state update to peers so they can merge our document state
       this.broadcastStateVector();
     });
 
@@ -64,16 +67,17 @@ export class YjsProviderBridge {
 
   private setupYjsListeners() {
     // Listen for any local modifications to the Y.Doc (e.g., a player editing HP or moving a token)
-    this.doc.on('update', (update: Uint8Array, origin: any) => {
+    this.updateHandler = (update: Uint8Array, origin: any) => {
       // If the origin is 'network', we just received this from a peer. 
       // We only broadcast local changes to avoid infinite echo loops.
       if (origin !== 'network' && this.isConnected && this.room.localParticipant) {
         this.broadcastYjsUpdate(update);
       }
-    });
+    };
+    this.doc.on('update', this.updateHandler);
   }
 
-  private broadcastYjsUpdate(update: Uint8Array) {
+  public broadcastYjsUpdate(update: Uint8Array) {
     const payload = new Uint8Array(update.length + 1);
     payload.set([PAYLOAD_PREFIX_YJS], 0);
     payload.set(update, 1);
@@ -88,8 +92,8 @@ export class YjsProviderBridge {
   }
 
   private broadcastStateVector() {
-    const stateVector = Y.encodeStateVector(this.doc);
-    this.broadcastYjsUpdate(stateVector);
+    const fullStateUpdate = Y.encodeStateAsUpdate(this.doc);
+    this.broadcastYjsUpdate(fullStateUpdate);
   }
 
   private decodeAndApplyYjsPayload(payload: Uint8Array) {
@@ -138,7 +142,13 @@ export class YjsProviderBridge {
   }
 
   public disconnect() {
-    this.doc.destroy();
-    console.log('[Yjs Bridge] CRDT Document destroyed and listeners detached.');
+    if (this.updateHandler) {
+      this.doc.off('update', this.updateHandler);
+      this.updateHandler = undefined;
+    }
+    if (this.ownsDoc) {
+      this.doc.destroy();
+    }
+    console.log('[Yjs Bridge] CRDT listeners detached.');
   }
 }

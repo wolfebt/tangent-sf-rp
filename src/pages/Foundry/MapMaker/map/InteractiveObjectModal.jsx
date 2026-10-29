@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { OBJECT_TYPES, applyDamageToObject, interactWithObject } from '../../../../services/interactiveObjectService';
 import { AudioService } from '../../../../services/audioService';
 import { useFolio } from '../../../../context/FolioContext';
+import { showConfirm } from '../../../../context/ConfirmContext';
 
 const InteractiveObjectModal = ({
   objectNode,
@@ -388,8 +389,14 @@ const InteractiveObjectModal = ({
         <div className="px-4 py-3 bg-slate-900 border-t border-slate-800 flex justify-between items-center">
           <button
             type="button"
-            onClick={() => {
-              if (confirm('Delete this interactive object from the battlemap?')) {
+            onClick={async () => {
+              const confirmed = await showConfirm({
+                title: 'Delete Interactive Object',
+                message: 'Delete this interactive object from the battlemap?',
+                confirmText: 'Delete',
+                danger: true
+              });
+              if (confirmed) {
                 onDeleteObject?.(objectNode.id);
                 onClose();
               }

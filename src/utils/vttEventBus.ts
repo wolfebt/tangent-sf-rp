@@ -68,6 +68,7 @@ export interface VttEventMap {
   'mechanical-mandate-executed': { mandate: any };
   'ai-action-requested': { request: any };
   'ai-action-adjudicated': { request: any; mandate: any; appliedDelta?: any; error?: string };
+  'vtt-spawn-entity': { name: string; hp?: number; armorDr?: number; isPersona?: boolean; storyElementId?: string; [key: string]: any };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =

@@ -2,6 +2,8 @@
 id: programmable-bio
 name: Programmable Bio
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 10240
 design_dc: 25
 craft_dc: 25
@@ -9,10 +11,10 @@ description: As Alter Form (Advanced).
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 1
+  bp: 1
   credits: 10240
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

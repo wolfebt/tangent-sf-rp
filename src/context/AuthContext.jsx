@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, loginWithGoogle, logout } from '../firebase';
@@ -28,24 +28,27 @@ export const AuthProvider = ({ children }) => {
   // Default to true so Key Developer has complete master access by default at this stage
   const [adminOverride, setAdminOverride] = useState(localStorage.getItem('omnicortex_admin_override') !== 'false');
 
-  const openAuthModal = () => setIsAuthModalOpen(true);
-  const closeAuthModal = () => setIsAuthModalOpen(false);
-  const openHandleModal = () => setIsHandleModalOpen(true);
-  const closeHandleModal = () => setIsHandleModalOpen(false);
-  const triggerBootSplash = () => setShowSplash(true);
+  const openAuthModal = useCallback(() => setIsAuthModalOpen(true), []);
+  const closeAuthModal = useCallback(() => setIsAuthModalOpen(false), []);
+  const openHandleModal = useCallback(() => setIsHandleModalOpen(true), []);
+  const closeHandleModal = useCallback(() => setIsHandleModalOpen(false), []);
+  const triggerBootSplash = useCallback(() => setShowSplash(true), []);
 
-  const refreshUserHandle = () => {
+  const refreshUserHandle = useCallback(() => {
     setUserHandle(localStorage.getItem('userHandle') || '');
-  };
+  }, []);
 
-  const toggleAdminOverride = () => {
-    const nextState = !adminOverride;
-    setAdminOverride(nextState);
-    localStorage.setItem('omnicortex_admin_override', nextState ? 'true' : 'false');
-  };
+  const toggleAdminOverride = useCallback(() => {
+    setAdminOverride(prev => {
+      const nextState = !prev;
+      localStorage.setItem('omnicortex_admin_override', nextState ? 'true' : 'false');
+      return nextState;
+    });
+  }, []);
 
   useEffect(() => {
     let userUnsub = null;
+    let privateUnsub = null;
 
     // Safety watchdog: ensure auth resolution never hangs beyond 4.5s
     const watchdogTimer = setTimeout(() => {
@@ -58,6 +61,10 @@ export const AuthProvider = ({ children }) => {
       if (userUnsub) {
         userUnsub();
         userUnsub = null;
+      }
+      if (privateUnsub) {
+        privateUnsub();
+        privateUnsub = null;
       }
 
       if (user) {
@@ -75,6 +82,23 @@ export const AuthProvider = ({ children }) => {
 
         try {
           const userDocRef = doc(db, 'users', user.uid);
+          const privateDocRef = doc(db, 'users', user.uid, 'private_settings', 'config');
+
+          privateUnsub = onSnapshot(privateDocRef, (privSnap) => {
+            if (privSnap.exists()) {
+              const pData = privSnap.data();
+              if (pData.emailOptIn !== undefined) {
+                setEmailOptIn(Boolean(pData.emailOptIn));
+                localStorage.setItem('emailOptIn', String(pData.emailOptIn));
+              }
+              if (pData.userContactInfo !== undefined) localStorage.setItem('userContactInfo', pData.userContactInfo);
+              if (pData.geminiApiKey !== undefined) localStorage.setItem('geminiApiKey', pData.geminiApiKey);
+              if (pData.aiPlatform !== undefined) localStorage.setItem('aiPlatform', pData.aiPlatform);
+              if (pData.otherAiApiKey !== undefined) localStorage.setItem('otherAiApiKey', pData.otherAiApiKey);
+              if (pData.customEndpoint !== undefined) localStorage.setItem('customEndpoint', pData.customEndpoint);
+            }
+          }, () => {});
+
           userUnsub = onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
@@ -96,20 +120,10 @@ export const AuthProvider = ({ children }) => {
                 }, { merge: true }).catch(() => {});
               }
 
-              if (data.emailOptIn !== undefined) {
-                setEmailOptIn(Boolean(data.emailOptIn));
-                localStorage.setItem('emailOptIn', String(data.emailOptIn));
-              }
-
               // Prompt for a handle if it has not been set yet, or if it is currently a temporary handle
               if (!hasSetHandle && (!data.userHandle || isTemporaryHandle(data.userHandle) || data.isTempHandle)) {
                 setIsHandleModalOpen(true);
               }
-
-              if (data.userContactInfo !== undefined) localStorage.setItem('userContactInfo', data.userContactInfo);
-              if (data.geminiApiKey !== undefined) localStorage.setItem('geminiApiKey', data.geminiApiKey);
-              if (data.aiPlatform !== undefined) localStorage.setItem('aiPlatform', data.aiPlatform);
-              if (data.otherAiApiKey !== undefined) localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
             } else {
               // First time registration: Assign a random 8-digit alphanumeric string as temporary handle
               const tempHandle = generateTempHandle(user.uid);
@@ -117,21 +131,26 @@ export const AuthProvider = ({ children }) => {
               localStorage.setItem('userHandle', tempHandle);
               localStorage.setItem('handleSet', 'false');
 
-              // Register user in 'users' collection so they appear on the network roster immediately
+              // Register user in 'users' collection with public-only roster fields
               setDoc(userDocRef, {
                 uid: user.uid,
                 displayName: tempHandle,
                 userHandle: tempHandle,
                 isTempHandle: true,
                 handleSet: false,
-                email: user.email || '', // Backend purpose only: actual ID, firebase login, platform emails
-                emailOptIn: true,
                 photoURL: user.photoURL || null,
                 status: 'online',
                 presenceState: 'online',
                 lastSeen: serverTimestamp(),
                 lastSeenLocal: new Date().toISOString(),
                 createdAt: serverTimestamp()
+              }, { merge: true }).catch(() => {});
+
+              // Store confidential account email & opt-in in owner-only private_settings/config subcollection
+              setDoc(privateDocRef, {
+                email: user.email || '',
+                emailOptIn: true,
+                updatedAt: new Date().toISOString()
               }, { merge: true }).catch(() => {});
 
               // Prompt for a handle and email list opt-in on first login
@@ -160,9 +179,10 @@ export const AuthProvider = ({ children }) => {
       clearTimeout(watchdogTimer);
       unsubscribe();
       if (userUnsub) userUnsub();
+      if (privateUnsub) privateUnsub();
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, []);
+  }, [refreshUserHandle]);
 
   const handleSplashComplete = () => {
     setShowSplash(false);
@@ -188,7 +208,7 @@ export const AuthProvider = ({ children }) => {
 
   const confirm = useConfirm();
 
-  const confirmLogout = async (navigate) => {
+  const confirmLogout = useCallback(async (navigate) => {
     const confirmed = await confirm({
       title: 'Log Out',
       message: 'Are you sure you want to disconnect from Terran Data Net and log out?',
@@ -201,9 +221,9 @@ export const AuthProvider = ({ children }) => {
         navigate('/');
       }
     }
-  };
+  }, [confirm]);
 
-  const value = {
+  const value = useMemo(() => ({
     currentUser,
     userHandle,
     displayIdentity,
@@ -227,7 +247,29 @@ export const AuthProvider = ({ children }) => {
     openHandleModal,
     closeHandleModal,
     triggerBootSplash
-  };
+  }), [
+    currentUser,
+    userHandle,
+    displayIdentity,
+    emailOptIn,
+    isAdmin,
+    isGM,
+    userRole,
+    hasAdminClaim,
+    hasCloudAdminAccess,
+    isAuthorizedEmail,
+    adminOverride,
+    toggleAdminOverride,
+    refreshUserHandle,
+    confirmLogout,
+    isAuthModalOpen,
+    openAuthModal,
+    closeAuthModal,
+    isHandleModalOpen,
+    openHandleModal,
+    closeHandleModal,
+    triggerBootSplash
+  ]);
 
   return (
     <AuthContext.Provider value={value}>

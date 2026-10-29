@@ -2,6 +2,8 @@
 id: prosthetic-torso
 name: Prosthetic Torso
 category: augmentations
+location: "Torso / Core"
+nodes: 50
 cost: 40960
 durability: 100 (x2 Hardened)
 design_dc: 30
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 40960
-  nodes: 0
+  nodes: 50
   sockets: 0
   strain: 0
   focus: 0

@@ -113,16 +113,22 @@ export const OperatorHandlePromptModal = ({
 
       if (currentUser?.uid && db) {
         const userDocRef = doc(db, 'users', currentUser.uid);
+        const privateDocRef = doc(db, 'users', currentUser.uid, 'private_settings', 'config');
         const nowIso = new Date().toISOString();
-        await setDoc(userDocRef, {
-          userHandle: cleanHandle,
-          handleSet: true,
-          isTempHandle: false,
-          displayName: cleanHandle,
-          emailOptIn: Boolean(emailOptIn),
-          emailOptInUpdatedAt: nowIso,
-          updatedAt: nowIso
-        }, { merge: true });
+        await Promise.all([
+          setDoc(userDocRef, {
+            userHandle: cleanHandle,
+            handleSet: true,
+            isTempHandle: false,
+            displayName: cleanHandle,
+            updatedAt: nowIso
+          }, { merge: true }),
+          setDoc(privateDocRef, {
+            emailOptIn: Boolean(emailOptIn),
+            emailOptInUpdatedAt: nowIso,
+            updatedAt: nowIso
+          }, { merge: true })
+        ]);
       }
 
       AudioService.playTerminalBeep(1600, 0.05);

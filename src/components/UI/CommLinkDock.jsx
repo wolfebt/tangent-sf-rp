@@ -11,7 +11,7 @@ import { MessageView } from '../Chat/MessageView';
 import { MessageInput } from '../Chat/MessageInput';
 import { ArchitectDocketBlock } from '../Chat/ArchitectDocketBlock';
 import { CreateChannelModal } from '../Chat/CreateChannelModal';
-import { GameGroupModal } from '../Groups/GameGroupModal';
+import { GameGroupModal } from '../Squads/SquadModal';
 import { QuickTeamInviteModal } from '../Chat/QuickTeamInviteModal';
 import { useNavigate } from 'react-router-dom';
 import { AudioService } from '../../services/audioService';

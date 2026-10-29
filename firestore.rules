@@ -121,7 +121,19 @@ service cloud.firestore {
     // =========================================================================
     match /users/{userId} {
       allow read: if isAuthenticated();
-      allow write: if isOwner(userId) || isAdmin();
+      allow create: if (isOwner(userId) || isAdmin())
+                    && !('geminiApiKey' in request.resource.data)
+                    && !('otherAiApiKey' in request.resource.data);
+      allow update: if (isOwner(userId) || isAdmin())
+                    && (
+                      !request.resource.data.diff(resource.data).affectedKeys().hasAny(['geminiApiKey', 'otherAiApiKey'])
+                      || (!('geminiApiKey' in request.resource.data) && !('otherAiApiKey' in request.resource.data))
+                    );
+      allow delete: if isOwner(userId) || isAdmin();
+
+      match /private_settings/{docId} {
+        allow read, write: if isOwner(userId) || isAdmin();
+      }
     }
 
     // =========================================================================
@@ -131,6 +143,10 @@ service cloud.firestore {
       allow read: if isAuthenticated() || resource.data.isPublic == true;
       allow create: if isAuthenticated();
       allow update: if isAuthenticated() && (
+        request.resource.data.creatorId == resource.data.creatorId
+        || resource.data.creatorId == request.auth.uid
+        || isAdmin()
+      ) && (
         resource.data.creatorId == request.auth.uid 
         || (resource.data.coArchitects != null && request.auth.uid in resource.data.coArchitects)
         || (resource.data.members != null && request.auth.uid in resource.data.members)
@@ -158,9 +174,14 @@ service cloud.firestore {
     // =========================================================================
     match /lft_personas/{lftId} {
       allow read: if isAuthenticated();
-      allow create, update: if isAuthenticated() && (
+      allow create: if isAuthenticated() && (
         request.resource.data.userId == request.auth.uid
         || request.resource.data.operatorUid == request.auth.uid
+        || isAdmin()
+      );
+      allow update: if isAuthenticated() && (
+        (resource.data.operatorUid == request.auth.uid && request.resource.data.operatorUid == request.auth.uid)
+        || (resource.data.userId == request.auth.uid && request.resource.data.userId == request.auth.uid)
         || isAdmin()
       );
       allow delete: if isAuthenticated() && (
@@ -236,21 +257,43 @@ service cloud.firestore {
                   || (isAuthenticated() && (
                        (resource.data.members != null && request.auth.uid in resource.data.members)
                        || resource.data.createdById == request.auth.uid
+                       || resource.data.get('createdBy', '') == request.auth.uid
                        || isAdmin()
                      ));
       allow create: if isAuthenticated() || isAdmin();
-      allow update: if isAuthenticated() && (
+      allow update: if isAuthenticated()
+                    && (
+                      request.resource.data.get('createdBy', '') == resource.data.get('createdBy', '')
+                      || resource.data.get('createdBy', '') == request.auth.uid
+                      || isAdmin()
+                    )
+                    && (
+                      request.resource.data.get('createdById', '') == resource.data.get('createdById', '')
+                      || resource.data.get('createdById', '') == request.auth.uid
+                      || isAdmin()
+                    )
+                    && (
+                      !channelId.matches('dm_.*')
+                      || request.auth.uid in resource.data.get('members', [])
+                      || isAdmin()
+                    )
+                    && (
                        resource.data.isPublic == true
                        || resource.data.type == 'public'
                        || channelId.matches('public_.*')
                        || resource.data.createdById == request.auth.uid 
+                       || resource.data.get('createdBy', '') == request.auth.uid
                        || (resource.data.members != null && request.auth.uid in resource.data.members)
-                       || ((channelId.matches('group_chan_.*') || channelId.matches('dm_.*')) && request.resource.data.members != null && request.auth.uid in request.resource.data.members)
+                       || (channelId.matches('group_chan_.*') && request.resource.data.members != null && request.auth.uid in request.resource.data.members)
                        || isAdmin()
                      );
       allow delete: if isAuthenticated() && (
                        !channelId.matches('public_.*') 
-                       && (resource.data.createdById == request.auth.uid || isAdmin())
+                       && (
+                         resource.data.createdById == request.auth.uid
+                         || resource.data.get('createdBy', '') == request.auth.uid
+                         || isAdmin()
+                       )
                      );
 
       // Subcollection: Channel Messages
@@ -263,6 +306,7 @@ service cloud.firestore {
                     || (isAuthenticated() && exists(/databases/$(database)/documents/channels/$(channelId)) && (
                          ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
                          || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                         || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdBy', '') == request.auth.uid
                          || isAdmin()
                        ));
         allow create: if isAuthenticated() && (
@@ -276,6 +320,7 @@ service cloud.firestore {
                               || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
                               || ('members' in get(/databases/$(database)/documents/channels/$(channelId)).data && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members)
                               || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                              || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdBy', '') == request.auth.uid
                             ))
                          || isAdmin()
                        );
@@ -284,12 +329,27 @@ service cloud.firestore {
                          || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'updatedAt', 'inviteStatus'])
                          || isAdmin()
                        );
-        allow delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());
+        allow delete: if isAuthenticated() && (
+                         resource.data.senderId == request.auth.uid
+                         || resource.data.get('senderUid', '') == request.auth.uid
+                         || (exists(/databases/$(database)/documents/channels/$(channelId)) && (
+                              get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdBy', '') == request.auth.uid
+                              || get(/databases/$(database)/documents/channels/$(channelId)).data.get('createdById', '') == request.auth.uid
+                            ))
+                         || isAdmin()
+                       );
       }
     }
 
     // =========================================================================
-    // 13. FINAL CATCH-ALL: EXPLICIT DENY
+    // 13. CAMPAIGN SESSIONS (CRDT STATE DEBOUNCER)
+    // =========================================================================
+    match /Campaigns/{campaignId}/Sessions/{sessionId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // =========================================================================
+    // 14. FINAL CATCH-ALL: EXPLICIT DENY
     // =========================================================================
     match /{document=**} {
       allow read, write: if false;

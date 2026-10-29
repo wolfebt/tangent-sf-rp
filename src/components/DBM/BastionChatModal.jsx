@@ -25,8 +25,6 @@ export const BastionChatModal = ({
   setEditFormData,
   handleCreateNew
 }) => {
-  if (!isOpen) return null;
-
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'generator'
   const [genPrompt, setGenPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);

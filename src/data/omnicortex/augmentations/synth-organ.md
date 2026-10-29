@@ -2,6 +2,8 @@
 id: synth-organ
 name: Synth Organ
 category: augmentations
+location: "Torso / Core"
+nodes: 5
 cost: 2560
 durability: Internal
 design_dc: 20
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 2560
-  nodes: 0
+  nodes: 5
   sockets: 0
   strain: 0
   focus: 0

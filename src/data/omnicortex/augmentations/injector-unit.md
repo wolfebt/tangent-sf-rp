@@ -2,6 +2,8 @@
 id: injector-unit
 name: Injector Unit
 category: augmentations
+location: "Torso / Core"
+nodes: 2
 cost: 640
 design_dc: 15
 craft_dc: 15
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 640
-  nodes: 0
+  nodes: 2
   sockets: 0
   strain: 0
   focus: 0

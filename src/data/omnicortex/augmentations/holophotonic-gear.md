@@ -2,6 +2,8 @@
 id: holophotonic-gear
 name: Holophotonic Gear
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 2560
 design_dc: 20
 craft_dc: 20
@@ -9,10 +11,10 @@ description: Implanted Holophotonic Emitter.
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 1
+  bp: 1
   credits: 2560
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

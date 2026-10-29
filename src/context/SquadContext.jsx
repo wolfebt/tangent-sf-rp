@@ -51,10 +51,12 @@ export const SquadProvider = ({ children }) => {
     }
 
     const unsubscribe = SquadService.subscribeToIncomingInvites(currentUser, (invites) => {
-      if (invites.length > pendingInvites.length && invites.length > 0) {
-        AudioService.playTerminalBeep(1400, 0.05);
-      }
-      setPendingInvites(invites);
+      setPendingInvites(prev => {
+        if (invites.length > prev.length && invites.length > 0) {
+          AudioService.playTerminalBeep(1400, 0.05);
+        }
+        return invites;
+      });
     });
 
     return () => {
@@ -167,16 +169,25 @@ export const SquadProvider = ({ children }) => {
     });
   }, [groups, activeGroup, currentUser]);
 
-  // Revoke an outgoing invite (GM action)
-  const revokeInvite = useCallback(async ({ inviteId }) => {
+  // Revoke an outgoing invite (GM action — supports both { inviteId } and string inviteId)
+  const revokeInvite = useCallback(async (inviteIdOrParams) => {
+    const inviteId = (typeof inviteIdOrParams === 'object' && inviteIdOrParams !== null)
+      ? inviteIdOrParams.inviteId
+      : inviteIdOrParams;
     if (!inviteId) return;
     AudioService.playTerminalBeep(950, 0.03);
     await SquadService.revokeInvite({ inviteId });
     setOutgoingInvites(prev => prev.filter(i => i.id !== inviteId));
   }, []);
 
-  // Discharge / Kick a member from active group (GM action)
-  const kickMember = useCallback(async ({ groupId, userId }) => {
+  // Discharge / Kick a member from active group (GM action — supports both { groupId, userId } and positional args)
+  const kickMember = useCallback(async (groupIdOrParams, maybeUserId) => {
+    const groupId = (typeof groupIdOrParams === 'object' && groupIdOrParams !== null)
+      ? groupIdOrParams.groupId
+      : groupIdOrParams;
+    const userId = (typeof groupIdOrParams === 'object' && groupIdOrParams !== null)
+      ? groupIdOrParams.userId
+      : maybeUserId;
     if (!groupId || !userId) return;
     AudioService.playTerminalBeep(900, 0.04);
     await SquadService.kickMember({ groupId, userId });
@@ -192,9 +203,11 @@ export const SquadProvider = ({ children }) => {
     await SquadService.updateMemberRole({ ...payload, currentUser });
   }, [currentUser]);
 
-  // Accept Invite with explicit selected persona
+  // Accept Invite with explicit selected persona (respects explicit null for Reserve/Spectator)
   const acceptInvite = useCallback(async (inviteId, groupId, persona, isLockedForPlay = false) => {
-    const chosenPersona = persona || activePersona || (personaRoster?.[0] || roster?.[0]);
+    const chosenPersona = persona !== undefined
+      ? persona
+      : (activePersona || (personaRoster?.[0] || roster?.[0]));
     AudioService.playTerminalBeep(1500, 0.05);
     await SquadService.respondToInvite({
       inviteId,

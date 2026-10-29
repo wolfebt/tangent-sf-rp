@@ -304,7 +304,7 @@ export const SquadInvitesTab = ({
                 <div key={inv.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs font-mono">
                   <div>
                     <span className="font-bold text-white block">{inv.groupName}</span>
-                    <span className="text-[10px] text-slate-400">Invited by @{inv.senderHandle}</span>
+                    <span className="text-[10px] text-slate-400">Invited by @{inv.fromUserHandle || inv.senderHandle || 'Architect'}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <button
@@ -344,7 +344,7 @@ export const SquadInvitesTab = ({
               outgoingInvites.map(inv => (
                 <div key={inv.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs font-mono">
                   <div>
-                    <span className="font-bold text-white block">@{inv.recipientHandle}</span>
+                    <span className="font-bold text-white block">@{inv.toUserHandle || inv.recipientHandle || 'Operator'}</span>
                     <span className="text-[10px] text-slate-500">Status: {inv.status}</span>
                   </div>
                   <button

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Room, RoomEvent, Track } from 'livekit-client';
 import { generateLiveKitToken, getLiveKitServerUrl, isLiveKitConfigured } from '../services/livekitTokenService';
 import { AudioService } from '../services/audioService';
@@ -30,6 +30,10 @@ export const VoiceChatProvider = ({ children }) => {
   // Audio States
   const [isMuted, setIsMuted] = useState(false);
   const [isDeafened, setIsDeafened] = useState(false);
+  const isDeafenedRef = useRef(isDeafened);
+  useEffect(() => {
+    isDeafenedRef.current = isDeafened;
+  }, [isDeafened]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [activeSpeakers, setActiveSpeakers] = useState([]); // string identities
   const [participants, setParticipants] = useState([]); // array of remote participant info
@@ -164,7 +168,7 @@ export const VoiceChatProvider = ({ children }) => {
         if (track.kind === Track.Kind.Audio) {
           const el = track.attach();
           el.setAttribute('data-participant-identity', participant.identity);
-          el.muted = isDeafened;
+          el.muted = isDeafenedRef.current;
           document.body.appendChild(el);
           audioElementsRef.current.set(publication.trackSid, el);
           syncParticipants(room);
@@ -332,7 +336,7 @@ export const VoiceChatProvider = ({ children }) => {
     };
   }, [cleanupAudioElements]);
 
-  const value = {
+  const value = useMemo(() => ({
     isConnected,
     isConnecting,
     currentRoomName,
@@ -354,7 +358,26 @@ export const VoiceChatProvider = ({ children }) => {
     toggleDeafen,
     setParticipantVolume,
     isConfigured: isLiveKitConfigured()
-  };
+  }), [
+    isConnected,
+    isConnecting,
+    currentRoomName,
+    roomDisplayName,
+    connectionError,
+    isMuted,
+    isDeafened,
+    isSpeaking,
+    activeSpeakers,
+    participants,
+    isPushToTalk,
+    pttKey,
+    isPttPressed,
+    connectToVoiceRoom,
+    disconnectVoiceRoom,
+    toggleMute,
+    toggleDeafen,
+    setParticipantVolume
+  ]);
 
   return (
     <VoiceChatContext.Provider value={value}>

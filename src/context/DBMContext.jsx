@@ -24,6 +24,7 @@ import { DEFAULT_ARCHITECTURE } from '../data/architectureData';
 import { DEFAULT_OTHER_PROPERTY } from '../data/otherPropertyData';
 import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData';
 import { DEFAULT_INVOCATIONS } from '../data/invocationsData';
+import { DEFAULT_SYNTHESIS } from '../data/synthesisData';
 import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData';
 import { DEFAULT_SPECIES_MOVEMENT } from '../data/speciesMovementData';
 import {
@@ -124,6 +125,7 @@ export const DBMProvider = ({ children }) => {
       other: filterInitialData(DEFAULT_OTHER_PROPERTY, 'other'),
       augmentations: filterInitialData(DEFAULT_AUGMENTATIONS, 'augmentations'),
       invocations: filterInitialData(DEFAULT_INVOCATIONS, 'invocations'),
+      synthesis: filterInitialData(DEFAULT_SYNTHESIS, 'synthesis'),
       augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES, 'augmentation_type'),
       body_location: filterInitialData(DEFAULT_BODY_LOCATIONS, 'body_location'),
       disciplines: filterInitialData(DEFAULT_DISCIPLINES, 'disciplines'),

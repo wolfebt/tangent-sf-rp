@@ -28,7 +28,9 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
   const [selectedStoryId, setSelectedStoryId] = useState(universeState?.id || '');
   const [maxMembers, setMaxMembers] = useState(6);
   const [isPublic, setIsPublic] = useState(true);
-  const [selectedPersonaId, setSelectedPersonaId] = useState(activePersona?.id || (allPersonas[0]?.id || ''));
+  const [selectedPersonaId, setSelectedPersonaId] = useState(
+    activePersona?.['character-doc-id'] || activePersona?.id || allPersonas[0]?.['character-doc-id'] || allPersonas[0]?.id || ''
+  );
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -45,14 +47,16 @@ export const CreateSquadModal = ({ isOpen, onClose, onCreated }) => {
     setError(null);
 
     try {
-      const selectedStory = (storyCatalog || []).find(s => s.id === selectedStoryId) || universeState;
+      const selectedStory = selectedStoryId
+        ? ((storyCatalog || []).find(s => s.id === selectedStoryId) || (universeState?.id === selectedStoryId ? universeState : null))
+        : null;
       const chosenPersona = allPersonas.find(p => (p['character-doc-id'] || p.id) === selectedPersonaId) || null;
 
       const newGroup = await createSquadFn({
         name: name.trim(),
         description: description.trim(),
         campaignId: selectedStoryId || null,
-        campaignTitle: selectedStory?.projectName || selectedStory?.title || 'Tangent Universe',
+        campaignTitle: selectedStory ? (selectedStory.projectName || selectedStory.title || '') : '',
         maxMembers: Number(maxMembers) || 6,
         isPublic: isPublic,
         persona: chosenPersona

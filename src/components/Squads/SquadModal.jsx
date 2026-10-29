@@ -41,6 +41,8 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
     sendInvite, 
     pendingInvites = [],
     outgoingInvites = [],
+    acceptInvite,
+    declineInvite,
     revokeInvite,
     kickMember,
     updateMemberRole,
@@ -66,6 +68,12 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const [showEnlargedQr, setShowEnlargedQr] = useState(false);
   const [userSearchQuery, setUserSearchQuery] = useState('');
   const [inviteStatusMap, setInviteStatusMap] = useState({});
+
+  useEffect(() => {
+    if (isOpen && initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [isOpen, initialTab]);
 
   useEffect(() => {
     if (isOpen) {
@@ -94,14 +102,20 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
 
   if (!isOpen) return null;
 
+  const memberRole = activeGroup?.memberDetails?.[currentUser?.uid]?.role ||
+    activeGroup?.members?.find(m => typeof m === 'object' && m?.userId === currentUser?.uid)?.role;
   const isUserGM = activeGroup?.creatorId === currentUser?.uid || 
-    activeGroup?.members?.find(m => m.userId === currentUser?.uid)?.role === 'GM' ||
-    activeGroup?.members?.find(m => m.userId === currentUser?.uid)?.role === 'Leader';
+    activeGroup?.architectId === currentUser?.uid ||
+    (Array.isArray(activeGroup?.coArchitects) && activeGroup.coArchitects.includes(currentUser?.uid)) ||
+    memberRole === 'Architect' ||
+    memberRole === 'Co-Architect' ||
+    memberRole === 'GM' ||
+    memberRole === 'Leader';
 
   const handleCopyLink = () => {
     if (!activeGroup?.inviteCode) return;
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    const shareUrl = `${origin}/teams?join=${activeGroup.inviteCode}`;
+    const shareUrl = `${origin}/network?view=squads&join=${activeGroup.inviteCode}`;
     navigator.clipboard.writeText(shareUrl);
     AudioService.playTerminalBeep(1250, 0.03);
     setCopiedLink(true);
@@ -186,10 +200,10 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
               onClick={() => {
                 AudioService.playTerminalBeep(1150, 0.02);
                 onClose();
-                navigate('/teams');
+                navigate('/network?view=squads');
               }}
               className="p-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-cyan-300 text-xs font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
-              title="Open full dedicated workstation (/teams)"
+              title="Open full dedicated workstation (/network?view=squads)"
             >
               <ExternalLink size={13} />
               <span className="hidden sm:inline">FULL PAGE</span>
@@ -249,7 +263,7 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
               updateMemberRole={updateMemberRole}
               setIsCreateModalOpen={() => {
                 onClose();
-                navigate('/teams?action=new');
+                navigate('/network?view=squads&action=new');
               }}
               setActiveTab={setActiveTab}
             />
@@ -271,8 +285,8 @@ export const SquadModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
               pendingInvites={pendingInvites}
               outgoingInvites={outgoingInvites}
               openInviteConfirmation={openInviteConfirmation}
-              acceptInvite={useGroup()?.acceptInvite}
-              declineInvite={useGroup()?.declineInvite}
+              acceptInvite={acceptInvite}
+              declineInvite={declineInvite}
               revokeInvite={revokeInvite}
             />
           )}

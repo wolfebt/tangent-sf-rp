@@ -8,6 +8,7 @@ import {
   where, 
   orderBy, 
   limit, 
+  limitToLast,
   onSnapshot, 
   serverTimestamp 
 } from 'firebase/firestore';
@@ -71,9 +72,9 @@ export const PersonaLogService = {
 
     // Save/update local channel cache
     try {
-      const cached = (await StorageService.getItem('tangent_channels')) || [];
+      const cached = (await StorageService.getItem('tangent_channels_cache')) || [];
       if (!cached.some(c => c.id === channelId)) {
-        await StorageService.setItem('tangent_channels', [channelData, ...cached]);
+        await StorageService.setItem('tangent_channels_cache', [channelData, ...cached]);
       }
     } catch (e) {
       // Ignored
@@ -178,7 +179,7 @@ export const PersonaLogService = {
 
     try {
       const messagesRef = collection(db, 'channels', channelId, 'messages');
-      const q = query(messagesRef, orderBy('createdAt', 'asc'), limit(maxLimit));
+      const q = query(messagesRef, orderBy('createdAt', 'asc'), limitToLast(maxLimit));
 
       const unsub = onSnapshot(q, (snapshot) => {
         const logs = snapshot.docs.map(doc => ({

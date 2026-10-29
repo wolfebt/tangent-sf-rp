@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   Mic, 
   MicOff, 
@@ -20,6 +21,7 @@ import { useAuth } from '../../context/AuthContext';
 import { AudioService } from '../../services/audioService';
 
 export const VoiceCommsBar = ({ className = '' }) => {
+  const location = useLocation();
   const { currentUser, userHandle } = useAuth() || {};
   const {
     isConnected,
@@ -49,6 +51,12 @@ export const VoiceCommsBar = ({ className = '' }) => {
     return null;
   }
 
+  // On desktop (>= md) inside /network or /comms, Zone 2 TransceiverDeck already renders live voice controls
+  const isNetworkDesktopRoute =
+    location.pathname.startsWith('/network') ||
+    location.pathname.startsWith('/comms') ||
+    location.pathname.startsWith('/chat');
+
   const PTT_KEY_OPTIONS = [
     { label: 'V key', code: 'KeyV' },
     { label: 'Spacebar', code: 'Space' },
@@ -58,7 +66,7 @@ export const VoiceCommsBar = ({ className = '' }) => {
   ];
 
   return (
-    <div className={`w-full bg-slate-950/95 border-t border-cyan-500/40 shadow-[0_-4px_20px_rgba(6,182,212,0.15)] select-none font-sans z-30 transition-all ${className}`}>
+    <div className={`w-full bg-slate-950/95 border-t border-cyan-500/40 shadow-[0_-4px_20px_rgba(6,182,212,0.15)] select-none font-sans z-30 transition-all ${isNetworkDesktopRoute ? 'md:hidden' : ''} ${className}`}>
       {/* Top Banner / Collapsible Roster */}
       {isExpanded && (
         <div className="p-3 bg-slate-900/95 border-b border-slate-800 text-xs flex flex-col gap-2 max-h-48 overflow-y-auto">

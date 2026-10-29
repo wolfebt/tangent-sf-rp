@@ -145,9 +145,9 @@ export const NetworkServerRail = ({
     } else if (modeKey === 'squad') {
       setActiveNavTab?.('teams');
     } else if (modeKey === 'stage') {
-      setActiveNavTab?.('vtt');
+      setActiveNavTab?.(activeNavTab === 'vtt' ? 'matrix' : 'vtt');
     } else if (modeKey === 'audit') {
-      setActiveNavTab?.('logs');
+      setActiveNavTab?.(activeNavTab === 'logs' ? 'matrix' : 'logs');
     }
 
     collapseIfUnpinned();
@@ -201,10 +201,10 @@ export const NetworkServerRail = ({
 
   // Determine which of the 5 items is currently active
   const resolvedActiveId = useMemo(() => {
+    if (activeNavTab === 'vtt') return 'stage';
+    if (activeNavTab === 'logs') return 'audit';
     if (serverContext === 'squad') return 'squad';
     if (serverContext === 'directory') return 'directory';
-    if (serverContext === 'stage' || activeNavTab === 'vtt') return 'stage';
-    if (serverContext === 'audit' || activeNavTab === 'logs') return 'audit';
     return 'holonet';
   }, [serverContext, activeNavTab]);
 

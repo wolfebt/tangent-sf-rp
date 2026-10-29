@@ -21,6 +21,7 @@ import {
 import { useStageStore } from '../stageStore';
 import { useElementAssets } from '../../assetContracts';
 import { AudioService } from '../../../../services/audioService';
+import { showConfirm } from '../../../../context/ConfirmContext';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function AnchorsTab() {
@@ -200,8 +201,14 @@ export default function AnchorsTab() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          if (window.confirm(`Delete anchor "${anchor.name}"?`)) {
+                        onClick={async () => {
+                          const confirmed = await showConfirm({
+                            title: 'Delete Anchor',
+                            message: `Delete anchor "${anchor.name}"?`,
+                            confirmText: 'Delete',
+                            danger: true
+                          });
+                          if (confirmed) {
                             removeAnchor(anchor.id);
                           }
                         }}

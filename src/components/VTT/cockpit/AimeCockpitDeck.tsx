@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { Sparkles, Radio, Volume2, Send, Check, RefreshCw, UserPlus, MapPin, Loader2, Crosshair } from 'lucide-react';
 import { getTacticalBark, BARK_CATEGORIES } from '../../../services/tacticalBarksService';
 import { AudioService } from '../../../services/audioService';
+import { generateContent } from '../../../services/aimeService';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/state/VolatileSharder';
 import {
@@ -64,7 +65,7 @@ export const AimeCockpitDeck: React.FC = () => {
     setLatestNarration(bark.quote);
   };
 
-  const handleGenerateRoomDescription = () => {
+  const handleGenerateRoomDescription = async () => {
     AudioService.playTerminalBeep(920, 0.05);
     const roomSensoryPresets = [
       `Atmospheric pressure in ${activeMapTitle} drops sharply. The hum of industrial conduits echoes through reinforced titanium bulkheads, carrying the faint, pungent scent of vaporized coolant and scorched dielectric grease.`,
@@ -73,9 +74,22 @@ export const AimeCockpitDeck: React.FC = () => {
     ];
     const chosen = roomSensoryPresets[Math.floor(Math.random() * roomSensoryPresets.length)];
     setLatestNarration(`[SECTOR SENSORY READ-ALOUD] ${chosen}`);
+
+    try {
+      const aiText = await generateContent({
+        prompt: `Write a concise 2-sentence atmospheric, sensory read-aloud description for tactical sector "${activeMapTitle}". Focus on lighting, sound, smell, and cover geometry.`,
+        context: { activeNode: { title: activeMapTitle, type: 'Location' }, mode: 'vtt' } as any,
+        tierKey: 'tier2_tactical'
+      });
+      if (aiText && aiText.trim()) {
+        setLatestNarration(`[SECTOR SENSORY READ-ALOUD] ${aiText.trim()}`);
+      }
+    } catch {
+      // Deterministic preset already displayed
+    }
   };
 
-  const handleTransmuteCheck = () => {
+  const handleTransmuteCheck = async () => {
     AudioService.playTerminalBeep(1200, 0.04);
     if (!customCheckText.trim()) return;
 
@@ -86,6 +100,19 @@ export const AimeCockpitDeck: React.FC = () => {
     ];
     const result = sensoryTransmutations[Math.floor(Math.random() * sensoryTransmutations.length)];
     setLatestNarration(`[TRANSMUTED PROSE: "${customCheckText}"] ${result}`);
+
+    try {
+      const aiText = await generateContent({
+        prompt: `Transmute this mechanical tabletop combat check into 2 sentences of visceral, high-stakes science-fantasy narrative prose without changing the mechanical outcome: "${customCheckText}"`,
+        context: { activeNode: { title: activeMapTitle, type: 'Combat Check' }, mode: 'vtt' } as any,
+        tierKey: 'tier2_tactical'
+      });
+      if (aiText && aiText.trim()) {
+        setLatestNarration(`[TRANSMUTED PROSE: "${customCheckText}"] ${aiText.trim()}`);
+      }
+    } catch {
+      // Deterministic preset already displayed
+    }
   };
 
   // ── Handle Persona Generation ──

@@ -13,6 +13,7 @@ import {
   RefreshCw 
 } from 'lucide-react';
 import { useFolio } from '../../context/FolioContext';
+import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { PersonaLogService, ACTION_TYPES } from '../../services/personaLogService';
 import { AudioService } from '../../services/audioService';
@@ -25,9 +26,10 @@ import { AudioService } from '../../services/audioService';
  */
 export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
   const { characterData, activePersona, personaRoster = [], roster = [] } = useFolio() || {};
+  const { selectedPersona } = useChat() || {};
   const { userHandle } = useAuth() || {};
 
-  const currentPersona = activePersona || (characterData?.['char-name'] ? characterData : null) || personaRoster[0] || roster[0] || null;
+  const currentPersona = selectedPersona || activePersona || (characterData?.['char-name'] ? characterData : null) || personaRoster[0] || roster[0] || null;
   const personaId = currentPersona?.['character-doc-id'] || currentPersona?.id || currentPersona?.characterId || null;
   const personaName = currentPersona?.['char-name'] || currentPersona?.name || 'Local Operative';
 

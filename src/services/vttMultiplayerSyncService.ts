@@ -212,7 +212,7 @@ export class VttMultiplayerSyncService {
     }
 
     try {
-      this.yjsBridge = new YjsProviderBridge(room);
+      this.yjsBridge = new YjsProviderBridge(room, this.doc);
       console.log('[VttMultiplayerSync] Attached LiveKit room to YjsProviderBridge.');
     } catch (err) {
       console.warn('[VttMultiplayerSync] Failed to attach LiveKit room:', err);

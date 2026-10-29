@@ -319,16 +319,18 @@ export async function generateContent({
 }
 
 const GEMINI_STREAM_MODELS = [
-  'gemini-3.6-flash',
-  'gemini-flash-latest',
+  'gemini-2.5-flash',
   'gemini-2.0-flash',
-  'gemini-flash-lite-latest'
+  'gemini-flash-latest',
+  'gemini-flash-lite-latest',
+  'gemini-3.6-flash',
+  'gemini-3.5-flash'
 ];
 
 export async function streamContent({ 
   prompt, 
   context = "", 
-  model = "gemini-3.6-flash", 
+  model = "gemini-2.5-flash", 
   apiKey = "", 
   onChunk,
   mandate = null,
@@ -494,10 +496,36 @@ export async function streamContent({
   throw lastError || new Error('All streaming candidate models failed.');
 }
 
-export async function streamChatContent({ messages, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {
+export async function streamChatContent({ messages, context = "", model = "gemini-2.5-flash", apiKey = "", onChunk, tierKey = "auto", localEndpoint = null }) {
   const activeKey = apiKey || getGeminiApiKey();
   const lastUserMsg = messages && messages.length > 0 ? messages[messages.length - 1]?.content : '';
   const formattedCtx = formatContext(context, lastUserMsg);
+
+  const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
+  const configuredEndpoint = localEndpoint || (typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null);
+
+  if (preferredPlatform === 'custom' || configuredEndpoint) {
+    const tierConfig = resolveIntelligenceTier({
+      actionText: lastUserMsg,
+      userOverride: tierKey
+    });
+    try {
+      const localResult = await callAutomatedInferencePipeline({
+        llamaEndpoint: configuredEndpoint || 'http://localhost:8080',
+        ollamaEndpoint: 'http://localhost:11434',
+        prompt: formattedCtx
+          ? `${AIME_SYSTEM_PROMPT}\n\n[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\nUser Query:\n${lastUserMsg}`
+          : `${AIME_SYSTEM_PROMPT}\n\nUser Query:\n${lastUserMsg}`,
+        tier: tierConfig,
+        onChunk
+      });
+      if (localResult?.text) {
+        return;
+      }
+    } catch (localErr) {
+      console.warn('[AimeService] Local inference in streamChatContent fell back to Cloud:', localErr.message);
+    }
+  }
 
   if (!activeKey) {
     const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General ADE Studio'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
@@ -526,52 +554,67 @@ export async function streamChatContent({ messages, context = "", model = "gemin
   }
 
   const requestBody = { contents };
+  const candidateModels = [model, ...GEMINI_STREAM_MODELS.filter(m => m !== model)];
+  let lastError = null;
 
-  try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${activeKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody)
-    });
+  for (const currentModel of candidateModels) {
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:streamGenerateContent?alt=sse&key=${activeKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData?.error?.message || `Streaming failed with status ${response.status}`);
-    }
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMsg = errorData?.error?.message || `Streaming failed with status ${response.status}`;
+        if (response.status === 400 || response.status === 403) {
+          throw new Error(`Gemini API Key Error (${response.status}): ${errorMsg}`);
+        }
+        lastError = new Error(errorMsg);
+        continue;
+      }
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder("utf-8");
-    let buffer = '';
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = '';
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
 
-      buffer = lines.pop() || '';
+        buffer = lines.pop() || '';
 
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const dataStr = line.replace('data: ', '').trim();
-          if (dataStr === '[DONE]') continue;
-          
-          try {
-            const parsed = JSON.parse(dataStr);
-            const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (textChunk && onChunk) {
-              onChunk(textChunk);
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const dataStr = line.replace('data: ', '').trim();
+            if (dataStr === '[DONE]') continue;
+            
+            try {
+              const parsed = JSON.parse(dataStr);
+              const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (textChunk && onChunk) {
+                onChunk(textChunk);
+              }
+            } catch (e) {
+              // Ignore parse errors on partial JSON chunks
             }
-          } catch (e) {
-            // Ignore parse errors on partial JSON chunks
           }
         }
       }
+      return;
+    } catch (err) {
+      lastError = err;
+      if (err.message && err.message.includes('Gemini API Key Error')) {
+        throw err;
+      }
     }
-  } catch (err) {
-    throw err;
   }
+
+  throw lastError || new Error('All chat streaming candidate models failed.');
 }
 
 export default {

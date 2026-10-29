@@ -18,7 +18,6 @@ import { CommsPage } from './CommsPage';
 import { SquadsPage } from './SquadsPage';
 import { NetworkServerRail } from '../components/Network/NetworkServerRail';
 import { NetworkRosterView } from '../components/Chat/NetworkRosterView';
-import { CommunityNetworkingView } from '../components/Community/CommunityNetworkingView';
 import { CreateChannelModal } from '../components/Chat/CreateChannelModal';
 import { CreateSquadModal } from '../components/Squads/CreateSquadModal';
 import { SquadInviteConfirmationModal } from '../components/Squads/SquadInviteConfirmationModal';
@@ -115,19 +114,24 @@ export const NetworkPage = () => {
     }
   }, [searchParams]);
 
-  // Ensure a Team channel never stays displayed when viewing COMMLINK ('comms')
+  // When a Team channel is selected (e.g., via notification banner or SquadsDrawer),
+  // automatically route to its Squad Comms view instead of overwriting it back to #general
   useEffect(() => {
-    if (activeView === 'comms') {
-      const isTeamChan =
-        activeChannel?.type === 'group' ||
-        Boolean(activeChannel?.groupId) ||
-        String(activeChannelId || '').startsWith('group_chan_');
-      if (isTeamChan && selectChannel) {
-        const fallbackId = publicChannels[0]?.id || 'public_general';
-        selectChannel(fallbackId);
+    const isTeamChan =
+      activeChannel?.type === 'group' ||
+      Boolean(activeChannel?.groupId) ||
+      String(activeChannelId || '').startsWith('group_chan_');
+    if (isTeamChan && activeView === 'comms') {
+      const matchedSquad = effectiveSquads.find(
+        s => s.id === activeChannel?.groupId || s.channelId === activeChannelId || `group_chan_${s.id}` === activeChannelId
+      );
+      if (matchedSquad && effectiveActiveSquad?.id !== matchedSquad.id) {
+        effectiveSelectSquad?.(matchedSquad.id);
       }
+      setActiveView('squads');
+      setActiveSquadNavTab('comms');
     }
-  }, [activeView, activeChannel?.type, activeChannel?.groupId, activeChannelId, publicChannels, selectChannel]);
+  }, [activeChannelId, activeChannel?.type, activeChannel?.groupId, activeView, effectiveSquads, effectiveActiveSquad?.id, effectiveSelectSquad]);
 
   // Derived 4-Zone Server Context
   const serverContext = activeView === 'squads' || activeView === 'teams'
@@ -144,6 +148,19 @@ export const NetworkPage = () => {
     const isLfg = viewKey === 'community' || viewKey === 'networking';
     const targetKey = (viewKey === 'teams' || isLfg) ? 'squads' : viewKey;
     const resolvedTab = isLfg ? 'lfg' : optionalTab;
+
+    // If explicitly switching to HoloNet ('comms') while a Team channel is active, switch to general frequency
+    if (targetKey === 'comms') {
+      const isTeamChan =
+        activeChannel?.type === 'group' ||
+        Boolean(activeChannel?.groupId) ||
+        String(activeChannelId || '').startsWith('group_chan_');
+      if (isTeamChan && selectChannel) {
+        const fallbackId = publicChannels[0]?.id || 'public_general';
+        selectChannel(fallbackId);
+      }
+    }
+
     setActiveView(targetKey);
     if (resolvedTab) {
       setActiveSquadNavTab(resolvedTab);
@@ -158,12 +175,18 @@ export const NetworkPage = () => {
       }
       return next;
     });
-  }, [hasNewOperatorLogins, clearNewOperatorLogins, activeSquadNavTab, setSearchParams]);
+  }, [hasNewOperatorLogins, clearNewOperatorLogins, activeSquadNavTab, setSearchParams, activeChannel?.type, activeChannel?.groupId, activeChannelId, publicChannels, selectChannel]);
 
   // Zone 1 Rail Context Switch Handler
   const handleSelectRailContext = useCallback((ctxKey) => {
-    if (ctxKey === 'holonet' || ctxKey === 'stage' || ctxKey === 'audit') {
+    if (ctxKey === 'holonet') {
       handleSelectView('comms');
+    } else if (ctxKey === 'stage' || ctxKey === 'audit') {
+      // Keep current 'holonet' or 'squad' CommsPage mounted so Zone 4 Inspector opens in-place;
+      // only switch away if currently in 'roster' directory view
+      if (activeView === 'roster') {
+        handleSelectView('comms');
+      }
     } else if (ctxKey === 'squad') {
       handleSelectView('squads', activeSquadNavTab || 'roster');
     } else if (ctxKey === 'discovery') {
@@ -171,7 +194,7 @@ export const NetworkPage = () => {
     } else if (ctxKey === 'directory') {
       handleSelectView('roster');
     }
-  }, [handleSelectView, activeSquadNavTab]);
+  }, [handleSelectView, activeSquadNavTab, activeView]);
 
   // 1-Click Squad Crest Selection from Zone 1 Rail
   const handleSelectSquadFromRail = useCallback((squad) => {
@@ -402,19 +425,6 @@ export const NetworkPage = () => {
                 />
               </div>
             </>
-          )}
-
-          {/* MODE C: UNIFIED RECRUITMENT & LFG DISCOVERY HUB */}
-          {serverContext === 'discovery' && (
-            <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#070b13]">
-              <CommunityNetworkingView
-                onNavigateToSquad={(squadId) => {
-                  effectiveSelectSquad?.(squadId);
-                  handleSelectView('squads', 'roster');
-                }}
-                onOpenCreateSquad={() => setIsCreateSquadModalOpen(true)}
-              />
-            </div>
           )}
 
           {/* MODE D: LIVE OPERATOR & PERSONA DIRECTORY */}

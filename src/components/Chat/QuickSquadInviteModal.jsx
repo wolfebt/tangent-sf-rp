@@ -66,11 +66,12 @@ export const QuickSquadInviteModal = ({
       const targetId = defaultSquadId || defaultGroupId || effectiveActiveSquad?.id || (effectiveSquads[0]?.id || '');
       setSelectedSquadId(targetId);
       setDispatchStatus({});
-      setSelectedUserUids(new Set());
-      setSearchQuery('');
+      const preUid = preselectedUser?.uid || preselectedUser?.userId || preselectedUser?.id || null;
+      setSelectedUserUids(preUid ? new Set([preUid]) : new Set());
+      setSearchQuery(preselectedUser ? (preselectedUser.userHandle || preselectedUser.displayName || '') : '');
       setShowQr(false);
     }
-  }, [isOpen, defaultSquadId, defaultGroupId, effectiveActiveSquad?.id, effectiveSquads]);
+  }, [isOpen, defaultSquadId, defaultGroupId, effectiveActiveSquad?.id, effectiveSquads, preselectedUser]);
 
   if (!isOpen) return null;
 

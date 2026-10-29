@@ -250,8 +250,13 @@ export const SquadsPage = ({
       ? effectiveActiveSquad.members.find(m => (typeof m === 'object' && (m?.userId === currentUser?.uid || m?.uid === currentUser?.uid || m?.id === currentUser?.uid)))
       : null);
 
+  const isPersonaLocked = Boolean(
+    currentMemberDetail?.persona?.locked ?? currentMemberDetail?.isLockedForPlay
+  );
+
   const isUserGM = effectiveActiveSquad?.creatorId === currentUser?.uid || 
     effectiveActiveSquad?.architectId === currentUser?.uid ||
+    (Array.isArray(effectiveActiveSquad?.coArchitects) && effectiveActiveSquad.coArchitects.includes(currentUser?.uid)) ||
     currentMemberDetail?.role === 'Architect' ||
     currentMemberDetail?.role === 'Co-Architect' ||
     currentMemberDetail?.role === 'GM' ||
@@ -499,7 +504,7 @@ export const SquadsPage = ({
                   <button
                     type="button"
                     onClick={async () => {
-                      const nextLocked = !currentMemberDetail?.isLockedForPlay;
+                      const nextLocked = !isPersonaLocked;
                       AudioService.playTerminalBeep(nextLocked ? 1450 : 950, 0.03);
                       try {
                         await togglePersonaPlayLock?.(effectiveActiveSquad.id, currentUser.uid, nextLocked);
@@ -514,14 +519,14 @@ export const SquadsPage = ({
                       }
                     }}
                     className={`px-2.5 py-1 rounded-lg font-bold text-[10.5px] flex items-center gap-1.5 border transition-all cursor-pointer ${
-                      currentMemberDetail?.isLockedForPlay
+                      isPersonaLocked
                         ? 'bg-emerald-600/25 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
                         : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-emerald-300'
                     }`}
                     title="Lock your enrolled Folio Persona & signal Ready for Mission"
                   >
-                    <span className={`w-2 h-2 rounded-full ${currentMemberDetail?.isLockedForPlay ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
-                    <span>{currentMemberDetail?.isLockedForPlay ? 'READY (LOCKED)' : 'READY CHECK'}</span>
+                    <span className={`w-2 h-2 rounded-full ${isPersonaLocked ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
+                    <span>{isPersonaLocked ? 'READY (LOCKED)' : 'READY CHECK'}</span>
                   </button>
                 )}
 
@@ -683,8 +688,8 @@ export const SquadsPage = ({
         />
       )}
 
-      {/* Review & Accept Pending Squad Invite Modal with Persona Selection */}
-      {reviewingInvite && (
+      {/* Review & Accept Pending Squad Invite Modal with Persona Selection (only when standalone) */}
+      {!hideHeader && reviewingInvite && (
         <SquadInviteConfirmationModal
           isOpen={!!reviewingInvite}
           onClose={closeInviteConfirmation}

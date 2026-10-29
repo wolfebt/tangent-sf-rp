@@ -165,7 +165,7 @@ export const UnifiedRelationalSelectorModal = ({
   if (sourceCollection === 'size') sourceCollection = 'species_size';
   if (sourceCollection === 'movement') sourceCollection = 'species_movement';
   if (sourceCollection === 'species_traits') sourceCollection = 'trait';
-  if (sourceCollection === 'disadvantages') sourceCollection = 'species_disadvantages';
+  if (sourceCollection === 'species_disadvantages') sourceCollection = 'disadvantages';
 
   const selectedValues = rawSelectedValues !== undefined ? rawSelectedValues : (currentValue !== undefined ? currentValue : []);
   const fieldLabel = rawFieldLabel !== undefined && rawFieldLabel !== 'Items'
@@ -174,7 +174,7 @@ export const UnifiedRelationalSelectorModal = ({
 
   const dbContext = useDBM() || {};
   const activeDbData = (dbData && Object.keys(dbData).length > 0) ? dbData : (dbContext.dbData || dbContext.activeDbData || {});
-  const activeSaveEntry = saveEntry || dbContext.activeSaveEntry;
+  const activeSaveEntry = saveEntry || dbContext.saveEntry || dbContext.activeSaveEntry;
 
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');

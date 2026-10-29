@@ -7,6 +7,7 @@
 
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
+import { STORAGE_KEYS } from '../../../constants/storageKeys.ts';
 import type { 
   StageManifest, 
   StageAnchor, 
@@ -252,8 +253,18 @@ export const useStageStore = create<StageStoreState>()(
         })
       }),
       {
-        name: 'tangent_ade_stage_manifest_v2',
-        storage: createJSONStorage(() => localStorage),
+        name: STORAGE_KEYS.STAGE_MANIFEST,
+        storage: createJSONStorage(() => {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            return window.localStorage;
+          }
+          const memoryStore = new Map<string, string>();
+          return {
+            getItem: (key: string) => memoryStore.get(key) ?? null,
+            setItem: (key: string, value: string) => { memoryStore.set(key, value); },
+            removeItem: (key: string) => { memoryStore.delete(key); }
+          };
+        }),
         partialize: (state) => ({
           activeStageTab: state.activeStageTab,
           activeStageId: state.activeStageId,

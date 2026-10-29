@@ -5,7 +5,7 @@
  * dispatch sensory read-alouds, and interact with the embedded WebGPU stage canvas.
  */
 
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { 
   Play, 
   Sparkles, 
@@ -46,6 +46,26 @@ export default function RunTab() {
 
   const boundMap = mapsList.find(m => m.id === stageManifest.mapId) || mapsList[0] || null;
   const boundScenario = scenariosList.find(s => s.id === stageManifest.storyId) || scenariosList[0] || null;
+
+  // Auto-compile manifest into runtime bundle on mount or manifest updates
+  useEffect(() => {
+    try {
+      const compiled = compileStage({
+        manifest: stageManifest,
+        mapAsset: boundMap,
+        storyAsset: boundScenario,
+        elementsCatalog: elementsList,
+        universeState
+      });
+      setCompiledPayload(compiled);
+      setCompilerStatus({
+        success: compiled.validation?.valid ?? true,
+        warnings: compiled.validation?.warnings || []
+      });
+    } catch {
+      // Ignored on auto-compile
+    }
+  }, [stageManifest, boundMap, boundScenario, elementsList, universeState]);
 
   const handleCompile = () => {
     setIsCompiling(true);
@@ -192,8 +212,9 @@ export default function RunTab() {
         }>
           <TripartiteStageView
             defaultRole="architect"
-            mapId={stageManifest.mapId}
-            scenarioId={stageManifest.storyId}
+            mapId={stageManifest.mapId || boundMap?.id}
+            scenarioId={stageManifest.storyId || boundScenario?.id}
+            compiledStage={compiledPayload}
           />
         </Suspense>
       </div>

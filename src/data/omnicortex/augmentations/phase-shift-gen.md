@@ -2,6 +2,8 @@
 id: phase-shift-gen
 name: Phase Shift Gen
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 163840
 design_dc: 35
 craft_dc: 35
@@ -9,10 +11,10 @@ description: Temporary intangibility to bypass matter.
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 4
+  bp: 4
   credits: 163840
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

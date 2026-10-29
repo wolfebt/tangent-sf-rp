@@ -41,10 +41,14 @@ import { AudioService } from '../../services/audioService';
 import { VttEventBus } from '../../utils/vttEventBus';
 import { MobileTacticalBlocker } from '../StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useWaypointEngine } from '../../pages/Foundry/hooks/useWaypointEngine';
 
 export interface TripartiteStageViewProps extends StageViewProps {
   defaultRole?: UserVttRole;
   onSwitchToWeaver?: () => void;
+  mapId?: string;
+  scenarioId?: string;
+  compiledStage?: any;
 }
 
 export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
@@ -58,8 +62,8 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   }
 
   const [searchParams] = useSearchParams();
-  const scenarioIdParam = searchParams.get('scenarioId') || undefined;
-  const mapIdParam = searchParams.get('mapId') || undefined;
+  const scenarioIdParam = props.scenarioId || searchParams.get('scenarioId') || undefined;
+  const mapIdParam = props.mapId || searchParams.get('mapId') || undefined;
 
 
   // Layout & Tool Reactive State
@@ -157,7 +161,15 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     };
   }, []);
 
-  const { universeState, activeMapId, setActiveMapId, updateMap, addMap } = useCampaign();
+  const {
+    universeState,
+    activeMapId,
+    setActiveMapId,
+    updateMap,
+    addMap,
+    activeScenarioId: contextActiveScenarioId,
+    setActiveScenarioId
+  } = useCampaign() as any;
   const availableMaps = universeState?.maps || [];
   const currentMap = availableMaps.find((m: any) => m.id === activeMapId) || availableMaps[0];
 
@@ -233,6 +245,50 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
 
   // Live tokens from engine store
   const tokens = useEngineStore(selectAllFusedTokens);
+
+  // Spatial Waypoint Collision & Scenario Trigger Engine for Live VTT
+  const effectiveScenarioId = scenarioIdParam || contextActiveScenarioId;
+  const flatScenarios = useMemo(() => {
+    const list: any[] = [];
+    const traverse = (nodes: any[]) => {
+      (nodes || []).forEach((n) => {
+        list.push(n);
+        if (n.children?.length) traverse(n.children);
+      });
+    };
+    traverse(universeState?.scenarios || []);
+    return list;
+  }, [universeState?.scenarios]);
+
+  const activeScenario = useMemo(() => {
+    return flatScenarios.find((s) => s.id === effectiveScenarioId) || flatScenarios[0] || null;
+  }, [flatScenarios, effectiveScenarioId]);
+
+  const effectiveMapForWaypoints = useMemo(() => {
+    if (props.compiledStage?.map && (!currentMap || props.compiledStage.map.id === currentMap.id)) {
+      return {
+        ...currentMap,
+        ...props.compiledStage.map,
+        waypoints: props.compiledStage.map.waypoints || currentMap?.waypoints || []
+      };
+    }
+    return currentMap;
+  }, [currentMap, props.compiledStage]);
+
+  const {
+    waypointPromptData,
+    setWaypointPromptData,
+    handleConfirmWaypointBeat
+  }: any = useWaypointEngine({
+    activeMap: effectiveMapForWaypoints,
+    updateMap,
+    activeScenario,
+    flatScenarios,
+    setActiveScenarioId,
+    storyContext: null,
+    studioMode: 'live',
+    liveTokens: tokens as any
+  } as any);
 
   const targetToken = useMemo(() => {
     return tokens.find((t) => t.id === targetTokenId) || null;
@@ -543,6 +599,36 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
         rightPanel={renderRightPanel()}
         className="w-full h-full"
       />
+
+      {/* Spatial Waypoint Trigger Confirmation HUD */}
+      {waypointPromptData && (
+        <div className="absolute top-14 left-1/2 -translate-x-1/2 z-40 bg-[#0b101d]/95 backdrop-blur-md border-2 border-amber-500/80 rounded-2xl px-4 py-3 flex items-center gap-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] font-mono text-xs max-w-xl animate-in fade-in slide-in-from-top-2">
+          <div className="flex-1 min-w-0">
+            <div className="text-[10px] font-black uppercase tracking-wider text-amber-400">
+              ⚡ Waypoint Perimeter Reached: {waypointPromptData.waypoint?.name || 'Sector Objective'}
+            </div>
+            {waypointPromptData.linkedBeat && (
+              <p className="text-[11px] text-slate-200 truncate mt-0.5">{waypointPromptData.linkedBeat}</p>
+            )}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => handleConfirmWaypointBeat(waypointPromptData)}
+              className="px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-[10px] uppercase tracking-wider cursor-pointer transition-colors"
+            >
+              Execute Trigger
+            </button>
+            <button
+              type="button"
+              onClick={() => setWaypointPromptData(null)}
+              className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[10px] uppercase cursor-pointer transition-colors"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Active Situational & Temporary Modifiers HUD Strip */}
       {universeState?.galleryModifiers && universeState.galleryModifiers.filter((m: any) => m.isActive).length > 0 && (

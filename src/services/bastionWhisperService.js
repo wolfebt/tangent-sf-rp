@@ -82,8 +82,8 @@ export const analyzeCombatPacing = (tokens = [], roundNumber = 1, eventHistory =
     };
   }
 
-  const heroTokens = tokens.filter(t => Boolean(t.linkedHeroId) && !t.isDead);
-  const enemyTokens = tokens.filter(t => (t.isEnemy || t.type === 'adversary' || t.type === 'enemy') && !t.isDead);
+  const heroTokens = tokens.filter(t => (Boolean(t.linkedHeroId) || Boolean(t.is_persona)) && !t.isDead);
+  const enemyTokens = tokens.filter(t => (t.isEnemy || t.type === 'adversary' || t.type === 'enemy' || t.is_persona === false) && !t.isDead);
 
   // Health / Vitality metrics
   let totalHeroMaxHealth = 0;
@@ -91,12 +91,15 @@ export const analyzeCombatPacing = (tokens = [], roundNumber = 1, eventHistory =
   let heroesAtDeathsDoor = 0;
 
   heroTokens.forEach(t => {
-    const maxH = t.health?.max || t.hp?.max || 30;
-    const curH = t.health?.current !== undefined ? t.health.current : (t.hp?.current || 30);
+    const maxH = t.health?.max ?? t.hp?.max ?? t.base_health ?? t.base_hp ?? 30;
+    const curH = t.health?.current !== undefined
+      ? t.health.current
+      : (t.hp?.current !== undefined ? t.hp.current : (t.current_health ?? t.current_hp ?? 30));
     totalHeroMaxHealth += maxH;
     totalHeroCurrentHealth += Math.max(0, curH);
 
-    if (curH <= 0 || (t.conditions || []).includes("Death's Door")) {
+    const conds = t.conditions || t.active_conditions || [];
+    if (curH <= 0 || conds.includes("Death's Door")) {
       heroesAtDeathsDoor++;
     }
   });

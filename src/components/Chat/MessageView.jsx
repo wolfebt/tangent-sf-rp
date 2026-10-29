@@ -45,7 +45,7 @@ import { useGroup } from '../../context/GroupContext';
 import { useToast } from '../../context/ToastContext';
 import { AudioService } from '../../services/audioService';
 import { TwoD10Icon } from '../UI/TwoD10Icon';
-import { GameGroupModal } from '../Groups/GameGroupModal';
+import { GameGroupModal } from '../Squads/SquadModal';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 import { QuickTeamInviteModal } from './QuickTeamInviteModal';
 
@@ -103,10 +103,6 @@ export const MessageView = ({
   
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [isUsersDrawerOpen, setIsUsersDrawerOpen] = useState(false);
-  const [usersDrawerTab, setUsersDrawerTab] = useState('users'); // 'users' | 'dossier'
-  const [userSearchQuery, setUserSearchQuery] = useState('');
-  const [isOfflineCollapsed, setIsOfflineCollapsed] = useState(true);
   const [isQuickInviteOpen, setIsQuickInviteOpen] = useState(false);
   const [preselectedInviteUser, setPreselectedInviteUser] = useState(null);
   const [copiedMessageId, setCopiedMessageId] = useState(null);
@@ -133,50 +129,6 @@ export const MessageView = ({
   const linkedTeam = isTeamChannel 
     ? (groups.find(g => g.id === activeChannel?.groupId || g.channelId === activeChannel?.id || `group_chan_${g.id}` === activeChannel?.id) || null)
     : null;
-
-  // Filtered Roster lists for accessible users menu
-  const filteredTeamPersonas = useMemo(() => {
-    const list = activeChannelUsers?.personas || [];
-    if (!userSearchQuery.trim()) return list;
-    const q = userSearchQuery.toLowerCase().trim();
-    return list.filter(p => 
-      (p.name && p.name.toLowerCase().includes(q)) ||
-      (p.role && p.role.toLowerCase().includes(q)) ||
-      (p.species && p.species.toLowerCase().includes(q)) ||
-      (p.ownerHandle && p.ownerHandle.toLowerCase().includes(q))
-    );
-  }, [activeChannelUsers?.personas, userSearchQuery]);
-
-  const deployedAndOnCallTeamPersonas = useMemo(() => {
-    return filteredTeamPersonas.filter(p => p.characterPresence !== 'offline');
-  }, [filteredTeamPersonas]);
-
-  const stasisTeamPersonas = useMemo(() => {
-    return filteredTeamPersonas.filter(p => p.characterPresence === 'offline');
-  }, [filteredTeamPersonas]);
-
-  const filteredOnlineOps = useMemo(() => {
-    const list = onlineOperators || [];
-    if (!userSearchQuery.trim()) return list;
-    const q = userSearchQuery.toLowerCase().trim();
-    return list.filter(u => 
-      (u.userHandle && u.userHandle.toLowerCase().includes(q)) ||
-      (u.displayName && u.displayName.toLowerCase().includes(q)) ||
-      (u.statusMessage && u.statusMessage.toLowerCase().includes(q)) ||
-      (u.activity?.label && u.activity.label.toLowerCase().includes(q)) ||
-      (Array.isArray(u.characters) && u.characters.some(c => (c.name && c.name.toLowerCase().includes(q)) || (c.role && c.role.toLowerCase().includes(q))))
-    );
-  }, [onlineOperators, userSearchQuery]);
-
-  const filteredOfflineOps = useMemo(() => {
-    const list = offlineOperators || [];
-    if (!userSearchQuery.trim()) return list;
-    const q = userSearchQuery.toLowerCase().trim();
-    return list.filter(u => 
-      (u.userHandle && u.userHandle.toLowerCase().includes(q)) ||
-      (u.displayName && u.displayName.toLowerCase().includes(q))
-    );
-  }, [offlineOperators, userSearchQuery]);
 
   const handleOpenTeamModal = () => {
     if (linkedTeam) {
@@ -257,6 +209,7 @@ export const MessageView = ({
   };
 
   const renderMessageContent = (msg) => {
+    const isSelf = Boolean(currentUser?.uid && (msg.senderId === currentUser.uid || msg.senderUid === currentUser.uid));
     // 1. Persona Action Telemetry Log Entry
     if (msg.type === 'persona_log_entry' || msg.isReadOnlyLog) {
       const actionType = msg.actionType || 'TELEMETRY';
@@ -662,16 +615,19 @@ export const MessageView = ({
 
           {checklist.length > 0 && (
             <div className="space-y-1 pt-0.5">
-              {checklist.map((item, i) => (
-                <div key={item.id || i} className="flex items-center gap-1.5 text-[11px] font-sans">
-                  <span className={item.done ? 'text-emerald-400' : 'text-slate-500'}>
-                    {item.done ? '☑' : '☐'}
-                  </span>
-                  <span className={item.done ? 'line-through text-slate-500' : 'text-slate-200'}>
-                    {item.text}
-                  </span>
-                </div>
-              ))}
+              {checklist.map((item, i) => {
+                const isDone = Boolean(item.completed ?? item.done);
+                return (
+                  <div key={item.id || i} className="flex items-center gap-1.5 text-[11px] font-sans">
+                    <span className={isDone ? 'text-emerald-400' : 'text-slate-500'}>
+                      {isDone ? '☑' : '☐'}
+                    </span>
+                    <span className={isDone ? 'line-through text-slate-500' : 'text-slate-200'}>
+                      {item.text}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           )}
 
@@ -879,7 +835,7 @@ export const MessageView = ({
               <div className="h-4 w-px bg-slate-800 mx-0.5" />
 
               {/* Zone 4 Unified Inspector Toggles */}
-              {onToggleInspectorTab ? (
+              {onToggleInspectorTab && (
                 <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-xl border border-slate-800">
                   {/* 1. Roster Toggle */}
                   <button
@@ -965,51 +921,6 @@ export const MessageView = ({
                     <Info size={12} />
                   </button>
                 </div>
-              ) : (
-                /* Fallback for standalone / CommLinkDock view */
-                <>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1150, 0.02);
-                      setIsUsersDrawerOpen(prev => !prev || usersDrawerTab !== 'users');
-                      setUsersDrawerTab('users');
-                    }}
-                    className={`px-2.5 py-1 rounded-lg border text-[11px] font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm ${
-                      isUsersDrawerOpen && usersDrawerTab === 'users'
-                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.25)]'
-                        : 'bg-slate-900 text-slate-300 border-slate-700 hover:text-cyan-300 hover:border-cyan-500/40'
-                    }`}
-                    title="Toggle Accessible Users & Roster Menu"
-                  >
-                    <Users size={13} className={isUsersDrawerOpen && usersDrawerTab === 'users' ? 'text-cyan-400' : 'text-slate-400'} />
-                    <span className="hidden sm:inline">USERS</span>
-                    <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-slate-800 text-cyan-300 border border-slate-700 font-bold">
-                      {isTeamChannel ? (activeChannelUsers?.personas?.length || 0) : (onlineOperators?.length || 0)}
-                    </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      AudioService.playTerminalBeep(1150, 0.02);
-                      if (isUsersDrawerOpen && usersDrawerTab === 'dossier') {
-                        setIsUsersDrawerOpen(false);
-                      } else {
-                        setIsUsersDrawerOpen(true);
-                        setUsersDrawerTab('dossier');
-                      }
-                    }}
-                    className={`p-1.5 rounded-lg border text-[10.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer ${
-                      isUsersDrawerOpen && usersDrawerTab === 'dossier'
-                        ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-sm'
-                        : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-cyan-300'
-                    }`}
-                    title="Toggle Frequency Dossier & Technical Specs"
-                  >
-                    <Info size={13} />
-                  </button>
-                </>
               )}
             </div>
           </div>
@@ -1498,539 +1409,6 @@ export const MessageView = ({
           </div>
         )}
       </div>
-
-      {/* ── Accessible Right Drawer (Only used in standalone/CommLinkDock when Zone 4 Inspector is not mounted) ── */}
-      {!onToggleInspectorTab && isUsersDrawerOpen && activeChannel && (
-        <aside className="w-80 sm:w-88 md:w-96 border-l border-slate-800 bg-[#080c14]/95 backdrop-blur-md flex flex-col font-mono text-xs animate-in slide-in-from-right duration-200 overflow-hidden select-none shrink-0 z-20 shadow-2xl">
-          {/* Top Tabs: USERS vs DOSSIER */}
-          <div className="p-2.5 pb-2 border-b border-slate-800 flex items-center justify-between gap-2 bg-slate-950/90 shrink-0">
-            <div className="flex items-center gap-1 bg-slate-900/90 p-0.5 rounded-lg border border-slate-800">
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  setUsersDrawerTab('users');
-                }}
-                className={`px-2.5 py-1 rounded-md text-[10.5px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                  usersDrawerTab === 'users'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                <Users size={12} className={usersDrawerTab === 'users' ? 'text-cyan-400' : 'text-slate-500'} />
-                <span>ROSTER ({isTeamChannel ? (activeChannelUsers?.personas?.length || 0) : (onlineOperators?.length || 0)})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1100, 0.02);
-                  setUsersDrawerTab('dossier');
-                }}
-                className={`px-2 py-1 rounded-md text-[10.5px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
-                  usersDrawerTab === 'dossier'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                <Info size={12} className={usersDrawerTab === 'dossier' ? 'text-cyan-400' : 'text-slate-500'} />
-                <span>DOSSIER</span>
-              </button>
-            </div>
-
-            <button
-              onClick={() => setIsUsersDrawerOpen(false)}
-              className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
-              title="Close Users Menu"
-            >
-              <X size={15} />
-            </button>
-          </div>
-
-          {/* TAB 1: USERS & PERSONAS ROSTER */}
-          {usersDrawerTab === 'users' && (
-            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-              {/* Search input */}
-              <div className="p-2.5 border-b border-slate-800/80 bg-slate-950/40 shrink-0">
-                <div className="relative">
-                  <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    type="text"
-                    value={userSearchQuery}
-                    onChange={(e) => setUserSearchQuery(e.target.value)}
-                    placeholder={isTeamChannel ? "Filter team characters..." : "Filter network operators..."}
-                    className="w-full pl-7 pr-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-200 placeholder-slate-500 text-[11px] focus:outline-none focus:border-cyan-500/60"
-                  />
-                  {userSearchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setUserSearchQuery('')}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
-                    >
-                      <X size={11} />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Roster List Scroll Area */}
-              <div className="flex-1 overflow-y-auto p-2.5 space-y-3.5 no-scrollbar">
-                {/* ── If Team Channel: Strictly Display Squad's Enrolled Characters + Architect Command + Reserve Operators ── */}
-                {isTeamChannel ? (
-                  <>
-                    {/* 1. ARCHITECT COMMAND */}
-                    {Array.isArray(activeChannelUsers?.architectCommand) && activeChannelUsers.architectCommand.length > 0 && (
-                      <div className="space-y-1.5">
-                        <div className="flex items-center justify-between text-[10px] text-amber-400 font-bold uppercase tracking-wider px-1">
-                          <span>ARCHITECT COMMAND ({activeChannelUsers.architectCommand.length})</span>
-                          <span className="text-[8.5px] text-slate-500">GM / Lead</span>
-                        </div>
-                        {activeChannelUsers.architectCommand.map(arch => {
-                          const isSelf = currentUser && arch.uid === currentUser.uid;
-                          const dotColor = arch.presenceState === 'online'
-                            ? 'bg-emerald-400 shadow-[0_0_6px_#10b981]'
-                            : arch.presenceState === 'dnd'
-                            ? 'bg-rose-500 shadow-[0_0_6px_#f43f5e]'
-                            : arch.presenceState === 'idle'
-                            ? 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
-                            : 'bg-slate-600';
-                          return (
-                            <div
-                              key={arch.uid}
-                              className="p-2 rounded-xl bg-amber-950/20 border border-amber-500/40 flex items-center justify-between gap-2"
-                            >
-                              <div className="flex items-center gap-2 min-w-0">
-                                <div className="relative shrink-0">
-                                  <div className="w-7 h-7 rounded-lg bg-amber-950 border border-amber-500/50 flex items-center justify-center text-amber-300 font-bold text-xs">
-                                    👑
-                                  </div>
-                                  <span className={`absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full border border-black ${dotColor}`} />
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-amber-200 text-xs truncate">@{arch.userHandle}</span>
-                                    <span className="px-1.5 py-0.1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8px] font-bold uppercase">
-                                      {arch.commandTitle}
-                                    </span>
-                                  </div>
-                                  <span className="text-[9.5px] text-slate-400 block truncate">
-                                    {arch.isOnline ? (arch.activity?.label || 'Command Relay Active') : arch.lastSeenText}
-                                  </span>
-                                </div>
-                              </div>
-                              {!isSelf && (
-                                <button
-                                  type="button"
-                                  onClick={() => startDirectMessage(arch.user, null)}
-                                  className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 text-[9px] font-bold cursor-pointer shrink-0"
-                                >
-                                  DM
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-
-                    {/* 2. DEPLOYED & ON-CALL TEAM CHARACTERS */}
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between text-[10px] text-emerald-400 font-bold uppercase tracking-wider px-1">
-                        <span className="flex items-center gap-1.5">
-                          <Shield size={11} />
-                          <span>ACTIVE TEAM CHARACTERS ({deployedAndOnCallTeamPersonas.length})</span>
-                        </span>
-                        <span className="text-[9px] text-slate-500">Enrolled</span>
-                      </div>
-
-                      {deployedAndOnCallTeamPersonas.length === 0 ? (
-                        <div className="p-3 text-center text-slate-500 text-[11px] italic bg-slate-900/30 rounded-lg border border-slate-800/50">
-                          {userSearchQuery ? 'No matching team characters online.' : 'No team characters currently deployed or on-call.'}
-                        </div>
-                      ) : (
-                        deployedAndOnCallTeamPersonas.map((p) => {
-                          const isSelf = currentUser && p.ownerUid === currentUser.uid;
-                          const isDeployed = p.characterPresence === 'deployed';
-                          const maxHp = Number(p.health) || 30;
-                          const curHp = Number(p.current_health ?? maxHp);
-                          const hpPct = Math.max(0, Math.min(100, Math.round((curHp / maxHp) * 100)));
-
-                          return (
-                            <div
-                              key={p.id || p.name}
-                              className={`p-2.5 rounded-xl border transition-all space-y-1.5 shadow-sm ${
-                                isDeployed
-                                  ? 'bg-slate-900/80 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.1)]'
-                                  : 'bg-slate-900/50 border-amber-500/35'
-                              }`}
-                            >
-                              <div className="flex items-center justify-between gap-2">
-                                <div className="flex items-center gap-2 min-w-0">
-                                  <div className="relative shrink-0">
-                                    <div className="w-8 h-8 rounded-lg bg-emerald-950/80 border border-emerald-500/50 flex items-center justify-center text-emerald-300 font-bold text-xs overflow-hidden">
-                                      {p.avatar ? (
-                                        <img src={p.avatar} alt={p.name} className="w-full h-full object-cover" />
-                                      ) : (
-                                        <span>🎭</span>
-                                      )}
-                                    </div>
-                                    <span
-                                      className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${
-                                        isDeployed
-                                          ? 'bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]'
-                                          : 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
-                                      }`}
-                                    />
-                                  </div>
-                                  <div className="min-w-0">
-                                    <div className="flex items-center gap-1.5 flex-wrap">
-                                      <span className="font-bold text-slate-100 text-xs truncate">{p.name}</span>
-                                      <span className={`px-1.5 py-0.1 rounded text-[8px] font-bold border ${
-                                        isDeployed
-                                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                                          : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                                      }`}>
-                                        {isDeployed ? 'DEPLOYED' : 'ON-CALL'}
-                                      </span>
-                                      {isSelf && <span className="text-[8.5px] text-cyan-400 font-bold">(YOU)</span>}
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-[10px] text-slate-400 truncate">
-                                      <span className="text-emerald-400/90">{p.role || p.species || 'Specialist'}</span>
-                                      <span className="text-slate-600">•</span>
-                                      <span className="text-slate-400 truncate">@{p.ownerHandle || 'Operator'}</span>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {!isSelf && p.ownerUid && (
-                                  <div className="flex items-center gap-1 shrink-0">
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        AudioService.playTerminalBeep(1200, 0.02);
-                                        startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, p);
-                                      }}
-                                      className="p-1 px-1.5 rounded bg-purple-950/60 hover:bg-purple-900 border border-purple-500/40 text-purple-300 text-[9px] font-bold cursor-pointer"
-                                      title={`Whisper directly to character ${p.name}`}
-                                    >
-                                      WHISPER
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        AudioService.playTerminalBeep(1200, 0.02);
-                                        startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, null);
-                                      }}
-                                      className="p-1 px-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[9px] font-bold cursor-pointer"
-                                      title={`DM Operator @${p.ownerHandle}`}
-                                    >
-                                      DM
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Compact Vitals Telemetry Bar */}
-                              <div className="flex items-center gap-2 pt-0.5">
-                                <div className="flex-1 h-1.5 rounded-full bg-slate-950 overflow-hidden border border-slate-800">
-                                  <div
-                                    className={`h-full transition-all ${
-                                      hpPct > 50 ? 'bg-emerald-500' : hpPct > 25 ? 'bg-amber-500' : 'bg-rose-500'
-                                    }`}
-                                    style={{ width: `${hpPct}%` }}
-                                  />
-                                </div>
-                                <span className="text-[9px] text-slate-400 shrink-0">
-                                  {curHp}/{maxHp} HP
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        })
-                      )}
-                    </div>
-
-                    {/* 3. STASIS TEAM CHARACTERS (OFFLINE) */}
-                    {stasisTeamPersonas.length > 0 && (
-                      <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                        <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider px-1">
-                          <span>STASIS TEAM CHARACTERS ({stasisTeamPersonas.length})</span>
-                          <span className="text-[8.5px] text-slate-500">Operator Offline</span>
-                        </div>
-                        <div className="space-y-1">
-                          {stasisTeamPersonas.map(p => (
-                            <div
-                              key={p.id || p.name}
-                              className="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 flex items-center justify-between gap-2 text-slate-400"
-                            >
-                              <div className="flex items-center gap-2 min-w-0">
-                                <div className="w-7 h-7 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-xs shrink-0 opacity-60">
-                                  🎭
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-slate-300 text-xs truncate">{p.name}</span>
-                                    <span className="px-1.5 py-0.1 rounded bg-slate-800 text-slate-500 text-[8px] font-bold">
-                                      STASIS
-                                    </span>
-                                  </div>
-                                  <span className="text-[9.5px] text-slate-500 block truncate">
-                                    @{p.ownerHandle} • {p.lastSeenText || 'Offline'}
-                                  </span>
-                                </div>
-                              </div>
-                              {p.ownerUid && p.ownerUid !== currentUser?.uid && (
-                                <button
-                                  type="button"
-                                  onClick={() => startDirectMessage({ uid: p.ownerUid, userHandle: p.ownerHandle }, p)}
-                                  className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-[9px] text-slate-400 hover:text-purple-300 cursor-pointer"
-                                >
-                                  LEAVE NOTE
-                                </button>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* 4. RESERVE OPERATORS (Joined Squad without an assigned character yet) */}
-                    {Array.isArray(activeChannelUsers?.reserveOperators) && activeChannelUsers.reserveOperators.length > 0 && (
-                      <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-1 block">
-                          RESERVE OPERATORS — NO CHARACTER ASSIGNED ({activeChannelUsers.reserveOperators.length})
-                        </span>
-                        <div className="space-y-1">
-                          {activeChannelUsers.reserveOperators.map((u) => {
-                            const isSelf = currentUser && u.uid === currentUser.uid;
-                            return (
-                              <div
-                                key={u.uid}
-                                className="px-2 py-1.5 rounded-lg bg-slate-900/40 border border-slate-800 flex items-center justify-between text-[11px]"
-                              >
-                                <div className="flex items-center gap-1.5 min-w-0">
-                                  <span className={`w-1.5 h-1.5 rounded-full ${u.isOnline ? 'bg-emerald-400 shadow-[0_0_6px_#10b981]' : 'bg-slate-600'}`} />
-                                  <span className="text-slate-300 font-bold truncate">@{u.userHandle || u.displayName}</span>
-                                  {isSelf && <span className="text-[9px] text-cyan-400">(YOU)</span>}
-                                </div>
-                                {!isSelf && (
-                                  <button
-                                    type="button"
-                                    onClick={() => startDirectMessage(u, null)}
-                                    className="text-[9.5px] text-cyan-400 hover:text-cyan-200 cursor-pointer"
-                                  >
-                                    DM
-                                  </button>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Quick Invite to Squad Action */}
-                    <div className="pt-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setPreselectedInviteUser(null);
-                          setIsQuickInviteOpen(true);
-                        }}
-                        className="w-full py-2 px-3 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
-                      >
-                        <UserPlus size={13} />
-                        <span>INVITE OPERATOR TO TEAM</span>
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  /* ── If Standard / Public Channel: Display 4-State Online & Offline Operators ── */
-                  <>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between text-[10px] text-cyan-400 font-bold uppercase tracking-wider px-1">
-                        <span className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
-                          <span>ACTIVE OPERATORS ({filteredOnlineOps.length})</span>
-                        </span>
-                        <span className="text-[9px] text-slate-500">HoloNet</span>
-                      </div>
-
-                      {filteredOnlineOps.length === 0 ? (
-                        <div className="p-3 text-center text-slate-500 text-[11px] italic bg-slate-900/30 rounded-lg border border-slate-800/50">
-                          No matching active operators.
-                        </div>
-                      ) : (
-                        filteredOnlineOps.map((user) => {
-                          const isSelf = currentUser && user.uid === currentUser.uid;
-                          const primaryPersona = Array.isArray(user.characters) && user.characters.length > 0 ? user.characters[0] : null;
-                          const pState = user.presenceState || 'online';
-                          const dotClass = pState === 'dnd'
-                            ? 'bg-rose-500 shadow-[0_0_6px_#f43f5e]'
-                            : pState === 'idle'
-                            ? 'bg-amber-400 shadow-[0_0_6px_#f59e0b]'
-                            : 'bg-emerald-400 shadow-[0_0_6px_#10b981]';
-                          const stateBadge = pState === 'dnd' ? 'DND' : pState === 'idle' ? 'IDLE' : 'ONLINE';
-
-                          return (
-                            <div
-                              key={user.uid}
-                              className="p-2 rounded-xl bg-slate-900/70 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/40 transition-all flex items-center justify-between gap-2 shadow-sm"
-                            >
-                              <div className="flex items-center gap-2 min-w-0">
-                                <div className="relative shrink-0">
-                                  <div className="w-7 h-7 rounded-lg bg-cyan-950/80 border border-cyan-500/50 flex items-center justify-center text-cyan-300 font-bold text-xs">
-                                    <User size={13} />
-                                  </div>
-                                  <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black ${dotClass}`} />
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-slate-100 text-xs truncate">@{user.userHandle || user.displayName}</span>
-                                    <span className="text-[8px] px-1 py-0.1 rounded bg-slate-800 text-slate-300 font-bold">
-                                      {stateBadge}
-                                    </span>
-                                    {isSelf && <span className="text-[9px] text-cyan-400 font-bold">(YOU)</span>}
-                                  </div>
-                                  {user.statusMessage && (
-                                    <span className="text-[9.5px] italic text-cyan-300/90 block truncate">
-                                      "{user.statusMessage}"
-                                    </span>
-                                  )}
-                                  <span className="text-[9.5px] text-slate-400 block truncate">
-                                    {user.activity?.label || (primaryPersona ? `🎭 ${primaryPersona.name}` : 'Connected to Terran Net')}
-                                  </span>
-                                </div>
-                              </div>
-
-                              {/* Actions */}
-                              {!isSelf && (
-                                <div className="flex items-center gap-1 shrink-0">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      AudioService.playTerminalBeep(1200, 0.02);
-                                      startDirectMessage(user, null);
-                                    }}
-                                    className="p-1 px-1.5 rounded bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                                    title={`DM Player @${user.userHandle}`}
-                                  >
-                                    <span>DM</span>
-                                  </button>
-                                  {groups.length > 0 && (
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setPreselectedInviteUser(user);
-                                        setIsQuickInviteOpen(true);
-                                      }}
-                                      className="p-1 px-1.5 rounded bg-emerald-950/60 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-[9.5px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                                      title={`Invite @${user.userHandle} to Team`}
-                                    >
-                                      <UserPlus size={10} />
-                                    </button>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })
-                      )}
-                    </div>
-
-                    {/* Offline Operators Collapsible */}
-                    {filteredOfflineOps.length > 0 && (
-                      <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                        <button
-                          type="button"
-                          onClick={() => setIsOfflineCollapsed(prev => !prev)}
-                          className="w-full flex items-center justify-between text-[10px] text-slate-500 font-bold uppercase tracking-wider px-1 hover:text-slate-300 cursor-pointer"
-                        >
-                          <span>OFFLINE OPERATORS ({filteredOfflineOps.length})</span>
-                          <ChevronDown size={12} className={`transition-transform ${isOfflineCollapsed ? '-rotate-90' : ''}`} />
-                        </button>
-
-                        {!isOfflineCollapsed && (
-                          <div className="space-y-1 pt-1">
-                            {filteredOfflineOps.map((user) => (
-                              <div
-                                key={user.uid}
-                                className="px-2 py-1.5 rounded-lg bg-slate-950/60 border border-slate-900 flex items-center justify-between text-[11px] text-slate-400"
-                              >
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1.5 truncate">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-slate-700 shrink-0" />
-                                    <span className="truncate font-bold">@{user.userHandle || user.displayName}</span>
-                                  </div>
-                                  <span className="text-[9px] text-slate-600 block pl-3">
-                                    {user.lastSeenText || 'Offline'}
-                                  </span>
-                                </div>
-                                <button
-                                  type="button"
-                                  onClick={() => startDirectMessage(user, null)}
-                                  className="text-[9.5px] text-slate-400 hover:text-cyan-300 cursor-pointer shrink-0"
-                                >
-                                  DM
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 2: CHANNEL DOSSIER */}
-          {usersDrawerTab === 'dossier' && (
-            <div className="flex-1 overflow-y-auto p-3 space-y-3 no-scrollbar">
-              {/* Quick Invite Button inside Dossier */}
-              {(isTeamChannel || isDirectChannel || groups.length > 0) && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPreselectedInviteUser(null);
-                    setIsQuickInviteOpen(true);
-                  }}
-                  className="w-full py-2 px-3 rounded-xl bg-emerald-600/25 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/40 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
-                >
-                  <UserPlus size={13} />
-                  <span>INVITE OPERATOR TO TEAM</span>
-                </button>
-              )}
-
-              {/* Channel Specs */}
-              <div className="space-y-1.5 text-[11px]">
-                <div className="p-2.5 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1">
-                  <span className="text-slate-400 text-[9.5px] block font-bold uppercase">DIRECTIVE / TOPIC</span>
-                  <p className="text-slate-200 font-sans text-xs leading-relaxed">{activeChannel.topic || 'No topic assigned.'}</p>
-                </div>
-
-                <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">ADDRESSING CONVENTION</span>
-                  <span className={`font-bold ${isTeamChannel ? 'text-emerald-400' : 'text-cyan-400'}`}>
-                    {isTeamChannel ? 'PERSONAS (CHARACTERS)' : 'OPERATORS (PLAYERS)'}
-                  </span>
-                </div>
-
-                <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">ENCRYPTION PROTOCOL</span>
-                  <span className="text-emerald-400 font-bold">AES-GCM-256</span>
-                </div>
-
-                <div className="p-2 rounded-lg bg-slate-900/80 border border-slate-800 flex justify-between">
-                  <span className="text-slate-400">RELAY FREQ ID</span>
-                  <span className="text-cyan-400 font-bold">{activeChannel.id.substring(0, 16)}</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </aside>
-      )}
 
       {/* Quick Team Invite Modal */}
       {isQuickInviteOpen && (

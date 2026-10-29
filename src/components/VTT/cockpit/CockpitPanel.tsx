@@ -28,6 +28,8 @@ import { PopoutPortal } from './PopoutPortal';
 import { AimeCockpitDeck } from './AimeCockpitDeck';
 import { queryOmnicortexRAG } from '../../../services/omnicortexVectorRag';
 import { parseRollCommand } from '../../../services/bastionService.js';
+import { analyzeCombatPacing, executeWhisperCardAction, CANONICAL_WHISPER_CARDS } from '../../../services/bastionWhisperService.js';
+import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 
 export const CockpitPanel: React.FC = () => {
   const { 
@@ -52,15 +54,59 @@ export const CockpitPanel: React.FC = () => {
   });
 
   // Bastion HQ Tactical Rules & Logistics State
+  const stageTokens = useEngineStore(selectAllFusedTokens);
   const [bastionRuleQuery, setBastionRuleQuery] = useState<string>('2d10 dual resolution opposed defense');
   const [bastionRollInput, setBastionRollInput] = useState<string>('/roll 2d10+4 vs 15');
   const [bastionRollResult, setBastionRollResult] = useState<any>(null);
+  const [bastionWhisperBanner, setBastionWhisperBanner] = useState<string>('');
   const [strongholdSystems, setStrongholdSystems] = useState<Record<string, boolean>>({
     perimeterShields: true,
     orbitalDropBeacon: true,
     medBayAutodoc: true,
     omnicortexUplink: true
   });
+
+  const bastionWhisperPacing = React.useMemo(() => {
+    return analyzeCombatPacing(stageTokens as any[], 1);
+  }, [stageTokens]);
+
+  const handleExecuteWhisperCard = (cardId: string) => {
+    const res: any = executeWhisperCardAction(cardId, stageTokens as any[], 1);
+    if (res.spawnedTokens && res.spawnedTokens.length > 0) {
+      const staticSpawns = res.spawnedTokens.map((sp: any, idx: number) => ({
+        id: `${sp.id}_${Date.now()}_${idx}`,
+        name: sp.name,
+        species: 'Human',
+        archetype: 'Tier 1 Drop-Trooper',
+        size_modifier: 0,
+        base_hp: 60,
+        base_vitality: 30,
+        base_health: 30,
+        armor_dr: sp.armorDr || 4,
+        speed_ft: 30,
+        avatar_url: '',
+        is_persona: false
+      }));
+      useEngineStore.getState().loadStaticEntitiesBatch(staticSpawns);
+    }
+    if (cardId === 'environmental_surge') {
+      stageTokens.forEach((t) => {
+        if (!t.active_conditions.includes('Cover')) {
+          useEngineStore.getState().toggleCondition(t.id, 'Cover');
+        }
+      });
+    } else if (cardId === 'tactical_retreat') {
+      stageTokens.filter((t) => !t.is_persona).forEach((t) => {
+        if (!t.active_conditions.includes('Cover')) {
+          useEngineStore.getState().toggleCondition(t.id, 'Cover');
+        }
+      });
+    } else if (cardId === 'heroic_inspiration' && folio?.awardCharacterKarma) {
+      const heroId = character?.['character-doc-id'] || character?.id;
+      if (heroId) folio.awardCharacterKarma(heroId, 1);
+    }
+    setBastionWhisperBanner(res.logEntry);
+  };
 
   const bastionRagResults = React.useMemo(() => {
     return queryOmnicortexRAG(bastionRuleQuery || '2d10 combat resolution', 3);
@@ -454,6 +500,65 @@ export const CockpitPanel: React.FC = () => {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* BASTION Co-GM Whisper Pacing Deck & 1-Click Stage Mutations */}
+            <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-purple-400">
+                  🧠 BASTION Co-GM Pacing Whispers
+                </span>
+                <span
+                  className="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase"
+                  style={{
+                    backgroundColor: `${bastionWhisperPacing.pacingColor}22`,
+                    color: bastionWhisperPacing.pacingColor,
+                    border: `1px solid ${bastionWhisperPacing.pacingColor}55`
+                  }}
+                >
+                  Tension {bastionWhisperPacing.tensionScore}%
+                </span>
+              </div>
+              <div className="text-[10px] text-slate-300 font-semibold">
+                {bastionWhisperPacing.pacingLabel}
+              </div>
+              {bastionWhisperPacing.advice && (
+                <p className="text-[9.5px] text-slate-400 font-sans leading-snug">
+                  {bastionWhisperPacing.advice}
+                </p>
+              )}
+              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                {(bastionWhisperPacing.suggestedCards?.length
+                  ? bastionWhisperPacing.suggestedCards
+                  : CANONICAL_WHISPER_CARDS.slice(0, 3)
+                ).map((card: any) => (
+                  <div
+                    key={card.id}
+                    className="p-2 rounded bg-slate-900/90 border border-slate-800/90 flex items-center justify-between gap-2"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[10px] font-bold text-slate-200 truncate">
+                        {card.icon} {card.label}
+                      </div>
+                      <div className="text-[9px] text-slate-400 font-sans truncate">
+                        {card.actionEffect}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleExecuteWhisperCard(card.id)}
+                      className="px-2 py-1 rounded bg-purple-900/70 hover:bg-purple-700 text-purple-200 border border-purple-500/40 text-[9px] font-bold uppercase shrink-0 cursor-pointer"
+                    >
+                      Inject
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {bastionWhisperBanner && (
+                <div className="p-2 rounded bg-purple-950/50 border border-purple-500/40 text-[9.5px] text-purple-200 font-sans">
+                  {bastionWhisperBanner}
+                </div>
+              )}
             </div>
 
             {/* Stronghold & Garrison Logistics */}

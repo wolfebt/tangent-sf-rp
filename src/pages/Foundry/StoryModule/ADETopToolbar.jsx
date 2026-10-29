@@ -3,13 +3,16 @@
  * @description Streamlined Glass-Cockpit Top Navigation Toolbar for ADE.
  * Orchestrates:
  *   - Center: ToolbarBreadcrumb (Interactive Studio Context, Hierarchy & Scenario navigation)
- *   - Right: Cockpit Dock toggle
+ *   - Right: ToolbarQuickActions (Module Health, Dev/Live Session Mode, Architect/Operator Perspective, Split Stage, Cockpit Dock toggle)
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStory } from '../../../context/CampaignContext';
-import { Sliders, PanelRight, PanelRightClose } from 'lucide-react';
+import { useAdeStore } from '../store/adeStore';
+import { useShallow } from 'zustand/react/shallow';
 import ToolbarBreadcrumb from './toolbar/ToolbarBreadcrumb';
+import ToolbarQuickActions from './toolbar/ToolbarQuickActions';
+import { useModuleHealth } from './toolbar/useModuleHealth';
 
 export default function ADETopToolbar({
   activeView,
@@ -18,14 +21,53 @@ export default function ADETopToolbar({
   onSwitchView,
   onSelectScenarioWorkspaceTab,
   onSelectScenario,
+  isPrintModalOpen = false,
+  onTogglePrintModal,
+  isCronicleOpen = false,
+  onToggleCronicle,
+  isCompilerOpen = false,
+  onToggleCompiler,
   // Right Cockpit Dock
   isRightDockOpen = true,
   onToggleRightDock,
+  activeCockpitDeck = 'aime',
+  onSelectCockpitDeck,
   // Node level context
   activeNode,
   activeElement
 }) {
-  const { universeState } = useStory();
+  const { universeState, elementsCatalog, cronicle, activeMapId } = useStory();
+  const {
+    studioMode,
+    setStudioMode,
+    perspectiveMode,
+    togglePerspectiveMode,
+    isSplitView,
+    setIsSplitView,
+    viewportSplit,
+    setViewportSplit,
+    setPreflightTelemetry
+  } = useAdeStore(
+    useShallow((s) => ({
+      studioMode: s.studioMode,
+      setStudioMode: s.setStudioMode,
+      perspectiveMode: s.perspectiveMode,
+      togglePerspectiveMode: s.togglePerspectiveMode,
+      isSplitView: s.isSplitView,
+      setIsSplitView: s.setIsSplitView,
+      viewportSplit: s.viewportSplit,
+      setViewportSplit: s.setViewportSplit,
+      setPreflightTelemetry: s.setPreflightTelemetry
+    }))
+  );
+
+  const moduleHealth = useModuleHealth(universeState, elementsCatalog);
+
+  useEffect(() => {
+    if (moduleHealth && setPreflightTelemetry) {
+      setPreflightTelemetry(moduleHealth);
+    }
+  }, [moduleHealth, setPreflightTelemetry]);
 
   const storyTitle = universeState?.storyTitle || universeState?.name || universeState?.title || 'Story Module';
 
@@ -50,26 +92,33 @@ export default function ADETopToolbar({
         />
       </div>
 
-      {/* ── ZONE 3: COCKPIT DOCK CONTROLS (Right) ── */}
-      <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 font-mono">
-        {/* Master Right Cockpit Dock Toggle */}
-        {onToggleRightDock && (
-          <button
-            type="button"
-            onClick={onToggleRightDock}
-            className={`px-2.5 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
-              isRightDockOpen
-                ? 'bg-cyan-950/80 border-cyan-400/80 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
-                : 'bg-slate-900 border-slate-700/80 text-slate-400 hover:text-slate-200 hover:border-slate-500'
-            }`}
-            title={isRightDockOpen ? "Collapse Right Cockpit Dock (])" : "Expand Right Cockpit Dock (])"}
-          >
-            <Sliders size={12} className={isRightDockOpen ? 'text-cyan-400' : 'text-slate-400'} />
-            <span className="hidden md:inline">COCKPIT</span>
-            {isRightDockOpen ? <PanelRightClose size={13} /> : <PanelRight size={13} />}
-          </button>
-        )}
-      </div>
+      {/* ── ZONE 3: QUICK ACTIONS & COCKPIT DOCK CONTROLS (Right) ── */}
+      <ToolbarQuickActions
+        activeView={activeView}
+        moduleHealth={moduleHealth}
+        onToggleCompiler={onToggleCompiler}
+        isCompilerOpen={isCompilerOpen}
+        studioMode={studioMode}
+        setStudioMode={setStudioMode}
+        perspectiveMode={perspectiveMode}
+        togglePerspectiveMode={togglePerspectiveMode}
+        isSplitView={isSplitView}
+        setIsSplitView={setIsSplitView}
+        viewportSplit={viewportSplit}
+        setViewportSplit={setViewportSplit}
+        targetMapId={activeNode?.mapId || activeMapId}
+        universeState={universeState}
+        activeNode={activeNode}
+        pendingCronicleCount={cronicle?.history?.length || 0}
+        isCronicleOpen={isCronicleOpen}
+        onToggleCronicle={onToggleCronicle}
+        isPrintModalOpen={isPrintModalOpen}
+        onTogglePrintModal={onTogglePrintModal}
+        isRightDockOpen={isRightDockOpen}
+        onToggleRightDock={onToggleRightDock}
+        activeCockpitDeck={activeCockpitDeck}
+        onSelectCockpitDeck={onSelectCockpitDeck}
+      />
     </header>
   );
 }

@@ -2,6 +2,8 @@
 id: nu-tek-tvskin
 name: Nu-Tek TVSkin
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 0
 cost: 640
 design_dc: 15
 craft_dc: 15

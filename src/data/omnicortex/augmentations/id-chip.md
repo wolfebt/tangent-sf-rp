@@ -2,6 +2,8 @@
 id: id-chip
 name: ID Chip
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 0
 cost: 40
 design_dc: 5
 craft_dc: 5

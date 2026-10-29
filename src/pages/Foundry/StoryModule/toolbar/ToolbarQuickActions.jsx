@@ -5,11 +5,13 @@ import {
   Sliders, 
   PanelRightClose, 
   PanelRight,
-  Sparkles 
+  Sparkles,
+  Columns
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 
 export default function ToolbarQuickActions({
+  activeView,
   moduleHealth,
   onToggleCompiler,
   isCompilerOpen,
@@ -17,14 +19,16 @@ export default function ToolbarQuickActions({
   setStudioMode,
   perspectiveMode,
   togglePerspectiveMode,
+  isSplitView,
+  setIsSplitView,
+  viewportSplit,
+  setViewportSplit,
   targetMapId,
   universeState,
   activeNode,
   pendingCronicleCount,
   isCronicleOpen,
   onToggleCronicle,
-  isScratchbookOpen,
-  onToggleScratchbook,
   isPrintModalOpen,
   onTogglePrintModal,
   isRightDockOpen,
@@ -57,6 +61,56 @@ export default function ToolbarQuickActions({
           <span>{moduleHealth.score}%</span>
           <span className="hidden xl:inline text-[10px] opacity-75">HEALTH</span>
         </button>
+      )}
+
+      {/* Split Stage Toggle & Ratio Selector (When in Scenarios view) */}
+      {activeView === 'scenarios' && setIsSplitView && (
+        <div className="hidden md:flex items-center gap-1 bg-slate-900/90 border border-slate-800 rounded-xl p-0.5">
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              setIsSplitView(!isSplitView);
+            }}
+            className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer transition-colors ${
+              isSplitView
+                ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+            title="Dual-Pane Split: Side-by-Side Story Weaver + Tactical Stage"
+          >
+            <Columns size={11} />
+            <span className="hidden lg:inline">Split</span>
+          </button>
+          {isSplitView && setViewportSplit && (
+            <div className="flex items-center gap-0.5 px-1 text-[9px] font-bold">
+              <button
+                type="button"
+                onClick={() => setViewportSplit('story_only')}
+                className={`px-1 py-0.5 rounded cursor-pointer ${viewportSplit === 'story_only' ? 'bg-emerald-500/30 text-emerald-300' : 'text-slate-400 hover:text-white'}`}
+                title="75% Story / 25% Stage"
+              >
+                75/25
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewportSplit('side_by_side')}
+                className={`px-1 py-0.5 rounded cursor-pointer ${viewportSplit === 'side_by_side' ? 'bg-emerald-500/30 text-emerald-300' : 'text-slate-400 hover:text-white'}`}
+                title="50% Story / 50% Stage"
+              >
+                50/50
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewportSplit('canvas_only')}
+                className={`px-1 py-0.5 rounded cursor-pointer ${viewportSplit === 'canvas_only' ? 'bg-emerald-500/30 text-emerald-300' : 'text-slate-400 hover:text-white'}`}
+                title="25% Story / 75% Stage"
+              >
+                25/75
+              </button>
+            </div>
+          )}
+        </div>
       )}
 
       {/* Studio Mode Toggle (Development vs Live Session) */}

@@ -17,6 +17,7 @@ import {
 } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
 import { showToast } from '../../../context/ToastContext';
+import { AimeAgent } from '../../../engine/ai/AimeAgent';
 
 export interface UseCombatControllerOptions {
   selectedToken: any;
@@ -172,7 +173,18 @@ export function useCombatController({
     const isHit = totalAttack > targetDefenseDC && !isDoubleOnes;
 
     if (!isHit) {
+      const missNarration = AimeAgent.narrateCombatStrike({
+        attackerName: selectedToken.name,
+        targetName: targetToken.name,
+        weaponName: attackWeapon.toUpperCase(),
+        targetedLimb,
+        isHit: false,
+        isCriticalTriumph: false,
+        isCriticalFumble: isDoubleOnes,
+        netDamage: 0
+      });
       setCombatLog(prev => [
+        `[AIME] ${missNarration.narrativeText}`,
         `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. 2d10 Roll: ${d1}+${d2}=${d1+d2} (Total Attack: ${totalAttack} vs CR ${targetDefenseDC} - Defender Wins Ties). [Cover: ${coverCheck.coverType.toUpperCase()}]`,
         ...prev.slice(0, 8)
       ]);
@@ -224,7 +236,21 @@ export function useCombatController({
       logMsg += ` TRAUMA: ${strikeResult.appliedStatuses.join(', ')}`;
     }
 
+    const hitNarration = AimeAgent.narrateCombatStrike({
+      attackerName: selectedToken.name,
+      targetName: targetToken.name,
+      weaponName: attackWeapon.toUpperCase(),
+      targetedLimb,
+      isHit: true,
+      isCriticalTriumph: isDoubleTens,
+      isCriticalFumble: false,
+      netDamage: strikeResult.netDamage,
+      isDowned: strikeResult.entersMortalityState,
+      appliedStatuses: strikeResult.appliedStatuses
+    });
+
     setCombatLog(prev => [
+      `[AIME] ${hitNarration.narrativeText}`,
       logMsg,
       ...prev.slice(0, 8)
     ]);

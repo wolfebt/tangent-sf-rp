@@ -81,18 +81,20 @@ export interface StageViewProps {
   campaignId?: string;
   sceneId?: string;
   isEmbeddedInTripartite?: boolean;
+  compiledStage?: any;
 }
 
 export const StageView: React.FC<StageViewProps> = ({
   campaignId = 'campaign_alpha',
   sceneId,
-  isEmbeddedInTripartite = false
+  isEmbeddedInTripartite = false,
+  compiledStage
 }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const rendererContextRef = useRef<RendererContext | null>(null);
   const layerCompositorRef = useRef<LayerCompositor | null>(null);
   const chunkManagerRef = useRef<FrustumChunkManager | null>(null);
-  const coordEngineRef = useRef<CoordinateEngine>(new CoordinateEngine(GridType.HexFlatTop, 70, GridScaleTier.Encounter));
+  const coordEngineRef = useRef<CoordinateEngine>(new CoordinateEngine(GridType.HexFlatTop, 50, GridScaleTier.Encounter));
   const interactiveObjMgrRef = useRef<InteractiveObjectManager>(new InteractiveObjectManager());
   const bvhBuilderRef = useRef<BVHBuilder>(new BVHBuilder());
   const hazardSimulatorRef = useRef<HazardParticleSimulator | null>(null);
@@ -149,7 +151,19 @@ export const StageView: React.FC<StageViewProps> = ({
   }, [mapsCatalog, universeState?.maps]);
 
   const effectiveMapId = sceneId || activeMapId || mapIdParam || currentMapId;
-  const currentMap = availableMaps.find((m: any) => m.id === effectiveMapId) || availableMaps[0] || null;
+  const baseMap = availableMaps.find((m: any) => m.id === effectiveMapId) || availableMaps[0] || null;
+  const currentMap = useMemo(() => {
+    if (compiledStage?.map && (!baseMap || compiledStage.map.id === baseMap.id)) {
+      return {
+        ...baseMap,
+        ...compiledStage.map,
+        tokens: compiledStage.map.tokens || baseMap?.tokens || [],
+        objects: compiledStage.map.objects || baseMap?.objects || [],
+        waypoints: compiledStage.map.waypoints || baseMap?.waypoints || []
+      };
+    }
+    return baseMap;
+  }, [baseMap, compiledStage]);
 
   // Sourced from Unified Layout & Stage Viewport Store
   const {
@@ -1283,10 +1297,11 @@ export const StageView: React.FC<StageViewProps> = ({
   useEffect(() => {
     coordEngineRef.current.setScaleTier(scaleTier);
     coordEngineRef.current.setGridType(gridType);
+    coordEngineRef.current.setCellSizePx(currentMap?.gridSize || 50);
     if (isCanvasReady) {
       redrawGrid();
     }
-  }, [isCanvasReady, redrawGrid, scaleTier, gridType]);
+  }, [isCanvasReady, redrawGrid, scaleTier, gridType, currentMap?.gridSize]);
 
   // Redraw Movement Distance Range & Waypoint Ruler
   useEffect(() => {

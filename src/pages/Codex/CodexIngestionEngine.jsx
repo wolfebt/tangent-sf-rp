@@ -575,7 +575,7 @@ export const CodexIngestionEngine = ({
       delete payloadToSave._folioHealth;
 
       try {
-        await saveEntry(targetCollection, payloadToSave);
+        await saveEntry(payloadToSave, targetCollection);
         if (existing) updatedCount++;
         else createdCount++;
       } catch (err) {

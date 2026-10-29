@@ -2,6 +2,8 @@
 id: biomonitor
 name: Biomonitor
 category: augmentations
+location: "Torso / Core"
+nodes: 0
 cost: 160
 design_dc: 10
 craft_dc: 10

@@ -24,6 +24,7 @@ import {
 import { useStageStore } from '../stageStore';
 import { useStoryAssets } from '../../assetContracts';
 import { AudioService } from '../../../../services/audioService';
+import { showConfirm } from '../../../../context/ConfirmContext';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function FlowTab() {
@@ -229,8 +230,14 @@ export default function FlowTab() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => {
-                          if (window.confirm(`Delete trigger "${trigger.name}"?`)) {
+                        onClick={async () => {
+                          const confirmed = await showConfirm({
+                            title: 'Delete Trigger',
+                            message: `Delete trigger "${trigger.name}"?`,
+                            confirmText: 'Delete',
+                            danger: true
+                          });
+                          if (confirmed) {
                             removeTrigger(trigger.id);
                           }
                         }}

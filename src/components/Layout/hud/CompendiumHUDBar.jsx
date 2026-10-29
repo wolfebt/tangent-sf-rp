@@ -32,33 +32,17 @@ export const CompendiumHUDBar = ({
           type="button"
           onClick={() => {
             AudioService.playTerminalBeep(1100, 0.02);
-            navigate('/compendium?tab=omnicortex');
+            navigate('/codex');
           }}
           className={`px-2 py-0.5 rounded font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer ${
-            location.search.includes('tab=omnicortex')
+            location.pathname.startsWith('/codex')
               ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60'
               : 'text-slate-400 hover:text-emerald-300'
           }`}
-          title="Switch to Omnicortex Asset Catalog"
+          title="Open Omnicortex Codex Studio"
         >
           <Globe size={11} />
           <span>Omnicortex</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1100, 0.02);
-            navigate('/compendium?tab=split');
-          }}
-          className={`hidden sm:flex items-center gap-1 px-2 py-0.5 rounded font-bold uppercase transition-colors cursor-pointer ${
-            location.search.includes('tab=split')
-              ? 'bg-purple-950 text-purple-300 border border-purple-500/60'
-              : 'text-slate-400 hover:text-purple-300'
-          }`}
-          title="Switch to Side-by-Side Split Reference"
-        >
-          <Columns size={11} />
-          <span>Split</span>
         </button>
       </div>
 

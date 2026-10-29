@@ -99,12 +99,15 @@ export const SquadSettingsTab = ({
 
     setIsSaving(true);
     try {
+      const matchedStory = storyCatalog.find(s => s.id === editStoryId);
       await updateGroup(activeGroup.id, {
         name: editName.trim(),
         description: editDesc.trim(),
         status: editStatus,
         campaignId: editStoryId || null,
-        campaignTitle: storyCatalog.find(s => s.id === editStoryId)?.title || activeGroup.campaignTitle || '',
+        campaignTitle: editStoryId
+          ? (matchedStory?.projectName || matchedStory?.title || activeGroup.campaignTitle || '')
+          : '',
         allowPlayerOverride: editAllowPlayerOverride,
         lfp: {
           active: editLfpActive,
@@ -121,7 +124,8 @@ export const SquadSettingsTab = ({
           neededRoles: editLfpRoles,
           pitch: editLfpPitch.trim(),
           openSlots: Number(editLfpSlots) || 2,
-          active: editLfpActive
+          active: editLfpActive,
+          status: editStatus
         });
       }
 
@@ -252,7 +256,7 @@ export const SquadSettingsTab = ({
                 <option value="">-- No Linked Campaign --</option>
                 {storyCatalog.map(story => (
                   <option key={story.id} value={story.id}>
-                    {story.title}
+                    {story.projectName || story.title || 'Untitled Campaign'}
                   </option>
                 ))}
               </select>

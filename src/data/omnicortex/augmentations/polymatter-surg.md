@@ -2,6 +2,8 @@
 id: polymatter-surg
 name: Polymatter Surg
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 40960
 design_dc: 30
 craft_dc: 30
@@ -9,10 +11,10 @@ description: Grants Fast Heal and Regeneration Features.
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 4
+  bp: 4
   credits: 40960
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

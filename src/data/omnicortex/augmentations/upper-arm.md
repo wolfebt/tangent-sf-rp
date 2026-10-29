@@ -2,6 +2,8 @@
 id: upper-arm
 name: Upper Arm
 category: augmentations
+location: "Arms / Hands"
+nodes: 15
 cost: 4457
 durability: '15'
 design_dc: 22
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 4457
-  nodes: 0
+  nodes: 15
   sockets: 0
   strain: 0
   focus: 0

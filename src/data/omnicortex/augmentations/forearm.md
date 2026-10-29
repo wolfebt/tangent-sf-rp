@@ -2,6 +2,8 @@
 id: forearm
 name: Forearm
 category: augmentations
+location: "Arms / Hands"
+nodes: 10
 cost: 2560
 durability: '10'
 design_dc: 20
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 2560
-  nodes: 0
+  nodes: 10
   sockets: 0
   strain: 0
   focus: 0

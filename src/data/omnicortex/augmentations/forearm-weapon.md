@@ -2,6 +2,8 @@
 id: forearm-weapon
 name: Forearm Weapon
 category: augmentations
+location: "Arms / Hands"
+nodes: 0
 cost: 640
 design_dc: 15
 craft_dc: 15

@@ -217,6 +217,12 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               setHandle(data.userHandle);
               localStorage.setItem('userHandle', data.userHandle);
             }
+          }
+        }).catch(err => console.warn("Failed to fetch user cloud settings:", err));
+
+        getDoc(doc(db, 'users', currentUser.uid, 'private_settings', 'config')).then((privSnap) => {
+          if (privSnap.exists()) {
+            const data = privSnap.data();
             if (data.userContactInfo !== undefined) {
               setContactInfo(data.userContactInfo);
               localStorage.setItem('userContactInfo', data.userContactInfo);
@@ -242,7 +248,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               localStorage.setItem('customEndpoint', data.customEndpoint);
             }
           }
-        }).catch(err => console.warn("Failed to fetch user cloud settings:", err));
+        }).catch(err => console.warn("Failed to fetch private user cloud settings:", err));
       }
     }
   }, [isOpen, currentUser, initialTab]);
@@ -356,20 +362,26 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
 
     if (currentUser) {
       try {
-        const userSyncPromise = setDoc(doc(db, 'users', currentUser.uid), {
-          userHandle: trimmedHandle,
-          handleSet: true,
-          isTempHandle: false,
-          displayName: trimmedHandle,
-          emailOptIn: Boolean(emailOptIn),
-          emailOptInUpdatedAt: new Date().toISOString(),
-          userContactInfo: trimmedContactInfo,
-          geminiApiKey: trimmedGeminiKey,
-          aiPlatform: aiPlatform,
-          otherAiApiKey: trimmedOtherKey,
-          customEndpoint: trimmedEndpoint,
-          updatedAt: new Date().toISOString()
-        }, { merge: true });
+        const nowIso = new Date().toISOString();
+        const userSyncPromise = Promise.all([
+          setDoc(doc(db, 'users', currentUser.uid), {
+            userHandle: trimmedHandle,
+            handleSet: true,
+            isTempHandle: false,
+            displayName: trimmedHandle,
+            updatedAt: nowIso
+          }, { merge: true }),
+          setDoc(doc(db, 'users', currentUser.uid, 'private_settings', 'config'), {
+            emailOptIn: Boolean(emailOptIn),
+            emailOptInUpdatedAt: nowIso,
+            userContactInfo: trimmedContactInfo,
+            geminiApiKey: trimmedGeminiKey,
+            aiPlatform: aiPlatform,
+            otherAiApiKey: trimmedOtherKey,
+            customEndpoint: trimmedEndpoint,
+            updatedAt: nowIso
+          }, { merge: true })
+        ]);
         const timeoutPromise = new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Firestore user sync timed out')), 800)
         );

@@ -118,7 +118,17 @@ Option 3: [Sensory depiction]`;
 
   const handleFinalCommit = () => {
     if (onCommitNode) {
-      onCommitNode(assembledDraft);
+      onCommitNode({
+        nodeType,
+        title: architectIntent.trim() || 'Untitled Node',
+        intent: architectIntent.trim(),
+        objective: primaryObjective.trim() || 'Overcome primary conflict',
+        targetDC,
+        weatherPreset: `${activeWeatherObj.name} (${activeWeatherObj.rule})`,
+        conditions: operativeConditions,
+        sensoryFlavor: selectedFlavor.trim(),
+        assembledDraft
+      });
       AudioService.playCriticalChime(true);
     }
     onClose();

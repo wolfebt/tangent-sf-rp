@@ -6,7 +6,44 @@
  */
 
 import { VertexAIGateway } from './VertexAIGateway.ts';
+import { AimeAgent } from './AimeAgent.ts';
 import { synthesizeCharacterWithBastion } from '../../services/bastionCharacterEngine.js';
+import { synthesizeAdversaryTactic } from '../../services/adversaryAiService.js';
+import { analyzeCombatPacing } from '../../services/bastionWhisperService.js';
+import { getTacticalBark } from '../../services/tacticalBarksService.js';
+import { useEngineStore, selectAllFusedTokens } from '../state/VolatileSharder.ts';
+import { DamagePipeline } from '../rules/DamagePipeline.ts';
+
+export interface AdversaryTurnExecutionReport {
+  success: boolean;
+  adversaryId: string;
+  adversaryName: string;
+  roleKey: string;
+  roleLabel: string;
+  tacticAction: string;
+  tacticDescription: string;
+  targetId: string | null;
+  targetName: string;
+  movement: {
+    from: { x: number; y: number };
+    to: { x: number; y: number };
+    distanceMovedFt: number;
+  };
+  attackRoll: {
+    d1: number;
+    d2: number;
+    attackBonus: number;
+    totalAttack: number;
+    targetDefenseDC: number;
+    isHit: boolean;
+    isCriticalTriumph: boolean;
+    isCriticalFumble: boolean;
+  };
+  damageDealt: number;
+  appliedConditions: string[];
+  tacticalBark: string;
+  aimeNarration: string;
+}
 
 export interface TangentAttributeStats {
   strength: number;
@@ -311,6 +348,219 @@ Rules:
 
   public validateAndBalanceCp(draft: TangentCharacterDraft): BastionValidationResult {
     return this.validateAndBalanceBp(draft);
+  }
+
+  /**
+   * Executes an autonomous, deterministic Stage 7 Adversary Tactical Turn directly on useEngineStore (VolatileSharder),
+   * combining role doctrine selection, 5ft-grid movement, 2d10 Dual Resolution strike (Defender Wins Ties),
+   * DamagePipeline trauma calculation, and synchronized AIME combat narration.
+   */
+  public executeAdversaryTurn(
+    adversaryId: string,
+    options: {
+      diceOverride?: [number, number] | { d1: number; d2: number };
+      rollOverride?: [number, number] | { d1: number; d2: number };
+      rawDamageOverride?: number;
+      baseRawDamage?: number;
+      weaponType?: string;
+      cellSizePx?: number;
+    } = {}
+  ): AdversaryTurnExecutionReport {
+    const storeState = useEngineStore.getState();
+    const allTokens = selectAllFusedTokens(storeState);
+    const adversary = allTokens.find(t => t.id === adversaryId);
+
+    if (!adversary) {
+      throw new Error(`Adversary token "${adversaryId}" not found on The Stage.`);
+    }
+
+    const heroes = allTokens.filter(t => t.is_persona && (t.current_hp ?? t.base_hp ?? 30) > 0);
+    const tactic: any = synthesizeAdversaryTactic(adversary, heroes, {}) || {
+      roleKey: 'skirmisher',
+      roleLabel: 'Skirmisher (Hit-and-Run)',
+      doctrine: 'Mobile ranged harassment.',
+      action: 'Tactical Burst',
+      targetId: heroes[0]?.id || null,
+      targetName: heroes[0]?.name || 'Operative',
+      description: 'Execute standard tactical engagement.',
+      moveMode: 'hold_position',
+      appliedCondition: null,
+      attackBonusDelta: 0
+    };
+
+    const targetToken = heroes.find(h => h.id === tactic.targetId) || heroes[0] || null;
+    const cellSizePx = options.cellSizePx || 70;
+    const maxCellsMove = Math.max(1, Math.floor((adversary.speed_ft || 30) / 5));
+    const maxMovePx = maxCellsMove * cellSizePx;
+
+    const fromX = adversary.x ?? 0;
+    const fromY = adversary.y ?? 0;
+    let nextX = fromX;
+    let nextY = fromY;
+
+    if (targetToken && tactic.moveMode !== 'hold_position') {
+      const dx = (targetToken.x ?? 0) - fromX;
+      const dy = (targetToken.y ?? 0) - fromY;
+      const dist = Math.hypot(dx, dy);
+
+      if (tactic.moveMode === 'advance_melee' && dist > cellSizePx) {
+        const moveDist = Math.min(maxMovePx, Math.max(0, dist - cellSizePx));
+        const ratio = dist > 0 ? moveDist / dist : 0;
+        nextX = Math.round((fromX + dx * ratio) / cellSizePx) * cellSizePx;
+        nextY = Math.round((fromY + dy * ratio) / cellSizePx) * cellSizePx;
+      } else if (tactic.moveMode === 'kite_range' && dist < cellSizePx * 4) {
+        const retreatPx = Math.min(maxMovePx, cellSizePx * 2);
+        const dirX = dist > 0 ? -dx / dist : -1;
+        const dirY = dist > 0 ? -dy / dist : 0;
+        nextX = Math.round((fromX + dirX * retreatPx) / cellSizePx) * cellSizePx;
+        nextY = Math.round((fromY + dirY * retreatPx) / cellSizePx) * cellSizePx;
+      }
+    }
+
+    if (nextX !== fromX || nextY !== fromY) {
+      useEngineStore.getState().updatePosition(adversaryId, nextX, nextY);
+    }
+
+    const distanceMovedFt = Math.round((Math.hypot(nextX - fromX, nextY - fromY) / cellSizePx) * 5);
+    const appliedConditions: string[] = [];
+
+    if (tactic.appliedCondition) {
+      const currentConds = useEngineStore.getState().ephemeralData[adversaryId]?.active_conditions || [];
+      if (!currentConds.includes(tactic.appliedCondition)) {
+        useEngineStore.getState().toggleCondition(adversaryId, tactic.appliedCondition);
+      }
+      appliedConditions.push(tactic.appliedCondition);
+    }
+
+    if (tactic.healAmount && tactic.healAmount > 0) {
+      useEngineStore.getState().healHP(adversaryId, tactic.healAmount);
+    }
+
+    // Resolve 2d10 Attack Roll (Defender Wins Ties)
+    const dice = options.diceOverride || options.rollOverride;
+    let d1 = Math.floor(Math.random() * 10) + 1;
+    let d2 = Math.floor(Math.random() * 10) + 1;
+    if (Array.isArray(dice)) {
+      d1 = dice[0];
+      d2 = dice[1];
+    } else if (dice && typeof dice === 'object') {
+      d1 = (dice as any).d1 ?? d1;
+      d2 = (dice as any).d2 ?? d2;
+    }
+    const isCriticalTriumph = d1 === 10 && d2 === 10;
+    const isCriticalFumble = d1 === 1 && d2 === 1;
+
+    const baseAttackBonus = (adversary.tech_level || 3) * 2 + (tactic.attackBonusDelta || 0);
+    const totalAttack = d1 + d2 + baseAttackBonus + (isCriticalTriumph ? 10 : isCriticalFumble ? -10 : 0);
+    const targetDefenseBonus = targetToken
+      ? ((targetToken.active_conditions || []).includes('Cover') ? 2 : 0) +
+        ((targetToken.active_conditions || []).includes('Total Defense') ? 4 : 0)
+      : 0;
+    const targetDefenseDC = 15 + targetDefenseBonus;
+
+    // Canonical v6: Defender wins ties -> attacker must strictly exceed targetDefenseDC (or roll Nat 20)
+    const isHit = Boolean(targetToken) && !isCriticalFumble && (isCriticalTriumph || totalAttack > targetDefenseDC);
+    let damageDealt = 0;
+
+    if (isHit && targetToken) {
+      const rawDamage = options.rawDamageOverride ?? options.baseRawDamage;
+      const rawBase = rawDamage ?? (14 + (adversary.tech_level || 3) * 2 + (d1 === d2 ? 4 : 0));
+      const damagePipeline = new DamagePipeline();
+      const strikeRes = damagePipeline.resolveStrike(
+        {
+          rawDamage: isCriticalTriumph ? Math.round(rawBase * 1.5) : rawBase,
+          armorPenetration: adversary.tech_level || 3,
+          damageType: (options.weaponType || 'kinetic') as any,
+          isCalledShot: Boolean(tactic.calledShotLocation),
+          targetLocation: (tactic.calledShotLocation || 'torso') as any
+        },
+        targetToken as any,
+        [targetToken.armor_dr || 0]
+      );
+
+      damageDealt = strikeRes.netDamage;
+      useEngineStore.getState().applyDamage(targetToken.id, damageDealt);
+
+      for (const status of strikeRes.appliedStatuses) {
+        const targetConds = useEngineStore.getState().ephemeralData[targetToken.id]?.active_conditions || [];
+        if (!targetConds.includes(status)) {
+          useEngineStore.getState().toggleCondition(targetToken.id, status);
+        }
+        appliedConditions.push(status);
+      }
+    }
+
+    const updatedTarget = targetToken
+      ? selectAllFusedTokens(useEngineStore.getState()).find(t => t.id === targetToken.id)
+      : null;
+    const isDowned = Boolean(updatedTarget && (updatedTarget.current_hp ?? 30) <= 0);
+
+    const narrationObj = AimeAgent.narrateCombatStrike({
+      attackerName: adversary.name,
+      targetName: targetToken?.name || tactic.targetName,
+      weaponName: tactic.action,
+      targetedLimb: tactic.calledShotLocation || 'torso',
+      netDamage: damageDealt,
+      isHit,
+      isCriticalTriumph,
+      isCriticalFumble,
+      isDowned,
+      appliedStatuses: appliedConditions
+    });
+
+    const barkObj = getTacticalBark(
+      isCriticalTriumph ? 'critical' : isHit ? 'engaging' : 'suppressed',
+      adversary.name
+    );
+
+    return {
+      success: true,
+      adversaryId: adversary.id,
+      adversaryName: adversary.name,
+      roleKey: tactic.roleKey,
+      roleLabel: tactic.roleLabel,
+      tacticAction: tactic.action,
+      tacticDescription: tactic.description,
+      targetId: targetToken?.id || null,
+      targetName: targetToken?.name || tactic.targetName,
+      movement: {
+        from: { x: fromX, y: fromY },
+        to: { x: nextX, y: nextY },
+        distanceMovedFt
+      },
+      attackRoll: {
+        d1,
+        d2,
+        attackBonus: baseAttackBonus,
+        totalAttack,
+        targetDefenseDC,
+        isHit,
+        isCriticalTriumph,
+        isCriticalFumble
+      },
+      damageDealt,
+      appliedConditions,
+      tacticalBark: barkObj.quote,
+      aimeNarration: narrationObj.narrativeText
+    };
+  }
+
+  /**
+   * Evaluates live VTT encounter balance and returns BASTION Whisper Co-GM pacing telemetry.
+   */
+  public evaluateEncounterBalance(roundNumber: number = 1) {
+    const allTokens = selectAllFusedTokens(useEngineStore.getState());
+    const normalizedForWhisper = allTokens.map(t => ({
+      id: t.id,
+      name: t.name,
+      linkedHeroId: t.is_persona ? t.id : undefined,
+      isEnemy: !t.is_persona,
+      health: {
+        current: t.current_hp ?? t.base_hp ?? 30,
+        max: t.base_hp ?? 30
+      }
+    }));
+    return analyzeCombatPacing(normalizedForWhisper, roundNumber);
   }
 }
 

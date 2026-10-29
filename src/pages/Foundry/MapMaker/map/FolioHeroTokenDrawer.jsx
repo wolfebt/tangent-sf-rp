@@ -5,7 +5,7 @@ import { showToast } from '../../../../context/ToastContext';
 import { AudioService } from '../../../../services/audioService';
 import DraggablePanel from './DraggablePanel';
 import { Users, User, Shield, Sparkles, Plus, ExternalLink } from 'lucide-react';
-import { GameGroupModal } from '../../../../components/Groups/GameGroupModal';
+import { GameGroupModal } from '../../../../components/Squads/SquadModal';
 import { extractHeroStats } from '../../../../schemas/sharedSchemas';
 import { TacticalPlayModal } from '../../../../components/Folio/modals/TacticalPlayModal';
 

@@ -113,7 +113,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
         { label: 'Core Rules', route: '/compendium?tab=rules' },
         { label: 'Combat & DCs', route: '/compendium?tab=rules' },
         { label: 'Conditions', route: '/compendium?tab=rules' },
-        { label: 'Omnicortex', route: '/compendium?tab=omnicortex' },
+        { label: 'Omnicortex', route: '/codex' },
         { label: 'Bastion AI', route: '/compendium?tab=rules' }
       ]
     },

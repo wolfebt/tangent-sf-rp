@@ -2,6 +2,8 @@
 id: comm-implant
 name: Comm Implant
 category: augmentations
+location: "Torso / Core"
+nodes: 1
 cost: 160
 design_dc: 10
 craft_dc: 10
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 160
-  nodes: 0
+  nodes: 1
   sockets: 0
   strain: 0
   focus: 0

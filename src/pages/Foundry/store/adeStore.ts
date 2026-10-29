@@ -274,7 +274,10 @@ export const useADEStore = create<ADEStoreState>()(
           isSplitView: typeof val === 'function' ? val(state.isSplitView) : val
         })),
         toggleSplitView: () => set((state) => ({ isSplitView: !state.isSplitView })),
-        setEditingElement: (element) => set({ editingElement: element }),
+        setEditingElement: (element) => set((state) => ({
+          editingElement: element,
+          modals: { ...state.modals, editElement: Boolean(element) }
+        })),
         setCronicleInitialMode: (mode) => set({ cronicleInitialMode: mode }),
         setPreflightTelemetry: (telemetry) => set({ preflightTelemetry: telemetry }),
 

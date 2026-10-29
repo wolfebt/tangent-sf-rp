@@ -2,6 +2,8 @@
 id: control-chips
 name: Control Chips
 category: augmentations
+location: "Head / Cranium"
+nodes: 1
 cost: 2560
 design_dc: 20
 craft_dc: 20
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 2560
-  nodes: 0
+  nodes: 1
   sockets: 0
   strain: 0
   focus: 0

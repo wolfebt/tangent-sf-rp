@@ -2,6 +2,8 @@
 id: hydraulic-rams
 name: Hydraulic Rams
 category: augmentations
+location: "Torso / Core"
+nodes: 8
 cost: 10240
 design_dc: 25
 craft_dc: 25
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 10240
-  nodes: 0
+  nodes: 8
   sockets: 0
   strain: 0
   focus: 0

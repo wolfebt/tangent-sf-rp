@@ -2,6 +2,8 @@
 id: distortion-field
 name: Distortion Field
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 40960
 design_dc: 30
 craft_dc: 30
@@ -9,10 +11,10 @@ description: Blur (10 Min) or Invisibility (1 Min).
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 1
+  bp: 1
   credits: 40960
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

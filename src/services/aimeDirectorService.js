@@ -61,6 +61,23 @@ export function generateCombatCommentary(eventType, eventData = {}) {
   };
 }
 
+/**
+ * Synthesizes streaming-ready combat narration text for AimeNarrationHud.jsx.
+ * Accepts an event object (or eventType string) and optional combatContext.
+ */
+export async function synthesizeCombatNarration(latestEvent = {}, combatContext = {}) {
+  const eventType = typeof latestEvent === 'string'
+    ? latestEvent
+    : (latestEvent?.type || latestEvent?.eventType || 'combat_exchange');
+  const eventData = typeof latestEvent === 'object' && latestEvent !== null
+    ? { ...combatContext, ...latestEvent }
+    : { ...combatContext };
+
+  const result = generateCombatCommentary(eventType, eventData);
+  return result.narrativeText;
+}
+
 export default {
-  generateCombatCommentary
+  generateCombatCommentary,
+  synthesizeCombatNarration
 };

@@ -750,11 +750,11 @@ export const EconomatrixStudioWorkflow = ({
             </div>
             <div>
               <span className="text-[10px] text-slate-400 uppercase block">Liquid Starting Funds</span>
-              <span className="text-xl font-extrabold text-emerald-400">{characterWealthResults.startingCredits.toLocaleString()} Cr</span>
+              <span className="text-xl font-extrabold text-emerald-400">{(characterWealthResults.creditValue ?? characterWealthResults.startingCredits ?? 0).toLocaleString()} Cr</span>
             </div>
             <div>
               <span className="text-[10px] text-slate-400 uppercase block">Lifestyle Standard</span>
-              <span className="text-sm font-bold text-cyan-300 mt-1 block">{characterWealthResults.financialStatus?.name || 'Standard'}</span>
+              <span className="text-sm font-bold text-cyan-300 mt-1 block">{characterWealthResults.statusName || characterWealthResults.status?.name || characterWealthResults.financialStatus?.name || 'Standard'}</span>
             </div>
           </div>
         </div>

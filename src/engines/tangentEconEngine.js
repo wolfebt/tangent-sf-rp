@@ -300,13 +300,17 @@ export function calculateStartingWealth({
   const totalWS = Math.max(0, baseWS + Number(originMod) + fMod + tMod + Number(skillRanks));
   const status = getFinancialStatus(totalWS);
 
+  const creditValue = calculateCreditValue(totalWS);
+
   return {
     computedWS: totalWS,
     wealthScore: totalWS,
     status,
+    financialStatus: status,
     statusName: status?.name || 'Middle Class',
-    autoBuyCr: status?.autoBuyCr ?? calculateCreditValue(totalWS),
-    creditValue: calculateCreditValue(totalWS),
+    autoBuyCr: status?.autoBuyCr ?? creditValue,
+    creditValue,
+    startingCredits: creditValue,
     breakdown: {
       occupationBase: baseWS,
       originMod,

@@ -2,6 +2,8 @@
 id: holo-tattoos
 name: Holo-Tattoos
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 0
 cost: 640
 design_dc: 15
 craft_dc: 15

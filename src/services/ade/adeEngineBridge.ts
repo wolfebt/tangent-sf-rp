@@ -27,6 +27,14 @@ import type {
   NarrativeBounds 
 } from '../../types/adeMandate.ts';
 
+export type {
+  AdeStructuralMandate,
+  SystemIntent,
+  DiceRollSummary,
+  MechanicalOutcomes,
+  NarrativeBounds
+};
+
 
 export interface ActionCheckParams {
   actionText: string;
@@ -308,15 +316,38 @@ export function adjudicateActionCheck({
   const diceSum = d1 + d2;
   const isDouble = d1 === d2;
 
-  // Extract modifiers
-  let attrMod = 0;
-  if (operative?.attributes) {
-    const key = resolvedSubAttr.replace('attr-', '');
-    attrMod = Number(operative.attributes[key] || 0);
-  } else if (operative?.fields?.[resolvedSubAttr] !== undefined) {
-    attrMod = Number(operative.fields[resolvedSubAttr] || 0);
-  } else {
-    attrMod = 2; // Baseline attribute bonus
+  // Extract modifiers (supports both Canonical v6 attributes and legacy keys)
+  const CANONICAL_ATTR_ALIASES: Record<string, string[]> = {
+    might: ['strength', 'might', 'attr-strength', 'attr-might'],
+    strength: ['strength', 'might', 'attr-strength', 'attr-might'],
+    reflex: ['agility', 'reflex', 'attr-agility', 'attr-reflex'],
+    agility: ['agility', 'reflex', 'attr-agility', 'attr-reflex'],
+    fortitude: ['stamina', 'fortitude', 'attr-stamina', 'attr-fortitude'],
+    stamina: ['stamina', 'fortitude', 'attr-stamina', 'attr-fortitude'],
+    logic: ['intellect', 'logic', 'attr-intellect', 'attr-logic'],
+    intellect: ['intellect', 'logic', 'attr-intellect', 'attr-logic'],
+    will: ['wisdom', 'will', 'attr-wisdom', 'attr-will'],
+    wisdom: ['wisdom', 'will', 'attr-wisdom', 'attr-will'],
+    etiquette: ['charisma', 'etiquette', 'attr-charisma', 'attr-etiquette'],
+    charisma: ['charisma', 'etiquette', 'attr-charisma', 'attr-etiquette']
+  };
+  const baseKey = resolvedSubAttr.replace('attr-', '');
+  const candidateKeys = CANONICAL_ATTR_ALIASES[baseKey] || [baseKey, resolvedSubAttr];
+
+  let attrMod = 2; // Baseline attribute bonus
+  for (const ck of candidateKeys) {
+    if (operative?.attributes && operative.attributes[ck] !== undefined) {
+      attrMod = Number(operative.attributes[ck] || 0);
+      break;
+    }
+    if (operative?.fields && operative.fields[ck] !== undefined) {
+      attrMod = Number(operative.fields[ck] || 0);
+      break;
+    }
+    if (operative && operative[ck] !== undefined) {
+      attrMod = Number(operative[ck] || 0);
+      break;
+    }
   }
 
   let skillRank = 0;

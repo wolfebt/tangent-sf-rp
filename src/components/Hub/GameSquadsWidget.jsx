@@ -15,9 +15,9 @@ import {
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
 import { AudioService } from '../../services/audioService';
-import { GameGroupModal } from '../Groups/GameGroupModal';
-import { CreateGroupModal } from '../Groups/CreateGroupModal';
-import { TeamInviteConfirmationModal } from '../Groups/TeamInviteConfirmationModal';
+import { GameGroupModal } from '../Squads/SquadModal';
+import { CreateGroupModal } from '../Squads/CreateSquadModal';
+import { TeamInviteConfirmationModal } from '../Squads/SquadInviteConfirmationModal';
 
 export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
   const navigate = useNavigate();

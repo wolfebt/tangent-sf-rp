@@ -2,6 +2,8 @@
 id: contraceptive-implant
 name: Contraceptive Implant
 category: augmentations
+location: "Torso / Core"
+nodes: 0
 cost: 40
 design_dc: 5
 craft_dc: 5

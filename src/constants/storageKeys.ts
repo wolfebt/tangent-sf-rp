@@ -10,6 +10,7 @@ export const STORAGE_KEYS = {
   LAST_ACTIVE_MODULE: 'tangent_last_active_story_id',
   DICE_HISTORY: 'tangent_dice_history',
   COMM_DOCK_STATE: 'tangent_comm_dock_open',
-  CATALOG_VIEW_MODE: 'tangent_catalog_view_mode'
+  CATALOG_VIEW_MODE: 'tangent_catalog_view_mode',
+  STAGE_MANIFEST: 'tangent_ade_stage_manifest_v2'
 } as const;
 

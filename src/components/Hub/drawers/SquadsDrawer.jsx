@@ -221,7 +221,7 @@ export const SquadsDrawer = ({ onClose }) => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => openInviteConfirmation(inv)}
+                      onClick={() => declineInvite?.(inv.id)}
                       className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-red-300 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
                     >
                       Decline

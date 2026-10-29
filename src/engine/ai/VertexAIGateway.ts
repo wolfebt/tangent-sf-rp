@@ -1,17 +1,32 @@
 /**
  * @file VertexAIGateway.ts
  * @description Stage 7 Dual-Agent AI Ecosystem Gateway.
- * Proxies Gemini Vertex AI requests through secure Cloud Function endpoints
- * with Firebase App Check (X-Firebase-AppCheck), JWT token auth, client-side rate limiting,
- * and graceful local simulation fallback.
+ * Proxies Gemini Vertex AI requests through a 4-tier hybrid cascade:
+ * 1. Local LLM Hardware LOD Tier Router (llama.cpp GBNF / Ollama)
+ * 2. Cloud Function Proxy (/geminiProxy with X-Firebase-AppCheck & JWT auth)
+ * 3. Direct Client Gemini Flash Cascade (when a client API key is configured)
+ * 4. Context-Aware Deterministic Local Simulation Fallback
  */
 
+import {
+  resolveIntelligenceTier,
+  callAutomatedInferencePipeline,
+  type LodTierKey
+} from '../../services/aimeTierRouter.ts';
+import {
+  getGeminiApiKey,
+  fetchGeminiContent
+} from '../../services/bastionService.js';
+
 export interface AIRequestOptions {
-  model?: 'gemini-1.5-pro' | 'gemini-1.5-flash' | 'gemini-2.0-flash';
+  model?: 'gemini-1.5-pro' | 'gemini-1.5-flash' | 'gemini-2.0-flash' | 'gemini-2.5-flash';
   temperature?: number;
   maxOutputTokens?: number;
   responseMimeType?: 'text/plain' | 'application/json';
   responseSchema?: Record<string, any>;
+  grammar?: string;
+  tierKey?: LodTierKey;
+  localEndpoint?: string;
   tools?: Array<Record<string, any>>;
   stream?: boolean;
 }
@@ -22,6 +37,8 @@ export interface AIGatewayResponse<T = any> {
   text?: string;
   error?: string;
   isSimulated?: boolean;
+  provider?: 'local_llama' | 'local_ollama' | 'cloud_proxy' | 'client_gemini' | 'simulation';
+  toolCalls?: Array<{ name: string; args: Record<string, any>; result?: any }>;
   latencyMs?: number;
 }
 
@@ -89,6 +106,60 @@ class VertexAIGatewayService {
     }
 
     try {
+      // ── TIER 1: Local Hardware LOD Tier Router (llama.cpp / Ollama) ──
+      let isLocalEnabled = Boolean(options.localEndpoint);
+      let configuredLocalEndpoint = options.localEndpoint || null;
+      try {
+        if (typeof localStorage !== 'undefined') {
+          if (
+            localStorage.getItem('aiPlatform') === 'custom' ||
+            localStorage.getItem('tangent_local_llm_enabled') === 'true'
+          ) {
+            isLocalEnabled = true;
+          }
+          if (!configuredLocalEndpoint) {
+            configuredLocalEndpoint =
+              localStorage.getItem('customEndpoint') ||
+              localStorage.getItem('tangent_local_llm_endpoint');
+          }
+        }
+      } catch {}
+
+      if (isLocalEnabled) {
+        const tierConfig = resolveIntelligenceTier({
+          actionText: prompt,
+          userOverride: options.tierKey || 'auto'
+        });
+        const localRes = await callAutomatedInferencePipeline({
+          llamaEndpoint: configuredLocalEndpoint || 'http://localhost:8080',
+          ollamaEndpoint: 'http://localhost:11434',
+          prompt,
+          grammar: options.grammar,
+          tier: tierConfig,
+          enforceJson: options.responseMimeType === 'application/json'
+        });
+        if (localRes && localRes.text) {
+          let parsedLocal: any = localRes.text;
+          if (options.responseMimeType === 'application/json') {
+            try {
+              const clean = localRes.text.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
+              parsedLocal = JSON.parse(clean);
+            } catch {
+              parsedLocal = localRes.text;
+            }
+          }
+          return {
+            success: true,
+            data: parsedLocal,
+            text: localRes.text,
+            isSimulated: false,
+            provider: (localRes as any).provider === 'llama.cpp' || localRes.engine === 'llama_cpp' ? 'local_llama' : 'local_ollama',
+            latencyMs: Math.round(performance.now() - startTime)
+          };
+        }
+      }
+
+      // ── TIER 2: Cloud Function Proxy (/geminiProxy) ──
       const generationConfig: Record<string, any> = {
         temperature: options.temperature ?? 0.7,
         maxOutputTokens: options.maxOutputTokens ?? 2048
@@ -105,7 +176,7 @@ class VertexAIGatewayService {
         headers,
         body: JSON.stringify({
           prompt,
-          model: options.model || 'gemini-2.0-flash',
+          model: options.model || 'gemini-2.5-flash',
           temperature: options.temperature ?? 0.7,
           maxOutputTokens: options.maxOutputTokens ?? 2048,
           responseMimeType: options.responseMimeType || 'text/plain',
@@ -117,8 +188,7 @@ class VertexAIGatewayService {
 
       if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
-          console.warn('[VertexAIGateway] Auth/AppCheck missing or rejected. Falling back to simulation.');
-          return this.fallbackSimulation<T>(prompt, options, startTime);
+          console.warn('[VertexAIGateway] Auth/AppCheck missing or rejected. Falling back to next tier.');
         }
         throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
       }
@@ -144,19 +214,119 @@ class VertexAIGatewayService {
         data: parsedData,
         text: json.text || candidateText || (typeof parsedData === 'string' ? parsedData : JSON.stringify(parsedData)),
         isSimulated: false,
+        provider: 'cloud_proxy',
         latencyMs: Math.round(performance.now() - startTime)
       };
-    } catch (err: any) {
-      // Offline / disconnected failover to local simulation
+    } catch (_proxyErr: any) {
+      // ── TIER 3: Direct Client Gemini Flash Cascade (if API key configured) ──
+      const clientApiKey = getGeminiApiKey();
+      if (clientApiKey) {
+        try {
+          const generationConfig: Record<string, any> = {
+            temperature: options.temperature ?? 0.7,
+            maxOutputTokens: options.maxOutputTokens ?? 2048
+          };
+          if (options.responseMimeType) {
+            generationConfig.responseMimeType = options.responseMimeType;
+          }
+          if (options.responseSchema) {
+            generationConfig.responseSchema = options.responseSchema;
+          }
+          const reqBody: Record<string, any> = {
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig
+          };
+          if (options.tools) {
+            reqBody.tools = options.tools;
+          }
+          const directJson = await fetchGeminiContent(clientApiKey, reqBody);
+          const candidateText = directJson?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          let parsedData: any = candidateText;
+          if (options.responseMimeType === 'application/json' && candidateText) {
+            try {
+              const clean = candidateText.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
+              parsedData = JSON.parse(clean);
+            } catch {
+              parsedData = candidateText;
+            }
+          }
+          return {
+            success: true,
+            data: parsedData,
+            text: candidateText,
+            isSimulated: false,
+            provider: 'client_gemini',
+            latencyMs: Math.round(performance.now() - startTime)
+          };
+        } catch {
+          // Fall through to deterministic simulation
+        }
+      }
+
+      // ── TIER 4: Context-Aware Deterministic Local Simulation ──
       return this.fallbackSimulation<T>(prompt, options, startTime);
     }
+  }
+
+  /**
+   * Executes a prompt with Stage 7 Function Calling support, dispatching any
+   * model-requested tool calls (or heuristic tool triggers when simulated) via toolExecutor.
+   */
+  public async executeWithTools<T = any>(
+    prompt: string,
+    toolDeclarations: Array<{ name: string; description: string; parameters: Record<string, any> }>,
+    toolExecutor: (call: { name: string; args: Record<string, any> }) => Promise<any>,
+    options: AIRequestOptions = {}
+  ): Promise<AIGatewayResponse<T>> {
+    const response = await this.generateContent<T>(prompt, {
+      ...options,
+      tools: [{ functionDeclarations: toolDeclarations }]
+    });
+
+    const executedCalls: Array<{ name: string; args: Record<string, any>; result?: any }> = [];
+    const lowerPrompt = (prompt || '').toLowerCase();
+
+    // If simulated or if the prompt explicitly requests a registered Stage 7 tool capability,
+    // deterministically invoke the matching tool so Stage 7 agents always ground their response.
+    if (response.isSimulated && typeof toolExecutor === 'function') {
+      if (lowerPrompt.includes('economatrix') || lowerPrompt.includes('purchase dc') || lowerPrompt.includes('cost dc')) {
+        const res = await toolExecutor({
+          name: 'evaluate_economatrix_acquisition',
+          args: { itemCostDc: 15, wealthScore: 12 }
+        });
+        executedCalls.push({ name: 'evaluate_economatrix_acquisition', args: { itemCostDc: 15, wealthScore: 12 }, result: res });
+      } else if (lowerPrompt.includes('called shot') || lowerPrompt.includes('headshot')) {
+        const res = await toolExecutor({
+          name: 'resolve_called_shot',
+          args: { targetLocation: 'head', incomingDamage: 18, armorDr: 4 }
+        });
+        executedCalls.push({ name: 'resolve_called_shot', args: { targetLocation: 'head', incomingDamage: 18, armorDr: 4 }, result: res });
+      } else if (lowerPrompt.includes('statblock') || lowerPrompt.includes('150 bp')) {
+        const res = await toolExecutor({
+          name: 'query_bastion_for_statblock',
+          args: { concept: prompt, species: 'Human', techLevel: 3 }
+        });
+        executedCalls.push({ name: 'query_bastion_for_statblock', args: { concept: prompt, species: 'Human', techLevel: 3 }, result: res });
+      } else if (lowerPrompt.includes('tactic') || lowerPrompt.includes('adversary')) {
+        const res = await toolExecutor({
+          name: 'synthesize_adversary_tactic',
+          args: { adversary: { id: 'adv_1', label: 'Syndicate Skirmisher', health: { current: 30, max: 30 } }, heroes: [] }
+        });
+        executedCalls.push({ name: 'synthesize_adversary_tactic', args: { adversary: { id: 'adv_1', label: 'Syndicate Skirmisher' } }, result: res });
+      }
+    }
+
+    return {
+      ...response,
+      toolCalls: executedCalls
+    };
   }
 
   /**
    * Deterministic local fallback simulator for offline testing or unauthenticated development.
    */
   private fallbackSimulation<T>(
-    _prompt: string,
+    prompt: string,
     options: AIRequestOptions,
     startTime: number
   ): AIGatewayResponse<T> {
@@ -189,6 +359,12 @@ class VertexAIGatewayService {
         totalBp: 150,
         isValid: true
       };
+    } else if (prompt.includes('SEALED MECHANICAL MANDATE') || prompt.includes('SYSTEM INTENT')) {
+      const cuesMatch = prompt.match(/Required Sensory Cues:\s*([^\n]+)/i);
+      const outcomeMatch = prompt.match(/Prescribed Outcome:\s*([^\n]+)/i);
+      const cues = cuesMatch ? cuesMatch[1].trim() : 'ozone discharge and cycling bulkhead locks';
+      const outcome = outcomeMatch ? outcomeMatch[1].trim() : 'The operative executes the maneuver within canonical parameters.';
+      fallbackData = `[AIME MANDATED BEAT]: ${outcome} Sensory telemetry registers ${cues}.`;
     } else {
       fallbackData = `[AIME SIMULATED TELEMETRY]: Analyzing situation. Atmospheric sensors detect low-pressure venting and magnetic resonance. Proceed with standard caution.`;
     }
@@ -198,6 +374,7 @@ class VertexAIGatewayService {
       data: fallbackData as T,
       text: typeof fallbackData === 'string' ? fallbackData : JSON.stringify(fallbackData, null, 2),
       isSimulated: true,
+      provider: 'simulation',
       latencyMs: Math.round(performance.now() - startTime)
     };
   }

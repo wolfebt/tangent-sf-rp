@@ -2,6 +2,8 @@
 id: upper-leg-thigh
 name: Upper Leg (Thigh)
 category: augmentations
+location: "Legs / Feet"
+nodes: 20
 cost: 4457
 durability: '20'
 design_dc: 22
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 4457
-  nodes: 0
+  nodes: 20
   sockets: 0
   strain: 0
   focus: 0

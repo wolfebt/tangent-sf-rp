@@ -9,11 +9,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import ScenarioPane from './ScenarioPane';
-import ElementForge from '../ElementForge/ElementForge';
 import StoryGallery from './workspaces/StoryGallery';
-import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
-import VisualStoryGraph from './workspaces/VisualStoryGraph';
-import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
 import SelectivePrintModal from '../../../components/StoryFoundry/SelectivePrintModal';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
@@ -23,7 +19,6 @@ import EditElementModal from '../ElementForge/EditElementModal';
 import ADETopToolbar from './ADETopToolbar';
 import ADENavRail from './ADENavRail';
 import ModuleMissionControl from '../Dashboard/ModuleMissionControl';
-import PresetsAndScriptsDashboard from '../PresetsAndScripts/PresetsAndScriptsDashboard';
 import StageWorkspace from '../Stage/StageWorkspace';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
@@ -496,62 +491,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           </div>
         )}
 
-        {/* VIEW 2: DEDICATED INTERACTIVE STORY MODULE */}
-        {activeView === 'interactive' && (
-          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-[#080c14] font-mono">
-            <InteractiveStoryStudio
-              activeNode={activeNode}
-              onSelectScenario={(id) => {
-                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
-              }}
-            />
-          </div>
-        )}
-
-        {/* VIEW 2.5: DEDICATED VISUAL STORY GRAPH FLOWCHART */}
-        {activeView === 'graph' && (
-          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-[#070a12] font-mono">
-            <VisualStoryGraph
-              activeScenarioId={activeNode?.id}
-              onSelectScenario={(id) => {
-                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
-              }}
-              onOpenInWeaver={(node) => {
-                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(node.id);
-                handleSwitchView('scenarios');
-              }}
-              onPanStageToMap={(mapId) => {
-                navigate(`/foundry/live?mapId=${mapId}`);
-              }}
-              onSwitchView={handleSwitchView}
-            />
-          </div>
-        )}
-
-        {/* VIEW 3: DEDICATED TACTICAL SPREAD (OSR 2-PAGE SPREAD) */}
-        {activeView === 'control-panel' && (
-          <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-[#0a0f18] font-mono">
-            <div className="p-2 px-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between shrink-0">
-              <span className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
-                <span>🎛️</span> OSR 2-Page Tactical Control Panel Spread • {activeNode?.title || 'Tactical Sector'}
-              </span>
-              <button
-                onClick={() => handleSwitchView('scenarios')}
-                className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold rounded-lg uppercase cursor-pointer"
-              >
-                Story Weaver ❯
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-thin">
-              <OsrControlPanelDeck
-                activeNode={activeNode}
-                updateStory={updateStory}
-                guidanceGems={universeState?.creativeState?.gems || []}
-              />
-            </div>
-          </div>
-        )}
-
         {/* VIEW 4: STORY ELEMENTS (Elements, Maps, Situational Modifiers) */}
         {(activeView === 'gallery' || activeView === 'elements') && (
           <div className="flex-1 min-w-0 h-full overflow-hidden">
@@ -560,15 +499,6 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
               onOpenCompiler={() => setIsCompilerOpen(true)}
               activeElementType={activeElementType}
               onSelectElementType={setActiveElementType}
-            />
-          </div>
-        )}
-
-        {/* VIEW 5: PRESETS & SCRIPTS STUDIO (Pillar 3) */}
-        {(activeView === 'scripts' || activeView === 'presets') && (
-          <div className="flex-1 min-w-0 h-full overflow-hidden">
-            <PresetsAndScriptsDashboard
-              onBackToStory={() => handleSwitchView('scenarios')}
             />
           </div>
         )}

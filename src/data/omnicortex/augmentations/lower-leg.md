@@ -2,6 +2,8 @@
 id: lower-leg
 name: Lower Leg
 category: augmentations
+location: "Legs / Feet"
+nodes: 15
 cost: 1470
 durability: '15'
 design_dc: 18
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 1470
-  nodes: 0
+  nodes: 15
   sockets: 0
   strain: 0
   focus: 0

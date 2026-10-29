@@ -29,8 +29,42 @@ import {
   resolveCortexMenu
 } from '../../src/components/UI/ContextMenu/resolvers/cortexResolver.js';
 import {
-  generateSelectiveFields
+  generateSelectiveFields,
+  parseRollCommand
 } from '../../src/services/bastionService.js';
+import {
+  generateCombatCommentary,
+  synthesizeCombatNarration
+} from '../../src/services/aimeDirectorService.js';
+import {
+  buildStaticRulesPrefix,
+  synthesizeSuperPrompt
+} from '../../src/services/superPromptSynthesizer.js';
+import {
+  scanDynamicLorebook
+} from '../../src/services/lorebookScanner.ts';
+import {
+  createDefaultCronicleState,
+  cloneToWorkingCopy,
+  applyCronicleDelta,
+  formatCronicleContextForAIME,
+  extractNarrativeDeltas
+} from '../../src/services/cronicleService.js';
+import {
+  generateAimePersonaSchema,
+  convertPersonaToVttToken
+} from '../../src/services/aimeVttSchemaService.ts';
+import {
+  resolveIntelligenceTier,
+  calculateVramTelemetry
+} from '../../src/services/aimeTierRouter.ts';
+import {
+  adjudicateActionCheck
+} from '../../src/services/ade/adeEngineBridge.ts';
+import {
+  serializeAimeAsset,
+  parseAimeAssetFile
+} from '../../src/services/aimeAssetFileService.js';
 
 test('BASTION AI Pipelines — End-to-End Remediation & Verification Suite', async (t) => {
 
@@ -226,5 +260,174 @@ test('BASTION AI Pipelines — End-to-End Remediation & Verification Suite', asy
     const updatedEnemy = inspirationAction.updatedTokens.find(t => t.id === 'enemy_1');
     assert.equal(updatedHero.karma, 2);
     assert.equal(updatedEnemy.defenseDcBonus, -2);
+  });
+
+  await t.test('BASTION Cockpit Roll Resolver: parseRollCommand supports /roll 2d10+4 vs 15 and Dual Resolution telemetry', () => {
+    const rollVsDc = parseRollCommand('/roll 2d10+4 vs 15');
+    assert.equal(rollVsDc.success, true, 'parseRollCommand must accept vs <DC>');
+    assert.equal(rollVsDc.count, 2);
+    assert.equal(rollVsDc.sides, 10);
+    assert.equal(rollVsDc.modifier, 4);
+    assert.equal(rollVsDc.targetDc, 15);
+    assert.ok(rollVsDc.d1 >= 1 && rollVsDc.d1 <= 10);
+    assert.ok(rollVsDc.d2 >= 1 && rollVsDc.d2 <= 10);
+    assert.equal(rollVsDc.total, rollVsDc.d1 + rollVsDc.d2 + 4);
+    assert.equal(rollVsDc.margin, rollVsDc.total - 15);
+    assert.ok(rollVsDc.outcomeText && rollVsDc.outcomeText.length > 0);
+    assert.ok(rollVsDc.degreeDetails && rollVsDc.degreeDetails.includes('vs CR 15'));
+  });
+
+  await t.test('AIME Pipeline 1 & 2: Super-Prompt Synthesizer & Dynamic Lorebook Scanner (including speakerFilter & Canonical v6 Prefix)', () => {
+    const staticPrefix = buildStaticRulesPrefix({
+      campaignName: 'Kaelen Drift',
+      folioCharacter: {
+        'char-name': 'Nyx',
+        'char-species': 'Felid',
+        'char-archetype': 'Infiltrator',
+        'attr-strength': 1,
+        'attr-agility': 4,
+        'attr-stamina': 1,
+        'attr-intellect': 3,
+        'attr-wisdom': 2,
+        'attr-charisma': 1
+      }
+    });
+    assert.ok(staticPrefix.includes('DEFENDER WINS TIES') || staticPrefix.includes('Defender wins ties'));
+    assert.ok(staticPrefix.includes('CR 15'));
+    assert.ok(staticPrefix.includes('30 VP'));
+    assert.ok(staticPrefix.includes('Strength=1, Agility=4, Stamina=1, Intellect=3, Wisdom=2, Charisma=1'));
+
+    // Test Lorebook Scanner speakerFilter
+    const catalog = [
+      {
+        id: 'lore_user_secret',
+        title: 'User Cipher',
+        type: 'Lore',
+        content: 'Activated only when the player speaks the cipher.',
+        lorebook: {
+          primaryTriggers: ['omega-protocol'],
+          speakerFilter: 'user_only',
+          priority: 90
+        }
+      },
+      {
+        id: 'lore_npc_secret',
+        title: 'NPC Override',
+        type: 'Lore',
+        content: 'Activated only when the scenario/NPC mentions override.',
+        lorebook: {
+          primaryTriggers: ['crimson-override'],
+          speakerFilter: 'npc_only',
+          priority: 85
+        }
+      }
+    ];
+
+    // If 'omega-protocol' is in activeScenario (NPC) and NOT in user input, user_only must NOT match
+    const scanNpcOnly = scanDynamicLorebook({
+      input: 'I look around the room cautiously.',
+      activeScenario: { title: ' Chamber', content: 'The terminal flashes omega-protocol and crimson-override.' },
+      catalog
+    });
+    assert.ok(!scanNpcOnly.injectedEntries.some(e => e.id === 'lore_user_secret'), 'user_only lore entry must not match NPC scenario text');
+    assert.ok(scanNpcOnly.injectedEntries.some(e => e.id === 'lore_npc_secret'), 'npc_only lore entry must match NPC scenario text');
+
+    // Full Super-Prompt with prefix structure
+    const superPromptPkg = synthesizeSuperPrompt({
+      activeNode: { title: 'Orbital Vault', type: 'Scenario', fields: { summary: 'High-security vault' } },
+      guidance: { Genre: 'Sci-Fi', Tone: 'Serious', 'Point of View': 'Third Person Limited' },
+      taskPrompt: 'Trigger omega-protocol at the vault door.',
+      catalog,
+      returnPrefixStructure: true
+    });
+    assert.ok(superPromptPkg.staticPrefix.includes('BASTION CANONICAL STATIC RULES PREFIX'));
+    assert.ok(superPromptPkg.fullPrompt.includes('User Cipher'));
+  });
+
+  await t.test('AIME Pipeline 3: CRONICLE State Engine & Heuristic NLP Delta Extractor', async () => {
+    let cronicle = createDefaultCronicleState('Test Chronicle');
+    const workingPersona = cloneToWorkingCopy(
+      { id: 'elem_vael', title: 'Vael', type: 'Persona', fields: { role: 'Operative', hp: 30, maxHp: 30 } },
+      cronicle.storyPrefix
+    );
+    const workingLoc = cloneToWorkingCopy(
+      { id: 'loc_corridor', title: 'Sector 04 Corridor', type: 'Location', fields: { geospatial_state: 'thriving' } },
+      cronicle.storyPrefix
+    );
+    cronicle.personas[workingPersona.id] = workingPersona.personaState;
+    cronicle.locations[workingLoc.id] = workingLoc.locationState;
+    cronicle.workingMemory.activeLocationId = workingLoc.id;
+    cronicle.workingMemory.activePersonaIds = [workingPersona.id];
+
+    cronicle = applyCronicleDelta(cronicle, {
+      entityId: workingPersona.id,
+      action: 'add_trait',
+      target: 'physical',
+      value: 'Plasma Burn (Left Arm)',
+      explanation: 'Took grazing plasma fire'
+    });
+    assert.ok(cronicle.personas[workingPersona.id].acquired_physical_traits.includes('Plasma Burn (Left Arm)'));
+
+    const contextStr = formatCronicleContextForAIME(cronicle);
+    assert.ok(contextStr.includes('Plasma Burn (Left Arm)'));
+
+    // Offline heuristic delta extraction (without requiring a live API key)
+    const deltas = await extractNarrativeDeltas({
+      prose: 'Vael staggered back, bleeding from a shrapnel gash as a toxic smoke leak filled the corridor.',
+      cronicle
+    });
+    assert.ok(Array.isArray(deltas) && deltas.length >= 2, 'Should extract physical wound and hazard deltas offline');
+  });
+
+  await t.test('AIME Pipeline 4, 5, 6 & 7: VTT Schema Generator, Director HUD, Tier Router & Neuro-Symbolic Bridge', async () => {
+    // VTT Persona Schema deterministic fallback must enforce 30 HP / 30 VP
+    const personaSchema = await generateAimePersonaSchema({
+      prompt: 'Syndicate Enforcer',
+      techLevel: 3
+    });
+    assert.equal(personaSchema.health, 30, 'AIME Persona Schema must default to canonical 30 HP');
+    assert.equal(personaSchema.vitality, 30, 'AIME Persona Schema must default to canonical 30 VP');
+    const vttToken = convertPersonaToVttToken(personaSchema);
+    assert.equal(vttToken.base_health, 30);
+    assert.equal(vttToken.base_vitality, 30);
+
+    // Director HUD synthesizeCombatNarration export
+    const narration = await synthesizeCombatNarration({
+      type: 'critical_triumph',
+      attackerName: 'Kael',
+      targetName: 'Dreadnought',
+      weapon: 'Rail-Rifle',
+      damage: 24
+    });
+    assert.ok(narration.includes('TRIUMPH') && narration.includes('Kael'));
+
+    // Hardware Tier Router
+    assert.equal(resolveIntelligenceTier({ isBoss: true }).key, 'tier1_hero');
+    assert.equal(resolveIntelligenceTier({}).key, 'tier2_tactical');
+    assert.equal(resolveIntelligenceTier({ isTerminal: true }).key, 'tier3_ambient');
+    const vram = calculateVramTelemetry('tier1_hero', 2048);
+    assert.equal(vram.fits8GbVram, true);
+
+    // Neuro-Symbolic Gatekeeper canonical attribute alias resolution
+    const mandate = adjudicateActionCheck({
+      actionText: 'I slice the terminal security grid',
+      operative: {
+        name: 'Slicer Zero',
+        techLevel: 3,
+        attributes: { intellect: 4 },
+        skills: { Slicing: 4 }
+      },
+      targetDC: 15,
+      diceOverride: [6, 5] // 11 + 4 (intellect) + 4 (Slicing) = 19 vs DC 15 (+4 margin)
+    });
+    assert.equal(mandate.diceSummary.attrMod, 4, 'Should resolve canonical intellect=4 for attr-logic');
+    assert.equal(mandate.diceSummary.skillRank, 4);
+    assert.equal(mandate.diceSummary.totalCheck, 19);
+
+    // Portable Asset File serialization & parsing
+    const serialized = serializeAimeAsset({ id: 'test_1', type: 'Character', title: 'Kael', content: 'Bio' });
+    const parsed = parseAimeAssetFile(JSON.stringify(serialized), 'kael.persona');
+    assert.equal(parsed.title, 'Kael');
+    assert.equal(parsed.id, 'test_1');
   });
 });

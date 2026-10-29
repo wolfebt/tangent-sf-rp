@@ -201,7 +201,7 @@ export default function ScenarioPane({
     flatScenarios,
     setActiveScenarioId,
     storyContext: { universeState, activeScenario: activeNode, linkedMap },
-    studioMode: 'development',
+    studioMode,
     liveTokens
   });
 
@@ -438,32 +438,6 @@ export default function ScenarioPane({
           setIsEditElementModalOpen={setIsEditElementModalOpen}
           onSwitchView={onSwitchView}
           universeState={universeState}
-        />
-      )}
-
-      {/* Full Element Forge Modal inside Story Module */}
-      {isEditElementModalOpen && (
-        <EditElementModal
-          isOpen={isEditElementModalOpen}
-          onClose={() => {
-            setIsEditElementModalOpen(false);
-            setEditingModalElement(null);
-          }}
-          element={editingModalElement}
-          onSave={(savedElem) => {
-            if (typeof updateSavedElement === 'function' && savedElem?.id) {
-              updateSavedElement(savedElem.id, savedElem);
-            }
-            setIsEditElementModalOpen(false);
-            setEditingModalElement(null);
-          }}
-          onDelete={(elementId) => {
-            if (typeof deleteSavedElement === 'function' && elementId) {
-              deleteSavedElement(elementId);
-            }
-            setIsEditElementModalOpen(false);
-            setEditingModalElement(null);
-          }}
         />
       )}
     </div>

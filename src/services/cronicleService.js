@@ -10,45 +10,23 @@
  * 6. Human-as-Sculptor oversight protocol (staged pending deltas)
  */
 
+import { getGeminiApiKey, fetchGeminiContent } from './bastionService.js';
+
 /**
- * Attempts to fetch content from Google Generative AI API with automatic model fallbacks
+ * Attempts to fetch content from Local LLM / geminiProxy / Google Generative AI API with automatic model fallbacks
  */
 const GEMINI_FLASH_MODELS = [
-  'gemini-3.6-flash',
-  'gemini-3.5-flash',
-  'gemini-flash-latest',
+  'gemini-2.5-flash',
   'gemini-2.0-flash',
-  'gemini-flash-lite-latest'
+  'gemini-flash-latest',
+  'gemini-flash-lite-latest',
+  'gemini-3.6-flash',
+  'gemini-3.5-flash'
 ];
 
 export async function callGeminiApi(apiKey, requestBody) {
-  if (!apiKey) {
-    throw new Error('No Gemini API key available.');
-  }
-
-  let lastError = null;
-  for (const model of GEMINI_FLASH_MODELS) {
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody)
-      });
-      const data = await response.json();
-      if (response.ok) {
-        return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      }
-      const errorMsg = data?.error?.message || `HTTP ${response.status}`;
-      if (response.status === 400 || response.status === 403) {
-        throw new Error(`Gemini API Key Error (${response.status}): ${errorMsg}`);
-      }
-      lastError = new Error(errorMsg);
-    } catch (err) {
-      lastError = err;
-      if (err.message && err.message.includes('Gemini API Key Error')) throw err;
-    }
-  }
-  throw lastError || new Error('Failed to reach Gemini API.');
+  const resolvedKey = apiKey || getGeminiApiKey();
+  return fetchGeminiContent(resolvedKey, requestBody);
 }
 
 /**
@@ -579,7 +557,38 @@ If no state transitions occurred, return an empty array: []`;
     }));
   } catch (err) {
     console.warn('[CronicleService] State delta extraction fallback triggered:', err.message);
-    return [];
+    const fallbackDeltas = [];
+    const lowerProse = prose.toLowerCase();
+    const firstPersona = knownPersonas[0];
+    const firstLoc = knownLocations[0];
+
+    if (firstPersona && /\b(wounded|injured|bleeding|burned|fractured|scarred|limping)\b/i.test(lowerProse)) {
+      const match = lowerProse.match(/\b(wounded|injured|bleeding|burned|fractured|scarred|limping)\b/i);
+      fallbackDeltas.push({
+        id: `delta_${Date.now()}_0_heur`,
+        timestamp: new Date().toISOString(),
+        entityId: firstPersona.id,
+        action: 'add_trait',
+        target: 'physical',
+        value: `Combat Wound (${match[1]})`,
+        explanation: `Heuristic extraction detected physical trauma ("${match[1]}") in narrative prose.`
+      });
+    }
+
+    if (firstLoc && /\b(plasma leak|radiation|toxic smoke|hull breach|fire|depressurization)\b/i.test(lowerProse)) {
+      const match = lowerProse.match(/\b(plasma leak|radiation|toxic smoke|hull breach|fire|depressurization)\b/i);
+      fallbackDeltas.push({
+        id: `delta_${Date.now()}_1_heur`,
+        timestamp: new Date().toISOString(),
+        entityId: firstLoc.id,
+        action: 'add_hazard',
+        target: 'hazard',
+        value: match[1],
+        explanation: `Heuristic extraction detected environmental hazard ("${match[1]}") in narrative prose.`
+      });
+    }
+
+    return fallbackDeltas;
   }
 }
 

@@ -83,8 +83,14 @@ export const CompendiumApp = () => {
   const [bastionInput, setBastionInput] = useState('');
   const [apiKey] = useState(localStorage.getItem('geminiApiKey') || '');
 
-  // Synchronize active article with URL query parameter (?article=... or ?id=...)
+  // Synchronize active article with URL query parameter (?article=... or ?id=...) and redirect legacy ?tab=omnicortex|split to /codex
   useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam === 'omnicortex' || tabParam === 'split') {
+      navigate('/codex', { replace: true });
+      return;
+    }
+
     const articleParam = searchParams.get('article') || searchParams.get('id');
     if (articleParam && currentRulesItems.length > 0) {
       const match = currentRulesItems.find(

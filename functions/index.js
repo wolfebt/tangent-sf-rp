@@ -58,6 +58,7 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
 
   try {
     const { roomName, name, metadata, ttlSeconds = 14400 } = req.body || {};
+    const safeTtlSeconds = Math.min(Math.max(Number(ttlSeconds) || 14400, 60), 86400);
 
     if (!roomName) {
       return res.status(400).json({ error: 'Missing required parameter: roomName is mandatory.' });
@@ -81,7 +82,7 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
       iss: apiKey,
       sub: String(identity),
       nbf: now - 5,
-      exp: now + ttlSeconds,
+      exp: now + safeTtlSeconds,
       video: {
         room: String(roomName),
         roomJoin: true,
@@ -110,7 +111,7 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
       token,
       roomName,
       identity,
-      expiresAt: now + ttlSeconds
+      expiresAt: now + safeTtlSeconds
     });
   } catch (err) {
     console.error('Error generating LiveKit token:', err);
@@ -165,9 +166,14 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
       return res.status(400).json({ error: 'Prompt is required for reporting generation.' });
     }
 
+    const safeModel = String(model || 'gemini-2.5-flash').trim();
+    if (!/^gemini-[a-zA-Z0-9._-]+$/.test(safeModel)) {
+      return res.status(400).json({ error: 'Invalid Gemini model identifier.' });
+    }
+
     console.log(`[geminiProxy] Generating report (${reportType || 'general'}) for user: ${decodedUser.uid}`);
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(safeModel)}:generateContent?key=${geminiKey}`;
     const normalizedSystemInstruction = systemInstruction
       ? (typeof systemInstruction === 'string' ? { parts: [{ text: systemInstruction }] } : systemInstruction)
       : undefined;

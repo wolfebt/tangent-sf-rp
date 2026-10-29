@@ -27,6 +27,9 @@ export class FirestoreDebouncer {
   private debounceIntervalMs: number;
   private isFlushPending: boolean = false;
   private isDestroyed: boolean = false;
+  private updateHandler?: (_update: Uint8Array, origin: any) => void;
+  private unloadHandler?: (event: Event) => void;
+  private visibilityHandler?: () => void;
 
   constructor(
     campaignId: string, 
@@ -48,12 +51,13 @@ export class FirestoreDebouncer {
   }
 
   private setupObserver() {
-    // Listen to ALL updates on the Yjs document (both local and network)
-    this.yDoc.on('update', () => {
-      if (!this.isDestroyed) {
+    // Listen to local updates on the Yjs document; skip remote 'network' echo updates
+    this.updateHandler = (_update: Uint8Array, origin: any) => {
+      if (!this.isDestroyed && origin !== 'network') {
         this.scheduleFlush();
       }
-    });
+    };
+    this.yDoc.on('update', this.updateHandler);
   }
 
   private scheduleFlush() {
@@ -99,7 +103,8 @@ export class FirestoreDebouncer {
   }
 
   private setupPageUnloadProtection() {
-    const unloadHandler = (event: Event) => {
+    if (typeof window === 'undefined') return;
+    this.unloadHandler = (event: Event) => {
       if (this.isFlushPending) {
         this.flushToFirestore();
         event.preventDefault();
@@ -107,18 +112,35 @@ export class FirestoreDebouncer {
       }
     };
 
-    window.addEventListener('beforeunload', unloadHandler);
-    window.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden' && this.isFlushPending) {
+    this.visibilityHandler = () => {
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden' && this.isFlushPending) {
         this.flushToFirestore();
       }
-    });
+    };
+
+    window.addEventListener('beforeunload', this.unloadHandler);
+    window.addEventListener('visibilitychange', this.visibilityHandler);
   }
 
   public destroy() {
     this.isDestroyed = true;
+    if (this.updateHandler) {
+      this.yDoc.off('update', this.updateHandler);
+      this.updateHandler = undefined;
+    }
+    if (typeof window !== 'undefined' && typeof window.removeEventListener === 'function') {
+      if (this.unloadHandler) {
+        window.removeEventListener('beforeunload', this.unloadHandler);
+        this.unloadHandler = undefined;
+      }
+      if (this.visibilityHandler) {
+        window.removeEventListener('visibilitychange', this.visibilityHandler);
+        this.visibilityHandler = undefined;
+      }
+    }
     if (this.debounceTimer !== null) {
       window.clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
     }
     if (this.isFlushPending) {
       this.flushToFirestore();

@@ -2,6 +2,8 @@
 id: hand
 name: Hand
 category: augmentations
+location: "Arms / Hands"
+nodes: 5
 cost: 844
 durability: '5'
 design_dc: 16
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 844
-  nodes: 0
+  nodes: 5
   sockets: 0
   strain: 0
   focus: 0

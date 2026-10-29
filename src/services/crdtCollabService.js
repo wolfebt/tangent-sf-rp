@@ -114,7 +114,7 @@ export function attachLiveKitBridge(room) {
   }
 
   try {
-    activeBridge = new YjsProviderBridge(room);
+    activeBridge = new YjsProviderBridge(room, sharedDoc);
     notifyStatusListeners();
     return activeBridge;
   } catch (err) {

@@ -11,6 +11,7 @@ import {
   where, 
   orderBy, 
   limit, 
+  limitToLast,
   onSnapshot, 
   serverTimestamp 
 } from 'firebase/firestore';
@@ -185,7 +186,7 @@ export const ChatService = {
     }
 
     const messagesRef = collection(db, 'channels', channelId, 'messages');
-    const q = query(messagesRef, orderBy('createdAt', 'asc'), limit(maxLimit));
+    const q = query(messagesRef, orderBy('createdAt', 'asc'), limitToLast(maxLimit));
 
     return onSnapshot(q, (snapshot) => {
       const messages = snapshot.docs.map(doc => ({
@@ -204,7 +205,7 @@ export const ChatService = {
     if (!channelId) return [];
     try {
       const messagesRef = collection(db, 'channels', channelId, 'messages');
-      const q = query(messagesRef, orderBy('createdAt', 'asc'), limit(maxLimit));
+      const q = query(messagesRef, orderBy('createdAt', 'asc'), limitToLast(maxLimit));
       const snap = await getDocs(q);
       return snap.docs.map(doc => ({
         id: doc.id,
@@ -255,8 +256,8 @@ export const ChatService = {
             ? `🎲 ${messagePayload.senderHandle} rolled ${messagePayload.metadata?.result || 'dice'}` 
             : messagePayload.type === 'persona_log_entry'
             ? `📋 ${messagePayload.summary || 'Telemetry recorded'}`
-            : messagePayload.type === 'docket_directive'
-            ? `📌 [DOCKET DIRECTIVE] ${messagePayload.docketBlock?.title || 'Briefing'}`
+            : messagePayload.type === 'docket_directive' || messagePayload.type === 'docket_pulse'
+            ? `📌 [DOCKET DIRECTIVE] ${(messagePayload.docketBlock || messagePayload.metadata?.docketBlock)?.title || 'Briefing'}`
             : messagePayload.type === 'squad_invite'
             ? `🛡️ [SQUAD INVITE] ${messagePayload.groupName || 'Fireteam'}`
             : (messagePayload.text?.substring(0, 80) || 'Transmission'),
@@ -906,6 +907,10 @@ export const ChatService = {
   async clearChannelMessages(channelId, operatorHandle = 'Operator') {
     if (!channelId) throw new Error('Channel ID is required');
 
+    await StorageService.removeItem(`tangent_messages_cache_${channelId}`).catch(() => {});
+
+    if (!db) return;
+
     const messagesRef = collection(db, 'channels', channelId, 'messages');
     const snap = await getDocs(messagesRef);
 
@@ -930,20 +935,28 @@ export const ChatService = {
 
   // Broadcast or clear real-time typing status on a channel
   async setChannelTypingStatus(channelId, currentUser, speakingPersona = null, isTyping = true) {
-    if (!channelId || !currentUser?.uid || !db) return;
+    const uid = typeof currentUser === 'string' ? currentUser : currentUser?.uid;
+    if (!channelId || !uid || !db) return;
     try {
       const channelRef = doc(db, 'channels', channelId);
-      const handle = getEffectiveUserHandle(currentUser);
-      const personaName = speakingPersona?.['char-name'] || speakingPersona?.name || null;
+      const handle = typeof currentUser === 'object' && currentUser
+        ? getEffectiveUserHandle(currentUser)
+        : 'Operator';
+      const personaName = typeof speakingPersona === 'string'
+        ? speakingPersona
+        : (speakingPersona?.['char-name'] || speakingPersona?.name || null);
+      const nowMs = Date.now();
 
       await updateDoc(channelRef, {
-        [`typingUsers.${currentUser.uid}`]: isTyping
+        [`typingUsers.${uid}`]: isTyping
           ? {
-              uid: currentUser.uid,
-              handle,
+              uid,
+              handle: personaName || handle,
+              operatorHandle: handle,
               personaName,
               isTyping: true,
-              updatedAt: Date.now()
+              updatedAt: nowMs,
+              timestamp: nowMs
             }
           : null
       }).catch(() => {});
@@ -954,7 +967,8 @@ export const ChatService = {
 
   // Toggle an emoji reaction on a channel message
   async toggleMessageReaction(channelId, messageId, emoji, currentUser) {
-    if (!channelId || !messageId || !emoji || !currentUser?.uid || !db) return;
+    const uid = typeof currentUser === 'string' ? currentUser : currentUser?.uid;
+    if (!channelId || !messageId || !emoji || !uid || !db) return;
     try {
       const msgRef = doc(db, 'channels', channelId, 'messages', messageId);
       const snap = await getDoc(msgRef);
@@ -962,17 +976,17 @@ export const ChatService = {
       const data = snap.data();
       const reactions = { ...(data.reactions || {}) };
       const existingUsers = Array.isArray(reactions[emoji]) ? [...reactions[emoji]] : [];
-      const hasReacted = existingUsers.includes(currentUser.uid);
+      const hasReacted = existingUsers.includes(uid);
 
       if (hasReacted) {
-        const nextUsers = existingUsers.filter(id => id !== currentUser.uid);
+        const nextUsers = existingUsers.filter(id => id !== uid);
         if (nextUsers.length === 0) {
           delete reactions[emoji];
         } else {
           reactions[emoji] = nextUsers;
         }
       } else {
-        reactions[emoji] = [...existingUsers, currentUser.uid];
+        reactions[emoji] = [...existingUsers, uid];
       }
 
       await updateDoc(msgRef, {

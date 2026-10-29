@@ -23,6 +23,7 @@ import { DEFAULT_ARCHITECTURE } from '../data/architectureData.js';
 import { DEFAULT_OTHER_PROPERTY } from '../data/otherPropertyData.js';
 import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData.js';
 import { DEFAULT_INVOCATIONS } from '../data/invocationsData.js';
+import { DEFAULT_SYNTHESIS } from '../data/synthesisData.js';
 import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData.js';
 import { DEFAULT_SPECIES_MOVEMENT } from '../data/speciesMovementData.js';
 import {
@@ -520,6 +521,18 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
           enriched.sp = matchingSeed.sp ?? enriched.sp;
           enriched.dr = matchingSeed.dr ?? enriched.dr;
         }
+        if (catKey === 'augmentations') {
+          enriched.nodes = matchingSeed.nodes ?? enriched.nodes;
+          enriched.location = matchingSeed.location || enriched.location;
+          enriched.body_location = matchingSeed.body_location || matchingSeed.location || enriched.body_location;
+          enriched.subcategory = matchingSeed.subcategory || enriched.subcategory;
+          if (matchingSeed.costs?.nodes > 0 && !(enriched.costs?.nodes > 0)) {
+            enriched.costs = { ...(matchingSeed.costs || {}), ...(enriched.costs || {}), nodes: matchingSeed.costs.nodes };
+          }
+          if (matchingSeed.costs?.cp > 0 && !(enriched.costs?.cp > 0)) {
+            enriched.costs = { ...(matchingSeed.costs || {}), ...(enriched.costs || {}), cp: matchingSeed.costs.cp, bp: matchingSeed.costs.bp ?? matchingSeed.costs.cp };
+          }
+        }
       }
 
       if (catKey === 'compendium' && matchingSeed) {
@@ -615,6 +628,7 @@ export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'other' || catK === 'other_property') return DEFAULT_OTHER_PROPERTY;
   if (catK === 'augmentations') return DEFAULT_AUGMENTATIONS;
   if (catK === 'invocations') return DEFAULT_INVOCATIONS;
+  if (catK === 'synthesis') return DEFAULT_SYNTHESIS;
 
   // Supporting & Developer Reference Categories
   if (catK === 'disciplines' || catK === 'discipline') return DEFAULT_DISCIPLINES;

@@ -28,6 +28,7 @@ import {
 import { useStory } from '../../../../context/CampaignContext';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 import { AudioService } from '../../../../services/audioService';
+import VisualStoryGraph from '../../StoryModule/workspaces/VisualStoryGraph';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function WeaverGraphTab({ activeNode }) {
@@ -35,9 +36,11 @@ export default function WeaverGraphTab({ activeNode }) {
     universeState, 
     setUniverseState, 
     elementsCatalog, 
-    updateStory 
+    updateStory,
+    setActiveScenarioId
   } = useStory();
 
+  const [graphMode, setGraphMode] = useState('assets'); // 'assets' | 'flowchart'
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [zoom, setZoom] = useState(1);
@@ -240,7 +243,37 @@ export default function WeaverGraphTab({ activeNode }) {
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Graph Mode Switcher: Asset Network vs Scenario Flowchart */}
+          <div className="flex items-center bg-slate-950 p-0.5 rounded-xl border border-slate-800 text-[10px] font-bold">
+            <button
+              type="button"
+              onClick={() => setGraphMode('assets')}
+              className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 ${
+                graphMode === 'assets'
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/40'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Asset Interconnection Network (Personas, Factions, Locations, Lore)"
+            >
+              <span>🔗 Asset Network</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setGraphMode('flowchart')}
+              className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 ${
+                graphMode === 'flowchart'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Scenario Branching Flowchart, Play Simulator & AIME Continuity Audit"
+            >
+              <span>🌿 Scenario Flowchart</span>
+            </button>
+          </div>
+
+          {graphMode === 'assets' && (
+            <>
           <div className="relative">
             <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
@@ -295,10 +328,25 @@ export default function WeaverGraphTab({ activeNode }) {
               <RotateCcw size={11} />
             </button>
           </div>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Main Graph Viewport + In-Situ Inspector */}
+      {graphMode === 'flowchart' ? (
+        <div className="flex-1 flex overflow-hidden relative">
+          <VisualStoryGraph
+            activeScenarioId={activeNode?.id}
+            onSelectScenario={(id) => {
+              if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
+            }}
+            onOpenInWeaver={(node) => {
+              if (typeof setActiveScenarioId === 'function' && node?.id) setActiveScenarioId(node.id);
+            }}
+          />
+        </div>
+      ) : (
+      /* Main Graph Viewport + In-Situ Inspector */
       <div className="flex-1 flex overflow-hidden relative">
         {/* SVG Graph Canvas */}
         <div 
@@ -607,6 +655,7 @@ export default function WeaverGraphTab({ activeNode }) {
           </div>
         )}
       </div>
+      )}
 
       {/* Modal: Create New Connection with Optional Note */}
       {isCreateLinkOpen && (

@@ -2,6 +2,8 @@
 id: battle-gauntlet
 name: Battle Gauntlet
 category: augmentations
+location: "Arms / Hands"
+nodes: 8
 cost: 40
 design_dc: 5
 craft_dc: 5
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 40
-  nodes: 0
+  nodes: 8
   sockets: 0
   strain: 0
   focus: 0

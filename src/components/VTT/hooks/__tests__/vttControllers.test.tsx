@@ -104,6 +104,6 @@ describe('VTT Controller Hooks — useDesignModeController & useCombatController
     act(() => {
       result.current.handleExecuteCombatStrike();
     });
-    expect(result.current.combatLog[0]).toMatch(/\[COMBAT (HIT|MISS|BLOCKED)\]/);
+    expect(result.current.combatLog.some(log => /\[COMBAT (HIT|MISS|BLOCKED)\]/.test(log))).toBe(true);
   });
 });

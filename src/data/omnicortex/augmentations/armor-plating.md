@@ -2,6 +2,8 @@
 id: armor-plating
 name: Armor Plating
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 5
 cost: 640
 design_dc: 15
 craft_dc: 15

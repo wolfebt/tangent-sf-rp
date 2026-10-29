@@ -20,7 +20,6 @@ import {
 import StoryWeaver from '../StoryModule/workspaces/StoryWeaver';
 import InteractiveStoryStudio from '../StoryModule/workspaces/InteractiveStoryStudio';
 import BrainstormTab from './tabs/BrainstormTab';
-import GemsTab from './tabs/GemsTab';
 import ElementsTab from './tabs/ElementsTab';
 import WeaverGraphTab from './tabs/WeaverGraphTab';
 import { useStory } from '../../../context/CampaignContext';
@@ -82,17 +81,12 @@ export default function WeaverWorkspace({
           </div>
         )}
 
-        {/* TAB 2: BRAINSTORM (Dual Scope: Story Scenario & World Elements) */}
+        {/* TAB 2: BRAINSTORM (Dual Scope: Story Scenario & World Elements + Guidance Gems) */}
         {currentTab === 'brainstorm' && (
           <BrainstormTab
             activeNode={activeNode}
             updateStory={updateStory}
           />
-        )}
-
-        {/* TAB 3: GUIDANCE GEMS (Narrative Directives, Genre, Tone, Custom Gems) */}
-        {currentTab === 'gems' && (
-          <GemsTab />
         )}
 
         {/* TAB 4: ELEMENTS (World Elements Palette with Drag-and-Drop to Prose) */}

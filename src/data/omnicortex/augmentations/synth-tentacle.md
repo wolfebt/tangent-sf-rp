@@ -2,6 +2,8 @@
 id: synth-tentacle
 name: Synth Tentacle
 category: augmentations
+location: "Arms / Hands"
+nodes: 15
 cost: 163840
 design_dc: 35
 craft_dc: 35
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 163840
-  nodes: 0
+  nodes: 15
   sockets: 0
   strain: 0
   focus: 0

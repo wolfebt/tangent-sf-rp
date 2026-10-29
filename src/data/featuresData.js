@@ -1,7 +1,7 @@
 /**
  * Canonical Features Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/features/
- * Total Features: 240
+ * Total Features: 241
  */
 
 export const FEATURE_CATEGORIES = [
@@ -2223,41 +2223,6 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
-    "id": "skill-power-attack",
-    "name": "Power Attack",
-    "category": "Combat",
-    "type": "combat",
-    "cp": 3,
-    "bp": 3,
-    "costs": {
-      "cp": 3,
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": false,
-    "prerequisites": "Strength 2, Unarmed or Melee 6",
-    "prerequisite_text": "Strength 2, Unarmed or Melee 6",
-    "modifiers": [],
-    "description": "The character sacrifices precision for raw force, trading attack accuracy for devastating damage.",
-    "mechanic": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
-    "rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "special_rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "body": "# Power Attack\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Unarmed or Melee 6\n\n## Description\nThe character sacrifices precision for raw force, trading attack accuracy for devastating damage.\n\n## Mechanics & Benefit\nWhen declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.\n\n## Special Rules\nThis bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "full_text": "# Power Attack\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Unarmed or Melee 6\n\n## Description\nThe character sacrifices precision for raw force, trading attack accuracy for devastating damage.\n\n## Mechanics & Benefit\nWhen declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.\n\n## Special Rules\nThis bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
-    "mechanics": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
-    "notes": "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...\n[Prerequisite] Strength 2, Unarmed or Melee 6",
-    "notesList": [
-      "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...",
-      "[Prerequisite] Strength 2, Unarmed or Melee 6"
-    ]
-  },
-  {
     "id": "combat-snatch-arrows",
     "name": "Snatch Arrows",
     "category": "Combat",
@@ -2290,6 +2255,41 @@ export const DEFAULT_FEATURES = [
     "notesList": [
       "[Rule] Prerequisite: Agility 4, Deflect Arrows.",
       "[Prerequisite] Agility 4, Deflect Arrows"
+    ]
+  },
+  {
+    "id": "combat-tech-interface",
+    "name": "Tech Interface",
+    "category": "Discipline",
+    "type": "discipline",
+    "cp": 3,
+    "bp": 3,
+    "costs": {
+      "cp": 3,
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": true,
+    "prerequisites": "None",
+    "prerequisite_text": "None",
+    "modifiers": [],
+    "description": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "mechanic": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "rules": "Multiple selections allowed.",
+    "special_rules": "Multiple selections allowed.",
+    "body": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;\n\n## Mechanics & Benefit\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "full_text": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;\n\n## Mechanics & Benefit\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "mechanics": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple selections allowed.",
+    "notesList": [
+      "[Rule] Multiple: May be purchased separately for different categories/types",
+      "[Rule] Multiple selections allowed."
     ]
   },
   {
@@ -3310,41 +3310,6 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
-    "id": "combat-tech-interface",
-    "name": "Tech Interface",
-    "category": "Discipline",
-    "type": "discipline",
-    "cp": 3,
-    "bp": 3,
-    "costs": {
-      "cp": 3,
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "is_multiple": true,
-    "prerequisites": "None",
-    "prerequisite_text": "None",
-    "modifiers": [],
-    "description": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "mechanic": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "rules": "Multiple selections allowed.",
-    "special_rules": "Multiple selections allowed.",
-    "body": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;\n\n## Mechanics & Benefit\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "full_text": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;\n\n## Mechanics & Benefit\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "mechanics": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple selections allowed.",
-    "notesList": [
-      "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] Multiple selections allowed."
-    ]
-  },
-  {
     "id": "discipline-versatile-source",
     "name": "Versatile Source",
     "category": "Discipline",
@@ -3606,43 +3571,6 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
-    "id": "general-benefit-authority",
-    "name": "Benefit (Authority)",
-    "category": "General",
-    "type": "general",
-    "cp": 3,
-    "bp": 3,
-    "costs": {
-      "cp": 3,
-      "bp": 3,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": true,
-    "max_rank": 4,
-    "is_multiple": false,
-    "prerequisites": "Special (Law Enforcement background)",
-    "prerequisite_text": "Special (Law Enforcement background)",
-    "modifiers": [],
-    "description": "Legal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.",
-    "mechanic": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
-    "rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "special_rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "body": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special (Law Enforcement background)\n\n## Description\nLegal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.\n\n## Mechanics & Benefit\nGrants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).\n\n## Special Rules\nRanked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "full_text": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special (Law Enforcement background)\n\n## Description\nLegal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.\n\n## Mechanics & Benefit\nGrants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).\n\n## Special Rules\nRanked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-    "mechanics": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.\n[Prerequisite] Special (Law Enforcement background)",
-    "notesList": [
-      "[Rule] Ranked: Bonus stacks with additional purchases",
-      "[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
-      "[Prerequisite] Special (Law Enforcement background)"
-    ]
-  },
-  {
     "id": "general-benefit",
     "name": "Benefit (Authority)",
     "category": "General",
@@ -3677,6 +3605,43 @@ export const DEFAULT_FEATURES = [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Ranked selection. Prerequisite: Associated Occupation (Soldier, Constable, Agent).",
       "[Prerequisite] Associated Occupation (Soldier, Constable, Agent)"
+    ]
+  },
+  {
+    "id": "general-benefit-authority",
+    "name": "Benefit (Authority)",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "bp": 3,
+    "costs": {
+      "cp": 3,
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": true,
+    "max_rank": 4,
+    "is_multiple": false,
+    "prerequisites": "Special (Law Enforcement background)",
+    "prerequisite_text": "Special (Law Enforcement background)",
+    "modifiers": [],
+    "description": "Legal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.",
+    "mechanic": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
+    "rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "special_rules": "Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "body": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special (Law Enforcement background)\n\n## Description\nLegal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.\n\n## Mechanics & Benefit\nGrants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).\n\n## Special Rules\nRanked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "full_text": "# Benefit (Authority)\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special (Law Enforcement background)\n\n## Description\nLegal enforcement authority granted by a governing body, planetary militia, or sector law enforcement agency.\n\n## Mechanics & Benefit\nGrants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).\n\n## Special Rules\nRanked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+    "mechanics": "Grants legal authority, jurisdictional powers, and arrest rights within designated sectors (from Deputy to Sector Marshal / Special Agent).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.\n[Prerequisite] Special (Law Enforcement background)",
+    "notesList": [
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] Ranked: Higher ranks grant wider planetary and interstellar jurisdiction.",
+      "[Prerequisite] Special (Law Enforcement background)"
     ]
   },
   {
@@ -3968,6 +3933,42 @@ export const DEFAULT_FEATURES = [
       "[Modifier] +2 to Administration",
       "[Rule] Prerequisite: Charisma 3, Diplomacy 6.",
       "[Prerequisite] Charisma 3, Diplomacy 6"
+    ]
+  },
+  {
+    "id": "general-camouflage",
+    "name": "Camouflage",
+    "category": "General",
+    "type": "general",
+    "cp": 2,
+    "bp": 2,
+    "costs": {
+      "cp": 2,
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Stealth 1",
+    "prerequisite_text": "Stealth 1",
+    "modifiers": [],
+    "description": "Passive adaptive coloration, light-draping contours, and texture mimicry grant a +4 bonus on Stealth checks in favored or shadowed terrain.",
+    "mechanic": "Grants a +4 bonus on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain. Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "rules": "",
+    "special_rules": "",
+    "body": "# Camouflage\n\n**Category**: General Features  \n**Cost**: 2 CP  \n**Prerequisites**: Stealth 1  \n\n## Description\nThe character possesses passive epidermal coloration, matte chitinous properties, or biological patterning that naturally blends into shadows, subterranean cave walls, metallic ship framing, or rocky terrain.\n\n## Mechanics & Benefit\n- **Stealth Competence**: Grants a **+4 bonus** on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain.\n- **Concealed Stalking**: Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "full_text": "# Camouflage\n\n**Category**: General Features  \n**Cost**: 2 CP  \n**Prerequisites**: Stealth 1  \n\n## Description\nThe character possesses passive epidermal coloration, matte chitinous properties, or biological patterning that naturally blends into shadows, subterranean cave walls, metallic ship framing, or rocky terrain.\n\n## Mechanics & Benefit\n- **Stealth Competence**: Grants a **+4 bonus** on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain.\n- **Concealed Stalking**: Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "mechanics": "Grants a +4 bonus on all Stealth checks when remaining stationary or moving at half speed through dim light, shadows, subterranean environments, or favored hunting terrain. Reduces the penalty for making Stealth checks while maneuvering around obstacles by 50%.",
+    "keywords": "camouflage, stealth, concealment, shadow-blending, favored-terrain, infiltration",
+    "negative_keywords": "conspicuous, fluorescent, glowing",
+    "notes": "[Prerequisite] Stealth 1",
+    "notesList": [
+      "[Prerequisite] Stealth 1"
     ]
   },
   {
@@ -8042,6 +8043,41 @@ export const DEFAULT_FEATURES = [
       "[Modifier] Advantage on all Bluff and Diplomacy checks (Roll 3d10, take best 2)",
       "[Rule] Prerequisite: Golden Smile, Charisma 4, Bluff 11, Diplomacy 11.",
       "[Prerequisite] Golden Smile, Charisma 4, Bluff 11, Diplomacy 11"
+    ]
+  },
+  {
+    "id": "skill-power-attack",
+    "name": "Power Attack",
+    "category": "Combat",
+    "type": "combat",
+    "cp": 3,
+    "bp": 3,
+    "costs": {
+      "cp": 3,
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Strength 2, Unarmed or Melee 6",
+    "prerequisite_text": "Strength 2, Unarmed or Melee 6",
+    "modifiers": [],
+    "description": "The character sacrifices precision for raw force, trading attack accuracy for devastating damage.",
+    "mechanic": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
+    "rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "special_rules": "This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "body": "# Power Attack\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Unarmed or Melee 6\n\n## Description\nThe character sacrifices precision for raw force, trading attack accuracy for devastating damage.\n\n## Mechanics & Benefit\nWhen declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.\n\n## Special Rules\nThis bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "full_text": "# Power Attack\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Unarmed or Melee 6\n\n## Description\nThe character sacrifices precision for raw force, trading attack accuracy for devastating damage.\n\n## Mechanics & Benefit\nWhen declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.\n\n## Special Rules\nThis bonus to damage is considered a \"Power\" bonus, which may not stack with other features that grant generic bonus damage.",
+    "mechanics": "When declaring a melee attack, you may choose to take a penalty up to your Combat Skill Rank on your **Strike** (Attack) roll. You add this same amount as a bonus to your **Damage** roll. This choice is made before you roll your attack and lasts until the start of your next turn.",
+    "notes": "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...\n[Prerequisite] Strength 2, Unarmed or Melee 6",
+    "notesList": [
+      "[Rule] This bonus to damage is considered a \"Power\" bonus, which may not stack with other features that gra...",
+      "[Prerequisite] Strength 2, Unarmed or Melee 6"
     ]
   },
   {

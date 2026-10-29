@@ -20,22 +20,20 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { useStory } from '../../../../context/CampaignContext';
+import { showConfirm } from '../../../../context/ConfirmContext';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
-import EditElementModal from '../../ElementForge/EditElementModal';
+import { useAdeStore } from '../../store/adeStore';
 import { AudioService } from '../../../../services/audioService';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function ElementsTab({ activeNode, onInsertElementMention }) {
   const { 
     elementsCatalog, 
-    updateSavedElement, 
     deleteSavedElement 
   } = useStory();
 
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('All');
-  const [editingElement, setEditingElement] = useState(null);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const categories = ['All', 'Persona', 'Faction', 'Location', 'Object', 'Lore', 'Encounter', 'Hazard'];
 
@@ -222,8 +220,7 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setEditingElement(elem);
-                          setIsEditModalOpen(true);
+                          useAdeStore.getState().setEditingElement(elem);
                         }}
                         className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
                         title="Edit in Element Forge"
@@ -232,9 +229,16 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
                       </button>
                       <button
                         type="button"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.stopPropagation();
-                          if (deleteSavedElement && window.confirm(`Delete "${elem.title}"?`)) {
+                          if (!deleteSavedElement) return;
+                          const confirmed = await showConfirm({
+                            title: 'Delete Element',
+                            message: `Delete "${elem.title}"?`,
+                            confirmText: 'Delete',
+                            danger: true
+                          });
+                          if (confirmed) {
                             deleteSavedElement(elem.id);
                           }
                         }}
@@ -251,32 +255,6 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
           </div>
         )}
       </div>
-
-      {/* Full Element Forge Modal */}
-      {isEditModalOpen && (
-        <EditElementModal
-          isOpen={isEditModalOpen}
-          onClose={() => {
-            setIsEditModalOpen(false);
-            setEditingElement(null);
-          }}
-          element={editingElement}
-          onSave={(saved) => {
-            if (updateSavedElement && saved?.id) {
-              updateSavedElement(saved.id, saved);
-            }
-            setIsEditModalOpen(false);
-            setEditingElement(null);
-          }}
-          onDelete={(id) => {
-            if (deleteSavedElement && id) {
-              deleteSavedElement(id);
-            }
-            setIsEditModalOpen(false);
-            setEditingElement(null);
-          }}
-        />
-      )}
     </div>
   );
 }

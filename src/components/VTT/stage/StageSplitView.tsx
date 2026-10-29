@@ -19,6 +19,7 @@ import { ConnectedFolioTab } from '../folio/ConnectedFolioTab';
 import { useFolio } from '../../../context/FolioContext';
 import { useCampaign } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
+import { VttEventBus } from '../../../utils/vttEventBus';
 
 export type SplitTabType = 'folio' | 'roster' | 'story' | 'bestiary';
 
@@ -38,12 +39,15 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
   onSelectTab
 }) => {
   const folio = (useFolio() || {}) as any;
-  const { universeState } = useCampaign();
+  const { universeState, elementsCatalog } = useCampaign() as any;
   const { personaRoster, characterData } = folio;
 
   const rosterList = Array.isArray(personaRoster) ? personaRoster : [];
   const scenarios = universeState?.scenarios || [];
   const storyCards = universeState?.creativeState?.storyCards || [];
+  const bestiaryElements = Array.isArray(elementsCatalog)
+    ? elementsCatalog.filter((e: any) => e.type === 'Persona' || e.type === 'Encounter' || e.type === 'Hazard')
+    : [];
 
   if (!isOpen) {
     return <div className="w-full h-full relative overflow-hidden">{children}</div>;
@@ -260,9 +264,44 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
           {activeTab === 'bestiary' && (
             <div className="flex-1 overflow-y-auto p-3 space-y-2 text-xs font-mono">
               <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400 pb-1 border-b border-slate-800 flex items-center justify-between">
-                <span>Tactical Bestiary & Threat Encounters</span>
+                <span>Tactical Bestiary & Threat Encounters ({bestiaryElements.length})</span>
               </div>
 
+              {bestiaryElements.length > 0 ? (
+                <div className="space-y-2">
+                  {bestiaryElements.map((el: any) => (
+                    <div key={el.id} className="p-2.5 rounded-lg bg-slate-950/60 border border-amber-950/60 flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-amber-300 text-xs truncate">{el.title || 'Threat Unit'}</span>
+                          <span className="text-[9.5px] px-1 py-0.2 rounded bg-amber-950 text-amber-400 border border-amber-800 uppercase">
+                            {el.type}
+                          </span>
+                        </div>
+                        <div className="text-[10px] text-slate-400 mt-1 truncate">
+                          HP: {el.fields?.hp || el.fields?.maxHp || 30} &bull; DR: {el.fields?.armor || el.fields?.defense || 8} {el.fields?.role ? `• ${el.fields.role}` : ''}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1250, 0.03);
+                          VttEventBus.emit('vtt-spawn-entity', {
+                            name: el.title || 'Threat Unit',
+                            hp: Number(el.fields?.hp || el.fields?.maxHp || 30),
+                            armorDr: Number(el.fields?.armor || 8),
+                            isPersona: false,
+                            storyElementId: el.id
+                          });
+                        }}
+                        className="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-[10px] uppercase cursor-pointer shrink-0 transition-colors"
+                      >
+                        Deploy
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
               <div className="space-y-2">
                 <div className="p-2.5 rounded-lg bg-slate-950/60 border border-amber-950/60">
                   <div className="flex items-center justify-between">
@@ -294,6 +333,7 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
                   </div>
                 </div>
               </div>
+              )}
             </div>
           )}
         </div>

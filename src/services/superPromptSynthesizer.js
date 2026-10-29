@@ -17,8 +17,9 @@ import { extractAndResolveBracketContext, formatBracketContextForAI } from './hy
 export function buildStaticRulesPrefix({ campaignName = '', folioCharacter = null } = {}) {
   const prefixParts = [
     '=== [BASTION CANONICAL STATIC RULES PREFIX — OMNICORTEX ATTUNED] ===',
-    'Foundational Mechanics & Universal Constants:',
-    '• Dual Resolution: Checks resolve via 2d10 + Attribute Mod + Skill Rank vs. TN (Target Number = 11 + Defense). Critical success on double 10s (natural 20), fumble on double 1s (natural 2). Margin of success (+5 Superior, +10 Masterful) dictates tactical advantage.',
+    'Foundational Mechanics & Universal Constants (Canonical v6):',
+    '• Dual Resolution (2d10): Checks resolve via 2d10 + Attribute + Skill Rank (Unopposed vs. Challenge Rating CR 15 baseline; Opposed 2d10 + Attack vs. 2d10 + Defense, where Defender wins ties). Axis 1 (Magnitude): Margin +5 High-Degree Success, +10 Critical Success, -5 Severe Failure, -10 Critical Failure. Axis 2 (Fate): Doubles ([2,2]–[9,9]) trigger a Boon on success or Complication on failure; Natural 20 ([10,10]) is a Critical Triumph (+1 Focus Point); Snake Eyes ([1,1]) is a Critical Fumble.',
+    '• Base Vitals & Toughness: Organics start at 30 VP (Vitality) / 30 HP (Health); Synthetics use 60 SP (Structure Points). Stamina grants Toughness DR against HP damage rather than inflating base VP/HP.',
     '• Called Shots & 33.3% Trauma: Anatomy targeting (-2 Head, -2 Arms, -1 Legs, -3 Optics). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike, inflicting anatomical impairment.',
     '• Tech Levels (TL 0–5): TL-0 Primitive/Archaic, TL-1 Industrial, TL-2 Advanced Electronic, TL-3 Interstellar/Cybernetic (Galactic baseline), TL-4 Nanotech/Hard-Light, TL-5 Progenitor/Precursor.',
     '• Economatrix TSC & Golden Rule: Value (Credits) = 10 * 4^(DC / 5); Purchase DC = Crafting DC = Cost DC; Auto-Buy when Item DC <= Wealth Score; Liquidity Gap = Value(Item DC) - Value(Character WS).',
@@ -30,7 +31,17 @@ export function buildStaticRulesPrefix({ campaignName = '', folioCharacter = nul
   }
 
   if (folioCharacter) {
-    prefixParts.push(`Active Persona Folio Baseline: ${folioCharacter.name || 'Persona'} (${folioCharacter.species || 'Species'} ${folioCharacter.archetype || 'Archetype'}) | Attributes: Might=${folioCharacter.attributes?.might ?? 0}, Reflex=${folioCharacter.attributes?.reflex ?? 0}, Logic=${folioCharacter.attributes?.logic ?? 0}, Fortitude=${folioCharacter.attributes?.fortitude ?? 0}, Will=${folioCharacter.attributes?.will ?? 0}, Etiquette=${folioCharacter.attributes?.etiquette ?? 0}`);
+    const attrs = folioCharacter.attributes || {};
+    const str = folioCharacter['attr-strength'] ?? attrs.strength ?? attrs.might ?? 0;
+    const agi = folioCharacter['attr-agility'] ?? attrs.agility ?? attrs.reflex ?? 0;
+    const sta = folioCharacter['attr-stamina'] ?? attrs.stamina ?? attrs.fortitude ?? 0;
+    const int = folioCharacter['attr-intellect'] ?? attrs.intellect ?? attrs.logic ?? 0;
+    const wis = folioCharacter['attr-wisdom'] ?? attrs.wisdom ?? attrs.will ?? 0;
+    const cha = folioCharacter['attr-charisma'] ?? attrs.charisma ?? attrs.etiquette ?? 0;
+    const name = folioCharacter['char-name'] || folioCharacter.name || 'Persona';
+    const species = folioCharacter['char-species'] || folioCharacter.species || 'Species';
+    const archetype = folioCharacter['char-archetype'] || folioCharacter.archetype || 'Archetype';
+    prefixParts.push(`Active Persona Folio Baseline: ${name} (${species} ${archetype}) | Attributes: Strength=${str}, Agility=${agi}, Stamina=${sta}, Intellect=${int}, Wisdom=${wis}, Charisma=${cha}`);
   }
 
   return prefixParts.join('\n');

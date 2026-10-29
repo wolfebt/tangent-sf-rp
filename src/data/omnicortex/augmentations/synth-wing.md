@@ -2,6 +2,8 @@
 id: synth-wing
 name: Synth Wing
 category: augmentations
+location: "Legs / Feet"
+nodes: 20
 cost: 40960
 design_dc: 30
 craft_dc: 30
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 40960
-  nodes: 0
+  nodes: 20
   sockets: 0
   strain: 0
   focus: 0

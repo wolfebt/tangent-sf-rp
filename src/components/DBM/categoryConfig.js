@@ -1564,6 +1564,20 @@ export const categoryConfig = {
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true, label: 'Prerequisites' },
             note: { type: 'textarea', label: 'Architect Notes' }
         }
+    },
+    synthesis: {
+        label: 'CRISP VISUAL SYNTHESIS',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'synthesis_type', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Synthesis Keyframe Name' },
+            synthesis_type: { type: 'text', label: 'Synthesis Classification' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Visual Keyframe Motifs & Summary' },
+            crisp_prompt: { type: 'textarea', label: 'CRISP Rendering Prompt Template' },
+            mechanic: { type: 'textarea', label: 'Full Synthesis Specification' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
     }
 };
 
@@ -1607,6 +1621,7 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'technology', group: 'system', label: 'Technology Profiles', icon: '⚡', desc: 'Tech Level (TL 0-5) baseline profiles, technological milestones, and era complexity DCs.' },
   { key: 'economatrix', group: 'system', label: 'Economatrix Commodities', icon: '💎', desc: 'Commodities, trade routes, lifestyles, resource units, and economic valuation formulas.' },
   { key: 'rules', group: 'system', label: 'Core Game Rules & Mechanics', icon: '📜', desc: 'Authoritative rules compendium, situational rulings, and core mechanical subsystems.' },
+  { key: 'synthesis', group: 'system', label: 'CRISP Visual Synthesis', icon: '🎨', desc: '266 canonical CRISP visual rendering keyframes across species, factions, origins, occupations, and archetypes.' },
 
   // Species, Anatomy & Locomotion
   { key: 'species_type', group: 'species_anatomy', label: 'Species Types', icon: '🧬', desc: 'Biological and synthetic classifications (Humanoid, Cybernetic, Xenobiological, etc.).' },

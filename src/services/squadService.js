@@ -333,9 +333,10 @@ export const SquadService = {
         map.set(g.id, g);
       });
       const combined = Array.from(map.values());
-      // Ensure all enrolled teams have a default active frequency provisioned
+      // Ensure all teams where the current user is an enrolled member have a default active frequency provisioned
       combined.forEach(g => {
-        if (!g.channelId) {
+        const isEnrolledMember = Array.isArray(g.members) && g.members.includes(currentUser.uid);
+        if (!g.channelId && isEnrolledMember) {
           SquadService.ensureTeamFrequency(g, currentUser);
         }
       });
@@ -499,6 +500,7 @@ export const SquadService = {
             lastMessage: {
               text: `🛡️ Team Invitation: ${groupMeta.name}`,
               senderHandle: inviterHandle,
+              senderId: currentUser.uid,
               senderUid: currentUser.uid,
               timestamp: new Date().toISOString()
             }
@@ -1208,7 +1210,7 @@ export const SquadService = {
   },
 
   // 18. LFP: Flag Squad as Looking For Persons
-  async flagSquadLFP({ groupId, neededRoles = [], pitch = '', openSlots = 2, active = true }) {
+  async flagSquadLFP({ groupId, neededRoles = [], pitch = '', openSlots = 2, active = true, status: customStatus = null }) {
     if (!groupId) return;
     const lfpPayload = {
       active: Boolean(active),
@@ -1217,12 +1219,13 @@ export const SquadService = {
       openSlots: Number(openSlots) || 2,
       updatedAt: new Date().toISOString()
     };
+    const resolvedStatus = customStatus || (active ? 'Recruiting' : 'Active');
 
     if (db) {
       const groupRef = doc(db, 'game_groups', groupId);
       await updateDoc(groupRef, {
         lfp: lfpPayload,
-        status: active ? 'Recruiting' : 'Active',
+        status: resolvedStatus,
         updatedAt: new Date().toISOString()
       }).catch(err => console.warn('[GroupService] Failed to flag squad LFP:', err));
     }
@@ -1231,7 +1234,7 @@ export const SquadService = {
       const cached = (await StorageService.getItem('tangent_game_groups')) || [];
       const updated = cached.map(g => {
         if (g.id === groupId) {
-          return { ...g, lfp: lfpPayload, status: active ? 'Recruiting' : 'Active' };
+          return { ...g, lfp: lfpPayload, status: resolvedStatus };
         }
         return g;
       });

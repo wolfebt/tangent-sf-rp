@@ -36,7 +36,7 @@ import { AudioService } from '../../services/audioService';
 import { getEffectiveUserHandle } from '../../utils/personaValidationUtils';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
-import { GameGroupModal } from '../Groups/GameGroupModal';
+import { GameGroupModal } from '../Squads/SquadModal';
 import { TwoD10Icon } from '../UI/TwoD10Icon';
 import ToolbarProjectMenu from '../../pages/Foundry/StoryModule/toolbar/ToolbarProjectMenu';
 

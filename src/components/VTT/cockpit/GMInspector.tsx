@@ -34,6 +34,9 @@ import { useFolio } from '../../../context/FolioContext';
 import { showToast } from '../../../context/ToastContext';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { GMModificationReviewModal } from './GMModificationReviewModal';
+import { BastionAgent } from '../../../engine/ai/BastionAgent';
+import type { AdversaryTurnExecutionReport } from '../../../engine/ai/BastionAgent';
+import { synthesizeAdversaryTactic } from '../../../services/adversaryAiService.js';
 
 const AVAILABLE_CONDITIONS = [
   'Cover',
@@ -67,9 +70,34 @@ export const GMInspector: React.FC = () => {
 
   const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
   const [reviewTargetHeroId, setReviewTargetHeroId] = useState<string | null>(null);
+  const [aiTurnExecuting, setAiTurnExecuting] = useState<boolean>(false);
+  const [lastAiTurnReport, setLastAiTurnReport] = useState<AdversaryTurnExecutionReport | null>(null);
 
   // Single selected token
   const currentToken = selectedTokens.length === 1 ? selectedTokens[0] : null;
+
+  const adversaryTactic = React.useMemo(() => {
+    if (!currentToken || currentToken.is_persona) return null;
+    const heroes = tokens.filter((t) => t.is_persona && t.current_hp > 0);
+    return synthesizeAdversaryTactic(currentToken, heroes);
+  }, [currentToken, tokens]);
+
+  const handleExecuteAdversaryAiTurn = async () => {
+    if (!currentToken || currentToken.is_persona || aiTurnExecuting) return;
+    setAiTurnExecuting(true);
+    try {
+      const report = await BastionAgent.executeAdversaryTurn(currentToken.id);
+      setLastAiTurnReport(report);
+      AudioService.playTerminalBeep(report.attackRoll.isHit ? 1400 : 600, 0.06);
+      showToast({
+        type: report.attackRoll.isHit ? 'warn' : 'info',
+        title: `BASTION AI: ${report.adversaryName}`,
+        text: `${report.tacticAction} -> ${report.targetName} (${report.attackRoll.isHit ? `${report.damageDealt} Net DMG` : 'MISS'})`
+      });
+    } finally {
+      setAiTurnExecuting(false);
+    }
+  };
 
   // Matched persona in roster if current token is a hero
   const matchedPersona = currentToken?.is_persona 
@@ -572,6 +600,59 @@ export const GMInspector: React.FC = () => {
                 <ShieldCheck size={11} className="text-cyan-400 shrink-0" />
                 <span>Folio is player property. Direct sheet edits/deletions locked.</span>
               </div>
+            </div>
+          )}
+
+          {/* BASTION Adversary AI Doctrine & Autonomous Turn Executor (For Non-Persona Hostiles) */}
+          {!currentToken.is_persona && adversaryTactic && (
+            <div className="pt-2 border-t border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1">
+                  <Cpu size={12} /> BASTION Adversary AI Doctrine
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-rose-950/80 border border-rose-500/40 text-rose-300 text-[9px] font-bold">
+                  {adversaryTactic.roleIcon} {adversaryTactic.roleLabel}
+                </span>
+              </div>
+
+              <div className="p-2 rounded bg-slate-950/80 border border-slate-800 space-y-1 text-[10px]">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Recommended Action:</span>
+                  <span className="text-amber-300 font-bold">{adversaryTactic.action}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Primary Target:</span>
+                  <span className="text-cyan-300 font-bold">{adversaryTactic.targetName}</span>
+                </div>
+                <p className="text-[9.5px] text-slate-400 font-sans leading-snug pt-0.5">
+                  {adversaryTactic.description}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                disabled={aiTurnExecuting}
+                onClick={handleExecuteAdversaryAiTurn}
+                className="w-full py-1.5 px-2.5 rounded bg-rose-600/80 hover:bg-rose-500 disabled:opacity-50 text-white font-bold text-[10.5px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+              >
+                <Sparkles size={12} />
+                {aiTurnExecuting ? 'Executing BASTION Turn...' : '⚡ Execute AI Turn'}
+              </button>
+
+              {lastAiTurnReport && lastAiTurnReport.adversaryId === currentToken.id && (
+                <div className="p-2 rounded bg-slate-950/90 border border-rose-500/40 text-[9.5px] space-y-1">
+                  <div className="flex justify-between font-bold">
+                    <span className={lastAiTurnReport.attackRoll.isHit ? 'text-rose-300' : 'text-slate-400'}>
+                      2d10: [{lastAiTurnReport.attackRoll.d1}+{lastAiTurnReport.attackRoll.d2}] = {lastAiTurnReport.attackRoll.totalAttack} vs CR {lastAiTurnReport.attackRoll.targetDefenseDC}
+                    </span>
+                    <span className="text-amber-300">
+                      {lastAiTurnReport.attackRoll.isHit ? `${lastAiTurnReport.damageDealt} NET DMG` : 'MISS'}
+                    </span>
+                  </div>
+                  <div className="text-cyan-300 italic font-sans">{lastAiTurnReport.tacticalBark}</div>
+                  <div className="text-slate-300 font-sans">{lastAiTurnReport.aimeNarration}</div>
+                </div>
+              )}
             </div>
           )}
         </div>

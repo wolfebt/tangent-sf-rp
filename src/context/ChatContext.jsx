@@ -469,6 +469,17 @@ export const ChatProvider = ({ children }) => {
     activeGroup?.id
   ]);
 
+  // Refs for latest channel/read state to prevent tearing down Firestore channel subscriptions on every click
+  const activeChannelIdRef = useRef(activeChannelId);
+  useEffect(() => {
+    activeChannelIdRef.current = activeChannelId;
+  }, [activeChannelId]);
+
+  const lastReadTimestampsRef = useRef(lastReadTimestamps);
+  useEffect(() => {
+    lastReadTimestampsRef.current = lastReadTimestamps;
+  }, [lastReadTimestamps]);
+
   // Subscribe to channels visible to current user
   useEffect(() => {
     const unsubscribe = ChatService.subscribeToUserChannels(currentUser, (updatedChannels) => {
@@ -487,17 +498,20 @@ export const ChatProvider = ({ children }) => {
         const isOnComms = typeof window !== 'undefined' && 
           (window.location.pathname.startsWith('/network') || window.location.pathname.startsWith('/comms')) && 
           document.visibilityState === 'visible';
+        const currChanId = activeChannelIdRef.current;
+        const readMap = lastReadTimestampsRef.current || {};
 
         combined.forEach(ch => {
-          if (ch.id === activeChannelId && isOnComms) {
+          if (ch.id === currChanId && isOnComms) {
             delete next[ch.id];
             return;
           }
 
           if (ch.lastMessage && ch.lastMessage.timestamp) {
             const msgTime = new Date(ch.lastMessage.timestamp).getTime();
-            const lastRead = lastReadTimestamps[ch.id] || 0;
-            const isOwn = currentUser && ch.lastMessage.senderId === currentUser.uid;
+            const lastRead = readMap[ch.id] || 0;
+            const senderId = ch.lastMessage.senderId || ch.lastMessage.senderUid || '';
+            const isOwn = currentUser && senderId === currentUser.uid;
 
             if (!isOwn && msgTime > lastRead) {
               next[ch.id] = (next[ch.id] || 0) > 0 ? next[ch.id] : 1;
@@ -512,7 +526,7 @@ export const ChatProvider = ({ children }) => {
     return () => {
       if (unsubscribe) unsubscribe();
     };
-  }, [currentUser, activeChannelId, lastReadTimestamps]);
+  }, [currentUser?.uid]);
 
   // Real-time listener for entire network directory and presence (detects new operator logins)
   useEffect(() => {
@@ -1001,8 +1015,9 @@ export const ChatProvider = ({ children }) => {
         ...(Array.isArray(activeChannel.members) ? activeChannel.members : []),
         ...(Array.isArray(grp?.members) ? grp.members : [])
       ]);
+      const grpLeaderId = grp?.creatorId || grp?.leaderId || grp?.ownerId || null;
       if (activeChannel.createdById) memberUids.add(activeChannel.createdById);
-      if (grp?.leaderId) memberUids.add(grp.leaderId);
+      if (grpLeaderId) memberUids.add(grpLeaderId);
 
       const personasList = [];
       const seenOwnerUids = new Set();
@@ -1076,7 +1091,7 @@ export const ChatProvider = ({ children }) => {
         Object.entries(grp.memberDetails).forEach(([uid, detail]) => {
           memberUids.add(uid);
           if (detail?.persona) {
-            const sRole = uid === grp.leaderId
+            const sRole = uid === grpLeaderId
               ? 'Prime Architect'
               : (Array.isArray(grp.coArchitects) && grp.coArchitects.includes(uid) ? 'Co-Architect' : (detail.role || 'Operative'));
             addEnrolledPersona(detail.persona, uid, detail.handle || grp.memberNames?.[uid], sRole);
@@ -1102,15 +1117,15 @@ export const ChatProvider = ({ children }) => {
 
       // Architect Command list (Leader + Co-Architects)
       const architectUids = new Set();
-      if (grp?.leaderId) architectUids.add(grp.leaderId);
+      if (grpLeaderId) architectUids.add(grpLeaderId);
       if (Array.isArray(grp?.coArchitects)) grp.coArchitects.forEach(id => architectUids.add(id));
       if (architectUids.size === 0 && activeChannel.createdById) architectUids.add(activeChannel.createdById);
 
       const architectCommand = Array.from(architectUids).map(uid => {
         const u = effectiveUserDirectory.find(usr => usr.uid === uid);
         const detail = grp?.memberDetails?.[uid] || {};
-        const handle = u?.userHandle || detail.handle || grp?.memberNames?.[uid] || (uid === grp?.leaderId ? grp?.leaderName : null) || 'Architect';
-        const isPrime = uid === (grp?.leaderId || activeChannel.createdById);
+        const handle = u?.userHandle || detail.handle || grp?.memberNames?.[uid] || (uid === grpLeaderId ? (grp?.creatorHandle || grp?.leaderName) : null) || 'Architect';
+        const isPrime = uid === (grpLeaderId || activeChannel.createdById);
         return {
           uid,
           userHandle: handle,
@@ -1233,9 +1248,14 @@ export const ChatProvider = ({ children }) => {
     const list = [];
     Object.entries(map).forEach(([uid, info]) => {
       if (!info || uid === currentUser?.uid) return;
-      const ts = typeof info.timestamp === 'number' ? info.timestamp : new Date(info.timestamp || 0).getTime();
+      const rawTs = info.updatedAt ?? info.timestamp ?? 0;
+      const ts = typeof rawTs === 'number' ? rawTs : new Date(rawTs).getTime();
       if (now - ts < 6500) {
-        list.push({ uid, handle: info.handle || 'Operative' });
+        list.push({
+          uid,
+          handle: info.handle || info.operatorHandle || 'Operative',
+          personaName: info.personaName || null
+        });
       }
     });
     return list;
@@ -1251,7 +1271,7 @@ export const ChatProvider = ({ children }) => {
     if (!chanId || !messageId || !emoji) return;
     const operatorHandle = userHandle || currentUser?.displayName || 'Operator';
     AudioService.playTerminalBeep(1350, 0.015);
-    await ChatService.toggleMessageReaction(chanId, messageId, emoji, currentUser.uid, operatorHandle);
+    await ChatService.toggleMessageReaction(chanId, messageId, emoji, currentUser, operatorHandle);
   }, [currentUser, activeChannelId, userHandle, openAuthModal]);
 
   // Send a dice roll transmission to the active or specified channel
@@ -1484,11 +1504,17 @@ export const ChatProvider = ({ children }) => {
     if (!targetChannelId) return;
 
     const operatorHandle = userHandle || currentUser?.displayName || 'Architect';
-    const checklist = Array.isArray(block.checklist) ? block.checklist : [];
-    const doneCount = checklist.filter(i => i.done).length;
+    const rawChecklist = Array.isArray(block.checklist) ? block.checklist : [];
+    const checklist = rawChecklist.map(item => ({
+      ...item,
+      completed: Boolean(item.completed ?? item.done),
+      done: Boolean(item.completed ?? item.done)
+    }));
+    const doneCount = checklist.filter(i => i.completed).length;
+    const resolvedCategory = block.tag || block.category || 'INTEL';
 
     const payload = {
-      text: `📋 [TACTICAL DOCKET // ${(block.category || 'INTEL').toUpperCase()}] ${block.title}: ${block.content || ''}`,
+      text: `📋 [TACTICAL DOCKET // ${resolvedCategory.toUpperCase()}] ${block.title}: ${block.content || ''}`,
       type: 'docket_directive',
       senderId: currentUser.uid,
       senderUid: currentUser.uid,
@@ -1496,6 +1522,12 @@ export const ChatProvider = ({ children }) => {
       operatorHandle,
       senderType: 'architect',
       isArchitect: true,
+      docketBlock: {
+        id: block.id,
+        title: block.title,
+        tag: resolvedCategory,
+        category: resolvedCategory
+      },
       architectDetails: {
         title: 'ARCHITECT // GM',
         role: 'Gamemaster / Referee',
@@ -1508,7 +1540,8 @@ export const ChatProvider = ({ children }) => {
         groupName: grp?.name || 'Team',
         blockId: block.id,
         title: block.title,
-        category: block.category || 'Intel',
+        tag: resolvedCategory,
+        category: resolvedCategory,
         status: block.status || 'active',
         isPinned: Boolean(block.isPinned),
         visibility: block.visibility || 'all',

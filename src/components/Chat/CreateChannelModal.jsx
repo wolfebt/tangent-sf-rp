@@ -227,12 +227,12 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* TAB 1 & 3: Custom Channel or Team Group Creation */}
-          {(activeTab === 'channel' || activeTab === 'group') && (
+          {/* TAB 1: Custom Channel Creation */}
+          {activeTab === 'channel' && (
             <form onSubmit={handleCreateChannel} className="space-y-4 text-xs font-mono">
               <div>
                 <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-                  {activeTab === 'group' ? 'Team Channel Name' : 'Channel Name'}
+                  Channel Name
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5 text-slate-500 font-bold">#</span>
@@ -302,141 +302,8 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* Member Selection for Team / Private Channels */}
-              {activeTab === 'group' && (
-                <div className="space-y-3 pt-2 border-t border-slate-800">
-                  <div className="flex items-center justify-between">
-                    <label className="block text-slate-200 font-bold uppercase tracking-wider text-xs">
-                      🎭 Personas in Team ({selectedCharacters.length} Selected)
-                    </label>
-                    <span className="text-[10px] text-emerald-400 font-bold">
-                      Cross-Character Comms
-                    </span>
-                  </div>
-                  <p className="text-[10.5px] text-slate-400">
-                    Select personas across your roster and other operators to join this team frequency:
-                  </p>
-
-                  {/* Character Search */}
-                  <div className="relative">
-                    <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
-                    <input
-                      type="text"
-                      value={groupCharSearch}
-                      onChange={(e) => setGroupCharSearch(e.target.value)}
-                      placeholder="Filter characters by name, role, species..."
-                      className="w-full pl-8 pr-3 py-1.5 bg-slate-950/80 border border-slate-800 rounded-lg text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500"
-                    />
-                  </div>
-
-                  {/* Character Cards List */}
-                  <div className="max-h-44 overflow-y-auto space-y-1.5 bg-slate-950 p-2 rounded-lg border border-slate-800 no-scrollbar">
-                    {(() => {
-                      // Gather user's own characters from Folio
-                      const myChars = (personaRoster.length ? personaRoster : roster).map(c => ({
-                        id: c['character-doc-id'] || c.id || c.name,
-                        name: c['char-name'] || c.name || 'My Persona',
-                        species: c['char-species'] || c.species || 'Human',
-                        role: c['char-concept'] || c.role || c['char-occu'] || 'Specialist',
-                        ownerUid: currentUser?.uid,
-                        ownerHandle: currentUser?.displayName || 'You',
-                        isSelf: true
-                      }));
-
-                      // Gather other registered players' characters
-                      const otherChars = [];
-                      (userDirectory || []).forEach(u => {
-                        const uHandle = u.userHandle || u.displayName || 'Operator';
-                        if (Array.isArray(u.characters)) {
-                          u.characters.forEach(c => {
-                            otherChars.push({
-                              id: c.id || c['character-doc-id'] || c.name,
-                              name: c.name || 'Persona',
-                              species: c.species || 'Human',
-                              role: c.role || 'Specialist',
-                              ownerUid: u.uid,
-                              ownerHandle: uHandle,
-                              isSelf: false
-                            });
-                          });
-                        }
-                      });
-
-                      const combined = [...myChars, ...otherChars];
-                      const q = groupCharSearch.toLowerCase();
-                      const filtered = combined.filter(c => 
-                        c.name.toLowerCase().includes(q) ||
-                        c.species.toLowerCase().includes(q) ||
-                        c.role.toLowerCase().includes(q) ||
-                        c.ownerHandle.toLowerCase().includes(q)
-                      );
-
-                      if (filtered.length === 0) {
-                        return (
-                          <div className="p-3 text-center text-[11px] text-slate-500 italic">
-                            No matching personas found.
-                          </div>
-                        );
-                      }
-
-                      return filtered.map(char => {
-                        const charKey = `${char.ownerUid}_${char.id}`;
-                        const isSelected = selectedCharacters.some(c => 
-                          (c.id || c['character-doc-id'] || c.name) === char.id && c.ownerUid === char.ownerUid
-                        );
-
-                        return (
-                          <div
-                            key={charKey}
-                            onClick={() => toggleCharacterSelection(char)}
-                            className={`flex items-center justify-between p-2 rounded-xl border cursor-pointer transition-all ${
-                              isSelected
-                                ? 'bg-purple-950/60 border-purple-500/70 text-purple-200 shadow-sm'
-                                : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:bg-slate-900 hover:border-slate-700'
-                            }`}
-                          >
-                            <div className="flex items-center gap-2 min-w-0">
-                              <span className="text-base">🎭</span>
-                              <div className="min-w-0">
-                                <div className="flex items-center gap-1.5">
-                                  <span className="font-bold text-slate-100 text-xs truncate">
-                                    {char.name}
-                                  </span>
-                                  {char.isSelf ? (
-                                    <span className="px-1.5 py-0.2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[8px] rounded font-bold">
-                                      YOUR ROSTER
-                                    </span>
-                                  ) : (
-                                    <span className="text-[9.5px] text-slate-400">
-                                      (@{char.ownerHandle})
-                                    </span>
-                                  )}
-                                </div>
-                                <span className="text-[10px] text-slate-400 block truncate">
-                                  {char.species} • {char.role}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="shrink-0 ml-2">
-                              {isSelected ? (
-                                <div className="p-1 rounded-full bg-purple-500 text-black">
-                                  <Check size={12} strokeWidth={3} />
-                                </div>
-                              ) : (
-                                <div className="w-4 h-4 rounded-full border border-slate-600" />
-                              )}
-                            </div>
-                          </div>
-                        );
-                      });
-                    })()}
-                  </div>
-                </div>
-              )}
-
               {/* Player selection for custom private channel */}
-              {!isPublic && activeTab === 'channel' && (
+              {!isPublic && (
                 <div className="space-y-2 pt-2 border-t border-slate-800">
                   <label className="block text-slate-300 font-bold uppercase tracking-wider">
                     Invite Operators ({selectedUserIds.length} Selected)

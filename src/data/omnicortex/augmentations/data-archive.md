@@ -2,6 +2,8 @@
 id: data-archive
 name: Data Archive
 category: augmentations
+location: "Head / Cranium"
+nodes: 2
 cost: 10240
 design_dc: 25
 craft_dc: 25
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 10240
-  nodes: 0
+  nodes: 2
   sockets: 0
   strain: 0
   focus: 0

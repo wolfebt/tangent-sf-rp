@@ -370,6 +370,7 @@ export function scanDynamicLorebook({
     triggerLogic: LoreTriggerLogic;
     regexPattern: string;
     compiledRegex: RegExp | null;
+    speakerFilter: string;
     priority: number;
     budgetTokens: number;
   }> = [];
@@ -401,6 +402,7 @@ export function scanDynamicLorebook({
     const triggerLogic: LoreTriggerLogic = lorebook.triggerLogic || fields.triggerLogic || 'OR';
     const regexPattern = lorebook.triggerRegex || fields.triggerRegex || '';
     const compiledRegex = compileTriggerRegex(regexPattern, userHandle, resolvedCharName);
+    const speakerFilter = lorebook.speakerFilter || fields.speakerFilter || 'any';
     const priority = Number(lorebook.priority ?? fields.loreScanPriority) || 50;
     const budgetTokens = Number(lorebook.budgetTokens ?? fields.loreBudgetTokens) || 250;
 
@@ -411,6 +413,7 @@ export function scanDynamicLorebook({
       triggerLogic,
       regexPattern,
       compiledRegex,
+      speakerFilter,
       priority,
       budgetTokens
     });
@@ -419,7 +422,7 @@ export function scanDynamicLorebook({
   const matchedSet = new Map<string, InjectedLoreEntry>();
   let passesExecuted = 0;
 
-  // ── PASS 1: SURFACE SCAN (User Input + Active Scenario) ──
+  // ── PASS 1: SURFACE SCAN (User Input + Active Scenario, respecting speakerFilter) ──
   passesExecuted = 1;
   const scenarioSurface = [
     activeScenario?.title,
@@ -432,7 +435,13 @@ export function scanDynamicLorebook({
   const remainingCandidates: typeof eligibleElements = [];
 
   for (const candidate of eligibleElements) {
-    const matchedTrigger = matchCandidateAgainstText(candidate, surfaceScanText);
+    let targetSurfaceText = surfaceScanText;
+    if (candidate.speakerFilter === 'user_only') {
+      targetSurfaceText = String(input || '').trim();
+    } else if (candidate.speakerFilter === 'npc_only') {
+      targetSurfaceText = scenarioSurface.trim();
+    }
+    const matchedTrigger = matchCandidateAgainstText(candidate, targetSurfaceText);
 
     if (matchedTrigger) {
       const { snippet, tokens } = extractLoreSnippet(candidate.elem, candidate.budgetTokens);

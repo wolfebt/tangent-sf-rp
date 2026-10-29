@@ -7,6 +7,9 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { adeElementToStageToken } from '../../../utils/storyAssetAdapter.js';
+import { VttModuleCompilerService, VttModuleCompiler } from '../../../services/vttModuleCompilerService.js';
+
+export { VttModuleCompilerService, VttModuleCompiler };
 
 /**
  * Validates a StageManifest for integrity before compilation.
@@ -110,6 +113,7 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
 
   // 3. Compile Waypoints and Trigger zones (injected as interactive objects without dirtying the source map)
   const synthesizedObjects = [...(baseMap.objects || [])];
+  const synthesizedWaypoints = [...(baseMap.waypoints || [])];
   for (const anchor of manifest.anchors || []) {
     if (anchor.kind === 'waypoint' || anchor.kind === 'region') {
       const triggers = (manifest.triggers || []).filter(t => t.anchorId === anchor.id);
@@ -129,6 +133,19 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
         triggers: triggers,
         note: anchor.note || ''
       });
+      const firstAction = triggers[0]?.actions?.[0] || {};
+      synthesizedWaypoints.push({
+        id: anchor.id,
+        name: anchor.name || 'Waypoint Anchor',
+        x: anchor.pos?.x ?? 400,
+        y: anchor.pos?.y ?? 300,
+        radius: (anchor.pos?.w ?? 80) / 2,
+        type: 'objective',
+        autoTrigger: triggers.some(t => t.on === 'enter'),
+        triggerAction: firstAction.type || 'REVEAL_BEAT',
+        targetScenarioId: firstAction.targetScenarioId || null,
+        readAloudText: firstAction.readAloudText || anchor.note || ''
+      });
     }
   }
 
@@ -137,10 +154,18 @@ export function compileStage({ manifest, mapAsset, storyAsset, elementsCatalog =
     stageId: manifest.id,
     title: manifest.title,
     compiledAt: Date.now(),
+    manifest: {
+      id: manifest.id,
+      title: manifest.title,
+      mapId: manifest.mapId,
+      scenarioId: manifest.storyId || null,
+      techLevel: universeState?.techLevel || 3
+    },
     map: {
       ...baseMap,
       tokens: synthesizedTokens,
-      objects: synthesizedObjects
+      objects: synthesizedObjects,
+      waypoints: synthesizedWaypoints
     },
     environment: {
       ...manifest.environment,

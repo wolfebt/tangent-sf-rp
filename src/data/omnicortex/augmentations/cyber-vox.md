@@ -2,6 +2,8 @@
 id: cyber-vox
 name: Cyber-Vox
 category: augmentations
+location: "Head (Sensory / Vocal)"
+nodes: 0
 cost: 40
 design_dc: 5
 craft_dc: 5

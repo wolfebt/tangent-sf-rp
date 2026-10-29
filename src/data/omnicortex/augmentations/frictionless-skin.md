@@ -2,6 +2,8 @@
 id: frictionless-skin
 name: Frictionless Skin
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 3
 cost: 2560
 design_dc: 20
 craft_dc: 20
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 2560
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

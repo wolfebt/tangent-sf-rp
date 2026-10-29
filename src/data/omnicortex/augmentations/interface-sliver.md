@@ -2,6 +2,8 @@
 id: interface-sliver
 name: Interface Sliver
 category: augmentations
+location: "Torso / Core"
+nodes: 3
 cost: 640
 design_dc: 15
 craft_dc: 15
@@ -9,10 +11,10 @@ description: Dedicated Cyberjack for 1 Mecha.
 stigma: None
 type: Esoteric
 costs:
-  cp: 0
-  bp: 0
+  cp: 1
+  bp: 1
   credits: 640
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

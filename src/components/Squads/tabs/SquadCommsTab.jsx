@@ -34,7 +34,8 @@ export const SquadCommsTab = ({
     }
   }, [activeGroup?.channelId, activeChannelId, selectChannel]);
 
-  const docketCount = Array.isArray(activeGroup?.architectBlocks) ? activeGroup.architectBlocks.length : 0;
+  const docketBlocks = activeChannel?.architectBlocks || activeGroup?.architectBlocks;
+  const docketCount = Array.isArray(docketBlocks) ? docketBlocks.length : 0;
 
   return (
     <div className="flex-1 flex flex-col h-full min-h-0 bg-[#070b12]">

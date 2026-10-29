@@ -720,13 +720,17 @@ Format each beat on its own line:
   };
 
   const handleCommitArchitectNode = (nodeData) => {
-    const formattedBeat = `\n\n### [${nodeData.nodeType.toUpperCase()}] ${nodeData.title}\n` +
-      `• Intent: ${nodeData.intent}\n` +
-      (nodeData.objective ? `• Objective: ${nodeData.objective}\n` : '') +
-      (nodeData.opposingForce ? `• Opposing Force: ${nodeData.opposingForce}\n` : '') +
-      `• Mechanical DC: ${nodeData.targetDC}\n` +
-      `• Atmosphere: ${nodeData.weatherPreset}\n` +
-      `• Narrative Sensory Layer:\n${nodeData.sensoryFlavor}\n`;
+    const isStringPayload = typeof nodeData === 'string';
+    const nodeTypeLabel = isStringPayload ? 'Node' : (nodeData?.nodeType || 'Node');
+    const formattedBeat = isStringPayload
+      ? `\n\n${nodeData}`
+      : `\n\n### [${String(nodeTypeLabel).toUpperCase()}] ${nodeData.title || 'Untitled Node'}\n` +
+        `• Intent: ${nodeData.intent || ''}\n` +
+        (nodeData.objective ? `• Objective: ${nodeData.objective}\n` : '') +
+        (nodeData.opposingForce ? `• Opposing Force: ${nodeData.opposingForce}\n` : '') +
+        `• Mechanical DC: ${nodeData.targetDC ?? 12}\n` +
+        `• Atmosphere: ${nodeData.weatherPreset || 'Standard'}\n` +
+        `• Narrative Sensory Layer:\n${nodeData.sensoryFlavor || ''}\n`;
 
     const updatedBeats = (sceneBeats ? sceneBeats.trim() : '') + formattedBeat;
     setSceneBeats(updatedBeats);
@@ -735,7 +739,7 @@ Format each beat on its own line:
         fields: { ...(activeNode.fields || {}), sceneBeats: updatedBeats }
       });
     }
-    showToast(`✓ Committed Architect ${nodeData.nodeType} node to Scene Beats`);
+    showToast(`✓ Committed Architect ${nodeTypeLabel} node to Scene Beats`);
     setIsIdeationModalOpen(false);
   };
 
@@ -1086,6 +1090,21 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                     <span>📜</span>
                     <span>Deduce Deltas</span>
                   </button>
+                  {linkedMap && (
+                    <button
+                      type="button"
+                      disabled={isGeneratingTacticalProse}
+                      onClick={() => {
+                        setIsDocDropdownOpen(false);
+                        handleGenerateTacticalProse();
+                      }}
+                      className="w-full text-left px-3 py-1.5 hover:bg-blue-950/60 rounded-lg text-blue-300 hover:text-blue-200 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      title="Synthesize atmospheric read-aloud description from linked battlemap features"
+                    >
+                      <span>🗺️</span>
+                      <span>Synthesize Map Read-Aloud</span>
+                    </button>
+                  )}
                 </div>
 
                 {/* 4. Actions (... Menu) */}
@@ -1642,352 +1661,6 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   </div>
                 </div>
               )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── TAB VIEW 3: TACTICAL BATTLEMAP & LIVE STAGE EVENTS ── */}
-      {weaverTab === 'tactical' && (
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0e17] space-y-6 scrollbar-thin">
-          <div className="max-w-6xl mx-auto space-y-6">
-            {/* Header / Map Card */}
-            {linkedMap ? (
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4 shadow-lg">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-950/80 border border-blue-500/50 flex items-center justify-center text-lg shadow-sm">
-                      🗺️
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-bold text-white tracking-wide">{linkedMap.title}</h3>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-950 border border-blue-500/40 text-blue-300 uppercase font-bold">
-                          {linkedMap.gridMode || 'Square Grid'}
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-400 font-mono">
-                        Stage Map ID: {linkedMap.id} • Dimension: {linkedMap.width || 40}×{linkedMap.height || 30} cells
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        AudioService.playTerminalBeep(1300, 0.04);
-                        if (typeof setActiveMapId === 'function') setActiveMapId(linkedMap.id);
-                        if (typeof onSelectScenarioWorkspaceTab === 'function') {
-                          onSelectScenarioWorkspaceTab('stage');
-                        } else {
-                          navigate(`/stage?mapId=${linkedMap.id}&scenarioId=${activeNode?.id}`);
-                        }
-                      }}
-                      className="px-3.5 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
-                      title="Launch this battlemap live in the Integrated Tactical Stage"
-                    >
-                      <span>⚔️</span>
-                      <span>Deploy to STAGE</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleGenerateTacticalProse}
-                      disabled={isGeneratingTacticalProse}
-                      className="px-3.5 py-1.5 bg-gradient-to-r from-blue-900/80 to-cyan-900/80 hover:from-blue-850 hover:to-cyan-850 border border-cyan-400/50 text-cyan-200 hover:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-sm cursor-pointer disabled:opacity-50"
-                      title="Synthesize atmospheric read-aloud description from map features using AIME"
-                    >
-                      {isGeneratingTacticalProse ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} className="text-amber-400" />}
-                      <span>Synthesize Read-Aloud Prose</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => updateStory(activeNode.id, { mapId: null })}
-                      className="px-3 py-1.5 bg-red-950/60 hover:bg-red-900/80 border border-red-500/40 text-red-300 text-xs font-bold rounded-xl uppercase tracking-wider transition-colors cursor-pointer"
-                    >
-                      Unlink
-                    </button>
-                  </div>
-                </div>
-
-                {/* 2-Column Split: Tactical Map Elements Driving Story vs Live Stage Events */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-1">
-                  {/* Left Column: Map Elements & Objects */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <MapPin size={13} className="text-cyan-400" />
-                        <span>Interactive Objects &amp; Bulkheads ({(linkedMap.objects || []).length})</span>
-                      </span>
-                    </div>
-
-                    <div className="space-y-2 max-h-72 overflow-y-auto pr-1 scrollbar-thin">
-                      {(linkedMap.objects || []).length === 0 ? (
-                        <div className="p-3 bg-slate-950/60 border border-dashed border-slate-800 rounded-xl text-center text-xs text-slate-500 italic">
-                          No architectural interactive objects placed on this map yet.
-                        </div>
-                      ) : (
-                        linkedMap.objects.map((obj, idx) => (
-                          <div
-                            key={obj.id || idx}
-                            className="p-2.5 bg-slate-950/80 border border-slate-850 hover:border-slate-700 rounded-xl flex items-center justify-between gap-2 text-xs transition-colors"
-                          >
-                            <div className="min-w-0 flex-1">
-                              <div className="font-bold text-slate-200 truncate flex items-center gap-1.5">
-                                <span className="text-[10px] text-cyan-400 uppercase font-mono">[{obj.type || obj.shape || 'PROP'}]</span>
-                                <span className="truncate">{obj.label || `Object #${idx + 1}`}</span>
-                              </div>
-                              <div className="text-[10px] text-slate-400 font-mono">
-                                Pos: ({Math.round(obj.x || 0)}, {Math.round(obj.y || 0)}) {obj.storyElementId ? `• Linked Node: ${obj.storyElementId}` : ''}
-                              </div>
-                            </div>
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const mention = ` @${obj.label || obj.type || 'Object'} `;
-                                handleContentChange((content ? content + ' ' : '') + mention);
-                                showToast(`Inserted @${obj.label || obj.type} mention`);
-                              }}
-                              className="px-2 py-1 text-[10px] font-bold bg-cyan-950/70 hover:bg-cyan-800 border border-cyan-500/40 text-cyan-300 rounded-lg uppercase tracking-wider transition-colors shrink-0"
-                              title="Mention in scenario prose"
-                            >
-                              @Mention
-                            </button>
-                          </div>
-                        ))
-                      )}
-                    </div>
-
-                    {/* Tokens & Entities glancing */}
-                    <div className="pt-2">
-                      <span className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5 mb-2">
-                        <UserCheck size={13} className="text-purple-400" />
-                        <span>Deployed Tokens &amp; Operatives ({(linkedMap.tokens || []).length})</span>
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {(linkedMap.tokens || []).length === 0 ? (
-                          <span className="text-xs text-slate-500 italic">No combat tokens deployed.</span>
-                        ) : (
-                          linkedMap.tokens.map((t, idx) => (
-                            <span
-                              key={t.id || idx}
-                              className="px-2 py-1 bg-slate-950 border border-purple-500/30 text-purple-200 rounded-lg text-xs font-mono flex items-center gap-1"
-                            >
-                              <span>👤</span>
-                              <span>{t.name || t.label || `Token #${idx + 1}`}</span>
-                            </span>
-                          ))
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Live Event Chronicle & Narrative Link */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                        <Activity size={13} className="text-amber-400" />
-                        <span>Live Stage Narrative Feed ({tacticalEvents.length})</span>
-                      </span>
-                      {tacticalEvents.length > 0 && (
-                        <button
-                          type="button"
-                          onClick={() => setTacticalEvents([])}
-                          className="text-[10px] text-slate-500 hover:text-slate-300 uppercase font-bold"
-                        >
-                          Clear
-                        </button>
-                      )}
-                    </div>
-
-                    <div className="space-y-2 max-h-72 overflow-y-auto pr-1 scrollbar-thin">
-                      {tacticalEvents.length === 0 ? (
-                        <div className="p-4 bg-slate-950/60 border border-dashed border-slate-800 rounded-xl text-center space-y-1.5">
-                          <Radio size={16} className="text-slate-600 mx-auto animate-pulse" />
-                          <p className="text-xs text-slate-400 font-bold">Awaiting Stage Interactions</p>
-                          <p className="text-[10px] text-slate-500 leading-relaxed">
-                            When operatives breach bulkheads, access terminals, toggle hazards, or trigger story milestones on The Stage, real-time events appear here.
-                          </p>
-                        </div>
-                      ) : (
-                        tacticalEvents.map(evt => (
-                          <div
-                            key={evt.id}
-                            className="p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs space-y-1"
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="font-bold text-amber-300 font-mono text-[11px] flex items-center gap-1">
-                                <Zap size={11} className="text-amber-400" />
-                                {evt.type.replace(/-/g, ' ')}
-                              </span>
-                              <span className="text-[10px] text-slate-500 font-mono">{evt.time}</span>
-                            </div>
-                            <div className="text-[11px] text-slate-300">
-                              {evt.type === 'stage-bulkhead-toggled' && (
-                                <span>Bulkhead door {evt.detail?.isOpen ? 'opened' : 'sealed'}{evt.detail?.operativeId ? ` by operative ${evt.detail.operativeId}` : ''}.</span>
-                              )}
-                              {evt.type === 'story-foundry-node-triggered' && (
-                                <span>Terminal accessed: {evt.detail?.action || 'Encrypted Node Decrypted'}.</span>
-                              )}
-                              {evt.type === 'stage-hazard-toggled' && (
-                                <span>Hazard emitter {evt.detail?.isActive ? 'activated' : 'vented/deactivated'}.</span>
-                              )}
-                              {evt.type === 'omnicortex-loot-dispensed' && (
-                                <span>Loot crate dispensed gear item {evt.detail?.omnicortexGearId || ''}.</span>
-                              )}
-                              {evt.type === 'story-foundry-milestone-reached' && (
-                                <span>
-                                  {evt.detail?.beatText ? (
-                                    <>Milestone Beat #{((evt.detail?.beatIndex ?? 0) + 1)}: <strong className="text-amber-200">{evt.detail.beatText}</strong> ({evt.detail?.isCompleted ? 'Accomplished' : 'Reset'})</>
-                                  ) : (
-                                    <>Story milestone beacon reached by operative.</>
-                                  )}
-                                </span>
-                              )}
-                            </div>
-                            <div className="pt-1 flex items-center justify-end gap-1.5 flex-wrap">
-                              <button
-                                type="button"
-                                onClick={() => handleDraftAftermathToProse(evt)}
-                                disabled={isAiWorking}
-                                className="px-2 py-0.5 text-[9px] font-bold bg-purple-950/70 hover:bg-purple-800 border border-purple-500/40 text-purple-200 rounded uppercase transition-colors cursor-pointer flex items-center gap-1 disabled:opacity-50"
-                                title="Draft an AI aftermath paragraph describing consequences of this event"
-                              >
-                                <Sparkles size={10} className="text-purple-300" />
-                                <span>✦ Draft Aftermath</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleLogEventToProse(evt)}
-                                className="px-2 py-0.5 text-[9px] font-bold bg-amber-950/60 hover:bg-amber-800 border border-amber-500/40 text-amber-200 rounded uppercase transition-colors cursor-pointer"
-                              >
-                                + Log Note
-                              </button>
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              /* No Map Linked - Connect with Map Catalog */
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-lg text-center max-w-xl mx-auto">
-                <div className="w-12 h-12 rounded-2xl bg-blue-950/60 border border-blue-500/40 flex items-center justify-center text-2xl mx-auto shadow-inner">
-                  🗺️
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white tracking-wide">Connect Tactical Battlemap to Scenario</h3>
-                  <p className="text-xs text-slate-400">
-                    Intertwine this scenario node with the Map Catalog. Map actions and triggers will directly narrate and drive your campaign progression.
-                  </p>
-                </div>
-
-                <div className="space-y-3 pt-2 text-left">
-                  {allAvailableMaps.length > 0 && (
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-slate-400 block">
-                        Select Existing Map from Catalog ({allAvailableMaps.length} Available):
-                      </label>
-                      <select
-                        value={activeNode?.mapId || ''}
-                        onChange={e => {
-                          const val = e.target.value || null;
-                          updateStory(activeNode.id, { mapId: val });
-                          if (val) setActiveMapId(val);
-                        }}
-                        className="w-full bg-slate-950 border border-slate-700 text-slate-200 text-xs p-2.5 rounded-xl outline-none focus:border-cyan-400 cursor-pointer"
-                      >
-                        <option value="">-- Choose Map from Catalog --</option>
-                        {allAvailableMaps.map(m => (
-                          <option key={m.id} value={m.id}>
-                            🗺️ {m.title || 'Untitled Map'} {m.gridMode ? `(${m.gridMode})` : ''}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-
-                  <div className="pt-2 text-center">
-                    <button
-                      type="button"
-                      onClick={handleCreateMapForScenario}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-900 to-cyan-900 hover:from-blue-800 hover:to-cyan-800 border border-cyan-400/60 text-cyan-200 hover:text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-all inline-flex items-center gap-2 cursor-pointer shadow-md"
-                    >
-                      <Plus size={14} />
-                      <span>Create New Scenario Encounter Map</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ── TAB VIEW 4: CREATIVE GENESIS & PREMISE ── */}
-      {weaverTab === 'genesis' && (
-        <div className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0e17] space-y-6 scrollbar-thin">
-          <div className="max-w-4xl mx-auto space-y-6">
-            {/* Brainstorming Card */}
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3 shadow-lg">
-              <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-amber-400" />
-                <h3 className="text-xs font-bold uppercase tracking-wider text-amber-300">
-                  Premise &amp; Conflict Synthesis
-                </h3>
-              </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Provide an imaginative seed, seed phrase, or prompt. The AI narrative engine will synthesize 3 dramatic hooks tailored to the Tangent SFF RPG setting.
-              </p>
-
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={premisePrompt}
-                  onChange={e => setPremisePrompt(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') handleBrainstormPremise(); }}
-                  placeholder="e.g. Derelict research orbital transmitting ghost telemetry from the Veil..."
-                  className="flex-1 bg-slate-950 border border-slate-800 focus:border-amber-500/60 text-slate-100 p-2.5 rounded-xl text-xs outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={handleBrainstormPremise}
-                  disabled={isBrainstorming || !premisePrompt.trim()}
-                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-                >
-                  {isBrainstorming ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
-                  <span>Brainstorm</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Guidance Gems Overview */}
-            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <span>💎</span> Active Guidance Gems Context
-              </span>
-              <p className="text-xs text-slate-400">
-                These creative tags shape all narrative generation across the Story Weaver and AI Overseer:
-              </p>
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {(universeState?.creativeState?.gems || []).length === 0 ? (
-                  <span className="text-xs text-slate-500 italic">No Guidance Gems active. Click 💎 Gems in the top bar to configure mood, tone, pacing, and conflict.</span>
-                ) : (
-                  universeState.creativeState.gems.map((gem, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-500/40 text-amber-300 text-xs font-bold flex items-center gap-1"
-                    >
-                      <span>💎</span> {gem}
-                    </span>
-                  ))
-                )}
-              </div>
             </div>
           </div>
         </div>

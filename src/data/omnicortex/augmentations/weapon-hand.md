@@ -2,6 +2,8 @@
 id: weapon-hand
 name: Weapon Hand
 category: augmentations
+location: "Arms / Hands"
+nodes: 0
 cost: 160
 design_dc: 10
 craft_dc: 10

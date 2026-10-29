@@ -2,6 +2,8 @@
 id: foot
 name: Foot
 category: augmentations
+location: "Legs / Feet"
+nodes: 5
 cost: 640
 durability: '5'
 design_dc: 15
@@ -13,7 +15,7 @@ costs:
   cp: 0
   bp: 0
   credits: 640
-  nodes: 0
+  nodes: 5
   sockets: 0
   strain: 0
   focus: 0

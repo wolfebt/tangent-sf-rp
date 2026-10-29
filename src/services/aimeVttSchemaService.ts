@@ -254,10 +254,11 @@ export async function generateAimePersonaSchema(options: GeneratePersonaOptions)
   }
 
   const systemInstruction = `You are AIME, the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
-Your task is to generate a fully realized, canonical .persona schema compliant with Tangent rules.
+Your task is to generate a fully realized, canonical .persona schema compliant with Tangent Canonical v6 rules.
 Rules Constraints:
-- Base Vitality: 30 + (5 * STA)
-- Base Health: 30 + (5 * STA)
+- Base Vitality: 30 flat (Organics)
+- Base Health: 30 flat (Organics); Synthetics use 60 Structure Points (SP)
+- Toughness DR: Derived from Stamina (STA), reducing incoming Health damage
 - Base Karma: 3
 - Tech Level: 0 to 5
 - Armor DR: Period-appropriate (TL 1: 2-4, TL 2-3: 6-12, TL 4-5: 14-25)
@@ -426,11 +427,11 @@ export function convertSceneToVttMap(
     name: t.name,
     x: t.x || 300 + idx * 100,
     y: t.y || 300 + idx * 80,
-    hp: t.hp || 35,
-    base_hp: t.hp || 35,
-    max_hp: t.hp || 35,
+    hp: t.hp || 30,
+    base_hp: t.hp || 30,
+    max_hp: t.hp || 30,
     vitality: 30,
-    health: t.hp || 35,
+    health: t.hp || 30,
     tech_level: t.techLevel || 3,
     armor_dr: 6,
     is_persona: t.designation === 'Ally',
@@ -505,8 +506,8 @@ function generateDeterministicPersonaFallback(
     mcmDesignation: desig,
     mcmChassis: chassis,
     mcmRole: role,
-    health: 35,
-    vitality: 35,
+    health: 30,
+    vitality: 30,
     karma: 3,
     techLevel: tl,
     magicLevel: 0,
@@ -583,7 +584,7 @@ function generateDeterministicSceneFallback(
         designation: 'Adversary',
         x: 750,
         y: 420,
-        hp: 40,
+        hp: 30,
         techLevel: tl
       }
     ]

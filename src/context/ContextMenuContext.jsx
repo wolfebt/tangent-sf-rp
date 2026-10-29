@@ -9,7 +9,7 @@ import {
   fetchGeminiContent, 
   getGeminiApiKey 
 } from '../services/bastionService';
-import { AIME_SYSTEM_PROMPT } from '../services/aimeService';
+import { AIME_SYSTEM_PROMPT, generateContent } from '../services/aimeService';
 import { useFolio } from './FolioContext';
 import { useDBM } from './DBMContext';
 import { useCampaign } from './CampaignContext';
@@ -213,30 +213,16 @@ export const ContextMenuProvider = ({ children }) => {
 
     try {
       const apiKey = getGeminiApiKey();
-      if (!apiKey) {
-        throw new Error('No Gemini API Key found. Configure your API key in Settings (⚙️) to activate AIME Creative AI.');
-      }
-
-      const requestBody = {
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: `${AIME_SYSTEM_PROMPT}\n\n[CONTEXT: ${context}]\n\nDIRECTIVE:\n${prompt}` }]
-          }
-        ],
-        generationConfig: {
-          temperature: 0.85,
-          maxOutputTokens: 1024
-        }
-      };
-
-      const response = await fetchGeminiContent(apiKey, requestBody);
-      const generatedText = response.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.';
+      const generatedText = await generateContent({
+        prompt,
+        context,
+        apiKey
+      });
 
       setAiModalState(prev => ({
         ...prev,
         isLoading: false,
-        result: generatedText,
+        result: generatedText || 'No response generated.',
         onApply: applyTarget ? (res) => {
           if (applyTarget === 'selection') {
             window.dispatchEvent(new CustomEvent('aime-replace-selection', { detail: { text: res } }));

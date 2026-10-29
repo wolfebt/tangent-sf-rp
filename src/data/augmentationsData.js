@@ -19,7 +19,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -44,7 +44,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "accelerator, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +4 Initiative (stacks with Improved Init).\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +4 Initiative (stacks with Improved Init).\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "acid-spitter-gland",
@@ -75,7 +79,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Ranged Unarmed Attack (Range 15ft) dealing 1d6 Corrosive damage; melts standard restraints in 1 round. 5 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "acid-spitter gland, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nA bio-engineered sac placed near the esophagus that produces a highly corrosive binary liquid.\n\n**Mechanics:** Ranged Unarmed Attack (Range 15ft) dealing 1d6 Corrosive damage; melts standard restraints in 1 round. 5 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nA bio-engineered sac placed near the esophagus that produces a highly corrosive binary liquid.\n\n**Mechanics:** Ranged Unarmed Attack (Range 15ft) dealing 1d6 Corrosive damage; melts standard restraints in 1 round. 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Head (Throat)"
   },
   {
     "id": "adrenal-hyper-gland",
@@ -106,7 +111,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "1/day as a Swift Action, gain Mighty Surge (+4 Strength/Agility checks and saves for 1 min), then suffer 1 Exhaustion. 5 Nodes, TL 4, CR 20 (2,560 Cr).",
     "keywords": "adrenal hyper-gland, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Cognitive & Neural**\n\nSpliced adrenal gland that can be consciously triggered to flood the bloodstream with combat stimulants.\n\n**Mechanics:** 1/day as a Swift Action, gain Mighty Surge (+4 Strength/Agility checks and saves for 1 min), then suffer 1 Exhaustion. 5 Nodes, TL 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Biological: Cognitive & Neural**\n\nSpliced adrenal gland that can be consciously triggered to flood the bloodstream with combat stimulants.\n\n**Mechanics:** 1/day as a Swift Action, gain Mighty Surge (+4 Strength/Agility checks and saves for 1 min), then suffer 1 Exhaustion. 5 Nodes, TL 4, CR 20 (2,560 Cr).",
+    "body_location": "Torso (Kidneys)"
   },
   {
     "id": "adrenaline-shield",
@@ -122,7 +128,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -147,7 +153,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "adrenaline shield, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 10 temp Vitality when hit (Free action).\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 10 temp Vitality when hit (Free action).\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "advanced-comm-unit",
@@ -178,7 +188,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Planetary-range coded transceiver and mesh network link. Costs 2 CP, 1 Node. Craft DC 15 (640 Cr).",
     "keywords": "advanced comm unit, augmentation, body modification, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **5.2 Core Systems, Implants and Options**\n\nInternal coded transceiver providing encrypted planetary-range and network communications.\n\n**Mechanics:** Planetary-range coded transceiver and mesh network link. Costs 2 CP, 1 Node. Craft DC 15 (640 Cr)."
+    "body": "Category: **5.2 Core Systems, Implants and Options**\n\nInternal coded transceiver providing encrypted planetary-range and network communications.\n\n**Mechanics:** Planetary-range coded transceiver and mesh network link. Costs 2 CP, 1 Node. Craft DC 15 (640 Cr).",
+    "body_location": "Head / Torso"
   },
   {
     "id": "aegis-runes",
@@ -209,7 +220,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Passive Enhancement granting permanent DR 5 against physical (Kinetic/Blunt/Slashing) damage. 10 Nodes (1 Socket), TL 2 / ML 3, CR 15 (640 Cr).",
     "keywords": "aegis runes (tattoos of warding), augmentation, meta-augmentation (imbued tattoo), tl-2",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nIntricate geometric tattoos inked with crushed Resonance Crystals that glow with Entropy (Order) energy when struck.\n\n**Mechanics:** Passive Enhancement granting permanent DR 5 against physical (Kinetic/Blunt/Slashing) damage. 10 Nodes (1 Socket), TL 2 / ML 3, CR 15 (640 Cr)."
+    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nIntricate geometric tattoos inked with crushed Resonance Crystals that glow with Entropy (Order) energy when struck.\n\n**Mechanics:** Passive Enhancement granting permanent DR 5 against physical (Kinetic/Blunt/Slashing) damage. 10 Nodes (1 Socket), TL 2 / ML 3, CR 15 (640 Cr).",
+    "body_location": "Torso / Full Body"
   },
   {
     "id": "aether-leech-symbiote",
@@ -240,7 +252,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Acts as an Essence Battery storing up to 5 Essence (regenerates 1 Essence/day from ambient radiation). 10 Nodes, TL 5, CR 25 (10,240 Cr).",
     "keywords": "aether-leech symbiote, augmentation, bioware (symbiote), tl-5",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Utility & Sensory**\n\nA glowing, bioluminescent parasite bonded to the spine that feeds on the Universal Resonance.\n\n**Mechanics:** Acts as an Essence Battery storing up to 5 Essence (regenerates 1 Essence/day from ambient radiation). 10 Nodes, TL 5, CR 25 (10,240 Cr)."
+    "body": "Category: **Biological: Utility & Sensory**\n\nA glowing, bioluminescent parasite bonded to the spine that feeds on the Universal Resonance.\n\n**Mechanics:** Acts as an Essence Battery storing up to 5 Essence (regenerates 1 Essence/day from ambient radiation). 10 Nodes, TL 5, CR 25 (10,240 Cr).",
+    "body_location": "Spine / Nervous System"
   },
   {
     "id": "aether-node",
@@ -253,10 +266,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 4,
+      "bp": 4,
       "credits": 163840,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -281,7 +294,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "aether-node, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Access 1 Metafocus (No Awakened req).\r\n**CP:** 4"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Access 1 Metafocus (No Awakened req).\r\n**CP:** 4",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "aether-pump-heart",
@@ -312,7 +329,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Ageless, Regeneration (1 HP/min), and +20 max Vitality (CR 20 Fortitude save in Null-Void fields or drop to 0 HP). 15 Nodes, TL 4 / ML 5, CR 35 (163,840 Cr).",
     "keywords": "aether-pump heart, augmentation, meta-augmentation (systemic), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Structural & Systemic Overlays**\n\nReplaces the biological heart with a spinning frictionless Aetherium crystal turbine pumping liquid resonance through the veins.\n\n**Mechanics:** Grants Ageless, Regeneration (1 HP/min), and +20 max Vitality (CR 20 Fortitude save in Null-Void fields or drop to 0 HP). 15 Nodes, TL 4 / ML 5, CR 35 (163,840 Cr)."
+    "body": "Category: **Metaphysical: Structural & Systemic Overlays**\n\nReplaces the biological heart with a spinning frictionless Aetherium crystal turbine pumping liquid resonance through the veins.\n\n**Mechanics:** Grants Ageless, Regeneration (1 HP/min), and +20 max Vitality (CR 20 Fortitude save in Null-Void fields or drop to 0 HP). 15 Nodes, TL 4 / ML 5, CR 35 (163,840 Cr).",
+    "body_location": "Torso (Heart)"
   },
   {
     "id": "air-supply",
@@ -328,7 +346,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -353,7 +371,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "air supply, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal compressed air; 60 mins of Oxygen.\r\n**Nodes:** 5"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal compressed air; 60 mins of Oxygen.\r\n**Nodes:** 5",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "alterable-bioform",
@@ -369,7 +391,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -394,7 +416,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "alterable bioform, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Alter Form.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Alter Form.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "amphibious-lung-graft",
@@ -425,7 +451,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants the Water Breathing feature (survive underwater indefinitely). 10 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "amphibious lung graft, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Metabolic & Environmental**\n\nSpliced amphibian tissue lining the lungs and trachea to extract oxygen directly from water.\n\n**Mechanics:** Grants the Water Breathing feature (survive underwater indefinitely). 10 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Metabolic & Environmental**\n\nSpliced amphibian tissue lining the lungs and trachea to extract oxygen directly from water.\n\n**Mechanics:** Grants the Water Breathing feature (survive underwater indefinitely). 10 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Torso"
   },
   {
     "id": "amplified-hearing",
@@ -441,7 +468,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -466,7 +493,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "amplified hearing, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Hearing Awareness checks.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Hearing Awareness checks.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head (Sensory / Vocal)",
+    "body_location": "Head (Sensory / Vocal)"
   },
   {
     "id": "anti-flare",
@@ -482,7 +513,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 160,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -507,7 +538,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "anti-flare, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Counter Bright-Light Blindness.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Counter Bright-Light Blindness.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "anti-shock",
@@ -523,7 +558,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -548,7 +583,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "anti-shock, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Electricity Resistance 10, Augments impervious.\r\n**Nodes:** 4"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Electricity Resistance 10, Augments impervious.\r\n**Nodes:** 4",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 4,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "anti-stun-implant",
@@ -564,7 +603,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -589,7 +628,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "anti-stun implant, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Immune to Stun conditions.\r\n**Nodes:** 1"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Immune to Stun conditions.\r\n**Nodes:** 1",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 1,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "armor-plating",
@@ -632,7 +675,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "armor plating, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Tiered DR 10 / 20 / 40\\.\r\n**Nodes:** 5"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Tiered DR 10 / 20 / 40\\.\r\n**Nodes:** 5",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 5,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "battle-gauntlet",
@@ -649,7 +696,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40,
-      "nodes": 0,
+      "nodes": 8,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -674,7 +721,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "battle gauntlet, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Arm\r\n**Nodes:** 8 (Each)\r\n**Description:** Reinforced gauntlet. 1d6 Blunt. DR 10\\. Single or pair."
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Arm\r\n**Nodes:** 8 (Each)\r\n**Description:** Reinforced gauntlet. 1d6 Blunt. DR 10\\. Single or pair.",
+    "subcategory": "12.1 Mechanics of the Wearable",
+    "nodes": 8,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "beast-spirit-totem-inks",
@@ -705,7 +756,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Spend 1 Essence as a Swift Action to gain Mighty Surge and Natural Weapons (1d6) for 1 minute. 10 Nodes, TL 2 / ML 3, CR 15 (640 Cr).",
     "keywords": "beast-spirit totem inks, augmentation, meta-augmentation (imbued tattoo), tl-2",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nPrimal artwork depicting an apex predator, animated by trapped dimensional and spiritual energy.\n\n**Mechanics:** Spend 1 Essence as a Swift Action to gain Mighty Surge and Natural Weapons (1d6) for 1 minute. 10 Nodes, TL 2 / ML 3, CR 15 (640 Cr)."
+    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nPrimal artwork depicting an apex predator, animated by trapped dimensional and spiritual energy.\n\n**Mechanics:** Spend 1 Essence as a Swift Action to gain Mighty Surge and Natural Weapons (1d6) for 1 minute. 10 Nodes, TL 2 / ML 3, CR 15 (640 Cr).",
+    "body_location": "Torso (Chest or Back)"
   },
   {
     "id": "behavioral-inhibitor",
@@ -721,7 +773,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -746,7 +798,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "behavioral inhibitor, augmentation, neural, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Forcibly blocks specific programmed actions.\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Forcibly blocks specific programmed actions.\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "biomonitor",
@@ -787,7 +843,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "biomonitor, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Vitals readout. +2 to Resist Torture/Drugs."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Vitals readout. +2 to Resist Torture/Drugs.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "bionic-enhancement",
@@ -803,7 +863,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -828,7 +888,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "bionic enhancement, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +1/+2/+3 Stamina.\r\n**Nodes:** 10"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +1/+2/+3 Stamina.\r\n**Nodes:** 10",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 10,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "biotech-emulator",
@@ -844,7 +908,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -869,7 +933,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "biotech emulator, augmentation, bioware, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Use Biotechnology as if Psychic.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Use Biotechnology as if Psychic.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "blade-fist-claws",
@@ -886,7 +954,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -911,7 +979,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "blade fist / claws, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Slashing; Retractable.\r\n**Nodes:** 1"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Slashing; Retractable.\r\n**Nodes:** 1",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 1,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "body-computer",
@@ -927,7 +999,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -952,7 +1024,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "body computer, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Take 10 on Computer at Advantage / Half time.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Take 10 on Computer at Advantage / Half time.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "body-conversion",
@@ -968,7 +1044,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 30,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -993,7 +1069,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Extreme",
     "keywords": "body conversion, augmentation, cybernetic, extreme, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Non-Typical Anatomy + Synth chassis use.\r\n**Nodes:** 30"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Non-Typical Anatomy + Synth chassis use.\r\n**Nodes:** 30",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 30,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "body-weapons",
@@ -1009,7 +1089,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1034,7 +1114,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "body weapons, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Retractable Fangs or Claws (Organic/Bio).\r\n**Nodes:** 2"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Retractable Fangs or Claws (Organic/Bio).\r\n**Nodes:** 2",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "bodyform-nodes",
@@ -1050,7 +1134,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1075,7 +1159,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "bodyform nodes, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Bodyform Feature: Multiple (Sta).\r\n**Nodes:** 10"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Bodyform Feature: Multiple (Sta).\r\n**Nodes:** 10",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 10,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "bone-spur-extrusions",
@@ -1106,7 +1194,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "1d6 Piercing/Slashing damage. Retractable; undetectable by security scanners when retracted. 5 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "bone-spur extrusions (wolverine claws), augmentation, bioware (genetic/graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nGenetically enforced osteogenesis allowing the host to extend dense, calcified blades from their knuckles or wrists.\n\n**Mechanics:** 1d6 Piercing/Slashing damage. Retractable; undetectable by security scanners when retracted. 5 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nGenetically enforced osteogenesis allowing the host to extend dense, calcified blades from their knuckles or wrists.\n\n**Mechanics:** 1d6 Piercing/Slashing damage. Retractable; undetectable by security scanners when retracted. 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Arm (Forearm)"
   },
   {
     "id": "breathing-filter",
@@ -1122,7 +1211,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1147,7 +1236,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "breathing filter, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Smoke/Gas filtration (Advantage vs airborne).\r\n**Nodes:** 2"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Smoke/Gas filtration (Advantage vs airborne).\r\n**Nodes:** 2",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "bug-detector",
@@ -1163,7 +1256,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1188,7 +1281,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "bug detector, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sweep 30ft for active transmissions.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sweep 30ft for active transmissions.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "chameleon-skin",
@@ -1204,7 +1301,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1229,7 +1326,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "chameleon skin, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Active camo-weave. +4 Stealth (Stationary).\r\n**Nodes:** 4"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Active camo-weave. +4 Stealth (Stationary).\r\n**Nodes:** 4",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 4,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "chemskins",
@@ -1270,7 +1371,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "chemskins, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color and pattern changing skin tints."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color and pattern changing skin tints.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "chromatophore-skin-graft",
@@ -1301,7 +1406,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants the Chameleon Species Feature (+4 Stealth when stationary). 10 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "chromatophore skin graft, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Utility & Sensory**\n\nPigment-containing, light-reflecting cephalopod cells grafted into the dermal layer.\n\n**Mechanics:** Grants the Chameleon Species Feature (+4 Stealth when stationary). 10 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Utility & Sensory**\n\nPigment-containing, light-reflecting cephalopod cells grafted into the dermal layer.\n\n**Mechanics:** Grants the Chameleon Species Feature (+4 Stealth when stationary). 10 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Full Body Skin"
   },
   {
     "id": "climbing-claws",
@@ -1318,7 +1424,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1343,7 +1449,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "climbing claws, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** +2 to Athletics (Climbing).\r\n**Nodes:** 1"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** +2 to Athletics (Climbing).\r\n**Nodes:** 1",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 1,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "comm-implant",
@@ -1359,7 +1469,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 160,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1384,7 +1494,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "comm implant, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Coded transceiver (Continental range/Network).\r\n**Nodes:** 1"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Coded transceiver (Continental range/Network).\r\n**Nodes:** 1",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "conduit-scarification",
@@ -1415,7 +1529,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "+2 Bonus to Attune checks for a chosen Energy Discipline; Unarmed strikes deal +1d6 energy damage of that type. 10 Nodes/arm, TL 2 / ML 4, CR 20 (2,560 Cr).",
     "keywords": "conduit scarification (energy channeling), augmentation, meta-augmentation (runification), tl-2",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nRitualistic scars filled with conductive gold and Aetherium paste favored by Vajar Battle-Mages and Alterian spell-swords.\n\n**Mechanics:** +2 Bonus to Attune checks for a chosen Energy Discipline; Unarmed strikes deal +1d6 energy damage of that type. 10 Nodes/arm, TL 2 / ML 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nRitualistic scars filled with conductive gold and Aetherium paste favored by Vajar Battle-Mages and Alterian spell-swords.\n\n**Mechanics:** +2 Bonus to Attune checks for a chosen Energy Discipline; Unarmed strikes deal +1d6 energy damage of that type. 10 Nodes/arm, TL 2 / ML 4, CR 20 (2,560 Cr).",
+    "body_location": "Arms (Both)"
   },
   {
     "id": "contraceptive-implant",
@@ -1456,7 +1571,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "contraceptive implant, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates fertility with perfect reliability."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates fertility with perfect reliability.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "control-chips",
@@ -1472,7 +1591,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1497,7 +1616,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "control chips, augmentation, neural, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Circuits for emotional/mental control.\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Circuits for emotional/mental control.\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "cyber-jack",
@@ -1513,7 +1636,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1538,7 +1661,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "cyber jack, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Operate over Comm: Smart Link, Comm Implant.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Operate over Comm: Smart Link, Comm Implant.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "cyber-mecha-shell",
@@ -1569,7 +1696,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Provides Synth Strength, DR 80, and 100 Nodes (10 Head, 50 Torso, 15 each Arm, 20 each Leg) plus 1 External Socket per location. Craft DC 40 (655,360 Cr).",
     "keywords": "cyber-mecha shell (wearable), augmentation, pseudo-cybernetic, tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nFull-body wearable cyber-mecha shell providing synthetic strength, DR 80, and 100 internal Nodes.\n\n**Mechanics:** Provides Synth Strength, DR 80, and 100 Nodes (10 Head, 50 Torso, 15 each Arm, 20 each Leg) plus 1 External Socket per location. Craft DC 40 (655,360 Cr)."
+    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nFull-body wearable cyber-mecha shell providing synthetic strength, DR 80, and 100 internal Nodes.\n\n**Mechanics:** Provides Synth Strength, DR 80, and 100 Nodes (10 Head, 50 Torso, 15 each Arm, 20 each Leg) plus 1 External Socket per location. Craft DC 40 (655,360 Cr).",
+    "body_location": "Full Body"
   },
   {
     "id": "cyber-vox",
@@ -1610,7 +1738,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "cyber-vox, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Basic voice synthesizer. Replicates digital tones."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Basic voice synthesizer. Replicates digital tones.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Head (Sensory / Vocal)",
+    "body_location": "Head (Sensory / Vocal)"
   },
   {
     "id": "cybersnake-whip",
@@ -1627,7 +1759,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1652,7 +1784,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "cybersnake / whip, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 10ft reach; 2d6 Slashing damage.\r\n**Nodes:** 4"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 10ft reach; 2d6 Slashing damage.\r\n**Nodes:** 4",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 4,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "data-archive",
@@ -1668,7 +1804,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1693,7 +1829,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "data archive, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Jack of all Trades Feature.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** As Jack of all Trades Feature.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "data-bank",
@@ -1709,7 +1849,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1734,7 +1874,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "data bank, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Secure storage for 1,000+ Yottabytes.\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Secure storage for 1,000+ Yottabytes.\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "deadman-s-switch",
@@ -1750,7 +1894,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1775,7 +1919,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "deadman's switch, augmentation, neural, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Trigger signal/bomb upon heart stopping.\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Trigger signal/bomb upon heart stopping.\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "dermal-armor",
@@ -1791,7 +1939,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1816,7 +1964,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "dermal armor, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** See Integrated Cybernetic Armor (Section 5.1).\r\n**Nodes:** Var"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** See Integrated Cybernetic Armor (Section 5.1).\r\n**Nodes:** Var",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 4,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "dermal-weave",
@@ -1832,7 +1984,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1857,7 +2009,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "dermal weave, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +10 DR, +100% Base Heal Rate.\r\n**Nodes:** 10"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +10 DR, +100% Base Heal Rate.\r\n**Nodes:** 10",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 10,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "diagnostic-scanner",
@@ -1898,7 +2054,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "diagnostic scanner, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Medical scanner embedded in finger or palm."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Medical scanner embedded in finger or palm.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "digital-encephalon",
@@ -1914,7 +2074,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1939,7 +2099,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "digital encephalon, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Rolling backup of memory.\r\n**Nodes:** 2"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Rolling backup of memory.\r\n**Nodes:** 2",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "digitigrade-leg",
@@ -1955,7 +2119,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 15,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -1980,7 +2144,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "digitigrade leg, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15"
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Leg, +25% Cost.\r\n**Nodes:** 15",
+    "subcategory": "4.4 Exotic Limbs (TL 4.",
+    "nodes": 15,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "digitized-consc",
@@ -1993,10 +2161,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 8,
+      "bp": 8,
       "credits": 163840,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2021,7 +2189,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Extreme",
     "keywords": "digitized consc, augmentation, esoteric, extreme, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Consciousness migrated to another form.\r\n**CP:** 8"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Consciousness migrated to another form.\r\n**CP:** 8",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "dimensional-tear-gland",
@@ -2052,7 +2224,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "1/day (or 5 Essence), project a spatial anomaly at Close range: target makes CR 20 Reflex save or is banished for 1d4 rounds and takes 2d6 Cold damage. 10 Nodes, TL 5 / ML 5, CR 30 (40,960 Cr).",
     "keywords": "dimensional tear gland, augmentation, meta-augmentation (offensive), tl-5",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Offensive & Weaponized Implants**\n\nAn exotic graft embedding a micro-singularity focus into the body to weaponize Tangent space.\n\n**Mechanics:** 1/day (or 5 Essence), project a spatial anomaly at Close range: target makes CR 20 Reflex save or is banished for 1d4 rounds and takes 2d6 Cold damage. 10 Nodes, TL 5 / ML 5, CR 30 (40,960 Cr)."
+    "body": "Category: **Metaphysical: Offensive & Weaponized Implants**\n\nAn exotic graft embedding a micro-singularity focus into the body to weaponize Tangent space.\n\n**Mechanics:** 1/day (or 5 Essence), project a spatial anomaly at Close range: target makes CR 20 Reflex save or is banished for 1d4 rounds and takes 2d6 Cold damage. 10 Nodes, TL 5 / ML 5, CR 30 (40,960 Cr).",
+    "body_location": "Head (Throat) or Hand (Palm)"
   },
   {
     "id": "disguise-system",
@@ -2068,7 +2241,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2093,7 +2266,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "disguise system, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Feature Alteration Implant; As Alter Form.\r\n**Nodes:** 5"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Feature Alteration Implant; As Alter Form.\r\n**Nodes:** 5",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "distortion-field",
@@ -2106,10 +2283,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 1,
+      "bp": 1,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2134,7 +2311,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "distortion field, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Blur (10 Min) or Invisibility (1 Min).\r\n**CP:** 1"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Blur (10 Min) or Invisibility (1 Min).\r\n**CP:** 1",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "echo-chamber-tympanum",
@@ -2165,7 +2346,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Uncanny Sense (Hearing); spend 1 Essence to listen to psychic/emotional residue of a room from the past 24 hours. 5 Nodes, TL 3 / ML 4, CR 15 (640 Cr).",
     "keywords": "echo-chamber tympanum, augmentation, meta-augmentation (sensory), tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Sensory & Perception Implants**\n\nIntricate gold-and-bone filigree inner-ear replacement enchanted with Mental and Dimensional properties.\n\n**Mechanics:** Grants Uncanny Sense (Hearing); spend 1 Essence to listen to psychic/emotional residue of a room from the past 24 hours. 5 Nodes, TL 3 / ML 4, CR 15 (640 Cr)."
+    "body": "Category: **Metaphysical: Sensory & Perception Implants**\n\nIntricate gold-and-bone filigree inner-ear replacement enchanted with Mental and Dimensional properties.\n\n**Mechanics:** Grants Uncanny Sense (Hearing); spend 1 Essence to listen to psychic/emotional residue of a room from the past 24 hours. 5 Nodes, TL 3 / ML 4, CR 15 (640 Cr).",
+    "body_location": "Head (Ears)"
   },
   {
     "id": "echolocation-cavity",
@@ -2196,7 +2378,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Blindsense (Sound) within 30ft radius in darkness so long as the host can emit sound. 5 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "echolocation cavity, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Utility & Sensory**\n\nSurgically widened sinus cavity and altered vocal cords emitting high-frequency clicks inspired by Mobula biology.\n\n**Mechanics:** Grants Blindsense (Sound) within 30ft radius in darkness so long as the host can emit sound. 5 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Utility & Sensory**\n\nSurgically widened sinus cavity and altered vocal cords emitting high-frequency clicks inspired by Mobula biology.\n\n**Mechanics:** Grants Blindsense (Sound) within 30ft radius in darkness so long as the host can emit sound. 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Head"
   },
   {
     "id": "ego-overlay",
@@ -2212,7 +2395,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2237,7 +2420,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "ego overlay, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants specific Persona Skill Ranks and traits.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants specific Persona Skill Ranks and traits.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "empathic-attune",
@@ -2253,7 +2440,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2278,7 +2465,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "empathic attune, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Charisma.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Charisma.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "endocrine-tuner",
@@ -2319,7 +2510,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "endocrine tuner, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates mood and minor hormonal imbalances."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Regulates mood and minor hormonal imbalances.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "enhanced-antibody",
@@ -2335,7 +2530,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2360,7 +2555,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "enhanced antibody, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +100% Heal Rate, Infection Checks w/ Adv.\r\n**Nodes:** 5"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** +100% Heal Rate, Infection Checks w/ Adv.\r\n**Nodes:** 5",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "exo-harness",
@@ -2391,7 +2590,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants +1 Strength, DR 10, and provides 20 internal Nodes for hosting wearable mods (0 CP). Craft DC 15 (640 Cr).",
     "keywords": "exo-harness (wearable), augmentation, pseudo-cybernetic, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nExternal non-surgical torso strength and armor frame syncing via an Interface Port.\n\n**Mechanics:** Grants +1 Strength, DR 10, and provides 20 internal Nodes for hosting wearable mods (0 CP). Craft DC 15 (640 Cr)."
+    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nExternal non-surgical torso strength and armor frame syncing via an Interface Port.\n\n**Mechanics:** Grants +1 Strength, DR 10, and provides 20 internal Nodes for hosting wearable mods (0 CP). Craft DC 15 (640 Cr).",
+    "body_location": "Torso"
   },
   {
     "id": "extra-shoulders",
@@ -2407,7 +2607,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 20,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2432,7 +2632,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "extra shoulders, augmentation, cybernetic armor, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Mount 2 extra cyber arms under main (Heavy).\r\n**Nodes:** 20"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Mount 2 extra cyber arms under main (Heavy).\r\n**Nodes:** 20",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 20,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "feat-plexus",
@@ -2445,10 +2649,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 4,
+      "bp": 4,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2473,7 +2677,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "feat plexus, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Feature Circuits.\r\n**CP:** 4"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Feature Circuits.\r\n**CP:** 4",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "feature-circuit",
@@ -2489,7 +2697,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2514,7 +2722,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "feature circuit, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Gain 1 feature (reprogrammable): Limited.\r\n**Nodes:** 1"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Gain 1 feature (reprogrammable): Limited.\r\n**Nodes:** 1",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "flash-comp",
@@ -2530,7 +2742,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2555,7 +2767,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "flash-comp, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Advanced strobe immunity.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Advanced strobe immunity.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "foot",
@@ -2572,7 +2788,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2597,7 +2813,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "foot, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 5,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "forearm",
@@ -2614,7 +2834,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2639,7 +2859,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "forearm, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 10\r\n**Sockets:** 2\\"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 10\r\n**Sockets:** 2\\",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 10,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "forearm-shield",
@@ -2656,7 +2880,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2681,7 +2905,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "forearm shield, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Collapsible shield (Small/Large/Tower).\r\n**Nodes:** 3"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Collapsible shield (Small/Large/Tower).\r\n**Nodes:** 3",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 3,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "forearm-weapon",
@@ -2723,7 +2951,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "forearm weapon, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Retractable 1H weapon (Requires 2 Sockets).\r\n**Nodes:** 0"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Retractable 1H weapon (Requires 2 Sockets).\r\n**Nodes:** 0",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 0,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "fortified-skeleton",
@@ -2740,7 +2972,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 15,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2765,7 +2997,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "fortified skeleton, augmentation, cybernetic armor, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** DR 10, +1 Strength, DR 20 vs falls.\r\n**Nodes:** 15"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** DR 10, +1 Strength, DR 20 vs falls.\r\n**Nodes:** 15",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 15,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "frequency-scanner",
@@ -2781,7 +3017,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2806,7 +3042,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "frequency scanner, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Wide-band radio and mesh scanner.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Wide-band radio and mesh scanner.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "frictionless-skin",
@@ -2822,7 +3062,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2847,7 +3087,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "frictionless skin, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Excretes polymer. Advantage to escape grapple.\r\n**Nodes:** 3"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Excretes polymer. Advantage to escape grapple.\r\n**Nodes:** 3",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 3,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "full-arm-assembly",
@@ -2864,7 +3108,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 30,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -2889,7 +3133,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "full arm assembly, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 30\r\n**Sockets:** 3"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 30\r\n**Sockets:** 3",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 30,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "civilian-shell-fbc",
@@ -2920,7 +3168,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 10. Costs 10 CP, 100,000 Cr.",
     "keywords": "full body conversion: civilian shell (light), augmentation, full body conversion, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **10.2 FBC Package Tiers**\n\nTotal migration of consciousness into a standard humanoid synthetic frame (Light Civilian Shell).\n\n**Mechanics:** Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 10. Costs 10 CP, 100,000 Cr."
+    "body": "Category: **10.2 FBC Package Tiers**\n\nTotal migration of consciousness into a standard humanoid synthetic frame (Light Civilian Shell).\n\n**Mechanics:** Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 10. Costs 10 CP, 100,000 Cr.",
+    "body_location": "Full Body"
   },
   {
     "id": "industrial-combat-fbc",
@@ -2951,7 +3200,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 40. Costs 10 CP, 250,000 Cr.",
     "keywords": "full body conversion: industrial / combat (heavy), augmentation, full body conversion, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **10.2 FBC Package Tiers**\n\nHeavy-duty military and industrial Full Body Conversion chassis with reinforced DR 40 plating.\n\n**Mechanics:** Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 40. Costs 10 CP, 250,000 Cr."
+    "body": "Category: **10.2 FBC Package Tiers**\n\nHeavy-duty military and industrial Full Body Conversion chassis with reinforced DR 40 plating.\n\n**Mechanics:** Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 40. Costs 10 CP, 250,000 Cr.",
+    "body_location": "Full Body"
   },
   {
     "id": "mekan-apex-fbc",
@@ -2982,7 +3232,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 120 (Powered). Costs 5 CP, 1,000,000 Cr.",
     "keywords": "full body conversion: mekan apex (powered), augmentation, full body conversion, tl-5",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **10.2 FBC Package Tiers**\n\nPinnacle TL5 Mekan Apex powered Full Body Conversion frame with half CP cost and DR 120.\n\n**Mechanics:** Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 120 (Powered). Costs 5 CP, 1,000,000 Cr."
+    "body": "Category: **10.2 FBC Package Tiers**\n\nPinnacle TL5 Mekan Apex powered Full Body Conversion frame with half CP cost and DR 120.\n\n**Mechanics:** Total Nodes: 200 (10 Head, 50 Torso, 60 Arms, 80 Legs). Total Structure: 260 SP, DR 120 (Powered). Costs 5 CP, 1,000,000 Cr.",
+    "body_location": "Full Body"
   },
   {
     "id": "full-leg-assembly",
@@ -2999,7 +3250,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 40,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3024,7 +3275,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "full leg assembly, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 40\r\n**Sockets:** 4"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 40\r\n**Sockets:** 4",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 40,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "ghost-jack",
@@ -3040,7 +3295,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3065,7 +3320,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "ghost jack, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Interface for digitized consciousness chips.\r\n**Nodes:** 2"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Interface for digitized consciousness chips.\r\n**Nodes:** 2",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "gills",
@@ -3081,7 +3340,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3106,7 +3365,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "gills, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Breathe in water indefinitely (Restricted).\r\n**Nodes:** 5"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Breathe in water indefinitely (Restricted).\r\n**Nodes:** 5",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "grappler-hand",
@@ -3123,7 +3386,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3148,7 +3411,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "grappler hand, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 50m monocable with multi-grapple.\r\n**Nodes:** 3"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 50m monocable with multi-grapple.\r\n**Nodes:** 3",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 3,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "gravity-attenuator",
@@ -3161,10 +3428,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 1,
+      "bp": 1,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3189,7 +3456,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "gravity attenuator, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Changes ground plane, Climb +20, Jump +10.\r\n**CP:** 1"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Changes ground plane, Climb +20, Jump +10.\r\n**CP:** 1",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "gripper-foot",
@@ -3206,7 +3477,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3231,7 +3502,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "gripper foot, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Reduce movement penalties by half.\r\n**Nodes:** 1"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Reduce movement penalties by half.\r\n**Nodes:** 1",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 1,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "hammer-fist",
@@ -3248,7 +3523,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3273,7 +3548,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "hammer fist, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Blunt Unarmed Damage.\r\n**Nodes:** 2"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Blunt Unarmed Damage.\r\n**Nodes:** 2",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 2,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "hand",
@@ -3290,7 +3569,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 844,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3315,7 +3594,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "hand, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 5,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "hive-mind-node-symbiote",
@@ -3346,7 +3629,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants planetary-range un-jammable Mind Link with any willing creature hosting the same symbiote. 5 Nodes, TL 5, CR 25 (10,240 Cr).",
     "keywords": "hive-mind node symbiote, augmentation, bioware (symbiote), tl-5",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Cognitive & Neural**\n\nMicroscopic psionically resonant parasite derived from Riezen bio-swarms nesting in the brain stem.\n\n**Mechanics:** Grants planetary-range un-jammable Mind Link with any willing creature hosting the same symbiote. 5 Nodes, TL 5, CR 25 (10,240 Cr)."
+    "body": "Category: **Biological: Cognitive & Neural**\n\nMicroscopic psionically resonant parasite derived from Riezen bio-swarms nesting in the brain stem.\n\n**Mechanics:** Grants planetary-range un-jammable Mind Link with any willing creature hosting the same symbiote. 5 Nodes, TL 5, CR 25 (10,240 Cr).",
+    "body_location": "Head (Cerebral Cortex)"
   },
   {
     "id": "hollow-fangs",
@@ -3362,7 +3646,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3387,7 +3671,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "hollow fangs, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 1d4 Piercing. Wired directly to a Poison Sac.\r\n**Nodes:** 1"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 1d4 Piercing. Wired directly to a Poison Sac.\r\n**Nodes:** 1",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "holo-tattoos",
@@ -3428,7 +3716,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "holo-tattoos, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal projectors for floating 3D holograms."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal projectors for floating 3D holograms.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "holophotonic-gear",
@@ -3441,10 +3733,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 1,
+      "bp": 1,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3469,7 +3761,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "holophotonic gear, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Implanted Holophotonic Emitter.\r\n**CP:** 1"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Implanted Holophotonic Emitter.\r\n**CP:** 1",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "hydraulic-rams",
@@ -3486,7 +3782,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 8,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3511,7 +3807,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "hydraulic rams, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +2/+4/+6 Strength for Grapple/Damage only.\r\n**Nodes:** 8"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +2/+4/+6 Strength for Grapple/Damage only.\r\n**Nodes:** 8",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 8,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "id-chip",
@@ -3552,7 +3852,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "id chip, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal identity, licenses, and banking."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal identity, licenses, and banking.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "image-enhance",
@@ -3568,7 +3872,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3593,7 +3897,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "image enhance, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Sight Awareness checks.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** +2 Sight Awareness checks.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head (Ocular)",
+    "body_location": "Head (Ocular)"
   },
   {
     "id": "impact-reactive-adipose-tissue",
@@ -3624,7 +3932,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Resistance 5 vs Blunt damage and Advantage on Stamina checks vs environmental cold. 15 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "impact-reactive adipose tissue, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Defense & Survivability**\n\nA thick, slightly gelatinous layer of connective tissue that hardens instantly upon kinetic impact.\n\n**Mechanics:** Grants Resistance 5 vs Blunt damage and Advantage on Stamina checks vs environmental cold. 15 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Defense & Survivability**\n\nA thick, slightly gelatinous layer of connective tissue that hardens instantly upon kinetic impact.\n\n**Mechanics:** Grants Resistance 5 vs Blunt damage and Advantage on Stamina checks vs environmental cold. 15 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Full Body"
   },
   {
     "id": "inertial-nullifier",
@@ -3640,7 +3949,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3665,7 +3974,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "inertial nullifier, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Treat falls as 50ft less.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Treat falls as 50ft less.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "injector-unit",
@@ -3681,7 +3994,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3706,7 +4019,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "injector unit, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 2 mini-injectors with 4 doses each.\r\n**Nodes:** 2"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** 2 mini-injectors with 4 doses each.\r\n**Nodes:** 2",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "insectoid-limb",
@@ -3722,7 +4039,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 12,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3747,7 +4064,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "insectoid limb, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm/Leg, +50% Cost, +5 DC.\r\n**Nodes:** 12"
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm/Leg, +50% Cost, +5 DC.\r\n**Nodes:** 12",
+    "subcategory": "4.4 Exotic Limbs (TL 4.",
+    "nodes": 12,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "interface-sliver",
@@ -3760,10 +4081,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 1,
+      "bp": 1,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3788,7 +4109,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "interface sliver, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dedicated Cyberjack for 1 Mecha.\r\n**CP:** 1"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dedicated Cyberjack for 1 Mecha.\r\n**CP:** 1",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "internal-gyroscope",
@@ -3804,7 +4129,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3829,7 +4154,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "internal gyroscope, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Always know up/down. Adv on Balance.\r\n**Nodes:** 2"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Always know up/down. Adv on Balance.\r\n**Nodes:** 2",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "jump-boost-legs",
@@ -3846,7 +4175,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3871,7 +4200,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "jump boost (legs), augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +10 to Jump checks (Requires Pair).\r\n**Nodes:** 4"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +10 to Jump checks (Requires Pair).\r\n**Nodes:** 4",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 4,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "kinetic-shield",
@@ -3887,7 +4220,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3912,7 +4245,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "kinetic shield, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Absorbs 40 dmg before recharge.\r\n**Nodes:** 10"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Absorbs 40 dmg before recharge.\r\n**Nodes:** 10",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 10,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "laser-eye",
@@ -3928,7 +4265,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -3953,7 +4290,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "laser (eye), augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 2d6 Energy damage with 20ft range.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** 2d6 Energy damage with 20ft range.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Head (Ocular)",
+    "body_location": "Head (Ocular)"
   },
   {
     "id": "light-tattoo",
@@ -3994,7 +4335,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "light tattoo, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Bioluminescent or animated decorative tattoos."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Bioluminescent or animated decorative tattoos.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "load-lifter-rig",
@@ -4025,7 +4370,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Provides Synth Strength and 60 Nodes (6 Head, 30 Torso, 10 each Arm, 12 each Leg). Craft DC 30 (40,960 Cr).",
     "keywords": "load-lifter rig (wearable), augmentation, pseudo-cybernetic, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nHeavy-duty industrial wearable frame providing synthetic lifting strength and 60 internal Nodes.\n\n**Mechanics:** Provides Synth Strength and 60 Nodes (6 Head, 30 Torso, 10 each Arm, 12 each Leg). Craft DC 30 (40,960 Cr)."
+    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nHeavy-duty industrial wearable frame providing synthetic lifting strength and 60 internal Nodes.\n\n**Mechanics:** Provides Synth Strength and 60 Nodes (6 Head, 30 Torso, 10 each Arm, 12 each Leg). Craft DC 30 (40,960 Cr).",
+    "body_location": "Full Body"
   },
   {
     "id": "lower-leg",
@@ -4042,7 +4388,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 1470,
-      "nodes": 0,
+      "nodes": 15,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4067,7 +4413,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "lower leg, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 2\\"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 2\\",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 15,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "magnetic-grip",
@@ -4084,7 +4434,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4109,7 +4459,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "magnetic grip, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Electro-magnets; can walk on metal hulls.\r\n**Nodes:** 2"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Electro-magnets; can walk on metal hulls.\r\n**Nodes:** 2",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 2,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "magnetic-piercings",
@@ -4150,7 +4504,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "magnetic piercings, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal anchors for modular jewelry."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal anchors for modular jewelry.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "matter-recon-forge",
@@ -4163,10 +4521,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 5,
+      "bp": 5,
       "credits": 655360,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4191,7 +4549,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Extreme",
     "keywords": "matter recon forge, augmentation, esoteric, extreme, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Resurrects from single cell in 1d4 days.\r\n**CP:** 5"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Resurrects from single cell in 1d4 days.\r\n**CP:** 5",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "mech-link",
@@ -4207,7 +4569,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4232,7 +4594,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "mech link, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Mind-to-machine. +1 to +5 Pilot skills.\r\n**Nodes:** 2"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Mind-to-machine. +1 to +5 Pilot skills.\r\n**Nodes:** 2",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "micro-missile-launcher",
@@ -4249,7 +4615,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4274,7 +4640,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "micro-missile launcher, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Holds 4 mini-missiles (Arm/Shoulder).\r\n**Nodes:** 5"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Holds 4 mini-missiles (Arm/Shoulder).\r\n**Nodes:** 5",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 5,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "micro-optics",
@@ -4290,7 +4660,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4315,7 +4685,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "micro-optics, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Microscopic Vision.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Microscopic Vision.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head (Ocular)",
+    "body_location": "Head (Ocular)"
   },
   {
     "id": "muscle-bone-weave",
@@ -4331,7 +4705,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 12,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4356,7 +4730,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "muscle/bone weave, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advanced myomer integration. +1/+2/+3 Str.\r\n**Nodes:** 12"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advanced myomer integration. +1/+2/+3 Str.\r\n**Nodes:** 12",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 12,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "myomer-weave",
@@ -4372,7 +4750,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 15,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4397,7 +4775,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "myomer weave, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Extreme strength without bulk. +4 Might.\r\n**Nodes:** 15"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Extreme strength without bulk. +4 Might.\r\n**Nodes:** 15",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 15,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "myomeric-tendril-grafts",
@@ -4428,7 +4810,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Prehensile Tentacles feature (Unarmed 1d4 Blunt, Reach 10ft, Advantage on Grapple checks). 15 Nodes, TL 4, CR 20 (2,560 Cr).",
     "keywords": "myomeric tendril grafts, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nTwo heavily muscled, prehensile tentacles spliced into the host's spinal column, mimicking Sefalin biology.\n\n**Mechanics:** Grants Prehensile Tentacles feature (Unarmed 1d4 Blunt, Reach 10ft, Advantage on Grapple checks). 15 Nodes, TL 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nTwo heavily muscled, prehensile tentacles spliced into the host's spinal column, mimicking Sefalin biology.\n\n**Mechanics:** Grants Prehensile Tentacles feature (Unarmed 1d4 Blunt, Reach 10ft, Advantage on Grapple checks). 15 Nodes, TL 4, CR 20 (2,560 Cr).",
+    "body_location": "Torso (Back/Shoulders)"
   },
   {
     "id": "nano-groomers",
@@ -4469,7 +4852,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "nano groomers, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Automated skin, hair, and hygiene maintenance."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Automated skin, hair, and hygiene maintenance.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "nerve-hardwire",
@@ -4485,7 +4872,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4510,7 +4897,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nerve hardwire, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Overclocks nervous system. +1/+2/+3 Agility.\r\n**Nodes:** 5"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Overclocks nervous system. +1/+2/+3 Agility.\r\n**Nodes:** 5",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 5,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "nerve-splicing",
@@ -4526,7 +4917,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4551,7 +4942,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nerve splicing, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Damaged nerves reroute; Immune to paralysis.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Damaged nerves reroute; Immune to paralysis.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "neural-processor",
@@ -4567,7 +4962,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4592,7 +4987,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "neural processor, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Foundation for CPU mods; +1 Logic.\r\n**Nodes:** 3"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Foundation for CPU mods; +1 Logic.\r\n**Nodes:** 3",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 3,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "nightvision",
@@ -4608,7 +5007,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4633,7 +5032,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nightvision, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Night Vision 60ft.\r\n**Nodes:** 2"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Night Vision 60ft.\r\n**Nodes:** 2",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Head (Ocular)",
+    "body_location": "Head (Ocular)"
   },
   {
     "id": "nootropic-enhancer",
@@ -4649,7 +5052,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4674,7 +5077,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nootropic enhancer, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Intelligence.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Intelligence.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "nu-tek-tvskin",
@@ -4715,7 +5122,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "nu-tek tvskin, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Skin acts as a programmable vidscreen."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Skin acts as a programmable vidscreen.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "nugenic-nodes",
@@ -4731,7 +5142,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4756,7 +5167,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nugenic nodes, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Longevity / DNA Cleanse / Bio-Renewal.\r\n**Nodes:** 10"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Longevity / DNA Cleanse / Bio-Renewal.\r\n**Nodes:** 10",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 10,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "null-void-sigils",
@@ -4787,7 +5202,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Advantage on all Saving Throws vs Invocations and Meta-Tech (blocks beneficial Invocations unless suppressed as a Standard Action). 15 Nodes, TL 2 / ML 5, CR 25 (10,240 Cr).",
     "keywords": "null-void sigils (anti-magic tattoos), augmentation, meta-augmentation (imbued tattoo), tl-2",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nSweeping jagged tattoos inked with void-touched pigment from the Shadow Plane that ground out the Universal Resonance.\n\n**Mechanics:** Grants Advantage on all Saving Throws vs Invocations and Meta-Tech (blocks beneficial Invocations unless suppressed as a Standard Action). 15 Nodes, TL 2 / ML 5, CR 25 (10,240 Cr)."
+    "body": "Category: **Metaphysical: Imbued Tattoos & Somatic Modifications**\n\nSweeping jagged tattoos inked with void-touched pigment from the Shadow Plane that ground out the Universal Resonance.\n\n**Mechanics:** Grants Advantage on all Saving Throws vs Invocations and Meta-Tech (blocks beneficial Invocations unless suppressed as a Standard Action). 15 Nodes, TL 2 / ML 5, CR 25 (10,240 Cr).",
+    "body_location": "Full Body"
   },
   {
     "id": "nutrient-processor",
@@ -4803,7 +5219,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4828,7 +5244,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nutrient processor, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Extract nutrition from any organic. 1/4 rations.\r\n**Nodes:** 4"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Extract nutrition from any organic. 1/4 rations.\r\n**Nodes:** 4",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 4,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "ocular-drone",
@@ -4844,7 +5264,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4869,7 +5289,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "ocular drone, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Cyber-eye detaches to act as remote spy cam.\r\n**Nodes:** 3"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Cyber-eye detaches to act as remote spy cam.\r\n**Nodes:** 3",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 3,
+    "location": "Head (Ocular)",
+    "body_location": "Head (Ocular)"
   },
   {
     "id": "ocular-resonance-matrix",
@@ -4900,7 +5324,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Ethersight and Acute Sense (Vision): see invisible/phased beings, magical auras, and invocation residue within 60ft. 5 Nodes, TL 4 / ML 4, CR 20 (2,560 Cr).",
     "keywords": "ocular resonance matrix (ethersight lenses), augmentation, meta-augmentation (sensory), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Sensory & Perception Implants**\n\nSynthetic faceted crystal lenses replacing the biological eyes, hardwired to perceive Conscious Light.\n\n**Mechanics:** Grants Ethersight and Acute Sense (Vision): see invisible/phased beings, magical auras, and invocation residue within 60ft. 5 Nodes, TL 4 / ML 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Metaphysical: Sensory & Perception Implants**\n\nSynthetic faceted crystal lenses replacing the biological eyes, hardwired to perceive Conscious Light.\n\n**Mechanics:** Grants Ethersight and Acute Sense (Vision): see invisible/phased beings, magical auras, and invocation residue within 60ft. 5 Nodes, TL 4 / ML 4, CR 20 (2,560 Cr).",
+    "body_location": "Head (Eyes)"
   },
   {
     "id": "optical-camo",
@@ -4916,7 +5341,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4941,7 +5366,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "optical camo, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advanced total spectrum cloaking.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advanced total spectrum cloaking.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "pain-filter",
@@ -4957,7 +5386,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -4982,7 +5411,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "pain filter, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Counters Sense of Pain / Negate Wound penalty.\r\n**Nodes:** 2"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Counters Sense of Pain / Negate Wound penalty.\r\n**Nodes:** 2",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "phase-shift-gen",
@@ -4995,10 +5428,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 4,
+      "bp": 4,
       "credits": 163840,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5023,7 +5456,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Extreme",
     "keywords": "phase shift gen, augmentation, esoteric, extreme, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Temporary intangibility to bypass matter.\r\n**CP:** 4"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Temporary intangibility to bypass matter.\r\n**CP:** 4",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "pheromone-emitters",
@@ -5039,7 +5476,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5064,7 +5501,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "pheromone emitters, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advantage on Charm/Diplomacy checks.\r\n**Nodes:** 3"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Advantage on Charm/Diplomacy checks.\r\n**Nodes:** 3",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 3,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "pheromone-synthesizer",
@@ -5095,7 +5536,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "+2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "pheromone synthesizer (exocrine graft), augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Utility & Sensory**\n\nExocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.\n\n**Mechanics:** +2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Utility & Sensory**\n\nExocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.\n\n**Mechanics:** +2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Torso (Skin Glands)"
   },
   {
     "id": "photosynthetic-skin-splicing",
@@ -5126,7 +5568,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants the Chloroplast feature: requires only 1/4 normal food intake with 4 hours/day of sunlight or UV light. 10 Nodes, TL 4, CR 20 (2,560 Cr).",
     "keywords": "photosynthetic skin splicing, augmentation, bioware (genetic), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Metabolic & Environmental**\n\nThorn-derived chloroplast cells embedded into the epidermis, tinting the skin faint green or cyan.\n\n**Mechanics:** Grants the Chloroplast feature: requires only 1/4 normal food intake with 4 hours/day of sunlight or UV light. 10 Nodes, TL 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Biological: Metabolic & Environmental**\n\nThorn-derived chloroplast cells embedded into the epidermis, tinting the skin faint green or cyan.\n\n**Mechanics:** Grants the Chloroplast feature: requires only 1/4 normal food intake with 4 hours/day of sunlight or UV light. 10 Nodes, TL 4, CR 20 (2,560 Cr).",
+    "body_location": "Full Body Skin"
   },
   {
     "id": "picosurgeons",
@@ -5142,7 +5585,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 8,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5167,7 +5610,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "picosurgeons, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal Feature.\r\n**Nodes:** 8"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal Feature.\r\n**Nodes:** 8",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 8,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "poison-gland-sac",
@@ -5183,7 +5630,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5208,7 +5655,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "poison gland/sac, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Holds 8 doses of toxin.\r\n**Nodes:** 3"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Holds 8 doses of toxin.\r\n**Nodes:** 3",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "polymatter-struct",
@@ -5222,14 +5673,14 @@ export const DEFAULT_AUGMENTATIONS = [
     "craft_dc": 25,
     "design_dc": 25,
     "cost": 10240,
-    "nodes": 0,
+    "nodes": 3,
     "sp": 0,
     "dr": 0,
     "costs": {
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5239,7 +5690,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Converts an implant or prosthetic into a morphic polymatter structure capable of limited reshaping (+25% Cost, 0 CP).",
     "keywords": "polymatter structure, augmentation, apex nanoware, tl-5",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **9. TL5 Advanced Augmentations**\n\nMorphic polymatter implant or limb replacement modifier (+25% Base Cost).\n\n**Mechanics:** Converts an implant or prosthetic into a morphic polymatter structure capable of limited reshaping (+25% Cost, 0 CP)."
+    "body": "Category: **9. TL5 Advanced Augmentations**\n\nMorphic polymatter implant or limb replacement modifier (+25% Base Cost).\n\n**Mechanics:** Converts an implant or prosthetic into a morphic polymatter structure capable of limited reshaping (+25% Cost, 0 CP).",
+    "body_location": "Limb / Chassis"
   },
   {
     "id": "polymatter-surg",
@@ -5252,10 +5704,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 4,
+      "bp": 4,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5280,7 +5732,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "polymatter surg, augmentation, esoteric, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal and Regeneration Features.\r\n**CP:** 4"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Grants Fast Heal and Regeneration Features.\r\n**CP:** 4",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "prehensile-foot",
@@ -5297,7 +5753,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5322,7 +5778,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "prehensile foot, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Usable as off-hand (-2 penalty).\r\n**Nodes:** 2"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Usable as off-hand (-2 penalty).\r\n**Nodes:** 2",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 2,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "programmable-bio",
@@ -5335,10 +5795,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 1,
+      "bp": 1,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5363,7 +5823,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "programmable bio, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** As Alter Form (Advanced).\r\n**CP:** 1"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** As Alter Form (Advanced).\r\n**CP:** 1",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "prosthetic-skull",
@@ -5411,7 +5875,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "sp": 20,
     "dr": 0,
     "mechanic": "SP 20 (x2 Hardened), Capacity: 10 Nodes (1 Socket). Craft DC 25 (10,240 Cr).",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity**\n\nReinforced synthetic cranium housing (SP 20 [x2 Hardened], 10 Nodes). Required alongside Prosthetic Torso and all limbs for Full Body Conversion (FBC).\n\n**Mechanics:** SP 20 (x2 Hardened), Capacity: 10 Nodes (1 Socket). Craft DC 25 (10,240 Cr)."
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity**\n\nReinforced synthetic cranium housing (SP 20 [x2 Hardened], 10 Nodes). Required alongside Prosthetic Torso and all limbs for Full Body Conversion (FBC).\n\n**Mechanics:** SP 20 (x2 Hardened), Capacity: 10 Nodes (1 Socket). Craft DC 25 (10,240 Cr).",
+    "body_location": "Head"
   },
   {
     "id": "prosthetic-torso",
@@ -5428,7 +5893,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 50,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5453,7 +5918,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "prosthetic torso, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 50\r\n**Sockets:** 5"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 50\r\n**Sockets:** 5",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 50,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "psi-implant",
@@ -5466,10 +5935,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 4,
+      "bp": 4,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5494,7 +5963,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "psi implant, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Awakened (Mental); Grants 100 Essence.\r\n**CP:** 4"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Awakened (Mental); Grants 100 Essence.\r\n**CP:** 4",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "psychotropic-act",
@@ -5510,7 +5983,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5535,7 +6008,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "psychotropic act, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Wisdom.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Wisdom.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "quantum-storage",
@@ -5548,10 +6025,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 1,
+      "bp": 1,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5576,7 +6053,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "quantum storage, augmentation, esoteric, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dimensional pocket; stores up to 100kg.\r\n**CP:** 1"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Dimensional pocket; stores up to 100kg.\r\n**CP:** 1",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "quick-change-mount",
@@ -5593,7 +6074,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5618,7 +6099,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "quick-change mount, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Swap modular hands/tools as a Swift Action.\r\n**Nodes:** 1"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Swap modular hands/tools as a Swift Action.\r\n**Nodes:** 1",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "radar-sonar",
@@ -5634,7 +6119,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5659,7 +6144,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "radar / sonar, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Grants Blindsense 30ft.\r\n**Nodes:** 3"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Grants Blindsense 30ft.\r\n**Nodes:** 3",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 3,
+    "location": "Head (Sensory / Vocal)",
+    "body_location": "Head (Sensory / Vocal)"
   },
   {
     "id": "radiation-shielding",
@@ -5675,7 +6164,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5700,7 +6189,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "radiation shielding, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal lead/polymer. Adv vs Radiation.\r\n**Nodes:** 5"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Internal lead/polymer. Adv vs Radiation.\r\n**Nodes:** 5",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "rage-implant",
@@ -5716,7 +6209,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5741,7 +6234,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "rage implant, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Adrenal override. Grants the Rage feature.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Adrenal override. Grants the Rage feature.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "redundant-organs",
@@ -5757,7 +6254,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 10,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5782,7 +6279,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "redundant organs, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advantage on Fortitude saves vs Critical Hits.\r\n**Nodes:** 10"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Advantage on Fortitude saves vs Critical Hits.\r\n**Nodes:** 10",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 10,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "redundant-vital-organs",
@@ -5813,7 +6314,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Advantage on Fortitude saves vs toxins, diseases, and exhaustion; reduces organ-destroying Critical Hits to Disabled. 15 Nodes, TL 4, CR 20 (2,560 Cr).",
     "keywords": "redundant vital organs (bioware), augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Defense & Survivability**\n\nCloned backup organs (secondary heart, tertiary lung) grafted into the chest cavity.\n\n**Mechanics:** Advantage on Fortitude saves vs toxins, diseases, and exhaustion; reduces organ-destroying Critical Hits to Disabled. 15 Nodes, TL 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Biological: Defense & Survivability**\n\nCloned backup organs (secondary heart, tertiary lung) grafted into the chest cavity.\n\n**Mechanics:** Advantage on Fortitude saves vs toxins, diseases, and exhaustion; reduces organ-destroying Critical Hits to Disabled. 15 Nodes, TL 4, CR 20 (2,560 Cr).",
+    "body_location": "Torso"
   },
   {
     "id": "reflex-co-proc",
@@ -5829,7 +6331,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5854,7 +6356,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "reflex co-proc, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Advantage on Reflex Saves vs hazards.\r\n**Nodes:** 3"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Advantage on Reflex Saves vs hazards.\r\n**Nodes:** 3",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 3,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "reinforced-chassis",
@@ -5885,7 +6391,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Requires Synth Limbs (all). Grants Strength +3, Stamina +3, DR 40. Consumes 40 Nodes, 2 CP. Craft DC 30 (40,960 Cr).",
     "keywords": "reinforced chassis, augmentation, body modification, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **5.2 Core Systems, Implants and Options**\n\nHeavy full-frame structural reinforcement requiring synthetic limbs across the chassis.\n\n**Mechanics:** Requires Synth Limbs (all). Grants Strength +3, Stamina +3, DR 40. Consumes 40 Nodes, 2 CP. Craft DC 30 (40,960 Cr)."
+    "body": "Category: **5.2 Core Systems, Implants and Options**\n\nHeavy full-frame structural reinforcement requiring synthetic limbs across the chassis.\n\n**Mechanics:** Requires Synth Limbs (all). Grants Strength +3, Stamina +3, DR 40. Consumes 40 Nodes, 2 CP. Craft DC 30 (40,960 Cr).",
+    "body_location": "Full Body / Torso"
   },
   {
     "id": "reinforced-frame",
@@ -5916,7 +6423,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "+25% Structure Points to synthetic limb. Costs 1 CP, 2 Nodes. Craft DC 15 (640 Cr base / +25% limb cost).",
     "keywords": "reinforced frame, augmentation, limb upgrade, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **4.4 Limb Upgrades**\n\nInternal structural bracing for a synthetic limb (+25% Structure Points to limb, +25% Base Cost).\n\n**Mechanics:** +25% Structure Points to synthetic limb. Costs 1 CP, 2 Nodes. Craft DC 15 (640 Cr base / +25% limb cost)."
+    "body": "Category: **4.4 Limb Upgrades**\n\nInternal structural bracing for a synthetic limb (+25% Structure Points to limb, +25% Base Cost).\n\n**Mechanics:** +25% Structure Points to synthetic limb. Costs 1 CP, 2 Nodes. Craft DC 15 (640 Cr base / +25% limb cost).",
+    "body_location": "Limb"
   },
   {
     "id": "sabatons-wearable",
@@ -5947,7 +6455,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "2d6 Blunt unarmed kick damage, DR 10, 10 Nodes (Each). Movement modifications must match on both legs. Craft DC 10 (160 Cr).",
     "keywords": "sabatons (wearable pseudo-cybernetic), augmentation, pseudo-cybernetic, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nWearable pseudo-cybernetic lower-leg greaves and boots hosting 10 Nodes per boot.\n\n**Mechanics:** 2d6 Blunt unarmed kick damage, DR 10, 10 Nodes (Each). Movement modifications must match on both legs. Craft DC 10 (160 Cr)."
+    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nWearable pseudo-cybernetic lower-leg greaves and boots hosting 10 Nodes per boot.\n\n**Mechanics:** 2d6 Blunt unarmed kick damage, DR 10, 10 Nodes (Each). Movement modifications must match on both legs. Craft DC 10 (160 Cr).",
+    "body_location": "Lower Legs"
   },
   {
     "id": "scrambler",
@@ -5963,7 +6472,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -5988,7 +6497,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "scrambler, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Military grade encryption.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Military grade encryption.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "sectional-joint",
@@ -6005,7 +6518,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6030,7 +6543,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "sectional joint, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Limb can detach (requires CPU).\r\n**Nodes:** 3"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Limb can detach (requires CPU).\r\n**Nodes:** 3",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "sensory-recorder",
@@ -6046,7 +6563,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6071,7 +6588,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "sensory recorder, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Records all 5 sensations (SimStim).\r\n**Nodes:** 2"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Records all 5 sensations (SimStim).\r\n**Nodes:** 2",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "sensory-shunt",
@@ -6087,7 +6608,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6112,7 +6633,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "sensory shunt, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Selectively turn off specific physical senses.\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Selectively turn off specific physical senses.\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "servo-arm",
@@ -6128,7 +6653,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 25,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6153,7 +6678,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "servo-arm, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Torso (Back)\r\n**Nodes:** 25\r\n**Description:** Fully articulated manipulator. Often paired."
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Torso (Back)\r\n**Nodes:** 25\r\n**Description:** Fully articulated manipulator. Often paired.",
+    "subcategory": "12.1 Mechanics of the Wearable",
+    "nodes": 25,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "shadow-glass-bone-lacing",
@@ -6184,7 +6713,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Energy Resistance (Necrotic/Shadow), +2 Stealth, and immunity to thermal imaging detection. 20 Nodes, TL 4 / ML 4, CR 25 (10,240 Cr).",
     "keywords": "shadow-glass bone lacing, augmentation, meta-augmentation (structural), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Structural & Systemic Overlays**\n\nA Kovian Tribunal specialty infusing the host's marrow with liquid obsidian and Void energy.\n\n**Mechanics:** Grants Energy Resistance (Necrotic/Shadow), +2 Stealth, and immunity to thermal imaging detection. 20 Nodes, TL 4 / ML 4, CR 25 (10,240 Cr)."
+    "body": "Category: **Metaphysical: Structural & Systemic Overlays**\n\nA Kovian Tribunal specialty infusing the host's marrow with liquid obsidian and Void energy.\n\n**Mechanics:** Grants Energy Resistance (Necrotic/Shadow), +2 Stealth, and immunity to thermal imaging detection. 20 Nodes, TL 4 / ML 4, CR 25 (10,240 Cr).",
+    "body_location": "Full Skeleton"
   },
   {
     "id": "shielding",
@@ -6226,7 +6756,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "shielding, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Full EMP shielding for limb.\r\n**Nodes:** 1"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Full EMP shielding for limb.\r\n**Nodes:** 1",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "shift-tacts",
@@ -6267,7 +6801,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "shift-tacts, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color-changing or patterned contact lenses."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color-changing or patterned contact lenses.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "shock-knuckles",
@@ -6284,7 +6822,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6309,7 +6847,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "shock-knuckles, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d6 Voltic + Stun chance.\r\n**Nodes:** 2"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d6 Voltic + Stun chance.\r\n**Nodes:** 2",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 2,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "shoulder-mount",
@@ -6340,7 +6882,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Provides 10 Nodes on Torso (Shoulder) and mounts 1 ranged weapon with Smart-Link targeting (0 CP). Craft DC 15 (640 Cr).",
     "keywords": "shoulder mount (wearable), augmentation, pseudo-cybernetic, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nSmart-linked shoulder turret harness providing independent ranged weapon mounting.\n\n**Mechanics:** Provides 10 Nodes on Torso (Shoulder) and mounts 1 ranged weapon with Smart-Link targeting (0 CP). Craft DC 15 (640 Cr)."
+    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nSmart-linked shoulder turret harness providing independent ranged weapon mounting.\n\n**Mechanics:** Provides 10 Nodes on Torso (Shoulder) and mounts 1 ranged weapon with Smart-Link targeting (0 CP). Craft DC 15 (640 Cr).",
+    "body_location": "Torso (Shoulder)"
   },
   {
     "id": "skate-foot",
@@ -6357,7 +6900,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6382,7 +6925,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "skate foot, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Integrated wheels; Run speed +50%.\r\n**Nodes:** 3"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Integrated wheels; Run speed +50%.\r\n**Nodes:** 3",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 3,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "skill-circuitry",
@@ -6398,7 +6945,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6423,7 +6970,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "skill circuitry, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** +2/+4/+6 to one skill (Reprogrammable).\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** +2/+4/+6 to one skill (Reprogrammable).\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "skill-plexus",
@@ -6439,7 +6990,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6464,7 +7015,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "skill plexus, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Skill Circuits.\r\n**Nodes:** 3"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Socket for 4 Skill Circuits.\r\n**Nodes:** 3",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "skinlike-synthskin",
@@ -6506,7 +7061,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "skinlike / synthskin, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Looks real (DC 25 Awareness to spot).\r\n**Nodes:** 0"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Looks real (DC 25 Awareness to spot).\r\n**Nodes:** 0",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "skinwatch",
@@ -6547,7 +7106,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "skinwatch, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal LED timepiece and calendar."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Subdermal LED timepiece and calendar.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "skull-plating",
@@ -6563,7 +7126,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6588,7 +7151,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "skull plating, augmentation, cybernetic armor, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Head armor. 1 Critical Hit to Normal/day.\r\n**Nodes:** 4"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Head armor. 1 Critical Hit to Normal/day.\r\n**Nodes:** 4",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 4,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "smart-goggles",
@@ -6604,7 +7171,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 160,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6629,7 +7196,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "smart goggles, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Head\r\n**Nodes:** 5\r\n**Description:** Image Enhance, HUD, and Zoom."
+    "body": "Category: **12.1 Mechanics of the Wearable**\r\n\r\n**Location:** Head\r\n**Nodes:** 5\r\n**Description:** Image Enhance, HUD, and Zoom.",
+    "subcategory": "12.1 Mechanics of the Wearable",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "smart-link",
@@ -6645,7 +7216,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6670,7 +7241,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "smart link, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Wireless Mech Link with +2 Gear bonus.\r\n**Nodes:** 1"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Wireless Mech Link with +2 Gear bonus.\r\n**Nodes:** 1",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "smuggling-compartment",
@@ -6687,7 +7262,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6712,7 +7287,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "smuggling compartment, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Hidden storage for Tiny items.\r\n**Nodes:** 1"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Hidden storage for Tiny items.\r\n**Nodes:** 1",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "sound-damper",
@@ -6728,7 +7307,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 160,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6753,7 +7332,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "sound damper, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Immune to loud noise/deafening.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Immune to loud noise/deafening.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head (Sensory / Vocal)",
+    "body_location": "Head (Sensory / Vocal)"
   },
   {
     "id": "speed-boost-legs",
@@ -6770,7 +7353,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6795,7 +7378,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "speed boost (legs), augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +10/+20/+30 Ground Move (Requires Pair).\r\n**Nodes:** 5"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** +10/+20/+30 Ground Move (Requires Pair).\r\n**Nodes:** 5",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "spike-fist-needle",
@@ -6812,7 +7399,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6837,7 +7424,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "spike fist / needle, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Piercing; can link to Poison Sac.\r\n**Nodes:** 1"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** 1d8 Piercing; can link to Poison Sac.\r\n**Nodes:** 1",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 1,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "stabilizer",
@@ -6853,7 +7444,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -6878,7 +7469,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "stabilizer, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Automatically Stabilize from dying.\r\n**Nodes:** 3"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Automatically Stabilize from dying.\r\n**Nodes:** 3",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "sub-dermal-chitin-plating",
@@ -6909,7 +7504,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Exoskeleton (Light) feature: DR equal to Strength Doubled (does not stack with worn armor). 20 Nodes, TL 4, CR 20 (2,560 Cr).",
     "keywords": "sub-dermal chitin plating, augmentation, bioware (genetic), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Defense & Survivability**\n\nGenetically sequenced flexible, impact-resistant chitinous layer grown beneath the epidermis.\n\n**Mechanics:** Grants Exoskeleton (Light) feature: DR equal to Strength Doubled (does not stack with worn armor). 20 Nodes, TL 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Biological: Defense & Survivability**\n\nGenetically sequenced flexible, impact-resistant chitinous layer grown beneath the epidermis.\n\n**Mechanics:** Grants Exoskeleton (Light) feature: DR equal to Strength Doubled (does not stack with worn armor). 20 Nodes, TL 4, CR 20 (2,560 Cr).",
+    "body_location": "Torso / Full Body"
   },
   {
     "id": "subdermal-pocket",
@@ -6950,7 +7546,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "subdermal pocket, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** 2x4 inch concealed pocket for data chips."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** 2x4 inch concealed pocket for data chips.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Full Body / Systemic",
+    "body_location": "Full Body / Systemic"
   },
   {
     "id": "sun-fire-vambraces",
@@ -6981,7 +7581,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Cast a Rank 10 Energy (Fire) Blast dealing 3d6 + Intellect/Wisdom Fire damage (Medium range) for 1 Essence per shot. 10 Nodes/arm (20 total), TL 4 / ML 4, CR 25 (10,240 Cr).",
     "keywords": "sun-fire vambraces (impyrium relic design), augmentation, meta-augmentation (offensive), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Offensive & Weaponized Implants**\n\nGolden, seamless forearm plating infused with living crystal, channeling the Energy (Fire) Discipline directly from the user's pulse.\n\n**Mechanics:** Cast a Rank 10 Energy (Fire) Blast dealing 3d6 + Intellect/Wisdom Fire damage (Medium range) for 1 Essence per shot. 10 Nodes/arm (20 total), TL 4 / ML 4, CR 25 (10,240 Cr)."
+    "body": "Category: **Metaphysical: Offensive & Weaponized Implants**\n\nGolden, seamless forearm plating infused with living crystal, channeling the Energy (Fire) Discipline directly from the user's pulse.\n\n**Mechanics:** Cast a Rank 10 Energy (Fire) Blast dealing 3d6 + Intellect/Wisdom Fire damage (Medium range) for 1 Essence per shot. 10 Nodes/arm (20 total), TL 4 / ML 4, CR 25 (10,240 Cr).",
+    "body_location": "Arms (Forearms)"
   },
   {
     "id": "surrogate-uplink",
@@ -6997,7 +7598,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7022,7 +7623,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "surrogate uplink, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Virtually Remote a Synthetic Body.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Virtually Remote a Synthetic Body.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "symbiotic-venom-gland",
@@ -7053,7 +7658,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants the Venom Species Feature. Coat a weapon or deliver toxin via bite/spit (3 doses/day). 5 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "symbiotic venom gland, augmentation, bioware (symbiote), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nA parasitic gland that synthesizes potent biological toxins (3 doses per day).\n\n**Mechanics:** Grants the Venom Species Feature. Coat a weapon or deliver toxin via bite/spit (3 doses/day). 5 Nodes, TL 4, CR 15 (640 Cr)."
+    "body": "Category: **Biological: Bio-Weapons & Offense**\n\nA parasitic gland that synthesizes potent biological toxins (3 doses per day).\n\n**Mechanics:** Grants the Venom Species Feature. Coat a weapon or deliver toxin via bite/spit (3 doses/day). 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "body_location": "Head (Jaw) or Arm (Wrist)"
   },
   {
     "id": "synaptic-accelerator",
@@ -7069,7 +7675,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7094,7 +7700,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "synaptic accelerator, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Push past bio-limits. +1 Action Point 1/day.\r\n**Nodes:** 3"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Push past bio-limits. +1 Action Point 1/day.\r\n**Nodes:** 3",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 3,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "synaptic-mask",
@@ -7110,7 +7720,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 10240,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7135,7 +7745,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "synaptic mask, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Checks vs Mental Effects at Advantage.\r\n**Nodes:** 2"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Checks vs Mental Effects at Advantage.\r\n**Nodes:** 2",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 2,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "synth-organ",
@@ -7152,7 +7766,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7177,7 +7791,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "synth organ, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 5\r\n**Sockets:** 0",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 5,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "synth-tentacle",
@@ -7193,7 +7811,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 163840,
-      "nodes": 0,
+      "nodes": 15,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7218,7 +7836,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "synth tentacle, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15"
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Synth Arm, +100% Cost, +10 DC.\r\n**Nodes:** 15",
+    "subcategory": "4.4 Exotic Limbs (TL 4.",
+    "nodes": 15,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "synth-wing",
@@ -7234,7 +7856,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 20,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7259,7 +7881,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "synth wing, augmentation, cybernetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20"
+    "body": "Category: **4.4 Exotic Limbs (TL 4\\)**\r\n\r\n**Modifier:** As Leg (Flight), +100% Cost, +5 DC.\r\n**Nodes:** 20",
+    "subcategory": "4.4 Exotic Limbs (TL 4.",
+    "nodes": 20,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "tail",
@@ -7275,7 +7901,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7300,7 +7926,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "tail, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Dex).\r\n**Nodes:** 5"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Dex).\r\n**Nodes:** 5",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 5,
+    "location": "Tail / Auxiliary Appendage",
+    "body_location": "Tail / Auxiliary Appendage"
   },
   {
     "id": "targeting",
@@ -7316,7 +7946,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7341,7 +7971,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "targeting, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sync to Smart Link. +2 Ranged Attack.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Sync to Smart Link. +2 Ranged Attack.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "tech-hair",
@@ -7382,7 +8016,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "tech-hair, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color/light emitting hair; styleable via app."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Color/light emitting hair; styleable via app.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "telekinetic-anchor-crystals",
@@ -7413,7 +8051,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "+10 Bonus to Stability checks against being knocked prone, tripped, or forcibly moved, and halves falling damage. 10 Nodes, TL 4 / ML 4, CR 15 (640 Cr).",
     "keywords": "telekinetic anchor crystals, augmentation, meta-augmentation (structural), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Metaphysical: Structural & Systemic Overlays**\n\nDeep blue lapis-lazuli matrices grafted onto the shin bones that project a localized gravitational tether.\n\n**Mechanics:** +10 Bonus to Stability checks against being knocked prone, tripped, or forcibly moved, and halves falling damage. 10 Nodes, TL 4 / ML 4, CR 15 (640 Cr)."
+    "body": "Category: **Metaphysical: Structural & Systemic Overlays**\n\nDeep blue lapis-lazuli matrices grafted onto the shin bones that project a localized gravitational tether.\n\n**Mechanics:** +10 Bonus to Stability checks against being knocked prone, tripped, or forcibly moved, and halves falling damage. 10 Nodes, TL 4 / ML 4, CR 15 (640 Cr).",
+    "body_location": "Legs (Calves)"
   },
   {
     "id": "teleoptic",
@@ -7429,7 +8068,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7454,7 +8093,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "teleoptic, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Telescopic zoom. Range penalties 1/2.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Telescopic zoom. Range penalties 1/2.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head (Ocular)",
+    "body_location": "Head (Ocular)"
   },
   {
     "id": "telescoping-limb",
@@ -7471,7 +8114,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7496,7 +8139,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "telescoping limb, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Grants +5ft Reach.\r\n**Nodes:** 4"
+    "body": "Category: **4.3 Limb Upgrades (1 CP Per Upgrade)**\r\n\r\n**Effect:** Grants +5ft Reach.\r\n**Nodes:** 4",
+    "subcategory": "4.3 Limb Upgrades (1 CP Per Upgrade)",
+    "nodes": 4,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "temporal-stutter",
@@ -7509,10 +8156,10 @@ export const DEFAULT_AUGMENTATIONS = [
     "stigma": "None",
     "type": "Esoteric",
     "costs": {
-      "cp": 0,
-      "bp": 0,
+      "cp": 6,
+      "bp": 6,
       "credits": 163840,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7537,7 +8184,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Extreme",
     "keywords": "temporal stutter, augmentation, esoteric, extreme, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Extra turn (Time Stop) 1/day.\r\n**CP:** 6"
+    "body": "Category: **9\\. TL5 Advanced Augmentations**\r\n\r\n**Effect:** Extra turn (Time Stop) 1/day.\r\n**CP:** 6",
+    "subcategory": "9. TL5 Advanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "thermograph",
@@ -7553,7 +8204,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7578,7 +8229,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "thermograph, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** See IR and heat patterns.\r\n**Nodes:** 2"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** See IR and heat patterns.\r\n**Nodes:** 2",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 2,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "tool-hand",
@@ -7595,7 +8250,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7620,7 +8275,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "tool hand, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Multi-purpose or +2 Vocation bonus.\r\n**Nodes:** 2"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Multi-purpose or +2 Vocation bonus.\r\n**Nodes:** 2",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 2,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "toxin-filter-liver",
@@ -7651,7 +8310,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Grants Poison Immunity (automatically succeeds on Fortitude saves vs non-magical poisons and narcotics). 10 Nodes, TL 4, CR 20 (2,560 Cr).",
     "keywords": "toxin-filter liver, augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Metabolic & Environmental**\n\nHeavily augmented vat-grown liver engineered for high-risk chemical environments and espionage.\n\n**Mechanics:** Grants Poison Immunity (automatically succeeds on Fortitude saves vs non-magical poisons and narcotics). 10 Nodes, TL 4, CR 20 (2,560 Cr)."
+    "body": "Category: **Biological: Metabolic & Environmental**\n\nHeavily augmented vat-grown liver engineered for high-risk chemical environments and espionage.\n\n**Mechanics:** Grants Poison Immunity (automatically succeeds on Fortitude saves vs non-magical poisons and narcotics). 10 Nodes, TL 4, CR 20 (2,560 Cr).",
+    "body_location": "Torso"
   },
   {
     "id": "tracking-scanner",
@@ -7667,7 +8327,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7692,7 +8352,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "tracking scanner, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Retinal crosshairs. Move penalties 1/2.\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Retinal crosshairs. Move penalties 1/2.\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "trans-cerebral",
@@ -7708,7 +8372,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 5,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7733,7 +8397,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Extreme",
     "keywords": "trans-cerebral, augmentation, cybernetic, extreme, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Brain transplant into other body/system.\r\n**Nodes:** 5"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Brain transplant into other body/system.\r\n**Nodes:** 5",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 5,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "translator-implant",
@@ -7749,7 +8417,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 160,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7774,7 +8442,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "translator implant, augmentation, neural, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Contains most Languages/Dialects.\r\n**Nodes:** 1"
+    "body": "Category: **7\\. Brain Modifications (TL 3\\)**\r\n\r\n**Effect:** Contains most Languages/Dialects.\r\n**Nodes:** 1",
+    "subcategory": "7. Brain Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head / Cranium",
+    "body_location": "Head / Cranium"
   },
   {
     "id": "trauma-response",
@@ -7790,7 +8462,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 2560,
-      "nodes": 0,
+      "nodes": 4,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7815,7 +8487,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "trauma response, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Auto-administers meds; Heals 1d6.\r\n**Nodes:** 4"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Auto-administers meds; Heals 1d6.\r\n**Nodes:** 4",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 4,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "turn-on-nails",
@@ -7856,7 +8532,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "turn-on nails, augmentation, fashionware, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Nails that change color, length, or pattern."
+    "body": "Category: **3\\. The Civilian Standard (Fashionware & Utilities)**\r\n\r\n**Effect/Description:** Nails that change color, length, or pattern.",
+    "subcategory": "3. The Civilian Standard (Fashionware & Utilities)",
+    "nodes": 0,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "upper-arm",
@@ -7873,7 +8553,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 4457,
-      "nodes": 0,
+      "nodes": 15,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7898,7 +8578,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "upper arm, augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 3\\\\"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 15\r\n**Sockets:** 3\\\\",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 15,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "upper-leg-thigh",
@@ -7915,7 +8599,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 4457,
-      "nodes": 0,
+      "nodes": 20,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7940,7 +8624,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Negligible",
     "keywords": "upper leg (thigh), augmentation, prosthetic, negligible, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 20\r\n**Sockets:** 4\\\\"
+    "body": "Category: **4.1 Synth Limbs & Structural Integrity (TL 3\\)**\r\n\r\n**Nodes:** 20\r\n**Sockets:** 4\\\\",
+    "subcategory": "4.1 Synth Limbs & Structural Integrity (TL 3.",
+    "nodes": 20,
+    "location": "Legs / Feet",
+    "body_location": "Legs / Feet"
   },
   {
     "id": "voice-disguiser",
@@ -7956,7 +8644,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 1,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -7981,7 +8669,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "voice disguiser, augmentation, sensory, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Perfect mimicry; +4 Bluff (Audio).\r\n**Nodes:** 1"
+    "body": "Category: **6\\. Sensory Modifications (TL 3\\)**\r\n\r\n**Effect:** Perfect mimicry; +4 Bluff (Audio).\r\n**Nodes:** 1",
+    "subcategory": "6. Sensory Modifications (TL 3.",
+    "nodes": 1,
+    "location": "Head (Sensory / Vocal)",
+    "body_location": "Head (Sensory / Vocal)"
   },
   {
     "id": "water-refiltration",
@@ -7997,7 +8689,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -8022,7 +8714,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "water refiltration, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Triples survival time without water.\r\n**Nodes:** 3"
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Triples survival time without water.\r\n**Nodes:** 3",
+    "subcategory": "5.1 Integrated Cybernetic Armor",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   },
   {
     "id": "weapon-hand",
@@ -8064,7 +8760,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Heavy",
     "keywords": "weapon hand, augmentation, prosthetic, heavy, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Non-retractable weapon replacement.\r\n**Nodes:** 0"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Non-retractable weapon replacement.\r\n**Nodes:** 0",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 0,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "weapon-servo-rig",
@@ -8095,7 +8795,8 @@ export const DEFAULT_AUGMENTATIONS = [
     "mechanic": "Provides 10 internal Nodes and stabilizes 2H Heavy Weapons (0 CP). Requires Interface Port. Craft DC 15 (640 Cr).",
     "keywords": "weapon servo rig (wearable), augmentation, pseudo-cybernetic, tl-3",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nArticulated side/back servo-arm harness designed to stabilize and support two-handed heavy weapons.\n\n**Mechanics:** Provides 10 internal Nodes and stabilizes 2H Heavy Weapons (0 CP). Requires Interface Port. Craft DC 15 (640 Cr)."
+    "body": "Category: **12.1 Pseudo-Cybernetics (Wearable Augmentation)**\n\nArticulated side/back servo-arm harness designed to stabilize and support two-handed heavy weapons.\n\n**Mechanics:** Provides 10 internal Nodes and stabilizes 2H Heavy Weapons (0 CP). Requires Interface Port. Craft DC 15 (640 Cr).",
+    "body_location": "Torso (Side)"
   },
   {
     "id": "web-foot",
@@ -8112,7 +8813,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 640,
-      "nodes": 0,
+      "nodes": 2,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -8137,7 +8838,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "web foot, augmentation, prosthetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Swim Speed +50%.\r\n**Nodes:** 2"
+    "body": "Category: **4.2 Hand & Foot Options (1 CP Per Option)**\r\n\r\n**Effect:** Swim Speed +50%.\r\n**Nodes:** 2",
+    "subcategory": "4.2 Hand & Foot Options (1 CP Per Option)",
+    "nodes": 2,
+    "location": "Arms / Hands",
+    "body_location": "Arms / Hands"
   },
   {
     "id": "xr-imager",
@@ -8153,7 +8858,7 @@ export const DEFAULT_AUGMENTATIONS = [
       "cp": 0,
       "bp": 0,
       "credits": 40960,
-      "nodes": 0,
+      "nodes": 3,
       "sockets": 0,
       "strain": 0,
       "focus": 0,
@@ -8178,7 +8883,11 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "xr imager, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Terahertz radiation. See thru objects to 10ft.\r\n**Nodes:** 3"
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** Terahertz radiation. See thru objects to 10ft.\r\n**Nodes:** 3",
+    "subcategory": "8. TL4 Enhanced Augmentations",
+    "nodes": 3,
+    "location": "Torso / Core",
+    "body_location": "Torso / Core"
   }
 ];
 export const getAugmentationById = (id) => DEFAULT_AUGMENTATIONS.find(a => a.id === id);

@@ -78,7 +78,7 @@ export class TerrainMeshBuilder {
   }
 
   private createPlateauMesh(terrain: any): THREE.Mesh | null {
-    const elevation = terrain.elevation || terrain.height || 10; // in world units
+    const elevation = terrain.elevationOffsetFt ?? terrain.elevation ?? (terrain.renderType === 'hexTile' ? terrain.height : 2) ?? 2; // in world units
     const color = terrain.color || '#334155';
 
     let geometry: THREE.BufferGeometry | null = null;
@@ -145,7 +145,7 @@ export class TerrainMeshBuilder {
     mesh.receiveShadow = true;
     mesh.castShadow = true;
 
-    if (terrain.x !== undefined && terrain.y !== undefined && terrain.renderType === 'hexTile') {
+    if (terrain.x !== undefined && terrain.y !== undefined && (!terrain.points || terrain.points.length < 6)) {
       mesh.position.set(terrain.x, 0, terrain.y);
     }
 

@@ -18,6 +18,7 @@ import Split from 'react-split';
 import { useCampaign, useStory } from '../../../../context/CampaignContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { useDBM } from '../../../../context/DBMContext';
+import { showConfirm } from '../../../../context/ConfirmContext';
 import { AudioService } from '../../../../services/audioService';
 import ChatParser from '../../../../components/UI/ChatParser';
 import { 
@@ -848,8 +849,14 @@ Respond in 2-3 concise in-character sentences.`;
     showToast('✓ Exported Markdown Transcript');
   };
 
-  const handleResetSession = () => {
-    if (confirm("Reset interactive story timeline beats for this scenario?")) {
+  const handleResetSession = async () => {
+    const confirmed = await showConfirm({
+      title: 'Reset Interactive Session',
+      message: 'Reset interactive story timeline beats for this scenario?',
+      confirmText: 'Reset Session',
+      danger: true
+    });
+    if (confirmed) {
       setBeats([]);
       setActiveStreamingText('');
       setSkillCheckRoll(null);

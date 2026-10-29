@@ -17,7 +17,7 @@ costs:
   cp: 0
   bp: 0
   credits: 10240
-  nodes: 0
+  nodes: 3
   sockets: 0
   strain: 0
   focus: 0

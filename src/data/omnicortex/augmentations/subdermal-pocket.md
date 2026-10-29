@@ -2,6 +2,8 @@
 id: subdermal-pocket
 name: Subdermal Pocket
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 0
 cost: 160
 design_dc: 10
 craft_dc: 10

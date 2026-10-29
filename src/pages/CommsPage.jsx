@@ -11,18 +11,12 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
 import { useGroup } from '../context/GroupContext';
-import { CommsNavRail } from '../components/Chat/CommsNavRail';
 import { ChannelSidebar } from '../components/Chat/ChannelSidebar';
-import { NetworkRosterView } from '../components/Chat/NetworkRosterView';
-import { SquadSummarySidebar } from '../components/Chat/SquadSummarySidebar';
-import { PersonaAuditLogSidebar } from '../components/Chat/PersonaAuditLogSidebar';
-import { CommsVttPanel } from '../components/Chat/CommsVttPanel';
 import { MessageView } from '../components/Chat/MessageView';
 import { MessageInput } from '../components/Chat/MessageInput';
 import { NetworkInspectorDrawer } from '../components/Network/NetworkInspectorDrawer';
 import { CreateChannelModal } from '../components/Chat/CreateChannelModal';
-import { GameGroupModal } from '../components/Groups/GameGroupModal';
-import { TeamInviteConfirmationModal } from '../components/Groups/TeamInviteConfirmationModal';
+import { GameGroupModal } from '../components/Squads/SquadModal';
 import { QuickTeamInviteModal } from '../components/Chat/QuickTeamInviteModal';
 import { AudioService } from '../services/audioService';
 
@@ -82,6 +76,18 @@ export const CommsPage = ({
 
   // Unified Zone 4 Contextual Inspector Tab ('roster' | 'docket' | 'vtt' | 'audit' | null)
   const [inspectorTab, setInspectorTab] = useState(null);
+
+  // Route STAGE ('vtt') and AUDIT ('logs') rail buttons directly to Zone 4 NetworkInspectorDrawer
+  // instead of unmounting ChannelSidebar and TransceiverDeck in Zone 2
+  useEffect(() => {
+    if (activeNavTab === 'vtt') {
+      setInspectorTab('vtt');
+    } else if (activeNavTab === 'logs') {
+      setInspectorTab('audit');
+    } else if (activeNavTab === 'matrix') {
+      setInspectorTab(prev => (prev === 'vtt' || prev === 'audit' ? null : prev));
+    }
+  }, [activeNavTab]);
 
   const [internalMobileView, setInternalMobileView] = useState('chat'); // 'sidebar' | 'chat'
   const mobileView = mobileViewOverride !== undefined ? mobileViewOverride : internalMobileView;
@@ -165,111 +171,55 @@ export const CommsPage = ({
       if (next === 'docket') {
         markDocketChecked();
       }
+      if (next === 'vtt') {
+        setActiveNavTab?.('vtt');
+      } else if (next === 'audit') {
+        setActiveNavTab?.('logs');
+      } else if (activeNavTab === 'vtt' || activeNavTab === 'logs') {
+        setActiveNavTab?.('matrix');
+      }
       return next;
     });
-  }, [markDocketChecked]);
+  }, [markDocketChecked, activeNavTab, setActiveNavTab]);
+
+  const handleCloseInspector = useCallback(() => {
+    setInspectorTab(null);
+    if (activeNavTab === 'vtt' || activeNavTab === 'logs') {
+      setActiveNavTab?.('matrix');
+    }
+  }, [activeNavTab, setActiveNavTab]);
 
   return (
     <div className="h-full w-full flex flex-col bg-[#080c14] text-slate-100 font-sans overflow-hidden select-none">
-      {/* ── Standalone Top Station Header (Only shown when mounted directly outside NetworkPage) ── */}
-      {!hideHeader && (
-        <header className="px-3 sm:px-4 py-2 bg-slate-950 border-b border-slate-800 flex items-center justify-between text-xs font-mono shrink-0 shadow-sm z-10">
-          <div className="flex items-center gap-2 min-w-0">
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1000, 0.02);
-                setMobileView(prev => prev === 'sidebar' ? 'chat' : 'sidebar');
-              }}
-              className="md:hidden p-1.5 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300 flex items-center gap-1.5 text-[11px] font-bold"
-            >
-              <Radio size={13} />
-              <span>{mobileView === 'sidebar' ? 'VIEW CHAT' : 'FREQUENCIES'}</span>
-            </button>
-
-            <div className="flex items-center gap-2 text-slate-400 min-w-0">
-              <span className="text-cyan-400 font-bold uppercase tracking-wider hidden sm:inline">
-                COMMLINK RELAY
-              </span>
-              <span className="hidden sm:inline text-slate-600">/</span>
-              <span className="px-2 py-0.5 rounded-md bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-bold truncate">
-                {activeChannel?.displayName || `#${activeChannel?.name || 'holonet'}`}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 text-[11px] text-slate-400 font-mono shrink-0">
-            {currentUser ? (
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-soft-badge-glow shadow-[0_0_6px_#10b981]" />
-                <span className="text-emerald-300 font-bold hidden sm:inline">RELAY ONLINE</span>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => openAuthModal?.()}
-                className="px-2 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold cursor-pointer transition-colors"
-              >
-                SIGN IN
-              </button>
-            )}
-          </div>
-        </header>
-      )}
-
       {/* ── Main Console Workstation (Zone 2 + Zone 3 + Zone 4) ── */}
       <div className="flex-1 flex min-h-0 overflow-hidden relative">
-        {/* Optional Standalone CommsNavRail (Hidden when unified NetworkServerRail is active) */}
-        {!hideLeftRail && (
-          <div className="hidden md:flex h-full shrink-0 relative z-40">
-            <CommsNavRail
-              onOpenCreateModal={() => setIsCreateModalOpen(true)}
-              onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
-              onOpenTeamModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
-            />
-          </div>
-        )}
-
-        {/* ZONE 2: Left Contextual Command & Frequency Tree Sidebar */}
+        {/* ZONE 2: Left Contextual Command & Frequency Tree Sidebar (Always preserves ChannelSidebar + TransceiverDeck) */}
         <div className={`w-full md:w-72 lg:w-80 shrink-0 h-full flex flex-col min-w-0 ${
           mobileView === 'sidebar' ? 'flex' : 'hidden md:flex'
         }`}>
           <div className="flex-1 min-h-0 overflow-hidden relative">
-            {!hideLeftRail && activeNavTab === 'roster' ? (
-              <NetworkRosterView />
-            ) : !hideLeftRail && activeNavTab === 'teams' ? (
-              <SquadSummarySidebar
-                onOpenCreateModal={() => setIsCreateModalOpen(true)}
-                onOpenSquadModal={() => (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true))}
-              />
-            ) : serverContext !== 'squad' && activeNavTab === 'vtt' ? (
-              <CommsVttPanel />
-            ) : serverContext !== 'squad' && activeNavTab === 'logs' ? (
-              <PersonaAuditLogSidebar />
-            ) : (
-              <ChannelSidebar
-                serverContext={serverContext}
-                activeStageMode={activeStageMode}
-                activeSquadTab={effectiveSquadTab}
-                onSelectSquadCommandTab={(tabId) => {
-                  effectiveOnSelectSquadTab?.(tabId);
-                  setMobileView('chat');
-                }}
-                onReturnToCommsStream={() => {
-                  onReturnToCommsStream?.();
-                  setMobileView('chat');
-                }}
-                onOpenCreateModal={() => setIsCreateModalOpen(true)}
-                onOpenCreateSquad={onOpenCreateSquad || (() => setIsTeamModalOpen(true))}
-                onOpenSquadModal={() => (onOpenCreateSquad ? onOpenCreateSquad() : (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true)))}
-                onOpenTeamModal={() => (onOpenCreateSquad ? onOpenCreateSquad() : (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true)))}
-                onSwitchToTeams={onSwitchToTeams}
-                onSelectChannel={() => {
-                  onReturnToCommsStream?.();
-                  setMobileView('chat');
-                }}
-              />
-            )}
+            <ChannelSidebar
+              serverContext={serverContext}
+              activeStageMode={activeStageMode}
+              activeSquadTab={effectiveSquadTab}
+              onSelectSquadCommandTab={(tabId) => {
+                effectiveOnSelectSquadTab?.(tabId);
+                setMobileView('chat');
+              }}
+              onReturnToCommsStream={() => {
+                onReturnToCommsStream?.();
+                setMobileView('chat');
+              }}
+              onOpenCreateModal={() => setIsCreateModalOpen(true)}
+              onOpenCreateSquad={onOpenCreateSquad || (() => setIsTeamModalOpen(true))}
+              onOpenSquadModal={() => (onOpenCreateSquad ? onOpenCreateSquad() : (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true)))}
+              onOpenTeamModal={() => (onOpenCreateSquad ? onOpenCreateSquad() : (onSwitchToTeams ? onSwitchToTeams() : setIsTeamModalOpen(true)))}
+              onSwitchToTeams={onSwitchToTeams}
+              onSelectChannel={() => {
+                onReturnToCommsStream?.();
+                setMobileView('chat');
+              }}
+            />
           </div>
         </div>
 
@@ -300,7 +250,7 @@ export const CommsPage = ({
         <NetworkInspectorDrawer
           activeTab={inspectorTab}
           onSelectTab={handleToggleInspectorTab}
-          onClose={() => setInspectorTab(null)}
+          onClose={handleCloseInspector}
           activeChannel={activeChannel}
           matchedGroup={matchedGroup}
           docketBlocks={docketBlocks}
@@ -310,10 +260,12 @@ export const CommsPage = ({
       </div>
 
       {/* Creation & DM Modal */}
-      <CreateChannelModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-      />
+      {isCreateModalOpen && (
+        <CreateChannelModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+        />
+      )}
 
       {/* Game Teams & Parties Builder Modal */}
       {isTeamModalOpen && (
@@ -331,15 +283,6 @@ export const CommsPage = ({
           onClose={() => setInviteTargetUser(null)}
           defaultGroupId={matchedGroup?.id}
           preselectedUser={inviteTargetUser}
-        />
-      )}
-
-      {/* Review & Accept Pending Team Invite Modal */}
-      {reviewingInvite && (
-        <TeamInviteConfirmationModal
-          isOpen={!!reviewingInvite}
-          onClose={closeInviteConfirmation}
-          invite={reviewingInvite}
         />
       )}
     </div>

@@ -10,7 +10,7 @@
  */
 
 import { useEffect } from 'react';
-import { Graphics, Container, Text as PixiText, TextStyle } from 'pixi.js';
+import { Graphics, Container, Text as PixiText, TextStyle, Assets, Sprite } from 'pixi.js';
 import { 
   type LayerCompositor, 
   ZLayer, 
@@ -174,6 +174,21 @@ export function useStageRenderers({
             g.lineTo(edge[2], edge[3]);
           });
           g.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
+        }
+
+        // Render MicroTile / Chunk Studio custom textureUrl if present
+        if (t.textureUrl) {
+          Assets.load(t.textureUrl).then((tex) => {
+            if (!container.destroyed && tex) {
+              const sprite = new Sprite(tex);
+              sprite.x = x;
+              sprite.y = y;
+              sprite.width = w;
+              sprite.height = h;
+              sprite.alpha = t.opacity ?? 0.92;
+              container.addChild(sprite);
+            }
+          }).catch(() => {});
         }
       }
     });

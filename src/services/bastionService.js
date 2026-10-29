@@ -64,18 +64,24 @@ Provide tactical, mathematically precise, immersive, and structured RPG content 
 - Keep tone professional, analytical, sci-fi/fantasy immersive, and mathematically precise. Always cite canonical Omnicortex rules and approved mechanics formulas when arbitrating.`;
 
 /**
- * Parses dice rolling commands like /roll 2d10+4 or /roll d20
+ * Parses dice rolling commands like /roll 2d10+4, /roll 2d10+4 vs 15, or /roll d20
+ * Supports Canonical v6 2d10 Dual Resolution (Axis 1: Magnitude Margin vs CR/DC, Axis 2: Doubles/Fate)
  */
 export const parseRollCommand = (command) => {
-  const match = command.match(/^\/roll\s+(\d+)?d(\d+)(?:\s*([+-])\s*(\d+))?$/i);
+  const cleaned = String(command || '').trim();
+  const match = cleaned.match(/^(?:\/r(?:oll)?\s+)?(\d+)?d(\d+)(?:\s*([+-])\s*(\d+))?(?:\s+(?:vs|dc|cr|target)\s+(\d+))?$/i);
   if (!match) {
-    return { success: false, error: 'Invalid roll command. Format: /roll [count]d[sides]+[mod] (e.g. /roll 2d10+4)' };
+    return {
+      success: false,
+      error: 'Invalid roll command. Format: /roll [count]d[sides]+[mod] [vs DC] (e.g. /roll 2d10+4 vs 15)'
+    };
   }
 
   const count = parseInt(match[1] || 1, 10);
   const sides = parseInt(match[2], 10);
   const sign = match[3] || '+';
   const mod = parseInt(match[4] || 0, 10) * (sign === '-' ? -1 : 1);
+  const targetDc = match[5] !== undefined ? parseInt(match[5], 10) : null;
 
   const rolls = [];
   let sum = 0;
@@ -85,15 +91,86 @@ export const parseRollCommand = (command) => {
     sum += r;
   }
   const total = sum + mod;
+  const d1 = rolls[0] ?? 0;
+  const d2 = rolls[1] ?? 0;
+  const is2d10 = count === 2 && sides === 10;
+  const isDouble = is2d10 && d1 === d2;
+  const isNat20 = is2d10 && d1 === 10 && d2 === 10;
+  const isNat2 = is2d10 && d1 === 1 && d2 === 1;
+  const margin = targetDc !== null ? total - targetDc : null;
+
+  let outcomeText = `Rolled ${total}`;
+  let degreeDetails = '';
+
+  if (targetDc !== null) {
+    const isSuccess = isNat20 ? true : isNat2 ? false : margin >= 0;
+    if (isNat20) {
+      outcomeText = '⚡ CRITICAL TRIUMPH (Nat 20 [10,10])';
+    } else if (isNat2) {
+      outcomeText = '💀 CRITICAL FUMBLE (Snake Eyes [1,1])';
+    } else if (margin >= 10) {
+      outcomeText = '🌟 Critical Success (+10 Margin)';
+    } else if (margin >= 5) {
+      outcomeText = '✅ High-Degree Success (+5 Margin)';
+    } else if (margin >= 0) {
+      outcomeText = '☑️ Marginal Success';
+    } else if (margin <= -10) {
+      outcomeText = '💥 Critical Failure (-10 Margin)';
+    } else if (margin <= -5) {
+      outcomeText = '❌ Severe Failure (-5 Margin)';
+    } else {
+      outcomeText = '⚠️ Failure';
+    }
+
+    const marginStr = `Margin: ${margin >= 0 ? `+${margin}` : margin} vs CR ${targetDc}`;
+    let fateStr = 'Axis 2: Standard';
+    if (isNat20) {
+      fateStr = 'Axis 2: Triumph (+1 Focus Point & Narrative Boon)';
+    } else if (isNat2) {
+      fateStr = 'Axis 2: Fumble (Severe Complication / +1 Strain Tick)';
+    } else if (isDouble) {
+      fateStr = isSuccess
+        ? `Axis 2: Doubles [${d1},${d2}] — Minor Narrative Boon`
+        : `Axis 2: Doubles [${d1},${d2}] — Narrative Complication`;
+    }
+    degreeDetails = `${marginStr} | ${fateStr}`;
+  } else if (is2d10) {
+    if (isNat20) {
+      outcomeText = '⚡ NATURAL 20 [10,10] — Critical Triumph!';
+      degreeDetails = 'Axis 2: Automatic Success & +1 Focus Point';
+    } else if (isNat2) {
+      outcomeText = '💀 SNAKE EYES [1,1] — Critical Fumble!';
+      degreeDetails = 'Axis 2: Automatic Failure & Complication';
+    } else if (isDouble) {
+      outcomeText = `🎲 Doubles Rolled [${d1},${d2}] (Total ${total})`;
+      degreeDetails = 'Axis 2: Triggers Boon (on success) or Complication (on failure)';
+    } else {
+      outcomeText = `2d10 Check Total: ${total}`;
+      degreeDetails = `Natural Sum: ${sum} | Modifier: ${mod >= 0 ? `+${mod}` : mod}`;
+    }
+  }
+
+  const exprBase = `${count}d${sides}${mod !== 0 ? (mod > 0 ? `+${mod}` : mod) : ''}`;
+  const expr = targetDc !== null ? `${exprBase} vs ${targetDc}` : exprBase;
 
   return {
     success: true,
     count,
     sides,
     rolls,
+    d1,
+    d2,
     mod,
+    modifier: mod,
     total,
-    expr: `${count}d${sides}${mod !== 0 ? (mod > 0 ? `+${mod}` : mod) : ''}`
+    targetDc,
+    margin,
+    isDouble,
+    isNat20,
+    isNat2,
+    outcomeText,
+    degreeDetails,
+    expr
   };
 };
 

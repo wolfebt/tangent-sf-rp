@@ -46,15 +46,7 @@ export const MobileBottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Hide on spectator / projector routes
-  if (
-    location.pathname.includes('/spectator') ||
-    location.pathname.startsWith('/foundry/view/')
-  ) {
-    return null;
-  }
-
-  // Telemetry contexts for real-time badges & actions
+  // Telemetry contexts for real-time badges & actions (must be called unconditionally before early return)
   const { personaRoster = [], roster = [] } = useFolio() || {};
   const { universeState, mapsCatalog } = useStory() || {};
   const { 
@@ -65,6 +57,14 @@ export const MobileBottomNav = () => {
   } = useChat() || {};
   const { groups = [], pendingInvites = [] } = useGroup() || {};
   const { isDiceOpen, toggleDiceRoller } = useDice() || {};
+
+  // Hide on spectator / projector routes
+  if (
+    location.pathname.includes('/spectator') ||
+    location.pathname.startsWith('/foundry/view/')
+  ) {
+    return null;
+  }
 
   const getActiveId = () => {
     const p = location.pathname;

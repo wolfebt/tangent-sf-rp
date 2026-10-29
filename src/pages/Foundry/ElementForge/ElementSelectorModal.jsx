@@ -27,6 +27,22 @@ export const ElementSelectorModal = ({
   const { elementsCatalog } = useCampaign();
   const storyContext = useStory();
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Map legacy dbSource keys to standard Element Types
+  const typeMap = {
+    'species': 'Species',
+    'factions': 'Faction',
+    'origins': 'Custom',
+    'occupations': 'Custom',
+    'weaponry': 'Item',
+    'armoring': 'Item',
+    'gear': 'Item',
+    'rules_codex': 'Custom',
+    'compendium': 'Custom'
+  };
+
+  const targetType = typeMap[sourceType] || (sourceType ? String(sourceType).charAt(0).toUpperCase() + String(sourceType).slice(1) : 'Custom');
+
   const [activeTypeFilter, setActiveTypeFilter] = useState(targetType && targetType !== 'Custom' ? targetType : null);
   const [sortOption, setSortOption] = useState('az'); // 'az' | 'za' | 'type'
   const [isBuildingNew, setIsBuildingNew] = useState(false);
@@ -45,21 +61,6 @@ export const ElementSelectorModal = ({
       localStorage.setItem(STORAGE_KEYS.CATALOG_VIEW_MODE, mode);
     } catch {}
   };
-
-  // Map legacy dbSource keys to standard Element Types
-  const typeMap = {
-    'species': 'Species',
-    'factions': 'Faction',
-    'origins': 'Custom',
-    'occupations': 'Custom',
-    'weaponry': 'Item',
-    'armoring': 'Item',
-    'gear': 'Item',
-    'rules_codex': 'Custom',
-    'compendium': 'Custom'
-  };
-
-  const targetType = typeMap[sourceType] || (sourceType ? String(sourceType).charAt(0).toUpperCase() + String(sourceType).slice(1) : 'Custom');
 
   // Compute available type pills
   const typePills = useMemo(() => {

@@ -2,6 +2,8 @@
 id: chameleon-skin
 name: Chameleon Skin
 category: augmentations
+location: "Full Body / Systemic"
+nodes: 4
 cost: 10240
 design_dc: 25
 craft_dc: 25
@@ -12,7 +14,7 @@ costs:
   cp: 0
   bp: 0
   credits: 10240
-  nodes: 0
+  nodes: 4
   sockets: 0
   strain: 0
   focus: 0
