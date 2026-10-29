@@ -188,28 +188,41 @@ export class QuickJSSandbox {
         const values = Object.values(sandboxEnv);
 
         const trimmed = code.trim();
+
+        // Guard against prototype-chain escapes and restricted global constructor access
+        const forbiddenPattern = /(\.\s*constructor\b|\[\s*['"`]constructor['"`]\s*\]|\b__proto__\b|\bprototype\b|\bglobalThis\b|\bFunction\b|\beval\s*\(|\bimport\s*\(|\bprocess\b)/;
+        if (forbiddenPattern.test(trimmed)) {
+          throw new Error('Security Violation: Restricted global or prototype chain access is prohibited in sandboxed macros.');
+        }
+
         // Strip leading comments to detect if code is an expression
         const codeWithoutLeadingComments = trimmed.replace(/^(\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)+/, '').trim();
         const hasReturn = /\breturn\b/.test(trimmed);
-        const isStatement = /^(const|let|var|if|for|while|switch|function|try|throw)\b/.test(codeWithoutLeadingComments);
+        const isStatement = /^(const|let|var|if|for|while|do|switch|function|try|throw)\b/.test(codeWithoutLeadingComments);
         let scriptBody = (hasReturn || isStatement)
           ? trimmed
           : `return (${codeWithoutLeadingComments || trimmed});`;
 
-        // Inject watchdog checks into loops to prevent infinite thread freezing
-        scriptBody = scriptBody.replace(
-          /\b(for|while)\s*\(([^)]*)\)\s*\{/g,
-          `$1($2) { if (performance.now() - ${startTime} > ${this.EXECUTION_TIMEOUT_MS}) throw new Error('[QuickJS Sandbox] Watchdog Terminated: Macro exceeded ${this.EXECUTION_TIMEOUT_MS}ms timeout limit.'); `
-        );
+        const watchdogCheck = `if (performance.now() - ${startTime} > ${this.EXECUTION_TIMEOUT_MS}) throw new Error('[QuickJS Sandbox] Watchdog Terminated: Macro exceeded ${this.EXECUTION_TIMEOUT_MS}ms timeout limit.');`;
 
-        // Construct sandbox function without access to window or document
+        // Inject watchdog checks into braced and braceless loops (for, while, do..while) to prevent infinite thread freezing
+        scriptBody = scriptBody
+          .replace(/\b(for|while)\s*\(([^)]*)\)\s*\{/g, `$1($2) { ${watchdogCheck} `)
+          .replace(/\b(for|while)\s*\(([^)]*)\)\s*(?!\{)/g, `$1($2) ${watchdogCheck} else `)
+          .replace(/\bdo\s*\{/g, `do { ${watchdogCheck} `);
+
+        // Construct sandbox function without access to window, document, or global constructors
         const secureFunc = new Function(
           ...keys,
           `"use strict"; 
            const window = undefined; 
            const document = undefined; 
+           const globalThis = undefined;
+           const self = undefined;
            const fetch = undefined; 
            const localStorage = undefined; 
+           const XMLHttpRequest = undefined;
+           const WebSocket = undefined;
            ${scriptBody}`
         );
 

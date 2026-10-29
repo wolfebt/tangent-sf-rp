@@ -357,7 +357,12 @@ export const DBMTableView = ({
       : ['name', 'description'];
   }, [currentConfig]);
 
-  const [visibleColumns, setVisibleColumns] = useState(() => {
+  const [customColumnsByKey, setCustomColumnsByKey] = useState({});
+
+  const visibleColumns = useMemo(() => {
+    if (Array.isArray(customColumnsByKey[currentKey]) && customColumnsByKey[currentKey].length > 0) {
+      return customColumnsByKey[currentKey];
+    }
     try {
       const saved = localStorage.getItem(`dbm_cols_${currentKey}`);
       if (saved) {
@@ -366,26 +371,11 @@ export const DBMTableView = ({
       }
     } catch (e) {}
     return defaultColumns;
-  });
-
-  // Re-sync visible columns when switching category
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(`dbm_cols_${currentKey}`);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setVisibleColumns(parsed);
-          return;
-        }
-      }
-    } catch (e) {}
-    setVisibleColumns(defaultColumns);
-  }, [currentKey, defaultColumns]);
+  }, [currentKey, defaultColumns, customColumnsByKey]);
 
   const updateVisibleColumns = (newCols) => {
     const safeCols = newCols.includes('name') ? newCols : ['name', ...newCols];
-    setVisibleColumns(safeCols);
+    setCustomColumnsByKey(prev => ({ ...prev, [currentKey]: safeCols }));
     try {
       localStorage.setItem(`dbm_cols_${currentKey}`, JSON.stringify(safeCols));
     } catch (e) {}
@@ -401,7 +391,11 @@ export const DBMTableView = ({
   };
 
   const resetDefaultColumns = () => {
-    setVisibleColumns(defaultColumns);
+    setCustomColumnsByKey(prev => {
+      const next = { ...prev };
+      delete next[currentKey];
+      return next;
+    });
     try {
       localStorage.removeItem(`dbm_cols_${currentKey}`);
     } catch (e) {}

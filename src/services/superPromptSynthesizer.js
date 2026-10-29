@@ -9,6 +9,7 @@ import { formatAimeGuidanceDirective, formatGemsPrompt } from '../pages/Foundry/
 import { normalizeLinkedAssets } from '../pages/Foundry/ElementForge/components/assetHubUtils.js';
 import { scanDynamicLorebook } from './lorebookScanner.ts';
 import { extractAndResolveBracketContext, formatBracketContextForAI } from './hyperlinkResolver.js';
+import { formatCronicleContextForAIME } from './cronicleService.js';
 
 /**
  * Builds the static, immutable KV prefix containing foundational BASTION rules,
@@ -215,11 +216,21 @@ export function synthesizeSuperPrompt({
   }
 
   // ── LIVING MEMORY & DELTAS (CRONICLE) ──
-  if (cronicle && cronicle.entities && Object.keys(cronicle.entities).length > 0) {
-    sections.push('\n[LIVING MEMORY — CRONICLE ENTITY STATES]');
-    const activeEntities = Object.entries(cronicle.entities).slice(0, 5);
-    for (const [id, entity] of activeEntities) {
-      sections.push(`  • ${entity.name || id}: Location=${entity.location || 'Unknown'}, Status=${entity.status || 'Active'}, HP=${entity.hp || '100%'}`);
+  if (cronicle) {
+    if (typeof cronicle.formatContext === 'function') {
+      const ctxStr = cronicle.formatContext();
+      if (ctxStr) sections.push('\n' + ctxStr);
+    } else if (cronicle.personas || cronicle.locations || cronicle.workingMemory || cronicle.timeline) {
+      const formattedCronicle = formatCronicleContextForAIME(cronicle);
+      if (formattedCronicle) {
+        sections.push('\n' + formattedCronicle);
+      }
+    } else if (cronicle.entities && Object.keys(cronicle.entities).length > 0) {
+      sections.push('\n[LIVING MEMORY — CRONICLE ENTITY STATES]');
+      const activeEntities = Object.entries(cronicle.entities).slice(0, 5);
+      for (const [id, entity] of activeEntities) {
+        sections.push(`  • ${entity.name || id}: Location=${entity.location || 'Unknown'}, Status=${entity.status || 'Active'}, HP=${entity.hp || '100%'}`);
+      }
     }
   }
 

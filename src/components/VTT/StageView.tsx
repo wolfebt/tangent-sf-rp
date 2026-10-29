@@ -1599,6 +1599,11 @@ export const StageView: React.FC<StageViewProps> = ({
     });
   }, [isCanvasReady, currentMap?.waypoints, updateMap]);
 
+  // Keep viewport transform in a ref so pointer handlers inside token containers
+  // can read current pan/zoom without forcing PixiJS token reconstruction on every frame.
+  const viewportTransformRef = useRef({ zoom, pan });
+  viewportTransformRef.current = { zoom, pan };
+
   // Render Tokens on the Stage with Action Pips & Mortality Indicators
   useEffect(() => {
     if (!isCanvasReady) return;
@@ -1608,7 +1613,10 @@ export const StageView: React.FC<StageViewProps> = ({
     const tokenLayer = compositor.getLayer(ZLayer.Tokens);
     if (!tokenLayer) return;
 
-    tokenLayer.removeChildren();
+    const oldChildren = tokenLayer.removeChildren();
+    oldChildren.forEach(child => {
+      try { child.destroy({ children: true }); } catch {}
+    });
 
     const style = new TextStyle({
       fontFamily: 'monospace',
@@ -1746,8 +1754,9 @@ export const StageView: React.FC<StageViewProps> = ({
           setSelectedTokenId(token.id);
           setStoreSelectedTokenId(token.id);
           const canvasBounds = canvasRef.current?.getBoundingClientRect();
-          const screenX = canvasBounds ? canvasBounds.left + token.x * zoom + pan.x : token.x;
-          const screenY = canvasBounds ? canvasBounds.top + token.y * zoom + pan.y : token.y;
+          const { zoom: curZoom, pan: curPan } = viewportTransformRef.current;
+          const screenX = canvasBounds ? canvasBounds.left + token.x * curZoom + curPan.x : token.x;
+          const screenY = canvasBounds ? canvasBounds.top + token.y * curZoom + curPan.y : token.y;
           setRadialMenuState({
             isOpen: true,
             position: { x: screenX, y: screenY },
@@ -1767,7 +1776,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
       tokenLayer.addChild(container);
     });
-  }, [isCanvasReady, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, zoom, pan]);
+  }, [isCanvasReady, tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt]);
 
   // Convert Screen Mouse Coordinates to World Coordinates
   const screenToWorld = useCallback((clientX: number, clientY: number) => {

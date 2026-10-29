@@ -69,6 +69,30 @@ export class Stage3DCompositor {
   }
 
   /**
+   * Disposes geometries, materials, and textures on a group's descendants before clearing.
+   */
+  private disposeGroupChildren(group: THREE.Group, preserveSharedMaterials: boolean = false) {
+    group.traverse((obj: any) => {
+      if (obj === group) return;
+      if (obj.geometry && typeof obj.geometry.dispose === 'function') {
+        obj.geometry.dispose();
+      }
+      if (!preserveSharedMaterials && obj.material) {
+        const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+        for (const mat of mats) {
+          if (mat.map && typeof mat.map.dispose === 'function') {
+            mat.map.dispose();
+          }
+          if (typeof mat.dispose === 'function') {
+            mat.dispose();
+          }
+        }
+      }
+    });
+    group.clear();
+  }
+
+  /**
    * Complete synchronization of the 3D scene from current map data and tokens.
    */
   public syncFromMap(
@@ -84,6 +108,11 @@ export class Stage3DCompositor {
     if (this.groundMesh) {
       this.scene.remove(this.groundMesh);
       if (this.groundMesh.geometry) this.groundMesh.geometry.dispose();
+      const gMat = this.groundMesh.material as any;
+      if (gMat) {
+        if (gMat.map && typeof gMat.map.dispose === 'function') gMat.map.dispose();
+        if (typeof gMat.dispose === 'function') gMat.dispose();
+      }
       this.groundMesh = null;
     }
     const bgUrl = map.background_url || map.imageUrl || null;
@@ -91,12 +120,12 @@ export class Stage3DCompositor {
     this.scene.add(this.groundMesh);
 
     // 2. Sync Terrain Elevation Plateaus
-    this.plateausGroup.clear();
+    this.disposeGroupChildren(this.plateausGroup);
     const plateaus = this.terrainBuilder.buildTerrainPlateaus(map.terrains || []);
     this.plateausGroup.add(plateaus);
 
     // 3. Sync Extruded Walls & Doors
-    this.wallsGroup.clear();
+    this.disposeGroupChildren(this.wallsGroup, true);
     const walls = this.wallExtruder.buildWallsGroup(map.walls || []);
     this.wallsGroup.add(walls);
 
@@ -106,7 +135,7 @@ export class Stage3DCompositor {
     }
 
     // 5. Sync Interactive Map Objects & Props
-    this.propsGroup.clear();
+    this.disposeGroupChildren(this.propsGroup);
     if (Array.isArray(map.objects)) {
       for (const obj of map.objects) {
         if (obj.x === undefined || obj.y === undefined) continue;
@@ -142,7 +171,7 @@ export class Stage3DCompositor {
     targetTokenId: string | null,
     camera?: THREE.Camera
   ) {
-    this.tokensGroup.clear();
+    this.disposeGroupChildren(this.tokensGroup, true);
 
     for (const token of tokens) {
       const isSelected = token.id === selectedTokenId;

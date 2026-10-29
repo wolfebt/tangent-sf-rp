@@ -462,7 +462,7 @@ export async function extractNarrativeDeltas({
   prose,
   cronicle,
   apiKey = '',
-  model = 'gemini-3.6-flash'
+  model = 'gemini-2.5-flash'
 }) {
   if (!prose || !prose.trim()) return [];
 

@@ -221,14 +221,45 @@ export const filterInitialData = (dataList, catKey = null) => {
 };
 
 export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
+  const currentTombstones = tombstones || getOmnicortexTombstones();
   if (catKey === 'compendium' || catKey === 'rules_codex') {
     const canonicalSeeds = getFallbackSeedForCategory('compendium');
     if (canonicalSeeds && canonicalSeeds.length > 0) {
-      return [...canonicalSeeds];
+      const customEntries = getOmnicortexCustomEntries()[catKey] || getOmnicortexCustomEntries()['compendium'] || {};
+      const customById = new Map();
+      Object.values(customEntries).forEach(entry => {
+        if (entry && entry.id && !isOmnicortexDeleted(entry, currentTombstones)) {
+          customById.set(entry.id.toString().toLowerCase().trim(), entry);
+        }
+      });
+      (docsList || []).forEach(doc => {
+        if (doc && doc.id && (doc.isCustom || doc.is_custom || String(doc.id).startsWith('entry_')) && !isOmnicortexDeleted(doc, currentTombstones)) {
+          const dId = doc.id.toString().toLowerCase().trim();
+          if (!customById.has(dId)) {
+            customById.set(dId, doc);
+          }
+        }
+      });
+
+      const seedIds = new Set();
+      const mergedSeeds = canonicalSeeds
+        .filter(seed => !isOmnicortexDeleted(seed, currentTombstones))
+        .map(seed => {
+          const sId = (seed.id || '').toString().toLowerCase().trim();
+          if (sId) seedIds.add(sId);
+          return (sId && customById.has(sId)) ? { ...seed, ...customById.get(sId) } : seed;
+        });
+
+      const appendedCustom = [];
+      customById.forEach((entry, cId) => {
+        if (!seedIds.has(cId)) {
+          appendedCustom.push(entry);
+        }
+      });
+
+      return [...mergedSeeds, ...appendedCustom];
     }
   }
-
-  const currentTombstones = tombstones || getOmnicortexTombstones();
   let items = (docsList || []).filter(i => {
     if (isOmnicortexDeleted(i, currentTombstones)) return false;
     if (catKey === 'features') {
@@ -564,7 +595,7 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
       const allowedSeedIds = new Set(fallbackSeeds.map(s => (s.id || '').toString().toLowerCase().trim()));
       items = items.filter(item => {
         const id = (item.id || '').toString().toLowerCase().trim();
-        return allowedSeedIds.has(id);
+        return allowedSeedIds.has(id) || customEntryMap.has(id) || Boolean(item.isCustom || item.is_custom || id.startsWith('entry_'));
       });
     }
 

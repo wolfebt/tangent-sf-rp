@@ -77,7 +77,8 @@ const FolioContainer = () => {
 
   const fileInputRef = useRef(null);
   const tabScrollContainerRef = useRef(null);
-  const lastSyncedSearchRef = useRef(null);
+  const lastObservedSearchRef = useRef(null);
+  const pendingNavSearchRef = useRef(null);
 
   const {
     activeTab: rawActiveTab,
@@ -186,7 +187,7 @@ const FolioContainer = () => {
     }
 
     const newSearch = `?${searchParams.toString()}`;
-    lastSyncedSearchRef.current = newSearch;
+    pendingNavSearchRef.current = newSearch;
     if (location.search !== newSearch) {
       if (pushHistory) {
         navigate({ pathname: location.pathname, search: newSearch });
@@ -234,8 +235,14 @@ const FolioContainer = () => {
 
   // Synchronize activeTab and character selection with URL query parameter (e.g. /folio?tab=catalog or /folio?char=123&tab=skills)
   useEffect(() => {
-    if (lastSyncedSearchRef.current === location.search) return;
-    lastSyncedSearchRef.current = location.search;
+    if (lastObservedSearchRef.current === location.search) return;
+    lastObservedSearchRef.current = location.search;
+
+    if (pendingNavSearchRef.current === location.search) {
+      pendingNavSearchRef.current = null;
+      return;
+    }
+    pendingNavSearchRef.current = null;
 
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
@@ -908,7 +915,7 @@ const FolioContainer = () => {
       window.removeEventListener('trigger-folio-save', handleTriggerSave);
       window.removeEventListener('open-folio-asset', handleOpenAssetEvent);
     };
-  }, [handleManualSave, handleOpenAssetModal]);
+  }, [handleManualSave, handleOpenAssetModal, handleReturnToCatalog]);
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">

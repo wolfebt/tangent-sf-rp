@@ -393,20 +393,14 @@ export const OmnicortexNavRail = ({
       }
     }
     onSelectSection(section.id, section);
-    if (!isPinned && !hasSubItems) {
-      setIsHovered(false);
-      setHoveredItem(null);
-    }
+    setHoveredItem(null);
     if (onCloseMobile && !hasSubItems) onCloseMobile();
   };
 
   const handleSubItemClick = (subKey, parentSection) => {
     AudioService.playTerminalBeep(1150, 0.02);
     onSelectSection(subKey, parentSection);
-    if (!isPinned) {
-      setIsHovered(false);
-      setHoveredItem(null);
-    }
+    setHoveredItem(null);
     if (onCloseMobile) onCloseMobile();
   };
 
@@ -697,10 +691,7 @@ export const OmnicortexNavRail = ({
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1200, 0.02);
-                if (!isPinned) {
-                  setIsHovered(false);
-                  setHoveredItem(null);
-                }
+                setHoveredItem(null);
                 setIsDevPanelOpen(prev => !prev);
               }}
               onMouseEnter={(e) => {
@@ -753,10 +744,7 @@ export const OmnicortexNavRail = ({
               type="button"
               onClick={() => {
                 AudioService.playTerminalBeep(1100, 0.02);
-                if (!isPinned) {
-                  setIsHovered(false);
-                  setHoveredItem(null);
-                }
+                setHoveredItem(null);
                 onOpenUserGuide();
               }}
               onMouseEnter={(e) => {

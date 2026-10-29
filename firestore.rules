@@ -344,8 +344,96 @@ service cloud.firestore {
     // =========================================================================
     // 13. CAMPAIGN SESSIONS (CRDT STATE DEBOUNCER)
     // =========================================================================
+    function isValidCampaignSession(data) {
+      return data.keys().hasAll(['crdt_blob', 'last_updated'])
+        && data.keys().hasOnly([
+          'crdt_blob', 'last_updated', 'ownerId', 'creatorId', 'memberIds',
+          'campaignId', 'sessionId', 'createdAt', 'updatedAt', 'title', 'status'
+        ])
+        && data.crdt_blob is string
+        && data.crdt_blob.size() <= 1000000
+        && ((data.last_updated is string && data.last_updated.size() <= 100) || data.last_updated is timestamp)
+        && (!('ownerId' in data) || (data.ownerId is string && data.ownerId.size() <= 128))
+        && (!('creatorId' in data) || (data.creatorId is string && data.creatorId.size() <= 128))
+        && (!('memberIds' in data) || (data.memberIds is list && data.memberIds.size() <= 100));
+    }
+
+    function isParentCampaignAuthorized(campaignId) {
+      return !exists(/databases/$(database)/documents/Campaigns/$(campaignId))
+        || (
+          !('ownerId' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data)
+          && !('memberIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data)
+        )
+        || get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.get('ownerId', '') == request.auth.uid
+        || (
+          'memberIds' in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data
+          && get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.memberIds is list
+          && request.auth.uid in get(/databases/$(database)/documents/Campaigns/$(campaignId)).data.memberIds
+        )
+        || isAdmin();
+    }
+
+    function isSessionDocAuthorized() {
+      return (
+          !('ownerId' in resource.data)
+          && !('memberIds' in resource.data)
+        )
+        || resource.data.get('ownerId', '') == request.auth.uid
+        || (
+          'memberIds' in resource.data
+          && resource.data.memberIds is list
+          && request.auth.uid in resource.data.memberIds
+        )
+        || isAdmin();
+    }
+
+    match /Campaigns/{campaignId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && (
+        isAdmin()
+        || (
+          request.resource.data.get('ownerId', request.auth.uid) == request.auth.uid
+          && (!('memberIds' in request.resource.data) || (request.resource.data.memberIds is list && request.resource.data.memberIds.size() <= 100))
+        )
+      );
+      allow update: if isAuthenticated() && (
+        isAdmin()
+        || (
+          resource.data.get('ownerId', '') == request.auth.uid
+          && request.resource.data.get('ownerId', '') == resource.data.get('ownerId', '')
+          && (!('memberIds' in request.resource.data) || (request.resource.data.memberIds is list && request.resource.data.memberIds.size() <= 100))
+        )
+      );
+      allow delete: if isAdmin() || (isAuthenticated() && resource.data.get('ownerId', '') == request.auth.uid);
+    }
+
     match /Campaigns/{campaignId}/Sessions/{sessionId} {
-      allow read, write: if isAuthenticated();
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && (
+        isAdmin()
+        || (
+          isValidCampaignSession(request.resource.data)
+          && request.resource.data.get('ownerId', request.auth.uid) == request.auth.uid
+          && isParentCampaignAuthorized(campaignId)
+        )
+      );
+      allow update: if isAuthenticated() && (
+        isAdmin()
+        || (
+          isValidCampaignSession(request.resource.data)
+          && isSessionDocAuthorized()
+          && isParentCampaignAuthorized(campaignId)
+          && (
+            request.resource.data.get('ownerId', '') == resource.data.get('ownerId', '')
+            || (resource.data.get('ownerId', '') == '' && request.resource.data.get('ownerId', '') == request.auth.uid)
+          )
+          && (
+            request.resource.data.get('memberIds', []) == resource.data.get('memberIds', [])
+            || resource.data.get('ownerId', '') == request.auth.uid
+          )
+        )
+      );
+      allow delete: if isAdmin() || (isAuthenticated() && resource.data.get('ownerId', '') == request.auth.uid);
     }
 
     // =========================================================================

@@ -752,11 +752,13 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     resolvedMatrix = { id: 'generic', name: 'Generic' };
   }
 
-  const normalized = normalizeOmnicortexItem(formData);
+  const exportedClean = exportOmnicortexItem({
+    ...formData,
+    category: formData.category || resolvedMatrix.id
+  });
 
   const payload = {
-    ...exportOmnicortexItem(formData),
-    ...normalized,
+    ...exportedClean,
     name: (formData.name || formData.title || 'Untitled Blueprint').trim(),
     matrix_id: resolvedMatrix.id,
     matrix_type: resolvedMatrix.id,

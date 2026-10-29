@@ -126,6 +126,23 @@ export class TelemetryClient {
     });
   }
 
+  /**
+   * Broadcast a real-time token drag ghost position on the Stage
+   */
+  public broadcastTokenDrag(x: number, y: number) {
+    if (!this.isConnected || !this.room.localParticipant) return;
+
+    const buffer = new ArrayBuffer(9);
+    const view = new DataView(buffer);
+    view.setUint8(0, TELEMETRY_PAYLOAD_TYPES.TOKEN_DRAG);
+    view.setFloat32(1, x, true);
+    view.setFloat32(5, y, true);
+
+    this.room.localParticipant.publishData(new Uint8Array(buffer), {
+      reliable: false
+    });
+  }
+
   private stopBroadcastLoop() {
     if (this.broadcastInterval) {
       window.clearInterval(this.broadcastInterval);
@@ -151,6 +168,9 @@ export class TelemetryClient {
     if (type === TELEMETRY_PAYLOAD_TYPES.CURSOR) {
       this.remoteCursors.set(participantId, { x, y, timestamp: Date.now() });
       this.dispatchCustomEvent('stage-remote-cursor-update', { id: participantId, x, y });
+    } else if (type === TELEMETRY_PAYLOAD_TYPES.TOKEN_DRAG) {
+      this.remoteGhosts.set(participantId, { tokenId: participantId, x, y, timestamp: Date.now() });
+      this.dispatchCustomEvent('stage-remote-token-drag', { id: participantId, x, y });
     } else if (type === TELEMETRY_PAYLOAD_TYPES.PING) {
       this.dispatchCustomEvent('stage-tactical-ping', { id: participantId, x, y });
     }

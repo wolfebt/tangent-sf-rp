@@ -182,6 +182,8 @@ const FolioFacadeBridge = ({ children }) => {
     addItemToInventory: inventory.addItemToInventory,
     addAbility: inventory.addAbility,
     handleUpdateItem: inventory.handleUpdateItem,
+    handleDeleteItem: inventory.handleDeleteItem,
+    handleRemoveItem: inventory.handleRemoveItem,
     companions: inventory.companions || identity.characterData?.companions || [],
     handleAddCompanion: inventory.handleAddCompanion,
     handleUpdateCompanion: inventory.handleUpdateCompanion,

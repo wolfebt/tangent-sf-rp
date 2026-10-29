@@ -404,7 +404,7 @@ export const MessageInput = ({ isCompact = false }) => {
                 <span className="w-1 h-1 rounded-full bg-cyan-400 animate-bounce [animation-delay:300ms]" />
               </span>
               <span>
-                {activeTypingUsers.map(t => t.name).join(', ')}{' '}
+                {activeTypingUsers.map(t => t.personaName || t.handle || t.name || 'Operative').join(', ')}{' '}
                 {activeTypingUsers.length === 1 ? 'is transmitting...' : 'are transmitting...'}
               </span>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { CODEX_MATRICES, getMatrixById } from './codexConfig';
 import { CodexSidebar } from './CodexSidebar';
@@ -59,8 +59,20 @@ export const CodexApp = () => {
   const currentMatrix = getMatrixById(activeMatrixId);
   const [parsingDatasetKey, setParsingDatasetKey] = useState(currentMatrix.ingestionKey || 'species');
 
+  const lastObservedSearchRef = useRef(null);
+  const pendingNavSearchRef = useRef(null);
+
   // Synchronize matrix, mode, and selected item from URL searchParams
   useEffect(() => {
+    if (lastObservedSearchRef.current === location.search) return;
+    lastObservedSearchRef.current = location.search;
+
+    if (pendingNavSearchRef.current === location.search) {
+      pendingNavSearchRef.current = null;
+      return;
+    }
+    pendingNavSearchRef.current = null;
+
     const matrix = searchParams.get('matrix');
     const mode = searchParams.get('mode');
     const itemId = searchParams.get('id');
@@ -80,9 +92,10 @@ export const CodexApp = () => {
     }
 
     if (itemId && dbData) {
+      const targetMatrix = matrix ? getMatrixById(matrix) : currentMatrix;
       const allEntries = [
-        ...(dbData[currentMatrix.targetCollection] || []),
-        ...(currentMatrix.altCollection ? (dbData[currentMatrix.altCollection] || []) : [])
+        ...(dbData[targetMatrix.targetCollection] || []),
+        ...(targetMatrix.altCollection ? (dbData[targetMatrix.altCollection] || []) : [])
       ];
       const match = allEntries.find(e => e.id === itemId);
       if (match && selectedItem?.id !== match.id) {
@@ -92,7 +105,7 @@ export const CodexApp = () => {
     } else if (!itemId && !mode && isBuilderOpen) {
       // Keep mode as is if user was interacting
     }
-  }, [searchParams, activeMatrixId, dbData, currentMatrix, selectedItem?.id, isBuilderOpen]);
+  }, [location.search, searchParams, activeMatrixId, dbData, currentMatrix, selectedItem?.id, isBuilderOpen]);
 
   // Active matrix mode: 'guided' | 'records' | 'suite'
   const activeMode = useMemo(() => {
@@ -111,12 +124,13 @@ export const CodexApp = () => {
   }, [currentMatrix]);
 
   const handleSelectMatrix = (matrixId, datasetKey, pushHistory = true) => {
-    setActiveMatrixId(matrixId);
     const params = new URLSearchParams();
     params.set('matrix', matrixId);
     if (datasetKey) params.set('dataset', datasetKey);
 
     const newSearch = `?${params.toString()}`;
+    pendingNavSearchRef.current = newSearch;
+    setActiveMatrixId(matrixId);
     if (location.search !== newSearch) {
       if (pushHistory) {
         navigate({ pathname: location.pathname, search: newSearch });
@@ -143,6 +157,7 @@ export const CodexApp = () => {
     }
 
     const newSearch = `?${params.toString()}`;
+    pendingNavSearchRef.current = newSearch;
     if (location.search !== newSearch) {
       if (pushHistory) {
         navigate({ pathname: location.pathname, search: newSearch });
@@ -212,7 +227,9 @@ export const CodexApp = () => {
     params.set('matrix', activeMatrixId);
     params.set('mode', 'guided');
     params.delete('id');
-    navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+    const newSearch = `?${params.toString()}`;
+    pendingNavSearchRef.current = newSearch;
+    navigate({ pathname: location.pathname, search: newSearch });
   };
 
   const handleEdit = (item) => {
@@ -226,7 +243,9 @@ export const CodexApp = () => {
     if (item?.id) {
       params.set('id', item.id);
     }
-    navigate({ pathname: location.pathname, search: `?${params.toString()}` });
+    const newSearch = `?${params.toString()}`;
+    pendingNavSearchRef.current = newSearch;
+    navigate({ pathname: location.pathname, search: newSearch });
   };
 
   const handleCodexBack = useCallback(() => {

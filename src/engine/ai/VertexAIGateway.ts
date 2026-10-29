@@ -194,7 +194,14 @@ class VertexAIGatewayService {
       }
 
       const json = await response.json();
-      const candidateText = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+      const parts = json?.candidates?.[0]?.content?.parts || [];
+      const candidateText = parts.find((p: any) => typeof p?.text === 'string')?.text || json?.candidates?.[0]?.content?.parts?.[0]?.text;
+      const rawToolCalls = parts
+        .filter((p: any) => p && p.functionCall)
+        .map((p: any) => ({
+          name: p.functionCall.name,
+          args: p.functionCall.args || {}
+        }));
       let parsedData = json.data;
       if (!parsedData && candidateText) {
         if (options.responseMimeType === 'application/json') {
@@ -212,7 +219,8 @@ class VertexAIGatewayService {
       return {
         success: true,
         data: parsedData,
-        text: json.text || candidateText || (typeof parsedData === 'string' ? parsedData : JSON.stringify(parsedData)),
+        text: json.text || candidateText || (typeof parsedData === 'string' ? parsedData : (parsedData ? JSON.stringify(parsedData) : '')),
+        toolCalls: rawToolCalls.length > 0 ? rawToolCalls : undefined,
         isSimulated: false,
         provider: 'cloud_proxy',
         latencyMs: Math.round(performance.now() - startTime)
@@ -240,7 +248,14 @@ class VertexAIGatewayService {
             reqBody.tools = options.tools;
           }
           const directJson = await fetchGeminiContent(clientApiKey, reqBody);
-          const candidateText = directJson?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          const directParts = directJson?.candidates?.[0]?.content?.parts || [];
+          const candidateText = directParts.find((p: any) => typeof p?.text === 'string')?.text || directJson?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          const directToolCalls = directParts
+            .filter((p: any) => p && p.functionCall)
+            .map((p: any) => ({
+              name: p.functionCall.name,
+              args: p.functionCall.args || {}
+            }));
           let parsedData: any = candidateText;
           if (options.responseMimeType === 'application/json' && candidateText) {
             try {
@@ -254,6 +269,7 @@ class VertexAIGatewayService {
             success: true,
             data: parsedData,
             text: candidateText,
+            toolCalls: directToolCalls.length > 0 ? directToolCalls : undefined,
             isSimulated: false,
             provider: 'client_gemini',
             latencyMs: Math.round(performance.now() - startTime)
@@ -286,9 +302,24 @@ class VertexAIGatewayService {
     const executedCalls: Array<{ name: string; args: Record<string, any>; result?: any }> = [];
     const lowerPrompt = (prompt || '').toLowerCase();
 
+    // Execute any functionCall parts returned by the model
+    if (Array.isArray(response.toolCalls) && response.toolCalls.length > 0 && typeof toolExecutor === 'function') {
+      for (const call of response.toolCalls) {
+        const res = await toolExecutor({
+          name: call.name,
+          args: call.args || {}
+        });
+        executedCalls.push({
+          name: call.name,
+          args: call.args || {},
+          result: res
+        });
+      }
+    }
+
     // If simulated or if the prompt explicitly requests a registered Stage 7 tool capability,
     // deterministically invoke the matching tool so Stage 7 agents always ground their response.
-    if (response.isSimulated && typeof toolExecutor === 'function') {
+    if (executedCalls.length === 0 && response.isSimulated && typeof toolExecutor === 'function') {
       if (lowerPrompt.includes('economatrix') || lowerPrompt.includes('purchase dc') || lowerPrompt.includes('cost dc')) {
         const res = await toolExecutor({
           name: 'evaluate_economatrix_acquisition',

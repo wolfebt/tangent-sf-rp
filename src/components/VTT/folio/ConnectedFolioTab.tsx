@@ -31,7 +31,8 @@ export const ConnectedFolioTab: React.FC = () => {
     getAttrTotal,
     getSkillBreakdown,
     updateCharacterHealth,
-    updateCharacterVitality
+    updateCharacterVitality,
+    updateCharacterStructure
   } = folio;
   const { openDiceRoller } = useDice();
 
@@ -41,10 +42,13 @@ export const ConnectedFolioTab: React.FC = () => {
 
   const charName = characterData?.['char-name'] || characterData?.name || 'Operative';
   const charDocId = characterData?.['character-doc-id'] || characterData?.id || 'active-hero';
+  const isSynthetic = Boolean(derivedStats?.isSynthetic || characterData?.isSynthetic || String(characterData?.['char-species'] || '').toLowerCase().includes('synthetic'));
   const curHealth = parseInt(characterData?.current_health ?? characterData?.health ?? 30, 10);
-  const maxHealth = parseInt(characterData?.health || 30, 10);
+  const maxHealth = parseInt(characterData?.health || derivedStats?.health || 30, 10);
   const curVitality = parseInt(characterData?.current_vitality ?? characterData?.vitality ?? 30, 10);
-  const maxVitality = parseInt(characterData?.vitality || 30, 10);
+  const maxVitality = parseInt(characterData?.vitality || derivedStats?.vitality || 30, 10);
+  const curStructure = parseInt(characterData?.current_structure ?? characterData?.structure ?? 60, 10);
+  const maxStructure = parseInt(characterData?.structure || derivedStats?.structure || 60, 10);
   const curKarma = parseInt(characterData?.karma ?? 0, 10);
 
   // Helper to parse arrays
@@ -65,13 +69,16 @@ export const ConnectedFolioTab: React.FC = () => {
   const armors = getArray('armor');
   const invocations = getArray('invocations');
 
-  // Quick healing
-  const handleQuickHeal = (target: 'vitality' | 'health', amount: number) => {
-    if (target === 'vitality') {
-      const nextVit = Math.min(maxVitality, curVitality + amount);
+  // Quick healing / repair
+  const handleQuickHeal = (target: 'vitality' | 'health' | 'structure', amount: number) => {
+    if (target === 'structure') {
+      const nextStr = Math.min(maxStructure, Math.max(0, curStructure + amount));
+      if (updateCharacterStructure) updateCharacterStructure(charDocId, nextStr);
+    } else if (target === 'vitality') {
+      const nextVit = Math.min(maxVitality, Math.max(0, curVitality + amount));
       if (updateCharacterVitality) updateCharacterVitality(charDocId, nextVit);
     } else {
-      const nextHp = Math.min(maxHealth, curHealth + amount);
+      const nextHp = Math.min(maxHealth, Math.max(0, curHealth + amount));
       if (updateCharacterHealth) updateCharacterHealth(charDocId, nextHp);
     }
     AudioService.playTerminalBeep(1200, 0.05);
@@ -113,16 +120,37 @@ export const ConnectedFolioTab: React.FC = () => {
     return parseInt(modVal, 10) || 0;
   }, [characterData]);
 
+  const skillLookupMap = useMemo(() => {
+    const map = new Map<string, any>();
+    Object.values(DEFAULT_SKILLS).forEach((groupList: any) => {
+      if (!Array.isArray(groupList)) return;
+      groupList.forEach((group: any) => {
+        if (!Array.isArray(group.skills)) return;
+        group.skills.forEach((s: any) => {
+          if (s?.id) {
+            map.set(s.id, s);
+            map.set(s.id.replace(/^[a-z]+-/, ''), s);
+          }
+        });
+      });
+    });
+    return map;
+  }, []);
+
   const getSkillTotal = useCallback((skill: any) => {
-    if (getSkillBreakdown && typeof skill === 'object' && skill.id) {
-      const bd = getSkillBreakdown(skill);
+    const resolvedSkillObj = typeof skill === 'object' && skill?.id
+      ? skill
+      : (typeof skill === 'string' ? (skillLookupMap.get(skill) || { id: skill, name: skill }) : null);
+
+    if (getSkillBreakdown && resolvedSkillObj && resolvedSkillObj.id) {
+      const bd = getSkillBreakdown(resolvedSkillObj);
       if (bd && typeof bd.score === 'number') return bd.score;
     }
     const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
     const cleanId = sId.replace(/^[a-z]+-/, '');
     const rank = getSkillRank(skill);
     const mod = getSkillMod(skill);
-    const baseAttrKey = characterData?.[`skill-${sId}-base`] || characterData?.[`skill-${cleanId}-base`] || (typeof skill === 'object' ? skill.baseAttr : '') || '';
+    const baseAttrKey = characterData?.[`skill-${sId}-base`] || characterData?.[`skill-${cleanId}-base`] || (resolvedSkillObj?.baseAttr || '') || '';
 
     let baseAttrVal = 0;
     if (baseAttrKey) {
@@ -136,7 +164,7 @@ export const ConnectedFolioTab: React.FC = () => {
     }
 
     return rank + baseAttrVal + mod;
-  }, [characterData, getSkillRank, getSkillMod, getAttrTotal, getSkillBreakdown]);
+  }, [characterData, getSkillRank, getSkillMod, getAttrTotal, getSkillBreakdown, skillLookupMap]);
 
   // Flatten skills from DEFAULT_SKILLS
   const flattenedSkills = useMemo(() => {
@@ -239,67 +267,109 @@ export const ConnectedFolioTab: React.FC = () => {
 
       {/* Vitals Telemetry Header */}
       <div className="grid grid-cols-2 gap-2 p-2 bg-[#080d1a] border-b border-slate-800/80 shrink-0">
-        {/* Health */}
-        <div className="p-2 rounded-lg bg-slate-950/80 border border-rose-950/60 flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono uppercase text-rose-400 font-bold flex items-center gap-1">
-              <Heart size={11} />
-              <span>Health</span>
+        {isSynthetic ? (
+          <div className="col-span-2 p-2 rounded-lg bg-slate-950/80 border border-amber-950/60 flex items-center justify-between">
+            <div>
+              <div className="text-[10px] font-mono uppercase text-amber-400 font-bold flex items-center gap-1">
+                <Shield size={11} />
+                <span>Structure (Synthetic Chassis)</span>
+              </div>
+              <div className="text-base font-mono font-bold text-amber-300 mt-0.5">
+                {curStructure} <span className="text-[10px] text-slate-500 font-normal">/ {maxStructure}</span>
+              </div>
             </div>
-            <div className="text-base font-mono font-bold text-rose-300 mt-0.5">
-              {curHealth} <span className="text-[10px] text-slate-500 font-normal">/ {maxHealth}</span>
+            <div className="flex gap-1">
+              <button
+                type="button"
+                onClick={() => handleQuickHeal('structure', -5)}
+                className="px-1.5 py-0.5 bg-rose-950 hover:bg-rose-900 border border-rose-800/60 text-rose-300 rounded text-[10px] font-mono cursor-pointer"
+                title="Apply 5 Structure Damage"
+              >
+                -5
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickHeal('structure', 5)}
+                className="px-1.5 py-0.5 bg-amber-950 hover:bg-amber-900 border border-amber-800/60 text-amber-300 rounded text-[10px] font-mono cursor-pointer"
+                title="Repair +5 Structure"
+              >
+                +5
+              </button>
+              <button
+                type="button"
+                onClick={() => handleQuickHeal('structure', maxStructure)}
+                className="px-1.5 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
+                title="Max Structure"
+              >
+                Max
+              </button>
             </div>
           </div>
-          <div className="flex gap-1">
-            <button
-              type="button"
-              onClick={() => handleQuickHeal('health', 5)}
-              className="px-1.5 py-0.5 bg-rose-950 hover:bg-rose-900 border border-rose-800/60 text-rose-300 rounded text-[10px] font-mono cursor-pointer"
-              title="Heal +5 Health"
-            >
-              +5
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickHeal('health', maxHealth)}
-              className="px-1.5 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
-              title="Max Health"
-            >
-              Max
-            </button>
-          </div>
-        </div>
+        ) : (
+          <>
+            {/* Health */}
+            <div className="p-2 rounded-lg bg-slate-950/80 border border-rose-950/60 flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-mono uppercase text-rose-400 font-bold flex items-center gap-1">
+                  <Heart size={11} />
+                  <span>Health</span>
+                </div>
+                <div className="text-base font-mono font-bold text-rose-300 mt-0.5">
+                  {curHealth} <span className="text-[10px] text-slate-500 font-normal">/ {maxHealth}</span>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleQuickHeal('health', 5)}
+                  className="px-1.5 py-0.5 bg-rose-950 hover:bg-rose-900 border border-rose-800/60 text-rose-300 rounded text-[10px] font-mono cursor-pointer"
+                  title="Heal +5 Health"
+                >
+                  +5
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickHeal('health', maxHealth)}
+                  className="px-1.5 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
+                  title="Max Health"
+                >
+                  Max
+                </button>
+              </div>
+            </div>
 
-        {/* Vitality */}
-        <div className="p-2 rounded-lg bg-slate-950/80 border border-cyan-950/60 flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono uppercase text-cyan-400 font-bold flex items-center gap-1">
-              <Activity size={11} />
-              <span>Vitality</span>
+            {/* Vitality */}
+            <div className="p-2 rounded-lg bg-slate-950/80 border border-cyan-950/60 flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-mono uppercase text-cyan-400 font-bold flex items-center gap-1">
+                  <Activity size={11} />
+                  <span>Vitality</span>
+                </div>
+                <div className="text-base font-mono font-bold text-cyan-300 mt-0.5">
+                  {curVitality} <span className="text-[10px] text-slate-500 font-normal">/ {maxVitality}</span>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleQuickHeal('vitality', 5)}
+                  className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800/60 text-cyan-300 rounded text-[10px] font-mono cursor-pointer"
+                  title="Heal +5 Vitality"
+                >
+                  +5
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickHeal('vitality', maxVitality)}
+                  className="px-1.5 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
+                  title="Max Vitality"
+                >
+                  Max
+                </button>
+              </div>
             </div>
-            <div className="text-base font-mono font-bold text-cyan-300 mt-0.5">
-              {curVitality} <span className="text-[10px] text-slate-500 font-normal">/ {maxVitality}</span>
-            </div>
-          </div>
-          <div className="flex gap-1">
-            <button
-              type="button"
-              onClick={() => handleQuickHeal('vitality', 5)}
-              className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800/60 text-cyan-300 rounded text-[10px] font-mono cursor-pointer"
-              title="Heal +5 Vitality"
-            >
-              +5
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickHeal('vitality', maxVitality)}
-              className="px-1.5 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
-              title="Max Vitality"
-            >
-              Max
-            </button>
-          </div>
-        </div>
+          </>
+        )}
       </div>
 
       {/* Main Content Pane */}

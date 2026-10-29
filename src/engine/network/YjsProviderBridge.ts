@@ -13,7 +13,7 @@ const PAYLOAD_PREFIX_YJS = 0x02;
 export class YjsProviderBridge {
   private doc: Y.Doc;
   private ownsDoc: boolean;
-  private room: Room;
+  public room: Room;
   private isConnected: boolean = false;
   private updateHandler?: (update: Uint8Array, origin: any) => void;
   

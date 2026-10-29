@@ -130,6 +130,18 @@ export const convertFolioToPersonaElement = (folioData, options = {}) => {
     'attr-charisma': String(folioData['attr-charisma'] ?? 0),
     'attr-etiquette': String(folioData['attr-etiquette'] ?? 2),
 
+    // Identity Pillar Allocation Pools & Skill Choices
+    'speciesAllocations': safeJsonStringify(folioData.speciesAllocations || {}),
+    'occuAllocations': safeJsonStringify(folioData.occuAllocations || {}),
+    'originAllocations': safeJsonStringify(folioData.originAllocations || {}),
+    'factionAllocations': safeJsonStringify(folioData.factionAllocations || {}),
+    'archetypeAllocations': safeJsonStringify(folioData.archetypeAllocations || {}),
+    'generalAllocations': safeJsonStringify(folioData.generalAllocations || {}),
+    'featureSkillSelections': safeJsonStringify(folioData.featureSkillSelections || {}),
+    'traitSkillSelections': safeJsonStringify(folioData.traitSkillSelections || {}),
+    'tracked_modifications': safeJsonStringify(folioData.tracked_modifications || []),
+    'sub_attr_purchases': safeJsonStringify(folioData.sub_attr_purchases || {}),
+
     // Mechanics: Lists & JSON
     'specializations': safeJsonStringify(folioData.specializations || []),
     'features': safeJsonStringify(folioData.features || []),
@@ -196,6 +208,7 @@ export const convertPersonaElementToFolio = (element) => {
   const name = fields['char-name'] || rawElement.title || attachedFolio['char-name'] || 'Unnamed Persona';
 
   const folioResult = {
+    ...attachedFolio,
     'character-doc-id': attachedFolio['character-doc-id'] || `char_${Date.now()}`,
     isPublic: Boolean(attachedFolio.isPublic),
     authorHandle: rawElement.authorHandle || attachedFolio.authorHandle || '',
@@ -220,11 +233,17 @@ export const convertPersonaElementToFolio = (element) => {
     'char-style': fields['char-style'] || attachedFolio['char-style'] || '',
     'char-motive': fields['char-motive'] || attachedFolio['char-motive'] || '',
 
-    // Identity Pillar Allocation Pools
+    // Identity Pillar Allocation Pools & Skill Selections
     speciesAllocations: safeJsonParse(fields.speciesAllocations, attachedFolio.speciesAllocations || {}),
     occuAllocations: safeJsonParse(fields.occuAllocations, attachedFolio.occuAllocations || {}),
     originAllocations: safeJsonParse(fields.originAllocations, attachedFolio.originAllocations || {}),
     factionAllocations: safeJsonParse(fields.factionAllocations, attachedFolio.factionAllocations || {}),
+    archetypeAllocations: safeJsonParse(fields.archetypeAllocations, attachedFolio.archetypeAllocations || {}),
+    generalAllocations: safeJsonParse(fields.generalAllocations, attachedFolio.generalAllocations || {}),
+    featureSkillSelections: safeJsonParse(fields.featureSkillSelections, attachedFolio.featureSkillSelections || {}),
+    traitSkillSelections: safeJsonParse(fields.traitSkillSelections, attachedFolio.traitSkillSelections || {}),
+    tracked_modifications: safeJsonParse(fields.tracked_modifications, attachedFolio.tracked_modifications || []),
+    sub_attr_purchases: safeJsonParse(fields.sub_attr_purchases, attachedFolio.sub_attr_purchases || {}),
 
     // Vitals & Core Stats
     'starting-cp': parseNum(fields['starting-cp'] ?? attachedFolio['starting-cp'], 150),

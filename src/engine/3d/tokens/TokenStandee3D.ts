@@ -59,12 +59,14 @@ export class TokenStandee3D {
     const elevationWorld = ((token.elevation_ft || 0) / 5) * 35;
     group.position.set(token.x, elevationWorld, token.y);
 
-    // Store metadata on userData for raycasting clicks
+    // Store metadata on userData for raycasting clicks and multi-deck slicing
     (group as any).userData = {
       tokenId: token.id,
       token,
       isToken: true,
-      elevation: token.elevation_ft || 0
+      elevation: token.elevation_ft || 0,
+      elevationWorld,
+      deckSliceable: true
     };
 
     const isSynthetic = !!token.is_synthetic || (token.species?.toLowerCase().includes('synthetic') ?? false);

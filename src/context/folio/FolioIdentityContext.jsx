@@ -599,13 +599,13 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       });
 
       isInitialCloudSyncCompleteRef.current = true;
-      setCloudSaveStatus('saved');
+      setCloudSaveStatus(prev => (prev === 'saved' ? prev : 'saved'));
     }, (err) => {
       if (handleFirestoreQuotaError(err)) {
-        setCloudSaveStatus('saved');
+        setCloudSaveStatus(prev => (prev === 'saved' ? prev : 'saved'));
         return;
       }
-      setCloudSaveStatus('error');
+      setCloudSaveStatus(prev => (prev === 'error' ? prev : 'error'));
     });
 
     return () => {

@@ -145,7 +145,7 @@ export class WallExtruder3D {
     wallGroup.position.set(midX, baseElevation, midZ);
     wallGroup.rotation.y = -angle; // Rotate to align with segment vector
 
-    // Attach metadata for raycasting / interactive clicks
+    // Attach metadata for raycasting / interactive clicks and multi-deck slicing
     (wallGroup as any).userData = {
       wallId: wall.id,
       wallType: wall.type,
@@ -153,7 +153,9 @@ export class WallExtruder3D {
       isOpen: wall.isOpen,
       isLocked: wall.isLocked,
       isWall: true,
-      originalWall: wall
+      originalWall: wall,
+      elevationWorld: baseElevation,
+      deckSliceable: true
     };
 
     const isDoor = wall.type === WALL_TYPES.DOOR;

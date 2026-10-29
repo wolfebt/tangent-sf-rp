@@ -54,23 +54,28 @@ export const ModularCharacterAssembler = ({
   const activeChassis = CHASSIS_PRESETS[chassisKey] || CHASSIS_PRESETS.combatant;
   const activeRole = ROLE_PACKAGES[roleKey] || ROLE_PACKAGES.tactical;
 
-  // Real-time calculated vitals based on canonical Tangent rules:
-  // Health = 30 + (STA * 5) + Tier Scaling + Role Bonus
-  const calculatedHealth = useMemo(() => {
-    const base = 30;
-    const staBonus = (activeChassis.sta || 1) * 5;
-    const tierBonus = tier * 8;
-    const roleBonus = activeRole.healthBonus || 0;
-    return base + staBonus + tierBonus + roleBonus;
-  }, [tier, activeChassis, activeRole]);
+  // Real-time calculated vitals based on canonical Tangent v6 rules:
+  // Organics start at 30 Health / 30 Vitality (Stamina grants Toughness DR, not flat HP);
+  // Synthetics start at 60 Structure Points. Threat Tier & Tactical Role scale pools.
+  const isSyntheticSpecies = String(selectedSpecies || '').toLowerCase().includes('synthetic');
 
-  // Vitality = 30 + (WIL * 5) + Tier Scaling
+  const calculatedHealth = useMemo(() => {
+    const base = isSyntheticSpecies ? 60 : 30;
+    const tierBonus = Math.max(0, tier - 1) * 6;
+    const roleBonus = activeRole.healthBonus || 0;
+    return base + tierBonus + roleBonus;
+  }, [tier, activeRole, isSyntheticSpecies]);
+
   const calculatedVitality = useMemo(() => {
+    if (isSyntheticSpecies) return 0;
     const base = 30;
-    const wilBonus = (activeChassis.wil || 1) * 5;
-    const tierBonus = tier * 5;
-    return base + wilBonus + tierBonus;
-  }, [tier, activeChassis]);
+    const tierBonus = Math.max(0, tier - 1) * 4;
+    return base + tierBonus;
+  }, [tier, isSyntheticSpecies]);
+
+  const calculatedToughness = useMemo(() => {
+    return activeChassis.sta || 0;
+  }, [activeChassis]);
 
   // Defense DC = 10 + AGI + Armor + Role
   const calculatedDefense = useMemo(() => {
@@ -96,6 +101,7 @@ export const ModularCharacterAssembler = ({
     onFieldChange?.('mcmRole', activeRole.name);
     onFieldChange?.('health', String(calculatedHealth));
     onFieldChange?.('vitality', String(calculatedVitality));
+    onFieldChange?.('toughness', String(calculatedToughness));
     onFieldChange?.('defense', String(calculatedDefense));
     onFieldChange?.('attackBonus', String(calculatedAttackBonus));
     if (selectedSpecies) onFieldChange?.('char-species', selectedSpecies);

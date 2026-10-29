@@ -219,7 +219,7 @@ export function formatContext(context, promptQuery = '') {
 export async function generateContent({ 
   prompt, 
   context = "", 
-  model = "gemini-3.6-flash", 
+  model = "gemini-2.5-flash", 
   apiKey = "", 
   mandate = null, 
   enforceJson = false,
@@ -229,6 +229,7 @@ export async function generateContent({
   localEndpoint = null
 }) {
   const activeKey = apiKey || getGeminiApiKey();
+  const hasProxyToken = Boolean(typeof localStorage !== 'undefined' && localStorage.getItem('firebaseIdToken'));
   const formattedCtx = formatContext(context, prompt);
 
   let fullPrompt = formattedCtx 
@@ -268,7 +269,7 @@ export async function generateContent({
   }
 
   // 2. Cloud Gemini Inference
-  if (!activeKey) {
+  if (!activeKey && !hasProxyToken) {
     if (enforceJson) {
       const fallbackObj = {
         narrative: mandate
@@ -381,7 +382,31 @@ export async function streamContent({
   }
 
   // 2. Cloud Gemini Streaming Inference
+  const hasProxyToken = Boolean(typeof localStorage !== 'undefined' && localStorage.getItem('firebaseIdToken'));
   if (!activeKey) {
+    if (hasProxyToken) {
+      try {
+        const proxyBody = {
+          systemInstruction: { parts: [{ text: AIME_SYSTEM_PROMPT }] },
+          contents: [{ role: "user", parts: [{ text: fullPrompt }] }]
+        };
+        if (enforceJson) {
+          proxyBody.generationConfig = {
+            responseMimeType: "application/json",
+            responseSchema: responseSchema || TANGENT_STORY_BEAT_JSON_SCHEMA
+          };
+        }
+        const proxyData = await fetchGeminiContent('', proxyBody);
+        const proxyText = proxyData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if (proxyText) {
+          if (onChunk) onChunk(proxyText);
+          return;
+        }
+      } catch (proxyErr) {
+        console.warn('[AimeService] Cloud proxy fallback failed in streamContent:', proxyErr);
+      }
+    }
+
     if (enforceJson) {
       const fallbackObj = {
         narrative: mandate
@@ -527,7 +552,32 @@ export async function streamChatContent({ messages, context = "", model = "gemin
     }
   }
 
+  const hasProxyToken = Boolean(typeof localStorage !== 'undefined' && localStorage.getItem('firebaseIdToken'));
   if (!activeKey) {
+    if (hasProxyToken) {
+      try {
+        const proxyContents = messages.map((msg, index) => {
+          let text = msg.content;
+          if (index === 0 && msg.role === 'user') {
+            const contextBlock = formattedCtx ? `[ARCHITECT & SCENARIO CONTEXT - OMNICORTEX ATTUNED]:\n${formattedCtx}\n\n` : '';
+            text = `${AIME_SYSTEM_PROMPT}\n\n${contextBlock}${text}`;
+          }
+          return {
+            role: msg.role === 'user' ? 'user' : 'model',
+            parts: [{ text }]
+          };
+        });
+        const proxyData = await fetchGeminiContent('', { contents: proxyContents });
+        const proxyText = proxyData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if (proxyText) {
+          if (onChunk) onChunk(proxyText);
+          return;
+        }
+      } catch (proxyErr) {
+        console.warn('[AimeService] Cloud proxy fallback failed in streamChatContent:', proxyErr);
+      }
+    }
+
     const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General ADE Studio'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
     if (onChunk) onChunk(fallback);
     return;

@@ -140,9 +140,10 @@ export function detachLiveKitBridge() {
  */
 export function getCollabStatus() {
   const isConnected = Boolean(activeBridge);
+  const remoteCount = activeBridge?.room?.remoteParticipants?.size;
   return {
     isConnected,
-    peerCount: isConnected ? 1 : 0,
+    peerCount: isConnected ? (typeof remoteCount === 'number' && remoteCount > 0 ? remoteCount : 1) : 0,
     doc: sharedDoc
   };
 }

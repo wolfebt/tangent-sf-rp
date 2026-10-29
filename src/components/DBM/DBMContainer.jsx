@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
   categoryConfig, 
@@ -61,7 +61,7 @@ export const DBMContainer = () => {
 
   // Reset search term on category/subcategory change
   useEffect(() => {
-    setSearchTerm('');
+    setSearchTerm(prev => (prev === '' ? prev : ''));
   }, [activeCategory, activeSubcategory]);
 
   // Auto-navigate to user guide if ?guide=1 is in URL
@@ -115,15 +115,15 @@ export const DBMContainer = () => {
 
   // Reset filters and sort when switching active category or subcategory
   useEffect(() => {
-    setFilterTypes([]);
-    setFilterSubtypes([]);
-    setFilterTLs([]);
-    setFilterMLs([]);
-    setFilterTags([]);
-    setFilterDirectives([]);
-    setFilterRailguards([]);
-    setSortField('name');
-    setSortAsc(true);
+    setFilterTypes(prev => (prev.length === 0 ? prev : []));
+    setFilterSubtypes(prev => (prev.length === 0 ? prev : []));
+    setFilterTLs(prev => (prev.length === 0 ? prev : []));
+    setFilterMLs(prev => (prev.length === 0 ? prev : []));
+    setFilterTags(prev => (prev.length === 0 ? prev : []));
+    setFilterDirectives(prev => (prev.length === 0 ? prev : []));
+    setFilterRailguards(prev => (prev.length === 0 ? prev : []));
+    setSortField(prev => (prev === 'name' ? prev : 'name'));
+    setSortAsc(prev => (prev === true ? prev : true));
   }, [currentKey]);
 
   const parentConfig = categoryConfig[activeCategory];
@@ -134,8 +134,9 @@ export const DBMContainer = () => {
     || directConfig
     || EMPTY_CONFIG;
 
-  const syncHook = useFirestoreSync(currentKey, currentUser);
-  const dbData = dbm.dbData || syncHook.dbData;
+  const hasGlobalDbm = Boolean(dbm.dbData && Object.keys(dbm.dbData).length > 0);
+  const syncHook = useFirestoreSync(hasGlobalDbm ? null : currentKey, currentUser);
+  const dbData = useMemo(() => ({ ...(syncHook.dbData || {}), ...(dbm.dbData || {}) }), [syncHook.dbData, dbm.dbData]);
   const saveEntry = dbm.saveEntry || syncHook.saveEntry;
   const deleteEntry = dbm.deleteEntry || syncHook.deleteEntry;
   const importJSON = dbm.importJSON || syncHook.importJSON;
@@ -323,8 +324,20 @@ export const DBMContainer = () => {
     });
   }, [currentItems, filterTypes, filterSubtypes, filterTLs, filterMLs, filterTags, filterDirectives, filterRailguards, searchTerm, sortField, sortAsc]);
 
+  const lastObservedSearchRef = useRef(null);
+  const pendingNavSearchRef = useRef(null);
+
   // Synchronize category, subcategory, and active item with URL query parameters
   useEffect(() => {
+    if (lastObservedSearchRef.current === location.search) return;
+    lastObservedSearchRef.current = location.search;
+
+    if (pendingNavSearchRef.current === location.search) {
+      pendingNavSearchRef.current = null;
+      return;
+    }
+    pendingNavSearchRef.current = null;
+
     const catParam = searchParams.get('cat');
     const subParam = searchParams.get('sub');
     const itemParam = searchParams.get('item');
@@ -332,8 +345,9 @@ export const DBMContainer = () => {
     if (catParam && catParam !== activeCategory) {
       setActiveCategory?.(catParam);
     }
-    if (subParam !== undefined && subParam !== activeSubcategory) {
-      setActiveSubcategory?.(subParam || null);
+    const normalizedSubParam = subParam || null;
+    if (normalizedSubParam !== (activeSubcategory || null)) {
+      setActiveSubcategory?.(normalizedSubParam);
     }
 
     if (itemParam) {
@@ -349,15 +363,16 @@ export const DBMContainer = () => {
       setIsEntryModalOpen(false);
       setSelectedItem(null);
     }
-  }, [searchParams, activeCategory, activeSubcategory, dbData, currentKey, isAdmin, setActiveCategory, setActiveSubcategory, selectedItem?.id, isEntryModalOpen]);
+  }, [location.search, searchParams, activeCategory, activeSubcategory, dbData, currentKey, isAdmin, setActiveCategory, setActiveSubcategory, selectedItem?.id, isEntryModalOpen]);
 
   const handleNavigateCategory = useCallback((catKey, subKey = null, pushHistory = true) => {
-    navigateToCategory?.(catKey, subKey);
     const newParams = new URLSearchParams();
     newParams.set('cat', catKey);
     if (subKey) newParams.set('sub', subKey);
 
     const newSearch = `?${newParams.toString()}`;
+    pendingNavSearchRef.current = newSearch;
+    navigateToCategory?.(catKey, subKey);
     if (location.search !== newSearch) {
       if (pushHistory) {
         navigate({ pathname: location.pathname, search: newSearch });
@@ -387,6 +402,7 @@ export const DBMContainer = () => {
       newParams.set('item', item.id);
     }
     const newSearch = `?${newParams.toString()}`;
+    pendingNavSearchRef.current = newSearch;
     if (location.search !== newSearch) {
       navigate({ pathname: location.pathname, search: newSearch });
     }
@@ -398,7 +414,9 @@ export const DBMContainer = () => {
     if (searchParams.get('item')) {
       const newParams = new URLSearchParams(location.search);
       newParams.delete('item');
-      navigate({ pathname: location.pathname, search: `?${newParams.toString()}` });
+      const newSearch = `?${newParams.toString()}`;
+      pendingNavSearchRef.current = newSearch;
+      navigate({ pathname: location.pathname, search: newSearch });
     }
   }, [searchParams, location.search, location.pathname, navigate]);
 
