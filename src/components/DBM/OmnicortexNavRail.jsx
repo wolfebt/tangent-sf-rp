@@ -423,7 +423,11 @@ export const OmnicortexNavRail = ({
 
       <nav
         aria-label="Omnicortex Navigation Rail"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          if (typeof window !== 'undefined' && window.matchMedia?.('(hover: hover) and (pointer: fine)')?.matches) {
+            setIsHovered(true);
+          }
+        }}
         onMouseLeave={() => {
           setIsHovered(false);
           setHoveredItem(null);

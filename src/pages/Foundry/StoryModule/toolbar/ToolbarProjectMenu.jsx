@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   BookOpen, 
   FolderOpen, 
@@ -91,9 +92,11 @@ export default function ToolbarProjectMenu({
     window.dispatchEvent(new CustomEvent('open-settings-modal'));
   });
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const [menuPos, setMenuPos] = useState({ top: 76, left: 16 });
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [titleInput, setTitleInput] = useState(universeState?.projectName || 'Untitled Story');
   const fileMenuRef = useRef(null);
+  const dropdownPortalRef = useRef(null);
   const storyFileInputRef = useRef(null);
 
   useEffect(() => {
@@ -101,8 +104,31 @@ export default function ToolbarProjectMenu({
   }, [universeState?.projectName]);
 
   useEffect(() => {
+    if (!isFileMenuOpen) return;
+    const updateMenuPosition = () => {
+      if (!fileMenuRef.current) return;
+      const rect = fileMenuRef.current.getBoundingClientRect();
+      const menuWidth = Math.min(288, window.innerWidth - 16);
+      const clampedLeft = Math.max(8, Math.min(rect.left, window.innerWidth - menuWidth - 8));
+      setMenuPos({
+        top: rect.bottom + 6,
+        left: clampedLeft
+      });
+    };
+    updateMenuPosition();
+    window.addEventListener('resize', updateMenuPosition);
+    window.addEventListener('scroll', updateMenuPosition, true);
+    return () => {
+      window.removeEventListener('resize', updateMenuPosition);
+      window.removeEventListener('scroll', updateMenuPosition, true);
+    };
+  }, [isFileMenuOpen]);
+
+  useEffect(() => {
     const handleClickOutside = (e) => {
-      if (fileMenuRef.current && !fileMenuRef.current.contains(e.target)) {
+      const clickedTrigger = fileMenuRef.current && fileMenuRef.current.contains(e.target);
+      const clickedDropdown = dropdownPortalRef.current && dropdownPortalRef.current.contains(e.target);
+      if (!clickedTrigger && !clickedDropdown) {
         setIsFileMenuOpen(false);
       }
     };
@@ -211,8 +237,12 @@ export default function ToolbarProjectMenu({
           <ChevronDown size={11} className={`text-slate-400 transition-transform duration-200 ${isFileMenuOpen ? 'rotate-180 text-cyan-400' : ''}`} />
         </button>
 
-        {isFileMenuOpen && (
-          <div className="absolute left-0 mt-1.5 w-72 bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-50 text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+        {isFileMenuOpen && typeof document !== 'undefined' && createPortal(
+          <div
+            ref={dropdownPortalRef}
+            style={{ top: `${menuPos.top}px`, left: `${menuPos.left}px` }}
+            className="fixed w-72 max-w-[calc(100vw-1rem)] max-h-[calc(100vh-5.5rem)] overflow-y-auto custom-scrollbar bg-[#0b101b] border border-cyan-500/40 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.95)] py-1.5 z-[250] text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150"
+          >
             {/* Active Module Header & Rename Input */}
             <div className="px-3 py-2 bg-slate-950/70 rounded-t-2xl">
               <div className="flex items-center justify-between gap-2 mb-1.5">
@@ -464,7 +494,8 @@ export default function ToolbarProjectMenu({
                 <span>Delete Story Project</span>
               </button>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </div>
 

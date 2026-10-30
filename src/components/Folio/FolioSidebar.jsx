@@ -166,7 +166,7 @@ export const FolioSidebar = ({
     <>
       {/* In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned or collapsed) */}
       <div
-        className={`shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
+        className={`hidden md:block shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
           isPinned ? 'w-14 sm:w-16 md:w-56 lg:w-60' : 'w-14 sm:w-16'
         }`}
         aria-hidden="true"
@@ -174,7 +174,11 @@ export const FolioSidebar = ({
 
       <nav
         aria-label="Folio Navigation Rail"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          if (typeof window !== 'undefined' && window.matchMedia?.('(hover: hover) and (pointer: fine)')?.matches) {
+            setIsHovered(true);
+          }
+        }}
         onMouseLeave={() => {
           setIsHovered(false);
           setHoveredItem(null);
@@ -183,6 +187,8 @@ export const FolioSidebar = ({
           isExpanded 
             ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80 z-40' 
             : 'w-14 sm:w-16 shadow-lg z-30'
+        } ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* Navigation Items and Character Brand Header */}

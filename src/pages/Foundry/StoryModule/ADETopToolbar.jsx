@@ -46,6 +46,8 @@ export default function ADETopToolbar({
     setIsSplitView,
     viewportSplit,
     setViewportSplit,
+    isTreeExpanded,
+    setIsTreeExpanded,
     setPreflightTelemetry
   } = useAdeStore(
     useShallow((s) => ({
@@ -57,6 +59,8 @@ export default function ADETopToolbar({
       setIsSplitView: s.setIsSplitView,
       viewportSplit: s.viewportSplit,
       setViewportSplit: s.setViewportSplit,
+      isTreeExpanded: s.isTreeExpanded,
+      setIsTreeExpanded: s.setIsTreeExpanded,
       setPreflightTelemetry: s.setPreflightTelemetry
     }))
   );
@@ -72,12 +76,12 @@ export default function ADETopToolbar({
   const storyTitle = universeState?.storyTitle || universeState?.name || universeState?.title || 'Story Module';
 
   return (
-    <header className="relative z-40 bg-slate-950/98 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 sm:gap-3 select-none shadow-xl backdrop-blur-2xl font-mono shrink-0 h-12">
+    <header className="relative z-40 bg-slate-950/98 border-b border-cyan-500/30 px-2 sm:px-3 py-1.5 flex items-center justify-between gap-1.5 sm:gap-3 select-none shadow-xl backdrop-blur-2xl font-mono shrink-0 h-12 overflow-x-auto no-scrollbar">
       {/* ── ZONE 1: LEFT BALANCING SPACER ── */}
-      <div className="flex items-center shrink-0" />
+      <div className="hidden md:flex items-center shrink-0" />
 
       {/* ── ZONE 2: INTERACTIVE BREADCRUMB & HIERARCHY NAVIGATION (Center) ── */}
-      <div className="flex-1 flex items-center justify-center min-w-0 px-1 sm:px-2">
+      <div className="flex-1 flex items-center justify-start md:justify-center min-w-0 px-0.5 sm:px-2">
         <ToolbarBreadcrumb
           activeView={activeView}
           scenarioWorkspaceTab={scenarioWorkspaceTab}
@@ -89,6 +93,8 @@ export default function ADETopToolbar({
           onSwitchView={onSwitchView}
           onSelectScenarioWorkspaceTab={onSelectScenarioWorkspaceTab}
           onSelectScenario={onSelectScenario}
+          isTreeExpanded={isTreeExpanded}
+          onToggleTreeExpanded={() => setIsTreeExpanded(!isTreeExpanded)}
         />
       </div>
 

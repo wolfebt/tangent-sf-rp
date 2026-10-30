@@ -463,7 +463,7 @@ export const ScenarioCockpitDockPanel = ({
   if (!isRightDockOpen) return null;
 
   return (
-    <aside className="w-80 xl:w-96 flex-shrink-0 bg-slate-900/98 border-l border-slate-800 flex flex-row h-full z-20 backdrop-blur-xl shadow-2xl transition-all">
+    <aside className="max-lg:absolute max-lg:inset-y-0 max-lg:right-0 max-lg:z-30 w-80 xl:w-96 max-w-[90vw] flex-shrink-0 bg-slate-900/98 border-l border-slate-800 flex flex-row h-full z-20 backdrop-blur-xl shadow-2xl transition-all">
       {/* Main Content Column of Right Dock */}
       <div className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-slate-900/90">
         {/* Dock Content Header */}

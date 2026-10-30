@@ -115,7 +115,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     if (winW < 768) {
       return {
         pos: { x: 8, y: DEFAULT_TOP_OFFSET },
-        size: { width: Math.max(320, winW - 16), height: Math.max(360, winH - DEFAULT_TOP_OFFSET - 20) }
+        size: { width: Math.max(300, winW - 16), height: Math.max(320, winH - DEFAULT_TOP_OFFSET - 68) }
       };
     }
 
@@ -169,6 +169,12 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   useEffect(() => {
     if (!isOpen) return;
     const def = getDefaultModalGeometry();
+
+    if (window.innerWidth < 768) {
+      setPosition(def.pos);
+      setSize(def.size);
+      return;
+    }
 
     setPosition(prev => {
       if (!prev) return def.pos;

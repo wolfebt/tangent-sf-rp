@@ -59,7 +59,35 @@ export default function ScenarioPane({
     deleteSavedElement
   } = useStory();
 
-  const effectiveSelectScenario = onSelectScenario || setActiveScenarioId;
+  const rawSelectScenario = onSelectScenario || setActiveScenarioId;
+  const effectiveSelectScenario = (id) => {
+    if (rawSelectScenario) rawSelectScenario(id);
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      useAdeStore.getState().setIsTreeExpanded(false);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      useAdeStore.getState().setIsTreeExpanded(false);
+      useAdeStore.getState().setIsRightDockOpen(false);
+    }
+  }, []);
+
+  // Mutual exclusion between left Outliner and right Cockpit Dock on < 1024px viewports
+  const prevTreeRef = useRef(isTreeExpanded);
+  const prevDockRef = useRef(isRightDockOpen);
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      if (isTreeExpanded && !prevTreeRef.current && isRightDockOpen) {
+        useAdeStore.getState().setIsRightDockOpen(false);
+      } else if (isRightDockOpen && !prevDockRef.current && isTreeExpanded) {
+        useAdeStore.getState().setIsTreeExpanded(false);
+      }
+    }
+    prevTreeRef.current = isTreeExpanded;
+    prevDockRef.current = isRightDockOpen;
+  }, [isTreeExpanded, isRightDockOpen]);
 
   const { toast } = useToast();
 
@@ -355,6 +383,17 @@ export default function ScenarioPane({
           if (setActiveScenarioId) setActiveScenarioId(node.id);
         }}
       />
+
+      {/* Mobile / Small-Tablet Drawer Backdrop */}
+      {scenarioWorkspaceTab !== 'stage' && (isTreeExpanded || isRightDockOpen) && (
+        <div
+          className="lg:hidden absolute inset-0 bg-black/65 backdrop-blur-xs z-20 transition-opacity"
+          onClick={() => {
+            useAdeStore.getState().setIsTreeExpanded(false);
+            useAdeStore.getState().setIsRightDockOpen(false);
+          }}
+        />
+      )}
 
       {/* ── ZONE 1: DUAL-MODE OUTLINER RAIL (Left Column: Scenarios & World Elements) ── */}
       {scenarioWorkspaceTab !== 'stage' && (

@@ -109,7 +109,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   AudioService.playTerminalBeep(1100, 0.02);
                   setShowDocket(prev => !prev);
                 }}
-                className={`hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-all cursor-pointer ${
+                className={`flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-all cursor-pointer ${
                   showDocket
                     ? 'bg-rose-950/90 text-rose-200 border-rose-400/80 shadow-sm'
                     : 'bg-rose-950/30 hover:bg-rose-950/60 text-rose-300 border-rose-500/50'
@@ -117,7 +117,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 title="Toggle Tactical Docket (Objectives & Visual Recon)"
               >
                 <BookOpen size={13} />
-                <span>DOCKET</span>
+                <span className="hidden sm:inline">DOCKET</span>
               </button>
 
               {/* Quick Team Invite Button */}
@@ -127,11 +127,11 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   setIsQuickInviteOpen(true);
                 }}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-200 border border-emerald-500/50 text-xs font-mono font-bold transition-all cursor-pointer shadow-sm"
+                className="flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-200 border border-emerald-500/50 text-xs font-mono font-bold transition-all cursor-pointer shadow-sm"
                 title="Dispatch Team Invite / Copy Join Credentials"
               >
                 <UserPlus size={13} />
-                <span>INVITE</span>
+                <span className="hidden sm:inline">INVITE</span>
               </button>
 
               {/* Direct Team Management Button */}
@@ -141,11 +141,11 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   AudioService.playTerminalBeep(1100, 0.02);
                   setIsTeamModalOpen(true);
                 }}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-emerald-500/40 text-xs font-mono font-bold transition-all cursor-pointer"
+                className="flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 hover:border-emerald-500/40 text-xs font-mono font-bold transition-all cursor-pointer"
                 title="Team Management"
               >
                 <Shield size={13} />
-                <span>TEAMS</span>
+                <span className="hidden sm:inline">TEAMS</span>
               </button>
 
               {/* Create Channel */}
@@ -155,11 +155,11 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                   AudioService.playTerminalBeep(1200, 0.02);
                   setIsCreateModalOpen(true);
                 }}
-                className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-mono font-bold transition-all shadow-sm cursor-pointer"
+                className="flex items-center gap-1 px-1.5 sm:px-2.5 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-mono font-bold transition-all shadow-sm cursor-pointer"
                 title="Create Custom Channel or DM"
               >
                 <Plus size={13} />
-                <span>CHANNEL</span>
+                <span className="hidden sm:inline">CHANNEL</span>
               </button>
 
               {/* Full Screen Matrix View */}

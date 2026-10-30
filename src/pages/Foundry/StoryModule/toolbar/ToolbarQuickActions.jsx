@@ -117,7 +117,7 @@ export default function ToolbarQuickActions({
       <button
         type="button"
         onClick={handleToggleStudioMode}
-        className={`px-2.5 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
+        className={`hidden md:flex px-2.5 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer border ${
           studioMode === 'live_session'
             ? 'bg-rose-950/90 border-rose-400 text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.4)] animate-pulse'
             : 'bg-slate-900 border-slate-700/80 text-slate-300 hover:text-white hover:border-slate-500'
@@ -135,7 +135,7 @@ export default function ToolbarQuickActions({
           AudioService.playTerminalBeep(perspectiveMode === 'architect' ? 1400 : 900, 0.03);
           togglePerspectiveMode?.();
         }}
-        className={`px-2.5 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
+        className={`hidden lg:flex px-2.5 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer border ${
           perspectiveMode === 'operator'
             ? 'bg-amber-950/80 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
             : 'bg-indigo-950/80 border-indigo-400 text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
@@ -153,7 +153,7 @@ export default function ToolbarQuickActions({
           AudioService.playTerminalBeep(1100, 0.05);
           onToggleCompiler?.(true);
         }}
-        className={`px-2.5 py-1 rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
+        className={`hidden md:flex px-2.5 py-1 rounded-xl text-xs uppercase font-bold tracking-wider transition-all items-center gap-1.5 cursor-pointer border ${
           isCompilerOpen
             ? 'bg-cyan-950 text-cyan-200 border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
             : 'bg-slate-900/90 hover:bg-slate-800 text-cyan-300 border-cyan-500/50 hover:border-cyan-400'
@@ -173,15 +173,15 @@ export default function ToolbarQuickActions({
           if (onSelectCockpitDeck) onSelectCockpitDeck('aime');
           if (onToggleRightDock) onToggleRightDock(true);
         }}
-        className={`px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer border ${
+        className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 sm:gap-1.5 cursor-pointer border ${
           isRightDockOpen && activeCockpitDeck === 'aime'
             ? 'bg-amber-950 text-amber-200 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)]'
             : 'bg-slate-900/90 text-amber-400 hover:text-amber-200 border-amber-500/50 hover:border-amber-400'
         }`}
         title="Launch AIME Narrative Co-Pilot"
       >
-        <Sparkles size={13} className="text-amber-400 animate-pulse" />
-        <span>AIME</span>
+        <Sparkles size={13} className="text-amber-400 animate-pulse shrink-0" />
+        <span className="hidden xs:inline">AIME</span>
       </button>
 
       {/* Deploy to STAGE VTT */}
@@ -192,7 +192,7 @@ export default function ToolbarQuickActions({
           const mapId = targetMapId || universeState?.maps?.[0]?.id || '';
           navigate(`/stage?mapId=${mapId}&scenarioId=${activeNode?.id || ''}`);
         }}
-        className="px-2.5 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
+        className="hidden md:flex px-2.5 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-400 text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
         title="Deploy active scenario and elements into The Stage VTT"
       >
         <span>⚔️</span>

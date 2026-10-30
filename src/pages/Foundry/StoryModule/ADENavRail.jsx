@@ -8,7 +8,7 @@
  * - Viewport Drawer Controls: Scenario Outliner Tree Toggle ([)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { 
@@ -55,7 +55,9 @@ export const ADENavRail = ({
   onOpenPrintModal,
   onOpenGuide,
   isTreeExpanded = true,
-  onToggleTreeExpanded
+  onToggleTreeExpanded,
+  isMobileOpen: propIsMobileOpen,
+  onCloseMobile
 }) => {
   const navigate = useNavigate();
   const { elementsCatalog: contextElementsCatalog } = useStory() || {};
@@ -67,6 +69,19 @@ export const ADENavRail = ({
 
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [internalMobileOpen, setInternalMobileOpen] = useState(false);
+  const isMobileOpen = propIsMobileOpen !== undefined ? propIsMobileOpen : internalMobileOpen;
+
+  const closeMobileRail = () => {
+    setInternalMobileOpen(false);
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  useEffect(() => {
+    const handleToggleMobileRail = () => setInternalMobileOpen(prev => !prev);
+    window.addEventListener('toggle-ade-mobile-rail', handleToggleMobileRail);
+    return () => window.removeEventListener('toggle-ade-mobile-rail', handleToggleMobileRail);
+  }, []);
   const [isPinned, setIsPinned] = useState(() => {
     if (typeof window === 'undefined') return false;
     try {
@@ -139,7 +154,7 @@ export const ADENavRail = ({
     } catch {}
   };
 
-  const isExpanded = isPinned || isHovered;
+  const isExpanded = isPinned || isHovered || isMobileOpen;
 
   const totalGalleryCount = elementsCount + mapsCount + modifiersCount;
 
@@ -237,6 +252,7 @@ export const ADENavRail = ({
       setIsHovered(false);
       setHoveredItem(null);
     }
+    closeMobileRail();
     if (item.onClick) {
       item.onClick();
       return;
@@ -250,14 +266,23 @@ export const ADENavRail = ({
       setIsHovered(false);
       setHoveredItem(null);
     }
+    closeMobileRail();
     if (item.onClick) item.onClick();
   };
 
   return (
     <>
+      {/* Mobile Off-Canvas Backdrop */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/75 backdrop-blur-xs z-30 md:hidden transition-opacity"
+          onClick={closeMobileRail}
+        />
+      )}
+
       {/* In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned or collapsed) */}
       <div
-        className={`shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
+        className={`hidden md:block shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
           isPinned ? 'w-56 sm:w-60' : 'w-14 sm:w-16'
         }`}
         aria-hidden="true"
@@ -265,7 +290,11 @@ export const ADENavRail = ({
 
       <nav
         aria-label="ADE Studio Navigation Rail"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          if (typeof window !== 'undefined' && window.matchMedia?.('(hover: hover) and (pointer: fine)')?.matches) {
+            setIsHovered(true);
+          }
+        }}
         onMouseLeave={() => {
           setIsHovered(false);
           setHoveredItem(null);
@@ -274,6 +303,8 @@ export const ADENavRail = ({
           isExpanded 
             ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80 z-40' 
             : 'w-14 sm:w-16 shadow-xl z-30'
+        } ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
         {/* Top Section: Workspaces */}
@@ -501,6 +532,7 @@ export const ADENavRail = ({
                               setIsHovered(false);
                               setHoveredItem(null);
                             }
+                            closeMobileRail();
                             if (onSelectScenarioWorkspaceTab) {
                               onSelectScenarioWorkspaceTab(branch.id);
                             } else if (onSwitchView) {
@@ -554,6 +586,7 @@ export const ADENavRail = ({
                               setIsHovered(false);
                               setHoveredItem(null);
                             }
+                            closeMobileRail();
                             if (setStoreActiveElementType) {
                               setStoreActiveElementType(elType);
                             }

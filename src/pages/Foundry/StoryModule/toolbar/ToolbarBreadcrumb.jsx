@@ -16,7 +16,9 @@ import {
   Tv2, 
   Cpu,
   ChevronRight,
-  ArrowLeft
+  ArrowLeft,
+  Menu,
+  PanelLeft
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 import { getBreadcrumbNodePath } from '../../../../utils/scenarioTreeEngine';
@@ -32,6 +34,8 @@ export default function ToolbarBreadcrumb({
   onSwitchView,
   onSelectScenarioWorkspaceTab,
   onSelectScenario,
+  isTreeExpanded,
+  onToggleTreeExpanded,
   onBack,
   className = ''
 }) {
@@ -106,7 +110,41 @@ export default function ToolbarBreadcrumb({
   const ViewIcon = viewDetails.icon;
 
   return (
-    <div className={`flex items-center gap-1.5 px-2.5 py-1 bg-slate-900/90 border border-slate-800 rounded-xl font-mono text-xs shadow-inner min-h-[32px] select-none ${className}`}>
+    <div className={`flex items-center gap-1.5 px-2 sm:px-2.5 py-1 bg-slate-900/90 border border-slate-800 rounded-xl font-mono text-xs shadow-inner min-h-[32px] select-none overflow-x-auto no-scrollbar max-w-full ${className}`}>
+      {/* Mobile ADE Studio Rail Drawer Toggle */}
+      <button
+        type="button"
+        onClick={() => {
+          AudioService.playTerminalBeep(1000, 0.02);
+          window.dispatchEvent(new CustomEvent('toggle-ade-mobile-rail'));
+        }}
+        className="md:hidden p-1 rounded-md bg-purple-950/60 hover:bg-purple-900/80 border border-purple-500/40 text-purple-300 transition-colors cursor-pointer shrink-0 active:scale-95"
+        title="Open ADE Studio Workspaces Rail"
+        aria-label="Open ADE Studio Workspaces Rail"
+      >
+        <Menu size={13} />
+      </button>
+
+      {/* Mobile / Small-Tablet Scenario Outliner Drawer Toggle */}
+      {activeView === 'scenarios' && onToggleTreeExpanded && (
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1000, 0.02);
+            onToggleTreeExpanded();
+          }}
+          className={`lg:hidden px-1.5 py-0.5 rounded-md border text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors cursor-pointer shrink-0 active:scale-95 ${
+            isTreeExpanded
+              ? 'bg-cyan-950 text-cyan-200 border-cyan-400/80'
+              : 'bg-slate-800/80 text-slate-300 border-slate-700 hover:text-cyan-300'
+          }`}
+          title={isTreeExpanded ? "Close Scenario Outliner" : "Open Scenario Outliner"}
+        >
+          <PanelLeft size={12} className="text-cyan-400" />
+          <span className="hidden xs:inline">Outline</span>
+        </button>
+      )}
+
       {/* Back button */}
       <button
         type="button"

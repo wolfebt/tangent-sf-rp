@@ -53,7 +53,12 @@ export const CodexApp = () => {
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
   const [previewItem, setPreviewItem] = useState(null);
   const [viewSavedRecords, setViewSavedRecords] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024;
+    }
+    return true;
+  });
 
   const { dbData, deleteEntry } = useDBM() || {};
   const currentMatrix = getMatrixById(activeMatrixId);
@@ -384,19 +389,33 @@ export const CodexApp = () => {
         </button>
       )}
 
-      {/* Left Navigation Collapsible Sidebar Drawer / Guidance Rail (Always shown in Studio mode) */}
+      {/* Mobile / Tablet Drawer Backdrop */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-xs z-30 lg:hidden transition-opacity"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Left Navigation Collapsible Sidebar Drawer / Guidance Rail (Always shown on desktop Studio mode) */}
       <div className={`fixed lg:relative z-40 h-full transition-all duration-300 shrink-0 ${
-        (isSidebarOpen || isBuilderOpen) ? 'translate-x-0 opacity-100' : '-translate-x-full lg:-ml-72 lg:opacity-0 pointer-events-none'
+        isSidebarOpen
+          ? 'translate-x-0 opacity-100'
+          : isBuilderOpen
+          ? '-translate-x-full lg:translate-x-0 lg:opacity-100 max-lg:pointer-events-none'
+          : '-translate-x-full lg:-ml-72 lg:opacity-0 pointer-events-none'
       }`}>
         <CodexSidebar
           activeMatrixId={activeMatrixId}
-          forceRailMode={isBuilderOpen}
+          forceRailMode={isBuilderOpen && (typeof window === 'undefined' || window.innerWidth >= 1024)}
           onSelectMatrix={(matrixId, datasetKey) => {
             handleSelectMatrix(matrixId, datasetKey);
-            if (!isBuilderOpen && window.innerWidth < 1024) setIsSidebarOpen(false);
+            if (typeof window !== 'undefined' && window.innerWidth < 1024) setIsSidebarOpen(false);
           }}
           onCloseMenu={() => {
-            if (!isBuilderOpen) setIsSidebarOpen(false);
+            if (!isBuilderOpen || (typeof window !== 'undefined' && window.innerWidth < 1024)) {
+              setIsSidebarOpen(false);
+            }
           }}
         />
       </div>
@@ -426,19 +445,14 @@ export const CodexApp = () => {
             {/* Sidebar Toggle Button */}
             <button
               type="button"
-              disabled={isBuilderOpen}
               onClick={() => {
                 AudioService.playTerminalBeep(900, 0.02);
                 setIsSidebarOpen(prev => !prev);
               }}
-              className={`p-2 rounded-xl bg-slate-950/80 border border-slate-700/80 text-slate-300 transition-all shrink-0 ${
-                isBuilderOpen 
-                  ? 'opacity-60 cursor-default text-amber-400' 
-                  : 'hover:bg-slate-800 hover:text-amber-300 cursor-pointer'
-              }`}
-              title={isBuilderOpen ? "Guidance Rail pinned in Studio Mode" : (isSidebarOpen ? "Collapse Codex Sidebar" : "Expand Codex Sidebar")}
+              className="p-2 rounded-xl bg-slate-950/80 border border-slate-700/80 text-slate-300 hover:bg-slate-800 hover:text-amber-300 transition-all shrink-0 cursor-pointer"
+              title={isSidebarOpen ? "Collapse Codex Sidebar" : "Expand Codex Sidebar"}
             >
-              <PanelLeftOpen size={16} className={`transition-transform duration-200 ${(isSidebarOpen || isBuilderOpen) ? 'text-amber-400' : 'rotate-180 text-slate-400'}`} />
+              <PanelLeftOpen size={16} className={`transition-transform duration-200 ${isSidebarOpen ? 'text-amber-400' : 'rotate-180 text-slate-400'}`} />
             </button>
 
             {/* Matrix Icon & Glowing Badge */}

@@ -425,10 +425,10 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               title="Return to Operations Hub"
               onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
             >
-              <span className="text-[2.6rem] sm:text-[3.2rem] font-black leading-none tracking-tight">
+              <span className="text-2xl xs:text-3xl sm:text-[3.2rem] font-black leading-none tracking-tight">
                 TANGENT
               </span>
-              <div className="flex flex-col justify-center self-stretch py-[1px] text-[9.5px] sm:text-[10.5px] font-bold uppercase tracking-wider leading-tight">
+              <div className="hidden sm:flex flex-col justify-center self-stretch py-[1px] text-[9.5px] sm:text-[10.5px] font-bold uppercase tracking-wider leading-tight">
                 <span className="whitespace-nowrap leading-none text-cyan-300">Science-Fantasy</span>
                 <span className="whitespace-nowrap leading-none text-cyan-400/80">Role Playing Engine</span>
               </div>
@@ -609,7 +609,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     : currentUser ? 'bg-cyan-400' : 'bg-slate-500'
                 }`}
               />
-              <span className="max-w-[110px] sm:max-w-[150px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">
+              <span className="max-w-[85px] xs:max-w-[115px] sm:max-w-[150px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">
                 {displayIdentity}
               </span>
               <Settings size={14} className="text-slate-400 group-hover:text-cyan-300 transition-colors shrink-0" />
@@ -677,6 +677,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <div className="space-y-1">
                   <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold block px-1">Modules</span>
                   
+                  {/* HUB */}
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      location.pathname === '/' ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300">
+                      <Compass size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">OPERATIONS HUB</div>
+                      <div className="text-[10px] text-slate-400">System Command & Quick Launch</div>
+                    </div>
+                  </button>
+
                   {/* FOLIO */}
                   <button
                     type="button"
@@ -717,6 +734,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                   </button>
 
+                  {/* CODEX */}
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/codex'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isCodex ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
+                      <Hammer size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">CODEX MATRICES</div>
+                      <div className="text-[10px] text-slate-400">12-Matrix Forge & Custom Builders</div>
+                    </div>
+                  </button>
+
                   {/* CORTEX */}
                   <button
                     type="button"
@@ -737,7 +771,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   {/* ADE */}
                   <button
                     type="button"
-                    onClick={() => { navigate('/foundry/live-studio'); setIsMobileNavOpen(false); }}
+                    onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
                       isFoundry ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
@@ -747,7 +781,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-xs">ADE</div>
-                      <div className="text-[10px] text-slate-400">Consolidated Story, Maps & Stage</div>
+                      <div className="text-[10px] text-slate-400">Story Weaver, Elements & Campaign Studio</div>
                     </div>
                   </button>
 

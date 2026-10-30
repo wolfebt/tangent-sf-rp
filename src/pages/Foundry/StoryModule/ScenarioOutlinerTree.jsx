@@ -172,7 +172,7 @@ export const TreeNode = ({
         </div>
 
         {/* Tree Node Actions */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0">
+        <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity ml-2 shrink-0">
           {onAddChild && (
             <button
               type="button"
@@ -597,7 +597,7 @@ export const ScenarioOutlinerRail = ({
             </span>
           </div>
 
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+          <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity shrink-0">
             <button
               type="button"
               onClick={() => setPreviewElementId(prev => prev === elem.id ? null : elem.id)}
@@ -695,7 +695,7 @@ export const ScenarioOutlinerRail = ({
       onDragOver={handleRailDragOver}
       onDragLeave={handleRailDragLeave}
       onDrop={handleRailDrop}
-      className="h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 z-10 shrink-0 w-64 xl:w-72 relative overflow-hidden"
+      className="h-full flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-200 max-lg:absolute max-lg:inset-y-0 max-lg:left-0 max-lg:z-30 max-lg:shadow-[12px_0_40px_rgba(0,0,0,0.9)] z-10 shrink-0 w-64 sm:w-72 max-w-[85vw] relative overflow-hidden"
     >
       {/* Hidden File Input for Element & Scenario Imports */}
       <input

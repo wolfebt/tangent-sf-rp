@@ -587,13 +587,13 @@ export const DBMTableView = ({
         {/* Toolbar controls */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
           {/* Search Box */}
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <input
               type="text"
               placeholder="Search entries..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="bg-slate-950 border border-slate-700 text-white pl-8 pr-7 py-1.5 rounded text-xs outline-none focus:border-cyan-500 w-44 sm:w-52 shadow-inner font-mono"
+              className="bg-slate-950 border border-slate-700 text-white pl-8 pr-7 py-1.5 rounded text-xs outline-none focus:border-cyan-500 w-full sm:w-52 shadow-inner font-mono"
             />
             <span className="absolute left-2.5 top-2 text-slate-500 text-xs pointer-events-none">🔍</span>
             {searchTerm && (
@@ -633,7 +633,7 @@ export const DBMTableView = ({
 
             {/* Filter Options Multi-Select Popover Menu */}
             {isFiltersMenuOpen && (
-              <div className="absolute left-0 sm:right-auto sm:left-0 mt-2 w-72 sm:w-84 bg-slate-900 border-2 border-amber-500/60 rounded-xl shadow-2xl z-50 p-3 flex flex-col gap-3 backdrop-blur-xl animate-fadeIn">
+              <div className="max-sm:fixed max-sm:inset-x-3 max-sm:top-36 max-sm:w-auto sm:absolute sm:left-0 mt-2 w-72 sm:w-84 bg-slate-900 border-2 border-amber-500/60 rounded-xl shadow-2xl z-50 p-3 flex flex-col gap-3 backdrop-blur-xl animate-fadeIn">
                 <div className="flex justify-between items-center pb-2 border-b border-slate-800">
                   <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                     <span>💎</span>
@@ -1073,7 +1073,7 @@ export const DBMTableView = ({
 
             {/* Columns Popover Menu */}
             {isColumnsMenuOpen && (
-              <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-cyan-500/60 rounded-xl shadow-2xl z-50 p-3 flex flex-col gap-2.5 backdrop-blur-xl animate-fadeIn">
+              <div className="max-sm:fixed max-sm:inset-x-3 max-sm:top-36 max-sm:w-auto sm:absolute sm:right-0 mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-cyan-500/60 rounded-xl shadow-2xl z-50 p-3 flex flex-col gap-2.5 backdrop-blur-xl animate-fadeIn">
                 <div className="flex justify-between items-center pb-2 border-b border-slate-800">
                   <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
                     Visible Table Columns
@@ -1170,7 +1170,7 @@ export const DBMTableView = ({
             </button>
 
             {isFileMenuOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-slate-900 border-2 border-cyan-500/60 rounded-xl shadow-2xl z-50 p-2 flex flex-col gap-1 backdrop-blur-xl animate-fadeIn text-xs">
+              <div className="max-sm:fixed max-sm:inset-x-3 max-sm:top-36 max-sm:w-auto sm:absolute sm:right-0 mt-2 w-56 bg-slate-900 border-2 border-cyan-500/60 rounded-xl shadow-2xl z-50 p-2 flex flex-col gap-1 backdrop-blur-xl animate-fadeIn text-xs">
                 <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
                   Category File Actions
                 </div>
