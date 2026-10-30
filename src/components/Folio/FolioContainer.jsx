@@ -961,7 +961,7 @@ const FolioContainer = () => {
               aria-label={isSidebarOpen ? 'Close Folio Guide Rail' : 'Open Folio Guide Rail'}
             >
               {isSidebarOpen ? <PanelLeftClose size={13} /> : <PanelLeftOpen size={13} className="text-cyan-400" />}
-              <span>Rail</span>
+              <span>Menu</span>
             </button>
           ) : null
         }
