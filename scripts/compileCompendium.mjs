@@ -732,7 +732,7 @@ Karma Points can be spent to activate various effects, but they will not guarant
 | **"Not What I Meant"** | Declare *immediately after* initial roll | 1 KP | **Reroll Ability / Non-Combat Skill Check:** Discard roll and reroll. Must accept 2nd result even if worse. Cannot be used on combat/attack rolls. |
 | **"Shake it Off"** | Declare anytime suffering temporary condition | 1 KP | **Reduce Condition Severity by 1 Stage:** Lowers conditions like Poisoned, Stunned, or Blinded by one level (e.g. Major to Minor). |
 | **"Second Wind"** | Spend 1 full minute of internal focus | 1 KP | **Replaces Light Rest:** Bypasses downtime to instantly refresh daily limited-use abilities, special attacks, traits, or features. |
-| **"So Mote it Be"** | Declare *simultaneously* with metaphysical skill/feat | 1 KP | **Metaphysical Potency:** Boosts metaphysical check potency (range, duration, magnitude) or activates a specialized discipline Karma Feat. |
+| **"So Mote it Be"** | Declare *simultaneously* with metaphysical skill/feature | 1 KP | **Metaphysical Potency:** Boosts metaphysical check potency (range, duration, magnitude) or activates a specialized discipline Karma Feature. |
 | **"By Will Alone"** | Declare action with GM approval | 1 KP | **Push Limits / Narrative Agency:** Attempt impossible or unlisted actions, emulate a basic feature for a scene, or nudge a rule in character's favor. |
 
 ### The 6 Core Karma Actions Explained
@@ -3005,7 +3005,7 @@ The complete master reference catalog for all 27 canonical Hindrances in the Tan
 | :--- | :---: | :--- |
 | **Addiction** | **3 / 6 / 9** | Suffer -2 to all actions when experiencing withdrawal symptoms from chemical/stim reliance. |
 | **Adversary** | **1 – 10** | Relentless enemy hunting the character: Individual (1–5 BP) or Galactic Organization (5–10 BP). |
-| **Bodily Age (Child)** | **10** | Biological age 7–12 years: -1 to two physical attributes (STR, DEX, STA). |
+| **Bodily Age (Child)** | **10** | Biological age 7–12 years: -1 to two physical attributes (STR, AGI, STA). |
 | **Bodily Age (Teen)** | **5** | Biological age 12–16 years: -1 to one physical attribute. |
 | **Bodily Age (Old)** | **5** | Biological age 60–90 years: -1 to one physical attribute; +1 Wisdom. |
 | **Bodily Age (Venerable)** | **10** | Biological age 90+ years: -1 to two physical attributes; +2 Wisdom. |
@@ -3244,7 +3244,7 @@ addArticle({
 - **Active Defense:** Roll a Defense check to replace static Defense or negate maneuvers (Reaction; -5 subsequent penalty).
 - **Aiming:** Spend an action to steady a shot. Gain **+2 Strike per round of Aiming** (Max bonus = 1/2 Skill Rank, up to AGIx2 + 2). Attacker cannot move before shooting.
 - **Called Shot:** Attack a specific location (Limb/Head/Component) at a **-1 to -5 Strike Penalty**. If successful, damage is applied directly to disable/destroy that location.
-- **Feint:** Opposed **Bluff check vs. Sense Motive (Insight)**. Success leads target into a False Defense, allowing a **Sneak Attack at -5 Strike** (Target has **NO Defense**).
+- **Feint:** Opposed **Bluff check vs. Insight**. Success leads target into a False Defense, allowing a **Sneak Attack at -5 Strike** (Target has **NO Defense**).
 - **Evasive Movement:** Moving quickly while defensive. Gain **+1 Defense base**, plus **+1 Defense per 10 ft** of Movement Speed used.
 - **Subtle:** Moving quietly to avoid attention. Required for stealth-based Skill Actions.
 - **Braced:** Set to receive a charge or fire heavy weapons. Block usable as counter attack on hit (or readied weapon), bonus gained for Advancing Target, negates heavy recoil, grants Advantage vs trip/shove.
@@ -3289,7 +3289,7 @@ Tangent calculates damage by resolving weapon energy, relevant abilities, precis
 
 ## 1. The Master Damage Calculation Formula
 
-$$\\text{Total Damage} = (\\text{Weapon Dice} + \\text{Relevant Ability Mod} + \\text{Precision Damage}) - (\\text{Target Armor DR} + \\text{Target CON Mod})$$
+$$\\text{Total Damage} = (\\text{Weapon Dice} + \\text{Relevant Ability Mod} + \\text{Precision Damage}) - (\\text{Target Armor DR} + \\text{Target STA Mod})$$
 
 ### Core Mechanics
 - **Weapon Die Damage:** Rolled from weapon profile or invocation tier.
@@ -3302,8 +3302,8 @@ $$\\text{Total Damage} = (\\text{Weapon Dice} + \\text{Relevant Ability Mod} + \
 - **Precision Damage:** Bonus directly from the attacker's skill level (relative Combat or Focus Skill Rank).
   - *Active Defense Counter:* A defender actively defending reduces incoming damage by their **Defense score** (directly countering Precision Damage).
 - **Target's Armor DR:** Subtracted based on armor resistance against the specific damage type.
-- **Target's CON Mod:** Innate physiological resilience mitigating harm.
-- **Sneak Attack Activation:** Sneak attack bonus damage is added **only if at least 1 point of damage penetrates target Armor DR** (determined after Armor DR but before Stamina/CON modifier).
+- **Target's STA Mod:** Innate physiological resilience mitigating harm.
+- **Sneak Attack Activation:** Sneak attack bonus damage is added **only if at least 1 point of damage penetrates target Armor DR** (determined after Armor DR but before Stamina/STA modifier).
 
 ---
 
@@ -3433,7 +3433,7 @@ Roll **1d10** on a critical hit or when random location is required. In Melee an
 When a character's Health Points reach 0, they enter the **Mortality State**:
 1. **Unconscious and Incapacitated:** The character immediately falls Prone and is Incapacitated.
 2. **Bleeding Out:** At the beginning of the character's turn, they suffer **1 point of Stability Damage**.
-3. **Stability Threshold:** A character has a Stability Points total equal to their **Constitution Score + 5**.
+3. **Stability Threshold:** A character has a Stability Points total equal to their **Stamina Score + 5**.
 4. **Death:** If Stability Points reach 0, the character expires.
 5. **Stabilization:** First aid via Medicine Check (CR 15) or metaphysical healing stabilizes the character.`,
   mechanic: `HitLocation: 1d10 (1 Head, 2-4 Torso, 5-6 Arm, 7-0 Leg; 1d6 melee)
@@ -3506,7 +3506,7 @@ Complete reference matrix of the 10 tactical combat status effects, mechanical p
 | **Exhausted** | -2 Penalty to Physical Checks (Str/Agi/Sta). Speed -50%. No Run/Charge. | Requires 8 Hours of Rest with food/water. |
 | **Freeze** | Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (CR 20) to shatter ice or Fire Dmg to melt. |
 | **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |
-| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). | Constitution Save (CR 15) at end of turn to recover. |
+| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Agi/Skill). | Fortitude Save (CR 15) at end of turn to recover. |
 | **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |`,
   mechanic: `Bleeding: 1d4 dmg/turn ignores DR (Medicine CR 10)
 Burning: 1d6 fire/rnd + Will CR 12 panic (Full Action Stop/Drop/Roll)
@@ -3776,7 +3776,7 @@ Unlike "Vancian" magic systems where spells are distinct, immutable memory packe
 ---
 
 ## 3. Key Ability Selection (The Source Flavor)
-- **Intelligence Based (Reason and Logic)**: Psychic, Arcane, Akashic.
+- **Intellect Based (Reason and Logic)**: Psychic, Arcane, Akashic.
 - **Wisdom Based (Willpower and Intuition)**: Divine, Nature, Cosmic.
 - **Charisma Based (Confidence and Dominance)**: Bardic, Hereditary, Granted.`,
   mechanic: `MaxDisciplineRank = ML * 2 (Attune is not limited by ML)

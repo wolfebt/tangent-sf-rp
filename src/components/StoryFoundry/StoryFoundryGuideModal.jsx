@@ -105,8 +105,8 @@ const CONTENT = {
           <p className="text-slate-400 text-[11px]">Manage turn order, round counters, status effect gems, and floating animated damage text.</p>
         </div>
         <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
-          <div className="font-bold text-pink-300 font-mono uppercase mb-1">📺 Player Spectator Stream</div>
-          <p className="text-slate-400 text-[11px]">Stream <code className="text-cyan-300 font-mono">/spectator/:mapId</code> to players with GM secrets and fog-of-war hidden.</p>
+          <div className="font-bold text-pink-300 font-mono uppercase mb-1">📺 Operator Spectator Stream</div>
+          <p className="text-slate-400 text-[11px]">Stream <code className="text-cyan-300 font-mono">/spectator/:mapId</code> to operators with Architect secrets and fog-of-war hidden.</p>
         </div>
       </div>
     </div>

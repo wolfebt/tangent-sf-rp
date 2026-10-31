@@ -561,7 +561,7 @@ export default function WeaverGraphTab({ activeNode }) {
                     <textarea
                       value={editingEdgeNote}
                       onChange={(e) => setEditingEdgeNote(e.target.value)}
-                      placeholder="e.g., Operative Jax owes a debt to Sector Overseer Vane; secrets hidden in vault..."
+                      placeholder="e.g., Operator Jax owes a debt to Sector Overseer Vane; secrets hidden in vault..."
                       className="w-full h-24 bg-slate-950 border border-slate-700/80 rounded-xl p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500 font-sans"
                     />
                     <button

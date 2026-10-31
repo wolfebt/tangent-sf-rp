@@ -268,7 +268,7 @@ export default function AnchorsTab() {
                     <option value="waypoint">Waypoint (Point)</option>
                     <option value="region">Region / Zone (Box)</option>
                     <option value="object">Interactive Object</option>
-                    <option value="spawn">Operative Spawn</option>
+                    <option value="spawn">Operator Spawn</option>
                   </select>
                 </div>
 

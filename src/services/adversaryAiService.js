@@ -9,7 +9,7 @@ export const ADVERSARY_ROLES = {
     doctrine: 'Overwhelm through numerical superiority and flanking vectors.',
     generateTactic: (adversary, heroTokens, _mapContext) => {
       const target = findNearestOrWeakest(adversary, heroTokens);
-      const tName = target?.label || target?.name || 'Closest Operative';
+      const tName = target?.label || target?.name || 'Closest Operator';
       return {
         action: 'Swarm & Flank',
         targetId: target?.id || null,
@@ -27,7 +27,7 @@ export const ADVERSARY_ROLES = {
     doctrine: 'Mobile ranged harassment utilizing cover and tactical withdrawal.',
     generateTactic: (adversary, heroTokens, _mapContext) => {
       const target = findNearestOrWeakest(adversary, heroTokens);
-      const tName = target?.label || target?.name || 'Target Operative';
+      const tName = target?.label || target?.name || 'Target Operator';
       return {
         action: 'Fire & Fade',
         targetId: target?.id || null,
@@ -63,7 +63,7 @@ export const ADVERSARY_ROLES = {
     doctrine: 'High ground elevation, aiming bonuses, and targeting low-DR targets.',
     generateTactic: (adversary, heroTokens, _mapContext) => {
       const lowDrHero = findLowestDrHero(heroTokens) || heroTokens[0];
-      const tName = lowDrHero?.label || lowDrHero?.name || 'Exposed Operative';
+      const tName = lowDrHero?.label || lowDrHero?.name || 'Exposed Operator';
       return {
         action: 'Aimed Headshot',
         targetId: lowDrHero?.id || null,
@@ -85,7 +85,7 @@ export const ADVERSARY_ROLES = {
       const maxHp = adversary.base_hp ?? adversary.base_health ?? adversary.health?.max ?? 100;
       const hpRatio = maxHp > 0 ? curHp / maxHp : 1;
       const primaryTarget = findStrongestHero(heroTokens) || heroTokens[0];
-      const tName = primaryTarget?.label || primaryTarget?.name || 'Vanguard Operative';
+      const tName = primaryTarget?.label || primaryTarget?.name || 'Vanguard Operator';
 
       if (hpRatio <= 0.35) {
         return {

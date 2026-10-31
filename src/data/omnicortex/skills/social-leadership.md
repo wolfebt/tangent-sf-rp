@@ -11,7 +11,7 @@ specialties:
   - "Inspiring Speeches: Delivering electrifying orations that banish fear, rally broken lines, and restore morale."
   - "Crew Morale Management: Maintaining high spirits, solving internal grievances, and keeping a starship crew cohesive."
   - "Crisis Command: Stepping into sudden chaos—explosions, hull breaches, captain deaths—and taking total control."
-  - "Delegation & Task Assignment: Assigning the exact right operative to the exact right task to maximize group efficiency."
+  - "Delegation & Task Assignment: Assigning the exact right operator to the exact right task to maximize group efficiency."
   - "Mutiny Suppression: Quelling brewing insurrections and subduing rebellious crewmen through sheer force of will."
   - "Rallying Broken Allies: Snapping panicked or terrified companions out of shock and putting their weapons back in the fight."
   - "Strategic Vision Planning: Formulating long-term campaign roadmaps that keep an entire faction or fleet pointed forward."
@@ -34,7 +34,7 @@ negative_keywords: "isolated, anti-social, inarticulate"
     * **Inspiring Speeches:** Delivering electrifying orations that banish fear, rally broken lines, and restore morale.  
     * **Crew Morale Management:** Maintaining high spirits, solving internal grievances, and keeping a starship crew cohesive.  
     * **Crisis Command:** Stepping into sudden chaos—explosions, hull breaches, captain deaths—and taking total control.  
-    * **Delegation & Task Assignment:** Assigning the exact right operative to the exact right task to maximize group efficiency.  
+    * **Delegation & Task Assignment:** Assigning the exact right operator to the exact right task to maximize group efficiency.  
     * **Mutiny Suppression:** Quelling brewing insurrections and subduing rebellious crewmen through sheer force of will.  
     * **Rallying Broken Allies:** Snapping panicked or terrified companions out of shock and putting their weapons back in the fight.  
     * **Strategic Vision Planning:** Formulating long-term campaign roadmaps that keep an entire faction or fleet pointed forward.  

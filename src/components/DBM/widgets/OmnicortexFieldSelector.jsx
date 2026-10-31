@@ -207,7 +207,7 @@ export const SkillBonusesSelector = ({
   isEditMode = true,
   dbSkills = []
 }) => {
-  const [selectedSkill, setSelectedSkill] = useState('Knowledge (Arcane)');
+  const [selectedSkill, setSelectedSkill] = useState('Arcane');
   const [bonusValue, setBonusValue] = useState(1);
 
   const allSkills = useMemo(() => {

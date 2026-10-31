@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 114
+order: 120
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3

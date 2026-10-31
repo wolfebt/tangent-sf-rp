@@ -249,7 +249,7 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
             </div>
 
             <p className="text-[10px] text-slate-400 font-sans leading-tight">
-              Combat occurrences captured on Stage awaiting referee confirmation:
+              Combat occurrences captured on Stage awaiting Architect confirmation:
             </p>
 
             <div className="space-y-1.5 max-h-56 overflow-y-auto pr-0.5 scrollbar-thin">
@@ -317,11 +317,11 @@ export const ADEScenarioStageDrawer: React.FC<ADEScenarioStageDrawerProps> = ({
           </p>
         </div>
 
-        {/* GM Sensory Read-Aloud Boxed Text */}
+        {/* Architect Sensory Read-Aloud Boxed Text */}
         <div className="p-3 bg-cyan-950/30 border border-cyan-500/30 rounded-xl space-y-1.5">
           <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1">
             <Sparkles size={11} className="text-cyan-400" />
-            <span>GM Sensory Read-Aloud:</span>
+            <span>Architect Sensory Read-Aloud:</span>
           </span>
           <div className="text-[10.5px] text-slate-300 leading-relaxed italic bg-slate-950/60 p-2.5 rounded-lg border border-cyan-950 font-sans">
             {activeScenario?.content 

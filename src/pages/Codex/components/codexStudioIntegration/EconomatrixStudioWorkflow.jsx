@@ -610,7 +610,7 @@ export const EconomatrixStudioWorkflow = ({
 
           <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-2">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-slate-300 font-bold uppercase">Buyer / Operative Wealth Score (WS):</span>
+              <span className="text-slate-300 font-bold uppercase">Buyer / Operator Wealth Score (WS):</span>
               <span className="text-cyan-300 font-bold px-2 py-0.5 bg-cyan-950 rounded border border-cyan-500/40">
                 WS {buyerWS} ({calculateCreditValue(buyerWS).toLocaleString()} Cr Capital)
               </span>

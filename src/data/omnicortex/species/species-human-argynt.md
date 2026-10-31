@@ -166,7 +166,7 @@ Furthermore, the absorbed Aetherium, the powerful meta-material, has subtly but 
 
 \+1 Int
 
-\+1 Con
+\+1 Sta
 
 &nbsp;
 

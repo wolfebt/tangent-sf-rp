@@ -81,7 +81,7 @@ This reflects the character's understanding of how technology works and their ab
 ---
 
 ## Modifiers
-The Game Master (GM) may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as:
+The Architect may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as:
 - **Visibility & Illumination:** Darkness, heavy smoke, fog, glare, or camouflage.
 - **Distance & Scale:** Extreme ranges, microscopic details, or peripheral distractions.
 - **Nature of the Target:** Subtle vs active electromagnetic, magical, thermal, or acoustic emissions.

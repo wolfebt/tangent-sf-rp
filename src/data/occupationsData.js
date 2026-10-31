@@ -151,18 +151,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Unarmed Combat",
         "modifiers": [
           {
-            "target": "Unarmed Combat Many adepts are highly",
+            "target": "Unarmed Combat",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Unarmed Combat Many adepts are highly"
+            "description": "+2 to Unarmed Combat"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Unarmed Combat Many adepts are highly\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Unarmed Combat Many adepts are highly",
+          "[Modifier] +2 to Unarmed Combat",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -214,13 +214,6 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+1 Attune and +1 Insight",
         "modifiers": [
           {
-            "target": "Insight Adepts may have a deep connection to mystical",
-            "type": "skill",
-            "value": 1,
-            "mode": "inherent",
-            "description": "+1 to Insight Adepts may have a deep connection to mystical"
-          },
-          {
             "target": "Spiritual forces",
             "type": "skill",
             "value": 1,
@@ -232,7 +225,6 @@ export const DEFAULT_OCCUPATIONS = [
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +1 to Insight Adepts may have a deep connection to mystical\n[Modifier] +1 to Spiritual forces\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +1 to Insight Adepts may have a deep connection to mystical",
           "[Modifier] +1 to Spiritual forces",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
@@ -310,9 +302,7 @@ export const DEFAULT_OCCUPATIONS = [
         "special_rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
         "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.\n[Prerequisite] None (though usually tied to Species or Origin).",
         "notesList": [
-          "[Rule] Multiple: May be purchased separately for different categories/types",
-          "[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-          "[Prerequisite] None (though usually tied to Species or Origin)."
+          "[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers."
         ]
       },
       {
@@ -687,18 +677,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Linguistic Knowledge",
         "modifiers": [
           {
-            "target": "Linguistic Knowledge Fluency in multiple languages",
+            "target": "Linguistic Knowledge",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
+            "description": "+2 to Linguistic Knowledge"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
+          "[Modifier] +2 to Linguistic Knowledge",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -1191,13 +1181,6 @@ export const DEFAULT_OCCUPATIONS = [
             "value": 4,
             "mode": "inherent",
             "description": "+4 to Awareness of safety protocols"
-          },
-          {
-            "target": "Ensuring that their creations are safe to use",
-            "type": "skill",
-            "value": 4,
-            "mode": "inherent",
-            "description": "+4 to Ensuring that their creations are safe to use"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
@@ -1205,7 +1188,6 @@ export const DEFAULT_OCCUPATIONS = [
         "notes": "[Modifier] +4 to Awareness of safety protocols\n[Modifier] +4 to Ensuring that their creations are safe to use\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
           "[Modifier] +4 to Awareness of safety protocols",
-          "[Modifier] +4 to Ensuring that their creations are safe to use",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -1322,18 +1304,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 to Engineering",
         "modifiers": [
           {
-            "target": "Engineering Comprehensive understanding of physics",
+            "target": "Engineering",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Engineering Comprehensive understanding of physics"
+            "description": "+2 to Engineering"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Engineering Comprehensive understanding of physics\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Engineering Comprehensive understanding of physics",
+          "[Modifier] +2 to Engineering",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -1350,13 +1332,6 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
         "modifiers": [
           {
-            "target": "Technology Knowledge Natural aptitude for working with machinery",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Technology Knowledge Natural aptitude for working with machinery"
-          },
-          {
             "target": "Tools",
             "type": "skill",
             "value": 2,
@@ -1368,7 +1343,6 @@ export const DEFAULT_OCCUPATIONS = [
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery\n[Modifier] +2 to Tools\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Technology Knowledge Natural aptitude for working with machinery",
           "[Modifier] +2 to Tools",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
@@ -1709,11 +1683,11 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Communication",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "+2 Culture and Language checks",
+        "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
         "mechanic": "+2 Culture and Language checks",
         "bonus": "+2 Culture & Language",
         "cpCost": 1,
-        "desc": "+2 Culture and Language checks",
+        "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
         "mechanics": "+2 Culture and Language checks",
         "modifiers": [
           {
@@ -1745,11 +1719,11 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Ethical Awareness",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "+2 Insight checks and Diplomacy when acting ethically",
+        "description": "May have a strong sense of ethics and corporate responsibility.",
         "mechanic": "+2 Insight checks and Diplomacy when acting ethically",
         "bonus": "+2 Insight & Ethics",
         "cpCost": 1,
-        "desc": "+2 Insight checks and Diplomacy when acting ethically",
+        "desc": "May have a strong sense of ethics and corporate responsibility.",
         "mechanics": "+2 Insight checks and Diplomacy when acting ethically",
         "modifiers": [
           {
@@ -1773,11 +1747,11 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Financial Expertise",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "+2 Business and Appraisal checks",
+        "description": "Strong understanding of financial management, budgeting, and investment strategies.",
         "mechanic": "+2 Business and Appraisal checks",
         "bonus": "+2 Business & Appraisal",
         "cpCost": 1,
-        "desc": "+2 Business and Appraisal checks",
+        "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
         "mechanics": "+2 Business and Appraisal checks",
         "modifiers": [
           {
@@ -1809,11 +1783,11 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "High Social Standing",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "+2 to Wealth Score and Etiquette checks",
+        "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
         "mechanic": "+2 to Wealth Score and Etiquette checks",
         "bonus": "+2 Wealth & Etiquette",
         "cpCost": 1,
-        "desc": "+2 to Wealth Score and Etiquette checks",
+        "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
         "mechanics": "+2 to Wealth Score and Etiquette checks",
         "modifiers": [
           {
@@ -1853,11 +1827,11 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Management",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "+2 Administration and Leadership checks",
+        "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
         "mechanic": "+2 Administration and Leadership checks",
         "bonus": "+2 Administration",
         "cpCost": 1,
-        "desc": "+2 Administration and Leadership checks",
+        "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
         "mechanics": "+2 Administration and Leadership checks",
         "modifiers": [
           {
@@ -1964,11 +1938,11 @@ export const DEFAULT_OCCUPATIONS = [
         "name": "Strategic Thinking",
         "tier": "Basic",
         "classification": "Occupational Trait",
-        "description": "+2 Tactics and Logic checks",
+        "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
         "mechanic": "+2 Tactics and Logic checks",
         "bonus": "+2 Tactics & Logic",
         "cpCost": 1,
-        "desc": "+2 Tactics and Logic checks",
+        "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
         "mechanics": "+2 Tactics and Logic checks",
         "modifiers": [
           {
@@ -2141,8 +2115,10 @@ export const DEFAULT_OCCUPATIONS = [
         "modifiers": [],
         "rules": "",
         "special_rules": "",
-        "notes": "",
-        "notesList": []
+        "notes": "[Rule] Basic Occupational Trait (1 CP).",
+        "notesList": [
+          "[Rule] Basic Occupational Trait (1 CP)."
+        ]
       },
       {
         "id": "trait-combat-training",
@@ -2776,8 +2752,7 @@ export const DEFAULT_OCCUPATIONS = [
         "notes": "[Modifier] May attempt any skill check untrained without suffering CR penalties\n[Rule] Prerequisite: Intellect 2.\n[Prerequisite] Intellect 2",
         "notesList": [
           "[Modifier] May attempt any skill check untrained without suffering CR penalties",
-          "[Rule] Prerequisite: Intellect 2.",
-          "[Prerequisite] Intellect 2"
+          "[Rule] Prerequisite: Intellect 2."
         ]
       },
       {
@@ -2833,8 +2808,7 @@ export const DEFAULT_OCCUPATIONS = [
         "notes": "[Modifier] +4 Defense\n[Rule] Prerequisite: Agility 2, Dodge.\n[Prerequisite] Agility 2, Dodge",
         "notesList": [
           "[Modifier] +4 Defense",
-          "[Rule] Prerequisite: Agility 2, Dodge.",
-          "[Prerequisite] Agility 2, Dodge"
+          "[Rule] Prerequisite: Agility 2, Dodge."
         ]
       },
       {
@@ -3229,13 +3203,6 @@ export const DEFAULT_OCCUPATIONS = [
             "value": 2,
             "mode": "inherent",
             "description": "+2 on Will Checks"
-          },
-          {
-            "target": "Willpower Comfortable in the spotlight",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Willpower Comfortable in the spotlight"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
@@ -3243,7 +3210,6 @@ export const DEFAULT_OCCUPATIONS = [
         "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Comfortable in the spotlight\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
           "[Modifier] +2 on Will Checks",
-          "[Modifier] +2 to Willpower Comfortable in the spotlight",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -3684,13 +3650,6 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Culture Knowledge",
         "modifiers": [
           {
-            "target": "Culture Knowledge Merchants are culturally aware",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Culture Knowledge Merchants are culturally aware"
-          },
-          {
             "target": "Sensitive",
             "type": "skill",
             "value": 2,
@@ -3702,7 +3661,6 @@ export const DEFAULT_OCCUPATIONS = [
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Culture Knowledge Merchants are culturally aware\n[Modifier] +2 to Sensitive\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Culture Knowledge Merchants are culturally aware",
           "[Modifier] +2 to Sensitive",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
@@ -3720,18 +3678,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Linguistic Knowledge",
         "modifiers": [
           {
-            "target": "Linguistic Knowledge Merchants often possess linguistic",
+            "target": "Linguistic Knowledge",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Linguistic Knowledge Merchants often possess linguistic"
+            "description": "+2 to Linguistic Knowledge"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Linguistic Knowledge Merchants often possess linguistic",
+          "[Modifier] +2 to Linguistic Knowledge",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -4022,26 +3980,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Alertness",
         "modifiers": [
           {
-            "target": "Alertness Ability to analyze data",
+            "target": "Alertness",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Alertness Ability to analyze data"
-          },
-          {
-            "target": "Information to make informed decisions",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Information to make informed decisions"
+            "description": "+2 to Alertness"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Alertness Ability to analyze data\n[Modifier] +2 to Information to make informed decisions\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Alertness Ability to analyze data",
-          "[Modifier] +2 to Information to make informed decisions",
+          "[Modifier] +2 to Alertness",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -4223,18 +4173,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Linguistic Knowledge",
         "modifiers": [
           {
-            "target": "Linguistic Knowledge Fluency in multiple languages",
+            "target": "Linguistic Knowledge",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Linguistic Knowledge Fluency in multiple languages"
+            "description": "+2 to Linguistic Knowledge"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Linguistic Knowledge Fluency in multiple languages",
+          "[Modifier] +2 to Linguistic Knowledge",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -5025,18 +4975,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "+2 Navigation (Knowledge)",
         "modifiers": [
           {
-            "target": "Navigation Knowledge Scouts have excellent navigational",
+            "target": "Navigation Knowledge",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Navigation Knowledge Scouts have excellent navigational"
+            "description": "+2 to Navigation Knowledge"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Navigation Knowledge Scouts have excellent navigational",
+          "[Modifier] +2 to Navigation Knowledge",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -5449,20 +5399,6 @@ export const DEFAULT_OCCUPATIONS = [
             "value": 2,
             "mode": "inherent",
             "description": "+2 on Will Checks"
-          },
-          {
-            "target": "Willpower Able to remain calm",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Willpower Able to remain calm"
-          },
-          {
-            "target": "Focused even in high-pressure situations",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Focused even in high-pressure situations"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
@@ -5470,8 +5406,6 @@ export const DEFAULT_OCCUPATIONS = [
         "notes": "[Modifier] +2 on Will Checks\n[Modifier] +2 to Willpower Able to remain calm\n[Modifier] +2 to Focused even in high-pressure situations\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
           "[Modifier] +2 on Will Checks",
-          "[Modifier] +2 to Willpower Able to remain calm",
-          "[Modifier] +2 to Focused even in high-pressure situations",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },
@@ -6127,13 +6061,6 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "additional +1 to Aid bonuses",
         "modifiers": [
           {
-            "target": "Aid bonuses Ability to communicate effectively",
-            "type": "skill",
-            "value": 1,
-            "mode": "inherent",
-            "description": "+1 to Aid bonuses Ability to communicate effectively"
-          },
-          {
             "target": "Collaborate with others",
             "type": "skill",
             "value": 1,
@@ -6145,7 +6072,6 @@ export const DEFAULT_OCCUPATIONS = [
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +1 to Aid bonuses Ability to communicate effectively\n[Modifier] +1 to Collaborate with others\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +1 to Aid bonuses Ability to communicate effectively",
           "[Modifier] +1 to Collaborate with others",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
@@ -6163,18 +6089,18 @@ export const DEFAULT_OCCUPATIONS = [
         "mechanics": "Additional +1 from Equipment Bonus and +2 Technology (Knowledge)",
         "modifiers": [
           {
-            "target": "Technology Knowledge Proficiency in advanced technology",
+            "target": "Technology Knowledge",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Technology Knowledge Proficiency in advanced technology"
+            "description": "+2 to Technology Knowledge"
           }
         ],
         "rules": "Basic Occupational Trait (1 CP).",
         "special_rules": "Basic Occupational Trait (1 CP).",
         "notes": "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology\n[Rule] Basic Occupational Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Technology Knowledge Proficiency in advanced technology",
+          "[Modifier] +2 to Technology Knowledge",
           "[Rule] Basic Occupational Trait (1 CP)."
         ]
       },

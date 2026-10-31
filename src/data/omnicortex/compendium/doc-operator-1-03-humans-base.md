@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 40
+order: 46
 perspective: "operator"
 entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.base","mechanics"]
-updatedAt: "2026-10-14T05:24:25.044Z"
+updatedAt: "2026-10-31T10:38:11.494Z"
 costs:
   bp: 0
   credits: 0
@@ -75,7 +75,7 @@ Humans are known to be trouble (at best) and a Stigma is common in most other sp
 
 **Species Features:**&nbsp;
 
-\+1 Feat of choice
+\+1 Feature of choice
 
 Typical Humans do not have any Species Features
 

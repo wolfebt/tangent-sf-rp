@@ -91,7 +91,7 @@ const CONTENT = {
         <div className="bg-slate-800/60 border border-emerald-500/30 rounded-xl p-3.5 space-y-1.5">
           <div className="font-bold text-emerald-300 font-mono uppercase">2. Campaign Awards (1 AP = 1 CP)</div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            Players earn Award Points (AP) during campaign play. AP expands the total budget permanently and is spent 1-for-1 like CP during downtime.
+            Operators earn Award Points (AP) during campaign play. AP expands the total budget permanently and is spent 1-for-1 like CP during downtime.
           </p>
         </div>
       </div>
@@ -117,7 +117,7 @@ const CONTENT = {
             { item: 'Focused on Game / Tactical Play', award: '0 to 2 AP', desc: 'Engaging with game mechanics, combat strategy, and team tactics.' },
             { item: 'Roleplaying in Character', award: '0 to 2 AP', desc: 'Embodying personality, backstory development, and deep roleplay.' },
             { item: 'Standard Session Pacing', award: '1 to 3 AP', desc: 'Typical award per game session based on pacing/achievements.' },
-            { item: 'Epic Actions & Stumping Architect', award: '1 to 5 AP', desc: 'Ad hoc GM award for unexpected genius turning the tide of battle.' },
+            { item: 'Epic Actions & Stumping Architect', award: '1 to 5 AP', desc: 'Ad hoc Architect award for unexpected genius turning the tide of battle.' },
             { item: 'Experience Debt (Revivification)', award: '-5 AP Debt', desc: 'Trauma debt from dying, paid off 1-for-1 from future AP awards.' },
           ].map(e => (
             <div key={e.item} className="flex justify-between items-center py-1 border-b border-slate-700/50">
@@ -195,23 +195,23 @@ const CONTENT = {
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
             <div className="font-bold text-emerald-300 font-mono text-[11px]">General Checks vs Saving Throws</div>
             <div className="text-slate-300 text-[11px]">
-              Roll is <code className="text-amber-300 font-mono">d20 + Base Score + Modifiers</code>.
+              Roll is <code className="text-amber-300 font-mono">2d10 + Base Score + Modifiers</code>.
             </div>
             <div className="text-slate-400 text-[10px]">
-              Used for un-skilled fallback tasks (General Checks) and resisting hazards/spells/poisons (Saving Throws).
+              Used for un-skilled fallback tasks (General Checks) and resisting hazards/invocations/poisons (Saving Throws).
             </div>
           </div>
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
             <div className="font-bold text-purple-300 font-mono text-[11px]">Targeted vs Opposed Challenges</div>
             <div className="text-slate-400 text-[10px]">
-              <strong>Targeted:</strong> Beat the GM's Challenge Rating (CR).<br/>
+              <strong>Targeted:</strong> Beat the Architect's Challenge Rating (CR).<br/>
               <strong>Opposed:</strong> Direct roll contest between characters (e.g. arm wrestling, battle of wills, social debate). Highest total wins.
             </div>
           </div>
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
             <div className="font-bold text-teal-300 font-mono text-[11px]">Skill Synergy</div>
             <div className="text-slate-400 text-[10px]">
-              Logically connected skills aid saves (e.g., Medicine aids Fortitude vs disease, Athletics aids Reflex vs hazards, Perception aids Willpower vs illusions, Linguistics aids Reason vs ancient scripts).
+              Logically connected skills aid saves (e.g., Medicine aids Fortitude vs disease, Athletics aids Reflex vs hazards, Perception aids Willpower vs illusions, Language aids Reason vs ancient scripts).
             </div>
           </div>
         </div>
@@ -261,9 +261,9 @@ const CONTENT = {
           </div>
         </div>
         <div className="p-2.5 rounded bg-slate-950/80 border border-slate-800 text-[11px] text-slate-400 space-y-1">
-          <p><strong className="text-amber-300">Karma Reset:</strong> Resets to max (Default 3) at session start; does NOT regenerate via rest. GM may award +1 for heroic actions.</p>
-          <p><strong className="text-rose-300">Negative Karma (Karmic Debt):</strong> May spend into debt up to <code className="text-rose-200 font-mono">Charisma + 1</code>; GM triggers Disadvantage, rerolls, or enemy perks.</p>
-          <p><strong className="text-fuchsia-300">Plot Points:</strong> Separate temporary resource awarded by GM for active narrative engagement and setback compensation.</p>
+          <p><strong className="text-amber-300">Karma Reset:</strong> Resets to max (Default 3) at session start; does NOT regenerate via rest. Architect may award +1 for heroic actions.</p>
+          <p><strong className="text-rose-300">Negative Karma (Karmic Debt):</strong> May spend into debt up to <code className="text-rose-200 font-mono">Charisma + 1</code>; Architect triggers Disadvantage, rerolls, or enemy perks.</p>
+          <p><strong className="text-fuchsia-300">Plot Points:</strong> Separate temporary resource awarded by the Architect for active narrative engagement and setback compensation.</p>
         </div>
       </div>
     </div>
@@ -345,7 +345,7 @@ const CONTENT = {
         </div>
         <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
           <div className="font-bold text-purple-300 font-mono uppercase mb-1">🛰️ 4. Logistics & Operations (10 fields)</div>
-          <p className="text-slate-400 text-[11px]">Operational Assets, Safehouses, Vehicles, Financial Standing, Mission History, Directives, GM Secrets, Milestones, Goals, Artifacts.</p>
+          <p className="text-slate-400 text-[11px]">Operational Assets, Safehouses, Vehicles, Financial Standing, Mission History, Directives, Architect Secrets, Milestones, Goals, Artifacts.</p>
         </div>
       </div>
       <div className="bg-purple-950/40 border border-purple-500/30 rounded-xl p-3 text-xs text-slate-300 flex items-center gap-2">

@@ -17,7 +17,7 @@ export function generateCombatCommentary(eventType, eventData = {}) {
 
   switch (eventType) {
     case 'critical_triumph':
-      narrativeText = `⚡ TRIUMPH: ${attackerName || 'An operative'} lands a devastating pinpoint strike with ${weapon || 'their weapon'}, piercing straight through ${targetName || 'the target'}'s defenses for ${damage || 'massive'} damage!`;
+      narrativeText = `⚡ TRIUMPH: ${attackerName || 'An operator'} lands a devastating pinpoint strike with ${weapon || 'their weapon'}, piercing straight through ${targetName || 'the target'}'s defenses for ${damage || 'massive'} damage!`;
       audioBeepTone = 1450;
       break;
 
@@ -27,7 +27,7 @@ export function generateCombatCommentary(eventType, eventData = {}) {
       break;
 
     case 'operative_downed':
-      narrativeText = `🚨 CASUALTY ALERT: ${targetName || 'Operative'} has collapsed under lethal trauma! Trauma monitors spiking — immediate stabilization required!`;
+      narrativeText = `🚨 CASUALTY ALERT: ${targetName || 'Operator'} has collapsed under lethal trauma! Trauma monitors spiking — immediate stabilization required!`;
       audioBeepTone = 320;
       break;
 

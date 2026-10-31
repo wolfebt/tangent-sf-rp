@@ -384,7 +384,7 @@ export const GraphInspectorDrawer = ({
                   rows={4}
                   value={selectedNode.content || ''}
                   onChange={(e) => handleSaveNodeField('content', e.target.value)}
-                  placeholder="Atmospheric prose to read aloud when operatives arrive..."
+                  placeholder="Atmospheric prose to read aloud when operators arrive..."
                   className="w-full p-2.5 bg-slate-900 border border-slate-750 focus:border-cyan-400 rounded-lg text-slate-200 font-sans text-xs leading-relaxed outline-none resize-y"
                 />
               </div>

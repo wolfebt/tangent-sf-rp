@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 153
+order: 159
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3

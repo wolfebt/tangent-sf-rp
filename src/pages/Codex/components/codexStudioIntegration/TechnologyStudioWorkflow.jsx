@@ -328,7 +328,7 @@ export const TechnologyStudioWorkflow = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-2">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-slate-300 font-bold uppercase">Operative Native TL:</span>
+                <span className="text-slate-300 font-bold uppercase">Operator Native TL:</span>
                 <span className="text-cyan-400 font-bold px-2 py-0.5 bg-cyan-950 rounded border border-cyan-500/40">
                   TL {operatorTL}
                 </span>

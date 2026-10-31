@@ -43,7 +43,7 @@ export const KNOWN_SPECIES_TRAIT_DESCRIPTIONS = {
   'trait-sleepless-immune-to-sleep-effects': {
     name: 'Sleepless (Sleep Immunity)',
     category: 'Trait',
-    description: 'The entity’s neurology does not require sleep and is biologically impervious to sleep spells, sedatives, and trance toxins.',
+    description: 'The entity’s neurology does not require sleep and is biologically impervious to sleep invocations, sedatives, and trance toxins.',
     rules: 'Immune to magical and biological sleep effects.'
   },
 
@@ -623,9 +623,15 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
   const cleanId = String(rawId || '').toLowerCase().trim();
   const normCandidates = candidates.map(c => normalizeTraitLookupKey(c)).filter(Boolean);
 
+  const isDupText = (m, d) => {
+    if (!m || !d) return false;
+    return String(m).trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase() ===
+           String(d).trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+  };
   const rawObjDesc = typeof rawTrait === 'object' ? (rawTrait.description || rawTrait.desc || '') : '';
   const inlineMech = extractInlineMarkdownMechanic(rawObjDesc);
-  const objMech = (typeof rawTrait === 'object' ? (rawTrait.mechanic || rawTrait.mechanics || rawTrait.bonus || '') : '') || inlineMech;
+  const rawObjMech = (typeof rawTrait === 'object' ? (rawTrait.mechanic || rawTrait.mechanics || rawTrait.bonus || '') : '') || inlineMech;
+  const objMech = isDupText(rawObjMech, rawObjDesc) ? (inlineMech || '') : rawObjMech;
   const objDesc = isCorruptedTraitDescription(rawObjDesc) ? '' : cleanTraitDescriptionText(rawObjDesc, objMech);
 
   // 0. Check pillar context traits_detail (e.g. Occupation or Origin specific trait definitions)
@@ -642,8 +648,10 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     });
     if (detailMatch) {
       const name = detailMatch.name || cleanTraitName(cleanId);
-      const mechanic = (detailMatch.mechanic || detailMatch.mechanics || detailMatch.bonus || objMech || '').replace(/^\[|\]$/g, '');
-      const description = cleanTraitDescriptionText(detailMatch.description || detailMatch.desc || objDesc || '', mechanic);
+      const rawDetailDesc = detailMatch.description || detailMatch.desc || objDesc || '';
+      const rawDetailMech = detailMatch.mechanic || detailMatch.mechanics || detailMatch.bonus || '';
+      const mechanic = ((!isDupText(rawDetailMech, rawDetailDesc) ? rawDetailMech : '') || (!isDupText(objMech, rawDetailDesc) ? objMech : '') || '').replace(/^\[|\]$/g, '');
+      const description = cleanTraitDescriptionText(rawDetailDesc, mechanic);
       return {
         id: detailMatch.id || rawId,
         name,
@@ -720,8 +728,9 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     }
     const name = canonical.name;
     const label = `${name} - ${cat}`;
-    const mechanic = (objMech || canonical.mechanic || canonical.mechanics || '').replace(/^\[|\]$/g, '');
     const rawCanonDesc = objDesc || canonical.description || canonical.desc || canonical.body?.split('\n\n## Description\n')?.[1]?.split('\n\n')[0] || `${name} trait.`;
+    const validObjMech = (!isDupText(objMech, rawCanonDesc) && !isDupText(objMech, canonical.description)) ? objMech : '';
+    const mechanic = (canonical.mechanic || canonical.mechanics || validObjMech || '').replace(/^\[|\]$/g, '');
     const description = cleanTraitDescriptionText(rawCanonDesc, mechanic);
     return {
       id: canonical.id || rawId,
@@ -757,8 +766,10 @@ export const formatSpeciesTrait = (rawTrait, speciesContext = null) => {
     const cat = 'Trait';
     const name = canonicalFeat.name;
     const label = `${name} - ${cat}`;
-    const mechanic = (objMech || canonicalFeat.mechanic || canonicalFeat.mechanics || '').replace(/^\[|\]$/g, '');
-    const description = cleanTraitDescriptionText(objDesc || canonicalFeat.description || `${name} innate feature.`, mechanic);
+    const rawFeatDesc = objDesc || canonicalFeat.description || `${name} innate feature.`;
+    const validObjMech = (!isDupText(objMech, rawFeatDesc) && !isDupText(objMech, canonicalFeat.description)) ? objMech : '';
+    const mechanic = (canonicalFeat.mechanic || canonicalFeat.mechanics || validObjMech || '').replace(/^\[|\]$/g, '');
+    const description = cleanTraitDescriptionText(rawFeatDesc, mechanic);
     return {
       id: canonicalFeat.id || rawId,
       name,

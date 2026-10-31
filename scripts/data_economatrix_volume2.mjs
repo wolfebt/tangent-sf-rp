@@ -121,7 +121,7 @@ Armor provides passive **Damage Reduction (DR)** that subtracts a flat value fro
 ---
 
 ## Armor Classifications
-| Armor Class | Typical DR (Kin / Eng) | Coverage Zones | Agility / Encumbrance Penalty | Power Requirement |
+| Armor Type | Typical DR (Kin / Eng) | Coverage Zones | Agility / Encumbrance Penalty | Power Requirement |
 | :--- | :---: | :--- | :---: | :--- |
 | **Light Armor** | DR 2 / 2 | Torso, Arms | None | None |
 | **Medium Tactical** | DR 5 / 4 | Head, Torso, Arms, Legs | -1 Reflex | None |

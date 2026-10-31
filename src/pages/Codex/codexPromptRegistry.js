@@ -115,7 +115,7 @@ export const OMNICORTEX_DATASETS = [
       { "target": "Apex Predator", "type": "feature", "value": 1, "mode": "choice_pool" }
     ],
     "body": "Markdown String (Comprehensive history, biology, culture, visual semiotics, and caste role. Self-contained; must embed parent taxon context)",
-    "note": "String (Architect / GM rules notes or null)",
+    "note": "String (Architect rules notes or null)",
     "recommended_factions": ["String (Array of recommended faction names or IDs for operator & AI guidance)"],
     "recommended_origins": ["String (Array of recommended origin names or IDs for operator & AI guidance)"],
     "recommended_occupations": ["String (Array of recommended occupation names or IDs for operator & AI guidance)"],
@@ -185,7 +185,7 @@ export const OMNICORTEX_DATASETS = [
   {
     key: 'features',
     code: 'PROMPT B',
-    label: 'Features & Feats',
+    label: 'Features',
     matrixId: 'features',
     targetCollection: 'features',
     icon: Sparkles,
@@ -385,7 +385,7 @@ export const OMNICORTEX_DATASETS = [
       { "target": "Target Name", "type": "disadvantage", "value": -2, "mode": "inherent" }
     ],
     "mechanic": "String (Precise mechanical rules, penalty triggers, roleplay mandates)",
-    "note": "String or null (Removability, GM notes, overcoming conditions)"
+    "note": "String or null (Removability, Architect notes, overcoming conditions)"
   }
 ]
 
@@ -449,7 +449,7 @@ export const OMNICORTEX_DATASETS = [
 - **Section IV. Strategic Assets:** Economy & Tech (Tech Level 0-5, Meta Level 0-5, Wealth Modifier, Primary Exports, Economic Model) and Military Profile (Combat Doctrine, Key Formations, Naval Assets, Unique Tech/Materials).
 - **Section V. Mechanics (Game Data):** Prominent Species, Classification / Faction Type, Faction Skill Package (20 Points Allocation), Typical Archetypes, Recommended Features (1 CP Discount), Bonus Features / Origin & Profession Traits.
 - **Section VI. Visual Synthesis Protocols (HIFI CHROMA):** Setting Style (SETTING STYLE), Context & Color Palette (CONTEXT), Lighting & Atmospheric Mood (ATMOSPHERE), HIFI CHROMA AI Image Generation Prompt.
-- **Section VII. Expansion Modules (Optional):** Scene Vignettes, Sub-Factions, Key Locations, Vehicular Assets, GM Campaign Hooks & Secrets.
+- **Section VII. Expansion Modules (Optional):** Scene Vignettes, Sub-Factions, Key Locations, Vehicular Assets, Architect Campaign Hooks & Secrets.
 
 **JSON SCHEMA:**
 [
@@ -536,7 +536,7 @@ export const OMNICORTEX_DATASETS = [
       "ap": 0
     },
     "mechanic": "String or null (Faction-specific mechanical bonuses, reputation tracks, or rule overrides)",
-    "note": "String or null (GM campaign hooks, classified secrets, and adventure seeds)"
+    "note": "String or null (Architect campaign hooks, classified secrets, and adventure seeds)"
   }
 ]
 
@@ -668,8 +668,8 @@ export const OMNICORTEX_DATASETS = [
         focus: 0,
         ap: 0
       },
-      mechanic: "Players from this faction receive 20 points for faction skills and can purchase recommended features at a 1 CP discount.",
-      note: "GM Secret: Copian robber-barons secretly fund frontier raiders to drive independent homesteaders into debt and corporate vassalage."
+      mechanic: "Operators from this faction receive 20 points for faction skills and can purchase recommended features at a 1 CP discount.",
+      note: "Architect Secret: Copian robber-barons secretly fund frontier raiders to drive independent homesteaders into debt and corporate vassalage."
     }
   },
 
@@ -712,7 +712,7 @@ export const OMNICORTEX_DATASETS = [
     "recommended_features": ["String (Recommended features granted with -1 CP discount)"],
     "keywords": "String (Comma-separated positive directives adding weight for AI and operators)",
     "negative_keywords": "String (Comma-separated negative railguards reducing weight for AI and operators)",
-    "note": "String or null (Common contacts, starting gear packages, GM hooks)"
+    "note": "String or null (Common contacts, starting gear packages, Architect hooks)"
   }
 ]
 
@@ -766,7 +766,7 @@ export const OMNICORTEX_DATASETS = [
     targetCollection: 'invocations',
     icon: Zap,
     color: '#a855f7',
-    description: 'Parse raw psionics, metaphysics, spells, and special abilities into structured JSON documents with AP, strain, focus, and critical effects.',
+    description: 'Parse raw psionics, metaphysics, invocations, and special abilities into structured JSON documents with AP, strain, focus, and critical effects.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX INVOCATION PARSER
 
 **ROLE:** You are an expert data engineer and RPG rules architect for Tangent SFF RPG. Your task is to parse raw magical, psionic, and meta-ability documentation into strict JSON documents for the OMNICORTEX database.
@@ -784,7 +784,7 @@ export const OMNICORTEX_DATASETS = [
     "effect": ["String (Effect type, e.g., 'Kinetic Force', 'Direct Damage', 'Barrier')"],
     "range": ["String (Range band, e.g., 'Touch', 'Short (30ft)', 'Extreme (1000m)')"],
     "target": ["String (Target restrictions, e.g., 'One Sophont', 'Unliving Matter')"],
-    "prerequisite": ["String (Required Meta Level, discipline ranks, or feats)"],
+    "prerequisite": ["String (Required Meta Level, discipline ranks, or features)"],
     "design_dc": 18,
     "craft_dc": 18,
     "tech_level": 0,
@@ -1233,7 +1233,7 @@ export const OMNICORTEX_DATASETS = [
     "modifications": [],
     "modifiers": [],
     "mechanic": "String (Full tactical rules, recoil effects, special attack options)",
-    "note": "String or null (Maintenance, ammunition costs, GM notes)"
+    "note": "String or null (Maintenance, ammunition costs, Architect notes)"
   }
 ]
 
@@ -1404,7 +1404,7 @@ export const OMNICORTEX_DATASETS = [
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Dexterity Limits:** max_dex and mobility_penalty MUST be numbers.
+1. **Agility Limits:** max_dex and mobility_penalty MUST be numbers.
 2. **Exact Coverage:** coverage must strictly be one of: Partial, Standard, Sealed, Reinforced, Bulwark.
 3. **Output Requirement:** Output ONLY the valid JSON block.
 
@@ -1520,7 +1520,7 @@ export const OMNICORTEX_DATASETS = [
     "handling": 0,
     "description": "String (Chassis overview, cockpit ergonomics, aesthetic)",
     "availability": "String (Military, Commercial, Black Market)",
-    "prerequisite": ["String (Mecha Piloting skill, Neural Interface feat)"],
+    "prerequisite": ["String (Mecha Piloting skill, Neural Interface feature)"],
     "costs": {
       "bp": 0,
       "credits": 250000,
@@ -1867,7 +1867,7 @@ export const OMNICORTEX_DATASETS = [
     "recommended_features": ["String (Recommended features granted with -1 CP discount)"],
     "keywords": "String (Comma-separated positive directives adding weight for AI and operators)",
     "negative_keywords": "String (Comma-separated negative railguards reducing weight for AI and operators)",
-    "note": "String or null (Common origin associations and GM hooks)"
+    "note": "String or null (Common origin associations and Architect hooks)"
   }
 ]
 
@@ -2154,7 +2154,7 @@ export const OMNICORTEX_DATASETS = [
       "ap": 0
     },
     "mechanic": "String (Strain threshold formulas, focus regeneration rules, and backlash conditions)",
-    "note": "String or null (Associated factions, sacred texts, and GM plot hooks)"
+    "note": "String or null (Associated factions, sacred texts, and Architect plot hooks)"
   }
 ]
 

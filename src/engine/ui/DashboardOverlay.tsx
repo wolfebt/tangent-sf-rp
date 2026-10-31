@@ -92,13 +92,13 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
     <div 
       className="absolute inset-0 w-full h-full z-[100] overflow-hidden select-none pointer-events-none"
     >
-      {/* ── Operative Vitals Panel (Minimizable & Mode-Aware - Standalone Only) ── */}
+      {/* ── Operator Vitals Panel (Minimizable & Mode-Aware - Standalone Only) ── */}
       {activeToken && !isDesignModeActive && !isEmbeddedInTripartite && (
         isVitalsMinimized ? (
           <button
             onClick={() => setIsVitalsMinimized(false)}
             className="absolute top-4 left-4 z-[105] pointer-events-auto px-3 py-1.5 bg-slate-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl flex items-center gap-2 font-mono text-xs text-cyan-300 hover:bg-slate-800 transition-all cursor-pointer animate-in fade-in duration-150 select-none"
-            title="Expand Operative Vitals"
+            title="Expand Operator Vitals"
           >
             {isSyntheticActive ? (
               <Activity size={13} className="text-amber-400" />
@@ -262,16 +262,16 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
                 </div>
               </div>
             )}
-            {/* Operative Action Log / Blackbox Trigger */}
+            {/* Operator Action Log / Blackbox Trigger */}
             <div className="pt-2 border-t border-slate-800">
               <button
                 type="button"
                 onClick={() => setIsPersonaLogOpen(true)}
                 className="w-full py-1.5 px-2 bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/50 text-amber-300 hover:text-white rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95"
-                title="Inspect Operative Action Telemetry & Rolls Log"
+                title="Inspect Operator Action Telemetry & Rolls Log"
               >
                 <Activity size={13} className="text-amber-400 animate-pulse" />
-                <span>OPERATIVE LOG / BLACKBOX</span>
+                <span>OPERATOR LOG / BLACKBOX</span>
               </button>
             </div>
           </div>
@@ -279,7 +279,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
         )
       )}
 
-      {/* Operative Action Log Telemetry Modal */}
+      {/* Operator Action Log Telemetry Modal */}
       {isPersonaLogOpen && activeToken && (
         <PersonaLogModal
           isOpen={isPersonaLogOpen}

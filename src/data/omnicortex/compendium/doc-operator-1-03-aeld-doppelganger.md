@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aeld"
-order: 19
+order: 25
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld.doppelganger","mechanics"]
-updatedAt: "2026-10-14T05:24:25.031Z"
+updatedAt: "2026-10-31T11:30:42.895Z"
 costs:
   bp: 0
   credits: 0
@@ -83,7 +83,7 @@ This profound magical alteration was performed with a singular and critical purp
 
 Alter Form (Humanoid)
 
-Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming \- something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The GM may allow detection of minor presentations of evil or vile planning.)*
+Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming \- something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The Architect may allow detection of minor presentations of evil or vile planning.)*
 
 &nbsp;
 

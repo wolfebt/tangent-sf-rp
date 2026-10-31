@@ -425,7 +425,7 @@ export const SkillArchitectGuidance = ({
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
                 Searchable descriptive keywords and vocational concepts (e.g., <em>computation, navigation, stealth, cybernetics, piloting</em>).
-                These instruct BASTION AI to prioritize this skill for operatives and gear matching these thematic concepts.
+                These instruct BASTION AI to prioritize this skill for operators and gear matching these thematic concepts.
               </p>
             </div>
 

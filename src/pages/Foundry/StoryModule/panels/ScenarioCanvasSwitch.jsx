@@ -110,7 +110,7 @@ export default function ScenarioCanvasSwitch({
     AudioService.playCriticalChime(true);
     setBroadcastedText(true);
     VttEventBus.emit('chat-message', {
-      sender: 'GM NARRATIVE',
+      sender: 'ARCHITECT NARRATIVE',
       text: rawReadAloud || activeNode?.title || 'Sensory Read-Aloud dispatched.',
       type: 'narration',
       timestamp: new Date().toLocaleTimeString()
@@ -152,7 +152,7 @@ export default function ScenarioCanvasSwitch({
       {/* ── LIVE SESSION COCKPIT HUD (Shown only in studioMode === 'live_session' when not in full stage) ── */}
       {!isFullStage && studioMode === 'live_session' && (
         <div className="bg-gradient-to-r from-rose-950/40 via-slate-950 to-purple-950/40 border-b border-rose-500/40 p-2.5 px-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shrink-0 text-xs shadow-lg">
-          {/* Left: GM Read-Aloud Prompt */}
+          {/* Left: Architect Read-Aloud Prompt */}
           <div className="flex-1 min-w-0 flex items-start gap-2.5">
             <div className="p-1.5 rounded-lg bg-cyan-950 border border-cyan-500/40 text-cyan-300 shrink-0 mt-0.5">
               <Sparkles size={14} />
@@ -172,7 +172,7 @@ export default function ScenarioCanvasSwitch({
                 </button>
               </div>
               <p className="text-[11px] text-slate-300 italic truncate max-w-xl font-sans mt-0.5">
-                {readAloudSnippet || 'The air hums with anticipation as operatives advance into the sector...'}
+                {readAloudSnippet || 'The air hums with anticipation as operators advance into the sector...'}
               </p>
             </div>
           </div>

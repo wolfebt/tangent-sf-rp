@@ -27,7 +27,7 @@ Missing limbs, paralysis, or severe mechanical impairment of bodily motor functi
 
 ## Mechanics & Severity
 ### Tiers & Effects
-- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.
+- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Agility tasks with that limb; reduced movement if foot.
 - **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).
 - **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.
 - **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.

@@ -14,7 +14,7 @@ export const USER_GUIDE_SECTIONS = [
     color: '#22d3ee',
     iconName: 'RingedPlanetLogo',
     sixW: [
-      'Operatives, Lead Architects, Storytellers, and Game Masters embarking on science fantasy campaigns.',
+      'Operators (Players) and Architects (Game Masters) embarking on science fantasy campaigns.',
       'A unified modular virtual tabletop, relational rules compendium, worldbuilding studio, and tactical narrative engine.',
       'Accessed via modern desktop and mobile browsers, reinforced with local-first indexed offline persistence.',
       'Deployed during world synthesis, tactical encounter prep, live combat adjudication, and squad campaigns.',
@@ -50,7 +50,7 @@ export const USER_GUIDE_SECTIONS = [
       },
       {
         title: 'Architect Directives & Docket Pinning',
-        badge: 'GM Tools',
+        badge: 'Architect Tools',
         desc: 'Lead and Co-Architects broadcast encrypted handouts, tactical floor plans, and objective markers directly to player HUDs in real time.'
       }
     ],
@@ -122,19 +122,19 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     id: 'folio',
     num: 2,
     title: 'Persona Folio & Guided Creator',
-    fullTitle: 'Operative Character Dossier, Tactical Play HUD & Creation Wizard',
+    fullTitle: 'Operator Character Dossier, Tactical Play HUD & Creation Wizard',
     badge: 'Hero Manager',
     color: '#0ea5e9',
     iconName: 'Users',
     sixW: [
-      'Operatives crafting distinct heroes and Architects managing active squad and NPC rosters.',
+      'Operators crafting distinct heroes and Architects managing active squad and NPC rosters.',
       'A high-fidelity digital character dossier, live play sheet, and 6-step guided character creation wizard.',
       'Found within the Folio interface (/folio) and accessible directly from the HUD active persona widget.',
-      'Accessed during initial operative conception, level progression, gear equipping, and live combat turns.',
+      'Accessed during initial operator conception, level progression, gear equipping, and live combat turns.',
       'To automate derived statistic calculations, enforce rulebook point caps, and execute one-click roll checks without manual calculation errors.',
       'Interacted with through tabbed dossiers, point-allocation builders, drag-and-drop inventory, and the Bastion Guided Creator modal.'
     ],
-    lead: 'The Persona Folio is your complete operative management suite. It bridges rigorous character progression with live tactical utility, calculating complex derived statistics while presenting a streamlined combat HUD for split-second decisions.',
+    lead: 'The Persona Folio is your complete operator management suite. It bridges rigorous character progression with live tactical utility, calculating complex derived statistics while presenting a streamlined combat HUD for split-second decisions.',
     sections: [
       {
         heading: 'Core Attributes & Derived Statistics',
@@ -156,8 +156,8 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       },
       {
         heading: '6-Step Bastion Guided Creator',
-        content: `Building a balanced operative is effortless with the integrated Guided Creator wizard:
-1. **Concept & Identity**: Select Operative Name, Call-sign, Pronouns, and narrative background archetype.
+        content: `Building a balanced operator is effortless with the integrated Guided Creator wizard:
+1. **Concept & Identity**: Select Operator Name, Call-sign, Pronouns, and narrative background archetype.
 2. **Species Selection**: Choose from canonical species (Human, Synthetics, Jovian Uplift, Xenomorph Crossbreeds) with auto-applied biological traits.
 3. **Origin & Background**: Establish homeworld, upbringing, and formative years, granting starting skill bonuses and cultural perks.
 4. **Career & Occupation**: Select profession (Combat Mercenary, Net Infiltrator, Void Pilot, Nano-Surgeon) to grant career skill allocations.
@@ -189,7 +189,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     color: '#10b981',
     iconName: 'Database',
     sixW: [
-      'Operatives referencing rules, Architects adjudicating disputes, and creators researching setting lore.',
+      'Operators referencing rules, Architects adjudicating disputes, and creators researching setting lore.',
       'The definitive relational database and 270-article master rules compendium for the Tangent universe.',
       'Located in the Compendium view (/compendium) within the Omnicortex DBM module.',
       'Consulted whenever rules questions emerge, during session preparation, and while studying alien species and faction profiles.',
@@ -202,7 +202,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
         heading: 'The 270 Canonical Compendium Articles',
         content: `All game rules are synchronized build-time into immutable, high-speed markdown documents cached in the browser:
 - **1.00 Operator Core Rules (224 Articles across 14 Master Volumes)**: Covers foundational player mechanics, 2d10 core resolution, 6 core attributes, 48 archetypes, 84 species across 10 lineages, 41 factions, 11 origins, 13 occupations, 101 skills, 284 features, hindrances, 14-tier scaling, Economatrix, tactical combat, and 6 metaphysics disciplines.
-- **5.00 Architect Modular Matrices (46 Articles across 9 Master Matrices)**: In-depth worldbuilding and GM adjudication matrices, including Economic Unified Field Theory, Modular Character/Species/Faction/Companion/Planetary Matrices, Technology Forge Protocols (Weaponry, Armor, Equipment, Augmentations, Mecha, Architecture), and Invocation/Meta-Tech Matrices.`
+- **5.00 Architect Modular Matrices (46 Articles across 9 Master Matrices)**: In-depth worldbuilding and Architect adjudication matrices, including Economic Unified Field Theory, Modular Character/Species/Faction/Companion/Planetary Matrices, Technology Forge Protocols (Weaponry, Armor, Equipment, Augmentations, Mecha, Architecture), and Invocation/Meta-Tech Matrices.`
       },
       {
         heading: 'Dual-Rail Drawer & Sequential Reading',
@@ -257,7 +257,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       {
         heading: 'Economatrix Studio & Wealth Scoring',
         content: `Economatrix standardizes trade and resource scarcity across interplanetary civilizations:
-- **Wealth Ratings (0 to 10)**: Replaces cumbersome bean-counting with abstract wealth tiers. Operatives with Wealth 4 can purchase everyday rations and ammunition without deducting credits, requiring rolls only for major capital investments.
+- **Wealth Ratings (0 to 10)**: Replaces cumbersome bean-counting with abstract wealth tiers. Operators with Wealth 4 can purchase everyday rations and ammunition without deducting credits, requiring rolls only for major capital investments.
 - **Planetary Trade Specializations**: Define planetary economic outputs (Industrial Fabrication, Bio-Pharma, Helium-3 Fuel Extraction, Agricultural Breadbaskets) to calculate automated price inflation and black-market contraband markups.`
       },
       {
@@ -269,7 +269,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     ],
     proTips: [
       'Export planetary blueprints directly into Story Foundry encounter anchors to instantly populate tactical mission environmentals.',
-      'Planets with Toxic or Corrosive atmospheres automatically require operatives to equip sealed hazard suits or suffer cumulative Strain.',
+      'Planets with Toxic or Corrosive atmospheres automatically require operators to equip sealed hazard suits or suffer cumulative Strain.',
       'The Scaling Studio allows seamless translation between personal combat scale, vehicular scale, and capital starship fleet engagements.'
     ],
     hotkeys: [
@@ -290,7 +290,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       'An advanced scenario authoring platform featuring visual node graphs, branching decisions, encounter anchors, and a live story simulator.',
       'Accessed within the Story Foundry workspace (/foundry/story).',
       'Utilized during adventure drafting, plot pacing optimization, and live session directive management.',
-      'To construct living, non-linear adventures that react dynamically to player choices while keeping GM prep organized.',
+      'To construct living, non-linear adventures that react dynamically to player choices while keeping Architect prep organized.',
       'Constructed via the Story Weaver node canvas, AIME 3-tier prompting, contextual encounter anchors, and the simulation deck.'
     ],
     lead: 'The Story Foundry turns campaign preparation into a visual, dynamic experience. By linking narrative scenes, tactical maps, combat encounters, and NPC dialogues into an interactive node graph, Architects can run complex, reactive sandbox campaigns with zero panic.',
@@ -298,7 +298,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       {
         heading: 'Story Weaver Visual Node Canvas',
         content: `Draft campaigns as modular, branching narrative flowcharts:
-- **Scene Nodes**: Narrative beats containing descriptions, GM read-aloud boxed text, secret Architect notes, and environmental triggers.
+- **Scene Nodes**: Narrative beats containing descriptions, Architect read-aloud boxed text, secret Architect notes, and environmental triggers.
 - **Choice & Decision Connectors**: Link scenes with conditional prerequisites (e.g. Requires \`[[Hack Security Console]]\` or \`Bribe Guard >= 200cr\`).
 - **Encounter Anchors**: Directly embed tactical maps, enemy token groups, and trap hazards inside a scene node for one-click deployment during live play.`
       },
@@ -313,7 +313,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     ],
     proTips: [
       'Right-click any node in the Story Weaver canvas to deploy AIME Brainstorming and generate three unexpected plot twists instantly.',
-      'Use the Scenario Cockpit Dock to track party location in real-time on your GM screen without revealing the map to players prematurely.',
+      'Use the Scenario Cockpit Dock to track party location in real-time on your Architect screen without revealing the map to operators prematurely.',
       'Export completed scenario modules as standalone .story packages to share with other Game Masters or archive for future runs.'
     ],
     hotkeys: [
@@ -333,7 +333,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     color: '#38bdf8',
     iconName: 'Map',
     sixW: [
-      'Lead Architects directing combat scenes and Operatives maneuvering tactical unit tokens.',
+      'Lead Architects directing combat scenes and Operators maneuvering tactical unit tokens.',
       'A real-time 2D/isometric virtual tabletop equipped with marching squares auto-tiling, dynamic line-of-sight occlusion, and interactive smart props.',
       'Found in Map Maker (/foundry/map) and the live combat Stage Workspace.',
       'Engaged during tactical combat encounters, boarding actions, dungeon exploration, and stealth infiltrations.',
@@ -358,7 +358,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
       {
         heading: 'Smart Props & Interactive Traps',
         content: `Scatter functional tactical props onto the battlefield:
-- **Laser Tripmine**: Triggers explosive plasma burst when an operative token crosses its tripwire vector.
+- **Laser Tripmine**: Triggers explosive plasma burst when an operator token crosses its tripwire vector.
 - **Surveillance Camera**: Rotates on a timer, sounding alarm and pinging enemy reinforcements if tokens enter its scanning cone.
 - **Terminal Consoles**: Interactive hack points that disable environmental security or unlock blast doors upon a successful Tech check.`
       }
@@ -434,12 +434,12 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     color: '#3b82f6',
     iconName: 'Radio',
     sixW: [
-      'Squad members, Lead Architects, Co-Architects, and tactical operatives.',
+      'Squad members, Lead Architects, Co-Architects, and tactical operators.',
       'An encrypted multi-channel tactical comms relay, party roster management console, and Architect directive board.',
       'Situated in the Comms interface (/comms) and Squads hub (/squads).',
       'Active continuously during gaming sessions for in-character transmissions, tactical whispers, and mission handouts.',
-      'To facilitate atmospheric roleplay communications, distribute secret GM intel, and manage team permissions securely.',
-      'Operated through frequency selector channels, direct operative whispers, tactical pins, and the Architect Docket.'
+      'To facilitate atmospheric roleplay communications, distribute secret Architect intel, and manage team permissions securely.',
+      'Operated through frequency selector channels, direct operator whispers, tactical pins, and the Architect Docket.'
     ],
     lead: 'CommLink Relay combines in-character immersion with multiplayer campaign management. Facilitating encrypted chat frequencies, live squad roster tracking, and Lead Architect directive pinning, your gaming group stays completely in sync.',
     sections: [
@@ -447,9 +447,9 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
         heading: 'Encrypted Multi-Channel Frequency Bands',
         content: `CommLink organizes communications into dedicated tactical frequencies:
 - **Global Broadcast Frequency**: General out-of-character campaign chat, scheduling, and system announcements.
-- **Squad Tactical Comms**: In-character operational channel. Messages are automatically styled with operative call-signs, audio beeps, and avatar badges.
-- **Encrypted Whispers**: Secure 1-on-1 private transmissions between specific operatives or between an operative and the GM.
-- **Architect GM Frequency**: Secret channel for the Lead Architect and Co-Architects to coordinate encounters and backstage events.`
+- **Squad Tactical Comms**: In-character operational channel. Messages are automatically styled with operator call-signs, audio beeps, and avatar badges.
+- **Encrypted Whispers**: Secure 1-on-1 private transmissions between specific operators or between an operator and the Architect.
+- **Architect Command Frequency**: Secret channel for the Lead Architect and Co-Architects to coordinate encounters and backstage events.`
       },
       {
         heading: 'Architect Docket & Handout Pinning',
@@ -459,7 +459,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
         heading: 'Squad Management & Multi-Persona Binding',
         content: `In the Squads Hub (/squads), campaign organizers can manage party roles:
 - **Lead Architect & Co-Architects**: Full control over map scenes, NPC placement, docket pins, and rulebook modifications.
-- **Operatives**: Standard player permissions tied to their claimed character sheets.
+- **Operators**: Standard player permissions tied to their claimed character sheets.
 - **Multi-Persona Binding**: Players can switch active personas on the fly for campaigns featuring multiple party members or drone companions.`
       }
     ],
@@ -483,7 +483,7 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     color: '#eab308',
     iconName: 'Dices',
     sixW: [
-      'Every operative and Game Master making skill checks, attack rolls, and hazard saves.',
+      'Every Operator and Architect making skill checks, attack rolls, and hazard saves.',
       'The core mathematical arbitration engine driving all probability calculations, target number checks, and critical determinations.',
       'Triggered via the global Polyhedral Dice Dock (Alt+D), inline chat /roll commands, or one-click Folio stat chips.',
       'Called upon whenever a character attempts an uncertain, risky, or contested action.',
@@ -508,7 +508,7 @@ If the Check Result meets or exceeds the **Target Number (TN)**, the action succ
       {
         heading: 'Critical Triumphs & Complications',
         content: `The dice engine identifies natural double rolls regardless of modifiers:
-- **Critical Triumph (Double 10s - Natural 20)**: Automatic spectacular success! Generates bonus combat damage, resets operative strain, or creates cinematic tactical advantages.
+- **Critical Triumph (Double 10s - Natural 20)**: Automatic spectacular success! Generates bonus combat damage, resets operator strain, or creates cinematic tactical advantages.
 - **Critical Complication (Double 1s - Natural 2)**: Automatic failure with complications! Triggers weapon jams, power supply overloads, structural collapses, or sensory disorientations.`
       },
       {
@@ -524,7 +524,7 @@ If the Check Result meets or exceeds the **Target Number (TN)**, the action succ
     proTips: [
       'The Polyhedral Dice Dock includes one-click chips for common tactical modifiers (+2 Aim, -4 Blind Fire, +3 Heavy Cover).',
       'Click the History button in the Dice Dock to review previous rolls with full mathematical breakdowns and timestamps.',
-      'In contested rolls (e.g. Stealth vs Perception), the operative with the higher Margin of Success wins the exchange.'
+      'In contested rolls (e.g. Stealth vs Perception), the operator with the higher Margin of Success wins the exchange.'
     ],
     hotkeys: [
       { key: 'Alt + D', action: 'Toggle Polyhedral Dice Dock' },
@@ -559,7 +559,7 @@ If the Check Result meets or exceeds the **Target Number (TN)**, the action succ
 | **Alt + D** | Global | Toggle Polyhedral 2d10 Dice Roller Dock |
 | **Alt + R** | Global | Toggle CommLink Relay tactical frequency dock |
 | **Alt + H** | Global | Jump to Operations Hub command flight deck |
-| **Alt + F** | Global | Jump to Persona Folio operative dossier |
+| **Alt + F** | Global | Jump to Persona Folio operator dossier |
 | **Alt + C** | Global | Jump to Omnicortex DBM Compendium rules |
 | **Alt + X** | Global | Jump to Codex & Economatrix worldbuilding studio |
 | **Alt + S** | Global | Jump to Story Foundry scenario weaver |
@@ -567,7 +567,7 @@ If the Check Result meets or exceeds the **Target Number (TN)**, the action succ
 | **Alt + A** | Global | Jump to AIME narrative intelligence studio |
 | **Alt + G** | Global | Open Comprehensive Platform User Guide |
 | **Alt + Left / Right** | Compendium / Guide | Jump to Previous / Next rulebook article or guide chapter sequentially |
-| **Alt + 1-9 / 0** | Persona Folio | Switch directly between operative dossier tabs |
+| **Alt + 1-9 / 0** | Persona Folio | Switch directly between operator dossier tabs |
 | **G** | Map Maker | Toggle tactical battle map grid lines (Hex / Square / Off) |
 | **M** | Map Maker | Deploy tactical laser distance measurement tool |
 | **V / H / F / B** | Map Maker | Switch to Select (\`V\`), Pan (\`H\`), Fog of War (\`F\`), or Chunk Stamp (\`B\`) tool |

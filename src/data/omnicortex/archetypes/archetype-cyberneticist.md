@@ -21,7 +21,7 @@ recommended_factions:
 essential_skills:
   - Knowledge (Medicine)
   - Knowledge (Technology)
-  - Knowledge (Biology)
+  - Knowledge (Science)
   - Vocation (Engineer)
 signature_traits:
   - Cybernetic Enhancement
@@ -65,7 +65,7 @@ Installing/repairing cybernetics, hacking enemy augments, buffing allies.
 ## Essential Skills
 - Knowledge (Medicine)
 - Knowledge (Technology)
-- Knowledge (Biology)
+- Knowledge (Science)
 - Vocation (Engineer)
 
 ## Signature Features

@@ -236,7 +236,7 @@ export const TrapsAndHazardsWorkbench = ({
           </div>
 
           <div className="pt-2 border-t border-slate-800/80 mt-2 text-[10px] font-mono text-slate-400">
-            ⚡ Nodes dynamically evaluate Reflex/Tech saves during operative movement.
+            ⚡ Nodes dynamically evaluate Reflex/Tech saves during operator movement.
           </div>
         </div>
 

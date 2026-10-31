@@ -7,13 +7,13 @@ category: traits
 costs:
   cp: 2
   bp: 2
-description: +2 bonus on Disable Device and Engineering.
+description: +2 bonus on Mechanic and Engineering.
 modifiers:
-  - target: Disable Device
+  - target: Mechanic
     type: skill
     value: 2
     mode: inherent
-    description: +2 to Disable Device
+    description: +2 to Mechanic
   - target: Engineering
     type: skill
     value: 2
@@ -31,4 +31,4 @@ modifiers:
 Instinctive mechanical intuition for complex mechanisms, locks, and circuitry.
 
 ## Mechanics & Benefit
-+2 bonus on Disable Device and Engineering checks
++2 bonus on Mechanic and Engineering checks

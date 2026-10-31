@@ -129,7 +129,7 @@ const SocialDispositionModal = ({
       targetDc,
       shift,
       actionLabel: selectedAction.label,
-      heroLabel: activeHero.label || 'Operative',
+      heroLabel: activeHero.label || 'Operator',
       npcLabel: activeNpc.label || 'NPC'
     };
 
@@ -193,7 +193,7 @@ const SocialDispositionModal = ({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-[10px] uppercase font-bold text-slate-400">Negotiating Operative</label>
+            <label className="text-[10px] uppercase font-bold text-slate-400">Negotiating Operator</label>
             <select
               value={activeHeroId || ''}
               onChange={(e) => setActiveHeroId(e.target.value)}

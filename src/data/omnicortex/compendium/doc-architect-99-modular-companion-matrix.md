@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 13
+order: 14
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular companion matrix","matrix"]
-updatedAt: "2026-10-14T06:04:05.810Z"
+updatedAt: "2026-10-31T11:30:42.563Z"
 costs:
   bp: 0
   credits: 0
@@ -146,7 +146,7 @@ Unlike PCs who start with 150 CP, Companions must be hyper-specialized.
   * **Standard Cost:** 3 CP.  
   * **Recommended/Package Cost:** 2 CP.  
 * **Size:**  
-  * **Small/Tiny:** 2 CP (Recommended Feature: Dwarfism). *Gain Stealth/AC bonuses.*  
+  * **Small/Tiny:** 2 CP (Recommended Feature: Dwarfism). *Gain Stealth/Defense bonuses.*  
   * **Medium:** 0 CP.  
   * **Large:** 2 CP (Recommended Feature: Giant). *Gain Strength/Carrying Capacity bonuses.*
 
@@ -233,7 +233,7 @@ Companions are durable, but not immortal.
 **Biological:**
 
 * **Healing:** Heals naturally like a PC.  
-* **Death:** If Health reaches negative (Constitution Score), it dies.  
+* **Death:** If Health reaches negative (Stamina Score), it dies.  
 * **Replacement:** The player must spend time (Training Period) to acquire a new animal. No CP cost to replace, but narrative time is required.
 
 &nbsp;
@@ -261,7 +261,7 @@ As the player grows, the companion should not become obsolete.
 
 **1\. The "Award Point" Tithe (Optional Rule)**
 
-The GM may allow a player to invest their earned **Award Points (AP)** into their companion instead of themselves.
+The Architect may allow an operator to invest their earned **Award Points (AP)** into their companion instead of themselves.
 
 * **Ratio:** 1 AP \= 1 CP for the Companion.
 
@@ -324,7 +324,7 @@ Standard templates for quick creation.
 
 *Focus: Mobility*
 
-* **Attributes:** Strength, Constitution.  
+* **Attributes:** Strength, Stamina.  
 * **Key Skills:** Athletics (Run).  
 * **Key Features:** Large Size (Feature: Giant), Sure-Footed, Endurance, Speed.
 

@@ -271,7 +271,7 @@ export const TransceiverDeck = () => {
                 }`}
               >
                 <Crown size={12} className="text-amber-400" />
-                <span>ARCHITECT // GM (Referee)</span>
+                <span>ARCHITECT // LEAD</span>
               </button>
             )}
           </div>
@@ -289,7 +289,7 @@ export const TransceiverDeck = () => {
               availablePersonas.map((p) => {
                 const pId = p['character-doc-id'] || p.id;
                 const pName = p['char-name'] || p.name;
-                const pRole = p['char-concept'] || p.role || p['char-species'] || 'Operative';
+                const pRole = p['char-concept'] || p.role || p['char-species'] || 'Operator';
                 const currentId =
                   selectedPersona?.['character-doc-id'] || selectedPersona?.id;
                 const isSelected = pId === currentId;
@@ -482,7 +482,7 @@ export const TransceiverDeck = () => {
             type="button"
             onClick={() => handleTogglePopover('persona')}
             className="min-w-0 flex-1 text-left px-1.5 py-0.5 rounded-lg hover:bg-slate-900/90 transition-colors cursor-pointer group"
-            title="Click to switch Speaking Identity (OOC Operator, IC Folio Persona, or Architect GM / Referee)"
+            title="Click to switch Speaking Identity (OOC Operator, IC Folio Persona, or Lead Architect)"
           >
             <div className="flex items-center gap-1 min-w-0">
               <span className="font-bold text-[11px] text-slate-100 truncate">
@@ -498,7 +498,7 @@ export const TransceiverDeck = () => {
               {speakingMode === 'ARCHITECT' && isCurrentChannelArchitect ? (
                 <span className="text-[9.5px] font-bold text-amber-400 truncate flex items-center gap-1">
                   <Crown size={10} className="text-amber-400 shrink-0" />
-                  <span className="truncate">ARCHITECT // GM</span>
+                  <span className="truncate">ARCHITECT // LEAD</span>
                 </span>
               ) : speakingMode === 'IC' && activePersonaName ? (
                 <span className="text-[9.5px] font-bold text-emerald-400 truncate flex items-center gap-1">

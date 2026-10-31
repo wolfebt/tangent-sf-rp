@@ -175,7 +175,7 @@ const VttCommandDrawer = ({
               vttRole === 'co_architect' ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-900 text-slate-400 hover:text-white'
             }`}
           >
-            🤝 Co-GM
+            🤝 Co-Architect
           </button>
           <button
             type="button"
@@ -187,7 +187,7 @@ const VttCommandDrawer = ({
               vttRole === 'operative' ? 'bg-emerald-600 text-black shadow-sm' : 'bg-slate-900 text-slate-400 hover:text-white'
             }`}
           >
-            🎯 Operative
+            🎯 Operator
           </button>
         </div>
       </div>
@@ -331,7 +331,7 @@ const VttCommandDrawer = ({
                 <Eye size={13} /> Fog of War &amp; Recon
               </span>
               <div className="p-2 rounded-lg bg-slate-950/70 border border-slate-800 flex items-center justify-between">
-                <span className="text-slate-300 font-mono text-[10px]">Dynamic Player Fog:</span>
+                <span className="text-slate-300 font-mono text-[10px]">Dynamic Operator Fog:</span>
                 <button
                   type="button"
                   onClick={() => {
@@ -372,7 +372,7 @@ const VttCommandDrawer = ({
             {/* Spectator Broadcast Link */}
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
               <span className="text-[10px] uppercase font-bold text-emerald-400 flex items-center gap-1.5">
-                <Tv size={13} /> Player 2nd Screen Broadcast
+                <Tv size={13} /> Operator 2nd Screen Broadcast
               </span>
               <div className="flex items-center gap-1.5 p-2 rounded-lg bg-slate-950/70 border border-slate-800">
                 <input
@@ -433,7 +433,7 @@ const VttCommandDrawer = ({
 
             {/* Player Role & Multi-Character Binding */}
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2.5">
-              <span className="text-[10px] uppercase font-bold text-cyan-400">Player &amp; Co-Architect Permissions:</span>
+              <span className="text-[10px] uppercase font-bold text-cyan-400">Operator &amp; Co-Architect Permissions:</span>
               
               <div className="flex gap-1">
                 {['player_1', 'player_2', 'player_3'].map(uid => (
@@ -445,7 +445,7 @@ const VttCommandDrawer = ({
                       selectedUserId === uid ? 'bg-cyan-600 text-black' : 'bg-slate-800 text-slate-400'
                     }`}
                   >
-                    {uid === 'player_1' ? 'Operative 1' : uid === 'player_2' ? 'Co-GM' : 'Operative 3'}
+                    {uid === 'player_1' ? 'Operator 1' : uid === 'player_2' ? 'Co-Architect' : 'Operator 3'}
                   </button>
                 ))}
               </div>
@@ -459,7 +459,7 @@ const VttCommandDrawer = ({
                     activeUserAssignment.role === VTT_ROLES.OPERATIVE ? 'bg-cyan-950 text-cyan-300 border-cyan-500' : 'bg-slate-950 text-slate-500 border-slate-800'
                   }`}
                 >
-                  🎯 Operative
+                  🎯 Operator
                 </button>
                 <button
                   type="button"
@@ -468,7 +468,7 @@ const VttCommandDrawer = ({
                     activeUserAssignment.role === VTT_ROLES.CO_ARCHITECT ? 'bg-purple-950 text-purple-300 border-purple-500' : 'bg-slate-950 text-slate-500 border-slate-800'
                   }`}
                 >
-                  🤝 Co-GM
+                  🤝 Co-Architect
                 </button>
                 <button
                   type="button"
@@ -477,7 +477,7 @@ const VttCommandDrawer = ({
                     activeUserAssignment.role === VTT_ROLES.ARCHITECT_LEAD ? 'bg-amber-950 text-amber-300 border-amber-500' : 'bg-slate-950 text-slate-500 border-slate-800'
                   }`}
                 >
-                  👑 Lead GM
+                  👑 Lead Architect
                 </button>
               </div>
 
@@ -514,7 +514,7 @@ const VttCommandDrawer = ({
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] uppercase font-bold text-amber-400 flex items-center gap-1.5">
-                  <Shield size={12} /> Player Override Policy
+                  <Shield size={12} /> Operator Override Policy
                 </span>
                 <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold ${
                   currentRoster.allowPlayerOverride !== false 
@@ -525,7 +525,7 @@ const VttCommandDrawer = ({
                 </span>
               </div>
               <p className="text-[10.5px] text-slate-400 leading-snug">
-                Determine if players may unlock and modify their set folios during this live tactical session.
+                Determine if operators may unlock and modify their set folios during this live tactical session.
               </p>
               <button
                 type="button"
@@ -538,7 +538,7 @@ const VttCommandDrawer = ({
                   };
                   if (onUpdateTeamRoster) onUpdateTeamRoster(updated);
                   if (onBroadcastMessage) {
-                    onBroadcastMessage(`[GM POLICY]: Player persona override is now ${nextVal ? 'ALLOWED (tracked)' : 'DISALLOWED (locked)'}.`);
+                    onBroadcastMessage(`[ARCHITECT POLICY]: Operator persona override is now ${nextVal ? 'ALLOWED (tracked)' : 'DISALLOWED (locked)'}.`);
                   }
                 }}
                 className={`w-full py-1.5 rounded font-mono text-[10px] font-bold border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
@@ -547,7 +547,7 @@ const VttCommandDrawer = ({
                     : 'bg-red-950/80 hover:bg-red-900 border-red-500 text-red-200'
                 }`}
               >
-                <span>{currentRoster.allowPlayerOverride !== false ? '✓ Player Override Allowed' : '✕ Player Override Disallowed'}</span>
+                <span>{currentRoster.allowPlayerOverride !== false ? '✓ Operator Override Allowed' : '✕ Operator Override Disallowed'}</span>
               </button>
             </div>
           </div>

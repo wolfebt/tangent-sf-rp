@@ -168,7 +168,7 @@ export const GENETICS_NAV_ITEMS = [
   {
     id: 'features',
     name: 'Granted & Rec. Features',
-    shortLabel: 'FEATS',
+    shortLabel: 'FEATURES',
     icon: BookOpen,
     color: '#a855f7',
     desc: 'Character Features: Inherent Granted Perks & Recommended Suggestions (0 CP Species Cost)'
@@ -1655,7 +1655,7 @@ export const SpeciesTraitSelector = ({
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
             <div>
               <span className="text-xs font-bold text-slate-200 block">Flexible Attribute Pool (5 CP per point)</span>
-              <span className="text-[10px] text-slate-400">Unassigned racial attribute points chosen by the operative during character creation (+1 Attribute Mod per point)</span>
+              <span className="text-[10px] text-slate-400">Unassigned racial attribute points chosen by the operator during character creation (+1 Attribute Mod per point)</span>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -1682,7 +1682,7 @@ export const SpeciesTraitSelector = ({
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
             <div>
               <span className="text-xs font-bold text-slate-200 block">+5 Skill Points Pool Bundle (5 CP)</span>
-              <span className="text-[10px] text-slate-400">Add bundles of 5 racial skill pool points for flexible operative proficiencies (5 CP per +5 skill pts / 1 CP per pt)</span>
+              <span className="text-[10px] text-slate-400">Add bundles of 5 racial skill pool points for flexible operator proficiencies (5 CP per +5 skill pts / 1 CP per pt)</span>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -1761,7 +1761,7 @@ export const SpeciesTraitSelector = ({
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
             <div>
               <span className="text-xs font-bold text-slate-200 block">Flexible Feature Pool (3 CP per feature)</span>
-              <span className="text-[10px] text-slate-400">Bonus general features chosen by the operative during character creation</span>
+              <span className="text-[10px] text-slate-400">Bonus general features chosen by the operator during character creation</span>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -1793,7 +1793,7 @@ export const SpeciesTraitSelector = ({
                     <Sparkles size={14} className="text-emerald-400" />
                     <span>Granted Features (Inherent)</span>
                   </span>
-                  <span className="text-[10.5px] text-slate-400">Automatically granted to operatives of this species (+{bpData.breakdown?.grantedFeaturesBP || 0} CP)</span>
+                  <span className="text-[10.5px] text-slate-400">Automatically granted to operators of this species (+{bpData.breakdown?.grantedFeaturesBP || 0} CP)</span>
                 </div>
               </div>
               <FeaturesSelector
@@ -1818,7 +1818,7 @@ export const SpeciesTraitSelector = ({
                   <Sparkles size={14} className="text-purple-400" />
                   <span>Recommended Features (Suggestions)</span>
                 </span>
-                <span className="text-[10.5px] text-slate-400">Suggested character features during operative creation (0 CP species cost)</span>
+                <span className="text-[10.5px] text-slate-400">Suggested character features during operator creation (0 CP species cost)</span>
               </div>
               <FeaturesSelector
                 value={cleanedRecommendedFeatures}
@@ -2605,7 +2605,7 @@ export const SpeciesTraitSelector = ({
                 ))}
                 {bonusFeatures > 0 && (
                   <span className="px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-500/30 text-indigo-200">
-                    Feature Pool: +{bonusFeatures} Feat{bonusFeatures > 1 ? 's' : ''} (+{bonusFeatures * 3} CP)
+                    Feature Pool: +{bonusFeatures} Feature{bonusFeatures > 1 ? 's' : ''} (+{bonusFeatures * 3} CP)
                   </span>
                 )}
                 {(bpData.itemized?.disadvantages || []).map((flaw, idx) => (

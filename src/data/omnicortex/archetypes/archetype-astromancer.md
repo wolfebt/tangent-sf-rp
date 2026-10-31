@@ -21,7 +21,7 @@ recommended_factions:
 essential_skills:
   - Academics
   - Knowledge (Technology)
-  - Knowledge (Astrophysics)
+  - Knowledge (Physics)
   - Alertness
 signature_traits:
   - Celestial Savant
@@ -69,7 +69,7 @@ Navigation through anomalies, identifying cosmic threats, operating ship sensors
 ## Essential Skills
 - Academics
 - Knowledge (Technology)
-- Knowledge (Astrophysics)
+- Knowledge (Physics)
 - Alertness
 
 ## Signature Features

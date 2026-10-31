@@ -134,14 +134,14 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
                 <div className="flex items-center justify-between text-[10px] text-slate-300">
                   <span className="flex items-center gap-1 truncate text-slate-400">
                     <Crown size={10} className="text-amber-400 shrink-0" />
-                    <span>GM: @{targetGroup.creatorHandle || 'Architect'}</span>
+                    <span>Architect: @{targetGroup.creatorHandle || 'Architect'}</span>
                   </span>
                   <span className="text-slate-400 font-mono text-[9px]">
-                    {membersList.length}/{targetGroup.maxMembers || 6} Operatives
+                    {membersList.length}/{targetGroup.maxMembers || 6} Operators
                   </span>
                 </div>
 
-                {/* Operative Mini Avatars */}
+                {/* Operator Mini Avatars */}
                 <div className="flex items-center gap-1 pt-0.5">
                   {membersList.slice(0, 5).map((m, idx) => {
                     const charName = m.persona?.name || m.handle || 'Agent';
@@ -228,7 +228,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
                 setIsCreateOpen(true);
               }
             }}
-            title="Invite Operatives"
+            title="Invite Operators"
             className="py-1 px-2 bg-slate-800/90 hover:bg-slate-700 text-emerald-300 font-bold text-[9px] font-mono uppercase tracking-wider rounded-md border border-slate-700 hover:border-emerald-500/50 transition-colors flex items-center gap-1"
           >
             <UserPlus size={10} className="text-emerald-400" />

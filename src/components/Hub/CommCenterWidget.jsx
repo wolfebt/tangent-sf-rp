@@ -280,7 +280,7 @@ export const CommCenterWidget = ({
               onChange={(e) => setInputVal(e.target.value)}
               placeholder={
                 speakingMode === 'IC'
-                  ? `Transmit as [${selectedPersona?.name || 'Operative'}]...`
+                  ? `Transmit as [${selectedPersona?.name || 'Operator'}]...`
                   : `Quick transmit into ${activeChannel?.displayName || '#comms'}...`
               }
               className="flex-1 px-2 py-1 bg-slate-950 border border-slate-800 rounded-md text-[10.5px] font-mono text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"

@@ -33,7 +33,7 @@ export class EssenceTracker {
   /**
    * Calculates Essence cost based on base DC or invocation cost, with optional free-cast surcharge (+50%).
    * - If costOrDC <= 14: Treated as a cantrip (0 Essence).
-   * - If costOrDC is a standard spell DC (> 14): Scaled per 5 DC increments.
+   * - If costOrDC is a standard invocation CR (> 14): Scaled per 5 DC increments.
    */
   public calculateCastCost(costOrDC: number, isFreeCast: boolean = false): number {
     let cost = 0;
@@ -68,7 +68,7 @@ export class EssenceTracker {
   /**
    * DEGRADATION PROTOCOL
    * Called at the end of the global Combat Round.
-   * Every active spell loses 1d10 of structural integrity (DC). When DC <= 0, it collapses.
+   * Every active invocation loses 1d10 of structural integrity (DC). When DC <= 0, it collapses.
    */
   public processRoundDegradation(activeEffects: OngoingSpellEffect[]): OngoingSpellEffect[] {
     const updatedEffects: OngoingSpellEffect[] = [];

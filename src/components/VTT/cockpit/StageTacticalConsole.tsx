@@ -239,7 +239,7 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
                 <div className="text-cyan-400 font-bold text-xs flex items-center gap-1">
                   <Users size={12} /> Folio Heroes
                 </div>
-                <p className="text-[10px] text-slate-400">Roster Operatives</p>
+                <p className="text-[10px] text-slate-400">Roster Operators</p>
               </button>
               <button
                 onClick={() => setIsOmnicortexDrawerOpen(true)}

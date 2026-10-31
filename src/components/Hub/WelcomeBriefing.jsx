@@ -279,7 +279,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false }) => {
             <div className="flex items-center gap-1.5 shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
               <h2 className="text-xs sm:text-[13px] font-bold font-mono tracking-wider text-cyan-300 uppercase">
-                TACTICAL BRIEFING // WELCOME OPERATIVE
+                TACTICAL BRIEFING // WELCOME OPERATOR
               </h2>
             </div>
             <span className="hidden md:inline text-slate-500 text-xs font-mono">•</span>

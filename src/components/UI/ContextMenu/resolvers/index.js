@@ -18,7 +18,7 @@ export function resolveContextMenu(context, appState, handlers) {
   // 1. Explicit Zone or Route Classification
   if (zone === 'folio' || pathname.startsWith('/folio') || pathname.startsWith('/roster')) {
     domain = 'folio';
-    categoryBadge = `FOLIO // ${(subcategory || 'OPERATIVE').toUpperCase()}`;
+    categoryBadge = `FOLIO // ${(subcategory || 'OPERATOR').toUpperCase()}`;
     const items = resolveFolioMenu(context, appState, handlers);
     return { domain, categoryBadge, title, items };
   }

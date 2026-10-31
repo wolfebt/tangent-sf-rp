@@ -52,7 +52,7 @@ export const FireteamVitalsBar = ({
 
   return (
     <div className="bg-[#0b101c] border-b border-slate-800 p-2 md:px-4 text-xs font-mono shrink-0 select-none">
-      {/* ── SOLO OPERATIVE VIEW (DEFAULT) ── */}
+      {/* ── SOLO OPERATOR VIEW (DEFAULT) ── */}
       {partyMode === 'solo' ? (
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           {/* Identity & Concept */}
@@ -73,7 +73,7 @@ export const FireteamVitalsBar = ({
                 )}
               </div>
               <p className="text-[10px] text-slate-400 truncate max-w-sm">
-                {activeOperative.focus || activeOperative.concept || 'Frontline Operative'}
+                {activeOperative.focus || activeOperative.concept || 'Frontline Operator'}
               </p>
             </div>
           </div>

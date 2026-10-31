@@ -40,6 +40,7 @@ const PREFERRED_ARCH_MASTER_ORDER = [
 
 const SUBFOLDER_TO_MASTER_ID = {
   // Operator subfolders
+  'operator/introduction': 'doc-operator-1-00-introduction',
   'operator/character_creation': 'doc-operator-1-01-character-creation',
   'operator/archetypes': 'doc-operator-1-02-archetypes',
   'operator/species': 'doc-operator-1-03-species',
@@ -48,6 +49,7 @@ const SUBFOLDER_TO_MASTER_ID = {
   'operator/occupations': 'doc-operator-1-06-occupations',
   'operator/skills': 'doc-operator-1-07-skills',
   'operator/features': 'doc-operator-1-08-features',
+  'operator/hindrances': 'doc-operator-1-09-hindrances',
   'operator/economatrix': 'doc-operator-2-00-economatrix',
   'operator/combat': 'doc-operator-3-00-combat',
   'operator/metaphysics': 'doc-operator-4-00-metaphysics',
@@ -62,8 +64,15 @@ const SUBFOLDER_TO_MASTER_ID = {
 };
 
 const CUSTOM_SUBARTICLE_ORDER = [
+  // 1.00 Introduction
+  '1.00.Glossary.md',
   // 1.01 Character Creation
+  '1.01.PipelineIdentity.md',
+  '1.01.PipelineCapabilities.md',
+  '1.01.StartingWealthAndMeta.md',
   '1.01.Attributes.md',
+  '1.01.Attributes.Physical.md',
+  '1.01.Attributes.MentalSocial.md',
   '1.01.Perception.md',
   '1.01.VitalityHealthStructure.md',
   '1.01.Karma.md',
@@ -243,8 +252,13 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '1.07.Physical.md',
   '1.07.Mental.Core.md',
   '1.07.Mental.Knowledge.md',
+  '1.07.Mental.Knowledge.N_T.md',
   '1.07.Mental.Vocation.md',
+  '1.07.Mental.Vocation.A_C.md',
+  '1.07.Mental.Vocation.C_G.md',
+  '1.07.Mental.Vocation.H_W.md',
   '1.07.Social.Expression.md',
+  '1.07.Social.Expression.O_W.md',
   '1.07.Social.Manipulation.md',
   '1.07.Combat.md',
   '1.07.Metaphysics.md',
@@ -258,25 +272,43 @@ const CUSTOM_SUBARTICLE_ORDER = [
   // 1.08 Features
   '1.08.AbilityFeatures.md',
   '1.08.SkillFeatures.md',
+  '1.08.SkillFeatures.M_Z.md',
   '1.08.CombatFeatures.md',
+  '1.08.CombatFeatures.D_W.md',
   '1.08.DisciplineFeatures.md',
   '1.08.KarmaFeatures.md',
   '1.08.GeneralFeatures.md',
+  '1.08.GeneralFeatures.N_Z.md',
   '1.08.SpecialFeatures.md',
+  // 1.09 Hindrances
+  '1.09.Physical.md',
+  '1.09.MentalAndPsychological.md',
+  '1.09.SocialAndBackground.md',
   // 2.00 Economatrix
+  '2.00.WealthAndLiquidity.md',
+  '2.00.CraftingAndValuation.md',
+  '2.00.InterstellarTrade.md',
   '2.00.Architecture.md',
   '2.00.Armor.md',
   '2.00.Augmentations.md',
+  '2.00.Augmentations.AdvancedAndFBC.md',
   '2.00.Equipment.md',
   '2.00.Mecha.md',
+  '2.00.Mecha.MilitaryAndAerospace.md',
+  '2.00.Mecha.NauticalAndWalkers.md',
   '2.00.WeaponModifications.md',
   // 3.00 Combat
   '3.00.Edge.md',
   '3.00.StatusEffects.md',
   '3.00.DamageAndLocations.md',
   '3.00.DamageTypes.md',
+  '3.00.DamageTypes.Energy.md',
+  '3.00.DamageTypes.Kinetic.md',
+  '3.00.DamageTypes.Elemental.md',
+  '3.00.DamageTypes.PlanarAndMind.md',
   '3.00.VehicularCombat.md',
   // 4.00 Metaphysics
+  '4.00.SensoryManifestations.md',
   '4.00.Dimension.md',
   '4.00.Energy.md',
   '4.00.Entropy.md',
@@ -290,6 +322,7 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '99.Character.ModuleA.TierChassis.md',
   '99.Character.ModuleB.CompetencyRoles.md',
   '99.Character.ModuleC_E.BiologySoulLifepath.md',
+  '99.Character.ModuleE.LifepathSchema.md',
   '99.Character.ModuleF_G.GenreAndVisuals.md',
   // 99 Modular Species Matrix
   '99.Species.ChassisAndMovement.md',
@@ -354,6 +387,30 @@ const ARCHETYPAL_FACTION_LABELS = {
 };
 
 const SPECIAL_TOKEN_LABELS = {
+  'Glossary': 'Core System Glossary',
+  'PipelineIdentity': 'Pipeline I: Identity & Background',
+  'PipelineCapabilities': 'Pipeline II: Capabilities & Loadout',
+  'StartingWealthAndMeta': 'Pipeline III: Starting Wealth, Property & Meta',
+  'MentalSocial': 'Mental & Social (INT, WIS, CHA)',
+  'A_C': 'Vocations A – C',
+  'C_G': 'Vocations C – G',
+  'H_W': 'Vocations H – W',
+  'N_T': 'Knowledge N – T',
+  'O_W': 'Expression O – W',
+  'N_Z': 'General N – Z',
+  'D_W': 'Combat D – W',
+  'M_Z': 'Skill Features M – Z',
+  'MentalAndPsychological': 'Mental, Psychological & Metaphysical',
+  'SocialAndBackground': 'Social, Background & Resource',
+  'WealthAndLiquidity': 'The Wealth Matrix & Liquid Interface',
+  'CraftingAndValuation': 'Crafting Engine & Valuation Tables',
+  'MilitaryAndAerospace': 'Military Ground, Aircraft & Spacecraft',
+  'NauticalAndWalkers': 'Watercraft, Power Armor & Walkers',
+  'AdvancedAndFBC': 'Sensory, Neural, TL4–TL5 & FBC',
+  'PlanarAndMind': 'Planar & Psychic Damage',
+  'SensoryManifestations': 'Codex: Meta-Sensory Manifestations',
+  'ModuleE': 'Module E',
+  'LifepathSchema': 'Backstory & Lifepath Schema',
   'VitalityHealthStructure': 'Vitality, Health & Structure',
   'RestAndDying': 'Rest & Dying',
   'SignatureFeatures': 'Signature Features',
@@ -667,6 +724,7 @@ function resolveHierarchyMetadata(fileObj, articleId) {
   // 4. All other subfolder modular documents
   const domainName = branchSegments[1] || 'core';
   const entryTypeMap = {
+    introduction: 'System Glossary',
     character_creation: 'Character Creation Rule',
     archetypes: isOp ? 'Operator Archetype' : 'Architect Archetype Catalog',
     species: isOp ? 'Standalone Species' : 'Species Design Matrix',
@@ -674,6 +732,7 @@ function resolveHierarchyMetadata(fileObj, articleId) {
     occupations: 'Occupation Profile',
     skills: cleanFileName.includes('.Mechanics.') ? 'Skill Mechanics' : 'Skill Category',
     features: 'Feature Catalog',
+    hindrances: 'Hindrance Catalog',
     economatrix: 'Economatrix Catalog',
     combat: 'Combat Module',
     metaphysics: isOp ? 'Metaphysics Discipline' : 'Metaphysics Matrix',
@@ -684,8 +743,17 @@ function resolveHierarchyMetadata(fileObj, articleId) {
     technology: `Tech Matrix (${humanizeToken(branchSegments[2] || 'Core')})`
   };
 
+  let resolvedParentId = masterDocId;
+  if (parts.length >= 4 && fileObj.fullPath) {
+    const parentCandidateFile = `${parts.slice(0, -1).join('.')}.md`;
+    const parentCandidatePath = path.join(path.dirname(fileObj.fullPath), parentCandidateFile);
+    if (fs.existsSync(parentCandidatePath)) {
+      resolvedParentId = makeArticleId(subfolderKey, parentCandidateFile);
+    }
+  }
+
   return {
-    parent: masterDocId,
+    parent: resolvedParentId,
     masterDocId,
     isMasterDoc: false,
     category,

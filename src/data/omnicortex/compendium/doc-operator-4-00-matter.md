@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 223
+order: 251
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","metaphysics","4.00.matter","mechanics"]
-updatedAt: "2026-10-14T05:54:39.337Z"
+updatedAt: "2026-10-31T10:38:11.390Z"
 costs:
   bp: 0
   credits: 0
@@ -334,7 +334,7 @@ Makes the caster resistant to being moved, knocked down, or grappled.
 
 **Scaling Function:**
 
-* **Severity:** CMD Bonus vs Trip/Bull Rush \= \+4 per Stage.  
+* **Severity:** Stability Bonus vs Trip/Bull Rush \= \+4 per Stage.  
 * **Duration:** Can maintain for 1 additional round per Stage.
 
 ### 
@@ -485,7 +485,7 @@ Decreases the target's size category.
 **Scaling Function:**
 
 * **Magnitude:** Decreases Size by 1 Category per 2 Stages.  
-* **Defense:** AC/Stealth Bonus \= \+2 per Category decreased.
+* **Defense:** Defense/Stealth Bonus \= \+2 per Category decreased.
 
 ### 
 

@@ -4,7 +4,7 @@ name: "Laborer"
 type: mental
 subtype: "vocations"
 category: skills
-governing_attribute: "Strength or Constitution"
+governing_attribute: "Strength or Stamina"
 description: "Laborer is the skill of performing manual tasks, such as digging ditches, carrying heavy objects, or building structures. It reflects a character's ability to perform physical labor and complete tasks that require strength and endurance. Workers are responsible for completing manual tasks safely and efficiently. This can include things like digging ditches, carrying heavy objects, and building structures. Laborers will be knowledgeable of various tools and equipment of the trade."
 specialties:
   - "Dockworking & Stevedoring: Unloading shipping containers, rigging cranes, and securing cargo nets on docks."
@@ -23,7 +23,7 @@ negative_keywords: "mindless, instinct-only, illiterate"
 
 ### **LABORER**
 
-* **Ability:** Strength or Constitution  
+* **Ability:** Strength or Stamina  
 * **Description:** Laborer is the skill of performing manual tasks, such as digging ditches, carrying heavy objects, or building structures. It reflects a character's ability to perform physical labor and complete tasks that require strength and endurance. Workers are responsible for completing manual tasks safely and efficiently. This can include things like digging ditches, carrying heavy objects, and building structures. Laborers will be knowledgeable of various tools and equipment of the trade.  
 * **Mechanics:**  
   * *Endurance Work:* CR 15 to work a double shift without fatigue.  

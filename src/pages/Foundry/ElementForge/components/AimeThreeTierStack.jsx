@@ -271,7 +271,7 @@ export default function AimeThreeTierStack({
                         className="w-full bg-slate-900 border border-slate-700 focus:border-purple-400 text-purple-200 p-2 rounded-lg text-xs outline-none cursor-pointer"
                       >
                         <option value="any">Any (Direct Dialogue or Environmental Prose)</option>
-                        <option value="user_only">Player Direct Address Only (\x01{"{{user}}"}:)</option>
+                        <option value="user_only">Operator Direct Address Only (\x01{"{{user}}"}:)</option>
                         <option value="npc_only">NPC Direct Address Only (\x01{"{{char}}"}:)</option>
                       </select>
                     </div>

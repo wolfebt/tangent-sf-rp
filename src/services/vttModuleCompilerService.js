@@ -246,7 +246,7 @@ export class VttModuleCompilerService {
           type: 'dialogue_bark',
           behaviorProfile: pFields.mcmRole?.toLowerCase() || 'tactical',
           moraleThreshold: 0.25,
-          alertBark: pFields.voice || pFields.mannerisms || `Halt! Identify yourself to ${persona.title || 'Operative'}.`
+          alertBark: pFields.voice || pFields.mannerisms || `Halt! Identify yourself to ${persona.title || 'Operator'}.`
         };
       }
 
@@ -314,7 +314,7 @@ export class VttModuleCompilerService {
     }
 
     if (pkg.manifest.stats.totalTokens === 0) {
-      warnings.push('Scenario has no operative or adversary tokens staged on map.');
+      warnings.push('Scenario has no operator or adversary tokens staged on map.');
     }
 
     const bossTokens = (pkg.map.tokens || []).filter(t => t.role?.toLowerCase() === 'boss' || t.behaviorProfile === 'boss');

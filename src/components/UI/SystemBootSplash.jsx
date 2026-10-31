@@ -9,7 +9,7 @@ const DIAGNOSTIC_STEPS = [
   { label: 'VERIFYING QUANTUM CRYPTOGRAPHIC PROTOCOLS', code: 'SEC.LATTICE', delay: 1100 },
   { label: 'MOUNTING OMNICORTEX ASSET CATOLOGUE', code: 'DBM.OMNI', delay: 1500 },
   { label: 'CALIBRATING THE STAGE TACTICAL VTT ENGINE', code: 'VTT.WEBGPU', delay: 1900 },
-  { label: 'ALL SYSTEMS OPERATIONAL // READY FOR OPERATIVE LINK', code: 'STATUS.OK', delay: 2300 },
+  { label: 'ALL SYSTEMS OPERATIONAL // READY FOR OPERATOR LINK', code: 'STATUS.OK', delay: 2300 },
 ];
 
 export const SystemBootSplash = ({ onComplete, isStandalone = false }) => {

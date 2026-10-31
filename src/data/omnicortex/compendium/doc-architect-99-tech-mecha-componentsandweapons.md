@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 33
+order: 34
 perspective: "architect"
 entry_type: "Tech Matrix (mecha)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.mecha.componentsandweapons","matrix"]
-updatedAt: "2026-10-14T06:04:05.765Z"
+updatedAt: "2026-10-31T11:30:42.628Z"
 costs:
   bp: 0
   credits: 0
@@ -279,7 +279,7 @@ Mecha weapons are significantly larger than personal arms. They are classified b
 
 **NOTE: BASE STAT BLOCKS & SCALED VALUES** The statistics listed in the tables below represent the **Base Stat Block** (x1 Scale equivalent) for each weapon. To determine the actual operational values for a specific Mecha, you must multiply the Base Damage and Base Range by the Mecha's **Scaling Modifier**. (e.g., A Huge Mecha with a x5 Scale Modifier firing a Base 2d10 Vulcan Minigun will roll 10d10 total damage).
 
-* **Scale Rule (Siege Warfare):** All damage listed is applied to Structure Points. As per core rules, Heavy Weapons (Explosive and Energy classifications) deal **Double Damage** when targeting stationary architectural structures and modules. If used against personal-scale targets (infantry), damage is massive (GM Discretion: typically Instant Death or x10 damage).  
+* **Scale Rule (Siege Warfare):** All damage listed is applied to Structure Points. As per core rules, Heavy Weapons (Explosive and Energy classifications) deal **Double Damage** when targeting stationary architectural structures and modules. If used against personal-scale targets (infantry), damage is massive (Architect Discretion: typically Instant Death or x10 damage).  
 * **Mounts:** 1 Weapon typically occupies a specific number of "Mount Slots" on the chassis. Many weapons may be carried or externally mounted if the mecha form allows and will not take internal mounts. One-handed use is limited to a device of 1 to 3 mount slots in size.
 
 #### 

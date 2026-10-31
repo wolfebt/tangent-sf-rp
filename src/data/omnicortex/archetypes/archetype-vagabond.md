@@ -5,7 +5,7 @@ sphere: Operatives (The Artisans)
 category: archetypes
 bp_chassis: 80
 core_concept: Jack-of-All-Trades / Survivor
-primary_attribute: Constitution
+primary_attribute: Stamina
 secondary_attribute: Wisdom
 recommended_occupations:
   - Drifter
@@ -53,7 +53,7 @@ cp_chassis: 80
 **Sphere**: Operatives (The Artisans)  
 **Core Concept**: Jack-of-All-Trades / Survivor  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Constitution  
+**Primary Attribute**: Stamina  
 **Secondary Attribute**: Wisdom  
 
 ## Overview

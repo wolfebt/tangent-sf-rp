@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Caster / Sensor / Controller
 primary_attribute: Wisdom
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Adept
   - Enlightened
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Core Concept**: Caster / Sensor / Controller  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.

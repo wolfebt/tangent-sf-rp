@@ -39,7 +39,7 @@ export const FolioHeroTokenDrawer = ({
     const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
     if (!isReady) {
       e.preventDefault();
-      showToast({ type: 'warning', text: `Operative "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
+      showToast({ type: 'warning', text: `Operator "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
       return;
     }
     const stats = extractHeroStats(hero);
@@ -55,7 +55,7 @@ export const FolioHeroTokenDrawer = ({
   const handleSpawnClick = (hero) => {
     const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
     if (!isReady) {
-      showToast({ type: 'warning', text: `Operative "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
+      showToast({ type: 'warning', text: `Operator "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
       return;
     }
     if (onSummonToken) {
@@ -104,7 +104,7 @@ export const FolioHeroTokenDrawer = ({
         }
         onSummonToken({
           heroId: m.uid || `sq_mem_${idx}`,
-          name: m.characterName || m.displayName || `Operative ${idx + 1}`,
+          name: m.characterName || m.displayName || `Operator ${idx + 1}`,
           avatarUrl: m.photoURL || null,
           haloColor: team.themeColor || '#22d3ee',
           maxHealth: 30,
@@ -281,7 +281,7 @@ export const FolioHeroTokenDrawer = ({
                               setTacticalModalHero(hero);
                             }}
                             className="px-1.5 py-1 bg-cyan-950/80 hover:bg-cyan-800 text-cyan-300 border border-cyan-500/50 rounded text-[9.5px] font-mono font-bold uppercase transition-all hover:shadow-[0_0_8px_rgba(34,211,238,0.4)] cursor-pointer"
-                            title="Launch Tactical Play Cockpit for this Operative"
+                            title="Launch Tactical Play Cockpit for this Operator"
                           >
                             ⚔️ PLAY
                           </button>
@@ -369,7 +369,7 @@ export const FolioHeroTokenDrawer = ({
                             key={m.uid || i}
                             className="px-1.5 py-0.5 bg-slate-900 rounded border border-slate-800 text-[9px] font-mono text-slate-300 shrink-0"
                           >
-                            {m.characterName || m.displayName || `Operative ${i + 1}`}
+                            {m.characterName || m.displayName || `Operator ${i + 1}`}
                           </div>
                         ))}
                       </div>

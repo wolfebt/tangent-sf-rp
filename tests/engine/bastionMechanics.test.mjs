@@ -57,7 +57,7 @@ test('BASTION Mechanics: Called Shots & Limb Thresholds (1/3 & 2/3 Health)', () 
 test('BASTION Mechanics: Mortality State & Bleeding Out', () => {
   const mortality = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-combat-mortality-state');
   assert(mortality, 'Mortality state rule must exist');
-  assert(mortality.mechanic_formula.includes('Stability Points = CON Score + 5'), 'Stability points must equal CON + 5');
+  assert(mortality.mechanic_formula.includes('Stability Points = STA Score + 5') || mortality.mechanic_formula.includes('Stability Points = CON Score + 5'), 'Stability points must equal STA/CON + 5');
   assert(mortality.mechanic_formula.includes('1 Stability Damage/turn'), 'Bleedout must deal 1 point/turn');
   assert(mortality.rules_text.includes('Medicine Check (CR 15)'), 'Stabilization must require Medicine DC 15');
 });

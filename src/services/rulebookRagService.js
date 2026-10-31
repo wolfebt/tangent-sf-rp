@@ -35,7 +35,7 @@ export const RULEBOOK_CORPUS = [
 - **🔵 Vitality Pool (Base 30 VP):** Physical resilience, luck, and stamina. Absorbs non-lethal damage, fatigue, sensory shock, and initial combat strain. Stamina does NOT add a flat bonus to base Vitality or Health; pools are increased solely through Size tier, traits, features, or CP purchases (1 CP = +2 pts). Overflow beyond 0 spills directly into Health as lethal damage.
 - **🔴 Health Pool (Base 30 HP):** Structural biological integrity and life force. Damage here is lethal trauma (bullet wounds, cuts, burns, penetrating injuries). Recovers slowly. Reducing Health to 0 enters the Mortality State.
 - **🤖 Structure Pool (Synthetics & Mecha, Base 60 SP for Medium):** Synthetics, androids, vehicles, and mecha possess a unified Structure Pool (replacing Vitality and Health). Synthetics are completely IMMUNE to non-lethal damage, biological toxins, vacuum, and suffocation. Synthetic limbs possess 50% more durability/damage threshold before being Disabled or Destroyed.
-- **🛡️ Armor DR & Toughness (Stamina):** Incoming damage is reduced by Target Armor DR + Target Stamina/Toughness (CON) natural Damage Reduction before penetrating into Vitality or Structure.
+- **🛡️ Armor DR & Toughness (Stamina):** Incoming damage is reduced by Target Armor DR + Target Stamina/Toughness (STA) natural Damage Reduction before penetrating into Vitality or Structure.
 - **⚡ Damage Types:** Kinetic (Blunt, Slashing, Piercing; Force ignores 1/2 DR), Energy (Fire, Cold, Sonic, Voltic, Corrosive, Disruptor), Radiation (Ra-D), and Mental (ignores physical armor).`
   },
   {
@@ -44,13 +44,13 @@ export const RULEBOOK_CORPUS = [
     category: 'Health & Damage',
     source: 'docs/game rules/operator/3.00 COMBAT.md',
     page: 255,
-    keywords: ['mortality state', 'death clock', 'bleeding out', 'stability', 'stabilize', 'dying', 'incapacitated', 'constitution', 'unconscious', 'massive damage'],
-    summary: 'When Health reaches 0, the operative enters the Mortality State: prone, incapacitated, bleeding out 1 Stability/turn until stabilized (CR 15 Medicine).',
+    keywords: ['mortality state', 'death clock', 'bleeding out', 'stability', 'stabilize', 'dying', 'incapacitated', 'stamina', 'unconscious', 'massive damage'],
+    summary: 'When Health reaches 0, the operator enters the Mortality State: prone, incapacitated, bleeding out 1 Stability/turn until stabilized (CR 15 Medicine).',
     content: `Wound trauma and mortality mechanics in Tangent SF RP:
 - **The Mortality State (0 Health):** When a character's Health Points reach 0, they immediately collapse:
-  - **Prone & Incapacitated:** The operative falls prone and cannot take actions.
+  - **Prone & Incapacitated:** The operator falls prone and cannot take actions.
   - **Bleeding Out:** At the beginning of each of the character's turns, they suffer 1 point of Stability Damage.
-  - **Stability Threshold:** A character possesses Stability Points equal to Constitution (CON) Score + 5.
+  - **Stability Threshold:** A character possesses Stability Points equal to Stamina (STA) Score + 5.
   - **Death:** If Stability Points are reduced to 0, the character is permanently dead.
 - **Stabilization & Recovery:** The character stops Bleeding Out and stabilizes if they receive metaphysical healing or a successful Medicine Check (CR 15) is made to aid them.
 - **Limb Damage & Critical Injuries:** Called shots (-1 to -3 Strike) apply direct trauma to specific limbs (Disabled at >= 1/3 Max HP, Destroyed at >= 2/3 Max HP). Synthetic limbs have 50% higher damage thresholds.`
@@ -72,7 +72,7 @@ export const RULEBOOK_CORPUS = [
   - **Rank 16–20 (Master):** 4th action at base score -15 (+5 Focus Bonus).
   - **Rank 21–25 (Grand Master):** 5th action at base score -20 (+6 Focus Bonus).
   - **Rank 26–30 (Pinnacle):** 6th action at base score -25 (+7 Focus Bonus).
-- **Active Defense Reactions:** An operative may make as many Active Defense checks as allowed by their Defense Skill Rank, with a cumulative -5 penalty after the first reaction.
+- **Active Defense Reactions:** An operator may make as many Active Defense checks as allowed by their Defense Skill Rank, with a cumulative -5 penalty after the first reaction.
 - **Standard Actions:** Attack, Active Defense, Aiming (+2 Strike per round, up to 1/2 Skill Rank), Called Shot (-2 Head/Arms, -1 Legs, -3 Optics), Feint (Bluff vs Insight).
 - **Movement Actions:** Evasive Movement (+1 base Defense, +1 per 10ft speed used), Subtle movement (stealth), Bracing (negates heavy recoil, advantage vs trip/shove).`
   },
@@ -128,18 +128,18 @@ export const RULEBOOK_CORPUS = [
     source: 'docs/game rules/operator/1.00 INTRODUCTION.md & 1.09 HINDRANCES.md',
     page: 58,
     keywords: ['karma', 'fate', 'luck', 'reroll', 'i got this', 'not what i meant', 'shake it off', 'second wind', 'so mote it be', 'by will alone', 'triumph', 'debt', 'hindrance'],
-    summary: 'Operatives start with Base 3 Karma points, refreshing per session (not rest). 6 canonical spending actions (1 KP each). Karmic Debt caps at Charisma + 1.',
+    summary: 'Operators start with Base 3 Karma points, refreshing per session (not rest). 6 canonical spending actions (1 KP each). Karmic Debt caps at Charisma + 1.',
     content: `Karma represents the flow of destiny and heroic luck in Tangent SF RP:
-- **Pool Size:** Base 3 Karma points for all operatives. Refreshes at the start of each game session (does NOT recover via short or long rest).
+- **Pool Size:** Base 3 Karma points for all operators. Refreshes at the start of each game session (does NOT recover via short or long rest).
 - **The 6 Canonical Karma Spending Actions (1 KP each):**
   1. *"I Got This" (Advantage):* Declare before rolling to gain Advantage on any single roll (attacks, saves, skills, or damage).
   2. *"Not What I Meant" (Reroll):* Declare immediately after a roll to discard and reroll an ability or non-combat skill check (must accept 2nd roll).
   3. *"Shake it Off" (Condition Mitigation):* Declare anytime afflicted to reduce a condition's severity by 1 stage (e.g., Major to Minor for Poisoned, Stunned, Blinded).
   4. *"Second Wind" (Rapid Focus):* 1 full minute of focus replaces a Light Rest, refreshing daily limited-use abilities, special attacks, and traits.
-  5. *"So Mote it Be" (Metaphysical Potency):* Declare simultaneously with a metaphysical skill or feat to boost potency (range, duration, magnitude) or activate a discipline Karma Feat.
+  5. *"So Mote it Be" (Metaphysical Potency):* Declare simultaneously with a metaphysical skill or feature to boost potency (range, duration, magnitude) or activate a discipline Karma Feature.
   6. *"By Will Alone" (Narrative Agency):* Declare with Architect approval to push limits, attempt an impossible action, or emulate a feature for a scene.
 - **Critical Triumph Replenishment:** Rolling a natural Critical Triumph (Double 10s) awards +1 Karma (up to maximum pool).
-- **Karmic Debt:** In desperate moments, an operative can spend into negative Karma up to Charisma score + 1, triggering Architect-imposed complications.`
+- **Karmic Debt:** In desperate moments, an operator can spend into negative Karma up to Charisma score + 1, triggering Architect-imposed complications.`
   },
   {
     id: 'economatrix_pricing',
@@ -159,7 +159,7 @@ export const RULEBOOK_CORPUS = [
   - CR 20 = 2,560 TSC (Assault mecha hardpoint, starfighter thruster)
   - CR 25 = 10,240 TSC (Heavy combat vehicle, planetary sensor)
   - CR 30 = 40,960 TSC (Light starship hull, industrial refinery module)
-- **The Golden Rule:** Any requisition with Purchase CR ≤ operative's Wealth Score (WS) succeeds automatically without rolling or reducing WS.
+- **The Golden Rule:** Any requisition with Purchase CR ≤ operator's Wealth Score (WS) succeeds automatically without rolling or reducing WS.
 - **Liquidity Gap & Friction:** Purchasing above WS requires Wealth checks or burning liquidity. Illiquid assets liquidated in haste suffer Liquidity Drag (selling at 25%–50% book value).
 - **12-Tier Financial Status Hierarchy:** From Tier 0 (Indebted, WS 0) to Tier 11 (Faction Ruler, WS 50+).`
   },

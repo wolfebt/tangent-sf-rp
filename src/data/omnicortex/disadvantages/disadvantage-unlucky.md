@@ -29,4 +29,4 @@ A profound cosmic jinx that drains the character's pool of heroic luck and cause
 ### Tiers & Effects
 - **3 CP**: **-2 to Karma Pool** maximum.
 - **6 CP**: **-4 to Karma Pool** maximum.
-- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.
+- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the Architect automatic complication triggers at the start of each session.

@@ -7,13 +7,14 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: +2 dodge bonus to AC when in a specific terrain type.
+description: +2 dodge bonus to Defense when in a specific terrain type.
 modifiers:
-  - target: AC when in a specific terrain type
-    type: skill
+  - target: defense-mod
+    type: combat
     value: 2
-    mode: inherent
-    description: +2 to AC when in a specific terrain type
+    mode: situational
+    condition: In Bonded Terrain
+    description: +2 Dodge bonus to Defense when in a specific terrain type
 ---
 # Bonded Terrain
 
@@ -26,4 +27,4 @@ modifiers:
 Instinctive spatial awareness and defensive footing within a native environment.
 
 ## Mechanics & Benefit
-+2 dodge bonus to AC when in a specific chosen terrain type
++2 dodge bonus to Defense when in a specific chosen terrain type

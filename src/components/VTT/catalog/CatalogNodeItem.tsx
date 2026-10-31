@@ -115,7 +115,7 @@ export const CatalogNodeItem: React.FC<CatalogNodeItemProps> = ({
                 ? 'text-slate-400 hover:text-cyan-300'
                 : 'text-red-400/80 hover:text-red-300'
             }`}
-            title={isVisibleToPlayers ? "Visible to Players (Click to Hide)" : "Hidden from Players (Click to Reveal)"}
+            title={isVisibleToPlayers ? "Visible to Operators (Click to Hide)" : "Hidden from Operators (Click to Reveal)"}
           >
             {isVisibleToPlayers ? <Eye size={12} /> : <EyeOff size={12} />}
           </button>

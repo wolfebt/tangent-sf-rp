@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-10-scaling"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 204
+order: 221
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3

@@ -15,7 +15,7 @@ export const ADE_ELEMENT_SLOTS = [
   { id: 'Encounter', label: 'Tactical Encounters', icon: Swords, color: 'text-red-400', category: 'Encounter' },
   { id: 'Item', label: 'Items & Loot Caches', icon: Gem, color: 'text-emerald-400', category: 'Item' },
   { id: 'Clue', label: 'Clues & Evidence', icon: Search, color: 'text-amber-400', category: 'Clue' },
-  { id: 'Handout', label: 'Player Handouts', icon: FileText, color: 'text-sky-400', category: 'Handout' },
+  { id: 'Handout', label: 'Operator Handouts', icon: FileText, color: 'text-sky-400', category: 'Handout' },
   { id: 'Hazard', label: 'Traps & Hazards', icon: Flame, color: 'text-orange-400', category: 'Hazard' },
   { id: 'Technology', label: 'Technology & Relays', icon: Cpu, color: 'text-fuchsia-400', category: 'Technology' },
   { id: 'Faction', label: 'Factions & Outposts', icon: Shield, color: 'text-indigo-400', category: 'Faction' },

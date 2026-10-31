@@ -1279,7 +1279,7 @@ export const AssetStudio = ({
       {
         id: 'mechanics',
         label: mechanicsTabConfig.label,
-        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATS' : isArch ? 'CHASSIS' : isSkill ? 'RULES & DCS' : (isSpeciesStudio ? 'GENETICS' : 'MECHANICS'),
+        shortLabel: isOrigin ? 'SKILLS & TRAITS' : isOccu ? 'SKILLS & FEATURES' : isArch ? 'CHASSIS' : isSkill ? 'RULES & DCS' : (isSpeciesStudio ? 'GENETICS' : 'MECHANICS'),
         sublabel: mechanicsTabConfig.sublabel,
         icon: mechanicsTabConfig.icon,
         color: mechanicsTabConfig.color,
@@ -2039,7 +2039,7 @@ export const AssetStudio = ({
                   <div className="p-4 bg-slate-950/60 border border-emerald-500/30 rounded-2xl space-y-3">
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
                       <Flag size={14} />
-                      <span>Faction Player Character Options & Skill Packages</span>
+                      <span>Faction Operator Character Options & Skill Packages</span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -2640,14 +2640,14 @@ export const AssetStudio = ({
 
               <div className="space-y-1">
                 <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-                  Architect & Game Master Notes
+                  Architect Notes & Secrets
                 </label>
                 {isEditMode ? (
                   <textarea
                     rows={3}
                     value={formData.note || ''}
                     onChange={(e) => handleFieldChange('note', e.target.value)}
-                    placeholder="Confidential GM notes, encounter hooks, salvage secrets..."
+                    placeholder="Confidential Architect notes, encounter hooks, salvage secrets..."
                     className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
                   />
                 ) : (

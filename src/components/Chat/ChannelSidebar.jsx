@@ -569,7 +569,7 @@ export const ChannelSidebar = ({
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
         const handle = detail.handle || detail.userHandle || (userDoc ? getEffectiveUserHandle(userDoc) : (isSelf ? getEffectiveUserHandle(currentUser) : 'Operator'));
         const isGM = memberUid === matchedGroup.creatorId || (Array.isArray(matchedGroup.coArchitects) && matchedGroup.coArchitects.includes(memberUid));
-        const role = detail.role || (isGM ? 'GM' : 'Operative');
+        const role = detail.role || (isGM ? 'Architect' : 'Operator');
         const persona = detail.persona;
 
         const personaId = persona?.id || persona?.['character-doc-id'] || null;
@@ -621,7 +621,7 @@ export const ChannelSidebar = ({
           species: cm.species || cm['char-species'] || null,
           concept: cm.role || cm['char-concept'] || cm['char-occu'] || null,
           avatar: cm.avatar || null,
-          teamRole: cm.teamRole || (ownerUid === channel.createdById ? 'GM' : 'Operative'),
+          teamRole: cm.teamRole || (ownerUid === channel.createdById ? 'Architect' : 'Operator'),
           isOnline,
           characterPresence,
           isSelf,
@@ -646,7 +646,7 @@ export const ChannelSidebar = ({
         const isOnline = Boolean(userDoc?.isOnline || isSelf);
         const handle = userDoc ? getEffectiveUserHandle(userDoc) : (isSelf ? getEffectiveUserHandle(currentUser) : 'Operator');
         const isGM = (matchedGroup && uid === matchedGroup.creatorId) || uid === channel.createdById;
-        const role = isGM ? 'GM' : 'Reserve';
+        const role = isGM ? 'Architect' : 'Reserve';
         const characterPresence = computeCharPresence(userDoc, isSelf, null);
 
         membersList.push({
@@ -657,7 +657,7 @@ export const ChannelSidebar = ({
           personaName: null,
           operatorHandle: handle,
           species: null,
-          concept: isGM ? 'Architect Command' : 'Unassigned Operative',
+          concept: isGM ? 'Architect Command' : 'Unassigned Operator',
           avatar: null,
           teamRole: role,
           isOnline,
@@ -982,12 +982,12 @@ export const ChannelSidebar = ({
 
                     {/* Right: Team Role badge & Whisper */}
                     <div className="flex items-center gap-1 shrink-0 ml-1.5">
-                      {member.teamRole === 'GM' || member.teamRole === 'Leader' ? (
+                      {member.teamRole === 'Architect' || member.teamRole === 'GM' || member.teamRole === 'Leader' ? (
                         <span className="px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[8px] font-mono font-bold flex items-center gap-0.5">
                           <Crown size={8} />
-                          <span>{member.teamRole}</span>
+                          <span>{member.teamRole === 'GM' ? 'Architect' : member.teamRole}</span>
                         </span>
-                      ) : member.teamRole && member.teamRole !== 'Operator' ? (
+                      ) : member.teamRole && member.teamRole !== 'Operator' && member.teamRole !== 'Operative' ? (
                         <span className="px-1 py-0.2 rounded bg-slate-800 text-slate-300 text-[8px] font-mono">
                           {member.teamRole}
                         </span>

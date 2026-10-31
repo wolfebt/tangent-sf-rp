@@ -328,12 +328,12 @@ export const categoryConfig = {
             primary_attribute: { 
                 type: 'select', 
                 label: 'Primary Attribute (+3 / 15 CP)',
-                options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
+                options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
             },
             secondary_attribute: { 
                 type: 'select', 
                 label: 'Secondary Attribute (+2 / 10 CP)',
-                options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
+                options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
             },
             essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', manageable: true },
             signature_traits: { type: 'multiselect', source: 'traits', label: 'Signature Traits (1 CP)', manageable: true },
@@ -496,7 +496,7 @@ export const categoryConfig = {
         viewType: 'table',
         directory_columns: ['name', 'threatTier', 'competencyRole', 'designation', 'bossType'],
         fields: {
-            name: { type: 'text', required: true, label: 'Operative / Archetype Name' },
+            name: { type: 'text', required: true, label: 'Operator / Archetype Name' },
             threatTier: { type: 'number', label: 'Threat Tier (0-20)' },
             competencyRole: { 
                 type: 'select', 
@@ -563,7 +563,7 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Overview / History' },
             quirks: { type: 'textarea', label: 'Planetary Quirks / Hazards' },
             adventureHooks: { type: 'textarea', label: 'Adventure Hooks' },
-            note: { type: 'textarea', label: 'GM Notes' },
+            note: { type: 'textarea', label: 'Architect Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
@@ -844,7 +844,7 @@ export const categoryConfig = {
             material: { type: 'multiselect', source: 'material', manageable: true },
             body_locations: { type: 'multiselect', source: 'body_location', manageable: true },
             coverage: { type: 'select', options: ['Partial', 'Standard', 'Sealed', 'Reinforced', 'Bulwark'] },
-            max_dex: { type: 'number', label: 'Max Dexterity Bonus' },
+            max_dex: { type: 'number', label: 'Max Agility Bonus' },
             mobility_penalty: { type: 'number', label: 'Mobility Penalty' },
             faction_skin: { type: 'select', source: 'factions', manageable: true },
             carried_shield: { type: 'text' },
@@ -1060,7 +1060,7 @@ export const categoryConfig = {
             bonus_scope: { type: 'radio', label: 'Bonus Scope', options: ['any', 'specific'], default: 'any' },
             bonus_feature_categories: { type: 'multiselect', label: 'Bonus Feature Categories', options: ['any', 'ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic'] },
             bonus_skill_categories: { type: 'multiselect', label: 'Bonus Skill Categories', options: ['any', 'mental', 'physical', 'social', 'combat', 'meta'] },
-            bonus_attribute_options: { type: 'multiselect', label: 'Bonus Attribute Options', options: ['Any Attribute', 'Any Primary Attribute', 'Any Sub-Attribute', 'Strength', 'Might', 'Agility', 'Reflex', 'Stamina', 'Fortitude', 'Constitution', 'Intellect', 'Logic', 'Wisdom', 'Will', 'Charisma', 'Etiquette'] },
+            bonus_attribute_options: { type: 'multiselect', label: 'Bonus Attribute Options', options: ['Any Attribute', 'Any Primary Attribute', 'Any Sub-Attribute', 'Strength', 'Might', 'Agility', 'Reflex', 'Stamina', 'Fortitude', 'Intellect', 'Logic', 'Wisdom', 'Will', 'Charisma', 'Etiquette'] },
             skill_bonus_type: { type: 'radio', label: 'Skill Bonus Type', options: ['adjust', 'grant'], default: 'adjust' },
             granted_skill_id: { type: 'select', source: 'skills', label: 'Granted Skill' },
             value: { type: 'number' },
@@ -1241,7 +1241,7 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Scene Beats & Narrative Flow' },
             rewards_loot: { type: 'textarea', label: 'Rewards, Clues & Loot Cache' },
             mechanic: { type: 'textarea', label: 'Tactical Rules & DC Checks' },
-            note: { type: 'textarea', label: 'GM Secrets & Architect Notes' },
+            note: { type: 'textarea', label: 'Architect Secrets & Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
         }
@@ -1598,7 +1598,7 @@ export const DEVELOPMENT_FIELDS_GROUPS = [
     id: 'metaphysics_combat',
     label: 'Metaphysics & Combat Rules',
     icon: '🔮',
-    description: 'Spell/discipline patterns, area shapes, ranges, targets, and critical outcome triggers.'
+    description: 'Invocation/discipline patterns, area shapes, ranges, targets, and critical outcome triggers.'
   },
   {
     id: 'equipment_crafting',
@@ -1637,7 +1637,7 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'range', group: 'metaphysics_combat', label: 'Ranges', icon: '🎯', desc: 'Standard tactical ranges (Touch, Close, Medium, Long, Extreme, Planetary).' },
   { key: 'target', group: 'metaphysics_combat', label: 'Target Specifications', icon: '🎯', desc: 'Targeting rules and restrictions (Self, Single Creature, Point in Space, Object).' },
   { key: 'critical_effect', group: 'metaphysics_combat', label: 'Critical Effects', icon: '💥', desc: 'Weapon critical strike outcome tables and lingering conditions.' },
-  { key: 'critical_success_effect', group: 'metaphysics_combat', label: 'Critical Success Effects', icon: '🌟', desc: 'Bonus outcomes on natural/critical successes in spells and weapons.' },
+  { key: 'critical_success_effect', group: 'metaphysics_combat', label: 'Critical Success Effects', icon: '🌟', desc: 'Bonus outcomes on natural/critical successes in invocations and weapons.' },
   { key: 'critical_failure_effect', group: 'metaphysics_combat', label: 'Critical Failure Effects', icon: '⚠️', desc: 'Mishap, backlash, and fumble outcome tables on critical failures.' },
   { key: 'conditions', group: 'metaphysics_combat', label: 'Tactical Conditions & Status Effects', icon: '🩺', desc: 'Tactical status conditions (Bleeding, Blinded, Burning, Stunned, etc.) and removal DCs.' },
   { key: 'damage_types', group: 'metaphysics_combat', label: 'Damage Types & Energy Profiles', icon: '⚡', desc: 'Kinetic, energy, environmental, and exotic damage type profiles and immunities.' },

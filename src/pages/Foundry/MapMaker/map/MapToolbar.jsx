@@ -466,7 +466,7 @@ const MapToolbar = ({
             type="button"
             onClick={() => setIsCastModalOpen(true)}
             className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-emerald-400 rounded-xl transition-all cursor-pointer shrink-0"
-            title="Live Player Spectator Screen (TV / Dual Monitor Casting)"
+            title="Live Operator Spectator Screen (TV / Dual Monitor Casting)"
           >
             <Tv size={14} />
           </button>
@@ -554,7 +554,7 @@ const MapToolbar = ({
                 </div>
                 <div>
                   <h2 className="font-bold text-sm font-mono uppercase tracking-wider text-emerald-300">
-                    Live Player Spectator Stream
+                    Live Operator Spectator Stream
                   </h2>
                   <p className="text-[11px] text-slate-400">
                     Dual-screen tabletop view for TV screens, projectors, and remote players.
@@ -569,7 +569,7 @@ const MapToolbar = ({
             <div className="space-y-3">
               <div className="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-2">
                 <span className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
-                  Player View URL:
+                  Operator View URL:
                 </span>
                 <div className="flex items-center gap-2 bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-xs text-emerald-300">
                   <span className="truncate flex-1">
@@ -592,12 +592,12 @@ const MapToolbar = ({
 
               <div className="text-xs text-slate-300 space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
                 <div className="font-bold text-slate-200 flex items-center gap-1.5 text-emerald-400 mb-1">
-                  <Shield size={14} /> Built-in GM Confidentiality:
+                  <Shield size={14} /> Built-in Architect Confidentiality:
                 </div>
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  • Hidden ambush tokens and DM notes are stripped from this screen.<br/>
+                  • Hidden ambush tokens and Architect notes are stripped from this screen.<br/>
                   • Unrevealed fog of war remains pitch black for players.<br/>
-                  • Moves made in GM mode sync to this display in real time.
+                  • Moves made in Architect mode sync to this display in real time.
                 </p>
               </div>
             </div>
@@ -619,7 +619,7 @@ const MapToolbar = ({
                 className="flex-2 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all cursor-pointer"
               >
                 <ExternalLink size={15} />
-                <span>Open Player Screen in New Window</span>
+                <span>Open Operator Screen in New Window</span>
               </button>
             </div>
           </div>

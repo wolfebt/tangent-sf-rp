@@ -211,7 +211,7 @@ export const OMNICORTEX_SECTIONS = [
   },
   {
     id: 'invocations',
-    label: 'Invocations (Spells)',
+    label: 'Invocations',
     shortLabel: 'MAGIC',
     icon: Flame,
     colorTheme: 'amber',

@@ -4,7 +4,7 @@ name: "Groundskeeper"
 type: mental
 subtype: "vocations"
 category: skills
-governing_attribute: "Wisdom or Constitution"
+governing_attribute: "Wisdom or Stamina"
 description: "Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers."
 specialties:
   - "Landscape Gardening: Designing flower beds, trimming hedges, laying sod, and styling ornamental gardens."
@@ -23,7 +23,7 @@ negative_keywords: "mindless, instinct-only, illiterate"
 
 ### **GROUNDSKEEPER**
 
-* **Ability:** Wisdom or Constitution  
+* **Ability:** Wisdom or Stamina  
 * **Description:** Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers.  
 * **Mechanics:**  
   * *Cultivate:* CR 15 to grow specific plants in a hostile environment.  

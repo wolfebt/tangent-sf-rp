@@ -16,7 +16,7 @@ keywords: 'nimble fingers, skill, special-feature, excellent, manual, dexterity'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: >-
-  Gain a **\+2 Bonus** to **Sleight of Hand** and **Disable Device**
+  Gain a **\+2 Bonus** to **Legerdemain** and **Mechanic**
   (Security/Mechanics) checks.
 ---
 # Nimble Fingers
@@ -29,4 +29,4 @@ mechanic: >-
 The character has excellent manual dexterity for fine manipulation.
 
 ## Mechanics & Benefit
-Gain a **\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.
+Gain a **\+2 Bonus** to **Legerdemain** and **Mechanic** (Security/Mechanics) checks.

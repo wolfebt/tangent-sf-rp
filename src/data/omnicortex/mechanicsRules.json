@@ -65,7 +65,7 @@
     "mechanic_formula": "Initiative = 2d10 + Reflex Save + Agility Mod",
     "rules_text": "Initiative determines the turn order in tactical encounters:\n- Each combatant rolls 2d10 + Reflex Save + Agility Modifier.\n- Highest roll acts first. Ties broken by raw Agility score.\n- Situational modifiers apply for Ambush, Surprised status, or advancing/retreating targets.",
     "examples": [
-      "Operative with Agility +3 and Reflex Save +4 rolls 2d10 (13) + 7 = 20 Initiative."
+      "Operator with Agility +3 and Reflex Save +4 rolls 2d10 (13) + 7 = 20 Initiative."
     ],
     "tags": [
       "initiative",
@@ -87,9 +87,9 @@
     "citation": "docs/game rules/operator/3.00 COMBAT.md § Edge",
     "summary": "Edge represents situational and tactical advantages gained through movement, positioning, and environment.",
     "mechanic_formula": "Edge Modifiers: Aiming (+2/rnd), Flanking (+2), High Ground (+2 Strike, +2 Crit), Evasive (+1 Def + 1/10ft)",
-    "rules_text": "Edge modifiers govern tactical positioning in Tangent:\n- Aiming: Sights locked onto target. Gain +2 Strike per round of Aiming (up to 1/2 attacker Skill Level or AGIx2 + 2). Attacker cannot move before shooting.\n- Flanking: Allies positioned on multiple sides of a target grant +2 bonus to hit.\n- Advancing Target: Target approaching without Cover or Evasion grants an Extra Attack at -5 Strike and rerolls Initiative if moved into Melee.\n- Retreating Target: Target fleeing at Jog/Run/Sprint speed forgoing evasion grants an Extra Attack at -5 Strike and rerolls Initiative.\n- High Ground: +2 to Strike and +2 to Critical Damage Range.\n- Prone: vs Melee/Point Blank grants High Ground bonus to attacker; vs Ranged receives +2 Defense bonus for each Range category after Point Blank.\n- Braced: Set to receive a Charge or stay in place. Block usable as counter-attack; negates heavy weapon recoil.\n- Charge: Move straight at least 10ft. Add +1d to Attack Damage and -1 to strike per stage of speed, plus +1 Point of Impact Damage per 10ft of speed (up to max +100% damage).\n- Close In: Guarded approach at base speed. No modifiers; not an Advancing Target.\n- Withdraw: Defensive retreat at base speed. No modifiers; not a Retreating Target.\n- Evasive Movement: Fully defensive while moving quickly. Gain +1 Defense base, plus +1 Defense per 10ft of movement speed used.\n- Subtle: Quiet, sneaky movement required for stealth skill actions.\n- Feint: Bluff check vs Sense Motive -> Sneak Attack at -5 Strike with Target having NO Defense.\n- Surprise / Sneak Attack: Caught unaware with NO Defense allowed from target. Attack made at -5 to hit, and Damage is rolled with Advantage (roll twice, take highest).",
+    "rules_text": "Edge modifiers govern tactical positioning in Tangent:\n- Aiming: Sights locked onto target. Gain +2 Strike per round of Aiming (up to 1/2 attacker Skill Level or AGIx2 + 2). Attacker cannot move before shooting.\n- Flanking: Allies positioned on multiple sides of a target grant +2 bonus to hit.\n- Advancing Target: Target approaching without Cover or Evasion grants an Extra Attack at -5 Strike and rerolls Initiative if moved into Melee.\n- Retreating Target: Target fleeing at Jog/Run/Sprint speed forgoing evasion grants an Extra Attack at -5 Strike and rerolls Initiative.\n- High Ground: +2 to Strike and +2 to Critical Damage Range.\n- Prone: vs Melee/Point Blank grants High Ground bonus to attacker; vs Ranged receives +2 Defense bonus for each Range category after Point Blank.\n- Braced: Set to receive a Charge or stay in place. Block usable as counter-attack; negates heavy weapon recoil.\n- Charge: Move straight at least 10ft. Add +1d to Attack Damage and -1 to strike per stage of speed, plus +1 Point of Impact Damage per 10ft of speed (up to max +100% damage).\n- Close In: Guarded approach at base speed. No modifiers; not an Advancing Target.\n- Withdraw: Defensive retreat at base speed. No modifiers; not a Retreating Target.\n- Evasive Movement: Fully defensive while moving quickly. Gain +1 Defense base, plus +1 Defense per 10ft of movement speed used.\n- Subtle: Quiet, sneaky movement required for stealth skill actions.\n- Feint: Bluff check vs Insight -> Sneak Attack at -5 Strike with Target having NO Defense.\n- Surprise / Sneak Attack: Caught unaware with NO Defense allowed from target. Attack made at -5 to hit, and Damage is rolled with Advantage (roll twice, take highest).",
     "examples": [
-      "Operative snipes from a catwalk (+2 High Ground strike and crit). Target is advancing in the open: operative gets an extra shot at -5.",
+      "Operator snipes from a catwalk (+2 High Ground strike and crit). Target is advancing in the open: operator gets an extra shot at -5.",
       "Point-blank sneak attack: target has no defense, damage is rolled with Advantage."
     ],
     "tags": [
@@ -118,11 +118,11 @@
     "title": "Combat Damage & Armor DR Absorption",
     "category": "combat",
     "citation": "docs/game rules/operator/3.00 COMBAT.md § Damage & Health",
-    "summary": "Total Damage = (Weapon Dice + Ability Mod + Precision/Skill) - (Target Armor DR + Target CON Mod). Force damage ignores half DR.",
-    "mechanic_formula": "Total Damage = (Weapon Dice + Ability Mod + Precision/Skill Bonuses) - (Target Armor DR + Target CON Mod)",
-    "rules_text": "Damage calculation in Tangent sums weapon impact, ability, and skill, mitigated by armor and constitution:\n- Components:\n  * Weapon Dice: Inherent damage capability of weapon.\n  * Relevant Ability: STR for melee/heavy thrown; AGI for light/ranged weapons; INT/WIS/CHA for metaphysical invocations.\n  * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Vital Strikes.\n  * Target Armor DR: Flat Damage Resistance of worn protective gear.\n  * Target CON Mod: Target natural physical constitution reduces damage taken.\n- Force Damage Subtype: Kinetic force energy that completely ignores 1/2 of Target Armor DR.\n- Critical Hit (Natural 20): Doubles weapon damage dice and adds +30 to base attack score.\n- Fumble (Natural 1): Subtracts 10 from base attack score; potential fumble consequences.",
+    "summary": "Total Damage = (Weapon Dice + Ability Mod + Precision/Skill) - (Target Armor DR + Target STA Mod). Force damage ignores half DR.",
+    "mechanic_formula": "Total Damage = (Weapon Dice + Ability Mod + Precision/Skill Bonuses) - (Target Armor DR + Target STA Mod)",
+    "rules_text": "Damage calculation in Tangent sums weapon impact, ability, and skill, mitigated by armor and constitution:\n- Components:\n  * Weapon Dice: Inherent damage capability of weapon.\n  * Relevant Ability: STR for melee/heavy thrown; AGI for light/ranged weapons; INT/WIS/CHA for metaphysical invocations.\n  * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Vital Strikes.\n  * Target Armor DR: Flat Damage Resistance of worn protective gear.\n  * Target STA Mod: Target natural physical constitution reduces damage taken.\n- Force Damage Subtype: Kinetic force energy that completely ignores 1/2 of Target Armor DR.\n- Critical Hit (Natural 20): Doubles weapon damage dice and adds +30 to base attack score.\n- Fumble (Natural 1): Subtracts 10 from base attack score; potential fumble consequences.",
     "examples": [
-      "Attacker with STR +3 and Heavy Blades Rank 4 hits with a 2d8 sword. Raw damage = 2d8 (11) + 3 + 4 = 18. Target has DR 4 armor and CON +2. Total damage = 18 - (4 + 2) = 12."
+      "Attacker with STR +3 and Heavy Blades Rank 4 hits with a 2d8 sword. Raw damage = 2d8 (11) + 3 + 4 = 18. Target has DR 4 armor and STA +2. Total damage = 18 - (4 + 2) = 12."
     ],
     "tags": [
       "damage",
@@ -208,11 +208,11 @@
     "title": "The Mortality State (0 HP) & Stability Points",
     "category": "combat",
     "citation": "docs/game rules/operator/3.00 COMBAT.md § The Mortality State",
-    "summary": "At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (CON + 5) reach 0.",
-    "mechanic_formula": "Stability Points = CON Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15",
-    "rules_text": "When Health Points reach 0, characters enter the Mortality State:\n- Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.\n- Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.\n- Stability Threshold: Character has Stability Points equal to Constitution Score + 5.\n- Death: When Stability Points reach 0, the character is clinically dead.\n- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (CR 15).",
+    "summary": "At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (STA + 5) reach 0.",
+    "mechanic_formula": "Stability Points = STA Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15",
+    "rules_text": "When Health Points reach 0, characters enter the Mortality State:\n- Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.\n- Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.\n- Stability Threshold: Character has Stability Points equal to Stamina Score + 5.\n- Death: When Stability Points reach 0, the character is clinically dead.\n- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (CR 15).",
     "examples": [
-      "An operative with CON +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs."
+      "An operator with STA +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs."
     ],
     "tags": [
       "mortality state",
@@ -267,7 +267,7 @@
     "mechanic_formula": "Value = 10 * 4^(CR / 5) | Purchase CR = Crafting CR <= Wealth Score",
     "rules_text": "The Tangent Economic Matrix establishes that Complexity Determines Value:\n- Tangent Standard Curve (TSC): Value = 10 * 4^(CR / 5).\n  * Base good at CR 0 costs 10 Credits.\n  * CR 5: 40 Credits.\n  * CR 10: 160 Credits.\n  * CR 15 (Standard Ballistic Rifle): 640 Credits.\n  * CR 20 (Plasma Rifle): 2,560 Credits.\n  * CR 25: 10,240 Credits.\n- The Golden Rule of Tangent Wealth: Purchase CR = Crafting CR.\n  * A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid credits or reducing their Wealth Score.\n- 7 Crafting Timetable Tiers: Tier 1 (1 hr), Tier 2 (8 hrs), Tier 3 (1-3 days), Tier 4 (1-2 wks), Tier 5 (1 mo), Tier 6 (6 mos), Tier 7 (Years/Megastructure).",
     "examples": [
-      "An operative with Wealth Score 16 can automatically requisition any standard gear with Crafting CR 16 or below without spending cash."
+      "An operator with Wealth Score 16 can automatically requisition any standard gear with Crafting CR 16 or below without spending cash."
     ],
     "tags": [
       "economatrix",
@@ -291,7 +291,7 @@
     "citation": "docs/game rules/operator/4.00 METAPHYSICS.md § Core Mechanics",
     "summary": "Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or 2d10).",
     "mechanic_formula": "Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10) | Strain = 1 Non-Lethal / 5 pts under CR",
-    "rules_text": "Reality manipulation operates on a distinct mechanical triad:\n- Attune Skill: General energy channeling skill. Sets the Challenge Rating of Resistance or Attack check.\n- Discipline Skill: Manipulates patterns; sets Severity and Damage.\n- Invocations: Codified muscle memory. Users \"Take 10\" by default on Discipline checks for operational safety.\n- Source Key Ability:\n  * Intelligence: Psychic, Arcane, Akashic.\n  * Wisdom: Divine, Nature, Cosmic.\n  * Charisma: Bardic, Hereditary, Granted.\n- Metafocus Levels (ML): ML 0 Null to ML 6 Deific (ML 6 NPC only). Starting character max Discipline skill = 2 * ML.\n- Internalized Strain: Failing a casting check deals 1 point of Non-Lethal Damage per 5 points of failure (bypasses Stamina and Armor).",
+    "rules_text": "Reality manipulation operates on a distinct mechanical triad:\n- Attune Skill: General energy channeling skill. Sets the Challenge Rating of Resistance or Attack check.\n- Discipline Skill: Manipulates patterns; sets Severity and Damage.\n- Invocations: Codified muscle memory. Users \"Take 10\" by default on Discipline checks for operational safety.\n- Source Key Ability:\n  * Intellect: Psychic, Arcane, Akashic.\n  * Wisdom: Divine, Nature, Cosmic.\n  * Charisma: Bardic, Hereditary, Granted.\n- Metafocus Levels (ML): ML 0 Null to ML 6 Deific (ML 6 NPC only). Starting character max Discipline skill = 2 * ML.\n- Internalized Strain: Failing a casting check deals 1 point of Non-Lethal Damage per 5 points of failure (bypasses Stamina and Armor).",
     "examples": [
       "An arcanist with INT +3, Telekinesis Skill 4, and Kinetic Lance Level 2 casts with Take 10 default: Potency = 3 + 4 + 2 + 10 = 19."
     ],
@@ -318,9 +318,9 @@
     "citation": "docs/game rules/operator/1.01 CHARACTER CREATION.md § Character Points",
     "summary": "Characters start with 150 CP (Character Points). Faction, Origin, and Occupation grant 60 skill ranks, 4 features, and 4 traits for free.",
     "mechanic_formula": "Total Budget = 150 CP | Attributes: 5 CP per +1 (Soft cap +4) | Skills: 1 CP/rank | Features: 3 CP base",
-    "rules_text": "Operative creation is governed by strict mathematical allocation:\n- 150 Character Points (CP) starting budget.\n- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1, soft cap +4 at creation.\n- Skills: Cost 1 CP per rank at creation.\n- Features: Base cost 3 CP (minimum 1 CP).\n- Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.\n- Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.",
+    "rules_text": "Operator creation is governed by strict mathematical allocation:\n- 150 Character Points (CP) starting budget.\n- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1, soft cap +4 at creation.\n- Skills: Cost 1 CP per rank at creation.\n- Features: Base cost 3 CP (minimum 1 CP).\n- Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.\n- Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.",
     "examples": [
-      "Operative invests 45 CP into attributes (+3 STR, +3 AGI, +3 STA), 20 CP into extra skills, 12 CP into 4 features, and spends 60 background skill ranks from Faction, Origin, and Career."
+      "Operator invests 45 CP into attributes (+3 STR, +3 AGI, +3 STA), 20 CP into extra skills, 12 CP into 4 features, and spends 60 background skill ranks from Faction, Origin, and Career."
     ],
     "tags": [
       "150 cp",
@@ -348,8 +348,8 @@
     "mechanic_formula": "Companion Feature = 3 CP (Cha 1) | Cohort Budget = Form (15 CP) + Function (25 CP) = 40 CP Base | +10 CP per Rank above Rank 1",
     "rules_text": "Access and construction of loyal cohorts follow strict modular rules:\n- Unlocking the Companion Feature:\n  * Just as Metaphysics requires the Awakened feature and Augmentations require the Augmented feature, access to Companions must be unlocked by purchasing the Companion feature (3 CP, Prerequisite: Charisma 1).\n  * Ranked & Multiple: Taking this feature again allows either purchasing an additional 40 CP companion OR granting +10 CP to an existing companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).\n- Modular Construction Matrix:\n  * Form Package: 15 CP (Anatomy, size, speed, base vitals).\n  * Function Package: 25 CP (Role, attribute bonuses, skills, protocols).\n  * Base Companion: 40 CP total at Rank 1.\n- Chassis Typologies:\n  * Biological: Uses Vitality + Health. Recovers via natural sleep and Medicine.\n  * Synthetic: Uses Structure Points (SP = VP + HP). Zero Vitality. Immune to non-lethal damage, poison, disease, fatigue. Requires Engineering repair.\n  * Metaphysical: Uses Essence as health. Grappling immunity if incorporeal. Attunement recovery.",
     "examples": [
-      "Operative purchases Companion feature (3 CP), assembling a 40 CP Biological War Hound: Predator Form (15 CP) + Guardian Function (25 CP).",
-      "Operative purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget)."
+      "Operator purchases Companion feature (3 CP), assembling a 40 CP Biological War Hound: Predator Form (15 CP) + Guardian Function (25 CP).",
+      "Operator purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget)."
     ],
     "tags": [
       "companions",
@@ -378,7 +378,7 @@
     "mechanic_formula": "Vitality Base = 30 | Health Base = 30 | Structure Base = 60 * Size Scaling Multiplier | Stamina = Natural DR (Toughness)",
     "rules_text": "Vitals and physical resilience are strictly decoupled from flat stamina additions:\n- Biological Entities:\n  * Base Vitality = 30 points.\n  * Base Health = 30 points.\n  * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.\n  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).\n- Synthetics, Constructs & Mecha:\n  * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.\n  * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.",
     "examples": [
-      "Standard human operative starts with 30 VP and 30 HP. Stamina +3 provides DR 3 natural Toughness against penetrating damage.",
+      "Standard human operator starts with 30 VP and 30 HP. Stamina +3 provides DR 3 natural Toughness against penetrating damage.",
       "Medium synthetic android starts with 60 SP, 0 VP. A Large synthetic frame (x2 scale) starts with 120 SP."
     ],
     "tags": [
@@ -405,10 +405,10 @@
     "citation": "docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md",
     "summary": "Characters have a default pool of 3 Karma Points (resets per session, no rest recovery). 6 canonical spending actions (1 KP each) provide narrative and tactical agency.",
     "mechanic_formula": "Starting Pool = 3 KP | 6 Actions @ 1 KP each | Karmic Debt Limit = Charisma + 1",
-    "rules_text": "Karma represents tactical luck and narrative control:\n- Pool Management:\n  * Starting baseline is 3 Karma Points.\n  * Resets to full at the start of each session; does NOT recover through short or long rest.\n  * Maximum pool increased by the Karmic Blessing feature (+1 per rank) or GM story milestones.\n- The 6 Canonical Karma Spending Actions (1 KP each):\n  1. \"I Got This\": Declared BEFORE rolling. Grants Advantage on any single roll (attacks, saves, checks, damage).\n  2. \"Not What I Meant\": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).\n  3. \"Shake it Off\": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).\n  4. \"Second Wind\": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.\n  5. \"So Mote it Be\": Declared simultaneously with a metaphysical skill/feat. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feat.\n  6. \"By Will Alone\": Declared with GM approval. Push past normal limits or emulate a feature for a scene.\n- Negative Karma (Karmic Debt):\n  * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.",
+    "rules_text": "Karma represents tactical luck and narrative control:\n- Pool Management:\n  * Starting baseline is 3 Karma Points.\n  * Resets to full at the start of each session; does NOT recover through short or long rest.\n  * Maximum pool increased by the Karmic Blessing feature (+1 per rank) or Architect story milestones.\n- The 6 Canonical Karma Spending Actions (1 KP each):\n  1. \"I Got This\": Declared BEFORE rolling. Grants Advantage on any single roll (attacks, saves, checks, damage).\n  2. \"Not What I Meant\": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).\n  3. \"Shake it Off\": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).\n  4. \"Second Wind\": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.\n  5. \"So Mote it Be\": Declared simultaneously with a metaphysical skill/feature. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feature.\n  6. \"By Will Alone\": Declared with Architect approval. Push past normal limits or emulate a feature for a scene.\n- Negative Karma (Karmic Debt):\n  * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.",
     "examples": [
-      "Operative declares 'I Got This' before firing a plasma sniper shot: rolls 2d10 attack twice with Advantage.",
-      "Operative afflicted by Stunned spends 1 KP on 'Shake it Off' to reduce condition severity to dazed."
+      "Operator declares 'I Got This' before firing a plasma sniper shot: rolls 2d10 attack twice with Advantage.",
+      "Operator afflicted by Stunned spends 1 KP on 'Shake it Off' to reduce condition severity to dazed."
     ],
     "tags": [
       "karma",
@@ -437,8 +437,8 @@
     "mechanic_formula": "Tier 1: Augmentation (<20% alteration) | Tier 2: Heavy Augmentation (<50% alteration) | Tier 3: Severe Augmentation (>50% up to FBC)",
     "rules_text": "Cybernetic and biological modifications are categorized without strain ceilings:\n- Strain Ceilings Removed: There is NO maximum strain score limiting cyberware installation.\n- The 3 Body Alteration Tiers:\n  1. Augmentation (Tier 1): < 20% body alterations. Minor prosthetics, sensory upgrades, standard subdermal armor, and utility cyberware.\n  2. Heavy Augmentation (Tier 2): < 50% body alterations. Extensive industrial/military hardware, structural skeletal reinforcement, and bulky limbs.\n  3. Severe Augmentation (Tier 3): > 50% body alterations up to Full Body Conversion (FBC). More machine or bio-construct than original being; allows radical physiological and size alterations.\n- Negligible Fashionware (< 5%): Basic subdermal ID chips, cosmetic bioware, and skinwatches require no feature.",
     "examples": [
-      "Operative replaces a cybernetic forearm (<20% body alteration): classified as Tier 1 Augmentation.",
-      "Operative undergoes Full Body Conversion (>50% body alteration): classified as Tier 3 Severe Augmentation."
+      "Operator replaces a cybernetic forearm (<20% body alteration): classified as Tier 1 Augmentation.",
+      "Operator undergoes Full Body Conversion (>50% body alteration): classified as Tier 3 Severe Augmentation."
     ],
     "tags": [
       "augmentations",

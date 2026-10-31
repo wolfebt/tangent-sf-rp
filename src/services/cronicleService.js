@@ -93,7 +93,7 @@ export function cloneToWorkingCopy(element, storyName = 'story') {
     workingCopy.personaState = {
       id: workingCopyId,
       name: element.title || element.name || 'Unknown Entity',
-      role: fields.role || fields['char-archetype'] || 'Operative',
+      role: fields.role || fields['char-archetype'] || 'Operator',
       current_status: 'active',
       base_physical_stats: {
         str: Number(fields.Strength || fields.STR || 2),
@@ -615,7 +615,7 @@ export function exportCronicleToMarkdown(cronicle) {
   } else {
     Object.values(personas).forEach(p => {
       md += `### ${p.name} (\`${p.id}\`)\n`;
-      md += `- **Role:** ${p.role || 'Operative'} | **Status:** \`${p.current_status || 'active'}\`\n`;
+      md += `- **Role:** ${p.role || 'Operator'} | **Status:** \`${p.current_status || 'active'}\`\n`;
       md += `- **Inventory:** ${p.active_inventory?.length ? p.active_inventory.join(', ') : 'None'}\n`;
       md += `- **Physical Traits / Wounds:** ${p.acquired_physical_traits?.length ? p.acquired_physical_traits.join(', ') : 'None'}\n`;
       md += `- **Psychological Traits:** ${p.dynamic_psychological_traits?.length ? p.dynamic_psychological_traits.join(', ') : 'None'}\n`;

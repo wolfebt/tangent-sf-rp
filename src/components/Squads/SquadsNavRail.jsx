@@ -228,7 +228,7 @@ export const SquadsNavRail = ({
                 </span>
               </div>
               <span className="text-[9px] text-slate-400 truncate font-mono leading-tight mt-0.5">
-                {activeGroup ? `${memberCount} Operatives` : 'Tactical Units'}
+                {activeGroup ? `${memberCount} Operators` : 'Tactical Units'}
               </span>
             </div>
           </button>

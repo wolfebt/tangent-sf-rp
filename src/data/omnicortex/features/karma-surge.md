@@ -19,7 +19,7 @@ negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: |-
   You gain **1 additional Standard Action** this round.  
-    * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Spell \+ Attack. It breaks the standard action economy.
+    * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Invocation \+ Attack. It breaks the standard action economy.
 ---
 # Surge
 
@@ -32,4 +32,4 @@ The character pushes their body and mind beyond standard limits, fitting more ac
 
 ## Mechanics & Benefit
 You gain **1 additional Standard Action** this round.  
-  * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Spell \+ Attack. It breaks the standard action economy.
+  * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Invocation \+ Attack. It breaks the standard action economy.

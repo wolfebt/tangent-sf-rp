@@ -810,12 +810,12 @@ export const ChatProvider = ({ children }) => {
         if (!mUid || seenUids.has(mUid)) return;
         seenUids.add(mUid);
         const detail = g.memberDetails?.[mUid] || {};
-        const handle = detail.handle || g.memberNames?.[mUid] || 'Operative';
+        const handle = detail.handle || g.memberNames?.[mUid] || 'Operator';
         const enrolledP = detail.persona;
         const chars = enrolledP ? [{
           id: enrolledP.id || enrolledP['character-doc-id'] || enrolledP.name,
           'character-doc-id': enrolledP.id || enrolledP['character-doc-id'] || enrolledP.name,
-          name: enrolledP.name || enrolledP['char-name'] || 'Operative',
+          name: enrolledP.name || enrolledP['char-name'] || 'Operator',
           species: enrolledP.species || enrolledP['char-species'] || 'Human',
           role: enrolledP.role || enrolledP['char-concept'] || 'Specialist',
           avatar: enrolledP.avatar || null,
@@ -1042,9 +1042,9 @@ export const ChatProvider = ({ children }) => {
         return (inThisSquad || pilotingThisChar) ? 'deployed' : 'on_call';
       };
 
-      const addEnrolledPersona = (rawPersona, ownerUid, fallbackHandle, squadRole = 'Operative') => {
+      const addEnrolledPersona = (rawPersona, ownerUid, fallbackHandle, squadRole = 'Operator') => {
         if (!rawPersona) return;
-        const cName = rawPersona.name || rawPersona['char-name'] || 'Operative';
+        const cName = rawPersona.name || rawPersona['char-name'] || 'Operator';
         const cId = rawPersona.id || rawPersona['character-doc-id'] || rawPersona.docId || `${ownerUid || 'anon'}_${cName}`;
         if (seenCharIds.has(cId)) return;
         seenCharIds.add(cId);
@@ -1093,7 +1093,7 @@ export const ChatProvider = ({ children }) => {
           if (detail?.persona) {
             const sRole = uid === grpLeaderId
               ? 'Prime Architect'
-              : (Array.isArray(grp.coArchitects) && grp.coArchitects.includes(uid) ? 'Co-Architect' : (detail.role || 'Operative'));
+              : (Array.isArray(grp.coArchitects) && grp.coArchitects.includes(uid) ? 'Co-Architect' : (detail.role || 'Operator'));
             addEnrolledPersona(detail.persona, uid, detail.handle || grp.memberNames?.[uid], sRole);
           }
         });
@@ -1104,7 +1104,7 @@ export const ChatProvider = ({ children }) => {
       charMembers.forEach(cm => {
         if (!cm) return;
         if (cm.ownerUid && seenOwnerUids.has(cm.ownerUid)) return;
-        addEnrolledPersona(cm, cm.ownerUid, cm.ownerHandle, 'Operative');
+        addEnrolledPersona(cm, cm.ownerUid, cm.ownerHandle, 'Operator');
       });
 
       const presenceRank = { deployed: 0, on_call: 1, offline: 2 };
@@ -1253,7 +1253,7 @@ export const ChatProvider = ({ children }) => {
       if (now - ts < 6500) {
         list.push({
           uid,
-          handle: info.handle || info.operatorHandle || 'Operative',
+          handle: info.handle || info.operatorHandle || 'Operator',
           personaName: info.personaName || null
         });
       }
@@ -1327,8 +1327,8 @@ export const ChatProvider = ({ children }) => {
       isIC: isIC,
       isArchitect: isArchitect,
       architectDetails: isArchitect ? {
-        title: 'ARCHITECT // GM',
-        role: 'Gamemaster / Referee',
+        title: 'ARCHITECT',
+        role: 'Lead Architect',
         groupName: activeChannelGroup?.name || activeGroup?.name || null,
         operatorHandle
       } : null,
@@ -1446,7 +1446,7 @@ export const ChatProvider = ({ children }) => {
     const activeReply = extra.replyTo !== undefined ? extra.replyTo : replyingToMessage;
     const replyPayload = activeReply ? {
       messageId: activeReply.id || activeReply.messageId,
-      senderHandle: activeReply.senderHandle || activeReply.operatorHandle || 'Operative',
+      senderHandle: activeReply.senderHandle || activeReply.operatorHandle || 'Operator',
       snippet: String(activeReply.text || '').slice(0, 120)
     } : null;
 
@@ -1466,8 +1466,8 @@ export const ChatProvider = ({ children }) => {
       isIC: isIC,
       isArchitect: isArchitect,
       architectDetails: isArchitect ? {
-        title: 'ARCHITECT // GM',
-        role: 'Gamemaster / Referee',
+        title: 'ARCHITECT',
+        role: 'Lead Architect',
         groupName: activeChannelGroup?.name || activeGroup?.name || null,
         operatorHandle
       } : null,
@@ -1529,8 +1529,8 @@ export const ChatProvider = ({ children }) => {
         category: resolvedCategory
       },
       architectDetails: {
-        title: 'ARCHITECT // GM',
-        role: 'Gamemaster / Referee',
+        title: 'ARCHITECT',
+        role: 'Lead Architect',
         groupName: grp?.name || null,
         operatorHandle
       },

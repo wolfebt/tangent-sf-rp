@@ -3552,7 +3552,7 @@ const CANONICAL_AUG_ADDITIONS = {
     nodes: 5,
     cp: 2,
     description: 'Exocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.',
-    mechanic: '+2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).'
+    mechanic: '+2 Bonus to Diplomacy, Bluff, or Handler checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).'
   },
   'amphibious-lung-graft': {
     name: 'Amphibious Lung Graft',

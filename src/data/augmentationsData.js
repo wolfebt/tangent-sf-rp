@@ -2640,7 +2640,7 @@ export const DEFAULT_AUGMENTATIONS = [
   },
   {
     "id": "feat-plexus",
-    "name": "Feat Plexus",
+    "name": "Feature Plexus",
     "category": "augmentations",
     "cost": 10240,
     "design_dc": 25,
@@ -5045,7 +5045,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "cost": 10240,
     "design_dc": 25,
     "craft_dc": 25,
-    "description": "+1/+2/+3 Intelligence.",
+    "description": "+1/+2/+3 Intellect.",
     "stigma": "None",
     "type": "Cybernetic",
     "costs": {
@@ -5077,7 +5077,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "nootropic enhancer, augmentation, cybernetic, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Intelligence.\r\n**Nodes:** 5",
+    "body": "Category: **8\\. TL4 Enhanced Augmentations**\r\n\r\n**Effect:** +1/+2/+3 Intellect.\r\n**Nodes:** 5",
     "subcategory": "8. TL4 Enhanced Augmentations",
     "nodes": 5,
     "location": "Torso / Core",
@@ -5533,10 +5533,10 @@ export const DEFAULT_AUGMENTATIONS = [
       "ap": 0
     },
     "description": "Exocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.",
-    "mechanic": "+2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "mechanic": "+2 Bonus to Diplomacy, Bluff, or Handler checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).",
     "keywords": "pheromone synthesizer (exocrine graft), augmentation, bioware (graft), tl-4",
     "negative_keywords": "unaugmented, pure-organic",
-    "body": "Category: **Biological: Utility & Sensory**\n\nExocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.\n\n**Mechanics:** +2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).",
+    "body": "Category: **Biological: Utility & Sensory**\n\nExocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.\n\n**Mechanics:** +2 Bonus to Diplomacy, Bluff, or Handler checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).",
     "body_location": "Torso (Skin Glands)"
   },
   {
@@ -7894,7 +7894,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "cost": 640,
     "design_dc": 15,
     "craft_dc": 15,
-    "description": "Decorative or Prehensile (-4 Str, -2 Dex).",
+    "description": "Decorative or Prehensile (-4 Str, -2 Agi).",
     "stigma": "None",
     "type": "Cybernetic Armor",
     "costs": {
@@ -7926,7 +7926,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "stage": "Standard",
     "keywords": "tail, augmentation, cybernetic armor, standard, tl-3, general",
     "negative_keywords": "pure-organic-baseline, unaugmented, technophobe, primitive",
-    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Dex).\r\n**Nodes:** 5",
+    "body": "Category: **5.1 Integrated Cybernetic Armor**\r\n\r\n**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Agi).\r\n**Nodes:** 5",
     "subcategory": "5.1 Integrated Cybernetic Armor",
     "nodes": 5,
     "location": "Tail / Auxiliary Appendage",

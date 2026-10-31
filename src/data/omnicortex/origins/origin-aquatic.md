@@ -114,7 +114,7 @@ Natural curiosity about oceanic depths and alien ecologies, driving exploration 
 
 ### Empathy
 Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.  
-*Bonus*: **+2 Insight and +2 Handle Animal Checks while being Friendly to other creature**
+*Bonus*: **+2 Insight and +2 Handler Checks while being Friendly to other creature**
 
 ### Environmental Awareness
 Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.  
@@ -147,7 +147,7 @@ Mariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Exp
 - **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)
 - **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)
 - **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)
-- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handle Animal Checks while being Friendly)
+- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handler Checks while being Friendly)
 - **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)
 - **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)
 - **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)

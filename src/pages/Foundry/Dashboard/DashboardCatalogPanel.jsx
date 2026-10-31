@@ -754,7 +754,7 @@ export const DashboardCatalogPanel = () => {
         {activeTab === 'personas' && (
           <div className="space-y-2">
             <div className="flex items-center justify-between pb-1 text-[11px] font-mono text-slate-400">
-              <span>{processedPersonas.length} Operative Personas</span>
+              <span>{processedPersonas.length} Operator Personas</span>
               <button
                 onClick={() => navigate('/folio')}
                 className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-bold cursor-pointer"
@@ -765,7 +765,7 @@ export const DashboardCatalogPanel = () => {
 
             {processedPersonas.length === 0 ? (
               <div className="p-8 text-center text-slate-500 text-xs border border-dashed border-slate-800 rounded-xl">
-                No operative personas found in your roster.
+                No operator personas found in your roster.
               </div>
             ) : (
               processedPersonas.map((persona, index) => {
@@ -784,11 +784,11 @@ export const DashboardCatalogPanel = () => {
                         <div className="flex items-center gap-1.5 mb-1">
                           <span className="w-2 h-2 rounded-full bg-emerald-400" />
                           <h4 className="text-xs font-bold text-slate-200 group-hover:text-emerald-300 transition-colors truncate">
-                            {persona['char-name'] || 'Unnamed Operative'}
+                            {persona['char-name'] || 'Unnamed Operator'}
                           </h4>
                         </div>
                         <p className="text-[11px] text-slate-400 font-mono line-clamp-1">
-                          {persona['char-species'] || 'Species'} • {persona['char-archetype'] || persona['char-occu'] || 'Operative'}
+                          {persona['char-species'] || 'Species'} • {persona['char-archetype'] || persona['char-occu'] || 'Operator'}
                         </p>
                         <div className="text-[10px] text-slate-500 font-mono mt-1">
                           {persona.updatedAt ? new Date(persona.updatedAt).toLocaleDateString() : 'Ready'}
@@ -810,8 +810,8 @@ export const DashboardCatalogPanel = () => {
                           <button
                             onClick={async (e) => {
                               e.stopPropagation();
-                              const charName = persona['char-name'] || 'Unnamed Operative';
-                              if (await confirmTypedDeletion(charName, 'operative persona')) {
+                              const charName = persona['char-name'] || 'Unnamed Operator';
+                              if (await confirmTypedDeletion(charName, 'operator persona')) {
                                 AudioService.playTerminalBeep(900, 0.03);
                                 if (folio.deleteRosterCharacter) {
                                   folio.deleteRosterCharacter(persona || docId);
@@ -819,7 +819,7 @@ export const DashboardCatalogPanel = () => {
                               }
                             }}
                             className="p-1 bg-slate-900 hover:bg-red-950/80 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 rounded-lg transition-colors cursor-pointer"
-                            title="Delete Operative Persona"
+                            title="Delete Operator Persona"
                           >
                             <Trash2 size={11} />
                           </button>

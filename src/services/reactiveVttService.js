@@ -113,7 +113,7 @@ export const NPC_SCRIPT_TYPES = {
     id: 'ambush',
     name: 'Stealth Ambush Stalker',
     icon: '🥷',
-    description: 'Remains cloaked until an operative comes within 3 meters, then decloaks with surprise attack initiative.'
+    description: 'Remains cloaked until an operator comes within 3 meters, then decloaks with surprise attack initiative.'
   },
   dialogue_bark: {
     id: 'dialogue_bark',
@@ -207,8 +207,8 @@ export function evaluateTrapTriggers(movedToken, objectsOnMap = [], allTokens = 
         isAlarm: trapConfig.category === 'alarm',
         soundFx: trapConfig.category === 'alarm' ? 'alarm' : 'explosion',
         logMessage: isSaveSuccess
-          ? `⚡ [TRAP EVADED] ${movedToken.label || 'Operative'} triggered ${obj.label || trapConfig.name} but SAVED (Rolled ${totalSaveRoll} vs CR ${saveCr}). Took ${appliedDamage} partial damage.`
-          : `💥 [TRAP DETONATED] ${movedToken.label || 'Operative'} triggered ${obj.label || trapConfig.name}! (Failed Save: ${totalSaveRoll} vs CR ${saveCr}). Suffer ${appliedDamage} damage${conditionToApply ? ` and [${conditionToApply}] condition` : ''}!`
+          ? `⚡ [TRAP EVADED] ${movedToken.label || 'Operator'} triggered ${obj.label || trapConfig.name} but SAVED (Rolled ${totalSaveRoll} vs CR ${saveCr}). Took ${appliedDamage} partial damage.`
+          : `💥 [TRAP DETONATED] ${movedToken.label || 'Operator'} triggered ${obj.label || trapConfig.name}! (Failed Save: ${totalSaveRoll} vs CR ${saveCr}). Suffer ${appliedDamage} damage${conditionToApply ? ` and [${conditionToApply}] condition` : ''}!`
       });
     }
   });

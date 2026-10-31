@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 8
+order: 9
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.modulef_g.genreandvisuals","matrix"]
-updatedAt: "2026-10-14T06:04:05.796Z"
+updatedAt: "2026-10-31T11:30:42.584Z"
 costs:
   bp: 0
   credits: 0
@@ -41,13 +41,13 @@ sockets:
 
 ### **REFERENCE MODULE F: GENRE & SETTING MODULES**
 
-To effectively place a generated character into the Tangent universe, the Game Master must apply the specific thematic layers of Science-Fiction and High Fantasy. This module provides specialized facilitation for Science Fiction settings, focusing on the implications of advanced technology, metaphysics, and environmental occupations required to contextualize a raw stat block within the galaxy. Additionally, it provides specific facilitation for mystery and investigation plots.
+To effectively place a generated character into the Tangent universe, the Architect must apply the specific thematic layers of Science-Fiction and High Fantasy. This module provides specialized facilitation for Science Fiction settings, focusing on the implications of advanced technology, metaphysics, and environmental occupations required to contextualize a raw stat block within the galaxy. Additionally, it provides specific facilitation for mystery and investigation plots.
 
 &nbsp;
 
 #### **1\. The Metaphysical Spectrum (Magic & Psionics)**
 
-For settings with "space magic" or mental powers, define the scope and limitation. In Tangent, all "magic" stems from manipulating the Conscious Light (The Resonance), but the cultural interface heavily dictates the visual and mechanical flavor of the character's abilities. When assigning the "Caster" Role, the Game Master must determine the character's Metaphysical interface to ensure the narrative aligns with the setting.
+For settings with "space magic" or mental powers, define the scope and limitation. In Tangent, all "magic" stems from manipulating the Conscious Light (The Resonance), but the cultural interface heavily dictates the visual and mechanical flavor of the character's abilities. When assigning the "Caster" Role, the Architect must determine the character's Metaphysical interface to ensure the narrative aligns with the setting.
 
 * ##### **Psionics (Psi-Tech / The Mind)**
 
@@ -74,7 +74,7 @@ Utilized by the Vajar (Wild Elves), Sha'Nor (Entities of Entropy), and tribal fa
 
 #### **2\. Operational Roles & Environment**
 
-A character's Origin heavily dictates their function. In space opera settings, characters often fill specific roles aboard a vessel. The Game Master must adapt the base Role Packages (from Module B) to fit the specific environment the players encounter them in.
+A character's Origin heavily dictates their function. In space opera settings, characters often fill specific roles aboard a vessel. The Architect must adapt the base Role Packages (from Module B) to fit the specific environment the players encounter them in.
 
 * ##### **The Starship Crew (Spacer Origin):**
 
@@ -142,7 +142,7 @@ Every character in a mystery should have a secret, even if they aren't the kille
 
 ### **REFERENCE MODULE G: ASSETS, CYBERNETICS, & VISUAL SEMIOTICS**
 
-Following the assignment of tactical skills, the Game Master outfits the character with specific physical assets to dictate their power projection on the battlefield. During the final encounter preparation, these weapons, armor sets, vehicles, and factional aesthetics are selected to explicitly define the character's offensive damage output and defensive resilience, ensuring their equipment matches their Threat Tier, Wealth Score, and operational environment.
+Following the assignment of tactical skills, the Architect outfits the character with specific physical assets to dictate their power projection on the battlefield. During the final encounter preparation, these weapons, armor sets, vehicles, and factional aesthetics are selected to explicitly define the character's offensive damage output and defensive resilience, ensuring their equipment matches their Threat Tier, Wealth Score, and operational environment.
 
 &nbsp;
 
@@ -159,7 +159,7 @@ What does the character own or control? This defines their physical power projec
 
 #### **2\. Cybernetic Enhancements Facilitation**
 
-To reflect the technological transhumanism of the Tangent setting, the Game Master may install cybernetic enhancements into the character's physical form. These augmentations are selected from the hardware tables and applied directly to the character's physiological systems prior to gameplay. This allows the character to interface with machines, process sensory data beyond human limits, or achieve superhuman strength, serving to elevate their baseline capabilities while visually reinforcing their faction's technological aesthetic.
+To reflect the technological transhumanism of the Tangent setting, the Architect may install cybernetic enhancements into the character's physical form. These augmentations are selected from the hardware tables and applied directly to the character's physiological systems prior to gameplay. This allows the character to interface with machines, process sensory data beyond human limits, or achieve superhuman strength, serving to elevate their baseline capabilities while visually reinforcing their faction's technological aesthetic.
 
 | SYSTEM | ENHANCEMENT TYPES | FUNCTION/BENEFIT |
 | ----- | ----- | ----- |
@@ -173,7 +173,7 @@ To reflect the technological transhumanism of the Tangent setting, the Game Mast
 
 #### **3\. Faction Aesthetics (Visual Semiotics)**
 
-During the final application of a character's physical assets, the Game Master or player must define the visual semiotics of their equipment by choosing a factional design language. This process occurs directly on the character sheet or NPC profile to instantly communicate the character's technological origin, cultural alignment, and socioeconomic status to observers. By applying specific materials, lighting motifs, and architectural styles to otherwise generic gear, you transform basic mechanical stat blocks into highly distinct, recognizable elements of the Tangent universe.
+During the final application of a character's physical assets, the Architect or operator must define the visual semiotics of their equipment by choosing a factional design language. This process occurs directly on the character sheet or NPC profile to instantly communicate the character's technological origin, cultural alignment, and socioeconomic status to observers. By applying specific materials, lighting motifs, and architectural styles to otherwise generic gear, you transform basic mechanical stat blocks into highly distinct, recognizable elements of the Tangent universe.
 
 * ##### **The Syndicate (Adaptive Neo-Futurism)**
 
@@ -235,7 +235,7 @@ Clean, organic, and deeply connected to planetary preservation. Gear avoids visi
 
 #### **CONCLUSION**
 
-This facilitation framework provides the structural scaffolding necessary to build complex RPG characters. By rigorously defining the Persona (the outer shell), Psychology (the inner engine), Backstory (the trajectory), and Profile (the capabilities), a Game Master can generate antagonists and allies that are dynamic agents of narrative agency. Whether populating a sci-fi mystery or a space opera epic, these lists serve as a generative engine for storytelling, ensuring that every character encounter has the potential for depth, drama, and consequence. The combination of "Lie/Ghost" mechanics with concrete "Asset/Skill" lists ensures that characters are grounded in both emotional reality and mechanical utility, transforming them from mere statistics into memorable inhabitants of a living world.
+This facilitation framework provides the structural scaffolding necessary to build complex RPG characters. By rigorously defining the Persona (the outer shell), Psychology (the inner engine), Backstory (the trajectory), and Profile (the capabilities), an Architect can generate antagonists and allies that are dynamic agents of narrative agency. Whether populating a sci-fi mystery or a space opera epic, these lists serve as a generative engine for storytelling, ensuring that every character encounter has the potential for depth, drama, and consequence. The combination of "Lie/Ghost" mechanics with concrete "Asset/Skill" lists ensures that characters are grounded in both emotional reality and mechanical utility, transforming them from mere statistics into memorable inhabitants of a living world.
 
 ### ---
 

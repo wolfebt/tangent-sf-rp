@@ -22,7 +22,7 @@ cost_cp: 3
 mechanic: >-
   The time interval between periodic Resistance Checks to end an ongoing effect
   is reduced to **1/4 the typical time**.  
-    * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.
+    * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.
 
   &nbsp;
 
@@ -43,7 +43,7 @@ The character's recovery rate is supernatural. They can shake off debilitating e
 
 ## Mechanics & Benefit
 The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  
-  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.
+  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.
 
 &nbsp;
 

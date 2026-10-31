@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 217
+order: 244
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3

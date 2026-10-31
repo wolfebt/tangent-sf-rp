@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 10
+order: 16
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3

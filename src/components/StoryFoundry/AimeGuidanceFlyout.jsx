@@ -33,7 +33,7 @@ const GUIDANCE_PRESETS = {
   ],
   Compiler: [
     { label: 'Pre-Flight Scenario Audit', prompt: 'Review this compiled scenario, map, and element automations. Audit for tactical balance, narrative cohesion, and missing NPC scripts.' },
-    { label: 'Encounter Threat Assessment', prompt: 'Assess the combat threat level of all scripted adversaries on this map against a standard 4-operative player party.' }
+    { label: 'Encounter Threat Assessment', prompt: 'Assess the combat threat level of all scripted adversaries on this map against a standard 4-operator player party.' }
   ]
 };
 

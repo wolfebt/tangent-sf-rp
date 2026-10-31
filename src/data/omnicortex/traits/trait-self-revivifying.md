@@ -7,7 +7,7 @@ category: traits
 costs:
   cp: 4
   bp: 4
-description: '1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.'
+description: '1/day attempt to resurrect. Cost: 1 Karma, Sta Check CR 20. Req: Immortal.'
 modifiers:
   - target: Karma
     type: karma
@@ -26,4 +26,4 @@ modifiers:
 Phoenix-like cellular or metaphysical resurrection protocol triggered upon death.
 
 ## Mechanics & Benefit
-1/day attempt to self-resurrect (Cost: 1 Karma, Constitution Check CR 20; Requires: Immortal)
+1/day attempt to self-resurrect (Cost: 1 Karma, Stamina Check CR 20; Requires: Immortal)

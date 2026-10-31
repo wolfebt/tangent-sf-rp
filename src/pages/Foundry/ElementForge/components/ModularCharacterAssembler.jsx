@@ -232,7 +232,7 @@ Respond in JSON format:
           >
             <option value="Adversary">Adversary (Hostile Force)</option>
             <option value="Ally">Ally (Independent Supporter)</option>
-            <option value="Companion">Companion (Player-Bound)</option>
+            <option value="Companion">Companion (Operator-Bound)</option>
             <option value="Neutral">Neutral (Bystander/Contact)</option>
           </select>
         </div>

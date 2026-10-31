@@ -28,7 +28,7 @@ Undead species are once-living creatures animated by spiritual or supernatural f
 * Darkvision 60 feet. [1]
 
 ## Immunities
-* Mental Immunity [3]; Physical Immunity (bleed damage, death effects, disease, paralysis, poison, sleep effects, stunning) [3]; Metabolic Immunity (nonlethal damage, ability drain, energy drain, damage to Con/Dex/Str, exhaustion, fatigue) [3]; Fortitude save immunity [3].
+* Mental Immunity [3]; Physical Immunity (bleed damage, death effects, disease, paralysis, poison, sleep effects, stunning) [3]; Metabolic Immunity (nonlethal damage, ability drain, energy drain, damage to Sta/Agi/Str, exhaustion, fatigue) [3]; Fortitude save immunity [3].
 
 
 

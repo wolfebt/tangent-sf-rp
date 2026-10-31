@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 7
+order: 13
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3

@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.modulea.tierchassis","matrix"]
-updatedAt: "2026-10-14T06:04:05.791Z"
+updatedAt: "2026-10-31T11:30:42.578Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,7 @@ sockets:
 
 ### **REFERENCE MODULE A: THE TIER CHASSIS**
 
-The Game Master references this matrix to establish the mathematical ceiling and floor for any given character in the universe. During character generation, assigning a Tier instantly dictates the entity's baseline competence, raw health, action economy, and expected damage resistance before any specific skills or items are applied.
+The Architect references this matrix to establish the mathematical ceiling and floor for any given character in the universe. During character generation, assigning a Tier instantly dictates the entity's baseline competence, raw health, action economy, and expected damage resistance before any specific skills or items are applied.
 
 | TIER | NARRATIVE RANK | ATTRIBUTES | SKILL RANK&nbsp; | ACTIONS | VIT/HEA | DR | CP&nbsp; |
 | :---: | ----- | :---: | ----- | :---: | :---: | :---: | :---: |

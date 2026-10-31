@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 196
+order: 207
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.abilityfeatures","mechanics"]
-updatedAt: "2026-10-14T09:06:38.154Z"
+updatedAt: "2026-10-31T11:30:42.791Z"
 costs:
   bp: 0
   credits: 0
@@ -231,7 +231,7 @@ Ability Features represent a character's raw talent, extensive conditioning, or 
 
 * **Prerequisite:** Tolerance (in the specific type).  
 * **Benefit:** The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  
-  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.
+  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.
 
 &nbsp;
 

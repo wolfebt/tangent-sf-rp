@@ -29,7 +29,7 @@ export const TANGENT_STORY_BEAT_JSON_SCHEMA = {
     gate: {
       type: "OBJECT",
       properties: {
-        prompt: { type: "STRING", description: "Directorial tactical prompt asking for operative next move." },
+        prompt: { type: "STRING", description: "Directorial tactical prompt asking for operator next move." },
         options: {
           type: "ARRAY",
           items: {
@@ -83,7 +83,7 @@ export const TANGENT_ACTION_REQUEST_JSON_SCHEMA = {
   properties: {
     requestId: { type: "STRING", description: "Unique action request ID" },
     action: { type: "STRING", description: "Declared action being attempted" },
-    actorId: { type: "STRING", description: "Initiator operative ID" },
+    actorId: { type: "STRING", description: "Initiator operator ID" },
     targetId: { type: "STRING", description: "Target entity or system ID" },
     proposedDelta: {
       type: "OBJECT",

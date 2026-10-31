@@ -195,7 +195,7 @@ export const generateStoryScratchbook = ({
       // OSR Control Panel components if present
       const fields = node.fields || {};
       if (fields.readAloud) {
-        md += `> 🎙️ **Sensory Read-Aloud (GM Script)**:  \n> *"${fields.readAloud}"*\n\n`;
+        md += `> 🎙️ **Sensory Read-Aloud (Architect Script)**:  \n> *"${fields.readAloud}"*\n\n`;
       }
 
       if (Array.isArray(fields.bulletPoints) && fields.bulletPoints.length > 0) {
@@ -215,7 +215,7 @@ export const generateStoryScratchbook = ({
       }
 
       if (fields.gmSecrets) {
-        md += `> 🔒 **Classified GM Secret / Discovery**:  \n> ${fields.gmSecrets}\n\n`;
+        md += `> 🔒 **Classified Architect Secret / Discovery**:  \n> ${fields.gmSecrets}\n\n`;
       }
     });
   }
@@ -229,7 +229,7 @@ export const generateStoryScratchbook = ({
       md += `### Beat #${beat.beatIndex || '1'}\n\n`;
       md += `${beat.content}\n\n`;
       if (beat.gate?.chosenOption) {
-        md += `> 🎯 **Player Action**: *"${beat.gate.chosenOption}"*  \n`;
+        md += `> 🎯 **Operator Action**: *"${beat.gate.chosenOption}"*  \n`;
         if (beat.gate.checkResult) {
           md += `> 🎲 **Check Outcome**: \`${beat.gate.checkResult}\`  \n`;
         }
@@ -239,8 +239,8 @@ export const generateStoryScratchbook = ({
     md += `---\n\n`;
   }
 
-  // SECTION 5: ONGOING GM DEVELOPMENT NOTES & REVISION LEDGER
-  md += `## 📝 5. ONGOING GM DEVELOPMENT NOTES & REVISION LOG\n\n`;
+  // SECTION 5: ONGOING ARCHITECT DEVELOPMENT NOTES & REVISION LEDGER
+  md += `## 📝 5. ONGOING ARCHITECT DEVELOPMENT NOTES & REVISION LOG\n\n`;
   if (customNotes && customNotes.trim()) {
     md += `${customNotes.trim()}\n\n`;
   } else {

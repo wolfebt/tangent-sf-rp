@@ -23,7 +23,7 @@ bonus_skills: 10
 bonus_skill_choices:
   - Acrobatics
   - Stealth
-  - Sleight of Hand
+  - Legerdemain
   - Athletics
   - Technology
 inherent_features: []

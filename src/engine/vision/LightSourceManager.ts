@@ -78,7 +78,7 @@ export const ATMOSPHERIC_PRESETS: Record<AtmosphericWeatherType, AtmosphericPres
     tintHex: 0x0f172a,
     tintAlpha: 0.45,
     fogDensity: 0.3,
-    description: 'Pitch black stealth zone; operative flashlights provide primary vision.'
+    description: 'Pitch black stealth zone; operator flashlights provide primary vision.'
   },
   sandstorm: {
     id: 'sandstorm',

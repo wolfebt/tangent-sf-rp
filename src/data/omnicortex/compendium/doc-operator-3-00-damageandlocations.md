@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 215
+order: 238
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.damageandlocations","mechanics"]
-updatedAt: "2026-10-14T05:54:39.315Z"
+updatedAt: "2026-10-31T11:30:42.681Z"
 costs:
   bp: 0
   credits: 0
@@ -77,9 +77,9 @@ The target's Damage Resist (DR) is subtracted, representing their armor's effect
 
 &nbsp;
 
-**Target's CON**
+**Target's STA**
 
-The target's Constitution modifier is subtracted, representing their physical resilience and ability to withstand injury.
+The target's Stamina modifier is subtracted, representing their physical resilience and ability to withstand injury.
 
 &nbsp;
 
@@ -215,7 +215,7 @@ NO Check, it’s mangled and little use (Traumatic Damage Control also needed fo
 
 &nbsp;
 
-\*\* Brain Death will be at the GM’s discretion (as any instant kill), IF they survive, they should still be Disabled and it will require intense recovery and downtime.
+\*\* Brain Death will be at the Architect’s discretion (as any instant kill), IF they survive, they should still be Disabled and it will require intense recovery and downtime.
 
 &nbsp;
 

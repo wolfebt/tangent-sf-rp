@@ -2269,7 +2269,7 @@ export const StageView: React.FC<StageViewProps> = ({
     if (isMoveModeActive) {
       setIsMoveModeActive(false);
       setCombatLog(prev => [
-        `[MOVE] ${selectedToken?.name || 'Operative'} relocated to coordinates (${snapped.x}, ${snapped.y}).`,
+        `[MOVE] ${selectedToken?.name || 'Operator'} relocated to coordinates (${snapped.x}, ${snapped.y}).`,
         ...prev.slice(0, 8)
       ]);
     }
@@ -2312,7 +2312,7 @@ export const StageView: React.FC<StageViewProps> = ({
           beat: wp.readAloudText
         });
         setCombatLog(prev => [
-          `[WAYPOINT] ${movedToken.name || 'Operative'} entered perimeter of "${wp.name}".`,
+          `[WAYPOINT] ${movedToken.name || 'Operator'} entered perimeter of "${wp.name}".`,
           ...prev.slice(0, 8)
         ]);
       }
@@ -2454,7 +2454,7 @@ export const StageView: React.FC<StageViewProps> = ({
     if (res.success) {
       AudioService.playTerminalBeep(800, 0.06);
       setCombatLog(prev => [
-        `[OBJECT] ${selectedToken?.name || 'Operative'} toggled ${objId} => ${res.data.isOpen ? 'OPEN' : 'SEALED'}`,
+        `[OBJECT] ${selectedToken?.name || 'Operator'} toggled ${objId} => ${res.data.isOpen ? 'OPEN' : 'SEALED'}`,
         ...prev.slice(0, 8)
       ]);
       setInspectingInteractiveObj(null);
@@ -2519,7 +2519,7 @@ export const StageView: React.FC<StageViewProps> = ({
     const next = !isMultiplayerSimActive;
     AudioService.playTerminalBeep(next ? 1300 : 750, 0.04);
     setCombatLog(p => [
-      next ? `[NETWORK] LiveKit WebRTC peer telemetry active. Synchronizing 3 remote operative streams.` : `[NETWORK] Local mode engaged.`,
+      next ? `[NETWORK] LiveKit WebRTC peer telemetry active. Synchronizing 3 remote operator streams.` : `[NETWORK] Local mode engaged.`,
       ...p.slice(0, 8)
     ]);
   };
@@ -2592,14 +2592,14 @@ export const StageView: React.FC<StageViewProps> = ({
 
     const newTok: StaticEntity = {
       id: newTokId,
-      name: heroPayload.name || 'Hero Operative',
+      name: heroPayload.name || 'Hero Operator',
       base_hp: heroPayload.maxHealth || 35,
       tech_level: 3,
       armor_dr: heroPayload.toughness || 10,
       size_modifier: 0,
       speed_ft: 35,
       species: 'Human',
-      archetype: 'Operative',
+      archetype: 'Operator',
       is_persona: true
     };
 

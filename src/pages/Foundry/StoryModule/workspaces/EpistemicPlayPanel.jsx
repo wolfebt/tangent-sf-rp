@@ -59,7 +59,7 @@ export default function EpistemicPlayPanel({
       if (fileName.includes('manifest')) {
         newLogs.push({ type: 'info', text: 'CARGO MANIFEST: 40x Photonic Power Cells bound for Sector 7 Precursor Vault.' });
       } else if (fileName.includes('intercept')) {
-        newLogs.push({ type: 'info', text: 'INTERCEPT: "The courier arrived at Docking Ring 4. Suppress the automated sentries before operative sweep."' });
+        newLogs.push({ type: 'info', text: 'INTERCEPT: "The courier arrived at Docking Ring 4. Suppress the automated sentries before operator sweep."' });
       } else {
         newLogs.push({ type: 'error', text: `Access Denied: ${fileName} requires elevated slicing privileges.` });
       }
@@ -74,7 +74,7 @@ export default function EpistemicPlayPanel({
       });
 
       if (mandate.systemIntent === 'REFUSE_ACTION') {
-        newLogs.push({ type: 'error', text: `[SYSTEM REFUSAL]: ${mandate.narrativeBounds.refusalReason}. Operative deck is TL-${activeOperative?.techLevel ?? 2}, target is TL-${terminalTL}. Capacitor feedback discharges!` });
+        newLogs.push({ type: 'error', text: `[SYSTEM REFUSAL]: ${mandate.narrativeBounds.refusalReason}. Operator deck is TL-${activeOperative?.techLevel ?? 2}, target is TL-${terminalTL}. Capacitor feedback discharges!` });
       } else if (mandate.systemIntent === 'EXECUTE_SUCCESS' || mandate.systemIntent === 'CRITICAL_TRIUMPH') {
         newLogs.push({ type: 'success', text: `[DECRYPTION SUCCESS (+${mandate.diceSummary.margin})]: Firewall bypassed. Root shell unlocked! Secret keys extracted.` });
       } else {
@@ -112,7 +112,7 @@ export default function EpistemicPlayPanel({
     if (isSuccess) {
       npcReply = `[Crack in composure (+${mandate.diceSummary.margin} margin)]: "Alright! Don't involve my family. The drive has coordinates to the syndicate sub-level behind the hydroponics bay. The passcode is 7-0-4-1."`;
     } else {
-      npcReply = `[Deception maintained (${mandate.diceSummary.margin} margin)]: "You're bluffing. Your jurisdiction ends at this airlock, operative. You don't have the clearance to hold me."`;
+      npcReply = `[Deception maintained (${mandate.diceSummary.margin} margin)]: "You're bluffing. Your jurisdiction ends at this airlock, operator. You don't have the clearance to hold me."`;
     }
 
     setInterrogationHistory(prev => [
@@ -127,7 +127,7 @@ export default function EpistemicPlayPanel({
       const text = terminalLogs.map(l => `${l.text}`).join('\n');
       onInsertToProse(`<blockquote style="border-left: 3px solid #06b6d4; padding-left: 10px; margin: 10px 0; background: rgba(8,51,68,0.3);"><pre style="font-family: monospace; font-size: 11px;">${text}</pre></blockquote>`);
     } else {
-      const text = interrogationHistory.map(h => `<p><strong>${h.speaker === 'operative' ? (activeOperative?.name || 'Operative') : suspectName}:</strong> ${h.text}</p>`).join('');
+      const text = interrogationHistory.map(h => `<p><strong>${h.speaker === 'operative' ? (activeOperative?.name || 'Operator') : suspectName}:</strong> ${h.text}</p>`).join('');
       onInsertToProse(text);
     }
     onClose();
@@ -279,7 +279,7 @@ export default function EpistemicPlayPanel({
                 >
                   <div className="flex items-center justify-between text-[10px] font-bold mb-1">
                     <span className={item.speaker === 'operative' ? 'text-purple-400' : 'text-amber-400'}>
-                      {item.speaker === 'operative' ? `Operative (${item.skill} Check)` : suspectName}
+                      {item.speaker === 'operative' ? `Operator (${item.skill} Check)` : suspectName}
                     </span>
                     {item.margin !== undefined && (
                       <span className={item.isSuccess ? 'text-emerald-400' : 'text-rose-400'}>

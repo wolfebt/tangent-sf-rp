@@ -922,7 +922,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         showToast({
           type: 'error',
           title: 'Deployment Failed',
-          message: 'Unable to save operative dossier to Folio. Please verify persona details and try again.'
+          message: 'Unable to save operator dossier to Folio. Please verify persona details and try again.'
         });
       }
     } catch (err) {
@@ -4862,7 +4862,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               <div>
                 <span className="font-bold text-white block">Terran Net Cloud Vault Ready</span>
                 <span className="text-slate-300 text-[11px]">
-                  Authenticated as <span className="text-emerald-300 font-bold">@{userHandle || getEffectiveUserHandle(currentUser)}</span>. Finalizing will persist this operative directly to Cloud Storage and your local Roster.
+                  Authenticated as <span className="text-emerald-300 font-bold">@{userHandle || getEffectiveUserHandle(currentUser)}</span>. Finalizing will persist this operator directly to Cloud Storage and your local Roster.
                 </span>
               </div>
             </div>
@@ -5228,7 +5228,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     <div className="p-2 rounded bg-amber-950/40 border border-amber-600/40 text-[11px] text-amber-200">
                       <span>The following assets exceed your persona's setting baseline: </span>
                       <strong>{outOfTierItems.map(i => `${i.name || i.id} (TL${i.tl || 3}/ML${i.ml || 0})`).join(', ')}</strong>.
-                      <span className="block text-[10px] text-amber-400/80 mt-0.5">Consider upgrading your Tech/Meta Level or swapping equipment to prevent GM deployment warnings.</span>
+                      <span className="block text-[10px] text-amber-400/80 mt-0.5">Consider upgrading your Tech/Meta Level or swapping equipment to prevent Architect deployment warnings.</span>
                     </div>
                   ) : (
                     <p className="text-[11px] text-slate-400">

@@ -103,7 +103,7 @@ export const DBMHUDBar = ({
             ? 'bg-amber-950/70 border-amber-500/80 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
             : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
         }`}
-        title={adminOverride ? "Master Developer Access Active (Full CRUD: Add, Edit, Clone, Delete). Click to toggle." : "Player View (Read-Only). Click to enable Master Developer Access."}
+        title={adminOverride ? "Master Developer Access Active (Full CRUD: Add, Edit, Clone, Delete). Click to toggle." : "Operator View (Read-Only). Click to enable Master Developer Access."}
       >
         {adminOverride ? <Crown size={13} className="text-amber-400" /> : <Eye size={13} className="text-slate-400" />}
         <span className="hidden lg:inline">{adminOverride ? 'MASTER ACCESS: ON' : 'PLAYER VIEW'}</span>
@@ -282,7 +282,7 @@ export const DBMHUDBar = ({
                   ? 'bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 cursor-pointer'
                   : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
               }`}
-              title={isAdmin ? "Import Master Database Backup" : "Requires GM/Admin access to import data"}
+              title={isAdmin ? "Import Master Database Backup" : "Requires Architect/Admin access to import data"}
             >
               <FolderOpen size={13} className="text-cyan-400" />
               <span>Master Import</span>

@@ -130,7 +130,7 @@ addMechanic({
 - Withdraw: Defensive retreat at base speed. No modifiers; not a Retreating Target.
 - Evasive Movement: Fully defensive while moving quickly. Gain +1 Defense base, plus +1 Defense per 10ft of movement speed used.
 - Subtle: Quiet, sneaky movement required for stealth skill actions.
-- Feint: Bluff check vs Sense Motive -> Sneak Attack at -5 Strike with Target having NO Defense.
+- Feint: Bluff check vs Insight -> Sneak Attack at -5 Strike with Target having NO Defense.
 - Surprise / Sneak Attack: Caught unaware with NO Defense allowed from target. Attack made at -5 to hit, and Damage is rolled with Advantage (roll twice, take highest).`,
   examples: [
     'Operative snipes from a catwalk (+2 High Ground strike and crit). Target is advancing in the open: operative gets an extra shot at -5.',
@@ -144,20 +144,20 @@ addMechanic({
   title: 'Combat Damage & Armor DR Absorption',
   category: 'combat',
   citation: 'docs/game rules/operator/3.00 COMBAT.md § Damage & Health',
-  summary: 'Total Damage = (Weapon Dice + Ability Mod + Precision/Skill) - (Target Armor DR + Target CON Mod). Force damage ignores half DR.',
-  mechanic_formula: 'Total Damage = (Weapon Dice + Ability Mod + Precision/Skill Bonuses) - (Target Armor DR + Target CON Mod)',
+  summary: 'Total Damage = (Weapon Dice + Ability Mod + Precision/Skill) - (Target Armor DR + Target STA Mod). Force damage ignores half DR.',
+  mechanic_formula: 'Total Damage = (Weapon Dice + Ability Mod + Precision/Skill Bonuses) - (Target Armor DR + Target STA Mod)',
   rules_text: `Damage calculation in Tangent sums weapon impact, ability, and skill, mitigated by armor and constitution:
 - Components:
   * Weapon Dice: Inherent damage capability of weapon.
   * Relevant Ability: STR for melee/heavy thrown; AGI for light/ranged weapons; INT/WIS/CHA for metaphysical invocations.
   * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Vital Strikes.
   * Target Armor DR: Flat Damage Resistance of worn protective gear.
-  * Target CON Mod: Target natural physical constitution reduces damage taken.
+  * Target STA Mod: Target natural physical constitution reduces damage taken.
 - Force Damage Subtype: Kinetic force energy that completely ignores 1/2 of Target Armor DR.
 - Critical Hit (Natural 20): Doubles weapon damage dice and adds +30 to base attack score.
 - Fumble (Natural 1): Subtracts 10 from base attack score; potential fumble consequences.`,
   examples: [
-    'Attacker with STR +3 and Heavy Blades Rank 4 hits with a 2d8 sword. Raw damage = 2d8 (11) + 3 + 4 = 18. Target has DR 4 armor and CON +2. Total damage = 18 - (4 + 2) = 12.'
+    'Attacker with STR +3 and Heavy Blades Rank 4 hits with a 2d8 sword. Raw damage = 2d8 (11) + 3 + 4 = 18. Target has DR 4 armor and STA +2. Total damage = 18 - (4 + 2) = 12.'
   ],
   tags: ['damage', 'armor dr', 'con mod', 'precision damage', 'force damage', 'critical hit', 'natural 20', 'fumble']
 });
@@ -215,16 +215,16 @@ addMechanic({
   title: 'The Mortality State (0 HP) & Stability Points',
   category: 'combat',
   citation: 'docs/game rules/operator/3.00 COMBAT.md § The Mortality State',
-  summary: 'At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (CON + 5) reach 0.',
-  mechanic_formula: 'Stability Points = CON Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15',
+  summary: 'At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (STA + 5) reach 0.',
+  mechanic_formula: 'Stability Points = STA Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15',
   rules_text: `When Health Points reach 0, characters enter the Mortality State:
 - Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.
 - Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.
-- Stability Threshold: Character has Stability Points equal to Constitution Score + 5.
+- Stability Threshold: Character has Stability Points equal to Stamina Score + 5.
 - Death: When Stability Points reach 0, the character is clinically dead.
 - Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (CR 15).`,
   examples: [
-    'An operative with CON +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs.'
+    'An operative with STA +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs.'
   ],
   tags: ['mortality state', '0 hp', 'incapacitated', 'bleeding out', 'stability points', 'con + 5', 'stabilization', 'Medicine CR 15']
 });
@@ -310,7 +310,7 @@ addMechanic({
 - Discipline Skill: Manipulates patterns; sets Severity and Damage.
 - Invocations: Codified muscle memory. Users "Take 10" by default on Discipline checks for operational safety.
 - Source Key Ability:
-  * Intelligence: Psychic, Arcane, Akashic.
+  * Intellect: Psychic, Arcane, Akashic.
   * Wisdom: Divine, Nature, Cosmic.
   * Charisma: Bardic, Hereditary, Granted.
 - Metafocus Levels (ML): ML 0 Null to ML 6 Deific (ML 6 NPC only). Starting character max Discipline skill = 2 * ML.
@@ -423,7 +423,7 @@ addMechanic({
   2. "Not What I Meant": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).
   3. "Shake it Off": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).
   4. "Second Wind": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.
-  5. "So Mote it Be": Declared simultaneously with a metaphysical skill/feat. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feat.
+  5. "So Mote it Be": Declared simultaneously with a metaphysical skill/feature. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feature.
   6. "By Will Alone": Declared with GM approval. Push past normal limits or emulate a feature for a scene.
 - Negative Karma (Karmic Debt):
   * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.`,

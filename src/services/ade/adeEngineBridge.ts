@@ -120,7 +120,7 @@ export function simulateScenarioEncounter(
   partyTokens: any[] = []
 ): EncounterSimSummary {
   const defaultParty = partyTokens.length > 0 ? partyTokens : [
-    { id: 'p1', label: 'Operative Vanguard', hp: 35, defense: 14, attackMod: 5, avgDamage: 12 },
+    { id: 'p1', label: 'Operator Vanguard', hp: 35, defense: 14, attackMod: 5, avgDamage: 12 },
     { id: 'p2', label: 'Tech Specialist', hp: 28, defense: 12, attackMod: 4, avgDamage: 10 },
     { id: 'p3', label: 'Biochem Medic', hp: 30, defense: 13, attackMod: 3, avgDamage: 8 }
   ];
@@ -154,7 +154,7 @@ export function synthesizeRecapFromCronicle(
   cronicleHistory.forEach((entry: any) => {
     SessionJournal.logEvent({
       type: entry.action === 'state_override' ? 'crit' : 'strike',
-      actor: entry.author || 'Operative',
+      actor: entry.author || 'Operator',
       target: entry.target || 'Sector Context',
       details: entry.explanation || entry.title || 'Tactical update recorded.'
     });
@@ -181,7 +181,7 @@ export function evaluateObjectivesForScenario(
 export function createStructuralMandate({
   systemIntent,
   actionName,
-  initiatorName = 'Operative',
+  initiatorName = 'Operator',
   targetEntity,
   diceSummary,
   mechanicalOutcomes = {},
@@ -235,7 +235,7 @@ export function adjudicateActionCheck({
   storyFlags = {},
   diceOverride = null
 }: ActionCheckParams): AdeStructuralMandate {
-  const initiatorName = operative?.name || operative?.title || 'Operative';
+  const initiatorName = operative?.name || operative?.title || 'Operator';
   const lowerAction = (actionText || '').toLowerCase();
 
   // 1. Detect Skill & Attribute if not explicitly supplied
@@ -304,7 +304,7 @@ export function adjudicateActionCheck({
             'firewall disabled',
             'data downloaded'
           ],
-          prescribedOutcome: `The slice attempt fails instantly due to incompatible sophistication. Operative deck is TL-${opTL}, but the target system is TL-${targetTL}. The deck capacitor discharges feedback, inflicting 2 shield strain.`
+          prescribedOutcome: `The slice attempt fails instantly due to incompatible sophistication. Operator deck is TL-${opTL}, but the target system is TL-${targetTL}. The deck capacitor discharges feedback, inflicting 2 shield strain.`
         }
       });
     }
@@ -442,7 +442,7 @@ export function adjudicateActionCheck({
       outcomes.damageDealt = 12 + Math.max(0, margin);
     }
     sensoryCues.push('pneumatic hiss of cycling locks', 'green confirmation telemetry', 'fluid transition');
-    forbidden.push('operative failure', 'system lockdown', 'weapon misfire');
+    forbidden.push('operator failure', 'operative failure', 'system lockdown', 'weapon misfire');
   } else if (systemIntent === 'CRITICAL_FUMBLE') {
     outcomes.shieldsDelta = -6;
     outcomes.hpDelta = -2;
@@ -626,7 +626,7 @@ export function validateAndCommitActionRequest({
     id: `delta_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
     action: request.proposedDelta?.action || 'action_resolution',
     target: request.targetId || targetEntity?.id || 'Active Scenario',
-    entityId: request.actorId || operative?.id || 'Operative',
+    entityId: request.actorId || operative?.id || 'Operator',
     explanation: mandate.narrativeBounds.prescribedOutcome || request.sensoryNarration || 'Mechanical action succeeded',
     value: {
       systemIntent: mandate.systemIntent,

@@ -326,7 +326,7 @@ export async function generateAimeSceneSchema(options: GenerateSceneOptions): Pr
   const systemInstruction = `You are AIME, the Tactical Scenario Architect for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
 Your task is to generate a comprehensive, playable .scene schema directly loaded into the VTT Stage.
 Include:
-- Evocative slugline and sensory room description without prematurely spoiling hidden GM secrets.
+- Evocative slugline and sensory room description without prematurely spoiling hidden Architect secrets.
 - 4-beat sequential narrative outline (Infiltration, Escalation, Climax, Resolution).
 - Tactical read-aloud script for the Architect.
 - Interactive objects (bulkheads, terminals, loot containers) and tactical tokens placed on a 50px grid.
@@ -547,7 +547,7 @@ function generateDeterministicSceneFallback(
     moodAtmosphere: 'High tension, industrial dread, claustrophobic.',
     keyObjects: 'Reinforced blast bulkhead, sliced security data-terminal, containment crate with hazard seals.',
     sceneBeats: [
-      '1. Perimeter Breach: Operatives approach the outer airlock under low light.',
+      '1. Perimeter Breach: Operators approach the outer airlock under low light.',
       '2. Sensor Lockdown: Automated defense grid triggers security alert.',
       '3. Terminal Extraction: Slicer overrides blast doors while fending off enforcers.',
       '4. Evacuation: Extraction shuttle touches down as sector power collapses.'

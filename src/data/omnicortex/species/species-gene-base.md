@@ -182,7 +182,7 @@ cp_cost: 18
 
 **Species Features:**&nbsp;
 
-\+1 Feature
+\+1 Featureure
 
 &nbsp;
 

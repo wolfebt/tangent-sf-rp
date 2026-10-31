@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 17
+order: 18
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","planetary","99.planetary.astrophysicsandgeophysics","matrix"]
-updatedAt: "2026-10-14T06:04:05.785Z"
+updatedAt: "2026-10-31T10:39:18.023Z"
 costs:
   bp: 0
   credits: 0
@@ -92,9 +92,9 @@ Gravity is the fundamental constraint of physical existence. It dictates movemen
 | TIER | GRAVITY | SIZE CLASS (KM) | MOVE SPEED | CARRY CAP | COMBAT/SKILL MODIFIERS | LONG-TERM EFFECTS & FALL DMG |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | **Zero-G** | \< 0.1 | Class 1  (Tiny / Asteroid) | Fly (Base) | x10 | \-4 Attack/Skill (unless Spacer feat) | Muscle Atrophy (1d6 Str dmg/week). Inertial movement. |
-| **Low** | 0.1 – 0.7 | Class 2-3  (Small / Mars) | \+5 ft | x2 | \-2 Attack; \+2 Dex / \-2 Str | Fall dmg reduced to 1d4/10ft. |
+| **Low** | 0.1 – 0.7 | Class 2-3  (Small / Mars) | \+5 ft | x2 | \-2 Attack; \+2 Agi / \-2 Str | Fall dmg reduced to 1d4/10ft. |
 | **Standard** | 0.8 – 1.2 | Class 4-7  (Med/Earth) | Normal | Normal | None | Fall dmg 1d6/10ft. |
-| **High** | \> 1.2 | Class 8-9  (Large / Super Earth) | \-5 ft | x0.5 | \-2 Attack; \+2 Str / \-2 Dex | Fatigue; Fall dmg 1d8/10ft. |
+| **High** | \> 1.2 | Class 8-9  (Large / Super Earth) | \-5 ft | x0.5 | \-2 Attack; \+2 Str / \-2 Agi | Fatigue; Fall dmg 1d8/10ft. |
 | **Extreme** | \> 2.0 | Class 10  (Giant) | Half Speed | x0.25 | \-4 to all Physical Checks | Crush Damage (1d6/minute). |
 
 **Implications:**
@@ -113,7 +113,7 @@ The atmosphere determines the immediate lethality of the environment and necessa
 | CODE | TYPE | PRESSURE | SURVIVAL GEAR | MECHANICAL & HAZARD EFFECTS |
 | ----- | ----- | ----- | ----- | ----- |
 | **0** | Vacuum | 0.00 | Vacc Suit | Suffocation; Audio sensors fail; Radiation high. 1d6 decompression dmg/round. Silence rules apply. |
-| **1** | Trace | \< 0.1 | Vacc Suit | Fatigue checks (CON CR 15\) hourly; Suffocation over time. Pressure too low for lungs. |
+| **1** | Trace | \< 0.1 | Vacc Suit | Fatigue checks (Fortitude CR 15\) hourly; Suffocation over time. Pressure too low for lungs. |
 | **2** | Very Thin | 0.1 – 0.4 | Respirator | Fatigue checks during combat; Projectile ranges \+50%. |
 | **3** | Thin | 0.4 – 0.7 | Filter Mask | Breathable for natives; Altitude sickness for visitors (Fatigue CR 15/hour). |
 | **4** | Standard | 0.7 – 1.5 | None | Earth-normal. |

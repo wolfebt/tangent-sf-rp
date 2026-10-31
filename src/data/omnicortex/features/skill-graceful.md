@@ -17,7 +17,7 @@ negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: >-
   Gain a **\+1 Bonus** to all **Agility-based Non-Attack Skill checks**
-  (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.
+  (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.
 ---
 # Graceful
 
@@ -29,4 +29,4 @@ mechanic: >-
 The character moves with elegance and precision.
 
 ## Mechanics & Benefit
-Gain a **\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.
+Gain a **\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.

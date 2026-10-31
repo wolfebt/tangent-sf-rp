@@ -5,7 +5,7 @@ sphere: Sentinels (The Stabilizers)
 category: archetypes
 bp_chassis: 80
 core_concept: Tank / Formation Fighter / Discipline
-primary_attribute: Constitution
+primary_attribute: Stamina
 secondary_attribute: Strength
 recommended_occupations:
   - Soldier (Impyrium)
@@ -49,7 +49,7 @@ cp_chassis: 80
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Tank / Formation Fighter / Discipline  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Constitution  
+**Primary Attribute**: Stamina  
 **Secondary Attribute**: Strength  
 
 ## Overview

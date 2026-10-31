@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-species-matrix"
-order: 10
+order: 11
 perspective: "architect"
 entry_type: "Species Design Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","species","99.species.chassisandmovement","matrix"]
-updatedAt: "2026-10-14T06:04:05.812Z"
+updatedAt: "2026-10-31T10:39:18.027Z"
 costs:
   bp: 0
   credits: 0
@@ -92,7 +92,7 @@ A non-corporeal being which may have never been alive \- such as embodiments, es
 
 * **Incorporeal:** Immune to all physical conditional effects due to their incorporeal form. \[3\]  
 * **Fortification:** Not subject to critical hits or flanking. \[3\]  
-* **Immunities:** All mind-affecting effects (charms, compulsions, morale effects, patterns, and phantasms) \[3\]; bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning \[3\]; nonlethal damage, ability drain, or energy drain; damage to physical ability scores (Con, Dex, Str); exhaustion and fatigue effects. \[3\]  
+* **Immunities:** All mind-affecting effects (charms, compulsions, morale effects, patterns, and phantasms) \[3\]; bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning \[3\]; nonlethal damage, ability drain, or energy drain; damage to physical ability scores (Sta, Agi, Str); exhaustion and fatigue effects. \[3\]  
 * **Senses:** Darkvision and Ether Sight out to 60 feet. \[1+2\]  
 * **Planar:** Not a creature of the material plane and immune to effects which would pertain to similar creatures. \[3\]  
 * **Physiology:** Entities do not eat, sleep, or breathe. \[3\]
@@ -168,7 +168,7 @@ Undead species are once-living creatures animated by spiritual or supernatural f
 * **Senses:** Darkvision 60 feet. \[1\]  
 * **Mental Immunity:** Immune to all mind-affecting effects. \[3\]  
 * **Physical Immunity:** Immune to bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning. \[3\]  
-* **Metabolic Immunity:** Not subject to nonlethal damage, ability drain, or energy drain, and are immune to damage to physical ability scores (Con, Dex, Str), as well as to exhaustion and fatigue effects. \[3\]  
+* **Metabolic Immunity:** Not subject to nonlethal damage, ability drain, or energy drain, and are immune to damage to physical ability scores (Sta, Agi, Str), as well as to exhaustion and fatigue effects. \[3\]  
 * **Negative Energy Affinity:** Harmed by positive energy and healed by negative energy. An undead creature with the fast healing special quality still benefits from that quality. (Note: Deathless are a variant Undead type with inverted energy traits). \[2\]  
 * **Fortitude Immunity:** Immune to any effect that requires a Fortitude save (unless the effect also works on objects or is harmless). \[3\]  
 * **Resurrection Limits:** Immune to raise dead/reincarnate. Resurrection and true resurrection can affect undead creatures. \[2\]  
@@ -183,7 +183,7 @@ This type encompasses vegetable creatures. Note that regular plants lack Wisdom 
 * **Senses:** Low-light vision. \[1\]  
 * **Mental Immunity:** Immune to all mind-affecting effects. \[3\]  
 * **Physical Immunity:** Immune to paralysis, poison, polymorph, sleep effects, and stunning. \[3\]  
-* **Physiology:** Verdants breathe and eat, but do not sleep (unless for beneficial effects/spell regain). \[2\]
+* **Physiology:** Verdants breathe and eat, but do not sleep (unless for beneficial effects/essence regain). \[2\]
 
 ### 
 
@@ -235,7 +235,7 @@ Species may only take 1 of the speed modifier traits (marked with \*).
 | Ability | Cost | Effect |
 | :---- | :---- | :---- |
 | **Improved Charisma** | 5 CP | \+1 racial bonus to Charisma. |
-| **Improved Constitution** | 5 CP | \+1 racial bonus to Constitution. |
+| **Improved Stamina** | 5 CP | \+1 racial bonus to Stamina. |
 | **Improved Agility** | 5 CP | \+1 racial bonus to Agility. |
 | **Improved Intellect** | 5 CP | \+1 racial bonus to Intellect. |
 | **Improved Strength** | 5 CP | \+1 racial bonus to Strength. |

@@ -141,13 +141,13 @@ export const FORM_PACKAGES = [
       { name: 'Flight (Winged Aerial Maneuver)', bp: 4 },
       { name: 'Acute Sense (Eagle Vision)', bp: 2 },
       { name: 'Natural Weapons (Talons 1d6)', bp: 2 },
-      { name: 'Small Size (+AC / Stealth)', bp: 2 }
+      { name: 'Small Size (+Defense / Stealth)', bp: 2 }
     ],
     skills: [
       { name: 'Acrobatics (Flight)', rank: 1, bp: 1 }
     ],
     attacks: [
-      { name: 'High-Dive Talons', damage: '2d10+1', range: 'Melee', notes: 'Small Size (+AC)' }
+      { name: 'High-Dive Talons', damage: '2d10+1', range: 'Melee', notes: 'Small Size (+Defense)' }
     ],
     protocols: ['Aerial Spotting', 'Harass From Above', 'LoS Reconnaissance']
   },
@@ -363,7 +363,7 @@ export const FORM_PACKAGES = [
     features: [
       { name: 'All-Terrain (Magnetic Climber & Rough Ground Walker)', bp: 2 },
       { name: 'Synthetic Traits (Immune: Poison, Pain, Fatigue, Mind)', bp: 6 },
-      { name: 'Small Size (+Stealth / AC)', bp: 2 },
+      { name: 'Small Size (+Stealth / Defense)', bp: 2 },
       { name: 'Secure Cargo / Tool Storage Compartment (10kg)', bp: 1 }
     ],
     skills: [],
@@ -423,7 +423,7 @@ export const FUNCTION_PACKAGES = [
   {
     id: 'guardian',
     name: 'The Guardian (Defense Focus)',
-    desc: 'Engineered to interpose, absorb impacts, and protect the operative at all costs.',
+    desc: 'Engineered to interpose, absorb impacts, and protect the operator at all costs.',
     bpCost: 25,
     attributesBonus: { strength: 1, agility: 0, stamina: 2, intellect: 0, wisdom: 0, charisma: 0 },
     attributeBp: 12,
@@ -473,7 +473,7 @@ export const FUNCTION_PACKAGES = [
   {
     id: 'mount',
     name: 'The Mount (Transport Focus)',
-    desc: 'Bred or fabricated to carry the operative swiftly across all terrain types.',
+    desc: 'Bred or fabricated to carry the operator swiftly across all terrain types.',
     bpCost: 25,
     attributesBonus: { strength: 2, agility: 0, stamina: 1, intellect: 0, wisdom: 0, charisma: 0 },
     attributeBp: 12,

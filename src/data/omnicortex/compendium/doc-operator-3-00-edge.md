@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 213
+order: 236
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.edge","mechanics"]
-updatedAt: "2026-10-14T05:54:39.313Z"
+updatedAt: "2026-10-31T10:39:18.091Z"
 costs:
   bp: 0
   credits: 0
@@ -129,7 +129,7 @@ Condition which is for quiet, sneaky or low key actions trying to not draw atten
 
 ## **Feint**
 
-An Attacker can make a Bluff check (vs Sense Motive) to lead the Target into a False Defense, forcing an opening for a Sneak Attack made at \-5 to Strike (with the Target having NO Defense)
+An Attacker can make a Bluff check (vs Insight) to lead the Target into a False Defense, forcing an opening for a Sneak Attack made at \-5 to Strike (with the Target having NO Defense)
 
 &nbsp;
 

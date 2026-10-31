@@ -284,7 +284,7 @@ export const GMInspector: React.FC = () => {
                     ? 'bg-amber-950/60 border-amber-500/60 text-amber-300'
                     : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
                 }`}
-                title={isHidden ? 'Hidden from Players (Click to reveal)' : 'Visible to Players (Click to hide)'}
+                title={isHidden ? 'Hidden from Operators (Click to reveal)' : 'Visible to Operators (Click to hide)'}
               >
                 {isHidden ? <EyeOff size={12} /> : <Eye size={12} />}
               </button>
@@ -338,10 +338,10 @@ export const GMInspector: React.FC = () => {
                 <Shield size={12} className="text-amber-400 shrink-0" />
                 <div className="flex flex-col min-w-0">
                   <span className="text-[10px] font-bold text-slate-300 uppercase truncate">
-                    Player Override
+                    Operator Override
                   </span>
                   <span className="text-[9px] text-slate-500 font-mono">
-                    {matchedPersona?.allow_player_override !== false ? 'Player can unlock sheet' : 'Sheet locked from player'}
+                    {matchedPersona?.allow_player_override !== false ? 'Operator can unlock sheet' : 'Sheet locked from operator'}
                   </span>
                 </div>
               </div>
@@ -598,7 +598,7 @@ export const GMInspector: React.FC = () => {
               {/* Strict Player Ownership Notice */}
               <div className="text-[9.5px] text-cyan-300/70 flex items-center gap-1 bg-slate-950/50 px-2 py-1 rounded border border-slate-850">
                 <ShieldCheck size={11} className="text-cyan-400 shrink-0" />
-                <span>Folio is player property. Direct sheet edits/deletions locked.</span>
+                <span>Folio is Operator property. Direct sheet edits/deletions locked.</span>
               </div>
             </div>
           )}
@@ -744,7 +744,7 @@ export const GMInspector: React.FC = () => {
                 {allPendingModsCount} Sheet Modification{allPendingModsCount > 1 ? 's' : ''} for Review
               </span>
               <span className="text-[10px] text-amber-300/80">
-                Players in active session have submitted tracked changes.
+                Operators in active session have submitted tracked changes.
               </span>
             </div>
           </div>
@@ -757,7 +757,7 @@ export const GMInspector: React.FC = () => {
             }}
             className="w-full py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-bold uppercase tracking-wider rounded text-[11px] transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-sm"
           >
-            <FileText size={12} /> Open GM Review Queue
+            <FileText size={12} /> Open Architect Review Queue
           </button>
         </div>
       )}
@@ -803,7 +803,7 @@ export const GMInspector: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="text-amber-400 font-bold uppercase tracking-wider text-xs flex items-center gap-1.5">
             <Shield size={13} />
-            <span>PLAYER OVERRIDE POLICY</span>
+            <span>OPERATOR OVERRIDE POLICY</span>
           </div>
           <span className={`text-[9.5px] font-mono px-1.5 py-0.2 rounded font-bold ${
             personaRoster.every((p: any) => p.allow_player_override !== false)
@@ -814,7 +814,7 @@ export const GMInspector: React.FC = () => {
           </span>
         </div>
         <p className="text-[10.5px] text-slate-400 leading-snug">
-          Permit or lock out direct sheet modifications across all deployed operative personas in this session.
+          Permit or lock out direct sheet modifications across all deployed operator personas in this session.
         </p>
         <div className="grid grid-cols-2 gap-1.5 pt-0.5">
           <button

@@ -47,13 +47,6 @@ export const DEFAULT_ORIGINS = [
         "mechanics": "+2 to Animal Handling",
         "modifiers": [
           {
-            "target": "Animal Handling Expertise in raising",
-            "type": "skill",
-            "value": 2,
-            "mode": "inherent",
-            "description": "+2 to Animal Handling Expertise in raising"
-          },
-          {
             "target": "Caring for livestock",
             "type": "skill",
             "value": 2,
@@ -65,7 +58,6 @@ export const DEFAULT_ORIGINS = [
         "special_rules": "Basic Origin Trait (1 CP).",
         "notes": "[Modifier] +2 to Animal Handling Expertise in raising\n[Modifier] +2 to Caring for livestock\n[Rule] Basic Origin Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Animal Handling Expertise in raising",
           "[Modifier] +2 to Caring for livestock",
           "[Rule] Basic Origin Trait (1 CP)."
         ]
@@ -425,25 +417,25 @@ export const DEFAULT_ORIGINS = [
         "tier": "Basic",
         "classification": "Origin Trait",
         "description": "Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.",
-        "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+        "mechanic": "+2 Insight and +2 Handler Checks while being Friendly to other creature",
         "bonus": "+2 Insight & Animal Handling",
         "cpCost": 1,
         "desc": "Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.",
-        "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature",
+        "mechanics": "+2 Insight and +2 Handler Checks while being Friendly to other creature",
         "modifiers": [
           {
-            "target": "Handle Animal",
+            "target": "Handler",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Handle Animal"
+            "description": "+2 to Handler"
           }
         ],
         "rules": "Basic Origin Trait (1 CP).",
         "special_rules": "Basic Origin Trait (1 CP).",
-        "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Handler\n[Rule] Basic Origin Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Handle Animal",
+          "[Modifier] +2 to Handler",
           "[Rule] Basic Origin Trait (1 CP)."
         ]
       },
@@ -586,7 +578,7 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "This world is mostly covered in water, with over 85% of its surface being water of various depths. Habitats include anchored land installations, submerged pressurized domes, floating flotilla cities, and marine research platforms.",
-    "full_text": "### Origin Overview\nThis world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.\n\n### Society Skills (20 SP Pool)\nAthletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)\n\n### Typical Archetypes\nMariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)\n- **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)\n- **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)\n- **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Underwater survival and predator evasion. (+2 Survival Skill Checks)",
+    "full_text": "### Origin Overview\nThis world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.\n\n### Society Skills (20 SP Pool)\nAthletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)\n\n### Typical Archetypes\nMariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)\n- **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)\n- **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handler Checks while being Friendly)\n- **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)\n- **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)\n- **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)\n- **Survival Skills**: Underwater survival and predator evasion. (+2 Survival Skill Checks)",
     "recommended_species": [
       "Aquarian Human",
       "Aquatican (Gen-E)",
@@ -971,25 +963,25 @@ export const DEFAULT_ORIGINS = [
         "tier": "Basic",
         "classification": "Origin Trait",
         "description": "Deep sense of empathy and compassion for sentient beings and spirits.",
-        "mechanic": "+2 Insight and +2 Handle Animal Checks while being Friendly",
+        "mechanic": "+2 Insight and +2 Handler Checks while being Friendly",
         "bonus": "+2 Insight & Animal Handling",
         "cpCost": 1,
         "desc": "Deep sense of empathy and compassion for sentient beings and spirits.",
-        "mechanics": "+2 Insight and +2 Handle Animal Checks while being Friendly",
+        "mechanics": "+2 Insight and +2 Handler Checks while being Friendly",
         "modifiers": [
           {
-            "target": "Handle Animal",
+            "target": "Handler",
             "type": "skill",
             "value": 2,
             "mode": "inherent",
-            "description": "+2 to Handle Animal"
+            "description": "+2 to Handler"
           }
         ],
         "rules": "Basic Origin Trait (1 CP).",
         "special_rules": "Basic Origin Trait (1 CP).",
-        "notes": "[Modifier] +2 to Handle Animal\n[Rule] Basic Origin Trait (1 CP).",
+        "notes": "[Modifier] +2 to Handler\n[Rule] Basic Origin Trait (1 CP).",
         "notesList": [
-          "[Modifier] +2 to Handle Animal",
+          "[Modifier] +2 to Handler",
           "[Rule] Basic Origin Trait (1 CP)."
         ]
       },
@@ -1189,7 +1181,7 @@ export const DEFAULT_ORIGINS = [
       }
     ],
     "description": "Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them metaphysically active. Adept Occupations and Metafocus Disciplines flourish here.",
-    "full_text": "### Origin Overview\nCertain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence. Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs. Adept Occupations (and Metafocus Disciplines) are more common in these worlds.\n\n### Society Skills (20 SP Pool)\nAlertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)\n\n### Typical Archetypes\nArcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handle Animal Checks while being Friendly)\n- **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)\n- **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)\n- **Peaceful Nature**: Calming presence and mediation. (+2 to Diplomacy for peaceful meditations)\n- **Problem-Solving Skills**: Contemplative mental acuity. (Once per Day may reroll a Mental Skill Check)\n- **Shared Wisdom**: Guidance and tactical counsel. (Aid and Instruct checks made at Advantage)\n- **Spiritual Awareness**: Psychic and arcane resonance. (+1 to Attune and one Metafocus Skill)",
+    "full_text": "### Origin Overview\nCertain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence. Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs. Adept Occupations (and Metafocus Disciplines) are more common in these worlds.\n\n### Society Skills (20 SP Pool)\nAlertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)\n\n### Typical Archetypes\nArcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy\n\n### Origin Traits (Select 2 Free; Additional 1 CP each)\n- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handler Checks while being Friendly)\n- **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)\n- **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)\n- **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)\n- **Peaceful Nature**: Calming presence and mediation. (+2 to Diplomacy for peaceful meditations)\n- **Problem-Solving Skills**: Contemplative mental acuity. (Once per Day may reroll a Mental Skill Check)\n- **Shared Wisdom**: Guidance and tactical counsel. (Aid and Instruct checks made at Advantage)\n- **Spiritual Awareness**: Psychic and arcane resonance. (+1 to Attune and one Metafocus Skill)",
     "recommended_species": [
       "Alterian",
       "Whisper",
@@ -1293,11 +1285,11 @@ export const DEFAULT_ORIGINS = [
         "name": "Intuition",
         "tier": "Basic",
         "classification": "Origin Trait",
-        "description": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+        "description": "Heightened sixth sense allowing the operator to anticipate predatory ambushes and sudden cave-ins.",
         "mechanic": "Re-Roll any one failed Perception check per day",
         "bonus": "1/Day Perception Reroll",
         "cpCost": 1,
-        "desc": "Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.",
+        "desc": "Heightened sixth sense allowing the operator to anticipate predatory ambushes and sudden cave-ins.",
         "mechanics": "Re-Roll any one failed Perception check per day",
         "modifiers": [],
         "rules": "Basic Origin Trait (1 CP).",
@@ -2542,8 +2534,7 @@ export const DEFAULT_ORIGINS = [
         "notes": "[Modifier] +5 DR\n[Rule] Prerequisite: Stamina 1.\n[Prerequisite] Stamina 1",
         "notesList": [
           "[Modifier] +5 DR",
-          "[Rule] Prerequisite: Stamina 1.",
-          "[Prerequisite] Stamina 1"
+          "[Rule] Prerequisite: Stamina 1."
         ]
       }
     ],
@@ -3358,8 +3349,7 @@ export const DEFAULT_ORIGINS = [
         "notes": "[Modifier] Advantage on Contacts Gather Information Checks\n[Rule] Prerequisite: Charisma 1.\n[Prerequisite] Charisma 1",
         "notesList": [
           "[Modifier] Advantage on Contacts Gather Information Checks",
-          "[Rule] Prerequisite: Charisma 1.",
-          "[Prerequisite] Charisma 1"
+          "[Rule] Prerequisite: Charisma 1."
         ]
       },
       {
@@ -3551,7 +3541,8 @@ export const DEFAULT_ORIGINS = [
         "notes": "[Modifier] +2 to Athletics\n[Modifier] +2 to Stealth",
         "notesList": [
           "[Modifier] +2 to Athletics",
-          "[Modifier] +2 to Stealth"
+          "[Modifier] +2 to Stealth",
+          "[Rule] Basic Origin Trait (1 CP)."
         ]
       }
     ],
@@ -3590,3 +3581,4 @@ export const DEFAULT_ORIGINS = [
     "negative_keywords": "untamed-wilderness, pristine-glacial-tundra, desert-sand-dunes, lonely-deep-space-station, pastoral-farming-valley, quiet-ancient-hermitage, submerged-oceanic-trench, feral-jungle-canopy"
   }
 ];
+

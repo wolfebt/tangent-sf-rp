@@ -70,7 +70,7 @@ export const DiceProvider = ({ children }) => {
         targetNumber: config.targetNumber !== undefined ? config.targetNumber : (config.targetDC !== undefined ? config.targetDC : ''),
         targetDC: config.targetDC !== undefined ? config.targetDC : (config.targetNumber !== undefined ? config.targetNumber : ''),
         rollMode: rMode,
-        characterName: config.characterName || prev.characterName || 'Operative',
+        characterName: config.characterName || prev.characterName || 'Operator',
         targetChannelId: config.targetChannelId || null,
         autoRoll: config.autoRoll !== undefined ? !!config.autoRoll : false,
         rollId,

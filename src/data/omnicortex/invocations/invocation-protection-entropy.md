@@ -50,6 +50,6 @@ Parameters:
 Effect Description:  
 Grants resistance to specific alignments or metaphysical influences.  
 **Scaling Function:**
-* **Integrity:** Bonus to AC/Saves = +1 per Stage.  
+* **Integrity:** Bonus to Defense/Saves = +1 per Stage.  
 * **Duration:** 10 Minutes per Stage.
 ###

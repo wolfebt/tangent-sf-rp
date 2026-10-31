@@ -144,7 +144,7 @@ export const CANONICAL_CONDITIONS = [
     severity: 'medium',
     category: 'Metaphysics',
     tickTiming: 'turn_start',
-    description: 'Essence feedback overload. Operative cannot cast Tier 2+ Invocations and suffers -2 to Willpower saves.',
+    description: 'Essence feedback overload. Operator cannot cast Tier 2+ Invocations and suffers -2 to Willpower saves.',
     defaultDuration: 2,
     defaultDamage: 0,
     damageType: 'none',
@@ -175,7 +175,7 @@ export const CANONICAL_CONDITIONS = [
     severity: 'critical',
     category: 'Mortality',
     tickTiming: 'turn_start',
-    description: 'Health & Vitality at 0. Operative is comatose. Death clock ticks down each round equal to Stamina score.',
+    description: 'Health & Vitality at 0. Operator is comatose. Death clock ticks down each round equal to Stamina score.',
     defaultDuration: null,
     defaultDamage: 0,
     damageType: 'death_clock',
@@ -189,7 +189,7 @@ export const CANONICAL_CONDITIONS = [
     severity: 'buff',
     category: 'Mortality',
     tickTiming: 'none',
-    description: 'Trauma halted by med-gel or resuscitation. Death clock is frozen; operative remains unconscious until healed.',
+    description: 'Trauma halted by med-gel or resuscitation. Death clock is frozen; operator remains unconscious until healed.',
     defaultDuration: null
   },
   {
@@ -274,7 +274,7 @@ export const evaluateTokenConditionsOnTurnStart = (token, options = {}) => {
           });
         }
       } else {
-        // Biological Operative
+        // Biological Operator
         if (def.targetPool === 'vitality') {
           const curVit = vitality?.current ?? 30;
           const newVit = Math.max(0, curVit - dmg);

@@ -120,7 +120,7 @@ export const SelectivePrintModal = ({
                 ADE Selective Print & Publishing Studio
               </h3>
               <p className="text-[10px] text-slate-400 font-mono">
-                Selectively compose fiction manuscripts, tactical adventure modules, or GM cheat cards
+                Selectively compose fiction manuscripts, tactical adventure modules, or Architect reference cards
               </p>
             </div>
           </div>
@@ -164,10 +164,10 @@ export const SelectivePrintModal = ({
                     ? 'bg-amber-950 text-amber-300 border border-amber-500/50 shadow-xs'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
-                title="Index Card Deck for GM Tabletop"
+                title="Index Card Deck for Architect Tabletop"
               >
                 <Layers size={11} />
-                <span>GM Cards</span>
+                <span>Architect Cards</span>
               </button>
             </div>
 
@@ -304,15 +304,15 @@ export const SelectivePrintModal = ({
               </div>
             )}
 
-            {/* 4. GM READ-ALOUD BOXED CARDS */}
+            {/* 4. ARCHITECT READ-ALOUD BOXED CARDS */}
             {selectedSections.readAloud && (
               <div className="mb-6 pb-6 border-b border-slate-300 space-y-3">
                 <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
-                  GM Sensory Read-Aloud Boxed Text
+                  Architect Sensory Read-Aloud Boxed Text
                 </h3>
                 <div className="border-2 border-slate-800 bg-slate-50 p-4 rounded text-xs italic font-serif leading-relaxed text-slate-900">
                   <strong className="block font-sans not-italic font-bold uppercase tracking-wider text-[10px] text-slate-800 mb-1">
-                    📢 Boxed Read-Aloud Description (To Be Read to Players upon Sector Arrival):
+                    📢 Boxed Read-Aloud Description (To Be Read to Operators upon Sector Arrival):
                   </strong>
                   "{activeScenario?.content 
                     ? activeScenario.content.replace(/<[^>]+>/g, ' ').slice(0, 500)
@@ -433,7 +433,7 @@ export const SelectivePrintModal = ({
             {selectedSections.handouts && clues.length > 0 && (
               <div className="space-y-3">
                 <h3 className="font-bold font-sans uppercase tracking-wider text-xs border-b border-black pb-1 text-slate-900">
-                  Player Handouts &amp; Intelligence Logs ({clues.length})
+                  Operator Handouts &amp; Intelligence Logs ({clues.length})
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {clues.map((clue, idx) => (
@@ -445,7 +445,7 @@ export const SelectivePrintModal = ({
                         "{clue.content || clue.fields?.information || 'Encrypted tactical transmission recovered from sector terminal.'}"
                       </p>
                       <div className="text-[9px] text-slate-500 text-right">
-                        ✂️ Player Handout Cut-Out
+                        ✂️ Operator Handout Cut-Out
                       </div>
                     </div>
                   ))}

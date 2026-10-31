@@ -85,7 +85,7 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
     const defaultNav = [
       { id: 'nav_hub', title: 'Go to Command Hub', subtitle: 'Main Dashboard & Operations', icon: <Compass size={16} className="text-cyan-400" />, action: () => { navigate('/'); onClose(); } },
       { id: 'nav_guide', title: 'Open Comprehensive User Guide', subtitle: 'System Manual & 10-App Documentation', icon: <BookOpen size={16} className="text-cyan-300" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'hub' } })); onClose(); } },
-      { id: 'nav_folio', title: 'Go to Persona Folio', subtitle: 'Hero Roster & Operative Sheets', icon: <User size={16} className="text-cyan-400" />, action: () => { navigate('/folio'); onClose(); } },
+      { id: 'nav_folio', title: 'Go to Persona Folio', subtitle: 'Hero Roster & Operator Sheets', icon: <User size={16} className="text-cyan-400" />, action: () => { navigate('/folio'); onClose(); } },
       { id: 'nav_guide_folio', title: 'User Guide: Persona Folio', subtitle: 'CP Economy, 7 Tabs, 31 Narrative Fields', icon: <BookOpen size={16} className="text-cyan-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'folio' } })); onClose(); } },
       { id: 'nav_ade', title: 'Go to ADE Live Studio', subtitle: 'Consolidated Story Weaver, Tactical Maps & The Stage', icon: <Layers size={16} className="text-purple-400" />, action: () => { navigate('/foundry/live-studio'); onClose(); } },
       { id: 'nav_story', title: 'Go to Story Weaver', subtitle: 'Scenario Trees & Campaign Arcs', icon: <BookOpen size={16} className="text-purple-400" />, action: () => { navigate('/foundry/story'); onClose(); } },
@@ -148,7 +148,7 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
         results.push({
           id: `hero_${heroId || heroName}`,
           title: heroName || 'Unnamed Hero',
-          subtitle: `Hero Persona • ${heroSpecies || 'Human'} • ${heroConcept || 'Operative'}`,
+          subtitle: `Hero Persona • ${heroSpecies || 'Human'} • ${heroConcept || 'Operator'}`,
           icon: <User size={16} className="text-amber-400" />,
           action: () => { 
             navigate(`/folio?charId=${heroId || ''}`); 

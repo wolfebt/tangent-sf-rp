@@ -1652,7 +1652,7 @@ export const CodexIngestionEngine = ({
               </div>
 
               <div>
-                <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Architect / GM Note</label>
+                <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Architect Note</label>
                 <input
                   type="text"
                   value={revisionForm.note || ''}
@@ -1731,7 +1731,7 @@ export const CodexIngestionEngine = ({
           { key: 'modifiers', label: 'Modifiers Array', isJson: true },
           { key: 'mechanic', label: 'Game Mechanics' },
           { key: 'description', label: 'Lore / Description' },
-          { key: 'note', label: 'Architect / GM Notes' },
+          { key: 'note', label: 'Architect Notes' },
           { key: 'stigma', label: 'Social Stigma' },
           { key: 'homeworld', label: 'Homeworld' },
           { key: 'category', label: 'Category' },

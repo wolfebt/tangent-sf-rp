@@ -20,7 +20,7 @@ const OperativeTacticalHud = ({
   const [activeAttackIndex, setActiveAttackIndex] = useState(0);
 
   const activeToken = userControlledTokens.find(t => t.id === activeTokenId) || userControlledTokens[0] || {
-    label: 'Operative',
+    label: 'Operator',
     hp: 30,
     maxHp: 30,
     sp: 10,
@@ -53,7 +53,7 @@ const OperativeTacticalHud = ({
       onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 120, `USED: ${item}`, 'heal');
     }
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[OPERATIVE TACTICAL]: ${activeToken.label || 'Operative'} deployed ${item}`);
+      onBroadcastMessage(`[OPERATOR TACTICAL]: ${activeToken.label || 'Operator'} deployed ${item}`);
     }
   };
 
@@ -65,7 +65,7 @@ const OperativeTacticalHud = ({
           <span className="text-[10px] uppercase font-bold text-slate-400 shrink-0">Controlled Units:</span>
           {userControlledTokens.length === 0 ? (
             <span className="text-xs text-cyan-300 font-mono font-bold px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-800">
-              {activeToken.label || 'Operative'} (Active)
+              {activeToken.label || 'Operator'} (Active)
             </span>
           ) : (
             userControlledTokens.map(tok => (
@@ -203,7 +203,7 @@ const OperativeTacticalHud = ({
           </button>
         </div>
 
-        {/* Quick Operative Consumables */}
+        {/* Quick Operator Consumables */}
         <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-1.5">
           <button
             type="button"

@@ -26,7 +26,7 @@ negative_keywords: "isolated, anti-social, inarticulate"
 * **Ability:** Charisma  
 * **Description:** Bluff is the skill of lying convincingly. It reflects a character's ability to deceive others and manipulate situations to their advantage. Bluff is used whenever a character needs to convince someone of something that isn't true, whether it's to avoid danger or to gain information. This can include things like lying about one's identity, pretending to be someone else, or making up a story to cover up a mistake. The ability to lie convincingly, deceive others, and manipulate situations to one’s advantage. It covers everything from little white lies to elaborate cons and feints in combat.  
 * **Mechanics:**  
-  * **Deceive:** Opposed check vs. **Insight (Sense Motive)**.  
+  * **Deceive:** Opposed check vs. **Insight**.  
   * **Feint:** Opposed check vs. **Insight** (or Defense) in combat to deny a target their Agility bonus to Defense for the next attack.  
   * **Create Distraction:** CR 15+ to momentarily divert attention (often used to Hide).  
 * **Specialties:**  

@@ -25,7 +25,7 @@ mechanic: >-
   spell), you add **\+1 Effect Die** (or \+5 to the effective Skill Check result
   for non-damage spells) to the final release.  
 
-  * **Limit:** You may channel for a number of rounds equal to your Constitution
+  * **Limit:** You may channel for a number of rounds equal to your Stamina
   or Will modifier (whichever is higher). If interrupted (taking damage), you
   must make a Concentration (Attune) check or lose the energy.
 ---
@@ -40,4 +40,4 @@ The character can hold and build a metaphysical charge over time, gathering ambi
 
 ## Mechanics & Benefit
 You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\+1 Effect Die** (or \+5 to the effective Skill Check result for non-damage spells) to the final release.  
-* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.
+* **Limit:** You may channel for a number of rounds equal to your Stamina or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.

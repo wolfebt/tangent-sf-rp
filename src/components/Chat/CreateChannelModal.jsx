@@ -183,7 +183,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
           {!currentUser && (
             <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/40 flex items-center justify-between gap-3 text-xs font-mono">
               <div className="space-y-0.5">
-                <span className="text-cyan-300 font-bold block">OPERATIVE IN LOCAL MODE</span>
+                <span className="text-cyan-300 font-bold block">OPERATOR IN LOCAL MODE</span>
                 <span className="text-slate-400 text-[10.5px] block">
                   Frequencies will be initialized locally. To broadcast across the cloud Terran Net, authenticate with Google.
                 </span>

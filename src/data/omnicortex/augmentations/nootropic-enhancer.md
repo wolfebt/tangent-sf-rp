@@ -7,7 +7,7 @@ nodes: 5
 cost: 10240
 design_dc: 25
 craft_dc: 25
-description: +1/+2/+3 Intelligence.
+description: +1/+2/+3 Intellect.
 stigma: None
 type: Cybernetic
 costs:
@@ -39,5 +39,5 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **8\. TL4 Enhanced Augmentations**
 
-**Effect:** +1/+2/+3 Intelligence.
+**Effect:** +1/+2/+3 Intellect.
 **Nodes:** 5

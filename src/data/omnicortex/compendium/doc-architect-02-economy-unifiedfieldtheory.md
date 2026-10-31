@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","economy","02.economy.unifiedfieldtheory","matrix"]
-updatedAt: "2026-10-14T06:04:05.816Z"
+updatedAt: "2026-10-31T11:30:42.593Z"
 costs:
   bp: 0
   credits: 0
@@ -295,7 +295,7 @@ This exponential scaling of "Tier Multipliers" counters the exponential growth o
 
 ## **6\. Comprehensive Reference Tables**
 
-The following tables serve as the GM's primary interface for the Tangent Economic Matrix.
+The following tables serve as the Architect's primary interface for the Tangent Economic Matrix.
 
 #### 
 
@@ -391,7 +391,7 @@ This confirms that the Tangent math holds up at the macro scale. A major shipyar
 **Scenario:** A high-level party pools their money to buy a Nanoforge (x1,000 multiplier) and tries to flood the market with Plasma Rifles (DC 20).  
 **The Check:** The economy is not a bottomless pit. Selling items requires a Buyer.  
 **Market Saturation:** Each settlement has a "Wealth Limit" (similar to Skyrim shopkeepers or D\&D settlement caps). A village cannot buy 100 Plasma Rifles. A metropolis can, but prices will crash (Supply/Demand).  
-**GM Tool:** The GM imposes a "Mercantile DC" to find buyers for bulk goods. The DC increases with the quantity sold.
+**Architect Tool:** The Architect imposes a "Mercantile DC" to find buyers for bulk goods. The DC increases with the quantity sold.
 
 * Sell 1 Rifle: DC 10 (Easy).  
 * Sell 10 Rifles: DC 20 (Hard).  
@@ -402,7 +402,7 @@ This confirms that the Tangent math holds up at the macro scale. A major shipyar
 ### **8.2 The "Artifact" Problem**
 
 Scenario: Players find a Precursor Artifact. What is it worth?  
-Resolution: The GM assigns a Craft DC based on its function.
+Resolution: The Architect assigns a Craft DC based on its function.
 
 * Does it kill gods? DC 60\.  
 * Value: 10 \\times 4^{(60/5)} \= 10 \\times 4^{12} \\approx 167 Million Credits.

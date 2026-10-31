@@ -67,14 +67,14 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-sm text-cyan-200 uppercase tracking-wider">
-                  Tracked Modifications &amp; GM Review
+                  Tracked Modifications &amp; Architect Review
                 </h3>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/50">
                   {modifications.length} Changes
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">
-                Persona: <strong className="text-white">{characterData['char-name'] || 'Unnamed Persona'}</strong> &bull; Player Override Audit Log
+                Persona: <strong className="text-white">{characterData['char-name'] || 'Unnamed Persona'}</strong> &bull; Operator Override Audit Log
               </p>
             </div>
           </div>
@@ -92,7 +92,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
         <div className="grid grid-cols-4 gap-2 p-3 bg-slate-950 border-b border-slate-850 font-mono text-center text-xs">
           <div className="p-2 rounded bg-[#121927] border border-amber-500/40">
             <span className="text-amber-400 font-bold block text-sm">{pendingCount}</span>
-            <span className="text-[10px] text-amber-200/80 uppercase">Pending GM</span>
+            <span className="text-[10px] text-amber-200/80 uppercase">Pending Architect</span>
           </div>
           <div className="p-2 rounded bg-[#121927] border border-emerald-500/40">
             <span className="text-emerald-400 font-bold block text-sm">{acceptedCount}</span>
@@ -115,7 +115,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
               <ShieldCheck size={32} className="mx-auto text-cyan-400/60 mb-2" />
               <div className="text-sm font-bold text-slate-300">No Tracked Modifications</div>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
-                Your character has not logged any active game modifications. While in Player Override, modifications to your sheet will be recorded here for GM review.
+                Your character has not logged any active game modifications. While in Operator Override, modifications to your sheet will be recorded here for Architect review.
               </p>
             </div>
           ) : (
@@ -189,7 +189,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
                     <div className="text-xs text-slate-300 bg-slate-950/60 p-2 rounded border border-slate-800 mb-2 flex items-start gap-1.5">
                       <MessageSquareQuote size={13} className="text-cyan-400 shrink-0 mt-0.5" />
                       <div>
-                        <span className="text-[10px] text-cyan-400 font-bold uppercase block">Player Note:</span>
+                        <span className="text-[10px] text-cyan-400 font-bold uppercase block">Operator Note:</span>
                         <span>{mod.playerNote}</span>
                       </div>
                     </div>
@@ -207,7 +207,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
                       <MessageSquareQuote size={13} className="shrink-0 mt-0.5" />
                       <div>
                         <span className="text-[10px] font-bold uppercase block">
-                          GM Reply {isAdjusted ? 'Suggestion' : 'Feedback'}:
+                          Architect Reply {isAdjusted ? 'Suggestion' : 'Feedback'}:
                         </span>
                         <span>{mod.gmFeedback}</span>
                       </div>
@@ -237,7 +237,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
         <div className="p-3 bg-[#0d121c] border-t border-slate-850 flex items-center justify-between text-[11px] text-slate-400 font-mono">
           <div className="flex items-center gap-1.5 text-cyan-300/80">
             <ShieldCheck size={14} className="text-cyan-400" />
-            <span>Persona Folio is strictly player property. GM cannot directly edit or delete this sheet.</span>
+            <span>Persona Folio is strictly Operator property. Architect cannot directly edit or delete this sheet.</span>
           </div>
 
           <button

@@ -39,7 +39,7 @@ export const COMPLICATION_TEMPLATES = [
     title: 'Tactical Curveball',
     icon: CrosshairIcon,
     color: 'amber',
-    text: 'An enemy Sniper gains elevated catwalk vantage! All operatives outside of full cover suffer a -2 Defense DC penalty.'
+    text: 'An enemy Sniper gains elevated catwalk vantage! All operators outside of full cover suffer a -2 Defense DC penalty.'
   },
   {
     category: 'morale',
@@ -60,7 +60,7 @@ export const COMPLICATION_TEMPLATES = [
     title: 'Catastrophic Meltdown Countdown',
     icon: Bomb,
     color: 'purple',
-    text: 'A reactor failsafe triggers a 3-round self-destruct sequence! An operative must pass a CR 16 Technology check to stabilize the core.'
+    text: 'A reactor failsafe triggers a 3-round self-destruct sequence! An operator must pass a CR 16 Technology check to stabilize the core.'
   }
 ];
 
@@ -138,7 +138,7 @@ export default function EncounterTensionWidget({
       color = 'text-rose-400';
       bgColor = 'bg-rose-500';
       borderColor = 'border-rose-500/80';
-      advice = 'CRITICAL DANGER: High risk of operative loss. Offer high-stakes heroic gambits, parley, or dramatic retreats.';
+      advice = 'CRITICAL DANGER: High risk of operator loss. Offer high-stakes heroic gambits, parley, or dramatic retreats.';
     } else if (tensionScore >= 60) {
       tier = 'High Stakes';
       color = 'text-orange-400';
@@ -198,10 +198,10 @@ export default function EncounterTensionWidget({
           </div>
           <div>
             <h3 className="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-              Encounter Tension &amp; Co-GM Director
+              Encounter Tension &amp; Co-Architect Director
             </h3>
             <span className="text-[9px] font-mono text-slate-400">
-              Round {roundNumber} · {telemetry.heroCount} Operatives vs. {telemetry.enemyCount} Adversaries
+              Round {roundNumber} · {telemetry.heroCount} Operators vs. {telemetry.enemyCount} Adversaries
             </span>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function EncounterTensionWidget({
       {isExpanded && (
         <div className="flex flex-col gap-3 pt-1 border-t border-slate-800 text-xs">
           
-          {/* Pair GM Advisory Banner */}
+          {/* Co-Architect Advisory Banner */}
           <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800/80 flex items-start gap-2 text-[11px] leading-relaxed">
             <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
             <div className="flex flex-col">

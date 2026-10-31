@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-aeldprovidence"
-order: 123
+order: 129
 perspective: "operator"
 entry_type: "Primary Faction Enclave"
 tl: 3

@@ -545,8 +545,8 @@ export const DEFAULT_ARCHETYPES = [
       "Impyrium"
     ],
     "primary_attribute": "Charisma",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Charisma (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Charisma (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Intimidation",
       "Leadership",
@@ -642,9 +642,9 @@ export const DEFAULT_ARCHETYPES = [
       "Coalition (Settlers)",
       "Dracon Dynasty (Peasantry)"
     ],
-    "primary_attribute": "Constitution",
+    "primary_attribute": "Stamina",
     "secondary_attribute": "Wisdom",
-    "key_attributes": "Constitution (Primary), Wisdom (Secondary).",
+    "key_attributes": "Stamina (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Knowledge (Survival)",
       "Vocation (Farming/Laborer)",
@@ -690,9 +690,9 @@ export const DEFAULT_ARCHETYPES = [
       "Impyrium (Imperial Legion)",
       "Dynasty (Dragoons)"
     ],
-    "primary_attribute": "Constitution",
+    "primary_attribute": "Stamina",
     "secondary_attribute": "Strength",
-    "key_attributes": "Constitution (Primary), Strength (Secondary).",
+    "key_attributes": "Stamina (Primary), Strength (Secondary).",
     "essential_skills": [
       "Athletics",
       "Intimidation",
@@ -890,8 +890,8 @@ export const DEFAULT_ARCHETYPES = [
       "Mekan (Drones)"
     ],
     "primary_attribute": "Strength",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Strength (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Strength (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Athletics",
       "Vocation (Laborer)",
@@ -939,9 +939,9 @@ export const DEFAULT_ARCHETYPES = [
       "Dynasty (House Guard)",
       "Syndicate (Asset Protection)"
     ],
-    "primary_attribute": "Constitution",
+    "primary_attribute": "Stamina",
     "secondary_attribute": "Perception",
-    "key_attributes": "Constitution (Primary), Perception (Secondary).",
+    "key_attributes": "Stamina (Primary), Perception (Secondary).",
     "essential_skills": [
       "Athletics",
       "Alertness",
@@ -1087,9 +1087,9 @@ export const DEFAULT_ARCHETYPES = [
       "Outworlds",
       "Coalition"
     ],
-    "primary_attribute": "Constitution",
+    "primary_attribute": "Stamina",
     "secondary_attribute": "Strength",
-    "key_attributes": "Constitution (Primary), Strength (Secondary).",
+    "key_attributes": "Stamina (Primary), Strength (Secondary).",
     "essential_skills": [
       "Vocation (Laborer)",
       "Knowledge (Survival)",
@@ -1238,8 +1238,8 @@ export const DEFAULT_ARCHETYPES = [
       "Outworlds (Survivors)"
     ],
     "primary_attribute": "Strength or Agility",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Strength or Agility (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Strength or Agility (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Acrobatics",
       "Alertness",
@@ -1487,8 +1487,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Agility",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Agility (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Agility (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Athletics",
       "Acrobatics",
@@ -1793,7 +1793,7 @@ export const DEFAULT_ARCHETYPES = [
       "Knowledge (Survival)",
       "Acrobatics",
       "Alertness",
-      "Knowledge (Geography)"
+      "Knowledge (Nature)"
     ],
     "signature_features": [
       "Pathfinder",
@@ -1837,8 +1837,8 @@ export const DEFAULT_ARCHETYPES = [
       "Coalition"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Wisdom (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Wisdom (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Knowledge (Survival)",
       "Knowledge (Navigation)",
@@ -2035,8 +2035,8 @@ export const DEFAULT_ARCHETYPES = [
       "Coalition (Rebels)"
     ],
     "primary_attribute": "Strength",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Strength (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Strength (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Intimidation",
       "Athletics",
@@ -2483,9 +2483,9 @@ export const DEFAULT_ARCHETYPES = [
       "Coalition (Wanderers)",
       "Ascendancy"
     ],
-    "primary_attribute": "Constitution",
+    "primary_attribute": "Stamina",
     "secondary_attribute": "Wisdom",
-    "key_attributes": "Constitution (Primary), Wisdom (Secondary).",
+    "key_attributes": "Stamina (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Pilot",
       "Knowledge (Survival)",
@@ -2734,8 +2734,8 @@ export const DEFAULT_ARCHETYPES = [
       "Outworlds"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Wisdom (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Wisdom (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Insight",
       "Alertness",
@@ -3233,8 +3233,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Charisma",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Charisma (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Charisma (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Diplomacy",
       "Insight",
@@ -3382,8 +3382,8 @@ export const DEFAULT_ARCHETYPES = [
       "Impyrium (Sanctioned Psykers)"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Wisdom (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Wisdom (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Insight",
       "Diplomacy",
@@ -3431,8 +3431,8 @@ export const DEFAULT_ARCHETYPES = [
       "Coalition"
     ],
     "primary_attribute": "Charisma",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Charisma (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Charisma (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Athletics",
       "Diplomacy",
@@ -3732,8 +3732,8 @@ export const DEFAULT_ARCHETYPES = [
       "Outworlds (Shamans)"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Wisdom (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Wisdom (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Discipline (Entropy \\- Order (Nature/Life))",
       "Insight",
@@ -3885,7 +3885,7 @@ export const DEFAULT_ARCHETYPES = [
     "secondary_attribute": "Wisdom",
     "key_attributes": "Intellect (Primary), Wisdom (Secondary).",
     "essential_skills": [
-      "Knowledge (Architecture)",
+      "Vocation (Architect)",
       "Knowledge (Technology)",
       "Vocation (Engineer)"
     ],
@@ -3986,7 +3986,7 @@ export const DEFAULT_ARCHETYPES = [
     "essential_skills": [
       "Academics",
       "Knowledge (Technology)",
-      "Knowledge (Astrophysics)",
+      "Knowledge (Physics)",
       "Alertness"
     ],
     "signature_features": [
@@ -4135,7 +4135,7 @@ export const DEFAULT_ARCHETYPES = [
     "essential_skills": [
       "Knowledge (Medicine)",
       "Knowledge (Technology)",
-      "Knowledge (Biology)",
+      "Knowledge (Science)",
       "Vocation (Engineer)"
     ],
     "signature_features": [
@@ -4381,7 +4381,7 @@ export const DEFAULT_ARCHETYPES = [
     "secondary_attribute": "Charisma",
     "key_attributes": "Intellect (Primary), Charisma (Secondary).",
     "essential_skills": [
-      "Knowledge (Languages)",
+      "Knowledge (Language)",
       "Diplomacy",
       "Insight",
       "Knowledge (History)"
@@ -4428,8 +4428,8 @@ export const DEFAULT_ARCHETYPES = [
       "Auluran (Shamans)"
     ],
     "primary_attribute": "Intellect",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Intellect (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Intellect (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Alertness",
       "Two Disciplines (e.g",
@@ -4627,8 +4627,8 @@ export const DEFAULT_ARCHETYPES = [
       "Entari Combine"
     ],
     "primary_attribute": "Intellect",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Intellect (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Intellect (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Academics",
       "Knowledge (Survival)",
@@ -4677,8 +4677,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy (Research)"
     ],
     "primary_attribute": "Intellect",
-    "secondary_attribute": "Constitution",
-    "key_attributes": "Intellect (Primary), Constitution (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Intellect (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Knowledge (Investigation)",
       "Knowledge (History)",
@@ -4982,7 +4982,7 @@ export const DEFAULT_ARCHETYPES = [
     "essential_skills": [
       "Knowledge (Survival)",
       "Navigation",
-      "Knowledge (Geology)",
+      "Knowledge (Nature)",
       "Alertness"
     ],
     "signature_features": [
@@ -5030,10 +5030,10 @@ export const DEFAULT_ARCHETYPES = [
     "secondary_attribute": "Charisma",
     "key_attributes": "Intellect (Primary), Charisma (Secondary).",
     "essential_skills": [
-      "Knowledge (Xenology)",
+      "Knowledge (Culture)",
       "Diplomacy",
       "Insight",
-      "Linguistics"
+      "Language"
     ],
     "signature_features": [
       "Cultural Sensitivity",

@@ -10,10 +10,10 @@ bp: 1
 costs:
   cp: 1
   bp: 1
-description: "Signature trait of The Linguist (Savant). You gain a +2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts."
-mechanic: "+2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts"
+description: "Signature trait of The Linguist (Savant). You gain a +2 bonus to Knowledge (Language) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts."
+mechanic: "+2 bonus to Knowledge (Language) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts"
 rules: "Signature Trait (1 CP) — The Linguist (Savant)."
-modifiers: [{"target":"Knowledge Linguistics","type":"skill","value":2,"mode":"inherent","description":"+2 to Knowledge Linguistics"}]
+modifiers: [{"target":"Language","type":"skill","value":2,"mode":"inherent","description":"+2 to Language"}]
 ---
 # Polyglot
 
@@ -26,4 +26,4 @@ modifiers: [{"target":"Knowledge Linguistics","type":"skill","value":2,"mode":"i
 Signature trait of The Linguist (Savant). Specialized expertise and intuition in understanding spoken or written languages, including alien dialects and ancient scripts.
 
 ## Mechanics & Benefit
-+2 bonus to Knowledge (Linguistics) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts
++2 bonus to Knowledge (Language) checks and +2 bonus on any checks related to understanding spoken or written languages, including alien dialects and ancient scripts

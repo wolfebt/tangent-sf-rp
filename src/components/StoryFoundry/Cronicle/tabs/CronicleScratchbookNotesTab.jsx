@@ -14,7 +14,7 @@ export default function CronicleScratchbookNotesTab({
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-900/90 border border-slate-800 rounded-xl shrink-0">
         <div className="flex flex-col gap-0.5">
           <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5 font-mono">
-            <Edit3 size={14} /> GM Campaign Scratchpad &amp; Directives
+            <Edit3 size={14} /> Architect Campaign Scratchpad &amp; Directives
           </h3>
           <p className="text-[11px] text-slate-400 font-sans">
             Author running campaign directives, unresolved plot hooks, and rules reminders. These notes are automatically compiled into the Scratchbook and injected into AIME living memory prompts.
@@ -74,7 +74,7 @@ export default function CronicleScratchbookNotesTab({
       <textarea
         value={scratchNotes}
         onChange={(e) => setScratchNotes(e.target.value)}
-        placeholder="Author ongoing GM campaign notes, session recaps, unresolved mystery threads, and tactical rules reminders here..."
+        placeholder="Author ongoing Architect campaign notes, session recaps, unresolved mystery threads, and tactical rules reminders here..."
         className="flex-1 w-full p-4 bg-slate-950/90 border border-slate-800 rounded-xl font-mono text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 resize-none leading-relaxed select-text shadow-inner"
       />
 

@@ -111,7 +111,7 @@ export const isPersonaEmptyTemplate = (char) => {
   if (char.isNewBlank) return false;
 
   const name = (char['char-name'] || char.name || '').trim();
-  const isDefaultName = !name || name.toLowerCase() === 'unnamed persona' || name.toLowerCase() === 'unnamed operative';
+  const isDefaultName = !name || name.toLowerCase() === 'unnamed persona' || name.toLowerCase() === 'unnamed operative' || name.toLowerCase() === 'unnamed operator';
 
   const hasConcept = Boolean(char['char-concept'] && char['char-concept'].trim() && char['char-concept'].trim().toLowerCase() !== 'unnamed persona' && char['char-concept'].trim().toLowerCase() !== 'unnamed operative');
   const hasArchetype = Boolean(char['char-archetype'] && char['char-archetype'].trim());

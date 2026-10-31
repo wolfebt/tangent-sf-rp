@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 86
+order: 92
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3

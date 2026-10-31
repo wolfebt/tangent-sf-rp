@@ -538,7 +538,7 @@ export function rollDice(expression = '2d10', options = {}) {
       margin: checkResolution ? checkResolution.margin : null,
       isSuccess: checkResolution ? (checkResolution.outcome === 'Critical Success' || checkResolution.outcome === 'Overwhelming Success' || checkResolution.outcome === 'Success') : null,
       outcome: checkResolution ? checkResolution.outcome : null,
-      characterName: options.characterName || 'Operative',
+      characterName: options.characterName || 'Operator',
       label: options.label || 'Action Check',
       timestamp: new Date().toISOString(),
       odds: calculateRollOdds(cleanExpr, {
@@ -707,7 +707,7 @@ export function rollDice(expression = '2d10', options = {}) {
       ? (checkResolution.outcome === 'Critical Success' || checkResolution.outcome === 'Overwhelming Success' || checkResolution.outcome === 'Success')
       : (isCrit ? true : isFumble ? false : null),
     outcome: checkResolution ? checkResolution.outcome : (isCrit ? 'Critical Success' : isFumble ? 'Critical Failure' : null),
-    characterName: options.characterName || 'Operative',
+    characterName: options.characterName || 'Operator',
     label: options.label || (baseCount === 1 ? `d${sides} Check` : `${baseCount}d${sides} Check`),
     timestamp: new Date().toISOString(),
     odds: calculateRollOdds(cleanExpr, {

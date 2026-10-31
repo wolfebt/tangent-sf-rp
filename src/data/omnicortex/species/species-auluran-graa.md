@@ -180,7 +180,7 @@ cp_cost: 28
 
 **Quick:** Explosive speed.
 
-**\+1 Feature of Choice:** Versatility slot.
+**\+1 Featureure of Choice:** Versatility slot.
 
 **Stigma:** Animal / Xeno.
 

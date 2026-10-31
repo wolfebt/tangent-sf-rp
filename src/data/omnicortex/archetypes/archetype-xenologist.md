@@ -19,10 +19,10 @@ recommended_factions:
   - Alterian Enclave
   - Ascendancy
 essential_skills:
-  - Knowledge (Xenology)
+  - Knowledge (Culture)
   - Diplomacy
   - Insight
-  - Linguistics
+  - Language
 signature_traits:
   - Cultural Sensitivity
   - Xeno-Linguist
@@ -63,10 +63,10 @@ An expert in alien cultures, biology, and languages.
 Communicating with aliens, identifying xeno-threats, cultural navigation.
 
 ## Essential Skills
-- Knowledge (Xenology)
+- Knowledge (Culture)
 - Diplomacy
 - Insight
-- Linguistics
+- Language
 
 ## Signature Features
 - Cultural Sensitivity

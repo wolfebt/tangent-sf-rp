@@ -1,6 +1,6 @@
 ---
 id: trait-static-bonus-feat
-name: Static Bonus Feat
+name: Static Bonus Feature
 trait_tier: Basic
 trait_type: Species Trait
 category: traits
@@ -8,11 +8,11 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Choose one feat with no prerequisites. All members gain this feat as a bonus
-  feat.
+  Choose one feature with no prerequisites. All members gain this feature as a bonus
+  feature.
 modifiers: []
 ---
-# Static Bonus Feat
+# Static Bonus Feature
 
 **Category**: TRAITS
 **Tier**: Basic
@@ -20,7 +20,7 @@ modifiers: []
 **CP Cost**: 1
 
 ## Description
-Universal racial conditioning that imparts a foundational feat to all members.
+Universal racial conditioning that imparts a foundational feature to all members.
 
 ## Mechanics & Benefit
-Gain one chosen feat with no prerequisites as a bonus feat
+Gain one chosen feature with no prerequisites as a bonus feature

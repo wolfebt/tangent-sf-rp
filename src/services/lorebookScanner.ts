@@ -83,7 +83,7 @@ export function normalizeTriggers(raw: string[] | string | undefined | null): st
  */
 export function compileTriggerRegex(
   patternStr: string = '',
-  userHandle: string = 'Operative',
+  userHandle: string = 'Operator',
   charName: string = 'NPC'
 ): RegExp | null {
   if (!patternStr || typeof patternStr !== 'string') return null;
@@ -91,7 +91,7 @@ export function compileTriggerRegex(
   if (!trimmed) return null;
 
   try {
-    const escapedUser = (userHandle || 'Operative').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedUser = (userHandle || 'Operator').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const escapedChar = (charName || 'NPC').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     // Replace {{user}} and {{char}} placeholders
@@ -344,7 +344,7 @@ export function scanDynamicLorebook({
   activeScenario = null,
   catalog = [],
   storyFlags = {},
-  userHandle = 'Operative',
+  userHandle = 'Operator',
   targetCharName = '',
   config = {}
 }: LorebookScanOptions): LorebookScanResult {

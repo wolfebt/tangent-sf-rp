@@ -178,7 +178,7 @@ Biotechnology
 
 Hive Connection (Davae Collective)
 
-\+1 Feature
+\+1 Featureure
 
 &nbsp;
 

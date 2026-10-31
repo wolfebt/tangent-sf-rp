@@ -19,8 +19,7 @@ mechanic: >-
   As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  
 
   * **Drawback:** It is always active ("Always On"). In areas with overwhelming
-  presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM
-  may impose distraction penalties.
+  presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.
 ---
 # Sense, Uncontrolled
 
@@ -33,4 +32,4 @@ The character is constantly bombarded by sensory input.
 
 ## Mechanics & Benefit
 As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  
-* **Drawback:** It is always active ("Always On"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.
+* **Drawback:** It is always active ("Always On"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.

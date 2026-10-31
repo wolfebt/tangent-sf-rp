@@ -4,7 +4,7 @@ name: "Farmer"
 type: mental
 subtype: "vocations"
 category: skills
-governing_attribute: "Wisdom or Constitution"
+governing_attribute: "Wisdom or Stamina"
 description: "Farmer is the skill of cultivating crops and raising livestock. It reflects a character's ability to manage soil health, plant and harvest crops, and tend to animals. Farmer is used whenever a character needs to produce food, manage agricultural operations, or work with livestock. This can include things like preparing fields, planting seeds, and ensuring animal health."
 specialties:
   - "Hydroponics & Aeroponics: Managing vertical water-nutrient tanks, pH balances, and LED grow-light cycles."
@@ -23,7 +23,7 @@ negative_keywords: "mindless, instinct-only, illiterate"
 
 ### **FARMER**
 
-* **Ability:** Wisdom or Constitution  
+* **Ability:** Wisdom or Stamina  
 * **Description:** Farmer is the skill of cultivating crops and raising livestock. It reflects a character's ability to manage soil health, plant and harvest crops, and tend to animals. Farmer is used whenever a character needs to produce food, manage agricultural operations, or work with livestock. This can include things like preparing fields, planting seeds, and ensuring animal health.  
 * **Mechanics:**  
   * *Crop Management:* CR 15 to ensure a successful harvest despite poor conditions.  

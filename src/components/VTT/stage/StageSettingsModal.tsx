@@ -132,9 +132,9 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
     if (onDeployElement) {
       const element = {
         id: op['character-doc-id'] || op.id || `persona-${Date.now()}`,
-        name: op['char-name'] || op.name || 'Operative',
+        name: op['char-name'] || op.name || 'Operator',
         type: 'Persona',
-        role: typeof op['char-occu'] === 'object' ? op['char-occu']?.name : op['char-occu'] || 'Operative',
+        role: typeof op['char-occu'] === 'object' ? op['char-occu']?.name : op['char-occu'] || 'Operator',
         species: typeof op['char-species'] === 'object' ? op['char-species']?.name : op['char-species'] || 'Human',
         health: op['derived-traits']?.health?.max || op.health?.max || 30,
         vitality: op['derived-traits']?.vitality?.max || op.vitality?.max || 30,
@@ -176,7 +176,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 font-sans">
-                Battlemaps, Operative Token Deployment, Vision Rules &amp; Spectator Link
+                Battlemaps, Operator Token Deployment, Vision Rules &amp; Spectator Link
               </p>
             </div>
           </div>
@@ -222,7 +222,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
             }`}
           >
             <Users size={13} />
-            <span>Operatives ({allOperatives.length})</span>
+            <span>Operators ({allOperatives.length})</span>
           </button>
 
           <button
@@ -338,7 +338,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
             </div>
           )}
 
-          {/* TAB 2: OPERATIVE TOKENS */}
+          {/* TAB 2: OPERATOR TOKENS */}
           {activeTab === 'tokens' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs text-slate-400 px-1">
@@ -350,7 +350,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
 
               {allOperatives.length === 0 ? (
                 <div className="p-8 text-center border border-dashed border-slate-800 rounded-xl">
-                  <p className="text-xs text-slate-400 mb-3">No operative character sheets found in Folio.</p>
+                  <p className="text-xs text-slate-400 mb-3">No operator character sheets found in Folio.</p>
                   <button
                     type="button"
                     onClick={() => {
@@ -359,7 +359,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                     }}
                     className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase rounded-xl cursor-pointer"
                   >
-                    + Create Operative Sheet
+                    + Create Operator Sheet
                   </button>
                 </div>
               ) : (
@@ -367,7 +367,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                   {allOperatives.map((op: any) => {
                     const docId = op['character-doc-id'] || op.id;
                     const isDeployed = deployedTokenIds.has(docId);
-                    const name = op['char-name'] || op.name || 'Operative';
+                    const name = op['char-name'] || op.name || 'Operator';
                     const species = typeof op['char-species'] === 'object' ? op['char-species']?.name : op['char-species'] || 'Species N/A';
                     const occu = typeof op['char-occu'] === 'object' ? op['char-occu']?.name : op['char-occu'] || 'Role N/A';
 
@@ -394,7 +394,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                           type="button"
                           onClick={() => handleDeployPersona(op)}
                           className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-[11px] font-bold uppercase rounded-lg transition-colors flex items-center gap-1 shrink-0 cursor-pointer shadow-sm"
-                          title="Deploy this operative token to the active map"
+                          title="Deploy this operator token to the active map"
                         >
                           <Plus size={12} />
                           <span>Deploy</span>
@@ -414,7 +414,7 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                 <div className="flex items-center gap-2 text-emerald-400">
                   <Eye size={16} />
                   <h4 className="text-xs font-bold uppercase tracking-wider">
-                    Live Player Spectator Broadcast
+                    Live Operator Spectator Broadcast
                   </h4>
                 </div>
                 <p className="text-xs text-slate-300 font-sans leading-relaxed">
@@ -448,8 +448,8 @@ export const StageSettingsModal: React.FC<StageSettingsModalProps> = ({
                 <span className="font-bold font-mono text-[11px] uppercase block text-emerald-400">
                   Active Spectator Features:
                 </span>
-                <p>• Fog of War Masking hides unrevealed rooms and hidden GM markers.</p>
-                <p>• Raycast Line-of-Sight calculates visibility based on active operative tokens.</p>
+                <p>• Fog of War Masking hides unrevealed rooms and hidden Architect markers.</p>
+                <p>• Raycast Line-of-Sight calculates visibility based on active operator tokens.</p>
                 <p>• WebGPU canvas streams animated dice rolls and dynamic damage numbers.</p>
               </div>
             </div>

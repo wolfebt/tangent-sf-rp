@@ -39,7 +39,7 @@ test('Neuro-Symbolic Engine: Canonical 2d10 Check Adjudication', () => {
   assert.equal(successMandate.diceSummary.margin, 3);
   assert.ok(successMandate.mechanicalOutcomes.damageDealt > 0);
   assert.ok(successMandate.narrativeBounds.requiredSensoryCues.length > 0);
-  assert.ok(successMandate.narrativeBounds.forbiddenOutcomes.includes('operative failure'));
+  assert.ok(successMandate.narrativeBounds.forbiddenOutcomes.includes('operator failure') || successMandate.narrativeBounds.forbiddenOutcomes.includes('operative failure'));
 
   // 2. Predetermined Failure Check (Dice: [2, 1] -> sum 3 + Kinetics 3 + Might 2 = 8 vs DC 14 -> Margin -6)
   const failureMandate = adjudicateActionCheck({

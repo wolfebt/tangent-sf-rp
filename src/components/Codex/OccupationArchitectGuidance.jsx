@@ -371,7 +371,7 @@ export const OccupationArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Factions employing, licensing, or commissioning operatives in this career track.
+                Factions employing, licensing, or commissioning operators in this career track.
               </p>
             </div>
 
@@ -519,7 +519,7 @@ export const OccupationArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Professional competencies and operational proficiencies prioritized for operatives in this career.
+                Professional competencies and operational proficiencies prioritized for operators in this career.
               </p>
             </div>
 

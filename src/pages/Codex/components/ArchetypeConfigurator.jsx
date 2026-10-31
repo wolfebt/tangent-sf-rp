@@ -30,7 +30,7 @@ const SPHERES = [
 const ATTRIBUTES = [
   'Strength',
   'Agility',
-  'Constitution',
+  'Stamina',
   'Intellect',
   'Perception',
   'Charisma',

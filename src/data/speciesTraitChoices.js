@@ -129,7 +129,7 @@ export const TRAIT_CHOICE_DEFINITIONS = {
   'trait-bonded-terrain': {
     choiceType: 'terrain',
     title: 'Select Bonded Terrain',
-    prompt: 'Choose one terrain type to gain +2 dodge bonus to Armor Class within:',
+    prompt: 'Choose one terrain type to gain +2 dodge bonus to Defense within:',
     maxSelections: 1,
     allowMultiple: true,
     badgeColor: '#34d399'
@@ -185,7 +185,7 @@ export const TRAIT_CHOICE_DEFINITIONS = {
     badgeColor: '#c084fc'
   },
 
-  // Features / Bonus Feats
+  // Features / Bonus Features
   'trait-bonus-feature': {
     choiceType: 'feature',
     title: 'Select Bonus Species Feature',
@@ -196,8 +196,8 @@ export const TRAIT_CHOICE_DEFINITIONS = {
   },
   'trait-static-bonus-feat': {
     choiceType: 'feature',
-    title: 'Select Bonus Feat',
-    prompt: 'Choose one feat with no prerequisites to grant to all members of this species:',
+    title: 'Select Bonus Feature',
+    prompt: 'Choose one feature with no prerequisites to grant to all members of this species:',
     maxSelections: 1,
     allowMultiple: true,
     badgeColor: '#ec4899'

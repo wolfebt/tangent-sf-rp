@@ -22,7 +22,7 @@ keywords: >-
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: >-
-  You gain the ability to use **one specific Invocation** (Spell/Power) at
+  You gain the ability to use **one specific Invocation** at
   **Level 1**.  
 
   * **Mechanics:**  
@@ -42,7 +42,7 @@ rules: >-
 The character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.
 
 ## Mechanics & Benefit
-You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.  
+You gain the ability to use **one specific Invocation** at **Level 1**.  
 * **Mechanics:**  
   * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  
   * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.

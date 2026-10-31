@@ -653,7 +653,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
   "narrative": "Paragraph text here...",
   "mandateExecutionSummary": "${mandate.systemIntent} - ${mandate.narrativeBounds.prescribedOutcome.replace(/"/g, "'")}",
   "gate": {
-    "prompt": "What is the operative's next move?",
+    "prompt": "What is the operator's next move?",
     "options": [
       { "id": "1", "text": "Aggressive or kinetic move...", "skill": "Kinetics / Ballistics CR 12" },
       { "id": "2", "text": "Tactical, technical, or stealth move...", "skill": "Slicing / Stealth CR 13" },
@@ -699,7 +699,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
         beatIndex: updatedBeats.length + 1,
         scenarioId: activeScenario?.id,
         scenarioTitle: activeScenario?.title,
-        protagonistName: activeOperative?.name || 'Operative',
+        protagonistName: activeOperative?.name || 'Operator',
         text: parsed.narrative || accumulated,
         gate: parsed.gate || null,
         mandate: mandate,
@@ -768,7 +768,7 @@ FORMAT YOUR OUTPUT AS VALID JSON:
 
       const prompt = `Epistemic Investigation & Deduction Query:
 Target: ${epistemicTargetName || epistemicTargetType} (${epistemicTargetType.toUpperCase()})
-Investigator: ${activeOperative?.name || 'Operative'}
+Investigator: ${activeOperative?.name || 'Operator'}
 Question: "${epistemicQuery}"
 Check Result: ${check.systemIntent} (${check.diceSummary?.formula || 'Adjudicated'})
 
@@ -992,11 +992,11 @@ Respond in 2-3 concise in-character sentences.`;
                 setIsOperativeMenuOpen(prev => !prev);
               }}
               className="px-2.5 py-1 bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-700/80 hover:border-cyan-500/50 rounded-xl text-xs font-mono font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
-              title="Select Active Operative, Solo/Squad Party Mode & GM Director Role"
+              title="Select Active Operator, Solo/Squad Party Mode & Architect Director Role"
             >
               {partyMode === 'group' ? <Users size={12} className="text-purple-400 shrink-0" /> : <User size={12} className="text-cyan-400 shrink-0" />}
               <span className="max-w-[110px] sm:max-w-[140px] truncate text-slate-100">
-                {activeOperative?.name || 'Operative'}
+                {activeOperative?.name || 'Operator'}
               </span>
               <span className={`text-[9px] px-1.5 py-0.2 rounded uppercase font-extrabold ${
                 partyMode === 'group'
@@ -1019,7 +1019,7 @@ Respond in 2-3 concise in-character sentences.`;
                 <div className="space-y-1">
                   <label className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1.5">
                     <Database size={11} />
-                    <span>Operative Database</span>
+                    <span>Operator Database</span>
                   </label>
                   <select
                     value={selectedOperativeId}
@@ -1050,7 +1050,7 @@ Respond in 2-3 concise in-character sentences.`;
                       }`}
                     >
                       <User size={11} />
-                      <span>Solo Operative</span>
+                      <span>Solo Operator</span>
                     </button>
                     <button
                       type="button"
@@ -1100,7 +1100,7 @@ Respond in 2-3 concise in-character sentences.`;
                       }`}
                     >
                       <Radio size={11} />
-                      <span>GM Director</span>
+                      <span>Architect Director</span>
                     </button>
                   </div>
                 </div>
@@ -1510,7 +1510,7 @@ Respond in 2-3 concise in-character sentences.`;
                 <div className="flex items-center justify-between text-xs flex-wrap gap-2">
                   <span className="font-bold text-amber-300 flex items-center gap-1 uppercase tracking-wider">
                     <ChevronRight size={14} className="text-amber-400" />
-                    <span>Decision Gate: {activeBeat?.gate?.prompt || 'Declare Operative Action:'}</span>
+                    <span>Decision Gate: {activeBeat?.gate?.prompt || 'Declare Operator Action:'}</span>
                   </span>
 
                   {skillCheckRoll && (
@@ -1554,7 +1554,7 @@ Respond in 2-3 concise in-character sentences.`;
                                 handleRollCheck(opt.skill, 12);
                               }}
                               className="px-1.5 py-0.2 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[9px] font-bold uppercase transition-colors shrink-0 ml-1 cursor-pointer"
-                              title="Roll Canonical 2d10 with Operative Sub-Attributes & Active Modifiers"
+                              title="Roll Canonical 2d10 with Operator Sub-Attributes & Active Modifiers"
                             >
                               🎲 Roll 2d10
                             </button>
@@ -1653,7 +1653,7 @@ Respond in 2-3 concise in-character sentences.`;
                     onChange={e => setCustomActionInput(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') handleAdvanceBeat(); }}
                     disabled={isGenerating}
-                    placeholder={activeOperative ? `Declare ${activeOperative.name}'s action or tactical response...` : 'Declare operative action...'}
+                    placeholder={activeOperative ? `Declare ${activeOperative.name}'s action or tactical response...` : 'Declare operator action...'}
                     className="flex-1 bg-slate-900 border border-slate-700 text-slate-100 text-xs px-3 py-2 rounded-xl outline-none focus:border-cyan-400 placeholder-slate-500"
                   />
                   <button
@@ -1688,7 +1688,7 @@ Respond in 2-3 concise in-character sentences.`;
                     <Compass size={32} className="mx-auto text-cyan-500/60 animate-pulse" />
                     <p className="text-slate-300 font-bold uppercase">{activeScenario?.title || 'Tactical Scenario'}</p>
                     <p className="text-slate-400 text-xs leading-relaxed max-w-sm mx-auto">
-                      Declare an operative move below to synthesize the initial scenario beat.
+                      Declare an operator move below to synthesize the initial scenario beat.
                     </p>
                   </div>
                 )}
@@ -1895,7 +1895,7 @@ Respond in 2-3 concise in-character sentences.`;
                     onChange={e => setCustomActionInput(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') handleAdvanceBeat(); }}
                     disabled={isGenerating}
-                    placeholder="Declare operative action..."
+                    placeholder="Declare operator action..."
                     className="flex-1 bg-slate-900 border border-slate-700 text-slate-100 text-[11px] px-2.5 py-1.5 rounded-lg outline-none focus:border-cyan-400"
                   />
                   <button

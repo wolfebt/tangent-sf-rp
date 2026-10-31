@@ -38,7 +38,7 @@ export const PersonaLogService = {
   async ensurePersonaLogChannel({ personaId, personaName, ownerId, gmId = null }) {
     if (!personaId) return null;
     const channelId = getPersonaLogChannelId(personaId);
-    const cleanName = personaName || 'Operative';
+    const cleanName = personaName || 'Operator';
 
     const channelData = {
       id: channelId,
@@ -88,7 +88,7 @@ export const PersonaLogService = {
    */
   async logAction({
     personaId,
-    personaName = 'Operative',
+    personaName = 'Operator',
     actionType = ACTION_TYPES.SKILL_CHECK,
     summary = '',
     details = null,

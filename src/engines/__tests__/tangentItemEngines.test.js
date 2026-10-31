@@ -149,12 +149,12 @@ test('Plan 19: Armor Matrix Engine - DR and Mobility Penalties', () => {
   assert.equal(drTL4.drPercent, 125);
   assert.equal(drTL4.totalDR, 17); // 15 + 2 Archeotech = 17
 
-  // Bulwark mobility penalty (-2 Max Dex, -10 Move) on Mediumweight (base Max Dex 4) -> Max Dex 2, -10 Move
+  // Bulwark mobility penalty (-2 Max Agi, -10 Move) on Mediumweight (base Max Agi 4) -> Max Agi 2, -10 Move
   const bulwarkMob = calculateArmorMobility({ size: 'Mediumweight', coverage: 'Bulwark' });
   assert.equal(bulwarkMob.maxDex, 2);
   assert.equal(bulwarkMob.movePenalty, -10);
 
-  // Kitin skin (+1 Max Dex, +5 Move mitigation)
+  // Kitin skin (+1 Max Agi, +5 Move mitigation)
   const kitinMob = calculateArmorMobility({ size: 'Mediumweight', coverage: 'Bulwark', skin: 'Kitin' });
   assert.equal(kitinMob.maxDex, 3);
   assert.equal(kitinMob.movePenalty, -5);

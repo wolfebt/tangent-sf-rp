@@ -119,10 +119,10 @@ Value (Credits) = 10 * 4^(DC / 5)
   {
     id: 'rule-character-creation-150cp',
     category: 'character_creation',
-    title: '150 Character Point (CP) Operative Creation Economy',
+    title: '150 Character Point (CP) Operator Creation Economy',
     citation: 'Operator Guide 1.01 Character Creation',
     tags: ['150 cp', 'character points', '150 bp', 'build points', 'character creation', 'skill pools', 'attributes'],
-    text: `Operatives in Tangent SFF RP are created using a strict 150 Character Point (CP) budget:
+    text: `Operators in Tangent SFF RP are created using a strict 150 Character Point (CP) budget:
 - Attributes: 5 CP per +1 attribute rank above base 0.
 - Check Bonuses: 1 CP per +1 sub-attribute check score.
 - Three 20-Point Background Skill Pools:
@@ -163,15 +163,15 @@ Value (Credits) = 10 * 4^(DC / 5)
     tags: ['karma', 'karma points', 'plot points', 'fate', 'advantage', 'reroll', 'shake it off', 'second wind', 'karmic debt'],
     text: `Karma Points provide narrative and tactical agency:
 - Default Pool: Characters have 3 Karma Points. Resets at the start of each session; does NOT recover via rest.
-- Pool Expansion: Increased via the Karmic Blessing feature (+1 per rank) or GM milestones.
+- Pool Expansion: Increased via the Karmic Blessing feature (+1 per rank) or Architect milestones.
 - The 6 Canonical Karma Spending Actions (1 KP each):
   1. "I Got This": Declare before rolling -> Advantage on any single roll (attacks, saves, skills, damage).
   2. "Not What I Meant": Declare immediately after roll -> Discard and reroll ability or non-combat check (accept 2nd roll; no combat attacks).
   3. "Shake it Off": Declare anytime afflicted -> Reduce condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).
   4. "Second Wind": 1 full minute of focus -> Replaces Light Rest; instantly refreshes daily limited-use abilities, special attacks, and traits.
-  5. "So Mote it Be": Declare simultaneously with metaphysical skill/feat -> Boosts potency (range, duration, magnitude) or activates a discipline Karma Feat.
-  6. "By Will Alone": Declare with GM approval -> Push limits / narrative agency (attempt unlisted/impossible action, emulate a feature for a scene).
-- Karmic Debt: May spend into negative karma up to Charisma score + 1 (triggering GM-imposed disadvantages or NPC luck).`
+  5. "So Mote it Be": Declare simultaneously with metaphysical skill/feature -> Boosts potency (range, duration, magnitude) or activates a discipline Karma Feature.
+  6. "By Will Alone": Declare with Architect approval -> Push limits / narrative agency (attempt unlisted/impossible action, emulate a feature for a scene).
+- Karmic Debt: May spend into negative karma up to Charisma score + 1 (triggering Architect-imposed disadvantages or NPC luck).`
   },
   {
     id: 'rule-augmentation-tiers',

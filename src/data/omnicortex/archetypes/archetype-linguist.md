@@ -19,7 +19,7 @@ recommended_factions:
   - Alterian Enclave
   - Ascendancy
 essential_skills:
-  - Knowledge (Languages)
+  - Knowledge (Language)
   - Diplomacy
   - Insight
   - Knowledge (History)
@@ -65,7 +65,7 @@ The master of communication who deciphers the languages of the galaxy to enable 
 Translating alien documents/comms, mediating first contact, deciphering codes.
 
 ## Essential Skills
-- Knowledge (Languages)
+- Knowledge (Language)
 - Diplomacy
 - Insight
 - Knowledge (History)

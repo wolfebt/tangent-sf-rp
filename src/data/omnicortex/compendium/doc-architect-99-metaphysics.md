@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 39
+order: 40
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3

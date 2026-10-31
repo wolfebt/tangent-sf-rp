@@ -126,7 +126,7 @@ const VttOptionsModal = ({
             <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950/70 border border-slate-800">
               <div>
                 <span className="text-slate-200 font-bold block">Dynamic Fog of War Layer:</span>
-                <span className="text-[10px] text-slate-400">Conceals unrevealed map coordinates from non-architect operatives</span>
+                <span className="text-[10px] text-slate-400">Conceals unrevealed map coordinates from non-architect operators</span>
               </div>
               <button
                 type="button"

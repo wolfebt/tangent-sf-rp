@@ -26,7 +26,7 @@ negative_keywords: "mindless, instinct-only, illiterate"
 * **Ability:** Intellect or Wisdom  
 * **Description:** Artificer is the skill of creating metaphysical empowered items, such as devices, potions, or enchanted weapons. It reflects a character's ability to mix special ingredients, empower weapons, and create magical effects. Artificer is used whenever a character needs to create magical or psionic items that are functional and effective. This can include things like mixing magical ingredients, enchanting weapons, and creating magical effects. The specific craft of combining technology with metaphysical (magical/psionic) energies. This is the skill used to create "enchanted" or "psi-active" items.  
 * **Mechanics:**  
-  * *Imprint Item:* Bind a spell or psionic effect to an object (CR 20 \+ Spell Level).  
+  * *Imprint Item:* Bind a spell or psionic effect to an object (CR 20 \+ Invocation Level).  
   * *Analyze Artifact:* Identify the properties of a magitech item.  
 * **Specialties:**   
   * **Focusing Crystals:** Cutting, polishing, and aligning quartz and alien crystals to channel raw meta-currents.  

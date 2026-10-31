@@ -9,7 +9,7 @@ bp_granted: 4
 costs:
   cp: -4
   bp: -4
-description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.'
+description: 'Take 1 Sta damage per hour in sunlight. Req: Native to Darklands/Shadow.'
 prerequisite: Native to Darklands / Shadow Realms
 modifiers: []
 keywords: 'vulnerable to sunlight, hindrance, penalty, meta, damage, sunlight'
@@ -25,7 +25,7 @@ cp_granted: '4'
 **Prerequisites**: Native to Darklands / Shadow Realms  
 
 ## Description
-Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.
+Take 1 Sta damage per hour in sunlight. Req: Native to Darklands/Shadow.
 
 ## Mechanics & Severity
-Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.
+Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Stamina damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.

@@ -246,7 +246,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
       toast({ 
         type: 'warning', 
         title: 'ACCESS RESTRICTED', 
-        text: 'Administrator or GM access required to import Master Database backups.' 
+        text: 'Administrator or Architect access required to import Master Database backups.' 
       });
       return;
     }

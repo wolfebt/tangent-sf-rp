@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 50
+order: 56
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.gene","mechanics"]
-updatedAt: "2026-10-14T05:24:25.055Z"
+updatedAt: "2026-10-31T10:38:11.506Z"
 costs:
   bp: 0
   credits: 0
@@ -85,7 +85,7 @@ sockets:
 
 **Species Features:**&nbsp;
 
-\+1 Feature
+\+1 Featureure
 
 &nbsp;
 

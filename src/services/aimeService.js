@@ -276,7 +276,7 @@ export async function generateContent({
           ? `[DETERMINISTIC COGNITION]: ${mandate.initiatorName} attempts "${mandate.actionName}". ${mandate.narrativeBounds?.prescribedOutcome || 'Outcome registered.'} Sensory cues: ${mandate.narrativeBounds?.requiredSensoryCues?.join(', ') || 'Tactical telemetry synced.'}`
           : `[DETERMINISTIC COGNITION]: The action resolves under local BASTION tactical guidelines. Environmental sensors verify sector state.`,
         gate: {
-          prompt: "What is the operative's next move?",
+          prompt: "What is the operator's next move?",
           options: [
             { id: "1", text: "Advance under cover toward the objective", skillCheck: "Kinetics / Reflex CR 12" },
             { id: "2", text: "Slice local data conduit for tactical layout", skillCheck: "Slicing CR 13" },
@@ -413,7 +413,7 @@ export async function streamContent({
           ? `[DETERMINISTIC COGNITION]: ${mandate.initiatorName} attempts "${mandate.actionName}". ${mandate.narrativeBounds?.prescribedOutcome || 'Outcome registered.'} Sensory cues: ${mandate.narrativeBounds?.requiredSensoryCues?.join(', ') || 'Tactical telemetry synced.'}`
           : `[DETERMINISTIC COGNITION]: The action resolves under local BASTION tactical guidelines. Environmental sensors verify sector state.`,
         gate: {
-          prompt: "What is the operative's next move?",
+          prompt: "What is the operator's next move?",
           options: [
             { id: "1", text: "Advance under cover toward the objective", skillCheck: "Kinetics / Reflex CR 12" },
             { id: "2", text: "Slice local data conduit for tactical layout", skillCheck: "Slicing CR 13" },

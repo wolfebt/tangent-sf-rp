@@ -68,7 +68,7 @@ export class FoundryVttJsonExporterService {
       },
       folders: [
         { _id: this.generateFoundryId(), name: 'Journal Entries', type: 'JournalEntry' },
-        { _id: this.generateFoundryId(), name: 'Operatives & Adversaries', type: 'Actor' },
+        { _id: this.generateFoundryId(), name: 'Operators & Adversaries', type: 'Actor' },
         { _id: this.generateFoundryId(), name: 'Equipment & Weapons', type: 'Item' },
         { _id: this.generateFoundryId(), name: 'Tactical Maps', type: 'Scene' }
       ],
@@ -112,7 +112,7 @@ export class FoundryVttJsonExporterService {
       if (isActor) {
         pack.actors.push({
           _id: fId,
-          name: elem.title || 'Operative',
+          name: elem.title || 'Operator',
           type: 'character',
           system: {
             attributes: elem.fields?.attributes || {},

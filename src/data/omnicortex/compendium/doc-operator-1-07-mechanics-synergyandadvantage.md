@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 193
+order: 204
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.synergyandadvantage","mechanics"]
-updatedAt: "2026-10-14T05:52:12.034Z"
+updatedAt: "2026-10-31T11:30:42.849Z"
 costs:
   bp: 0
   credits: 0
@@ -51,7 +51,7 @@ When attempting a primary skill check, a character can opt to use a different bu
 
 When a character possesses relevant practical experience that assists a primary check, they gain a flat synergy bonus based on their skill ranks. This replaces complex active division during gameplay.
 
-* **Synergy Requirement:** To grant a synergy bonus, a secondary skill must have a clear, logical connection to the primary task, as approved by the GM.  
+* **Synergy Requirement:** To grant a synergy bonus, a secondary skill must have a clear, logical connection to the primary task, as approved by the Architect.  
 * **Trained Synergy (5 to 9 Ranks):** If the character has at least 5 ranks in the secondary skill, they grant a flat \+2 synergy bonus to the primary check.  
 * **Expert Synergy (10+ Ranks):** If the character has 10 or more ranks in the secondary skill, they grant a flat \+4 synergy bonus to the primary check.
 
@@ -97,7 +97,7 @@ Certain features, such as "Lucky" or "Improved Critical," grant Advantage on spe
 
 ### **Situational Factors**
 
-The GM may grant Advantage based on the specific circumstances of the situation, such as having the element of surprise, using superior tactics, or exploiting an opponent's weakness.
+The Architect may grant Advantage based on the specific circumstances of the situation, such as having the element of surprise, using superior tactics, or exploiting an opponent's weakness.
 
 ### **Environmental Factors**
 
@@ -155,7 +155,7 @@ Low ranks in skills or attempting actions outside of your character's expertise 
 
 ### **Situational Factors**
 
-The GM may impose Disadvantage based on the specific circumstances, such as being in a poorly lit area, using improvised tools, or facing a superior opponent.
+The Architect may impose Disadvantage based on the specific circumstances, such as being in a poorly lit area, using improvised tools, or facing a superior opponent.
 
 ### **Environmental Factors**
 

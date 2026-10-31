@@ -46,7 +46,7 @@ export const CYBER_TARGET_NODES = [
     iceMaxHp: 60,
     traceRatePerTurn: 25,
     countermeasureDmg: 15,
-    description: 'Military-grade autonomous killer ICE capable of burning out cyberdeck hardware and neuro-linking operatives.'
+    description: 'Military-grade autonomous killer ICE capable of burning out cyberdeck hardware and neuro-linking operators.'
   }
 ];
 

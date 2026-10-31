@@ -52,7 +52,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
   const pendingItems: FlattenedMod[] = [];
   relevantHeroes.forEach(h => {
     const hId = h['character-doc-id'] || h.id || 'hero';
-    const hName = h['char-name'] || h.name || 'Hero Operative';
+    const hName = h['char-name'] || h.name || 'Hero Operator';
     const mods = Array.isArray(h.tracked_modifications) ? h.tracked_modifications : [];
     mods.forEach((m: any) => {
       if (m.status === 'pending') {
@@ -71,7 +71,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
       showToast({
         type: 'warn',
         title: 'Feedback Required',
-        text: 'Please provide suggestions or instructions for the player on how to adjust this modification.'
+        text: 'Please provide suggestions or instructions for the operator on how to adjust this modification.'
       });
       return;
     }
@@ -116,7 +116,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <h3 className="font-bold text-xs sm:text-sm text-amber-200 uppercase tracking-wider font-mono truncate">
-                  GM Review: Sheet Overrides
+                  Architect Review: Sheet Overrides
                 </h3>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-950 text-amber-300 border border-amber-500/50 shrink-0">
                   {pendingItems.length} Pending
@@ -141,7 +141,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
         <div className="px-4 py-2.5 bg-cyan-950/40 border-b border-cyan-500/30 flex items-center gap-2 text-xs text-cyan-200 font-mono shrink-0">
           <Sparkles size={14} className="text-cyan-400 shrink-0" />
           <span className="text-[11px]">
-            <strong>PLAYER OWNERSHIP GUARANTEE:</strong> You cannot directly edit or delete the player's folio. You can Accept, Refuse, or Reply with suggested adjustments.
+            <strong>OPERATOR OWNERSHIP GUARANTEE:</strong> You cannot directly edit or delete the operator's folio. You can Accept, Refuse, or Reply with suggested adjustments.
           </span>
         </div>
 
@@ -152,7 +152,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
               <Check size={32} className="mx-auto text-emerald-400/70 mb-2" />
               <div className="text-sm font-bold text-slate-300">All Modifications Clear</div>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 font-sans">
-                There are no pending sheet modifications from players awaiting GM review at this time.
+                There are no pending sheet modifications from operators awaiting Architect review at this time.
               </p>
             </div>
           ) : (
@@ -202,7 +202,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
                       <MessageSquare size={13} className="text-amber-400 shrink-0 mt-0.5" />
                       <div>
                         <span className="font-bold text-amber-300 uppercase block font-mono text-[10px]">
-                          Player Reason:
+                          Operator Reason:
                         </span>
                         <span>{mod.playerNote}</span>
                       </div>
@@ -213,7 +213,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
                   {(isAdjustOpen || feedback.length > 0) && (
                     <div className="space-y-1 pt-1 font-sans">
                       <label className="text-[10px] text-slate-400 uppercase font-mono block">
-                        Reply message / suggestions to player:
+                        Reply message / suggestions to operator:
                       </label>
                       <input 
                         type="text"
@@ -247,7 +247,7 @@ export const GMModificationReviewModal: React.FC<GMModificationReviewModalProps>
                         }
                       }}
                       className="px-3 py-1 bg-blue-950 hover:bg-blue-900 border border-blue-500/60 text-blue-300 font-bold rounded text-[11px] flex items-center gap-1 transition-all cursor-pointer hover:shadow-[0_0_8px_rgba(59,130,246,0.3)]"
-                      title="Suggest an adjustment to the player"
+                      title="Suggest an adjustment to the operator"
                     >
                       <HelpCircle size={12} /> {isAdjustOpen ? 'Send Suggestion' : 'Adjust'}
                     </button>

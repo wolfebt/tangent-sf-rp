@@ -51,8 +51,8 @@ const KARMA_ACTIONS = [
     cost: '1 Karma',
     timing: 'Declare SIMULTANEOUSLY with metaphysical check',
     scope: 'Metaphysics users (Arcane, Psi, Supernatural forces)',
-    summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feat.',
-    description: 'This Karma Point expenditure option interacts with a character\'s metaphysical abilities, enhancing their power or enabling special feats. Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feat or boost the effectiveness/range/duration of a metaphysical skill check. The expenditure must be declared along with the use of the skill or feat, not after the roll is made.',
+    summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feature.',
+    description: 'This Karma Point expenditure option interacts with a character\'s metaphysical abilities, enhancing their power or enabling special feats. Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feature or boost the effectiveness/range/duration of a metaphysical skill check. The expenditure must be declared along with the use of the skill or feature, not after the roll is made.',
     tag: 'Metaphysics Boost',
     color: 'purple'
   },
@@ -60,10 +60,10 @@ const KARMA_ACTIONS = [
     id: 'by-will-alone',
     name: '"By Will Alone"',
     cost: '1 Karma (spent win/fail)',
-    timing: 'Action declaration; requires GM judgment & approval',
+    timing: 'Action declaration; requires Architect judgment & approval',
     scope: 'Pushing boundaries, rule nudges, emulating basic features for a scene',
     summary: 'Attempt extraordinary or theoretically possible actions beyond normal capabilities.',
-    description: 'This is a unique Karma Point expenditure, allowing characters to attempt actions that push the boundaries of their normal capabilities. The core is the GM\'s judgment. The action must be something not explicitly covered by the character\'s skills or abilities, but theoretically achievable with extreme effort, luck, or narrative justification. Could involve a nudge of a rule for one action, emulation of a basic feature for the scene, and similar low-end temporary game tweaks for character agency. Even with Karma spent, success is not guaranteed; GM may call for a check or challenge.',
+    description: 'This is a unique Karma Point expenditure, allowing characters to attempt actions that push the boundaries of their normal capabilities. The core is the Architect\'s judgment. The action must be something not explicitly covered by the character\'s skills or abilities, but theoretically achievable with extreme effort, luck, or narrative justification. Could involve a nudge of a rule for one action, emulation of a basic feature for the scene, and similar low-end temporary game tweaks for character agency. Even with Karma spent, success is not guaranteed; Architect may call for a check or challenge.',
     tag: 'Cinematic Agency',
     color: 'rose'
   }
@@ -193,7 +193,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
                 </div>
                 <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-amber-300">Heroic Gain (+1 Immediate)</div>
-                  <p className="text-[10.5px] text-slate-400">The GM may award +1 Karma Point during play for exceptional roleplay, teamwork, or heroic feats.</p>
+                  <p className="text-[10.5px] text-slate-400">The Architect may award +1 Karma Point during play for exceptional roleplay, teamwork, or heroic feats.</p>
                 </div>
                 <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-purple-300">Increasing Maximum Pool</div>
@@ -267,7 +267,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
               </div>
 
               <p className="text-[10.5px] text-slate-300 leading-snug">
-                <strong>Plot Points</strong> are special narrative tokens awarded by the GM for active engagement, heroic sacrifices, and dramatic roleplay.
+                <strong>Plot Points</strong> are special narrative tokens awarded by the Architect for active engagement, heroic sacrifices, and dramatic roleplay.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
@@ -306,7 +306,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
               </div>
 
               <div className="bg-rose-950/30 border border-rose-900/50 rounded-md p-2 text-[10.5px] text-rose-200/90 leading-snug">
-                Negative Karma allows characters to push luck past 0 into <strong>"Karmic Debt"</strong>. Incurring debt is the player's choice, but applying consequences is at the GM's discretion.
+                Negative Karma allows characters to push luck past 0 into <strong>"Karmic Debt"</strong>. Incurring debt is the player's choice, but applying consequences is at the Architect's discretion.
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -315,7 +315,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
                     <span>📉</span> Disadvantage
                   </div>
                   <p className="text-[10px] text-slate-400 leading-snug">
-                    GM may impose Disadvantage on dramatic rolls as cosmic misfortune balances out.
+                    Architect may impose Disadvantage on dramatic rolls as cosmic misfortune balances out.
                   </p>
                 </div>
                 <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">
@@ -323,7 +323,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
                     <span>🔄</span> Forced Rerolls
                   </div>
                   <p className="text-[10px] text-slate-400 leading-snug">
-                    GM can force a reroll on a success at a critical juncture, triggering sudden complications.
+                    Architect can force a reroll on a success at a critical juncture, triggering sudden complications.
                   </p>
                 </div>
                 <div className="bg-slate-950/70 p-2 rounded-md border border-slate-800 space-y-0.5">

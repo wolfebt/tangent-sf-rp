@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 15
+order: 21
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.signaturefeatures","mechanics"]
-updatedAt: "2026-10-25T07:10:31.053Z"
+updatedAt: "2026-10-31T10:39:18.074Z"
 costs:
   bp: 0
   credits: 0
@@ -201,7 +201,7 @@ Effect: You perform a dramatic display, song, or authoritative declaration. All 
 Aesthetic: Slipping behind a target unseen, striking with lethal precision.  
 Classification: Combat Operative Feature (3 CP, or 2 CP if Silent Blade)  
 Activation: Passive (Triggered when attacking an unaware target)  
-Effect: When you attack a target while completely hidden or undetected, your attack automatically deals critical damage. If using a physical weapon, you bypass the target's Damage Reduction (DR) entirely. If the target is an NPC of equal or lower Tier, they must make a Constitution Save (CR equal to your Attack Roll) or be instantly incapacitated.
+Effect: When you attack a target while completely hidden or undetected, your attack automatically deals critical damage. If using a physical weapon, you bypass the target's Damage Reduction (DR) entirely. If the target is an NPC of equal or lower Tier, they must make a Fortitude Save (CR equal to your Attack Roll) or be instantly incapacitated.
 
  Cyber Warfare (The Decker / Slicer)  
 Aesthetic: Code cascading down an interface screen as firewalls crumble.  

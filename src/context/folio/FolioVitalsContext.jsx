@@ -88,7 +88,7 @@ export const FolioVitalsSliceProvider = ({ children }) => {
       gameName: characterData?.activeGameName || 'VTT Tactical Campaign',
       teamName: characterData?.activeTeamName || characterData?.activeSquadName || 'Active Fireteam',
       squadName: characterData?.activeTeamName || characterData?.activeSquadName || 'Active Fireteam',
-      gmHandle: characterData?.activeGameGM || 'Game Master',
+      gmHandle: characterData?.activeGameGM || 'Architect',
       sessionStartedAt: characterData?.activeGameStartedAt || characterData?.updatedAt || new Date().toISOString()
     };
   }, [isInActiveGame, characterData]);
@@ -105,7 +105,7 @@ export const FolioVitalsSliceProvider = ({ children }) => {
         activeGameName: isEngaged ? (details.gameName || details.name || prev.activeGameName || 'VTT Tactical Campaign') : '',
         activeTeamName: teamVal,
         activeSquadName: teamVal,
-        activeGameGM: isEngaged ? (details.gmHandle || details.gm || prev.activeGameGM || 'Game Master') : '',
+        activeGameGM: isEngaged ? (details.gmHandle || details.gm || prev.activeGameGM || 'Architect') : '',
         activeGameStartedAt: isEngaged ? (details.startedAt || prev.activeGameStartedAt || new Date().toISOString()) : '',
         updatedAt: new Date().toISOString()
       };
@@ -122,7 +122,7 @@ export const FolioVitalsSliceProvider = ({ children }) => {
             activeGameName: isEngaged ? (details.gameName || details.name || c.activeGameName || 'VTT Tactical Campaign') : '',
             activeTeamName: teamVal,
             activeSquadName: teamVal,
-            activeGameGM: isEngaged ? (details.gmHandle || details.gm || c.activeGameGM || 'Game Master') : '',
+            activeGameGM: isEngaged ? (details.gmHandle || details.gm || c.activeGameGM || 'Architect') : '',
             updatedAt: new Date().toISOString()
           };
         }
@@ -173,7 +173,7 @@ export const FolioVitalsSliceProvider = ({ children }) => {
   }, []);
 
   // GM Confirmed update to alter statistics during active game
-  const applyGMConfirmedUpdate = useCallback((key, value, reason = 'GM Confirmed Adjustment') => {
+  const applyGMConfirmedUpdate = useCallback((key, value, reason = 'Architect Confirmed Adjustment') => {
     const oldVal = characterData?.[key];
     const logEntry = {
       timestamp: new Date().toISOString(),

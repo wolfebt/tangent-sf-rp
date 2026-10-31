@@ -425,7 +425,7 @@ export const creationArticles = [
       '| **"Not What I Meant"** | Declare *immediately after* initial roll | 1 KP | **Reroll Ability / Non-Combat Skill Check:** Discard roll and reroll. Must accept 2nd result even if worse. Cannot be used on combat/attack rolls. |',
       '| **"Shake it Off"** | Declare anytime suffering temporary condition | 1 KP | **Reduce Condition Severity by 1 Stage:** Lowers conditions like Poisoned, Stunned, or Blinded by one level (e.g. Major to Minor). |',
       '| **"Second Wind"** | Spend 1 full minute of internal focus | 1 KP | **Replaces Light Rest:** Bypasses downtime to instantly refresh daily limited-use abilities, special attacks, traits, or features. |',
-      '| **"So Mote it Be"** | Declare *simultaneously* with metaphysical skill/feat | 1 KP | **Metaphysical Potency:** Boosts metaphysical check potency (range, duration, magnitude) or activates a specialized discipline Karma Feat. |',
+      '| **"So Mote it Be"** | Declare *simultaneously* with metaphysical skill/feature | 1 KP | **Metaphysical Potency:** Boosts metaphysical check potency (range, duration, magnitude) or activates a specialized discipline Karma Feature. |',
       '| **"By Will Alone"** | Declare action with GM approval | 1 KP | **Push Limits / Narrative Agency:** Attempt impossible or unlisted actions, emulate a basic feature for a scene, or nudge a rule in character\'s favor. |',
       '',
       '### The 6 Core Karma Actions Explained',

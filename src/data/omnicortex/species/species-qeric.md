@@ -26,7 +26,7 @@ bonus_skill_choices:
   - Acrobatics
   - Stealth
   - Perception
-  - Sleight of Hand
+  - Legerdemain
 inherent_features:
   - special-uncanny-sense
 bonus_features: 0

@@ -75,7 +75,7 @@ export const ContextActionBar: React.FC<ContextActionBarProps> = ({
   skillRank = 6,
   onExecuteRollMacro,
   equippedWeapons = DEFAULT_WEAPONS,
-  activeTokenName = 'Operative',
+  activeTokenName = 'Operator',
   className = ''
 }) => {
   const [selectedWeaponId, setSelectedWeaponId] = useState<string>(equippedWeapons[0]?.id || 'wpn-1');

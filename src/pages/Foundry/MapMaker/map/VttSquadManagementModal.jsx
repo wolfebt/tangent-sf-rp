@@ -229,7 +229,7 @@ const VttSquadManagementModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Controls whether operators can click <strong>Player Override</strong> to modify locked character folios during active play. When allowed, all operator edits are logged for Architect review. When disallowed, folios remain strictly locked.
+                Controls whether operators can click <strong>Operator Override</strong> to modify locked character folios during active play. When allowed, all operator edits are logged for Architect review. When disallowed, folios remain strictly locked.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <button
@@ -253,7 +253,7 @@ const VttSquadManagementModal = ({
                       : 'bg-red-950/80 hover:bg-red-900 border-red-500 text-red-200'
                   }`}
                 >
-                  <span>{effectiveRoster.allowPlayerOverride !== false ? '✓ Player Override Enabled' : '✕ Player Override Disabled'}</span>
+                  <span>{effectiveRoster.allowPlayerOverride !== false ? '✓ Operator Override Enabled' : '✕ Operator Override Disabled'}</span>
                 </button>
               </div>
             </div>

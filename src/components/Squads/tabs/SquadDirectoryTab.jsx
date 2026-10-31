@@ -170,7 +170,7 @@ export const SquadDirectoryTab = ({
                     const handle = details.handle || details.displayName || details.userHandle || (memberId === currentUser?.uid ? getEffectiveUserHandle(currentUser) : getEffectiveUserHandle(details));
                     const isSelf = memberId === currentUser?.uid;
                     const persona = details.persona;
-                    const role = details.role || (memberId === group.creatorId ? 'GM' : 'Operator');
+                    const role = details.role || (memberId === group.creatorId ? 'Architect' : 'Operator');
 
                     return (
                       <div
@@ -209,10 +209,10 @@ export const SquadDirectoryTab = ({
                         </div>
 
                         <div className="shrink-0 text-[8.5px] font-mono ml-1">
-                          {role === 'GM' || role === 'Leader' ? (
+                          {role === 'Architect' || role === 'GM' || role === 'Leader' ? (
                             <span className="px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold flex items-center gap-0.5">
                               <Crown size={8} />
-                              <span>{role}</span>
+                              <span>{role === 'GM' || role === 'Leader' ? 'Architect' : role}</span>
                             </span>
                           ) : (
                             <span className="text-slate-500">{role}</span>

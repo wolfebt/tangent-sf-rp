@@ -19,7 +19,7 @@ recommended_factions:
   - Dynasty (Fortresses)
   - Mekan (Megastructures)
 essential_skills:
-  - Knowledge (Architecture)
+  - Vocation (Architect)
   - Knowledge (Technology)
   - Vocation (Engineer)
 signature_traits:
@@ -62,7 +62,7 @@ Skilled in the design and upkeep of infrastructure.
 Designing bases, identifying structural weaknesses, overseeing construction.
 
 ## Essential Skills
-- Knowledge (Architecture)
+- Vocation (Architect)
 - Knowledge (Technology)
 - Vocation (Engineer)
 

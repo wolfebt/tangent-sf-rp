@@ -70,7 +70,7 @@ export function foundryElementToDbmItem(foundryElement = {}) {
  * Converts a Persona Folio Character into a Story Foundry Persona Element
  */
 export function folioCharacterToFoundryPersona(character = {}) {
-  const name = character['char-name'] || character.name || 'Operative';
+  const name = character['char-name'] || character.name || 'Operator';
   const speciesStr = String(character['char-species'] || character.species || '').toLowerCase();
   const archetypeStr = String(character['char-archetype'] || character.archetype || '').toLowerCase();
   const isSynthetic = Boolean(
@@ -151,7 +151,7 @@ export function folioCharacterToFoundryPersona(character = {}) {
 export function foundryPersonaToFolioCharacter(personaElement = {}) {
   const fields = personaElement.fields || {};
   const stats = personaElement.stats || {};
-  const name = fields['char-name'] || personaElement.title || 'Operative';
+  const name = fields['char-name'] || personaElement.title || 'Operator';
   const speciesStr = String(fields['char-species'] || '').toLowerCase();
   const isSynthetic = Boolean(fields.isSynthetic ?? stats.isSynthetic ?? (
     speciesStr.includes('synthetic') || speciesStr.includes('mekan') || 

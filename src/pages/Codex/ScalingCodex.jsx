@@ -536,7 +536,7 @@ export const ScalingCodex = ({ onOpenBuilder }) => {
               {/* Input Parameters */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                  <label className="text-xs font-mono font-bold text-slate-300 uppercase block">Invocation / Spell</label>
+                  <label className="text-xs font-mono font-bold text-slate-300 uppercase block">Invocation</label>
                   <input
                     type="text"
                     value={invocationName}

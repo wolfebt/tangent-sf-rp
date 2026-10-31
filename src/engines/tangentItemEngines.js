@@ -462,7 +462,7 @@ export function calculateArmorDC({
 }
 
 /**
- * Calculates Armor Mobility impacts (Max Dex modifier and movement penalty).
+ * Calculates Armor Mobility impacts (Max Agi modifier and movement penalty).
  */
 export function calculateArmorMobility({
   size = 'Mediumweight',
@@ -485,7 +485,7 @@ export function calculateArmorMobility({
     maxDex = Math.min(6, maxDex + 1);
     movePenalty = Math.min(0, movePenalty + 5);
   }
-  // Coalition skin is cumbersome (-1 Max Dex)
+  // Coalition skin is cumbersome (-1 Max Agi)
   if (skin === 'Coalition') {
     maxDex = Math.max(0, maxDex - 1);
   }

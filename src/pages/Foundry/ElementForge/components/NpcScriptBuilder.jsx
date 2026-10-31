@@ -10,8 +10,8 @@ import {
 const ROUTINE_TYPES = [
   { id: 'patrol', name: 'Waypoint Patrol Loop', icon: '🚶', desc: 'Advances continuously along assigned coordinate waypoints.' },
   { id: 'sentry', name: 'Stationary Sentry Cone', icon: '👁️', desc: 'Guards an assigned post facing a vision cone; sounds siren on breach.' },
-  { id: 'ambush', name: 'Stealth Ambush Stalker', icon: '🥷', desc: 'Remains cloaked until an operative breaches proximity, then ambushes.' },
-  { id: 'dialogue_bark', name: 'Interactive Comms Bark', icon: '💬', desc: 'Broadcasts radio comms transmission when operatives enter range.' }
+  { id: 'ambush', name: 'Stealth Ambush Stalker', icon: '🥷', desc: 'Remains cloaked until an operator breaches proximity, then ambushes.' },
+  { id: 'dialogue_bark', name: 'Interactive Comms Bark', icon: '💬', desc: 'Broadcasts radio comms transmission when operators enter range.' }
 ];
 
 const BEHAVIOR_PROFILES = [

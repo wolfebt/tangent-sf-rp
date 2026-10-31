@@ -211,7 +211,7 @@ export default function ToolbarQuickActions({
               ? 'bg-amber-950 text-amber-200 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
               : 'text-amber-400/90 hover:text-amber-200 hover:bg-slate-800/80 border border-transparent'
           }`}
-          title="Cronicle Living Memory, GM Directives & Compiled Dossier"
+          title="Cronicle Living Memory, Architect Directives & Compiled Dossier"
         >
           <span>📜</span>
           {pendingCronicleCount > 0 && (

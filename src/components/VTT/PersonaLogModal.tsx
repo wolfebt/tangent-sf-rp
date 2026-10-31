@@ -27,7 +27,7 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
   isOpen,
   onClose,
   personaId,
-  personaName = 'Operative',
+  personaName = 'Operator',
   species = 'Alterian',
   archetype = 'Infiltrator',
   techLevel = 3,
@@ -95,7 +95,7 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={`Operative Telemetry: ${personaName}`}
+        aria-label={`Operator Telemetry: ${personaName}`}
         className="bg-[#0b1019] border-2 border-cyan-400/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.35)] w-full max-w-3xl overflow-hidden flex flex-col my-auto max-h-[calc(100vh-4rem)] sm:max-h-[85vh] animate-in fade-in zoom-in duration-150 text-slate-200"
       >
         
@@ -108,13 +108,13 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
             <div className="min-w-0">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <h2 className="text-xs sm:text-sm font-bold font-mono text-white tracking-wide truncate">
-                  OPERATIVE TELEMETRY: {personaName}
+                  OPERATOR TELEMETRY: {personaName}
                 </h2>
                 <span className="px-1.5 sm:px-2 py-0.2 rounded-full bg-cyan-950 border border-cyan-500/40 text-[9px] font-mono text-cyan-300 font-bold shrink-0">
                   TL{techLevel}
                 </span>
                 <span className="px-1.5 sm:px-2 py-0.2 rounded-full bg-amber-950/80 border border-amber-500/40 text-[9px] font-mono text-amber-300 font-bold uppercase shrink-0 hidden sm:inline">
-                  GM BLACKBOX
+                  ARCHITECT BLACKBOX
                 </span>
               </div>
               <p className="text-[10px] sm:text-[10.5px] text-slate-400 font-mono mt-0.5 truncate">
@@ -182,7 +182,7 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
           {filteredLogs.length === 0 ? (
             <div className="py-20 text-center space-y-2">
               <Terminal size={28} className="mx-auto text-slate-600 animate-pulse" />
-              <p className="text-slate-400 font-bold">No telemetry recorded for this operative yet.</p>
+              <p className="text-slate-400 font-bold">No telemetry recorded for this operator yet.</p>
               <p className="text-[11px] text-slate-600">
                 Checks rolled in Folio or Comms and vitals changes during the session will stream here automatically.
               </p>
@@ -248,7 +248,7 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
         {/* Footer */}
         <div className="px-5 py-2.5 bg-slate-950 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-500 shrink-0">
           <span>TANGENT ENGINE BLACKBOX AUDIT RELAY</span>
-          <span className="text-cyan-400 font-bold">OPERATIVE ID: {personaId.substring(0, 16)}</span>
+          <span className="text-cyan-400 font-bold">OPERATOR ID: {personaId.substring(0, 16)}</span>
         </div>
       </div>
     </div>

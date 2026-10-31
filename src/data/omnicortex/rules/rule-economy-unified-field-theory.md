@@ -31,7 +31,7 @@ $$\text{Credit Value (Cr)} = 10 \times 4^{(\text{DC} / 5)}$$
 ### Core Economic Axioms
 1. **Universal Parity:** If an item requires a DC 20 skill check to manufacture, its baseline retail value across civilized space is exactly **2,560 Cr**.
 2. **Material Cost Ratio:** Fabricating any item requires raw materials, feedstock, or salvaged components equal to **50% of its market credit value**. The remaining 50% represents the applied technical labor, refinement, and tooling.
-3. **No Arbitrary Pricing:** GM and players never need to invent ad-hoc prices. Once an item's Crafting DC or complexity is established, its purchase cost and fabrication budget are fixed instantly.
+3. **No Arbitrary Pricing:** Architect and operators never need to invent ad-hoc prices. Once an item's Crafting DC or complexity is established, its purchase cost and fabrication budget are fixed instantly.
 
 ---
 

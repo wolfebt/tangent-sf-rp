@@ -62,7 +62,7 @@ export const useWaypointEngine = ({
         storyContext.cronicle.recordDelta({
           type: 'SCENARIO_TRANSITION',
           title: `Scenario Shift: ${targetScenario?.title || wp.targetScenarioId}`,
-          description: `Operative ${tok?.label || tok?.name || 'Party'} reached "${wp.name}". Transitioned to new scenario branch.`
+          description: `Operator ${tok?.label || tok?.name || 'Party'} reached "${wp.name}". Transitioned to new scenario branch.`
         });
       }
     } 

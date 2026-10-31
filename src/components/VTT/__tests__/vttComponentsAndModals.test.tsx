@@ -109,7 +109,7 @@ describe('VTT React Components & Modal Workflows (Vitest + React Testing Library
 
     render(<A11yStageFeed mapName="Orbital Dock 9" />);
 
-    expect(screen.getByText(/Current Tactical Operatives on Orbital Dock 9 \(1 deployed\)/i)).toBeInTheDocument();
+    expect(screen.getByText(/Current Tactical Operators on Orbital Dock 9 \(1 deployed\)/i)).toBeInTheDocument();
     expect(screen.getByText('Commander Vance')).toBeInTheDocument();
     expect(screen.getByText('Overwatch')).toBeInTheDocument();
 

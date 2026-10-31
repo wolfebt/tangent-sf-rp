@@ -17,7 +17,7 @@ A skill check may be influenced by multiple factors:
 
 1. **Ability Score Modifier**: The primary physical or mental stat.
 2. **Skill Rank**: Direct training investment.
-3. **Difficulty / DC**: The target baseline set by the GM.
+3. **Difficulty / DC**: The target baseline set by the Architect.
 4. **Competence**: Guidance from a mentor, manual, or database.
 5. **Environmental**: Terrain, weather, lighting, gravity.
 6. **Gear / Tools**: Quality and suitability of specialized equipment.

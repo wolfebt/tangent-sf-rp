@@ -7,7 +7,7 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: '+1 bonus on Bluff, Disguise, and Knowledge (local) checks.'
+description: '+1 bonus on Bluff, Disguise, and Knowledge (Culture) checks.'
 modifiers:
   - target: Bluff
     type: skill
@@ -36,4 +36,4 @@ modifiers:
 Seamless cultural assimilation into cosmopolitan hubs and local social networks.
 
 ## Mechanics & Benefit
-+1 bonus on Bluff, Disguise, and Knowledge (Local) checks
++1 bonus on Bluff, Disguise, and Knowledge (Culture) checks

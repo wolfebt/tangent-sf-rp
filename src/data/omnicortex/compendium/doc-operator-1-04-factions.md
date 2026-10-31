@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 110
+order: 116
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.04 factions","mechanics"]
-updatedAt: "2026-10-14T05:36:16.604Z"
+updatedAt: "2026-10-31T11:30:42.641Z"
 costs:
   bp: 0
   credits: 0
@@ -56,7 +56,7 @@ Factions in Tangent represent the various organizations, groups, or affiliations
   * **Auluran / Kitin:** **+2** (Biological cultivation monopolies and pharmaceutical yields)
   * **The Coalition:** **+0** (Decentralized frontier republic; balanced commoner baseline)
   * **Outworlds / Independent:** **+0** (Frontier self-reliance without institutional backing)
-  * **Others / Custom:** **+0 to +3** (Adjusted by GM based on faction sovereignty)
+  * **Others / Custom:** **+0 to +3** (Adjusted by the Architect based on faction sovereignty)
 * **Sociological Standing:** Pre-established diplomatic recognition, citizenship, legal status, and faction equipment access.
 
 ---

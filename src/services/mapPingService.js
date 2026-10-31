@@ -43,7 +43,7 @@ export const createTacticalPing = (
   y = 0,
   type = 'move',
   customLabel = null,
-  senderName = 'Operative',
+  senderName = 'Operator',
   teamColor = null
 ) => {
   const pingDef = CANONICAL_PING_TYPES.find(p => p.type === type) || CANONICAL_PING_TYPES[1];

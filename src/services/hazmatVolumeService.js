@@ -121,7 +121,7 @@ export function evaluateHazmatTick(token, hazardZones = []) {
       savePassed,
       damage,
       condition: !savePassed ? hazardType.condition : null,
-      message: `${hazardType.icon} ${token.label || 'Operative'} in ${hazardType.name}: ${savePassed ? 'PASSED save' : 'FAILED save'} (Roll: ${roll} vs CR ${hazardType.saveCr}) → ${damage} DMG${!savePassed && hazardType.condition ? ` + [${hazardType.condition}]` : ''}`
+      message: `${hazardType.icon} ${token.label || 'Operator'} in ${hazardType.name}: ${savePassed ? 'PASSED save' : 'FAILED save'} (Roll: ${roll} vs CR ${hazardType.saveCr}) → ${damage} DMG${!savePassed && hazardType.condition ? ` + [${hazardType.condition}]` : ''}`
     });
   });
 

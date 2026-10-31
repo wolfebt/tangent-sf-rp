@@ -54,5 +54,5 @@ Effect Description:
 Decreases the target's size category.  
 **Scaling Function:**
 * **Magnitude:** Decreases Size by 1 Category per 2 Stages.  
-* **Defense:** AC/Stealth Bonus \= \+2 per Category decreased.
+* **Defense:** Defense/Stealth Bonus \= \+2 per Category decreased.
 ###

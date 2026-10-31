@@ -115,7 +115,7 @@ export const MobileTacticalBlocker: React.FC<MobileTacticalBlockerProps> = ({
           <ul className="text-[11px] text-slate-300 space-y-1.5 font-sans">
             <li className="flex items-center gap-2">
               <span className="text-cyan-400 shrink-0">&bull;</span>
-              <span><strong>Operative Folio:</strong> Full character builder &amp; live tactical sheet</span>
+              <span><strong>Operator Folio:</strong> Full character builder &amp; live tactical sheet</span>
             </li>
             <li className="flex items-center gap-2">
               <span className="text-emerald-400 shrink-0">&bull;</span>

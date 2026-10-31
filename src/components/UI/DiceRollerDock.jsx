@@ -355,7 +355,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const [broadcastToChat, setBroadcastToChat] = useState(false);
   const [hasUsedBroadcast, setHasUsedBroadcast] = useState(false);
   const [selectedChannelId, setSelectedChannelId] = useState('');
-  const [characterName, setCharacterName] = useState('Operative');
+  const [characterName, setCharacterName] = useState('Operator');
   const [isBroadcastMenuOpen, setIsBroadcastMenuOpen] = useState(false);
   const broadcastMenuRef = useRef(null);
 
@@ -780,7 +780,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       ? overrideConfig.targetDC 
       : (overrideConfig?.targetNumber !== undefined ? overrideConfig.targetNumber : targetDC);
 
-    const cName = overrideConfig?.characterName || characterName || 'Operative';
+    const cName = overrideConfig?.characterName || characterName || 'Operator';
     const parsedExpr = parseDiceExpression(expr);
     const dieDescriptor = parsedExpr.sides === 10 && parsedExpr.count === 2 
       ? '2d10' 

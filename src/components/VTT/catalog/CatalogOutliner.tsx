@@ -279,7 +279,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
       size_modifier: 0,
       speed_ft: 30,
       species: entity.species || (isSyn ? 'Synthetic' : 'Human'),
-      archetype: entity.archetype || 'Operative',
+      archetype: entity.archetype || 'Operator',
       is_persona: !!entity.isPersona
     };
 
@@ -614,13 +614,13 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
       {activeCategory === 'personae' && (
         <div className="space-y-1">
           <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-1 mb-1 flex items-center justify-between">
-            <span>Hero Operatives & Personas</span>
+            <span>Hero Operators & Personas</span>
             <span className="text-emerald-400 font-bold">{personaRoster.length + adePersonas.length}</span>
           </div>
 
           {personaRoster.length === 0 && adePersonas.length === 0 ? (
             <div className="p-3 text-center text-xs text-slate-500 font-mono border border-dashed border-slate-800 rounded-xl">
-              No operative loaded from Persona Folio (/folio) or ADE Elements.
+              No operator loaded from Persona Folio (/folio) or ADE Elements.
             </div>
           ) : (
             <>
@@ -628,7 +628,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                 .filter((p: any) => matchesSearch(p.name || p['char-name'] || '', 'hero', p))
                 .map((p: any, idx: number) => {
                   const pId = p['character-doc-id'] || p.id || `hero-${idx}`;
-                  const pName = p.name || p['char-name'] || 'Operative';
+                  const pName = p.name || p['char-name'] || 'Operator';
                   const pSpecies = p.species || p['char-species'] || 'Human';
                   const pArchetype = p.archetype || p['char-archetype'] || 'Operator';
                   const isSyn = String(pSpecies).toLowerCase().includes('synthetic');
@@ -692,7 +692,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                   const pId = p.id || `ade-persona-${idx}`;
                   const pName = p.title || p.name || 'ADE Persona';
                   const pSpecies = p.fields?.species || 'Human';
-                  const pArchetype = p.fields?.archetype || 'Operative';
+                  const pArchetype = p.fields?.archetype || 'Operator';
                   const img = p.imageUrl || p.image;
                   const icon = p.icon || '🧙‍♂️';
 

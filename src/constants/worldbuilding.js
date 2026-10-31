@@ -164,7 +164,7 @@ export const COMPETENCY_ROLES = {
 export const DESIGNATIONS = {
   Adversary: { id: 'Adversary', name: 'Adversary (Enemy)', description: 'Built to actively oppose players using full combat mechanics' },
   Ally: { id: 'Ally', name: 'Ally (Independent)', description: 'Aids players autonomously on own initiative with full tier scaling' },
-  Companion: { id: 'Companion', name: 'Companion (Player-Bound)', description: 'Bound directly to player character via 40 CP budget system' },
+  Companion: { id: 'Companion', name: 'Companion (Operator-Bound)', description: 'Bound directly to operator character via 40 CP budget system' },
   Neutral: { id: 'Neutral', name: 'Neutral (Civilian / Bystander)', description: 'Managed via narrative block; full health pool with untrained combat triggers' }
 };
 
@@ -217,7 +217,7 @@ export const COMPANION_FUNCTION_PACKAGES = [
   { id: 'scout_recon', name: 'Scout / Recon Focus', bpCost: 8, keySkills: ['Stealth (5)', 'Alertness (5)', 'Survival (4)'], bonusStealth: 4, bonusAwareness: 3 },
   { id: 'utility_interface', name: 'Utility & Tool Interface', bpCost: 8, keySkills: ['Computers (4)', 'Engineering (4)', 'Search (4)'], bonusTech: 2 },
   { id: 'medical_injector', name: 'Medical & Trauma Support', bpCost: 8, keySkills: ['Medicine (5)', 'First Aid (5)'], bonusMed: 3 },
-  { id: 'hacking_warfare', name: 'Hacking & EW Infiltrator', bpCost: 8, keySkills: ['Computers (5)', 'Disable Device (4)'], bonusHack: 3 },
+  { id: 'hacking_warfare', name: 'Hacking & EW Infiltrator', bpCost: 8, keySkills: ['Computers (5)', 'Mechanic (4)'], bonusHack: 3 },
   { id: 'stealth_assassin', name: 'Stealth & Ambush', bpCost: 8, keySkills: ['Stealth (6)', 'Evasion (4)', 'Melee Combat (3)'], bonusAmbush: 3 },
   { id: 'mount_transport', name: 'Mount & Heavy Transport', bpCost: 6, keySkills: ['Athletics (5)', 'Survival (4)'], bonusCapacity: 'Heavy Load' }
 ];
@@ -340,7 +340,7 @@ export const INVOCATION_SCALING_FORMULAS = {
 
 export const META_TECH_ENHANCEMENT_TYPES = {
   Passive: { id: 'Passive', name: 'Passive Enhancement', description: 'Always-on matter/energy alteration (DC = Base Item DC + Sockets x 5)' },
-  Active: { id: 'Active', name: 'Active Imbuement (Device)', description: 'Hard-coded spell in a device (DC = 15 + Invocation Rank + TL Mod)' },
+  Active: { id: 'Active', name: 'Active Imbuement (Device)', description: 'Hard-coded invocation in a device (DC = 15 + Invocation Rank + TL Mod)' },
   Consumable: { id: 'Consumable', name: 'Consumable / Grenade', description: 'Single-use charged item (DC = 15 + Invocation Rank - 10 Consumable Discount)' },
   Amplifier: { id: 'Amplifier', name: 'Symbiotic Amplifier', description: 'Lens multiplying caster own invocations by vehicle/structure scale' }
 };
@@ -394,21 +394,21 @@ export const ORBITAL_ZONES = {
 
 export const PLANETARY_SIZE_CLASSES = {
   0: { size: 0, name: 'Class 0 (Asteroid / Void Belt)', km: '< 800 km', gravityTier: 'Zero-G', gVal: '< 0.1G', moveMod: 'Fly (Base)', carryMult: 10, combatMod: '-4 Attack/Skill', fallDmg: 'Muscle Atrophy (1d6 Str/wk)' },
-  1: { size: 1, name: 'Class 1 (Tiny / Dwarf Planet)', km: '800–1,600 km', gravityTier: 'Low', gVal: '0.1–0.4G', moveMod: '+5 ft', carryMult: 2, combatMod: '-2 Attack, +2 Dex / -2 Str', fallDmg: '1d4/10ft' },
-  2: { size: 2, name: 'Class 2 (Small / Mars-like)', km: '1,600–3,200 km', gravityTier: 'Low', gVal: '0.4–0.7G', moveMod: '+5 ft', carryMult: 2, combatMod: '-2 Attack, +2 Dex / -2 Str', fallDmg: '1d4/10ft' },
-  3: { size: 3, name: 'Class 3 (Sub-Standard)', km: '3,200–4,800 km', gravityTier: 'Low', gVal: '0.7–0.8G', moveMod: '+5 ft', carryMult: 2, combatMod: '-2 Attack, +2 Dex / -2 Str', fallDmg: '1d4/10ft' },
+  1: { size: 1, name: 'Class 1 (Tiny / Dwarf Planet)', km: '800–1,600 km', gravityTier: 'Low', gVal: '0.1–0.4G', moveMod: '+5 ft', carryMult: 2, combatMod: '-2 Attack, +2 Agi / -2 Str', fallDmg: '1d4/10ft' },
+  2: { size: 2, name: 'Class 2 (Small / Mars-like)', km: '1,600–3,200 km', gravityTier: 'Low', gVal: '0.4–0.7G', moveMod: '+5 ft', carryMult: 2, combatMod: '-2 Attack, +2 Agi / -2 Str', fallDmg: '1d4/10ft' },
+  3: { size: 3, name: 'Class 3 (Sub-Standard)', km: '3,200–4,800 km', gravityTier: 'Low', gVal: '0.7–0.8G', moveMod: '+5 ft', carryMult: 2, combatMod: '-2 Attack, +2 Agi / -2 Str', fallDmg: '1d4/10ft' },
   4: { size: 4, name: 'Class 4 (Standard Small)', km: '4,800–6,400 km', gravityTier: 'Standard', gVal: '0.8–0.9G', moveMod: 'Normal', carryMult: 1, combatMod: 'None', fallDmg: '1d6/10ft' },
   5: { size: 5, name: 'Class 5 (Standard Medium)', km: '6,400–8,000 km', gravityTier: 'Standard', gVal: '0.9–1.0G', moveMod: 'Normal', carryMult: 1, combatMod: 'None', fallDmg: '1d6/10ft' },
   6: { size: 6, name: 'Class 6 (Standard Earth-like)', km: '8,000–9,600 km', gravityTier: 'Standard', gVal: '1.0G', moveMod: 'Normal', carryMult: 1, combatMod: 'None', fallDmg: '1d6/10ft' },
   7: { size: 7, name: 'Class 7 (Standard Large)', km: '9,600–11,200 km', gravityTier: 'Standard', gVal: '1.0–1.2G', moveMod: 'Normal', carryMult: 1, combatMod: 'None', fallDmg: '1d6/10ft' },
-  8: { size: 8, name: 'Class 8 (Super-Earth)', km: '11,200–12,800 km', gravityTier: 'High', gVal: '1.2–1.6G', moveMod: '-5 ft', carryMult: 0.5, combatMod: '-2 Attack, +2 Str / -2 Dex', fallDmg: '1d8/10ft (Fatigue)' },
-  9: { size: 9, name: 'Class 9 (Heavy Super-Earth)', km: '12,800–14,400 km', gravityTier: 'High', gVal: '1.6–2.0G', moveMod: '-5 ft', carryMult: 0.5, combatMod: '-2 Attack, +2 Str / -2 Dex', fallDmg: '1d8/10ft (Fatigue)' },
+  8: { size: 8, name: 'Class 8 (Super-Earth)', km: '11,200–12,800 km', gravityTier: 'High', gVal: '1.2–1.6G', moveMod: '-5 ft', carryMult: 0.5, combatMod: '-2 Attack, +2 Str / -2 Agi', fallDmg: '1d8/10ft (Fatigue)' },
+  9: { size: 9, name: 'Class 9 (Heavy Super-Earth)', km: '12,800–14,400 km', gravityTier: 'High', gVal: '1.6–2.0G', moveMod: '-5 ft', carryMult: 0.5, combatMod: '-2 Attack, +2 Str / -2 Agi', fallDmg: '1d8/10ft (Fatigue)' },
   10: { size: 10, name: 'Class 10 (Giant / Extreme)', km: '> 14,400 km', gravityTier: 'Extreme', gVal: '> 2.0G', moveMod: 'Half Speed', carryMult: 0.25, combatMod: '-4 to all Physical Checks', fallDmg: 'Crush Dmg 1d6/min' }
 };
 
 export const ATMOSPHERE_TYPES_DETAILED = {
   0: { code: 0, name: 'Vacuum', pressure: '0.00 atm', gear: 'Vacc Suit', hazard: 'Suffocation, high radiation, 1d6 decompression dmg/rnd' },
-  1: { code: 1, name: 'Trace', pressure: '< 0.1 atm', gear: 'Vacc Suit', hazard: 'CON DC 15 hourly vs fatigue; suffocation over time' },
+  1: { code: 1, name: 'Trace', pressure: '< 0.1 atm', gear: 'Vacc Suit', hazard: 'Fortitude CR 15 hourly vs fatigue; suffocation over time' },
   2: { code: 2, name: 'Very Thin', pressure: '0.1–0.4 atm', gear: 'Respirator', hazard: 'Fatigue checks in combat; projectile ranges +50%' },
   3: { code: 3, name: 'Thin', pressure: '0.4–0.7 atm', gear: 'Filter Mask', hazard: 'Breathable for natives; altitude sickness (Fatigue DC 15/hr)' },
   4: { code: 4, name: 'Standard', pressure: '0.7–1.5 atm', gear: 'None', hazard: 'Earth-normal standard breathable' },
@@ -676,7 +676,7 @@ export const EXPERIENCE_RULES = {
       minAP: 1,
       maxAP: 5,
       isAdHoc: true,
-      description: 'Exceptional moments during gameplay: epic actions that turn the tide of battle, creative solutions to problems, or surprising the GM with unexpected twists.'
+      description: 'Exceptional moments during gameplay: epic actions that turn the tide of battle, creative solutions to problems, or surprising the Architect with unexpected twists.'
     }
   },
   EXPERIENCE_DEBT: {
@@ -688,7 +688,7 @@ export const EXPERIENCE_RULES = {
     SKILL_RANK: { costAP: 1, maxIncrement: 1, label: 'Skill Rank' },
     ATTRIBUTE_CHECK: { costAP: 1, maxIncrement: 1, label: 'Attribute Check (+1)' },
     PRIMARY_ATTRIBUTE: { costAP: 5, maxIncrement: 1, label: 'Primary Attribute (+1)' },
-    FEATURE: { costAP: 3, recommendedCostAP: 2, maxIncrement: 1, label: 'Feature / Feat' },
+    FEATURE: { costAP: 3, recommendedCostAP: 2, maxIncrement: 1, label: 'Feature' },
     SPECIAL_ABILITY: { costAP: 5, maxIncrement: 1, label: 'Special Ability' },
     AWAKENED_DISCIPLINE: { costAP: 5, maxIncrement: 1, label: 'Awakened Discipline' },
     INVOCATION: { costAPMin: 1, costAPMax: 3, maxIncrement: 1, label: 'Invocation' },

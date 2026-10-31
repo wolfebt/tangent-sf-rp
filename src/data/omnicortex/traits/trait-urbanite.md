@@ -7,7 +7,7 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: +2 racial bonus on Diplomacy and Sense Motive checks.
+description: +2 racial bonus on Diplomacy and Insight checks.
 modifiers:
   - target: Diplomacy
     type: skill
@@ -31,4 +31,4 @@ modifiers:
 Cosmopolitan intuition tuned to dense cityscapes, civic crowds, and social reading.
 
 ## Mechanics & Benefit
-+2 racial bonus on Diplomacy and Sense Motive checks
++2 racial bonus on Diplomacy and Insight checks

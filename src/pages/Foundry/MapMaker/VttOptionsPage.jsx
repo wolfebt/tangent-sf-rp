@@ -205,7 +205,7 @@ export const VttOptionsPage = () => {
                 <div className="flex items-center gap-2">
                   <Users className="text-purple-400" size={18} />
                   <h2 className="text-sm font-mono font-bold uppercase text-white tracking-wider">
-                    2. Operative Token Deployment
+                    2. Operator Token Deployment
                   </h2>
                 </div>
                 <span className="text-xs font-mono text-slate-400">
@@ -215,12 +215,12 @@ export const VttOptionsPage = () => {
 
               {allOperatives.length === 0 ? (
                 <div className="p-6 text-center border border-dashed border-slate-800 rounded-lg">
-                  <p className="text-xs text-slate-400 font-mono mb-3">No operative character sheets in Persona Folio.</p>
+                  <p className="text-xs text-slate-400 font-mono mb-3">No operator character sheets in Persona Folio.</p>
                   <button
                     onClick={() => navigate('/folio')}
                     className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white text-xs font-mono font-bold uppercase rounded-lg"
                   >
-                    + Create Operative Sheet
+                    + Create Operator Sheet
                   </button>
                 </div>
               ) : (
@@ -228,7 +228,7 @@ export const VttOptionsPage = () => {
                   {allOperatives.map(op => {
                     const docId = op['character-doc-id'] || op.id;
                     const isDeployed = selectedTokens.includes(docId);
-                    const name = op['char-name'] || 'Operative';
+                    const name = op['char-name'] || 'Operator';
                     const species = typeof op['char-species'] === 'object' ? op['char-species']?.name : op['char-species'] || 'Species N/A';
                     const occu = typeof op['char-occu'] === 'object' ? op['char-occu']?.name : op['char-occu'] || 'Role N/A';
 
@@ -268,7 +268,7 @@ export const VttOptionsPage = () => {
               <div className="flex items-center gap-2 pb-3 border-b border-slate-800/80 mb-4">
                 <Eye className="text-emerald-400" size={18} />
                 <h2 className="text-sm font-mono font-bold uppercase text-white tracking-wider">
-                  Player Spectator Mode
+                  Operator Spectator Mode
                 </h2>
               </div>
 

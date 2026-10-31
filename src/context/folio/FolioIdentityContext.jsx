@@ -32,6 +32,7 @@ import {
 } from '../../utils/personaValidationUtils';
 import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
 import { getEnrichedTraitData } from '../../data/speciesTraitsData';
+import { getEnrichedFeatureData } from '../../data/featuresData';
 import {
   formatSpeciesTrait,
   isGeneratedTraitId,
@@ -185,27 +186,40 @@ export const sanitizeCharacterSkills = (charData) => {
     if (!item || typeof item !== 'object') return item;
     const rawName = String(item.name || item.title || '').trim();
     const rawDesc = String(item.description || item.desc || '').trim();
+    const rawMech = String(item.mechanic || item.mechanics || '').trim();
     const isTraitLike = isTraitArray ||
       String(item.category || item.trait_type || '').toLowerCase().includes('trait') ||
       /^(?:trait|feature)[-_]/i.test(rawName);
-    if (!isTraitLike) return item;
 
-    const needsNameHeal = !rawName || /^(?:trait|feature)[-_]/i.test(rawName) || isGeneratedTraitId(rawName);
-    const needsDescHeal = isCorruptedTraitDescription(rawDesc) || /\s+#+\s*$/.test(rawDesc) || /\*[^*]+\*\s*#*$/.test(rawDesc);
-    const enriched = getEnrichedTraitData(item) || {};
-    const formatted = formatSpeciesTrait(item);
+    const isDupMech = (m, d) => {
+      if (!m) return true;
+      const cm = String(m).trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+      if (!cm) return true;
+      if (!d) return false;
+      const cd = String(d).trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+      return cm === cd;
+    };
+
+    const enriched = (isTraitLike ? getEnrichedTraitData(item) : getEnrichedFeatureData(item)) || {};
+    const formatted = isTraitLike ? formatSpeciesTrait(item) : null;
     const bestCanonicalName = (enriched.name && !/^(?:trait|feature)[-_]/i.test(enriched.name) && !isGeneratedTraitId(enriched.name))
       ? enriched.name
       : ((formatted?.name && formatted.name !== 'Species Adaptation') ? formatted.name : '');
-    const needsPunctuationSync = Boolean(bestCanonicalName && rawName !== bestCanonicalName && normalizeTraitLookupKey(rawName) === normalizeTraitLookupKey(bestCanonicalName));
 
-    if (!needsNameHeal && !needsDescHeal && !needsPunctuationSync) return item;
+    const needsNameHeal = !rawName || /^(?:trait|feature)[-_]/i.test(rawName) || isGeneratedTraitId(rawName);
+    const needsDescHeal = isCorruptedTraitDescription(rawDesc) || /\s+#+\s*$/.test(rawDesc) || /\*[^*]+\*\s*#*$/.test(rawDesc);
+    const needsPunctuationSync = Boolean(bestCanonicalName && rawName !== bestCanonicalName && normalizeTraitLookupKey(rawName) === normalizeTraitLookupKey(bestCanonicalName));
+    const canonicalMech = enriched.mechanic || formatted?.mechanic || '';
+    const needsMechHeal = Boolean(canonicalMech && (isDupMech(rawMech, rawDesc) || isDupMech(rawMech, enriched.description)));
+
+    if (!needsNameHeal && !needsDescHeal && !needsPunctuationSync && !needsMechHeal) return item;
 
     const finalName = (needsNameHeal || needsPunctuationSync)
       ? (bestCanonicalName || cleanTraitName(rawName) || rawName)
       : rawName;
     const inlineMech = extractInlineMarkdownMechanic(rawDesc);
-    const finalMech = item.mechanic || item.mechanics || enriched.mechanic || formatted?.mechanic || inlineMech || '';
+    const validRawMech = (!isDupMech(rawMech, rawDesc) && !isDupMech(rawMech, enriched.description)) ? rawMech : '';
+    const finalMech = canonicalMech || validRawMech || inlineMech || '';
     const finalDesc = cleanTraitDescriptionText(
       (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enriched.description || formatted?.description || '',
       finalMech
@@ -218,7 +232,9 @@ export const sanitizeCharacterSkills = (charData) => {
       name: finalName,
       description: finalDesc,
       ...(item.desc !== undefined ? { desc: finalDesc } : {}),
-      ...(finalMech ? { mechanic: finalMech, mechanics: finalMech } : {})
+      ...(finalMech ? { mechanic: finalMech, mechanics: finalMech } : { mechanic: '', mechanics: '' }),
+      ...(Array.isArray(enriched.modifiers) && enriched.modifiers.length > 0 && (!Array.isArray(item.modifiers) || item.modifiers.length === 0) ? { modifiers: enriched.modifiers } : {}),
+      ...(enriched.modifier_options?.enabled && !item.modifier_options?.enabled ? { modifier_options: enriched.modifier_options } : {})
     };
   };
 
@@ -236,14 +252,14 @@ export const DEFAULT_IDENTITY_FALLBACK = {
   characterData: DEFAULT_CHARACTER,
   setCharacterData: () => {},
   activeCharacter: {
-    name: 'Operative',
+    name: 'Operator',
     archetype: 'Operative',
     species: 'Alterian',
     techLevel: 3,
     magicLevel: 3
   },
   activePersona: DEFAULT_CHARACTER,
-  activeHeroName: 'Operative',
+  activeHeroName: 'Operator',
   updateField: () => {},
   activeTab: 'identity',
   setActiveTab: () => {},
@@ -780,7 +796,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
   }, [dbData, triggerSave]);
 
   const activeCharacter = useMemo(() => ({
-    name: characterData['char-name'] || 'Operative',
+    name: characterData['char-name'] || 'Operator',
     archetype: characterData['char-archetype'] || 'Operative',
     species: characterData['char-species'] || 'Alterian',
     techLevel: characterData['tech-level'] ?? 3,
@@ -852,7 +868,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
       setLastSavedTime(new Date());
     }
 
-    showToast({ type: 'success', title: 'Persona Saved', message: `Saved "${finalized['char-name'] || 'Operative'}" to Roster.` });
+    showToast({ type: 'success', title: 'Persona Saved', message: `Saved "${finalized['char-name'] || 'Operator'}" to Roster.` });
     return finalized;
   }, [characterData]);
 
@@ -1035,7 +1051,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     const clone = {
       ...found,
       'character-doc-id': newId,
-      'char-name': `${found['char-name'] || 'Operative'} (Copy)`,
+      'char-name': `${found['char-name'] || 'Operator'} (Copy)`,
       updatedAt: new Date().toISOString()
     };
     setPersonaRoster(prev => {
@@ -1131,7 +1147,7 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     const docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const blank = sanitizeSubAttributes({
       ...DEFAULT_CHARACTER,
-      'char-name': 'New Operative',
+      'char-name': 'New Operator',
       'character-doc-id': docId,
       id: docId,
       isNewBlank: true

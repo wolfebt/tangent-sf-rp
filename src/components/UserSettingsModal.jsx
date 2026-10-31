@@ -566,7 +566,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                   <div>
                     <h4 className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-2">
                       <User size={14} />
-                      <span>Operative Identity</span>
+                      <span>Operator Identity</span>
                     </h4>
                     <p className="text-[11px] text-slate-400">
                       Configure your public callsign and shared transmission details across teams and sessions.
@@ -778,7 +778,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                         name: 'Comfortable (+8%)',
                         multiplier: '1.08x',
                         tag: 'POPULAR',
-                        desc: 'Slightly enlarged labels and body text for relaxed reading across long roleplaying and GM sessions, without overflowing containers.'
+                        desc: 'Slightly enlarged labels and body text for relaxed reading across long roleplaying and Architect sessions, without overflowing containers.'
                       },
                       {
                         id: 'large',
@@ -851,7 +851,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                       <div className="flex items-center justify-between flex-wrap gap-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-bold font-mono text-cyan-300">
-                            UNIT #709 // CYBER-OPERATIVE
+                            UNIT #709 // CYBER-OPERATOR
                           </span>
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold uppercase">
                             ONLINE

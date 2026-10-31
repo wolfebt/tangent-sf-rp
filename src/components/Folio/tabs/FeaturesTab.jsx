@@ -99,6 +99,15 @@ const ALL_TRAIT_LOOKUP = [
   ...ORIGIN_TRAITS
 ];
 
+const isDupMechText = (mech, desc) => {
+  if (!mech || typeof mech !== 'string') return true;
+  const cleanM = mech.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+  if (!cleanM) return true;
+  if (!desc || typeof desc !== 'string') return false;
+  const cleanD = desc.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+  return cleanM === cleanD;
+};
+
 /**
  * Resolves a canonical trait object from ID or name
  */
@@ -115,7 +124,8 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
 
   const rawObjDesc = typeof traitIdOrName === 'object' ? (traitIdOrName.description || traitIdOrName.desc || '') : '';
   const inlineMech = extractInlineMarkdownMechanic(rawObjDesc);
-  const rawObjMech = (typeof traitIdOrName === 'object' ? (traitIdOrName.mechanic || traitIdOrName.mechanics || '') : '') || inlineMech;
+  const candidateObjMech = (typeof traitIdOrName === 'object' ? (traitIdOrName.mechanic || traitIdOrName.mechanics || '') : '') || inlineMech;
+  const rawObjMech = isDupMechText(candidateObjMech, rawObjDesc) ? (inlineMech || '') : candidateObjMech;
   const cleanObjDesc = isCorruptedTraitDescription(rawObjDesc) ? '' : cleanTraitDescriptionText(rawObjDesc, rawObjMech);
 
   // Check pillar-specific traits_detail first (e.g. Occupation or Origin specific traits)
@@ -141,8 +151,12 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
           return tId === cl || tName === cl;
         }) || normCandidates.some(nc => nc === tNormId || nc === tNormName);
       });
-      const resolvedMech = detailFound.mechanic || detailFound.mechanics || rawObjMech || canonicalMatch?.mechanic || '';
-      const resolvedDesc = cleanTraitDescriptionText(detailFound.description || detailFound.desc || cleanObjDesc || canonicalMatch?.description || '', resolvedMech);
+      const baseDesc = detailFound.description || detailFound.desc || cleanObjDesc || canonicalMatch?.description || '';
+      const detailMech = detailFound.mechanic || detailFound.mechanics || '';
+      const resolvedMech = (!isDupMechText(detailMech, baseDesc) ? detailMech : '') ||
+                           canonicalMatch?.mechanic ||
+                           (!isDupMechText(rawObjMech, baseDesc) ? rawObjMech : '') || '';
+      const resolvedDesc = cleanTraitDescriptionText(baseDesc, resolvedMech);
       return {
         ...(canonicalMatch || {}),
         ...detailFound,
@@ -170,8 +184,9 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
 
   if (found) {
     // If KNOWN_SPECIES_TRAIT_DESCRIPTIONS has a curated short name/description for species traits (e.g. Aeld Lineage), prefer its clean name/description when found.description is generic
-    const resolvedMech = rawObjMech || found.mechanic || found.mechanics || formatted?.mechanic || '';
-    const resolvedDesc = cleanTraitDescriptionText(cleanObjDesc || found.description || found.desc || formatted?.description || '', resolvedMech);
+    const baseDesc = cleanObjDesc || found.description || found.desc || formatted?.description || '';
+    const resolvedMech = found.mechanic || found.mechanics || formatted?.mechanic || (!isDupMechText(rawObjMech, baseDesc) ? rawObjMech : '') || '';
+    const resolvedDesc = cleanTraitDescriptionText(baseDesc, resolvedMech);
     const resolvedName = found.name || formatted?.name || cleanTraitName(rawStr);
     return typeof traitIdOrName === 'object'
       ? {
@@ -191,8 +206,9 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
   }
 
   if (formatted && formatted.name && formatted.name !== 'Species Adaptation') {
-    const resolvedMech = rawObjMech || formatted.mechanic || formatted.tooltip?.rules || '';
-    const resolvedDesc = cleanTraitDescriptionText(cleanObjDesc || formatted.description || formatted.tooltip?.description || `${formatted.name} species trait.`, resolvedMech);
+    const baseDesc = cleanObjDesc || formatted.description || formatted.tooltip?.description || `${formatted.name} species trait.`;
+    const resolvedMech = formatted.mechanic || formatted.tooltip?.rules || (!isDupMechText(rawObjMech, baseDesc) ? rawObjMech : '') || '';
+    const resolvedDesc = cleanTraitDescriptionText(baseDesc, resolvedMech);
     return {
       id: (!isGeneratedTraitId(formatted.id) && formatted.id) || clean,
       name: formatted.name,
@@ -439,7 +455,9 @@ export const FeaturesTab = ({
         const itemObj = typeof item === 'object' ? item : { name: item };
         const rawDesc = itemObj.description || itemObj.desc || '';
         const inlineMech = extractInlineMarkdownMechanic(rawDesc);
-        const mech = itemObj.mechanic || itemObj.mechanics || enriched.mechanic || inlineMech || '';
+        const rawItemMech = itemObj.mechanic || itemObj.mechanics || '';
+        const validItemMech = (!isDupMechText(rawItemMech, rawDesc) && !isDupMechText(rawItemMech, enriched.description)) ? rawItemMech : '';
+        const mech = enriched.mechanic || validItemMech || inlineMech || '';
         const desc = cleanTraitDescriptionText((!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enriched.description || '', mech);
         const rawName = itemObj.name || itemObj.title || '';
         const isSlugOrGen = !rawName || /^(?:feature|trait|ability|combat|discipline|general|karma|skill|special)[-_]/i.test(rawName) || isGeneratedTraitId(rawName);
@@ -1013,11 +1031,13 @@ export const FeaturesTab = ({
 
         const rawItemDesc = typeof item === 'object' ? (item.description || item.desc || '') : '';
         const inlineMech = extractInlineMarkdownMechanic(rawItemDesc);
-        const finalMechanic = (typeof item === 'object' && (item.mechanic || item.mechanics)) || resolvedTrait?.mechanic || canonicalTrait?.mechanic || inlineMech || '';
-        const finalDescription = cleanTraitDescriptionText(
-          (!isCorruptedTraitDescription(rawItemDesc) ? rawItemDesc : '') || resolvedTrait?.description || canonicalTrait?.description || '',
-          finalMechanic
-        );
+        const baseTraitDesc = (!isCorruptedTraitDescription(rawItemDesc) ? rawItemDesc : '') || resolvedTrait?.description || canonicalTrait?.description || '';
+        const rawItemMech = typeof item === 'object' ? (item.mechanic || item.mechanics || '') : '';
+        const validItemMech = (!isDupMechText(rawItemMech, rawItemDesc) && !isDupMechText(rawItemMech, baseTraitDesc) && !isDupMechText(rawItemMech, canonicalTrait?.description))
+          ? rawItemMech
+          : '';
+        const finalMechanic = resolvedTrait?.mechanic || canonicalTrait?.mechanic || validItemMech || inlineMech || '';
+        const finalDescription = cleanTraitDescriptionText(baseTraitDesc, finalMechanic);
 
         combined.push({
           ...(canonicalTrait || {}),
@@ -1747,7 +1767,7 @@ export const FeaturesTab = ({
             id: 'features-standard',
             subTab: 'features',
             title: 'Standard Features',
-            tagline: '3 CP Base · Combat, Physical & Skill Feats',
+            tagline: '3 CP Base · Combat, Physical & Skill Features',
             icon: Sparkles,
             count: standardFeatures.length,
             unit: standardFeatures.length === 1 ? 'Feature' : 'Features',
@@ -1758,7 +1778,7 @@ export const FeaturesTab = ({
             iconBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
             badgeBg: 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60',
             accentColor: 'text-cyan-400',
-            description: "Special persona aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for feats recommended by your character's identity pillars."
+            description: "Special persona aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for features recommended by your character's identity pillars."
           },
           {
             id: 'features-traits',
@@ -2099,7 +2119,7 @@ export const FeaturesTab = ({
                                     {trait.description}
                                   </p>
                                 )}
-                                {trait.mechanic && (
+                                {trait.mechanic && !isDupMechText(trait.mechanic, trait.description) && (
                                   <p className="text-[10px] font-mono text-emerald-400/90 leading-snug">
                                     [{trait.mechanic.replace(/^\[|\]$/g, '')}]
                                   </p>
@@ -3695,7 +3715,7 @@ export const FeaturesTab = ({
                           {t.description}
                         </p>
                       )}
-                      {t.mechanic && (
+                      {t.mechanic && !isDupMechText(t.mechanic, t.description) && (
                         <p className="text-[10px] font-mono text-emerald-400/90 leading-snug">
                           [{t.mechanic.replace(/^\[|\]$/g, '')}]
                         </p>
@@ -3831,7 +3851,7 @@ export const FeaturesTab = ({
                               {trait.description}
                             </p>
                           )}
-                          {trait.mechanic && (
+                          {trait.mechanic && !isDupMechText(trait.mechanic, trait.description) && (
                             <p className="text-[10px] font-mono text-cyan-300/90 leading-snug">
                               [{trait.mechanic.replace(/^\[|\]$/g, '')}]
                             </p>
@@ -4211,7 +4231,7 @@ export const FeaturesTab = ({
                               {trait.description}
                             </p>
                           )}
-                          {trait.mechanic && (
+                          {trait.mechanic && !isDupMechText(trait.mechanic, trait.description) && (
                             <p className="text-[10px] font-mono text-sky-300/90 leading-snug">
                               [{trait.mechanic.replace(/^\[|\]$/g, '')}]
                             </p>
@@ -4393,7 +4413,7 @@ export const FeaturesTab = ({
                                 {trait.description}
                               </p>
                             )}
-                            {trait.mechanic && (
+                            {trait.mechanic && !isDupMechText(trait.mechanic, trait.description) && (
                               <p className="text-[10px] font-mono text-purple-300/90 leading-snug">
                                 [{trait.mechanic.replace(/^\[|\]$/g, '')}]
                               </p>
@@ -4570,7 +4590,7 @@ export const FeaturesTab = ({
                               {trait.description}
                             </p>
                           )}
-                          {trait.mechanic && (
+                          {trait.mechanic && !isDupMechText(trait.mechanic, trait.description) && (
                             <p className="text-[10px] font-mono text-amber-300/90 leading-snug">
                               [{trait.mechanic.replace(/^\[|\]$/g, '')}]
                             </p>

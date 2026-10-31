@@ -423,7 +423,7 @@ export const WORKSPACE_SCALES = {
 
 export const COMPUTER_PR_RATINGS = {
   0: { pr: 0, name: 'Basic Terminal', tl: 2, dcMod: 0, maxSoftware: 1, description: 'Simple calculation and static data storage' },
-  1: { pr: 1, name: 'Personal Deck', tl: 3, dcMod: 5, maxSoftware: 2, description: 'Standard consumer and operative processing' },
+  1: { pr: 1, name: 'Personal Deck', tl: 3, dcMod: 5, maxSoftware: 2, description: 'Standard consumer and operator processing' },
   2: { pr: 2, name: 'Cyber-Rig', tl: 3, dcMod: 10, maxSoftware: 4, description: 'Professional cyberware and hacking processor' },
   3: { pr: 3, name: 'Quantum Core', tl: 4, dcMod: 15, maxSoftware: 6, description: 'Tactical AI sub-mind and predictive suite' },
   4: { pr: 4, name: 'Singularity Deck', tl: 5, dcMod: 25, maxSoftware: 10, description: 'Autonomous sentient cognition node' }

@@ -53,10 +53,10 @@ const KARMA_ACTIONS = [
     id: 'so-mote-it-be',
     name: '"So Mote it Be"',
     cost: '1 Karma',
-    timing: 'Declare SIMULTANEOUSLY with metaphysical skill or feat',
+    timing: 'Declare SIMULTANEOUSLY with metaphysical skill or feature',
     scope: 'Metaphysics users (Arcane, Psi, Supernatural forces)',
-    summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feat.',
-    description: 'Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feat or boost the effectiveness/range/duration of a metaphysical skill check.',
+    summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feature.',
+    description: 'Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feature or boost the effectiveness/range/duration of a metaphysical skill check.',
     tag: 'Metaphysics Boost',
     color: 'purple'
   },
@@ -64,10 +64,10 @@ const KARMA_ACTIONS = [
     id: 'by-will-alone',
     name: '"By Will Alone"',
     cost: '1 Karma (spent regardless of outcome)',
-    timing: 'Action declaration; requires GM judgment & approval',
+    timing: 'Action declaration; requires Architect judgment & approval',
     scope: 'Pushing boundaries, rule nudges, emulating basic features for a scene',
     summary: 'Attempt extraordinary or theoretically possible actions beyond normal capabilities.',
-    description: 'Cinematic agency expenditure allowing characters to attempt extraordinary actions beyond normal limits, subject to GM approval. Success is not guaranteed and may require a check.',
+    description: 'Cinematic agency expenditure allowing characters to attempt extraordinary actions beyond normal limits, subject to Architect approval. Success is not guaranteed and may require a check.',
     tag: 'Cinematic Agency',
     color: 'rose'
   }
@@ -167,7 +167,7 @@ export const DiscreetFateOverrideModal = ({
         await awardExperience(heroId, {
           amount: delta,
           category: 'manual_override',
-          reason: 'Manual GM/Player Override',
+          reason: 'Manual Architect/Operator Override',
           autoPayDebt: true
         });
       } else {
@@ -301,7 +301,7 @@ export const DiscreetFateOverrideModal = ({
                   <span>⚠️</span> Karmic Debt Active ({currentKarma} / -{maxKarmaDebt} Limit)
                 </div>
                 <div className="text-[11px] text-rose-300/80">
-                  Your character is borrowing against future fate. The GM may impose Disadvantage on critical checks or introduce karmic setbacks until your debt is resolved.
+                  Your character is borrowing against future fate. The Architect may impose Disadvantage on critical checks or introduce karmic setbacks until your debt is resolved.
                 </div>
               </div>
             )}
@@ -532,7 +532,7 @@ export const DiscreetFateOverrideModal = ({
               </div>
               {recentAwards.length === 0 ? (
                 <div className="text-[11px] text-slate-500 italic py-2">
-                  No advancement awards recorded yet. Awards granted by the GM in the VTT will appear here.
+                  No advancement awards recorded yet. Awards granted by the Architect in the VTT will appear here.
                 </div>
               ) : (
                 <div className="space-y-1.5">
@@ -586,7 +586,7 @@ export const DiscreetFateOverrideModal = ({
                   <span className="text-xs text-emerald-400 group-hover:translate-x-0.5 transition-transform">↗</span>
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">
-                  Full reference for the Increment Rule, GM award pacing, advancement cost tables, and debt.
+                  Full reference for the Increment Rule, Architect award pacing, advancement cost tables, and debt.
                 </p>
               </button>
             </div>
@@ -623,7 +623,7 @@ export const DiscreetFateOverrideModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                When a character performs an exceptionally selfless, tactical, or dramatic action that elevates the party or story, the GM may immediately award <strong>+1 Karma</strong>. This can temporarily raise Karma above the baseline max for the current session or pay down active Karmic Debt.
+                When a character performs an exceptionally selfless, tactical, or dramatic action that elevates the party or story, the Architect may immediately award <strong>+1 Karma</strong>. This can temporarily raise Karma above the baseline max for the current session or pay down active Karmic Debt.
               </p>
             </div>
 

@@ -117,13 +117,13 @@ export function resolveGlobalMenu(context, appState, handlers) {
       },
       {
         id: 'bastion-adjudicate-chat',
-        label: 'Ask BASTION: Adjudicate Player Check',
+        label: 'Ask BASTION: Adjudicate Operator Check',
         icon: Bot,
         aiType: 'BASTION',
         highlight: true,
         onClick: () => handlers.executeBastionPrompt?.({
           title: 'Adjudicate Tactical Action from Comms',
-          prompt: `Adjudicate a player action or contested check for the game master in the Tangent SFF RPG system. State the required skill, relevant attribute mod, Target Defense / CR, and margins of success consequences.`,
+          prompt: `Adjudicate an operator action or contested check for the Architect in the Tangent SFF RPG system. State the required skill, relevant attribute mod, Target Defense / CR, and margins of success consequences.`,
           context: 'Tactical Comms Channel'
         })
       }

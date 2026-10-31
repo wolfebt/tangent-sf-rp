@@ -1104,7 +1104,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal, onOpenAssetModal 
                 updateField(`skill-${skill.id}-rank`, val);
                 if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
               }}
-              title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isDisciplineLocked ? lockMessage : undefined}
+              title={isStatsLocked ? 'Skill rank locked during active game session. Request Architect AP update.' : isDisciplineLocked ? lockMessage : undefined}
               className={`col-span-2 text-center bg-slate-950 border ${
                 isDisciplineLocked || isStatsLocked 
                   ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 

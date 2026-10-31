@@ -292,7 +292,7 @@ export const NetworkInspectorDrawer = ({
                             {activeChannelUsers.architectCommand.length})
                           </span>
                           <span className="text-[8.5px] text-slate-500">
-                            GM / Lead
+                            Architect / Lead
                           </span>
                         </div>
                         {activeChannelUsers.architectCommand.map((arch) => {

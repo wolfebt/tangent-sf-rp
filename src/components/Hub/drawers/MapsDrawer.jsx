@@ -198,7 +198,7 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
               <Users size={12} className="text-emerald-400 shrink-0" />
               <div className="min-w-0">
                 <span className="text-[10px] font-mono font-bold text-emerald-300 truncate block">{activeGroup.name}</span>
-                <span className="text-[9px] font-mono text-slate-500">{teamMembers.length} Operatives</span>
+                <span className="text-[9px] font-mono text-slate-500">{teamMembers.length} Operators</span>
               </div>
             </div>
             <button

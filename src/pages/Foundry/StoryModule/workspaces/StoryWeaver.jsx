@@ -471,7 +471,7 @@ export default function StoryWeaver({
         name: characterData['char-name'],
         label: `${characterData['char-name']} (${characterData['char-archetype'] || 'Hero'})`,
         type: 'folio',
-        subtitle: `${characterData['char-archetype'] || 'Hero'} (Active Folio Operative)`,
+        subtitle: `${characterData['char-archetype'] || 'Hero'} (Active Folio Operator)`,
         char: characterData
       });
     }
@@ -481,9 +481,9 @@ export default function StoryWeaver({
         list.push({
           id: op['character-doc-id'] || op.id,
           name: op['char-name'],
-          label: `${op['char-name']} (${op['char-archetype'] || 'Operative'})`,
+          label: `${op['char-name']} (${op['char-archetype'] || 'Operator'})`,
           type: 'folio',
-          subtitle: `${op['char-archetype'] || 'Operative'} (Roster)`,
+          subtitle: `${op['char-archetype'] || 'Operator'} (Roster)`,
           char: op
         });
       }
@@ -564,7 +564,7 @@ export default function StoryWeaver({
     const povEntry = povOptions.find(o => o.name === activePov);
     let povDirective = activePov ? `Point of View: ${activePov}` : 'Point of View: Third Person Omniscient';
     if (povEntry?.char) {
-      povDirective += ` [Hero Operative - Archetype: ${povEntry.char['char-archetype'] || 'Operative'}, Species: ${povEntry.char['char-species'] || 'Terran'}, Motive: "${povEntry.char['char-motive'] || 'Survive and accomplish mission'}"]`;
+      povDirective += ` [Hero Operator - Archetype: ${povEntry.char['char-archetype'] || 'Operator'}, Species: ${povEntry.char['char-species'] || 'Terran'}, Motive: "${povEntry.char['char-motive'] || 'Survive and accomplish mission'}"]`;
     } else if (povEntry?.element) {
       povDirective += ` [Story Persona - Species: ${povEntry.element.fields?.species || 'Unknown'}, Archetype: ${povEntry.element.fields?.archetype || 'NPC'}]`;
     }
@@ -585,8 +585,8 @@ export default function StoryWeaver({
         ? conditions.map(c => typeof c === 'string' ? c : (c.name || c.id)).join(', ')
         : 'Active Tactical Focus';
       prompt = `DUAL-TRACK NARRATIVE ARCHITECTURE DIRECTIVE:
-AUTHORITY: The author's prose is CANONICAL GM INTENT and must remain UNTOUCHED.
-Your sole duty is to generate DYNAMIC REACTIVE FLAVOR TEXT reflecting the active operative's conditions: "${conditionStr}".
+AUTHORITY: The author's prose is CANONICAL ARCHITECT INTENT and must remain UNTOUCHED.
+Your sole duty is to generate DYNAMIC REACTIVE FLAVOR TEXT reflecting the active operator's conditions: "${conditionStr}".
 Task: Write 1-2 evocative sensory sentences describing how this scene is experienced through the lens of "${conditionStr}" (e.g. sensory distortion, altered dialogue cadence, or kinetic recoil). Do not alter plot beats.
 
 Canonical Scene Extract:
@@ -758,7 +758,7 @@ Format each beat on its own line:
     const prompt = `Brainstorm 3 compelling story premises and dramatic narrative conflicts based on this prompt:
 Prompt: "${premisePrompt}"
 Guidance: ${guidanceGems || 'Sci-Fi'}
-Provide rich atmospheric hooks, faction entanglements, and high-stakes choices for the operatives.`;
+Provide rich atmospheric hooks, faction entanglements, and high-stakes choices for the operators.`;
 
     try {
       const result = await generateContent({ prompt, context: activeNode });
@@ -808,7 +808,7 @@ Provide rich atmospheric hooks, faction entanglements, and high-stakes choices f
     const tokenSummary = (linkedMap.tokens || []).map(t => `${t.name || t.label || 'Entity'} (${t.type || 'token'})`).join(', ') || 'No hostile units mapped';
     const objectSummary = (linkedMap.objects || []).map(o => `${o.label || o.type || 'Structure'} (${o.shape || 'object'})`).join(', ') || 'Standard tactical bulkheads';
 
-    const prompt = `Write an atmospheric, sensory boxed-text GM read-aloud encounter description for this tactical battlemap in Tangent SFF RPG:
+    const prompt = `Write an atmospheric, sensory boxed-text Architect read-aloud encounter description for this tactical battlemap in Tangent SFF RPG:
 Scenario: "${activeNode?.title || 'Tactical Encounter'}"
 Map Title: "${linkedMap.title}"
 Grid Mode: ${linkedMap.gridMode || 'Square'}
@@ -835,7 +835,7 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
   const handleLogEventToProse = (evt) => {
     let summary = `Event: ${evt.type}`;
     if (evt.type === 'stage-bulkhead-toggled') {
-      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operative ${evt.detail.operativeId}` : ''}`;
+      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operator ${evt.detail.operativeId}` : ''}`;
     } else if (evt.type === 'story-foundry-node-triggered') {
       summary = `Data terminal accessed: ${evt.detail?.action || 'Encrypted node decrypted'}`;
     } else if (evt.type === 'stage-hazard-toggled') {
@@ -861,7 +861,7 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
 
     let summary = `Event: ${evt.type}`;
     if (evt.type === 'stage-bulkhead-toggled') {
-      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operative ${evt.detail.operativeId}` : ''}`;
+      summary = `Bulkhead door ${evt.detail?.isOpen ? 'breached/opened' : 'sealed shut'}${evt.detail?.operativeId ? ` by operator ${evt.detail.operativeId}` : ''}`;
     } else if (evt.type === 'story-foundry-node-triggered') {
       summary = `Data terminal accessed: ${evt.detail?.action || 'Encrypted node decrypted'}`;
     } else if (evt.type === 'stage-hazard-toggled') {
@@ -877,7 +877,7 @@ Focus on sensory atmosphere (shadows, hum of generators, smell of ozone, tactica
     const povEntry = povOptions.find(o => o.name === activePov);
     let povDirective = activePov ? `Point of View: ${activePov}` : 'Point of View: Third Person Omniscient';
     if (povEntry?.char) {
-      povDirective += ` [Hero Operative - Archetype: ${povEntry.char['char-archetype'] || 'Operative'}, Species: ${povEntry.char['char-species'] || 'Terran'}, Motive: "${povEntry.char['char-motive'] || 'Survive and accomplish mission'}"]`;
+      povDirective += ` [Hero Operator - Archetype: ${povEntry.char['char-archetype'] || 'Operator'}, Species: ${povEntry.char['char-species'] || 'Terran'}, Motive: "${povEntry.char['char-motive'] || 'Survive and accomplish mission'}"]`;
     } else if (povEntry?.element) {
       povDirective += ` [Story Persona - Species: ${povEntry.element.fields?.species || 'Unknown'}, Archetype: ${povEntry.element.fields?.archetype || 'NPC'}]`;
     }
@@ -887,7 +887,7 @@ Scenario: "${activeNode?.title || 'Tactical Scene'}"
 Tactical Event: ${summary}
 ${povDirective}
 Guidance/Atmosphere: ${guidanceGems || 'Sci-Fi Dark Tactical'}
-Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impact, operative reactions, and changing situational stakes.`;
+Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impact, operator reactions, and changing situational stakes.`;
 
     try {
       const result = await generateContent({ prompt, context: activeNode });
@@ -981,7 +981,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                   >
                     <option value="" className="bg-slate-950 text-slate-400">POV: 3rd Person Omniscient</option>
                     {povOptions.filter(o => o.type === 'folio').length > 0 && (
-                      <optgroup label="Hero Operatives (Folio)" className="bg-slate-950 text-purple-400 font-bold">
+                      <optgroup label="Hero Operators (Folio)" className="bg-slate-950 text-purple-400 font-bold">
                         {povOptions.filter(o => o.type === 'folio').map(op => (
                           <option key={op.id} value={op.name} className="bg-slate-950 text-purple-200">
                             👤 {op.label}
@@ -1355,7 +1355,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
                     addStory({
                       id: newId,
                       title: 'Act I: The Inciting Incident',
-                      content: '<p><em>The operative stepped onto the pressurized platform, the neon glow of the colony filtering through the atmospheric haze...</em></p>',
+                      content: '<p><em>The operator stepped onto the pressurized platform, the neon glow of the colony filtering through the atmospheric haze...</em></p>',
                       type: 'Scenario'
                     });
                   }

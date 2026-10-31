@@ -229,7 +229,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
         const staticToken = {
           id: newId,
           character_doc_id: charData.id || charData.heroId || charData['character-doc-id'],
-          name: charData.name || charData.title || 'Operative',
+          name: charData.name || charData.title || 'Operator',
           base_hp: charData.health || charData.hp || 30,
           base_vitality: charData.vitality || 30,
           base_health: charData.health || charData.hp || 30,
@@ -241,7 +241,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           size_modifier: 0,
           speed_ft: charData.speed_ft || 30,
           species: charData.species || 'Human',
-          archetype: charData.archetype || 'Operative',
+          archetype: charData.archetype || 'Operator',
           is_persona: true
         };
 

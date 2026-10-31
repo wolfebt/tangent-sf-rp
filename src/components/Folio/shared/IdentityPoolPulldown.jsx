@@ -1485,6 +1485,15 @@ export const TraitMultiselectPulldown = ({
   const theme = THEME_STYLES[colorTheme] || THEME_STYLES.emerald;
   const dropdownRef = useRef(null);
 
+  const isDupText = (m, d) => {
+    if (!m || typeof m !== 'string') return true;
+    const cm = m.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+    if (!cm) return true;
+    if (!d || typeof d !== 'string') return false;
+    const cd = d.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+    return cm === cd;
+  };
+
   const traitCatalog = useMemo(() => {
     const map = new Map();
     ALL_CANONICAL_TRAITS.forEach(t => {
@@ -1494,7 +1503,13 @@ export const TraitMultiselectPulldown = ({
     if (Array.isArray(allTraits)) {
       [...allTraits].reverse().forEach(t => {
         const key = (t.id || t.name || '').toLowerCase();
-        if (key) map.set(key, { ...(map.get(key) || {}), ...t });
+        if (key) {
+          const base = map.get(key);
+          const desc = t.description || t.desc || base?.description || base?.desc || '';
+          const incMech = t.mechanic || t.mechanics || '';
+          const mechanic = base?.mechanic || base?.mechanics || (!isDupText(incMech, desc) ? incMech : '') || '';
+          map.set(key, { ...(base || {}), ...t, description: desc, desc, mechanic, mechanics: mechanic });
+        }
       });
     }
     return Array.from(map.values());
@@ -1538,7 +1553,10 @@ export const TraitMultiselectPulldown = ({
       (i.id || '').toLowerCase() === `trait-${clean.replace(/\s+/g, '-')}`
     );
     if (typeof rawTrait === 'object' && rawTrait !== null) {
-      return { ...(match || {}), ...rawTrait };
+      const desc = rawTrait.description || rawTrait.desc || match?.description || match?.desc || '';
+      const rawMech = rawTrait.mechanic || rawTrait.mechanics || '';
+      const mechanic = match?.mechanic || match?.mechanics || (!isDupText(rawMech, desc) ? rawMech : '') || '';
+      return { ...(match || {}), ...rawTrait, description: desc, mechanic, mechanics: mechanic };
     }
     return match || null;
   };
@@ -1566,6 +1584,7 @@ export const TraitMultiselectPulldown = ({
       const cleanName = normalizeTraitName(name);
       const rawMech = (item.mechanic || item.mechanics || item.bonus || '').replace(/^\[|\]$/g, '').trim();
       const rawDesc = (item.description || item.desc || '').trim();
+      const validMech = !isDupText(rawMech, rawDesc) ? rawMech : '';
       return {
         id: item.id || `trait_${name}`,
         name: cleanName || name,
@@ -1573,8 +1592,8 @@ export const TraitMultiselectPulldown = ({
         category: item.trait_type || item.category || categoryLabel,
         tier: item.trait_tier || 'Basic',
         classification: item.classification || item.type || 'General',
-        description: rawDesc || rawMech || '',
-        mechanic: rawMech,
+        description: rawDesc,
+        mechanic: validMech,
         modifiers: item.modifiers,
         rules: item.rules || item.special_rules,
         notes: item.notes || item.note,
@@ -1704,7 +1723,8 @@ export const TraitMultiselectPulldown = ({
             const resolved = resolveTraitRecord(trait);
             const cleanTitle = normalizeTraitName(resolved?.name || tName);
             const desc = resolved?.description || resolved?.desc || '';
-            const mech = (resolved?.mechanic || resolved?.mechanics || resolved?.bonus || '').replace(/^\[|\]$/g, '').trim();
+            const rawMech = (resolved?.mechanic || resolved?.mechanics || resolved?.bonus || '').replace(/^\[|\]$/g, '').trim();
+            const mech = !isDupText(rawMech, desc) ? rawMech : '';
             const tier = resolved?.trait_tier || resolved?.tier;
             const cat = resolved?.classification;
             const traitMods = Array.isArray(resolved?.modifiers) ? resolved.modifiers : [];

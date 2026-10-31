@@ -326,7 +326,7 @@ export const ArchitectConsoleRail = ({
               <span>Environment & Hazards:</span>
             </span>
             <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-200 border border-purple-800 font-bold">
-              GM DECK
+              ARCHITECT DECK
             </span>
           </div>
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 199
+order: 212
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.disciplinefeatures","mechanics"]
-updatedAt: "2026-10-14T09:06:38.165Z"
+updatedAt: "2026-10-31T10:38:11.373Z"
 costs:
   bp: 0
   credits: 0
@@ -152,7 +152,7 @@ Discipline Features represent a character's connection to the metaphysical force
 
 * **Prerequisite:** Discipline Focus, Attune 6  
 * **Benefit:** You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\+1 Effect Die** (or \+5 to the effective Skill Check result for non-damage spells) to the final release.  
-* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.
+* **Limit:** You may channel for a number of rounds equal to your Stamina or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.
 
 ---
 
@@ -201,7 +201,7 @@ Discipline Features represent a character's connection to the metaphysical force
 **Description:** The character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.
 
 * **Prerequisite:** None (though usually tied to Species or Origin).  
-* **Benefit:** You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.  
+* **Benefit:** You gain the ability to use **one specific Invocation** at **Level 1**.  
 * **Mechanics:**  
   * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  
   * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.  

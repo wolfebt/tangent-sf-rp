@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 16
+order: 22
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.03 species","mechanics"]
-updatedAt: "2026-10-14T05:24:25.078Z"
+updatedAt: "2026-10-31T10:38:11.215Z"
 costs:
   bp: 0
   credits: 0
@@ -58,7 +58,7 @@ Features suggested for a species receive a 1 CP discount (minimum 1 CP).
 | **AELD** | *Awakened (Arcane) \[2\], Lifespan 600+ \[1\], Immune to Sleep \[2\] {5* base*}* |  |  |  |  |  |
 | **\- ALTERIAN** | Humanoid (0) | \+1 Agi \[4\] \+1 Int \[4\] | \+20 \[16\] | Aeld Traits \[5\] | Minor Xeno (-1) | 28 CP |
 | **\- DOPPELGANGER** | Humanoid (0) | \+1 Cha \[4\] | \+5 \[4\] | Aeld Traits \[5\] Alter Form (Humanoid \- Special Ability) \[1\] Sense Evil \[4\] | Shifter (-2) Xeno (-2) | 14 CP |
-| **\- DRACONIAN** | Humanoid (0) | \+1 Int \[4\] | \+10 \[8\] | Aeld Traits \[5\] Dragonkin Traits \[6\] \+1 Feature \[3\] | Dragonkin (-4) Xeno (-2) | 19 CP |
+| **\- DRACONIAN** | Humanoid (0) | \+1 Int \[4\] | \+10 \[8\] | Aeld Traits \[5\] Dragonkin Traits \[6\] \+1 Featureure \[3\] | Dragonkin (-4) Xeno (-2) | 19 CP |
 | **\- KOVIAN** | Humanoid (0) | \+1 Int \[4\] \+1 Any \[4\] \-1 Cha \[-5\] | \+10 Disc \[8\] | Aeld Traits \[5\]&nbsp; | Xeno (-2) Supremacist (-2) | 13 CP |
 | **\- VAJAR** | Humanoid (0) | \+2 Ability \[8\] | \+10 \[8\] | Awakened (Nature) \[2\] Ageless \[2\] Immune to Sleep \[2\] Alter Forms (Adv. Animal \- Special Ability) \[2\] Mutation (Animalistic) \[3\] | Feral (-4) Xeno (-2) | 21 CP |
 | **ASI** | *Ageless \[2\], Obfuscate \[2\], Sleepless \[2\] {8* base*}* |  |  |  |  |  |
@@ -72,28 +72,28 @@ Features suggested for a species receive a 1 CP discount (minimum 1 CP).
 | **\- WILDLING** | Shifter Fey (3) | \+1 Ability \[4\] | \- | Asi Traits \[8\] Animal Affinity \[2\] Climber \[2\] Alter Form (Animal) \[2\] Awakened (Nature) \[2\] | Animal (-2) Xeno (-2) | 23 CP |
 | **AULURANS** | *Biotechnology \[2\], Low Light Vision \[1\], Prehensile Feet/Tail \[3\], Scent \[1\], Nat. Weapons \[2\] {9* base*}* |  |  |  |  |  |
 | **\- DAR** | Humanoid (0) | \+1 Agi \[4\] \+1 Ability \[4\] | \+5 \[4\] | Auluran \[9\] Awakened (Psychic) \[2\] Climber \[2\] Martial Arts \[2\] Quick \[2\] | Xeno (-2) | 26 CP |
-| **\- GRAA** | Beast (1) | \+1 Agi \[4\] \+2 Ability \[8\] | \- | Auluran \[9\] Large \[2\] Armless \[-4\] Quick \[2\] Martial Arts \[2\] Quadruped \[2\] \+1 Feature \[3\] | Animal (-2) Xeno (-2) | 15 CP |
+| **\- GRAA** | Beast (1) | \+1 Agi \[4\] \+2 Ability \[8\] | \- | Auluran \[9\] Large \[2\] Armless \[-4\] Quick \[2\] Martial Arts \[2\] Quadruped \[2\] \+1 Featureure \[3\] | Animal (-2) Xeno (-2) | 15 CP |
 | **\- KODA** | Humanoid (0) | \+1 Agi \[4\] \+1 Str \[4\] | \- | Auluran \[9\] Digitigrade \[1\] Climber \[2\] Quick \[2\] Martial Arts \[2\] Biotechnology \[2\] | Xeno (-2) | 23 CP |
 | **\- PROKOS** | Biform (Humanoid \- Beast) (0) | \+1 Int \[4\] | \- | Auluran \[9\] Digitigrade \[1\] Climber \[2\] Quick \[2\] Adapted (Cold) \[1\] Alternate Form (Special Ability) \[2\] Improved Great Fortitude \[2\] | Xeno (-2) | 20 CP |
 | **AWAKENED ANIMAL** | Beast (1) | PC Stats | \- | Animal Body (Features/Disadvantages based on species) | Beast (-4) | 2 CP |
 | **CAPRIAN** | Humanoid (0) | \+1 Sta \[4\] | \+5 \[4\] | Ungulate Legs \[1\] Uncanny Senses (Hearing/Sight) \[4\] Quick \[2\] | Xeno (-2) | 13 CP |
 | **HUMANS** |  |  |  |  |  |  |
-| **\- HUMANS (BASE)** | Humanoid (0) | \- | \+10 \[8\] | \+1 Feature \[2\] | \- | 10 CP |
-| **\- AQUARIAN** | Humanoid (0) | \+1 Ability \[4\] | \- | Adapted (Aquatic) \[1\] Amphibious \[1\] Aquatic Strength \[2\] Specialized Senses \[2\] Swimming \[2\] \+1 Feature \[3\] | Aquatic Xeno (-3) | 7 CP |
+| **\- HUMANS (BASE)** | Humanoid (0) | \- | \+10 \[8\] | \+1 Featureure \[2\] | \- | 10 CP |
+| **\- AQUARIAN** | Humanoid (0) | \+1 Ability \[4\] | \- | Adapted (Aquatic) \[1\] Amphibious \[1\] Aquatic Strength \[2\] Specialized Senses \[2\] Swimming \[2\] \+1 Featureure \[3\] | Aquatic Xeno (-3) | 7 CP |
 | **\- ARGYNT** | Humanoid (0) | \+1 Int \[4\] | \+5 \[4\] | Improved Great Fortitude \[2\] | Blue Skin (-1) | 13 CP |
 | **\- B’DREN** | Humanoid (0) | \+1 Agi \[4\] \+1 Ability \[4\] | \- | Low Light Vision \[1\] Quick \[2\] | \- | 9 CP |
 | **\- BRAE** | Humanoid (0) | \+1 Agi \[4\] \+1 Ability \[4\] | \+10 \[8\] | Small Size \[2\] Climber \[2\] | \- | 20 CP |
 | **\- CHANGELING** | Humanoid (0) | \+1 Cha \[4\] | \+5 \[4\] | Alter Form (Minor) \[1\] | Shifter (-2) | 8 CP |
 | **\- CYBERFORM** | Humanoid (0) | \+2 Int \[8\] | \+10 \[8\] | Augmented (Body Comp, PicoSurgeons, Smart Link) \[6\] Bodyform Acclimation \[2\] Companion (AI) \[3\] | Xeno (-2) Augmented (-4) | 17 CP |
-| **\- DANAI** | Humanoid (0) | \+1 Int \[4\] | \- | Awakened (Mental) \[2\] Biotechnology \[2\] Hive Connection \[2\] \+1 Feature \[3\] | Minor Xeno (-1) | 11 CP |
-| **\- DRACONIC** | Humanoid (0) | \+1 Ability \[4\] | \- | Dragonkin Traits \[6\] Status (Dynasty) \[3\] \+1 Feature \[3\] | Draconic (-2) | 7 CP |
+| **\- DANAI** | Humanoid (0) | \+1 Int \[4\] | \- | Awakened (Mental) \[2\] Biotechnology \[2\] Hive Connection \[2\] \+1 Featureure \[3\] | Minor Xeno (-1) | 11 CP |
+| **\- DRACONIC** | Humanoid (0) | \+1 Ability \[4\] | \- | Dragonkin Traits \[6\] Status (Dynasty) \[3\] \+1 Featureure \[3\] | Draconic (-2) | 7 CP |
 | **\- DWERG** | Humanoid (0) | \+1 Str \[4\] \+1 Sta \[4\] | \+10 Voc \[8\] | Mighty Surge \[2\] | Minor Xeno (-1) | 19 CP |
 | **\- ENGINEERED HUMANS** |  |  |  |  |  |  |
 | **AQUATICAN** | Humanoid (0) | \+1 Ability \[4\] | \+5 \[4\] | Adapted (Aquatic) \[1\] Amphibious \[1\] Natural Swim Speed \[2\] Swimmer \[2\] | Aquatic Xeno (-3) | 7 CP |
 | **CHIMERA** | Humanoid (0) | \+2 Ability \[8\] | \+5 \[4\] | \+2 Species/Special Features (any) \[4\] Mutation \[3\] | Genetic (-2) Beastial (-2) | 4 CP |
 | **DAVAE** | Humanoid (0) | \+1 Int \[4\] \+1 Ability \[4\] | \+5 Focus \[4\] | Awakened (Psychic) \[2\] Telepathy \[4\] Biotechnology \[2\] Hive Connection \[2\] \+2 Features \[6\] | Xeno (-2) | 17 CP |
 | **DIGON** | Humanoid (0) | \+1 Str \+1 Agi \+1 Sta \[12\] \-1 Int \-1 Cha \[-10\] | \+5 \[4\] | Brutal \[2\] Exoskeleton (Partial) \[1\] Rage \[3\] | Xeno (-2) Savage (-4) | 8 CP |
-| **GEN-E** | Humanoid (0) | \+2 Ability \[8\] | \+5 \[4\] | \+1 Feature \[3\] | \- | 9 CP |
+| **GEN-E** | Humanoid (0) | \+2 Ability \[8\] | \+5 \[4\] | \+1 Featureure \[3\] | \- | 9 CP |
 | **IMPYRIUM PSION** | Humanoid (0) | \+1 Wis \[4\] \+1 Ability \[4\] | \+10 \[8\] | Awakened (Psychic) \[2\] Status (Impyrium) \[3\] | \- | 19 CP |
 | **IMPYRIUM REGI** | Humanoid (0) | \+2 Int \[8\] | \+20 \[16\] | Adaptive Aspects \[2\] Awakened (Psychic) \[2\] Status (Nobility) \[3\] | \- | 29 CP |
 | **JANISSARY** | Humanoid (0) | \+2 Ability \[8\] \-1 Cha \[-5\] | \+20 Combat \[16\] | Augmented \[3\] \+1 Combat Feature \[2\] | Xeno (-2) | 16 CP |

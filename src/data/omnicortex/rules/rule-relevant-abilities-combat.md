@@ -17,7 +17,7 @@ modifiers: []
 ## Offensive & Defensive Ability Mappings
 - **Strength**: Applied to most melee attacks, brawling strikes, and throwing heavy objects.
 - **Agility**: Governs finesse of light or natural weapons and most ranged physical projectile attacks.
-- **Intelligence**: Key to directly weaving and calculating magical and technological effects.
+- **Intellect**: Key to directly weaving and calculating magical and technological effects.
 - **Charisma**: Applied to subtle, emotional, and controlling metaphysical factors.
 - **Stamina & Wisdom (Defensive)**: Not generally used offensively; they protect the body (**Fortitude**) and mind (**Willpower**) defensively.
-  - *Faith Caster Exception*: **Wisdom** may be used in place of Intelligence or Charisma in Metaphysic Skill checks for faith-based casters.
+  - *Faith Caster Exception*: **Wisdom** may be used in place of Intellect or Charisma in Metaphysic Skill checks for faith-based casters.

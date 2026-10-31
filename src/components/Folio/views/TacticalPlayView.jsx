@@ -416,7 +416,7 @@ export const TacticalPlayView = ({
     };
   }, [healInput, healTarget, isSynthetic, curStructure, maxStructure, curHealth, maxHealth, curVitality, maxVitality]);
 
-  // Canonical Primary Attributes & Paired Secondary Checks (Saves & Feats)
+  // Canonical Primary Attributes & Paired Secondary Checks (Saves & Features)
   const attributeCheckPairs = useMemo(() => [
     {
       primaryKey: 'attr-strength',
@@ -2219,7 +2219,7 @@ export const TacticalPlayView = ({
                         );
                       })}
 
-                      {/* General Features & Feats */}
+                      {/* General Features */}
                       {(aspectFilter === 'all' || aspectFilter === 'traits') && (() => {
                         const matchingGeneral = pillarTraitsData.generalList.filter(t => {
                           if (!aspectSearchQuery) return true;

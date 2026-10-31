@@ -53,6 +53,6 @@ Parameters:
 Effect Description:  
 Makes the caster resistant to being moved, knocked down, or grappled.  
 **Scaling Function:**
-* **Severity:** CMD Bonus vs Trip/Bull Rush \= \+4 per Stage.  
+* **Severity:** Stability Bonus vs Trip/Bull Rush \= \+4 per Stage.  
 * **Duration:** Can maintain for 1 additional round per Stage.
 ###

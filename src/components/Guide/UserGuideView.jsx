@@ -74,17 +74,27 @@ export const UserGuideView = ({
   onNavigate,
   prevItem = null,
   nextItem = null,
-  onOpenCompendiumArticle = null
+  onOpenCompendiumArticle = null,
+  scrollRef = null
 }) => {
-  const containerRef = useRef(null);
+  const internalRef = useRef(null);
+  const containerRef = scrollRef || internalRef;
   const [copiedLink, setCopiedLink] = React.useState(false);
+
+  const slugifyHeading = (raw = '') =>
+    String(raw)
+      .replace(/[*_`~]/g, '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
 
   // Scroll to top whenever section changes
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [activeSectionId]);
+  }, [activeSectionId, containerRef]);
 
   const activeSection = USER_GUIDE_SECTIONS.find(s => s.id === activeSectionId) || USER_GUIDE_SECTIONS[0];
   const isIntro = activeSection.id === 'intro';
@@ -109,8 +119,8 @@ export const UserGuideView = ({
   };
 
   return (
-    <div ref={containerRef} className="flex-1 flex flex-col overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-900/95 text-slate-200 font-sans custom-scrollbar select-text">
-      <div className="max-w-5xl mx-auto w-full space-y-8 pb-20">
+    <div ref={containerRef} className="flex-1 flex flex-col overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-900/95 text-slate-200 font-sans custom-scrollbar select-text scroll-smooth">
+      <div className="max-w-5xl mx-auto w-full space-y-8 pb-6">
 
         {/* =========================================================================
             SECTION 0: INTRO / TABLE OF CONTENTS WITH RINGED PLANET LOGO HERO
@@ -333,7 +343,12 @@ export const UserGuideView = ({
             {/* Subsections Content */}
             <div className="space-y-6">
               {activeSection.sections?.map((sub, idx) => (
-                <section key={idx} className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-5 sm:p-6 space-y-3">
+                <section
+                  key={idx}
+                  id={`sec-${slugifyHeading(sub.heading)}`}
+                  data-heading-slug={slugifyHeading(sub.heading)}
+                  className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-5 sm:p-6 space-y-3 scroll-mt-4"
+                >
                   <h2 className="text-sm sm:text-base font-bold text-white uppercase font-mono tracking-wide flex items-center gap-2">
                     <span className="text-cyan-400 font-mono text-xs font-bold">#{idx + 1}</span>
                     <span>{sub.heading}</span>
@@ -448,69 +463,6 @@ export const UserGuideView = ({
             </div>
           </div>
         )}
-
-        {/* Sequential In-Flow Article Pagination Card */}
-        <div className="pt-6 border-t border-slate-800/90 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {prevItem ? (
-            <button
-              type="button"
-              onClick={() => {
-                AudioService?.playTerminalBeep?.(1100, 0.02);
-                if (onNavigate) onNavigate(prevItem);
-              }}
-              className="group flex items-center gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-left max-w-sm w-full sm:w-auto shadow-md"
-              title={`Previous: ${prevItem.title || prevItem.name}`}
-            >
-              <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
-                <ArrowLeft size={16} />
-              </div>
-              <div className="min-w-0">
-                <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Previous</div>
-                <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
-                  {prevItem.title || prevItem.name}
-                </div>
-              </div>
-            </button>
-          ) : (
-            <div className="opacity-0 pointer-events-none hidden sm:block w-32" />
-          )}
-
-          {/* Table of contents quick link */}
-          {!isIntro && (
-            <button
-              type="button"
-              onClick={() => handleJump('intro')}
-              className="px-3.5 py-2 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-cyan-300 text-xs font-mono font-bold flex items-center gap-2 cursor-pointer transition-colors"
-            >
-              <RingedPlanetLogo size={15} />
-              <span>Back to Table of Contents</span>
-            </button>
-          )}
-
-          {nextItem ? (
-            <button
-              type="button"
-              onClick={() => {
-                AudioService?.playTerminalBeep?.(1100, 0.02);
-                if (onNavigate) onNavigate(nextItem);
-              }}
-              className="group flex items-center justify-end gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-right max-w-sm w-full sm:w-auto shadow-md"
-              title={`Next: ${nextItem.title || nextItem.name}`}
-            >
-              <div className="min-w-0">
-                <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Next</div>
-                <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
-                  {nextItem.title || nextItem.name}
-                </div>
-              </div>
-              <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
-                <ArrowRight size={16} />
-              </div>
-            </button>
-          ) : (
-            <div className="opacity-0 pointer-events-none hidden sm:block w-32" />
-          )}
-        </div>
       </div>
     </div>
   );

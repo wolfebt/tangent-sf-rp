@@ -188,12 +188,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Tolerance (in the specific type).",
     "modifiers": [],
     "description": "The character's recovery rate is supernatural. They can shake off debilitating effects in a fraction of the time it takes others.",
-    "mechanic": "The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
+    "mechanic": "The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
     "rules": "Prerequisite: Tolerance (in the specific type)..",
     "special_rules": "Prerequisite: Tolerance (in the specific type)..",
-    "body": "# Improved Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Tolerance (in the specific type).\n\n## Description\nThe character's recovery rate is supernatural. They can shake off debilitating effects in a fraction of the time it takes others.\n\n## Mechanics & Benefit\nThe time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
-    "full_text": "# Improved Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Tolerance (in the specific type).\n\n## Description\nThe character's recovery rate is supernatural. They can shake off debilitating effects in a fraction of the time it takes others.\n\n## Mechanics & Benefit\nThe time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
-    "mechanics": "The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (GM discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
+    "body": "# Improved Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Tolerance (in the specific type).\n\n## Description\nThe character's recovery rate is supernatural. They can shake off debilitating effects in a fraction of the time it takes others.\n\n## Mechanics & Benefit\nThe time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
+    "full_text": "# Improved Tolerance\n\n**Category**: Ability Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Tolerance (in the specific type).\n\n## Description\nThe character's recovery rate is supernatural. They can shake off debilitating effects in a fraction of the time it takes others.\n\n## Mechanics & Benefit\nThe time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
+    "mechanics": "The time interval between periodic Resistance Checks to end an ongoing effect is reduced to **1/4 the typical time**.  \n  * *Usage:* A paralysis effect that allows a save once per round might allow this character to save at the start *and* end of their turn (Architect discretion on granular timing), or simply recover four times faster from long-term ailments.\n\n&nbsp;\n\n&nbsp;\n\n&nbsp;",
     "notes": "[Rule] Prerequisite: Tolerance (in the specific type)..\n[Prerequisite] Tolerance (in the specific type).",
     "notesList": [
       "[Rule] Prerequisite: Tolerance (in the specific type)..",
@@ -984,12 +984,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Awakened (Energy), Attune 1",
     "modifiers": [],
     "description": "A technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.",
-    "mechanic": "As a Standard Action, you may cast a touch-range Invocation (Spell) and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.",
+    "mechanic": "As a Standard Action, you may cast a touch-range Invocation and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.",
     "rules": "If the attack misses, the Invocation energy is dissipated and lost.",
     "special_rules": "If the attack misses, the Invocation energy is dissipated and lost.",
-    "body": "# Channel Smite\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Awakened (Energy), Attune 1\n\n## Description\nA technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.\n\n## Mechanics & Benefit\nAs a Standard Action, you may cast a touch-range Invocation (Spell) and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.\n\n## Special Rules\nIf the attack misses, the Invocation energy is dissipated and lost.",
-    "full_text": "# Channel Smite\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Awakened (Energy), Attune 1\n\n## Description\nA technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.\n\n## Mechanics & Benefit\nAs a Standard Action, you may cast a touch-range Invocation (Spell) and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.\n\n## Special Rules\nIf the attack misses, the Invocation energy is dissipated and lost.",
-    "mechanics": "As a Standard Action, you may cast a touch-range Invocation (Spell) and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.",
+    "body": "# Channel Smite\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Awakened (Energy), Attune 1\n\n## Description\nA technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.\n\n## Mechanics & Benefit\nAs a Standard Action, you may cast a touch-range Invocation and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.\n\n## Special Rules\nIf the attack misses, the Invocation energy is dissipated and lost.",
+    "full_text": "# Channel Smite\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Awakened (Energy), Attune 1\n\n## Description\nA technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.\n\n## Mechanics & Benefit\nAs a Standard Action, you may cast a touch-range Invocation and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.\n\n## Special Rules\nIf the attack misses, the Invocation energy is dissipated and lost.",
+    "mechanics": "As a Standard Action, you may cast a touch-range Invocation and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.",
     "notes": "[Rule] If the attack misses, the Invocation energy is dissipated and lost.\n[Prerequisite] Awakened (Energy), Attune 1",
     "notesList": [
       "[Rule] If the attack misses, the Invocation energy is dissipated and lost.",
@@ -1244,12 +1244,12 @@ export const DEFAULT_FEATURES = [
       }
     ],
     "description": "The character delivers blows that shatter armor and resolve.",
-    "mechanic": "As a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** (AC) for 1 round due to the staggering impact.",
+    "mechanic": "As a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** for 1 round due to the staggering impact.",
     "rules": "Prerequisite: Strength 2, Power Attack.",
     "special_rules": "Prerequisite: Strength 2, Power Attack.",
-    "body": "# Crushing Blow\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Power Attack\n\n## Description\nThe character delivers blows that shatter armor and resolve.\n\n## Mechanics & Benefit\nAs a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** (AC) for 1 round due to the staggering impact.",
-    "full_text": "# Crushing Blow\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Power Attack\n\n## Description\nThe character delivers blows that shatter armor and resolve.\n\n## Mechanics & Benefit\nAs a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** (AC) for 1 round due to the staggering impact.",
-    "mechanics": "As a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** (AC) for 1 round due to the staggering impact.",
+    "body": "# Crushing Blow\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Power Attack\n\n## Description\nThe character delivers blows that shatter armor and resolve.\n\n## Mechanics & Benefit\nAs a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** for 1 round due to the staggering impact.",
+    "full_text": "# Crushing Blow\n\n**Category**: Combat Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Strength 2, Power Attack\n\n## Description\nThe character delivers blows that shatter armor and resolve.\n\n## Mechanics & Benefit\nAs a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** for 1 round due to the staggering impact.",
+    "mechanics": "As a Standard Action, make a single melee attack. If successful, the target suffers a **\\-2 penalty to Defense** for 1 round due to the staggering impact.",
     "notes": "[Penalty] -2 Defense\n[Rule] Prerequisite: Strength 2, Power Attack.\n[Prerequisite] Strength 2, Power Attack",
     "notesList": [
       "[Penalty] -2 Defense",
@@ -2279,13 +2279,13 @@ export const DEFAULT_FEATURES = [
     "prerequisites": "None",
     "prerequisite_text": "None",
     "modifiers": [],
-    "description": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "mechanic": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "description": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.",
+    "mechanic": "You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface.",
     "rules": "Multiple selections allowed.",
     "special_rules": "Multiple selections allowed.",
-    "body": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;\n\n## Mechanics & Benefit\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "full_text": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;\n\n## Mechanics & Benefit\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
-    "mechanics": "The character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery. **Prerequisite:** Special (Character must have access to Meta-Tech, Psi-Tech, or Magi-Tech equipment). **Benefit:** You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface. **Example:** A \"Technomancer\" with low physical coordination can pilot a starship or hack a high-security mainframe using their mind, performing actions with the speed of thought rather than manual dexterity. **Purpose:** To allow Intellect-focused characters to perform roles traditionally reliant on Agility, reflecting a seamless integration with complex systems. **Special:** This feature is \\[Multiple\\]. Each selection applies to a specific category of technology (e.g., Vehicles, Starships, or Network Systems). &nbsp;",
+    "body": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.\n\n## Mechanics & Benefit\nYou can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface.",
+    "full_text": "# Tech Interface\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character possesses a specialized mental architecture or metaphysical link that allows them to bridge the gap between consciousness and advanced machinery.\n\n## Mechanics & Benefit\nYou can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface.",
+    "mechanics": "You can pilot vehicles or operate computer systems using your Intellect score instead of Agility or other physical attributes, provided the device is appropriately designed with a neural or metaphysical interface.",
     "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple selections allowed.",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
@@ -2959,12 +2959,12 @@ export const DEFAULT_FEATURES = [
       }
     ],
     "description": "The character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.",
-    "mechanic": "You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
+    "mechanic": "You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Stamina or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
     "rules": "Prerequisite: Discipline Focus, Attune 6.",
     "special_rules": "Prerequisite: Discipline Focus, Attune 6.",
-    "body": "# Discipline Empower\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Discipline Focus, Attune 6\n\n## Description\nThe character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.\n\n## Mechanics & Benefit\nYou may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
-    "full_text": "# Discipline Empower\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Discipline Focus, Attune 6\n\n## Description\nThe character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.\n\n## Mechanics & Benefit\nYou may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
-    "mechanics": "You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Constitution or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
+    "body": "# Discipline Empower\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Discipline Focus, Attune 6\n\n## Description\nThe character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.\n\n## Mechanics & Benefit\nYou may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Stamina or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
+    "full_text": "# Discipline Empower\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Discipline Focus, Attune 6\n\n## Description\nThe character can hold and build a metaphysical charge over time, gathering ambient energy to unleash a single, overwhelming effect.\n\n## Mechanics & Benefit\nYou may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Stamina or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
+    "mechanics": "You may increase the casting time of an Invocation to gather more energy. For every **Full Round** spent channeling (doing nothing but concentrating on the spell), you add **\\+1 Effect Die** (or \\+5 to the effective Skill Check result for non-damage spells) to the final release.  \n* **Limit:** You may channel for a number of rounds equal to your Stamina or Will modifier (whichever is higher). If interrupted (taking damage), you must make a Concentration (Attune) check or lose the energy.",
     "notes": "[Modifier] +5 to The effective\n[Rule] Prerequisite: Discipline Focus, Attune 6.\n[Prerequisite] Discipline Focus, Attune 6",
     "notesList": [
       "[Modifier] +5 to The effective",
@@ -3296,12 +3296,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "None (though usually tied to Species or Origin).",
     "modifiers": [],
     "description": "The character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.",
-    "mechanic": "You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.",
+    "mechanic": "You gain the ability to use **one specific Invocation** at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.",
     "rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
     "special_rules": "This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-    "body": "# Special Ability\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (though usually tied to Species or Origin).\n\n## Description\nThe character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.\n\n## Mechanics & Benefit\nYou gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-    "full_text": "# Special Ability\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (though usually tied to Species or Origin).\n\n## Description\nThe character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.\n\n## Mechanics & Benefit\nYou gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
-    "mechanics": "You gain the ability to use **one specific Invocation** (Spell/Power) at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.",
+    "body": "# Special Ability\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (though usually tied to Species or Origin).\n\n## Description\nThe character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.\n\n## Mechanics & Benefit\nYou gain the ability to use **one specific Invocation** at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+    "full_text": "# Special Ability\n\n**Category**: Discipline Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (though usually tied to Species or Origin).\n\n## Description\nThe character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream.\n\n## Mechanics & Benefit\nYou gain the ability to use **one specific Invocation** at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.\n\n## Special Rules\nThis feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.",
+    "mechanics": "You gain the ability to use **one specific Invocation** at **Level 1**.  \n* **Mechanics:**  \n  * You do not need the *Awakened* feature or the parent Discipline Skill to use this.  \n  * This ability functions as a standalone Skill. You can advance it with Skill Points like any other skill (Novice, Trained, etc.) to increase its power.",
     "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] This feature is **\\[Multiple\\]**. You can take it multiple times to gain different isolated powers.\n[Prerequisite] None (though usually tied to Species or Origin).",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
@@ -3554,20 +3554,20 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Awareness 6, Sense Motive 6",
-    "prerequisite_text": "Awareness 6, Sense Motive 6",
+    "prerequisites": "Alertness 6, Insight 6",
+    "prerequisite_text": "Alertness 6, Insight 6",
     "modifiers": [],
     "description": "The character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.",
     "mechanic": "By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  \n* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.",
-    "rules": "Prerequisite: Awareness 6, Sense Motive 6.",
-    "special_rules": "Prerequisite: Awareness 6, Sense Motive 6.",
-    "body": "# Assessment\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Awareness 6, Sense Motive 6\n\n## Description\nThe character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.\n\n## Mechanics & Benefit\nBy observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  \n* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.",
-    "full_text": "# Assessment\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Awareness 6, Sense Motive 6\n\n## Description\nThe character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.\n\n## Mechanics & Benefit\nBy observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  \n* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.",
+    "rules": "Prerequisite: Alertness 6, Insight 6.",
+    "special_rules": "Prerequisite: Alertness 6, Insight 6.",
+    "body": "# Assessment\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Alertness 6, Insight 6\n\n## Description\nThe character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.\n\n## Mechanics & Benefit\nBy observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  \n* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.",
+    "full_text": "# Assessment\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Alertness 6, Insight 6\n\n## Description\nThe character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.\n\n## Mechanics & Benefit\nBy observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  \n* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.",
     "mechanics": "By observing a target for 1 full round, you can determine their relative threat level compared to yourself (Inferior, Equal, or Superior) and estimate their highest Skill Rank category (Novice, Trained, Expert, Master, Pinnacle).  \n* **Purpose:** Allows players to gauge if a fight is winnable before initiative is rolled.",
-    "notes": "[Rule] Prerequisite: Awareness 6, Sense Motive 6.\n[Prerequisite] Awareness 6, Sense Motive 6",
+    "notes": "[Rule] Prerequisite: Alertness 6, Insight 6.\n[Prerequisite] Alertness 6, Insight 6",
     "notesList": [
-      "[Rule] Prerequisite: Awareness 6, Sense Motive 6.",
-      "[Prerequisite] Awareness 6, Sense Motive 6"
+      "[Rule] Prerequisite: Alertness 6, Insight 6.",
+      "[Prerequisite] Alertness 6, Insight 6"
     ]
   },
   {
@@ -4228,23 +4228,23 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Agility 1",
     "modifiers": [
       {
-        "target": "Escape Artist",
+        "target": "Acrobatics",
         "type": "skill",
         "value": 4,
         "mode": "inherent",
-        "description": "+4 to Escape Artist"
+        "description": "+4 to Acrobatics"
       }
     ],
     "description": "The character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes.",
-    "mechanic": "Gain a **\\+4 Bonus** on Escape Artist checks and any check involving fitting into tight spaces.",
+    "mechanic": "Gain a **\\+4 Bonus** on Acrobatics checks and any check involving fitting into tight spaces.",
     "rules": "Prerequisite: Agility 1.",
     "special_rules": "Prerequisite: Agility 1.",
-    "body": "# Double Jointed\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes.\n\n## Mechanics & Benefit\nGain a **\\+4 Bonus** on Escape Artist checks and any check involving fitting into tight spaces.",
-    "full_text": "# Double Jointed\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes.\n\n## Mechanics & Benefit\nGain a **\\+4 Bonus** on Escape Artist checks and any check involving fitting into tight spaces.",
-    "mechanics": "Gain a **\\+4 Bonus** on Escape Artist checks and any check involving fitting into tight spaces.",
-    "notes": "[Modifier] +4 to Escape Artist\n[Rule] Prerequisite: Agility 1.\n[Prerequisite] Agility 1",
+    "body": "# Double Jointed\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes.\n\n## Mechanics & Benefit\nGain a **\\+4 Bonus** on Acrobatics checks and any check involving fitting into tight spaces.",
+    "full_text": "# Double Jointed\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 1\n\n## Description\nThe character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes.\n\n## Mechanics & Benefit\nGain a **\\+4 Bonus** on Acrobatics checks and any check involving fitting into tight spaces.",
+    "mechanics": "Gain a **\\+4 Bonus** on Acrobatics checks and any check involving fitting into tight spaces.",
+    "notes": "[Modifier] +4 to Acrobatics\n[Rule] Prerequisite: Agility 1.\n[Prerequisite] Agility 1",
     "notesList": [
-      "[Modifier] +4 to Escape Artist",
+      "[Modifier] +4 to Acrobatics",
       "[Rule] Prerequisite: Agility 1.",
       "[Prerequisite] Agility 1"
     ]
@@ -5606,12 +5606,12 @@ export const DEFAULT_FEATURES = [
       }
     ],
     "description": "The character is a strong swimmer.",
-    "mechanic": "You gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Constitution score in rounds.",
+    "mechanic": "You gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Stamina score in rounds.",
     "rules": "Prerequisite: Athletics 1.",
     "special_rules": "Prerequisite: Athletics 1.",
-    "body": "# Swimmer\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Athletics 1\n\n## Description\nThe character is a strong swimmer.\n\n## Mechanics & Benefit\nYou gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Constitution score in rounds.",
-    "full_text": "# Swimmer\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Athletics 1\n\n## Description\nThe character is a strong swimmer.\n\n## Mechanics & Benefit\nYou gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Constitution score in rounds.",
-    "mechanics": "You gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Constitution score in rounds.",
+    "body": "# Swimmer\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Athletics 1\n\n## Description\nThe character is a strong swimmer.\n\n## Mechanics & Benefit\nYou gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Stamina score in rounds.",
+    "full_text": "# Swimmer\n\n**Category**: General Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Athletics 1\n\n## Description\nThe character is a strong swimmer.\n\n## Mechanics & Benefit\nYou gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Stamina score in rounds.",
+    "mechanics": "You gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Stamina score in rounds.",
     "notes": "[Modifier] May take 10 on Athletics Checks\n[Rule] Prerequisite: Athletics 1.\n[Prerequisite] Athletics 1",
     "notesList": [
       "[Modifier] May take 10 on Athletics Checks",
@@ -6189,12 +6189,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Believer, Charisma 1",
     "modifiers": [],
     "description": "The character's faith is not just a belief system, but a fundamental force that strengthens their very being.",
-    "mechanic": "**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.",
+    "mechanic": "**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Stamina check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.",
     "rules": "This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.",
     "special_rules": "This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.",
-    "body": "# Devout\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Charisma 1\n\n## Description\nThe character's faith is not just a belief system, but a fundamental force that strengthens their very being.\n\n## Mechanics & Benefit\n**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.",
-    "full_text": "# Devout\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Charisma 1\n\n## Description\nThe character's faith is not just a belief system, but a fundamental force that strengthens their very being.\n\n## Mechanics & Benefit\n**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.",
-    "mechanics": "**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.",
+    "body": "# Devout\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Charisma 1\n\n## Description\nThe character's faith is not just a belief system, but a fundamental force that strengthens their very being.\n\n## Mechanics & Benefit\n**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Stamina check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.",
+    "full_text": "# Devout\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Charisma 1\n\n## Description\nThe character's faith is not just a belief system, but a fundamental force that strengthens their very being.\n\n## Mechanics & Benefit\n**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Stamina check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.\n\n## Special Rules\nThis feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.",
+    "mechanics": "**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Stamina check to hold breath).  \n  * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.",
     "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is **\\[Ranked\\]**. Each additional rank allows an additional use per day. The maximum r...\n[Prerequisite] Believer, Charisma 1",
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
@@ -6368,12 +6368,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Believer, Devout",
     "modifiers": [],
     "description": "The character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.",
-    "mechanic": "When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
+    "mechanic": "When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
     "rules": "Prerequisite: Believer, Devout.",
     "special_rules": "Prerequisite: Believer, Devout.",
-    "body": "# True Faith\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Devout\n\n## Description\nThe character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.\n\n## Mechanics & Benefit\nWhen you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
-    "full_text": "# True Faith\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Devout\n\n## Description\nThe character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.\n\n## Mechanics & Benefit\nWhen you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
-    "mechanics": "When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
+    "body": "# True Faith\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Devout\n\n## Description\nThe character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.\n\n## Mechanics & Benefit\nWhen you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
+    "full_text": "# True Faith\n\n**Category**: Karma Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Believer, Devout\n\n## Description\nThe character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.\n\n## Mechanics & Benefit\nWhen you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
+    "mechanics": "When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  \n  * *Mechanics:* If a Karma spend would normally grant a \\+5 bonus, it grants \\+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*",
     "notes": "[Rule] Prerequisite: Believer, Devout.\n[Prerequisite] Believer, Devout",
     "notesList": [
       "[Rule] Prerequisite: Believer, Devout.",
@@ -7325,12 +7325,12 @@ export const DEFAULT_FEATURES = [
       }
     ],
     "description": "The character moves with elegance and precision.",
-    "mechanic": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
+    "mechanic": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.",
     "rules": "",
     "special_rules": "",
-    "body": "# Graceful\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character moves with elegance and precision.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
-    "full_text": "# Graceful\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character moves with elegance and precision.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
-    "mechanics": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Sleight of Hand) and **Reflex Checks**.",
+    "body": "# Graceful\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character moves with elegance and precision.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.",
+    "full_text": "# Graceful\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character moves with elegance and precision.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.",
+    "mechanics": "Gain a **\\+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.",
     "notes": "[Modifier] +1 to Agility-based Non-Attack",
     "notesList": [
       "[Modifier] +1 to Agility-based Non-Attack"
@@ -7515,8 +7515,8 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": false,
     "is_multiple": false,
-    "prerequisites": "Linguistics 1",
-    "prerequisite_text": "Linguistics 1",
+    "prerequisites": "Language 1",
+    "prerequisite_text": "Language 1",
     "modifiers": [
       {
         "target": "Language",
@@ -7535,17 +7535,17 @@ export const DEFAULT_FEATURES = [
     ],
     "description": "The character has an ear for dialects and syntax.",
     "mechanic": "Gain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
-    "rules": "Prerequisite: Linguistics 1.",
-    "special_rules": "Prerequisite: Linguistics 1.",
-    "body": "# Linguist\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Linguistics 1\n\n## Description\nThe character has an ear for dialects and syntax.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
-    "full_text": "# Linguist\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Linguistics 1\n\n## Description\nThe character has an ear for dialects and syntax.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
+    "rules": "Prerequisite: Language 1.",
+    "special_rules": "Prerequisite: Language 1.",
+    "body": "# Linguist\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Language 1\n\n## Description\nThe character has an ear for dialects and syntax.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
+    "full_text": "# Linguist\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Language 1\n\n## Description\nThe character has an ear for dialects and syntax.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
     "mechanics": "Gain a **\\+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.",
-    "notes": "[Modifier] May take 10 on Language Checks\n[Modifier] +2 to Language\n[Rule] Prerequisite: Linguistics 1.\n[Prerequisite] Linguistics 1",
+    "notes": "[Modifier] May take 10 on Language Checks\n[Modifier] +2 to Language\n[Rule] Prerequisite: Language 1.\n[Prerequisite] Language 1",
     "notesList": [
       "[Modifier] May take 10 on Language Checks",
       "[Modifier] +2 to Language",
-      "[Rule] Prerequisite: Linguistics 1.",
-      "[Prerequisite] Linguistics 1"
+      "[Rule] Prerequisite: Language 1.",
+      "[Prerequisite] Language 1"
     ]
   },
   {
@@ -7864,18 +7864,18 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "None",
     "modifiers": [
       {
-        "target": "Sleight of Hand",
+        "target": "Legerdemain",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Sleight of Hand"
+        "description": "+2 to Legerdemain"
       },
       {
-        "target": "Disable Device Security",
+        "target": "Mechanic",
         "type": "skill",
         "value": 2,
         "mode": "inherent",
-        "description": "+2 to Disable Device Security"
+        "description": "+2 to Mechanic"
       },
       {
         "target": "Mechanics",
@@ -7886,16 +7886,16 @@ export const DEFAULT_FEATURES = [
       }
     ],
     "description": "The character has excellent manual dexterity for fine manipulation.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Legerdemain** and **Mechanic** (Security/Mechanics) checks.",
     "rules": "",
     "special_rules": "",
-    "body": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual dexterity for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
-    "full_text": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual dexterity for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
-    "mechanics": "Gain a **\\+2 Bonus** to **Sleight of Hand** and **Disable Device** (Security/Mechanics) checks.",
-    "notes": "[Modifier] +2 to Sleight of Hand\n[Modifier] +2 to Disable Device Security\n[Modifier] +2 to Mechanics",
+    "body": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual dexterity for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Legerdemain** and **Mechanic** (Security/Mechanics) checks.",
+    "full_text": "# Nimble Fingers\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character has excellent manual dexterity for fine manipulation.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Legerdemain** and **Mechanic** (Security/Mechanics) checks.",
+    "mechanics": "Gain a **\\+2 Bonus** to **Legerdemain** and **Mechanic** (Security/Mechanics) checks.",
+    "notes": "[Modifier] +2 to Legerdemain\n[Modifier] +2 to Mechanic\n[Modifier] +2 to Mechanics",
     "notesList": [
-      "[Modifier] +2 to Sleight of Hand",
-      "[Modifier] +2 to Disable Device Security",
+      "[Modifier] +2 to Legerdemain",
+      "[Modifier] +2 to Mechanic",
       "[Modifier] +2 to Mechanics"
     ]
   },
@@ -8678,7 +8678,7 @@ export const DEFAULT_FEATURES = [
         "mode": "conditional",
         "isSituational": true,
         "condition": "Escaping bonds and tight spaces",
-        "description": "+2 to Escape Artist"
+        "description": "+2 to Acrobatics"
       },
       {
         "target": "social-expression-legerdemain",
@@ -8687,21 +8687,21 @@ export const DEFAULT_FEATURES = [
         "mode": "conditional",
         "isSituational": true,
         "condition": "Concealing small items",
-        "description": "+2 to Sleight of Hand"
+        "description": "+2 to Legerdemain"
       }
     ],
     "description": "The character is a shadow.",
-    "mechanic": "Gain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
+    "mechanic": "Gain a **\\+2 Bonus** to **Acrobatics** and **Legerdemain**; Gain a **\\+4 Bonus** to **Stealth** checks.",
     "rules": "Prerequisite: Agility 2.",
     "special_rules": "Prerequisite: Agility 2.",
-    "body": "# Stealthy\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 2\n\n## Description\nThe character is a shadow.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
-    "full_text": "# Stealthy\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 2\n\n## Description\nThe character is a shadow.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
-    "mechanics": "Gain a **\\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\\+4 Bonus** to **Stealth** checks.",
-    "notes": "[Modifier] +4 to Stealth\n[Modifier] +2 to Escape Artist\n[Modifier] +2 to Sleight of Hand\n[Rule] Prerequisite: Agility 2.\n[Prerequisite] Agility 2",
+    "body": "# Stealthy\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 2\n\n## Description\nThe character is a shadow.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Acrobatics** and **Legerdemain**; Gain a **\\+4 Bonus** to **Stealth** checks.",
+    "full_text": "# Stealthy\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Agility 2\n\n## Description\nThe character is a shadow.\n\n## Mechanics & Benefit\nGain a **\\+2 Bonus** to **Acrobatics** and **Legerdemain**; Gain a **\\+4 Bonus** to **Stealth** checks.",
+    "mechanics": "Gain a **\\+2 Bonus** to **Acrobatics** and **Legerdemain**; Gain a **\\+4 Bonus** to **Stealth** checks.",
+    "notes": "[Modifier] +4 to Stealth\n[Modifier] +2 to Acrobatics\n[Modifier] +2 to Legerdemain\n[Rule] Prerequisite: Agility 2.\n[Prerequisite] Agility 2",
     "notesList": [
       "[Modifier] +4 to Stealth",
-      "[Modifier] +2 to Escape Artist",
-      "[Modifier] +2 to Sleight of Hand",
+      "[Modifier] +2 to Acrobatics",
+      "[Modifier] +2 to Legerdemain",
       "[Rule] Prerequisite: Agility 2.",
       "[Prerequisite] Agility 2"
     ]
@@ -8729,23 +8729,23 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "None",
     "modifiers": [
       {
-        "target": "Stamina & Constitution",
+        "target": "Stamina & Fortitude",
         "type": "skill",
         "value": 1,
         "mode": "inherent",
-        "description": "+1 to Stamina & Constitution"
+        "description": "+1 to Stamina & Fortitude"
       }
     ],
     "description": "The character is built like a tank, broad and sturdy.",
-    "mechanic": "Gain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.",
+    "mechanic": "Gain a **\\+1 Bonus** to **ALL Stamina & Fortitude Skills**, as well as **Might** and **Fortitude** checks.",
     "rules": "",
     "special_rules": "",
-    "body": "# Stout\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character is built like a tank, broad and sturdy.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.",
-    "full_text": "# Stout\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character is built like a tank, broad and sturdy.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.",
-    "mechanics": "Gain a **\\+1 Bonus** to **ALL Stamina & Constitution Skills**, as well as **Might** and **Fortitude** checks.",
-    "notes": "[Modifier] +1 to Stamina & Constitution",
+    "body": "# Stout\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character is built like a tank, broad and sturdy.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Stamina & Fortitude Skills**, as well as **Might** and **Fortitude** checks.",
+    "full_text": "# Stout\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None\n\n## Description\nThe character is built like a tank, broad and sturdy.\n\n## Mechanics & Benefit\nGain a **\\+1 Bonus** to **ALL Stamina & Fortitude Skills**, as well as **Might** and **Fortitude** checks.",
+    "mechanics": "Gain a **\\+1 Bonus** to **ALL Stamina & Fortitude Skills**, as well as **Might** and **Fortitude** checks.",
+    "notes": "[Modifier] +1 to Stamina & Fortitude",
     "notesList": [
-      "[Modifier] +1 to Stamina & Constitution"
+      "[Modifier] +1 to Stamina & Fortitude"
     ]
   },
   {
@@ -9484,12 +9484,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "None (Background)",
     "modifiers": [],
     "description": "The character carries the blood of dragons, demons, fey, or gods.",
-    "mechanic": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
+    "mechanic": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level invocation usable at will).",
     "rules": "Prerequisite: None (Background).",
     "special_rules": "Prerequisite: None (Background).",
-    "body": "# Eldritch Heritage\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (Background)\n\n## Description\nThe character carries the blood of dragons, demons, fey, or gods.\n\n## Mechanics & Benefit\nYou gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
-    "full_text": "# Eldritch Heritage\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (Background)\n\n## Description\nThe character carries the blood of dragons, demons, fey, or gods.\n\n## Mechanics & Benefit\nYou gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
-    "mechanics": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).",
+    "body": "# Eldritch Heritage\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (Background)\n\n## Description\nThe character carries the blood of dragons, demons, fey, or gods.\n\n## Mechanics & Benefit\nYou gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level invocation usable at will).",
+    "full_text": "# Eldritch Heritage\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: None (Background)\n\n## Description\nThe character carries the blood of dragons, demons, fey, or gods.\n\n## Mechanics & Benefit\nYou gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level invocation usable at will).",
+    "mechanics": "You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level invocation usable at will).",
     "notes": "[Rule] Prerequisite: None (Background).\n[Prerequisite] None (Background)",
     "notesList": [
       "[Rule] Prerequisite: None (Background).",
@@ -10175,12 +10175,12 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Special",
     "modifiers": [],
     "description": "The character is constantly bombarded by sensory input.",
-    "mechanic": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.",
+    "mechanic": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.",
     "rules": "Multiple selections allowed. Prerequisite: Special.",
     "special_rules": "Multiple selections allowed. Prerequisite: Special.",
-    "body": "# Sense, Uncontrolled\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special\n\n## Description\nThe character is constantly bombarded by sensory input.\n\n## Mechanics & Benefit\nAs *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.",
-    "full_text": "# Sense, Uncontrolled\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special\n\n## Description\nThe character is constantly bombarded by sensory input.\n\n## Mechanics & Benefit\nAs *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.",
-    "mechanics": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.",
+    "body": "# Sense, Uncontrolled\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special\n\n## Description\nThe character is constantly bombarded by sensory input.\n\n## Mechanics & Benefit\nAs *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.",
+    "full_text": "# Sense, Uncontrolled\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Special\n\n## Description\nThe character is constantly bombarded by sensory input.\n\n## Mechanics & Benefit\nAs *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.",
+    "mechanics": "As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  \n* **Drawback:** It is always active (\"Always On\"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.",
     "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] Multiple selections allowed. Prerequisite: Special.\n[Prerequisite] Special",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
@@ -10589,7 +10589,11 @@ export const getEnrichedFeatureData = (rawInput) => {
     ? ''
     : rawDesc.replace(/\s+#+\s*$/, '').replace(/\s*\*([^*]+)\*\s*$/, '').trim();
   const description = cleanRawDesc || canonical?.description || '';
-  const mechanic = feature.mechanic || feature.mechanics || canonical?.mechanic || canonical?.mechanics || '';
+  const rawMechCandidate = (feature.mechanic || feature.mechanics || '').toString().trim();
+  const isDupMech = !rawMechCandidate ||
+    (description && rawMechCandidate.replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase() === description.replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase()) ||
+    (canonical?.description && rawMechCandidate.replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase() === String(canonical.description).replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase());
+  const mechanic = (!isDupMech ? rawMechCandidate : '') || canonical?.mechanic || canonical?.mechanics || '';
   const rules = feature.rules || feature.special_rules || canonical?.rules || canonical?.special_rules || '';
   const prerequisites = feature.prerequisites || feature.prerequisite || canonical?.prerequisites || canonical?.prerequisite || 'None';
   const modifiers = Array.isArray(feature.modifiers) && feature.modifiers.length > 0 

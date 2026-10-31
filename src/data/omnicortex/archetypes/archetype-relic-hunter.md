@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Explorer / Lore Expert / Trap Specialist
 primary_attribute: Intellect
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Scholar
   - Explorer
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Explorer / Lore Expert / Trap Specialist  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of civilizations long gone.

@@ -178,7 +178,7 @@ This profound magical alteration was performed with a singular and critical purp
 
 Alter Form (Humanoid)
 
-Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming \- something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The GM may allow detection of minor presentations of evil or vile planning.)*
+Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming \- something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The Architect may allow detection of minor presentations of evil or vile planning.)*
 
 &nbsp;
 

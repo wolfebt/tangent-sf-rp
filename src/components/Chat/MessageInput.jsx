@@ -94,8 +94,8 @@ export const MessageInput = ({ isCompact = false }) => {
     ];
     if (isCurrentChannelArchitect) {
       base.splice(5, 0,
-        { cmd: '/architect', trigger: '/architect', label: 'Switch to Architect Mode (GM / Referee)', desc: 'Transmit as Team Creator / Gamemaster / Referee', badge: 'GM', instant: true },
-        { cmd: '/gm ', trigger: '/gm', label: 'Architect Broadcast (/gm)', desc: 'Send an official Gamemaster / Referee ruling or narration', badge: 'GM' }
+        { cmd: '/architect', trigger: '/architect', label: 'Switch to Architect Mode', desc: 'Transmit as Team Creator / Lead Architect', badge: 'GM', instant: true },
+        { cmd: '/gm ', trigger: '/gm', label: 'Architect Broadcast (/architect)', desc: 'Send an official Architect ruling or narration', badge: 'ARCH' }
       );
     }
     return base;
@@ -307,7 +307,7 @@ export const MessageInput = ({ isCompact = false }) => {
       showToast({
         type: 'error',
         title: 'Invalid Dice Expression',
-        text: 'Format examples: 2d10, 2d10+4, 1d20'
+        text: 'Format examples: 2d10, 2d10+4, 1d100'
       });
     }
   };
@@ -367,14 +367,14 @@ export const MessageInput = ({ isCompact = false }) => {
             </div>
           )}
 
-          {/* ── Guest Operative Read-Only Notification Banner ── */}
+          {/* ── Guest Operator Read-Only Notification Banner ── */}
           {!currentUser && (
             <div className="mb-2 p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/40 flex items-center justify-between gap-3 text-xs font-mono text-amber-200 shadow-sm animate-in fade-in duration-150">
               <div className="flex items-center gap-2 min-w-0">
                 <Lock size={14} className="text-amber-400 shrink-0" />
                 <div className="min-w-0">
                   <span className="font-bold block text-amber-300 text-[11px] uppercase tracking-wide">
-                    OPERATIVE UPLINK DISCONNECTED (READ-ONLY)
+                    OPERATOR UPLINK DISCONNECTED (READ-ONLY)
                   </span>
                   <span className="text-[10px] text-slate-400 block truncate">
                     You are in guest mode. Sign in with Google to transmit on HoloNet frequencies.
@@ -404,7 +404,7 @@ export const MessageInput = ({ isCompact = false }) => {
                 <span className="w-1 h-1 rounded-full bg-cyan-400 animate-bounce [animation-delay:300ms]" />
               </span>
               <span>
-                {activeTypingUsers.map(t => t.personaName || t.handle || t.name || 'Operative').join(', ')}{' '}
+                {activeTypingUsers.map(t => t.personaName || t.handle || t.name || 'Operator').join(', ')}{' '}
                 {activeTypingUsers.length === 1 ? 'is transmitting...' : 'are transmitting...'}
               </span>
             </div>
@@ -446,14 +446,14 @@ export const MessageInput = ({ isCompact = false }) => {
                     ? 'bg-purple-950/60 hover:bg-purple-900/70 border-purple-500/50 text-purple-200'
                     : 'bg-slate-950 hover:bg-slate-900 border-slate-700 hover:border-cyan-500/50 text-cyan-300'
                 }`}
-                title="Click to toggle speaking identity (Player OOC, In-Character Persona, or Architect GM / Referee)"
+                title="Click to toggle speaking identity (Operator OOC, In-Character Persona, or Lead Architect)"
               >
                 {speakingMode === 'ARCHITECT' && isCurrentChannelArchitect ? (
                   <>
                     <Crown size={13} className="text-amber-400" />
                     <span>ARCHITECT: @{userHandle || 'Operator'}</span>
                     <span className="text-[8.5px] px-1.5 py-0.2 bg-amber-500/25 text-amber-300 border border-amber-500/40 rounded font-bold uppercase ml-0.5">
-                      GM // REFEREE
+                      LEAD ARCHITECT
                     </span>
                   </>
                 ) : speakingMode === 'IC' ? (
@@ -536,13 +536,13 @@ export const MessageInput = ({ isCompact = false }) => {
                       </div>
                       <div>
                         <span className="font-bold text-xs block">@{userHandle || 'Operator'}</span>
-                        <span className="text-[9.5px] text-slate-400">Player Out-of-Character</span>
+                        <span className="text-[9.5px] text-slate-400">Operator Out-of-Character</span>
                       </div>
                     </div>
                     {speakingMode === 'OOC' && <Check size={14} className="text-cyan-400" />}
                   </div>
 
-                  {/* Option 1B: ARCHITECT (Gamemaster / Referee) - Available to Team/Channel Creator */}
+                  {/* Option 1B: ARCHITECT - Available to Team/Channel Creator */}
                   {isCurrentChannelArchitect && (
                     <div
                       onClick={() => {
@@ -564,11 +564,11 @@ export const MessageInput = ({ isCompact = false }) => {
                           <div className="flex items-center gap-1.5">
                             <span className="font-bold text-xs text-amber-300">ARCHITECT</span>
                             <span className="text-[8px] px-1 py-0.1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold uppercase shrink-0">
-                              GM // REFEREE
+                              LEAD ARCHITECT
                             </span>
                           </div>
                           <span className="text-[9.5px] text-slate-400 block truncate">
-                            Gamemaster / Referee (@{userHandle || 'Operator'})
+                            Lead Architect (@{userHandle || 'Operator'})
                           </span>
                         </div>
                       </div>
@@ -669,7 +669,7 @@ export const MessageInput = ({ isCompact = false }) => {
                     setIsIdentityDropdownOpen(false);
                   }}
                   className="p-1.5 px-2 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white font-bold text-[10.5px] flex items-center gap-1 transition-colors cursor-pointer"
-                  title="RPG Formatting (/me, /ooc, /gm, [Codex])"
+                  title="RPG Formatting (/me, /ooc, /architect, [Codex])"
                 >
                   <Sparkles size={12} className="text-purple-400" />
                   <span className="hidden sm:inline">RPG</span>
@@ -680,10 +680,10 @@ export const MessageInput = ({ isCompact = false }) => {
                     {isCurrentChannelArchitect && (
                       <button
                         type="button"
-                        onClick={() => insertRpgSnippet('/gm')}
+                        onClick={() => insertRpgSnippet('/architect')}
                         className="w-full text-left p-1.5 rounded-lg hover:bg-amber-950 text-amber-300 font-bold flex items-center justify-between cursor-pointer"
                       >
-                        <span>/gm [Ruling]</span>
+                        <span>/architect [Ruling]</span>
                         <span className="text-[9px] text-amber-400/80">Architect</span>
                       </button>
                     )}
@@ -758,7 +758,7 @@ export const MessageInput = ({ isCompact = false }) => {
 
                     {/* Quick Presets */}
                     <div className="flex flex-wrap items-center gap-1">
-                      {['2d10', '2d10+2', '2d10+4', '1d20', '1d100'].map(preset => (
+                      {['2d10', '2d10+2', '2d10+4', '1d10', '1d100'].map(preset => (
                         <button
                           key={preset}
                           type="button"
@@ -782,7 +782,7 @@ export const MessageInput = ({ isCompact = false }) => {
                           type="text"
                           value={diceExpr}
                           onChange={(e) => setDiceExpr(e.target.value)}
-                          placeholder="e.g. 2d10+4, 1d20"
+                          placeholder="e.g. 2d10+4, 1d100"
                           className="w-full px-2 py-1.5 bg-slate-950 border border-slate-700 focus:border-rose-400 rounded text-xs text-rose-200 outline-none"
                         />
                       </div>
@@ -898,7 +898,7 @@ export const MessageInput = ({ isCompact = false }) => {
                 !currentUser
                   ? `[GUEST READ-ONLY] Click or sign in to transmit into ${activeChannel?.displayName || 'frequency'}...`
                   : speakingMode === 'ARCHITECT' && isCurrentChannelArchitect
-                    ? `[ARCHITECT // GM] Transmit referee directive or narration into ${activeChannel?.displayName || 'frequency'}...`
+                    ? `[ARCHITECT] Transmit Architect directive or narration into ${activeChannel?.displayName || 'frequency'}...`
                     : isTeam && speakingMode !== 'OOC'
                       ? `[TEAM FREQ] Transmit as persona ${activePersonaName} into ${activeChannel?.displayName || 'frequency'}...`
                       : isStandard && speakingMode !== 'IC'

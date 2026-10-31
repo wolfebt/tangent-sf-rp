@@ -189,7 +189,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
     const prompt = `${rawTemplate}
 Additional Context / Specific Directives: "${guideContext.trim() || 'High sci-fi / cyberpunk science fantasy RPG tone.'}"
 
-Output Format: Provide structured markdown with rich sections, atmospheric read-aloud boxes, GM secrets, stat notes, and tactical hooks.`;
+Output Format: Provide structured markdown with rich sections, atmospheric read-aloud boxes, Architect secrets, stat notes, and tactical hooks.`;
 
     try {
       const context = {

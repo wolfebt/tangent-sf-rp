@@ -205,7 +205,7 @@ export default function ModulePackageModal({
                     <span>Architect Master</span>
                   </div>
                   <p className="text-[10px] text-slate-400 leading-tight">
-                    Complete module package including GM notes, encounter mechanics, secrets, and trigger coordinates.
+                    Complete module package including Architect notes, encounter mechanics, secrets, and trigger coordinates.
                   </p>
                 </button>
 
@@ -220,10 +220,10 @@ export default function ModulePackageModal({
                 >
                   <div className="flex items-center gap-1.5 font-bold text-xs mb-1 text-purple-300">
                     <ShieldAlert size={14} />
-                    <span>Player / Operator</span>
+                    <span>Operator Edition</span>
                   </div>
                   <p className="text-[10px] text-slate-400 leading-tight">
-                    Sanitized player-safe edition. Strips GM secrets, hidden traps, and enemy stat blocks.
+                    Sanitized operator-safe edition. Strips Architect secrets, hidden traps, and enemy stat blocks.
                   </p>
                 </button>
               </div>
@@ -236,7 +236,7 @@ export default function ModulePackageModal({
               className="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
             >
               <Download size={14} />
-              <span>Download {exportType === 'architect' ? 'Master Package' : 'Player Edition'} (.json)</span>
+              <span>Download {exportType === 'architect' ? 'Master Package' : 'Operator Edition'} (.json)</span>
             </button>
           </div>
         )}

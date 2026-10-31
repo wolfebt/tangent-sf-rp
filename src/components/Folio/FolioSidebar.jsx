@@ -44,7 +44,7 @@ const NAVIGATION_ITEMS = [
     railLabel: 'ASPECTS',
     icon: Sparkles,
     children: [
-      { id: 'features-standard', label: 'Standard Features', subLabel: 'STD FEAT', icon: Sparkles, section: 'features' },
+      { id: 'features-standard', label: 'Standard Features', subLabel: 'STD FEATURE', icon: Sparkles, section: 'features' },
       { id: 'features-traits', label: 'Traits', subLabel: 'TRAITS', icon: Award, section: 'traits' },
       { id: 'features-metaphysics', label: 'Metaphysics / Awakened', subLabel: 'META', icon: Zap, section: 'metaphysics' },
       { id: 'features-augmentations', label: 'Augmentations', subLabel: 'AUGS', icon: Cpu, section: 'augmentations' },

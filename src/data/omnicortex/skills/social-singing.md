@@ -4,7 +4,7 @@ name: "Singing"
 type: social
 subtype: "expression"
 category: skills
-governing_attribute: "Charisma (Performance) or Constitution (Breath Control)"
+governing_attribute: "Charisma (Performance) or Stamina (Breath Control)"
 description: "Singing is the skill of using one's voice to create music. It reflects a character's ability to use pitch, tone, and rhythm to convey emotions and communicate effectively. Singing is used whenever a character needs to entertain others or perform in a musical production. The use of the voice as an instrument. This creates a powerful connection with audiences without the need for equipment."
 specialties:
   - "Classical Opera: Projecting high, unamplified vibrato vocals across full orchestras with crystalline resonance."
@@ -23,7 +23,7 @@ negative_keywords: "isolated, anti-social, inarticulate"
 
 ### **Singing**
 
-* **Ability:** Charisma (Performance) or Constitution (Breath Control)  
+* **Ability:** Charisma (Performance) or Stamina (Breath Control)  
 * **Description:** Singing is the skill of using one's voice to create music. It reflects a character's ability to use pitch, tone, and rhythm to convey emotions and communicate effectively. Singing is used whenever a character needs to entertain others or perform in a musical production. The use of the voice as an instrument. This creates a powerful connection with audiences without the need for equipment.  
 * **Mechanics:**  
   * *Performance:* Standard performance mechanics.  

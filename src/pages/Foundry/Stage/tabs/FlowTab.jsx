@@ -162,7 +162,7 @@ export default function FlowTab() {
               No triggers wired in this Stage.
             </p>
             <p className="text-[11px] text-slate-600 max-w-sm mx-auto">
-              Add triggers to execute narrative prose, change environmentals, or advance scenarios when operatives enter coordinates.
+              Add triggers to execute narrative prose, change environmentals, or advance scenarios when operators enter coordinates.
             </p>
           </div>
         ) : (
@@ -185,7 +185,7 @@ export default function FlowTab() {
                         {trigger.gmConfirm && (
                           <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/40 font-bold flex items-center gap-0.5">
                             <ShieldCheck size={10} />
-                            <span>GM Confirm</span>
+                            <span>Architect Confirm</span>
                           </span>
                         )}
                         <span className="text-[9px] px-2 py-0.5 rounded uppercase font-bold bg-slate-800 text-slate-300 border border-slate-700">
@@ -308,9 +308,9 @@ export default function FlowTab() {
                     onChange={(e) => setEventOn(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2 text-xs text-slate-100"
                   >
-                    <option value="enter">Operative Enters</option>
-                    <option value="leave">Operative Leaves</option>
-                    <option value="interact">Operative Interacts</option>
+                    <option value="enter">Operator Enters</option>
+                    <option value="leave">Operator Leaves</option>
+                    <option value="interact">Operator Interacts</option>
                     <option value="beat">Scene Beat Advance</option>
                     <option value="flag">Variable / Flag Set</option>
                     <option value="timer">Timer Elapsed</option>
@@ -365,7 +365,7 @@ export default function FlowTab() {
                   className="rounded bg-slate-950 border-slate-700 text-purple-600"
                 />
                 <span className="text-xs text-slate-300">
-                  Require Architect / GM manual approval before execution
+                  Require Architect manual approval before execution
                 </span>
               </label>
 

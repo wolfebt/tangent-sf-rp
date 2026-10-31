@@ -109,7 +109,7 @@ export const ArmorCoverageSelector = ({
           </span>
           <span className="px-2.5 py-1 rounded-xl bg-purple-950/80 border border-purple-500/50 text-purple-300 font-bold flex items-center gap-1">
             <Wind size={11} className="text-purple-400" />
-            <span>Max Dex +{mobilityStats.maxDex}</span>
+            <span>Max Agi +{mobilityStats.maxDex}</span>
           </span>
           <div className={`px-2.5 py-1 rounded-xl border font-bold ${
             socketStats.isOverBudget 

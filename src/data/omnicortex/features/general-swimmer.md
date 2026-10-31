@@ -18,7 +18,7 @@ cost_cp: 3
 mechanic: >-
   You gain a **Swim Speed** equal to half your base speed. You may **Take 10**
   on Swim checks even in stormy water. You can hold your breath for 3x
-  Constitution score in rounds.
+  Stamina score in rounds.
 ---
 # Swimmer
 
@@ -30,4 +30,4 @@ mechanic: >-
 The character is a strong swimmer.
 
 ## Mechanics & Benefit
-You gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Constitution score in rounds.
+You gain a **Swim Speed** equal to half your base speed. You may **Take 10** on Swim checks even in stormy water. You can hold your breath for 3x Stamina score in rounds.

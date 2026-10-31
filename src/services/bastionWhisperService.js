@@ -41,7 +41,7 @@ export const CANONICAL_WHISPER_CARDS = [
     category: 'Objective Pressure',
     pacingTrigger: 'stall',
     title: 'Data-Purge / Core Meltdown Countdown',
-    description: 'The mainframe initiates a 3-round wipe sequence. Operatives must reach and hack the terminal before sensitive files vanish.',
+    description: 'The mainframe initiates a 3-round wipe sequence. Operators must reach and hack the terminal before sensitive files vanish.',
     actionEffect: 'Starts a 3-round progress clock on the map with CR 14 Cybernetics check.'
   },
   {
@@ -58,10 +58,10 @@ export const CANONICAL_WHISPER_CARDS = [
     id: 'heroic_inspiration',
     label: 'Heroic Tactical Breakthrough',
     icon: '✨',
-    category: 'Player Reward',
+    category: 'Operator Reward',
     pacingTrigger: 'crisis',
     title: 'Karmic Spark in the Dark',
-    description: 'The party faces overwhelming odds. An operative notices a structural weakpoint in the adversary’s kinetic shielding.',
+    description: 'The party faces overwhelming odds. An operator notices a structural weakpoint in the adversary’s kinetic shielding.',
     actionEffect: 'Grants +1 Karma to the party and lowers adversary Defense DC by 2 for 1 round.'
   }
 ];
@@ -342,7 +342,7 @@ export const executeWhisperCardAction = (cardOrId, tokens = [], roundNumber = 1)
   }
 
   const updatedTokens = [...safeTokens, ...spawnedTokens];
-  const logEntry = `[BASTION CO-GM INJECTION]: ${card.title} — ${card.description} (${card.actionEffect})`;
+  const logEntry = `[BASTION CO-ARCHITECT INJECTION]: ${card.title} — ${card.description} (${card.actionEffect})`;
 
   return {
     cardId: card.id,

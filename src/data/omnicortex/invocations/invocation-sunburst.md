@@ -59,7 +59,7 @@ Parameters:
 * **Range:** Self  
 * **Area:** 60ft Line or 30ft Cone  
 * **Duration:** Instantaneous  
-* **Resistance:** Strength/Athletics Check vs. Spell DC
+* **Resistance:** Strength/Athletics Check vs. Invocation CR
 Effect Description:  
 Manipulates air pressure to create a violent thrust of wind.  
 **Scaling Function:**

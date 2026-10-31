@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 19
+order: 20
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","planetary","99.planetary.hazardsandencounters","matrix"]
-updatedAt: "2026-10-14T06:04:05.787Z"
+updatedAt: "2026-10-31T10:39:18.025Z"
 costs:
   bp: 0
   credits: 0
@@ -45,11 +45,11 @@ sockets:
 
 | DEGREE | FORT Save CR | PRIMARY EFFECT | SECONDARY EFFECT |
 | ----- | ----- | ----- | ----- |
-| **Mild** | 12 | 1 CON drain | 1 STR |
-| **Low** | 15 | 2 CON drain | 1 STR |
-| **Moderate** | 18 | 2 CON drain | 1 STR |
-| **High** | 22 | 3 CON drain | 2 STR |
-| **Severe** | 30 | 4 CON drain | 3 STR |
+| **Mild** | 12 | 1 STA drain | 1 STR |
+| **Low** | 15 | 2 STA drain | 1 STR |
+| **Moderate** | 18 | 2 STA drain | 1 STR |
+| **High** | 22 | 3 STA drain | 2 STR |
+| **Severe** | 30 | 4 STA drain | 3 STR |
 
 ### 
 

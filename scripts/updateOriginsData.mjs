@@ -213,7 +213,7 @@ Farmer, Hunter, Preservationist, Pilot, Technician, Community Leader
         tier: 'Basic',
         classification: 'Origin Trait',
         description: 'Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.',
-        mechanic: '+2 Insight and +2 Handle Animal Checks while being Friendly to other creature',
+        mechanic: '+2 Insight and +2 Handler Checks while being Friendly to other creature',
         bonus: '+2 Insight & Animal Handling',
         cpCost: 1
       },
@@ -272,7 +272,7 @@ Mariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Exp
 - **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)
 - **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)
 - **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)
-- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handle Animal Checks while being Friendly)
+- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handler Checks while being Friendly)
 - **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)
 - **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)
 - **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)
@@ -467,7 +467,7 @@ Pioneer, Homesteader, Prospector, Engineer, Doctor, Soldier
         tier: 'Basic',
         classification: 'Origin Trait',
         description: 'Deep sense of empathy and compassion for sentient beings and spirits.',
-        mechanic: '+2 Insight and +2 Handle Animal Checks while being Friendly',
+        mechanic: '+2 Insight and +2 Handler Checks while being Friendly',
         bonus: '+2 Insight & Animal Handling',
         cpCost: 1
       },
@@ -553,7 +553,7 @@ Alertness, Academics, Knowledge (Culture, History, Language, Physics, Religion),
 Arcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy
 
 ### Origin Traits (Select 2 Free; Additional 1 CP each)
-- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handle Animal Checks while being Friendly)
+- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handler Checks while being Friendly)
 - **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)
 - **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)
 - **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)

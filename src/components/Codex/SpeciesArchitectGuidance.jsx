@@ -696,7 +696,7 @@ export const SpeciesArchitectGuidance = ({
               </span>
             </div>
             <p className="text-[10px] font-mono text-rose-400/70">
-              Searchable railguards penalizing conflicting AI careers/traits and guiding GM filters.
+              Searchable railguards penalizing conflicting AI careers/traits and guiding Architect filters.
             </p>
             <div className="flex flex-wrap gap-1.5 min-h-[28px]">
               {negativeKeywordsList.length === 0 ? (

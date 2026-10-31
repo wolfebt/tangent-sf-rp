@@ -170,7 +170,7 @@ Awakened (Arcane, Intellect)
 
 Sleepless (and Immune to Sleep Effects)
 
-\+1 Feat
+\+1 Feature
 
 &nbsp;
 

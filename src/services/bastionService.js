@@ -37,13 +37,13 @@ export const getGeminiApiKey = () => {
 };
 
 const BASTION_SYSTEM_PROMPT = `You are BASTION, the Tactical AI Assistant and Canonical Rules Arbiter for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
-Always address the user as ARCHITECT (the Game Master / referee / universe creator) or OPERATIVE (if player).
+Always address the user as ARCHITECT (the Game Master / referee / universe creator) or OPERATOR (the player).
 Provide tactical, mathematically precise, immersive, and structured RPG content grounded in the Tangent SFF RPG system guidelines and the BASTION Mechanics Dataset:
 - Science Fantasy setting blending high technology (Tech Level 0-5), meta-abilities/psi (Meta Level 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma (base 0, 5 BP per +1). Stamina provides natural Damage Reduction (DR / Toughness), not flat HP/VP.
 - Sub-Attributes: Canonical derivation Base = 2 + (Primary Attribute * 2).
 - Vitals & Integrity: Biological entities have 30 pt base Vitality (VP) and 30 pt base Health (HP). No stamina-based bonus on VP or HP; pools are increased solely through size tier, traits, features, or CP purchases (1 CP = +2 pts). Synthetics, Constructs, and Mecha operate on Structure Points (60 pt base for Medium size, adjusted by size tier), zero Vitality, and are completely immune to non-lethal damage, fatigue, and biological hazards.
-- Karma Points: 3 KP default pool, resets at start of each session, does not recover via rest. 6 canonical spending options (1 KP each): "I Got This" (Advantage on any roll declared before roll), "Not What I Meant" (Reroll non-combat check declared after roll), "Shake it Off" (Reduce condition severity by 1 stage), "Second Wind" (1-min focus replaces Light Rest), "So Mote it Be" (Boost metaphysical potency or activate discipline karma feat), "By Will Alone" (Push limits/narrative agency with GM approval). Karmic Debt limit = Charisma + 1.
+- Karma Points: 3 KP default pool, resets at start of each session, does not recover via rest. 6 canonical spending options (1 KP each): "I Got This" (Advantage on any roll declared before roll), "Not What I Meant" (Reroll non-combat check declared after roll), "Shake it Off" (Reduce condition severity by 1 stage), "Second Wind" (1-min focus replaces Light Rest), "So Mote it Be" (Boost metaphysical potency or activate discipline karma feature), "By Will Alone" (Push limits/narrative agency with Architect approval). Karmic Debt limit = Charisma + 1.
 - Augmentations: No max strain! 3 tiers based on body alteration percentages: Augmentation (Tier 1: <20% body alterations), Heavy Augmentation (Tier 2: <50% body alterations), Severe Augmentation (Tier 3: >50% body alterations up to full body conversion).
 - Mecha: Vehicles of all sorts — from hoverboards, motorcycles, cars, power armor, walkers, fighter jets to starships.
 - Character Chassis: 150 BP allocation, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rule.
@@ -64,7 +64,7 @@ Provide tactical, mathematically precise, immersive, and structured RPG content 
 - Keep tone professional, analytical, sci-fi/fantasy immersive, and mathematically precise. Always cite canonical Omnicortex rules and approved mechanics formulas when arbitrating.`;
 
 /**
- * Parses dice rolling commands like /roll 2d10+4, /roll 2d10+4 vs 15, or /roll d20
+ * Parses dice rolling commands like /roll 2d10+4, /roll 2d10+4 vs 15, or /roll 1d100
  * Supports Canonical v6 2d10 Dual Resolution (Axis 1: Magnitude Margin vs CR/DC, Axis 2: Doubles/Fate)
  */
 export const parseRollCommand = (command) => {
@@ -446,7 +446,7 @@ export const generateSelectiveFields = async ({
     const entryName = resolvedValues.name || resolvedValues.title || resolvedPrompt;
     const titles = {
       'Story Arc': `The ${entryName || 'Derelict Nebula'} Crisis`,
-      'Character': characterSynthesis?.character['char-name'] || `Commander ${entryName || 'Vane'}, Tangent Operative`,
+      'Character': characterSynthesis?.character['char-name'] || `Commander ${entryName || 'Vane'}, Tangent Operator`,
       'Location': `Outpost ${entryName || 'Zeta-9'} Sector`,
       'Encounter': `Ambush at ${entryName || 'Perimeter Gamma'}`,
       'Faction': `The ${entryName || 'Obsidian Syndicate'}`,
@@ -465,7 +465,7 @@ export const generateSelectiveFields = async ({
         fallbackResults[field] = activeElementType || 'Standard';
       } else if (['content', 'description'].includes(field)) {
         fallbackResults[field] = isCharacterType
-          ? characterSynthesis?.character?.backstory || `[BASTION TACTICAL OPERATIVE]\nPillars: ${characterSynthesis?.pillars?.archetype?.name} · ${characterSynthesis?.pillars?.species?.name} · ${characterSynthesis?.pillars?.faction?.name} · ${characterSynthesis?.pillars?.origin?.name} · ${characterSynthesis?.pillars?.occupation?.name}`
+          ? characterSynthesis?.character?.backstory || `[BASTION TACTICAL OPERATOR]\nPillars: ${characterSynthesis?.pillars?.archetype?.name} · ${characterSynthesis?.pillars?.species?.name} · ${characterSynthesis?.pillars?.faction?.name} · ${characterSynthesis?.pillars?.origin?.name} · ${characterSynthesis?.pillars?.occupation?.name}`
           : `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${entryName}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
       } else if (['mechanic', 'mechanics'].includes(field)) {
         fallbackResults[field] = `2d10 Dual Resolution check (Unopposed Baseline CR 15, Defender wins ties). Calibrated for TL-${tl} / ML-${ml}.`;
@@ -646,7 +646,7 @@ Provide ONLY a valid JSON object matching the matrix fields:
   "name": "Designation",
   "description": "2-3 paragraphs of precise aesthetic, technological, and tactical overview.",
   "mechanic": "Concrete system rules, dice expressions (e.g. 2d10+4), ranges, AP, damage types, saves, and tactical conditions.",
-  "note": "Architect notes, GM tactical hooks, and manufacturing/design notes.",
+  "note": "Architect notes, tactical hooks, and manufacturing/design notes.",
   "tech_level": ${targetTechLevel},
   "meta_level": ${targetMetaLevel}
   ...and all other relevant fields for ${matrix.name}

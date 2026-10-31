@@ -30,4 +30,4 @@ mechanic: >-
 The character carries the blood of dragons, demons, fey, or gods.
 
 ## Mechanics & Benefit
-You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).
+You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level invocation usable at will).

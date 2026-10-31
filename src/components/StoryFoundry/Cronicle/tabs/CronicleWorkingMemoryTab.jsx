@@ -130,13 +130,13 @@ export default function CronicleWorkingMemoryTab({
         </div>
       </div>
 
-      {/* Consolidated GM Campaign Directives & Persistent Notes */}
+      {/* Consolidated Architect Campaign Directives & Persistent Notes */}
       {setScratchNotes && (
         <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex flex-col gap-0.5">
               <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5 font-mono">
-                <Edit3 size={14} /> GM Campaign Directives &amp; Persistent Notes
+                <Edit3 size={14} /> Architect Campaign Directives &amp; Persistent Notes
               </h3>
               <p className="text-[11px] text-slate-400 font-sans">
                 Running campaign directives, unresolved plot hooks, and rules reminders compiled into Cronicle and injected into AIME living memory prompts.
@@ -196,7 +196,7 @@ export default function CronicleWorkingMemoryTab({
           <textarea
             value={scratchNotes}
             onChange={(e) => setScratchNotes(e.target.value)}
-            placeholder="Author ongoing GM campaign directives, session recaps, unresolved mystery threads, and tactical rules reminders here..."
+            placeholder="Author ongoing Architect campaign directives, session recaps, unresolved mystery threads, and tactical rules reminders here..."
             className="w-full min-h-[160px] p-3.5 bg-slate-950/90 border border-slate-800 rounded-xl font-mono text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-400 resize-y leading-relaxed select-text shadow-inner"
           />
         </div>

@@ -21,7 +21,7 @@ recommended_factions:
 essential_skills:
   - Knowledge (Survival)
   - Navigation
-  - Knowledge (Geology)
+  - Knowledge (Nature)
   - Alertness
 signature_traits:
   - Cartographer
@@ -67,7 +67,7 @@ Identifying environmental resources, plotting safe paths, planetary analysis.
 ## Essential Skills
 - Knowledge (Survival)
 - Navigation
-- Knowledge (Geology)
+- Knowledge (Nature)
 - Alertness
 
 ## Signature Features
@@ -128,7 +128,7 @@ Silent Killer (The Silent Blade)
 Aesthetic: Slipping behind a target unseen, striking with lethal precision.  
 Classification: Combat Operative Feature (3 CP, or 2 CP if Silent Blade)  
 Activation: Passive (Triggered when attacking an unaware target)  
-Effect: When you attack a target while completely hidden or undetected, your attack automatically deals critical damage. If using a physical weapon, you bypass the target's Damage Reduction (DR) entirely. If the target is an NPC of equal or lower Tier, they must make a Constitution Save (DC equal to your Attack Roll) or be instantly incapacitated.
+Effect: When you attack a target while completely hidden or undetected, your attack automatically deals critical damage. If using a physical weapon, you bypass the target's Damage Reduction (DR) entirely. If the target is an NPC of equal or lower Tier, they must make a Fortitude Save (CR equal to your Attack Roll) or be instantly incapacitated.
 
 Cyber Warfare (The Decker / Slicer)  
 Aesthetic: Code cascading down an interface screen as firewalls crumble.  

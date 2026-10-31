@@ -412,7 +412,7 @@ export const SkillSummaryCard = ({
           <span>BASTION Check Application</span>
         </div>
         <p className="text-slate-300 font-sans leading-snug">
-          Roll 1d20 + {baseAttrLabel} Mod {bonusVal ? `+ ${bonusVal} (Species)` : ''} + Proficiency vs Target DC.
+          Roll 2d10 + {baseAttrLabel} Mod {bonusVal ? `+ ${bonusVal} (Species)` : ''} + Proficiency vs Target DC.
         </p>
       </div>
     </div>
@@ -521,12 +521,12 @@ const ATTRIBUTE_GUIDES = {
   },
   Agility: {
     governs: 'Initiative modifier, Reflex saving checks, armor evasion rating, stealth, and ranged weapon accuracy.',
-    subAttrs: ['Reflex', 'Dexterity'],
+    subAttrs: ['Reflex', 'Evasion'],
     role: 'Primary Tactical Stat'
   },
   Stamina: {
     governs: 'Maximum Health Point (HP) pool, Fortitude saving checks, natural fatigue thresholds, and wound recovery.',
-    subAttrs: ['Fortitude', 'Constitution'],
+    subAttrs: ['Fortitude', 'Toughness'],
     role: 'Primary Defensive Stat'
   },
   Intellect: {

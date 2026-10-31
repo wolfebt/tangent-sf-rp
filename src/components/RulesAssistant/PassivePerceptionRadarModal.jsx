@@ -31,15 +31,15 @@ export default function PassivePerceptionRadarModal({
   const [testDC, setTestDC] = useState(15);
   const [hazardType, setHazardType] = useState('trap'); // 'trap' | 'ambush' | 'secret_door' | 'tech_signal'
 
-  // Build Party Operative Radar Summary
+  // Build Party Operator Radar Summary
   const partyRadar = useMemo(() => {
-    // Collect unique operatives from personaRoster + tokens
+    // Collect unique operators from personaRoster + tokens
     const list = personaRoster.length > 0
       ? personaRoster
       : tokens.filter(t => t.isHero || t.linkedHeroId || t.type === 'hero');
 
     return list.map((char, idx) => {
-      const name = char['char-name'] || char.label || `Operative ${idx + 1}`;
+      const name = char['char-name'] || char.label || `Operator ${idx + 1}`;
       const species = char.species || 'Human';
 
       // Attributes & Skills (fallback sensible defaults)
@@ -106,9 +106,9 @@ export default function PassivePerceptionRadarModal({
             </div>
             <div>
               <h2 className="text-base font-black tracking-wider uppercase text-cyan-300 flex items-center gap-2">
-                Passive Perception &amp; Secret GM Radar
+                Passive Perception &amp; Secret Architect Radar
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                  {partyRadar.length} OPERATIVES MONITORED
+                  {partyRadar.length} OPERATORS MONITORED
                 </span>
               </h2>
               <p className="text-xs text-slate-400">
@@ -159,11 +159,11 @@ export default function PassivePerceptionRadarModal({
           </div>
         </div>
 
-        {/* Operatives Radar Grid */}
+        {/* Operators Radar Grid */}
         <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-3">
           {detectionResults.length === 0 ? (
             <div className="p-8 text-center text-slate-500 text-xs font-mono">
-              No operative sheets detected. Populate the Persona Folio roster or add tokens to canvas.
+              No operator sheets detected. Populate the Persona Folio roster or add tokens to canvas.
             </div>
           ) : (
             detectionResults.map(hero => (

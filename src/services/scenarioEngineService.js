@@ -12,7 +12,7 @@ export const OBJECTIVE_TEMPLATES = [
     title: 'Extraction & Tactical Evac',
     icon: '🚁',
     type: 'extraction',
-    description: 'Move all surviving operatives to the designated extraction landing zone (LZ).',
+    description: 'Move all surviving operators to the designated extraction landing zone (LZ).',
     rewardAP: 2,
     rewardKarma: 1
   },
@@ -50,7 +50,7 @@ export const OBJECTIVE_TEMPLATES = [
     icon: '📡',
     type: 'zone_control',
     roundsRequired: 3,
-    description: 'Maintain exclusive operative presence inside the target perimeter for 3 rounds.',
+    description: 'Maintain exclusive operator presence inside the target perimeter for 3 rounds.',
     rewardAP: 3,
     rewardKarma: 2
   },
@@ -99,7 +99,7 @@ export function evaluateScenarioProgress(activeObjectives = [], currentTokens = 
         return dist <= (mapContext.lzRadius || 140);
       });
       isComplete = heroes.length > 0 && inZone.length === heroes.length;
-      progressText = `${inZone.length}/${heroes.length} Operatives at LZ`;
+      progressText = `${inZone.length}/${heroes.length} Operators at LZ`;
     } else if (obj.type === 'zone_control') {
       const targetZoneX = obj.zoneX || mapContext.zoneX || 600;
       const targetZoneY = obj.zoneY || mapContext.zoneY || 600;

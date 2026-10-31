@@ -23,7 +23,7 @@ bonus_attribute_points: 0
 specific_skill_bonuses: []
 bonus_skills: 20
 bonus_skill_choices:
-  - Knowledge (Arcane)
+  - Arcane
   - Diplomacy
   - Attune
   - Science

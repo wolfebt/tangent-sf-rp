@@ -477,7 +477,7 @@ export const DBMContainer = () => {
 
   const handleCreateNew = async () => {
     if (!isAdmin) {
-      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to create new database entries.' });
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to create new database entries.' });
       return;
     }
 
@@ -527,7 +527,7 @@ export const DBMContainer = () => {
     const target = itemToDuplicate || selectedItem;
     if (!target) return;
     if (!isAdmin) {
-      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to duplicate database entries.' });
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to duplicate database entries.' });
       return;
     }
     const baseName = target.name || target.title || 'Entry';
@@ -588,7 +588,7 @@ export const DBMContainer = () => {
     const target = itemToDelete || selectedItem;
     if (!target) return;
     if (!isAdmin) {
-      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to delete database entries.' });
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to delete database entries.' });
       return;
     }
     const entryName = target.name || target.title || 'this entry';
@@ -621,7 +621,7 @@ export const DBMContainer = () => {
 
   const handleImportJSON = (e) => {
     if (!isAdmin) {
-      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or GM privileges are required to import entries.' });
+      showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to import entries.' });
       return;
     }
     const file = e.target.files[0];
@@ -768,7 +768,7 @@ export const DBMContainer = () => {
                   ? 'bg-amber-950/60 border-amber-500/60 text-amber-300'
                   : 'bg-slate-900 border-slate-800 text-slate-400'
               }`}
-              title={isAdmin ? 'Master Developer Access Active' : 'Player View (Read Only)'}
+              title={isAdmin ? 'Master Developer Access Active' : 'Operator View (Read Only)'}
             >
               <Crown size={11} className={isAdmin ? 'text-amber-400' : 'text-slate-500'} />
               <span className="hidden sm:inline">{isAdmin ? 'ADMIN' : 'VIEW'}</span>

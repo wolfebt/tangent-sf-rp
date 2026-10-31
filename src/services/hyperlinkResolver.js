@@ -19,11 +19,11 @@ import compendiumSeedData from '../data/compendiumSeed.json' with { type: 'json'
 export const SECTION_REGISTRY = {
   folio: {
     key: 'folio',
-    aliases: ['folio', 'persona', 'persona folio', 'character sheet', 'operative sheet', 'sheet', 'operative', 'operatives', 'roster'],
+    aliases: ['folio', 'persona', 'persona folio', 'character sheet', 'operator sheet', 'operative sheet', 'sheet', 'operator', 'operators', 'operative', 'operatives', 'roster'],
     label: 'Persona Folio',
     url: ROUTES.FOLIO || '/folio',
     badge: 'PLATFORM SECTION',
-    description: 'Operative character sheet, stats, inventory, cybernetics, and personal log.',
+    description: 'Operator character sheet, stats, inventory, cybernetics, and personal log.',
     tags: ['Core', 'Character', 'Vitals'],
     colorTheme: 'emerald',
     icon: 'User'
@@ -335,7 +335,7 @@ export function getAvailableOptionsForCompendium(item, dbData = {}) {
       id: 'section-folio',
       title: 'Persona Folio',
       label: 'Persona Folio (Builder)',
-      sublabel: 'Interactive Operative Character Sheet & Builder',
+      sublabel: 'Interactive Operator Character Sheet & Builder',
       url: '/folio',
       targetType: 'section',
       badge: 'PLATFORM BUILDER',
@@ -560,8 +560,8 @@ export function getAvailableOptionsForPlatformSection(section, dbData = {}) {
     options.push({
       id: 'folio-roster',
       title: 'Hero Roster Drawer',
-      label: 'Operative Roster',
-      sublabel: 'View and switch active operatives',
+      label: 'Operator Roster',
+      sublabel: 'View and switch active operators',
       url: '/folio',
       targetType: 'section',
       badge: 'ROSTER',

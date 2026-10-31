@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 200
+order: 213
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.karmafeatures","mechanics"]
-updatedAt: "2026-10-14T09:06:38.169Z"
+updatedAt: "2026-10-31T11:30:42.798Z"
 costs:
   bp: 0
   credits: 0
@@ -87,7 +87,7 @@ Karma Features represent a character's destiny, luck, divine favor, or sheer for
 **Description:** The character's faith is not just a belief system, but a fundamental force that strengthens their very being.
 
 * **Prerequisite:** Believer, Charisma 1  
-* **Benefit:** **Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  
+* **Benefit:** **Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Stamina check to hold breath).  
   * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.  
 * **Special:** This feature is **\[Ranked\]**. Each additional rank allows an additional use per day. The maximum rank is limited by your **Charisma** score.
 
@@ -98,7 +98,7 @@ Karma Features represent a character's destiny, luck, divine favor, or sheer for
 **Description:** The character is a chosen vessel or a paragon of their belief. When they expend their spiritual energy, the universe bends to ensure their success.  
 * **Prerequisite:** Believer, Devout  
 * **Benefit:** When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  
-  * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
+  * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
 
 ---
 
@@ -152,7 +152,7 @@ Karma Features represent a character's destiny, luck, divine favor, or sheer for
 
 * **Cost:** Spend **1 Karma Point** during your turn.  
 * **Benefit:** You gain **1 additional Standard Action** this round.  
-  * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Spell \+ Attack. It breaks the standard action economy.
+  * *Usage:* This allows for a Move \+ Attack \+ Attack, or Move \+ Cast Invocation \+ Attack. It breaks the standard action economy.
 
 ---
 

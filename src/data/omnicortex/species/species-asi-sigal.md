@@ -54,7 +54,7 @@ modifiers:
     value: 1
     type: feature
     mode: inherent
-  - target: 'Diminutive Size (-8 Str, +8 Dex, +8 Combat, +12 Stealth)*'
+  - target: 'Diminutive Size (-8 Str, +8 Agi, +8 Combat, +12 Stealth)*'
     value: 1
     type: feature
     mode: recommended
@@ -174,7 +174,7 @@ Telekinesis
 
 &nbsp;
 
-*Diminutive Size (-8 Str, \+8 Dex, \+8 Combat, \+12 Stealth)*
+*Diminutive Size (-8 Str, \+8 Agi, \+8 Combat, \+12 Stealth)*
 
 &nbsp;
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-companion-matrix"
-order: 14
+order: 15
 perspective: "architect"
 entry_type: "Companion Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","companions","99.companion.formpackages","matrix"]
-updatedAt: "2026-10-14T06:04:05.809Z"
+updatedAt: "2026-10-31T10:39:18.016Z"
 costs:
   bp: 0
   credits: 0
@@ -97,7 +97,7 @@ Select **one** form. This defines the Type, Size, and inherent physical traits. 
   * Flight (Winged) \[4 CP\] (Double Feature Value)  
   * Acute Sense (Vision) \[2 CP\]  
   * Natural Weapons (Talons) \[2 CP\]  
-  * Small Size (+AC/Stealth) \[2 CP\]  
+  * Small Size (+Defense/Stealth) \[2 CP\]  
 * **Skills (1 CP):** Acrobatics (Flight) Rank 1\.
 
 #### 
@@ -107,7 +107,7 @@ Select **one** form. This defines the Type, Size, and inherent physical traits. 
 *Rat Swarm, Nano-Cloud, Insect Colony.*
 
 * **Cost:** 15 CP  
-* **Attributes (4 CP):** Constitution \+1.  
+* **Attributes (4 CP):** Stamina \+1.  
 * **Features (12 CP):**  
   * Amorphous (Squeeze through any gap) \[2 CP\]  
   * Swarm Traits (1/2 Dmg from slashing/piercing) \[4 CP\]  
@@ -156,7 +156,7 @@ Select **one** form. This defines the Type, Size, and inherent physical traits. 
 *Slime, Gelatinous Blob, Shifter.*
 
 * **Cost:** 15 CP  
-* **Attributes (4 CP):** Constitution \+1.  
+* **Attributes (4 CP):** Stamina \+1.  
 * **Features (12 CP):**  
   * Amorphous (No Crits, Squeeze) \[4 CP\]  
   * Acid Touch (Natural Weapon \+ 1d4 Acid) \[4 CP\]  
@@ -171,7 +171,7 @@ Select **one** form. This defines the Type, Size, and inherent physical traits. 
 *Walking Vine, Spore-Mound, Treant Sapling.*
 
 * **Cost:** 15 CP  
-* **Attributes (4 CP):** Constitution \+1.  
+* **Attributes (4 CP):** Stamina \+1.  
 * **Features (10 CP):**  
   * Plant Traits (Immune: Mind/Paralysis/Poison) \[4 CP\]  
   * Camouflage (Forest) \[2 CP\]  
@@ -205,7 +205,7 @@ Select **one** form. This defines the Type, Size, and inherent physical traits. 
 * **Features (12 CP):**  
   * Flight (Hover/Grav) \[2 CP\]  
   * Synthetic Traits Package (Immunities/No Vit) \[6 CP\]  
-  * Tiny Size (+Stealth/AC) \[2 CP\]  
+  * Tiny Size (+Stealth/Defense) \[2 CP\]  
   * Recorder \[2 CP\]  
 * **Disadvantage (-1 CP):** Fragile (-20% HP/Structure).
 

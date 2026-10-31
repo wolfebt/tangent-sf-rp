@@ -158,7 +158,7 @@ export const StoryElementModal = ({
             }`}
           >
             <Volume2 size={13} className="text-amber-400" />
-            <span>Tactical & Player Actions</span>
+            <span>Tactical & Operator Actions</span>
           </button>
 
           {isTrapOrHazard && (
@@ -264,7 +264,7 @@ export const StoryElementModal = ({
                 <div>
                   <h4 className="font-bold text-slate-200 text-xs flex items-center gap-1.5">
                     <Share2 size={14} className="text-emerald-400" />
-                    <span>Broadcast Handout to Players</span>
+                    <span>Broadcast Handout to Operators</span>
                   </h4>
                   <p className="text-[11px] text-slate-400">
                     Push document, blueprint, or evidence card directly to the live spectator display.
@@ -279,7 +279,7 @@ export const StoryElementModal = ({
                       : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                   }`}
                 >
-                  {isRevealedToPlayers ? '✓ Broadcasted' : '📺 Reveal to Players'}
+                  {isRevealedToPlayers ? '✓ Broadcasted' : '📺 Reveal to Operators'}
                 </button>
               </div>
 

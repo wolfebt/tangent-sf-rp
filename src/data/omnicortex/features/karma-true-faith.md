@@ -20,7 +20,7 @@ cost_cp: 3
 mechanic: >-
   When you spend a **Karma Point** to modify an action that is directly in
   service of your Faith or ethos, the numeric effect is **Doubled**.  
-    * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
+    * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
 ---
 # True Faith
 
@@ -33,4 +33,4 @@ The character is a chosen vessel or a paragon of their belief. When they expend 
 
 ## Mechanics & Benefit
 When you spend a **Karma Point** to modify an action that is directly in service of your Faith or ethos, the numeric effect is **Doubled**.  
-  * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the GM rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*
+  * *Mechanics:* If a Karma spend would normally grant a \+5 bonus, it grants \+10. If the Architect rules a Karma spend heals damage or reduces time, that amount is doubled. *Note: This does not double the number of dice rolled for Advantage, but significantly boosts flat modifiers.*

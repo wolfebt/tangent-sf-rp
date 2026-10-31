@@ -4,7 +4,7 @@ name: "Soldier"
 type: mental
 subtype: "vocations"
 category: skills
-governing_attribute: "Constitution or Intellect"
+governing_attribute: "Stamina or Intellect"
 description: "Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier."
 specialties:
   - "Field Gear Maintenance: Stripping, cleaning, and oiling service rifles, boots, and webbing to military inspection code."
@@ -23,7 +23,7 @@ negative_keywords: "mindless, instinct-only, illiterate"
 
 ### **SOLDIER**
 
-* **Ability:** Constitution or Intellect  
+* **Ability:** Stamina or Intellect  
 * **Description:** Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier.  
 * **Mechanics:**  
   * *Regulations:* CR 10 to know the rules of engagement.  

@@ -155,7 +155,7 @@ export const ArchitectDocketBlock = ({
           seen.add(pid);
           list.push({
             id: pid,
-            name: p.name || p['char-name'] || 'Operative',
+            name: p.name || p['char-name'] || 'Operator',
             role: p.role || p['char-concept'] || 'Specialist',
             ownerUid: uid,
             ownerHandle: detail.handle || effectiveGroup.memberNames?.[uid] || 'Operator'
@@ -171,7 +171,7 @@ export const ArchitectDocketBlock = ({
           seen.add(pid);
           list.push({
             id: pid,
-            name: cm.name || cm['char-name'] || 'Operative',
+            name: cm.name || cm['char-name'] || 'Operator',
             role: cm.role || cm['char-concept'] || 'Specialist',
             ownerUid: cm.ownerUid || null,
             ownerHandle: cm.ownerHandle || 'Operator'
@@ -428,9 +428,9 @@ export const ArchitectDocketBlock = ({
       blockId: block.id,
       ackEntry: {
         uid: currentUser.uid,
-        operatorHandle: userHandle || currentUser.displayName || 'Operative',
+        operatorHandle: userHandle || currentUser.displayName || 'Operator',
         personaId: activeP?.id || activeP?.['character-doc-id'] || null,
-        personaName: activeP?.name || activeP?.['char-name'] || userHandle || 'Operative'
+        personaName: activeP?.name || activeP?.['char-name'] || userHandle || 'Operator'
       }
     });
   };
@@ -790,7 +790,7 @@ export const ArchitectDocketBlock = ({
                   </div>
 
                   <div className="flex items-center gap-1 shrink-0">
-                    {/* Operative ACK Toggle */}
+                    {/* Operator ACK Toggle */}
                     <button
                       type="button"
                       onClick={() => handleToggleAck(block)}

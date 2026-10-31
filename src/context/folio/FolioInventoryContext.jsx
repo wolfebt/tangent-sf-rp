@@ -490,7 +490,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
                 companionId,
                 companion: { ...comp, is_deployed: nextDeployed },
                 parentOperativeId: prev['character-doc-id'] || prev.id,
-                parentOperativeName: prev['char-name'] || 'Operative',
+                parentOperativeName: prev['char-name'] || 'Operator',
                 is_deployed: nextDeployed
               }
             }));
@@ -552,7 +552,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
 
   const clonePublicPersona = useCallback(() => {
     const user = auth.currentUser;
-    const name = characterData['char-name'] || 'Cloned Operative';
+    const name = characterData['char-name'] || 'Cloned Operator';
     const newDocId = `char_${Date.now()}`;
     const rawCloned = {
       ...characterData,
@@ -576,7 +576,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
     if (saveCurrentToRoster) {
       saveCurrentToRoster(cloned);
     }
-    showToast({ type: 'success', text: `Successfully cloned "${name}" to your local operative roster.` });
+    showToast({ type: 'success', text: `Successfully cloned "${name}" to your local operator roster.` });
   }, [characterData, saveCurrentToRoster, setActiveTab, setCharacterData, setIsReadOnly]);
 
   // Load public catalog on mount

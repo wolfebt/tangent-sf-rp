@@ -268,7 +268,7 @@ export const DATASET_GUIDANCE = {
         name: 'Species Package Summary — Chassis, Biology, Traits, Pools & Flaws',
         description: 'Unified overview of the species chassis type, physical scale, locomotion modes, inherent attribute modifiers, attribute/skill/feature pools, biological traits (1, 2 & 4 CP), granted features, and flaw/stigma refunds.',
         tips: [
-          'Chassis, Size, Movement, Attributes (+5 CP/pt), Skill Pools (+5 CP per +5 SP), Feature Pools (+3 CP/feat), and Traits (1, 2 & 4 CP) sum to the Species Package Cost.',
+          'Chassis, Size, Movement, Attributes (+5 CP/pt), Skill Pools (+5 CP per +5 SP), Feature Pools (+3 CP/feature), and Traits (1, 2 & 4 CP) sum to the Species Package Cost.',
           'Disadvantages (Flaws) and Social Stigmas grant CP rebates that reduce the total Package Cost.'
         ]
       }
@@ -312,7 +312,7 @@ export const DATASET_GUIDANCE = {
   invocation: {
     id: 'invocation',
     title: 'Invocation & Psionics Matrix',
-    subtitle: 'Disciplines, Psychic Spells & Meta-Abilities',
+    subtitle: 'Disciplines, Invocations & Meta-Abilities',
     category: 'Meta-Abilities & Psionics',
     isProperty: false, // NON-PROPERTY
     hasSocketsAndUDU: false,
@@ -380,7 +380,7 @@ export const DATASET_GUIDANCE = {
     sections: [
       {
         id: 'character_mechanics',
-        name: 'Player Options & Character Mechanics',
+        name: 'Operator Options & Character Mechanics',
         description: 'Faction Skill Package (20 Points Allocation), Recommended Features (1 CP Discount), and Bonus Features.',
         tips: [
           'Skill Package: 20-point distribution among faction-relevant skills (e.g., Bluff +4, Survival +3, Mechanics +3, Pilot +3).',
@@ -414,7 +414,7 @@ export const DATASET_GUIDANCE = {
     id: 'modular-characters',
     title: 'Modular Characters Matrix',
     subtitle: 'NPC Archetypes, Adversaries & Companion Templates',
-    category: 'NPCs & Operative Templates',
+    category: 'NPCs & Operator Templates',
     isProperty: false, // NON-PROPERTY
     overview: 'Modular character templates provide rapid archetype deployment for game masters. Characters have Threat Tiers (0-20) and combat roles, NOT fabrication costs.',
     canonicalRules: [
@@ -427,7 +427,7 @@ export const DATASET_GUIDANCE = {
         description: 'Tactical role (Tank, Striker, Assassin, Controller, Commander) and power tier (0-20).',
         tips: [
           'Minion: Fragile, single-hit vitals, acts in squads.',
-          'Standard: Equal match for an individual operative.',
+          'Standard: Equal match for an individual operator.',
           'Boss: Multi-action economy, legendary resistance, enhanced vitals pool.'
         ]
       },

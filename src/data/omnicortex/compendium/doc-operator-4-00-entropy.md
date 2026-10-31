@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 221
+order: 249
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","metaphysics","4.00.entropy","mechanics"]
-updatedAt: "2026-10-14T05:54:39.334Z"
+updatedAt: "2026-10-31T10:14:04.509Z"
 costs:
   bp: 0
   credits: 0
@@ -505,7 +505,7 @@ Grants resistance to specific alignments or metaphysical influences.
 
 **Scaling Function:**
 
-* **Integrity:** Bonus to AC/Saves \= \+1 per Stage.  
+* **Integrity:** Bonus to Defense/Saves \= \+1 per Stage.  
 * **Duration:** 10 Minutes per Stage.
 
 ### 

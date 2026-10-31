@@ -7,8 +7,7 @@ craft_dc: 15
 size: Medium
 weight: 5
 description: >-
-  Inflatable hermetically sealed shelter with air scrubbers sheltering 4
-  operatives.
+  Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operators.
 mechanic: >-
   Provides full life support and atmospheric seal against hostile biospheres for
   4 occupants.
@@ -43,6 +42,6 @@ gear_type: General
 base_dc: 15
 design_dc: 15
 ---
-Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operatives.
+Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operators.
 
 **Mechanics:** Provides full life support and atmospheric seal against hostile biospheres for 4 occupants.

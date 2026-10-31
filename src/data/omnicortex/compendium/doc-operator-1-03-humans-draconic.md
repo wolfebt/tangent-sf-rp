@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 48
+order: 54
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.draconic","mechanics"]
-updatedAt: "2026-10-14T05:24:25.050Z"
+updatedAt: "2026-10-31T10:38:11.502Z"
 costs:
   bp: 0
   credits: 0
@@ -91,7 +91,7 @@ Dragonkin\*
 
 Status (Dynasty)
 
-\+1 Feature
+\+1 Featureure
 
 \* Dragonkin \- gain Low Light Vision and Sharp Senses (+2 Insight checks) in addition to listed Species traits and certain physical traits such as Scales, Claws, Pronounced Fangs and possible Horns (Natural Attacks of 1d6 damage)
 

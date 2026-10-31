@@ -93,7 +93,7 @@ export const WaypointPromptChip = ({
               {theme.badge}
             </span>
             <span className="text-[9.5px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-bold">
-              GM LIVE
+              ARCHITECT LIVE
             </span>
           </div>
         </div>
@@ -101,7 +101,7 @@ export const WaypointPromptChip = ({
         {/* Content Body */}
         <div className="space-y-1.5 font-sans">
           <div className="text-xs text-slate-200 flex items-center gap-1.5 flex-wrap">
-            <span className="font-bold text-cyan-300 font-mono">{token?.label || token?.name || 'Operative'}</span>
+            <span className="font-bold text-cyan-300 font-mono">{token?.label || token?.name || 'Operator'}</span>
             <span className="text-slate-400 text-xs">reached trigger zone of</span>
             <span className={`font-bold ${theme.text} bg-slate-900/80 px-2 py-0.5 rounded border border-slate-700 font-mono`}>
               🚩 {waypoint?.name || 'Objective Waypoint'}

@@ -310,7 +310,7 @@ export const CodexMechanicsModal = ({
                 ))}
                 {speciesSummary.bonusFeatures > 0 && (
                   <span className="px-2 py-0.5 rounded bg-indigo-950/70 border border-indigo-500/40 text-indigo-200 font-bold">
-                    Feature Pool: +{speciesSummary.bonusFeatures} Feat{speciesSummary.bonusFeatures > 1 ? 's' : ''} (+{speciesSummary.bonusFeatures * 3} CP)
+                    Feature Pool: +{speciesSummary.bonusFeatures} Feature{speciesSummary.bonusFeatures > 1 ? 's' : ''} (+{speciesSummary.bonusFeatures * 3} CP)
                   </span>
                 )}
                 {recFeaturesList.map((rf, rfIdx) => (
@@ -318,7 +318,7 @@ export const CodexMechanicsModal = ({
                     key={`rf-${rfIdx}`}
                     className="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700 text-slate-300"
                   >
-                    Rec. Feat: {chipFormatter(rf)} <span className="text-slate-400">(0 CP)</span>
+                    Rec. Feature: {chipFormatter(rf)} <span className="text-slate-400">(0 CP)</span>
                   </span>
                 ))}
 

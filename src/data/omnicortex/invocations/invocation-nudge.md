@@ -59,7 +59,7 @@ Parameters:
 * **Range:** Medium  
 * **Area:** Single Target or 5ft Square  
 * **Duration:** Instantaneous  
-* **Resistance:** Strength Save vs. Spell DC
+* **Resistance:** Strength Save vs. Invocation CR
 Effect Description:  
 A distinct "shove" of telekinetic force. Precise and invisible.  
 **Scaling Function:**

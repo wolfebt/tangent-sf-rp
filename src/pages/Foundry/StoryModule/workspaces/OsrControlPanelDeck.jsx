@@ -120,14 +120,14 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
           2
         );
         attrMod = highestAttr;
-        attrName = 'Operative';
+        attrName = 'Operator';
       }
     }
 
     const result = rollDice(`2d10+${attrMod}`, { targetNumber });
     const die1 = result.rolls[0]?.value || 0;
     const die2 = result.rolls[1]?.value || 0;
-    const actorLabel = activeChar ? (activeChar['char-name'] || 'Operative') : 'Operative';
+    const actorLabel = activeChar ? (activeChar['char-name'] || 'Operator') : 'Operator';
 
     if (result.isCritSuccess) {
       AudioService.playCriticalChime(true);
@@ -197,7 +197,7 @@ export default function OsrControlPanelDeck({ activeNode, updateStory, guidanceG
   const handleAiGenerateReadAloud = async () => {
     setIsGeneratingReadAloud(true);
     AudioService.playTerminalBeep(1000, 0.05);
-    const prompt = `Write a vivid, sensory-rich 2-3 sentence Read-Aloud GM script for the players entering this sci-fi RPG scenario:
+    const prompt = `Write a vivid, sensory-rich 2-3 sentence Read-Aloud Architect script for the operators entering this sci-fi RPG scenario:
 Scenario: "${activeNode.title || 'Scene'}"
 Guidance Gems: ${guidanceGems || 'Sci-Fi'}
 Tone: Immediate, immersive, atmospheric (lighting, sounds, temperature, ozone smells).`;
@@ -273,7 +273,7 @@ Format strictly as JSON array:
   const handleAiGenerateSecrets = async () => {
     setIsGeneratingSecrets(true);
     AudioService.playTerminalBeep(1000, 0.05);
-    const prompt = `Generate 2-3 classified GM operational secrets, hidden complications, reinforcement triggers, or room hazards for:
+    const prompt = `Generate 2-3 classified Architect operational secrets, hidden complications, reinforcement triggers, or room hazards for:
 Scenario: "${activeNode.title || 'Scene'}"
 Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
 
@@ -300,7 +300,7 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
             OSR Control Panel Deck
           </h3>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-500/40">
-            Read-Aloud &bull; Tactical Bullets &bull; Threat Matrix &bull; GM Secrets
+            Read-Aloud &bull; Tactical Bullets &bull; Threat Matrix &bull; Architect Secrets
           </span>
         </div>
 
@@ -327,12 +327,12 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
           {/* COLUMN 1: READ-ALOUD & TACTICAL BULLETS */}
           <div className="space-y-4">
             
-            {/* Sensory Read-Aloud GM Script */}
+            {/* Sensory Read-Aloud Architect Script */}
             <div className="p-3.5 bg-amber-950/20 border border-amber-500/40 rounded-xl space-y-2 shadow-sm">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="font-bold text-amber-300 flex items-center gap-1.5 uppercase">
                   <Sparkles size={13} className="text-amber-400" />
-                  <span>Sensory Read-Aloud (GM Script)</span>
+                  <span>Sensory Read-Aloud (Architect Script)</span>
                 </span>
                 <button
                   type="button"
@@ -358,7 +358,7 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
               <textarea
                 value={readAloud}
                 onChange={(e) => handleUpdateField('readAloud', e.target.value)}
-                placeholder="Author 2-3 evocative, atmospheric sentences for the GM to read aloud..."
+                placeholder="Author 2-3 evocative, atmospheric sentences for the Architect to read aloud..."
                 className="w-full h-20 p-2 bg-slate-950/80 border border-slate-800 rounded-lg font-serif italic text-xs text-amber-100 placeholder-slate-600 focus:outline-none focus:border-amber-500/60 resize-none leading-relaxed select-text"
               />
             </div>
@@ -448,7 +448,7 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
 
           </div>
 
-          {/* COLUMN 2: 3-TIER THREAT MATRIX & GM SECRETS */}
+          {/* COLUMN 2: 3-TIER THREAT MATRIX & ARCHITECT SECRETS */}
           <div className="space-y-4">
             
             {/* Folio Party Quick Vitals & Testing Reference */}
@@ -643,19 +643,19 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
               </form>
             </div>
 
-            {/* Classified GM Discoveries & Secrets */}
+            {/* Classified Architect Discoveries & Secrets */}
             <div className="p-3.5 bg-slate-950/80 border border-purple-500/40 rounded-xl space-y-2 shadow-sm">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="font-bold text-purple-300 flex items-center gap-1.5 uppercase">
                   <HelpCircle size={13} className="text-purple-400" />
-                  <span>Classified GM Discovery / Complication</span>
+                  <span>Classified Architect Discovery / Complication</span>
                 </span>
                 <button
                   type="button"
                   onClick={handleAiGenerateSecrets}
                   disabled={isGeneratingSecrets}
                   className="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 text-purple-200 border border-purple-500/40 text-[10px] font-mono font-bold flex items-center gap-1 transition-all disabled:opacity-50 cursor-pointer shadow-sm"
-                  title="Generate hidden GM secrets and complications with AIME"
+                  title="Generate hidden Architect secrets and complications with AIME"
                 >
                   {isGeneratingSecrets ? (
                     <>
@@ -674,7 +674,7 @@ Guidance Gems: ${guidanceGems || 'Sci-Fi'}`;
               <textarea
                 value={gmSecrets}
                 onChange={(e) => handleUpdateField('gmSecrets', e.target.value)}
-                placeholder="Author secret GM discoveries, reinforcement timers, traps, or room twists..."
+                placeholder="Author secret Architect discoveries, reinforcement timers, traps, or room twists..."
                 className="w-full h-20 p-2 bg-slate-950/90 border border-purple-500/30 rounded-lg font-mono text-xs text-purple-200 placeholder-slate-600 focus:outline-none focus:border-purple-500/60 resize-none leading-relaxed select-text"
               />
             </div>

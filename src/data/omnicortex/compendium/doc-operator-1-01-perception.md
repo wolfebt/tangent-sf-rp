@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 4
+order: 10
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.perception","mechanics"]
-updatedAt: "2026-10-14T05:54:39.325Z"
+updatedAt: "2026-10-31T11:30:42.675Z"
 costs:
   bp: 0
   credits: 0
@@ -79,7 +79,7 @@ There are three additional, more specialized types of Perception checks that can
 
 ## **Modifiers**
 
-The Game Master (GM) may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as visibility, distance, the nature of the thing being detected, and any other relevant environmental or situational factors.
+The Architect may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as visibility, distance, the nature of the thing being detected, and any other relevant environmental or situational factors.
 
 &nbsp;
 

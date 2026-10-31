@@ -47,7 +47,7 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
   token,
   targetToken,
   isAdjacentToMortalityAlly = false,
-  mortalityAllyName = 'Allied Operative',
+  mortalityAllyName = 'Allied Operator',
   isAdjacentToInteractiveObj = false,
   interactiveObjName = 'Bulkhead / Console',
   nearbyVehicle,
@@ -119,7 +119,7 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
     },
     {
       id: 'folio',
-      label: 'Operative Sheet',
+      label: 'Operator Sheet',
       sub: 'Folio Vitals & Gear',
       icon: FileText,
       activeColor: 'border-slate-700 bg-slate-900/90 text-slate-300 hover:bg-slate-800',

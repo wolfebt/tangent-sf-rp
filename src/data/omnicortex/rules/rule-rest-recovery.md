@@ -44,7 +44,7 @@ The need for rest can have a significant impact on gameplay:
 - **Essence Recovery**: Recovers **Essence equal to the character's Key Ability Modifier (minimum 1)** per hour of downtime.
 
 ### The Burn (Overchanneling without Reserves)
-If an operative's Essence Pool is empty, they may "burn" their own life force to power an invocation:
+If an operator's Essence Pool is empty, they may "burn" their own life force to power an invocation:
 - Each point of Essence needed deals **2 points of direct Health damage** (not absorbed by Armor DR or Stamina).
 - Represents the physical destruction of biological or synthetic tissue acting as an unshielded conduit.
 

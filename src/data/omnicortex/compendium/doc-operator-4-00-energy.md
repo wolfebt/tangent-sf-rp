@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 220
+order: 248
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3

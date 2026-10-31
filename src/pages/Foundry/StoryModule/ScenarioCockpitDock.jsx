@@ -734,7 +734,7 @@ export const ScenarioCockpitDockPanel = ({
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold text-slate-400 uppercase">Sensory Read-Aloud:</span>
                   <p className="p-2 bg-slate-900/90 border border-slate-800 rounded-lg text-[11px] text-amber-100 italic leading-relaxed">
-                    {activeNode.fields?.readAloud || 'No read-aloud GM script drafted yet.'}
+                    {activeNode.fields?.readAloud || 'No read-aloud Architect script drafted yet.'}
                   </p>
                 </div>
 

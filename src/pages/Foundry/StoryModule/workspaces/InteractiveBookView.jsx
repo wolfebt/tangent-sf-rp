@@ -103,7 +103,7 @@ export default function InteractiveBookView({
               {activeScenario?.title || 'Interactive Scenario Book'}
             </h2>
             <span className="text-[10px] text-slate-400 font-mono">
-              Protagonist: <strong className="text-cyan-300">{activeOperative?.name || 'Operative'}</strong>
+              Protagonist: <strong className="text-cyan-300">{activeOperative?.name || 'Operator'}</strong>
               {activeOperative && ` (${activeOperative.species} • ${activeOperative.archetype})`}
             </span>
           </div>
@@ -177,7 +177,7 @@ export default function InteractiveBookView({
               <Compass size={40} className="mx-auto text-amber-500/50 animate-pulse" />
               <p className="text-sm font-semibold text-slate-300">The chapter begins with your first decision.</p>
               <p className="text-xs text-slate-500 max-w-md mx-auto font-sans">
-                Choose an authored branch or declare your operative's tactical action in the Decision Gate below.
+                Choose an authored branch or declare your operator's tactical action in the Decision Gate below.
               </p>
             </div>
           )}
@@ -469,7 +469,7 @@ export default function InteractiveBookView({
                 onChange={e => setCustomActionInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') onAdvanceBeat(); }}
                 disabled={isGenerating}
-                placeholder={activeOperative ? `Declare ${activeOperative.name}'s next action...` : 'Declare operative action...'}
+                placeholder={activeOperative ? `Declare ${activeOperative.name}'s next action...` : 'Declare operator action...'}
                 className="flex-1 bg-slate-900 border border-slate-700 text-slate-100 text-xs px-3.5 py-2.5 rounded-xl outline-none focus:border-amber-400 placeholder-slate-500"
               />
               <button

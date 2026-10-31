@@ -20,7 +20,7 @@ export function createDeltaFromCombatEvent(eventType, payload = {}) {
   switch (eventType) {
     case 'token-defeated': {
       const entityId = payload.entityId || payload.token?.id || 'unknown_entity';
-      const entityName = payload.name || payload.token?.label || payload.token?.name || 'Operative';
+      const entityName = payload.name || payload.token?.label || payload.token?.name || 'Operator';
       const status = payload.status || 'defeated';
       return {
         id: deltaId,
@@ -39,7 +39,7 @@ export function createDeltaFromCombatEvent(eventType, payload = {}) {
       const bulkheadId = payload.objectId || payload.bulkheadId || 'bulkhead';
       const isOpen = Boolean(payload.isOpen);
       const actionText = isOpen ? 'breached/opened' : 'sealed shut';
-      const actorText = payload.operativeId ? ` by operative ${payload.operativeId}` : '';
+      const actorText = payload.operativeId ? ` by operator ${payload.operativeId}` : '';
       return {
         id: deltaId,
         timestamp,
@@ -107,7 +107,7 @@ export function createDeltaFromCombatEvent(eventType, payload = {}) {
     case 'story-foundry-node-triggered': {
       const nodeId = payload.storyElementId || payload.objectId || payload.nodeId || 'terminal';
       const actionName = payload.action || 'Terminal Accessed';
-      const actorText = payload.operativeId ? ` by operative ${payload.operativeId}` : '';
+      const actorText = payload.operativeId ? ` by operator ${payload.operativeId}` : '';
       return {
         id: deltaId,
         timestamp,

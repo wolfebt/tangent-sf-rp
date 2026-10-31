@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "doc-architect-99-metaphysics"
-order: 41
+order: 42
 perspective: "architect"
 entry_type: "Metaphysics Matrix"
 tl: 3

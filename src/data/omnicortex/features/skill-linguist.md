@@ -6,7 +6,7 @@ feature_category: Skill
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Linguistics 1
+prerequisites: Language 1
 description: The character has an ear for dialects and syntax.
 costs:
   cp: 3
@@ -23,7 +23,7 @@ mechanic: >-
 
 **Category**: Skill Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Linguistics 1
+**Prerequisite**: Language 1
 
 ## Description
 The character has an ear for dialects and syntax.

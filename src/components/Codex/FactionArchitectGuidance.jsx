@@ -701,7 +701,7 @@ export const FactionArchitectGuidance = ({
               </span>
             </div>
             <p className="text-[10px] font-mono text-rose-400/70">
-              Searchable railguards reducing weight/penalizing conflicting AI character synthesis and guiding GM filters.
+              Searchable railguards reducing weight/penalizing conflicting AI character synthesis and guiding Architect filters.
             </p>
             <div className="flex flex-wrap gap-1.5 min-h-[28px]">
               {negativeKeywordsList.length === 0 ? (

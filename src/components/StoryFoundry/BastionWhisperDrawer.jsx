@@ -72,7 +72,7 @@ const BastionWhisperDrawer = ({
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Autonomous Encounter Pacing, Drag Detection &amp; GM Advisory Stream
+                Autonomous Encounter Pacing, Drag Detection &amp; Architect Advisory Stream
               </p>
             </div>
           </div>

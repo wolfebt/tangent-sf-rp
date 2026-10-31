@@ -76,7 +76,7 @@ export function useCombatController({
   const [targetedLimb, setTargetedLimb] = useState<'torso' | 'head' | 'arms' | 'legs' | 'optics'>('torso');
   const [combatLog, setCombatLog] = useState<string[]>([
     '[SYSTEM] Stage WebGPU Engine initialized at 5ft Encounter scale.',
-    '[SYSTEM] Operatives and Mecha units synchronized with Folio & Omnicortex.'
+    '[SYSTEM] Operators and Mecha units synchronized with Folio & Omnicortex.'
   ]);
   const [attackWeapon, setAttackWeapon] = useState<'kinetic' | 'plasma' | 'laser' | 'emp'>('plasma');
   const [attackMapStep, setAttackMapStep] = useState<number>(0);
@@ -227,7 +227,7 @@ export function useCombatController({
       useEngineStore.getState().toggleCondition(targetToken.id, status);
     });
 
-    let logMsg = `[COMBAT HIT] ${selectedToken.name} struck ${targetedLimb.toUpperCase()} of ${targetToken.name} for ${strikeResult.netDamage} NET DMG (${strikeResult.effectiveDR} DR + ${strikeResult.conModSoak} CON Soak) [Cover: ${coverCheck.coverType.toUpperCase()}].`;
+    let logMsg = `[COMBAT HIT] ${selectedToken.name} struck ${targetedLimb.toUpperCase()} of ${targetToken.name} for ${strikeResult.netDamage} NET DMG (${strikeResult.effectiveDR} DR + ${strikeResult.conModSoak} STA Soak) [Cover: ${coverCheck.coverType.toUpperCase()}].`;
     if (strikeResult.entersMortalityState) {
       logMsg += strikeResult.isDead
         ? ` 💀 TARGET EXPIRED!`

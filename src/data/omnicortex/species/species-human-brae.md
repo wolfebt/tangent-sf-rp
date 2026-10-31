@@ -25,7 +25,7 @@ bonus_skill_choices:
   - Stealth
   - Engineering
   - Piloting
-  - Sleight of Hand
+  - Legerdemain
 inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []

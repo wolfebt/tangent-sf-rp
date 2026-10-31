@@ -106,7 +106,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
     setSelectedObjectType
   } = useUILayoutStore();
 
-  const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operative');
+  const [tokenLabelInput, setTokenLabelInput] = useState('Tactical Operator');
   const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
   const [isStageSettingsOpen, setIsStageSettingsOpen] = useState(false);
   const [activeStageTab, setActiveStageTab] = useState<'map' | 'tree' | 'architect'>('map');
@@ -331,7 +331,7 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
               ? 'bg-cyan-950/60 text-cyan-300 border-cyan-500/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
               : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-900/60'
           }`}
-          title="Tactical Operative Cockpit (Token Vitals, AP, Strikes)"
+          title="Tactical Operator Cockpit (Token Vitals, AP, Strikes)"
         >
           <Crosshair size={12} className={activeLeftTab === 'cockpit' ? 'text-cyan-400' : 'text-slate-500'} />
           <span>COCKPIT</span>

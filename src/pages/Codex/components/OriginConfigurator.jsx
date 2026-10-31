@@ -204,7 +204,7 @@ export const OriginConfigurator = ({
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
           Skills typically acquired from upbringing and vocation within this environment. When brought into the Persona Folio, 
-          the operative receives 20 points specifically allotted to develop expertise in these areas:
+          the operator receives 20 points specifically allotted to develop expertise in these areas:
         </p>
 
         {/* Skill Chips */}
@@ -266,7 +266,7 @@ export const OriginConfigurator = ({
             </h4>
             <CodexTooltip
               title="Origin Traits"
-              description="Players select 2 traits from this list initially for free. Additional traits from this origin can be purchased for 1 CP each in the Persona Folio."
+              description="Operators select 2 traits from this list initially for free. Additional traits from this origin can be purchased for 1 CP each in the Persona Folio."
               rule="1.05 ORIGINS.md"
               color="#10b981"
             />
@@ -277,7 +277,7 @@ export const OriginConfigurator = ({
         </div>
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
-          These traits reflect the character's native experiences and upbringing. Operatives select two free traits initially, 
+          These traits reflect the character's native experiences and upbringing. Operators select two free traits initially, 
           with the option to pay 1 CP for each additional trait selected from this list:
         </p>
 

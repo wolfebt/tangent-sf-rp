@@ -42,7 +42,7 @@ export default function MediaTab() {
   const [isUploading, setIsUploading] = useState(false);
   const [previewModalImage, setPreviewModalImage] = useState(null);
 
-  const charName = characterData?.['char-name'] || 'Operative';
+  const charName = characterData?.['char-name'] || 'Operator';
   const media = characterData?.media || {};
 
   // Resolved URLs
@@ -277,7 +277,7 @@ export default function MediaTab() {
                   </div>
                   <span className="text-xs font-mono font-bold text-slate-300">No Portrait Assigned</span>
                   <span className="text-[10px] text-slate-500 mt-1 max-w-[200px]">
-                    Appears in Folio header, party HUD, and operative roster.
+                    Appears in Folio header, party HUD, and operator roster.
                   </span>
                 </div>
               )}

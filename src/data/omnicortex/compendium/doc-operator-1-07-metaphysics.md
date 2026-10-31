@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 187
+order: 198
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.metaphysics","mechanics"]
-updatedAt: "2026-10-14T05:52:12.031Z"
+updatedAt: "2026-10-31T10:56:34.146Z"
 costs:
   bp: 0
   credits: 0
@@ -66,7 +66,7 @@ Attune represents the character's ability to open a conduit to their power sourc
 * **Specialties:**  
   * **Conduit Channeling:** Opening your physical body and neural pathways to flow raw meta-energy without self-damage.  
   * **Concentration Under Stress:** Sustaining an active invocation while taking direct ballistic damage or running through fire.  
-  * **Spell CR Augmentation:** Tightening the metaphysical weave to make your invocations vastly harder for targets to resist.  
+  * **Invocation CR Augmentation:** Tightening the metaphysical weave to make your invocations vastly harder for targets to resist.  
   * **Overcoming Resistance (SR/PR):** Pushing raw energy through an enemy's innate spell resistance or psionic dampeners.  
   * **Runic Circle Scribing:** Drawing physical geometric runes on floors to anchor massive, long-duration rituals safely.  
   * **Metascience Calibration:** Tuning sensory implants and detection crystals to measure ambient magical currents accurately.  
@@ -324,7 +324,7 @@ Improving the structural integrity or properties of an object or creature.
 * **Keen Edge:** Sharpens a weapon.  
   * *Effect:* Increases Critical Threat range by 1\.  
 * **Physical Boost:** Enhances physical attributes.  
-  * *Effect:* Grants \+2 to Str, Dex, or Con for 1 min/Rank.  
+  * *Effect:* Grants \+2 to Str, Agi, or Sta for 1 min/Rank.  
 * **Repair:** Fixes structural damage.  
   * *Effect:* Restores 1d10 Structure Points per Rank to objects/constructs.
 

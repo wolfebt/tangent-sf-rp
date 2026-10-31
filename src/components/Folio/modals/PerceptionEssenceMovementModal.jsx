@@ -69,7 +69,7 @@ const SKILL_SYNERGIES = [
   { check: 'Might (STR)', skills: 'Athletics, Combat Maneuvers, Brawling', bonusDesc: 'Circumstance bonuses for high-leverage lifts, grappling large beasts, or breaching bulkheads.' },
   { check: 'Reflex (AGI)', skills: 'Acrobatics, Stealth, Piloting / Evasion', bonusDesc: 'Applies circumstance modifiers when diving clear of explosions, ship debris, or catching projectiles.' },
   { check: 'Fortitude (STA)', skills: 'Medicine, Survival, Biochemistry', bonusDesc: 'Allows physiological knowledge to bolster biological saves against toxins, radiation, and harsh weather.' },
-  { check: 'Reason (INT)', skills: 'Linguistics, Cryptography, Science, Technology', bonusDesc: 'Provides direct competence bonuses when decrypting alien ciphers, xeno-tech, or solving mechanisms.' },
+  { check: 'Reason (INT)', skills: 'Language, Cryptography, Science, Technology', bonusDesc: 'Provides direct competence bonuses when decrypting alien ciphers, xeno-tech, or solving mechanisms.' },
   { check: 'Willpower (WIS)', skills: 'Attune, Mental Alertness, Insight', bonusDesc: 'Strengthens psychic mental defense screens against psionic intrusion, terror, panic, and mind control.' },
   { check: 'Etiquette (CHA)', skills: 'Diplomacy, Bluff, Streetwise, Subterfuge', bonusDesc: 'Enables nuanced reading of social etiquette, underworld codes, or high protocol to avert bloodshed.' }
 ];
@@ -193,10 +193,10 @@ const KARMA_ACTIONS = [
     id: 'so-mote-it-be',
     name: '"So Mote it Be"',
     cost: '1 Karma',
-    timing: 'Declare SIMULTANEOUSLY with metaphysical skill or feat',
+    timing: 'Declare SIMULTANEOUSLY with metaphysical skill or feature',
     scope: 'Metaphysics users (Arcane, Psi, Supernatural forces)',
-    summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feat.',
-    description: 'Interacts with metaphysical abilities, enhancing their power, expanding range or duration, or triggering special discipline Karma Feats.',
+    summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feature.',
+    description: 'Interacts with metaphysical abilities, enhancing their power, expanding range or duration, or triggering special discipline Karma Features.',
     tag: 'Metaphysics Boost',
     color: 'purple'
   },
@@ -230,10 +230,10 @@ const ADVANCEMENT_COSTS = [
     ]
   },
   {
-    category: 'Attributes & Feats',
+    category: 'Attributes & Features',
     items: [
       { name: 'Primary Attribute (+1)', cost: '5 AP', increment: 'Max +1 per award', desc: 'Permanently increases Strength, Agility, Intellect, etc. Represents intense conditioning.' },
-      { name: 'Feature / Feat', cost: '2 – 3 AP', increment: '1 Feat per award', desc: 'Acquires a new combat trait, scientific specialty, or racial/background feature.' }
+      { name: 'Feature', cost: '2 – 3 AP', increment: '1 Feature per award', desc: 'Acquires a new combat trait, scientific specialty, or racial/background feature.' }
     ]
   },
   {
@@ -647,7 +647,7 @@ const PerceptionEssenceMovementModal = ({
                     <span>🎯</span> Targeted Challenges (vs Static CR)
                   </div>
                   <p className="text-[11px] text-slate-300 leading-relaxed">
-                    Targeted challenges pit a character's roll against a static Challenge Rating (CR) set by the Architect/GM or scenario. Meeting or exceeding the CR achieves success.
+                    Targeted challenges pit a character's roll against a static Challenge Rating (CR) set by the Architect or scenario. Meeting or exceeding the CR achieves success.
                   </p>
                 </div>
 
@@ -1143,7 +1143,7 @@ const PerceptionEssenceMovementModal = ({
               <div className="bg-rose-950/30 p-3.5 rounded-xl border border-rose-900/50 space-y-1.5">
                 <div className="font-bold text-rose-300">Karmic Debt &amp; "The Dark Turn"</div>
                 <p className="text-slate-300 text-[11px] leading-relaxed">
-                  Personas may spend into negative Karma up to <strong className="text-rose-200">Charisma + 1</strong>. When in debt, the Architect/GM may invoke "The Dark Turn" on any dramatic check, forcing Disadvantage or triggering environmental complications.
+                  Personas may spend into negative Karma up to <strong className="text-rose-200">Charisma + 1</strong>. When in debt, the Architect may invoke "The Dark Turn" on any dramatic check, forcing Disadvantage or triggering environmental complications.
                 </p>
               </div>
 
@@ -2149,8 +2149,8 @@ const PerceptionEssenceMovementModal = ({
                       ? `+${(wealthBreakdown.traitFeatureMod ?? 0) + (wealthBreakdown.customMod ?? 0)}`
                       : (wealthBreakdown.traitFeatureMod ?? 0) + (wealthBreakdown.customMod ?? 0)}
                   </div>
-                  <span className="text-[9.5px] text-slate-400 truncate" title={wealthBreakdown.traitFeatureSources?.map(s => `${s.name} (${s.mod >= 0 ? '+' : ''}${s.mod})`).join(', ') || 'Situational / GM'}>
-                    {wealthBreakdown.traitFeatureSources?.length > 0 ? wealthBreakdown.traitFeatureSources.map(s => s.name).join(', ') : 'Situational / GM'}
+                  <span className="text-[9.5px] text-slate-400 truncate" title={wealthBreakdown.traitFeatureSources?.map(s => `${s.name} (${s.mod >= 0 ? '+' : ''}${s.mod})`).join(', ') || 'Situational / Architect'}>
+                    {wealthBreakdown.traitFeatureSources?.length > 0 ? wealthBreakdown.traitFeatureSources.map(s => s.name).join(', ') : 'Situational / Architect'}
                   </span>
                 </div>
               </div>

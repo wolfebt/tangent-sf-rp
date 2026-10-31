@@ -31,26 +31,26 @@ const getCollectionConfig = (colKey) => {
 };
 
 export const FEATURE_CATEGORY_ITEMS = [
-  { id: 'cat_any_feature', name: 'Any Feature', type: 'Category Group', description: 'Player may choose any feature from the full feature database.' },
-  { id: 'cat_general_features', name: 'General Features', type: 'Category Group', description: 'Player may choose any feature classified under General features.' },
-  { id: 'cat_combat_features', name: 'Combat Features', type: 'Category Group', description: 'Player may choose any feature classified under Combat features.' },
-  { id: 'cat_ability_features', name: 'Ability Features', type: 'Category Group', description: 'Player may choose any feature classified under Ability features.' },
-  { id: 'cat_discipline_features', name: 'Discipline Features', type: 'Category Group', description: 'Player may choose any feature classified under Discipline features.' },
-  { id: 'cat_meta_features', name: 'Meta Features', type: 'Category Group', description: 'Player may choose any feature classified under Meta / Discipline features.' },
-  { id: 'cat_karma_features', name: 'Karma Features', type: 'Category Group', description: 'Player may choose any feature classified under Karma features.' },
-  { id: 'cat_skill_features', name: 'Skill Features', type: 'Category Group', description: 'Player may choose any feature classified under Skill features.' },
-  { id: 'cat_special_features', name: 'Special Features', type: 'Category Group', description: 'Player may choose any feature classified under Special features.' },
-  { id: 'cat_exotic_features', name: 'Exotic Features', type: 'Category Group', description: 'Player may choose any feature classified under Exotic features.' },
-  { id: 'cat_special_abilities', name: 'Special Abilities', type: 'Category Group', description: 'Player may choose any feature classified under Special Abilities.' }
+  { id: 'cat_any_feature', name: 'Any Feature', type: 'Category Group', description: 'Operator may choose any feature from the full feature database.' },
+  { id: 'cat_general_features', name: 'General Features', type: 'Category Group', description: 'Operator may choose any feature classified under General features.' },
+  { id: 'cat_combat_features', name: 'Combat Features', type: 'Category Group', description: 'Operator may choose any feature classified under Combat features.' },
+  { id: 'cat_ability_features', name: 'Ability Features', type: 'Category Group', description: 'Operator may choose any feature classified under Ability features.' },
+  { id: 'cat_discipline_features', name: 'Discipline Features', type: 'Category Group', description: 'Operator may choose any feature classified under Discipline features.' },
+  { id: 'cat_meta_features', name: 'Meta Features', type: 'Category Group', description: 'Operator may choose any feature classified under Meta / Discipline features.' },
+  { id: 'cat_karma_features', name: 'Karma Features', type: 'Category Group', description: 'Operator may choose any feature classified under Karma features.' },
+  { id: 'cat_skill_features', name: 'Skill Features', type: 'Category Group', description: 'Operator may choose any feature classified under Skill features.' },
+  { id: 'cat_special_features', name: 'Special Features', type: 'Category Group', description: 'Operator may choose any feature classified under Special features.' },
+  { id: 'cat_exotic_features', name: 'Exotic Features', type: 'Category Group', description: 'Operator may choose any feature classified under Exotic features.' },
+  { id: 'cat_special_abilities', name: 'Special Abilities', type: 'Category Group', description: 'Operator may choose any feature classified under Special Abilities.' }
 ];
 
 export const SKILL_GROUP_ITEMS = [
-  { id: 'grp_any_skill', name: 'Any Skill', type: 'Skill Group', description: 'Player may choose any skill from the full skill database.' },
-  { id: 'grp_physical_skills', name: 'Physical Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Physical skill group.' },
-  { id: 'grp_mental_skills', name: 'Mental Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Mental skill group.' },
-  { id: 'grp_social_skills', name: 'Social Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Social skill group.' },
-  { id: 'grp_combat_skills', name: 'Combat Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Combat skill group.' },
-  { id: 'grp_meta_skills', name: 'Meta Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Meta skill group.' }
+  { id: 'grp_any_skill', name: 'Any Skill', type: 'Skill Group', description: 'Operator may choose any skill from the full skill database.' },
+  { id: 'grp_physical_skills', name: 'Physical Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Physical skill group.' },
+  { id: 'grp_mental_skills', name: 'Mental Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Mental skill group.' },
+  { id: 'grp_social_skills', name: 'Social Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Social skill group.' },
+  { id: 'grp_combat_skills', name: 'Combat Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Combat skill group.' },
+  { id: 'grp_meta_skills', name: 'Meta Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Meta skill group.' }
 ];
 
 export const CANONICAL_TECH_LEVEL_ITEMS = [
@@ -83,7 +83,6 @@ const getAspectSubtypeOptions = (aspect, itemsMap = {}) => {
       'Reflex',
       'Stamina',
       'Fortitude',
-      'Constitution',
       'Intellect',
       'Logic',
       'Wisdom',

@@ -272,7 +272,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                 </div>
 
                 <div className="border border-black p-0.5 bg-gray-100">
-                  <div className="text-[7.5px] uppercase">CONSTITUTION</div>
+                  <div className="text-[7.5px] uppercase">STAMINA</div>
                   <div className="text-xs font-mono">{conTotal}</div>
                   <div className="text-[7px] border-t border-black mt-0.5 pt-0.5 uppercase">FORTITUDE {fortTotal}</div>
                 </div>

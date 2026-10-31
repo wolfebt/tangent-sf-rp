@@ -56,7 +56,7 @@ Base DC for activating a Metafocus Discipline or Invocation:
 | Outcome | Trigger / Condition | Mechanical Effect |
 | :--- | :--- | :--- |
 | **Critical Success** | Natural 20 / Double 10s | **+30 bonus to the check** and a dramatic, transcendent improvement of the effect. |
-| **Critical Mistake** | Natural 1 / Double 1s | **-10 penalty to the check** and a disastrous metaphysical backfire (GM's call). |
+| **Critical Mistake** | Natural 1 / Double 1s | **-10 penalty to the check** and a disastrous metaphysical backfire (Architect's call). |
 | **Energy Surge** | Attune Check $\le 0$ | Uncontrolled energy surge (wrong target, collateral area, unintended consequence); **Essence cost is doubled**. |
 | **Fizzle / Transposition** | Discipline Check $\le 0$ | Effect produces unintended results, ranging from a dramatic fizzle to transposed energy states. |
 | **Internalized Strain** | Check Failure | Inflicts **1 point of Non-Lethal Damage per 5 points of failure** (1d6 per 5 in free-casting). Cannot be soaked by Armor DR or Stamina. |

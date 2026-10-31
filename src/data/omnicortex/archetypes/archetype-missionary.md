@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Face / Healer / Support
 primary_attribute: Charisma
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Adept
   - Representative
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Face / Healer / Support  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 A zealous preacher who travels the galaxy to spread their faith.

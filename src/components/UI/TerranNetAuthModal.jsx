@@ -56,7 +56,7 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping shadow-[0_0_6px_#22d3ee]" />
               </div>
               <h3 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-widest text-slate-100 mt-0.5">
-                SECURE OPERATIVE GATEWAY
+                SECURE OPERATOR GATEWAY
               </h3>
             </div>
           </div>
@@ -84,7 +84,7 @@ export const TerranNetAuthModal = ({ isOpen, onClose }) => {
                   <span>ACCESS TO THE TERRAN DATA NET</span>
                 </h4>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Accessing the <strong className="text-cyan-200 font-semibold">Terran Data Net</strong> links your operative station to the centralized interplanetary database. Authenticate with Google to synchronize character dossiers, retain encrypted cloud Foundry campaign states, and receive real-time tactical team transmissions across devices.
+                  Accessing the <strong className="text-cyan-200 font-semibold">Terran Data Net</strong> links your operator station to the centralized interplanetary database. Authenticate with Google to synchronize character dossiers, retain encrypted cloud Foundry campaign states, and receive real-time tactical team transmissions across devices.
                 </p>
               </div>
             </div>

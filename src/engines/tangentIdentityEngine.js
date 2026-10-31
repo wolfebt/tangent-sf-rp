@@ -886,7 +886,7 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
       newArchAlloc.attributes[secKey] = 2;
 
       // Concept & Role defaults
-      if (!updated['char-concept'] || updated['char-concept'].trim() === '' || updated['char-concept'] === 'Unnamed Operative') {
+      if (!updated['char-concept'] || updated['char-concept'].trim() === '' || updated['char-concept'] === 'Unnamed Operative' || updated['char-concept'] === 'Unnamed Operator') {
         updated['char-concept'] = newArchetypeObj.core_concept || newArchetypeName;
       }
       if (!updated['char-motive'] || updated['char-motive'].trim() === '') {

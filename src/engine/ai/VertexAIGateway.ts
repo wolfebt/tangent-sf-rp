@@ -366,7 +366,7 @@ class VertexAIGatewayService {
     let fallbackData: any;
     if (isJson) {
       fallbackData = {
-        name: 'Synthesized Operative',
+        name: 'Synthesized Operator',
         species: 'Human',
         attributes: { strength: 3, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 3 },
         stats: { strength: 3, agility: 4, stamina: 3, intellect: 2, wisdom: 3, charisma: 3 },
@@ -394,7 +394,7 @@ class VertexAIGatewayService {
       const cuesMatch = prompt.match(/Required Sensory Cues:\s*([^\n]+)/i);
       const outcomeMatch = prompt.match(/Prescribed Outcome:\s*([^\n]+)/i);
       const cues = cuesMatch ? cuesMatch[1].trim() : 'ozone discharge and cycling bulkhead locks';
-      const outcome = outcomeMatch ? outcomeMatch[1].trim() : 'The operative executes the maneuver within canonical parameters.';
+      const outcome = outcomeMatch ? outcomeMatch[1].trim() : 'The operator executes the maneuver within canonical parameters.';
       fallbackData = `[AIME MANDATED BEAT]: ${outcome} Sensory telemetry registers ${cues}.`;
     } else {
       fallbackData = `[AIME SIMULATED TELEMETRY]: Analyzing situation. Atmospheric sensors detect low-pressure venting and magnetic resonance. Proceed with standard caution.`;

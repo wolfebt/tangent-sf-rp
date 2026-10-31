@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 190
+order: 201
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.skillgroups","mechanics"]
-updatedAt: "2026-10-14T05:52:12.031Z"
+updatedAt: "2026-10-31T10:56:34.100Z"
 costs:
   bp: 0
   credits: 0

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 185
+order: 196
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.social.manipulation","mechanics"]
-updatedAt: "2026-10-14T05:52:12.029Z"
+updatedAt: "2026-10-31T11:30:42.874Z"
 costs:
   bp: 0
   credits: 0
@@ -64,14 +64,14 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Body Language Reading:** Predicting an opponent's sudden draw, reach for a weapon, or sprint for an exit before it starts.  
     * **Sincerity Gauging:** Determining if a stated apology, peace offer, or surrender is completely authentic or a setup.
 
-  ### 
+### 
 
-  ### **Bluff**
+### **Bluff**
 
 * **Ability:** Charisma  
 * **Description:** Bluff is the skill of lying convincingly. It reflects a character's ability to deceive others and manipulate situations to their advantage. Bluff is used whenever a character needs to convince someone of something that isn't true, whether it's to avoid danger or to gain information. This can include things like lying about one's identity, pretending to be someone else, or making up a story to cover up a mistake. The ability to lie convincingly, deceive others, and manipulate situations to one’s advantage. It covers everything from little white lies to elaborate cons and feints in combat.  
 * **Mechanics:**  
-  * **Deceive:** Opposed check vs. **Insight (Sense Motive)**.  
+  * **Deceive:** Opposed check vs. **Insight**.  
   * **Feint:** Opposed check vs. **Insight** (or Defense) in combat to deny a target their Agility bonus to Defense for the next attack.  
   * **Create Distraction:** CR 15+ to momentarily divert attention (often used to Hide).  
 * **Specialties:**  
@@ -86,7 +86,7 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Manufactured Rumors:** Spreading false gossip and fabricated leaks through a spaceport to manipulate public behavior.  
     * **Misdirection of Intent:** Convincing a room you are unarmed and terrified while quietly lining up an ambush.
 
-  ### **Barter**
+### **Barter**
 
 * **Ability:** Charisma (or Wisdom)  
 * **Description:** Barter is the skill of trading goods and services without relying solely on currency. It reflects a character's ability to negotiate value, haggle for better prices, and reach mutually beneficial agreements in trade. Barter is used whenever a character needs to acquire items, services, or information through direct exchange. This includes assessing the relative value of goods, identifying market trends, and convincing others of the worth of a trade. The art of negotiation and exchange.  
@@ -105,9 +105,9 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Pawn Valuation:** Squeezing the maximum instant credit payout from pawn brokers for stolen or hot goods.  
     * **Surplus Liquidating:** Dumping unwanted bulk inventory quickly onto frontier merchants without taking a total loss.
 
-  ### 
+### 
 
-  ### **Diplomacy**
+### **Diplomacy**
 
 * **Ability:** Charisma  
 * **Description:** Diplomacy is the skill of negotiating and persuading others. It reflects a character's ability to communicate effectively and build relationships with others. Diplomacy is used whenever a character needs to convince someone of something that is true, whether it's to gain support or to resolve a conflict. This can include things like negotiating a peace treaty, convincing a king to support a cause, or persuading a merchant to lower their prices. The art of negotiation, persuasion, and maintaining positive relations. It is used to convince others of the truth, gain support, resolve conflicts peacefully, and navigate complex social hierarchies.  
@@ -127,9 +127,9 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Alliance Brokering:** Forging binding military and mutual-defense pacts between independent star systems.  
     * **Hostage Negotiation:** Communicating calmly with kidnappers and terrorists to trade concessions for living captives.
 
-  ### 
+### 
 
-  ### **Intimidate**
+### **Intimidate**
 
 * **Ability:** Charisma (or Strength for physical threats)  
 * **Description:** Intimidation is the skill of using fear and threats to control others. It reflects a character's ability to instill fear in others and manipulate situations to their advantage. Intimidate is used whenever a character needs to scare someone into doing something, whether it's to gain information or to avoid danger. This can include things like threatening physical harm, using one's reputation to intimidate others, or using psychological tactics to make someone feel powerless. The skill of coercing others through fear, physical threats, or sheer force of personality. It can be used to interrogate prisoners, demoralize enemies, or force compliance.  
@@ -148,7 +148,7 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Crowd Dispersal:** Roaring commands that send curious civilian crowds and street onlookers fleeing in absolute terror.  
     * **Exploiting Phobias:** Leveraging a target's known terror of vacuum, drowning, insects, or fire to force immediate compliance.
 
-  ### 
+### 
 
 ### **Leadership**
 
@@ -163,14 +163,14 @@ These skills are used to influence others, hide intentions, or read social situa
     * **Inspiring Speeches:** Delivering electrifying orations that banish fear, rally broken lines, and restore morale.  
     * **Crew Morale Management:** Maintaining high spirits, solving internal grievances, and keeping a starship crew cohesive.  
     * **Crisis Command:** Stepping into sudden chaos—explosions, hull breaches, captain deaths—and taking total control.  
-    * **Delegation & Task Assignment:** Assigning the exact right operative to the exact right task to maximize group efficiency.  
+    * **Delegation & Task Assignment:** Assigning the exact right operator to the exact right task to maximize group efficiency.  
     * **Mutiny Suppression:** Quelling brewing insurrections and subduing rebellious crewmen through sheer force of will.  
     * **Rallying Broken Allies:** Snapping panicked or terrified companions out of shock and putting their weapons back in the fight.  
     * **Strategic Vision Planning:** Formulating long-term campaign roadmaps that keep an entire faction or fleet pointed forward.  
     * **Mentorship & Drill:** Training recruits to overcome their personal doubts, forging them into disciplined squad members.  
     * **Personal Accountability:** Taking public responsibility for failures to retain absolute loyalty and trust from subordinates.
 
-  ### **Streetwise**
+### **Streetwise**
 
 * **Ability:** Charisma (or Wisdom)  
 * **Description:** Streetwise is the skill of navigating the criminal underworld and understanding the social dynamics of the streets. It reflects a character's ability to survive and thrive in dangerous and unpredictable environments. Streetwise is used whenever a character needs to gather information or make connections in the criminal underworld, whether it's to gain access to resources or to avoid danger. This can include things like finding a black market dealer, identifying a gang's territory, or navigating a dangerous neighborhood. Knowledge of the urban environment, criminal underworld, and how to navigate the "streets." It involves gathering information from informal contacts, finding black markets, and avoiding trouble in dangerous neighborhoods.  

@@ -2,7 +2,7 @@
  * @file A11yStageFeed.tsx
  * @description Accessible Screen Reader Companion for the Tangent Tactical Stage & WebGL Viewport.
  * Provides off-screen ARIA live announcements (aria-live="polite") for tactical maneuvers,
- * token relocations, and bulkhead toggles, along with a navigable HTML summary of active operatives.
+ * token relocations, and bulkhead toggles, along with a navigable HTML summary of active operators.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ export const A11yStageFeed: React.FC<A11yStageFeedProps> = ({ mapName = 'Tactica
       const { detail } = customEvent;
       const eventType = detail.type || customEvent.type;
       if (eventType === 'stage-token-moved') {
-        setAnnouncement(`${detail.name || 'Operative'} repositioned to grid coordinates X ${detail.x}, Y ${detail.y}.`);
+        setAnnouncement(`${detail.name || 'Operator'} repositioned to grid coordinates X ${detail.x}, Y ${detail.y}.`);
       } else if (eventType === 'stage-bulkhead-toggled') {
         setAnnouncement(`Bulkhead ${detail.objectId || 'door'} was ${detail.isOpen ? 'opened' : 'sealed'}.`);
       } else if (eventType === 'story-foundry-node-triggered') {
@@ -53,16 +53,16 @@ export const A11yStageFeed: React.FC<A11yStageFeedProps> = ({ mapName = 'Tactica
       </div>
 
       {/* Accessible DOM structure describing active tokens on the stage */}
-      <section aria-label="Active Stage Operatives">
-        <h3>Current Tactical Operatives on {mapName} ({tokens.length} deployed)</h3>
+      <section aria-label="Active Stage Operators">
+        <h3>Current Tactical Operators on {mapName} ({tokens.length} deployed)</h3>
         {tokens.length === 0 ? (
-          <p>No operatives currently deployed on the tactical grid.</p>
+          <p>No operators currently deployed on the tactical grid.</p>
         ) : (
           <table>
             <caption>List of deployed tokens and status</caption>
             <thead>
               <tr>
-                <th scope="col">Operative</th>
+                <th scope="col">Operator</th>
                 <th scope="col">Grid Position</th>
                 <th scope="col">Elevation</th>
                 <th scope="col">Status</th>
@@ -71,7 +71,7 @@ export const A11yStageFeed: React.FC<A11yStageFeedProps> = ({ mapName = 'Tactica
             <tbody>
               {tokens.map((token) => (
                 <tr key={token.id}>
-                  <th scope="row">{token.name || 'Unnamed Operative'}</th>
+                  <th scope="row">{token.name || 'Unnamed Operator'}</th>
                   <td>X: {Math.round(token.x || 0)}, Y: {Math.round(token.y || 0)}</td>
                   <td>{token.elevation_ft || 0} ft</td>
                   <td>{token.current_hp <= 0 ? 'Incapacitated' : (token.active_conditions && token.active_conditions.length > 0 ? token.active_conditions.join(', ') : 'Active')}</td>

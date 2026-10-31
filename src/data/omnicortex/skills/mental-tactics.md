@@ -27,7 +27,7 @@ negative_keywords: "mindless, instinct-only, illiterate"
 * **Description:** Knowledge of strategy, warfare, and small unit operations. It allows a character to predict enemy movements and plan effective ambushes.  
 * **Mechanics:**  
   * **Predict Strategy:** Opposed check vs. Enemy Tactics/Bluff.  
-  * **Combat Bonus:** A successful check (CR 15+) prior to combat might grant the team a \+1 Initiative or Attack bonus for the first round (GM discretion).  
+  * **Combat Bonus:** A successful check (CR 15+) prior to combat might grant the team a \+1 Initiative or Attack bonus for the first round (Architect discretion).  
 * **Specialties:**   
   * **Close-Quarters Battle (CQB):** Clearing rooms, stacking doors, leapfrogging down corridors, and fatal funnel control.  
     * **Squad Fireteam Maneuvers:** Coordinating bounding overwatch, flanking suppression, and tactical withdrawals.  

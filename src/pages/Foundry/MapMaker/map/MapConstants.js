@@ -101,7 +101,7 @@ export const MASTER_TERRAINS = {
 
   'Regional': [
     { id: 'denseForestJungle', label: 'Dense Forest / Jungle', color: '#15803d', textureUrl: TERRAIN_TEXTURE_PATTERNS.forestCanopy, strokeWidth: 35, desc: 'Thick tree cover restricting vehicles.', engineProps: 'Move cost: 2; infantry cover +2; vehicle speed halved' },
-    { id: 'aridDesertDunes', label: 'Arid Desert Dunes', color: '#d97706', textureUrl: TERRAIN_TEXTURE_PATTERNS.desertSand, strokeWidth: 35, desc: 'Open sand fields with shifting dunes.', engineProps: 'Move cost: 1.5; wheeled vehicles DEX check' },
+    { id: 'aridDesertDunes', label: 'Arid Desert Dunes', color: '#d97706', textureUrl: TERRAIN_TEXTURE_PATTERNS.desertSand, strokeWidth: 35, desc: 'Open sand fields with shifting dunes.', engineProps: 'Move cost: 1.5; wheeled vehicles AGI check' },
     { id: 'swampMarshland', label: 'Swamp / Marshland', color: '#0f766e', textureUrl: TERRAIN_TEXTURE_PATTERNS.toxicSludge, strokeWidth: 40, desc: 'Shallow mud waterways and high humidity.', engineProps: 'Move cost: 3; tracked vehicle advantage' },
     { id: 'jaggedCanyons', label: 'Jagged Canyon Pass', color: '#78350f', strokeWidth: 30, desc: 'Steep ravines requiring bridges or flight.', engineProps: 'Impassable without climbing/jets; natural chokepoint' },
     { id: 'tundraSnowfield', label: 'Tundra / Snowfield', color: '#f1f5f9', textureUrl: TERRAIN_TEXTURE_PATTERNS.iceSheet, strokeWidth: 35, desc: 'Slick snow cover with visible track lines.', engineProps: 'Move cost: 1.5; tracks stay visible 10 turns' },
@@ -140,8 +140,8 @@ export const MASTER_TERRAINS = {
     { id: 'cultivatedLawn', label: 'Cultivated Lawn', color: '#16a34a', textureUrl: TERRAIN_TEXTURE_PATTERNS.grassland, strokeWidth: 30, desc: 'Manicured synthetic or natural lawn.', engineProps: 'Standard move cost; clear visibility' },
     { id: 'industrialSlagYard', label: 'Industrial Slag Yard', color: '#52525b', strokeWidth: 30, desc: 'Sharp metal refuse and broken glass debris.', engineProps: 'Prone units take 1 HP/turn; tire puncture risk' },
     { id: 'softSandDunes', label: 'Soft Sand Sinking', color: '#d97706', textureUrl: TERRAIN_TEXTURE_PATTERNS.desertSand, strokeWidth: 35, desc: 'Deep sand giving way under foot pressure.', engineProps: 'Move cost: 2.0 foot; vehicles -50% speed' },
-    { id: 'scorchedCraterGround', label: 'Scorched Crater Ground', color: '#1c1917', strokeWidth: 35, desc: 'Glassified impact pit from explosive shells.', engineProps: 'Provides partial cover (+2 AC); thermal heat' },
-    { id: 'marshyWetlandEdge', label: 'Marshy Wetland Edge', color: '#0f766e', strokeWidth: 35, desc: 'Slippery waterlogged turf with bog plants.', engineProps: 'DEX check required when sprinting to avoid falling' },
+    { id: 'scorchedCraterGround', label: 'Scorched Crater Ground', color: '#1c1917', strokeWidth: 35, desc: 'Glassified impact pit from explosive shells.', engineProps: 'Provides partial cover (+2 Defense); thermal heat' },
+    { id: 'marshyWetlandEdge', label: 'Marshy Wetland Edge', color: '#0f766e', strokeWidth: 35, desc: 'Slippery waterlogged turf with bog plants.', engineProps: 'AGI check required when sprinting to avoid falling' },
     { id: 'frozenSlickIce', label: 'Frozen Slick Ice', color: '#e0f2fe', textureUrl: TERRAIN_TEXTURE_PATTERNS.iceSheet, strokeWidth: 30, desc: 'Zero-friction smooth ice patch.', engineProps: 'Acrobatics check needed if moving fast' },
     { id: 'overgrownBriarPatch', label: 'Overgrown Briar Patch', color: '#15803d', textureUrl: TERRAIN_TEXTURE_PATTERNS.forestCanopy, strokeWidth: 35, desc: 'Entangling razor flora providing concealment.', engineProps: 'Move cost: 2.0; deals 1d4 piercing damage' },
     { id: 'razorWireField', label: 'Razor Wire Security Field', color: '#dc2626', strokeWidth: 25, desc: 'Coiled military wire strung across path.', engineProps: 'Severe move penalty; bleeding damage & entangle' },
@@ -159,7 +159,7 @@ export const MASTER_TERRAINS = {
     { id: 'corrodedRustPlate', label: 'Corroded Rust Plate', color: '#b45309', strokeWidth: 30, desc: 'Fractured floor plate severely degraded.', engineProps: 'Structural hazard; collapses under heavy weight' },
     { id: 'pouredEpoxy', label: 'Poured Epoxy Chemical Seal', color: '#059669', strokeWidth: 30, desc: 'Seamless non-reactive chemical coating.', engineProps: 'Resistant to acid/corrosive spills' },
     { id: 'rubberizedAcousticMat', label: 'Rubberized Acoustic Mat', color: '#0f172a', strokeWidth: 30, desc: 'Tactical dampening flooring canceling step audio.', engineProps: 'Completely silences footstep audio pings' },
-    { id: 'utilityTrench', label: 'Sub-Level Utility Trench', color: '#334155', strokeWidth: 25, desc: 'Sunken channel running cabling under floor.', engineProps: 'Units in trench gain half-cover (+2 AC)' },
+    { id: 'utilityTrench', label: 'Sub-Level Utility Trench', color: '#334155', strokeWidth: 25, desc: 'Sunken channel running cabling under floor.', engineProps: 'Units in trench gain half-cover (+2 Defense)' },
     { id: 'organoChitinMatrix', label: 'Organo-Chitin Hive Matrix', color: '#84cc16', textureUrl: TERRAIN_TEXTURE_PATTERNS.chitinHive, strokeWidth: 35, desc: 'Living alien hive flooring pulsing rhythmically.', engineProps: 'Accelerates alien speed +25%; slows humans' },
     { id: 'shatteredGlass', label: 'Shattered Glass Surface', color: '#bae6fd', strokeWidth: 30, desc: 'Floor littered with sharp window shards.', engineProps: 'Stepping without boots takes 1d2 dmg and alerts' }
   ],
@@ -359,10 +359,10 @@ export const MASTER_OBJECTS = {
 
   'Exterior': [
     // Cover & Barriers
-    { id: 'concreteJerseyBarrier', label: 'Concrete Jersey Barrier', category: 'Cover & Barriers', cover: '+2 AC', color: '#64748b', shape: 'rect', width: 35, height: 12, desc: 'Heavy pre-cast barrier absorbing kinetic bullet fire (+2 AC).' },
+    { id: 'concreteJerseyBarrier', label: 'Concrete Jersey Barrier', category: 'Cover & Barriers', cover: '+2 Defense', color: '#64748b', shape: 'rect', width: 35, height: 12, desc: 'Heavy pre-cast barrier absorbing kinetic bullet fire (+2 Defense).' },
     { id: 'sandbagFortification', label: 'Sandbag Fortification Wall', category: 'Cover & Barriers', destructible: true, color: '#d97706', shape: 'rect', width: 40, height: 14, desc: 'Stacked sandbags absorbing blast fragments and small arms fire.' },
-    { id: 'naturalBoulder', label: 'Natural Boulder Formation', category: 'Cover & Barriers', cover: '+4 AC', color: '#475569', shape: 'hexagon', radius: 22, desc: 'Hard stone outcropping completely blocking line of sight.' },
-    { id: 'foliageTreeTrunk', label: 'Dense Foliage / Tree Trunk', category: 'Cover & Barriers', concealment: true, color: '#15803d', shape: 'circle', radius: 20, desc: 'Tree trunks provide half cover (+2 AC); bushes conceal.' },
+    { id: 'naturalBoulder', label: 'Natural Boulder Formation', category: 'Cover & Barriers', cover: '+4 Defense', color: '#475569', shape: 'hexagon', radius: 22, desc: 'Hard stone outcropping completely blocking line of sight.' },
+    { id: 'foliageTreeTrunk', label: 'Dense Foliage / Tree Trunk', category: 'Cover & Barriers', concealment: true, color: '#15803d', shape: 'circle', radius: 20, desc: 'Tree trunks provide half cover (+2 Defense); bushes conceal.' },
     { id: 'intermodalCargoCrate', label: 'Intermodal Cargo Crate Stack', category: 'Cover & Barriers', cover: 'Full', color: '#0284c7', shape: 'rect', width: 45, height: 25, desc: 'Industrial metal shipping containers blocking sight lines.' },
     { id: 'scrapMetalPile', label: 'Scrap Metal Scrap Pile', category: 'Cover & Barriers', cover: 'Variable', color: '#78350f', shape: 'hexagon', radius: 25, desc: 'Irregular pile of compressed vehicle parts offering partial cover.' },
     { id: 'destroyedVehicle', label: 'Destroyed Vehicle Wreckage', category: 'Cover & Barriers', cover: 'Full', color: '#334155', shape: 'rect', width: 40, height: 22, desc: 'Burnt-out chassis providing heavy structural cover; leaks smoke.' },
@@ -564,7 +564,7 @@ export const SCALE_METADATA_SCHEMAS = {
     fields: [
       { key: 'atmosphericSealing', label: 'Pressurized Air Sealed', type: 'boolean', default: true },
       { key: 'roomHazardProfile', label: 'Room Hazard Level', type: 'select', options: ['Clear', 'Biohazard Leak', 'Radiation Spill', 'Fire Hazard', 'Vacuum Breach'], default: 'Clear' },
-      { key: 'coverArmorRating', label: 'Structural Wall Rating (AC)', type: 'number', default: 4 },
+      { key: 'coverArmorRating', label: 'Structural Wall Rating (Defense)', type: 'number', default: 4 },
       { key: 'securityTerminalLocked', label: 'Terminal Hack Lockout', type: 'boolean', default: false }
     ]
   },

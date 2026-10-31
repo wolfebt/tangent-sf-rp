@@ -25,7 +25,7 @@ Improving the structural integrity or properties of an object or creature.
 * **Keen Edge:** Sharpens a weapon.  
   * *Effect:* Increases Critical Threat range by 1\.  
 * **Physical Boost:** Enhances physical attributes.  
-  * *Effect:* Grants \+2 to Str, Dex, or Con for 1 min/Rank.  
+  * *Effect:* Grants \+2 to Str, Agi, or Sta for 1 min/Rank.  
 * **Repair:** Fixes structural damage.  
   * *Effect:* Restores 1d10 Structure Points per Rank to objects/constructs.
 

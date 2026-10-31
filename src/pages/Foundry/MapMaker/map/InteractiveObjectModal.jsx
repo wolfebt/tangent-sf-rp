@@ -22,7 +22,7 @@ const InteractiveObjectModal = ({
 
   const folio = useFolio() || {};
   const activeOperative = folio?.characterData || {};
-  const activeOperativeName = activeOperative?.name || 'Operative Persona';
+  const activeOperativeName = activeOperative?.name || 'Operator Persona';
 
   const defaultHack = activeOperative?.attributes?.INT ? Math.max(1, Math.floor((activeOperative.attributes.INT - 10) / 2)) : 3;
   const defaultStr = activeOperative?.attributes?.STR ? Math.max(1, Math.floor((activeOperative.attributes.STR - 10) / 2)) : 2;
@@ -184,10 +184,10 @@ const InteractiveObjectModal = ({
 
         {/* Body */}
         <div className="p-4 flex flex-col gap-4 overflow-y-auto max-h-[70vh]">
-          {/* Active Operative Persona Indicator */}
+          {/* Active Operator Persona Indicator */}
           <div className="p-2.5 bg-slate-900/90 border border-slate-800 rounded-xl flex items-center justify-between text-xs font-mono">
             <span className="text-slate-400 flex items-center gap-1.5">
-              <span>👤</span> Active Operative:
+              <span>👤</span> Active Operator:
             </span>
             <span className="font-bold text-cyan-300">
               {activeOperativeName} {activeOperative?.species ? `(${activeOperative.species})` : ''}

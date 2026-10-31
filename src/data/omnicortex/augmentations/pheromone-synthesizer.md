@@ -26,7 +26,7 @@ description: >-
   Exocrine glands spliced into sweat pores that secrete potent mood-altering
   pheromones.
 mechanic: >-
-  +2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological
+  +2 Bonus to Diplomacy, Bluff, or Handler checks against biological
   targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).
 keywords: 'pheromone synthesizer (exocrine graft), augmentation, bioware (graft), tl-4'
 negative_keywords: 'unaugmented, pure-organic'
@@ -35,4 +35,4 @@ Category: **Biological: Utility & Sensory**
 
 Exocrine glands spliced into sweat pores that secrete potent mood-altering pheromones.
 
-**Mechanics:** +2 Bonus to Diplomacy, Bluff, or Handle Animal checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).
+**Mechanics:** +2 Bonus to Diplomacy, Bluff, or Handler checks against biological targets within 15ft. 5 Nodes, TL 4, CR 15 (640 Cr).

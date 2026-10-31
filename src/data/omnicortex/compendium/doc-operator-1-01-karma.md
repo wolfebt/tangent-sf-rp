@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 6
+order: 12
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.karma","mechanics"]
-updatedAt: "2026-10-14T05:54:39.326Z"
+updatedAt: "2026-10-31T11:30:42.672Z"
 costs:
   bp: 0
   credits: 0
@@ -52,7 +52,7 @@ The Karma is an aspect of the Tangent RPG system that provides players with a li
 *Characters have 3 Karma Points by default.*
 
 * *Session Reset: Karma resets to max (Default 3\) at the start of every session. It does not regenerate via rest.*  
-* *Heroic Gain: GM may award 1 Karma Point immediately for "Heroic" or "Awesome" actions.*
+* *Heroic Gain: Architect may award 1 Karma Point immediately for "Heroic" or "Awesome" actions.*
 
 &nbsp;
 
@@ -66,7 +66,7 @@ All Karma Points are fully restored at the start of each game session and regain
 
 The Karmic Blessing feature allows characters to increase their maximum Karma Pool by \+1 point per rank of the feature.
 
-Otherwise the pool will be increased by possible Storyline and GM prerogative.
+Otherwise the pool will be increased by possible Storyline and Architect prerogative.
 
 &nbsp;
 
@@ -202,15 +202,15 @@ The Karma Point expenditure must be declared along with the use of the metaphysi
 
 This is a unique Karma Point expenditure, allowing characters to attempt actions that push the boundaries of their normal capabilities.&nbsp;
 
-GM Discretion
+Architect Discretion
 
-The core of "By Will Alone" is the GM's judgment. Players propose an action, and the GM decides if it's possible within the game world and the character's potential.
+The core of "By Will Alone" is the Architect's judgment. Operators propose an action, and the Architect decides if it's possible within the game world and the character's potential.
 
 &nbsp;
 
 Possible but Challenging
 
-The action must be something that's not explicitly covered by the character's skills or abilities, but is theoretically achievable with extreme effort, luck, or a narrative justification. The effect could involve a nudge of a rule for one action or event in the character’s favor, the emulation of a basic feature for the event or scene and similar low-end temporary game tweaks for character agency (within GM’s approval for the ongoing story).
+The action must be something that's not explicitly covered by the character's skills or abilities, but is theoretically achievable with extreme effort, luck, or a narrative justification. The effect could involve a nudge of a rule for one action or event in the character’s favor, the emulation of a basic feature for the event or scene and similar low-end temporary game tweaks for character agency (within Architect’s approval for the ongoing story).
 
 &nbsp;
 
@@ -222,7 +222,7 @@ Attempting the action requires spending a Karma Point, regardless of success or 
 
 No Guarantee
 
-Even with a Karma Point spent, success is not guaranteed. The GM may call for an ability check, a skill check, or a unique challenge to resolve the action's outcome.
+Even with a Karma Point spent, success is not guaranteed. The Architect may call for an ability check, a skill check, or a unique challenge to resolve the action's outcome.
 
 &nbsp;
 
@@ -230,7 +230,7 @@ Even with a Karma Point spent, success is not guaranteed. The GM may call for an
 
 # **PLOT POINTS**
 
-Plot Points are a special resource in Tangent RPG, awarded by the GM to players who actively engage with the story and its challenges.
+Plot Points are a special resource in Tangent RPG, awarded by the Architect to operators who actively engage with the story and its challenges.
 
 Separate from Karma Pool
 
@@ -258,9 +258,9 @@ Negative Karma allows characters to push their luck and potentially face consequ
 
 &nbsp;
 
-## **GM's Discretion**
+## **Architect's Discretion**
 
-The allowance of Negative Karma is entirely at the GM's discretion who will decide when and how to apply its effects, tailoring it to the specific situation and the character's actions. Incurring Negative Karma points are up to the players themselves.
+The allowance of Negative Karma is entirely at the Architect's discretion who will decide when and how to apply its effects, tailoring it to the specific situation and the character's actions. Incurring Negative Karma points are up to the players themselves.
 
 &nbsp;
 
@@ -272,7 +272,7 @@ Characters can choose to spend Karma Points even when they have none left, effec
 
 ## **Karmic Effects**
 
-Negative Karma Points allow the GM to introduce various effects that hinder the character or benefit their opponents. These effects are typically narrative in nature, reflecting the character's misfortune or the universe balancing the scales.
+Negative Karma Points allow the Architect to introduce various effects that hinder the character or benefit their opponents. These effects are typically narrative in nature, reflecting the character's misfortune or the universe balancing the scales.
 
 &nbsp;
 
@@ -283,7 +283,7 @@ Negative Karma Points allow the GM to introduce various effects that hinder the 
 
 * ### **Rerolls**
 
-  The GM might also force the character to reroll successful rolls, introducing uncertainty and potentially turning a victory into a failure.  
+  The Architect might also force the character to reroll successful rolls, introducing uncertainty and potentially turning a victory into a failure.  
   &nbsp;
 
 * ### **NPC Benefits**

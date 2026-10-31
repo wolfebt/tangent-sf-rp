@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 207
+order: 227
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3

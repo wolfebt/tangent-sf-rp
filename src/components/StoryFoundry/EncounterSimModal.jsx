@@ -68,7 +68,7 @@ const EncounterSimModal = ({
         <div className="grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-900/90 border border-slate-800 text-xs">
           <div className="flex flex-col gap-1">
             <span className="text-[10px] uppercase font-bold text-emerald-400">
-              Operatives ({heroTokens.length})
+              Operators ({heroTokens.length})
             </span>
             <div className="flex flex-wrap gap-1 max-h-[60px] overflow-y-auto pr-1">
               {heroTokens.length === 0 ? (
@@ -185,9 +185,9 @@ const EncounterSimModal = ({
                 {simResults.winRate >= 95 ? (
                   <span>The encounter is currently trivial for the party. Consider adding 1 Minion or giving the adversary squad leader +2 Defense DC to create tactical tension.</span>
                 ) : simResults.winRate >= 75 ? (
-                  <span>The encounter is well calibrated for standard heroic tactical engagement. Expect 1-2 operatives to take significant Vitality damage.</span>
+                  <span>The encounter is well calibrated for standard heroic tactical engagement. Expect 1-2 operators to take significant Vitality damage.</span>
                 ) : simResults.winRate >= 50 ? (
-                  <span>High stakes engagement. Operatives will need to coordinate focus fire, use cover, and spend Karma to avoid casualties.</span>
+                  <span>High stakes engagement. Operators will need to coordinate focus fire, use cover, and spend Karma to avoid casualties.</span>
                 ) : (
                   <span>Extreme lethal threat! Party is favored to suffer severe casualties or a potential TPK. Consider lowering enemy numbers or providing environmental cover advantage.</span>
                 )}

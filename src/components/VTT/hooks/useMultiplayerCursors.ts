@@ -20,8 +20,8 @@ export function useMultiplayerCursors({
     if (!isMultiplayerSimActive || isSimulationPaused) return;
 
     const peers = [
-      { id: 'peer-vex', name: 'Operative Vex', color: 0x10b981, baseX: 450, baseY: 300 },
-      { id: 'peer-null', name: 'Architect Null (GM)', color: 0xf59e0b, baseX: 600, baseY: 220 },
+      { id: 'peer-vex', name: 'Operator Vex', color: 0x10b981, baseX: 450, baseY: 300 },
+      { id: 'peer-null', name: 'Architect Null', color: 0xf59e0b, baseX: 600, baseY: 220 },
       { id: 'peer-echo', name: 'Spectator Echo', color: 0xec4899, baseX: 300, baseY: 420 }
     ];
 

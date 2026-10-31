@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Science / Survival / Explorer
 primary_attribute: Intellect
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Scholar
   - Explorer
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Science / Survival / Explorer  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 A scholar who studies the geology, climate, and ecosystems of planets.

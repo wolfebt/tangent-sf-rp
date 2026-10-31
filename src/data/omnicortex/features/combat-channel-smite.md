@@ -20,7 +20,7 @@ keywords: >-
 negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
 mechanic: >-
-  As a Standard Action, you may cast a touch-range Invocation (Spell) and
+  As a Standard Action, you may cast a touch-range Invocation and
   deliver it through a melee weapon attack. If the melee attack hits, the target
   suffers the weapon damage *plus* the effect of the Invocation.
 rules: 'If the attack misses, the Invocation energy is dissipated and lost.'
@@ -35,7 +35,7 @@ rules: 'If the attack misses, the Invocation energy is dissipated and lost.'
 A technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.
 
 ## Mechanics & Benefit
-As a Standard Action, you may cast a touch-range Invocation (Spell) and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.
+As a Standard Action, you may cast a touch-range Invocation and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.
 
 ## Special Rules
 If the attack misses, the Invocation energy is dissipated and lost.

@@ -31,7 +31,7 @@ export const PersonaAuditLogSidebar = ({ isCompact = false }) => {
 
   const currentPersona = selectedPersona || activePersona || (characterData?.['char-name'] ? characterData : null) || personaRoster[0] || roster[0] || null;
   const personaId = currentPersona?.['character-doc-id'] || currentPersona?.id || currentPersona?.characterId || null;
-  const personaName = currentPersona?.['char-name'] || currentPersona?.name || 'Local Operative';
+  const personaName = currentPersona?.['char-name'] || currentPersona?.name || 'Local Operator';
 
   const [logs, setLogs] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all'); // 'all' | 'checks' | 'vitals' | 'combat'

@@ -338,7 +338,7 @@ export default function ModuleMissionControl({
     AudioService.playTerminalBeep(980, 0.04);
     const res = exportOperatorModuleToFile(universeState, savedElements);
     if (res.success) {
-      toast?.showSuccess?.(`Exported Sanitized Player Package: ${res.filename}`);
+      toast?.showSuccess?.(`Exported Sanitized Operator Package: ${res.filename}`);
     } else {
       toast?.showError?.(`Export failed: ${res.error}`);
     }
@@ -1018,8 +1018,8 @@ export default function ModuleMissionControl({
                     className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800/80 flex items-center justify-between gap-2 transition-colors cursor-pointer"
                     title={
                       perspectiveMode === 'operator'
-                        ? 'Operator Perspective: Player-safe session running. Click to switch to Architect.'
-                        : 'Architect Perspective: Full GM authoring, structuring & secrets. Click to switch to Operator.'
+                        ? 'Operator Perspective: Operator-safe session running. Click to switch to Architect.'
+                        : 'Architect Perspective: Full Architect authoring, structuring & secrets. Click to switch to Operator.'
                     }
                   >
                     <div className="flex items-center gap-2 text-slate-200">
@@ -1108,7 +1108,7 @@ export default function ModuleMissionControl({
                       onOpenCronicle?.();
                     }}
                     className="w-full text-left px-3.5 py-1.5 hover:bg-purple-950/50 text-purple-300 hover:text-purple-200 flex items-center gap-2 transition-colors cursor-pointer"
-                    title="Open Cronicle Living Memory, GM Directives & Compiled Dossier"
+                    title="Open Cronicle Living Memory, Architect Directives & Compiled Dossier"
                   >
                     <span className="w-3.5 text-center shrink-0">📜</span>
                     <span>Cronicle Living Memory &amp; Notes</span>

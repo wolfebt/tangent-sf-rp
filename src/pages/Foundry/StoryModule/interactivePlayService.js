@@ -63,7 +63,7 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
       sourceDocId: docId,
       sourceType: 'folio',
       sourceLabel: 'Folio Database',
-      name: entry['char-name'] || 'Unnamed Operative',
+      name: entry['char-name'] || 'Unnamed Operator',
       archetype: entry['char-archetype'] || 'Hero',
       species: entry['char-species'] || 'Terran',
       focus: entry['char-concept'] || entry['char-occu'] || 'Operative',
@@ -160,7 +160,7 @@ export const createOperativeFromDatabasePersona = (entry, source = 'folio') => {
     sourceDocId: entry.id,
     sourceType: 'omnicortex',
     sourceLabel: 'Omnicortex Compendium',
-    name: entry.name || 'Compendium Operative',
+    name: entry.name || 'Compendium Operator',
     archetype: entry.name || 'Archetype',
     species: 'Terran',
     focus: entry.tactical_role || entry.core_concept || entry.sphere || 'Compendium Archetype',
@@ -469,7 +469,7 @@ export const evaluateTangentCheck = ({
     badgeColor,
     isSuccess: tier === 'critical_success' || tier === 'success' || tier === 'cost_success',
     formula: `2d10 (${d1}+${d2}=${naturalRoll}) + Mod ${totalMod} [Base ${baseScore}${modBonus !== 0 ? ` + Modifiers ${modBonus}` : ''}] = ${total} vs CR ${targetCR}`,
-    summary: `${operative?.name || 'Operative'} [${skillName}]: Rolled ${total} vs CR ${targetCR} ➔ ${tierLabel}`
+    summary: `${operative?.name || 'Operator'} [${skillName}]: Rolled ${total} vs CR ${targetCR} ➔ ${tierLabel}`
   };
 };
 
@@ -483,7 +483,7 @@ export const exportSessionMarkdown = (session, scenario = null) => {
   const modifiers = (session.activeModifiers || []).map(m => `* \`${m.name}\`: ${m.description} (${m.value > 0 ? `+${m.value}` : m.value})`).join('\n') || '*None*';
 
   const beats = (session.beats || []).map(b => {
-    let out = `### Beat #${b.beatIndex}: ${b.protagonistName || 'Operative'} [${b.timestamp || ''}]\n\n`;
+    let out = `### Beat #${b.beatIndex}: ${b.protagonistName || 'Operator'} [${b.timestamp || ''}]\n\n`;
     out += `${b.narrative || b.text}\n\n`;
     if (b.gate?.chosenOption) {
       out += `> **Tactical Decision**: ${b.gate.chosenOption}\n`;
@@ -501,12 +501,12 @@ export const exportSessionMarkdown = (session, scenario = null) => {
 
 **Session ID**: \`${session.id}\`  
 **Date**: ${new Date(session.createdAt).toLocaleDateString()}  
-**Party Mode**: ${session.partyMode === 'group' ? 'Fireteam Squad' : 'Solo Operative'}  
-**Director Mode**: ${session.mode === 'director' ? 'GM Overseer' : 'Solo Player'}
+**Party Mode**: ${session.partyMode === 'group' ? 'Fireteam Squad' : 'Solo Operator'}  
+**Director Mode**: ${session.mode === 'director' ? 'Architect Overseer' : 'Solo Operator'}
 
 ---
 
-## Active Operatives (From Database Content)
+## Active Operators (From Database Content)
 ${operatives}
 
 ## Active Modifiers Ledger

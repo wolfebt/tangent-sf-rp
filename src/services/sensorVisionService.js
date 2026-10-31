@@ -35,7 +35,7 @@ export const SENSOR_MODES = {
     piercesSmoke: true,
     piercesDarkness: true,
     piercesWalls: false,
-    description: 'Heat-signature tracking. Detects living operatives, active mecha, and running reactors through smoke screens.'
+    description: 'Heat-signature tracking. Detects living operators, active mecha, and running reactors through smoke screens.'
   },
   cyber_motion_radar: {
     id: 'cyber_motion_radar',

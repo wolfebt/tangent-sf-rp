@@ -33,7 +33,7 @@ export function checkMovementReactions(movingToken, fromPos, toPos, potentialRea
         reactorToken: reactor,
         intruderToken: movingToken,
         title: '⚔️ Melee Opportunity Strike Triggered!',
-        description: `${reactor.label || 'Hostile'} takes an immediate reaction strike as ${movingToken.label || 'Operative'} retreats from engagement.`,
+        description: `${reactor.label || 'Hostile'} takes an immediate reaction strike as ${movingToken.label || 'Operator'} retreats from engagement.`,
         suggestedDc: 12,
         actionCost: '1 Reaction'
       });
@@ -51,7 +51,7 @@ export function checkMovementReactions(movingToken, fromPos, toPos, potentialRea
           reactorToken: reactor,
           intruderToken: movingToken,
           title: '🎯 Overwatch Intercept Triggered!',
-          description: `${movingToken.label || 'Operative'} crossed the firing arc of ${reactor.label || 'Sentry'}!`,
+          description: `${movingToken.label || 'Operator'} crossed the firing arc of ${reactor.label || 'Sentry'}!`,
           suggestedDc: 14,
           actionCost: '1 Reaction + Overwatch Discharge'
         });

@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 /**
- * Resolves context menu options for the FOLIO module (Operative Sheet & Dossier)
+ * Resolves context menu options for the FOLIO module (Operator Sheet & Dossier)
  * with deep BASTION tactical rules integration.
  */
 export function resolveFolioMenu(context, appState, handlers) {
@@ -29,7 +29,7 @@ export function resolveFolioMenu(context, appState, handlers) {
   const { activeOperative, executeBastionPrompt, openBastionDrawer } = handlers;
 
   const items = [];
-  const operativeName = entityData?.name || activeOperative?.name || 'Operative';
+  const operativeName = entityData?.name || activeOperative?.name || 'Operator';
 
   // 1. Text Selection Specific Actions (if text is selected inside Folio)
   if (selectedText && selectedText.length > 0) {
@@ -114,7 +114,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         onClick: () => executeBastionPrompt({
           title: `Synthesize Backstory for ${operativeName}`,
           prompt: `Synthesize a canonical, evocative background dossier for ${operativeName}. Strictly ground their history in the Tangent SFF RPG 5 Pillars: Species: ${activeOperative?.species || 'Human'}, Archetype: ${activeOperative?.archetype || 'Sentinel'}, Faction: ${activeOperative?.faction || 'Syndicate'}, Origin: ${activeOperative?.origin || 'Spacer'}, Occupation: ${activeOperative?.occupation || 'Operative'}. Incorporate cultural nuance, military/civilian history, and a defining complication.`,
-          context: `Operative: ${operativeName}`,
+          context: `Operator: ${operativeName}`,
           applyTarget: 'bio'
         })
       },
@@ -126,7 +126,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         onClick: () => executeBastionPrompt({
           title: `5 Pillars Audit: ${operativeName}`,
           prompt: `Perform an analytical rules audit for ${operativeName}. Verify that their Character Chassis complies with the Tangent SFF RPG canonical protocol: 150 BP base chassis, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rules, and Karma Debt limit (Charisma + 1). Identify any rules discrepancies or unspent pools.`,
-          context: `Operative: ${operativeName}`
+          context: `Operator: ${operativeName}`
         })
       },
       {
@@ -173,7 +173,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         onClick: () => executeBastionPrompt({
           title: 'Sub-Attribute Derivation Calculation',
           prompt: `Calculate the canonical sub-attributes for ${operativeName} using the SFF RPG formula (Base = 2 + Primary Attribute * 2). Check Strength, Agility, Stamina, Intellect, Wisdom, and Charisma ratings and compute their respective sub-attributes and active defense ratings.`,
-          context: `Operative: ${operativeName}`
+          context: `Operator: ${operativeName}`
         })
       },
       { type: 'divider' },
@@ -190,7 +190,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         onClick: () => executeBastionPrompt({
           title: `Trauma Thresholds: ${operativeName}`,
           prompt: `Calculate the exact Major Wound Trauma threshold (>= 33.3% Max HP in a single strike) for ${operativeName}. Explain the tactical trauma consequences when crossing this threshold: anatomical trauma table rolls, shock condition stages, and stamina DR mitigation.`,
-          context: `Operative: ${operativeName}`
+          context: `Operator: ${operativeName}`
         })
       },
       {
@@ -201,7 +201,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         onClick: () => executeBastionPrompt({
           title: 'Stamina DR Mechanics Audit',
           prompt: `Detail the exact Damage Reduction (DR / Toughness) provided by ${operativeName}'s Stamina attribute. Remind the Architect why Stamina provides natural DR rather than flat HP/VP in the Tangent SFF RPG system.`,
-          context: `Operative: ${operativeName}`
+          context: `Operator: ${operativeName}`
         })
       }
     );
@@ -296,7 +296,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Synergies for ${skillName}`,
-          prompt: `Analyze ${skillName} and recommend top synergistic canonical Features, Feats, Traits, and Equipment from the Tangent Omnicortex database that optimize an operative specializing in this skill.`,
+          prompt: `Analyze ${skillName} and recommend top synergistic canonical Features, Traits, and Equipment from the Tangent Omnicortex database that optimize an operator specializing in this skill.`,
           context: `Skill: ${skillName}`
         })
       }
@@ -523,7 +523,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Synergies for ${invName}`,
-          prompt: `Analyze the invocation "${invName}" and recommend complementary Awakened disciplines, meta-skills, focus-amplifying cybernetics, and synergistic feats from the Tangent Omnicortex database that optimize this psionic power.`,
+          prompt: `Analyze the invocation "${invName}" and recommend complementary Awakened disciplines, meta-skills, focus-amplifying cybernetics, and synergistic features from the Tangent Omnicortex database that optimize this psionic power.`,
           context: `Invocation: ${invName}`
         })
       }
@@ -589,7 +589,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         highlight: true,
         onClick: () => executeBastionPrompt({
           title: `Cybernetic Evaluation: ${augName}`,
-          prompt: `Analyze the augmentation "${augName}" (Stage: ${stage}, Slot: ${location}, ${nodes} Nodes, TL ${tl}) for operative "${operativeName}". Evaluate biological compatibility, surgical strain, anatomical capacity limits, and operational synergy with the operative's chassis. Ground your advice in canonical Tangent SFF RPG augmentations rules.`,
+          prompt: `Analyze the augmentation "${augName}" (Stage: ${stage}, Slot: ${location}, ${nodes} Nodes, TL ${tl}) for operator "${operativeName}". Evaluate biological compatibility, surgical strain, anatomical capacity limits, and operational synergy with the operative's chassis. Ground your advice in canonical Tangent SFF RPG augmentations rules.`,
           context: `Augmentation: ${augName} [Stage: ${stage}, Slot: ${location}]`
         })
       },
@@ -600,7 +600,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Cyberware Optimization: ${augName}`,
-          prompt: `Recommend optimal cybernetic node configurations, tactical hardware integrations, and synergistic features for "${augName}" in operative "${operativeName}'s loadout.`,
+          prompt: `Recommend optimal cybernetic node configurations, tactical hardware integrations, and synergistic features for "${augName}" in operator "${operativeName}'s loadout.`,
           context: `Augmentation: ${augName}`
         })
       }
@@ -676,8 +676,8 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Overcoming Hindrance: ${hindName}`,
-          prompt: `Propose dramatic narrative arcs, cybernetic or medical mitigations, and character advancement options for operative "${operativeName}" to overcome, buy off, or strategically mitigate the hindrance "${hindName}".`,
-          context: `Operative: ${operativeName}, Hindrance: ${hindName}`
+          prompt: `Propose dramatic narrative arcs, cybernetic or medical mitigations, and character advancement options for operator "${operativeName}" to overcome, buy off, or strategically mitigate the hindrance "${hindName}".`,
+          context: `Operator: ${operativeName}, Hindrance: ${hindName}`
         })
       }
     );
@@ -751,7 +751,7 @@ export function resolveFolioMenu(context, appState, handlers) {
     items.push(
       {
         type: 'section-header',
-        label: 'Operative Actions'
+        label: 'Operator Actions'
       },
       {
         id: 'open-folio-catalog',
@@ -785,8 +785,8 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: 'BASTION Rules Ledger Check',
-          prompt: `Provide a quick tactical rules summary for the active operative ${operativeName}: summarize active defense reaction limits, called shot penalties, and karma spend options.`,
-          context: `Operative: ${operativeName}`
+          prompt: `Provide a quick tactical rules summary for the active operator ${operativeName}: summarize active defense reaction limits, called shot penalties, and karma spend options.`,
+          context: `Operator: ${operativeName}`
         })
       }
     );

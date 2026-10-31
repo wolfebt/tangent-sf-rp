@@ -21,7 +21,7 @@ export type CoverTier = 'NONE' | 'HALF_COVER' | 'THREE_QUARTERS' | 'FULL_OBSCURA
 export interface LoSResult3D {
   hasLoS: boolean;
   coverTier: CoverTier;
-  coverBonusToTarget: number; // AC / Defense bonus (+0, +2, +5)
+  coverBonusToTarget: number; // Defense bonus (+0, +2, +5)
   attackModifier: number;     // +2 for High Ground Advantage, etc.
   distanceFt: number;
   unobstructedRayRatio: number;

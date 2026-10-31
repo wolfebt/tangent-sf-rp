@@ -14,7 +14,7 @@ class SessionJournalManager {
     if (name) this.campaignName = name;
   }
 
-  logEvent({ type = 'action', actor = 'Operative', target = null, details = '', isCrit = false }) {
+  logEvent({ type = 'action', actor = 'Operator', target = null, details = '', isCrit = false }) {
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const eventObj = {
       id: `evt_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,

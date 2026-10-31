@@ -74,7 +74,7 @@ export const INGESTION_ARCHETYPES: IngestionArchetype[] = [
   {
     id: 'interactive_terminal',
     label: 'Interactive Data Terminal',
-    description: 'Computers or control stations that run scripts when operatives interact.',
+    description: 'Computers or control stations that run scripts when operators interact.',
     category: 'doodad',
     defaultTags: ['terminal', 'console', 'interactive', 'hackable'],
     vttProperties: {

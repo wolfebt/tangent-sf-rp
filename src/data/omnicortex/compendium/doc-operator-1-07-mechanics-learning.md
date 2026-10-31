@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 188
+order: 199
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.learning","mechanics"]
-updatedAt: "2026-10-14T05:52:12.033Z"
+updatedAt: "2026-10-31T11:30:42.843Z"
 costs:
   bp: 0
   credits: 0
@@ -108,7 +108,7 @@ Advanced technology, such as skill chips or virtual training programs, can signi
 
 The learning mechanics encourage players to think about how their characters acquire new skills and features, adding depth and realism to their development.
 
-### **GM Flexibility**
+### **Architect Flexibility**
 
-The GM has the final say on the availability of instructors, study materials, and the specific requirements for learning certain skills or features
+The Architect has the final say on the availability of instructors, study materials, and the specific requirements for learning certain skills or features
 

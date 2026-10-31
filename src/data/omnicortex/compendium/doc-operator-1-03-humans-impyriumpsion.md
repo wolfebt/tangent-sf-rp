@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 55
+order: 61
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3

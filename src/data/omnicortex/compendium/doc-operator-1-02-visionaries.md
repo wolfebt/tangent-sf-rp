@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 13
+order: 19
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.visionaries","mechanics"]
-updatedAt: "2026-10-25T07:10:31.060Z"
+updatedAt: "2026-10-31T10:38:11.283Z"
 costs:
   bp: 0
   credits: 0
@@ -209,7 +209,7 @@ Possesses innate mental powers or spiritual connection. Seers, telepaths, and pr
 * **Recommended Occupations:** Adept, Enlightened.  
 * **Recommended Origins:** Enlightened, Research, Leisure.  
 * **Recommended Factions:** Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers).  
-* **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
 * **Essential Skills:** Insight, Diplomacy, Two Disciplines (Mental/Divination).  
 * **Signature Traits (1 CP):** Prophetic Visions, Spiritual Advisor.  
 * **Tactical Role:** Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.
@@ -247,7 +247,7 @@ A devout individual dedicated to prayer and meditation, seeking enlightenment.
 * **Recommended Occupations:** Adept, Scholar.  
 * **Recommended Origins:** Enlightened, Hostile, Agricultural.  
 * **Recommended Factions:** Auluran (Dar Mystics), Mekan (Code Monks), Outworlds.  
-* **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
 * **Essential Skills:** Insight, Alertness, Knowledge (Religion), Knowledge (Metaphysics).  
 * **Signature Traits (1 CP):** Inner Peace, Spiritual Attunement.  
 * **Tactical Role:** Resisting mental attacks, calming emotions, spiritual guidance.
@@ -304,7 +304,7 @@ A zealous preacher who travels the galaxy to spread their faith.
 * **Recommended Occupations:** Adept, Representative.  
 * **Recommended Origins:** Enlightened, Colony, Spacer.  
 * **Recommended Factions:** Impyrium (State Religion), Entari Combine (Ethical), Ascendancy.  
-* **Key Attributes:** Charisma (Primary), Constitution (Secondary).  
+* **Key Attributes:** Charisma (Primary), Stamina (Secondary).  
 * **Essential Skills:** Diplomacy, Insight, Knowledge (Survival), Knowledge (Religion).  
 * **Signature Traits (1 CP):** Divine Inspiration, Spiritual Guide.  
 * **Tactical Role:** Converting NPCs, providing healing/support, navigating cultural/religious encounters.
@@ -361,7 +361,7 @@ A protector of the innocent and champion of peace, using force and words.
 * **Recommended Occupations:** Soldier, Representative.  
 * **Recommended Origins:** Urban, Colony, Enlightened.  
 * **Recommended Factions:** Entari Combine (Constables), Ascendancy (Judges), Coalition.  
-* **Key Attributes:** Charisma (Primary), Constitution (Secondary).  
+* **Key Attributes:** Charisma (Primary), Stamina (Secondary).  
 * **Essential Skills:** Athletics, Diplomacy, Insight, Combat (any).  
 * **Signature Traits (1 CP):** Pacifying Presence, Defensive Stance.  
 * **Tactical Role:** De-escalating combat, protecting allies, subduing enemies non-lethally.
@@ -456,7 +456,7 @@ The conduit between the material plane and the spiritual realms, interpreting th
 * **Recommended Occupations:** Adept, Scout.  
 * **Recommended Origins:** Enlightened, Agricultural, Hostile.  
 * **Recommended Factions:** Auluran (Mystics), Sha'Nor, Outworlds (Shamans).  
-* **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
 * **Essential Skills:** Discipline (Entropy \- Order (Nature/Life)), Insight, Alertness, Knowledge (Nature).  
 * **Signature Traits (1 CP):** Spirit Walker, Spiritual Attunement.  
 * **Tactical Role:** Detecting other-dimensional threats, communing with local spirits, planar navigation.

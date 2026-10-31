@@ -40,7 +40,7 @@ export const ConnectedFolioTab: React.FC = () => {
   const [skillSearch, setSkillSearch] = useState('');
   const [skillCategory, setSkillCategory] = useState<'all' | 'physical' | 'mental' | 'social' | 'combat' | 'meta'>('physical');
 
-  const charName = characterData?.['char-name'] || characterData?.name || 'Operative';
+  const charName = characterData?.['char-name'] || characterData?.name || 'Operator';
   const charDocId = characterData?.['character-doc-id'] || characterData?.id || 'active-hero';
   const isSynthetic = Boolean(derivedStats?.isSynthetic || characterData?.isSynthetic || String(characterData?.['char-species'] || '').toLowerCase().includes('synthetic'));
   const curHealth = parseInt(characterData?.current_health ?? characterData?.health ?? 30, 10);
@@ -200,7 +200,7 @@ export const ConnectedFolioTab: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full bg-[#050811] text-slate-200 text-xs overflow-hidden select-none">
-      {/* Operative Header Bar */}
+      {/* Operator Header Bar */}
       <div className="p-3 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between shrink-0">
         <div>
           <div className="flex items-center gap-2">
@@ -208,7 +208,7 @@ export const ConnectedFolioTab: React.FC = () => {
               {charName}
             </span>
             <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-950 border border-cyan-800 text-cyan-400 font-mono">
-              {characterData?.archetype || 'Operative'}
+              {characterData?.archetype || 'Operator'}
             </span>
           </div>
           <div className="text-[10px] text-slate-400 font-mono mt-0.5">
@@ -385,7 +385,7 @@ export const ConnectedFolioTab: React.FC = () => {
 
             {attacks.length === 0 ? (
               <div className="p-4 text-center text-slate-500 font-mono border border-dashed border-slate-800 rounded-lg">
-                No attacks configured in operative folio.
+                No attacks configured in operator folio.
               </div>
             ) : (
               <div className="space-y-1.5">
@@ -628,7 +628,7 @@ export const ConnectedFolioTab: React.FC = () => {
 
             {invocations.length === 0 ? (
               <div className="p-4 text-center text-slate-500 font-mono border border-dashed border-slate-800 rounded-lg">
-                No Essence Invocations learned by this operative.
+                No Essence Invocations learned by this operator.
               </div>
             ) : (
               <div className="space-y-1.5">

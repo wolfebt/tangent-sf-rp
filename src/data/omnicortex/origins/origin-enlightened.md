@@ -108,7 +108,7 @@ Certain worlds have particularly strong ley lines, special crystal formations, a
 ## Origin Traits (2 Free Selections, Additional 1 CP Each)
 ### Empathy
 Deep sense of empathy and compassion for sentient beings and spirits.  
-*Bonus*: **+2 Insight and +2 Handle Animal Checks while being Friendly**
+*Bonus*: **+2 Insight and +2 Handler Checks while being Friendly**
 
 ### Curiosity
 Philosophical and metaphysical curiosity driving exploration into arcane mysteries.  
@@ -150,7 +150,7 @@ Alertness, Academics, Knowledge (Culture, History, Language, Physics, Religion),
 Arcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy
 
 ### Origin Traits (Select 2 Free; Additional 1 CP each)
-- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handle Animal Checks while being Friendly)
+- **Empathy**: Deep compassion and insight into others. (+2 Insight and +2 Handler Checks while being Friendly)
 - **Curiosity**: Natural drive toward discovery. (Regain a Karma Point on the first encounter when dealing with something new)
 - **Mentorship**: Nurturing student development. (Those under tutelage make Study Checks at Advantage)
 - **Open-Mindedness**: Dissolving cultural prejudice. (Reduce all Stigma Penalties by Wisdom score)

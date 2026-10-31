@@ -22,7 +22,7 @@ essential_skills:
   - Knowledge (Survival)
   - Acrobatics
   - Alertness
-  - Knowledge (Geography)
+  - Knowledge (Nature)
 signature_traits:
   - Pathfinder
   - Keen Observer
@@ -66,7 +66,7 @@ Reconnaissance, initiating ambushes, guiding the party.
 - Knowledge (Survival)
 - Acrobatics
 - Alertness
-- Knowledge (Geography)
+- Knowledge (Nature)
 
 ## Signature Features
 - Pathfinder

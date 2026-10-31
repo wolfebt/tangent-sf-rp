@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 9
+order: 10
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3

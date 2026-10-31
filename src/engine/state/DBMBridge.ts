@@ -120,7 +120,7 @@ export class DBMBridge {
     
     const normalizedEntity: StaticEntity = {
       id: entity.id,
-      name: entity.name || 'Unknown Operative',
+      name: entity.name || 'Unknown Operator',
       base_hp: entity.base_hp ?? 20,
       tech_level: entity.tech_level ?? 2,
       armor_dr: entity.armor_dr ?? 0,

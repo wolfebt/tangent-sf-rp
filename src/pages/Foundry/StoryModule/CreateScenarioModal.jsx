@@ -63,7 +63,7 @@ export const SCENARIO_TEMPLATES = [
     name: '3-Act Structure',
     icon: Compass,
     desc: 'Inciting Incident, Midpoint Complication, and Climax resolution framework.',
-    content: `<h2>ACT I: INCITING INCIDENT</h2><p><strong>The Hook:</strong> Operatives receive encrypted distress coordinates...</p><p><strong>Complication:</strong> Atmospheric interference prevents immediate extraction.</p><h2>ACT II: THE CONFLICT</h2><p><strong>Midpoint:</strong> Security grid lockdown engaged. Tactical choices determine the path forward.</p><p><strong>Discovery:</strong> Recovered telemetry reveals unexpected hostiles.</p><h2>ACT III: CLIMAX & EXFIL</h2><p><strong>Confrontation:</strong> Core objective resolution under severe pressure.</p><p><strong>Extraction:</strong> Evac point reached with retrieved assets.</p>`
+    content: `<h2>ACT I: INCITING INCIDENT</h2><p><strong>The Hook:</strong> Operators receive encrypted distress coordinates...</p><p><strong>Complication:</strong> Atmospheric interference prevents immediate extraction.</p><h2>ACT II: THE CONFLICT</h2><p><strong>Midpoint:</strong> Security grid lockdown engaged. Tactical choices determine the path forward.</p><p><strong>Discovery:</strong> Recovered telemetry reveals unexpected hostiles.</p><h2>ACT III: CLIMAX & EXFIL</h2><p><strong>Confrontation:</strong> Core objective resolution under severe pressure.</p><p><strong>Extraction:</strong> Evac point reached with retrieved assets.</p>`
   },
   {
     id: 'tactical_breach',
@@ -84,7 +84,7 @@ export const SCENARIO_TEMPLATES = [
     name: 'Cyber Intrusion / Infiltration',
     icon: Terminal,
     desc: 'ICE firewall penetration, subnet navigation, data vault extraction, countermeasure evasion.',
-    content: `<h2>SUBNET RECONNAISSANCE</h2><p><strong>Network Architecture:</strong> Tier 3 Corporate Network with encrypted subnet layers.</p><p><strong>Firewall ICE:</strong> Intrusion Countermeasure Electronics monitoring ports.</p><h2>VAULT ACCESS</h2><p><strong>Core System:</strong> Central Data Vault encrypted with AES-4096 quantum keys.</p><p><strong>Payload:</strong> Classified R&D blueprints ready for download.</p><h2>TRACE EVASION</h2><p><strong>Active Trace:</strong> Black ICE program active. Operatives have limited actions before physical location is compromised.</p>`
+    content: `<h2>SUBNET RECONNAISSANCE</h2><p><strong>Network Architecture:</strong> Tier 3 Corporate Network with encrypted subnet layers.</p><p><strong>Firewall ICE:</strong> Intrusion Countermeasure Electronics monitoring ports.</p><h2>VAULT ACCESS</h2><p><strong>Core System:</strong> Central Data Vault encrypted with AES-4096 quantum keys.</p><p><strong>Payload:</strong> Classified R&D blueprints ready for download.</p><h2>TRACE EVASION</h2><p><strong>Active Trace:</strong> Black ICE program active. Operators have limited actions before physical location is compromised.</p>`
   },
   {
     id: 'derelict_survival',

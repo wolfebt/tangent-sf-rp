@@ -32,7 +32,7 @@ export const ATMOSPHERIC_PRESETS = [
     visualFX: 'Strobing amber emergency beacons casting long rhythmic shadows across grated catwalks.',
     description: 'Emergency containment breach, strobing amber beacons, coolant steam venting.',
     modifiers: { attackMod: 0, defenseMod: 0, speedMod: 0, techMod: -2 },
-    rule: 'Radiation buildup: CON DC 13 every 3 rounds or gain 1 Rad Condition.'
+    rule: 'Radiation buildup: Fortitude CR 13 every 3 rounds or gain 1 Rad Condition.'
   },
   {
     id: 'corrosive_acid_rain',

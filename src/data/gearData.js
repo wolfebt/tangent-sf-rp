@@ -668,7 +668,7 @@ export const DEFAULT_GEAR = [
     "craft_dc": 15,
     "size": "Medium",
     "weight": 5,
-    "description": "Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operatives.",
+    "description": "Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operators.",
     "mechanic": "Provides full life support and atmospheric seal against hostile biospheres for 4 occupants.",
     "costs": {
       "cp": 0,
@@ -701,7 +701,7 @@ export const DEFAULT_GEAR = [
     "gear_type": "General",
     "base_dc": 15,
     "design_dc": 15,
-    "body": "Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operatives.\n\n**Mechanics:** Provides full life support and atmospheric seal against hostile biospheres for 4 occupants."
+    "body": "Inflatable hermetically sealed shelter with air scrubbers sheltering 4 operators.\n\n**Mechanics:** Provides full life support and atmospheric seal against hostile biospheres for 4 occupants."
   },
   {
     "id": "expert-software",
@@ -1701,7 +1701,7 @@ export const DEFAULT_GEAR = [
     "craft_dc": 0,
     "size": "Diminutive",
     "weight": 0.5,
-    "description": "Nutrient-dense synthetic ration blocks sustaining an operative for 1 day.",
+    "description": "Nutrient-dense synthetic ration blocks sustaining an operator for 1 day.",
     "mechanic": "Restores Supply Die for 1 day of survival.",
     "costs": {
       "cp": 0,
@@ -1734,7 +1734,7 @@ export const DEFAULT_GEAR = [
     "gear_type": "General",
     "base_dc": 0,
     "design_dc": 0,
-    "body": "Nutrient-dense synthetic ration blocks sustaining an operative for 1 day.\n\n**Mechanics:** Restores Supply Die for 1 day of survival."
+    "body": "Nutrient-dense synthetic ration blocks sustaining an operator for 1 day.\n\n**Mechanics:** Restores Supply Die for 1 day of survival."
   },
   {
     "id": "rebreather-air-mask",

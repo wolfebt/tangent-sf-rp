@@ -61,7 +61,7 @@ Metafocus Disciplines represent the knowledge and ability to consciously alter r
 
 The **Key Ability** is chosen at Awakening and determines the "flavor" of the source:
 
-- **Intelligence Based (Reason and Logic)**: Psychic, Arcane, Akashic.
+- **Intellect Based (Reason and Logic)**: Psychic, Arcane, Akashic.
 - **Wisdom Based (Willpower and Intuition)**: Divine, Nature, Cosmic.
 - **Charisma Based (Confidence and Dominance)**: Bardic, Hereditary, Granted.
 

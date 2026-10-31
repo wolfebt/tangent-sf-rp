@@ -18,7 +18,7 @@ keywords: 'double jointed, general, special-feature, possesses, extreme, flexibi
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: >-
-  Gain a **\+4 Bonus** on Escape Artist checks and any check involving fitting
+  Gain a **\+4 Bonus** on Acrobatics checks and any check involving fitting
   into tight spaces.
 ---
 # Double Jointed
@@ -31,4 +31,4 @@ mechanic: >-
 The character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes.
 
 ## Mechanics & Benefit
-Gain a **\+4 Bonus** on Escape Artist checks and any check involving fitting into tight spaces.
+Gain a **\+4 Bonus** on Acrobatics checks and any check involving fitting into tight spaces.

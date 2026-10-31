@@ -61,7 +61,7 @@ export const FolioHUDBar = ({
     return (
       <div className="flex items-center gap-1.5 sm:gap-2">
         <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400/80 px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-500/30">
-          OPERATIVE CATALOG
+          OPERATOR CATALOG
         </span>
         <button
           type="button"
@@ -131,7 +131,7 @@ export const FolioHUDBar = ({
         <span className={`font-bold ${isOver ? 'text-red-400' : 'text-amber-400'}`}>{spentCP}/{startingCP}</span>
       </button>
 
-      {/* Operative Catalog Navigation Trigger (with Network Engagement Status Dot) */}
+      {/* Operator Catalog Navigation Trigger (with Network Engagement Status Dot) */}
       <button
         type="button"
         onClick={() => {
@@ -139,7 +139,7 @@ export const FolioHUDBar = ({
           window.dispatchEvent(new CustomEvent('open-folio-catalog'));
         }}
         className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[110px] xs:max-w-[140px] sm:max-w-[210px]"
-        title={characterData?.['char-name'] ? `Operative: ${characterData['char-name']} (${isEngaged ? 'Network Engaged' : 'Standby'}) — Click to switch operative or open catalog` : "Open Operative Catalog & Persona Roster"}
+        title={characterData?.['char-name'] ? `Operator: ${characterData['char-name']} (${isEngaged ? 'Network Engaged' : 'Standby'}) — Click to switch operator or open catalog` : "Open Operative Catalog & Persona Roster"}
       >
         <span
           className={`w-2 h-2 rounded-full shrink-0 ${
@@ -150,7 +150,7 @@ export const FolioHUDBar = ({
           title={isEngaged ? 'Network Engaged' : 'Network Standby'}
         />
         <Users size={13} className="text-cyan-400 shrink-0" />
-        <span className="truncate">{characterData?.['char-name'] || 'Operative Catalog'}</span>
+        <span className="truncate">{characterData?.['char-name'] || 'Operator Catalog'}</span>
       </button>
 
       {/* Passive Cloud Sync Status Badge */}
@@ -274,7 +274,7 @@ export const FolioHUDBar = ({
                   ? 'hover:bg-emerald-950/80 text-emerald-300'
                   : 'hover:bg-slate-800 text-slate-300'
               }`}
-              title="Toggle broadcasting this operative to the Terran Data Network"
+              title="Toggle broadcasting this operator to the Terran Data Network"
             >
               <span className="flex items-center gap-1.5">
                 <Radio size={13} className={isEngaged ? "text-emerald-400 animate-soft-back-glow" : "text-slate-400"} />
@@ -347,10 +347,10 @@ export const FolioHUDBar = ({
                   onClick={async () => {
                     AudioService.playTerminalBeep(1100, 0.03);
                     const res = await confirm({
-                      title: 'Player Override Request',
-                      message: 'Enter note or reason for modifying this persona sheet during active VTT session (optional, logged for GM review):',
+                      title: 'Operator Override Request',
+                      message: 'Enter note or reason for modifying this persona sheet during active VTT session (optional, logged for Architect review):',
                       inputLabel: 'Reason / Justification',
-                      placeholder: 'e.g. GM authorized modification...',
+                      placeholder: 'e.g. Architect authorized modification...',
                       confirmLabel: 'Unlock Sheet'
                     });
                     if (res?.confirmed && unlockPersona) {
@@ -359,18 +359,18 @@ export const FolioHUDBar = ({
                     }
                   }}
                   className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer"
-                  title="Unlock folio via player override to make changes during active VTT session"
+                  title="Unlock folio via operator override to make changes during active VTT session"
                 >
                   <span className="flex items-center gap-1.5">
                     <Unlock size={13} className="text-amber-400" />
-                    <span>Player Override (Unlock)</span>
+                    <span>Operator Override (Unlock)</span>
                   </span>
                   <span className="text-[9px] text-amber-400 font-mono">OVERRIDE</span>
                 </button>
               ) : (
                 <div
                   className="w-full text-left px-3 py-1.5 text-slate-500 uppercase font-bold rounded flex items-center gap-1.5 opacity-60 cursor-not-allowed"
-                  title="Player Override is disabled by the GM for this session. Direct sheet modifications are locked."
+                  title="Operator Override is disabled by the Architect for this session. Direct sheet modifications are locked."
                 >
                   <Lock size={13} className="text-slate-500" />
                   <span>Locked (Override Disallowed)</span>
@@ -422,21 +422,21 @@ export const FolioHUDBar = ({
               className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded flex items-center gap-1.5 cursor-pointer"
             >
               <UserPlus size={13} className="text-cyan-400" />
-              <span>New Operative (Manual)</span>
+              <span>New Operator (Manual)</span>
             </button>
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-folio-guided-creator'))}
               className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center gap-1.5 cursor-pointer"
             >
               <Zap size={13} className="text-amber-400" />
-              <span>New Operative (Guided)</span>
+              <span>New Operator (Guided)</span>
             </button>
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-folio-delete-character'))}
               className="w-full text-left px-3 py-1.5 hover:bg-red-950/80 text-red-400 uppercase font-bold rounded flex items-center gap-1.5 cursor-pointer"
             >
               <Trash2 size={13} className="text-red-400" />
-              <span>Delete Operative</span>
+              <span>Delete Operator</span>
             </button>
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-folio-clear-character'))}

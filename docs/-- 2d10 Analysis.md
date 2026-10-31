@@ -11,11 +11,11 @@ In the **Tangent Science Fantasy Role Playing System**, all active tests, skill 
 Moving away from flat, swingy linear dice (like a single d20), Tangent utilizes two ten-sided dice (2d10) to produce a predictable triangular probability curve centered at **11.0**. This mathematically ensures that a character’s training, skill ranks, and physical or mental attributes reliably dictate their performance, while still preserving the tension and drama of chance.
 
 ### **1. The Standard Check Formula**
-To resolve any check in Tangent, roll two ten-sided dice (2d10), add the operative's relevant Skill Rank, their governing Attribute Modifier, and any situational or equipment modifiers:
+To resolve any check in Tangent, roll two ten-sided dice (2d10), add the operator's relevant Skill Rank, their governing Attribute Modifier, and any situational or equipment modifiers:
 
 $$\mathbf{Check\ Total = 2d10 + Skill\ Rank + Attribute\ Modifier + Situational\ Modifiers}$$
 
-* **Skill Rank:** The operative's direct training in the task (0 Untrained to 30 Pinnacle+).
+* **Skill Rank:** The operator's direct training in the task (0 Untrained to 30 Pinnacle+).
 * **Attribute Modifier:** The governing physical or mental score (-5 to +10).
 * **Situational Modifiers:** Gear bonuses, environmental cover, range penalties, or tactical conditions.
 
@@ -29,7 +29,7 @@ $$\mathbf{Success\ Condition:\ Check\ Total \ge Target\ CR\ (or\ Defense)}$$
 | **Simple** | **CR 0** | Routine action under zero stress; unhurried operation of standard civilian tech. |
 | **Routine** | **CR 5** | Driving an automated land-speeder along a paved hyperlane; everyday professional task. |
 | **Challenging** | **CR 10** | Standard operational task under field conditions; picking a standard commercial mag-lock. |
-| **Hard** | **CR 15** | Bypassing hardened military encryption; stabilizing a hemorrhaging operative during combat. |
+| **Hard** | **CR 15** | Bypassing hardened military encryption; stabilizing a hemorrhaging operator during combat. |
 | **Severe** | **CR 20** | Performing evasive starship maneuvers through a dense asteroid field under heavy fire. |
 | **Heroic** | **CR 25** | Hacking a high-security Megacorp central AI core; repairing a breached reactor core in vacuum. |
 | **Epic** | **CR 30** | Decrypting precursor cosmic monolith protocols; landing a burning dreadnought without thrusters. |
@@ -41,18 +41,18 @@ Success in Tangent is not purely binary. The **Margin of Success (MoS)** determi
 $$\mathbf{Margin\ of\ Success = Check\ Total - Target\ CR}$$
 
 * **Critical Success (Natural 20):** Rolling two 10s on the dice. Regardless of baseline DC, grants an automatic **+10 bonus** to the total check, plus bonus damage, tactical triumph, or exceptional narrative side-effects.
-* **Overwhelming Success (MoS $\ge$ +10):** The operative surpasses the challenge with consummate mastery. Unlocks bonus advantages, halves required task time, or preserves consumable resources.
+* **Overwhelming Success (MoS $\ge$ +10):** The operator surpasses the challenge with consummate mastery. Unlocks bonus advantages, halves required task time, or preserves consumable resources.
 * **Standard Success (MoS 0 to +9):** The action accomplishes its intended goal cleanly.
 * **Standard Failure (MoS -1 to -9):** The action fails to achieve the objective, or achieves it with a complication or setback.
 * **Catastrophic Failure (MoS $\le$ -10):** The attempt fails disastrously. Triggers structural damage, weapon jams, alarms, or severe tactical vulnerability.
 * **Critical Failure / Fumble (Natural 2):** Rolling two 1s on the dice. Imposes a flat **-10 penalty** to the check, plus severe narrative complications (e.g., dropping weapons, tripping, or granting enemies immediate reactions).
 
 ### **4. "Taking 10" (Passive Competence)**
-In non-threatening, low-stress environments where an operative can focus without distraction, they may elect to **Take 10** instead of rolling 2d10:
+In non-threatening, low-stress environments where an operator can focus without distraction, they may elect to **Take 10** instead of rolling 2d10:
 
 $$\mathbf{Passive\ Check = 10 + Skill\ Rank + Attribute\ Modifier}$$
 
-This guarantees consistent competence for trained operatives performing routine field duties.
+This guarantees consistent competence for trained operators performing routine field duties.
 
 ---
 
@@ -117,7 +117,7 @@ Consider how a +1 modifier changes your cumulative chance to hit specific target
 | **8 (Easy)** | 79% | 85% | **+6%** | **Better (+5%)** |
 
 **Modifiers act as anchors for consistency:**
-A +2 or +3 modifier in a 1d20 game makes you slightly better at everything. In a 2d10 game, a +2 or +3 makes an operative *incredibly reliable* at average tasks (yielding massive +15% to +20% swings in success rates) because it capitalizes on the fattest part of the bell curve.
+A +2 or +3 modifier in a 1d20 game makes you slightly better at everything. In a 2d10 game, a +2 or +3 makes an operator *incredibly reliable* at average tasks (yielding massive +15% to +20% swings in success rates) because it capitalizes on the fattest part of the bell curve.
 
 Conversely, hitting very high CRs (18+) relies heavily on having substantial character skill and attribute modifiers, because getting "lucky" on the dice alone becomes statistically improbable.
 
@@ -147,7 +147,7 @@ If threat ranges expand carelessly by 4 or 5 points, the math breaks down: a 5-p
 ---
 
 ### **3. The Death of the "Swingy" Game**
-Because **64% of all 2d10 rolls land between 8 and 14**, operatives will feel genuinely competent in their specialties. A trained operative will almost never fail an average check in their specialty, while high-tier obstacles remain formidable barriers that require tactical preparation, teamwork, and gear.
+Because **64% of all 2d10 rolls land between 8 and 14**, operators will feel genuinely competent in their specialties. A trained operator will almost never fail an average check in their specialty, while high-tier obstacles remain formidable barriers that require tactical preparation, teamwork, and gear.
 
 ---
 

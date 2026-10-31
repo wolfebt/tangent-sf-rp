@@ -106,7 +106,7 @@ Hardened combat training honed against ravenous apex predators and hostile envir
 *Bonus*: **+2 to a Combat Skill of choice**
 
 ### Intuition
-Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.  
+Heightened sixth sense allowing the operator to anticipate predatory ambushes and sudden cave-ins.  
 *Bonus*: **Re-Roll any one failed Perception check per day**
 
 ### Mental Toughness

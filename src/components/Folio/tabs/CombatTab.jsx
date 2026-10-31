@@ -529,7 +529,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
             <div className="hidden sm:grid grid-cols-12 gap-2 px-2.5 text-[10px] font-mono uppercase font-bold text-slate-400 border-b border-slate-800/80 pb-1">
               <span className="col-span-3">Weapon / Attack</span>
               <div className="col-span-2 text-center">
-                <FolioTooltip title="Attack Check Score" badge="Hit Check" badgeColor="cyan" description="Attack modifier score added to 2d10 (or d20) to contest target Defense." asWrapper={false}>
+                <FolioTooltip title="Attack Check Score" badge="Hit Check" badgeColor="cyan" description="Attack modifier score added to 2d10 to contest target Defense." asWrapper={false}>
                   <span className="text-cyan-400 cursor-help hover:underline">Check Score ⓘ</span>
                 </FolioTooltip>
               </div>
@@ -840,7 +840,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                 </FolioTooltip>
               </div>
               <div className="col-span-2">
-                <FolioTooltip title="Armor Class & Type" badge="Classification" badgeColor="cyan" description="Armor type: Rigid Plate, Ballistic Mesh, Powered Armor, Kinetic Screen, Energy Shield, or Natural Hide." asWrapper={false}>
+                <FolioTooltip title="Defense & Armor Type" badge="Classification" badgeColor="cyan" description="Armor type: Rigid Plate, Ballistic Mesh, Powered Armor, Kinetic Screen, Energy Shield, or Natural Hide." asWrapper={false}>
                   <span className="cursor-help hover:underline">Armor Type ⓘ</span>
                 </FolioTooltip>
               </div>
@@ -924,7 +924,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal, onSwitchToTac
                 ) : (
                   <input
                     type="text"
-                    placeholder="Armor Class / Type"
+                    placeholder="Defense / Armor Type"
                     value={arm.type || ''}
                     onChange={(e) => updateArmor(idx, 'type', e.target.value)}
                     className="col-span-2 bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-2 py-1.5 text-slate-300 outline-none"

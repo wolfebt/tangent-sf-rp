@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 202
+order: 216
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.specialfeatures","mechanics"]
-updatedAt: "2026-10-14T09:06:38.175Z"
+updatedAt: "2026-10-31T11:30:42.803Z"
 costs:
   bp: 0
   credits: 0
@@ -64,7 +64,7 @@ Species traits, supernatural senses, and augmentations.
 | **Low Light Vision** | \- | See in dim light as if bright light. |  |
 | **Darksight** | \- | See in darkness (Black and White only). |  |
 | **Natural Weapons** | \- | Armed with Claws, Fangs, Horns etc. | Rank |
-| **Rage** | \- | \+2 Str/Con/Will, \-2 AC, No mental skills. | Rank |
+| **Rage** | \- | \+2 Str/Sta/Will, \-2 Defense, No mental skills. | Rank |
 | **Resistance** | \- | \+2 vs Disease, Poison, Magic, etc. | Multi |
 | **Scent** | \- | Detect opponents by smell (Wisdom Check). |  |
 | **Self-Sustaining** | \- | Do not need to eat or drink. |  |
@@ -219,7 +219,7 @@ Special Features are often restricted by Species, Origin, or Technology Level. T
 **Description:** The character carries the blood of dragons, demons, fey, or gods.
 
 * **Prerequisite:** None (Background)  
-* **Benefit:** You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level spell usable at will).
+* **Benefit:** You gain a specific **Bloodline Power** or minor supernatural trait associated with your ancestor (e.g., minor energy resistance, claws, or a cantrip-level invocation usable at will).
 
 ---
 
@@ -357,7 +357,7 @@ Special Features are often restricted by Species, Origin, or Technology Level. T
 
 * **Prerequisite:** Special  
 * **Benefit:** As *Sense*, but the range increases to **30 ft Radius / 60 ft Cone**.  
-* **Drawback:** It is always active ("Always On"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the GM may impose distraction penalties.
+* **Drawback:** It is always active ("Always On"). In areas with overwhelming presence of the sensed type (e.g., sensing Magic in a wizard's tower), the Architect may impose distraction penalties.
 
 ---
 

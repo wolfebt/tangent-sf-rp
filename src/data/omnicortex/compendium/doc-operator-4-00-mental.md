@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 224
+order: 252
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","metaphysics","4.00.mental","mechanics"]
-updatedAt: "2026-10-14T05:54:39.338Z"
+updatedAt: "2026-10-31T10:14:07.281Z"
 costs:
   bp: 0
   credits: 0
@@ -658,7 +658,7 @@ Grants 360-degree vision. Caster cannot be flanked.
 **Scaling Function:**
 
 * **Duration:** 1 Minute per Stage.  
-* **Defense:** Grants \+1 Insight Bonus to AC per Stage.
+* **Defense:** Grants \+1 Insight Bonus to Defense per Stage.
 
 ### 
 

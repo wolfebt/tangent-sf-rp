@@ -188,7 +188,7 @@ export function resolveAdeMenu(context, appState, handlers) {
           aiType: 'AIME',
           onClick: () => executeAimePrompt({
             title: `Guidance Gem: ${beatTitle}`,
-            prompt: `Synthesize a concise Architect Guidance Gem for "${beatTitle}": Essential GM directives, secret lore reveals, pacing triggers, and advice for managing player spotlight.`,
+            prompt: `Synthesize a concise Architect Guidance Gem for "${beatTitle}": Essential Architect directives, secret lore reveals, pacing triggers, and advice for managing player spotlight.`,
             context: `Scenario: ${beatTitle}`
           })
         },
@@ -272,7 +272,7 @@ export function resolveAdeMenu(context, appState, handlers) {
       },
       {
         id: 'ping-location',
-        label: 'Ping Coordinates to Players',
+        label: 'Ping Coordinates to Operators',
         icon: MapPin,
         onClick: () => handlers.onPingLocation?.(context.clickCoords)
       },

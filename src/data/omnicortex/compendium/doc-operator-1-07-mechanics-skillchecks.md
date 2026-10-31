@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 189
+order: 200
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.skillchecks","mechanics"]
-updatedAt: "2026-10-14T05:52:12.033Z"
+updatedAt: "2026-10-31T11:30:42.844Z"
 costs:
   bp: 0
   credits: 0
@@ -49,11 +49,11 @@ The character's Skill Rank in the relevant skill is added to the 2d10 roll. This
 
 ## **Adding Ability Score**
 
-The Ability Score associated with the skill is also added to the total. This reflects the character's natural aptitude and talent in the area covered by the skill. For example, a character with a high Dexterity score would have a bonus to their Lockpicking skill checks, as Dexterity governs fine motor skills and agility.
+The Ability Score associated with the skill is also added to the total. This reflects the character's natural aptitude and talent in the area covered by the skill. For example, a character with a high Agility score would have a bonus to their Lockpicking skill checks, as Agility governs fine motor skills and agility.
 
 ## **Adding Other Modifiers**
 
-The GM may apply additional modifiers to the skill check based on various situational factors, such as:  
+The Architect may apply additional modifiers to the skill check based on various situational factors, such as:  
 Environmental Conditions: Difficult terrain, poor lighting, extreme weather, or other environmental factors can make a task more challenging, resulting in a penalty to the skill check.
 
 ## **Tools and Equipment**
@@ -78,7 +78,7 @@ The core mechanic of a Skill Check involves rolling two 10-sided dice (2d10). Th
 
 ### **ARBITRATION OF REALITY (SETTING DIFFICULTY)**
 
-Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rating (CR) or Challenge Rating (CR).
+Reference: 01.08.06 Skill Use To adjudicate actions, the Architect sets a Challenge Rating (CR) or Challenge Rating (CR).
 
 * Simple (CR 0): Routine actions (Walking, breathing). Automatic Success.  
 * Very Easy (CR 5): Minimal chance of failure (Climbing a ladder).  
@@ -91,7 +91,7 @@ Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rat
   
 
 
-  ### **The Time Factor (Adjudicating Patience vs. Haste): Reference: 01.08.09 Time**
+### **The Time Factor (Adjudicating Patience vs. Haste): Reference: 01.08.09 Time**
 
 * **Meticulous (+Bonus):** Characters who take extra time gain precision.  
   * \+50% Time: \+2 Bonus.  
@@ -105,12 +105,12 @@ Reference: 01.08.06 Skill Use To adjudicate actions, the GM sets a Challenge Rat
 
   
 
-  ### **Comparing to the Target Number**
+### **Comparing to the Target Number**
 
-  The final sum of the 2d10 roll, Skill Rank, Ability Score modifier, and any other modifiers is then compared to a target number set by the Game Master (GM). This target number, designated canonically as the Challenge Rating (CR), represents the difficulty of the task being attempted. If the character's total equals or exceeds the target number, they succeed in the action. If their total falls below the target number, they fail.
+  The final sum of the 2d10 roll, Skill Rank, Ability Score modifier, and any other modifiers is then compared to a target number set by the Architect. This target number, designated canonically as the Challenge Rating (CR), represents the difficulty of the task being attempted. If the character's total equals or exceeds the target number, they succeed in the action. If their total falls below the target number, they fail.
 
 
-  *Example: A character with a Stealth skill of 12 and a Dexterity modifier of \+3 attempts to sneak past a group of guards. The GM sets the CR for this Stealth check at 15, considering the alertness of the guards and the environmental conditions. The character rolls a 10 on their 2d10, adds their Stealth rank (+12) and their Dexterity modifier (+3), resulting in a total of 25\. Since 25 exceeds the CR of 15, the character successfully sneaks past the guards undetected.*
+  *Example: A character with a Stealth skill of 12 and a Agility modifier of \+3 attempts to sneak past a group of guards. The Architect sets the CR for this Stealth check at 15, considering the alertness of the guards and the environmental conditions. The character rolls a 10 on their 2d10, adds their Stealth rank (+12) and their Agility modifier (+3), resulting in a total of 25\. Since 25 exceeds the CR of 15, the character successfully sneaks past the guards undetected.*
 
-***Skill Checks are a fundamental mechanic in Tangent, used to resolve a wide range of actions and challenges throughout the game. They provide a structured and transparent way to determine success or failure, while also allowing for flexibility and customization based on the character's abilities, the difficulty of the task, and the GM's discretion. This system ensures that skill checks are both engaging and fair, reflecting the character's capabilities and the inherent risks and rewards of their actions.***
+***Skill Checks are a fundamental mechanic in Tangent, used to resolve a wide range of actions and challenges throughout the game. They provide a structured and transparent way to determine success or failure, while also allowing for flexibility and customization based on the character's abilities, the difficulty of the task, and the Architect's discretion. This system ensures that skill checks are both engaging and fair, reflecting the character's capabilities and the inherent risks and rewards of their actions.***
 

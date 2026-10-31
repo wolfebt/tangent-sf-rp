@@ -143,8 +143,8 @@ export const FolderOrganizerModal = ({
     const personaItems = (personas || []).map(p => ({
       raw: p,
       id: p['character-doc-id'] || p.id,
-      title: p['char-name'] || 'Unnamed Operative',
-      subtitle: `${p['char-species'] || 'Species'} • ${p['char-archetype'] || p['char-occu'] || 'Operative'}`,
+      title: p['char-name'] || 'Unnamed Operator',
+      subtitle: `${p['char-species'] || 'Species'} • ${p['char-archetype'] || p['char-occu'] || 'Operator'}`,
       type: 'persona',
       folderId: assignments[p['character-doc-id'] || p.id] || null,
       updatedAt: p.updatedAt

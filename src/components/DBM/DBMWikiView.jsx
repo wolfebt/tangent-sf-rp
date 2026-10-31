@@ -1033,8 +1033,8 @@ export const DBMWikiView = ({
     return null;
   }, [nextArticle, activeTab, architectArticles, sortMode, sortArticles, searchQuery, activeGuideSectionId]);
 
-  const currentPrevArticle = prevArticle || crossTabPrev;
-  const currentNextArticle = nextArticle || crossTabNext;
+  const currentPrevArticle = activeTab === 'guide' ? crossTabPrev : (prevArticle || crossTabPrev);
+  const currentNextArticle = activeTab === 'guide' ? crossTabNext : (nextArticle || crossTabNext);
 
   const handleNavigateArticle = (targetArticle) => {
     if (!targetArticle) return;
@@ -1091,6 +1091,19 @@ export const DBMWikiView = ({
     return ids.map(id => itemByIdMap.get(id)).filter(Boolean);
   }, [activeArticle, articleAncestorsMap, itemByIdMap]);
 
+  const formatBreadcrumbSegment = useCallback((rawName = '', isLeafWithParent = false) => {
+    let cleaned = String(rawName)
+      .replace(/^\d+(?:\.\d+)*\.?\s*[-—:]?\s*/i, '')
+      .replace(/\s*\(SOURCE OF TRUTH\)/gi, '')
+      .replace(/\s*\(Lineage Overview\)/gi, '')
+      .trim();
+    if (isLeafWithParent && (cleaned.includes(': ') || cleaned.includes(' — '))) {
+      const parts = cleaned.split(/\s*(?::|—)\s*/);
+      cleaned = parts[parts.length - 1].trim() || cleaned;
+    }
+    return cleaned.toLowerCase();
+  }, []);
+
   const matchingMasterDoc = useMemo(() => {
     if (!activeArticle || !allArticlesFlat || isFullRulebook) return null;
 
@@ -1144,6 +1157,19 @@ export const DBMWikiView = ({
     return sortArticles(list, sortMode);
   }, [activeArticle, childMap, sortArticles, sortMode]);
 
+  const activeChapterRootDoc = useMemo(() => {
+    if (!activeArticle) return null;
+    return matchingMasterDoc || activeArticle;
+  }, [activeArticle, matchingMasterDoc]);
+
+  const activeChapterSubDocs = useMemo(() => {
+    if (!activeChapterRootDoc) return [];
+    const list = childMap[activeChapterRootDoc.id] || [];
+    return sortArticles(list, sortMode);
+  }, [activeChapterRootDoc, childMap, sortArticles, sortMode]);
+
+  const [isChapterIndexOpen, setIsChapterIndexOpen] = useState(false);
+
   // Pre-process inter-wiki links [[Article Name]] and [[Display Label|Target]]
   const preProcessWikiText = (text) => {
     if (!text) return '';
@@ -1180,6 +1206,24 @@ export const DBMWikiView = ({
     });
   };
 
+  const slugifyHeading = useCallback((raw = '') =>
+    String(raw)
+      .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$1')
+      .replace(/\[\[([^\]]+)\]\]/g, '$1')
+      .replace(/[*_`~]/g, '')
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, ''), []);
+
+  const extractNodeText = useCallback((nodeChildren) => {
+    if (nodeChildren == null) return '';
+    if (typeof nodeChildren === 'string' || typeof nodeChildren === 'number') return String(nodeChildren);
+    if (Array.isArray(nodeChildren)) return nodeChildren.map(extractNodeText).join('');
+    if (nodeChildren.props && nodeChildren.props.children) return extractNodeText(nodeChildren.props.children);
+    return '';
+  }, []);
+
   const MarkdownComponents = {
     a: ({ node, href, children, ...props }) => {
       const targetArticle = resolveMarkdownHrefToArticle(href);
@@ -1215,8 +1259,32 @@ export const DBMWikiView = ({
       return <a href={href} className="text-cyan-400 hover:text-cyan-200 underline font-semibold transition-colors" target="_blank" rel="noopener noreferrer" {...props}>{children}</a>;
     },
     h1: ({node, ...props}) => <h1 className="text-2xl font-bold text-white mt-6 mb-4 pb-2 border-b border-slate-700/80 uppercase tracking-wide font-sans" {...props} />,
-    h2: ({node, ...props}) => <h2 className="text-xl font-bold text-cyan-300 mt-5 mb-3 uppercase tracking-wide" {...props} />,
-    h3: ({node, ...props}) => <h3 className="text-lg font-bold text-amber-300 mt-4 mb-2 uppercase tracking-wider" {...props} />,
+    h2: ({node, children, ...props}) => {
+      const slug = slugifyHeading(extractNodeText(children));
+      return (
+        <h2
+          id={slug ? `sec-${slug}` : undefined}
+          data-heading-slug={slug || undefined}
+          className="text-xl font-bold text-cyan-300 mt-5 mb-3 uppercase tracking-wide scroll-mt-4"
+          {...props}
+        >
+          {children}
+        </h2>
+      );
+    },
+    h3: ({node, children, ...props}) => {
+      const slug = slugifyHeading(extractNodeText(children));
+      return (
+        <h3
+          id={slug ? `sec-${slug}` : undefined}
+          data-heading-slug={slug || undefined}
+          className="text-lg font-bold text-amber-300 mt-4 mb-2 uppercase tracking-wider scroll-mt-4"
+          {...props}
+        >
+          {children}
+        </h3>
+      );
+    },
     h4: ({node, ...props}) => <h4 className="text-sm font-bold text-slate-200 mt-3 mb-1 uppercase tracking-wider" {...props} />,
     ul: ({node, ...props}) => <ul className="list-disc pl-5 my-3 space-y-1.5 text-slate-300" {...props} />,
     ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-3 space-y-1.5 text-slate-300" {...props} />,
@@ -1251,6 +1319,13 @@ export const DBMWikiView = ({
   };
 
   const articleBodyText = activeArticle ? (activeArticle.description || activeArticle.body || '') : '';
+
+  const handleScrollToTop = useCallback(() => {
+    if (desktopContentRef.current) {
+      AudioService?.playTerminalBeep?.(1250, 0.015);
+      desktopContentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
 
   return (
     <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden h-full relative shadow-xl">
@@ -1657,7 +1732,7 @@ export const DBMWikiView = ({
                   </div>
                   <span className="text-[9.5px] font-mono text-slate-400 truncate">
                     {activeTab === 'operator'
-                      ? `1.00 Player Core (${operatorMasterArticles.length} Chapters)`
+                      ? `1.00 Operator Core (${operatorMasterArticles.length} Chapters)`
                       : activeTab === 'architect'
                       ? `5.00 World & Modular (${architectMasterArticles.length} Matrices)`
                       : 'Platform & System Manual'}
@@ -1875,9 +1950,10 @@ export const DBMWikiView = ({
             onNavigate={handleNavigateArticle}
             prevItem={currentPrevArticle}
             nextItem={currentNextArticle}
+            scrollRef={desktopContentRef}
           />
         ) : (
-          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-28 bg-slate-900/95 scroll-smooth">
+          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-8 bg-slate-900/95 scroll-smooth">
           {activeArticle ? (
             <div className="w-full space-y-6">
               {/* Header & Controls */}
@@ -1895,55 +1971,51 @@ export const DBMWikiView = ({
                         <span>DRAWER</span>
                       </button>
                     )}
-                    <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">
-                      {currentConfig?.label || 'Compendium'}
-                    </span>
-                    {activeAncestorDocs.length > 0 ? (
-                      activeAncestorDocs.map(anc => (
+                    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 flex-wrap text-xs font-mono">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const firstOp = sortArticles(operatorMasterArticles, sortMode)[0];
+                          if (firstOp) handleNavigateArticle(firstOp);
+                        }}
+                        className="text-cyan-400 hover:text-cyan-200 hover:underline cursor-pointer transition-colors"
+                        title="Compendium Home"
+                      >
+                        {(currentConfig?.label || 'compendium').toLowerCase()}
+                      </button>
+                      <span className="text-slate-600">/</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const targetTab = activeArticle.perspective === 'architect' ? 'architect' : 'operator';
+                          handleTabClick(targetTab);
+                          const masterList = targetTab === 'architect' ? architectMasterArticles : operatorMasterArticles;
+                          const firstMaster = sortArticles(masterList, sortMode)[0];
+                          if (firstMaster) handleNavigateArticle(firstMaster);
+                        }}
+                        className="text-cyan-400 hover:text-cyan-200 hover:underline cursor-pointer transition-colors"
+                        title={`View ${activeArticle.perspective === 'architect' ? 'Architect' : 'Operator'} Root`}
+                      >
+                        {activeArticle.perspective === 'architect' ? 'architect' : 'operator'}
+                      </button>
+                      {activeAncestorDocs.map((anc, idx) => (
                         <React.Fragment key={anc.id}>
-                          <span className="text-xs font-mono text-slate-600">/</span>
+                          <span className="text-slate-600">/</span>
                           <button
                             type="button"
                             onClick={() => handleNavigateArticle(anc)}
-                            className="text-xs font-mono text-amber-400 hover:text-amber-200 underline cursor-pointer transition-colors"
-                            title={`Jump to parent section: ${anc.name}`}
+                            className="text-amber-400 hover:text-amber-200 hover:underline cursor-pointer transition-colors"
+                            title={`Jump to: ${anc.name}`}
                           >
-                            {anc.name}
+                            {formatBreadcrumbSegment(anc.name, idx > 0)}
                           </button>
                         </React.Fragment>
-                      ))
-                    ) : activeArticle.parent ? (
-                      <span className="text-xs font-mono text-amber-400">
-                        / {activeArticle.parent.replace(/\s*\(SOURCE OF TRUTH\)/gi, '')}
+                      ))}
+                      <span className="text-slate-600">/</span>
+                      <span className="text-slate-300 font-semibold">
+                        {formatBreadcrumbSegment(activeArticle.name, activeAncestorDocs.length > 0)}
                       </span>
-                    ) : null}
-                    {activeArticle.perspective && (
-                      <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
-                        activeArticle.perspective === 'operator'
-                          ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
-                          : activeArticle.perspective === 'architect'
-                          ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
-                          : 'bg-cyan-950 text-cyan-300 border-cyan-500/40'
-                      }`}>
-                        {activeArticle.perspective === 'operator' ? '👤 OPERATOR' : activeArticle.perspective === 'architect' ? '🏛️ ARCHITECT' : 'CORE (ALL)'}
-                      </span>
-                    )}
-                    {activeArticle.entry_type && (
-                      <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
-                        activeArticle.entry_type.toLowerCase().includes('primary')
-                          ? 'bg-emerald-950 text-emerald-300 border-emerald-500/60'
-                          : activeArticle.entry_type.toLowerCase().includes('generic')
-                          ? 'bg-amber-950 text-amber-300 border-amber-500/50'
-                          : 'bg-slate-900 text-slate-300 border-slate-700'
-                      }`}>
-                        {activeArticle.entry_type}
-                      </span>
-                    )}
-                    {activeArticle.relPath && (
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800 font-mono">
-                        {activeArticle.relPath}
-                      </span>
-                    )}
+                    </nav>
                   </div>
                   <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-wide uppercase font-sans">
                     {activeArticle.name}
@@ -2009,84 +2081,6 @@ export const DBMWikiView = ({
                   </div>
                 )}
               </div>
-
-              {/* Master Doc / Parent Hierarchy Banner */}
-              {(matchingMasterDoc || activeParentDoc) && (
-                <div className="bg-gradient-to-r from-cyan-950/90 via-slate-900 to-indigo-950/80 border border-cyan-500/60 p-4 rounded-xl flex flex-wrap items-center justify-between gap-4 shadow-lg">
-                  <div className="space-y-0.5 min-w-0">
-                    <div className="text-xs font-mono text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 font-bold">
-                      <span>📘</span> Modular Rulebook Section
-                    </div>
-                    <div className="text-sm text-slate-200">
-                      Part of{' '}
-                      {matchingMasterDoc && (
-                        <strong className="text-cyan-300">{matchingMasterDoc.name}</strong>
-                      )}
-                      {activeParentDoc && (
-                        <>
-                          {' '}› <strong className="text-amber-300">{activeParentDoc.name}</strong>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    {activeParentDoc && (
-                      <button
-                        type="button"
-                        onClick={() => handleNavigateArticle(activeParentDoc)}
-                        className="px-3.5 py-2 bg-amber-500/20 hover:bg-amber-500/35 text-amber-200 border border-amber-400/70 rounded-lg text-xs font-mono uppercase font-bold tracking-wider transition-all duration-150 cursor-pointer shadow-md flex items-center gap-1.5"
-                      >
-                        <span>↑ {activeParentDoc.name}</span>
-                      </button>
-                    )}
-                    {matchingMasterDoc && (
-                      <button
-                        type="button"
-                        onClick={() => handleNavigateArticle(matchingMasterDoc)}
-                        className="px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/40 text-cyan-200 border border-cyan-400/70 rounded-lg text-xs font-mono uppercase font-bold tracking-wider transition-all duration-150 cursor-pointer shadow-md hover:shadow-cyan-500/20 flex items-center gap-2"
-                      >
-                        <span>Open Chapter Index</span>
-                        <span>➔</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Child Sub-Articles Quick Directory Bar (when viewing a Master Doc or Lineage Parent) */}
-              {activeDirectChildren.length > 0 && (
-                <div className="bg-slate-950/90 border border-slate-800 p-4 rounded-xl space-y-2.5 shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                      <span>📂</span>
-                      <span>Modular Sub-Documents in {activeArticle.name} ({activeDirectChildren.length})</span>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
-                    {activeDirectChildren.map(sub => {
-                      const subChildrenCount = descendantCountMap[sub.id] || 0;
-                      return (
-                        <button
-                          key={sub.id}
-                          type="button"
-                          onClick={() => handleNavigateArticle(sub)}
-                          className="text-left px-3 py-2 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 transition-all cursor-pointer flex items-center justify-between gap-2 group"
-                        >
-                          <span className="text-xs font-semibold text-slate-200 group-hover:text-cyan-300 truncate">
-                            {subChildrenCount > 0 ? '📂 ' : '📄 '}
-                            {sub.name}
-                          </span>
-                          {subChildrenCount > 0 && (
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-950 text-cyan-400 border border-slate-800 shrink-0">
-                              {subChildrenCount}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
 
               {/* Main Content Body */}
               <div className="bg-slate-950 border border-slate-800/90 p-4 sm:p-6 lg:p-7 rounded-xl text-slate-200 text-sm leading-relaxed shadow-inner">
@@ -2292,58 +2286,6 @@ export const DBMWikiView = ({
                   )}
                 </div>
               )}
-
-              {/* In-flow Desktop Pagination Card at Bottom of Article */}
-              <div className="pt-8 pb-4 border-t border-slate-800/80 mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-                {currentPrevArticle ? (
-                  <button
-                    type="button"
-                    onClick={() => handleNavigateArticle(currentPrevArticle)}
-                    className="group flex items-center gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-left max-w-sm w-full sm:w-auto shadow-md"
-                    title={`Previous: ${currentPrevArticle.name}`}
-                  >
-                    <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
-                      <ArrowLeft size={16} />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Previous Article</div>
-                      <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
-                        {currentPrevArticle.name}
-                      </div>
-                    </div>
-                  </button>
-                ) : (
-                  <div className="opacity-0 pointer-events-none hidden sm:block w-32" />
-                )}
-
-                {/* Progress indicator */}
-                {currentIndex >= 0 && (
-                  <div className="text-[11px] font-mono text-slate-500 uppercase tracking-widest text-center">
-                    Article {currentIndex + 1} of {currentTabRawArticles.length} ({activeTab === 'operator' ? 'Operator' : 'Architect'})
-                  </div>
-                )}
-
-                {currentNextArticle ? (
-                  <button
-                    type="button"
-                    onClick={() => handleNavigateArticle(currentNextArticle)}
-                    className="group flex items-center justify-end gap-3 p-3.5 bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-xl transition-all cursor-pointer text-right max-w-sm w-full sm:w-auto shadow-md"
-                    title={`Next: ${currentNextArticle.name}`}
-                  >
-                    <div className="min-w-0">
-                      <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Next Article</div>
-                      <div className="text-xs font-bold text-white group-hover:text-cyan-300 truncate max-w-[220px]">
-                        {currentNextArticle.name}
-                      </div>
-                    </div>
-                    <div className="p-2 rounded-lg bg-slate-900 group-hover:bg-cyan-500/20 text-cyan-400 border border-slate-800 group-hover:border-cyan-500/40 transition-colors">
-                      <ArrowRight size={16} />
-                    </div>
-                  </button>
-                ) : (
-                  <div className="opacity-0 pointer-events-none hidden sm:block w-32" />
-                )}
-              </div>
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-slate-500 italic p-12">
@@ -2353,49 +2295,161 @@ export const DBMWikiView = ({
         </main>
         )}
 
-        {/* Floating Quick Navigation Controls: Bottom Left & Bottom Right */}
-        {activeTab !== 'guide' && activeArticle && (
-          <div className="pointer-events-none absolute bottom-5 left-6 right-6 flex items-center justify-between z-20">
-            {/* Bottom Left: Previous Arrow */}
+        {/* Collapsible Bottom Chapter Index Drawer */}
+        {activeTab !== 'guide' && isChapterIndexOpen && (activeChapterSubDocs.length > 0 || activeDirectChildren.length > 0) && (
+          <div className="shrink-0 border-t border-cyan-500/50 bg-slate-950/98 px-4 py-3 max-h-60 overflow-y-auto shadow-[0_-8px_25px_rgba(0,0,0,0.85)] z-20 space-y-2.5">
+            <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-slate-800">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300 truncate">
+                  📂 Chapter Index: {activeChapterRootDoc?.name} ({activeChapterSubDocs.length})
+                </span>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {matchingMasterDoc && activeArticle?.id !== matchingMasterDoc.id && (
+                  <button
+                    type="button"
+                    onClick={() => handleNavigateArticle(matchingMasterDoc)}
+                    className="px-2.5 py-0.5 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-200 text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer"
+                  >
+                    📘 Chapter Overview
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsChapterIndexOpen(false)}
+                  className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer"
+                  title="Collapse Chapter Index Drawer"
+                >
+                  ▾ Collapse
+                </button>
+              </div>
+            </div>
+
+            {activeDirectChildren.length > 0 && activeArticle?.id !== activeChapterRootDoc?.id && (
+              <div className="space-y-1.5 pb-2 border-b border-slate-800/80">
+                <div className="text-[10px] font-mono uppercase text-amber-300 font-bold">
+                  ↳ Sub-Documents in {activeArticle.name} ({activeDirectChildren.length})
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
+                  {activeDirectChildren.map(sub => (
+                    <button
+                      key={`direct-${sub.id}`}
+                      type="button"
+                      onClick={() => handleNavigateArticle(sub)}
+                      className="text-left px-2.5 py-1.5 rounded-lg bg-amber-950/30 hover:bg-amber-900/40 border border-amber-500/40 hover:border-amber-400 transition-all cursor-pointer flex items-center justify-between gap-2 group"
+                    >
+                      <span className="text-xs font-semibold text-amber-200 group-hover:text-white truncate">
+                        📄 {sub.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
+              {activeChapterSubDocs.map(sub => {
+                const subChildrenCount = descendantCountMap[sub.id] || 0;
+                const isCurrent = sub.id === activeArticle?.id || sub.id === activeParentDoc?.id;
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => handleNavigateArticle(sub)}
+                    className={`text-left px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-2 group ${
+                      isCurrent
+                        ? 'bg-cyan-950/70 border-cyan-400/80 text-cyan-200 shadow-sm'
+                        : 'bg-slate-900/90 hover:bg-slate-800 border-slate-800 hover:border-cyan-500/50 text-slate-200'
+                    }`}
+                  >
+                    <span className="text-xs font-semibold group-hover:text-cyan-300 truncate">
+                      {subChildrenCount > 0 ? '📂 ' : '📄 '}
+                      {sub.name}
+                    </span>
+                    {subChildrenCount > 0 && (
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-950 text-cyan-400 border border-slate-800 shrink-0">
+                        {subChildrenCount}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Compact Anchored Footer: Prev/Next + Article Position + Chapter Index Drawer Toggle + Top */}
+        {(activeTab === 'guide' || activeArticle) && (
+          <footer className="shrink-0 border-t border-slate-800/90 bg-slate-950 px-3 py-1.5 z-20 relative flex items-center justify-between gap-2 min-h-[36px]">
             {currentPrevArticle ? (
               <button
                 type="button"
                 onClick={() => handleNavigateArticle(currentPrevArticle)}
-                className="pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 bg-slate-950/95 hover:bg-slate-900 text-cyan-300 hover:text-white border border-cyan-500/50 hover:border-cyan-400 rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-200 cursor-pointer group active:scale-95"
-                title={`Previous Article: ${currentPrevArticle.name} (Alt+Left)`}
+                className="group flex items-center gap-2 px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 text-cyan-300 hover:text-white border border-slate-800 hover:border-cyan-500/50 rounded-lg transition-all cursor-pointer text-left min-w-0 max-w-[34%]"
+                title={`Previous: ${currentPrevArticle.title || currentPrevArticle.name} (Alt+Left)`}
               >
-                <div className="p-1.5 rounded-lg bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 group-hover:bg-cyan-500/30 group-hover:-translate-x-0.5 transition-all">
-                  <ArrowLeft size={16} />
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-[9px] font-mono uppercase text-slate-400 tracking-wider">Previous</span>
-                  <span className="text-xs font-bold text-cyan-200 group-hover:text-white max-w-[160px] lg:max-w-[220px] truncate">
-                    {currentPrevArticle.name}
-                  </span>
-                </div>
+                <ArrowLeft size={13} className="text-cyan-400 shrink-0 group-hover:-translate-x-0.5 transition-transform" />
+                <span className="text-[10px] font-mono uppercase text-slate-400 shrink-0 hidden sm:inline">Prev:</span>
+                <span className="text-xs font-bold text-slate-200 group-hover:text-cyan-200 truncate">
+                  {currentPrevArticle.title || currentPrevArticle.name}
+                </span>
               </button>
-            ) : <div />}
+            ) : (
+              <div className="w-16" />
+            )}
 
-            {/* Bottom Right: Next Arrow */}
+            <div className="flex items-center gap-2 shrink-0 flex-wrap justify-center">
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider text-center">
+                {activeTab === 'guide'
+                  ? `Guide ${Math.max(1, USER_GUIDE_SECTIONS.findIndex(s => s.id === activeGuideSectionId) + 1)} of ${USER_GUIDE_SECTIONS.length}`
+                  : currentIndex >= 0
+                  ? `Article ${currentIndex + 1} of ${currentTabRawArticles.length} (${activeTab === 'operator' ? 'Operator' : 'Architect'})`
+                  : ''}
+              </span>
+
+              {activeTab !== 'guide' && (activeChapterSubDocs.length > 0 || activeDirectChildren.length > 0) && (
+                <button
+                  type="button"
+                  onClick={() => setIsChapterIndexOpen(prev => !prev)}
+                  className={`px-2.5 py-0.5 rounded border text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
+                    isChapterIndexOpen
+                      ? 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                      : 'bg-cyan-950/70 hover:bg-cyan-900/90 border-cyan-500/50 hover:border-cyan-400 text-cyan-200'
+                  }`}
+                  title={isChapterIndexOpen ? 'Collapse Chapter Index Drawer' : `Open Chapter Index Drawer (${activeChapterRootDoc?.name})`}
+                >
+                  <span>📂 Chapter Index ({activeChapterSubDocs.length})</span>
+                  <span>{isChapterIndexOpen ? '▾' : '▴'}</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={handleScrollToTop}
+                className="px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 text-cyan-300 text-[10px] font-mono font-bold transition-colors cursor-pointer"
+                title="Scroll to Top of Article"
+              >
+                ↑ TOP
+              </button>
+            </div>
+
             {currentNextArticle ? (
               <button
                 type="button"
                 onClick={() => handleNavigateArticle(currentNextArticle)}
-                className="pointer-events-auto flex items-center gap-2.5 px-4 py-2.5 bg-slate-950/95 hover:bg-slate-900 text-cyan-300 hover:text-white border border-cyan-500/50 hover:border-cyan-400 rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.85)] backdrop-blur-md transition-all duration-200 cursor-pointer group active:scale-95 ml-auto"
-                title={`Next Article: ${currentNextArticle.name} (Alt+Right)`}
+                className="group flex items-center justify-end gap-2 px-2.5 py-1 bg-slate-900/90 hover:bg-slate-800 text-cyan-300 hover:text-white border border-slate-800 hover:border-cyan-500/50 rounded-lg transition-all cursor-pointer text-right min-w-0 max-w-[34%]"
+                title={`Next: ${currentNextArticle.title || currentNextArticle.name} (Alt+Right)`}
               >
-                <div className="flex flex-col text-right">
-                  <span className="text-[9px] font-mono uppercase text-slate-400 tracking-wider">Next</span>
-                  <span className="text-xs font-bold text-cyan-200 group-hover:text-white max-w-[160px] lg:max-w-[220px] truncate">
-                    {currentNextArticle.name}
-                  </span>
-                </div>
-                <div className="p-1.5 rounded-lg bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 group-hover:bg-cyan-500/30 group-hover:translate-x-0.5 transition-all">
-                  <ArrowRight size={16} />
-                </div>
+                <span className="text-[10px] font-mono uppercase text-slate-400 shrink-0 hidden sm:inline">Next:</span>
+                <span className="text-xs font-bold text-slate-200 group-hover:text-cyan-200 truncate">
+                  {currentNextArticle.title || currentNextArticle.name}
+                </span>
+                <ArrowRight size={13} className="text-cyan-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
               </button>
-            ) : <div />}
-          </div>
+            ) : (
+              <div className="w-16" />
+            )}
+          </footer>
         )}
       </div>
     </div>

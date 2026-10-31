@@ -7,7 +7,7 @@ category: traits
 costs:
   cp: 1
   bp: 1
-description: '1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).'
+description: '1/day, whenever taking damage, fly into frenzy for 1 min (+2 Sta/Str, –2 Defense).'
 modifiers:
   - target: attr-strength
     value: 2
@@ -39,4 +39,4 @@ modifiers:
 Adrenaline-fueled berserker response triggered by physical trauma in combat.
 
 ## Mechanics & Benefit
-1/day when taking damage, enter frenzy for 1 minute (+2 Con/Str, -2 AC)
+1/day when taking damage, enter frenzy for 1 minute (+2 Sta/Str, -2 Defense)

@@ -634,7 +634,7 @@ export const MessageView = ({
           {meta.blockId && toggleArchitectBlockAck && currentUser && (
             <div className="flex items-center justify-between pt-1 border-t border-slate-800/80">
               <span className="text-[9.5px] text-slate-400">
-                {acks.length > 0 ? `Acknowledged by ${acks.length} operative(s)` : 'Awaiting team acknowledgment'}
+                {acks.length > 0 ? `Acknowledged by ${acks.length} operator(s)` : 'Awaiting team acknowledgment'}
               </span>
               <button
                 type="button"
@@ -646,9 +646,9 @@ export const MessageView = ({
                     blockId: meta.blockId,
                     ackEntry: {
                       uid: currentUser.uid,
-                      operatorHandle: userHandle || currentUser.displayName || 'Operative',
+                      operatorHandle: userHandle || currentUser.displayName || 'Operator',
                       personaId: selectedPersona?.id || selectedPersona?.['character-doc-id'] || null,
-                      personaName: selectedPersona?.name || selectedPersona?.['char-name'] || userHandle || 'Operative'
+                      personaName: selectedPersona?.name || selectedPersona?.['char-name'] || userHandle || 'Operator'
                     }
                   });
                 }}
@@ -1197,7 +1197,7 @@ export const MessageView = ({
                             ARCHITECT
                           </span>
                           <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-mono font-bold uppercase truncate">
-                            {msg.architectDetails?.role || 'GM // REFEREE'}
+                            {msg.architectDetails?.role || 'LEAD ARCHITECT'}
                           </span>
                           <span className="text-[10px] font-mono text-slate-400">
                             (@{msg.operatorHandle || msg.senderHandle || 'Operator'})

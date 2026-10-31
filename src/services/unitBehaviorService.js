@@ -122,7 +122,7 @@ export function decideAutonomousAction(adversaryToken, heroTokens = [], mapConte
     return {
       status: 'idle',
       actionType: 'wait',
-      flavorText: 'No target operatives identified in tactical sector.'
+      flavorText: 'No target operators identified in tactical sector.'
     };
   }
 
@@ -220,7 +220,7 @@ export function decideAutonomousAction(adversaryToken, heroTokens = [], mapConte
     profileId: profile.id,
     profileName: profile.name,
     targetId: target.id || target.tokenId,
-    targetName: target.label || target.name || 'Operative',
+    targetName: target.label || target.name || 'Operator',
     targetDistancePx: Math.round(distPx),
     actionType,
     weaponName,
@@ -229,7 +229,7 @@ export function decideAutonomousAction(adversaryToken, heroTokens = [], mapConte
     isAoE,
     aoePresetId,
     hitLocation,
-    flavorText: `[${profile.name}] ${adversaryToken.label || 'Unit'} executes ${actionType.replace(/_/g, ' ').toUpperCase()} targeting ${target.label || 'Operative'}.`
+    flavorText: `[${profile.name}] ${adversaryToken.label || 'Unit'} executes ${actionType.replace(/_/g, ' ').toUpperCase()} targeting ${target.label || 'Operator'}.`
   };
 }
 

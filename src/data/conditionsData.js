@@ -10,7 +10,7 @@ export const DEFAULT_CONDITIONS = [
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Bleeding Out\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nAt the beginning of the character's turn while at 0 Health, they suffer **1 point of Stability Damage**. If Stability Points reach 0, the character suffers **permanent death**.\n\n## Stability Threshold\nA character has a Stability Points total equal to their **Constitution Score + 5**.\n\n## Cure / Removal\nStabilized if the character receives any magical healing or an ally makes a successful **Medicine Check (DC 15)**."
+    "body": "# Bleeding Out\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nAt the beginning of the character's turn while at 0 Health, they suffer **1 point of Stability Damage**. If Stability Points reach 0, the character suffers **permanent death**.\n\n## Stability Threshold\nA character has a Stability Points total equal to their **Stamina Score + 5**.\n\n## Cure / Removal\nStabilized if the character receives any magical healing or an ally makes a successful **Medicine Check (DC 15)**."
   },
   {
     "id": "condition-bleeding",
@@ -283,7 +283,7 @@ export const DEFAULT_CONDITIONS = [
       "bp": 0
     },
     "modifiers": [],
-    "body": "# The Mortality State (0 Hit Points)\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Conditions\nWhen a character's Health Points reach 0, they immediately enter the **Mortality State**:\n- **Unconscious and Incapacitated**: Immediately falls Prone and is Incapacitated.\n- **Bleeding Out**: Suffers 1 point of Stability Damage at the beginning of each turn.\n- **Stability Threshold**: Stability Points equal **Constitution Score + 5**.\n- **Death**: Reaching 0 Stability Points results in permanent death.\n- **Stabilization**: Magical healing or a successful **Medicine Check (DC 15)** stops the Bleeding Out state."
+    "body": "# The Mortality State (0 Hit Points)\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Conditions\nWhen a character's Health Points reach 0, they immediately enter the **Mortality State**:\n- **Unconscious and Incapacitated**: Immediately falls Prone and is Incapacitated.\n- **Bleeding Out**: Suffers 1 point of Stability Damage at the beginning of each turn.\n- **Stability Threshold**: Stability Points equal **Stamina Score + 5**.\n- **Death**: Reaching 0 Stability Points results in permanent death.\n- **Stabilization**: Magical healing or a successful **Medicine Check (DC 15)** stops the Bleeding Out state."
   },
   {
     "id": "condition-panicked",
@@ -380,13 +380,13 @@ export const DEFAULT_CONDITIONS = [
     "id": "condition-stunned",
     "name": "Stunned",
     "category": "conditions",
-    "description": "Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). Constitution Save (DC 15) at end of turn to recover.",
+    "description": "Incapacitated. Lose all Actions. Drop items. Defense = Base (No Agi/Skill). Fortitude Save (CR 15) at end of turn to recover.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Stunned\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\n**Incapacitated**. Lose all Actions. **Drop held items**. **Defense = Base** (No Dex/Skill modifiers applied).\n\n## Cure / Removal\n**Constitution Save (DC 15)** at end of turn to recover."
+    "body": "# Stunned\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\n**Incapacitated**. Lose all Actions. **Drop held items**. **Defense = Base** (No Agi/Skill modifiers applied).\n\n## Cure / Removal\n**Fortitude Save (CR 15)** at end of turn to recover."
   },
   {
     "id": "condition-suppressed",

@@ -216,7 +216,7 @@ export default function CronicleDeckModal({
     const newPersona = {
       id,
       name: newPersonaName.trim(),
-      role: newPersonaRole.trim() || 'Operative',
+      role: newPersonaRole.trim() || 'Operator',
       current_status: 'active',
       base_physical_stats: { str: 2, dex: 2, int: 2, hp: 30, maxHp: 30 },
       active_inventory: [],
@@ -506,7 +506,7 @@ export default function CronicleDeckModal({
                 </span>
               </div>
               <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono">
-                Single Source of Truth • Living Memory • Working Copies • GM Directives &amp; Compiled Dossier
+                Single Source of Truth • Living Memory • Working Copies • Architect Directives &amp; Compiled Dossier
               </p>
             </div>
           </div>

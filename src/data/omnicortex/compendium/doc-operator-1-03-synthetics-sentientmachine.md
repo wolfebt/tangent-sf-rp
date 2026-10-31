@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 103
+order: 109
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3

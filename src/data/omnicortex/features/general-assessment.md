@@ -6,7 +6,7 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: 'Awareness 6, Sense Motive 6'
+prerequisites: 'Alertness 6, Insight 6'
 description: >-
   The character has a practiced eye for sizing up opposition. By observing a
   target's stance, equipment, and demeanor, they can gauge the threat level.
@@ -30,7 +30,7 @@ mechanic: >-
 
 **Category**: General Features  
 **Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  
-**Prerequisite**: Awareness 6, Sense Motive 6
+**Prerequisite**: Alertness 6, Insight 6
 
 ## Description
 The character has a practiced eye for sizing up opposition. By observing a target's stance, equipment, and demeanor, they can gauge the threat level.

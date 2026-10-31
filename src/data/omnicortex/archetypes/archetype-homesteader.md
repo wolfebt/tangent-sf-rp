@@ -5,7 +5,7 @@ sphere: Sentinels (The Stabilizers)
 category: archetypes
 bp_chassis: 80
 core_concept: Survival / Crafter / Base Builder
-primary_attribute: Constitution
+primary_attribute: Stamina
 secondary_attribute: Wisdom
 recommended_occupations:
   - Citizen (Colonist)
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: Survival / Crafter / Base Builder  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Constitution  
+**Primary Attribute**: Stamina  
 **Secondary Attribute**: Wisdom  
 
 ## Overview

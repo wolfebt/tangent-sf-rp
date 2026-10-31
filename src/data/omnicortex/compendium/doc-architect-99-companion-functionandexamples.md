@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-companion-matrix"
-order: 15
+order: 16
 perspective: "architect"
 entry_type: "Companion Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","companions","99.companion.functionandexamples","matrix"]
-updatedAt: "2026-10-14T06:04:05.810Z"
+updatedAt: "2026-10-31T10:39:18.018Z"
 costs:
   bp: 0
   credits: 0
@@ -106,7 +106,7 @@ Select **one** function. This defines Attributes (Combat Stats) and Skills.
 *Designed to be ridden.*
 
 * **Cost:** 25 CP (Requires Medium or Large Size)  
-* **Attributes (12 CP):** \+2 Strength, \+1 Constitution.  
+* **Attributes (12 CP):** \+2 Strength, \+1 Stamina.  
 * **Skills (8 CP):**  
   * Athletics (Run/Jump): Rank 5 \[4 CP\]  
   * Acrobatics (Balance): Rank 5 \[4 CP\]  

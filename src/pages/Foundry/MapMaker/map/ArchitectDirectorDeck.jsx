@@ -49,7 +49,7 @@ const ArchitectDirectorDeck = ({
           </div>
         </div>
         <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-200 border border-purple-800 font-bold">
-          GM ACCESS
+          ARCHITECT ACCESS
         </span>
       </div>
 

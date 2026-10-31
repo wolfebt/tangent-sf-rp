@@ -40,7 +40,7 @@ export default function ProgressionKarmaLedgerModal({
     AudioService.playCriticalChime(true);
 
     if (onBroadcastToChat) {
-      onBroadcastToChat(`🌟 **[PARTY PROGRESSION AWARD]** Awarded **+${batchApAmount} AP** to all active operatives (${awardReason}).`);
+      onBroadcastToChat(`🌟 **[PARTY PROGRESSION AWARD]** Awarded **+${batchApAmount} AP** to all active operators (${awardReason}).`);
     }
   };
 
@@ -49,7 +49,7 @@ export default function ProgressionKarmaLedgerModal({
     AudioService.playTerminalBeep(980, 0.12);
 
     if (onBroadcastToChat) {
-      onBroadcastToChat(`↻ **[PARTY KARMA RECHARGE]** All operative Karma pools have been fully recharged.`);
+      onBroadcastToChat(`↻ **[PARTY KARMA RECHARGE]** All operator Karma pools have been fully recharged.`);
     }
   };
 
@@ -122,15 +122,15 @@ export default function ProgressionKarmaLedgerModal({
           </button>
         </div>
 
-        {/* Operatives Progression Ledger Grid */}
+        {/* Operators Progression Ledger Grid */}
         <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-3">
           {personaRoster.length === 0 ? (
             <div className="p-8 text-center text-slate-500 text-xs font-mono">
-              No registered operatives in Persona Folio. Create or import characters to manage progression.
+              No registered operators in Persona Folio. Create or import characters to manage progression.
             </div>
           ) : (
             personaRoster.map((hero, idx) => {
-              const name = hero['char-name'] || `Operative ${idx + 1}`;
+              const name = hero['char-name'] || `Operator ${idx + 1}`;
               const availableAp = parseInt(hero.availableAP || hero.ap || 0, 10);
               const earnedAp = parseInt(hero.earnedAP || hero.totalAP || 0, 10);
               const debt = parseInt(hero.experienceDebt || 0, 10);

@@ -36,7 +36,7 @@ export class DBMFunctionRegistryService {
         parameters: {
           type: 'object',
           properties: {
-            concept: { type: 'string', description: 'Narrative concept or operative archetype' },
+            concept: { type: 'string', description: 'Narrative concept or operator archetype' },
             species: { type: 'string', description: 'Character species (Human, Ursan, Felid, etc.)' },
             techLevel: { type: 'integer', description: 'Tech Level (0-5)' }
           },
@@ -119,7 +119,7 @@ export class DBMFunctionRegistryService {
       },
       {
         name: 'evaluate_combat_pacing_whisper',
-        description: 'Analyzes VTT combat pacing and optionally executes a BASTION Whisper Co-GM mechanical mutation card.',
+        description: 'Analyzes VTT combat pacing and optionally executes a BASTION Whisper Co-Architect mechanical mutation card.',
         parameters: {
           type: 'object',
           properties: {

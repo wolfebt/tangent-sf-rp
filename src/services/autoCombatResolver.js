@@ -5,9 +5,9 @@
  * - Defender wins all ties!
  * - Critical Triumph (Double 10s): +30 to Attack score & Doubles weapon damage dice
  * - Fumble (Double 1s): -10 to Attack score
- * - Damage = (Weapon Dice + Ability + Bonuses) - (Armor DR + Target CON Mod)
+ * - Damage = (Weapon Dice + Ability + Bonuses) - (Armor DR + Target STA Mod)
  * - Called Shot location saving throws (Head KO, Torso Winded, Arm Disarmed, Leg Hobbled)
- * - The Mortality State at 0 HP (Unconscious, Incapacitated, Bleeding Out, Stability = CON + 5)
+ * - The Mortality State at 0 HP (Unconscious, Incapacitated, Bleeding Out, Stability = STA + 5)
  */
 
 import { AudioService } from './audioService.js';
@@ -52,7 +52,7 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
   const margin = totalAttack - totalDefenseCr;
 
   // 3. Damage Calculation
-  // Formula: (Weapon Dice + Ability Mod + Precision) - (Target Armor DR + Target CON Mod)
+  // Formula: (Weapon Dice + Ability Mod + Precision) - (Target Armor DR + Target STA Mod)
   let rawDamage = 0;
   let effectiveDamage = 0;
   let statusInflicted = null;
@@ -145,7 +145,7 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     attackerId: attackerToken.id || attackerToken.tokenId,
     attackerName: attackerToken.label || attackerToken.name || 'Adversary',
     targetId: targetToken.id || targetToken.tokenId,
-    targetName: targetToken.label || targetToken.name || 'Operative',
+    targetName: targetToken.label || targetToken.name || 'Operator',
     d1,
     d2,
     baseRoll,

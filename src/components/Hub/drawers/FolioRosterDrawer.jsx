@@ -105,7 +105,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               PERSONA FOLIO
             </span>
             <span className="text-slate-600 font-mono">•</span>
-            <span className="text-slate-400 font-mono text-xs">OPERATIVE CATALOG</span>
+            <span className="text-slate-400 font-mono text-xs">OPERATOR CATALOG</span>
           </div>
           <h2 className="text-base sm:text-lg font-bold text-white font-mono uppercase tracking-wide mt-0.5">
             Character Roster
@@ -179,7 +179,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                 : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200'
             }`}
           >
-            <Users size={13} /> My Operatives ({personaRoster?.length || 0})
+            <Users size={13} /> My Operators ({personaRoster?.length || 0})
           </button>
 
           <button
@@ -205,7 +205,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
           <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
           <input
             type="text"
-            placeholder="Filter operatives..."
+            placeholder="Filter operators..."
             value={rosterSearch}
             onChange={(e) => setRosterSearch(e.target.value)}
             className="w-full pl-8 pr-3 py-1.5 bg-slate-950/80 border border-slate-700/80 rounded-lg text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono"
@@ -213,7 +213,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
         </div>
       </div>
 
-      {/* Operatives Vertical Stacked Gem-Like List */}
+      {/* Operators Vertical Stacked Gem-Like List */}
       <div className="flex-1 overflow-y-auto pr-1 space-y-1.5 max-h-[calc(100vh-320px)]">
         {isFetchingPublic ? (
           <div className="p-10 text-center border border-dashed border-amber-500/30 rounded-xl bg-slate-950/40">
@@ -222,23 +222,23 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               Connecting to Community Network...
             </h4>
             <p className="text-xs text-slate-500 font-mono mt-1">
-              Fetching shared operatives from public database.
+              Fetching shared operators from public database.
             </p>
           </div>
         ) : filtered.length === 0 ? (
           rosterTab === 'public-gallery' ? (
             <div className="p-8 text-center border border-dashed border-slate-800 rounded-xl bg-slate-950/40">
               <span className="text-3xl block mb-2">🌐</span>
-              <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Public Community Operatives Found</h4>
+              <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Public Community Operators Found</h4>
               <p className="text-xs text-slate-500 font-mono mt-1 mb-3 max-w-sm mx-auto">
                 {rosterSearch 
-                  ? `No public community operatives match "${rosterSearch}".` 
-                  : 'No operatives have been shared with the community yet.'}
+                  ? `No public community operators match "${rosterSearch}".` 
+                  : 'No operators have been shared with the community yet.'}
               </p>
               {!rosterSearch && (
                 <div className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg max-w-sm mx-auto text-left">
                   <p className="text-[11px] text-slate-400 font-mono">
-                    💡 <strong className="text-cyan-300">How to share:</strong> Switch to <span className="text-cyan-300 font-bold">My Operatives</span> and toggle the <span className="text-amber-300 font-bold">Private/Public</span> badge on any character to make it available to other players.
+                    💡 <strong className="text-cyan-300">How to share:</strong> Switch to <span className="text-cyan-300 font-bold">My Operators</span> and toggle the <span className="text-amber-300 font-bold">Private/Public</span> badge on any character to make it available to other players.
                   </p>
                 </div>
               )}
@@ -246,9 +246,9 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
           ) : (
             <div className="p-8 text-center border border-dashed border-slate-800 rounded-xl bg-slate-950/40">
               <Users size={28} className="mx-auto text-slate-600 mb-2" />
-              <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Operatives Found</h4>
+              <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Operators Found</h4>
               <p className="text-xs text-slate-500 font-mono mt-1 mb-4">
-                {rosterSearch ? `No character sheets match "${rosterSearch}".` : 'Create your first operative persona to get started.'}
+                {rosterSearch ? `No character sheets match "${rosterSearch}".` : 'Create your first operator persona to get started.'}
               </p>
               <button
                 onClick={() => {
@@ -268,7 +268,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
             {filtered.map(char => {
               const docId = char['character-doc-id'] || char.id;
               const isActive = docId === activeDocId;
-              const name = char['char-name'] || 'UNNAMED OPERATIVE';
+              const name = char['char-name'] || 'UNNAMED OPERATOR';
               const species = getFieldValue(char['char-species']);
               const faction = getFieldValue(char['char-faction']);
               const origin = getFieldValue(char['char-origin']);
@@ -407,8 +407,8 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                           <button
                             onClick={async (e) => {
                               e.stopPropagation();
-                              const targetName = name || 'Unnamed Operative';
-                              if (await confirmTypedDeletion(targetName, 'operative persona')) {
+                              const targetName = name || 'Unnamed Operator';
+                              if (await confirmTypedDeletion(targetName, 'operator persona')) {
                                 deleteRosterCharacter(char || docId);
                               }
                             }}
@@ -468,7 +468,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               <Trash2 size={16} /> Confirm Persona Deletion
             </h3>
             <p className="text-xs text-slate-300 font-sans">
-              Are you sure you want to delete operative <strong className="text-white uppercase font-mono">"{deleteConfirmName}"</strong>? This action is permanent.
+              Are you sure you want to delete operator <strong className="text-white uppercase font-mono">"{deleteConfirmName}"</strong>? This action is permanent.
             </p>
             <div className="flex justify-end gap-2 pt-2">
               <button

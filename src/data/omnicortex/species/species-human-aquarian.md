@@ -175,7 +175,7 @@ Specialized Senses
 
 Swimming&nbsp;
 
-\+1 Feature
+\+1 Featureure
 
 &nbsp;
 

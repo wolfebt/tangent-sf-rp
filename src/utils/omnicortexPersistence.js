@@ -492,8 +492,38 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         enriched.modifiers = (Array.isArray(matchingSeed.modifiers) && matchingSeed.modifiers.length > 0)
           ? matchingSeed.modifiers
           : enriched.modifiers;
+        enriched.modifier_options = matchingSeed.modifier_options || enriched.modifier_options;
         enriched.notes = matchingSeed.notes !== undefined ? matchingSeed.notes : enriched.notes;
         enriched.notesList = matchingSeed.notesList || enriched.notesList;
+      }
+
+      if (['trait', 'traits', 'species_traits'].includes(catKey) && matchingSeed) {
+        enriched.description = matchingSeed.description || matchingSeed.desc || enriched.description;
+        enriched.desc = matchingSeed.desc || matchingSeed.description || enriched.desc;
+        enriched.mechanic = matchingSeed.mechanic || matchingSeed.mechanics || enriched.mechanic;
+        enriched.mechanics = matchingSeed.mechanics || matchingSeed.mechanic || enriched.mechanics;
+        enriched.rules = matchingSeed.rules !== undefined ? matchingSeed.rules : enriched.rules;
+        enriched.special_rules = matchingSeed.special_rules !== undefined ? matchingSeed.special_rules : enriched.special_rules;
+        enriched.body = matchingSeed.body || enriched.body;
+        enriched.full_text = matchingSeed.full_text || matchingSeed.body || enriched.full_text;
+        enriched.trait_type = matchingSeed.trait_type || enriched.trait_type;
+        enriched.trait_tier = matchingSeed.trait_tier || enriched.trait_tier;
+        enriched.classification = matchingSeed.classification || enriched.classification;
+        enriched.type = matchingSeed.type || enriched.type;
+        enriched.cp = matchingSeed.cp ?? enriched.cp ?? 1;
+        enriched.bp = matchingSeed.bp ?? enriched.bp ?? 1;
+        enriched.modifiers = (Array.isArray(matchingSeed.modifiers) && matchingSeed.modifiers.length > 0)
+          ? matchingSeed.modifiers
+          : enriched.modifiers;
+        enriched.modifier_options = matchingSeed.modifier_options || enriched.modifier_options;
+        enriched.notes = matchingSeed.notes !== undefined ? matchingSeed.notes : enriched.notes;
+        enriched.notesList = matchingSeed.notesList || enriched.notesList;
+      }
+
+      if (['occupations', 'origins'].includes(catKey) && matchingSeed) {
+        if (Array.isArray(matchingSeed.traits_detail) && matchingSeed.traits_detail.length > 0) {
+          enriched.traits_detail = matchingSeed.traits_detail;
+        }
       }
 
       if (['weaponry', 'weapons', 'armoring', 'armor', 'gear', 'equipment', 'mecha', 'architecture', 'other', 'augmentations'].includes(catKey) && matchingSeed) {

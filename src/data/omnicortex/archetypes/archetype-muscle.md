@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Utility / Strength / Endurance
 primary_attribute: Strength
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Citizen
   - Builder
@@ -50,7 +50,7 @@ cp_chassis: 80
 **Core Concept**: Utility / Strength / Endurance  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 A hardworking individual contributing through physical labor and endurance.

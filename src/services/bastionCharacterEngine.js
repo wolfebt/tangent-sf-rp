@@ -712,7 +712,7 @@ export const getFactionRecommendations = (archetype, prompt = '', factionsList =
       reasons.push(`Major interstellar faction offering a 20 SP training package`);
     }
 
-    const skillPackage = fac.skill_package || fac.skills || ['Computers', 'Diplomacy', 'Knowledge (Culture)'];
+    const skillPackage = fac.skill_package || fac.skills || ['Computers', 'Diplomacy', 'Culture'];
 
     return {
       faction: fac,
@@ -1412,13 +1412,13 @@ export const derivePillarSkills = ({
 
   // 1. Faction Pool (20 SP)
   const factionSkills = faction?.skill_package || faction?.skills || [
-    'Computers', 'Knowledge (Culture)', 'Diplomacy', 'Knowledge (Technology)'
+    'Computers', 'Culture', 'Diplomacy', 'Technology'
   ];
   distributePoolPoints(factionSkills, factionAllocations, 20);
 
   // 2. Origin Pool (20 SP)
   const originSkills = origin?.society_skills || origin?.skills || [
-    'Alertness', 'Athletics', 'Knowledge (Survival)', 'Piloting'
+    'Alertness', 'Athletics', 'Survival', 'Piloting'
   ];
   distributePoolPoints(originSkills, originAllocations, 20);
 
@@ -2444,7 +2444,7 @@ export const derivePillarNarrative = ({
   const summary = `A ${spName} ${ocName} hailing from the ${oName} frontier, embodying the principles of ${aName} under ${fName} doctrine.`;
   const motive = archetype?.tactical_role || `Protecting squad assets and executing ${fName} objectives across the Reach.`;
   
-  const backstory = `Born and forged within the demanding environment of a ${oName} habitat, this ${spName} operative recognized early on their natural aptitude as ${aName}.\n\n` +
+  const backstory = `Born and forged within the demanding environment of a ${oName} habitat, this ${spName} operator recognized early on their natural aptitude as ${aName}.\n\n` +
     `Pursuing professional certification as a ${ocName}, they attracted the strategic attention of the ${fName}. ` +
     `Through rigorous training and adherence to faction protocols, they have honed their capabilities to operate seamlessly across high-threat science fantasy conflict zones, ` +
     `relying on proven equipment, disciplined reflex conditioning, and the foundational wisdom of their heritage.`;

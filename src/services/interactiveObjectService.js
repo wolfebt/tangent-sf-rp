@@ -70,7 +70,7 @@ export const OBJECT_TYPES = {
     maxStructure: 15,
     strengthDc: 12,
     hackDc: 11,
-    description: 'Sealed container or weapon cache. Can be pried open or unlocked by an operative persona to acquire gear and weapons.'
+    description: 'Sealed container or weapon cache. Can be pried open or unlocked by an operator persona to acquire gear and weapons.'
   },
   clue_pad: {
     id: 'clue_pad',
@@ -88,7 +88,7 @@ export const OBJECT_TYPES = {
     category: 'hazard',
     maxStructure: 15,
     saveCr: 14,
-    description: 'Concealed reactive emitter that triggers when operative personas move into proximity.'
+    description: 'Concealed reactive emitter that triggers when operator personas move into proximity.'
   }
 };
 
@@ -159,12 +159,12 @@ export function interactWithObject(objectNode, operativeToken, actionType = 'hac
     objectId: objectNode.id,
     objectName: objectNode.label || objType.name,
     actionType,
-    operativeName: operativeToken?.label || 'Operative',
+    operativeName: operativeToken?.label || 'Operator',
     roll,
     dc,
     isSuccess,
     resultText: isSuccess
-      ? `🔓 ${operativeToken?.label || 'Operative'} successfully sliced ${objType.name}! (Roll: ${roll} vs CR ${dc})`
+      ? `🔓 ${operativeToken?.label || 'Operator'} successfully sliced ${objType.name}! (Roll: ${roll} vs CR ${dc})`
       : `🚫 Slicing failed on ${objType.name}! Security lockdown engaged (Roll: ${roll} vs CR ${dc}).`
   };
 }

@@ -84,7 +84,7 @@ export function aggregateModuleAssets({
         catalogCategory: 'personas',
         role: elem.fields?.mcmRole || elem.fields?.role || 'Tactical',
         tier: elem.fields?.mcmTier || '1',
-        description: elem.fields?.summary || elem.content || 'Operative unit capable of autonomous routines.',
+        description: elem.fields?.summary || elem.content || 'Operator unit capable of autonomous routines.',
         isScripted,
         scriptType: scriptObj?.type || (isScripted ? 'patrol' : null),
         scriptSummary: isScripted

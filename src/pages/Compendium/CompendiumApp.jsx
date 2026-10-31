@@ -170,7 +170,7 @@ export const CompendiumApp = () => {
   // Handle create new compendium article (for rules)
   const handleCreateNew = async () => {
     if (!isAdmin) {
-      toast({ type: 'warning', text: 'Administrator or GM privileges are required to create new compendium articles.' });
+      toast({ type: 'warning', text: 'Administrator or Architect privileges are required to create new compendium articles.' });
       return;
     }
 

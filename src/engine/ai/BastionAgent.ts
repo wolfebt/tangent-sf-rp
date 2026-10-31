@@ -116,7 +116,7 @@ export class BastionRulesAgent {
   ): Promise<{ draft: TangentCharacterDraft; validation: BastionValidationResult }> {
     // 1. Run deterministic 5-Pillar Character Synthesis Engine as canonical foundation
     const pillarSynth: any = (synthesizeCharacterWithBastion as any)({
-      prompt: concept || 'Tactical Operative',
+      prompt: concept || 'Tactical Operator',
       preferredSpecies: species && species !== 'Human' ? species : undefined,
       techLevel
     });
@@ -196,7 +196,7 @@ Rules:
     let draft: TangentCharacterDraft;
     if (response.data && response.data.attributes && !response.isSimulated) {
       draft = {
-        name: response.data.name || synthChar['char-name'] || 'Operative',
+        name: response.data.name || synthChar['char-name'] || 'Operator',
         species: response.data.species || synthPillars?.species?.name || species,
         background: response.data.background || concept,
         attributes: response.data.attributes,
@@ -381,7 +381,7 @@ Rules:
       doctrine: 'Mobile ranged harassment.',
       action: 'Tactical Burst',
       targetId: heroes[0]?.id || null,
-      targetName: heroes[0]?.name || 'Operative',
+      targetName: heroes[0]?.name || 'Operator',
       description: 'Execute standard tactical engagement.',
       moveMode: 'hold_position',
       appliedCondition: null,

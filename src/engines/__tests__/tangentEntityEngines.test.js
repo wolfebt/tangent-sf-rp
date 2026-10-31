@@ -144,7 +144,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         'Sociable',
         'Stable Footed',
         'Stalker',
-        'Static Bonus Feat',
+        'Static Bonus Feature',
         'Tail',
         'Urbanite',
         'Water-Sense'

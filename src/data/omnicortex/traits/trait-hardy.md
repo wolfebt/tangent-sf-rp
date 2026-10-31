@@ -8,7 +8,7 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  +2 racial bonus on saving throws against poison, spells, and spell-like
+  +2 racial bonus on saving throws against poison, invocations, and metaphysical
   abilities.
 modifiers:
   - target: Saving throws against poison
@@ -16,16 +16,16 @@ modifiers:
     value: 2
     mode: inherent
     description: +2 to Saving throws against poison
-  - target: Spells
+  - target: Invocations
     type: skill
     value: 2
     mode: inherent
-    description: +2 to Spells
-  - target: Spell-like abilities
+    description: +2 to Invocations
+  - target: Metaphysical abilities
     type: skill
     value: 2
     mode: inherent
-    description: +2 to Spell-like abilities
+    description: +2 to Metaphysical abilities
 ---
 # Hardy
 
@@ -38,4 +38,4 @@ modifiers:
 Robust metabolism and innate cellular resilience against toxins and hostile energies.
 
 ## Mechanics & Benefit
-+2 racial bonus on saving throws against poison, spells, and spell-like abilities
++2 racial bonus on saving throws against poison, invocations, and metaphysical abilities

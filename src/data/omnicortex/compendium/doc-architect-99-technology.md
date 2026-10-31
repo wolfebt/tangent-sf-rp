@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 20
+order: 21
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology","matrix"]
-updatedAt: "2026-10-14T06:04:05.783Z"
+updatedAt: "2026-10-31T11:30:42.568Z"
 costs:
   bp: 0
   credits: 0
@@ -219,7 +219,7 @@ An industrious character with the proper skill set and design system can create 
 Characters with the **Technologist** feature are ahead of the curve, understanding technology that shouldn't exist yet for their era.
 
 * **Requirement:** To advance in a Tech Level (TL), a character requires multiple fields of advanced study. The feature must be selected multiple times for various fields (Minimum of 5 fields to fully progress to the next TL).  
-* **Scope:** Tech 3+ characters may choose from TL 4 fields. Tech 4+ characters may choose from TL 5 fields. Tech 5 Technologists are generally NPCs unless the GM allows experimental TL X discoveries.  
+* **Scope:** Tech 3+ characters may choose from TL 4 fields. Tech 4+ characters may choose from TL 5 fields. Tech 5 Technologists are generally NPCs unless the Architect allows experimental TL X discoveries.  
 * **Penalty:** Without the Technologist Feature in the appropriate field, take a **\-5 penalty** on any check to use, repair, or modify a device above your Technology Level (per level of difference).  
   * *Exception:* Some straightforward items (like weapons) may only incur a **\-1 per TL** penalty, but will require a check to wield any special options.
 

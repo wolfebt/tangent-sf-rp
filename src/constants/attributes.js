@@ -223,9 +223,9 @@ export const SKILL_SYNERGY_EXAMPLES = [
     description: "Athletic conditioning and physical coordination grant a synergy bonus to Reflex Check to avoid traps, collapsing terrain, or incoming area attacks."
   },
   {
-    skills: 'Linguistics and Reason',
+    skills: 'Language and Reason',
     context: 'Ancient Inscriptions / Cryptanalysis',
-    description: "For every 5 points scored over DC 10 on a Linguistics check, a +1 bonus is added to the Reason check to decipher cryptic texts."
+    description: "For every 5 points scored over DC 10 on a Language check, a +1 bonus is added to the Reason check to decipher cryptic texts."
   }
 ];
 
@@ -278,7 +278,7 @@ export const PERCEPTION_RULES = {
     }
   ],
   modifiers: {
-    description: "The Game Master (GM) may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as visibility, distance, the nature of the thing being detected, and any other relevant environmental or situational factors."
+    description: "The Architect may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as visibility, distance, the nature of the thing being detected, and any other relevant environmental or situational factors."
   },
   example: "A character with an Intellect score of +2 and a Wisdom score of +1 has a Perception base score of 3. If they are trying to notice a hidden trap, they would make an Alertness check with a modifier of +3. However, if they are trying to locate an item using magical means, they would make an Attune check with a modifier of +3 instead. While a check for a social situation will be added to Insight as checks for analyzing tech will use Technology (Knowledge)."
 };

@@ -7,7 +7,7 @@ nodes: 5
 cost: 640
 design_dc: 15
 craft_dc: 15
-description: 'Decorative or Prehensile (-4 Str, -2 Dex).'
+description: 'Decorative or Prehensile (-4 Str, -2 Agi).'
 stigma: None
 type: Cybernetic Armor
 costs:
@@ -39,5 +39,5 @@ negative_keywords: 'pure-organic-baseline, unaugmented, technophobe, primitive'
 ---
 Category: **5.1 Integrated Cybernetic Armor**
 
-**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Dex).
+**Effect/Description:** Decorative or Prehensile (-4 Str, -2 Agi).
 **Nodes:** 5

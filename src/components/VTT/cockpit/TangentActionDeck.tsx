@@ -348,7 +348,7 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
       baseModifier: effectiveModifier,
       expression: `2d10${effectiveModifier !== 0 ? (effectiveModifier > 0 ? `+${effectiveModifier}` : `${effectiveModifier}`) : ''}`,
       rollMode: 'normal',
-      characterName: characterData?.['char-name'] || characterData?.name || 'Operative',
+      characterName: characterData?.['char-name'] || characterData?.name || 'Operator',
       autoRoll: true
     });
 
@@ -400,7 +400,7 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
       baseModifier: effectiveDefenseMod,
       expression: `2d10${effectiveDefenseMod !== 0 ? (effectiveDefenseMod > 0 ? `+${effectiveDefenseMod}` : `${effectiveDefenseMod}`) : ''}`,
       rollMode: 'normal',
-      characterName: characterData?.['char-name'] || characterData?.name || 'Operative',
+      characterName: characterData?.['char-name'] || characterData?.name || 'Operator',
       autoRoll: true
     });
 

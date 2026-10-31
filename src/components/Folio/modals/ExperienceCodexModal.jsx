@@ -26,10 +26,10 @@ const ADVANCEMENT_COSTS = [
     ]
   },
   {
-    category: 'Attributes & Feats',
+    category: 'Attributes & Features',
     items: [
       { name: 'Primary Attribute (+1)', cost: '5 AP', increment: 'Max +1 per award', desc: 'Permanently increases Strength, Agility, Intellect, etc. Represents intense conditioning.' },
-      { name: 'Feature / Feat', cost: '2 – 3 AP', increment: '1 Feat per award', desc: 'Acquires a new combat trait, scientific specialty, or racial/background feature.' }
+      { name: 'Feature', cost: '2 – 3 AP', increment: '1 Feature per award', desc: 'Acquires a new combat trait, scientific specialty, or racial/background feature.' }
     ]
   },
   {
@@ -83,7 +83,7 @@ const AWARD_GUIDELINES = [
     badge: '1 – 5 AP (Ad Hoc)',
     color: 'rose',
     icon: '⚡',
-    desc: 'Ad hoc GM awards for turning the tide of an impossible encounter, stunning creative plans, or memorable moments that stump the Architect.'
+    desc: 'Ad hoc Architect awards for turning the tide of an impossible encounter, stunning creative plans, or memorable moments that stump the Architect.'
   }
 ];
 
@@ -172,7 +172,7 @@ export const ExperienceCodexModal = ({
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-slate-950/60 p-1 rounded-xl border border-slate-800 text-xs font-medium w-full">
             {[
               { id: 'core', label: 'Core System & Increment Rule' },
-              { id: 'awards', label: 'GM Award Pacing' },
+              { id: 'awards', label: 'Architect Award Pacing' },
               { id: 'costs', label: 'Advancement Costs Table' },
               { id: 'debt', label: 'Advancement Debt' }
             ].map(tab => (
@@ -258,17 +258,17 @@ export const ExperienceCodexModal = ({
 
               <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                 <h4 className="font-bold text-slate-200 text-sm flex items-center gap-1.5">
-                  <span>🎮</span> GM Award Workflow in VTT
+                  <span>🎮</span> Architect Award Workflow in VTT
                 </h4>
                 <p className="text-slate-400 text-xs">
-                  In Tangent SF RP, advancement points are primarily granted by the Game Master during and after sessions inside the VTT Tactical Environment. Awards immediately cascade to the Persona Folio and sync across the cloud.
+                  In Tangent SF RP, advancement points are primarily granted by the Architect during and after sessions inside the VTT Tactical Environment. Awards immediately cascade to the Persona Folio and sync across the cloud.
                 </p>
               </div>
 
             </div>
           )}
 
-          {/* TAB 2: GM Award Categories & Pacing */}
+          {/* TAB 2: Architect Award Categories & Pacing */}
           {activeTab === 'awards' && (
             <div className="space-y-3">
               <div className="text-xs text-slate-400 mb-2">
@@ -349,14 +349,14 @@ export const ExperienceCodexModal = ({
                 <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                   <h4 className="font-bold text-amber-300 text-sm">Automatic Repayment</h4>
                   <p className="text-slate-400 text-xs">
-                    Future Advancement Points (AP) granted by the GM automatically pay down AP Debt on a 1-for-1 basis before new traits, skills, or attributes can be advanced.
+                    Future Advancement Points (AP) granted by the Architect automatically pay down AP Debt on a 1-for-1 basis before new traits, skills, or attributes can be advanced.
                   </p>
                 </div>
 
                 <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                   <h4 className="font-bold text-cyan-300 text-sm">Manual Settlement</h4>
                   <p className="text-slate-400 text-xs">
-                    Players may elect to settle AP Debt voluntarily by expending unspent AP in the Discreet Fate &amp; AP modal or reducing an existing trait in consultation with the GM.
+                    Operators may elect to settle AP Debt voluntarily by expending unspent AP in the Discreet Fate &amp; AP modal or reducing an existing trait in consultation with the Architect.
                   </p>
                 </div>
               </div>

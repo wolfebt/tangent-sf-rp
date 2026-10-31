@@ -262,7 +262,7 @@ export const OccupationConfigurator = ({
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
           Formal disciplines mastered through professional career experience. When brought into the Persona Folio, 
-          the operative allocates 20 points across these skills (1 SP = 1 Skill Rank, maximum starting cap of Rank 11):
+          the operator allocates 20 points across these skills (1 SP = 1 Skill Rank, maximum starting cap of Rank 11):
         </p>
 
         {/* Skill Chips */}
@@ -400,7 +400,7 @@ export const OccupationConfigurator = ({
             </h4>
             <CodexTooltip
               title="Occupational Traits"
-              description="Players choose exactly two Traits from their Occupation list initially. Additional traits from this occupation may be purchased for 1 CP each."
+              description="Operators choose exactly two Traits from their Occupation list initially. Additional traits from this occupation may be purchased for 1 CP each."
               rule="1.06 OCCUPATIONS.md"
               color="#f59e0b"
             />
@@ -411,7 +411,7 @@ export const OccupationConfigurator = ({
         </div>
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
-          Specialized vocational traits reflecting career background and professional competence. Operatives select two free traits initially:
+          Specialized vocational traits reflecting career background and professional competence. Operators select two free traits initially:
         </p>
 
         {/* Traits Grid */}

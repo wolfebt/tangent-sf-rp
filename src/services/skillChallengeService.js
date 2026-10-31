@@ -150,7 +150,7 @@ export const evaluateSkillChallengeRoll = (
 
   const logItem = {
     roundIndex: challenge.history.length + 1,
-    operativeName: operativeName || 'Operative',
+    operativeName: operativeName || 'Operator',
     skillName,
     rollTotal,
     targetDc,

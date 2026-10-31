@@ -93,7 +93,7 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
                   ? 'bg-emerald-950 border border-emerald-500/50 text-emerald-300 font-bold'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
-              title="Team Operative Roster"
+              title="Team Operator Roster"
             >
               <Users size={11} />
               <span>Team Roster ({rosterList.length})</span>
@@ -174,12 +174,12 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
           {activeTab === 'roster' && (
             <div className="flex-1 overflow-y-auto p-3 space-y-2 text-xs font-mono">
               <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center justify-between pb-1 border-b border-slate-800">
-                <span>Team Operatives ({rosterList.length})</span>
+                <span>Team Operators ({rosterList.length})</span>
               </div>
 
               {rosterList.length === 0 ? (
                 <div className="p-4 text-center text-slate-500 border border-dashed border-slate-800 rounded-lg">
-                  No team operatives in roster.
+                  No team operators in roster.
                 </div>
               ) : (
                 <div className="space-y-1.5">
@@ -197,7 +197,7 @@ export const StageSplitView: React.FC<StageSplitViewProps> = ({
                       >
                         <div>
                           <div className="font-bold text-slate-200 text-xs flex items-center gap-1.5">
-                            <span>{hero['char-name'] || hero.name || 'Operative'}</span>
+                            <span>{hero['char-name'] || hero.name || 'Operator'}</span>
                             {isActive && (
                               <span className="text-[9px] px-1 py-0.2 rounded bg-emerald-950 border border-emerald-600 text-emerald-400 font-bold">
                                 ACTIVE

@@ -18,7 +18,7 @@ modifiers: []
 At the beginning of the character's turn while at 0 Health, they suffer **1 point of Stability Damage**. If Stability Points reach 0, the character suffers **permanent death**.
 
 ## Stability Threshold
-A character has a Stability Points total equal to their **Constitution Score + 5**.
+A character has a Stability Points total equal to their **Stamina Score + 5**.
 
 ## Cure / Removal
 Stabilized if the character receives any magical healing or an ally makes a successful **Medicine Check (DC 15)**.

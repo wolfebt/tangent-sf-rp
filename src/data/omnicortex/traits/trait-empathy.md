@@ -11,12 +11,12 @@ description: >-
   Intuitive emotional resonance that perceives the underlying drives and moods
   of sapient beings and creatures.
 modifiers:
-  - target: Handle Animal
+  - target: Handler
     type: skill
     value: 2
     mode: inherent
-    description: +2 to Handle Animal
-mechanic: "+2 Insight and +2 Handle Animal Checks while being Friendly to other creature"
+    description: +2 to Handler
+mechanic: "+2 Insight and +2 Handler Checks while being Friendly to other creature"
 ---
 # Empathy
 
@@ -29,4 +29,4 @@ mechanic: "+2 Insight and +2 Handle Animal Checks while being Friendly to other 
 Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.
 
 ## Mechanics & Benefit
-+2 Insight and +2 Handle Animal Checks while being Friendly to other creature
++2 Insight and +2 Handler Checks while being Friendly to other creature

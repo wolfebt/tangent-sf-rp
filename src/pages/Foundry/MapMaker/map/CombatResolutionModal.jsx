@@ -253,7 +253,7 @@ export default function CombatResolutionModal({
           damageType: a.type || 'Kinetic',
           ap,
           range: a.range || 'Standard',
-          desc: a.notes || 'Equipped Operative Weapon',
+          desc: a.notes || 'Equipped Operator Weapon',
           scoreMod: parseInt(a.score || 0, 10) || 0
         };
       });
@@ -408,7 +408,7 @@ export default function CombatResolutionModal({
           structureDamage = netDamage;
         }
       } else {
-        // Organic / Standard Operative
+        // Organic / Standard Operator
         if (damageClass === 'lethal') {
           // Lethal damage (cuts, burns, gunshots) damages HEALTH directly!
           healthDamage = netDamage;

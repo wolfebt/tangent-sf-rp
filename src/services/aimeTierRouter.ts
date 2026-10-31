@@ -47,7 +47,7 @@ export const LOD_TIERS: Record<Exclude<LodTierKey, 'auto'>, LodTierConfig> = {
     defaultCloudModel: 'gemini-1.5-flash',
     maxContextTokens: 8192,
     recommendedTemp: 0.7,
-    description: 'High-fidelity reasoning for primary Operatives, Major Antagonists, and narrative climaxes.'
+    description: 'High-fidelity reasoning for primary Operators, Major Antagonists, and narrative climaxes.'
   },
   tier2_tactical: {
     key: 'tier2_tactical',

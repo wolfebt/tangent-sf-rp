@@ -219,7 +219,7 @@ Adapted (Cold)
 
 Alternate Form&nbsp;
 
-Improved Great Fortitude (Feat)
+Improved Great Fortitude (Feature)
 
 Stigma (Xeno)
 

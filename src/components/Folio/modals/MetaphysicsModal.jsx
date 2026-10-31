@@ -173,7 +173,7 @@ const CANONICAL_SPECIAL_ABILITIES = [
     area: 'Personal',
     duration: 'Instantaneous',
     resistance: 'None',
-    damage: 'Heals 2d8+Con Vitality',
+    damage: 'Heals 2d8+Sta Vitality',
     description: 'Triggered metabolic acceleration that rapidly knits severed flesh, closes bleed wounds, and purges toxic contaminants.',
     scaling: 'Can be triggered 1 additional time per encounter per 2 CP allocated.',
     cp: 5,

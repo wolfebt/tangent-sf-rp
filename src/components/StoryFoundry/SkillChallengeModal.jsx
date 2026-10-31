@@ -21,7 +21,7 @@ const SkillChallengeModal = ({
   const [isSuccessAtCost, setIsSuccessAtCost] = useState(false);
 
   const selectedHero = useMemo(() => {
-    return heroTokens.find(h => h.id === selectedHeroId) || heroTokens[0] || { label: 'Operative', id: 'hero_default' };
+    return heroTokens.find(h => h.id === selectedHeroId) || heroTokens[0] || { label: 'Operator', id: 'hero_default' };
   }, [heroTokens, selectedHeroId]);
 
   if (!isOpen) return null;
@@ -64,7 +64,7 @@ const SkillChallengeModal = ({
 
     const updated = evaluateSkillChallengeRoll(
       activeChallenge,
-      selectedHero.label || 'Operative',
+      selectedHero.label || 'Operator',
       selectedSkill,
       rollTotal,
       activeChallenge.baseDc,
@@ -218,15 +218,15 @@ const SkillChallengeModal = ({
         {!activeChallenge.isCompleted && (
           <div className="flex flex-col gap-2 p-3 rounded-lg bg-slate-900/80 border border-slate-800 text-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Operative Selector */}
+              {/* Operator Selector */}
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] uppercase font-bold text-slate-400">Contributing Operative</label>
+                <label className="text-[10px] uppercase font-bold text-slate-400">Contributing Operator</label>
                 <select
                   value={selectedHeroId || ''}
                   onChange={(e) => setSelectedHeroId(e.target.value)}
                   className="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-white focus:outline-none cursor-pointer"
                 >
-                  {(heroTokens.length > 0 ? heroTokens : [{ id: 'hero_1', label: 'Operative' }]).map(h => (
+                  {(heroTokens.length > 0 ? heroTokens : [{ id: 'hero_1', label: 'Operator' }]).map(h => (
                     <option key={h.id} value={h.id}>🎖️ {h.label || 'Hero'}</option>
                   ))}
                 </select>

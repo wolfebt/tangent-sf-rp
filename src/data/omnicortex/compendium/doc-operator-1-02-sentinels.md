@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 11
+order: 17
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.sentinels","mechanics"]
-updatedAt: "2026-10-25T07:10:31.056Z"
+updatedAt: "2026-10-31T10:38:11.279Z"
 costs:
   bp: 0
   credits: 0
@@ -114,7 +114,7 @@ Protects high-profile individuals or cargo. Experienced in personal security and
 * **Recommended Occupations:** Soldier, Drifter.  
 * **Recommended Origins:** Urban, Militaristic, Leisure.  
 * **Recommended Factions:** Impyrium (Praetorians), Dynasty (House Guard), Syndicate (Asset Protection).  
-* **Key Attributes:** Constitution (Primary), Perception (Secondary).  
+* **Key Attributes:** Stamina (Primary), Perception (Secondary).  
 * **Essential Skills:** Athletics, Alertness, Intimidation, Combat (Melee/Pistol).  
 * **Signature Traits (1 CP):** Protective Stance, Situational Awareness.  
 * **Tactical Role:** Take damage for the team, control melee engagement zones.
@@ -228,7 +228,7 @@ Brave and disciplined, skilled in combat and tactics. The backbone of any fighti
 * **Recommended Occupations:** Soldier, Mercenary.  
 * **Recommended Origins:** Militaristic, Hostile, Colony.  
 * **Recommended Factions:** Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors).  
-* **Key Attributes:** Strength or Agility (Primary), Constitution (Secondary).  
+* **Key Attributes:** Strength or Agility (Primary), Stamina (Secondary).  
 * **Essential Skills:** Acrobatics, Alertness, Athletics, Combat (Any).  
 * **Signature Traits (1 CP):** Combat Expertise, Unflinching.  
 * **Tactical Role:** Frontline combat, holding ground, reliable damage output.
@@ -247,7 +247,7 @@ A stern and authoritative leader who oversees the workforce and ensures that pro
 * **Recommended Occupations:** Citizen (Worker), Builder.  
 * **Recommended Origins:** Industrial, Colony, Urban.  
 * **Recommended Factions:** Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium.  
-* **Key Attributes:** Charisma (Primary), Constitution (Secondary).  
+* **Key Attributes:** Charisma (Primary), Stamina (Secondary).  
 * **Essential Skills:** Intimidation, Leadership, Diplomacy, Vocation (Administrator).  
 * **Signature Traits (1 CP):** Commanding Presence, Efficient Manager.  
 * **Tactical Role:** Organizing NPC labor, intimidating local workers, managing base construction.
@@ -266,7 +266,7 @@ A hardworking and resourceful individual determined to build a life on the front
 * **Recommended Occupations:** Citizen (Colonist), Scout.  
 * **Recommended Origins:** Agricultural, Colony, Hostile.  
 * **Recommended Factions:** Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry).  
-* **Key Attributes:** Constitution (Primary), Wisdom (Secondary).  
+* **Key Attributes:** Stamina (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Survival), Vocation (Farming/Laborer), Vocation (Handler), Knowledge (Nature).  
 * **Signature Traits (1 CP):** Self-Sufficiency, Resourceful.  
 * **Tactical Role:** Generating food/water, building fortifications, animal taming.
@@ -285,7 +285,7 @@ A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in 
 * **Recommended Occupations:** Soldier (Impyrium), Representative.  
 * **Recommended Origins:** Militaristic, Urban (Capital).  
 * **Recommended Factions:** Impyrium (Imperial Legion), Dynasty (Dragoons).  
-* **Key Attributes:** Constitution (Primary), Strength (Secondary).  
+* **Key Attributes:** Stamina (Primary), Strength (Secondary).  
 * **Essential Skills:** Athletics, Intimidation, Knowledge (Tactics), Combat (Melee/Heavy).  
 * **Signature Traits (1 CP):** Iron Will, Legionary Training.  
 * **Tactical Role:** Holding choke points, soaking damage, providing cover bonuses to allies.
@@ -361,7 +361,7 @@ A hardy individual who builds and maintains settlements in untamed worlds.
 * **Recommended Occupations:** Citizen, Builder.  
 * **Recommended Origins:** Colony, Agricultural, Hostile.  
 * **Recommended Factions:** Outworlds, Coalition.  
-* **Key Attributes:** Constitution (Primary), Strength (Secondary).  
+* **Key Attributes:** Stamina (Primary), Strength (Secondary).  
 * **Essential Skills:** Vocation (Laborer), Knowledge (Survival), Athletics, Combat (Rifle).  
 * **Signature Traits (1 CP):** Construction, Frontier Resilience.  
 * **Tactical Role:** Building cover, repairing structures, environmental survival.
@@ -399,7 +399,7 @@ A hardworking individual contributing through physical labor and endurance.
 * **Recommended Occupations:** Citizen, Builder.  
 * **Recommended Origins:** Industrial, Colony, Urban.  
 * **Recommended Factions:** Syndicate (Worker Caste), Outworlds, Mekan (Drones).  
-* **Key Attributes:** Strength (Primary), Constitution (Secondary).  
+* **Key Attributes:** Strength (Primary), Stamina (Secondary).  
 * **Essential Skills:** Athletics, Vocation (Laborer), Endurance, Knowledge (Trade).  
 * **Signature Traits (1 CP):** Strong Back, Skilled Worker.  
 * **Tactical Role:** Clearing debris, carrying heavy gear, grappling enemies.

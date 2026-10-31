@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 18
+order: 19
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3

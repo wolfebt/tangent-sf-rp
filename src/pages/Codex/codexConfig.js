@@ -180,7 +180,7 @@ export const CODEX_MATRICES = [
       { name: 'primary_purpose', label: 'Primary Purpose / Function', type: 'text', placeholder: 'E.g., Weapons R&D, Mining Refinery, Defense Citadel' },
       { name: 'description', label: 'Design & Visual Overview', type: 'textarea', aiEnabled: true },
       { name: 'mechanic', label: 'Tactical Mechanics & Environmental Rules', type: 'textarea' },
-      { name: 'note', label: 'Architect / GM Notes', type: 'textarea' },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' },
       { name: 'recommended_tl', label: 'Recommended Tech Level (TL)', type: 'multiselect', source: 'technology' },
       { name: 'recommended_ml', label: 'Recommended Meta Level (ML)', type: 'multiselect', source: 'meta_level' },
       { name: 'keywords', label: 'Positive Resonance Keywords (+AI Weight)', type: 'text', placeholder: 'orbital station, bunker, arcology, subterranean, shield dome' },
@@ -615,7 +615,7 @@ export const CODEX_MATRICES = [
     theme: 'purple',
     targetCollection: 'invocations',
     ingestionKey: 'invocations',
-    description: 'Weave psionic powers, meta-abilities, psychic spells, dimensional anomalies, telekinesis, and consciousness rites.',
+    description: 'Weave psionic powers, meta-abilities, invocations, dimensional anomalies, telekinesis, and consciousness rites.',
     category: 'Meta-Abilities & Psionics',
     badge: 'Psi Matrix',
     isProperty: false,
@@ -886,13 +886,13 @@ export const CODEX_MATRICES = [
         name: 'primary_attribute', 
         label: 'Primary Attribute (+3 / 15 BP)', 
         type: 'select', 
-        options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
+        options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
       },
       { 
         name: 'secondary_attribute', 
         label: 'Secondary Attribute (+2 / 10 BP)', 
         type: 'select', 
-        options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
+        options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
       },
       { name: 'essential_skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', type: 'array', placeholder: 'Key proficiencies prioritized by this archetype' },
       { name: 'signature_traits', label: 'Signature Traits (1 CP Each)', type: 'array', placeholder: 'Two 1-CP signature traits defining this archetype' },
@@ -930,7 +930,7 @@ export const CODEX_MATRICES = [
     targetCollection: 'modular_characters',
     ingestionKey: 'other',
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
-    category: 'NPCs & Operative Templates',
+    category: 'NPCs & Operator Templates',
     badge: 'NPC Modular Matrix',
     isProperty: false,
     hasSocketsAndUDU: false,
@@ -960,7 +960,7 @@ export const CODEX_MATRICES = [
       negative_keywords: ''
     },
     fields: [
-      { name: 'name', label: 'Operative / Archetype Name', type: 'text', required: true, placeholder: 'E.g., Syndicate Ghost Infiltrator' },
+      { name: 'name', label: 'Operator / Archetype Name', type: 'text', required: true, placeholder: 'E.g., Syndicate Ghost Infiltrator' },
       { name: 'threatTier', label: 'Threat Tier (0-20)', type: 'number', min: 0, max: 20 },
       { name: 'competencyRole', label: 'Competency Role', type: 'select', options: ['Tank', 'Bruiser', 'Striker', 'Assassin', 'Sniper', 'Gunslinger', 'Blaster', 'Controller', 'Buffer', 'Healer', 'Commander', 'Summoner'] },
       { name: 'designation', label: 'Designation', type: 'select', options: ['Adversary', 'Ally', 'Companion', 'Neutral'] },
@@ -1996,10 +1996,10 @@ export const CODEX_MATRICES = [
       { name: 'lighting_mood', label: 'HIFI CHROMA Atmosphere & Lighting (ATMOSPHERE)', type: 'textarea', placeholder: 'E.g., Industrial decay, smog-choked, oppressive low-key industrial lighting, sodium vapor' },
       { name: 'image_prompt', label: 'HIFI CHROMA Modular Image Prompt', type: 'textarea', placeholder: '[CONTENT PROMPT] SUBJECT: ... NARRATIVE: ... [GUIDANCE PROMPT] SETTING STYLE: ... CONTEXT: ... ATMOSPHERE: ... [RENDERING PROMPT] ...' },
 
-      // 8. Expansion Modules & GM Notes
+      // 8. Expansion Modules & Architect Notes
       { name: 'scene_vignettes', label: 'Signature Scene Vignettes', type: 'textarea', placeholder: 'E.g., The Marshal Garrison, The Refinery Floor, The Hab-Block Stacks...' },
       { name: 'expansion_modules', label: 'Expansion Modules & Sub-Factions', type: 'textarea', placeholder: 'Optional sub-factions, star systems, or deep lore modules...' },
-      { name: 'note', label: 'GM Campaign Notes & Secrets', type: 'textarea', placeholder: 'Confidential GM plot hooks, hidden corruption, or classified agendas...' }
+      { name: 'note', label: 'Architect Campaign Notes & Secrets', type: 'textarea', placeholder: 'Confidential Architect plot hooks, hidden corruption, or classified agendas...' }
     ],
     computedOutputs: [
       {

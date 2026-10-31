@@ -1,6 +1,6 @@
 ---
 id: feat-plexus
-name: Feat Plexus
+name: Feature Plexus
 category: augmentations
 location: "Torso / Core"
 nodes: 3

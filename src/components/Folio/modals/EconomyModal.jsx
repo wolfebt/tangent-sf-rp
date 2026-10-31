@@ -357,11 +357,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
               </div>
             )}
 
-            {/* Award Advancement Points Tool (GM & Session Award Panel) */}
+            {/* Award Advancement Points Tool (Architect & Session Award Panel) */}
             <div className="bg-slate-950/80 border border-cyan-900/60 rounded-lg p-4 space-y-3">
               <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                  <span>🎖️</span> Award Advancement Points (GM Tool)
+                  <span>🎖️</span> Award Advancement Points (Architect Tool)
                 </h4>
                 <span className="text-[10px] font-mono text-slate-400">
                   Pacing: 1-3 AP / session • 5-10 AP / chapter
@@ -969,7 +969,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                             {specAttrs > 0 ? `+${specAttrs} Attr ` : ''}
                             {specMaxSkills > 0 ? `+${specMaxSkills} SP ` : ''}
                             {specMaxTraits > 0 ? `+${specMaxTraits} Trait ` : ''}
-                            {specMaxFeats > 0 ? `+${specMaxFeats} Feat` : ''}
+                            {specMaxFeats > 0 ? `+${specMaxFeats} Feature` : ''}
                           </span>
                         )}
                       </div>

@@ -145,7 +145,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
     if (type === 'person') {
       const p = galleryPersonas.find(e => e.id === id);
       if (p) {
-        setModSourceName(p.fields?.['char-name'] || p.title || 'Operative');
+        setModSourceName(p.fields?.['char-name'] || p.title || 'Operator');
         const derived = ModifierService.createModifierFromPerson(p);
         setModName(derived.name);
         setModCategory(derived.category);
@@ -689,7 +689,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div>
-                    <label className="block text-[9px] text-slate-500 mb-0.5">Person / Operative</label>
+                    <label className="block text-[9px] text-slate-500 mb-0.5">Person / Operator</label>
                     <select
                       onChange={(e) => handleSourceSelect('person', e.target.value)}
                       className="w-full bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-200"

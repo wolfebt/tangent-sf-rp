@@ -152,7 +152,7 @@ export const CockpitPanel: React.FC = () => {
   const energyDr = character?.['armor-dr']?.energy ?? 4;
   const agilityScore = character?.attributes?.agi ?? character?.attributes?.dex ?? 0;
   const walkSpeed = Math.max(15, 30 + agilityScore * 5);
-  const characterName = character?.name || 'Operative Echo';
+  const characterName = character?.name || 'Operator Echo';
 
   const cockpitContent = (
     <div className="w-full h-full flex flex-col bg-[#0c1017] text-slate-200 overflow-hidden font-sans select-none">
@@ -163,7 +163,7 @@ export const CockpitPanel: React.FC = () => {
         <div className="flex items-center gap-1.5 min-w-0">
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
             <Activity size={13} />
-            {userRole === 'gm' ? 'DYNAMIC INSPECTOR' : 'OPERATIVE COCKPIT'}
+            {userRole === 'gm' ? 'DYNAMIC INSPECTOR' : 'OPERATOR COCKPIT'}
           </span>
         </div>
 
@@ -192,7 +192,7 @@ export const CockpitPanel: React.FC = () => {
                   : 'text-slate-500 hover:text-slate-300'
               }`}
             >
-              Player
+              Operator
             </button>
             <button
               type="button"
@@ -206,7 +206,7 @@ export const CockpitPanel: React.FC = () => {
                   : 'text-slate-500 hover:text-slate-300'
               }`}
             >
-              GM
+              Architect
             </button>
           </div>
         </div>
@@ -506,7 +506,7 @@ export const CockpitPanel: React.FC = () => {
             <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] uppercase font-bold text-purple-400">
-                  🧠 BASTION Co-GM Pacing Whispers
+                  🧠 BASTION Co-Architect Pacing Whispers
                 </span>
                 <span
                   className="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase"
@@ -629,7 +629,7 @@ export const CockpitPanel: React.FC = () => {
 
   return (
     <PopoutPortal
-      title="Tangent SF RP - Operative Cockpit"
+      title="Tangent SF RP - Operator Cockpit"
       isOpen={isPoppedOut}
       onClose={() => setIsPoppedOut(false)}
     >

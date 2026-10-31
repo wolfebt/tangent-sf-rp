@@ -95,7 +95,7 @@ export const AimeCockpitDeck: React.FC = () => {
 
     const sensoryTransmutations = [
       `A piercing crack splits the air as hypersonic kinetic rounds shatter the reinforced casing. Micro-fractures spiderweb across the optical lattice, venting acrid smoke and sending optic telemetry haywire with blinding glare.`,
-      `The impact rings like a struck anvil. Armor plating shears away in twisted ceramic shards, tearing kinetic baffles and forcing the operative back with bone-jarring momentum.`,
+      `The impact rings like a struck anvil. Armor plating shears away in twisted ceramic shards, tearing kinetic baffles and forcing the operator back with bone-jarring momentum.`,
       `Capacitor coils whine in sudden overload before discharging a jagged thermal lance. The blast sears through protective composite weaves, blistering flesh and scorching the deckplate in molten slag.`
     ];
     const result = sensoryTransmutations[Math.floor(Math.random() * sensoryTransmutations.length)];

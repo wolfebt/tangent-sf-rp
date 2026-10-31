@@ -23,19 +23,19 @@ modifiers:
     mode: conditional
     isSituational: true
     condition: Escaping bonds and tight spaces
-    description: +2 to Escape Artist
+    description: +2 to Acrobatics
   - target: social-expression-legerdemain
     type: skill
     value: 2
     mode: conditional
     isSituational: true
     condition: Concealing small items
-    description: +2 to Sleight of Hand
+    description: +2 to Legerdemain
 keywords: 'stealthy, skill, special-feature, shadow'
 negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: >-
-  Gain a **\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a
+  Gain a **\+2 Bonus** to **Acrobatics** and **Legerdemain**; Gain a
   **\+4 Bonus** to **Stealth** checks.
 ---
 # Stealthy
@@ -48,4 +48,4 @@ mechanic: >-
 The character is a shadow.
 
 ## Mechanics & Benefit
-Gain a **\+2 Bonus** to **Escape Artist** and **Sleight of Hand**; Gain a **\+4 Bonus** to **Stealth** checks.
+Gain a **\+2 Bonus** to **Acrobatics** and **Legerdemain**; Gain a **\+4 Bonus** to **Stealth** checks.

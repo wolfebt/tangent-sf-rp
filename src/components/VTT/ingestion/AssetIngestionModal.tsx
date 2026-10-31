@@ -566,7 +566,7 @@ return roll;`);
                         onChange={(e) => setBlocksMovement(e.target.checked)}
                         className="rounded border-slate-700 bg-slate-900 text-cyan-500"
                       />
-                      <span className="text-slate-200">Blocks Movement (Operatives cannot walk through)</span>
+                      <span className="text-slate-200">Blocks Movement (Operators cannot walk through)</span>
                     </label>
 
                     <label className="flex items-center space-x-2 cursor-pointer">
@@ -853,7 +853,7 @@ return roll;`);
                           >
                             <option value="step_on">Step-On (Pressure Plate)</option>
                             <option value="proximity">Proximity (Sensor Radius)</option>
-                            <option value="interact">Interaction (Player Click)</option>
+                            <option value="interact">Interaction (Operator Click)</option>
                             <option value="turn_start">Turn Start (Hazard Pulse)</option>
                           </select>
                         </div>
@@ -941,12 +941,12 @@ return roll;`);
                       </div>
 
                       <div>
-                        <label className="block text-[11px] text-slate-400 mb-1">GM Secret & Investigation Notes</label>
+                        <label className="block text-[11px] text-slate-400 mb-1">Architect Secret & Investigation Notes</label>
                         <textarea
                           rows={2}
                           value={gmSecretNotes}
                           onChange={(e) => setGmSecretNotes(e.target.value)}
-                          placeholder="Secret clues or disarm notes for the GM..."
+                          placeholder="Secret clues or disarm notes for the Architect..."
                           className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200"
                         />
                       </div>
@@ -990,10 +990,10 @@ return roll;`);
                             onChange={(e) => setScriptHook(e.target.value as ScriptHook)}
                             className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-slate-200"
                           >
-                            <option value="on_interact">on_interact (Operative clicks object)</option>
+                            <option value="on_interact">on_interact (Operator clicks object)</option>
                             <option value="on_trigger">on_trigger (When trigger fires)</option>
                             <option value="on_turn_start">on_turn_start (Combat round start)</option>
-                            <option value="manual">manual (GM invocation)</option>
+                            <option value="manual">manual (Architect invocation)</option>
                           </select>
                         </div>
 

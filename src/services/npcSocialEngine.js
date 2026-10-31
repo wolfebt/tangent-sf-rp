@@ -37,7 +37,7 @@ export function resolveSocialAction(npcToken, operativeToken, actionType = 'pers
     const bribeRoll = roll + bribeBonus;
     if (bribeRoll >= 12) {
       delta = 25 + bribeBonus * 2;
-      responseDialogue = `"Credits verified on my slate. I never saw you operatives here."`;
+      responseDialogue = `"Credits verified on my slate. I never saw you operators here."`;
     } else {
       delta = -5;
       responseDialogue = `"You insulting me with this chump change? Move along!"`;
@@ -68,7 +68,7 @@ export function resolveSocialAction(npcToken, operativeToken, actionType = 'pers
 
   return {
     actionType,
-    operativeName: operativeToken?.label || 'Operative',
+    operativeName: operativeToken?.label || 'Operator',
     npcName: npcToken.label || 'NPC',
     roll,
     targetDc,

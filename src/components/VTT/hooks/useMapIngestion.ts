@@ -114,14 +114,14 @@ export function useMapIngestion({
       if (Array.isArray(currentMap.tokens) && currentMap.tokens.length > 0) {
         const staticBatch: StaticEntity[] = currentMap.tokens.map((t: any) => ({
           id: t.id,
-          name: t.name || t.label || 'Operative',
+          name: t.name || t.label || 'Operator',
           base_hp: t.base_hp || t.hp?.max || 35,
           tech_level: t.tech_level || 3,
           armor_dr: t.armor_dr || t.dr || 10,
           size_modifier: t.size_modifier || 0,
           speed_ft: t.speed_ft || 30,
           species: t.species || 'Human',
-          archetype: t.archetype || 'Operative',
+          archetype: t.archetype || 'Operator',
           is_persona: t.is_persona !== false
         }));
         store.loadStaticEntitiesBatch(staticBatch);

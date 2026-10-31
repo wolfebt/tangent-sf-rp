@@ -95,7 +95,7 @@ Floor tiles represent traversable surfaces with defined acoustic, frictional, an
 | Subtype ID | Label | Base Color | Texture Pattern | Audio Footstep Profile | Tactical / Engine Modifiers |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `metal_deck` | Heavy Metal Decking | `#334155` | `metalDecking` | Metallic Stomp (High Ping) | Base Move: 1.0; Dropped items echo |
-| `ceramic_tile` | Sterile Laboratory Tile | `#f8fafc` | Solid Gloss | Sharp Click | Clean surface; blood spills cause slip DEX DC 12 |
+| `ceramic_tile` | Sterile Laboratory Tile | `#f8fafc` | Solid Gloss | Sharp Click | Clean surface; blood spills cause slip Reflex CR 12 |
 | `acoustic_mat` | Rubberized Acoustic Mat | `#0f172a` | Micro-Stipple | Silent / Muffled | Stealth noise -100% (+4 Stealth checks) |
 | `grating_mesh` | Industrial Steel Grate | `#475569` | Slotted Grate | Hollow Echo | LoS penetrates downward; gas venting eligible |
 | `packed_dirt` | Compacted Earth / Soil | `#78350f` | Fine Grain | Dull Thud | Base Move: 1.0; Tracks visible for 5 rounds |
@@ -363,7 +363,7 @@ export interface TileOcclusionDescriptor {
     radar: boolean;      // Long-range radar
     sound: boolean;      // Acoustic audio pings
   };
-  coverBonusAC: number;  // Bonus Armor Class (+2 Half Cover, +4 Three-Quarters)
+  coverBonusDefense: number; // Bonus Defense (+2 Half Cover, +4 Three-Quarters)
   elevationLayer: number;// Height in feet (0 = Floor, 3 = Half Wall, 10 = Full Bulkhead)
 }
 ```

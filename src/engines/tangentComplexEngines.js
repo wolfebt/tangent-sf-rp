@@ -490,7 +490,7 @@ export function checkAugmentationStageCompatibility(characterData, augmentation)
   }
 
   const warning = !isCompatible
-    ? `Requires "${requiredFeatureName}" feature (Stage: ${requiredStage}). Current operative stage is ${stageInfo.stage.name}.`
+    ? `Requires "${requiredFeatureName}" feature (Stage: ${requiredStage}). Current operator stage is ${stageInfo.stage.name}.`
     : null;
 
   return {

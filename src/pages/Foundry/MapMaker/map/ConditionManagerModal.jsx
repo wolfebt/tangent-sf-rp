@@ -148,7 +148,7 @@ const ConditionManagerModal = ({
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Target: <span className="text-amber-300 font-semibold">{selectedToken.label || 'Operative'}</span>
+                Target: <span className="text-amber-300 font-semibold">{selectedToken.label || 'Operator'}</span>
                 {selectedToken.isSynthetic ? <span className="ml-2 text-cyan-400 font-mono text-[11px]">[🤖 Synthetic Chassis]</span> : <span className="ml-2 text-emerald-400 font-mono text-[11px]">[🧬 Biological Operative]</span>}
               </p>
             </div>

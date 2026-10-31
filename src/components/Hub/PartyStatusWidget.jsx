@@ -32,7 +32,7 @@ export const PartyStatusWidget = () => {
           <div className="flex items-center gap-2">
             <Users className="text-amber-400" size={18} />
             <span className="text-xs font-mono uppercase tracking-widest text-amber-300 font-bold">
-              TEAM AT A GLANCE ({heroList.length} {heroList.length === 1 ? 'OPERATIVE' : 'OPERATIVES'})
+              TEAM AT A GLANCE ({heroList.length} {heroList.length === 1 ? 'OPERATOR' : 'OPERATORS'})
             </span>
           </div>
           <button
@@ -51,20 +51,20 @@ export const PartyStatusWidget = () => {
               <Shield size={28} className="text-slate-600 mb-2" />
               <p className="text-xs text-slate-400 font-mono">NO ACTIVE HERO PERSONAS</p>
               <p className="text-[11px] text-slate-500 mt-1 max-w-[220px]">
-                Create operative sheets in Persona Folio to track party Health & Vitality.
+                Create operator sheets in Persona Folio to track party Health & Vitality.
               </p>
               <button
                 type="button"
                 onClick={handleOpenFolio}
                 className="mt-3 px-3 py-1.5 rounded-lg bg-cyan-600/80 hover:bg-cyan-500 text-white font-bold text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all shadow"
               >
-                <UserPlus size={13} /> Create Operative
+                <UserPlus size={13} /> Create Operator
               </button>
             </div>
           ) : (
             activeHeroes.map((hero) => {
               const docId = hero['character-doc-id'] || hero.id;
-              const name = hero['char-name'] || hero.name || 'Unnamed Operative';
+              const name = hero['char-name'] || hero.name || 'Unnamed Operator';
               const species = hero['char-species'] || hero.species || 'Human';
               const concept = hero['char-concept'] || hero['char-occu'] || hero.occupation || 'Specialist';
 

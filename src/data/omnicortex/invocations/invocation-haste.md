@@ -55,7 +55,7 @@ Effect Description:
 Manipulates the temporal flow around a target, speeding them up.  
 **Scaling Function:**
 * **Magnitude:** Speed Bonus \= \+10ft per Stage.  
-* **Defense:** Dodge Bonus to AC \= \+1 per Stage.
+* **Defense:** Dodge Bonus to Defense \= \+1 per Stage.
 ## 
 ## 
 ## **TELEPORT INVOCATIONS**

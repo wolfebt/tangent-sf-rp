@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 219
+order: 247
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","metaphysics","4.00.dimension","mechanics"]
-updatedAt: "2026-10-14T05:54:39.335Z"
+updatedAt: "2026-10-31T10:38:11.383Z"
 costs:
   bp: 0
   credits: 0
@@ -244,7 +244,7 @@ Manipulates the temporal flow around a target, speeding them up.
 **Scaling Function:**
 
 * **Magnitude:** Speed Bonus \= \+10ft per Stage.  
-* **Defense:** Dodge Bonus to AC \= \+1 per Stage.
+* **Defense:** Dodge Bonus to Defense \= \+1 per Stage.
 
 ## 
 
@@ -296,7 +296,7 @@ Parameters:
 * **Duration:** Instantaneous  
 * **Resistance:** None
 
-**Effect Description:** Teleports a small object (keys, coin, dagger) about the caster's body or into another position/pocket/possession the caster is touching, instantly. Grants a bonus to Sleight of Hand to hide items equal to the Teleport Skill, and gone.
+**Effect Description:** Teleports a small object (keys, coin, dagger) about the caster's body or into another position/pocket/possession the caster is touching, instantly. Grants a bonus to Legerdemain to hide items equal to the Teleport Skill, and gone.
 
 **Scaling Function:**
 

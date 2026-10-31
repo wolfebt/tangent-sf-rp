@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 30
+order: 31
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.biological","matrix"]
-updatedAt: "2026-10-14T06:04:05.773Z"
+updatedAt: "2026-10-31T10:38:11.186Z"
 costs:
   bp: 0
   credits: 0
@@ -173,7 +173,7 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 
 * **Location:** Torso (Skin Glands) | **Nodes:** 5 | **TL:** 4 | **CR:** 15 | **Value:** 640 Cr  
 * **Description:** Exocrine glands spliced into the sweat pores that secrete highly potent, mood-altering pheromones.  
-* **Mechanic:** The host gains a \+2 Bonus to specific Manipulation skills (Diplomacy, Bluff, or Handle Animal) against biological targets within 15ft.
+* **Mechanic:** The host gains a \+2 Bonus to specific Manipulation skills (Diplomacy, Bluff, or Handler) against biological targets within 15ft.
 
 ### **Metabolic & Environmental**
 

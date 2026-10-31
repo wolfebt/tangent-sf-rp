@@ -687,7 +687,7 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
                           <option value="proximity">Proximity Radius (Motion Sensor)</option>
                           <option value="interact">Tactical Interaction (Manual Click)</option>
                           <option value="turn_start">Turn Start (Continuous Round Hazard)</option>
-                          <option value="manual">Manual Trigger Only (GM Action)</option>
+                          <option value="manual">Manual Trigger Only (Architect Action)</option>
                         </select>
                       </div>
 
@@ -864,9 +864,9 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
                       </div>
                     </div>
 
-                    {/* GM Secret Notes */}
+                    {/* Architect Secret Notes */}
                     <div>
-                      <label className="block text-[11px] text-slate-400 mb-1">GM Secret & Investigation Notes</label>
+                      <label className="block text-[11px] text-slate-400 mb-1">Architect Secret & Investigation Notes</label>
                       <textarea
                         rows={2}
                         value={form.vtt_properties.trigger.gmSecretNotes || ''}
@@ -944,11 +944,11 @@ export const AssetStudioModal: React.FC<AssetStudioModalProps> = ({
                           })}
                           className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-200"
                         >
-                          <option value="on_interact">on_interact (Operative clicks/interacts with asset)</option>
+                          <option value="on_interact">on_interact (Operator clicks/interacts with asset)</option>
                           <option value="on_trigger">on_trigger (When spatial trigger/trap fires)</option>
                           <option value="on_turn_start">on_turn_start (At start of each combat round)</option>
                           <option value="on_destruct">on_destruct (When structure HP reaches 0)</option>
-                          <option value="manual">manual (GM explicit execution)</option>
+                          <option value="manual">manual (Architect explicit execution)</option>
                         </select>
                       </div>
 

@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Scout / Knowledge / Survival
 primary_attribute: Wisdom
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Scout
   - Drifter
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Scout / Knowledge / Survival  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.

@@ -1694,8 +1694,11 @@ export const FolioStatsSliceProvider = ({ children }) => {
         const resolvedName = (enrichedTrait.name && !/^(?:trait|feature)[-_]/i.test(enrichedTrait.name) && !isGeneratedTraitId(enrichedTrait.name))
           ? enrichedTrait.name
           : ((formattedTrait?.name && formattedTrait.name !== 'Species Adaptation') ? formattedTrait.name : cleanTitle);
-        const resolvedMech = traitDetail.mechanic || traitDetail.mechanics || enrichedTrait.mechanic || formattedTrait?.mechanic || '';
         const rawDesc = traitDetail.description || traitDetail.desc || '';
+        const rawDetailMech = traitDetail.mechanic || traitDetail.mechanics || '';
+        const isDupTraitMech = !rawDetailMech ||
+          (rawDesc && rawDetailMech.trim().replace(/^\[|\]$/g, '').toLowerCase() === rawDesc.trim().replace(/^\[|\]$/g, '').toLowerCase());
+        const resolvedMech = (!isDupTraitMech ? rawDetailMech : '') || enrichedTrait.mechanic || formattedTrait?.mechanic || '';
         const resolvedDesc = cleanTraitDescriptionText(
           (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enrichedTrait.description || formattedTrait?.description || '',
           resolvedMech
@@ -1866,8 +1869,11 @@ export const FolioStatsSliceProvider = ({ children }) => {
         const resolvedName = (enrichedFeat.name && !/^(?:feature|trait)[-_]/i.test(enrichedFeat.name) && !isGeneratedTraitId(enrichedFeat.name))
           ? enrichedFeat.name
           : cleanTitle;
-        const resolvedMech = featureDetail.mechanic || featureDetail.mechanics || enrichedFeat.mechanic || '';
         const rawDesc = featureDetail.description || featureDetail.desc || '';
+        const rawDetailMech = featureDetail.mechanic || featureDetail.mechanics || '';
+        const isDupFeatMech = !rawDetailMech ||
+          (rawDesc && rawDetailMech.trim().replace(/^\[|\]$/g, '').toLowerCase() === rawDesc.trim().replace(/^\[|\]$/g, '').toLowerCase());
+        const resolvedMech = (!isDupFeatMech ? rawDetailMech : '') || enrichedFeat.mechanic || '';
         const resolvedDesc = cleanTraitDescriptionText(
           (!isCorruptedTraitDescription(rawDesc) ? rawDesc : '') || enrichedFeat.description || '',
           resolvedMech
@@ -1878,7 +1884,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
           name: resolvedName,
           category: featureDetail.category || enrichedFeat.category || (poolKey === 'factionAllocations' ? 'Faction Feature' : poolKey === 'speciesAllocations' ? 'Species Feature' : poolKey === 'occuAllocations' ? 'Occupation Feature' : poolKey === 'originAllocations' ? 'Origin Feature' : 'General Feature'),
           source: poolKey === 'occuAllocations' ? 'occupation' : poolKey === 'originAllocations' ? 'origin' : poolKey === 'factionAllocations' ? 'faction' : poolKey === 'speciesAllocations' ? 'species' : poolKey.replace('Allocations', ''),
-          description: resolvedDesc || resolvedMech || '',
+          description: resolvedDesc || '',
           mechanic: resolvedMech,
           mechanics: resolvedMech,
           rules: featureDetail.rules || featureDetail.special_rules || enrichedFeat.rules || '',

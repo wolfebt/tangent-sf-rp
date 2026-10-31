@@ -8,7 +8,7 @@ costs:
   cp: 1
   bp: 1
 description: >-
-  Heightened sixth sense allowing the operative to anticipate predatory ambushes
+  Heightened sixth sense allowing the operator to anticipate predatory ambushes
   and sudden cave-ins.
 modifiers: []
 mechanic: "Re-Roll any one failed Perception check per day"
@@ -21,7 +21,7 @@ mechanic: "Re-Roll any one failed Perception check per day"
 **CP Cost**: 1
 
 ## Description
-Heightened sixth sense allowing the operative to anticipate predatory ambushes and sudden cave-ins.
+Heightened sixth sense allowing the operator to anticipate predatory ambushes and sudden cave-ins.
 
 ## Mechanics & Benefit
 Re-Roll any one failed Perception check per day

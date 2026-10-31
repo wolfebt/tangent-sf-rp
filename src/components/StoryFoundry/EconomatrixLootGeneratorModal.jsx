@@ -26,7 +26,7 @@ export const LOOT_TIERS = [
 
 export const ITEM_TEMPLATES = [
   { name: 'Heavy Plasma Charge Cells', type: 'Ammo / Battery', dc: 8, desc: 'Recharges energy weaponry (30 units)' },
-  { name: 'Bio-Regenerative Trauma Injector', type: 'Medical', dc: 10, desc: 'Restores 15 Vitality or stabilizes dying operative' },
+  { name: 'Bio-Regenerative Trauma Injector', type: 'Medical', dc: 10, desc: 'Restores 15 Vitality or stabilizes dying operator' },
   { name: 'Vibroblade / Monomolecular Dagger', type: 'Weapon', dc: 12, desc: '1d10+2 Dmg, AP 4, Concealable' },
   { name: 'Hardened Kinetic Armor Vest', type: 'Armor', dc: 14, desc: 'Provides 3 DR to Torso' },
   { name: 'Optical Camouflage Shroud', type: 'Gear', dc: 16, desc: '+3 bonus to Stealth checks for 10 minutes' },

@@ -75,4 +75,4 @@ The metabolic or spiritual cost of an invocation is determined by the **Base DC*
 
 - **Light Rest**: Recovers Essence equal to the character's **Key Ability Modifier (minimum 1)** per hour of downtime.
 - **Full Rest (6–8 Hours)**: Fully restores the entire Essence Pool as body and mind realign with the universal constant.
-- **The Burn (Life-Force Channeling)**: If an operative's Essence Pool is empty, they may choose to "burn" their own life force to power an invocation. Each point of Essence needed deals **2 points of direct Health damage** (cannot be absorbed by Armor DR or Stamina), representing physical cellular breakdown as the body acts as an unshielded conduit.
+- **The Burn (Life-Force Channeling)**: If an operator's Essence Pool is empty, they may choose to "burn" their own life force to power an invocation. Each point of Essence needed deals **2 points of direct Health damage** (cannot be absorbed by Armor DR or Stamina), representing physical cellular breakdown as the body acts as an unshielded conduit.

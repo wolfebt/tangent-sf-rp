@@ -47,10 +47,10 @@ export default function CronicleScratchbookDocTab({
               type="button"
               onClick={onNavigateToNotes}
               className="px-3 py-1.5 rounded-lg bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-500/40 flex items-center gap-1.5 transition-colors cursor-pointer"
-              title="Jump to edit GM directives & notes"
+              title="Jump to edit Architect directives & notes"
             >
               <Edit3 size={12} />
-              <span>Edit GM Directives</span>
+              <span>Edit Architect Directives</span>
             </button>
           )}
         </div>

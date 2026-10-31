@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 12
+order: 18
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.operatives","mechanics"]
-updatedAt: "2026-10-25T07:10:31.058Z"
+updatedAt: "2026-10-31T10:38:11.274Z"
 costs:
   bp: 0
   credits: 0
@@ -152,7 +152,7 @@ Travels from place to place without a fixed home. Characterized by freedom, adap
 * **Recommended Occupations:** Drifter, Scout.  
 * **Recommended Origins:** Spacer, Colony, Hostile.  
 * **Recommended Factions:** Outworlds (Drifters), Coalition (Wanderers), Ascendancy.  
-* **Key Attributes:** Constitution (Primary), Wisdom (Secondary).  
+* **Key Attributes:** Stamina (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Pilot, Knowledge (Survival), Streetwise, Vocation (General).  
 * **Signature Traits (1 CP):** Adaptability, Mobility.  
 * **Tactical Role:** Fills gaps in the party, transport, urban survival.
@@ -190,7 +190,7 @@ Charts new territories and uncovers the mysteries of the universe. Thirsts for d
 * **Recommended Occupations:** Scout, Drifter.  
 * **Recommended Origins:** Colony, Spacer, Research.  
 * **Recommended Factions:** Ascendancy (Explorers), Outworlds, Coalition.  
-* **Key Attributes:** Wisdom (Primary), Constitution (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
 * **Essential Skills:** Knowledge (Survival), Knowledge (Navigation), Knowledge (History), Alertness.  
 * **Signature Traits (1 CP):** Pathfinder, Cartographer.  
 * **Tactical Role:** Leading the party through wilderness, spotting hazards, mapping.
@@ -229,7 +229,7 @@ Ventures into the unknown, charting territories and assessing threats.
 * **Recommended Origins:** Colony, Hostile, Militaristic.  
 * **Recommended Factions:** Outworlds, Auluran (Scouts), Coalition.  
 * **Key Attributes:** Agility (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Survival), Acrobatics, Alertness, Knowledge (Geography).  
+* **Essential Skills:** Knowledge (Survival), Acrobatics, Alertness, Knowledge (Nature).  
 * **Signature Traits (1 CP):** Pathfinder, Keen Observer.  
 * **Tactical Role:** Reconnaissance, initiating ambushes, guiding the party.
 
@@ -266,7 +266,7 @@ Excels in extreme sports and high-risk maneuvers.
 * **Recommended Occupations:** Specialist, Entertainer.  
 * **Recommended Origins:** Leisure, Spacer, Urban.  
 * **Recommended Factions:** Syndicate (Media Stunts), Outworlds, Ascendancy.  
-* **Key Attributes:** Agility (Primary), Constitution (Secondary).  
+* **Key Attributes:** Agility (Primary), Stamina (Secondary).  
 * **Essential Skills:** Athletics, Acrobatics, Knowledge (Survival), Alertness.  
 * **Signature Traits (1 CP):** Peak Physical Condition, Fearless.  
 * **Tactical Role:** Reaching inaccessible areas, performing stunts, surviving falls.
@@ -342,7 +342,7 @@ A hardened survivor who uses force to secure resources.
 * **Recommended Occupations:** Criminal, Drifter.  
 * **Recommended Origins:** Hostile, Colony, Militaristic.  
 * **Recommended Factions:** Outworlds (Pirates), Coalition (Rebels).  
-* **Key Attributes:** Strength (Primary), Constitution (Secondary).  
+* **Key Attributes:** Strength (Primary), Stamina (Secondary).  
 * **Essential Skills:** Intimidation, Athletics, Combat (Melee/Ranged), Knowledge (Survival).  
 * **Signature Traits (1 CP):** Wasteland Warrior, Ruthless.  
 * **Tactical Role:** Shock assault, intimidation, scavenging.

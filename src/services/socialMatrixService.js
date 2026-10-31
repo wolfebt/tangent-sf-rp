@@ -88,7 +88,7 @@ export const SOCIAL_ACTION_TYPES = [
   },
   {
     id: 'insight',
-    label: 'Sense Motive (Insight)',
+    label: 'Insight',
     icon: '🧠',
     attribute: 'Intellect',
     skill: 'Insight',

@@ -77,7 +77,7 @@ The Architect has authored this core narrative node:
 
 ACTIVE TACTICAL REALITY VARIABLES:
 • Environmental Weather Preset: ${activeWeatherObj.name} (${activeWeatherObj.category}). ${activeWeatherObj.description}. Weather Rule: "${activeWeatherObj.rule}".
-• Operative Status Conditions: ${operativeConditions.join(', ')}.
+• Operator Status Conditions: ${operativeConditions.join(', ')}.
 
 DIRECTORIAL MANDATE:
 Do NOT invent new plot turns, resolution outcomes, or unapproved assets.
@@ -216,7 +216,7 @@ Option 3: [Sensory depiction]`;
                 rows={3}
                 value={architectIntent}
                 onChange={e => setArchitectIntent(e.target.value)}
-                placeholder={`Describe the dramatic turning point for this ${nodeType}. E.g.: Operatives slice into the containment node while sirens strobe in amber alert...`}
+                placeholder={`Describe the dramatic turning point for this ${nodeType}. E.g.: Operators slice into the containment node while sirens strobe in amber alert...`}
                 className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-xl text-xs outline-none font-sans"
               />
             </div>
@@ -265,7 +265,7 @@ Option 3: [Sensory depiction]`;
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
                 <ShieldAlert size={12} />
-                <span>Active Operative Conditions</span>
+                <span>Active Operator Conditions</span>
               </label>
               <div className="flex flex-wrap gap-1.5">
                 {operativeConditions.map((cond, idx) => (

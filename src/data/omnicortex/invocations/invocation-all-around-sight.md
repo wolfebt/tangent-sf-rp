@@ -56,5 +56,5 @@ Effect Description:
 Grants 360-degree vision. Caster cannot be flanked.  
 **Scaling Function:**
 * **Duration:** 1 Minute per Stage.  
-* **Defense:** Grants \+1 Insight Bonus to AC per Stage.
+* **Defense:** Grants \+1 Insight Bonus to Defense per Stage.
 ###

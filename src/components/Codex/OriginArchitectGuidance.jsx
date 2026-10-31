@@ -519,7 +519,7 @@ export const OriginArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Society and survival skills granted or prioritized for operatives raised in this environment.
+                Society and survival skills granted or prioritized for operators raised in this environment.
               </p>
             </div>
 

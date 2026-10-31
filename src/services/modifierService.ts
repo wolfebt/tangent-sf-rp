@@ -187,7 +187,7 @@ class ModifierManagerService {
    * Derives a situational modifier from a Person in the Gallery (e.g. Commander, Psion, Specialist).
    */
   createModifierFromPerson(persona: any, customProps: Partial<StoryModifier> = {}): StoryModifier {
-    const pName = persona.fields?.['char-name'] || persona.title || 'Operative';
+    const pName = persona.fields?.['char-name'] || persona.title || 'Operator';
     const role = persona.fields?.mcmRole?.toLowerCase() || 'commander';
     const isPsion = persona.fields?.magicLevel > 0 || persona.fields?.invocations;
 

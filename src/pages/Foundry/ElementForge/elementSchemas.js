@@ -313,7 +313,7 @@ const SCENE_BUILDER_SCHEMA = [
   { tab: 'Core Traits', key: 'keyObjects', aliasKeys: ['keySights', 'props'], label: 'Key Objects & Interactivity', type: 'textarea', placeholder: 'Important props, terminals, clues, or elements characters can interact with...' },
   // Extended Tactical & Beats
   { tab: 'Tactical & Beats', key: 'sceneBeats', label: 'Tactical Scene Beats', type: 'textarea', placeholder: 'Sequential beats: 1. Infiltration, 2. Confrontation, 3. Climax, 4. Extraction...' },
-  { tab: 'Tactical & Beats', key: 'readAloud', label: 'GM Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to players...' },
+  { tab: 'Tactical & Beats', key: 'readAloud', label: 'Architect Read-Aloud Narration', type: 'textarea', placeholder: 'Sensory immersion text to read aloud to operators...' },
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
@@ -330,7 +330,7 @@ export const CUSTOM_ELEMENT_SCHEMA = [
   { tab: 'User Data & Mechanics', key: 'customDataType', label: 'Data Type / Format', type: 'text', placeholder: 'Note / Rule / Lore / Mechanic / Handout / System' },
   { tab: 'User Data & Mechanics', key: 'sourceOrAuthor', label: 'Source / Author / In-Universe Origin', type: 'text', placeholder: 'e.g. Intercepted Comms, Dr. Vane\'s Journal, Architect Docket' },
   { tab: 'User Data & Mechanics', key: 'customProperties', label: 'Custom Properties / Key-Values (JSON)', type: 'textarea', placeholder: '{"customStat": 42, "clearance": "Top Secret"}' },
-  { tab: 'User Data & Mechanics', key: 'gmNotes', label: 'GM / Architect Confidential Notes', type: 'textarea', placeholder: 'Private GM-only notes hidden from players...' },
+  { tab: 'User Data & Mechanics', key: 'gmNotes', label: 'Architect Confidential Notes', type: 'textarea', placeholder: 'Private Architect-only notes hidden from operators...' },
 
   // Dynamic Lorebook & Trigger Scanning
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
@@ -407,7 +407,7 @@ export const ELEMENT_SCHEMAS = {
   'Clue': [
     { tab: 'Overview', key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },
     { tab: 'Overview', key: 'locationFound', label: 'Location Found', type: 'text', placeholder: 'Where or how it is discovered...' },
-    { tab: 'Overview', key: 'conclusion', label: 'Player Conclusion', type: 'textarea', placeholder: 'What players should realize...' }
+    { tab: 'Overview', key: 'conclusion', label: 'Operator Conclusion', type: 'textarea', placeholder: 'What operators should realize...' }
   ],
   'Map': [
     { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Map tags (e.g. Grid-Square, Sector-A)...' }
@@ -474,11 +474,11 @@ export const SCENARIO_GUIDE_MODULES = [
   },
   {
     id: 'sg_handout',
-    name: 'Player Handout',
+    name: 'Operator Handout',
     category: 'Props',
     elementType: 'Handout',
     icon: '📄',
-    promptTemplate: 'Write an in-universe Player Handout document for "{title}". Format as an encrypted transmission log, corporate memorandum, or intercepted comm-link transcript.'
+    promptTemplate: 'Write an in-universe Operator Handout document for "{title}". Format as an encrypted transmission log, corporate memorandum, or intercepted comm-link transcript.'
   },
   {
     id: 'sg_faction',
@@ -486,7 +486,7 @@ export const SCENARIO_GUIDE_MODULES = [
     category: 'Entities',
     elementType: 'Faction',
     icon: '🛡️',
-    promptTemplate: 'Generate a Faction Profile for "{title}". Include hierarchy, military assets, tech level, psionic capabilities, rivalries, and GM plot hooks.'
+    promptTemplate: 'Generate a Faction Profile for "{title}". Include hierarchy, military assets, tech level, psionic capabilities, rivalries, and Architect plot hooks.'
   },
   {
     id: 'sg_mapspec',

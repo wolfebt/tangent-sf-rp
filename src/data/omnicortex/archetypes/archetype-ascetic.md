@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Monk / Buffer / Mental Tank
 primary_attribute: Wisdom
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Adept
   - Scholar
@@ -50,7 +50,7 @@ cp_chassis: 80
 **Core Concept**: Monk / Buffer / Mental Tank  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 A devout individual dedicated to prayer and meditation, seeking enlightenment.

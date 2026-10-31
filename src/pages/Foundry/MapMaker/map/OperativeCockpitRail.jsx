@@ -327,8 +327,8 @@ export const OperativeCockpitRail = ({
   const activeToken = useMemo(() => {
     return tokens.find(t => t.id === activeTokenId) || tokens[0] || {
       id: 'mock_op',
-      label: 'Operative Lead',
-      name: 'Operative Lead',
+      label: 'Operator Lead',
+      name: 'Operator Lead',
       type: 'operative',
       health: { current: 30, max: 30 },
       vitality: { current: 25, max: 25 },
@@ -361,7 +361,7 @@ export const OperativeCockpitRail = ({
     }
     return {
       id: activeToken.id,
-      'char-name': activeToken.label || activeToken.name || 'Operative',
+      'char-name': activeToken.label || activeToken.name || 'Operator',
       'char-species': activeToken.species || 'Human',
       'char-archetype': activeToken.archetype || 'Operative',
       health: activeToken.health?.max || activeToken.maxHp || 30,
@@ -488,7 +488,7 @@ export const OperativeCockpitRail = ({
       onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 140, `STANCE: ${label}`, 'karma');
     }
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[TACTICAL STANCE]: ${activeToken.label || 'Operative'} engaged ${label}`);
+      onBroadcastMessage(`[TACTICAL STANCE]: ${activeToken.label || 'Operator'} engaged ${label}`);
     }
   };
 
@@ -504,7 +504,7 @@ export const OperativeCockpitRail = ({
       onTriggerFloatingText(window.innerWidth / 2, window.innerHeight - 140, `USED: ${item} (+${healAmount})`, 'heal');
     }
     if (onBroadcastMessage) {
-      onBroadcastMessage(`[OPERATIVE TACTICAL]: ${activeToken.label || 'Operative'} deployed ${item}`);
+      onBroadcastMessage(`[OPERATOR TACTICAL]: ${activeToken.label || 'Operator'} deployed ${item}`);
     }
   };
 
@@ -630,12 +630,12 @@ export const OperativeCockpitRail = ({
         isResizing ? '' : 'transition-[width] duration-150'
       }`}
       style={{ width: isCollapsed ? '48px' : `${railWidth}px` }}
-      aria-label="Operative Cockpit Tactical Rail"
+      aria-label="Operator Cockpit Tactical Rail"
     >
       {/* 48px Vertical Icon Strip */}
       <nav
         className="w-12 shrink-0 h-full border-r border-cyan-950/80 bg-[#090d13] flex flex-col items-center py-2 gap-2 z-20 shadow-[2px_0_15px_rgba(0,0,0,0.5)]"
-        aria-label="Operative Rail Nav"
+        aria-label="Operator Rail Nav"
       >
         {/* Architect Asset Cockpit & Library Icon */}
         <button
@@ -683,7 +683,7 @@ export const OperativeCockpitRail = ({
             type="button"
             onClick={onToggleCollapse}
             className="w-10 py-2 rounded-xl bg-gradient-to-b from-cyan-600 to-cyan-800 hover:from-cyan-500 hover:to-cyan-700 text-white font-mono font-bold flex flex-col items-center justify-center gap-0.5 shadow-[0_0_15px_rgba(6,182,212,0.6)] animate-pulse hover:animate-none transition-all cursor-pointer border border-cyan-300"
-            title="Expand Operative Cockpit Sheet"
+            title="Expand Operator Cockpit Sheet"
           >
             <ChevronRight size={18} />
             <span className="text-[8px] tracking-wider uppercase">OPEN</span>
@@ -790,7 +790,7 @@ export const OperativeCockpitRail = ({
                 ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_16px_rgba(6,182,212,0.8)] animate-pulse'
                 : 'bg-cyan-950/80 border-cyan-500/60 text-cyan-300 hover:bg-cyan-500 hover:text-black'
             }`}
-            title={isCollapsed ? 'Expand Operative Cockpit' : 'Collapse Operative Cockpit'}
+            title={isCollapsed ? 'Expand Operator Cockpit' : 'Collapse Operator Cockpit'}
           >
             {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={18} />}
           </button>
@@ -835,10 +835,10 @@ export const OperativeCockpitRail = ({
                       ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
-                  title="Operative Combat Deck: BASTION 2d10 Strikes, Weapon Ladders, AP & Reactions"
+                  title="Operator Combat Deck: BASTION 2d10 Strikes, Weapon Ladders, AP & Reactions"
                 >
                   <Swords size={12} className={railMode === 'operative_cockpit' ? 'text-cyan-400' : 'text-slate-500'} />
-                  <span>OPERATIVE</span>
+                  <span>OPERATOR</span>
                 </button>
               </div>
             ) : (
@@ -846,7 +846,7 @@ export const OperativeCockpitRail = ({
                 <span className="text-base">{activeToken.type === 'vehicle' ? '🚀' : activeToken.type === 'companion' ? '🤖' : '🧙‍♂️'}</span>
                 <div className="flex flex-col min-w-0">
                   <span className="font-mono text-xs font-bold text-cyan-300 truncate">
-                    {activeToken.label || activeToken.name || 'Operative'}
+                    {activeToken.label || activeToken.name || 'Operator'}
                   </span>
                   <span className="text-[9px] text-slate-400 font-mono tracking-wider uppercase">
                     {isSynthetic ? 'Synthetic Chassis' : 'Biological Asset'}
@@ -1460,7 +1460,7 @@ export const OperativeCockpitRail = ({
       <div
         onMouseDown={handleStartResize}
         className="w-2 hover:w-2.5 -mr-1 h-full cursor-col-resize z-40 relative group flex items-center justify-center transition-all select-none hover:bg-cyan-500/20 active:bg-cyan-500/40 shrink-0"
-        title="Drag adjustment slider to resize Operative Cockpit"
+        title="Drag adjustment slider to resize Operator Cockpit"
       >
         <div className="w-0.5 h-16 rounded bg-slate-700 group-hover:bg-cyan-400 group-hover:h-24 transition-all" />
         {/* Prominent floating collapse tab */}
@@ -1471,7 +1471,7 @@ export const OperativeCockpitRail = ({
             onToggleCollapse?.();
           }}
           className="absolute top-1/2 -translate-y-1/2 -right-3.5 z-50 w-7 h-14 rounded-r-xl bg-slate-900/95 border-y border-r border-cyan-500/70 hover:border-cyan-400 text-cyan-400 hover:text-black hover:bg-cyan-400 flex flex-col items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer group/btn"
-          title="Collapse Operative Cockpit"
+          title="Collapse Operator Cockpit"
         >
           <ChevronLeft size={16} className="transition-transform group-hover/btn:-translate-x-0.5" />
           <span className="text-[7px] font-mono font-black uppercase tracking-tighter [writing-mode:vertical-lr] rotate-180 text-cyan-300 group-hover/btn:text-black">HIDE</span>

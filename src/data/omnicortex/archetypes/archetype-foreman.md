@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Leadership / Logistics / Intimidation
 primary_attribute: Charisma
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Citizen (Worker)
   - Builder
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Leadership / Logistics / Intimidation  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 A stern and authoritative leader who oversees the workforce and ensures that production targets are met.

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 191
+order: 202
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.skilluse","mechanics"]
-updatedAt: "2026-10-14T05:52:12.034Z"
+updatedAt: "2026-10-31T11:30:42.847Z"
 costs:
   bp: 0
   credits: 0
@@ -81,7 +81,7 @@ CR (Challenge Rating)
 
 ## **Challenge Rating (CR)**
 
-The core mechanic of Skill Checks revolves around the Challenge Rating (CR), a numerical value representing the difficulty of the task at hand.  The base CR for most Skill Checks is 10, signifying an average difficulty that a trained individual could reasonably accomplish. However, the GM can adjust the CR based on various factors, including:
+The core mechanic of Skill Checks revolves around the Challenge Rating (CR), a numerical value representing the difficulty of the task at hand.  The base CR for most Skill Checks is 10, signifying an average difficulty that a trained individual could reasonably accomplish. However, the Architect can adjust the CR based on various factors, including:
 
 ### **Task Complexity**
 
@@ -115,9 +115,9 @@ In safe and low-stress environments, characters can opt to take a fixed value of
 
 ### **Skill Synergy**
 
-Characters can sometimes use multiple skills in conjunction to improve their chances of success. The GM determines which skills can synergize and the resulting bonus to the primary Skill Check.
+Characters can sometimes use multiple skills in conjunction to improve their chances of success. The Architect determines which skills can synergize and the resulting bonus to the primary Skill Check.
 
 ### **Modifiers**
 
-Various factors can influence the outcome of Skill Checks through modifiers. These can include the character's Ability Scores, Skill Ranks, situational bonuses or penalties, and the use of special features or abilities. The GM has the final say on applying modifiers and their effects.
+Various factors can influence the outcome of Skill Checks through modifiers. These can include the character's Ability Scores, Skill Ranks, situational bonuses or penalties, and the use of special features or abilities. The Architect has the final say on applying modifiers and their effects.
 

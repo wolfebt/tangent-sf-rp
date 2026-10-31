@@ -27,7 +27,7 @@ export const CommandOverview = ({ onOpenDrawer, onClose }) => {
               TACTICAL COMMAND OVERVIEW
             </h2>
             <p className="text-xs text-slate-400 font-mono mt-0.5">
-              Select a module or sub-catalog to inspect operatives, campaign trees, or battlemaps in-place.
+              Select a module or sub-catalog to inspect operators, campaign trees, or battlemaps in-place.
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -60,8 +60,8 @@ export const CommandOverview = ({ onOpenDrawer, onClose }) => {
               {operativeCount}
             </div>
             <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-              Operatives
-            </span>
+                Operators
+              </span>
           </div>
 
           <div 
@@ -147,7 +147,7 @@ export const CommandOverview = ({ onOpenDrawer, onClose }) => {
             onClick={() => onOpenDrawer('persona-folio')}
             className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold uppercase rounded-lg border border-slate-700 transition-colors"
           >
-            Browse Operatives
+            Browse Operators
           </button>
           <button
             onClick={() => navigate('/foundry/map-maker')}

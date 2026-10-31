@@ -500,6 +500,31 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
 
   // Comprehensive Trait Catalog (Canonical baseline + DBM custom + Firestore cloud)
   const allCanonicalAndDbTraits = useMemo(() => {
+    const isDupMech = (m, d) => {
+      if (!m || typeof m !== 'string') return true;
+      const cm = m.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+      if (!cm) return true;
+      if (!d || typeof d !== 'string') return false;
+      const cd = d.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+      return cm === cd;
+    };
+    const mergeTraitSafe = (base, incoming) => {
+      if (!base) return incoming;
+      const desc = incoming.description || incoming.desc || base.description || base.desc || '';
+      const incMech = incoming.mechanic || incoming.mechanics || '';
+      const validIncMech = (!isDupMech(incMech, desc) && !isDupMech(incMech, base.description)) ? incMech : '';
+      const mechanic = base.mechanic || base.mechanics || validIncMech || '';
+      return {
+        ...base,
+        ...incoming,
+        description: desc,
+        desc,
+        mechanic,
+        mechanics: mechanic,
+        modifiers: (Array.isArray(base.modifiers) && base.modifiers.length > 0) ? base.modifiers : (incoming.modifiers || []),
+        modifier_options: base.modifier_options?.enabled ? base.modifier_options : (incoming.modifier_options || base.modifier_options)
+      };
+    };
     const map = new Map();
     ALL_CANONICAL_TRAITS.forEach(t => {
       const idKey = (t.id || '').toLowerCase();
@@ -513,7 +538,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
         if (!t) return;
         const idKey = (t.id || '').toLowerCase();
         const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
-        const merged = { ...(map.get(idKey) || map.get(normKey) || {}), ...t };
+        const merged = mergeTraitSafe(map.get(idKey) || map.get(normKey), t);
         if (idKey) map.set(idKey, merged);
         if (normKey) map.set(normKey, merged);
       });
@@ -523,7 +548,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
       if (!t) return;
       const idKey = (t.id || '').toLowerCase();
       const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
-      const merged = { ...(map.get(idKey) || map.get(normKey) || {}), ...t };
+      const merged = mergeTraitSafe(map.get(idKey) || map.get(normKey), t);
       if (idKey) map.set(idKey, merged);
       if (normKey) map.set(normKey, merged);
     });
@@ -540,15 +565,23 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
   }, [dbOptions.species]);
 
   const occupationsCatalog = useMemo(() => {
-    return (dbOptions.occupations && dbOptions.occupations.length > 0)
+    const raw = (dbOptions.occupations && dbOptions.occupations.length > 0)
       ? dbOptions.occupations
       : ((dbm?.dbData?.occupations && dbm.dbData.occupations.length > 0) ? dbm.dbData.occupations : DEFAULT_OCCUPATIONS);
+    return raw.map(occ => {
+      const seed = DEFAULT_OCCUPATIONS.find(s => s.id === occ.id || (s.name || '').toLowerCase() === (occ.name || '').toLowerCase());
+      return seed && Array.isArray(seed.traits_detail) ? { ...occ, traits_detail: seed.traits_detail } : occ;
+    });
   }, [dbOptions.occupations, dbm?.dbData?.occupations]);
 
   const originsCatalog = useMemo(() => {
-    return (dbOptions.origins && dbOptions.origins.length > 0)
+    const raw = (dbOptions.origins && dbOptions.origins.length > 0)
       ? dbOptions.origins
       : ((dbm?.dbData?.origins && dbm.dbData.origins.length > 0) ? dbm.dbData.origins : DEFAULT_ORIGINS);
+    return raw.map(org => {
+      const seed = DEFAULT_ORIGINS.find(s => s.id === org.id || (s.name || '').toLowerCase() === (org.name || '').toLowerCase());
+      return seed && Array.isArray(seed.traits_detail) ? { ...org, traits_detail: seed.traits_detail } : org;
+    });
   }, [dbOptions.origins, dbm?.dbData?.origins]);
 
   const factionsCatalog = useMemo(() => {

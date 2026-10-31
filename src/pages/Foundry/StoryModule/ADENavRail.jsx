@@ -229,7 +229,7 @@ export const ADENavRail = ({
       id: 'cronicle',
       label: 'CRONICLE',
       sublabel: 'Living Memory & Notes',
-      description: 'Living Memory Deck, Working Copies, GM Directives & Compiled Dossier',
+      description: 'Living Memory Deck, Working Copies, Architect Directives & Compiled Dossier',
       icon: '📜',
       badgePulse: pendingCronicleCount > 0,
       colorTheme: 'amber',

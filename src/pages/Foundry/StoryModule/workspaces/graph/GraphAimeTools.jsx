@@ -70,7 +70,7 @@ FORMAT YOUR OUTPUT AS A STRICT VALID JSON OBJECT:
     {
       "title": "Short evocative title (max 5 words)",
       "type": "Scene",
-      "choiceLabel": "Player action text (e.g. Slicing the Security Grid)",
+      "choiceLabel": "Operator action text (e.g. Slicing the Security Grid)",
       "attribute": "intellect",
       "checkDc": 13,
       "readAloud": "One atmospheric paragraph (60-90 words) describing the sensory environment upon arriving at this branch.",

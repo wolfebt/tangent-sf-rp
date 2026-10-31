@@ -317,7 +317,7 @@ export const TokenContextualPill: React.FC = () => {
             ? 'bg-red-950/60 border-red-500/60 text-red-300 shadow-[0_0_8px_rgba(239,68,68,0.3)]'
             : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/40'
         }`}
-        title={is_hidden ? "Entity Hidden from Players (Click to Reveal)" : "Entity Visible to Players (Click to Hide)"}
+        title={is_hidden ? "Entity Hidden from Operators (Click to Reveal)" : "Entity Visible to Operators (Click to Hide)"}
       >
         {is_hidden ? <EyeOff size={13} /> : <Eye size={13} />}
       </button>

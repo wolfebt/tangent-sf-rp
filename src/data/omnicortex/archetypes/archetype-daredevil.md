@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Mobility / Risk / Action
 primary_attribute: Agility
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Specialist
   - Entertainer
@@ -50,7 +50,7 @@ cp_chassis: 80
 **Core Concept**: Mobility / Risk / Action  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 Excels in extreme sports and high-risk maneuvers.

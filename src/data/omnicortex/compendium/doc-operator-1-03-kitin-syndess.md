@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 72
+order: 78
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3

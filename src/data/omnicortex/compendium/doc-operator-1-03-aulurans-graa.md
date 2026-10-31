@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aulurans"
-order: 34
+order: 40
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aulurans.graa","mechanics"]
-updatedAt: "2026-10-14T05:24:25.042Z"
+updatedAt: "2026-10-31T10:38:11.481Z"
 costs:
   bp: 0
   credits: 0
@@ -69,7 +69,7 @@ sockets:
 
 **Quick:** Explosive speed.
 
-**\+1 Feature of Choice:** Versatility slot.
+**\+1 Featureure of Choice:** Versatility slot.
 
 **Stigma:** Animal / Xeno.
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 157
+order: 163
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.enlightened","mechanics"]
-updatedAt: "2026-10-14T05:38:13.236Z"
+updatedAt: "2026-10-31T10:38:11.413Z"
 costs:
   bp: 0
   credits: 0
@@ -75,7 +75,7 @@ Envoy&nbsp;
 
 Has a deep sense of empathy and compassion for others
 
-*\+2 Insight and \+2 Handle Animal Checks while being Friendly*
+*\+2 Insight and \+2 Handler Checks while being Friendly*
 
 &nbsp;
 

@@ -572,7 +572,7 @@ export const DBMTableView = ({
             <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">Database Table</span>
             {!isAdmin && (
               <span className="text-[10px] text-amber-400 font-bold bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded tracking-wider uppercase">
-                👁️ Player View
+                👁️ Operator View
               </span>
             )}
             <span className="text-[10px] text-slate-400 italic hidden sm:inline">
@@ -1414,7 +1414,7 @@ export const DBMTableView = ({
             <button
               disabled
               className="px-4 py-1.5 bg-slate-800 text-slate-500 border border-slate-700/50 rounded text-xs font-bold uppercase tracking-wider cursor-not-allowed opacity-60 whitespace-nowrap"
-              title="Administrator or GM privileges required to add entries"
+              title="Administrator or Architect privileges required to add entries"
             >
               🔒 READ-ONLY
             </button>

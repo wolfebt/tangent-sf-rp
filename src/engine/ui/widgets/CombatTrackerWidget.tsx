@@ -162,7 +162,7 @@ export const CombatTrackerWidget: React.FC<CombatTrackerWidgetProps> = ({
 
       return {
         id: t.id,
-        name: t.name || 'Operative',
+        name: t.name || 'Operator',
         initiative: roll2d10(),
         currentVitality: vit,
         maxVitality: t.base_vitality ?? 30,

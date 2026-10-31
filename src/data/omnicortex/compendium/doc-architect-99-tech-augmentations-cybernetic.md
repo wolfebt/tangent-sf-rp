@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 29
+order: 30
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.cybernetic","matrix"]
-updatedAt: "2026-10-14T06:04:05.772Z"
+updatedAt: "2026-10-31T10:38:11.189Z"
 costs:
   bp: 0
   credits: 0
@@ -257,7 +257,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 | **Reinforced Chassis**&nbsp; | (Heavy) | Heavy: Synth Limbs (all), Str 3, Sta 3, DR 40\. | 40 | 30 | 40,960 |
 | **Skull Plating**&nbsp; | (Heavy) | Head armor. 1 Critical Hit to Normal/day. | 4 | 15 | 640 |
 | **Stabilizer** | (Standard) | Automatically Stabilize from dying. | 3 | 20 | 2,560 |
-| **Tail** | (Standard) | Decorative or Prehensile (-4 Str, \-2 Dex). | 5 | 15/20 | 640 / 2,560 |
+| **Tail** | (Standard) | Decorative or Prehensile (-4 Str, \-2 Agi). | 5 | 15/20 | 640 / 2,560 |
 | **Trauma Response**&nbsp; | (Standard) | Auto-administers meds; Heals 1d6. | 4 | 20 | 2,560 |
 | **Water Refiltration**&nbsp; | (Standard) | Triples survival time without water. | 3 | 15 | 640 |
 
@@ -349,7 +349,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 | **Body Computer**&nbsp; | (Standard) | Take 10 on Computer at Advantage / Half time. | 2 | 25 | 10,240 |
 | **Empathic Attune**&nbsp; | (Standard) | \+1/+2/+3 Charisma. | 5 | 25 | 10,240 / Bns |
 | **Feature Circuit**&nbsp; | (Standard) | Gain 1 feature (reprogrammable): Limited. | 1 | 20 | 2,560 |
-| **Nootropic Enhancer**&nbsp; | (Standard) | \+1/+2/+3 Intelligence. | 5 | 25 | 10,240 / Bns |
+| **Nootropic Enhancer**&nbsp; | (Standard) | \+1/+2/+3 Intellect. | 5 | 25 | 10,240 / Bns |
 | **Psychotropic Act**&nbsp; | (Standard) | \+1/+2/+3 Wisdom. | 5 | 25 | 10,240 / Bns |
 | **Rage Implant**&nbsp; | (Standard) | Adrenal override. Grants the Rage feature. | 2 | 20 | 2,560 |
 | **Smart Link**&nbsp; | (Standard) | Wireless Mech Link with \+2 Gear bonus. | 1 | 20 | 2,560 |
@@ -381,7 +381,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 | **Programmable Bio**&nbsp; | (Standard) | As Alter Form (Advanced). | 1 | 25 | 10,240 |
 | **Distortion Field**&nbsp; | (Standard) | Blur (10 Min) or Invisibility (1 Min). | 1 | 30 | 40,960 |
 | **Holophotonic Gear**&nbsp; | (Standard) | Implanted Holophotonic Emitter. | 1 | 20 | 2,560 |
-| **Feat Plexus** | (Standard) | Socket for 4 Feature Circuits. | 4 | 25 | 10,240 |
+| **Feature Plexus** | (Standard) | Socket for 4 Feature Circuits. | 4 | 25 | 10,240 |
 | **Interface Sliver**&nbsp; | (Standard) | Dedicated Cyberjack for 1 Mecha. | 1 | 15 | 640 |
 | **Polymatter Struct**&nbsp; | (Heavy) | Morphic Implant or Replacement (limited). | 0 | 0 | \+25% Cost |
 | **Polymatter Surg** | (Heavy) | Grants Fast Heal and Regeneration Features. | 4 | 30 | 40,960 |

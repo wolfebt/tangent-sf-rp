@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 171
+order: 177
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3

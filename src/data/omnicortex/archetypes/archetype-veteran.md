@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: DPS / Tank / Reliable
 primary_attribute: Strength or Agility
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Soldier
   - Mercenary
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: DPS / Tank / Reliable  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Strength or Agility  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.

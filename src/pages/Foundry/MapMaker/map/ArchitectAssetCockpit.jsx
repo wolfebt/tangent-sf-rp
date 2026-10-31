@@ -220,7 +220,7 @@ export const ArchitectAssetCockpit = ({
       ...p,
       _sourceType: 'persona',
       _displayCategory: 'Folio Persona',
-      _displayName: p['char-name'] || p.name || 'Operative Persona',
+      _displayName: p['char-name'] || p.name || 'Operator Persona',
       _displayImage: p.portrait_url || p.avatar || p.image_url || null,
       _isOnMap: mapTokens.some(t => t.character_doc_id === p.id || t.id === p.id)
     }));
@@ -365,8 +365,8 @@ export const ArchitectAssetCockpit = ({
       const newToken = {
         id: `token-hero-${item.id || Date.now()}-${Math.floor(Math.random() * 1000)}`,
         character_doc_id: item.id,
-        name: item['char-name'] || item.name || 'Hero Operative',
-        label: item['char-name'] || item.name || 'Hero Operative',
+        name: item['char-name'] || item.name || 'Hero Operator',
+        label: item['char-name'] || item.name || 'Hero Operator',
         image_url: item.portrait_url || item.avatar || item.image_url || null,
         base_hp: item.health?.max || 30,
         base_vitality: item.vitality?.max || 25,
@@ -670,7 +670,7 @@ export const ArchitectAssetCockpit = ({
                             ? 'text-red-400 bg-red-950/60 border border-red-500/50'
                             : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-800'
                         }`}
-                        title={selectedAsset.is_hidden ? "Hidden from Players (Click to Reveal)" : "Visible to Players (Click to Hide)"}
+                        title={selectedAsset.is_hidden ? "Hidden from Operators (Click to Reveal)" : "Visible to Operators (Click to Hide)"}
                       >
                         {selectedAsset.is_hidden ? <EyeOff size={13} /> : <Eye size={13} />}
                       </button>
@@ -1028,7 +1028,7 @@ export const ArchitectAssetCockpit = ({
                       <label className="text-[9px] text-slate-500 uppercase block mb-0.5">Unit Alignment / Category</label>
                       <div className="grid grid-cols-3 gap-1 text-[10px]">
                         {[
-                          { id: 'operative', label: 'Operative', color: 'text-cyan-300 border-cyan-500/50 bg-cyan-950/40' },
+                          { id: 'operative', label: 'Operator', color: 'text-cyan-300 border-cyan-500/50 bg-cyan-950/40' },
                           { id: 'npc', label: 'NPC / Ally', color: 'text-emerald-300 border-emerald-500/50 bg-emerald-950/40' },
                           { id: 'hostile', label: 'Hostile', color: 'text-rose-400 border-rose-500/50 bg-rose-950/40' },
                           { id: 'construct', label: 'Construct', color: 'text-amber-300 border-amber-500/50 bg-amber-950/40' },
@@ -1078,11 +1078,11 @@ export const ArchitectAssetCockpit = ({
                     </div>
                   </div>
 
-                  {/* GM Notes & Intel */}
+                  {/* Architect Notes & Intel */}
                   <div className="p-2.5 rounded-xl bg-[#0e131d] border border-slate-800 space-y-1.5 text-xs font-mono">
                     <span className="font-bold text-slate-300 flex items-center gap-1">
                       <FileText size={12} className="text-amber-400" />
-                      TACTICAL NOTES & GM INTEL
+                      TACTICAL NOTES & ARCHITECT INTEL
                     </span>
                     <textarea
                       value={selectedAsset.notes || selectedAsset.dialogueHook || selectedAsset.storySummary || ''}

@@ -568,7 +568,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   const handleDropTacticalPing = (pingType, targetX = null, targetY = null) => {
     const px = targetX !== null ? targetX : (position.x + stageSize.width / 2);
     const py = targetY !== null ? targetY : (position.y + stageSize.height / 2);
-    const newPing = createTacticalPing(px, py, pingType, null, vttRole === 'operative' ? 'Operative' : 'Architect', '#06b6d4');
+    const newPing = createTacticalPing(px, py, pingType, null, vttRole === 'operative' ? 'Operator' : 'Architect', '#06b6d4');
     setActivePings(prev => [...prev, newPing]);
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
   };
@@ -1098,7 +1098,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
           type: 'dialogue_bark',
           behaviorProfile: pFields.mcmRole?.toLowerCase() || 'tactical',
           moraleThreshold: 0.25,
-          alertBark: pFields.voice || pFields.mannerisms || 'Greetings, operative.'
+          alertBark: pFields.voice || pFields.mannerisms || 'Greetings, operator.'
         };
       }
 
@@ -2122,7 +2122,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                         updateItem({ designation: des, fill });
                       }}
                     >
-                      <option value="Player">Player</option>
+                      <option value="Player">Operator</option>
                       <option value="Ally">Ally</option>
                       <option value="Adversary">Adversary</option>
                       <option value="Neutral">Neutral</option>

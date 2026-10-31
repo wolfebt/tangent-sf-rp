@@ -7,7 +7,7 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 23
+order: 24
 perspective: "architect"
 entry_type: "Tech Matrix (weaponry)"
 tl: 3

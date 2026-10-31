@@ -19,7 +19,7 @@ negative_keywords: 'pacifist, feeble, untrained-civilian'
 cost_cp: 3
 mechanic: >-
   As a Standard Action, make a single melee attack. If successful, the target
-  suffers a **\-2 penalty to Defense** (AC) for 1 round due to the staggering
+  suffers a **\-2 penalty to Defense** for 1 round due to the staggering
   impact.
 ---
 # Crushing Blow
@@ -32,4 +32,4 @@ mechanic: >-
 The character delivers blows that shatter armor and resolve.
 
 ## Mechanics & Benefit
-As a Standard Action, make a single melee attack. If successful, the target suffers a **\-2 penalty to Defense** (AC) for 1 round due to the staggering impact.
+As a Standard Action, make a single melee attack. If successful, the target suffers a **\-2 penalty to Defense** for 1 round due to the staggering impact.

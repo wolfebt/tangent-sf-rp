@@ -47,14 +47,27 @@ export const ATTRIBUTE_MAP = {
 };
 
 /**
+ * Checks if a mechanic string is missing or merely duplicates the narrative description.
+ */
+export function isDuplicateOrInvalidMechanic(mech, desc) {
+  if (!mech || typeof mech !== 'string') return true;
+  const cleanM = mech.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+  if (!cleanM) return true;
+  if (!desc || typeof desc !== 'string') return false;
+  const cleanD = desc.trim().replace(/^\[|\]$/g, '').replace(/\.$/, '').trim().toLowerCase();
+  return cleanM === cleanD;
+}
+
+/**
  * Parses structured modifiers from narrative text, mechanics, and rules descriptions.
  */
 export function parseModifiersFromText(name = '', text = '', body = '') {
-  // Normalize markdown escapes and punctuation for robust matching
-  const rawCombined = `${name} ${text} ${body}`.replace(/\r\n/g, '\n');
+  // Normalize markdown escapes and punctuation for robust matching, separating segments with periods
+  const rawCombined = `${name}. ${text}. ${body}`.replace(/\r\n/g, '\n');
   const combined = rawCombined
     .split('\\+').join('+')
     .split('\\-').join('-')
+    .replace(/\n+/g, '. ')
     .replace(/[*_`]/g, '')
     .replace(/[()[\]{}]/g, ' ')
     .replace(/\s+/g, ' ');
@@ -230,12 +243,13 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
       'equipment': 'equipment-bonus'
     };
     const targetKey = statMap[stat] || stat;
+    const displayLabel = stat === 'defense' ? 'Defense' : match[2];
     addMod({
       target: targetKey,
       type: 'combat',
       value: val,
       mode: 'inherent',
-      description: `${val >= 0 ? '+' : ''}${val} ${match[2]}`
+      description: `${val >= 0 ? '+' : ''}${val} ${displayLabel}`
     });
   }
 
@@ -263,7 +277,7 @@ export function parseModifiersFromText(name = '', text = '', body = '') {
     
     // Skip targets that belong to saves, karma, wealth, tech level, combat, or generic words
     const skipList = [
-      'will', 'fortitude', 'reflex', 'might', 'logic', 'reason', 'wealth', 'tech level', 
+      'will', 'willpower', 'concentration', 'reaction', 'fortitude', 'reflex', 'might', 'logic', 'reason', 'wealth', 'tech level', 
       'karma', 'all', 'each', 'all fortitude', 'all reflex', 'all will', 'all saving',
       'stability', 'defense', 'initiative', 'armor', 'evasion', 'points', 'point', 
       'damage', 'die', 'dice', 'action', 'actions', 'round', 'rounds', 'meter', 'meters'
@@ -899,14 +913,30 @@ export function enrichItemWithModifiers(rawItem, canonicalFallback = null) {
     : (fallback?.name || fallback?.title || rawName);
   const body = item.body || fallback?.body || '';
 
-  // 1. Resolve mechanics
-  let mechanic = item.mechanic || item.mechanics || fallback?.mechanic || fallback?.mechanics || '';
+  const rawDesc = item.description || item.desc || fallback?.description || fallback?.desc || '';
+  const fallbackDesc = fallback?.description || fallback?.desc || '';
+
+  // 1. Resolve mechanics (ignore any mechanic string that simply duplicates the description)
+  const itemMechCandidate = item.mechanic || item.mechanics || '';
+  const fallbackMechCandidate = fallback?.mechanic || fallback?.mechanics || '';
+  let mechanic = '';
+  if (
+    itemMechCandidate &&
+    !isDuplicateOrInvalidMechanic(itemMechCandidate, rawDesc) &&
+    !isDuplicateOrInvalidMechanic(itemMechCandidate, fallbackDesc)
+  ) {
+    mechanic = itemMechCandidate;
+  } else if (
+    fallbackMechCandidate &&
+    !isDuplicateOrInvalidMechanic(fallbackMechCandidate, fallbackDesc)
+  ) {
+    mechanic = fallbackMechCandidate;
+  }
   if (!mechanic && body) {
     const mechMatch = body.match(/(?:^|\n)## Mechanics[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
-    if (mechMatch) mechanic = mechMatch[1].trim();
-  }
-  if (!mechanic) {
-    mechanic = item.description || item.desc || fallback?.description || '';
+    if (mechMatch && !isDuplicateOrInvalidMechanic(mechMatch[1], rawDesc)) {
+      mechanic = mechMatch[1].trim();
+    }
   }
 
   // 2. Resolve rules
@@ -928,9 +958,16 @@ export function enrichItemWithModifiers(rawItem, canonicalFallback = null) {
   const resolvedModifierOptions = resolveSkillChoiceModifierOptions(item, fallback);
 
   // 4. Resolve & Parse Modifiers
-  let existingMods = Array.isArray(item.modifiers) && item.modifiers.length > 0 ? [...item.modifiers] : [];
+  const isCleanMod = (m) => {
+    if (!m || typeof m !== 'object') return false;
+    if (m.type === 'skill' && typeof m.target === 'string' && m.target.trim().split(/\s+/).length > 4) {
+      return false;
+    }
+    return true;
+  };
+  let existingMods = Array.isArray(item.modifiers) && item.modifiers.length > 0 ? item.modifiers.filter(isCleanMod) : [];
   if (existingMods.length === 0 && Array.isArray(fallback?.modifiers) && fallback.modifiers.length > 0) {
-    existingMods = [...fallback.modifiers];
+    existingMods = fallback.modifiers.filter(isCleanMod);
   }
   
   // Only parse from text if no explicit modifiers are defined

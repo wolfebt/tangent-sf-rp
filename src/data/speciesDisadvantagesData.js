@@ -24,8 +24,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "prerequisite": "None",
     "desc": "A chemical, biological, or psychological dependency on a substance or intense stimulus.",
     "description": "A chemical, biological, or psychological dependency on a substance or intense stimulus.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Stamina damage per day** until indulged or detoxed.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Stamina damage per day** until indulged or detoxed.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -50,7 +50,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "Inflicts Sickened condition (-2 to all checks)"
       }
     ],
-    "body": "# Addiction\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Psychological / Physical\n\n## Description\nA chemical, biological, or psychological dependency on a substance or intense stimulus.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed.",
+    "body": "# Addiction\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Psychological / Physical\n\n## Description\nA chemical, biological, or psychological dependency on a substance or intense stimulus.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 CP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 CP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Stamina damage per day** until indulged or detoxed.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 on Will Checks\n[Penalty] Disadvantage on all checks\n[Penalty] Inflicts Sickened condition (-2 to all checks)\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -259,11 +259,11 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "prerequisite": "None",
     "desc": "Missing limbs, paralysis, or severe mechanical impairment of bodily motor function.",
     "description": "Missing limbs, paralysis, or severe mechanical impairment of bodily motor function.",
-    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
-    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
+    "mechanics": "### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Agility tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
+    "mechanic": "### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Agility tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Disability\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 18 CP  \n**Type**: Physical\n\n## Description\nMissing limbs, paralysis, or severe mechanical impairment of bodily motor function.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
+    "body": "# Disability\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 18 CP  \n**Type**: Physical\n\n## Description\nMissing limbs, paralysis, or severe mechanical impairment of bodily motor function.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Missing a Hand or Foot. `-2` to Athletics/Agility tasks with that limb; reduced movement if foot.\n- **Major (6 CP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 CP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 CP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -673,16 +673,16 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "prerequisite": "None",
     "desc": "Complete biological absence or destruction of one of the character's primary sensory channels.",
     "description": "Complete biological absence or destruction of one of the character's primary sensory channels.",
-    "mechanics": "### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
-    "mechanic": "### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "mechanics": "### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Agility (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "mechanic": "### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Agility (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
-        "target": "Fine Dexterity if Numb",
+        "target": "Fine Agility if Numb",
         "type": "skill",
         "value": -4,
         "mode": "penalty",
-        "description": "-4 to Fine Dexterity if Numb"
+        "description": "-4 to Fine Agility if Numb"
       },
       {
         "target": "Auto-fail all acoustic",
@@ -692,11 +692,11 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-4 to Auto-fail all acoustic"
       }
     ],
-    "body": "# Lost Sense\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Physical\n\n## Description\nComplete biological absence or destruction of one of the character's primary sensory channels.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "body": "# Lost Sense\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Physical\n\n## Description\nComplete biological absence or destruction of one of the character's primary sensory channels.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 CP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Agility (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 CP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Penalty] -4 to Fine Dexterity if Numb\n[Penalty] -4 to Auto-fail all acoustic\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -4 to Fine Agility if Numb\n[Penalty] -4 to Auto-fail all acoustic\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
-      "[Penalty] -4 to Fine Dexterity if Numb",
+      "[Penalty] -4 to Fine Agility if Numb",
       "[Penalty] -4 to Auto-fail all acoustic",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
     ]
@@ -1336,8 +1336,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "prerequisite": "None",
     "desc": "A profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.",
     "description": "A profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.",
-    "mechanics": "### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
-    "mechanic": "### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
+    "mechanics": "### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the Architect automatic complication triggers at the start of each session.",
+    "mechanic": "### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the Architect automatic complication triggers at the start of each session.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
@@ -1369,7 +1369,7 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 to Karma Pool"
       }
     ],
-    "body": "# Unlucky\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Metaphysical / Karma\n\n## Description\nA profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
+    "body": "# Unlucky\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Metaphysical / Karma\n\n## Description\nA profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the Architect automatic complication triggers at the start of each session.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
     "notes": "[Penalty] -2 to Karma Pool maximum\n[Penalty] -4 to Karma Pool maximum\n[Penalty] -6 to Karma Pool maximum\n[Penalty] -2 to Karma Pool\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
@@ -1397,13 +1397,13 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
       "bp": -4
     },
     "prerequisite": "Native to Darklands / Shadow Realms",
-    "desc": "Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.",
-    "description": "Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.",
-    "mechanics": "Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
-    "mechanic": "Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
+    "desc": "Take 1 Sta damage per hour in sunlight. Req: Native to Darklands/Shadow.",
+    "description": "Take 1 Sta damage per hour in sunlight. Req: Native to Darklands/Shadow.",
+    "mechanics": "Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Stamina damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
+    "mechanic": "Requirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Stamina damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [],
-    "body": "# Vulnerable to Sunlight\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Meta  \n**Prerequisites**: Native to Darklands / Shadow Realms  \n\n## Description\nTake 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.\n\n## Mechanics & Severity\nRequirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Constitution (Stamina) damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
+    "body": "# Vulnerable to Sunlight\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Meta  \n**Prerequisites**: Native to Darklands / Shadow Realms  \n\n## Description\nTake 1 Sta damage per hour in sunlight. Req: Native to Darklands/Shadow.\n\n## Mechanics & Severity\nRequirements: Native to Darklands / Shadow Realms. Cellular and metaphysical degradation occurs under direct solar ultraviolet bombardment. The character suffers 1 point of Stamina damage for every cumulative hour spent in direct sunlight without specialized protective full-body thermal cloaks.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
     "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.\n[Prerequisite] Native to Darklands / Shadow Realms",
     "notesList": [

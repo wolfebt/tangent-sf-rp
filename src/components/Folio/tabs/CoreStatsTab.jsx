@@ -618,7 +618,7 @@ const CoreStatsTab = () => {
                               value={isNaN(rawBase) ? 0 : rawBase}
                               onChange={(e) => isSub ? handleSubAttrChange(attr.id, e.target.value) : handlePrimaryChange(attr.id, e.target.value)}
                               disabled={isStatsLocked}
-                              title={isStatsLocked ? 'Attribute locked during active game session. Request GM update.' : ''}
+                              title={isStatsLocked ? 'Attribute locked during active game session. Request Architect update.' : ''}
                               className={`w-10 text-center bg-slate-900 border rounded px-1 py-0.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 ${
                                 isStatsLocked
                                   ? 'opacity-60 cursor-not-allowed border-slate-800 text-slate-400'
@@ -1716,7 +1716,7 @@ const CoreStatsTab = () => {
             };
 
             const traitFeatureMod = breakdown.traitFeatureMod ?? 0;
-            const formulaText = `WS ${wealthScore} = Occu Base (${breakdown.occupationBase ?? 2}) + Origin (${(breakdown.originMod ?? 0) >= 0 ? '+' : ''}${breakdown.originMod ?? 0}) + Faction (${(breakdown.factionMod ?? 0) >= 0 ? '+' : ''}${breakdown.factionMod ?? 0}) + TL (${(breakdown.tlMod ?? 0) >= 0 ? '+' : ''}${breakdown.tlMod ?? 0}) + Vocation (${(breakdown.skillBonus ?? 0) >= 0 ? '+' : ''}${breakdown.skillBonus ?? 0})${traitFeatureMod !== 0 ? ` + Traits/Feats (${traitFeatureMod >= 0 ? '+' : ''}${traitFeatureMod})` : ''}${customWealthMod !== 0 ? ` + Mod (${customWealthMod >= 0 ? '+' : ''}${customWealthMod})` : ''}`;
+            const formulaText = `WS ${wealthScore} = Occu Base (${breakdown.occupationBase ?? 2}) + Origin (${(breakdown.originMod ?? 0) >= 0 ? '+' : ''}${breakdown.originMod ?? 0}) + Faction (${(breakdown.factionMod ?? 0) >= 0 ? '+' : ''}${breakdown.factionMod ?? 0}) + TL (${(breakdown.tlMod ?? 0) >= 0 ? '+' : ''}${breakdown.tlMod ?? 0}) + Vocation (${(breakdown.skillBonus ?? 0) >= 0 ? '+' : ''}${breakdown.skillBonus ?? 0})${traitFeatureMod !== 0 ? ` + Traits/Features (${traitFeatureMod >= 0 ? '+' : ''}${traitFeatureMod})` : ''}${customWealthMod !== 0 ? ` + Mod (${customWealthMod >= 0 ? '+' : ''}${customWealthMod})` : ''}`;
 
             return (
               <div className="bg-slate-900/60 border border-amber-900/50 rounded-lg p-2 space-y-1.5 shadow-sm">
@@ -2296,7 +2296,7 @@ const CoreStatsTab = () => {
                       title="Earned Advancement Points"
                       badge="Lifetime Total"
                       badgeColor="emerald"
-                      description="Total career Advancement Points awarded by the GM for session attendance, roleplay, and mission completions."
+                      description="Total career Advancement Points awarded by the Architect for session attendance, roleplay, and mission completions."
                       formula={`Total: +${earnedAP} AP`}
                     >
                       <div className="p-1.5 py-1 rounded border bg-slate-800/50 border-emerald-700/60 text-center flex flex-col justify-between w-full hover:border-emerald-400 transition-colors">

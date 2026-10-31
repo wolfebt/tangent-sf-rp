@@ -204,7 +204,7 @@ TITLE: [Concise title]
 SUMMARY: [2-3 sentences explaining the hook or twist]
 PROSE: [A short narrative excerpt or beat ready for the story]`
       : `Generate 3 distinct world element concepts for the focus: ${selectedFocus.toUpperCase()}.
-Topic / Custom Note: "${topicPrompt || 'Unique faction or operative concept'}"
+Topic / Custom Note: "${topicPrompt || 'Unique faction or operator concept'}"
 Universe Context: ${(universeState?.projectName || 'Tangent Universe')}
 Existing Elements: ${catalogSummary || 'None'}
 Guidance Gems: ${gemsContext || 'Cybernetic gritty realism'}
@@ -255,7 +255,7 @@ DETAILS: [Key mechanical perk, complication, or secret]`;
         {
           id: uuidv4(),
           title: `Synthetic ${selectedFocus.replace('_', ' ').toUpperCase()} Hook`,
-          body: `TITLE: Classified Signal Infiltration\nSUMMARY: An encrypted telemetry burst from a forgotten orbital relay contradicts the primary scenario directive, forcing operatives to decide between mission protocol and survival.\nPROSE: "The console flickered amber—not an error, but an overwrite code signed by someone who died ten cycles ago."`,
+          body: `TITLE: Classified Signal Infiltration\nSUMMARY: An encrypted telemetry burst from a forgotten orbital relay contradicts the primary scenario directive, forcing operators to decide between mission protocol and survival.\nPROSE: "The console flickered amber—not an error, but an overwrite code signed by someone who died ten cycles ago."`,
           scope
         },
         {

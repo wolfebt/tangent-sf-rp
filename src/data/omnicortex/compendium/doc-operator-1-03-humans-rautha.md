@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 62
+order: 68
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.rautha","mechanics"]
-updatedAt: "2026-10-14T05:24:25.053Z"
+updatedAt: "2026-10-31T10:38:11.514Z"
 costs:
   bp: 0
   credits: 0
@@ -83,7 +83,7 @@ Genetically, the Rautha subspecies maintains a demonstrable, though distant, rel
 
 Improved Agility \+2
 
-Improved Constitution \+2
+Improved Stamina \+2
 
 &nbsp;
 

@@ -249,7 +249,7 @@ export const SquadSummarySidebar = ({
                   const isOnline = onlineOperators.some(op => op.uid === memberId || op.userHandle === handle);
                   const isSelf = memberId === currentUser?.uid;
                   const personaName = details.persona?.name || details.personaName;
-                  const role = details.role || (memberId === activeGroup.creatorId ? 'GM' : 'Operator');
+                  const role = details.role || (memberId === activeGroup.creatorId ? 'Architect' : 'Operator');
 
                   return (
                     <div
@@ -286,10 +286,10 @@ export const SquadSummarySidebar = ({
                       </div>
 
                       <div className="shrink-0 flex items-center gap-1 text-[9.5px]">
-                        {role === 'Leader' || role === 'GM' ? (
+                        {role === 'Architect' || role === 'Leader' || role === 'GM' ? (
                           <span className="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold flex items-center gap-0.5">
                             <Crown size={9} />
-                            <span>{role}</span>
+                            <span>{role === 'GM' || role === 'Leader' ? 'Architect' : role}</span>
                           </span>
                         ) : (
                           <span className="text-slate-500 font-mono text-[9px]">

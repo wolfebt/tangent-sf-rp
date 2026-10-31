@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Medium / Scout / Utility
 primary_attribute: Wisdom
-secondary_attribute: Constitution
+secondary_attribute: Stamina
 recommended_occupations:
   - Adept
   - Scout
@@ -54,7 +54,7 @@ cp_chassis: 80
 **Core Concept**: Medium / Scout / Utility  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Constitution  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.

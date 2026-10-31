@@ -19,7 +19,7 @@ negative_keywords: 'incompetent, untrained, vulnerable'
 cost_cp: 3
 mechanic: >-
   **Once per day**, you may re-roll any single failed **Ability Check** (e.g.,
-  Strength check to lift rubble, Constitution check to hold breath).  
+  Strength check to lift rubble, Stamina check to hold breath).  
     * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.
 rules: >-
   This feature is **\[Ranked\]**. Each additional rank allows an additional use
@@ -35,7 +35,7 @@ rules: >-
 The character's faith is not just a belief system, but a fundamental force that strengthens their very being.
 
 ## Mechanics & Benefit
-**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Constitution check to hold breath).  
+**Once per day**, you may re-roll any single failed **Ability Check** (e.g., Strength check to lift rubble, Stamina check to hold breath).  
   * *Mechanics:* This is separate from the *Believer* re-rolls. It applies to raw attribute checks, not Skill checks.
 
 ## Special Rules

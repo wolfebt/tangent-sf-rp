@@ -7,7 +7,7 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 16
+order: 17
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
