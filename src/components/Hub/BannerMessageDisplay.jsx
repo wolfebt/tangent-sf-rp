@@ -171,19 +171,6 @@ export const BannerMessageDisplay = ({
               ) : (
                 <span className="invisible select-none opacity-0 pointer-events-none">&nbsp;</span>
               )}
-
-              {/* Cursor indicator while typing current line */}
-              {isCurrentTypingLine && phase === 'typing' && (
-                <span className="inline-block w-1.5 h-3 sm:h-3.5 bg-current ml-0.5 animate-pulse align-middle shrink-0" />
-              )}
-              {/* Cursor indicator on final line during reading hold */}
-              {phase === 'holding' && idx === activeLines.length - 1 && (
-                <span className="inline-block w-1.5 h-3 sm:h-3.5 bg-current ml-0.5 opacity-60 animate-pulse align-middle shrink-0" />
-              )}
-              {/* Cursor indicator on first line during clear wipe */}
-              {phase === 'clearing' && idx === 0 && (
-                <span className="inline-block w-1.5 h-3 sm:h-3.5 bg-current animate-pulse align-middle shrink-0" />
-              )}
             </div>
           );
         })}

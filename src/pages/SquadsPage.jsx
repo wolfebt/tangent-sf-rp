@@ -292,7 +292,7 @@ export const SquadsPage = ({
   }, [userDirectory, userSearchQuery]);
 
   return (
-    <div className="h-full w-full flex flex-col bg-[#080c14] text-slate-100 font-sans overflow-hidden select-none">
+    <div className="h-full w-full flex flex-col tangent-grid-bg text-slate-100 font-sans overflow-hidden select-none">
       {/* Top Station Status & Breadcrumb Header */}
       {!hideHeader && (
         <header className="px-3 sm:px-4 py-2 bg-slate-950/95 border-b border-slate-800/90 flex items-center justify-between text-xs font-mono shrink-0 shadow-sm">

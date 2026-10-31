@@ -219,7 +219,7 @@ export function formatContext(context, promptQuery = '') {
 export async function generateContent({ 
   prompt, 
   context = "", 
-  model = "gemini-2.5-flash", 
+  model = "gemini-3.8-flash", 
   apiKey = "", 
   mandate = null, 
   enforceJson = false,
@@ -320,6 +320,7 @@ export async function generateContent({
 }
 
 const GEMINI_STREAM_MODELS = [
+  'gemini-3.8-flash',
   'gemini-2.5-flash',
   'gemini-2.0-flash',
   'gemini-flash-latest',
@@ -331,7 +332,7 @@ const GEMINI_STREAM_MODELS = [
 export async function streamContent({ 
   prompt, 
   context = "", 
-  model = "gemini-2.5-flash", 
+  model = "gemini-3.8-flash", 
   apiKey = "", 
   onChunk,
   mandate = null,
@@ -462,15 +463,21 @@ export async function streamContent({
 
   for (const candidateModel of modelsToTry) {
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${candidateModel}:streamGenerateContent?alt=sse&key=${activeKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${candidateModel}:streamGenerateContent?alt=sse`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': activeKey
+        },
         body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         const errMsg = errorData?.error?.message || `HTTP ${response.status}`;
+        if (response.status === 400 || response.status === 402 || response.status === 403) {
+          throw new Error(`Gemini API Key Error (${response.status}): ${errMsg}`);
+        }
         if (response.status === 404 || errMsg.includes('not found') || errMsg.includes('no longer available')) {
           lastError = new Error(`[${candidateModel}]: ${errMsg}`);
           continue;
@@ -521,7 +528,7 @@ export async function streamContent({
   throw lastError || new Error('All streaming candidate models failed.');
 }
 
-export async function streamChatContent({ messages, context = "", model = "gemini-2.5-flash", apiKey = "", onChunk, tierKey = "auto", localEndpoint = null }) {
+export async function streamChatContent({ messages, context = "", model = "gemini-3.8-flash", apiKey = "", onChunk, tierKey = "auto", localEndpoint = null }) {
   const activeKey = apiKey || getGeminiApiKey();
   const lastUserMsg = messages && messages.length > 0 ? messages[messages.length - 1]?.content : '';
   const formattedCtx = formatContext(context, lastUserMsg);
@@ -609,16 +616,19 @@ export async function streamChatContent({ messages, context = "", model = "gemin
 
   for (const currentModel of candidateModels) {
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:streamGenerateContent?alt=sse&key=${activeKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:streamGenerateContent?alt=sse`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': activeKey
+        },
         body: JSON.stringify(requestBody)
       });
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         const errorMsg = errorData?.error?.message || `Streaming failed with status ${response.status}`;
-        if (response.status === 400 || response.status === 403) {
+        if (response.status === 400 || response.status === 402 || response.status === 403) {
           throw new Error(`Gemini API Key Error (${response.status}): ${errorMsg}`);
         }
         lastError = new Error(errorMsg);

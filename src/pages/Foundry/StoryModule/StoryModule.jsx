@@ -350,7 +350,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   }, [activeNode, universeState]);
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative select-none">
+    <div className="flex flex-col h-full w-full tangent-grid-bg text-slate-100 overflow-hidden font-sans relative select-none">
       {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR WITH BREADCRUMBS ── */}
       {activeView !== 'mission_control' && (
         <ADETopToolbar

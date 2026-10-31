@@ -232,7 +232,9 @@ test('Cloud Functions [geminiProxy]: Validates auth, prompt parameter, and forwa
     });
     await geminiProxy(validReq.req, validReq.res);
     assert.equal(validReq.res.getStatusCode(), 200);
-    assert.ok(capturedUrl.includes('models/gemini-2.5-flash:generateContent?key=GEMINI_TEST_API_KEY'));
+    assert.ok(capturedUrl.includes('models/gemini-2.5-flash:generateContent'));
+    assert.ok(!capturedUrl.includes('key='), 'API key must NOT be leaked in the URL query string');
+    assert.equal(capturedInit.headers['x-goog-api-key'], 'GEMINI_TEST_API_KEY', 'API key must be sent in x-goog-api-key header');
 
     const sentPayload = JSON.parse(capturedInit.body);
     assert.equal(sentPayload.contents[0].parts[0].text, 'Summarize Round 4 combat log.');

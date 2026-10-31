@@ -223,7 +223,7 @@ export const NetworkPage = () => {
   }, [effectiveActiveSquad?.channelId, activeChannelId, selectChannel, setSearchParams]);
 
   return (
-    <div className="h-full w-full flex flex-col bg-[#070b13] text-slate-100 font-sans overflow-hidden select-none">
+    <div className="h-full w-full flex flex-col tangent-grid-bg text-slate-100 font-sans overflow-hidden select-none">
       {/* ── Mobile-Only Compact Navigation Header (< md screens) ──
           On desktop (>= 768px), Zone 1 (NetworkServerRail) + Zone 3's single 48px Context Header
           replace this bar so 100% of vertical height goes to the 4-Zone Comm Center. */}
@@ -429,7 +429,7 @@ export const NetworkPage = () => {
 
           {/* MODE D: LIVE OPERATOR & PERSONA DIRECTORY */}
           {serverContext === 'directory' && (
-            <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-[#090d16]">
+            <div className="flex-1 flex flex-col min-h-0 h-full overflow-hidden bg-transparent">
               <NetworkRosterView
                 fullStageMode={true}
                 onSelectChannel={() => handleSelectView('comms')}

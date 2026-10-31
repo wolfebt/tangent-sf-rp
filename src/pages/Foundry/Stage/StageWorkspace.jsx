@@ -90,7 +90,7 @@ export default function StageWorkspace({
   };
 
   return (
-    <div className="flex-1 h-full w-full bg-[#080d16] flex flex-col overflow-hidden font-mono text-slate-100">
+    <div className="flex-1 h-full w-full tangent-grid-bg flex flex-col overflow-hidden font-mono text-slate-100">
       {/* ── STAGE WORKSPACE SUB-NAVIGATION BAR ── */}
       <div className="bg-[#0a0f1d] border-b border-slate-800 p-1.5 px-3 flex items-center justify-between gap-3 shrink-0 shadow-sm">
         {/* Left: Tab Switcher (Staging Prep vs Live VTT Director) */}

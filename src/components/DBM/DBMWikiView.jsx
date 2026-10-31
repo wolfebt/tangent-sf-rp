@@ -1953,7 +1953,7 @@ export const DBMWikiView = ({
             scrollRef={desktopContentRef}
           />
         ) : (
-          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-8 bg-slate-900/95 scroll-smooth">
+          <main ref={desktopContentRef} className="flex flex-col flex-1 overflow-y-auto p-3 sm:p-6 lg:p-8 pb-8 bg-transparent scroll-smooth">
           {activeArticle ? (
             <div className="w-full space-y-6">
               {/* Header & Controls */}

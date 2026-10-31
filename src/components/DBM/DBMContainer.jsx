@@ -694,7 +694,7 @@ export const DBMContainer = () => {
   // Auth gate — if not authenticated and not in admin/master developer override mode, offer login with option to proceed as Master Developer
   if (!currentUser && !isAdmin) {
     return (
-      <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans items-center justify-center p-4">
+      <div className="flex flex-col h-full w-full tangent-grid-bg text-slate-100 font-sans items-center justify-center p-4">
         <div className="text-center max-w-md px-8 py-10 bg-slate-900 border border-cyan-900/60 rounded-2xl shadow-2xl space-y-4">
           {/* Logo */}
           <div className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse mb-2">
@@ -725,7 +725,7 @@ export const DBMContainer = () => {
   }
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
+    <div className="flex flex-col h-full w-full tangent-grid-bg text-slate-100 font-sans overflow-hidden">
       {/* Breadcrumb Navigation Bar spanning full width above guide rail and content */}
       <BreadcrumbNav
         items={getDBMBreadcrumbs()}

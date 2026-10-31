@@ -45,7 +45,11 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const handleOpenBriefing = () => setShowWelcomeBriefing(true);
+    const handleOpenBriefing = () => {
+      briefingDismissedUntilRefresh = false;
+      setActiveDrawer(null);
+      setShowWelcomeBriefing(true);
+    };
     window.addEventListener('open-welcome-briefing', handleOpenBriefing);
     return () => window.removeEventListener('open-welcome-briefing', handleOpenBriefing);
   }, []);
@@ -80,8 +84,7 @@ const Home = () => {
   return (
     <div
       onClick={() => setActiveDrawer(null)}
-      className="h-full w-full relative bg-[#060a12] bg-cover bg-center bg-no-repeat text-slate-100 font-sans flex flex-col overflow-hidden select-none"
-      style={{ backgroundImage: "url('/assets/images/background.png')" }}
+      className="h-full w-full relative tangent-grid-bg text-slate-100 font-sans flex flex-col overflow-hidden select-none"
     >
 
       {/* ── Main Workspace Body with Center Workspace ── */}
@@ -245,7 +248,7 @@ const Home = () => {
 
 
       {/* Footer */}
-      <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-4 relative z-10">
+      <footer className="w-full shrink-0 py-2 bg-[#080d14]/90 backdrop-blur-md border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400 gap-2 px-4 relative z-10">
         <span className="font-light text-[10px] sm:text-[11px] text-cyan-400 tracking-wider select-none shrink-0">
           Wolfe.BT@TangentLLC
         </span>

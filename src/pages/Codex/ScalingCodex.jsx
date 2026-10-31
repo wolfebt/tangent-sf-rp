@@ -136,7 +136,7 @@ export const ScalingCodex = ({ onOpenBuilder }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#080d16] text-slate-100 font-sans select-none overflow-y-auto">
+    <div className="flex flex-col h-full tangent-grid-bg text-slate-100 font-sans select-none overflow-y-auto">
       {/* Header Banner */}
       <div className="p-6 pb-4 border-b border-amber-500/20 bg-gradient-to-r from-amber-950/30 via-slate-900/60 to-slate-950/80 shrink-0">
         <div className="flex flex-wrap items-center justify-between gap-4">

@@ -70,6 +70,9 @@ export const AuthProvider = ({ children }) => {
       if (user) {
         try {
           const tokenResult = await user.getIdTokenResult();
+          if (tokenResult?.token) {
+            localStorage.setItem('firebaseIdToken', tokenResult.token);
+          }
           const claims = tokenResult.claims || {};
           setCustomClaims(claims);
           const isClaimAdmin = !!(claims.admin || claims.role === 'admin' || claims.role === 'GM');
@@ -92,9 +95,7 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('emailOptIn', String(pData.emailOptIn));
               }
               if (pData.userContactInfo !== undefined) localStorage.setItem('userContactInfo', pData.userContactInfo);
-              if (pData.geminiApiKey !== undefined) localStorage.setItem('geminiApiKey', pData.geminiApiKey);
               if (pData.aiPlatform !== undefined) localStorage.setItem('aiPlatform', pData.aiPlatform);
-              if (pData.otherAiApiKey !== undefined) localStorage.setItem('otherAiApiKey', pData.otherAiApiKey);
               if (pData.customEndpoint !== undefined) localStorage.setItem('customEndpoint', pData.customEndpoint);
             }
           }, () => {});
@@ -165,6 +166,9 @@ export const AuthProvider = ({ children }) => {
       } else {
         setCustomClaims({});
         setHasAdminClaim(false);
+        try {
+          localStorage.removeItem('firebaseIdToken');
+        } catch {}
       }
       setLoading(false);
     });

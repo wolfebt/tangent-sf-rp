@@ -119,7 +119,7 @@ export const UserGuideView = ({
   };
 
   return (
-    <div ref={containerRef} className="flex-1 flex flex-col overflow-y-auto p-4 sm:p-6 lg:p-8 bg-slate-900/95 text-slate-200 font-sans custom-scrollbar select-text scroll-smooth">
+    <div ref={containerRef} className="flex-1 flex flex-col overflow-y-auto p-4 sm:p-6 lg:p-8 bg-transparent text-slate-200 font-sans custom-scrollbar select-text scroll-smooth">
       <div className="max-w-5xl mx-auto w-full space-y-8 pb-6">
 
         {/* =========================================================================

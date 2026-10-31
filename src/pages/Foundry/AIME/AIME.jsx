@@ -668,7 +668,7 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#0d1117] text-slate-300" onBlur={triggerStorySave}>
+    <div className="flex h-full w-full flex-col tangent-grid-bg text-slate-300" onBlur={triggerStorySave}>
       {/* Top Banner */}
       <div className="flex items-center justify-between p-3.5 px-4 border-b border-[#0D5C63]/50 bg-[#161b22] gap-3">
         <div className="flex items-center gap-3 flex-wrap">

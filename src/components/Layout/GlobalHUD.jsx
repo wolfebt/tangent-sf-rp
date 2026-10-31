@@ -416,31 +416,36 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         className="w-full bg-[#12161f]/95 backdrop-blur-md border-b border-cyan-500/30 px-2 sm:px-4 pt-1.5 sm:pt-2 pb-1.5 sm:pb-2 flex flex-col z-[100] select-none shrink-0 font-sans shadow-md relative transition-all duration-150"
       >
         {/* Top Row: Brand, Primary Navigation Suite & User Settings */}
-        <div className="w-full flex items-start justify-between gap-2">
-          {/* Left Section: Brand Logo & Title (Top-aligned, doubled TANGENT height, centered subtitle text) */}
-          <div className="flex items-start shrink-0">
+        <div className="w-full flex items-center justify-between gap-2">
+          {/* Left Section: Brand Logo & Title */}
+          <div className="flex items-center shrink-0">
             <NavLink 
               to="/" 
-              className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-2"
+              aria-current={location.pathname === '/' ? 'page' : undefined}
+              className="flex items-center gap-1.5 sm:gap-2 uppercase text-[#22d3ee] tangent-title-pulse select-none hover:opacity-90 transition-opacity shrink-0 mr-1 sm:mr-2 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
               title="Return to Operations Hub"
-              onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.03);
+                window.dispatchEvent(new CustomEvent('open-welcome-briefing'));
+              }}
             >
-              <span className="text-2xl xs:text-3xl sm:text-[3.2rem] font-black leading-none tracking-tight">
+              <span className="text-2xl xs:text-3xl lg:text-[2.6rem] xl:text-[3.2rem] font-black leading-none tracking-tight">
                 TANGENT
               </span>
-              <div className="hidden sm:flex flex-col justify-center self-stretch py-[1px] text-[9.5px] sm:text-[10.5px] font-bold uppercase tracking-wider leading-tight">
+              <div className="hidden lg:flex flex-col justify-center self-stretch py-[1px] text-[9.5px] xl:text-[10.5px] font-bold uppercase tracking-wider leading-tight">
                 <span className="whitespace-nowrap leading-none text-cyan-300">Science-Fantasy</span>
                 <span className="whitespace-nowrap leading-none text-cyan-400/80">Role Playing Engine</span>
               </div>
             </NavLink>
           </div>
 
-          {/* Center Section: Primary Navigation Suite (Persona, Rules, Network, ADE, Cortex) */}
-          <div className="hidden sm:flex flex-1 flex-col items-center justify-start min-w-0">
-            <nav className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar w-full py-0.5" aria-label="Primary Navigation">
-              {/* PERSONA */}
+          {/* Center Section: Primary Navigation Suite (Folio, Rules, Network, ADE, Cortex) */}
+          <div className="hidden sm:flex flex-1 flex-col items-center justify-center min-w-0">
+            <nav className="flex items-center justify-center flex-wrap gap-1 md:gap-1.5 lg:gap-2 w-full py-0.5" aria-label="Primary Navigation">
+              {/* FOLIO */}
               <button
                 type="button"
+                aria-current={isFolio ? 'page' : undefined}
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   if (isFolio) {
@@ -456,22 +461,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     navigate('/folio');
                   }
                 }}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 ${
                   isFolio
                     ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
                 }`}
-                title={isFolio ? "Persona Folio (Click to toggle Catalog / Dossier)" : "Persona Folio & Roster (/folio)"}
+                title={isFolio ? "Folio — Persona Dossier & Roster (Click to toggle Catalog / Dossier)" : "Folio — Persona Dossiers & Character Engine (/folio)"}
               >
                 <Users size={14} className={isFolio ? 'text-cyan-300' : 'text-cyan-400'} />
                 <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap max-w-[130px] truncate">
-                  {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'PERSONA'}
+                  {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'FOLIO'}
                 </span>
               </button>
 
               {/* RULES */}
               <button
                 type="button"
+                aria-current={isCompendium ? 'page' : undefined}
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   navigate('/compendium');
@@ -479,10 +485,10 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 onMouseEnter={() => {
                   loadCompendiumCatalog();
                 }}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
                   isCompendium
                     ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
                 }`}
                 title="Open Compendium & BASTION Rules Wiki (/compendium)"
               >
@@ -493,23 +499,24 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               {/* NETWORK */}
               <button
                 type="button"
+                aria-current={isNetwork ? 'page' : undefined}
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   navigate('/network');
                 }}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative ${
+                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 ${
                   isNetwork
                     ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/70 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
                     : totalUnreadCount > 0
                     ? 'bg-slate-900/80 text-amber-300 border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-nav-pulse-amber'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
                 }`}
                 title={totalUnreadCount > 0 ? 'Tactical Teams & Operator Network (Unread Messages)' : 'Tactical Teams & Operator Network (/network)'}
               >
                 <Radio size={14} className={isNetwork ? 'text-emerald-300' : totalUnreadCount > 0 ? 'text-amber-400' : 'text-emerald-400'} />
                 <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
                 {totalUnreadCount > 0 && (
-                  <span className="relative flex h-2 w-2">
+                  <span className="relative flex h-2 w-2" aria-label={`${totalUnreadCount} unread messages`}>
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
                   </span>
@@ -519,14 +526,15 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               {/* ADE */}
               <button
                 type="button"
+                aria-current={isFoundry ? 'page' : undefined}
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   navigate('/foundry');
                 }}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
                   isFoundry
                     ? 'bg-purple-500/20 text-purple-300 border-purple-400/70 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-purple-300 border-slate-700/80 hover:border-purple-500/50'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-purple-300 border-slate-700/80 hover:border-purple-500/50'
                 }`}
                 title="ADE Studio & Story Foundry (/foundry)"
               >
@@ -537,14 +545,15 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               {/* CORTEX */}
               <button
                 type="button"
+                aria-current={isCortex ? 'page' : undefined}
                 onClick={() => {
                   AudioService.playTerminalBeep(1150, 0.02);
                   navigate('/dbm');
                 }}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 ${
+                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 ${
                   isCortex
                     ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
                 }`}
                 title="Omnicortex Master Database (/dbm)"
               >
@@ -561,13 +570,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </div>
 
-          {/* Right Section: Round Dice Button & Settings Button with User ID (Vertically centered to match TANGENT text height) */}
-          <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0 self-start h-[42px] sm:h-[51.2px]">
+          {/* Right Section: Round Dice Button & Settings Button with User ID */}
+          <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
             {/* Separate Round DICE Button */}
             <button
               type="button"
               onClick={handleToggleDice}
-              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border text-xs font-mono font-bold transition-all flex items-center justify-center cursor-pointer shrink-0 group ${
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border text-xs font-mono font-bold transition-all flex items-center justify-center cursor-pointer shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400 ${
                 isDiceActive
                   ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.45)]'
                   : 'bg-[#12161f] hover:bg-slate-800 text-rose-400 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/60 shadow-[0_0_10px_rgba(244,63,94,0.15)]'
@@ -580,12 +589,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
             <button
               type="button"
+              aria-label={`Operator Settings (${displayIdentity})`}
               onClick={() => {
                 AudioService.playTerminalBeep(1000, 0.02);
                 setSettingsInitialTab('identity');
                 setIsSettingsOpen(true);
               }}
-              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#181d28] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group shadow-[0_0_10px_rgba(34,211,238,0.15)]"
+              className="min-h-[28px] flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-[#12161f] hover:bg-[#181d28] border border-cyan-500/50 hover:border-cyan-400 text-slate-200 text-xs font-mono transition-colors cursor-pointer group shadow-[0_0_10px_rgba(34,211,238,0.15)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
               title={
                 currentUser
                   ? (cloudSaveStatus === 'saving'
@@ -599,6 +609,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               }
             >
               <span
+                aria-hidden="true"
                 className={`w-2 h-2 rounded-full shrink-0 ${
                   cloudSaveStatus === 'saving'
                     ? 'bg-amber-400 animate-ping'
@@ -609,6 +620,17 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     : currentUser ? 'bg-cyan-400' : 'bg-slate-500'
                 }`}
               />
+              <span className="sr-only">
+                {currentUser
+                  ? (cloudSaveStatus === 'saving'
+                      ? 'Status: Saving to Cloud'
+                      : cloudSaveStatus === 'saved'
+                      ? 'Status: Cloud Synced'
+                      : cloudSaveStatus === 'error'
+                      ? 'Status: Cloud Sync Error'
+                      : 'Status: Online')
+                  : 'Status: Offline Local Mode'}
+              </span>
               <span className="max-w-[85px] xs:max-w-[115px] sm:max-w-[150px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">
                 {displayIdentity}
               </span>

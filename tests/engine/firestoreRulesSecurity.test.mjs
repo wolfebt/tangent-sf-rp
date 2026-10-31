@@ -176,6 +176,34 @@ test('Firestore Rules: /system_settings/{settingId} restricts write access stric
   assert.equal(RulesPolicySimulator.canWriteSystemSettings({ uid: 'gm-1', token: { role: 'GM' } }), true);
 });
 
+test('Firestore Rules: /users/{userId} and /users/{userId}/private_settings/{docId} prohibit geminiApiKey and otherAiApiKey and restrict private_settings strictly to isOwner(userId)', () => {
+  const usersSectionMatch = rulesText.match(/match\s+\/users\/\{userId\}\s*\{([\s\S]*?)match\s+\/private_settings\/\{docId\}\s*\{([\s\S]*?)\}\s*\}/);
+  assert.ok(usersSectionMatch, '/users/{userId} and nested /private_settings/{docId} blocks must exist');
+
+  const userProfileBody = usersSectionMatch[1];
+  const privateSettingsBody = usersSectionMatch[2];
+
+  // /users/{userId} prohibits geminiApiKey and otherAiApiKey on create and update
+  assert.match(userProfileBody, /!\('geminiApiKey'\s+in\s+request\.resource\.data\)/, '/users/{userId} must block geminiApiKey');
+  assert.match(userProfileBody, /!\('otherAiApiKey'\s+in\s+request\.resource\.data\)/, '/users/{userId} must block otherAiApiKey');
+  assert.match(
+    userProfileBody,
+    /!request\.resource\.data\.diff\(resource\.data\)\.affectedKeys\(\)\.hasAny\(\['geminiApiKey',\s*'otherAiApiKey'\]\)/,
+    '/users/{userId} update must block affectedKeys geminiApiKey and otherAiApiKey'
+  );
+
+  // /users/{userId}/private_settings/{docId} restricts strictly to isOwner(userId) (no isAdmin()) and prohibits geminiApiKey and otherAiApiKey
+  assert.match(privateSettingsBody, /allow\s+read,\s*delete:\s*if\s+isOwner\(userId\);/, 'private_settings read/delete must be restricted strictly to isOwner(userId)');
+  assert.doesNotMatch(privateSettingsBody, /isAdmin\(\)/, 'private_settings must not allow isAdmin() access');
+  assert.match(privateSettingsBody, /!\('geminiApiKey'\s+in\s+request\.resource\.data\)/, 'private_settings must block geminiApiKey');
+  assert.match(privateSettingsBody, /!\('otherAiApiKey'\s+in\s+request\.resource\.data\)/, 'private_settings must block otherAiApiKey');
+  assert.match(
+    privateSettingsBody,
+    /!request\.resource\.data\.diff\(resource\.data\)\.affectedKeys\(\)\.hasAny\(\['geminiApiKey',\s*'otherAiApiKey'\]\)/,
+    'private_settings update must block affectedKeys geminiApiKey and otherAiApiKey'
+  );
+});
+
 test('Firestore Rules: Persona Folio & Characters enforce strict owner isolation and public flag semantics', () => {
   assert.match(
     rulesText,

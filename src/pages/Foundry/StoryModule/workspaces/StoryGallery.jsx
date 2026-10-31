@@ -235,7 +235,7 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
   };
 
   return (
-    <div className="flex-1 min-w-0 h-full flex flex-col bg-[#070b12] text-slate-200 select-none font-sans overflow-hidden">
+    <div className="flex-1 min-w-0 h-full flex flex-col tangent-grid-bg text-slate-200 select-none font-sans overflow-hidden">
       {/* Top Gallery Header Bar */}
       <header className="h-12 shrink-0 bg-[#0a0f18]/95 border-b border-slate-800 px-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">

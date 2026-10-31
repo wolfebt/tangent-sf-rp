@@ -918,7 +918,7 @@ const FolioContainer = () => {
   }, [handleManualSave, handleOpenAssetModal, handleReturnToCatalog]);
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
+    <div className="flex flex-col h-full w-full tangent-grid-bg text-slate-100 overflow-hidden font-sans relative">
       {/* Hidden File Input for Loading Files */}
       <input
         type="file"
@@ -1044,7 +1044,7 @@ const FolioContainer = () => {
         )}
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
+        <div className="flex-1 flex flex-col h-full overflow-hidden bg-transparent min-w-0">
           {/* Public Read-Only Banner */}
         {isReadOnly && (
           <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg">

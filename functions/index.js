@@ -120,6 +120,35 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
 });
 
 /**
+ * Per-user sliding-window rate limiter & secret redaction helper for geminiProxy
+ */
+const userRateLimitWindows = new Map();
+const MAX_REQUESTS_PER_USER_PER_MINUTE = 60;
+
+function checkUserRateLimit(uid) {
+  if (!uid) return false;
+  const now = Date.now();
+  const entry = userRateLimitWindows.get(uid);
+  if (!entry || now - entry.windowStart > 60000) {
+    userRateLimitWindows.set(uid, { windowStart: now, count: 1 });
+    return true;
+  }
+  if (entry.count >= MAX_REQUESTS_PER_USER_PER_MINUTE) {
+    return false;
+  }
+  entry.count += 1;
+  return true;
+}
+
+function redactSecret(text, secret) {
+  let clean = String(text || '');
+  if (secret && typeof secret === 'string' && secret.length >= 6) {
+    clean = clean.split(secret).join('[REDACTED_KEY]');
+  }
+  return clean.replace(/AIza[0-9A-Za-z_-]{20,}/g, '[REDACTED_GEMINI_KEY]');
+}
+
+/**
  * Cloud Function: geminiProxy
  * Secure gateway for Google Gemini GenAI calls (dedicated to automated reporting).
  * Requires authenticated caller.
@@ -127,7 +156,7 @@ exports.getLiveKitToken = functions.https.onRequest(async (req, res) => {
 exports.geminiProxy = functions.https.onRequest(async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Firebase-AppCheck');
 
   if (req.method === 'OPTIONS') {
     return res.status(204).send('');
@@ -145,8 +174,13 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
     return res.status(401).json({ error: authErr.message || 'Authentication required for reporting generation' });
   }
 
+  if (!checkUserRateLimit(decodedUser.uid)) {
+    return res.status(429).json({ error: 'Rate limit exceeded (max 60 requests/minute per user).' });
+  }
+
+  let geminiKey = '';
   try {
-    const geminiKey = process.env.GEMINI_API_KEY || functions.config().gemini?.key;
+    geminiKey = process.env.GEMINI_API_KEY || functions.config().gemini?.key || '';
     if (!geminiKey) {
       return res.status(500).json({ error: 'Server configuration error: Gemini API key missing.' });
     }
@@ -173,7 +207,7 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
 
     console.log(`[geminiProxy] Generating report (${reportType || 'general'}) for user: ${decodedUser.uid}`);
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(safeModel)}:generateContent?key=${geminiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(safeModel)}:generateContent`;
     const normalizedSystemInstruction = systemInstruction
       ? (typeof systemInstruction === 'string' ? { parts: [{ text: systemInstruction }] } : systemInstruction)
       : undefined;
@@ -187,14 +221,18 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
 
     const fetchResponse = await fetch(endpoint, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': geminiKey
+      },
       body: JSON.stringify(payload)
     });
 
     const data = await fetchResponse.json();
     return res.status(fetchResponse.status).json(data);
   } catch (err) {
-    console.error('Error proxying Gemini API reporting request:', err);
-    return res.status(500).json({ error: err.message || 'Internal server error' });
+    const safeMsg = redactSecret(err?.message || 'Internal server error', geminiKey);
+    console.error('Error proxying Gemini API reporting request:', safeMsg);
+    return res.status(500).json({ error: safeMsg });
   }
 });

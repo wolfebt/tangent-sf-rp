@@ -16,6 +16,10 @@ dist-ssr
 .env.*.local
 .env.*
 !.env.example
+.secret.local
+functions/.env
+functions/.env.*
+functions/.secret.local
 .firebase
 
 # Editor directories and files

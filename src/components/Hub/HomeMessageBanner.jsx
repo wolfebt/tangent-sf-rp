@@ -74,6 +74,9 @@ export const HomeMessageBanner = ({ className = '', position = 'top' }) => {
   return (
     <div 
       data-marquee-position={position}
+      role="status"
+      aria-live="polite"
+      aria-label={position === 'bottom' ? 'System Telemetry Log' : 'Tactical Broadcast Banner'}
       className={`z-20 w-full pointer-events-auto transition-all duration-300 flex justify-center items-center px-2 sm:px-4 ${className}`}
     >
       <div
@@ -91,7 +94,7 @@ export const HomeMessageBanner = ({ className = '', position = 'top' }) => {
         {/* Left: Indicator Beacon & Category Badge */}
         <div className="flex items-center gap-2 shrink-0 z-10">
           {showBackground && (
-            <div className="relative flex items-center justify-center">
+            <div className="relative flex items-center justify-center" aria-hidden="true">
               <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
               <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />
             </div>
@@ -101,9 +104,9 @@ export const HomeMessageBanner = ({ className = '', position = 'top' }) => {
             <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${
               showBackground
                 ? currentTheme.badgeBg
-                : 'text-slate-400 bg-transparent border border-slate-700/60'
+                : 'text-slate-300 bg-transparent border border-slate-700/80'
             }`}>
-              {CategoryIcon && <CategoryIcon size={12} className="shrink-0" />}
+              {CategoryIcon && <CategoryIcon size={12} className="shrink-0" aria-hidden="true" />}
               <span className="whitespace-nowrap">{banner.badge}</span>
             </div>
           )}
@@ -125,7 +128,7 @@ export const HomeMessageBanner = ({ className = '', position = 'top' }) => {
 
         {/* Right: Matched Indicator Beacon Dot (Framed Mode Only - No Buttons / Controls) */}
         {showBackground && (
-          <div className="flex items-center justify-center w-4 shrink-0 z-10">
+          <div className="flex items-center justify-center w-4 shrink-0 z-10" aria-hidden="true">
             <div className="relative flex items-center justify-center">
               <span className={`w-2 h-2 rounded-full ${currentTheme.beacon}`} />
               <span className={`absolute w-3.5 h-3.5 rounded-full ${currentTheme.beacon} opacity-75 animate-ping`} />

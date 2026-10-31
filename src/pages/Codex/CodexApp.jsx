@@ -363,7 +363,7 @@ export const CodexApp = () => {
   const Icon = currentMatrix.icon;
 
   return (
-    <div className="flex h-full w-full overflow-hidden bg-[#070a10] text-slate-100 font-sans select-none relative">
+    <div className="flex h-full w-full overflow-hidden tangent-grid-bg text-slate-100 font-sans select-none relative">
       {/* Background Ambience Glow */}
       <div 
         className="absolute top-10 left-1/4 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none opacity-20"

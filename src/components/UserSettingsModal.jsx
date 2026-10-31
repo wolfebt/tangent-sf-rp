@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, deleteField } from 'firebase/firestore';
 import { 
   User, 
   Volume2, 
@@ -227,17 +227,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               setContactInfo(data.userContactInfo);
               localStorage.setItem('userContactInfo', data.userContactInfo);
             }
-            if (data.geminiApiKey !== undefined) {
-              setGeminiApiKey(data.geminiApiKey);
-              localStorage.setItem('geminiApiKey', data.geminiApiKey);
-            }
             if (data.aiPlatform !== undefined) {
               setAiPlatform(data.aiPlatform);
               localStorage.setItem('aiPlatform', data.aiPlatform);
-            }
-            if (data.otherAiApiKey !== undefined) {
-              setOtherAiApiKey(data.otherAiApiKey);
-              localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
             }
             if (data.emailOptIn !== undefined) {
               setEmailOptIn(Boolean(data.emailOptIn));
@@ -375,10 +367,10 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
             emailOptIn: Boolean(emailOptIn),
             emailOptInUpdatedAt: nowIso,
             userContactInfo: trimmedContactInfo,
-            geminiApiKey: trimmedGeminiKey,
             aiPlatform: aiPlatform,
-            otherAiApiKey: trimmedOtherKey,
             customEndpoint: trimmedEndpoint,
+            geminiApiKey: deleteField(),
+            otherAiApiKey: deleteField(),
             updatedAt: nowIso
           }, { merge: true })
         ]);

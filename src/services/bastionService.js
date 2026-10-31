@@ -26,9 +26,26 @@ export {
  * adhering to Tangent Science Fantasy Roleplaying Game (SFF RPG) system guidelines.
  */
 
+/**
+ * Redacts any Gemini API key or AIza* secret token from diagnostic/error messages
+ * so keys are never leaked in console logs, UI toasts, or error reports.
+ */
+export const redactGeminiSecret = (text, activeKey = '') => {
+  let clean = String(text || '');
+  if (activeKey && typeof activeKey === 'string' && activeKey.trim().length >= 8) {
+    clean = clean.split(activeKey.trim()).join('[REDACTED_KEY]');
+  }
+  return clean.replace(/AIza[0-9A-Za-z_-]{20,}/g, '[REDACTED_GEMINI_KEY]');
+};
+
 export const getGeminiApiKey = () => {
   const localKey = (typeof localStorage !== 'undefined' ? localStorage.getItem('geminiApiKey') : '') || '';
-  const envKey = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) || (typeof process !== 'undefined' && process.env?.VITE_GEMINI_API_KEY) || '';
+  const isProdBrowser = typeof window !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env?.PROD === true;
+  const envKey = isProdBrowser
+    ? ''
+    : ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) ||
+       (typeof process !== 'undefined' && (process.env?.GEMINI_API_KEY || process.env?.VITE_GEMINI_API_KEY)) ||
+       '');
   const key = (localKey || envKey).trim();
   if (!key || key === 'your_gemini_api_key_here' || key === 'your_firebase_api_key_here') {
     return '';
@@ -175,6 +192,7 @@ export const parseRollCommand = (command) => {
 };
 
 const GEMINI_FLASH_MODELS = [
+  'gemini-3.8-flash',
   'gemini-2.5-flash',
   'gemini-2.0-flash',
   'gemini-flash-latest',
@@ -261,9 +279,12 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
 
   for (const model of GEMINI_FLASH_MODELS) {
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
         body: JSON.stringify(requestBody)
       });
 
@@ -273,13 +294,15 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
         return data;
       }
 
-      const errorMsg = data?.error?.message || `HTTP ${response.status}`;
+      const errorMsg = redactGeminiSecret(data?.error?.message || `HTTP ${response.status}`, apiKey);
 
-      // Stop immediately on API Key authentication / quota / bad request errors
+      // Stop immediately on API Key authentication / billing / quota / bad request errors
       if (
         response.status === 400 ||
+        response.status === 402 ||
         response.status === 403 ||
         errorMsg.toLowerCase().includes('api key') ||
+        errorMsg.toLowerCase().includes('prepayment') ||
         errorMsg.toLowerCase().includes('invalid') ||
         errorMsg.toLowerCase().includes('unregistered')
       ) {
@@ -294,15 +317,16 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
 
       throw new Error(errorMsg);
     } catch (err) {
-      lastError = err;
-      const msg = err.message || '';
+      const safeErr = new Error(redactGeminiSecret(err?.message || 'Gemini request failed', apiKey));
+      lastError = safeErr;
+      const msg = safeErr.message || '';
       if (msg.includes('Gemini API Key Error') || msg.includes('Invalid Gemini API Key')) {
-        throw err;
+        throw safeErr;
       }
       if (msg.includes('no longer available') || msg.includes('not found') || msg.includes('404')) {
         continue;
       }
-      throw err;
+      throw safeErr;
     }
   }
 

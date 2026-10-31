@@ -55,7 +55,7 @@ const NetworkRedirect = ({ defaultView = 'comms' }) => {
 };
 
 const PageLoader = () => (
-  <div className="flex-1 flex flex-col items-center justify-center bg-black text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">
+  <div className="flex-1 flex flex-col items-center justify-center tangent-grid-bg text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">
     <div className="p-6 rounded-2xl bg-[#12161f]/90 border border-cyan-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(34,211,238,0.15)] flex flex-col items-center space-y-3">
       <div className="relative w-12 h-12 flex items-center justify-center">
         <RingedPlanetLogo size={38} className="animate-pulse filter drop-shadow-[0_0_12px_rgba(34,211,238,0.7)]" />
@@ -93,11 +93,17 @@ export function App() {
     };
 
     const handleCustomToggleComms = () => setIsCommsDockOpen(prev => !prev);
+    const handleOpenCommandPalette = () => setIsCommandPaletteOpen(true);
+    const handleToggleCommandPalette = () => setIsCommandPaletteOpen(prev => !prev);
     window.addEventListener('toggle-comms-dock', handleCustomToggleComms);
+    window.addEventListener('open-command-palette', handleOpenCommandPalette);
+    window.addEventListener('toggle-command-palette', handleToggleCommandPalette);
     window.addEventListener('keydown', handleGlobalKeys);
     return () => {
       window.removeEventListener('keydown', handleGlobalKeys);
       window.removeEventListener('toggle-comms-dock', handleCustomToggleComms);
+      window.removeEventListener('open-command-palette', handleOpenCommandPalette);
+      window.removeEventListener('toggle-command-palette', handleToggleCommandPalette);
     };
   }, []);
 
@@ -111,7 +117,7 @@ export function App() {
                 <VoiceChatProvider>
                   <DiceProvider>
                     <ContextMenuProvider>
-                      <div className="h-screen h-dvh w-screen bg-black flex flex-col font-sans overflow-hidden text-slate-100 select-none">
+                      <div className="h-screen h-dvh w-screen tangent-grid-bg flex flex-col font-sans overflow-hidden text-slate-100 select-none">
                       {/* Persistent Global HUD (Height: 52px on sub-routes) */}
                       <GlobalHUD
                         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}

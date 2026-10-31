@@ -432,7 +432,7 @@ export default function ModuleMissionControl({
   const isDefaultModuleName = !universeState?.projectName || universeState?.projectName === 'New Story Module';
 
   return (
-    <div className="flex-1 flex flex-col h-full w-full overflow-y-auto bg-[#070b13] text-slate-100 p-3 sm:p-5 select-none font-sans">
+    <div className="flex-1 flex flex-col h-full w-full overflow-y-auto tangent-grid-bg text-slate-100 p-3 sm:p-5 select-none font-sans">
       {/* Hidden File Input for Story JSON */}
       <input
         type="file"

@@ -119,6 +119,9 @@ export const loginWithGoogle = async () => {
 
 export const logout = async () => {
   try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('firebaseIdToken');
+    }
     await signOut(auth);
   } catch (error) {
     console.error("Error signing out", error);

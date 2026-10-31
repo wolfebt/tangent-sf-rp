@@ -49,6 +49,14 @@
     ],
     "rewrites": [
       {
+        "source": "/geminiProxy",
+        "function": "geminiProxy"
+      },
+      {
+        "source": "/getLiveKitToken",
+        "function": "getLiveKitToken"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

@@ -62,11 +62,21 @@ function rulesCompendiumPlugin() {
   }
 }
 
-export default defineConfig({
-  define: {
-    'process.env': {}
-  },
-  server: {
+export default defineConfig(({ command, mode }) => {
+  const isProdBuild = command === 'build' || mode === 'production'
+
+  return {
+    define: {
+      'process.env': {},
+      // Security Hardening: Never bundle Gemini API keys or LiveKit secrets into production client JS
+      ...(isProdBuild
+        ? {
+            'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(''),
+            'import.meta.env.VITE_LIVEKIT_API_SECRET': JSON.stringify('')
+          }
+        : {})
+    },
+    server: {
     watch: {
       ignored: [
         '**/docs/!(game rules)/**',
@@ -199,4 +209,5 @@ export default defineConfig({
       }
     })
   ]
+  }
 })

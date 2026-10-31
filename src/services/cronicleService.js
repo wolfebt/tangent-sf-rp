@@ -16,6 +16,7 @@ import { getGeminiApiKey, fetchGeminiContent } from './bastionService.js';
  * Attempts to fetch content from Local LLM / geminiProxy / Google Generative AI API with automatic model fallbacks
  */
 const GEMINI_FLASH_MODELS = [
+  'gemini-3.8-flash',
   'gemini-2.5-flash',
   'gemini-2.0-flash',
   'gemini-flash-latest',
@@ -462,7 +463,7 @@ export async function extractNarrativeDeltas({
   prose,
   cronicle,
   apiKey = '',
-  model = 'gemini-2.5-flash'
+  model = 'gemini-3.8-flash'
 }) {
   if (!prose || !prose.trim()) return [];
 

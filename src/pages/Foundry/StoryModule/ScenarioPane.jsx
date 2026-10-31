@@ -358,7 +358,7 @@ export default function ScenarioPane({
   }, [elementsCatalog, searchFilter, outlinerElementTypeFilter]);
 
   return (
-    <div className="h-full w-full bg-slate-950 flex overflow-hidden relative font-mono" onBlur={triggerStorySave}>
+    <div className="h-full w-full tangent-grid-bg flex overflow-hidden relative font-mono" onBlur={triggerStorySave}>
       {/* Hidden Map File Input */}
       <input
         type="file"

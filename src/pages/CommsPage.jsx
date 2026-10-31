@@ -190,7 +190,7 @@ export const CommsPage = ({
   }, [activeNavTab, setActiveNavTab]);
 
   return (
-    <div className="h-full w-full flex flex-col bg-[#080c14] text-slate-100 font-sans overflow-hidden select-none">
+    <div className="h-full w-full flex flex-col tangent-grid-bg text-slate-100 font-sans overflow-hidden select-none">
       {/* ── Main Console Workstation (Zone 2 + Zone 3 + Zone 4) ── */}
       <div className="flex-1 flex min-h-0 overflow-hidden relative">
         {/* ZONE 2: Left Contextual Command & Frequency Tree Sidebar (Always preserves ChannelSidebar + TransceiverDeck) */}
@@ -224,7 +224,7 @@ export const CommsPage = ({
         </div>
 
         {/* ZONE 3: Primary Stage Viewport (Center Message Stream OR Active Squad Command View) */}
-        <div className={`flex-1 flex flex-col h-full min-w-0 bg-[#0a0e17] ${
+        <div className={`flex-1 flex flex-col h-full min-w-0 bg-transparent ${
           mobileView === 'chat' ? 'flex' : 'hidden md:flex'
         }`}>
           {renderStageOverride ? (

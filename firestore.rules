@@ -132,7 +132,15 @@ service cloud.firestore {
       allow delete: if isOwner(userId) || isAdmin();
 
       match /private_settings/{docId} {
-        allow read, write: if isOwner(userId) || isAdmin();
+        allow read, delete: if isOwner(userId);
+        allow create: if isOwner(userId)
+                      && !('geminiApiKey' in request.resource.data)
+                      && !('otherAiApiKey' in request.resource.data);
+        allow update: if isOwner(userId)
+                      && (
+                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['geminiApiKey', 'otherAiApiKey'])
+                        || (!('geminiApiKey' in request.resource.data) && !('otherAiApiKey' in request.resource.data))
+                      );
       }
     }
 
