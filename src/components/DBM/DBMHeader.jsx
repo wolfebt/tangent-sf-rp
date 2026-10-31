@@ -153,25 +153,6 @@ export const DBMHeader = ({
                 <span className="text-[10px] text-purple-400 font-mono">Codex</span>
               </button>
 
-              {/* Bastion AI Assistant Toggle */}
-              <button
-                type="button"
-                onClick={() => {
-                  setIsBastionOpen && setIsBastionOpen(!isBastionOpen);
-                  setIsMenuOpen(false);
-                }}
-                className="w-full text-left px-3 py-2 bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
-                title="Toggle BASTION AI (Rules assistant & entry generator)"
-              >
-                <div className="flex items-center gap-2">
-                  <span>🤖</span>
-                  <span>Bastion AI</span>
-                </div>
-                <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isBastionOpen ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-700 text-slate-400'}`}>
-                  {isBastionOpen ? 'OPEN' : 'CLOSED'}
-                </span>
-              </button>
-
               {/* User Guide */}
               <button
                 onClick={() => {

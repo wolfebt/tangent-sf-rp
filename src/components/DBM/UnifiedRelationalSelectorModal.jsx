@@ -338,18 +338,9 @@ export const UnifiedRelationalSelectorModal = ({
     });
   }
 
-  const hasAnyDirectives = allAvailableItems.some(i => Array.isArray(i.keywords) ? i.keywords.length > 0 : !!(i.keywords && String(i.keywords).trim()));
-  const hasAnyRailguards = allAvailableItems.some(i => Array.isArray(i.negative_keywords) ? i.negative_keywords.length > 0 : !!(i.negative_keywords && String(i.negative_keywords).trim()));
-
   const filteredItems = allAvailableItems.filter(item => {
     if (categoryFilter !== 'all') {
-      if (categoryFilter === 'directives') {
-        const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
-        if (!hasKw) return false;
-      } else if (categoryFilter === 'railguards') {
-        const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
-        if (!hasNegKw) return false;
-      } else if (sourceCollection === 'species_movement') {
+      if (sourceCollection === 'species_movement') {
         if (getMovementClassification(item) !== categoryFilter) return false;
       } else if (sourceCollection === 'traits' && ['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(categoryFilter)) {
         const itemType = item.trait_type || item.type;
@@ -649,28 +640,6 @@ export const UnifiedRelationalSelectorModal = ({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setCategoryFilter('directives')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
-                    categoryFilter === 'directives'
-                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                      : 'bg-slate-900 text-emerald-400/80 hover:text-emerald-300 border border-slate-800'
-                  }`}
-                >
-                  🧭 Directives (+KW)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('railguards')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
-                    categoryFilter === 'railguards'
-                      ? 'bg-rose-950 text-rose-300 border border-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
-                      : 'bg-slate-900 text-rose-400/80 hover:text-rose-300 border border-slate-800'
-                  }`}
-                >
-                  ⛔ Railguards (-KW)
-                </button>
-                <button
-                  type="button"
                   onClick={() => setCategoryFilter('all')}
                   className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
                     categoryFilter === 'all'
@@ -807,49 +776,6 @@ export const UnifiedRelationalSelectorModal = ({
                     </button>
                   );
                 })}
-              </div>
-            )}
-
-            {/* Category Sub-Filter Header Bar for Directives & Railguards (All Other Collections) */}
-            {sourceCollection !== 'skills' && sourceCollection !== 'species_movement' && sourceCollection !== 'traits' && sourceCollection !== 'trait' && (hasAnyDirectives || hasAnyRailguards) && (
-              <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('all')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
-                    categoryFilter === 'all'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  All ({allAvailableItems.length})
-                </button>
-                {hasAnyDirectives && (
-                  <button
-                    type="button"
-                    onClick={() => setCategoryFilter('directives')}
-                    className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
-                      categoryFilter === 'directives'
-                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                        : 'bg-slate-900 text-emerald-400/80 hover:text-emerald-300 border border-slate-800'
-                    }`}
-                  >
-                    🧭 Directives (+KW)
-                  </button>
-                )}
-                {hasAnyRailguards && (
-                  <button
-                    type="button"
-                    onClick={() => setCategoryFilter('railguards')}
-                    className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
-                      categoryFilter === 'railguards'
-                        ? 'bg-rose-950 text-rose-300 border border-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
-                        : 'bg-slate-900 text-rose-400/80 hover:text-rose-300 border border-slate-800'
-                    }`}
-                  >
-                    ⛔ Railguards (-KW)
-                  </button>
-                )}
               </div>
             )}
 

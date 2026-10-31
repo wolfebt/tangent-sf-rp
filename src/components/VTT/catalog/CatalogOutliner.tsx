@@ -208,7 +208,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     }
   };
 
-  // Filter helper supporting text search and tag filters (including directives & railguards)
+  // Filter helper supporting text search and tag filters
   const matchesSearch = (text: string, tagType?: string, entity?: any) => {
     if (activeFilterTag) {
       if (activeFilterTag === '#maps' && tagType !== 'map') return false;
@@ -216,16 +216,6 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
       if (activeFilterTag === '#npc' && tagType !== 'npc') return false;
       if (activeFilterTag === '#clue' && tagType !== 'clue') return false;
       if (activeFilterTag === '#item' && tagType !== 'item') return false;
-      if (activeFilterTag === '#directives') {
-        const kw = entity?.keywords || entity?.fields?.keywords || entity?.meta?.keywords;
-        const hasKw = Array.isArray(kw) ? kw.length > 0 : !!(kw && String(kw).trim());
-        if (!hasKw) return false;
-      }
-      if (activeFilterTag === '#railguards') {
-        const negKw = entity?.negative_keywords || entity?.negativeKeywords || entity?.fields?.negative_keywords || entity?.meta?.negative_keywords;
-        const hasNegKw = Array.isArray(negKw) ? negKw.length > 0 : !!(negKw && String(negKw).trim());
-        if (!hasNegKw) return false;
-      }
     }
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();

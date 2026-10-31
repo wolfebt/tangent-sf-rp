@@ -639,14 +639,7 @@ export const UniversalCatalogModal = ({
       return a.localeCompare(b);
     });
 
-    const hasDirectives = allRawItems.some(i => Array.isArray(i.keywords) ? i.keywords.length > 0 : !!(i.keywords && String(i.keywords).trim()));
-    const hasRailguards = allRawItems.some(i => Array.isArray(i.negative_keywords) ? i.negative_keywords.length > 0 : !!(i.negative_keywords && String(i.negative_keywords).trim()));
-
-    const specialCategories = [];
-    if (hasDirectives) specialCategories.push('Directives');
-    if (hasRailguards) specialCategories.push('Railguards');
-
-    return [...list, ...specialCategories, 'ALL'];
+    return [...list, 'ALL'];
   }, [allRawItems, canonicalColKey]);
 
   // Ordered list of individual species lineages (excluding 'ALL')
@@ -674,22 +667,12 @@ export const UniversalCatalogModal = ({
   // Compute item counts per category pill/gem
   const categoryCounts = useMemo(() => {
     const counts = { ALL: allRawItems.length };
-    let directivesCount = 0;
-    let railguardsCount = 0;
     allRawItems.forEach(item => {
       const cat = String(getItemCategory(item, canonicalColKey) || 'Standard');
       if (cat) {
         counts[cat] = (counts[cat] || 0) + 1;
       }
-      if (Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim())) {
-        directivesCount++;
-      }
-      if (Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim())) {
-        railguardsCount++;
-      }
     });
-    if (directivesCount > 0) counts['Directives'] = directivesCount;
-    if (railguardsCount > 0) counts['Railguards'] = railguardsCount;
     return counts;
   }, [allRawItems, canonicalColKey]);
 
@@ -751,12 +734,6 @@ export const UniversalCatalogModal = ({
       if (canonicalColKey === 'species') {
         if (selectedSpeciesCategories.length > 0) {
           const matches = selectedSpeciesCategories.some(selectedCat => {
-            if (selectedCat === 'Directives') {
-              return Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
-            }
-            if (selectedCat === 'Railguards') {
-              return Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
-            }
             const filterStr = String(selectedCat).toLowerCase();
             const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
             const itemCatLower = itemCat.toLowerCase();
@@ -780,30 +757,22 @@ export const UniversalCatalogModal = ({
       } else {
         // Active interactive category pill (selected gem) for other catalogs
         if (activeCategoryFilter && activeCategoryFilter !== 'ALL') {
-          if (activeCategoryFilter === 'Directives') {
-            const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
-            if (!hasKw) return false;
-          } else if (activeCategoryFilter === 'Railguards') {
-            const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
-            if (!hasNegKw) return false;
-          } else {
-            const filterStr = String(activeCategoryFilter).toLowerCase();
-            const itemCatStr = itemCat.toLowerCase();
-            const parentStr = String(item.parent_species || item.sphere || item.lineage || '').toLowerCase();
+          const filterStr = String(activeCategoryFilter).toLowerCase();
+          const itemCatStr = itemCat.toLowerCase();
+          const parentStr = String(item.parent_species || item.sphere || item.lineage || '').toLowerCase();
 
-            const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
-            const cleanItemCat = itemCatStr.replace(/[^a-z0-9]/g, '');
-            const cleanParent = parentStr.replace(/[^a-z0-9]/g, '');
+          const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
+          const cleanItemCat = itemCatStr.replace(/[^a-z0-9]/g, '');
+          const cleanParent = parentStr.replace(/[^a-z0-9]/g, '');
 
-            const matchesPill = itemCatStr === filterStr ||
-              itemCatStr.includes(filterStr) ||
-              filterStr.includes(itemCatStr) ||
-              parentStr.includes(filterStr) ||
-              (cleanFilter && (cleanItemCat === cleanFilter || cleanParent.includes(cleanFilter)));
+          const matchesPill = itemCatStr === filterStr ||
+            itemCatStr.includes(filterStr) ||
+            filterStr.includes(itemCatStr) ||
+            parentStr.includes(filterStr) ||
+            (cleanFilter && (cleanItemCat === cleanFilter || cleanParent.includes(cleanFilter)));
 
-            if (!matchesPill) {
-              return false;
-            }
+          if (!matchesPill) {
+            return false;
           }
         }
       }

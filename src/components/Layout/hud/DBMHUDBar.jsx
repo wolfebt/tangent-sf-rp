@@ -146,25 +146,6 @@ export const DBMHUDBar = ({
               <span className="text-[10px] text-purple-400 font-mono">Codex</span>
             </button>
 
-            {/* Bastion AI Assistant Toggle */}
-            <button
-              type="button"
-              onClick={() => {
-                setIsBastionOpen && setIsBastionOpen(prev => !prev);
-                setIsDbmMenuOpen(false);
-              }}
-              className="w-full text-left px-3 py-2 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between cursor-pointer"
-              title="Toggle BASTION AI (Rules assistant & entry generator)"
-            >
-              <div className="flex items-center gap-2">
-                <Bot size={13} className="text-emerald-400" />
-                <span>Bastion AI</span>
-              </div>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isBastionOpen ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-700 text-slate-400'}`}>
-                {isBastionOpen ? 'OPEN' : 'CLOSED'}
-              </span>
-            </button>
-
             {/* User Guide */}
             <button
               type="button"

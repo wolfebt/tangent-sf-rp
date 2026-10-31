@@ -40,17 +40,21 @@ export const redactGeminiSecret = (text, activeKey = '') => {
 
 export const getGeminiApiKey = () => {
   const localKey = (typeof localStorage !== 'undefined' ? localStorage.getItem('geminiApiKey') : '') || '';
-  const isProdBrowser = typeof window !== 'undefined' && typeof import.meta !== 'undefined' && import.meta.env?.PROD === true;
-  const envKey = isProdBrowser
-    ? ''
-    : ((typeof import.meta !== 'undefined' && import.meta.env?.VITE_GEMINI_API_KEY) ||
-       (typeof process !== 'undefined' && (process.env?.GEMINI_API_KEY || process.env?.VITE_GEMINI_API_KEY)) ||
-       '');
-  const key = (localKey || envKey).trim();
-  if (!key || key === 'your_gemini_api_key_here' || key === 'your_firebase_api_key_here') {
+  const cleanLocal = localKey.trim();
+  if (cleanLocal && cleanLocal !== 'your_gemini_api_key_here' && cleanLocal !== 'your_firebase_api_key_here') {
+    return cleanLocal;
+  }
+
+  const envKey = (
+    (typeof import.meta !== 'undefined' && (import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY)) ||
+    (typeof process !== 'undefined' && (process.env?.VITE_GEMINI_API_KEY || process.env?.GEMINI_API_KEY)) ||
+    ''
+  ).trim();
+
+  if (!envKey || envKey === 'your_gemini_api_key_here' || envKey === 'your_firebase_api_key_here') {
     return '';
   }
-  return key;
+  return envKey;
 };
 
 const BASTION_SYSTEM_PROMPT = `You are BASTION, the Tactical AI Assistant and Canonical Rules Arbiter for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
@@ -78,6 +82,11 @@ Provide tactical, mathematically precise, immersive, and structured RPG content 
 - Scaling (1.10): 14 Size Categories (Miniscule to Mega Colossal) applying multipliers to weapon dice, SP, speed, range, and starship proximity blast damage.
 - Economatrix (EUFT): Tangent Standard Curve (TSC): Value (Credits) = 10 * 4^(DC / 5). The Golden Rule of Tangent Wealth: Purchase DC = Crafting DC = Cost DC. Items with Cost DC <= Wealth Score are Auto-Bought (0 Cr cost); items with Cost DC > Wealth Score require covering the Liquidity Gap: Liquid Cost = Value(Item DC) - Value(Character WS).
 - Modular Companions: 40 BP formula (15 BP Form + 25 BP Function) with Biological, Synthetic, or Metaphysical chassis.
+- CONCISE SUMMARY-FIRST RESPONSE PROTOCOL (CRITICAL):
+  * On initial replies, ALWAYS provide a concise, high-signal summary first (1-2 sentence direct answer followed by 3-5 brief bullet points in the format "• **Key Point**: 1-sentence summary", keeping total length under ~150 words).
+  * NEVER output long walls of text or exhaustive multi-section essays on the first response.
+  * End summarized responses with a brief 1-line prompt letting the user know they can click or ask to expand on any specific point.
+  * Only provide deep, multi-paragraph breakdowns when the user explicitly asks to "expand", "elaborate", or "detail" a specific topic.
 - Keep tone professional, analytical, sci-fi/fantasy immersive, and mathematically precise. Always cite canonical Omnicortex rules and approved mechanics formulas when arbitrating.`;
 
 /**
@@ -357,7 +366,7 @@ export const sendBastionChatMessage = async ({ prompt, history = [], contextData
 
   try {
     const formattedHistory = history.map(m => ({
-      role: m.sender === 'user' ? 'user' : 'model',
+      role: (m.sender === 'user' || m.role === 'user') ? 'user' : 'model',
       parts: [{ text: m.text }]
     }));
 

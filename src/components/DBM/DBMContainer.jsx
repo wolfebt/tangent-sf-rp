@@ -99,7 +99,7 @@ export const DBMContainer = () => {
     { role: 'model', text: 'Bastion initialized. Greetings, ARCHITECT! How may I assist with database entries, rules, mechanics, or universe architecture today?' }
   ]);
   const [bastionInput, setBastionInput] = useState('');
-  const [apiKey, setApiKey] = useState(localStorage.getItem('geminiApiKey') || '');
+  const [apiKey, setApiKey] = useState(() => getGeminiApiKey());
 
   // Multi-select & facet filter states
   const [filterTypes, setFilterTypes] = useState([]);
@@ -649,21 +649,6 @@ export const DBMContainer = () => {
     setBastionMessages(prev => [...prev, userMsg]);
     setBastionInput('');
 
-    const key = apiKey || getGeminiApiKey();
-
-    if (!key) {
-      setTimeout(() => {
-        setBastionMessages(prev => [
-          ...prev,
-          {
-            role: 'model',
-            text: `🤖 **BASTION TACTICAL AI**: No Gemini API Key configured in Settings (⚙️). Regarding "${userPrompt}", refer to the **Rules Codex** in Omnicortex.`
-          }
-        ]);
-      }, 500);
-      return;
-    }
-
     try {
       const response = await sendBastionChatMessage({
         prompt: userPrompt,
@@ -772,17 +757,6 @@ export const DBMContainer = () => {
             >
               <Crown size={11} className={isAdmin ? 'text-amber-400' : 'text-slate-500'} />
               <span className="hidden sm:inline">{isAdmin ? 'ADMIN' : 'VIEW'}</span>
-            </button>
-
-            {/* Bastion AI Assistant Button */}
-            <button
-              type="button"
-              onClick={() => setIsBastionOpen(true)}
-              className="px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider bg-emerald-950/60 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/60 transition-colors flex items-center gap-1 cursor-pointer"
-              title="Open Bastion AI"
-            >
-              <Bot size={11} className="text-emerald-400" />
-              <span className="hidden sm:inline">Bastion</span>
             </button>
           </div>
         }
@@ -1013,23 +987,6 @@ export const DBMContainer = () => {
       </div>
 
       {/* Embedded Dialog Modals */}
-
-
-      <BastionChatModal
-        isOpen={isBastionOpen}
-        onClose={() => setIsBastionOpen(false)}
-        messages={bastionMessages}
-        input={bastionInput}
-        setInput={setBastionInput}
-        onSend={handleSendBastion}
-        currentKey={currentKey}
-        currentConfig={currentConfig}
-        selectedItem={selectedItem}
-        isEntryModalOpen={isEntryModalOpen}
-        editFormData={editFormData}
-        setEditFormData={setEditFormData}
-        handleCreateNew={handleCreateNew}
-      />
 
       <UserSettingsModal
         isOpen={isSettingsOpen}

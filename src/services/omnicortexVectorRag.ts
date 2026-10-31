@@ -501,7 +501,14 @@ let isCompendiumSeedLoaded = false;
 export async function loadCompendiumSeedDataset(): Promise<void> {
   if (isCompendiumSeedLoaded) return;
   if (!compendiumSeedPromise) {
-    compendiumSeedPromise = import('../data/compendiumSeed.json', { with: { type: 'json' } })
+    const loadSeedModule = () => {
+      if (!(import.meta as any).env) {
+        const jsonSpecifier = '../data/compendiumSeed.json';
+        return import(/* @vite-ignore */ jsonSpecifier, { with: { type: 'json' } });
+      }
+      return import('../data/compendiumSeed.json');
+    };
+    compendiumSeedPromise = loadSeedModule()
       .then(async (mod) => {
         const seedData = (mod.default || mod) as any[];
         const chunks = buildCompendiumChunks(seedData);

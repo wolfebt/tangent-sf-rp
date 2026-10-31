@@ -25,7 +25,6 @@ export const RosterCatalogView = ({
   const { toast } = useToast();
   const [catalogTab, setCatalogTab] = useState('my-roster'); // 'my-roster' | 'public-gallery'
   const [searchQuery, setSearchQuery] = useState('');
-  const [rosterCategoryFilter, setRosterCategoryFilter] = useState('all'); // 'all' | 'directives' | 'railguards'
   const [viewMode, setViewMode] = useState('card'); // 'card' | 'table'
   const [editingNoteDocId, setEditingNoteDocId] = useState(null);
   const [noteTextState, setNoteTextState] = useState('');
@@ -64,18 +63,8 @@ export const RosterCatalogView = ({
 
   const activeSourceList = catalogTab === 'my-roster' ? personaRoster : publicCatalog;
 
-  // Filter roster by category filter and search query
+  // Filter roster by search query
   const filteredRoster = activeSourceList.filter((char) => {
-    if (rosterCategoryFilter === 'directives') {
-      const kw = char.keywords || char.directives;
-      const hasKw = Array.isArray(kw) ? kw.length > 0 : !!(kw && String(kw).trim());
-      if (!hasKw) return false;
-    } else if (rosterCategoryFilter === 'railguards') {
-      const negKw = char.negative_keywords || char.railguards || char.negativeKeywords;
-      const hasNegKw = Array.isArray(negKw) ? negKw.length > 0 : !!(negKw && String(negKw).trim());
-      if (!hasNegKw) return false;
-    }
-
     if (!searchQuery.trim()) return true;
     const query = searchQuery.toLowerCase();
     const name = (char['char-name'] || '').toLowerCase();
@@ -203,39 +192,11 @@ export const RosterCatalogView = ({
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="text"
-              placeholder="Search dossiers, directives, railguards..."
+              placeholder="Search dossiers..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-cyan-500 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none transition-colors font-mono"
             />
-          </div>
-
-          {/* Directives & Railguards Filter Pills */}
-          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0 font-mono text-[11px]">
-            <button
-              type="button"
-              onClick={() => setRosterCategoryFilter(rosterCategoryFilter === 'directives' ? 'all' : 'directives')}
-              className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                rosterCategoryFilter === 'directives'
-                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                  : 'text-slate-400 hover:text-emerald-300'
-              }`}
-              title="Filter by Directives (+KW)"
-            >
-              🧭 Directives
-            </button>
-            <button
-              type="button"
-              onClick={() => setRosterCategoryFilter(rosterCategoryFilter === 'railguards' ? 'all' : 'railguards')}
-              className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                rosterCategoryFilter === 'railguards'
-                  ? 'bg-rose-950 text-rose-300 border border-rose-500/60 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
-                  : 'text-slate-400 hover:text-rose-300'
-              }`}
-              title="Filter by Railguards (-KW)"
-            >
-              ⛔ Railguards
-            </button>
           </div>
 
           <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">

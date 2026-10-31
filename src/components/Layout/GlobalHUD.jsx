@@ -74,7 +74,7 @@ const formatSavedTime = (val) => {
   return '';
 };
 
-export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
+export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleBastion, isBastionOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -121,6 +121,15 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
       toggleDiceRoller();
     } else {
       window.dispatchEvent(new CustomEvent('toggle-dice-roller'));
+    }
+  };
+
+  const handleToggleBastion = () => {
+    AudioService.playTerminalBeep(1100, 0.02);
+    if (onToggleBastion) {
+      onToggleBastion();
+    } else {
+      window.dispatchEvent(new CustomEvent('toggle-bastion-drawer'));
     }
   };
   
@@ -364,20 +373,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               </button>
             );
           })()}
-
-          {/* Bastion AI Co-Pilot Trigger */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1100, 0.02);
-              window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
-            }}
-            className="px-2 sm:px-2.5 py-1 rounded-lg bg-cyan-950/70 hover:bg-cyan-900/80 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all shadow-sm active:scale-95 shrink-0"
-            title="Toggle BASTION AI Assistant (Rules Codex & Persona Generator)"
-          >
-            <span>🤖</span>
-            <span className="hidden xs:inline">Bastion</span>
-          </button>
         </div>
       );
     }
@@ -570,7 +565,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </div>
 
-          {/* Right Section: Round Dice Button & Settings Button with User ID */}
+          {/* Right Section: Round Dice Button, BASTION Robot Head Button & Settings Button with User ID */}
           <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
             {/* Separate Round DICE Button */}
             <button
@@ -585,6 +580,22 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               aria-label="Toggle Holographic Dice Tray"
             >
               <TwoD10Icon size={16} className={`transition-transform group-hover:scale-110 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
+            </button>
+
+            {/* Separate Round BASTION AI Assistant Button (Robot Head between Dice & Settings) */}
+            <button
+              type="button"
+              onClick={handleToggleBastion}
+              aria-pressed={Boolean(isBastionOpen)}
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border text-sm font-mono font-bold transition-all flex items-center justify-center cursor-pointer shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 ${
+                isBastionOpen
+                  ? 'bg-cyan-500/25 text-cyan-200 border-cyan-400/80 shadow-[0_0_14px_rgba(34,211,238,0.45)]'
+                  : 'bg-[#12161f] hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/60 shadow-[0_0_10px_rgba(34,211,238,0.15)]'
+              }`}
+              title="Toggle BASTION AI Assistant (Alt+B)"
+              aria-label="Toggle BASTION AI Assistant"
+            >
+              <span className="transition-transform group-hover:scale-110 leading-none select-none">🤖</span>
             </button>
 
             <button

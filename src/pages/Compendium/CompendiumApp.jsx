@@ -81,7 +81,7 @@ export const CompendiumApp = () => {
     { role: 'model', text: 'Bastion Lore & Omnicortex Catalog Engine initialized. Greetings! How may I assist with game rules, canonical mechanics, species profiles, equipment, or lore today?' }
   ]);
   const [bastionInput, setBastionInput] = useState('');
-  const [apiKey] = useState(localStorage.getItem('geminiApiKey') || '');
+  const [apiKey] = useState(() => getGeminiApiKey());
 
   // Synchronize active article with URL query parameter (?article=... or ?id=...) and redirect legacy ?tab=omnicortex|split to /codex
   useEffect(() => {
@@ -278,20 +278,6 @@ export const CompendiumApp = () => {
     setBastionMessages(prev => [...prev, userMsg]);
     setBastionInput('');
 
-    const key = apiKey || getGeminiApiKey();
-    if (!key) {
-      setTimeout(() => {
-        setBastionMessages(prev => [
-          ...prev,
-          {
-            role: 'model',
-            text: `🤖 **BASTION LORE ASSISTANT**: No Gemini API Key configured in User Settings (⚙️). Regarding "${userPrompt}", you can browse the full articles in the Game Rules and the Omnicortex Catalog.`
-          }
-        ]);
-      }, 500);
-      return;
-    }
-
     try {
       const response = await sendBastionChatMessage({
         prompt: userPrompt,
@@ -346,22 +332,6 @@ export const CompendiumApp = () => {
             </p>
           </div>
         </div>
-
-        {/* Right: Bastion AI & Quick Actions */}
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.03);
-              setIsBastionOpen(true);
-            }}
-            className="px-2.5 py-1.5 rounded-lg bg-sky-950/80 hover:bg-sky-900 text-sky-300 border border-sky-500/50 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
-            title="Open Bastion AI Rules & Lore Assistant"
-          >
-            <Bot size={14} className="text-sky-400" />
-            <span className="hidden md:inline">BASTION AI</span>
-          </button>
-        </div>
       </div>
 
       {/* Main Compendium Workspace */}
@@ -395,23 +365,6 @@ export const CompendiumApp = () => {
         saveEntry={dbm.saveEntry || saveEntry}
         devMode={isAdmin}
         isAdmin={isAdmin}
-      />
-
-      {/* Bastion Lore & Rules Chat Modal */}
-      <BastionChatModal
-        isOpen={isBastionOpen}
-        onClose={() => setIsBastionOpen(false)}
-        messages={bastionMessages}
-        input={bastionInput}
-        setInput={setBastionInput}
-        onSend={handleSendBastion}
-        currentKey={activeItemCategoryKey || 'compendium'}
-        currentConfig={activeItemConfig}
-        selectedItem={selectedItem}
-        isEntryModalOpen={isEntryModalOpen}
-        editFormData={editFormData}
-        setEditFormData={setEditFormData}
-        handleCreateNew={handleCreateNew}
       />
 
       {/* Global Toast Alerts */}

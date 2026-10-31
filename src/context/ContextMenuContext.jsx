@@ -80,17 +80,11 @@ export const ContextMenuProvider = ({ children }) => {
     setAiModalState(prev => ({ ...prev, isOpen: false }));
   }, []);
 
-  // 3. Open Bastion Drawer (in Folio or DBM)
+  // 3. Open Global Bastion Drawer across all routes
   const openBastionDrawer = useCallback((prefillPrompt = '') => {
     closeContextMenu();
-    if (location.pathname.startsWith('/dbm')) {
-      if (dbmContext?.setIsBastionOpen) {
-        dbmContext.setIsBastionOpen(true);
-      }
-    } else {
-      window.dispatchEvent(new CustomEvent('toggle-folio-bastion', { detail: { prompt: prefillPrompt } }));
-    }
-  }, [location.pathname, dbmContext, closeContextMenu]);
+    window.dispatchEvent(new CustomEvent('open-bastion-drawer', { detail: { prompt: prefillPrompt } }));
+  }, [closeContextMenu]);
 
   // 4. Open AIME Workspace
   const openAimeWorkspace = useCallback((prefillPrompt = '') => {
@@ -258,8 +252,7 @@ export const ContextMenuProvider = ({ children }) => {
       executeBastionPrompt,
       openBastionDrawer,
       openBastionModal: (prompt) => {
-        closeContextMenu();
-        if (dbmContext?.setIsBastionOpen) dbmContext.setIsBastionOpen(true);
+        openBastionDrawer(prompt);
       },
       // AIME Handlers
       executeAimePrompt,

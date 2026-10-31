@@ -12,7 +12,14 @@ import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
 import { DEFAULT_ARMORING } from '../data/armoringData.js';
 
 let compendiumSeed = [];
-import('../data/compendiumSeed.json').then(mod => {
+const loadCompendiumSeedForHydrator = () => {
+  if (!import.meta.env) {
+    const jsonSpecifier = '../data/compendiumSeed.json';
+    return import(/* @vite-ignore */ jsonSpecifier, { with: { type: 'json' } });
+  }
+  return import('../data/compendiumSeed.json');
+};
+loadCompendiumSeedForHydrator().then(mod => {
   compendiumSeed = mod.default || mod;
 }).catch(() => {});
 

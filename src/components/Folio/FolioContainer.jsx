@@ -864,7 +864,6 @@ const FolioContainer = () => {
   // Wire Top-level GlobalHUD header custom events to Folio modal state
   useEffect(() => {
     const handleOpenEconomy = () => setIsEconomyOpen(true);
-    const handleToggleBastion = () => setIsBastionOpen(prev => !prev);
     const handleOpenCatalog = () => {
       handleReturnToCatalog();
       setIsSidebarOpen(false);
@@ -887,7 +886,6 @@ const FolioContainer = () => {
     };
 
     window.addEventListener('open-folio-economy', handleOpenEconomy);
-    window.addEventListener('toggle-folio-bastion', handleToggleBastion);
     window.addEventListener('open-folio-catalog', handleOpenCatalog);
     window.addEventListener('open-folio-roster', handleOpenRoster);
     window.addEventListener('open-folio-guide', handleOpenGuide);
@@ -902,7 +900,6 @@ const FolioContainer = () => {
 
     return () => {
       window.removeEventListener('open-folio-economy', handleOpenEconomy);
-      window.removeEventListener('toggle-folio-bastion', handleToggleBastion);
       window.removeEventListener('open-folio-catalog', handleOpenCatalog);
       window.removeEventListener('open-folio-roster', handleOpenRoster);
       window.removeEventListener('open-folio-guide', handleOpenGuide);
@@ -1334,12 +1331,6 @@ const FolioContainer = () => {
               handleSelectTab('identity');
               setIsRosterOpen(false);
             }}
-          />
-        )}
-        {isBastionOpen && (
-          <BastionDrawer
-            isOpen={isBastionOpen}
-            onClose={() => setIsBastionOpen(false)}
           />
         )}
         {isGuideOpen && (

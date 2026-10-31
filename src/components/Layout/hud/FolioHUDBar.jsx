@@ -63,18 +63,6 @@ export const FolioHUDBar = ({
         <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400/80 px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-500/30">
           OPERATOR CATALOG
         </span>
-        <button
-          type="button"
-          onClick={() => {
-            if (setIsBastionOpen) setIsBastionOpen(prev => !prev);
-            window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
-          }}
-          className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
-          title="Toggle BASTION AI (Rules assistant & character generator)"
-        >
-          <Bot size={13} className="text-cyan-400" />
-          <span className="hidden sm:inline">BASTION</span>
-        </button>
       </div>
     );
   }
@@ -195,20 +183,6 @@ export const FolioHUDBar = ({
         </span>
       </button>
 
-      {/* Bastion AI Trigger (Desktop/Tablet) */}
-      <button
-        type="button"
-        onClick={() => {
-          if (setIsBastionOpen) setIsBastionOpen(prev => !prev);
-          window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
-        }}
-        className="hidden sm:flex px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
-        title="Toggle BASTION AI (Rules assistant & character generator)"
-      >
-        <Bot size={13} className="text-cyan-400" />
-        <span>BASTION</span>
-      </button>
-
       {/* Folio File Menu Dropdown */}
       <div className="relative shrink-0" ref={folioMenuRef}>
         <button
@@ -227,22 +201,6 @@ export const FolioHUDBar = ({
             className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-cyan-500/50 rounded-lg shadow-2xl p-1.5 z-50 text-xs flex flex-col gap-1 backdrop-blur-md"
             onClick={() => setIsFolioMenuOpen(false)}
           >
-            {/* Mobile Bastion Trigger */}
-            <button
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.03);
-                if (setIsBastionOpen) setIsBastionOpen(prev => !prev);
-                window.dispatchEvent(new CustomEvent('toggle-folio-bastion'));
-              }}
-              className="sm:hidden w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer border-b border-slate-800/80 pb-2 mb-1"
-              title="Toggle BASTION AI Assistant"
-            >
-              <span className="flex items-center gap-1.5">
-                <Bot size={13} className="text-cyan-400" />
-                <span>Bastion AI</span>
-              </span>
-              <span className="text-[9px] text-cyan-400 font-mono">ASSISTANT</span>
-            </button>
             {/* Cloud Sync Status / Force Sync */}
             <button
               onClick={() => {

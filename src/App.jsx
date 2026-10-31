@@ -14,6 +14,7 @@ import { MobileBottomNav } from './components/Layout/MobileBottomNav';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
 import { CommandPalette } from './components/UI/CommandPalette';
+import BastionDrawer from './components/Folio/BastionDrawer';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
 import { RingedPlanetLogo } from './components/UI/RingedPlanetLogo';
 import { lazyWithRetry } from './utils/lazyWithRetry';
@@ -71,6 +72,7 @@ const PageLoader = () => (
 export function App() {
   const [isCommsDockOpen, setIsCommsDockOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isBastionOpen, setIsBastionOpen] = useState(false);
 
   // Global Keyboard Shortcuts
   useEffect(() => {
@@ -79,6 +81,11 @@ export function App() {
       if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key?.toLowerCase() === 'd' || e.code === 'KeyD')) {
         e.preventDefault();
         window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+      }
+      // Alt+B or Option+B for BASTION AI Assistant
+      if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key?.toLowerCase() === 'b' || e.code === 'KeyB')) {
+        e.preventDefault();
+        setIsBastionOpen(prev => !prev);
       }
       // Alt+R or Option+R for CommLink Relay dock
       if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key?.toLowerCase() === 'r' || e.code === 'KeyR')) {
@@ -95,15 +102,30 @@ export function App() {
     const handleCustomToggleComms = () => setIsCommsDockOpen(prev => !prev);
     const handleOpenCommandPalette = () => setIsCommandPaletteOpen(true);
     const handleToggleCommandPalette = () => setIsCommandPaletteOpen(prev => !prev);
+    const handleToggleBastion = (e) => {
+      if (e?.detail?.prompt) {
+        setIsBastionOpen(true);
+      } else {
+        setIsBastionOpen(prev => !prev);
+      }
+    };
+    const handleOpenBastion = () => setIsBastionOpen(true);
+
     window.addEventListener('toggle-comms-dock', handleCustomToggleComms);
     window.addEventListener('open-command-palette', handleOpenCommandPalette);
     window.addEventListener('toggle-command-palette', handleToggleCommandPalette);
+    window.addEventListener('toggle-folio-bastion', handleToggleBastion);
+    window.addEventListener('toggle-bastion-drawer', handleToggleBastion);
+    window.addEventListener('open-bastion-drawer', handleOpenBastion);
     window.addEventListener('keydown', handleGlobalKeys);
     return () => {
       window.removeEventListener('keydown', handleGlobalKeys);
       window.removeEventListener('toggle-comms-dock', handleCustomToggleComms);
       window.removeEventListener('open-command-palette', handleOpenCommandPalette);
       window.removeEventListener('toggle-command-palette', handleToggleCommandPalette);
+      window.removeEventListener('toggle-folio-bastion', handleToggleBastion);
+      window.removeEventListener('toggle-bastion-drawer', handleToggleBastion);
+      window.removeEventListener('open-bastion-drawer', handleOpenBastion);
     };
   }, []);
 
@@ -122,6 +144,8 @@ export function App() {
                       <GlobalHUD
                         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
                         onToggleDiceDock={() => window.dispatchEvent(new CustomEvent('toggle-dice-dock'))}
+                        onToggleBastion={() => setIsBastionOpen(prev => !prev)}
+                        isBastionOpen={isBastionOpen}
                         onToggleCommsDock={() => setIsCommsDockOpen(prev => !prev)}
                         isCommsDockOpen={isCommsDockOpen}
                       />
@@ -180,6 +204,11 @@ export function App() {
 
                       {/* Persistent Overlay Docks & Command Palette */}
                       <DiceRollerDock />
+
+                      <BastionDrawer
+                        isOpen={isBastionOpen}
+                        onClose={() => setIsBastionOpen(false)}
+                      />
 
                       <CommLinkDock
                         isOpen={isCommsDockOpen}

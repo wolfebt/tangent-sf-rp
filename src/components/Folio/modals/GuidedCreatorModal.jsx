@@ -284,9 +284,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const [factionSearchQuery, setFactionSearchQuery] = useState('');
   const [occupationSearchQuery, setOccupationSearchQuery] = useState('');
   const [archetypeSearchQuery, setArchetypeSearchQuery] = useState('');
-  const [originCategoryFilter, setOriginCategoryFilter] = useState('all');
-  const [factionCategoryFilter, setFactionCategoryFilter] = useState('all');
-  const [occupationCategoryFilter, setOccupationCategoryFilter] = useState('all');
   const [isBastionRulesOpen, setIsBastionRulesOpen] = useState(false);
 
   // Property & Inventory state
@@ -1592,13 +1589,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const renderConcept = () => {
     const filteredArchetypes = (dbData.archetypes || [])
       .filter(a => {
-        if (archetypeSphereFilter === 'Directives') {
-          const hasKw = Array.isArray(a.keywords) ? a.keywords.length > 0 : !!(a.keywords && String(a.keywords).trim());
-          if (!hasKw) return false;
-        } else if (archetypeSphereFilter === 'Railguards') {
-          const hasNegKw = Array.isArray(a.negative_keywords) ? a.negative_keywords.length > 0 : !!(a.negative_keywords && String(a.negative_keywords).trim());
-          if (!hasNegKw) return false;
-        } else if (archetypeSphereFilter !== 'All') {
+        if (archetypeSphereFilter !== 'All') {
           if (!(a.sphere || '').toLowerCase().includes(archetypeSphereFilter.toLowerCase())) return false;
         }
 
@@ -1794,15 +1785,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               )}
             </div>
 
-            {/* Sphere & Directive/Railguard Filter Pills */}
+            {/* Sphere Filter Pills */}
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {['Sentinels', 'Operatives', 'Visionaries', 'Savants', 'All', 'Directives', 'Railguards'].map(sp => {
+              {['Sentinels', 'Operatives', 'Visionaries', 'Savants', 'All'].map(sp => {
                 const isSelected = archetypeSphereFilter === sp;
-                const isDir = sp === 'Directives';
-                const isRail = sp === 'Railguards';
                 const count = sp === 'All' ? (dbData.archetypes || []).length
-                  : sp === 'Directives' ? (dbData.archetypes || []).filter(a => Array.isArray(a.keywords) ? a.keywords.length > 0 : !!(a.keywords && String(a.keywords).trim())).length
-                  : sp === 'Railguards' ? (dbData.archetypes || []).filter(a => Array.isArray(a.negative_keywords) ? a.negative_keywords.length > 0 : !!(a.negative_keywords && String(a.negative_keywords).trim())).length
                   : (dbData.archetypes || []).filter(a => (a.sphere || '').toLowerCase().includes(sp.toLowerCase())).length;
 
                 return (
@@ -1812,15 +1799,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     onClick={() => setArchetypeSphereFilter(sp)}
                     className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all flex items-center gap-1 cursor-pointer ${
                       isSelected
-                        ? isDir
-                          ? 'bg-cyan-600 text-white font-bold shadow'
-                          : isRail
-                          ? 'bg-rose-600 text-white font-bold shadow'
-                          : 'bg-cyan-500 text-slate-950 font-bold shadow'
+                        ? 'bg-cyan-500 text-slate-950 font-bold shadow'
                         : 'bg-slate-800 text-slate-400 hover:text-slate-200'
                     }`}
                   >
-                    <span>{isDir ? '🧭 Directives (+KW)' : isRail ? '⛔ Railguards (-KW)' : sp}</span>
+                    <span>{sp}</span>
                     <span className="text-[10px] opacity-75 font-mono">({count})</span>
                   </button>
                 );
@@ -2111,14 +2094,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       const recTl = Array.isArray(sp.recommended_tl) ? sp.recommended_tl.join(' ') : String(sp.recommended_tl || '');
       const recMl = Array.isArray(sp.recommended_ml) ? sp.recommended_ml.join(' ') : String(sp.recommended_ml || '');
 
-      // Lineage & Category filter
-      if (speciesLineageFilter === 'Directives') {
-        const hasKw = Array.isArray(sp.keywords) ? sp.keywords.length > 0 : !!(sp.keywords && String(sp.keywords).trim());
-        if (!hasKw) return false;
-      } else if (speciesLineageFilter === 'Railguards') {
-        const hasNegKw = Array.isArray(sp.negative_keywords) ? sp.negative_keywords.length > 0 : !!(sp.negative_keywords && String(sp.negative_keywords).trim());
-        if (!hasNegKw) return false;
-      } else if (speciesLineageFilter !== 'All') {
+      // Lineage filter
+      if (speciesLineageFilter !== 'All') {
         const target = speciesLineageFilter.toLowerCase().split(' ')[0].replace(/[^a-z0-9]/g, '');
         const cleanParent = parentName.replace(/[^a-z0-9]/g, '');
         const cleanId = (sp.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -2217,34 +2194,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               </button>
             );
           })}
-          <button
-            type="button"
-            onClick={() => setSpeciesLineageFilter('Directives')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-              speciesLineageFilter === 'Directives'
-                ? 'bg-cyan-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-            }`}
-          >
-            <span>🧭 Directives (+KW)</span>
-            <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
-              {(dbData.species || []).filter(s => Array.isArray(s.keywords) ? s.keywords.length > 0 : !!(s.keywords && String(s.keywords).trim())).length}
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setSpeciesLineageFilter('Railguards')}
-            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-              speciesLineageFilter === 'Railguards'
-                ? 'bg-rose-600 text-white font-bold shadow-[0_0_10px_rgba(225,29,72,0.4)]'
-                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-            }`}
-          >
-            <span>⛔ Railguards (-KW)</span>
-            <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
-              {(dbData.species || []).filter(s => Array.isArray(s.negative_keywords) ? s.negative_keywords.length > 0 : !!(s.negative_keywords && String(s.negative_keywords).trim())).length}
-            </span>
-          </button>
         </div>
 
         {/* Species Grid */}
@@ -2429,16 +2378,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   };
 
   const renderOriginFaction = () => {
-    // Filter Origins by search query and category
+    // Filter Origins by search query
     const filteredOrigins = (dbData.origins || []).filter(org => {
-      if (originCategoryFilter === 'directives') {
-        const hasKw = Array.isArray(org.keywords) ? org.keywords.length > 0 : !!(org.keywords && String(org.keywords).trim());
-        if (!hasKw) return false;
-      } else if (originCategoryFilter === 'railguards') {
-        const hasNegKw = Array.isArray(org.negative_keywords) ? org.negative_keywords.length > 0 : !!(org.negative_keywords && String(org.negative_keywords).trim());
-        if (!hasNegKw) return false;
-      }
-
       if (!originSearchQuery.trim()) return true;
       const q = originSearchQuery.toLowerCase().trim();
       const name = (org.name || org.title || org.id || '').toLowerCase();
@@ -2461,16 +2402,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       );
     });
 
-    // Filter Factions by search query and category
+    // Filter Factions by search query
     const filteredFactions = (dbData.factions || []).filter(fac => {
-      if (factionCategoryFilter === 'directives') {
-        const hasKw = Array.isArray(fac.keywords) ? fac.keywords.length > 0 : !!(fac.keywords && String(fac.keywords).trim());
-        if (!hasKw) return false;
-      } else if (factionCategoryFilter === 'railguards') {
-        const hasNegKw = Array.isArray(fac.negative_keywords) ? fac.negative_keywords.length > 0 : !!(fac.negative_keywords && String(fac.negative_keywords).trim());
-        if (!hasNegKw) return false;
-      }
-
       if (!factionSearchQuery.trim()) return true;
       const q = factionSearchQuery.toLowerCase().trim();
       const name = (fac.name || fac.title || fac.id || '').toLowerCase();
@@ -2517,7 +2450,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   type="text"
                   value={originSearchQuery}
                   onChange={e => setOriginSearchQuery(e.target.value)}
-                  placeholder="Search origins, directives, railguards..."
+                  placeholder="Search origins..."
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-7 pr-2 py-1 text-xs text-white placeholder-slate-500 focus:border-amber-400 outline-none"
                 />
                 <Search size={12} className="absolute left-2 top-2 text-slate-500" />
@@ -2528,33 +2461,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   >✕</button>
                 )}
               </div>
-            </div>
-
-            {/* Origin Category Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 pt-0.5">
-              {[
-                { id: 'all', label: 'All', count: (dbData.origins || []).length },
-                { id: 'directives', label: '🧭 Directives (+KW)', count: (dbData.origins || []).filter(o => Array.isArray(o.keywords) ? o.keywords.length > 0 : !!(o.keywords && String(o.keywords).trim())).length },
-                { id: 'railguards', label: '⛔ Railguards (-KW)', count: (dbData.origins || []).filter(o => Array.isArray(o.negative_keywords) ? o.negative_keywords.length > 0 : !!(o.negative_keywords && String(o.negative_keywords).trim())).length }
-              ].map(cat => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setOriginCategoryFilter(cat.id)}
-                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all flex items-center gap-1 cursor-pointer ${
-                    originCategoryFilter === cat.id
-                      ? cat.id === 'directives'
-                        ? 'bg-amber-600 text-white font-bold shadow'
-                        : cat.id === 'railguards'
-                        ? 'bg-rose-600 text-white font-bold shadow'
-                        : 'bg-amber-500 text-slate-950 font-bold shadow'
-                      : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  <span>{cat.label}</span>
-                  <span className="text-[10px] opacity-75 font-mono">({cat.count})</span>
-                </button>
-              ))}
             </div>
 
             {dbData.origins.length === 0 ? (
@@ -2715,7 +2621,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   type="text"
                   value={factionSearchQuery}
                   onChange={e => setFactionSearchQuery(e.target.value)}
-                  placeholder="Search factions, directives, railguards..."
+                  placeholder="Search factions..."
                   className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-7 pr-2 py-1 text-xs text-white placeholder-slate-500 focus:border-emerald-400 outline-none"
                 />
                 <Search size={12} className="absolute left-2 top-2 text-slate-500" />
@@ -2726,33 +2632,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   >✕</button>
                 )}
               </div>
-            </div>
-
-            {/* Faction Category Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 pt-0.5">
-              {[
-                { id: 'all', label: 'All', count: (dbData.factions || []).length },
-                { id: 'directives', label: '🧭 Directives (+KW)', count: (dbData.factions || []).filter(f => Array.isArray(f.keywords) ? f.keywords.length > 0 : !!(f.keywords && String(f.keywords).trim())).length },
-                { id: 'railguards', label: '⛔ Railguards (-KW)', count: (dbData.factions || []).filter(f => Array.isArray(f.negative_keywords) ? f.negative_keywords.length > 0 : !!(f.negative_keywords && String(f.negative_keywords).trim())).length }
-              ].map(cat => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => setFactionCategoryFilter(cat.id)}
-                  className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all flex items-center gap-1 cursor-pointer ${
-                    factionCategoryFilter === cat.id
-                      ? cat.id === 'directives'
-                        ? 'bg-emerald-600 text-white font-bold shadow'
-                        : cat.id === 'railguards'
-                        ? 'bg-rose-600 text-white font-bold shadow'
-                        : 'bg-emerald-500 text-slate-950 font-bold shadow'
-                      : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  <span>{cat.label}</span>
-                  <span className="text-[10px] opacity-75 font-mono">({cat.count})</span>
-                </button>
-              ))}
             </div>
 
             {dbData.factions.length === 0 ? (
@@ -2864,14 +2743,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
   const renderOccupation = () => {
     const filteredOccupations = (dbData.occupations || []).filter(occ => {
-      if (occupationCategoryFilter === 'directives') {
-        const hasKw = Array.isArray(occ.keywords) ? occ.keywords.length > 0 : !!(occ.keywords && String(occ.keywords).trim());
-        if (!hasKw) return false;
-      } else if (occupationCategoryFilter === 'railguards') {
-        const hasNegKw = Array.isArray(occ.negative_keywords) ? occ.negative_keywords.length > 0 : !!(occ.negative_keywords && String(occ.negative_keywords).trim());
-        if (!hasNegKw) return false;
-      }
-
       if (!occupationSearchQuery.trim()) return true;
       const q = occupationSearchQuery.toLowerCase().trim();
       const name = (occ.name || occ.title || occ.id || '').toLowerCase();
@@ -2913,7 +2784,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               type="text"
               value={occupationSearchQuery}
               onChange={e => setOccupationSearchQuery(e.target.value)}
-              placeholder="Search careers by name, skills, TL/ML, directives, or railguards..."
+              placeholder="Search careers by name, skills, or TL/ML..."
               className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500 outline-none"
             />
             <Search size={14} className="absolute left-2.5 top-2.5 text-slate-500" />
@@ -2924,35 +2795,6 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               >✕</button>
             )}
           </div>
-        </div>
-
-        {/* Occupation Category Filter Pills */}
-        <div className="flex flex-wrap gap-1.5 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
-          {[
-            { id: 'all', label: 'All Careers', count: (dbData.occupations || []).length },
-            { id: 'directives', label: '🧭 Directives (+KW)', count: (dbData.occupations || []).filter(o => Array.isArray(o.keywords) ? o.keywords.length > 0 : !!(o.keywords && String(o.keywords).trim())).length },
-            { id: 'railguards', label: '⛔ Railguards (-KW)', count: (dbData.occupations || []).filter(o => Array.isArray(o.negative_keywords) ? o.negative_keywords.length > 0 : !!(o.negative_keywords && String(o.negative_keywords).trim())).length }
-          ].map(cat => (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setOccupationCategoryFilter(cat.id)}
-              className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-                occupationCategoryFilter === cat.id
-                  ? cat.id === 'directives'
-                    ? 'bg-cyan-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                    : cat.id === 'railguards'
-                    ? 'bg-rose-600 text-white font-bold shadow-[0_0_10px_rgba(225,29,72,0.4)]'
-                    : 'bg-cyan-500 text-slate-950 font-bold shadow'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-              }`}
-            >
-              <span>{cat.label}</span>
-              <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
-                {cat.count}
-              </span>
-            </button>
-          ))}
         </div>
 
         {/* Occupations Grid */}
@@ -4103,22 +3945,10 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       ...(dbData.other || []).map(o => ({ ...o, propertyCategory: 'other' }))
     ];
 
-    const directiveCatalogItems = allCatalogPropertyItems.filter(item => {
-      return Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
-    });
-
-    const railguardCatalogItems = allCatalogPropertyItems.filter(item => {
-      return Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
-    });
-
     // Catalog items based on active category
     let catalogItems = [];
     if (propertyCategoryFilter === 'all') {
       catalogItems = allCatalogPropertyItems;
-    } else if (propertyCategoryFilter === 'directives') {
-      catalogItems = directiveCatalogItems;
-    } else if (propertyCategoryFilter === 'railguards') {
-      catalogItems = railguardCatalogItems;
     } else {
       catalogItems = allCatalogPropertyItems.filter(i => i.propertyCategory === propertyCategoryFilter);
     }
@@ -4153,13 +3983,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       { id: 'gear', label: 'Gear', icon: '🎒', count: gearList.length },
       { id: 'mecha', label: 'Mech', icon: '🤖', count: mechaList.length },
       { id: 'architecture', label: 'Architecture', icon: '🏛️', count: architectureList.length },
-      { id: 'other', label: 'Other', icon: '📦', count: otherList.length },
-      { id: 'directives', label: 'Directives (+KW)', icon: '🧭', count: directiveCatalogItems.length },
-      { id: 'railguards', label: 'Railguards (-KW)', icon: '⛔', count: railguardCatalogItems.length }
+      { id: 'other', label: 'Other', icon: '📦', count: otherList.length }
     ];
 
     // Manifest categories to show in the right column
-    const manifestCategoriesToShow = ['all', 'directives', 'railguards'].includes(propertyCategoryFilter)
+    const manifestCategoriesToShow = propertyCategoryFilter === 'all'
       ? [
           { key: 'weapons', label: 'Weaponry', icon: '⚔️', list: weaponsList, color: 'text-amber-400' },
           { key: 'armor', label: 'Armoring', icon: '🛡️', list: armorList, color: 'text-emerald-400' },

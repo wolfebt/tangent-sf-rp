@@ -1,6 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { useFolio } from '../../context/FolioContext';
+import { useDBM } from '../../context/DBMContext';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
 import {
   synthesizeCharacterWithBastion,
@@ -90,10 +92,22 @@ const CATEGORIES = [
   'Psychology & Metanarrative'
 ];
 
+const BASTION_CHAT_STORAGE_KEY = 'tangent_bastion_chat_history_v1';
+
+const DEFAULT_BASTION_GREETING = [
+  {
+    sender: 'bastion',
+    text: 'Greetings, OPERATOR. BASTION AI Assistant online across the platform. How can I assist with rules, Omnicortex lore, or your Tangent SFF RPG persona today? Type /character [concept] to synthesize a canonical 5-pillar character, /roll [dice] to roll dice (e.g. /roll 2d10+4), or /clear to reset our conversation.'
+  }
+];
+
 const BastionDrawer = ({ isOpen, onClose }) => {
-  const { characterData, updateField, applyGuidedCharacter } = useFolio();
+  const location = useLocation();
+  const { characterData, updateField, applyGuidedCharacter } = useFolio() || {};
+  const dbmContext = useDBM() || {};
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'generator'
   const [isMinimized, setIsMinimized] = useState(false);
+  const messagesEndRef = useRef(null);
 
   // Dock / Undock state (Persisted in localStorage)
   const [isDocked, setIsDocked] = useState(() => {
@@ -115,12 +129,90 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     });
   };
 
-  // Chat State
-  const [messages, setMessages] = useState([
-    { sender: 'bastion', text: 'Greetings, OPERATOR. BASTION AI Assistant online. How can I assist your Tangent SFF RPG persona session today? Type /character [concept] to synthesize a canonical 5-pillar character, or /roll [dice] to roll dice (e.g. /roll 2d10+4).' }
-  ]);
+  // Persistent Platform-Wide Chat State (stays in conversation across all routes until cleared)
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = localStorage.getItem(BASTION_CHAT_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return DEFAULT_BASTION_GREETING;
+  });
   const [inputVal, setInputVal] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [copiedConversation, setCopiedConversation] = useState(false);
+  const [copiedBlockIdx, setCopiedBlockIdx] = useState(null);
+  const [expandedBlocks, setExpandedBlocks] = useState({});
+
+  // Persist conversation history across routes & reloads until cleared
+  useEffect(() => {
+    try {
+      localStorage.setItem(BASTION_CHAT_STORAGE_KEY, JSON.stringify(messages));
+    } catch (e) {}
+  }, [messages]);
+
+  // Auto-scroll to newest message when open on chat tab
+  useEffect(() => {
+    if (isOpen && activeTab === 'chat' && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [messages, isChatLoading, isOpen, activeTab]);
+
+  // Listen for prefilled prompts from context menus or global triggers
+  useEffect(() => {
+    const handlePrefillPrompt = (e) => {
+      const prefill = e?.detail?.prompt;
+      if (prefill && typeof prefill === 'string' && prefill.trim()) {
+        setActiveTab('chat');
+        setInputVal(prefill.trim());
+      }
+    };
+    window.addEventListener('toggle-folio-bastion', handlePrefillPrompt);
+    window.addEventListener('toggle-bastion-drawer', handlePrefillPrompt);
+    window.addEventListener('open-bastion-drawer', handlePrefillPrompt);
+    return () => {
+      window.removeEventListener('toggle-folio-bastion', handlePrefillPrompt);
+      window.removeEventListener('toggle-bastion-drawer', handlePrefillPrompt);
+      window.removeEventListener('open-bastion-drawer', handlePrefillPrompt);
+    };
+  }, []);
+
+  const handleClearChat = useCallback(() => {
+    setMessages(DEFAULT_BASTION_GREETING);
+    setExpandedBlocks({});
+    try {
+      localStorage.removeItem(BASTION_CHAT_STORAGE_KEY);
+    } catch (e) {}
+  }, []);
+
+  const handleCopyConversation = useCallback(() => {
+    const transcript = messages
+      .map(m => `[${m.sender === 'user' ? 'OPERATOR' : 'BASTION'}]:\n${m.text}`)
+      .join('\n\n---\n\n');
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(transcript).catch(() => {});
+    }
+    setCopiedConversation(true);
+    setTimeout(() => setCopiedConversation(false), 2000);
+  }, [messages]);
+
+  const handleCopyBlock = useCallback((text, idx) => {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text || '').catch(() => {});
+    }
+    setCopiedBlockIdx(idx);
+    setTimeout(() => {
+      setCopiedBlockIdx(prev => (prev === idx ? null : prev));
+    }, 2000);
+  }, []);
+
+  const toggleExpandBlock = useCallback((idx) => {
+    setExpandedBlocks(prev => ({ ...prev, [idx]: !prev[idx] }));
+  }, []);
 
   // Generator State
   const [generatorMode, setGeneratorMode] = useState('staged'); // 'staged' (user-in-the-loop) | 'synthesis' (1-click 5 pillars) | 'fields' (selective)
@@ -338,39 +430,75 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSendChat = async (e) => {
-    e.preventDefault();
-    if (!inputVal.trim() || isChatLoading) return;
+  const extractExpandablePoints = (text) => {
+    if (!text || typeof text !== 'string') return [];
+    const matches = [];
+    const seen = new Set();
+    const regex = /(?:^|\n)\s*(?:[•*-]|\d+\.)\s*\*\*([^*:\n]{2,45})\*\*/g;
+    let m;
+    while ((m = regex.exec(text)) !== null) {
+      const clean = m[1].replace(/^\d+\.\s*/, '').replace(/:$/, '').trim();
+      if (clean && !seen.has(clean.toLowerCase()) && clean.length >= 3) {
+        seen.add(clean.toLowerCase());
+        matches.push(clean);
+      }
+      if (matches.length >= 5) break;
+    }
+    return matches;
+  };
 
-    const userText = inputVal.trim();
-    const newMessages = [...messages, { sender: 'user', text: userText }];
-    setMessages(newMessages);
-    setInputVal('');
+  const getSummarizedDisplayText = (text, isExpanded) => {
+    if (!text || isExpanded || text.length <= 420) {
+      return { displayText: text, isTruncated: false };
+    }
+    const lines = text.split('\n').filter(l => l.trim().length > 0);
+    if (lines.length > 6) {
+      return {
+        displayText: lines.slice(0, 6).join('\n') + '\n…',
+        isTruncated: true
+      };
+    }
+    return {
+      displayText: text.slice(0, 400).trimEnd() + '…',
+      isTruncated: true
+    };
+  };
 
+  const runBastionQuery = async (userText, baseHistory, replaceAtIdx = null) => {
     // Check for /roll command
     if (userText.startsWith('/roll')) {
       const rollResult = parseRollCommand(userText);
-      if (rollResult.success) {
-        setMessages([
-          ...newMessages,
-          {
+      const replyMsg = rollResult.success
+        ? {
             sender: 'bastion',
             isRoll: true,
+            promptText: userText,
             text: `🎲 DICE ROLL RESULT [${rollResult.expr}]: Total = ${rollResult.total} (Rolls: [${rollResult.rolls.join(', ')}] ${rollResult.mod !== 0 ? `Mod: ${rollResult.mod}` : ''})`
           }
-        ]);
-      } else {
-        setMessages([
-          ...newMessages,
-          { sender: 'bastion', text: rollResult.error }
-        ]);
-      }
+        : { sender: 'bastion', promptText: userText, text: rollResult.error };
+
+      setMessages(prev => {
+        if (replaceAtIdx !== null && prev[replaceAtIdx]) {
+          const next = [...prev];
+          next[replaceAtIdx] = replyMsg;
+          return next;
+        }
+        return [...prev, replyMsg];
+      });
       return;
     }
 
     // Check for /character command or character creation queries
     const lowerText = userText.toLowerCase();
-    if (lowerText.startsWith('/character') || lowerText.startsWith('/char') || lowerText.includes('create a character') || lowerText.includes('create character') || lowerText.includes('build a character') || lowerText.includes('build an operative') || lowerText.includes('build a persona')) {
+    if (
+      lowerText.startsWith('/character') ||
+      lowerText.startsWith('/char') ||
+      lowerText.includes('create a character') ||
+      lowerText.includes('create character') ||
+      lowerText.includes('build a character') ||
+      lowerText.includes('build an operative') ||
+      lowerText.includes('build a persona')
+    ) {
       const promptQuery = userText.replace(/^\/(character|char)\s*/i, '').trim() || 'Tactical persona';
       const synth = synthesizeCharacterWithBastion({
         prompt: promptQuery,
@@ -379,35 +507,133 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
       if (synth.success) {
         const { pillars, character, allocationsReport } = synth;
-        const replyText = `🤖 **BASTION 5-PILLAR CHARACTER SYNTHESIS**\n\n` +
-          `Grounded strictly in the Omnicortex Canonical Database:\n` +
-          `* **1. Archetype:** ${pillars.archetype.name} (${pillars.archetype.sphere})\n` +
-          `* **2. Species:** ${pillars.species.name}\n` +
-          `* **3. Faction:** ${pillars.faction.name}\n` +
-          `* **4. Origin:** ${pillars.origin.name}\n` +
-          `* **5. Occupation:** ${pillars.occupation.name}\n\n` +
-          `**Core Attributes:** STR ${character['attr-strength']}, AGI ${character['attr-agility']}, STA ${character['attr-stamina']}, INT ${character['attr-intellect']}, WIS ${character['attr-wisdom']}, CHA ${character['attr-charisma']}\n` +
-          `**Skills (${allocationsReport.skillsCount} Ranks):** ${character.skills.slice(0, 6).map(s => `${s.name} ${s.rank}`).join(', ')}...\n` +
-          `**Features & Traits:** ${character.features.slice(0, 2).map(f => f.name).join(', ')} | ${character.traits.slice(0, 2).map(t => t.name).join(', ')}\n` +
-          `**Property:** ${character.weapons.map(w => w.name).join(', ')} · ${character.armor.map(a => a.name).join(', ')}\n\n` +
-          `*Summary: ${character.summary}*\n\n` +
-          `*(Switch to the **⚡ Generator** tab to review and apply this 5-pillar persona to your sheet!)*`;
+        const replyText =
+          `🤖 **BASTION 5-PILLAR CHARACTER SUMMARY**\n` +
+          `• **1. Archetype**: ${pillars.archetype.name} (${pillars.archetype.sphere})\n` +
+          `• **2. Species**: ${pillars.species.name}\n` +
+          `• **3. Faction**: ${pillars.faction.name}\n` +
+          `• **4. Origin**: ${pillars.origin.name}\n` +
+          `• **5. Occupation**: ${pillars.occupation.name}\n` +
+          `• **Stats & Loadout**: STR ${character['attr-strength']}, AGI ${character['attr-agility']}, STA ${character['attr-stamina']}, INT ${character['attr-intellect']}, WIS ${character['attr-wisdom']}, CHA ${character['attr-charisma']} | ${allocationsReport.skillsCount} Skill Ranks | ${character.weapons.map(w => w.name).join(', ')}\n\n` +
+          `*(Open **⚡ Generator** tab to inspect or apply, or click any pillar below to expand).*`;
 
         setSynthesizedResult(synth);
-        setMessages(prev => [...prev, { sender: 'bastion', text: replyText }]);
+        const replyMsg = { sender: 'bastion', promptText: userText, text: replyText };
+        setMessages(prev => {
+          if (replaceAtIdx !== null && prev[replaceAtIdx]) {
+            const next = [...prev];
+            next[replaceAtIdx] = replyMsg;
+            return next;
+          }
+          return [...prev, replyMsg];
+        });
         return;
       }
     }
 
     setIsChatLoading(true);
-    const response = await sendBastionChatMessage({ 
-      prompt: userText, 
-      history: messages,
-      contextData: { activeCharacter: characterData } 
+    const activeDbCategory =
+      location?.pathname?.startsWith('/compendium') || location?.pathname?.startsWith('/rules')
+        ? 'compendium'
+        : dbmContext?.activeCategory || undefined;
+
+    const isExpandRequest = /^expand\b/i.test(userText);
+    const formattedPrompt = isExpandRequest
+      ? userText
+      : `${userText}\n\n[Formatting Directive: Provide a concise summary first (1-2 sentence overview + 3-5 short bullet points "• **Topic**: 1-sentence summary"). Keep initial reply brief so the user can expand on individual points as needed.]`;
+
+    const response = await sendBastionChatMessage({
+      prompt: formattedPrompt,
+      history: baseHistory,
+      contextData: {
+        activeCharacter: characterData,
+        activeDatabaseCategory: activeDbCategory,
+        pathname: location?.pathname || '/'
+      }
     });
     setIsChatLoading(false);
 
-    setMessages(prev => [...prev, { sender: 'bastion', text: response.text }]);
+    const replyMsg = {
+      sender: 'bastion',
+      promptText: userText,
+      text: response.text,
+      isExpandedResponse: isExpandRequest
+    };
+
+    if (isExpandRequest) {
+      setExpandedBlocks(prev => ({
+        ...prev,
+        [replaceAtIdx !== null ? replaceAtIdx : baseHistory.length + 1]: true
+      }));
+    }
+
+    setMessages(prev => {
+      if (replaceAtIdx !== null && prev[replaceAtIdx]) {
+        const next = [...prev];
+        next[replaceAtIdx] = replyMsg;
+        return next;
+      }
+      return [...prev, replyMsg];
+    });
+  };
+
+  const handleSendChat = async (e) => {
+    if (e?.preventDefault) e.preventDefault();
+    if (!inputVal.trim() || isChatLoading) return;
+
+    const userText = inputVal.trim();
+    if (userText.toLowerCase() === '/clear' || userText.toLowerCase() === '/reset') {
+      setInputVal('');
+      handleClearChat();
+      return;
+    }
+
+    const historySnapshot = [...messages];
+    const newMessages = [...messages, { sender: 'user', text: userText }];
+    setMessages(newMessages);
+    setInputVal('');
+
+    await runBastionQuery(userText, historySnapshot, null);
+  };
+
+  const handleRetryBlock = async (blockIdx) => {
+    if (isChatLoading) return;
+    const targetMsg = messages[blockIdx];
+    if (!targetMsg) return;
+
+    // Find the user prompt that generated this block
+    let userPromptToRetry = targetMsg.promptText || '';
+    if (!userPromptToRetry) {
+      for (let i = blockIdx - 1; i >= 0; i--) {
+        if (messages[i]?.sender === 'user' && messages[i]?.text) {
+          userPromptToRetry = messages[i].text;
+          break;
+        }
+      }
+    }
+    if (!userPromptToRetry) {
+      // Fallback: find the latest user message in history
+      for (let i = messages.length - 1; i >= 0; i--) {
+        if (messages[i]?.sender === 'user' && messages[i]?.text) {
+          userPromptToRetry = messages[i].text;
+          break;
+        }
+      }
+    }
+    if (!userPromptToRetry) {
+      userPromptToRetry = 'Provide a concise summary of what BASTION can assist with today.';
+    }
+
+    const priorHistory = messages.slice(0, Math.max(0, blockIdx));
+    await runBastionQuery(userPromptToRetry, priorHistory, blockIdx);
+  };
+
+  const handleExpandPoint = async (pointTitle) => {
+    if (isChatLoading || !pointTitle) return;
+    const expandText = `Expand in detail on: ${pointTitle}`;
+    const historySnapshot = [...messages];
+    setMessages(prev => [...prev, { sender: 'user', text: expandText }]);
+    await runBastionQuery(expandText, historySnapshot, null);
   };
 
   const safeCharData = characterData || {};
@@ -608,34 +834,137 @@ const BastionDrawer = ({ isOpen, onClose }) => {
           {/* Tab 1: Chatbot */}
           {activeTab === 'chat' && (
             <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#0d1117]/80">
-              <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#0d1117]/90 text-xs font-mono">
-                {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+              {/* Session Status, Copy Conversation & Clear Chat Bar */}
+              <div className="px-3.5 py-1.5 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between text-[10px] font-mono shrink-0">
+                <span className="text-slate-400 flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span>Persistent Session ({messages.length} {messages.length === 1 ? 'msg' : 'msgs'})</span>
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={handleCopyConversation}
+                    className={`px-2 py-0.5 rounded border text-[10px] font-mono font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer ${
+                      copiedConversation
+                        ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300'
+                        : 'bg-cyan-950/50 hover:bg-cyan-900/70 border-cyan-500/40 text-cyan-300'
+                    }`}
+                    title="Copy entire conversation history to clipboard"
                   >
-                    <span className="text-[9px] uppercase font-bold text-slate-500 mb-0.5">
-                      {msg.sender === 'user' ? 'OPERATOR' : 'BASTION System'}
-                    </span>
+                    <span>{copiedConversation ? '✓ Copied' : '📋 Copy'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleClearChat}
+                    disabled={messages.length <= 1}
+                    className={`px-2 py-0.5 rounded border text-[10px] font-mono font-bold uppercase tracking-wider transition-colors flex items-center gap-1 ${
+                      messages.length <= 1
+                        ? 'bg-slate-900/50 border-slate-800 text-slate-600 cursor-not-allowed'
+                        : 'bg-rose-950/50 hover:bg-rose-900/70 border-rose-500/40 text-rose-300 cursor-pointer'
+                    }`}
+                    title="Clear BASTION conversation history (/clear)"
+                  >
+                    <span>🗑️ Clear</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#0d1117]/90 text-xs font-mono">
+                {messages.map((msg, idx) => {
+                  const isUser = msg.sender === 'user';
+                  const isBlockExpanded = Boolean(expandedBlocks[idx] || msg.isExpandedResponse);
+                  const { displayText, isTruncated } = isUser
+                    ? { displayText: msg.text, isTruncated: false }
+                    : getSummarizedDisplayText(msg.text, isBlockExpanded);
+                  const expandablePoints = !isUser && idx > 0 ? extractExpandablePoints(msg.text) : [];
+
+                  return (
                     <div
-                      className={`p-3 rounded-lg max-w-[85%] leading-relaxed ${
-                        msg.sender === 'user'
-                          ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/40 rounded-br-none font-sans'
-                          : msg.isRoll
-                          ? 'bg-amber-950/60 text-amber-200 border border-amber-500/60 font-mono shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                          : 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none font-sans'
-                      }`}
+                      key={idx}
+                      className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                     >
-                      {msg.text}
+                      <span className="text-[9px] uppercase font-bold text-slate-500 mb-0.5">
+                        {isUser ? 'OPERATOR' : 'BASTION System'}
+                      </span>
+                      <div
+                        className={`p-3 rounded-lg max-w-[88%] leading-relaxed whitespace-pre-wrap ${
+                          isUser
+                            ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/40 rounded-br-none font-sans'
+                            : msg.isRoll
+                            ? 'bg-amber-950/60 text-amber-200 border border-amber-500/60 font-mono shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                            : 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none font-sans'
+                        }`}
+                      >
+                        <div>{displayText}</div>
+
+                        {/* Expandable Bullet Topics (Drill-down on specific points as needed) */}
+                        {expandablePoints.length > 0 && (
+                          <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex flex-wrap items-center gap-1">
+                            <span className="text-[9px] text-slate-400 font-mono uppercase tracking-wider mr-1">
+                              Expand Point:
+                            </span>
+                            {expandablePoints.map((pt, pIdx) => (
+                              <button
+                                key={pIdx}
+                                type="button"
+                                disabled={isChatLoading}
+                                onClick={() => handleExpandPoint(pt)}
+                                className="px-1.5 py-0.5 rounded bg-slate-950/90 hover:bg-cyan-950/80 border border-slate-700/80 hover:border-cyan-500/50 text-[10px] font-mono text-cyan-300 transition-colors cursor-pointer disabled:opacity-50"
+                                title={`Ask BASTION to expand in detail on "${pt}"`}
+                              >
+                                + {pt}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Output Block Actions: Copy, Retry, and Expand/Summarize Toggle */}
+                        {!isUser && (
+                          <div className="mt-2 pt-1.5 border-t border-slate-800/70 flex items-center justify-end gap-1.5 text-[10px] font-mono">
+                            {(isTruncated || (msg.text && msg.text.length > 420)) && (
+                              <button
+                                type="button"
+                                onClick={() => toggleExpandBlock(idx)}
+                                className="px-2 py-0.5 rounded bg-slate-950/80 hover:bg-slate-800 border border-slate-700/70 text-amber-300 hover:text-amber-200 transition-colors cursor-pointer mr-auto"
+                                title={isBlockExpanded ? 'Collapse back to concise summary' : 'Expand full output text'}
+                              >
+                                {isBlockExpanded ? '▴ Summarize' : '▾ Expand Full Text'}
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => handleCopyBlock(msg.text, idx)}
+                              className={`px-2 py-0.5 rounded border transition-colors flex items-center gap-1 cursor-pointer ${
+                                copiedBlockIdx === idx
+                                  ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-300'
+                                  : 'bg-slate-950/80 hover:bg-slate-800 border-slate-700/70 text-slate-300 hover:text-cyan-300'
+                              }`}
+                              title="Copy this output block"
+                            >
+                              <span>{copiedBlockIdx === idx ? '✓ Copied' : '📋 Copy'}</span>
+                            </button>
+                            <button
+                              type="button"
+                              disabled={isChatLoading}
+                              onClick={() => handleRetryBlock(idx)}
+                              className="px-2 py-0.5 rounded bg-slate-950/80 hover:bg-cyan-950/80 border border-slate-700/70 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                              title="Retry / regenerate this response"
+                            >
+                              <span>🔄 Retry</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
                 {isChatLoading && (
                   <div className="flex items-center gap-2 text-xs text-cyan-400 italic">
                     <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
                     <span>BASTION analyzing request...</span>
                   </div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
 
               {/* Input Box */}
@@ -644,12 +973,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   type="text"
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="Ask BASTION or /roll 2d10+4..."
+                  placeholder="Ask BASTION, /roll 2d10+4, or /clear..."
                   className="flex-1 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none font-mono"
                 />
                 <button
                   type="submit"
-                  className="px-3.5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider"
+                  className="px-3.5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider cursor-pointer"
                 >
                   Send
                 </button>

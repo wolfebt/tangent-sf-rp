@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -64,14 +64,20 @@ function rulesCompendiumPlugin() {
 
 export default defineConfig(({ command, mode }) => {
   const isProdBuild = command === 'build' || mode === 'production'
+  const env = loadEnv(mode, __dirname, '')
+  const resolvedGeminiKey = env.VITE_GEMINI_API_KEY || env.GEMINI_API_KEY || ''
 
   return {
     define: {
       'process.env': {},
-      // Security Hardening: Never bundle Gemini API keys or LiveKit secrets into production client JS
+      ...(resolvedGeminiKey
+        ? {
+            'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(resolvedGeminiKey)
+          }
+        : {}),
+      // Security Hardening: Never bundle LiveKit HMAC secret into production client JS
       ...(isProdBuild
         ? {
-            'import.meta.env.VITE_GEMINI_API_KEY': JSON.stringify(''),
             'import.meta.env.VITE_LIVEKIT_API_SECRET': JSON.stringify('')
           }
         : {})

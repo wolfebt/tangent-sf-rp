@@ -37,7 +37,6 @@ export const CodexDatasetDashboard = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tlFilter, setTlFilter] = useState('ALL');
-  const [kwCategoryFilter, setKwCategoryFilter] = useState('ALL'); // 'ALL' | 'directives' | 'railguards'
   const [viewMode, setViewMode] = useState('cards'); // 'cards' | 'table'
   const [isGuidanceOpen, setIsGuidanceOpen] = useState(true);
   const [activeSectionId, setActiveSectionId] = useState(null);
@@ -98,13 +97,6 @@ export const CodexDatasetDashboard = ({
         const itemTl = String(item.tl ?? item.tech_level ?? 0);
         if (itemTl !== tlFilter) return false;
       }
-      if (kwCategoryFilter === 'directives') {
-        const hasKw = Array.isArray(item.keywords) ? item.keywords.length > 0 : !!(item.keywords && String(item.keywords).trim());
-        if (!hasKw) return false;
-      } else if (kwCategoryFilter === 'railguards') {
-        const hasNegKw = Array.isArray(item.negative_keywords) ? item.negative_keywords.length > 0 : !!(item.negative_keywords && String(item.negative_keywords).trim());
-        if (!hasNegKw) return false;
-      }
       if (!searchTerm.trim()) return true;
       const term = searchTerm.toLowerCase();
       const name = (item.name || item.title || '').toLowerCase();
@@ -114,7 +106,7 @@ export const CodexDatasetDashboard = ({
       const negKw = (item.negative_keywords ? String(item.negative_keywords) : '').toLowerCase();
       return name.includes(term) || desc.includes(term) || cat.includes(term) || kw.includes(term) || negKw.includes(term);
     });
-  }, [records, tlFilter, kwCategoryFilter, searchTerm]);
+  }, [records, tlFilter, searchTerm]);
 
   // Formula sandbox for property matrices
   const sandboxCalculations = useMemo(() => {
@@ -411,35 +403,6 @@ export const CodexDatasetDashboard = ({
                 }`}
               >
                 {tl === 'ALL' ? 'All TL' : `TL${tl}`}
-              </button>
-            ))}
-          </div>
-
-          {/* Directive & Railguard Category Chips */}
-          <div className="flex items-center bg-slate-950/90 border border-slate-800 rounded-xl p-0.5 text-[10px] font-mono">
-            {[
-              { id: 'ALL', label: 'All Keywords' },
-              { id: 'directives', label: '🧭 Directives (+KW)' },
-              { id: 'railguards', label: '⛔ Railguards (-KW)' }
-            ].map(cat => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(950, 0.02);
-                  setKwCategoryFilter(cat.id);
-                }}
-                className={`px-2.5 py-1 rounded-lg transition-all font-bold cursor-pointer ${
-                  kwCategoryFilter === cat.id
-                    ? cat.id === 'directives'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                      : cat.id === 'railguards'
-                      ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm'
-                      : 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                {cat.label}
               </button>
             ))}
           </div>
