@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Stealth / Tech / Combat
 primary_attribute: Agility
-secondary_attribute: Technology
+secondary_attribute: Intellect
 recommended_occupations:
   - Agent
   - Soldier
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Stealth / Tech / Combat  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
-**Secondary Attribute**: Technology  
+**Secondary Attribute**: Intellect  
 
 ## Overview
 Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.

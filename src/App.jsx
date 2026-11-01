@@ -10,10 +10,10 @@ import { VoiceCommsBar } from './components/Chat/VoiceCommsBar';
 import { DiceProvider } from './context/DiceContext';
 import { ContextMenuProvider } from './context/ContextMenuContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
+import { GlobalSideRail } from './components/Layout/GlobalSideRail';
 import { MobileBottomNav } from './components/Layout/MobileBottomNav';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
-import { CommandPalette } from './components/UI/CommandPalette';
 import BastionDrawer from './components/Folio/BastionDrawer';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
 import { RingedPlanetLogo } from './components/UI/RingedPlanetLogo';
@@ -71,7 +71,6 @@ const PageLoader = () => (
 
 export function App() {
   const [isCommsDockOpen, setIsCommsDockOpen] = useState(false);
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isBastionOpen, setIsBastionOpen] = useState(false);
 
   // Global Keyboard Shortcuts
@@ -92,16 +91,9 @@ export function App() {
         e.preventDefault();
         setIsCommsDockOpen(prev => !prev);
       }
-      // Ctrl+K or Cmd+K for command palette
-      if ((e.ctrlKey || e.metaKey) && !e.altKey && (e.key?.toLowerCase() === 'k' || e.code === 'KeyK')) {
-        e.preventDefault();
-        setIsCommandPaletteOpen(prev => !prev);
-      }
     };
 
     const handleCustomToggleComms = () => setIsCommsDockOpen(prev => !prev);
-    const handleOpenCommandPalette = () => setIsCommandPaletteOpen(true);
-    const handleToggleCommandPalette = () => setIsCommandPaletteOpen(prev => !prev);
     const handleToggleBastion = (e) => {
       if (e?.detail?.prompt) {
         setIsBastionOpen(true);
@@ -112,8 +104,6 @@ export function App() {
     const handleOpenBastion = () => setIsBastionOpen(true);
 
     window.addEventListener('toggle-comms-dock', handleCustomToggleComms);
-    window.addEventListener('open-command-palette', handleOpenCommandPalette);
-    window.addEventListener('toggle-command-palette', handleToggleCommandPalette);
     window.addEventListener('toggle-folio-bastion', handleToggleBastion);
     window.addEventListener('toggle-bastion-drawer', handleToggleBastion);
     window.addEventListener('open-bastion-drawer', handleOpenBastion);
@@ -121,8 +111,6 @@ export function App() {
     return () => {
       window.removeEventListener('keydown', handleGlobalKeys);
       window.removeEventListener('toggle-comms-dock', handleCustomToggleComms);
-      window.removeEventListener('open-command-palette', handleOpenCommandPalette);
-      window.removeEventListener('toggle-command-palette', handleToggleCommandPalette);
       window.removeEventListener('toggle-folio-bastion', handleToggleBastion);
       window.removeEventListener('toggle-bastion-drawer', handleToggleBastion);
       window.removeEventListener('open-bastion-drawer', handleOpenBastion);
@@ -142,7 +130,6 @@ export function App() {
                       <div className="h-screen h-dvh w-screen tangent-grid-bg flex flex-col font-sans overflow-hidden text-slate-100 select-none">
                       {/* Persistent Global HUD (Height: 52px on sub-routes) */}
                       <GlobalHUD
-                        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
                         onToggleDiceDock={() => window.dispatchEvent(new CustomEvent('toggle-dice-dock'))}
                         onToggleBastion={() => setIsBastionOpen(prev => !prev)}
                         isBastionOpen={isBastionOpen}
@@ -150,8 +137,9 @@ export function App() {
                         isCommsDockOpen={isCommsDockOpen}
                       />
 
-                      {/* Persistent Body: Routed Workspace */}
+                      {/* Persistent Body: Left Guide Rail / Landing Drawer + Routed Workspace */}
                       <div className="flex-1 min-h-0 w-full flex flex-row overflow-hidden relative">
+                        <GlobalSideRail />
                         {/* Main Routed Area */}
                         <main className="flex-1 min-w-0 h-full overflow-hidden relative pb-14 sm:pb-0">
                           <ErrorBoundary>
@@ -213,11 +201,6 @@ export function App() {
                       <CommLinkDock
                         isOpen={isCommsDockOpen}
                         onClose={() => setIsCommsDockOpen(false)}
-                      />
-                      
-                      <CommandPalette
-                        isOpen={isCommandPaletteOpen}
-                        onClose={() => setIsCommandPaletteOpen(false)}
                       />
                     </div>
                   </ContextMenuProvider>

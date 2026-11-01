@@ -5429,12 +5429,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     Technology Level (TL 0–5) and Meta Level (ML 0–5) define the operational paradigm of the campaign setting and hardware capabilities. Baseline setting for standard personas is <strong>TL3 / ML3 (0 CP)</strong>.
                   </p>
                   <div className="p-2.5 bg-slate-950 rounded-lg border border-purple-800/60 font-mono text-[11px] text-purple-200">
-                    <div className="font-bold text-cyan-300">Canonical Economatrix Pricing Formula:</div>
+                    <div className="font-bold text-cyan-300">Canonical Economatrix Pricing Formula (TSC):</div>
                     <div className="text-base text-amber-300 font-black py-1">
-                      Cost = Base_Cost &times; 2<sup>TL</sup> &times; 1.5<sup>ML</sup>
+                      Value (Cr) = 10 &times; 4<sup>(Crafting DC / 5)</sup>
                     </div>
                     <div className="text-[10px] text-slate-400">
-                      Equipment from higher TL/ML incurs exponential cost scaling and requires corresponding persona clearance.
+                      Cost is determined solely by final Crafting DC (which incorporates chassis, sockets, design aspects, and TL/ML modifiers). Purchase DC = Crafting DC &le; Wealth Score.
                     </div>
                   </div>
                 </div>

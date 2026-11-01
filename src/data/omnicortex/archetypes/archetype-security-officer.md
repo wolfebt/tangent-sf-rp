@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Perception / Defense / Area Denial
 primary_attribute: Wisdom
-secondary_attribute: Perception
+secondary_attribute: Stamina
 recommended_occupations:
   - Soldier
   - Agent
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Core Concept**: Perception / Defense / Area Denial  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Perception  
+**Secondary Attribute**: Stamina  
 
 ## Overview
 A vigilant and disciplined individual who ensures the safety and security of their post.

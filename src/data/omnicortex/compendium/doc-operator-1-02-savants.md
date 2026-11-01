@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.savants","mechanics"]
-updatedAt: "2026-10-31T10:38:11.277Z"
+updatedAt: "2026-11-01T12:54:03.998Z"
 costs:
   bp: 0
   credits: 0
@@ -285,7 +285,7 @@ Specialist in creating, repairing, and modifying cybernetic enhancements.
 * **Recommended Occupations:** Doctor, Engineer.  
 * **Recommended Origins:** Research, Industrial, Urban.  
 * **Recommended Factions:** Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Technology (Secondary).  
+* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Knowledge (Medicine), Knowledge (Technology), Knowledge (Science), Vocation (Engineer).  
 * **Signature Traits (1 CP):** Cybernetic Enhancement, Biomechanical Integration.  
 * **Tactical Role:** Installing/repairing cybernetics, hacking enemy augments, buffing allies.
@@ -361,7 +361,7 @@ A scholar who specializes in the study, design, and development of robots.
 * **Recommended Occupations:** Engineer, Scholar.  
 * **Recommended Origins:** Research, Industrial, Urban.  
 * **Recommended Factions:** Mekan (Self-Study), Syndicate (Drone Works), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Technology (Secondary).  
+* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
 * **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Knowledge (Computers).  
 * **Signature Traits (1 CP):** Robotic Affinity, Automation Expert.  
 * **Tactical Role:** Building/repairing drones, commanding robot minions, hacking enemy bots.

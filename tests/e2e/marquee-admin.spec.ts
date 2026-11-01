@@ -33,17 +33,17 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
     // Look for Admin Marquee tab
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await expect(marqueeTab).toBeVisible({ timeout: 5000 });
     await marqueeTab.click();
 
     // Verify Tactical Broadcast Marquee panel
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
-    // Change Line 1
-    const line1Input = page.locator('input[placeholder*="WELCOME TO TANGENT"]').first();
-    await expect(line1Input).toBeVisible();
-    await line1Input.fill('TEST AUTOMATED ALERT TRANSMISSION // SECTOR 9 NOMINAL');
+    // Change multi-line text block
+    const multilineInput = page.getByTestId('marquee-multiline-input').first();
+    await expect(multilineInput).toBeVisible();
+    await multilineInput.fill('TEST AUTOMATED ALERT TRANSMISSION // SECTOR 9 NOMINAL');
 
     // Change to scrolling mode
     const scrollingModeBtn = page.locator('button:has-text("Scrolling")').first();
@@ -87,7 +87,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     // Verify settings opened and switch to Admin Marquee tab
     const dialog = page.locator('[role="dialog"]').first();
     await expect(dialog).toBeVisible({ timeout: 5000 });
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
@@ -96,15 +96,13 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("Standard Welcome")')).toHaveCount(0);
     await expect(page.locator('button:has-text("Code Red Incursion")')).toHaveCount(0);
 
-    // Enter custom multi-line transmission
-    const line1Input = page.locator('input[placeholder*="WELCOME TO TANGENT"]').first();
-    await expect(line1Input).toBeVisible();
-    await line1Input.fill('INCURSION DETECTED IN SECTOR 7 // LOCKDOWN ACTIVE');
-
-    const line2Input = page.locator('input[placeholder*="BASTION RULES ENGINE"]').first();
-    if (await line2Input.isVisible()) {
-      await line2Input.fill('COMBAT AIR PATROL DISPATCHED // READY LOADOUTS');
-    }
+    // Enter custom multi-line transmission using Enter key inside the multi-line text block
+    const multilineInput = page.getByTestId('marquee-multiline-input').first();
+    await expect(multilineInput).toBeVisible();
+    await multilineInput.fill('');
+    await multilineInput.type('INCURSION DETECTED IN SECTOR 7 // LOCKDOWN ACTIVE');
+    await multilineInput.press('Enter');
+    await multilineInput.type('COMBAT AIR PATROL DISPATCHED // READY LOADOUTS');
 
     // Verify redundant Apply & Publish button is removed from marquee panel
     await expect(page.locator('button:has-text("APPLY & PUBLISH MARQUEE")')).toHaveCount(0);
@@ -138,7 +136,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
     // Switch to Admin Marquee
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
 
     // Toggle Banner Visibility to Disabled (Offline)
@@ -192,7 +190,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     const dialog = page.locator('[role="dialog"]').first();
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
@@ -264,7 +262,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     const dialog = page.locator('[role="dialog"]').first();
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
@@ -307,7 +305,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     const dialog = page.locator('[role="dialog"]').first();
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
@@ -348,7 +346,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     const dialog = page.locator('[role="dialog"]').first();
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
@@ -411,7 +409,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     const dialog = page.locator('[role="dialog"]').first();
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
-    const marqueeTab = page.locator('button:has-text("Admin Marquee")').first();
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
     await marqueeTab.click();
     await expect(page.getByText('Tactical Broadcast Marquee')).toBeVisible({ timeout: 5000 });
 
@@ -423,11 +421,11 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // 1. Configure Top Marquee: Amethyst color, specific text
     await topSubTab.click({ force: true });
-    await expect(page.getByText(/LIVE PREVIEW \(TOP MARQUEE\)/i)).toBeVisible();
+    await expect(page.getByText(/LIVE PREVIEW \(TOP MARQUEE/i)).toBeVisible();
 
-    const line1Input = page.locator('input[placeholder*="WELCOME TO TANGENT"]').first();
-    await expect(line1Input).toBeVisible();
-    await line1Input.fill('TOP BROADCAST // ORBITAL STATION ALPHA ACTIVE');
+    const topMultilineInput = page.getByTestId('marquee-multiline-input').first();
+    await expect(topMultilineInput).toBeVisible();
+    await topMultilineInput.fill('TOP BROADCAST // ORBITAL STATION ALPHA ACTIVE');
 
     const amethystBtn = page.locator('button:has-text("Amethyst")').first();
     if (await amethystBtn.isVisible()) {
@@ -437,11 +435,11 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // 2. Configure Bottom Marquee: Silver color with black shadow, Clean text only, specific text
     await bottomSubTab.click({ force: true });
-    await expect(page.getByText(/LIVE PREVIEW \(BOTTOM MARQUEE\)/i)).toBeVisible();
+    await expect(page.getByText(/LIVE PREVIEW \(BOTTOM MARQUEE/i)).toBeVisible();
 
-    const bottomLine1Input = page.locator('input[placeholder*="SECURE COMM LINK"]').first();
-    await expect(bottomLine1Input).toBeVisible();
-    await bottomLine1Input.fill('BOTTOM TELEMETRY // SUB-SURFACE CONDUIT MATRIX');
+    const bottomMultilineInput = page.getByTestId('marquee-multiline-input').first();
+    await expect(bottomMultilineInput).toBeVisible();
+    await bottomMultilineInput.fill('BOTTOM TELEMETRY // SUB-SURFACE CONDUIT MATRIX');
 
     // Select Silver color
     const silverBtn = page.locator('button:has-text("Silver")').first();
@@ -503,6 +501,105 @@ test.describe('Admin Marquee Controls Suite', () => {
     // Verify Top Marquee is still visible while Bottom Marquee is hidden
     await expect(topMarquee.getByText(/TOP BROADCAST \/\/ ORBITAL STATION ALPHA ACTIVE/i)).toBeVisible();
     await expect(bottomMarquee).toHaveCount(0);
+  });
+
+  test('9. Verify Multi-Line Enter Key Input and Top-Down vs Bottom-Up Anchored Expansion', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const settingsButton = page.locator('button[title*="Settings"], button:has-text("OPERATOR"), button:has-text("Architect")').first();
+    await settingsButton.click();
+    const dialog = page.locator('[role="dialog"]').first();
+    await expect(dialog).toBeVisible({ timeout: 5000 });
+
+    const marqueeTab = page.locator('button:has-text("Marquees")').first();
+    await marqueeTab.click();
+
+    const topSubTab = page.locator('button:has-text("Top Marquee")').first();
+    const bottomSubTab = page.locator('button:has-text("Bottom Marquee")').first();
+
+    // Configure 1-line Top Marquee and 1-line Bottom Marquee in Static mode to measure baseline anchor bounds
+    await topSubTab.click({ force: true });
+    const staticModeBtn = page.locator('button:has-text("Static")').first();
+    await staticModeBtn.click({ force: true });
+    const multilineInput = page.getByTestId('marquee-multiline-input').first();
+    await multilineInput.fill('TOP LINE 1 ANCHOR');
+
+    await bottomSubTab.click({ force: true });
+    const bottomDisabledBtn = page.locator('button:has-text("DISABLED (OFFLINE)")').first();
+    if (await bottomDisabledBtn.isVisible()) {
+      await bottomDisabledBtn.click({ force: true });
+    }
+    await staticModeBtn.click({ force: true });
+    await multilineInput.fill('BOTTOM LINE 1 ANCHOR');
+
+    await page.getByTestId('save-user-settings-btn').click();
+    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+
+    const topMarquee = page.locator('[data-marquee-position="top"]');
+    const bottomMarquee = page.locator('[data-marquee-position="bottom"]');
+    await expect(topMarquee).toBeVisible({ timeout: 8000 });
+    await expect(bottomMarquee).toBeVisible({ timeout: 8000 });
+    await expect(topMarquee).toHaveAttribute('data-marquee-anchor', 'top-down');
+    await expect(bottomMarquee).toHaveAttribute('data-marquee-anchor', 'bottom-up');
+
+    const topBox1 = await topMarquee.boundingBox();
+    const bottomBox1 = await bottomMarquee.boundingBox();
+    expect(topBox1).not.toBeNull();
+    expect(bottomBox1).not.toBeNull();
+
+    // Now expand both Top and Bottom Marquees to 4 lines using the Enter key
+    await settingsButton.click();
+    await expect(dialog).toBeVisible({ timeout: 5000 });
+    await marqueeTab.click();
+
+    await topSubTab.click({ force: true });
+    await multilineInput.fill('');
+    await multilineInput.type('TOP LINE 1 ANCHOR');
+    await multilineInput.press('Enter');
+    await multilineInput.type('TOP LINE 2 EXPANDING');
+    await multilineInput.press('Enter');
+    await multilineInput.type('TOP LINE 3 EXPANDING');
+    await multilineInput.press('Enter');
+    await multilineInput.type('TOP LINE 4 EXPANDING');
+    await expect(page.getByText('4 Active Lines')).toBeVisible();
+
+    await bottomSubTab.click({ force: true });
+    await multilineInput.fill('');
+    await multilineInput.type('BOTTOM LINE 1 ANCHOR');
+    await multilineInput.press('Enter');
+    await multilineInput.type('BOTTOM LINE 2 EXPANDING');
+    await multilineInput.press('Enter');
+    await multilineInput.type('BOTTOM LINE 3 EXPANDING');
+    await multilineInput.press('Enter');
+    await multilineInput.type('BOTTOM LINE 4 EXPANDING');
+    await expect(page.getByText('4 Active Lines')).toBeVisible();
+
+    await page.getByTestId('save-user-settings-btn').click();
+    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+
+    // Verify all 4 lines are rendered on both marquees
+    await expect(topMarquee).toHaveAttribute('data-marquee-lines', '4');
+    await expect(bottomMarquee).toHaveAttribute('data-marquee-lines', '4');
+    await expect(topMarquee.getByText('TOP LINE 4 EXPANDING')).toBeVisible();
+    await expect(bottomMarquee.getByText('BOTTOM LINE 4 EXPANDING')).toBeVisible();
+
+    const topBox4 = await topMarquee.boundingBox();
+    const bottomBox4 = await bottomMarquee.boundingBox();
+    expect(topBox4).not.toBeNull();
+    expect(bottomBox4).not.toBeNull();
+
+    // Top marquee is top-anchored (top Y remains fixed) and expands DOWNWARD (height & bottom Y increase)
+    expect(Math.abs(topBox4!.y - topBox1!.y)).toBeLessThanOrEqual(2);
+    expect(topBox4!.height).toBeGreaterThan(topBox1!.height + 20);
+    expect(topBox4!.y + topBox4!.height).toBeGreaterThan(topBox1!.y + topBox1!.height + 20);
+
+    // Bottom marquee is bottom-anchored (bottom Y remains fixed) and expands UPWARD (height increases & top Y moves up)
+    const bottomEdge1 = bottomBox1!.y + bottomBox1!.height;
+    const bottomEdge4 = bottomBox4!.y + bottomBox4!.height;
+    expect(Math.abs(bottomEdge4 - bottomEdge1)).toBeLessThanOrEqual(2);
+    expect(bottomBox4!.height).toBeGreaterThan(bottomBox1!.height + 20);
+    expect(bottomBox4!.y).toBeLessThan(bottomBox1!.y - 20);
   });
 });
 

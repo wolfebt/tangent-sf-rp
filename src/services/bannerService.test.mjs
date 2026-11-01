@@ -65,12 +65,18 @@ describe('Admin Marquee & Banner Service', () => {
     assert.ok(TICKER_SPEEDS.turbo.interval < TICKER_SPEEDS.fast.interval);
   });
 
-  it('normalizes banner lines cleanly from array, individual lines, or legacy message', () => {
-    // 1. From explicit array
-    const fromArray = normalizeBannerLines({
-      lines: ['Line 1', 'Line 2', 'Line 3', 'Line 4 extra']
+  it('normalizes banner lines cleanly from multi-line textBlock, array, individual lines, or legacy message (including 4+ lines)', () => {
+    // 0. From multi-line textBlock (Enter key newline separated)
+    const fromTextBlock = normalizeBannerLines({
+      textBlock: 'Line Alpha\nLine Beta\nLine Gamma\nLine Delta\nLine Epsilon'
     });
-    assert.deepEqual(fromArray, ['Line 1', 'Line 2', 'Line 3']);
+    assert.deepEqual(fromTextBlock, ['Line Alpha', 'Line Beta', 'Line Gamma', 'Line Delta', 'Line Epsilon']);
+
+    // 1. From explicit array (supports 4+ lines without truncation)
+    const fromArray = normalizeBannerLines({
+      lines: ['Line 1', 'Line 2', 'Line 3', 'Line 4 extra', 'Line 5 extra']
+    });
+    assert.deepEqual(fromArray, ['Line 1', 'Line 2', 'Line 3', 'Line 4 extra', 'Line 5 extra']);
 
     // 2. From line1, line2, line3 properties
     const fromKeys = normalizeBannerLines({
@@ -80,11 +86,11 @@ describe('Admin Marquee & Banner Service', () => {
     });
     assert.deepEqual(fromKeys, ['Header Alpha', 'Sub Beta', '']);
 
-    // 3. From newline-delimited message
+    // 3. From newline-delimited message (supports 4+ lines)
     const fromNewlines = normalizeBannerLines({
-      message: 'Alpha\nBeta\nGamma'
+      message: 'Alpha\nBeta\nGamma\nDelta'
     });
-    assert.deepEqual(fromNewlines, ['Alpha', 'Beta', 'Gamma']);
+    assert.deepEqual(fromNewlines, ['Alpha', 'Beta', 'Gamma', 'Delta']);
 
     // 4. From // delimited legacy message
     const fromDelimited = normalizeBannerLines({

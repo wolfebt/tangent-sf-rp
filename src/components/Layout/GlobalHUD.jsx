@@ -38,6 +38,7 @@ import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
 import { GameGroupModal } from '../Squads/SquadModal';
 import { TwoD10Icon } from '../UI/TwoD10Icon';
+import { BastionStarburstIcon } from '../UI/BastionStarburstIcon';
 import ToolbarProjectMenu from '../../pages/Foundry/StoryModule/toolbar/ToolbarProjectMenu';
 
 const formatSavedTime = (val) => {
@@ -74,7 +75,7 @@ const formatSavedTime = (val) => {
   return '';
 };
 
-export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleBastion, isBastionOpen, onToggleCommsDock, isCommsDockOpen }) => {
+export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, isBastionOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -434,168 +435,59 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             </NavLink>
           </div>
 
-          {/* Center Section: Primary Navigation Suite (Folio, Rules, Network, ADE, Cortex) */}
-          <div className="hidden sm:flex flex-1 flex-col items-center justify-center min-w-0">
-            <nav className="flex items-center justify-center flex-wrap gap-1 md:gap-1.5 lg:gap-2 w-full py-0.5" aria-label="Primary Navigation">
-              {/* FOLIO */}
-              <button
-                type="button"
-                aria-current={isFolio ? 'page' : undefined}
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  if (isFolio) {
-                    if (folio?.activeTab === 'catalog') {
-                      const charId = folio?.characterData?.['character-doc-id'] || folio?.characterData?.id;
-                      navigate(charId ? `/folio?tab=identity&char=${encodeURIComponent(charId)}` : '/folio?tab=identity');
-                      folio.setActiveTab?.('identity');
-                    } else {
-                      folio.triggerSave?.();
-                      window.dispatchEvent(new CustomEvent('open-folio-catalog'));
-                    }
-                  } else {
-                    navigate('/folio');
-                  }
-                }}
-                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 ${
-                  isFolio
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/70 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/50'
-                }`}
-                title={isFolio ? "Folio — Persona Dossier & Roster (Click to toggle Catalog / Dossier)" : "Folio — Persona Dossiers & Character Engine (/folio)"}
-              >
-                <Users size={14} className={isFolio ? 'text-cyan-300' : 'text-cyan-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap max-w-[130px] truncate">
-                  {isFolio && folio?.characterData?.['char-name'] ? folio.characterData['char-name'] : 'FOLIO'}
-                </span>
-              </button>
-
-              {/* RULES */}
-              <button
-                type="button"
-                aria-current={isCompendium ? 'page' : undefined}
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  navigate('/compendium');
-                }}
-                onMouseEnter={() => {
-                  loadCompendiumCatalog();
-                }}
-                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
-                  isCompendium
-                    ? 'bg-sky-500/20 text-sky-300 border-sky-400/70 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-sky-300 border-slate-700/80 hover:border-sky-500/50'
-                }`}
-                title="Open Compendium & BASTION Rules Wiki (/compendium)"
-              >
-                <BookOpen size={14} className={isCompendium ? 'text-sky-300' : 'text-sky-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">RULES</span>
-              </button>
-
-              {/* NETWORK */}
-              <button
-                type="button"
-                aria-current={isNetwork ? 'page' : undefined}
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  navigate('/network');
-                }}
-                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 ${
-                  isNetwork
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/70 shadow-[0_0_12px_rgba(16,185,129,0.35)]'
-                    : totalUnreadCount > 0
-                    ? 'bg-slate-900/80 text-amber-300 border-amber-500/60 shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-nav-pulse-amber'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-emerald-300 border-slate-700/80 hover:border-emerald-500/50'
-                }`}
-                title={totalUnreadCount > 0 ? 'Tactical Teams & Operator Network (Unread Messages)' : 'Tactical Teams & Operator Network (/network)'}
-              >
-                <Radio size={14} className={isNetwork ? 'text-emerald-300' : totalUnreadCount > 0 ? 'text-amber-400' : 'text-emerald-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">NETWORK</span>
-                {totalUnreadCount > 0 && (
-                  <span className="relative flex h-2 w-2" aria-label={`${totalUnreadCount} unread messages`}>
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
-                  </span>
-                )}
-              </button>
-
-              {/* ADE */}
-              <button
-                type="button"
-                aria-current={isFoundry ? 'page' : undefined}
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  navigate('/foundry');
-                }}
-                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
-                  isFoundry
-                    ? 'bg-purple-500/20 text-purple-300 border-purple-400/70 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-purple-300 border-slate-700/80 hover:border-purple-500/50'
-                }`}
-                title="ADE Studio & Story Foundry (/foundry)"
-              >
-                <Layers size={14} className={isFoundry ? 'text-purple-300' : 'text-purple-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">ADE</span>
-              </button>
-
-              {/* CORTEX */}
-              <button
-                type="button"
-                aria-current={isCortex ? 'page' : undefined}
-                onClick={() => {
-                  AudioService.playTerminalBeep(1150, 0.02);
-                  navigate('/dbm');
-                }}
-                className={`min-h-[28px] px-2 md:px-2.5 lg:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400 ${
-                  isCortex
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-400/70 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-200 hover:text-amber-300 border-slate-700/80 hover:border-amber-500/50'
-                }`}
-                title="Omnicortex Master Database (/dbm)"
-              >
-                <Database size={14} className={isCortex ? 'text-amber-300' : 'text-amber-400'} />
-                <span className="font-bold text-xs uppercase tracking-wider whitespace-nowrap">CORTEX</span>
-              </button>
-            </nav>
-
-            {/* Dynamic Second Row: Centered under Main Tabs */}
+          {/* Center Section: Dynamic Module Controls (Folio Build/Tactical & CP, or ADE Project/AIME) */}
+          <div className="hidden sm:flex flex-1 items-center justify-center min-w-0">
             {hasDynamicTabs && (
-              <div className="w-full flex items-center justify-center pt-1.5 pb-0.5 animate-in fade-in duration-150">
+              <div className="w-full flex items-center justify-center animate-in fade-in duration-150">
                 {renderDynamicTabs()}
               </div>
             )}
           </div>
 
-          {/* Right Section: Round Dice Button, BASTION Robot Head Button & Settings Button with User ID */}
+          {/* Right Section: Roll Dice Gem Button, BASTION AI Gem Button & Settings Button with User ID */}
           <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
-            {/* Separate Round DICE Button */}
+            {/* Prominent Roll DICE Gem Button */}
             <button
               type="button"
               onClick={handleToggleDice}
-              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border text-xs font-mono font-bold transition-all flex items-center justify-center cursor-pointer shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400 ${
+              aria-pressed={Boolean(isDiceActive)}
+              className={`min-h-[28px] flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-400 ${
                 isDiceActive
-                  ? 'bg-rose-500/25 text-rose-300 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.45)]'
-                  : 'bg-[#12161f] hover:bg-slate-800 text-rose-400 hover:text-rose-300 border-slate-700/80 hover:border-rose-500/60 shadow-[0_0_10px_rgba(244,63,94,0.15)]'
+                  ? 'bg-rose-500/25 text-rose-200 border-rose-400 shadow-[0_0_14px_rgba(244,63,94,0.45)]'
+                  : 'bg-[#12161f] hover:bg-[#181d28] text-rose-300 hover:text-rose-200 border-rose-500/60 hover:border-rose-400 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
               }`}
               title="Toggle Holographic Dice Tray (Alt+D)"
-              aria-label="Toggle Holographic Dice Tray"
+              aria-label="Toggle Holographic Dice Tray (Roll)"
             >
-              <TwoD10Icon size={16} className={`transition-transform group-hover:scale-110 ${isDiceActive ? 'text-rose-300' : 'text-rose-400'}`} />
+              <TwoD10Icon
+                size={16}
+                className={`transition-transform group-hover:scale-110 shrink-0 ${
+                  isDiceActive ? 'text-rose-200' : 'text-rose-400 group-hover:text-rose-300'
+                }`}
+              />
+              <span className="tracking-wider">Roll</span>
             </button>
 
-            {/* Separate Round BASTION AI Assistant Button (Robot Head between Dice & Settings) */}
+            {/* Prominent BASTION AI Assistant Gem Button */}
             <button
               type="button"
               onClick={handleToggleBastion}
               aria-pressed={Boolean(isBastionOpen)}
-              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border text-sm font-mono font-bold transition-all flex items-center justify-center cursor-pointer shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 ${
+              className={`min-h-[28px] flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold transition-all cursor-pointer shrink-0 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 ${
                 isBastionOpen
-                  ? 'bg-cyan-500/25 text-cyan-200 border-cyan-400/80 shadow-[0_0_14px_rgba(34,211,238,0.45)]'
-                  : 'bg-[#12161f] hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 border-slate-700/80 hover:border-cyan-500/60 shadow-[0_0_10px_rgba(34,211,238,0.15)]'
+                  ? 'bg-cyan-500/25 text-cyan-200 border-cyan-400 shadow-[0_0_14px_rgba(34,211,238,0.45)]'
+                  : 'bg-[#12161f] hover:bg-[#181d28] text-cyan-300 hover:text-cyan-200 border-cyan-500/60 hover:border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
               }`}
               title="Toggle BASTION AI Assistant (Alt+B)"
               aria-label="Toggle BASTION AI Assistant"
             >
-              <span className="transition-transform group-hover:scale-110 leading-none select-none">🤖</span>
+              <BastionStarburstIcon
+                size={15}
+                className={`transition-transform group-hover:scale-110 shrink-0 ${
+                  isBastionOpen ? 'text-cyan-200' : 'text-cyan-400 group-hover:text-cyan-300'
+                }`}
+              />
+              <span className="tracking-wider uppercase">BASTION</span>
             </button>
 
             <button
@@ -883,18 +775,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
                         <Users size={13} className="text-emerald-400" /> Teams
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsMobileNavOpen(false);
-                        if (onOpenCommandPalette) onOpenCommandPalette();
-                      }}
-                      className="p-2 bg-slate-900/60 hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Command size={13} className="text-cyan-400" /> Command
                       </div>
                     </button>
                   </div>

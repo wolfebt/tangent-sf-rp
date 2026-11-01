@@ -460,6 +460,12 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         }
       }
 
+      if ((catKey === 'archetypes' || catKey === 'char-archetype') && matchingSeed) {
+        enriched.primary_attribute = matchingSeed.primary_attribute || enriched.primary_attribute;
+        enriched.secondary_attribute = matchingSeed.secondary_attribute || enriched.secondary_attribute;
+        enriched.key_attributes = matchingSeed.key_attributes || enriched.key_attributes;
+      }
+
       if (catKey === 'skills' && matchingSeed) {
         enriched.description = matchingSeed.description || enriched.description;
         enriched.governing_attribute = matchingSeed.governing_attribute || enriched.governing_attribute;
@@ -662,6 +668,40 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
       allCurrentIds.add(entryId);
     }
   });
+
+  if (catKey === 'archetypes' || catKey === 'char-archetype') {
+    const CANONICAL_ARCHETYPE_ATTRIBUTES = ['Intellect', 'Wisdom', 'Charisma', 'Strength', 'Agility', 'Stamina'];
+    const normalizeAttr = (val, fallback = 'Strength') => {
+      if (!val) return fallback;
+      const trimmed = String(val).trim();
+      const exact = CANONICAL_ARCHETYPE_ATTRIBUTES.find(a => a.toLowerCase() === trimmed.toLowerCase());
+      if (exact) return exact;
+      const lower = trimmed.toLowerCase();
+      if (lower.includes('intellect') || lower.includes('tech') || lower.includes('history') || lower.includes('logic') || lower.includes('reason') || lower.includes('science') || lower.includes('computer')) return 'Intellect';
+      if (lower.includes('wisdom') || lower.includes('perception') || lower.includes('insight') || lower.includes('spirit') || lower.includes('will') || lower.includes('alertness')) return 'Wisdom';
+      if (lower.includes('charisma') || lower.includes('etiquette') || lower.includes('social') || lower.includes('presence')) return 'Charisma';
+      if (lower.includes('strength') || lower.includes('might')) return 'Strength';
+      if (lower.includes('agility') || lower.includes('reflex') || lower.includes('dexterity')) return 'Agility';
+      if (lower.includes('stamina') || lower.includes('constitution') || lower.includes('fortitude') || lower.includes('endurance')) return 'Stamina';
+      return fallback;
+    };
+
+    items = items.map(item => {
+      if (!item || typeof item !== 'object') return item;
+      const primary = normalizeAttr(item.primary_attribute, 'Strength');
+      let secondary = normalizeAttr(item.secondary_attribute, primary === 'Agility' ? 'Intellect' : 'Agility');
+      if (secondary === primary) {
+        secondary = primary === 'Intellect' ? 'Wisdom' : primary === 'Wisdom' ? 'Stamina' : 'Intellect';
+      }
+      if (item.primary_attribute === primary && item.secondary_attribute === secondary) return item;
+      return {
+        ...item,
+        primary_attribute: primary,
+        secondary_attribute: secondary,
+        key_attributes: `${primary} (Primary), ${secondary} (Secondary).`
+      };
+    });
+  }
 
   return items;
 };

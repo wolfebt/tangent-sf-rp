@@ -940,8 +940,8 @@ export const DEFAULT_ARCHETYPES = [
       "Syndicate (Asset Protection)"
     ],
     "primary_attribute": "Stamina",
-    "secondary_attribute": "Perception",
-    "key_attributes": "Stamina (Primary), Perception (Secondary).",
+    "secondary_attribute": "Wisdom",
+    "key_attributes": "Stamina (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Athletics",
       "Alertness",
@@ -1039,8 +1039,8 @@ export const DEFAULT_ARCHETYPES = [
       "Entari Combine (Constables)"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Perception",
-    "key_attributes": "Wisdom (Primary), Perception (Secondary).",
+    "secondary_attribute": "Stamina",
+    "key_attributes": "Wisdom (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Alertness",
       "Insight",
@@ -1237,9 +1237,9 @@ export const DEFAULT_ARCHETYPES = [
       "Dynasty (Men-at-Arms)",
       "Outworlds (Survivors)"
     ],
-    "primary_attribute": "Strength or Agility",
+    "primary_attribute": "Strength",
     "secondary_attribute": "Stamina",
-    "key_attributes": "Strength or Agility (Primary), Stamina (Secondary).",
+    "key_attributes": "Strength (Primary), Stamina (Secondary).",
     "essential_skills": [
       "Acrobatics",
       "Alertness",
@@ -1288,8 +1288,8 @@ export const DEFAULT_ARCHETYPES = [
       "Entari Combine (Gardeners)"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Strength or Agility",
-    "key_attributes": "Wisdom (Primary), Strength or Agility (Secondary).",
+    "secondary_attribute": "Strength",
+    "key_attributes": "Wisdom (Primary), Strength (Secondary).",
     "essential_skills": [
       "Athletics",
       "Stealth",
@@ -1587,8 +1587,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Agility",
-    "secondary_attribute": "Technology",
-    "key_attributes": "Agility (Primary), Technology (Secondary).",
+    "secondary_attribute": "Intellect",
+    "key_attributes": "Agility (Primary), Intellect (Secondary).",
     "essential_skills": [
       "Stealth",
       "Knowledge (Technology)",
@@ -1937,8 +1937,8 @@ export const DEFAULT_ARCHETYPES = [
       "Syndicate"
     ],
     "primary_attribute": "Agility",
-    "secondary_attribute": "Perception",
-    "key_attributes": "Agility (Primary), Perception (Secondary).",
+    "secondary_attribute": "Wisdom",
+    "key_attributes": "Agility (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Combat (Pistols)",
       "Alertness",
@@ -1986,8 +1986,8 @@ export const DEFAULT_ARCHETYPES = [
       "Outworlds"
     ],
     "primary_attribute": "Agility",
-    "secondary_attribute": "Technology",
-    "key_attributes": "Agility (Primary), Technology (Secondary).",
+    "secondary_attribute": "Intellect",
+    "key_attributes": "Agility (Primary), Intellect (Secondary).",
     "essential_skills": [
       "Pilot",
       "Acrobatics",
@@ -2234,8 +2234,8 @@ export const DEFAULT_ARCHETYPES = [
       "Outworlds"
     ],
     "primary_attribute": "Agility",
-    "secondary_attribute": "Perception",
-    "key_attributes": "Agility (Primary), Perception (Secondary).",
+    "secondary_attribute": "Wisdom",
+    "key_attributes": "Agility (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Stealth",
       "Acrobatics",
@@ -2284,8 +2284,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Intellect",
-    "secondary_attribute": "Technology",
-    "key_attributes": "Intellect (Primary), Technology (Secondary).",
+    "secondary_attribute": "Agility",
+    "key_attributes": "Intellect (Primary), Agility (Secondary).",
     "essential_skills": [
       "Knowledge (Technology)",
       "Knowledge (Computers)",
@@ -2684,8 +2684,8 @@ export const DEFAULT_ARCHETYPES = [
       "Alterian Enclave (Elders)"
     ],
     "primary_attribute": "Charisma",
-    "secondary_attribute": "History",
-    "key_attributes": "Charisma (Primary), History (Secondary).",
+    "secondary_attribute": "Intellect",
+    "key_attributes": "Charisma (Primary), Intellect (Secondary).",
     "essential_skills": [
       "Diplomacy",
       "Knowledge (History)",
@@ -3283,8 +3283,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Wisdom",
-    "secondary_attribute": "Insight",
-    "key_attributes": "Wisdom (Primary), Insight (Secondary).",
+    "secondary_attribute": "Charisma",
+    "key_attributes": "Wisdom (Primary), Charisma (Secondary).",
     "essential_skills": [
       "Insight",
       "Diplomacy",
@@ -3580,8 +3580,8 @@ export const DEFAULT_ARCHETYPES = [
       "Syndicate (Unionizers)"
     ],
     "primary_attribute": "Charisma",
-    "secondary_attribute": "Spirit",
-    "key_attributes": "Charisma (Primary), Spirit (Secondary).",
+    "secondary_attribute": "Wisdom",
+    "key_attributes": "Charisma (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Leadership",
       "Diplomacy",
@@ -4130,8 +4130,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Intellect",
-    "secondary_attribute": "Technology",
-    "key_attributes": "Intellect (Primary), Technology (Secondary).",
+    "secondary_attribute": "Wisdom",
+    "key_attributes": "Intellect (Primary), Wisdom (Secondary).",
     "essential_skills": [
       "Knowledge (Medicine)",
       "Knowledge (Technology)",
@@ -4727,8 +4727,8 @@ export const DEFAULT_ARCHETYPES = [
       "Ascendancy"
     ],
     "primary_attribute": "Intellect",
-    "secondary_attribute": "Technology",
-    "key_attributes": "Intellect (Primary), Technology (Secondary).",
+    "secondary_attribute": "Agility",
+    "key_attributes": "Intellect (Primary), Agility (Secondary).",
     "essential_skills": [
       "Knowledge (Technology)",
       "Vocation (Engineer)",

@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.moduleb.competencyroles","matrix"]
-updatedAt: "2026-10-14T06:04:05.792Z"
+updatedAt: "2026-11-01T13:09:44.334Z"
 costs:
   bp: 0
   credits: 0
@@ -77,7 +77,7 @@ Operating on the principle of maximum lethality with minimum exposure, Strikers 
 
 * ###### **Melee DPS**
 
-Serving as the close-quarters executioner, the Melee DPS is deployed to inflict maximum, targeted lethality with surgical precision directly on the front lines. They are utilized when high-value targets must be rapidly eliminated in hand-to-hand engagements before they can react or cast. By prioritizing Agility and Precision, they leverage fast-striking Melee Combat and Acrobatics to weave through defenses, dealing devastating localized damage while remaining in constant motion.
+Serving as the close-quarters executioner, the Melee DPS is deployed to inflict maximum, targeted lethality with surgical precision directly on the front lines. They are utilized when high-value targets must be rapidly eliminated in hand-to-hand engagements before they can react or cast. By prioritizing Agility and Strength, they leverage fast-striking Melee Combat and Acrobatics to weave through defenses, dealing devastating localized damage while remaining in constant motion.
 
 * *Primary Attributes:* Agility, Strength.  
   * *Key Skills:* Melee Combat, Acrobatics, Evasion.  
@@ -89,7 +89,7 @@ Serving as the close-quarters executioner, the Melee DPS is deployed to inflict 
 
 Operating as the primary source of sustained suppressive and lethal fire, the Ranged DPS controls the mid-range battlefield. They are positioned behind the vanguard when a squad needs to lay down a continuous hail of ballistics or energy blasts to keep enemies pinned or eliminate them as they approach. Relying on the Ranged Combat skill, they utilize heavy or rapid-fire weaponry to systematically dismantle enemy ranks from a safe distance.
 
-* *Primary Attributes:* Agility, Precision.  
+* *Primary Attributes:* Agility, Wisdom.  
   * *Key Skills:* Ranged Combat, Alertness.  
   * *Feature:* Burst Attack (Reduces penalties with Auto-Fire).
 
@@ -99,7 +99,7 @@ Operating as the primary source of sustained suppressive and lethal fire, the Ra
 
 Functioning as the unseen executioner, the Sniper is deployed to surgically eliminate high-value targets from extreme distances. They operate from elevated or deeply obscured vantage points when an enemy commander or heavy weapon operator must be neutralized before an engagement even truly begins. By heavily leveraging the Stealth and Ranged Combat skills, they dictate the terms of engagement from the shadows, ensuring their targets are dead before the sound of the gunshot arrives.
 
-* *Primary Attributes:* Precision, Agility.  
+* *Primary Attributes:* Agility, Wisdom.  
   * *Key Skills:* Ranged Combat, Stealth, Alertness.  
   * *Feature:* Sniper (Ignore cover penalties).
 
@@ -123,7 +123,7 @@ Acting as the master of traversal, the Mobility Specialist focuses entirely on m
 
 Operating as the tactical positioning expert, the Flank is engineered to collapse defensive lines from the sides or rear. Deployed specifically to punish enemies who overcommit to a frontal assault, they operate by circling the main engagement to strike at exposed vulnerabilities. Utilizing Evasion and Stealth, they execute devastating hit-and-run tactics, dealing high burst damage before fading away to avoid sustained, direct-fire retaliations.
 
-* *Primary Attributes:* Agility, Precision.  
+* *Primary Attributes:* Agility, Wisdom.  
   * *Key Skills:* Stealth, Melee/Ranged Combat, Evasion.  
   * *Feature:* Hit & Run (Move after attacking without provoking reactions).
 

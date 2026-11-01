@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Hybrid (Magic/Melee) / Defender
 primary_attribute: Wisdom
-secondary_attribute: Strength or Agility
+secondary_attribute: Strength
 recommended_occupations:
   - Adept
   - Scout (Fey/Auluran origins)
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Hybrid (Magic/Melee) / Defender  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Strength or Agility  
+**Secondary Attribute**: Strength  
 
 ## Overview
 A protector of forests and natural habitats, skilled in both magic and combat to defend the wild.

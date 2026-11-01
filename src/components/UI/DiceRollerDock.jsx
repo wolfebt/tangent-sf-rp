@@ -71,6 +71,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const [advantageDice, setAdvantageDice] = useState(0); // Clamped -5 to +5
   const [critRangeSize, setCritRangeSize] = useState(1); // Clamped 1 to 5 (threshold: 21 - critRangeSize)
   const [fumbleRangeSize, setFumbleRangeSize] = useState(1); // Clamped 1 to 5 (threshold: 1 + fumbleRangeSize)
+  const [expandedThreat, setExpandedThreat] = useState(true); // Selected by default: Crit +10 to roll, Fumble = flat -10
   const [targetDC, setTargetDC] = useState('');
   const [showCustomRollAccordion, setShowCustomRollAccordion] = useState(false);
 
@@ -95,6 +96,8 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
   });
   const outputBlockRef = useRef(null);
+  const controlsScrollRef = useRef(null);
+  const savedFormulasRef = useRef(null);
   const STORAGE_KEY_POS = 'tangent_dice_roller_pos';
   const STORAGE_KEY_SIZE = 'tangent_dice_roller_size';
 
@@ -482,6 +485,9 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     if (diceConfig.fumbleRangeSize !== undefined) {
       setFumbleRangeSize(Math.max(1, Math.min(5, Number(diceConfig.fumbleRangeSize) || 1)));
     }
+    if (diceConfig.expandedThreat !== undefined) {
+      setExpandedThreat(Boolean(diceConfig.expandedThreat));
+    }
 
     const dcVal = diceConfig.targetDC !== undefined 
       ? diceConfig.targetDC 
@@ -509,6 +515,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         advantageDice: advDice,
         critRangeSize: diceConfig.critRangeSize || 1,
         fumbleRangeSize: diceConfig.fumbleRangeSize || 1,
+        expandedThreat: diceConfig.expandedThreat !== undefined ? Boolean(diceConfig.expandedThreat) : true,
         targetDC: dcVal
       });
     }
@@ -591,6 +598,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     setAdvantageDice(0);
     setCritRangeSize(1);
     setFumbleRangeSize(1);
+    setExpandedThreat(true);
     setTargetDC(baseDC);
     setCheckLabel(baseLabel);
 
@@ -632,6 +640,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       adHocModifier: Math.max(-20, Math.min(20, Number(adHocModifier) || 0)),
       critRangeSize: Number(critRangeSize) || 1,
       fumbleRangeSize: Number(fumbleRangeSize) || 1,
+      expandedThreat: Boolean(expandedThreat),
       targetDC: targetDC !== undefined && targetDC !== null ? String(targetDC) : '',
       savedAt: Date.now()
     };
@@ -646,6 +655,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         (s.adHocModifier ?? 0) !== newEntry.adHocModifier ||
         (s.critRangeSize ?? 1) !== newEntry.critRangeSize ||
         (s.fumbleRangeSize ?? 1) !== newEntry.fumbleRangeSize ||
+        (s.expandedThreat ?? true) !== newEntry.expandedThreat ||
         String(s.targetDC ?? '') !== newEntry.targetDC
       )
     ].slice(0, 20);
@@ -660,6 +670,10 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     AudioService.playTerminalBeep(1400, 0.04);
     setSaveNotification(`Saved preset "${newEntry.label}" with all adjustments!`);
     setShowCustomRollAccordion(true);
+
+    setTimeout(() => {
+      savedFormulasRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 60);
 
     if (saveNotificationTimerRef.current) {
       clearTimeout(saveNotificationTimerRef.current);
@@ -678,6 +692,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     const aMod = s.adHocModifier !== undefined ? Math.max(-20, Math.min(20, Number(s.adHocModifier) || 0)) : 0;
     const cSize = s.critRangeSize !== undefined ? Number(s.critRangeSize) || 1 : 1;
     const fSize = s.fumbleRangeSize !== undefined ? Number(s.fumbleRangeSize) || 1 : 1;
+    const expThreat = s.expandedThreat !== undefined ? Boolean(s.expandedThreat) : true;
     const dc = s.targetDC !== undefined && s.targetDC !== null ? String(s.targetDC) : '';
 
     setCustomExpr(expr);
@@ -687,6 +702,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     setAdHocModifier(aMod);
     setCritRangeSize(cSize);
     setFumbleRangeSize(fSize);
+    setExpandedThreat(expThreat);
     setTargetDC(dc);
 
     AudioService.playTerminalBeep(1050, 0.03);
@@ -698,6 +714,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         adHocModifier: aMod,
         critRangeSize: cSize,
         fumbleRangeSize: fSize,
+        expandedThreat: expThreat,
         targetDC: dc,
         label: label || expr
       });
@@ -767,13 +784,16 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     const aMod = overrideConfig?.adHocModifier !== undefined ? Math.max(-20, Math.min(20, Number(overrideConfig.adHocModifier) || 0)) : adHocModifier;
     const clampedFlatMod = Math.max(-20, Math.min(70, bMod + aMod));
 
-    // Resolve clamped threat range sizes (1 to 5)
+    // Resolve clamped threat range sizes (1 to 5) and expanded mode
     const cSize = overrideConfig?.critRangeSize !== undefined 
       ? Math.max(1, Math.min(5, Number(overrideConfig.critRangeSize) || 1)) 
       : critRangeSize;
     const fSize = overrideConfig?.fumbleRangeSize !== undefined 
       ? Math.max(1, Math.min(5, Number(overrideConfig.fumbleRangeSize) || 1)) 
       : fumbleRangeSize;
+    const expThreat = overrideConfig?.expandedThreat !== undefined
+      ? Boolean(overrideConfig.expandedThreat)
+      : expandedThreat;
 
     // Resolve target DC
     const dc = overrideConfig?.targetDC !== undefined 
@@ -798,6 +818,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       flatModifier: clampedFlatMod,
       critRangeSize: cSize,
       fumbleRangeSize: fSize,
+      expandedThreat: expThreat,
       targetDC: dc,
       targetNumber: dc,
       characterName: cName,
@@ -819,6 +840,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       appliedModifier: result.appliedModifier ?? clampedFlatMod,
       critThreshold: result.critThreshold,
       fumbleThreshold: result.fumbleThreshold,
+      expandedThreat: result.expandedThreat ?? expThreat,
       targetDC: result.targetDC !== undefined ? result.targetDC : (dc !== '' && dc !== null && dc !== undefined ? dc : null)
     };
 
@@ -862,6 +884,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           advantageDice: result.advantageDice ?? clampedAdv,
           critRangeSize: result.critRangeSize ?? cSize,
           fumbleRangeSize: result.fumbleRangeSize ?? fSize,
+          expandedThreat: result.expandedThreat ?? expThreat,
           critThreshold: result.critThreshold ?? (21 - cSize),
           fumbleThreshold: result.fumbleThreshold ?? (1 + fSize),
           isCritical: result.isCrit,
@@ -921,9 +944,10 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       flatModifier: totalCalculatedMod,
       critRangeSize,
       fumbleRangeSize,
+      expandedThreat,
       targetDC
     });
-  }, [customExpr, advantageDice, totalCalculatedMod, critRangeSize, fumbleRangeSize, targetDC]);
+  }, [customExpr, advantageDice, totalCalculatedMod, critRangeSize, fumbleRangeSize, expandedThreat, targetDC]);
 
   if (!isOpen) return null;
 
@@ -1552,7 +1576,11 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               {/* Slim Reroll Button */}
               <button
                 type="button"
-                onClick={() => handleRoll(latestRoll.expression, latestRoll.advantageDice ?? 0)}
+                onClick={() => handleRoll(latestRoll.expression, latestRoll.advantageDice ?? 0, {
+                  critRangeSize: latestRoll.critRangeSize ?? critRangeSize,
+                  fumbleRangeSize: latestRoll.fumbleRangeSize ?? fumbleRangeSize,
+                  expandedThreat: latestRoll.expandedThreat ?? expandedThreat
+                })}
                 className="mt-1.5 w-full py-1 bg-rose-950/40 hover:bg-rose-900/70 border border-rose-500/30 text-rose-300 hover:text-rose-200 rounded text-[9.5px] font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                 title="Reroll this check"
               >
@@ -1640,7 +1668,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                 No rolls recorded yet. All executed checks will be displayed and stored here.
               </div>
             ) : (
-              <div className={`space-y-1.5 pr-0.5 no-scrollbar ${
+              <div className={`space-y-1.5 pr-1 ${
                 isCompactLayout 
                   ? 'h-auto' 
                   : 'flex-1 min-h-0 overflow-y-auto'
@@ -1736,14 +1764,17 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
         </div>
 
         {/* Dice Roller Controls: Top on compact view (order-1), right side on standard view (order-2) */}
-        <div className={`min-w-0 flex flex-col gap-2.5 ${
-          isCompactLayout 
-            ? 'order-1 w-full shrink-0' 
-            : 'order-2 flex-1 overflow-y-auto no-scrollbar'
-        }`}>
+        <div
+          ref={controlsScrollRef}
+          className={`min-w-0 flex flex-col gap-2.5 ${
+            isCompactLayout 
+              ? 'order-1 w-full shrink-0' 
+              : 'order-2 flex-1 h-full min-h-0 overflow-y-auto pr-1'
+          }`}
+        >
 
           {/* Check Purpose / Chat Identifier Field (Editable) + Save Formula Button */}
-          <div className="flex items-center gap-2 bg-slate-950/70 p-2 rounded-lg border border-slate-800">
+          <div className="flex items-center gap-2 bg-slate-950/70 p-2 rounded-lg border border-slate-800 shrink-0">
             <span className="text-[10px] font-mono font-bold text-rose-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
               <Tag size={11} className="text-rose-400" />
               <span>Purpose / Chat ID:</span>
@@ -1753,14 +1784,14 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               value={checkLabel}
               onChange={(e) => setCheckLabel(e.target.value)}
               placeholder="Check Label / Chat ID (e.g. Might +5, Pilot +10)"
-              className="flex-1 bg-slate-900/90 border border-slate-700/80 rounded px-2 py-1 text-xs font-mono text-rose-200 placeholder-slate-600 focus:outline-none focus:border-rose-400"
+              className="flex-1 min-w-0 bg-slate-900/90 border border-slate-700/80 rounded px-2 py-1 text-xs font-mono text-rose-200 placeholder-slate-600 focus:outline-none focus:border-rose-400"
               title="Editable check purpose sent to chat comms and telemetry"
             />
             {checkLabel && (
               <button
                 type="button"
                 onClick={() => setCheckLabel('')}
-                className="p-1 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+                className="p-1 text-slate-500 hover:text-slate-300 transition-colors cursor-pointer shrink-0"
                 title="Clear check label"
               >
                 <X size={12} />
@@ -1779,7 +1810,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
 
           {/* Save Confirmation Notification Banner */}
           {saveNotification && (
-            <div className="flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-950/90 border border-emerald-500/60 text-emerald-200 text-[10.5px] font-mono shadow-[0_0_12px_rgba(16,185,129,0.25)] animate-fade-in">
+            <div className="flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-950/90 border border-emerald-500/60 text-emerald-200 text-[10.5px] font-mono shadow-[0_0_12px_rgba(16,185,129,0.25)] animate-fade-in shrink-0">
               <div className="flex items-center gap-1.5 truncate">
                 <Check size={13} className="text-emerald-400 shrink-0" />
                 <span className="truncate font-bold">{saveNotification}</span>
@@ -1797,7 +1828,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
 
           {/* Quick Access Presets Pill Bar (when saved formulas exist) */}
           {savedDiceStrings.length > 0 && (
-            <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 px-0.5">
+            <div className="flex items-center gap-1 overflow-x-auto py-0.5 px-0.5 shrink-0">
               <span className="text-[9px] font-mono font-bold text-rose-400/80 uppercase tracking-tight shrink-0 flex items-center gap-1 mr-0.5">
                 <Bookmark size={10} className="text-rose-400" />
                 <span>Presets:</span>
@@ -1831,7 +1862,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           )}
 
           {/* 1. Dice Pool Modifier Block (-5 to +5 range with Standard to reset) */}
-          <div className="space-y-1.5 bg-slate-950/70 p-2 rounded-lg border border-slate-800">
+          <div className="space-y-1.5 bg-slate-950/70 p-2 rounded-lg border border-slate-800 shrink-0">
             <div className="flex items-center justify-between text-[10px] font-mono">
               <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
                 <Scale size={11} className="text-rose-400" />
@@ -1908,7 +1939,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           </div>
 
           {/* 2. Modifier Engine Block: Base Score + Ad-Hoc / Situational Mod */}
-          <div className="space-y-1.5 bg-slate-950/70 p-2 rounded-lg border border-slate-800">
+          <div className="space-y-1.5 bg-slate-950/70 p-2 rounded-lg border border-slate-800 shrink-0">
             <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
               <span className="font-bold text-rose-400/90 uppercase tracking-wider">Modifier Engine:</span>
               <span className="text-[9px] text-cyan-300">
@@ -2008,7 +2039,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           </div>
 
           {/* 3. Threat Ranges (Permanently Visible) */}
-          <div className="bg-slate-950/70 p-2 rounded-lg border border-slate-800 space-y-1.5 text-[10px] font-mono">
+          <div className="bg-slate-950/70 p-2 rounded-lg border border-slate-800 space-y-1.5 text-[10px] font-mono shrink-0">
             <div className="flex items-center justify-between">
               <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
                 <Sparkles size={11} className="text-rose-400" />
@@ -2020,6 +2051,42 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
                 <span className="text-slate-600">•</span>
                 <span className="text-yellow-400 font-bold">Fumble: &le;{currentFumbleThreshold}</span>
                 <span className="text-slate-500">({fumbleRangeSize}pt)</span>
+              </span>
+            </div>
+
+            {/* Compact Expanded Threat Mode Line */}
+            <div className="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[9.5px]">
+              <label
+                className="inline-flex items-center gap-1.5 cursor-pointer select-none group"
+                title="When selected, a Critical Success adds +10 to the rolled value (making 20 into 30, or +10 to other crit values) and any Fumble replaces the rolled value with a flat -10"
+              >
+                <input
+                  type="radio"
+                  name="threat-range-expanded"
+                  checked={expandedThreat}
+                  onChange={() => {}}
+                  onClick={() => {
+                    setExpandedThreat(prev => !prev);
+                    AudioService.playTerminalBeep(1100, 0.02);
+                  }}
+                  className="w-3 h-3 accent-rose-500 cursor-pointer m-0"
+                />
+                <span className={`font-bold tracking-wide transition-colors ${
+                  expandedThreat ? 'text-rose-300' : 'text-slate-400 group-hover:text-slate-300'
+                }`}>
+                  Expanded
+                </span>
+              </label>
+              <span className="text-[8.5px] text-slate-400 flex items-center gap-1">
+                {expandedThreat ? (
+                  <>
+                    <span className="text-emerald-400/90">Crit: +10 roll</span>
+                    <span className="text-slate-600">•</span>
+                    <span className="text-yellow-400/90">Fumble: flat -10</span>
+                  </>
+                ) : (
+                  <span className="text-slate-500">Standard (Raw roll values)</span>
+                )}
               </span>
             </div>
 
@@ -2085,7 +2152,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           </div>
 
           {/* 4. Target Difficulty Class (DC) Presets (Fully Visible Block Grid) */}
-          <div className="space-y-1 bg-slate-950/70 p-2 rounded-lg border border-slate-800">
+          <div className="space-y-1 bg-slate-950/70 p-2 rounded-lg border border-slate-800 shrink-0">
             <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-0.5">
               <span className="font-bold text-rose-400/90 uppercase tracking-wider flex items-center gap-1">
                 <Target size={11} className="text-rose-400" />
@@ -2120,7 +2187,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           </div>
 
           {/* 5. Tactical Odds Matrix / Probability Forecast */}
-          <div className="space-y-1.5 bg-slate-950/80 p-2.5 rounded-lg border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.12)]">
+          <div className="space-y-1.5 bg-slate-950/80 p-2.5 rounded-lg border border-rose-500/40 shadow-[0_0_15px_rgba(244,63,94,0.12)] shrink-0">
             <div className="flex items-center justify-between text-[10px] font-mono">
               <span className="font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1">
                 <Percent size={11} className="text-rose-400" />
@@ -2239,10 +2306,20 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
           </div>
 
           {/* 6. Quick & Custom Polyhedral Rolls Accordion (Collapsed by Default) */}
-          <div className="bg-slate-950/70 rounded-lg border border-slate-800 overflow-hidden">
+          <div ref={savedFormulasRef} className="bg-slate-950/70 rounded-lg border border-slate-800 shrink-0">
             <button
               type="button"
-              onClick={() => setShowCustomRollAccordion(prev => !prev)}
+              onClick={() => {
+                setShowCustomRollAccordion(prev => {
+                  const next = !prev;
+                  if (next) {
+                    setTimeout(() => {
+                      savedFormulasRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 60);
+                  }
+                  return next;
+                });
+              }}
               className="w-full p-2 flex items-center justify-between text-[10px] font-mono font-bold text-slate-400 hover:text-rose-300 transition-colors cursor-pointer select-none"
             >
               <span className="flex items-center gap-1.5 uppercase tracking-wider text-rose-400/90">

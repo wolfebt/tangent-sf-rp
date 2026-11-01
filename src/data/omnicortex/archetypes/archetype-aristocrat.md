@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Resource Access / Face / Leader
 primary_attribute: Charisma
-secondary_attribute: History
+secondary_attribute: Intellect
 recommended_occupations:
   - Noble
   - Citizen
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Resource Access / Face / Leader  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
-**Secondary Attribute**: History  
+**Secondary Attribute**: Intellect  
 
 ## Overview
 A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.

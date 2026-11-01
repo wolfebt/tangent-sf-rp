@@ -571,6 +571,10 @@ export const UniversalCatalogModal = ({
       }
     }
 
+    if (canonicalColKey === 'archetypes') {
+      baseList = mergeSeedsWithDocs(baseList, 'archetypes');
+    }
+
     // Special reconciliation for augmentations: ensure all canonical default augmentations
     // (including Negligible fashionware & utilities) are present and have accurate stage normalization
     if (canonicalColKey === 'augmentations') {

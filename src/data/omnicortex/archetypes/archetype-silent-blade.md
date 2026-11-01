@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Stealth / Burst Damage
 primary_attribute: Agility
-secondary_attribute: Perception
+secondary_attribute: Wisdom
 recommended_occupations:
   - Criminal
   - Agent
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Stealth / Burst Damage  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
-**Secondary Attribute**: Perception  
+**Secondary Attribute**: Wisdom  
 
 ## Overview
 A professional killer taking contracts to eliminate specific targets via long-range sniping or close-quarters execution.

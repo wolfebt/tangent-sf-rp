@@ -28,14 +28,12 @@ const SPHERES = [
 ];
 
 const ATTRIBUTES = [
+  'Intellect',
+  'Wisdom',
+  'Charisma',
   'Strength',
   'Agility',
-  'Stamina',
-  'Intellect',
-  'Perception',
-  'Charisma',
-  'Willpower',
-  'Wisdom'
+  'Stamina'
 ];
 
 /**

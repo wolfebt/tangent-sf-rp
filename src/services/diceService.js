@@ -38,19 +38,24 @@ export const targetDCs = {
  * @param {number} [flatModifier=0] - Flat modifier applied to the kept sum (-20 to +70).
  * @param {number} [critRangeSize=1] - Critical threat range size (1 to 5: 1=20, 5=16-20).
  * @param {number} [fumbleRangeSize=1] - Fumble threat range size (1 to 5: 1=2, 5=2-6).
+ * @param {boolean} [expandedThreat=true] - When true, a critical success adds 10 to the rolled value
+ *                                          (e.g. 20 -> 30, 19 -> 29) and any fumble replaces the rolled
+ *                                          value with a flat -10 (subtracting 10 from base score/modifier).
  * @returns {Object} Full clamped roll result containing dicePool, keptDice, totals, thresholds, and flags.
  */
 export function executeTangentRoll(
   advantageDice = 0,    // Accepts -5 to +5
   flatModifier = 0,     // Accepts -20 to +70 (Base score 0 to 50 + Ad-Hoc -20 to +20)
   critRangeSize = 1,    // Accepts 1 to 5 (e.g., 1 = 20, 5 = 16-20)
-  fumbleRangeSize = 1   // Accepts 1 to 5 (e.g., 1 = 2, 5 = 2-6)
+  fumbleRangeSize = 1,  // Accepts 1 to 5 (e.g., 1 = 2, 5 = 2-6)
+  expandedThreat = true // Default true: Crit +10 to roll, Fumble replaced by flat -10
 ) {
   // Clamp inputs to strictly enforce engine limits
   const clampedAdvantage = Math.max(-5, Math.min(5, Number(advantageDice) || 0));
   const clampedModifier = Math.max(-20, Math.min(70, Number(flatModifier) || 0));
   const clampedCritSize = Math.max(1, Math.min(5, Number(critRangeSize) || 1));
   const clampedFumbleSize = Math.max(1, Math.min(5, Number(fumbleRangeSize) || 1));
+  const isExpanded = expandedThreat !== undefined ? Boolean(expandedThreat) : true;
 
   const dicePoolSize = 2 + Math.abs(clampedAdvantage);
   let rolls = [];
@@ -67,23 +72,38 @@ export function executeTangentRoll(
   }
 
   let keptDice = [rolls[0], rolls[1]];
-  let naturalTotal = keptDice[0] + keptDice[1];
-  let finalTotal = naturalTotal + clampedModifier;
+  let rawNaturalTotal = keptDice[0] + keptDice[1];
 
   // Calculate dynamic thresholds based on the 1 to 5 range size
   const critThreshold = 21 - clampedCritSize; 
   const fumbleThreshold = 1 + clampedFumbleSize;
 
-  let isCrit = naturalTotal >= critThreshold;
-  let isFumble = naturalTotal <= fumbleThreshold;
+  let isCrit = rawNaturalTotal >= critThreshold;
+  let isFumble = !isCrit && rawNaturalTotal <= fumbleThreshold;
+
+  // When Expanded Threat is active:
+  // - A critical success adds 10 to the rolled value (20 -> 30, 19 -> 29, etc.)
+  // - Any fumble (whether on 2, 3, 4, 5, or 6) replaces the rolled value with a flat -10
+  let naturalTotal = rawNaturalTotal;
+  if (isExpanded) {
+    if (isCrit) {
+      naturalTotal = rawNaturalTotal + 10;
+    } else if (isFumble) {
+      naturalTotal = -10;
+    }
+  }
+
+  let finalTotal = naturalTotal + clampedModifier;
 
   return {
     dicePool: rolls,
     keptDice: keptDice,
+    rawNaturalTotal: rawNaturalTotal,
     naturalTotal: naturalTotal,
     finalTotal: finalTotal,
     isCrit: isCrit,
     isFumble: isFumble,
+    expandedThreat: isExpanded,
     appliedModifier: clampedModifier,
     critThreshold: critThreshold,
     fumbleThreshold: fumbleThreshold,
@@ -338,6 +358,7 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
   // Resolve threat range sizes and thresholds
   const critSize = Math.max(1, Math.min(5, Number(options.critRangeSize) || 1));
   const fumbleSize = Math.max(1, Math.min(5, Number(options.fumbleRangeSize) || 1));
+  const isExpanded = options.expandedThreat !== undefined ? Boolean(options.expandedThreat) : true;
 
   const maxNatural = keepCount * sides;
   const minNatural = keepCount * 1;
@@ -381,9 +402,9 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
   let catastrophicChance = resolvedDC !== null ? 0 : null;
 
   for (const [naturalSumStr, prob] of Object.entries(distribution)) {
-    const naturalTotal = Number(naturalSumStr);
-    const isCrit = naturalTotal >= critThreshold;
-    const isFumble = !isCrit && naturalTotal <= fumbleThreshold;
+    const rawNaturalTotal = Number(naturalSumStr);
+    const isCrit = rawNaturalTotal >= critThreshold;
+    const isFumble = !isCrit && rawNaturalTotal <= fumbleThreshold;
 
     if (isCrit) {
       critChance += prob;
@@ -393,7 +414,10 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
     }
 
     if (resolvedDC !== null) {
-      const finalTotal = naturalTotal + flatMod;
+      const effectiveNatural = isExpanded
+        ? (isCrit ? rawNaturalTotal + 10 : isFumble ? -10 : rawNaturalTotal)
+        : rawNaturalTotal;
+      const finalTotal = effectiveNatural + flatMod;
       const margin = finalTotal - resolvedDC;
 
       if (isCrit) {
@@ -426,6 +450,7 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
     appliedModifier: flatMod,
     critRangeSize: critSize,
     fumbleRangeSize: fumbleSize,
+    expandedThreat: isExpanded,
     critThreshold,
     fumbleThreshold,
     targetDC: resolvedDC,
@@ -455,6 +480,7 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
 export function rollDice(expression = '2d10', options = {}) {
   const cleanExpr = String(expression).trim();
   const is2d10 = cleanExpr.toLowerCase().startsWith('2d10') || (!cleanExpr.includes('d') && cleanExpr !== '');
+  const expandedThreat = options.expandedThreat !== undefined ? Boolean(options.expandedThreat) : true;
 
   // 1. Core Tangent 2d10 Check with strict clamping
   if (is2d10) {
@@ -487,7 +513,7 @@ export function rollDice(expression = '2d10', options = {}) {
     const critSize = options.critRangeSize !== undefined ? Number(options.critRangeSize) : 1;
     const fumbleSize = options.fumbleRangeSize !== undefined ? Number(options.fumbleRangeSize) : 1;
 
-    const tangentResult = executeTangentRoll(advDice, flatMod, critSize, fumbleSize);
+    const tangentResult = executeTangentRoll(advDice, flatMod, critSize, fumbleSize, expandedThreat);
 
     // Target DC resolution
     const dcInput = options.targetDC !== undefined ? options.targetDC : options.targetNumber;
@@ -514,6 +540,7 @@ export function rollDice(expression = '2d10', options = {}) {
       sides: 10,
       dicePool: tangentResult.dicePool,
       keptDice: tangentResult.keptDice,
+      rawNaturalTotal: tangentResult.rawNaturalTotal,
       naturalTotal: tangentResult.naturalTotal,
       finalTotal: tangentResult.finalTotal,
       total: tangentResult.finalTotal,
@@ -524,6 +551,7 @@ export function rollDice(expression = '2d10', options = {}) {
       isFumble: tangentResult.isFumble,
       isCritSuccess: tangentResult.isCrit,
       isCritFail: tangentResult.isFumble,
+      expandedThreat: tangentResult.expandedThreat,
       appliedModifier: tangentResult.appliedModifier,
       modifier: tangentResult.appliedModifier,
       critThreshold: tangentResult.critThreshold,
@@ -546,6 +574,7 @@ export function rollDice(expression = '2d10', options = {}) {
         flatModifier: tangentResult.appliedModifier,
         critRangeSize: tangentResult.critRangeSize,
         fumbleRangeSize: tangentResult.fumbleRangeSize,
+        expandedThreat: tangentResult.expandedThreat,
         targetDC: checkResolution ? checkResolution.targetDC : dcInput
       })
     };
@@ -636,8 +665,7 @@ export function rollDice(expression = '2d10', options = {}) {
 
   const keptIndices = new Set(sortedIndices.slice(0, keepCount).map(item => item.idx));
   const keptDice = rawValues.filter((_, idx) => keptIndices.has(idx));
-  const naturalTotal = keptDice.reduce((sum, v) => sum + v, 0);
-  const finalTotal = naturalTotal + clampedModifier;
+  const rawNaturalTotal = keptDice.reduce((sum, v) => sum + v, 0);
 
   // Calculate dynamic threat ranges:
   // For keepCount dice of `sides` faces:
@@ -648,8 +676,22 @@ export function rollDice(expression = '2d10', options = {}) {
   const critThreshold = Math.max(minNatural + 1, maxNatural - critSize + 1);
   const fumbleThreshold = Math.min(critThreshold - 1, minNatural + fumbleSize - 1);
 
-  const isCrit = naturalTotal >= critThreshold;
-  const isFumble = naturalTotal <= fumbleThreshold;
+  const isCrit = rawNaturalTotal >= critThreshold;
+  const isFumble = !isCrit && rawNaturalTotal <= fumbleThreshold;
+
+  // Apply Expanded Threat adjustments when enabled:
+  // - Critical Success adds +10 to the rolled value
+  // - Fumble replaces the rolled value with a flat -10
+  let naturalTotal = rawNaturalTotal;
+  if (expandedThreat) {
+    if (isCrit) {
+      naturalTotal = rawNaturalTotal + 10;
+    } else if (isFumble) {
+      naturalTotal = -10;
+    }
+  }
+
+  const finalTotal = naturalTotal + clampedModifier;
 
   // Target DC resolution with critical/fumble superseding
   let checkResolution = null;
@@ -682,6 +724,7 @@ export function rollDice(expression = '2d10', options = {}) {
     rolls: rollsArray,
     dicePool: rawValues,
     keptDice: keptDice,
+    rawNaturalTotal: rawNaturalTotal,
     naturalTotal: naturalTotal,
     finalTotal: finalTotal,
     total: finalTotal,
@@ -693,6 +736,7 @@ export function rollDice(expression = '2d10', options = {}) {
     isFumble: isFumble,
     isCritSuccess: isCrit,
     isCritFail: isFumble,
+    expandedThreat: expandedThreat,
     critThreshold: critThreshold,
     fumbleThreshold: fumbleThreshold,
     critRangeSize: critSize,
@@ -718,6 +762,7 @@ export function rollDice(expression = '2d10', options = {}) {
       flatModifier: clampedModifier,
       critRangeSize: critSize,
       fumbleRangeSize: fumbleSize,
+      expandedThreat: expandedThreat,
       targetDC: checkResolution ? checkResolution.targetDC : dcInput
     })
   };

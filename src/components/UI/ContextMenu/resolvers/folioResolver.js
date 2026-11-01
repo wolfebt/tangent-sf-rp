@@ -739,7 +739,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Economatrix Valuation: ${itemName}`,
-          prompt: `Calculate the canonical Economatrix market value for ${itemName} using the Tangent formula: Cost = Base * (2^TL) * (1.5^ML). Specify base credit value, Tech Level pricing multiplier, and availability across Core vs Rim worlds.`,
+          prompt: `Calculate the canonical Economatrix market value for ${itemName} using the Tangent Standard Curve: Value (Credits) = 10 * 4^(Crafting DC / 5). Break down the item's Crafting DC (base chassis, modifications, and any TL/ML or design modifiers), resulting Credit Value, and Purchase DC vs. Wealth Score threshold.`,
           context: `Item: ${itemName}`
         })
       }

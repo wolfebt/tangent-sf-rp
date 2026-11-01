@@ -20,6 +20,16 @@ const THEMES = {
     bar: 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]',
     badge: 'bg-cyan-500 text-black'
   },
+  sky: {
+    dotColor: '#38bdf8',
+    iconBox: 'bg-sky-500/10 border-sky-500/30 text-sky-400 group-hover:bg-sky-500/20 group-hover:border-sky-400 group-hover:text-sky-300',
+    activeBox: 'bg-sky-500/25 border-sky-400 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.4)]',
+    activeBtn: 'bg-sky-950/70 border-sky-400/80 text-sky-200 shadow-[0_0_15px_rgba(56,189,248,0.25)]',
+    activeLabel: 'text-sky-300 font-extrabold [text-shadow:0_0_8px_rgba(56,189,248,0.7)]',
+    idleLabel: 'text-sky-400/80 group-hover:text-sky-200',
+    bar: 'bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.8)]',
+    badge: 'bg-sky-500 text-black'
+  },
   blue: {
     dotColor: '#3b82f6',
     iconBox: 'bg-blue-500/10 border-blue-500/30 text-blue-400 group-hover:bg-blue-500/20 group-hover:border-blue-400 group-hover:text-blue-300',

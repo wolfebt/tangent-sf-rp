@@ -5,7 +5,7 @@ sphere: Sentinels (The Stabilizers)
 category: archetypes
 bp_chassis: 80
 core_concept: DPS / Tank / Reliable
-primary_attribute: Strength or Agility
+primary_attribute: Strength
 secondary_attribute: Stamina
 recommended_occupations:
   - Soldier
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Sphere**: Sentinels (The Stabilizers)  
 **Core Concept**: DPS / Tank / Reliable  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength or Agility  
+**Primary Attribute**: Strength  
 **Secondary Attribute**: Stamina  
 
 ## Overview

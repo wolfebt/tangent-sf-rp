@@ -17,7 +17,7 @@ export const DATASET_GUIDANCE = {
     canonicalRules: [
       { id: 'RULE-RES-01', title: '2d10 Dual Resolution', summary: 'Attacks roll 2d10 + Attribute Modifier + Skill Rank vs. Defender Agility + Defense Skill. Defender wins ties.' },
       { id: 'RULE-COMBAT-03', title: 'Armor Piercing (AP)', summary: 'AP reduces effective target Damage Reduction (DR) before applying damage.' },
-      { id: 'RULE-ECON-01', title: 'Tangent Standard Curve (TSC)', summary: 'Credit Value = 10 * 1.5^(Craft DC - 10). Material Cost is exactly 50% of credit value.' }
+      { id: 'RULE-ECON-01', title: 'Tangent Standard Curve (TSC)', summary: 'Credit Value = 10 * 4^(Craft DC / 5). Material Cost is exactly 50% of credit value.' }
     ],
     sections: [
       {
@@ -54,11 +54,11 @@ export const DATASET_GUIDANCE = {
         id: 'manufacturing',
         name: 'Economy & Manufacturing (Property / TSC)',
         description: 'Calculates the fabrication Difficulty Class, retail credit value, and salvage material costs.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10) | Material Cost = 50% | WS Required = DC',
+        formula: 'Credit Value = 10 * 4^(DC / 5) | Material Cost = 50% | WS Required = DC',
         tips: [
-          'DC 15: Military Issue sidearm (~57 Cr).',
-          'DC 20: Advanced combat assault rifle (~437 Cr).',
-          'DC 25: Mastercraft / Heavy ordnance plasma cannon (~3,325 Cr).'
+          'DC 10: Standard sidearm (160 Cr).',
+          'DC 15: Advanced ballistic assault rifle (640 Cr).',
+          'DC 20: Expert plasma rifle (2,560 Cr).'
         ]
       }
     ]
@@ -100,11 +100,11 @@ export const DATASET_GUIDANCE = {
         id: 'manufacturing',
         name: 'Fabrication & Durability (Property / TSC)',
         description: 'Manufacturing DC governs defense integrity and market value.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10) | Material Cost = 50% | WS Required = DC',
+        formula: 'Credit Value = 10 * 4^(DC / 5) | Material Cost = 50% | WS Required = DC',
         tips: [
-          'DC 16: Tactical Flak Vest (~86 Cr).',
-          'DC 22: Void-Hardened Plasteel Rig (~984 Cr).',
-          'DC 28: Heavy Powered Battlesuit (~11,223 Cr).'
+          'DC 10: Lightweight Tactical Vest (160 Cr).',
+          'DC 20: Heavyweight Plasteel Rig (2,560 Cr).',
+          'DC 30: Superheavy / Mecha Powered Battlesuit (40,960 Cr).'
         ]
       }
     ]
@@ -145,7 +145,7 @@ export const DATASET_GUIDANCE = {
         id: 'manufacturing',
         name: 'Fabrication & Surgical DC (Property / TSC)',
         description: 'Calculates hardware market value and surgical install difficulty.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10) | Material Cost = 50% | WS Required = DC'
+        formula: 'Credit Value = 10 * 4^(DC / 5) | Material Cost = 50% | WS Required = DC'
       }
     ]
   },
@@ -174,7 +174,7 @@ export const DATASET_GUIDANCE = {
         id: 'manufacturing',
         name: 'Manufacturing & Valuation (Property / TSC)',
         description: 'Fabrication DC and market valuation.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10) | Material Cost = 50% | WS Required = DC'
+        formula: 'Credit Value = 10 * 4^(DC / 5) | Material Cost = 50% | WS Required = DC'
       }
     ]
   },
@@ -210,7 +210,7 @@ export const DATASET_GUIDANCE = {
         id: 'manufacturing',
         name: 'Shipyard / Factory Fabrication (Property / TSC)',
         description: 'Industrial assembly DC, hull structural credit cost, and build duration in shipyard days.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10) | Material Cost = 50% | WS Required = DC'
+        formula: 'Credit Value = 10 * 4^(DC / 5) | Material Cost = 50% | WS Required = DC'
       }
     ]
   },
@@ -246,7 +246,7 @@ export const DATASET_GUIDANCE = {
         id: 'construction',
         name: 'Engineering & Construction Economics (Property / TSC)',
         description: 'Calculates total structural credit cost, workforce skill requirements, and construction days.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10) | Material Cost = 50% | WS Required = DC'
+        formula: 'Credit Value = 10 * 4^(DC / 5) | Material Cost = 50% | WS Required = DC'
       }
     ]
   },
@@ -475,15 +475,15 @@ export const DATASET_GUIDANCE = {
     isProperty: true,
     overview: 'Master reference suite for Tangent economics. Demonstrates the mathematical progression of the Tangent Standard Curve (TSC), Wealth Scores, and currency conversion.',
     canonicalRules: [
-      { id: 'RULE-ECON-01', title: 'TSC Exponential Formula', summary: 'Credit Value = 10 * 1.5^(DC - 10). Material Cost is exactly 50%.' },
+      { id: 'RULE-ECON-01', title: 'TSC Exponential Formula', summary: 'Credit Value = 10 * 4^(DC / 5). Material Cost is exactly 50%.' },
       { id: 'RULE-ECON-02', title: 'Wealth Score Ladder', summary: 'Wealth Scores (1-30) grant purchasing authority without tracking individual credits for trivial items.' }
     ],
     sections: [
       {
         id: 'standard_curve',
         name: 'Tangent Standard Curve (TSC)',
-        description: 'Exponential valuation model mapping Crafting DC (1-80) to market prices.',
-        formula: 'Credit Value = 10 * 1.5^(DC - 10)'
+        description: 'Exponential valuation model mapping Crafting DC (0-80) to market prices.',
+        formula: 'Credit Value = 10 * 4^(DC / 5)'
       }
     ]
   },

@@ -226,7 +226,7 @@ export const BANNER_SPEEDS = {
 
 export const TICKER_SPEEDS = {
   slow: { id: 'slow', label: 'Slow (55ms)', interval: 55 },
-  normal: { id: 'normal', label: 'Standard (28ms)', interval: 28 },
+  normal: { id: 'normal', label: 'Standard (30ms)', interval: 30 },
   fast: { id: 'fast', label: 'Rapid (14ms)', interval: 14 },
   turbo: { id: 'turbo', label: 'Turbo (7ms)', interval: 7 }
 };
@@ -249,10 +249,19 @@ export const STATIC_GLOW_OPTIONS = {
 };
 
 export const normalizeBannerLines = (config) => {
+  if (typeof config?.textBlock === 'string' && config.textBlock.trim().length > 0) {
+    const fromTextBlock = config.textBlock
+      .split(/\r?\n/)
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+    if (fromTextBlock.length > 0) {
+      return fromTextBlock;
+    }
+  }
+
   if (Array.isArray(config?.lines) && config.lines.length > 0) {
     const valid = config.lines
-      .map(l => (typeof l === 'string' ? l : ''))
-      .slice(0, 3);
+      .map(l => (typeof l === 'string' ? l : ''));
     if (valid.some(l => l.trim().length > 0)) {
       return valid;
     }
@@ -260,8 +269,7 @@ export const normalizeBannerLines = (config) => {
 
   if (typeof config?.line1 === 'string' || typeof config?.line2 === 'string' || typeof config?.line3 === 'string') {
     const fromLineKeys = [config.line1, config.line2, config.line3]
-      .map(l => (typeof l === 'string' ? l : ''))
-      .slice(0, 3);
+      .map(l => (typeof l === 'string' ? l : ''));
     if (fromLineKeys.some(l => l.trim().length > 0)) {
       return fromLineKeys;
     }
@@ -269,10 +277,16 @@ export const normalizeBannerLines = (config) => {
 
   if (typeof config?.message === 'string' && config.message.trim().length > 0) {
     if (config.message.includes('\n')) {
-      return config.message.split('\n').map(s => s.trim()).slice(0, 3);
+      return config.message
+        .split(/\r?\n/)
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
     }
     if (config.message.includes(' // ')) {
-      return config.message.split(' // ').map(s => s.trim()).slice(0, 3);
+      return config.message
+        .split(' // ')
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
     }
     return [config.message.trim()];
   }
@@ -400,10 +414,15 @@ export const DEFAULT_BANNER_CONFIG = {
     'BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED',
     'SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN'
   ],
+  textBlock: [
+    'WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE',
+    'BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED',
+    'SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN'
+  ].join('\n'),
   message: 'WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE // BASTION RULES ENGINE ACTIVE // SELECT ANY MODULE TO BEGIN',
   mode: 'ticker', // 'ticker' | 'scrolling' | 'static'
   speed: 'normal', // 'slow' | 'normal' | 'fast' | 'turbo'
-  tickerSpeed: 28, // ms per char (5ms - 80ms)
+  tickerSpeed: 30, // ms per char (1ms - 150ms, default 30ms)
   tickerAlignment: 'left', // 'left' | 'right'
   staticFade: 'none', // 'none' | 'pulse' | 'slow'
   staticGlow: 'subtle', // 'none' | 'subtle' | 'bloom'
@@ -428,10 +447,15 @@ export const DEFAULT_BOTTOM_BANNER_CONFIG = {
     'NODE ROUTING: KUIPER DRIFT RELAY 04 // LATENCY 14MS NOMINAL',
     'GRID SYNCHRONIZATION RUNNING // ALL SUB-SYSTEMS VERIFIED'
   ],
+  textBlock: [
+    'SECURE COMM LINK OPERATIONAL // ENCRYPTION AES-GCM-256 ACTIVE',
+    'NODE ROUTING: KUIPER DRIFT RELAY 04 // LATENCY 14MS NOMINAL',
+    'GRID SYNCHRONIZATION RUNNING // ALL SUB-SYSTEMS VERIFIED'
+  ].join('\n'),
   message: 'SECURE COMM LINK OPERATIONAL // ENCRYPTION AES-GCM-256 ACTIVE // NODE ROUTING: KUIPER DRIFT RELAY 04',
   mode: 'ticker', // 'ticker' | 'scrolling' | 'static'
   speed: 'normal', // 'slow' | 'normal' | 'fast' | 'turbo'
-  tickerSpeed: 28, // ms per char (5ms - 80ms)
+  tickerSpeed: 30, // ms per char (1ms - 150ms, default 30ms)
   tickerAlignment: 'left', // 'left' | 'right'
   staticFade: 'none', // 'none' | 'pulse' | 'slow'
   staticGlow: 'subtle', // 'none' | 'subtle' | 'bloom'
@@ -466,6 +490,9 @@ export const getCachedHomeBanner = (position = 'top') => {
       const merged = { ...defaultConfig, ...parsed };
       // Ensure lines array is properly populated
       merged.lines = normalizeBannerLines(merged);
+      merged.textBlock = typeof parsed.textBlock === 'string' && parsed.textBlock.trim().length > 0
+        ? parsed.textBlock
+        : merged.lines.filter(l => l.trim().length > 0).join('\n');
       merged.line1 = merged.lines[0] || '';
       merged.line2 = merged.lines[1] || '';
       merged.line3 = merged.lines[2] || '';
@@ -547,6 +574,9 @@ export const subscribeToHomeBanner = (callback, position = 'top') => {
 
         const merged = { ...defaultConfig, ...data };
         merged.lines = normalizeBannerLines(merged);
+        merged.textBlock = typeof data.textBlock === 'string' && data.textBlock.trim().length > 0
+          ? data.textBlock
+          : merged.lines.filter(l => l.trim().length > 0).join('\n');
         merged.line1 = merged.lines[0] || '';
         merged.line2 = merged.lines[1] || '';
         merged.line3 = merged.lines[2] || '';
@@ -579,14 +609,27 @@ export const saveHomeBanner = async (newConfig, user = null, position = 'top') =
   const eventName = isBottom ? EVENT_NAME_BOTTOM : EVENT_NAME_TOP;
   const defaultConfig = isBottom ? DEFAULT_BOTTOM_BANNER_CONFIG : DEFAULT_BANNER_CONFIG;
 
-  // Extract and normalize up to 3 lines
-  const rawLines = [
-    newConfig.line1,
-    newConfig.line2,
-    newConfig.line3
-  ].map(l => (typeof l === 'string' ? l.trim() : ''));
+  // Extract and normalize multi-line text block or lines array (supports any number of lines)
+  let activeLines = [];
+  if (typeof newConfig?.textBlock === 'string') {
+    activeLines = newConfig.textBlock
+      .split(/\r?\n/)
+      .map(l => l.trim())
+      .filter(Boolean);
+  } else if (Array.isArray(newConfig?.lines) && newConfig.lines.length > 0) {
+    activeLines = newConfig.lines
+      .map(l => (typeof l === 'string' ? l.trim() : ''))
+      .filter(Boolean);
+  } else if (
+    typeof newConfig?.line1 === 'string' ||
+    typeof newConfig?.line2 === 'string' ||
+    typeof newConfig?.line3 === 'string'
+  ) {
+    activeLines = [newConfig.line1, newConfig.line2, newConfig.line3]
+      .map(l => (typeof l === 'string' ? l.trim() : ''))
+      .filter(Boolean);
+  }
 
-  const activeLines = rawLines.filter(Boolean);
   const normalizedLines = activeLines.length > 0
     ? activeLines
     : normalizeBannerLines(newConfig);
@@ -596,10 +639,11 @@ export const saveHomeBanner = async (newConfig, user = null, position = 'top') =
   const merged = {
     ...defaultConfig,
     ...newConfig,
+    textBlock: normalizedLines.join('\n'),
     line1: normalizedLines[0] || '',
     line2: normalizedLines[1] || '',
     line3: normalizedLines[2] || '',
-    lines: normalizedLines.slice(0, 3),
+    lines: normalizedLines,
     message: normalizedLines.join(' // ') || newConfig.message || 'NO TRANSMISSION ENTERED',
     updatedAt: now,
     _localUpdatedAt: nowMillis,

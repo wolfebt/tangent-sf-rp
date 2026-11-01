@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Hacking / Intel / Support
 primary_attribute: Intellect
-secondary_attribute: Technology
+secondary_attribute: Agility
 recommended_occupations:
   - Specialist
   - Criminal
@@ -50,7 +50,7 @@ cp_chassis: 80
 **Core Concept**: Hacking / Intel / Support  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
-**Secondary Attribute**: Technology  
+**Secondary Attribute**: Agility  
 
 ## Overview
 A master of cyberspace, skilled in infiltrating networks and stealing data.

@@ -502,19 +502,19 @@
   },
   {
     "id": "rule-eco-03",
-    "title": "Universal Cost Equation (Tech & Meta Multipliers)",
+    "title": "Crafting DC Composition (Design Aspects, Sockets & TL/ML Modifiers)",
     "domain": "economatrix",
-    "citation": "`src/services/omnicortexVectorRag.ts § rule-economatrix-pricing`",
+    "citation": "`docs/game rules/operator/2.00 ECONOMATRIX.md § 2.3`; `99.Tech.Weaponry.ForgeProtocol.md § 7`",
     "formula": "",
-    "text": "[RULE-ECO-03] Universal Cost Equation (Tech & Meta Multipliers)\nCitation: `src/services/omnicortexVectorRag.ts § rule-economatrix-pricing`\n- **Domain:** Economatrix\n- **Citation:** `src/services/omnicortexVectorRag.ts § rule-economatrix-pricing`\n- **Cost Scaling Formula:**\n  $$\\text{Cost (Credits)} = \\text{Base Cost} \\times (2^{\\text{TL}}) \\times (1.5^{\\text{ML}})$$\n  - Each $+1\\text{ Tech Level (TL)}$ doubles the baseline manufacturing cost.\n  - Each $+1\\text{ Meta Level (ML)}$ increases cost by $50\\%$ due to psionic/aether containment matrices.",
+    "text": "[RULE-ECO-03] Crafting DC Composition (Design Aspects, Sockets & TL/ML Modifiers)\nCitation: `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.3`; `99.Tech.Weaponry.ForgeProtocol.md § 7`\n- **Domain:** Economatrix\n- **Citation:** `docs/game rules/operator/2.00 ECONOMATRIX.md § 2.3`; `99.Tech.Weaponry.ForgeProtocol.md § 7`\n- **Rule:** Item price is determined solely by its final **Crafting DC / CR** via $\\text{Value (Cr)} = 10 \\times 4^{(\\text{DC} / 5)}$. Tech Level (TL) and Meta Level (ML) do not multiply price directly; instead, design aspects, socket upgrades ($+5\\text{ DC}$, or $+10\\text{ DC}$ for TL4/TL5 items), Meta-Tech enhancements ($+5\\text{ DC/socket}$), active imbuements ($15 + \\text{Invocation Rank} + \\text{TL Mod}$), regional rarity ($+5\\text{ DC}$), and cultural skins modify the **Crafting DC**.",
     "tags": [
       "rule-eco-03",
-      "universal",
-      "cost",
-      "equation",
-      "(tech",
+      "crafting",
+      "dc",
+      "composition",
+      "tech",
       "meta",
-      "multipliers)"
+      "modifiers"
     ]
   },
   {

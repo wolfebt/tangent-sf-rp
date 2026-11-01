@@ -138,17 +138,6 @@ export function resolveGlobalMenu(context, appState, handlers) {
       label: 'Quick Commands'
     },
     {
-      id: 'open-command-palette',
-      label: 'Command Palette',
-      icon: Command,
-      shortcut: 'Ctrl+K',
-      onClick: () => {
-        // Trigger command palette if bound
-        const evt = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true });
-        window.dispatchEvent(evt);
-      }
-    },
-    {
       id: 'quick-roll-dice',
       label: 'Open Dice Roller',
       icon: Dices,

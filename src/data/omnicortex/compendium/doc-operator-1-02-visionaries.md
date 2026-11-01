@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.visionaries","mechanics"]
-updatedAt: "2026-10-31T10:38:11.283Z"
+updatedAt: "2026-11-01T12:54:00.794Z"
 costs:
   bp: 0
   credits: 0
@@ -171,7 +171,7 @@ A member of the aristocracy, born into a position of privilege and power. They w
 * **Recommended Occupations:** Noble, Citizen.  
 * **Recommended Origins:** Leisure, Urban, Enlightened.  
 * **Recommended Factions:** Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders).  
-* **Key Attributes:** Charisma (Primary), History (Secondary).  
+* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
 * **Essential Skills:** Diplomacy, Knowledge (History), Insight, Knowledge (Nobility).  
 * **Signature Traits (1 CP):** Noble Lineage, Courtly Intrigue.  
 * **Tactical Role:** Gaining access to high-security areas via status, funding, legal immunity.
@@ -323,7 +323,7 @@ A wise and insightful individual who perceives glimpses of the future and offers
 * **Recommended Occupations:** Adept, Scholar.  
 * **Recommended Origins:** Enlightened, Research, Leisure.  
 * **Recommended Factions:** Auluran, Alterian Enclave, Ascendancy.  
-* **Key Attributes:** Wisdom (Primary), Insight (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
 * **Essential Skills:** Insight, Diplomacy, Discipline (Divination).  
 * **Signature Traits (1 CP):** Prophetic Visions, Spiritual Advisor.  
 * **Tactical Role:** Gaining initiative bonuses, avoiding traps, gathering info via divination.
@@ -399,7 +399,7 @@ A charismatic leader who inspires and unites the rebellion.
 * **Recommended Occupations:** Citizen, Criminal.  
 * **Recommended Origins:** Industrial, Colony, Urban.  
 * **Recommended Factions:** Coalition (Independence), Outworlds, Syndicate (Unionizers).  
-* **Key Attributes:** Charisma (Primary), Spirit (Secondary).  
+* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Leadership, Diplomacy, Insight, Knowledge (Tactics), Combat (any).  
 * **Signature Traits (1 CP):** Inspiring Rhetoric, Rebel Leader.  
 * **Tactical Role:** Inspiring NPCs to fight, leading riots/raids, boosting ally morale.

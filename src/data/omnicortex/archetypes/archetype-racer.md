@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Speed / Transport / Evasion
 primary_attribute: Agility
-secondary_attribute: Technology
+secondary_attribute: Intellect
 recommended_occupations:
   - Specialist
   - Entertainer
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Core Concept**: Speed / Transport / Evasion  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Agility  
-**Secondary Attribute**: Technology  
+**Secondary Attribute**: Intellect  
 
 ## Overview
 Skilled in piloting high-speed vehicles in competitive or dangerous environments.

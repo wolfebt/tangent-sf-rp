@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Diviner / Support / Advisor
 primary_attribute: Wisdom
-secondary_attribute: Insight
+secondary_attribute: Charisma
 recommended_occupations:
   - Adept
   - Scholar
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Core Concept**: Diviner / Support / Advisor  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Wisdom  
-**Secondary Attribute**: Insight  
+**Secondary Attribute**: Charisma  
 
 ## Overview
 A wise and insightful individual who perceives glimpses of the future and offers guidance.

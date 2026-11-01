@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.mentalandpsychological","mechanics"]
-updatedAt: "2026-10-31T11:30:42.805Z"
+updatedAt: "2026-11-01T13:12:05.868Z"
 costs:
   bp: 0
   credits: 0
@@ -46,7 +46,7 @@ Category: Psychological / Physical
 The character has a chemical or psychological dependency on a substance or stimulus.  
 **Minor (3 CP):** A bad habit (e.g., tobacco, alcohol, mild gambling). The character suffers \-2 to Will saves if they haven't indulged within 24 hours.  
 **Moderate (6 CP):** A serious dependency (e.g., hallucinogens, painkillers, hard gambling). If the character goes 24 hours without the substance, they suffer the "Sickened" condition (-2 to all checks) until they indulge.  
-**Major (9 CP):** A debilitating addiction (e.g., rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character suffers Hindrance on all rolls and takes 1 point of Constitution damage per day until they indulge or endure a lengthy detox process.
+**Major (9 CP):** A debilitating addiction (e.g., rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character suffers Hindrance on all rolls and takes 1 point of Stamina damage per day until they indulge or endure a lengthy detox process.
 
 ### 
 

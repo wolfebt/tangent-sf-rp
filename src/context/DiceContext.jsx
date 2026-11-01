@@ -18,6 +18,7 @@ export const DiceProvider = ({ children }) => {
     advantageDice: 0,     // Clamped [-5, 5]
     critRangeSize: 1,     // Clamped [1, 5]
     fumbleRangeSize: 1,   // Clamped [1, 5]
+    expandedThreat: true, // Crit +10 to roll, Fumble replaced by flat -10
     targetNumber: '',
     targetDC: '',
     rollMode: 'normal',   // 'normal', 'advantage', 'disadvantage'
@@ -48,6 +49,7 @@ export const DiceProvider = ({ children }) => {
 
       const clampedCritSize = Math.max(1, Math.min(5, Number(config.critRangeSize) || 1));
       const clampedFumbleSize = Math.max(1, Math.min(5, Number(config.fumbleRangeSize) || 1));
+      const resolvedExpandedThreat = config.expandedThreat !== undefined ? Boolean(config.expandedThreat) : true;
       
       // If expression is provided, use it; otherwise compute 2d10 + totalMod
       let expr = config.expression;
@@ -67,6 +69,7 @@ export const DiceProvider = ({ children }) => {
         advantageDice: clampedAdvantage,
         critRangeSize: clampedCritSize,
         fumbleRangeSize: clampedFumbleSize,
+        expandedThreat: resolvedExpandedThreat,
         targetNumber: config.targetNumber !== undefined ? config.targetNumber : (config.targetDC !== undefined ? config.targetDC : ''),
         targetDC: config.targetDC !== undefined ? config.targetDC : (config.targetNumber !== undefined ? config.targetNumber : ''),
         rollMode: rMode,

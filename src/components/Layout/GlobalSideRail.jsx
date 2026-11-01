@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GuidanceRail } from '../UI/GuidanceRail';
+import { WelcomeBriefing } from '../Hub/WelcomeBriefing';
 import { useFolio } from '../../context/FolioContext';
 import { useDBM, loadCompendiumCatalog } from '../../context/DBMContext';
 import { useStory } from '../../context/CampaignContext';
@@ -9,47 +10,33 @@ import { useChat } from '../../context/ChatContext';
 import { AudioService } from '../../services/audioService';
 import {
   Users,
-  Database,
+  BookOpen,
+  Radio,
   Layers,
-  Radio
+  Database
 } from 'lucide-react';
 
 /**
  * @file GlobalSideRail.jsx
- * @description Persistent primary navigation guidance rail rendered across all app pages.
- * Displays color-coded items with labels and icons matching former top buttons.
+ * @description Unified left-side guide rail for wider views (sm+):
+ * - On the Landing Page (/ or /dashboard): Renders as an expanded drawer docked on the left side showing the Tactical Briefing.
+ * - On App Pages (folio, rules, network, ade, cortex): Renders as a compact guide rail with icons and labels.
  */
 export const GlobalSideRail = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   // Telemetry Contexts
-  const { personaRoster = [], roster = [] } = useFolio() || {};
-  const dbContext = useDBM() || {};
-  const dbData = dbContext.dbData || {};
-  const { universeState, mapsCatalog } = useStory() || {};
+  const folio = useFolio() || {};
   const { groups = [], pendingInvites = [] } = useGroup() || {};
   const { 
     totalUnreadCount = 0, 
-    hasUnseenMessages = false,
     hasNewOperatorLogins = false, 
     newOperatorLogins = [], 
     clearNewOperatorLogins 
   } = useChat() || {};
 
-  // Badge calculations
-  const heroCount = Array.isArray(personaRoster) && personaRoster.length > 0 
-    ? personaRoster.length 
-    : (Array.isArray(roster) ? roster.length : 0);
-  const dbmTotalItems = Object.keys(dbData).reduce((sum, key) => {
-    return sum + (Array.isArray(dbData[key]) ? dbData[key].length : 0);
-  }, 0);
-  const scenarioCount = universeState?.scenarios?.length || 0;
-  const mapsCount = mapsCatalog?.length || universeState?.maps?.length || 0;
-  const teamCount = groups?.length || 0;
   const inviteCount = pendingInvites?.length || 0;
-
-
 
   // Do not render side rail on pure spectator / projector displays
   if (
@@ -64,7 +51,7 @@ export const GlobalSideRail = () => {
     const path = location.pathname;
     if (path.startsWith('/network') || path.startsWith('/teams') || path.startsWith('/groups') || path.startsWith('/squads') || path.startsWith('/comms') || path.startsWith('/chat')) return 'network';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'folio';
-    if (path.startsWith('/compendium')) return 'rules';
+    if (path.startsWith('/compendium') || path.startsWith('/rules')) return 'rules';
     if (path.startsWith('/dbm') || path.startsWith('/codex')) return 'cortex';
     if (path.startsWith('/foundry') || path.startsWith('/ade') || path.startsWith('/campaign-builder') || path.startsWith('/live-studio') || path.startsWith('/ade-stage') || path.startsWith('/stage') || path === '/vtt' || path.startsWith('/vtt-ops')) return 'ade';
     if (path === '/' || path === '/dashboard') return 'hub';
@@ -73,43 +60,56 @@ export const GlobalSideRail = () => {
 
   const activeId = getActiveId();
   const isHubActive = activeId === 'hub';
+  const isFolio = activeId === 'folio';
 
-  // Persistent navigation items with color themes matching top buttons
+  // On the landing page, render the expanded Tactical Briefing drawer docked on the left side
+  if (isHubActive) {
+    return (
+      <aside
+        aria-label="Tactical Briefing Left Drawer"
+        className="hidden sm:flex w-[420px] md:w-[480px] lg:w-[540px] xl:w-[580px] h-full shrink-0 z-30 select-none overflow-hidden"
+      >
+        <WelcomeBriefing docked />
+      </aside>
+    );
+  }
+
+  // Persistent navigation items for app pages (Folio, Rules, Network, ADE, Cortex)
   const globalNavItems = [
     {
       id: 'folio',
       label: 'FOLIO',
-      sublabel: 'Persona Roster & Dossiers',
+      sublabel: isFolio && folio?.characterData?.['char-name']
+        ? `${folio.characterData['char-name']} (Click to toggle Catalog / Dossier)`
+        : 'Persona Roster & Dossiers',
       icon: Users,
       colorTheme: 'cyan',
       onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/folio');
+        if (isFolio) {
+          if (folio?.activeTab === 'catalog') {
+            const charId = folio?.characterData?.['character-doc-id'] || folio?.characterData?.id;
+            navigate(charId ? `/folio?tab=identity&char=${encodeURIComponent(charId)}` : '/folio?tab=identity');
+            folio.setActiveTab?.('identity');
+          } else {
+            folio.triggerSave?.();
+            window.dispatchEvent(new CustomEvent('open-folio-catalog'));
+          }
+        } else {
+          navigate('/folio');
+        }
       }
     },
     {
-      id: 'cortex',
-      label: 'CORTEX',
-      sublabel: 'Omnicortex Master Database',
-      icon: Database,
-      colorTheme: 'amber',
+      id: 'rules',
+      label: 'RULES',
+      sublabel: 'System Compendium & Core Mechanics',
+      icon: BookOpen,
+      colorTheme: 'sky',
       onMouseEnter: () => {
         loadCompendiumCatalog();
       },
       onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/dbm');
-      }
-    },
-    {
-      id: 'ade',
-      label: 'ADE',
-      sublabel: 'Consolidated Story, Maps & Stage',
-      icon: Layers,
-      colorTheme: 'purple',
-      onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
-        navigate('/foundry');
+        navigate('/compendium');
       }
     },
     {
@@ -121,17 +121,40 @@ export const GlobalSideRail = () => {
         ? `${totalUnreadCount} Unseen Messages`
         : inviteCount > 0
         ? `${inviteCount} Pending Team Invite${inviteCount > 1 ? 's' : ''}`
-        : 'Tactical Teams, CommLink & Operator Relay',
+        : 'Tactical Squads, CommLink & Operator Relay',
       icon: Radio,
       colorTheme: 'emerald',
+      badge: totalUnreadCount > 0 ? `${totalUnreadCount}` : undefined,
       pulse: totalUnreadCount > 0,
       pulseClass: 'animate-nav-pulse-amber',
       onClick: () => {
-        AudioService.playTerminalBeep(1150, 0.02);
         if (hasNewOperatorLogins && totalUnreadCount === 0) {
           clearNewOperatorLogins?.();
         }
         navigate('/network');
+      }
+    },
+    {
+      id: 'ade',
+      label: 'ADE',
+      sublabel: 'Consolidated Story, Maps & Stage VTT',
+      icon: Layers,
+      colorTheme: 'purple',
+      onClick: () => {
+        navigate('/foundry');
+      }
+    },
+    {
+      id: 'cortex',
+      label: 'CORTEX',
+      sublabel: 'Master Database, Catalogs & Galactic Lore',
+      icon: Database,
+      colorTheme: 'amber',
+      onMouseEnter: () => {
+        loadCompendiumCatalog();
+      },
+      onClick: () => {
+        navigate('/dbm');
       }
     }
   ];

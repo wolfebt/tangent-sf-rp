@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Leader / Agitator / Skirmisher
 primary_attribute: Charisma
-secondary_attribute: Spirit
+secondary_attribute: Wisdom
 recommended_occupations:
   - Citizen
   - Criminal
@@ -51,7 +51,7 @@ cp_chassis: 80
 **Core Concept**: Leader / Agitator / Skirmisher  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Charisma  
-**Secondary Attribute**: Spirit  
+**Secondary Attribute**: Wisdom  
 
 ## Overview
 A charismatic leader who inspires and unites the rebellion.

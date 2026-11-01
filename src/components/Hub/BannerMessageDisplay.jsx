@@ -17,31 +17,32 @@ export const BannerMessageDisplay = ({
   tickerAlignment = 'left',
   staticFade = 'none',
   staticGlow = 'subtle',
+  hasTarget = false,
   theme,
   className = '',
   interactive = true
 }) => {
-  // Normalize lines to 1-3 non-empty strings (preserving user lines)
+  // Normalize lines to non-empty strings (preserving all user lines across multi-line blocks)
   const activeLines = useMemo(() => {
     let raw = Array.isArray(lines) ? lines : [lines];
     if (raw.length === 0) {
       return ['NO TRANSMISSION ENTERED'];
     }
     const sanitized = raw
-      .map(l => (typeof l === 'string' ? l : ''))
-      .slice(0, 3);
+      .flatMap(l => (typeof l === 'string' ? l.split(/\r?\n/) : []));
 
     // Keep active lines that have content, but ensure at least 1 line
     const nonEmpty = sanitized.filter(l => l.trim().length > 0);
     return nonEmpty.length > 0 ? nonEmpty : ['NO TRANSMISSION ENTERED'];
   }, [lines]);
 
-  // Interval in ms between printed characters
+  // Interval in ms between printed characters (1ms - 150ms, default 30ms)
   const charInterval = useMemo(() => {
-    if (typeof tickerSpeed === 'number' && tickerSpeed > 0) {
-      return tickerSpeed;
+    const numericSpeed = Number(tickerSpeed);
+    if (!Number.isNaN(numericSpeed) && numericSpeed > 0) {
+      return Math.min(150, Math.max(1, numericSpeed));
     }
-    return TICKER_SPEEDS[speed]?.interval || 28;
+    return TICKER_SPEEDS[speed]?.interval || 30;
   }, [speed, tickerSpeed]);
 
   // Marquee duration CSS variable
@@ -126,12 +127,15 @@ export const BannerMessageDisplay = ({
   const textGlow = currentTheme.textGlow || '';
 
   // 1. Ticker Mode: Builds one line before next to finish, clears to restart cycle (Left or Right Justified)
+  // When hasTarget is true, applies a faint pulse during the holding phase right before refreshing.
   if (mode === 'ticker') {
     const isRightAligned = tickerAlignment === 'right';
+    const isPulsingBeforeRefresh = Boolean(hasTarget && phase === 'holding');
 
     return (
       <div 
-        className={`w-full flex flex-col justify-center ${isRightAligned ? 'items-end text-right' : 'items-start text-left'} min-w-0 ${activeLines.length > 1 ? 'py-0.5 space-y-0.5' : ''} ${className}`}
+        data-ticker-phase={phase}
+        className={`w-full flex flex-col justify-center ${isRightAligned ? 'items-end text-right' : 'items-start text-left'} min-w-0 ${activeLines.length > 1 ? 'py-0.5 space-y-0.5' : ''} ${isPulsingBeforeRefresh ? 'animate-target-faint-pulse' : ''} ${className}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -182,7 +186,7 @@ export const BannerMessageDisplay = ({
   if (mode === 'scrolling') {
     return (
       <div 
-        className={`w-full flex flex-col justify-center overflow-hidden min-w-0 ${activeLines.length > 1 ? 'py-0.5 space-y-0.5' : 'h-full'} ${className}`}
+        className={`w-full flex flex-col justify-center overflow-hidden min-w-0 ${activeLines.length > 1 ? 'py-0.5 space-y-0.5' : 'h-full'} ${hasTarget ? 'animate-target-faint-pulse' : ''} ${className}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -225,7 +229,9 @@ export const BannerMessageDisplay = ({
     ? 'animate-static-fade-pulse'
     : staticFade === 'slow'
       ? 'animate-static-fade-slow'
-      : '';
+      : hasTarget
+        ? 'animate-target-faint-pulse'
+        : '';
 
   const resolvedGlow = staticGlow === 'none' || staticGlow === false
     ? ''

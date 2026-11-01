@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Healer / Crafter / Buffer
 primary_attribute: Intellect
-secondary_attribute: Technology
+secondary_attribute: Wisdom
 recommended_occupations:
   - Doctor
   - Engineer
@@ -50,7 +50,7 @@ cp_chassis: 80
 **Core Concept**: Healer / Crafter / Buffer  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
-**Secondary Attribute**: Technology  
+**Secondary Attribute**: Wisdom  
 
 ## Overview
 Specialist in creating, repairing, and modifying cybernetic enhancements.

@@ -886,13 +886,13 @@ export const CODEX_MATRICES = [
         name: 'primary_attribute', 
         label: 'Primary Attribute (+3 / 15 BP)', 
         type: 'select', 
-        options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
+        options: ['Intellect', 'Wisdom', 'Charisma', 'Strength', 'Agility', 'Stamina'] 
       },
       { 
         name: 'secondary_attribute', 
         label: 'Secondary Attribute (+2 / 10 BP)', 
         type: 'select', 
-        options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom'] 
+        options: ['Intellect', 'Wisdom', 'Charisma', 'Strength', 'Agility', 'Stamina'] 
       },
       { name: 'essential_skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', type: 'array', placeholder: 'Key proficiencies prioritized by this archetype' },
       { name: 'signature_traits', label: 'Signature Traits (1 CP Each)', type: 'array', placeholder: 'Two 1-CP signature traits defining this archetype' },

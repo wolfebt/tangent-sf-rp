@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Shield, Dna, Globe, Briefcase, Activity, FileText, Pin } from 'lucide-react';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { useFolio } from '../../context/FolioContext';
 import { useDBM } from '../../context/DBMContext';
@@ -18,6 +19,7 @@ import { DEFAULT_SPECIES } from '../../data/speciesData.js';
 import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
+import { UniversalCatalogModal } from '../UI/UniversalCatalogModal';
 
 const normalizeChipList = (val) => {
   if (!val) return [];
@@ -231,7 +233,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
   // Staged Generator State (User in the Loop)
   const [stagedStep, setStagedStep] = useState(0); // 0: Archetype, 1: Species, 2: Faction & Origin, 3: Occupation, 4: Rules & Stats, 5: Dossier
-  const [stagedPrompt, setStagedPrompt] = useState('Covert stealth sniper persona');
+  const [stagedPrompt, setStagedPrompt] = useState('');
   const [stagedArchetype, setStagedArchetype] = useState(null);
   const [stagedSpecies, setStagedSpecies] = useState(null);
   const [stagedFaction, setStagedFaction] = useState(null);
@@ -248,11 +250,46 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   const [stagedTechLevel, setStagedTechLevel] = useState(characterData?.['tech-level'] || 3);
   const [stagedCustomName, setStagedCustomName] = useState('');
   const [stagedCustomMotive, setStagedCustomMotive] = useState('');
+  const [isArchetypeModalOpen, setIsArchetypeModalOpen] = useState(false);
+  const [isStagedRailHovered, setIsStagedRailHovered] = useState(false);
+  const [isStagedRailPinned, setIsStagedRailPinned] = useState(() => {
+    try {
+      return localStorage.getItem('tangent_bastion_staged_rail_pinned') !== 'false';
+    } catch {
+      return true;
+    }
+  });
+
+  const toggleStagedRailPin = useCallback((e) => {
+    e?.stopPropagation?.();
+    setIsStagedRailPinned(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('tangent_bastion_staged_rail_pinned', String(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
+  const isStagedRailExpanded = isStagedRailPinned || isStagedRailHovered;
 
   // Staged Recommendations Computations
   const archetypeRecs = useMemo(() => {
-    return getArchetypeRecommendations(stagedPrompt, DEFAULT_ARCHETYPES, 3);
-  }, [stagedPrompt]);
+    if (!stagedPrompt.trim()) return [];
+    const recs = getArchetypeRecommendations(stagedPrompt, DEFAULT_ARCHETYPES, 3);
+    if (stagedArchetype && !recs.some(r => r.archetype.name === stagedArchetype.name)) {
+      return [
+        {
+          archetype: stagedArchetype,
+          score: 100,
+          isTopPick: false,
+          rationale: 'Selected via Archetypes Selector Modal.'
+        },
+        ...recs.slice(0, 2)
+      ];
+    }
+    return recs;
+  }, [stagedPrompt, stagedArchetype]);
 
   const activeArchetype = stagedArchetype || archetypeRecs[0]?.archetype || DEFAULT_ARCHETYPES[0];
 
@@ -988,89 +1025,243 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
           {/* Tab 2: Character Field Generator & 5 Pillars Persona Synthesizer */}
           {activeTab === 'generator' && (
-            <div className="flex-1 flex flex-col p-4 overflow-y-auto space-y-3.5 text-xs bg-[#0d1117]/80">
-              <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 flex justify-between items-center">
-                <div>
-                  <span className="text-[9px] text-cyan-400 uppercase font-bold tracking-wider block">
-                    Active Persona
-                  </span>
-                  <span className="font-bold text-amber-400 text-xs truncate block max-w-[200px]">
-                    {characterData['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED PERSONA'}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden text-xs bg-[#0d1117]/80">
+              <div className="p-3 pb-2.5 border-b border-slate-800/80 space-y-2.5 shrink-0 bg-[#0d1117]/95">
+                <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 flex justify-between items-center">
+                  <div>
+                    <span className="text-[9px] text-cyan-400 uppercase font-bold tracking-wider block">
+                      Active Persona
+                    </span>
+                    <span className="font-bold text-amber-400 text-xs truncate block max-w-[260px]">
+                      {characterData['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED PERSONA'}
+                    </span>
+                  </div>
+                  <span className="text-[10px] bg-slate-950 text-slate-300 border border-slate-800 px-2 py-0.5 rounded font-mono">
+                    TL-{characterData['tech-level'] || 3}
                   </span>
                 </div>
-                <span className="text-[10px] bg-slate-950 text-slate-300 border border-slate-800 px-2 py-0.5 rounded font-mono">
-                  TL-{characterData['tech-level'] || 3}
-                </span>
+
+                {/* Generator Sub-Mode Selector */}
+                <div className="flex bg-slate-950 p-1 rounded-lg border border-cyan-900/40 gap-1 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setGeneratorMode('staged')}
+                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                      generatorMode === 'staged'
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <span>🧭 Staged Persona</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGeneratorMode('synthesis')}
+                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                      generatorMode === 'synthesis'
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <span>⚡ 1-Click Fast</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setGeneratorMode('fields')}
+                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                      generatorMode === 'fields'
+                        ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <span>📝 Selective</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Generator Sub-Mode Selector */}
-              <div className="flex bg-slate-950 p-1 rounded-lg border border-cyan-900/40 gap-1 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setGeneratorMode('staged')}
-                  className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
-                    generatorMode === 'staged'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <span>🧭 Staged Persona</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setGeneratorMode('synthesis')}
-                  className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
-                    generatorMode === 'synthesis'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <span>⚡ 1-Click Fast</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setGeneratorMode('fields')}
-                  className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 ${
-                    generatorMode === 'fields'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  <span>📝 Selective</span>
-                </button>
-              </div>
-
-              {/* Sub-Mode 0: Staged Persona Generator (User in the Loop) */}
+              {/* Sub-Mode 0: Staged Persona Generator with Platform Guide Rail */}
               {generatorMode === 'staged' && (
-                <div className="space-y-3">
-                  {/* Stage Progress Stepper */}
-                  <div className="bg-slate-950/90 p-1 rounded-lg border border-cyan-900/50 flex items-center justify-between text-[10px] font-mono gap-1">
-                    {[
-                      { step: 0, label: '1. Archetype' },
-                      { step: 1, label: '2. Species' },
-                      { step: 2, label: '3. Faction/Origin' },
-                      { step: 3, label: '4. Occupation' },
-                      { step: 4, label: '5. Rules & Stats' },
-                      { step: 5, label: '6. Dossier' }
-                    ].map(s => (
-                      <button
-                        key={s.step}
-                        type="button"
-                        onClick={() => setStagedStep(s.step)}
-                        className={`px-1.5 py-1 rounded transition-all truncate text-center flex-1 ${
-                          stagedStep === s.step
-                            ? 'bg-cyan-950 text-cyan-300 font-bold border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                            : stagedStep > s.step
-                            ? 'text-emerald-400 hover:text-emerald-300 bg-slate-900/60'
-                            : 'text-slate-500 hover:text-slate-300'
-                        }`}
-                      >
-                        {s.label}
-                      </button>
-                    ))}
-                  </div>
+                <div className="flex-1 flex min-h-0 relative overflow-hidden">
+                  {/* In-Flow Sizing Anchor for Guide Rail */}
+                  <div
+                    className={`shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
+                      isStagedRailPinned ? 'w-48 sm:w-52' : 'w-14'
+                    }`}
+                    aria-hidden="true"
+                  />
 
-                  {/* Stage 0: Concept & Archetype */}
+                  {/* Staged Persona Guide Rail */}
+                  <nav
+                    aria-label="Staged Persona Guide Rail"
+                    onMouseEnter={() => setIsStagedRailHovered(true)}
+                    onMouseLeave={() => setIsStagedRailHovered(false)}
+                    className={`absolute top-0 bottom-0 left-0 h-full bg-[#070a12]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-start py-2 px-1.5 select-none font-sans transition-all duration-200 ease-out z-30 ${
+                      isStagedRailExpanded
+                        ? 'w-48 sm:w-52 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80'
+                        : 'w-14 shadow-lg'
+                    }`}
+                  >
+                    {/* Guide Rail Header with Pin Toggle */}
+                    <div
+                      className={`w-full flex items-center justify-between px-2 py-1 mb-1 border-b border-cyan-500/20 shrink-0 transition-all duration-200 overflow-hidden ${
+                        isStagedRailExpanded ? 'opacity-100 h-7' : 'opacity-0 h-0 p-0 mb-0 border-b-0 pointer-events-none'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="font-mono text-[10px] font-extrabold text-cyan-400 uppercase tracking-widest truncate">
+                          PERSONA
+                        </span>
+                        <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold">
+                          {stagedStep + 1}/6
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider">
+                          RAIL
+                        </span>
+                        <button
+                          type="button"
+                          onClick={toggleStagedRailPin}
+                          className={`p-1 rounded-md transition-all cursor-pointer ${
+                            isStagedRailPinned
+                              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                              : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/70 border border-transparent'
+                          }`}
+                          title={isStagedRailPinned ? 'Unpin Guide Rail (Auto-collapse on exit)' : 'Pin Guide Rail (Lock open)'}
+                          aria-label={isStagedRailPinned ? 'Unpin Guide Rail' : 'Pin Guide Rail'}
+                        >
+                          <Pin size={11} className={`transition-transform duration-200 ${isStagedRailPinned ? 'rotate-45 text-cyan-300' : 'text-slate-400 hover:text-slate-200'}`} />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 6 Staged Persona Guide Rail Items */}
+                    <div className="flex flex-col items-stretch gap-1 w-full flex-1 min-h-0 overflow-y-auto no-scrollbar py-0.5">
+                      {[
+                        {
+                          step: 0,
+                          label: '1. ARCHETYPE',
+                          sublabel: (stagedArchetype || (stagedPrompt.trim() && activeArchetype))
+                            ? activeArchetype.name
+                            : 'Chassis & Concept',
+                          icon: Shield
+                        },
+                        {
+                          step: 1,
+                          label: '2. SPECIES',
+                          sublabel: activeSpecies?.name || 'Lineage & Biology',
+                          icon: Dna
+                        },
+                        {
+                          step: 2,
+                          label: '3. FACTION / ORIGIN',
+                          sublabel: `${activeFaction?.name || 'Faction'} • ${activeOrigin?.name || 'Origin'}`,
+                          icon: Globe
+                        },
+                        {
+                          step: 3,
+                          label: '4. OCCUPATION',
+                          sublabel: activeOccupation?.name || 'Career & Training',
+                          icon: Briefcase
+                        },
+                        {
+                          step: 4,
+                          label: '5. RULES & STATS',
+                          sublabel: `${stagedRulesLedger.bpRemaining} / 150 CP Free`,
+                          icon: Activity
+                        },
+                        {
+                          step: 5,
+                          label: '6. DOSSIER',
+                          sublabel: '5-Pillar Synthesis',
+                          icon: FileText
+                        }
+                      ].map(item => {
+                        const Icon = item.icon;
+                        const isActive = stagedStep === item.step;
+                        const isCompleted = stagedStep > item.step;
+
+                        return (
+                          <button
+                            key={item.step}
+                            type="button"
+                            onClick={() => {
+                              setStagedStep(item.step);
+                              if (!isStagedRailPinned) setIsStagedRailHovered(false);
+                            }}
+                            className={`group relative w-full h-10 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 ${
+                              isStagedRailExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                            } ${
+                              isActive
+                                ? 'bg-gradient-to-r from-cyan-500/25 to-blue-950/40 text-cyan-200 border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.35)]'
+                                : isCompleted
+                                ? 'bg-slate-900/60 text-emerald-300 border-emerald-800/40 hover:border-emerald-600/50'
+                                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border-transparent hover:border-slate-800/80'
+                            }`}
+                            title={isStagedRailExpanded ? undefined : `${item.label} • ${item.sublabel}`}
+                          >
+                            {/* Active / Completed Left Indicator Bar */}
+                            {isActive && (
+                              <span className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-cyan-400 rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                            )}
+                            {!isActive && isCompleted && (
+                              <span className="absolute left-0 top-2 bottom-2 w-1 bg-emerald-400/80 rounded-r-full" />
+                            )}
+
+                            {/* Icon Container */}
+                            <div
+                              className={`relative w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border transition-all ${
+                                isActive
+                                  ? 'border-cyan-500/60 bg-cyan-500/20 text-cyan-300'
+                                  : isCompleted
+                                  ? 'border-emerald-600/50 bg-emerald-950/50 text-emerald-300'
+                                  : 'border-slate-800/80 bg-slate-900/60 text-slate-400 group-hover:text-cyan-400'
+                              }`}
+                            >
+                              <Icon size={15} />
+                              <span
+                                className={`absolute -bottom-1 -right-1 text-[8px] font-mono font-bold px-1 rounded-full border leading-tight ${
+                                  isActive
+                                    ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60'
+                                    : isCompleted
+                                    ? 'bg-emerald-950 text-emerald-300 border-emerald-500/60'
+                                    : 'bg-slate-950 text-slate-400 border-slate-700'
+                                }`}
+                              >
+                                {isCompleted ? '✓' : item.step + 1}
+                              </span>
+                            </div>
+
+                            {/* Label & Live Sublabel */}
+                            <div
+                              className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
+                                isStagedRailExpanded ? 'opacity-100 ml-2.5 max-w-[160px]' : 'opacity-0 max-w-0 pointer-events-none'
+                              }`}
+                            >
+                              <span
+                                className={`font-mono text-[10px] font-bold uppercase tracking-wider truncate leading-tight ${
+                                  isActive
+                                    ? 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(34,211,238,0.5)]'
+                                    : isCompleted
+                                    ? 'text-emerald-300'
+                                    : 'text-slate-200 group-hover:text-white'
+                                }`}
+                              >
+                                {item.label}
+                              </span>
+                              <span className="text-[9px] text-slate-400 truncate font-mono leading-tight mt-0.5">
+                                {item.sublabel}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </nav>
+
+                  {/* Stage Content Viewport */}
+                  <div className="flex-1 overflow-y-auto p-3.5 sm:p-4 space-y-3 min-w-0">
+                    {/* Stage 0: Concept & Archetype */}
                   {stagedStep === 0 && (
                     <div className="space-y-3">
                       <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-2">
@@ -1085,27 +1276,22 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         <p className="text-[11px] text-slate-300">
                           Define your persona concept or tactical archetype. BASTION evaluates your prompt and ranks canonical archetypes from the 4 Spheres (Sentinels, Operatives, Visionaries, Savants).
                         </p>
-                        <div className="flex flex-wrap gap-1 pt-1">
-                          {[
-                            'Covert Operative Sniper',
-                            'Syndicate Cyber-Decker',
-                            'Frontline Shock Trooper',
-                            'Alterian Diplomat Envoy',
-                            'Combat Trauma Medic',
-                            'Awakened Mystic Mentalist'
-                          ].map(preset => (
-                            <button
-                              key={preset}
-                              type="button"
-                              onClick={() => {
-                                setStagedPrompt(preset);
-                                setStagedArchetype(null);
-                              }}
-                              className="px-2 py-0.5 rounded bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[10px] transition-colors"
-                            >
-                              + {preset}
-                            </button>
-                          ))}
+                        <div className="pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setIsArchetypeModalOpen(true)}
+                            className="w-full py-2 px-3 rounded-lg bg-amber-950/60 hover:bg-amber-900/70 text-amber-200 hover:text-white border border-amber-500/60 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between gap-2 cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.2)]"
+                          >
+                            <span className="flex items-center gap-1.5">
+                              <span>🛡️</span>
+                              <span>Open Archetypes Selector Modal</span>
+                            </span>
+                            <span className="text-[10px] px-2 py-0.5 rounded bg-slate-950/90 text-amber-300 border border-amber-600/50 truncate max-w-[160px]">
+                              {(stagedArchetype || (stagedPrompt.trim() && activeArchetype))
+                                ? `${activeArchetype.name} (${activeArchetype.sphere})`
+                                : 'Browse 100 Archetypes'}
+                            </span>
+                          </button>
                         </div>
                         <textarea
                           rows={2}
@@ -1119,84 +1305,69 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         />
                       </div>
 
-                      {/* BASTION Archetype Recommendations */}
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-[11px]">
-                          <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px]">
-                            🤖 BASTION Recommendations ({archetypeRecs.length} Matches)
-                          </span>
-                          <span className="text-slate-400 text-[10px]">Click to Select Chassis</span>
-                        </div>
+                      {/* BASTION Archetype Recommendations (only shown when prompt field is non-empty) */}
+                      {stagedPrompt.trim().length > 0 && archetypeRecs.length > 0 && (
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-[11px]">
+                            <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px]">
+                              🤖 BASTION Recommendations ({archetypeRecs.length} Matches)
+                            </span>
+                            <span className="text-slate-400 text-[10px]">Click to Select Chassis</span>
+                          </div>
 
-                        <div className="grid grid-cols-1 gap-2">
-                          {archetypeRecs.map((rec) => {
-                            const isSelected = (activeArchetype?.name === rec.archetype.name);
-                            return (
-                              <div
-                                key={rec.archetype.name}
-                                onClick={() => setStagedArchetype(rec.archetype)}
-                                className={`p-2.5 rounded-lg border transition-all cursor-pointer ${
-                                  isSelected
-                                    ? 'bg-amber-950/40 border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
-                                    : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
-                                }`}
-                              >
-                                <div className="flex items-start justify-between gap-2">
-                                  <div className="min-w-0">
-                                    <div className="flex items-center gap-1.5 flex-wrap">
-                                      <span className="font-bold text-amber-300 text-xs">{rec.archetype.name}</span>
-                                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-slate-300 border border-slate-700">
-                                        {rec.archetype.sphere}
-                                      </span>
-                                      {rec.isTopPick && (
-                                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
-                                          ⭐ Top Pick
+                          <div className="grid grid-cols-1 gap-2">
+                            {archetypeRecs.map((rec) => {
+                              const isSelected = (activeArchetype?.name === rec.archetype.name);
+                              return (
+                                <div
+                                  key={rec.archetype.name}
+                                  onClick={() => setStagedArchetype(rec.archetype)}
+                                  className={`p-2.5 rounded-lg border transition-all cursor-pointer ${
+                                    isSelected
+                                      ? 'bg-amber-950/40 border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+                                      : 'bg-slate-950 hover:bg-slate-900 border-slate-800 hover:border-slate-700'
+                                  }`}
+                                >
+                                  <div className="flex items-start justify-between gap-2">
+                                    <div className="min-w-0">
+                                      <div className="flex items-center gap-1.5 flex-wrap">
+                                        <span className="font-bold text-amber-300 text-xs">{rec.archetype.name}</span>
+                                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-900 text-slate-300 border border-slate-700">
+                                          {rec.archetype.sphere}
                                         </span>
-                                      )}
+                                        {rec.isTopPick && (
+                                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-900/80 text-amber-200 border border-amber-600 font-bold">
+                                            ⭐ Top Pick
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className="text-[11px] text-slate-300 mt-0.5">{rec.archetype.core_concept || rec.archetype.summary}</p>
+                                      <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-400 font-mono">
+                                        <span>Role: {rec.archetype.tactical_role}</span>
+                                        <span>•</span>
+                                        <span>Attrs: {rec.archetype.primary_attribute} / {rec.archetype.secondary_attribute}</span>
+                                      </div>
+                                      <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
+                                        💡 {rec.rationale}
+                                      </p>
                                     </div>
-                                    <p className="text-[11px] text-slate-300 mt-0.5">{rec.archetype.core_concept || rec.archetype.summary}</p>
-                                    <div className="flex items-center gap-2 mt-1 text-[10px] text-slate-400 font-mono">
-                                      <span>Role: {rec.archetype.tactical_role}</span>
-                                      <span>•</span>
-                                      <span>Attrs: {rec.archetype.primary_attribute} / {rec.archetype.secondary_attribute}</span>
-                                    </div>
-                                    <p className="text-[10px] text-cyan-300/80 italic mt-1 font-sans">
-                                      💡 {rec.rationale}
-                                    </p>
+                                    <button
+                                      type="button"
+                                      className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase shrink-0 transition-all ${
+                                        isSelected
+                                          ? 'bg-amber-500 text-slate-950 font-black'
+                                          : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-700'
+                                      }`}
+                                    >
+                                      {isSelected ? '✓ Selected' : 'Select'}
+                                    </button>
                                   </div>
-                                  <button
-                                    type="button"
-                                    className={`px-2.5 py-1 rounded text-[10px] font-bold uppercase shrink-0 transition-all ${
-                                      isSelected
-                                        ? 'bg-amber-500 text-slate-950 font-black'
-                                        : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-700'
-                                    }`}
-                                  >
-                                    {isSelected ? '✓ Selected' : 'Select'}
-                                  </button>
                                 </div>
-                              </div>
-                            );
-                          })}
+                              );
+                            })}
+                          </div>
                         </div>
-
-                        {/* Or Select Any Other Archetype */}
-                        <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
-                          <span className="text-[10px] text-slate-400">Browse all 100 Archetypes:</span>
-                          <select
-                            value={activeArchetype?.name || ''}
-                            onChange={(e) => {
-                              const found = DEFAULT_ARCHETYPES.find(a => a.name === e.target.value);
-                              if (found) setStagedArchetype(found);
-                            }}
-                            className="bg-slate-950 border border-slate-700 text-xs text-slate-200 rounded px-2 py-1 outline-none"
-                          >
-                            {DEFAULT_ARCHETYPES.map(a => (
-                              <option key={a.name} value={a.name}>{a.name} ({a.sphere})</option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
+                      )}
 
                       {/* Step Navigation */}
                       <div className="pt-2 flex justify-end">
@@ -1917,12 +2088,23 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                       </div>
                     </div>
                   )}
+
+                  {genStatus && (
+                    <div className={`p-2.5 rounded border text-xs leading-relaxed ${
+                      genStatus.error 
+                        ? 'bg-red-950/60 border-red-800 text-red-300' 
+                        : 'bg-emerald-950/60 border-emerald-800 text-emerald-300'
+                    }`}>
+                      {genStatus.error || genStatus.success}
+                    </div>
+                  )}
+                  </div>
                 </div>
               )}
 
               {/* Sub-Mode 1: 5 Pillars Fast Auto-Synthesizer */}
               {generatorMode === 'synthesis' && (
-                <div className="space-y-3">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
                   <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-2">
                     <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block">
                       Canonical Pillars Workflow
@@ -2058,7 +2240,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
               {/* Sub-Mode 2: Selective Fields */}
               {generatorMode === 'fields' && (
-                <div className="space-y-3">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3">
                   {/* Overwrite Protection Setting */}
                   <div className="flex items-center justify-between bg-slate-950 p-2.5 rounded-lg border border-slate-800">
                     <div className="flex flex-col">
@@ -2174,9 +2356,9 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* Status Message */}
-              {genStatus && (
-                <div className={`p-2.5 rounded border text-xs leading-relaxed ${
+              {/* Status Message (for non-staged modes) */}
+              {generatorMode !== 'staged' && genStatus && (
+                <div className={`mx-4 mb-3 p-2.5 rounded border text-xs leading-relaxed shrink-0 ${
                   genStatus.error 
                     ? 'bg-red-950/60 border-red-800 text-red-300' 
                     : 'bg-emerald-950/60 border-emerald-800 text-emerald-300'
@@ -2244,8 +2426,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   Tech Level (TL 0–5) and Meta Level (ML 0–5) define equipment access and metaphysics. Baseline is <strong>TL3 / ML3 (0 CP)</strong>.
                 </p>
                 <div className="p-2 bg-slate-900 rounded border border-purple-800/50 font-mono text-[10px] text-purple-200">
-                  <div className="text-amber-300 font-bold">Cost = Base_Cost &times; 2<sup>TL</sup> &times; 1.5<sup>ML</sup></div>
-                  <div className="text-slate-400 text-[9px] mt-0.5">Asset prices scale exponentially by tier. Exceeding character TL/ML generates railguard alerts.</div>
+                  <div className="text-amber-300 font-bold">Value (Cr) = 10 &times; 4<sup>(Crafting DC / 5)</sup></div>
+                  <div className="text-slate-400 text-[9px] mt-0.5">Cost is determined solely by final Crafting DC (modified by design aspects, sockets, and TL/ML). Exceeding character TL/ML generates railguard alerts.</div>
                 </div>
               </div>
 
@@ -2283,6 +2465,28 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     </>
   );
 
+  const archetypeSelectorModal = isArchetypeModalOpen ? (
+    <UniversalCatalogModal
+      isOpen={isArchetypeModalOpen}
+      onClose={() => setIsArchetypeModalOpen(false)}
+      title="Archetypes"
+      collectionKey="archetypes"
+      selectedName={stagedArchetype?.name || (stagedPrompt.trim() ? activeArchetype?.name : null)}
+      characterData={characterData}
+      onSelectItem={(item) => {
+        if (item) {
+          const canonicalMatch = DEFAULT_ARCHETYPES.find(
+            a => (a.name || '').toLowerCase() === (item.name || item.title || '').toLowerCase()
+          );
+          setStagedArchetype(canonicalMatch ? { ...canonicalMatch, ...item } : item);
+        }
+        setIsArchetypeModalOpen(false);
+      }}
+      allowBuild={false}
+      allowEdit={false}
+    />
+  ) : null;
+
   if (isDocked) {
     return (
       <>
@@ -2291,23 +2495,27 @@ const BastionDrawer = ({ isOpen, onClose }) => {
           className="fixed top-[var(--header-height,52px)] inset-x-0 bottom-0 z-40 bg-black/40 backdrop-blur-[2px]" 
           onClick={onClose} 
         />
-        <div className="fixed top-[var(--header-height,52px)] bottom-0 right-0 z-50 w-80 sm:w-[420px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
+        <div className="fixed top-[var(--header-height,52px)] bottom-0 right-0 z-50 w-full md:w-[50vw] md:min-w-[560px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
           {renderInnerContent()}
         </div>
+        {archetypeSelectorModal}
       </>
     );
   }
 
   return (
-    <DraggablePanel
-      id="bastion-folio-floating-frame"
-      defaultPosition={{ x: Math.max(10, window.innerWidth - 460), y: 64 }}
-      className={`fixed z-[110] flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
-        isMinimized ? 'w-[320px] h-[48px]' : 'w-[390px] sm:w-[440px] h-[600px]'
-      }`}
-    >
-      {renderInnerContent()}
-    </DraggablePanel>
+    <>
+      <DraggablePanel
+        id="bastion-folio-floating-frame"
+        defaultPosition={{ x: Math.max(10, Math.round(window.innerWidth * 0.45)), y: 64 }}
+        className={`fixed z-[110] flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
+          isMinimized ? 'w-[320px] h-[48px]' : 'w-[95vw] md:w-[50vw] md:min-w-[560px] h-[78vh] max-h-[760px]'
+        }`}
+      >
+        {renderInnerContent()}
+      </DraggablePanel>
+      {archetypeSelectorModal}
+    </>
   );
 };
 

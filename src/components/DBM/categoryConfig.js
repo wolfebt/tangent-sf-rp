@@ -328,12 +328,12 @@ export const categoryConfig = {
             primary_attribute: { 
                 type: 'select', 
                 label: 'Primary Attribute (+3 / 15 CP)',
-                options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
+                options: ['Intellect', 'Wisdom', 'Charisma', 'Strength', 'Agility', 'Stamina']
             },
             secondary_attribute: { 
                 type: 'select', 
                 label: 'Secondary Attribute (+2 / 10 CP)',
-                options: ['Strength', 'Agility', 'Stamina', 'Intellect', 'Perception', 'Charisma', 'Willpower', 'Wisdom']
+                options: ['Intellect', 'Wisdom', 'Charisma', 'Strength', 'Agility', 'Stamina']
             },
             essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills (Priority 4 Trained + 6 Novice)', manageable: true },
             signature_traits: { type: 'multiselect', source: 'traits', label: 'Signature Traits (1 CP)', manageable: true },

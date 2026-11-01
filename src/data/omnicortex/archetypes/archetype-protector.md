@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Tank / Defender / Interceptor
 primary_attribute: Stamina
-secondary_attribute: Perception
+secondary_attribute: Wisdom
 recommended_occupations:
   - Soldier
   - Drifter
@@ -52,7 +52,7 @@ cp_chassis: 80
 **Core Concept**: Tank / Defender / Interceptor  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Stamina  
-**Secondary Attribute**: Perception  
+**Secondary Attribute**: Wisdom  
 
 ## Overview
 Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat.

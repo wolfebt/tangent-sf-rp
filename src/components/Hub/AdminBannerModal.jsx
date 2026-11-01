@@ -47,17 +47,22 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
   const { showSuccessToast } = useToast() || {};
 
   const getInitialState = (conf) => {
-    const normLines = normalizeBannerLines(conf);
+    const normLines = normalizeBannerLines(conf).filter(l => typeof l === 'string' && l.trim().length > 0);
+    const activeNormLines = normLines.length > 0 ? normLines : normalizeBannerLines(DEFAULT_BANNER_CONFIG);
+    const initialTextBlock = typeof conf?.textBlock === 'string' && conf.textBlock.trim().length > 0
+      ? conf.textBlock
+      : activeNormLines.join('\n');
     return {
       ...DEFAULT_BANNER_CONFIG,
       ...conf,
-      line1: conf?.line1 ?? (normLines[0] || ''),
-      line2: conf?.line2 ?? (normLines[1] || ''),
-      line3: conf?.line3 ?? (normLines[2] || ''),
-      lines: normLines,
+      textBlock: initialTextBlock,
+      line1: activeNormLines[0] || '',
+      line2: activeNormLines[1] || '',
+      line3: activeNormLines[2] || '',
+      lines: activeNormLines,
       mode: conf?.mode || 'ticker',
       speed: conf?.speed || 'normal',
-      tickerSpeed: conf?.tickerSpeed || 28,
+      tickerSpeed: conf?.tickerSpeed || 30,
       colorTheme: conf?.colorTheme || 'cyan'
     };
   };
@@ -73,10 +78,15 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
 
   // Active lines for live preview
   const previewLines = useMemo(() => {
-    const raw = [form.line1, form.line2, form.line3].map(l => (typeof l === 'string' ? l : ''));
-    const nonEmpty = raw.filter(l => l.trim().length > 0);
+    const rawText = typeof form.textBlock === 'string'
+      ? form.textBlock
+      : [form.line1, form.line2, form.line3].filter(Boolean).join('\n');
+    const nonEmpty = rawText
+      .split(/\r?\n/)
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
     return nonEmpty.length > 0 ? nonEmpty : ['NO TRANSMISSION ENTERED'];
-  }, [form.line1, form.line2, form.line3]);
+  }, [form.textBlock, form.line1, form.line2, form.line3]);
 
   if (!isOpen) return null;
 
@@ -85,13 +95,14 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
 
   const handleApplyPreset = (preset) => {
     AudioService.playTerminalBeep(1100, 0.02);
-    const norm = normalizeBannerLines(preset);
+    const norm = normalizeBannerLines(preset).filter(l => typeof l === 'string' && l.trim().length > 0);
     setForm(prev => ({
       ...prev,
       badge: preset.badge || prev.badge,
-      line1: preset.line1 ?? (norm[0] || ''),
-      line2: preset.line2 ?? (norm[1] || ''),
-      line3: preset.line3 ?? (norm[2] || ''),
+      textBlock: norm.join('\n'),
+      line1: norm[0] || '',
+      line2: norm[1] || '',
+      line3: norm[2] || '',
       lines: norm,
       message: preset.message || norm.join(' // '),
       colorTheme: preset.colorTheme || prev.colorTheme,
@@ -107,16 +118,23 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
     AudioService.playTerminalBeep(1200, 0.04);
     setIsSaving(true);
     try {
-      const activeRaw = [form.line1, form.line2, form.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
-      const activeFiltered = activeRaw.filter(Boolean);
+      const rawText = typeof form.textBlock === 'string'
+        ? form.textBlock
+        : [form.line1, form.line2, form.line3].filter(Boolean).join('\n');
+      const activeFiltered = rawText
+        .split(/\r?\n/)
+        .map(l => l.trim())
+        .filter(Boolean);
+      const finalLines = activeFiltered.length > 0 ? activeFiltered : ['WELCOME TO TANGENT SF RP'];
 
       const payload = {
         ...form,
-        line1: form.line1 || '',
-        line2: form.line2 || '',
-        line3: form.line3 || '',
-        lines: activeFiltered.length > 0 ? activeFiltered : [form.line1 || 'WELCOME TO TANGENT SF RP'],
-        message: activeFiltered.join(' // ') || form.line1 || 'WELCOME TO TANGENT SF RP'
+        textBlock: finalLines.join('\n'),
+        line1: finalLines[0] || '',
+        line2: finalLines[1] || '',
+        line3: finalLines[2] || '',
+        lines: finalLines,
+        message: finalLines.join(' // ') || 'WELCOME TO TANGENT SF RP'
       };
 
       const res = await saveHomeBanner(payload, currentUser);
@@ -195,11 +213,11 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
                     ? `border ${currentTheme.border} ${currentTheme.bg} ${currentTheme.boxGlow} backdrop-blur-xl px-3`
                     : 'border border-dashed border-slate-800/80 bg-transparent shadow-none px-2'
                 } ${
-                  previewLines.length === 3
-                    ? 'min-h-[64px] sm:min-h-[72px] py-2'
+                  previewLines.length >= 3
+                    ? 'min-h-[64px] sm:min-h-[72px] h-auto py-2'
                     : previewLines.length === 2
-                      ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
-                      : 'min-h-[38px] sm:min-h-[42px] py-1'
+                      ? 'min-h-[48px] sm:min-h-[54px] h-auto py-1.5'
+                      : 'min-h-[38px] sm:min-h-[42px] h-auto py-1'
                 }`}>
                   {/* Top Accent Line */}
                   {hasBg && (
@@ -234,6 +252,7 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
                       mode={form.mode}
                       speed={form.speed}
                       tickerSpeed={form.tickerSpeed}
+                      hasTarget={Boolean(form.linkUrl && form.linkUrl.trim())}
                       theme={currentTheme}
                     />
                   </div>
@@ -297,66 +316,57 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
             </button>
           </div>
 
-          {/* Up to 3 Lines of Text */}
-          <div className="space-y-2 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <label className="text-[10.5px] text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
-                <Layers size={13} />
-                <span>Broadcast Transmission Lines (Up to 3 Lines)</span>
-              </label>
-              <span className="text-[10px] text-slate-500">
-                {previewLines.length} Active {previewLines.length === 1 ? 'Line' : 'Lines'}
-              </span>
-            </div>
+          {/* Multi-Line Text Input Block */}
+          {(() => {
+            const currentTextBlock = typeof form.textBlock === 'string'
+              ? form.textBlock
+              : [form.line1, form.line2, form.line3].filter(Boolean).join('\n');
+            const totalRows = currentTextBlock.length > 0 ? currentTextBlock.split(/\r?\n/).length : 0;
 
-            {/* Line 1 */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-[10px] text-slate-400">
-                <span className="font-bold text-slate-300">Line 1 (Primary Transmission) *</span>
-                <span>{form.line1?.length || 0} chars</span>
-              </div>
-              <input
-                type="text"
-                value={form.line1}
-                onChange={(e) => setForm(prev => ({ ...prev, line1: e.target.value }))}
-                placeholder="e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE"
-                maxLength={140}
-                className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-              />
-            </div>
+            return (
+              <div className="space-y-2 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <label className="text-[10.5px] text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
+                    <Terminal size={13} />
+                    <span>Multi-Line Transmission Block</span>
+                  </label>
+                  <span className="text-[10px] text-slate-500">
+                    {previewLines.length} Active {previewLines.length === 1 ? 'Line' : 'Lines'} • {currentTextBlock.length} chars
+                  </span>
+                </div>
 
-            {/* Line 2 */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-[10px] text-slate-400">
-                <span className="font-bold text-slate-300">Line 2 (Secondary Readout - Optional)</span>
-                <span>{form.line2?.length || 0} chars</span>
-              </div>
-              <input
-                type="text"
-                value={form.line2}
-                onChange={(e) => setForm(prev => ({ ...prev, line2: e.target.value }))}
-                placeholder="e.g. BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED"
-                maxLength={140}
-                className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-              />
-            </div>
+                <div className="flex items-center justify-between text-[10px] text-slate-400">
+                  <span>
+                    Press <kbd className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-cyan-300 font-bold">Enter</kbd> to add a new line.
+                  </span>
+                  <span className="text-slate-500">{totalRows} {totalRows === 1 ? 'row' : 'rows'}</span>
+                </div>
 
-            {/* Line 3 */}
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-[10px] text-slate-400">
-                <span className="font-bold text-slate-300">Line 3 (Tactical Sub-Readout - Optional)</span>
-                <span>{form.line3?.length || 0} chars</span>
+                <textarea
+                  data-testid="marquee-multiline-input"
+                  rows={Math.max(4, Math.min(10, totalRows + 1))}
+                  value={currentTextBlock}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    const nonEmptyLines = val
+                      .split(/\r?\n/)
+                      .map(l => l.trim())
+                      .filter(Boolean);
+                    setForm(prev => ({
+                      ...prev,
+                      textBlock: val,
+                      lines: nonEmptyLines,
+                      line1: nonEmptyLines[0] || '',
+                      line2: nonEmptyLines[1] || '',
+                      line3: nonEmptyLines[2] || ''
+                    }));
+                  }}
+                  placeholder={"e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE\nBASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED\nSELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"}
+                  className="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono leading-relaxed resize-y min-h-[92px]"
+                />
               </div>
-              <input
-                type="text"
-                value={form.line3}
-                onChange={(e) => setForm(prev => ({ ...prev, line3: e.target.value }))}
-                placeholder="e.g. SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"
-                maxLength={140}
-                className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-              />
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Display Mode & Velocity Adjust */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -396,11 +406,6 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
                   <Gauge size={12} className="text-cyan-400" />
                   <span>{form.mode === 'ticker' ? 'Ticker Print Speed' : 'Marquee Velocity'}</span>
                 </label>
-                {form.mode === 'ticker' && (
-                  <span className="text-[10px] text-cyan-300">
-                    {form.tickerSpeed || TICKER_SPEEDS[form.speed]?.interval || 28}ms / char
-                  </span>
-                )}
               </div>
 
               {form.mode === 'static' ? (
@@ -408,35 +413,49 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
                   Static Display (Velocity Inactive)
                 </div>
               ) : form.mode === 'ticker' ? (
-                <div className="space-y-2 p-1.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                  <div className="grid grid-cols-4 gap-1">
-                    {Object.values(TICKER_SPEEDS).map((spd) => (
-                      <button
-                        key={spd.id}
-                        type="button"
-                        onClick={() => {
-                          AudioService.playTerminalBeep(1000, 0.02);
-                          setForm(prev => ({ ...prev, speed: spd.id, tickerSpeed: spd.interval }));
+                <div className="space-y-2 p-2 rounded-xl bg-slate-950/80 border border-slate-800">
+                  {/* Top Row: Character Speed Input Field in ms (1ms - 150ms, default 30ms) */}
+                  <div className="flex items-center justify-between gap-2 px-1">
+                    <span className="text-[10px] text-slate-400">Character Speed</span>
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        type="number"
+                        data-testid="ticker-speed-ms-input"
+                        min={1}
+                        max={150}
+                        step={1}
+                        value={form.tickerSpeed ?? 30}
+                        onChange={(e) => {
+                          const rawVal = e.target.value;
+                          if (rawVal === '') {
+                            setForm(prev => ({ ...prev, tickerSpeed: '' }));
+                            return;
+                          }
+                          const parsed = parseInt(rawVal, 10);
+                          if (!Number.isNaN(parsed)) {
+                            setForm(prev => ({ ...prev, tickerSpeed: Math.min(150, Math.max(1, parsed)) }));
+                          }
                         }}
-                        className={`py-1 rounded text-center font-bold text-[11px] transition-all cursor-pointer ${
-                          form.tickerSpeed === spd.interval || (form.speed === spd.id && !form.tickerSpeed)
-                            ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-                            : 'text-slate-400 hover:text-white'
-                        }`}
-                      >
-                        {spd.label.split(' ')[0]}
-                      </button>
-                    ))}
+                        onBlur={(e) => {
+                          const parsed = parseInt(e.target.value, 10);
+                          const clamped = Number.isNaN(parsed) ? 30 : Math.min(150, Math.max(1, parsed));
+                          setForm(prev => ({ ...prev, tickerSpeed: clamped }));
+                        }}
+                        className="w-16 px-2 py-0.5 rounded bg-slate-900 border border-slate-700 focus:border-cyan-400 text-cyan-300 text-center font-mono font-bold text-xs outline-none"
+                      />
+                      <span className="text-[10px] text-cyan-300 font-bold">ms / char</span>
+                    </div>
                   </div>
-                  {/* Fine Adjustment Slider */}
+                  {/* Fine Adjustment Slider (1ms Fast to 150ms Slow) */}
                   <div className="px-1 flex items-center gap-2">
                     <span className="text-[9.5px] text-slate-500">Fast</span>
                     <input
                       type="range"
-                      min={6}
-                      max={75}
+                      data-testid="ticker-speed-slider"
+                      min={1}
+                      max={150}
                       step={1}
-                      value={form.tickerSpeed || TICKER_SPEEDS[form.speed]?.interval || 28}
+                      value={Math.min(150, Math.max(1, Number(form.tickerSpeed) || 30))}
                       onChange={(e) => {
                         const val = parseInt(e.target.value, 10);
                         setForm(prev => ({ ...prev, tickerSpeed: val }));

@@ -296,6 +296,22 @@ h1, h2, h3, h4, h5, h6 {
   animation: marquee-static-slow 6s ease-in-out infinite;
 }
 
+/* Faint Target Link Pulse (Before Ticker Refresh & Active Target Readout) */
+@keyframes marquee-target-faint-pulse {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.62;
+    filter: brightness(1.22) drop-shadow(0 0 6px currentColor);
+  }
+}
+
+.animate-target-faint-pulse {
+  animation: marquee-target-faint-pulse 1.5s ease-in-out infinite;
+}
+
 /* Static Marquee Phosphor Bloom Glow */
 .static-glow-bloom {
   text-shadow: 0 0 6px currentColor, 0 0 14px currentColor, 0 0 24px currentColor !important;

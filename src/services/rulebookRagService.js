@@ -148,10 +148,10 @@ export const RULEBOOK_CORPUS = [
     source: 'docs/game rules/operator/2.00 ECONOMATRIX.md & architect/02 ECONOMY AND WEALTH.md',
     page: 1,
     keywords: ['economy', 'price', 'credits', 'tsc', 'dc', 'cr', 'valuation', 'wealth score', 'liquidity gap', 'financial status', 'tech level', 'meta level'],
-    summary: 'Universal Cost = Base * (2^TL) * (1.5^ML) and TSC Valuation V = 10 * 4^(CR/5). Golden Rule: Purchase CR <= Wealth Score.',
+    summary: 'TSC Valuation V = 10 * 4^(CR/5) determined solely by Crafting CR/DC. Golden Rule: Purchase CR = Crafting CR <= Wealth Score.',
     content: `Canonical Economatrix and Wealth System:
-- **Universal Equipment Cost Equation:** Cost = Base * (2^TL) * (1.5^ML) Credits (every +1 TL doubles cost; every +1 ML multiplies cost by 1.5x).
-- **TSC Valuation Equation:** Value V = 10 * 4^(CR / 5) Terran Standard Credits (TSC), where Purchase CR = Crafting CR.
+- **Complexity Determines Value:** Item cost is determined solely by its final Crafting CR/DC (which incorporates base chassis size, modifications, Meta-Tech imbuements, cultural skin, and any TL/ML design modifiers).
+- **TSC Valuation Equation:** Value V = 10 * 4^(CR / 5) Credits (Tangent Standard Curve), where Purchase CR = Crafting CR.
   - CR 0 = 10 TSC (Pauper ration, basic battery)
   - CR 5 = 40 TSC (Basic tool, simple blade)
   - CR 10 = 160 TSC (Standard sidearm, light ballistic armor)

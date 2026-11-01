@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.sentinels","mechanics"]
-updatedAt: "2026-10-31T10:38:11.279Z"
+updatedAt: "2026-11-01T12:53:15.261Z"
 costs:
   bp: 0
   credits: 0
@@ -76,7 +76,7 @@ A protector of forests and natural habitats, skilled in both magic and combat to
 * **Recommended Occupations:** Adept, Scout (Fey/Auluran origins).  
 * **Recommended Origins:** Agricultural, Enlightened, Hostile.  
 * **Recommended Factions:** Auluran (Protector Caste), Alterian Enclave (Rangers), Entari Combine (Gardeners).  
-* **Key Attributes:** Wisdom (Primary), Strength or Agility (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Strength (Secondary).  
 * **Essential Skills:** Athletics, Stealth, Knowledge (Survival), Discipline (Entropy \- Nature/Life focus).  
 * **Signature Traits (1 CP):** Guardian's Ward, Nature's Wrath.  
 * **Tactical Role:** Off-tank, terrain manipulation, healing support.
@@ -114,7 +114,7 @@ Protects high-profile individuals or cargo. Experienced in personal security and
 * **Recommended Occupations:** Soldier, Drifter.  
 * **Recommended Origins:** Urban, Militaristic, Leisure.  
 * **Recommended Factions:** Impyrium (Praetorians), Dynasty (House Guard), Syndicate (Asset Protection).  
-* **Key Attributes:** Stamina (Primary), Perception (Secondary).  
+* **Key Attributes:** Stamina (Primary), Wisdom (Secondary).  
 * **Essential Skills:** Athletics, Alertness, Intimidation, Combat (Melee/Pistol).  
 * **Signature Traits (1 CP):** Protective Stance, Situational Awareness.  
 * **Tactical Role:** Take damage for the team, control melee engagement zones.
@@ -228,7 +228,7 @@ Brave and disciplined, skilled in combat and tactics. The backbone of any fighti
 * **Recommended Occupations:** Soldier, Mercenary.  
 * **Recommended Origins:** Militaristic, Hostile, Colony.  
 * **Recommended Factions:** Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors).  
-* **Key Attributes:** Strength or Agility (Primary), Stamina (Secondary).  
+* **Key Attributes:** Strength (Primary), Stamina (Secondary).  
 * **Essential Skills:** Acrobatics, Alertness, Athletics, Combat (Any).  
 * **Signature Traits (1 CP):** Combat Expertise, Unflinching.  
 * **Tactical Role:** Frontline combat, holding ground, reliable damage output.
@@ -342,7 +342,7 @@ A vigilant and disciplined individual who ensures the safety and security of the
 * **Recommended Occupations:** Soldier, Agent.  
 * **Recommended Origins:** Urban, Industrial, Leisure.  
 * **Recommended Factions:** Syndicate (Asset Protection), Entari Combine (Constables).  
-* **Key Attributes:** Wisdom (Primary), Perception (Secondary).  
+* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
 * **Essential Skills:** Alertness, Insight, Intimidation, Combat (Any).  
 * **Signature Traits (1 CP):** Keen Eye, Guardian.  
 * **Tactical Role:** Preventing ambushes, spotting hidden enemies, locking down areas.

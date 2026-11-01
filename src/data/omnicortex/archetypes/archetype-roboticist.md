@@ -6,7 +6,7 @@ category: archetypes
 bp_chassis: 80
 core_concept: Crafter / Minion Master / Tech
 primary_attribute: Intellect
-secondary_attribute: Technology
+secondary_attribute: Agility
 recommended_occupations:
   - Engineer
   - Scholar
@@ -49,7 +49,7 @@ cp_chassis: 80
 **Core Concept**: Crafter / Minion Master / Tech  
 **Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
 **Primary Attribute**: Intellect  
-**Secondary Attribute**: Technology  
+**Secondary Attribute**: Agility  
 
 ## Overview
 A scholar who specializes in the study, design, and development of robots.

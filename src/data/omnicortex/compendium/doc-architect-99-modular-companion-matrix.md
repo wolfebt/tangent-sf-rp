@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular companion matrix","matrix"]
-updatedAt: "2026-10-31T11:30:42.563Z"
+updatedAt: "2026-11-01T13:12:04.422Z"
 costs:
   bp: 0
   credits: 0
@@ -304,7 +304,7 @@ Standard templates for quick creation.
 
 *Focus: Recon / Stealth*
 
-* **Attributes:** Agility, Awareness.  
+* **Attributes:** Agility, Wisdom.  
 * **Key Skills:** Stealth, Perception, Survival.  
 * **Key Features:** Flight (or Fast Movement), Acute Senses, Camouflage.
 

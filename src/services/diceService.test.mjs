@@ -226,17 +226,17 @@ assert(legacyFumbleSize === 1, 'Legacy fumbleRangeSize must default to 1');
 assert(legacyDC === '', 'Legacy targetDC must default to empty string');
 
 // Test 10b: Base Score boundary [0, 50] support in 2d10 checks
-const rollBaseMin = rollDice('2d10', { flatModifier: 0 });
+const rollBaseMin = rollDice('2d10', { flatModifier: 0, expandedThreat: false });
 assert(rollBaseMin.appliedModifier === 0, 'Base score 0 must yield modifier 0');
-assert(rollBaseMin.finalTotal >= 2 && rollBaseMin.finalTotal <= 20, '2d10 + 0 total must be in [2, 20]');
+assert(rollBaseMin.finalTotal >= 2 && rollBaseMin.finalTotal <= 20, '2d10 + 0 unexpanded total must be in [2, 20]');
 
-const rollBaseMax = rollDice('2d10+50', { flatModifier: 50 });
+const rollBaseMax = rollDice('2d10+50', { flatModifier: 50, expandedThreat: false });
 assert(rollBaseMax.appliedModifier === 50, 'Base score 50 must yield modifier 50');
-assert(rollBaseMax.finalTotal >= 52 && rollBaseMax.finalTotal <= 70, '2d10 + 50 total must be in [52, 70]');
+assert(rollBaseMax.finalTotal >= 52 && rollBaseMax.finalTotal <= 70, '2d10 + 50 unexpanded total must be in [52, 70]');
 
-const rollBaseMaxWithAdHoc = rollDice('2d10+70', { flatModifier: 70 });
+const rollBaseMaxWithAdHoc = rollDice('2d10+70', { flatModifier: 70, expandedThreat: false });
 assert(rollBaseMaxWithAdHoc.appliedModifier === 70, 'Base score 50 + ad-hoc 20 must yield modifier 70');
-assert(rollBaseMaxWithAdHoc.finalTotal >= 72 && rollBaseMaxWithAdHoc.finalTotal <= 90, '2d10 + 70 total must be in [72, 90]');
+assert(rollBaseMaxWithAdHoc.finalTotal >= 72 && rollBaseMaxWithAdHoc.finalTotal <= 90, '2d10 + 70 unexpanded total must be in [72, 90]');
 
 // Test 10c: Ad-Hoc Modifier boundary [-20, +20] and baseModifier [0, 50] resolution in rollDice
 const rollExplicitAdHocMax = rollDice('2d10', { baseModifier: 50, adHocModifier: 20 });
@@ -332,6 +332,39 @@ assert(rolledWithOdds.odds !== undefined, 'rollDice must include odds object');
 assert(typeof rolledWithOdds.odds.critRate === 'string', 'odds must include critRate');
 assert(typeof rolledWithOdds.odds.fumbleRate === 'string', 'odds must include fumbleRate');
 assert(typeof rolledWithOdds.odds.successRate === 'string', 'odds must include successRate');
+
+// Test 12: Expanded Threat Mode (default true: Crit adds +10 to rolled value, Fumble replaces rolled value with flat -10)
+console.log('Testing Expanded Threat Mode (+10 Crit, flat -10 Fumble)...');
+let sawExpandedCrit = false;
+let sawExpandedFumble = false;
+for (let i = 0; i < 400; i++) {
+  const r = rollDice('2d10', { baseModifier: 15, adHocModifier: 0, critRangeSize: 5, fumbleRangeSize: 5 });
+  assert(r.expandedThreat === true, 'expandedThreat must be true by default');
+  if (r.isCrit) {
+    sawExpandedCrit = true;
+    assert(r.rawNaturalTotal >= 16 && r.rawNaturalTotal <= 20, `Expected raw crit in [16, 20], got ${r.rawNaturalTotal}`);
+    assert(r.naturalTotal === r.rawNaturalTotal + 10, `Expanded crit must add 10 to rolled value (${r.rawNaturalTotal} -> ${r.rawNaturalTotal + 10}), got ${r.naturalTotal}`);
+    assert(r.finalTotal === r.rawNaturalTotal + 10 + 15, `Expanded crit finalTotal must be ${r.rawNaturalTotal + 25}, got ${r.finalTotal}`);
+  } else if (r.isFumble) {
+    sawExpandedFumble = true;
+    assert(r.rawNaturalTotal >= 2 && r.rawNaturalTotal <= 6, `Expected raw fumble in [2, 6], got ${r.rawNaturalTotal}`);
+    assert(r.naturalTotal === -10, `Expanded fumble must replace rolled value (${r.rawNaturalTotal}) with flat -10, got ${r.naturalTotal}`);
+    assert(r.finalTotal === -10 + 15, `Expanded fumble with base score 15 must subtract 10 from base score (5), got ${r.finalTotal}`);
+  } else {
+    assert(r.naturalTotal === r.rawNaturalTotal, 'Non-crit/non-fumble must preserve rawNaturalTotal');
+    assert(r.finalTotal === r.rawNaturalTotal + 15, 'Non-crit/non-fumble finalTotal must be rawNaturalTotal + 15');
+  }
+}
+assert(sawExpandedCrit, 'Must have observed at least one expanded crit in 400 rolls with critRangeSize 5');
+assert(sawExpandedFumble, 'Must have observed at least one expanded fumble in 400 rolls with fumbleRangeSize 5');
+
+// Verify unexpanded mode (expandedThreat: false) preserves raw rolled values on crit & fumble
+for (let i = 0; i < 200; i++) {
+  const r = rollDice('2d10', { baseModifier: 15, critRangeSize: 5, fumbleRangeSize: 5, expandedThreat: false });
+  assert(r.expandedThreat === false, 'expandedThreat must be false when explicitly disabled');
+  assert(r.naturalTotal === r.rawNaturalTotal, `Unexpanded roll must keep naturalTotal === rawNaturalTotal (${r.rawNaturalTotal}), got ${r.naturalTotal}`);
+  assert(r.finalTotal === r.rawNaturalTotal + 15, `Unexpanded roll finalTotal must be ${r.rawNaturalTotal + 15}, got ${r.finalTotal}`);
+}
 
 console.log('✅ All clamped dice engine, odds calculation, and target DC tests passed!');
 

@@ -40,7 +40,6 @@ import {
   Mail,
   Dices
 } from 'lucide-react';
-import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
 import { AiConfigDrawer } from './UI/AiConfigDrawer';
 import { BannerMessageDisplay } from './Hub/BannerMessageDisplay';
 import { AudioService } from '../services/audioService';
@@ -133,10 +132,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
   const [audioVolume, setAudioVolume] = useState(() => Math.round((AudioService.volume || 0.35) * 100));
 
-  // User Guide Modal
-  const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [guideInitialTab, setGuideInitialTab] = useState('hub');
-
   // Status & Feedback
   const [saveMessage, setSaveMessage] = useState('');
 
@@ -146,17 +141,22 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
   const getInitialBannerFormState = (conf, position = 'top') => {
     const isBottom = position === 'bottom';
     const def = isBottom ? DEFAULT_BOTTOM_BANNER_CONFIG : DEFAULT_BANNER_CONFIG;
-    const normLines = normalizeBannerLines(conf || def);
+    const normLines = normalizeBannerLines(conf || def).filter(l => typeof l === 'string' && l.trim().length > 0);
+    const activeNormLines = normLines.length > 0 ? normLines : normalizeBannerLines(def);
+    const initialTextBlock = typeof conf?.textBlock === 'string' && conf.textBlock.trim().length > 0
+      ? conf.textBlock
+      : activeNormLines.join('\n');
     return {
       ...def,
       ...conf,
-      line1: conf?.line1 ?? (normLines[0] || ''),
-      line2: conf?.line2 ?? (normLines[1] || ''),
-      line3: conf?.line3 ?? (normLines[2] || ''),
-      lines: normLines,
+      textBlock: initialTextBlock,
+      line1: activeNormLines[0] || '',
+      line2: activeNormLines[1] || '',
+      line3: activeNormLines[2] || '',
+      lines: activeNormLines,
       mode: conf?.mode || def.mode || 'ticker',
       speed: conf?.speed || def.speed || 'normal',
-      tickerSpeed: conf?.tickerSpeed || def.tickerSpeed || 28,
+      tickerSpeed: conf?.tickerSpeed || def.tickerSpeed || 30,
       tickerAlignment: conf?.tickerAlignment || def.tickerAlignment || 'left',
       staticFade: conf?.staticFade || def.staticFade || 'none',
       staticGlow: conf?.staticGlow || def.staticGlow || 'subtle',
@@ -249,7 +249,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
     if (!isOpen) return;
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
-        if (isGuideOpen) return;
         if (isAiDrawerOpen) {
           setIsAiDrawerOpen(false);
           return;
@@ -260,7 +259,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, isGuideOpen, isAiDrawerOpen, onClose]);
+  }, [isOpen, isAiDrawerOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -282,12 +281,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
     setTimeout(() => {
       AudioService.playDiceRollSound();
     }, 120);
-  };
-
-  const handleOpenManual = (tab = 'hub') => {
-    AudioService.playTerminalBeep(1100, 0.03);
-    setGuideInitialTab(tab);
-    setIsGuideOpen(true);
   };
 
   const handleClearCache = async () => {
@@ -388,35 +381,50 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
 
     if (canManageMarquee) {
       try {
-        const topRaw = [topBannerForm.line1, topBannerForm.line2, topBannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
-        const topFiltered = topRaw.filter(Boolean);
+        const extractFormLines = (formObj, fallbackText) => {
+          const textSource = typeof formObj.textBlock === 'string'
+            ? formObj.textBlock
+            : Array.isArray(formObj.lines) && formObj.lines.length > 0
+              ? formObj.lines.join('\n')
+              : [formObj.line1, formObj.line2, formObj.line3].filter(Boolean).join('\n');
+          const parsed = textSource
+            .split(/\r?\n/)
+            .map(l => l.trim())
+            .filter(Boolean);
+          return parsed.length > 0 ? parsed : [fallbackText];
+        };
+
+        const topFiltered = extractFormLines(topBannerForm, 'WELCOME TO TANGENT SF RP');
         const topPayload = {
           ...topBannerForm,
-          line1: topBannerForm.line1 || '',
-          line2: topBannerForm.line2 || '',
-          line3: topBannerForm.line3 || '',
+          textBlock: topFiltered.join('\n'),
+          line1: topFiltered[0] || '',
+          line2: topFiltered[1] || '',
+          line3: topFiltered[2] || '',
+          tickerSpeed: Math.min(150, Math.max(1, Number(topBannerForm.tickerSpeed) || 30)),
           tickerAlignment: topBannerForm.tickerAlignment || 'left',
           staticFade: topBannerForm.staticFade || 'none',
           staticGlow: topBannerForm.staticGlow || 'subtle',
           showBackground: topBannerForm.showBackground !== false,
-          lines: topFiltered.length > 0 ? topFiltered : [topBannerForm.line1 || 'WELCOME TO TANGENT SF RP'],
-          message: topFiltered.join(' // ') || topBannerForm.line1 || 'WELCOME TO TANGENT SF RP',
+          lines: topFiltered,
+          message: topFiltered.join(' // ') || 'WELCOME TO TANGENT SF RP',
           allowDismiss: false
         };
 
-        const bottomRaw = [bottomBannerForm.line1, bottomBannerForm.line2, bottomBannerForm.line3].map(l => (typeof l === 'string' ? l.trim() : ''));
-        const bottomFiltered = bottomRaw.filter(Boolean);
+        const bottomFiltered = extractFormLines(bottomBannerForm, 'SECURE COMM LINK OPERATIONAL');
         const bottomPayload = {
           ...bottomBannerForm,
-          line1: bottomBannerForm.line1 || '',
-          line2: bottomBannerForm.line2 || '',
-          line3: bottomBannerForm.line3 || '',
+          textBlock: bottomFiltered.join('\n'),
+          line1: bottomFiltered[0] || '',
+          line2: bottomFiltered[1] || '',
+          line3: bottomFiltered[2] || '',
+          tickerSpeed: Math.min(150, Math.max(1, Number(bottomBannerForm.tickerSpeed) || 30)),
           tickerAlignment: bottomBannerForm.tickerAlignment || 'left',
           staticFade: bottomBannerForm.staticFade || 'none',
           staticGlow: bottomBannerForm.staticGlow || 'subtle',
           showBackground: bottomBannerForm.showBackground !== false,
-          lines: bottomFiltered.length > 0 ? bottomFiltered : [bottomBannerForm.line1 || 'SECURE COMM LINK OPERATIONAL'],
-          message: bottomFiltered.join(' // ') || bottomBannerForm.line1 || 'SECURE COMM LINK OPERATIONAL',
+          lines: bottomFiltered,
+          message: bottomFiltered.join(' // ') || 'SECURE COMM LINK OPERATIONAL',
           allowDismiss: false
         };
 
@@ -459,13 +467,12 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
   };
 
   const TABS = [
-    { id: 'identity', label: 'Identity & Profile', icon: User },
-    { id: 'display', label: 'Display & Typography', icon: Eye, badge: textScale !== 'standard' ? textScale.toUpperCase() : undefined },
-    { id: 'audio', label: 'Audio & Immersion', icon: Volume2 },
-    { id: 'ai', label: 'AI Neural Core', icon: Cpu, badge: aiPlatform },
-    { id: 'manual', label: 'System Manual', icon: BookOpen },
-    { id: 'system', label: 'System & Cache', icon: Settings },
-    ...(canManageMarquee ? [{ id: 'broadcast', label: 'Admin Marquee', icon: Radio, badge: 'ADMIN' }] : [])
+    { id: 'identity', label: 'Profile', icon: User },
+    { id: 'display', label: 'Display', icon: Eye },
+    { id: 'audio', label: 'Immersion', icon: Volume2 },
+    { id: 'ai', label: 'AI Core', icon: Cpu },
+    { id: 'system', label: 'System', icon: Settings },
+    ...(canManageMarquee ? [{ id: 'broadcast', label: 'Marquees', icon: Radio }] : [])
   ];
 
   return (
@@ -512,7 +519,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
             <div 
               role="tablist"
               aria-label="Settings categories"
-              className="w-full sm:w-52 bg-slate-950/70 border-b sm:border-b-0 sm:border-r border-slate-800 p-2 sm:p-3 flex sm:flex-col gap-1.5 shrink-0 overflow-x-auto sm:overflow-x-visible"
+              className="w-full sm:w-44 bg-slate-950/70 border-b sm:border-b-0 sm:border-r border-slate-800 p-2 sm:p-3 flex sm:flex-col gap-1.5 shrink-0 overflow-x-auto sm:overflow-x-hidden"
             >
               {TABS.map((tab) => {
                 const Icon = tab.icon;
@@ -529,21 +536,14 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                       AudioService.playTerminalBeep(1100, 0.02);
                       setActiveTab(tab.id);
                     }}
-                    className={`flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer text-left whitespace-nowrap ${
+                    className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer text-left whitespace-nowrap overflow-hidden ${
                       isActive
                         ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_12px_rgba(34,211,238,0.2)]'
                         : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <Icon size={15} className={isActive ? "text-cyan-400" : "text-slate-500"} />
-                      <span>{tab.label}</span>
-                    </div>
-                    {tab.badge && (
-                      <span className="hidden sm:inline text-[9px] uppercase px-1.5 py-0.2 rounded bg-slate-800 text-cyan-300/80 border border-slate-700 font-mono">
-                        {tab.badge}
-                      </span>
-                    )}
+                    <Icon size={15} className={`shrink-0 ${isActive ? "text-cyan-400" : "text-slate-500"}`} />
+                    <span className="truncate">{tab.label}</span>
                   </button>
                 );
               })}
@@ -1025,102 +1025,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                 </div>
               )}
 
-              {/* 4. SYSTEM MANUAL & DOCS TAB */}
-              {activeTab === 'manual' && (
-                <div className="space-y-4 animate-fadeIn">
-                  <div>
-                    <h4 className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider mb-1 flex items-center gap-2">
-                      <BookOpen size={14} />
-                      <span>System Manual &amp; Documentation</span>
-                    </h4>
-                    <p className="text-[11px] text-slate-400">
-                      Full breakdown of all 10 Tangent core applications, character mechanics, and rule matrices.
-                    </p>
-                  </div>
-
-                  {/* Big Primary Guide Button */}
-                  <div className="p-4 rounded-xl bg-gradient-to-r from-cyan-950/50 to-slate-900/80 border border-cyan-500/40 flex items-center justify-between gap-3 shadow-md">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/60 flex items-center justify-center text-cyan-300">
-                        <BookOpen size={20} />
-                      </div>
-                      <div>
-                        <div className="font-mono text-xs font-bold text-white uppercase">
-                          Comprehensive User Guide
-                        </div>
-                        <div className="text-[10px] text-cyan-300/80">
-                          Complete searchable manual &amp; operational walkthrough
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleOpenManual('hub')}
-                      className="px-3.5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-400 text-cyan-300 hover:text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(34,211,238,0.25)] flex items-center gap-1.5 cursor-pointer shrink-0"
-                    >
-                      <span>Open Full Guide</span>
-                      <ExternalLink size={12} />
-                    </button>
-                  </div>
-
-                  {/* Quick-Jump Category Cards */}
-                  <div className="space-y-1.5">
-                    <label className="block text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
-                      Quick Manual Jump Links:
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleOpenManual('folio')}
-                        className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-left transition-colors flex items-center gap-2 cursor-pointer font-mono"
-                      >
-                        <span className="text-cyan-400">👤</span>
-                        <div>
-                          <div className="font-bold text-slate-200 text-[11px]">Persona Folio</div>
-                          <div className="text-[9px] text-slate-500">Character Builder &amp; CP</div>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleOpenManual('dbm')}
-                        className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-emerald-500/40 text-left transition-colors flex items-center gap-2 cursor-pointer font-mono"
-                      >
-                        <span className="text-emerald-400">🗄️</span>
-                        <div>
-                          <div className="font-bold text-slate-200 text-[11px]">Omnicortex DBM</div>
-                          <div className="text-[9px] text-slate-500">Database &amp; Rules</div>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleOpenManual('story')}
-                        className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-purple-500/40 text-left transition-colors flex items-center gap-2 cursor-pointer font-mono"
-                      >
-                        <span className="text-purple-400">🎭</span>
-                        <div>
-                          <div className="font-bold text-slate-200 text-[11px]">ADE Studio</div>
-                          <div className="text-[9px] text-slate-500">Adventure Development &amp; Scenarios</div>
-                        </div>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleOpenManual('maps')}
-                        className="p-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/40 text-left transition-colors flex items-center gap-2 cursor-pointer font-mono"
-                      >
-                        <span className="text-amber-400">🗺️</span>
-                        <div>
-                          <div className="font-bold text-slate-200 text-[11px]">THE STAGE VTT</div>
-                          <div className="text-[9px] text-slate-500">Tactical Grid &amp; Combat</div>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* 5. SYSTEM & CACHE TAB */}
               {activeTab === 'system' && (
                 <div className="space-y-4 animate-fadeIn">
@@ -1259,23 +1163,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                     </span>
                   </div>
 
-                  {/* Cloud Synchronization Status Indicator */}
-                  {hasCloudAdminAccess ? (
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-[11px] font-mono shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                      <Globe size={14} className="text-emerald-400 shrink-0" />
-                      <span>
-                        <strong>Cloud Broadcast Sync Authorized:</strong> Changes will be published to the cloud and broadcast live across all player devices and mobile screens (@{getEffectiveUserHandle(currentUser)}).
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-300 text-[11px] font-mono shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-                      <AlertTriangle size={14} className="text-amber-400 shrink-0" />
-                      <span>
-                        <strong>Local Preview Only:</strong> You are not signed into the authorized cloud administrator account (<code className="text-amber-200">btw.284@gmail.com</code>). Changes will only save locally to this browser until you sign in.
-                      </span>
-                    </div>
-                  )}
-
                   {/* Marquee Position Sub-Tabs: Top Marquee / Bottom Marquee */}
                   <div className="grid grid-cols-2 gap-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800">
                     <button
@@ -1327,20 +1214,26 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                       const curTheme = BANNER_COLOR_THEMES[bannerForm.colorTheme] || BANNER_COLOR_THEMES.cyan;
                       const IconComp = bannerForm.icon === 'none' ? null : (BANNER_ICON_COMPONENTS[bannerForm.icon] || Radio);
 
-                      const rawLines = [bannerForm.line1, bannerForm.line2, bannerForm.line3].map(l => (typeof l === 'string' ? l : ''));
-                      const previewLines = rawLines.filter(l => l.trim().length > 0);
+                      const rawText = typeof bannerForm.textBlock === 'string'
+                        ? bannerForm.textBlock
+                        : [bannerForm.line1, bannerForm.line2, bannerForm.line3].filter(Boolean).join('\n');
+                      const previewLines = rawText
+                        .split(/\r?\n/)
+                        .map(l => l.trim())
+                        .filter(l => l.length > 0);
                       const safePreview = previewLines.length > 0 ? previewLines : ['NO TRANSMISSION ENTERED'];
+                      const isBottomPreview = marqueeSubTab === 'bottom';
 
                       return (
                         <>
                           <div className="flex items-center justify-between text-[10px] text-slate-400 uppercase tracking-widest font-mono">
                             <span className="flex items-center gap-1.5 text-cyan-400 font-bold">
                               <Eye size={12} />
-                              LIVE PREVIEW ({marqueeSubTab === 'bottom' ? 'BOTTOM MARQUEE' : 'TOP MARQUEE'})
+                              LIVE PREVIEW ({isBottomPreview ? 'BOTTOM MARQUEE • EXPANDS UP ↑' : 'TOP MARQUEE • EXPANDS DOWN ↓'})
                             </span>
                             <span>
                               {bannerForm.mode === 'ticker'
-                                ? `TICKER (${(bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28)}ms/char • ${(bannerForm.tickerAlignment || 'left').toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`
+                                ? `TICKER (${(Number(bannerForm.tickerSpeed) || TICKER_SPEEDS[bannerForm.speed]?.interval || 30)}ms/char • ${(bannerForm.tickerAlignment || 'left').toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`
                                 : bannerForm.mode === 'scrolling'
                                   ? `MARQUEE (${bannerForm.speed?.toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`
                                   : `STATIC (${bannerForm.staticFade && bannerForm.staticFade !== 'none' ? `FADE:${bannerForm.staticFade.toUpperCase()}` : 'SOLID'} • GLOW:${(bannerForm.staticGlow || 'subtle').toUpperCase()} • ${bannerForm.showBackground !== false ? 'GEL-FRAME' : 'TEXT-ONLY'})`}
@@ -1351,19 +1244,21 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                             const hasBg = bannerForm.showBackground !== false;
                             return (
                               <div className={`relative overflow-hidden rounded-lg sm:rounded-xl transition-all duration-300 w-full flex items-center justify-between gap-3 ${
+                                isBottomPreview ? 'origin-bottom' : 'origin-top'
+                              } ${
                                 hasBg
                                   ? `border ${curTheme.border} ${curTheme.bg} ${curTheme.boxGlow} bg-[#060a14]/85 backdrop-blur-xl px-3`
                                   : 'border border-dashed border-slate-800/80 bg-transparent shadow-none px-2'
                               } ${
-                                safePreview.length === 3
-                                  ? 'min-h-[64px] sm:min-h-[72px] py-2'
+                                safePreview.length >= 3
+                                  ? 'min-h-[64px] sm:min-h-[72px] h-auto py-2'
                                   : safePreview.length === 2
-                                    ? 'min-h-[48px] sm:min-h-[54px] py-1.5'
-                                    : 'min-h-[38px] sm:min-h-[42px] py-1'
+                                    ? 'min-h-[48px] sm:min-h-[54px] h-auto py-1.5'
+                                    : 'min-h-[38px] sm:min-h-[42px] h-auto py-1'
                               }`}>
-                                {/* Top Accent Line */}
+                                {/* Anchor Edge Accent Line */}
                                 {hasBg && (
-                                  <div className={`absolute top-0 left-4 right-4 h-[1px] opacity-60 ${curTheme.accentLine}`} />
+                                  <div className={`absolute ${isBottomPreview ? 'bottom-0' : 'top-0'} left-4 right-4 h-[1px] opacity-60 ${curTheme.accentLine}`} />
                                 )}
 
                                 <div className="flex items-center gap-2 shrink-0 z-10">
@@ -1395,16 +1290,12 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                                     tickerAlignment={bannerForm.tickerAlignment || 'left'}
                                     staticFade={bannerForm.staticFade || 'none'}
                                     staticGlow={bannerForm.staticGlow || 'subtle'}
+                                    hasTarget={Boolean(bannerForm.linkUrl && bannerForm.linkUrl.trim())}
                                     theme={curTheme}
                                   />
                                 </div>
 
                                 <div className="flex items-center gap-2 shrink-0 z-10">
-                                  {bannerForm.linkLabel && (
-                                    <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold border border-current opacity-90 whitespace-nowrap ${curTheme.text} bg-black/40`}>
-                                      {bannerForm.linkLabel}
-                                    </span>
-                                  )}
                                   {hasBg && (
                                     <div className="relative flex items-center justify-center w-4 shrink-0">
                                       <span className={`w-2 h-2 rounded-full ${curTheme.beacon}`} />
@@ -1446,66 +1337,75 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                     </button>
                   </div>
 
-                  {/* Up to 3 Lines of Text */}
-                  <div className="space-y-2 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                      <label className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
-                        <Layers size={13} />
-                        <span>{marqueeSubTab === 'bottom' ? 'Bottom' : 'Top'} Transmission Lines (Up to 3 Lines)</span>
-                      </label>
-                      <span className="text-[10px] font-mono text-slate-500">
-                        {[bannerForm.line1, bannerForm.line2, bannerForm.line3].filter(l => l && l.trim()).length} Active
-                      </span>
-                    </div>
+                  {/* Multi-Line Text Input Block */}
+                  {(() => {
+                    const currentTextBlock = typeof bannerForm.textBlock === 'string'
+                      ? bannerForm.textBlock
+                      : [bannerForm.line1, bannerForm.line2, bannerForm.line3].filter(Boolean).join('\n');
+                    const parsedLines = currentTextBlock
+                      .split(/\r?\n/)
+                      .map(l => l.trim())
+                      .filter(Boolean);
+                    const totalRows = currentTextBlock.length > 0 ? currentTextBlock.split(/\r?\n/).length : 0;
 
-                    {/* Line 1 */}
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
-                        <span className="font-bold text-slate-300">Line 1 (Primary Transmission) *</span>
-                        <span>{bannerForm.line1?.length || 0} chars</span>
-                      </div>
-                      <input
-                        type="text"
-                        value={bannerForm.line1 || ''}
-                        onChange={(e) => setBannerForm(prev => ({ ...prev, line1: e.target.value }))}
-                        placeholder={marqueeSubTab === 'bottom' ? "e.g. SECURE COMM LINK OPERATIONAL // ENCRYPTION AES-GCM-256 ACTIVE" : "e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE"}
-                        maxLength={140}
-                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-                      />
-                    </div>
+                    return (
+                      <div className="space-y-2 p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                          <label
+                            htmlFor="marquee-multiline-textarea"
+                            className="text-[10.5px] font-mono text-cyan-400 uppercase tracking-widest block font-bold flex items-center gap-1.5"
+                          >
+                            <Terminal size={13} />
+                            <span>{marqueeSubTab === 'bottom' ? 'Bottom' : 'Top'} Multi-Line Transmission Block</span>
+                          </label>
+                          <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400">
+                            <span className="px-1.5 py-0.5 rounded bg-cyan-500/15 border border-cyan-500/30 text-cyan-300">
+                              {parsedLines.length} Active {parsedLines.length === 1 ? 'Line' : 'Lines'}
+                            </span>
+                            <span>{currentTextBlock.length} chars</span>
+                          </div>
+                        </div>
 
-                    {/* Line 2 */}
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
-                        <span className="font-bold text-slate-300">Line 2 (Secondary Readout - Optional)</span>
-                        <span>{bannerForm.line2?.length || 0} chars</span>
-                      </div>
-                      <input
-                        type="text"
-                        value={bannerForm.line2 || ''}
-                        onChange={(e) => setBannerForm(prev => ({ ...prev, line2: e.target.value }))}
-                        placeholder={marqueeSubTab === 'bottom' ? "e.g. NODE ROUTING: KUIPER DRIFT RELAY 04 // LATENCY 14MS NOMINAL" : "e.g. BASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED"}
-                        maxLength={140}
-                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-                      />
-                    </div>
+                        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                          <span>
+                            Press <kbd className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-cyan-300 font-bold">Enter</kbd> to add a new line.{' '}
+                            {marqueeSubTab === 'bottom'
+                              ? 'Bottom-anchored: expands UP ↑ as lines increase.'
+                              : 'Top-anchored: expands DOWN ↓ as lines increase.'}
+                          </span>
+                          <span className="text-slate-500">{totalRows} {totalRows === 1 ? 'row' : 'rows'}</span>
+                        </div>
 
-                    {/* Line 3 */}
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
-                        <span className="font-bold text-slate-300">Line 3 (Tactical Sub-Readout - Optional)</span>
-                        <span>{bannerForm.line3?.length || 0} chars</span>
+                        <textarea
+                          id="marquee-multiline-textarea"
+                          data-testid="marquee-multiline-input"
+                          rows={Math.max(4, Math.min(10, totalRows + 1))}
+                          value={currentTextBlock}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            const nonEmptyLines = val
+                              .split(/\r?\n/)
+                              .map(l => l.trim())
+                              .filter(Boolean);
+                            setBannerForm(prev => ({
+                              ...prev,
+                              textBlock: val,
+                              lines: nonEmptyLines,
+                              line1: nonEmptyLines[0] || '',
+                              line2: nonEmptyLines[1] || '',
+                              line3: nonEmptyLines[2] || ''
+                            }));
+                          }}
+                          placeholder={
+                            marqueeSubTab === 'bottom'
+                              ? "e.g. SECURE COMM LINK OPERATIONAL // ENCRYPTION AES-GCM-256 ACTIVE\nNODE ROUTING: KUIPER DRIFT RELAY 04 // LATENCY 14MS NOMINAL\nGRID SYNCHRONIZATION RUNNING // ALL SUB-SYSTEMS VERIFIED"
+                              : "e.g. WELCOME TO TANGENT SF RP // TERRAN DATA NET PROTOCOLS ONLINE\nBASTION RULES ENGINE ACTIVE // REAL-TIME OPS SYNCHRONIZED\nSELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"
+                          }
+                          className="w-full px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono leading-relaxed resize-y min-h-[92px]"
+                        />
                       </div>
-                      <input
-                        type="text"
-                        value={bannerForm.line3 || ''}
-                        onChange={(e) => setBannerForm(prev => ({ ...prev, line3: e.target.value }))}
-                        placeholder={marqueeSubTab === 'bottom' ? "e.g. GRID SYNCHRONIZATION RUNNING // ALL SUB-SYSTEMS VERIFIED" : "e.g. SELECT ANY MODULE FROM THE GUIDANCE RAIL TO BEGIN"}
-                        maxLength={140}
-                        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-                      />
-                    </div>
-                  </div>
+                    );
+                  })()}
 
                   {/* Mode & Speed */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1540,11 +1440,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                           <Gauge size={12} className="text-cyan-400" />
                           <span>{bannerForm.mode === 'ticker' ? 'Ticker Print Speed' : 'Marquee Velocity'}</span>
                         </label>
-                        {bannerForm.mode === 'ticker' && (
-                          <span className="text-[10px] font-mono text-cyan-300">
-                            {bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28}ms / char
-                          </span>
-                        )}
                       </div>
 
                       {bannerForm.mode === 'static' ? (
@@ -1553,35 +1448,49 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                           <span>Fade: {STATIC_FADE_OPTIONS[bannerForm.staticFade]?.label || 'Solid (Off)'} • Glow: {STATIC_GLOW_OPTIONS[bannerForm.staticGlow]?.label || 'Subtle Neon'}</span>
                         </div>
                       ) : bannerForm.mode === 'ticker' ? (
-                        <div className="space-y-2 p-1.5 rounded-xl bg-slate-950 border border-slate-800 font-mono">
-                          <div className="grid grid-cols-4 gap-1">
-                            {Object.values(TICKER_SPEEDS).map((spd) => (
-                              <button
-                                key={spd.id}
-                                type="button"
-                                onClick={() => {
-                                  AudioService.playTerminalBeep(1000, 0.02);
-                                  setBannerForm(prev => ({ ...prev, speed: spd.id, tickerSpeed: spd.interval }));
+                        <div className="space-y-2 p-2 rounded-xl bg-slate-950 border border-slate-800 font-mono">
+                          {/* Top Row: Character Speed Input Field in ms (1ms - 150ms, default 30ms) */}
+                          <div className="flex items-center justify-between gap-2 px-1">
+                            <span className="text-[10px] text-slate-400">Character Speed</span>
+                            <div className="flex items-center gap-1.5">
+                              <input
+                                type="number"
+                                data-testid="ticker-speed-ms-input"
+                                min={1}
+                                max={150}
+                                step={1}
+                                value={bannerForm.tickerSpeed ?? 30}
+                                onChange={(e) => {
+                                  const rawVal = e.target.value;
+                                  if (rawVal === '') {
+                                    setBannerForm(prev => ({ ...prev, tickerSpeed: '' }));
+                                    return;
+                                  }
+                                  const parsed = parseInt(rawVal, 10);
+                                  if (!Number.isNaN(parsed)) {
+                                    setBannerForm(prev => ({ ...prev, tickerSpeed: Math.min(150, Math.max(1, parsed)) }));
+                                  }
                                 }}
-                                className={`py-1 rounded text-center font-bold text-[11px] transition-all cursor-pointer ${
-                                  bannerForm.tickerSpeed === spd.interval || (bannerForm.speed === spd.id && !bannerForm.tickerSpeed)
-                                    ? 'bg-cyan-500/25 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-                                    : 'text-slate-400 hover:text-white'
-                                }`}
-                              >
-                                {spd.label.split(' ')[0]}
-                              </button>
-                            ))}
+                                onBlur={(e) => {
+                                  const parsed = parseInt(e.target.value, 10);
+                                  const clamped = Number.isNaN(parsed) ? 30 : Math.min(150, Math.max(1, parsed));
+                                  setBannerForm(prev => ({ ...prev, tickerSpeed: clamped }));
+                                }}
+                                className="w-16 px-2 py-0.5 rounded bg-slate-900 border border-slate-700 focus:border-cyan-400 text-cyan-300 text-center font-mono font-bold text-xs outline-none"
+                              />
+                              <span className="text-[10px] text-cyan-300 font-bold">ms / char</span>
+                            </div>
                           </div>
-                          {/* Slider */}
+                          {/* Slider (1ms Fast to 150ms Slow) */}
                           <div className="px-1 flex items-center gap-2">
                             <span className="text-[9.5px] text-slate-500">Fast</span>
                             <input
                               type="range"
-                              min={6}
-                              max={75}
+                              data-testid="ticker-speed-slider"
+                              min={1}
+                              max={150}
                               step={1}
-                              value={bannerForm.tickerSpeed || TICKER_SPEEDS[bannerForm.speed]?.interval || 28}
+                              value={Math.min(150, Math.max(1, Number(bannerForm.tickerSpeed) || 30))}
                               onChange={(e) => {
                                 const val = parseInt(e.target.value, 10);
                                 setBannerForm(prev => ({ ...prev, tickerSpeed: val }));
@@ -1906,33 +1815,25 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                     </div>
                   </div>
 
-                  {/* Optional Action CTA Link & Route Destination */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                    <div className="space-y-1.5">
-                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                        Optional Target Route or URL
+                  {/* Optional Target Route or URL (Clickable Marquee Navigation) */}
+                  <div className="space-y-1.5 pt-1">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold flex items-center gap-1.5">
+                        <ExternalLink size={12} className="text-cyan-400" />
+                        <span>Optional Target Route or URL (Click Marquee to Navigate)</span>
                       </label>
-                      <input
-                        type="text"
-                        value={bannerForm.linkUrl || ''}
-                        onChange={(e) => setBannerForm(prev => ({ ...prev, linkUrl: e.target.value }))}
-                        placeholder="e.g. /comms or https://..."
-                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
-                      />
+                      <span className="text-[10px] font-mono text-cyan-400">
+                        {bannerForm.linkUrl?.trim() ? 'CLICKABLE • FAINT PULSE ACTIVE' : 'DISPLAY ONLY'}
+                      </span>
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[10.5px] font-mono text-slate-400 uppercase tracking-widest block font-bold">
-                        Button Label (Optional)
-                      </label>
-                      <input
-                        type="text"
-                        value={bannerForm.linkLabel || ''}
-                        onChange={(e) => setBannerForm(prev => ({ ...prev, linkLabel: e.target.value.toUpperCase() }))}
-                        placeholder="e.g. OPEN COMMLINK"
-                        maxLength={24}
-                        className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono uppercase"
-                      />
-                    </div>
+                    <input
+                      type="text"
+                      data-testid="marquee-target-url-input"
+                      value={bannerForm.linkUrl || ''}
+                      onChange={(e) => setBannerForm(prev => ({ ...prev, linkUrl: e.target.value }))}
+                      placeholder="e.g. /comms, /folio, /dbm, or https://..."
+                      className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 focus:border-cyan-400 text-slate-200 outline-none text-xs font-mono"
+                    />
                   </div>
                 </div>
               )}
@@ -1984,13 +1885,6 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
           </div>
         </div>
       </div>
-
-      {/* Comprehensive User Guide Modal */}
-      <ComprehensiveUserGuideModal
-        isOpen={isGuideOpen}
-        onClose={() => setIsGuideOpen(false)}
-        initialTab={guideInitialTab}
-      />
 
       {/* Dedicated AI Neural Core Configuration Drawer */}
       <AiConfigDrawer
