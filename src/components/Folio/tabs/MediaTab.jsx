@@ -200,11 +200,11 @@ export default function MediaTab() {
                 <Camera className="w-5 h-5" />
               </div>
               <h2 className="text-lg font-bold font-mono uppercase tracking-wider text-slate-100 flex items-center gap-2">
-                Visual Dossier & Media Studio
+                Visual Folio & Media Studio
               </h2>
             </div>
             <p className="text-xs text-slate-400 max-w-xl">
-              Manage character artwork, tactical VTT tokens, full-body standees, and secondary reference imagery.
+              Manage persona artwork, tactical VTT tokens, full-body standees, and secondary reference imagery.
               All assets are client-optimized into lightweight WebP with immutable caching headers.
             </p>
           </div>
@@ -579,7 +579,7 @@ export default function MediaTab() {
             Zero Cloud Compute & Egress Optimization
           </span>
           <p className="leading-relaxed">
-            All character visuals are pre-processed in your browser into modern WebP format before uploading to Firebase Storage. 
+            All persona visuals are pre-processed in your browser into modern WebP format before uploading to Firebase Storage. 
             Image dimensions are strictly bounded to prevent bloated payloads, and all assets are delivered via immutable browser and CDN cache headers.
           </p>
         </div>

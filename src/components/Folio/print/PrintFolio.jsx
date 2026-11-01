@@ -861,7 +861,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
         </div>
 
         <div className="folio-box p-2 flex-1 flex flex-col">
-          <div className="folio-section-banner mb-2 text-center text-xs">CHARACTER NOTES, BACKSTORY & SESSION JOURNAL</div>
+          <div className="folio-section-banner mb-2 text-center text-xs">PERSONA NOTES, BACKSTORY & SESSION JOURNAL</div>
           
           <div className="flex-1 space-y-1">
             {notes.map((n, i) => (

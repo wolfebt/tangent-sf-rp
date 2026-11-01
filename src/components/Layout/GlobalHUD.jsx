@@ -280,7 +280,15 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
 
   const displayIdentity = userHandle ? `@${userHandle}` : (currentUser ? `@${getEffectiveUserHandle(currentUser)}` : 'OPERATOR');
   const headerRef = useRef(null);
-  const hasDynamicTabs = isFolio || isFoundry;
+  const searchParams = new URLSearchParams(location.search);
+  const tabParam = searchParams.get('tab');
+  const isFolioCatalog = isFolio && (
+    folio?.activeTab === 'catalog' ||
+    !folio?.isCharacterSelected ||
+    tabParam === 'catalog'
+  );
+  const isFolioOpened = isFolio && !isFolioCatalog;
+  const hasDynamicTabs = isFolioOpened || isFoundry;
 
   useLayoutEffect(() => {
     const updateHeaderHeight = () => {
@@ -305,10 +313,10 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
       if (ro) ro.disconnect();
       window.removeEventListener('resize', updateHeaderHeight);
     };
-  }, [location.pathname, isFolio, isFoundry]);
+  }, [location.pathname, location.search, isFolioOpened, isFoundry]);
 
   const renderDynamicTabs = () => {
-    if (isFolio) {
+    if (isFolioOpened) {
       return (
         <div className="flex items-center justify-center gap-2 overflow-x-auto no-scrollbar py-0.5">
           {/* Tactical Mode Switcher */}
@@ -324,7 +332,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                   ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-xs'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
-              title="Switch to Folio Dossier Builder Mode"
+              title="Switch to Persona Folio Builder Mode"
             >
               <span>🛠️</span>
               <span>Build</span>
@@ -340,7 +348,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                   ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-xs'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
-              title="Switch to Live Tactical Sheet (VTT)"
+              title="Switch to Live Tactical Folio (VTT)"
             >
               <span>⚔️</span>
               <span>Tactical</span>
@@ -364,7 +372,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                     ? 'bg-red-950/80 hover:bg-red-900 border-red-500/80 text-red-200 animate-pulse'
                     : 'bg-[#12161f] hover:bg-[#181d28] border-cyan-500/40 hover:border-cyan-400 text-slate-300'
                 }`}
-                title={`Character Points Budget: ${spentCP}/${startingCP} CP spent. Click to modify starting budget or inspect economy breakdown.`}
+                title={`Persona CP Budget: ${spentCP}/${startingCP} CP spent. Click to modify starting budget or inspect economy breakdown.`}
               >
                 <span className="text-[10px] text-slate-500 hidden md:inline">CP:</span>
                 <span className={isOver ? 'text-red-300 font-extrabold' : 'text-cyan-300 font-bold'}>
@@ -638,7 +646,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-xs">FOLIO</div>
-                      <div className="text-[10px] text-slate-400">Persona Roster & Dossiers</div>
+                      <div className="text-[10px] text-slate-400">Persona Roster & Folios</div>
                     </div>
                   </button>
 

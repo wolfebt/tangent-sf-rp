@@ -254,11 +254,11 @@ export const FolioHUDBar = ({
                     }
                   }}
                   className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer"
-                  title="Open Live Tactical Sheet (VTT Ready)"
+                  title="Open Live Tactical Folio (VTT Ready)"
                 >
                   <span className="flex items-center gap-1.5">
                     <Crosshair size={13} className="text-cyan-400" />
-                    <span>Tactical Sheet</span>
+                    <span>Tactical Folio</span>
                   </span>
                   <span className="text-[9px] text-cyan-400 font-mono">TACTICAL</span>
                 </button>
@@ -296,7 +296,7 @@ export const FolioHUDBar = ({
                 >
                   <span className="flex items-center gap-1.5">
                     <Unlock size={13} className="text-amber-400" />
-                    <span>Unlock Sheet (Builder Mode)</span>
+                    <span>Unlock Folio (Builder Mode)</span>
                   </span>
                   <span className="text-[9px] text-amber-400 font-mono">EDIT</span>
                 </button>
@@ -306,10 +306,10 @@ export const FolioHUDBar = ({
                     AudioService.playTerminalBeep(1100, 0.03);
                     const res = await confirm({
                       title: 'Operator Override Request',
-                      message: 'Enter note or reason for modifying this persona sheet during active VTT session (optional, logged for Architect review):',
+                      message: 'Enter note or reason for modifying this persona folio during active VTT session (optional, logged for Architect review):',
                       inputLabel: 'Reason / Justification',
                       placeholder: 'e.g. Architect authorized modification...',
-                      confirmLabel: 'Unlock Sheet'
+                      confirmLabel: 'Unlock Folio'
                     });
                     if (res?.confirmed && unlockPersona) {
                       unlockPersona(res.value || '');
@@ -328,7 +328,7 @@ export const FolioHUDBar = ({
               ) : (
                 <div
                   className="w-full text-left px-3 py-1.5 text-slate-500 uppercase font-bold rounded flex items-center gap-1.5 opacity-60 cursor-not-allowed"
-                  title="Operator Override is disabled by the Architect for this session. Direct sheet modifications are locked."
+                  title="Operator Override is disabled by the Architect for this session. Direct folio modifications are locked."
                 >
                   <Lock size={13} className="text-slate-500" />
                   <span>Locked (Override Disallowed)</span>
@@ -344,7 +344,7 @@ export const FolioHUDBar = ({
                   }
                 }}
                 className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-200 uppercase font-bold rounded flex items-center justify-between cursor-pointer"
-                title="Lock sheet again and return to Tactical Play Mode"
+                title="Lock folio again and return to Tactical Play Mode"
               >
                 <span className="flex items-center gap-1.5">
                   <Lock size={13} className="text-cyan-400" />
@@ -401,14 +401,14 @@ export const FolioHUDBar = ({
               className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-400 uppercase font-bold rounded flex items-center gap-1.5 cursor-pointer"
             >
               <RotateCcw size={13} className="text-slate-400" />
-              <span>Clear Sheet Data</span>
+              <span>Clear Folio Data</span>
             </button>
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-folio-preview'))}
               className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded flex items-center gap-1.5 cursor-pointer"
             >
               <Eye size={13} className="text-cyan-400" />
-              <span>Preview Dossier</span>
+              <span>Preview Folio</span>
             </button>
             <div className="border-t border-slate-800 my-0.5" />
             <button

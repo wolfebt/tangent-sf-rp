@@ -83,7 +83,7 @@ export function resolveFolioMenu(context, appState, handlers) {
       },
       {
         id: 'copy-dossier-summary',
-        label: 'Copy Dossier Summary',
+        label: 'Copy Folio Summary',
         icon: Copy,
         onClick: () => {
           const text = `${operativeName} | ${activeOperative?.species || 'Unknown Species'} ${activeOperative?.archetype || 'Archetype'}\nFaction: ${activeOperative?.faction || 'None'} | Origin: ${activeOperative?.origin || 'None'} | Occupation: ${activeOperative?.occupation || 'None'}`;
@@ -113,7 +113,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         highlight: true,
         onClick: () => executeBastionPrompt({
           title: `Synthesize Backstory for ${operativeName}`,
-          prompt: `Synthesize a canonical, evocative background dossier for ${operativeName}. Strictly ground their history in the Tangent SFF RPG 5 Pillars: Species: ${activeOperative?.species || 'Human'}, Archetype: ${activeOperative?.archetype || 'Sentinel'}, Faction: ${activeOperative?.faction || 'Syndicate'}, Origin: ${activeOperative?.origin || 'Spacer'}, Occupation: ${activeOperative?.occupation || 'Operative'}. Incorporate cultural nuance, military/civilian history, and a defining complication.`,
+          prompt: `Synthesize a canonical, evocative background folio for ${operativeName}. Strictly ground their history in the Tangent SFF RPG 5 Pillars: Species: ${activeOperative?.species || 'Human'}, Archetype: ${activeOperative?.archetype || 'Sentinel'}, Faction: ${activeOperative?.faction || 'Syndicate'}, Origin: ${activeOperative?.origin || 'Spacer'}, Occupation: ${activeOperative?.occupation || 'Operative'}. Incorporate cultural nuance, military/civilian history, and a defining complication.`,
           context: `Operator: ${operativeName}`,
           applyTarget: 'bio'
         })
@@ -125,7 +125,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `5 Pillars Audit: ${operativeName}`,
-          prompt: `Perform an analytical rules audit for ${operativeName}. Verify that their Character Chassis complies with the Tangent SFF RPG canonical protocol: 150 BP base chassis, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rules, and Karma Debt limit (Charisma + 1). Identify any rules discrepancies or unspent pools.`,
+          prompt: `Perform an analytical rules audit for ${operativeName}. Verify that their Persona Chassis complies with the Tangent SFF RPG canonical protocol: 150 BP base chassis, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rules, and Karma Debt limit (Charisma + 1). Identify any rules discrepancies or unspent pools.`,
           context: `Operator: ${operativeName}`
         })
       },
@@ -360,7 +360,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         highlight: true,
         onClick: () => executeBastionPrompt({
           title: `Mechanics Adjudication: ${featureName}`,
-          prompt: `Analyze the feature "${featureName}" (${featureCat}, ${cp}) in the Tangent SFF RPG system. Explain how its mechanical benefits, prerequisites, and stacking interactions apply during tactical play and character advancement. Ground response in canonical rules.`,
+          prompt: `Analyze the feature "${featureName}" (${featureCat}, ${cp}) in the Tangent SFF RPG system. Explain how its mechanical benefits, prerequisites, and stacking interactions apply during tactical play and persona advancement. Ground response in canonical rules.`,
           context: `Feature: ${featureName} [${featureCat}]`
         })
       },
@@ -447,7 +447,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Synergies for ${traitName}`,
-          prompt: `Analyze the trait "${traitName}" and recommend complementary canonical features, skills, cybernetics, and lineage adaptations from the Tangent Omnicortex database that optimize this character build.`,
+          prompt: `Analyze the trait "${traitName}" and recommend complementary canonical features, skills, cybernetics, and lineage adaptations from the Tangent Omnicortex database that optimize this persona build.`,
           context: `Trait: ${traitName}`
         })
       }
@@ -676,7 +676,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `Overcoming Hindrance: ${hindName}`,
-          prompt: `Propose dramatic narrative arcs, cybernetic or medical mitigations, and character advancement options for operator "${operativeName}" to overcome, buy off, or strategically mitigate the hindrance "${hindName}".`,
+          prompt: `Propose dramatic narrative arcs, cybernetic or medical mitigations, and persona advancement options for operator "${operativeName}" to overcome, buy off, or strategically mitigate the hindrance "${hindName}".`,
           context: `Operator: ${operativeName}, Hindrance: ${hindName}`
         })
       }

@@ -233,7 +233,7 @@ export const PropertyTab = ({
         {/* Inventory Items List */}
         {list.length === 0 ? (
           <div className="text-xs text-slate-500 italic py-8 text-center border border-dashed border-slate-800 rounded-lg">
-            No {config.title.toLowerCase()} items registered in character dossier. Click "+ Add {config.title}" to browse catalog or create a custom build.
+            No {config.title.toLowerCase()} items registered in persona folio. Click "+ Add {config.title}" to browse catalog or create a custom build.
           </div>
         ) : (
           <div className="space-y-2">

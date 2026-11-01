@@ -56,9 +56,9 @@ const NarrativeTab = () => {
       title: 'Profile & Identity',
       fields: [
         { id: 'role', label: 'Role in Story', placeholder: 'Quest Giver, Rival, Fixer...' },
-        { id: 'char-concept', label: 'Character Archetype / Concept', placeholder: 'Archetype...' },
+        { id: 'char-concept', label: 'Persona Archetype / Concept', placeholder: 'Archetype...' },
         { id: 'summary', label: 'One-Sentence Summary', placeholder: 'Summary...' },
-        { id: 'char-motive', label: 'Core Motivation', placeholder: 'What drives this character...' },
+        { id: 'char-motive', label: 'Core Motivation', placeholder: 'What drives this persona...' },
         { id: 'primaryConflict', label: 'Primary Conflict/Goal', placeholder: 'Conflict...' },
         { id: 'nicknames', label: 'Nicknames / Aliases', placeholder: 'Aliases...' },
         { id: 'socialClass', label: 'Social Class & Status', placeholder: 'Social class...' },
@@ -98,7 +98,7 @@ const NarrativeTab = () => {
         { id: 'theTruth', label: 'The Truth They Must Learn', placeholder: 'Truth...' },
         { id: 'deepestFear', label: 'Deepest Fear & Secret', placeholder: 'Fear/Secret...' },
         { id: 'goals', label: 'External Goal vs Internal Need', placeholder: 'Want vs Need...' },
-        { id: 'stakes', label: 'Stakes & Character Arc', placeholder: 'Stakes...' },
+        { id: 'stakes', label: 'Stakes & Persona Arc', placeholder: 'Stakes...' },
         { id: 'plotHooks', label: 'Plot Connection & Motives', placeholder: 'How they launch or start new adventures...' },
         { id: 'tags', label: 'Tags', placeholder: 'Tags...' },
       ]

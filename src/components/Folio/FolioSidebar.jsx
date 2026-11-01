@@ -34,7 +34,7 @@ import { useFolio } from '../../context/FolioContext';
  * Navigation items configuration for Persona Folio
  */
 const NAVIGATION_ITEMS = [
-  { id: 'identity', label: 'Identity', sublabel: 'Dossier & Bio', railLabel: 'IDENTITY', icon: User },
+  { id: 'identity', label: 'Identity', sublabel: 'Folio & Bio', railLabel: 'IDENTITY', icon: User },
   { id: 'core-stats', label: 'Core Stats', sublabel: 'Attributes & Vitals', railLabel: 'STATS', icon: Activity },
   { id: 'skills', label: 'Skills', sublabel: 'Trained Proficiencies', railLabel: 'SKILLS', icon: Award },
   { 
@@ -70,7 +70,7 @@ const NAVIGATION_ITEMS = [
   },
   { id: 'narrative', label: 'Narrative', sublabel: 'Background & Logs', railLabel: 'NARRATIVE', icon: BookOpen },
   { id: 'media', label: 'Visuals', sublabel: 'Portraits, Tokens & Imagery', railLabel: 'VISUALS', icon: Camera },
-  { id: 'other', label: 'Notes', sublabel: 'Dossier Scratchpad', railLabel: 'NOTES', icon: FileText }
+  { id: 'other', label: 'Notes', sublabel: 'Folio Scratchpad', railLabel: 'NOTES', icon: FileText }
 ];
 
 export const FolioSidebar = ({ 
@@ -201,10 +201,10 @@ export const FolioSidebar = ({
           >
             <div className="flex items-center gap-1.5 min-w-0">
               <span className="font-mono text-[10px] font-extrabold text-cyan-400 uppercase tracking-widest truncate">
-                FOLIO
+                PERSONA
               </span>
               <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold">
-                DOSSIER
+                FOLIO
               </span>
             </div>
             <div className="flex items-center gap-1 shrink-0">
@@ -278,7 +278,7 @@ export const FolioSidebar = ({
                 </span>
               </div>
               <span className="text-[9px] text-slate-400 truncate font-mono leading-tight mt-0.5">
-                Dossier Profile
+                Folio Profile
               </span>
             </div>
           </button>

@@ -22,18 +22,18 @@ const CONTENT = {
   overview: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Persona Folio</strong> is the official digital persona sheet manager for Tangent Science Fantasy Roleplay. 
+        The <strong className="text-cyan-300 font-mono">Persona Folio</strong> is the official digital persona folio manager for Tangent Science Fantasy Roleplay. 
         It integrates biological lineage accounting, point-buy economy calculation, live derived vitals, combat loadout tracking, and an extensive 31-field narrative story writer.
       </p>
       <div className="bg-slate-800/60 border border-cyan-500/30 rounded-xl p-4 space-y-2">
         <h4 className="text-cyan-400 font-bold uppercase text-xs font-mono tracking-wider">Quick Start Workflow</h4>
         <ol className="list-decimal pl-4 space-y-1.5 text-xs text-slate-300">
           <li><strong>Sign in with Google:</strong> Enables instant Firestore cloud synchronization and cross-device roster access.</li>
-          <li><strong>Launch Guided Creator:</strong> Click <strong className="text-amber-300">🧙 Guided Creator</strong> for an 8-step character generation wizard, or edit tabs manually.</li>
-          <li><strong>Tune CP Budget:</strong> Spend your <strong className="text-cyan-300">150 Character Points (CP)</strong> across Core Attributes, Skills, and Abilities.</li>
+          <li><strong>Launch Guided Creator:</strong> Click <strong className="text-amber-300">🧙 Guided Creator</strong> for an 8-step persona generation wizard, or edit tabs manually.</li>
+          <li><strong>Tune CP Budget:</strong> Spend your <strong className="text-cyan-300">150 Creation Points (CP)</strong> across Core Attributes, Skills, and Abilities.</li>
           <li><strong>Equip Combat Gear:</strong> Add weaponry, kinetic/energy armor suits, and inventory gear.</li>
           <li><strong>Flesh out Backstory:</strong> Use the 31-field Narrative editor with <strong className="text-purple-300">🤖 Bastion AI</strong> to draft deep lore.</li>
-          <li><strong>Save &amp; Share:</strong> Use <strong className="text-emerald-300">File → Save to Cloud</strong>, or toggle Public Sharing to distribute your character URL.</li>
+          <li><strong>Save &amp; Share:</strong> Use <strong className="text-emerald-300">File → Save to Cloud</strong>, or toggle Public Sharing to distribute your persona URL.</li>
         </ol>
       </div>
       <div className="bg-amber-950/40 border border-amber-500/40 rounded-xl p-4 space-y-1">
@@ -41,7 +41,7 @@ const CONTENT = {
           ⚠️ CP Legality Enforcement
         </h4>
         <p className="text-xs text-slate-300">
-          All character build choices draw from your <strong className="text-cyan-300 font-mono">150 CP Budget</strong>. 
+          All persona build choices draw from your <strong className="text-cyan-300 font-mono">150 CP Budget</strong>. 
           Exceeding budget triggers a pulsating red <span className="text-red-400 font-bold font-mono">ILLEGAL BUILD</span> alert. Click the CP meter to inspect line-item costs.
         </p>
       </div>
@@ -62,7 +62,7 @@ const CONTENT = {
           { step: '5. Core Attributes', desc: 'Distribute points across STR, AGI, STA, INT, WIS, CHA with real-time CP budget deduction.' },
           { step: '6. Technology Level (TL)', desc: 'Set starting gear tier from TL3 (Modern) to TL7 (High Cybernetic / Meta-Tech).' },
           { step: '7. Skills & Features', desc: 'Allocate background proficiencies, special talents, and optional flaws for CP rebates.' },
-          { step: '8. Review & Finalize', desc: 'Inspect full character sheet preview and commit directly to your active roster.' },
+          { step: '8. Review & Finalize', desc: 'Inspect full persona folio preview and commit directly to your active roster.' },
         ].map(s => (
           <div key={s.step} className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
             <div className="font-bold text-amber-300 font-mono uppercase mb-1">{s.step}</div>
@@ -76,15 +76,15 @@ const CONTENT = {
   cp: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Character Points (CP)</strong> and <strong className="text-emerald-400 font-mono">Award Points (AP)</strong> form the unified mathematical currency for character balance and organic progression in Tangent SFF RP.
+        <strong className="text-cyan-300 font-mono">Creation Points (CP)</strong> and <strong className="text-emerald-400 font-mono">Award Points (AP)</strong> form the unified mathematical currency for persona balance and organic progression in Tangent SFF RP.
       </p>
 
       {/* Starting Budget vs AP */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         <div className="bg-slate-800/60 border border-cyan-500/30 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-cyan-300 font-mono uppercase">1. Character Creation (150 CP)</div>
+          <div className="font-bold text-cyan-300 font-mono uppercase">1. Persona Creation (150 CP)</div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            All personas start with 150 Character Points to purchase Attributes (5 CP), Skills (1 CP), Features (3 CP), and Vitals (1 CP per 5). Flaws provide CP refunds.
+            All personas start with 150 Creation Points to purchase Attributes (5 CP), Skills (1 CP), Features (3 CP), and Vitals (1 CP per 5). Flaws provide CP refunds.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ const CONTENT = {
             { item: 'Chapter Completion', award: '5 to 10 AP', desc: 'Awarded at major story milestones and narrative downtime.' },
             { item: 'Overcoming Goal / Villain / Plot', award: '1 to 3 AP', desc: 'Overcoming significant obstacles or defeating powerful nemeses.' },
             { item: 'Focused on Game / Tactical Play', award: '0 to 2 AP', desc: 'Engaging with game mechanics, combat strategy, and team tactics.' },
-            { item: 'Roleplaying in Character', award: '0 to 2 AP', desc: 'Embodying personality, backstory development, and deep roleplay.' },
+            { item: 'Roleplaying in Persona', award: '0 to 2 AP', desc: 'Embodying personality, backstory development, and deep roleplay.' },
             { item: 'Standard Session Pacing', award: '1 to 3 AP', desc: 'Typical award per game session based on pacing/achievements.' },
             { item: 'Epic Actions & Stumping Architect', award: '1 to 5 AP', desc: 'Ad hoc Architect award for unexpected genius turning the tide of battle.' },
             { item: 'Experience Debt (Revivification)', award: '-5 AP Debt', desc: 'Trauma debt from dying, paid off 1-for-1 from future AP awards.' },
@@ -140,7 +140,7 @@ const CONTENT = {
       </p>
       <div className="space-y-2.5">
         {[
-          { label: 'Character Name & Alias', desc: 'Persona handle and full name displayed across the system header and roster.' },
+          { label: 'Persona Name & Alias', desc: 'Persona handle and full name displayed across the system header and roster.' },
           { label: 'Species & Lineage', desc: 'Select from canon species (Human, Synthetic, Kitin, Saurian, Eldritch, etc.). Automatically imports trait modifiers.' },
           { label: 'Origin & Faction', desc: 'Your persona\'s cultural background, allegiance, and starting mechanical perks.' },
           { label: 'Augmentations & Cyberware', desc: 'Installed neural links, subdermal armor plates, and cybernetic limbs with tier accounting.' },
@@ -158,7 +158,7 @@ const CONTENT = {
   'core-stats': (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Core Attributes</strong> represent a character's natural talents and modify all linked skill checks. Attribute scores cost <strong className="text-amber-300 font-mono">5 CP per +1 point</strong> (0 human average baseline, maximum +4 during creation before species/aug modifiers; upper tier is 5 + species modifier for paragons). Characters completely lacking an attribute can take the <strong className="text-red-400 font-mono">Non-Attribute Flaw (-25 CP)</strong>, automatically failing all checks for that stat.
+        <strong className="text-cyan-300 font-mono">Core Attributes</strong> represent a persona's natural talents and modify all linked skill checks. Attribute scores cost <strong className="text-amber-300 font-mono">5 CP per +1 point</strong> (0 human average baseline, maximum +4 during creation before species/aug modifiers; upper tier is 5 + species modifier for paragons). Personas completely lacking an attribute can take the <strong className="text-red-400 font-mono">Non-Attribute Flaw (-25 CP)</strong>, automatically failing all checks for that stat.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         {[
@@ -205,7 +205,7 @@ const CONTENT = {
             <div className="font-bold text-purple-300 font-mono text-[11px]">Targeted vs Opposed Challenges</div>
             <div className="text-slate-400 text-[10px]">
               <strong>Targeted:</strong> Beat the Architect's Challenge Rating (CR).<br/>
-              <strong>Opposed:</strong> Direct roll contest between characters (e.g. arm wrestling, battle of wills, social debate). Highest total wins.
+              <strong>Opposed:</strong> Direct roll contest between personas (e.g. arm wrestling, battle of wills, social debate). Highest total wins.
             </div>
           </div>
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
@@ -358,7 +358,7 @@ const CONTENT = {
   media: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Visuals & Token Studio</strong> page provides a dedicated asset manager for character portraits, tactical VTT tokens, full-body standees, and reference artwork.
+        The <strong className="text-cyan-300 font-mono">Visuals & Token Studio</strong> page provides a dedicated asset manager for persona portraits, tactical VTT tokens, full-body standees, and reference artwork.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
         <div className="p-3 bg-slate-900 border border-cyan-500/40 rounded-xl space-y-1">
@@ -392,20 +392,20 @@ const CONTENT = {
   roster: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-cyan-300 font-mono">Roster</strong> enables persona management, cross-device cloud persistence, and public character sharing:
+        The <strong className="text-cyan-300 font-mono">Roster</strong> enables persona management, cross-device cloud persistence, and public persona sharing:
       </p>
       <div className="space-y-2 text-xs">
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
           <div className="font-bold text-cyan-300 font-mono uppercase mb-0.5">☁️ Cloud Save & Sync</div>
-          <p className="text-slate-400 text-[11px]">Syncs your characters securely to your authenticated account in Google Cloud Firestore.</p>
+          <p className="text-slate-400 text-[11px]">Syncs your personas securely to your authenticated account in Google Cloud Firestore.</p>
         </div>
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
           <div className="font-bold text-emerald-300 font-mono uppercase mb-0.5">🔗 Public Read-Only Share Links</div>
-          <p className="text-slate-400 text-[11px]">Toggle public sharing to generate a secure shareable link for other players and GMs to inspect or clone your character.</p>
+          <p className="text-slate-400 text-[11px]">Toggle public sharing to generate a secure shareable link for other players and GMs to inspect or clone your persona.</p>
         </div>
         <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
           <div className="font-bold text-amber-300 font-mono uppercase mb-0.5">💾 JSON Export & Import</div>
-          <p className="text-slate-400 text-[11px]">Download standalone character JSON backup files or import third-party character sheets.</p>
+          <p className="text-slate-400 text-[11px]">Download standalone persona JSON backup files or import third-party persona folios.</p>
         </div>
       </div>
     </div>
@@ -414,7 +414,7 @@ const CONTENT = {
   print: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        Click <strong className="text-cyan-300 font-mono">🖨️ Print Folio</strong> in the Folio header to render a clean, high-resolution physical tabletop character sheet formatted for standard letter/A4 paper and PDF printing.
+        Click <strong className="text-cyan-300 font-mono">🖨️ Print Folio</strong> in the Folio header to render a clean, high-resolution physical tabletop persona folio formatted for standard letter/A4 paper and PDF printing.
       </p>
     </div>
   ),
@@ -445,7 +445,7 @@ export const FolioGuideModal = ({ isOpen, onClose }) => {
                 PERSONA FOLIO
               </div>
               <div className="text-sm font-bold text-white uppercase font-mono">
-                Persona Sheet User Guide &amp; Rules
+                Persona Folio User Guide &amp; Rules
               </div>
             </div>
           </div>

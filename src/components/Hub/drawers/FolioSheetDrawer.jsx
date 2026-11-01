@@ -30,10 +30,10 @@ export const FolioSheetDrawer = ({ onClose, onOpenRoster }) => {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-                PERSONA FOLIO OPERATOR SHEET
+                PERSONA FOLIO OPERATOR WORKSPACE
               </h2>
               <span className="px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-mono font-bold">
-                INTERACTIVE SHEET
+                INTERACTIVE FOLIO
               </span>
             </div>
             <p className="text-[10px] text-slate-400 font-mono">

@@ -160,9 +160,9 @@ export const AugmentationsManager = ({
         cost_bp: 3,
         cost_cp: 3,
         cp: 3,
-        description: 'The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.',
+        description: 'The persona has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.',
         benefit: 'You are compatible with Standard Augmentations.',
-        special: 'Upon taking this feature, you gain a "credit" of 6 Character Points (CP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.'
+        special: 'Upon taking this feature, you gain a "credit" of 6 Creation Points (CP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with CP or Credits.'
       },
       heavy: {
         id: 'special-heavy-augmentations',
@@ -173,7 +173,7 @@ export const AugmentationsManager = ({
         cost_cp: 3,
         cp: 3,
         prerequisites: 'Augmented, Stamina 2',
-        description: 'The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.',
+        description: 'The persona has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.',
         benefit: 'You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 CP worth of Augmentations.',
         special: 'Grants an additional 6 CP worth of Augmentations for free (+12 CP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.'
       },
@@ -186,7 +186,7 @@ export const AugmentationsManager = ({
         cost_cp: 3,
         cp: 3,
         prerequisites: 'Heavy Augmentations, Stamina 4',
-        description: 'The character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.',
+        description: 'The persona is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.',
         benefit: 'You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 CP worth of Augmentations.',
         special: 'Grants an additional 6 CP worth of Augmentations for free (+18 CP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.'
       }

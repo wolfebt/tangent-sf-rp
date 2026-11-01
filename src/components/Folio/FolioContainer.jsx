@@ -352,7 +352,7 @@ const FolioContainer = () => {
 
     if (viewMode === 'play') {
       crumbs.push({
-        label: 'Tactical VTT Sheet',
+        label: 'Tactical VTT Folio',
         active: true,
         color: 'text-amber-400',
         badge: 'LIVE'
@@ -383,8 +383,8 @@ const FolioContainer = () => {
       'property-vehicles': { parent: 'property', parentLabel: 'Property', label: 'Vehicles & Starships' },
       'property-wealth': { parent: 'property', parentLabel: 'Property', label: 'Finances & Wealth' },
       'narrative': { parent: null, label: 'Narrative & Background' },
-      'media': { parent: null, label: 'Visual Dossier & Media' },
-      'visuals': { parent: null, label: 'Visual Dossier & Media' },
+      'media': { parent: null, label: 'Visual Folio & Media' },
+      'visuals': { parent: null, label: 'Visual Folio & Media' },
       'other': { parent: null, label: 'Notes & Log' }
     };
 
@@ -417,14 +417,14 @@ const FolioContainer = () => {
       setToast({
         type: 'success',
         title: 'Persona Folio Saved',
-        message: `Dossier "${charName}" saved to Roster and Cloud Storage.`
+        message: `Folio "${charName}" saved to Roster and Cloud Storage.`
       });
     }
   }, [saveCurrentToRoster, characterData]);
 
   const handleDeleteCurrentCharacter = useCallback(async () => {
     const charName = characterData['char-name'] || 'Unnamed Persona';
-    if (!(await confirmTypedDeletion(charName, 'persona sheet'))) return;
+    if (!(await confirmTypedDeletion(charName, 'persona folio'))) return;
     const activeDocId = characterData['character-doc-id'] || characterData.id;
     deleteRosterCharacter(activeDocId || characterData);
     setIsDeleteConfirmOpen(false);
@@ -1048,7 +1048,7 @@ const FolioContainer = () => {
             <div className="flex items-center gap-2">
               <span className="text-base animate-pulse">🌐</span>
               <span>
-                <strong>PUBLIC READ-ONLY VIEW:</strong> Persona Sheet by <strong className="text-amber-400">{characterData.authorHandle || characterData['char-name'] || 'Community Creator'}</strong>.
+                <strong>PUBLIC READ-ONLY VIEW:</strong> Persona Folio by <strong className="text-amber-400">{characterData.authorHandle || characterData['char-name'] || 'Community Creator'}</strong>.
               </span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -1063,7 +1063,7 @@ const FolioContainer = () => {
         )}
 
         {/* Over-Budget Alert Banner */}
-        {isCharacterSelected && (() => {
+        {isCharacterSelected && activeTab !== 'catalog' && (() => {
           const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
           const spentCP = computeSpentCP();
           const remainingCP = startingCP - spentCP;
@@ -1081,11 +1081,11 @@ const FolioContainer = () => {
                       CP OVER BUDGET ALERT: -{Math.abs(remainingCP)} CP DEFICIT
                     </span>
                     <span className="px-1.5 py-0.5 text-[9px] bg-red-900 border border-red-400 text-red-100 rounded font-mono font-bold uppercase tracking-wider">
-                      Sheet Illegal
+                      Folio Illegal
                     </span>
                   </div>
                   <span className="text-[11px] text-red-200/90">
-                    Character point expenditure ({spentCP} CP) exceeds the starting budget of {startingCP} CP.
+                    Persona point expenditure ({spentCP} CP) exceeds the starting budget of {startingCP} CP.
                   </span>
                 </div>
               </div>
@@ -1267,15 +1267,15 @@ const FolioContainer = () => {
           setIsConfirmOpen(false);
           await handleCreateNewBlankCharacter({ saveCurrent: false });
         }}
-        title="Reset Persona Sheet"
-        message="Are you sure you want to start a new character? Unsaved changes will be cleared."
+        title="Reset Persona Folio"
+        message="Are you sure you want to start a new persona? Unsaved changes will be cleared."
       />
       <ConfirmationModal
         isOpen={isDeleteConfirmOpen}
         onClose={() => setIsDeleteConfirmOpen(false)}
         onConfirm={handleDeleteCurrentCharacter}
         title="Delete Persona"
-        message={`Are you sure you want to permanently delete character "${characterData['char-name'] || 'Unnamed Persona'}" from your roster and clear this sheet?`}
+        message={`Are you sure you want to permanently delete persona "${characterData['char-name'] || 'Unnamed Persona'}" from your roster and clear this folio?`}
       />
 
       {/* Code-Split Heavy Modals & Drawers */}

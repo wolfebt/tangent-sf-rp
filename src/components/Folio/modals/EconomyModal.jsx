@@ -166,7 +166,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-3 shrink-0">
           <div className="flex items-center gap-3">
             <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
-              <span>💎</span> Character Point &amp; Award Point Economy
+              <span>💎</span> Creation Point &amp; Award Point Economy
             </h3>
             {isOver && (
               <span className="px-2 py-0.5 bg-red-950 text-red-300 border border-red-500/80 rounded text-[10px] font-mono font-bold uppercase tracking-wider animate-pulse">
@@ -193,12 +193,12 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                   OVER BUDGET ALERT (-{Math.abs(remainingCP)} CP DEFICIT)
                 </span>
                 <span className="text-[11px] text-red-200/90">
-                  Character point expenditure ({spentCP} CP) exceeds effective budget ({totalBudget} CP = {startingCP} CP + {earnedAP} AP).
+                  Persona point expenditure ({spentCP} CP) exceeds effective budget ({totalBudget} CP = {startingCP} CP + {earnedAP} AP).
                 </span>
               </div>
             </div>
             <span className="px-2 py-1 bg-red-900/90 border border-red-400 text-red-100 rounded text-[10px] font-mono font-bold uppercase tracking-wider shrink-0">
-              Illegal Sheet
+              Illegal Folio
             </span>
           </div>
         )}
@@ -215,7 +215,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
               value={startingCP}
               onChange={(e) => updateField('starting-cp', parseInt(e.target.value, 10) || 0)}
               className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded text-center py-1 text-sm font-mono font-bold text-cyan-300 outline-none"
-              title="Base character creation Character Points (Standard 150 CP default)"
+              title="Base persona creation Creation Points (Standard 150 CP default)"
             />
             {/* Quick Campaign Tier Presets */}
             <div className="flex items-center justify-center gap-1 mt-1.5 flex-wrap">
@@ -317,7 +317,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 <span>⚠️</span> The Increment Rule (CRITICAL CANON RULE)
               </div>
               <p className="text-[11.5px] text-slate-300 leading-relaxed">
-                <strong>Exchange Rate:</strong> 1 Advancement Point (AP) = 1 Character Point (CP). Points are spent exactly like CP during creation, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY have a 1-point increment of any score per advancement award event</strong>. A player cannot dump 10 AP into a single skill instantly.
+                <strong>Exchange Rate:</strong> 1 Advancement Point (AP) = 1 Creation Point (CP). Points are spent exactly like CP during creation, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY have a 1-point increment of any score per advancement award event</strong>. A player cannot dump 10 AP into a single skill instantly.
               </p>
             </div>
 
@@ -397,7 +397,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleApplyPreset('session', 1, 'Exceptional In-Character Roleplay Interaction')}
+                    onClick={() => handleApplyPreset('session', 1, 'Exceptional In-Persona Roleplay Interaction')}
                     className="px-2 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700/50 rounded text-[11px] text-emerald-300 font-mono cursor-pointer transition-colors"
                   >
                     🎭 Roleplaying (+1 AP)

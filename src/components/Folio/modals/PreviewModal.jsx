@@ -19,7 +19,7 @@ const PreviewModal = ({ isOpen, onClose, characterData }) => {
               Persona Folio Print Preview (4 Pages)
             </h3>
             <p className="text-xs text-slate-400 mt-0.5">
-              Exact alignment with Tangent Persona Folio 1, 2, 3, & 4 character sheets
+              Exact alignment with Tangent Persona Folio 1, 2, 3, & 4 persona folios
             </p>
           </div>
 

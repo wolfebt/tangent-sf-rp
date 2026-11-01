@@ -27,7 +27,7 @@ export default function FolioImageCropModal({
   onClose,
   initialSlot = 'portrait',
   onSave,
-  characterName = 'Character'
+  characterName = 'Persona'
 }) {
   const [selectedSlot, setSelectedSlot] = useState(initialSlot);
   const [imageSrc, setImageSrc] = useState(null);

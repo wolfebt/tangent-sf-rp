@@ -1677,7 +1677,7 @@ export const TacticalPlayView = ({
               {isPreview && (
                 <span 
                   className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950/80 border border-cyan-500/60 text-cyan-300 flex items-center gap-1 shadow-sm"
-                  title="Live tactical sheet for VTT engagement and action checks."
+                  title="Live tactical folio for VTT engagement and action checks."
                 >
                   <Crosshair size={10} className="text-cyan-400" /> LIVE TACTICAL
                 </span>
@@ -1689,7 +1689,7 @@ export const TacticalPlayView = ({
               </p>
               {isPreview && (
                 <span className="hidden sm:inline text-[10.5px] font-mono text-cyan-400/80">
-                  &bull; Live Tactical Sheet (VTT Ready)
+                  &bull; Live Tactical Folio (VTT Ready)
                 </span>
               )}
             </div>
@@ -3384,7 +3384,7 @@ export const TacticalPlayView = ({
 
                   {trainedSkillsByGroup.length === 0 ? (
                     <div className="p-4 text-center text-xs font-mono text-slate-500 bg-slate-950/40 rounded-lg border border-slate-800/50">
-                      No trained skill ranks allocated on this persona sheet.
+                      No trained skill ranks allocated on this persona folio.
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -3542,7 +3542,7 @@ export const TacticalPlayView = ({
                       if (propertyCatalog.categories.length === 0) {
                         return (
                           <div className="p-4 text-center text-xs font-mono text-slate-500 bg-slate-950/40 rounded-lg border border-slate-800/50">
-                            No property or equipment currently recorded on this persona sheet.
+                            No property or equipment currently recorded on this persona folio.
                           </div>
                         );
                       }

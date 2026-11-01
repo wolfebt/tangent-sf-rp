@@ -30,7 +30,7 @@ const KARMA_ACTIONS = [
     timing: 'Anytime while afflicted with a temporary condition',
     scope: 'Temporary conditions with severity stages (Poisoned, Stunned, Blinded, etc.)',
     summary: 'Reduce condition severity by one stage (e.g., Major to Minor).',
-    description: 'This Karma Point expenditure option allows characters to reduce the severity of temporary conditions affecting them. Many conditions have severity levels (Minor, Major, Critical). Spending a Karma Point allows the character to reduce the condition\'s severity by one stage. For example, a character suffering from Major Poisoning could reduce it to Minor Poisoning.',
+    description: 'This Karma Point expenditure option allows personas to reduce the severity of temporary conditions affecting them. Many conditions have severity levels (Minor, Major, Critical). Spending a Karma Point allows the persona to reduce the condition\'s severity by one stage. For example, a persona suffering from Major Poisoning could reduce it to Minor Poisoning.',
     tag: 'Condition Relief',
     color: 'cyan'
   },
@@ -41,7 +41,7 @@ const KARMA_ACTIONS = [
     timing: '1 minute out of immediate combat / quiet focus',
     scope: 'Refreshes limited-use daily abilities, traits, or features without a Light Rest',
     summary: 'Bypasses the need for a Light Rest; instantly refreshes spent daily powers.',
-    description: 'This Karma Point expenditure option allows a character to quickly refresh their abilities and resources, bypassing the need for a Light Rest. A Light Rest is a downtime period to recover spent abilities. "Second Wind" allows a character to achieve the same benefits without needing to take a Light Rest. Requires spending 1 full minute focusing on inner reserves and willpower to push through fatigue.',
+    description: 'This Karma Point expenditure option allows a persona to quickly refresh their abilities and resources, bypassing the need for a Light Rest. A Light Rest is a downtime period to recover spent abilities. "Second Wind" allows a persona to achieve the same benefits without needing to take a Light Rest. Requires spending 1 full minute focusing on inner reserves and willpower to push through fatigue.',
     tag: 'Instant Recovery',
     color: 'blue'
   },
@@ -52,7 +52,7 @@ const KARMA_ACTIONS = [
     timing: 'Declare SIMULTANEOUSLY with metaphysical check',
     scope: 'Metaphysics users (Arcane, Psi, Supernatural forces)',
     summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feature.',
-    description: 'This Karma Point expenditure option interacts with a character\'s metaphysical abilities, enhancing their power or enabling special feats. Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feature or boost the effectiveness/range/duration of a metaphysical skill check. The expenditure must be declared along with the use of the skill or feature, not after the roll is made.',
+    description: 'This Karma Point expenditure option interacts with a persona\'s metaphysical abilities, enhancing their power or enabling special feats. Available to personas with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feature or boost the effectiveness/range/duration of a metaphysical skill check. The expenditure must be declared along with the use of the skill or feature, not after the roll is made.',
     tag: 'Metaphysics Boost',
     color: 'purple'
   },
@@ -63,7 +63,7 @@ const KARMA_ACTIONS = [
     timing: 'Action declaration; requires Architect judgment & approval',
     scope: 'Pushing boundaries, rule nudges, emulating basic features for a scene',
     summary: 'Attempt extraordinary or theoretically possible actions beyond normal capabilities.',
-    description: 'This is a unique Karma Point expenditure, allowing characters to attempt actions that push the boundaries of their normal capabilities. The core is the Architect\'s judgment. The action must be something not explicitly covered by the character\'s skills or abilities, but theoretically achievable with extreme effort, luck, or narrative justification. Could involve a nudge of a rule for one action, emulation of a basic feature for the scene, and similar low-end temporary game tweaks for character agency. Even with Karma spent, success is not guaranteed; Architect may call for a check or challenge.',
+    description: 'This is a unique Karma Point expenditure, allowing personas to attempt actions that push the boundaries of their normal capabilities. The core is the Architect\'s judgment. The action must be something not explicitly covered by the persona\'s skills or abilities, but theoretically achievable with extreme effort, luck, or narrative justification. Could involve a nudge of a rule for one action, emulation of a basic feature for the scene, and similar low-end temporary game tweaks for persona agency. Even with Karma spent, success is not guaranteed; Architect may call for a check or challenge.',
     tag: 'Cinematic Agency',
     color: 'rose'
   }
@@ -185,7 +185,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-300 leading-snug">
                 <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-cyan-300">Default &amp; Starting Pool</div>
-                  <p className="text-[10.5px] text-slate-400">Characters have <strong>3 Karma Points</strong> by default as a tactical pool to bend fate, protect allies, or alter rolls.</p>
+                  <p className="text-[10.5px] text-slate-400">Personas have <strong>3 Karma Points</strong> by default as a tactical pool to bend fate, protect allies, or alter rolls.</p>
                 </div>
                 <div className="bg-slate-950/60 p-2 rounded-md border border-slate-800/80 space-y-0.5">
                   <div className="font-bold text-emerald-300">Session Reset (No Rest Recovery)</div>
@@ -306,7 +306,7 @@ const KarmaCodexModal = ({ isOpen, onClose, charismaScore = 0, currentKarma = 3,
               </div>
 
               <div className="bg-rose-950/30 border border-rose-900/50 rounded-md p-2 text-[10.5px] text-rose-200/90 leading-snug">
-                Negative Karma allows characters to push luck past 0 into <strong>"Karmic Debt"</strong>. Incurring debt is the player's choice, but applying consequences is at the Architect's discretion.
+                Negative Karma allows personas to push luck past 0 into <strong>"Karmic Debt"</strong>. Incurring debt is the player's choice, but applying consequences is at the Architect's discretion.
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">

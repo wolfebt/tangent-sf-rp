@@ -1268,7 +1268,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
           <div className="flex items-center gap-2">
             <BookOpen className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300">
-              {label} Reference Dossier & Specifications
+              {label} Reference Folio & Specifications
             </span>
             <span className="text-[10px] font-mono text-slate-500 hidden sm:inline">
               (Lore, Inherent Traits & System Specs)
@@ -1338,7 +1338,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
       },
       {
         id: 'dossier',
-        label: 'Dossier & Specs',
+        label: 'Folio & Specs',
         icon: '📖'
       }
     ];
@@ -2129,7 +2129,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                       className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-xs font-mono inline-flex items-center gap-1.5 transition-colors cursor-pointer border border-slate-700"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
-                      <span>View Species Dossier & Specs</span>
+                      <span>View Species Folio & Specs</span>
                     </button>
                   </div>
                 )}
@@ -2474,7 +2474,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                 <BookOpen className="w-8 h-8 text-slate-500 mx-auto" />
                 <h4 className="text-sm font-mono font-bold uppercase text-slate-300">No Species Selected</h4>
                 <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
-                  Select a species to view its physiological dossier, inherent traits, and component cost breakdown.
+                  Select a species to view its physiological folio, inherent traits, and component cost breakdown.
                 </p>
                 <button
                   type="button"
@@ -3342,7 +3342,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                 <span className="text-3xl block">🌍</span>
                 <h4 className="text-sm font-mono font-bold uppercase text-emerald-300">No Origin Selected</h4>
                 <p className="text-xs text-slate-400 max-w-md mx-auto font-sans">
-                  Select your character's homeworld or environment to configure society skills, cultural traits, and gravity adaptation.
+                  Select your persona's homeworld or environment to configure society skills, cultural traits, and gravity adaptation.
                 </p>
                 <button
                   type="button"
@@ -3925,7 +3925,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
               const keywordsList = selectedFaction.keywords ? String(selectedFaction.keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
               const negKeywordsList = selectedFaction.negative_keywords ? String(selectedFaction.negative_keywords).split(/[,;\n]+/).map(s => s.trim()).filter(Boolean) : [];
 
-              return renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Dossier', (
+              return renderConsolidatedDossier('faction', 'Faction Allegiance & Strategic Folio', (
                 <div className="space-y-3">
                   {/* Faction Recommended Cultural Pathways & Guidance Directives */}
                   {(recSpecies.length > 0 || recOrigins.length > 0 || recOccs.length > 0 || keywordsList.length > 0 || negKeywordsList.length > 0) && (
@@ -4127,10 +4127,10 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
       <div className="space-y-4">
         <FolioInput
           id="char-name"
-          label="Character Name"
+          label="Persona Name"
           value={characterData['char-name'] || ''}
           onChange={updateField}
-          placeholder="Enter Character Name..."
+          placeholder="Enter Persona Name..."
         />
 
         <FolioInput
@@ -4138,7 +4138,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
           label="Concept"
           value={characterData['char-concept'] || ''}
           onChange={updateField}
-          placeholder="Enter Character Concept..."
+          placeholder="Enter Persona Concept..."
         />
 
         <div className="grid grid-cols-2 gap-4">
@@ -4861,7 +4861,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
               {(inspectItem.item.description || inspectItem.item.body || inspectItem.item.summary) && (
                 <div className="space-y-1.5">
                   <h4 className="font-bold text-slate-200 uppercase tracking-wider text-[11px] text-cyan-400">
-                    Comprehensive Dossier & Lore
+                    Comprehensive Folio & Lore
                   </h4>
                   <div className="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 leading-relaxed whitespace-pre-line text-slate-300">
                     {inspectItem.item.description || inspectItem.item.body || inspectItem.item.summary}

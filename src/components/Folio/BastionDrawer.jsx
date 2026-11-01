@@ -37,7 +37,7 @@ const normalizeChipList = (val) => {
 
 const CHARACTER_FIELDS = [
   // Core Identity
-  { key: 'char-name', label: 'Character Name', category: 'Core Identity' },
+  { key: 'char-name', label: 'Persona Name', category: 'Core Identity' },
   { key: 'char-archetype', label: 'Archetype', category: 'Core Identity' },
   { key: 'char-species', label: 'Species', category: 'Core Identity' },
   { key: 'char-occu', label: 'Occupation / Role', category: 'Core Identity' },
@@ -48,7 +48,7 @@ const CHARACTER_FIELDS = [
 
   // Narrative 1: Profile & Identity (8 fields)
   { key: 'role', label: 'Role in Story', category: 'Profile & Identity' },
-  { key: 'char-concept', label: 'Character Archetype / Concept', category: 'Profile & Identity' },
+  { key: 'char-concept', label: 'Persona Archetype / Concept', category: 'Profile & Identity' },
   { key: 'summary', label: 'One-Sentence Summary', category: 'Profile & Identity' },
   { key: 'char-motive', label: 'Core Motivation', category: 'Profile & Identity' },
   { key: 'primaryConflict', label: 'Primary Conflict/Goal', category: 'Profile & Identity' },
@@ -81,7 +81,7 @@ const CHARACTER_FIELDS = [
   { key: 'theTruth', label: 'The Truth They Must Learn', category: 'Psychology & Metanarrative' },
   { key: 'deepestFear', label: 'Deepest Fear & Secret', category: 'Psychology & Metanarrative' },
   { key: 'goals', label: 'External Goal vs Internal Need', category: 'Psychology & Metanarrative' },
-  { key: 'stakes', label: 'Stakes & Character Arc', category: 'Psychology & Metanarrative' },
+  { key: 'stakes', label: 'Stakes & Persona Arc', category: 'Psychology & Metanarrative' },
   { key: 'plotHooks', label: 'Plot Connection & Motives', category: 'Psychology & Metanarrative' },
   { key: 'tags', label: 'Tags', category: 'Psychology & Metanarrative' }
 ];
@@ -99,7 +99,7 @@ const BASTION_CHAT_STORAGE_KEY = 'tangent_bastion_chat_history_v1';
 const DEFAULT_BASTION_GREETING = [
   {
     sender: 'bastion',
-    text: 'Greetings, OPERATOR. BASTION AI Assistant online across the platform. How can I assist with rules, Omnicortex lore, or your Tangent SFF RPG persona today? Type /character [concept] to synthesize a canonical 5-pillar character, /roll [dice] to roll dice (e.g. /roll 2d10+4), or /clear to reset our conversation.'
+    text: 'Greetings, OPERATOR. BASTION AI Assistant online across the platform. How can I assist with rules, Omnicortex lore, or your Tangent SFF RPG persona today? Type /persona [concept] to synthesize a canonical 5-pillar persona, /roll [dice] to roll dice (e.g. /roll 2d10+4), or /clear to reset our conversation.'
   }
 ];
 
@@ -383,7 +383,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       };
       const ok = await applyGuidedCharacter(finalPayload);
       if (ok) {
-        setGenStatus({ success: `Applied Staged Persona "${finalPayload['char-name']}" to active Folio sheet!` });
+        setGenStatus({ success: `Applied Staged Persona "${finalPayload['char-name']}" to active Persona Folio!` });
       }
     } catch (err) {
       setGenStatus({ error: `Apply error: ${err.message}` });
@@ -402,7 +402,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     try {
       localStorage.setItem('bastion_staged_draft', JSON.stringify(finalPayload));
       window.dispatchEvent(new CustomEvent('open-folio-guided-creator', { detail: finalPayload }));
-      setGenStatus({ success: 'Loaded Staged Persona into Guided Character Creator!' });
+      setGenStatus({ success: 'Loaded Staged Persona into Guided Persona Creator!' });
     } catch (e) {
       console.warn('Error saving staged draft to localStorage:', e);
     }
@@ -427,7 +427,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
   const handleSynthesizePersona = async () => {
     if (!genPrompt.trim()) {
-      setGenStatus({ error: 'Please enter a character concept or theme before synthesizing.' });
+      setGenStatus({ error: 'Please enter a persona concept or theme before synthesizing.' });
       return;
     }
     setIsGenerating(true);
@@ -443,7 +443,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
           success: `BASTION synthesized persona based on 5 Pillars: ${result.pillars.archetype.name} · ${result.pillars.species.name} · ${result.pillars.faction.name} · ${result.pillars.origin.name} · ${result.pillars.occupation.name}!`
         });
       } else {
-        setGenStatus({ error: result.error || 'Failed to synthesize character.' });
+        setGenStatus({ error: result.error || 'Failed to synthesize persona.' });
       }
     } catch (err) {
       setGenStatus({ error: err.message });
@@ -528,15 +528,18 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     // Check for /character command or character creation queries
     const lowerText = userText.toLowerCase();
     if (
+      lowerText.startsWith('/persona') ||
       lowerText.startsWith('/character') ||
       lowerText.startsWith('/char') ||
       lowerText.includes('create a character') ||
       lowerText.includes('create character') ||
       lowerText.includes('build a character') ||
       lowerText.includes('build an operative') ||
-      lowerText.includes('build a persona')
+      lowerText.includes('build a persona') ||
+      lowerText.includes('create a persona') ||
+      lowerText.includes('create persona')
     ) {
-      const promptQuery = userText.replace(/^\/(character|char)\s*/i, '').trim() || 'Tactical persona';
+      const promptQuery = userText.replace(/^\/(persona|character|char)\s*/i, '').trim() || 'Tactical persona';
       const synth = synthesizeCharacterWithBastion({
         prompt: promptQuery,
         techLevel: characterData?.['tech-level'] || 3
@@ -545,7 +548,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       if (synth.success) {
         const { pillars, character, allocationsReport } = synth;
         const replyText =
-          `🤖 **BASTION 5-PILLAR CHARACTER SUMMARY**\n` +
+          `🤖 **BASTION 5-PILLAR PERSONA SUMMARY**\n` +
           `• **1. Archetype**: ${pillars.archetype.name} (${pillars.archetype.sphere})\n` +
           `• **2. Species**: ${pillars.species.name}\n` +
           `• **3. Faction**: ${pillars.faction.name}\n` +
@@ -720,7 +723,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   const handleGenerate = async () => {
     let fieldsToGen = Object.keys(selectedFields).filter(k => selectedFields[k]);
     if (fieldsToGen.length === 0) {
-      setGenStatus({ error: 'Please select at least one character field to generate.' });
+      setGenStatus({ error: 'Please select at least one persona field to generate.' });
       return;
     }
 
@@ -733,7 +736,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     if (!overwriteMode) {
       const emptyFieldsOnly = fieldsToGen.filter(k => !hasFieldContent(k));
       if (emptyFieldsOnly.length === 0) {
-        setGenStatus({ error: 'All selected character fields already contain content! Enable "⚡ Allow Overwrite" mode to replace existing content, or select blank fields.' });
+        setGenStatus({ error: 'All selected persona fields already contain content! Enable "⚡ Allow Overwrite" mode to replace existing content, or select blank fields.' });
         return;
       }
       fieldsToGen = emptyFieldsOnly;
@@ -773,10 +776,10 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       });
 
       setGenStatus({
-        success: `BASTION updated character sheet fields: [${updatedKeys.map(k => CHARACTER_FIELDS.find(f => f.key === k)?.label || k).join(', ')}].`
+        success: `BASTION updated persona folio fields: [${updatedKeys.map(k => CHARACTER_FIELDS.find(f => f.key === k)?.label || k).join(', ')}].`
       });
     } else {
-      setGenStatus({ error: result.error || 'Character generation failed.' });
+      setGenStatus({ error: result.error || 'Persona generation failed.' });
     }
   };
 
@@ -1172,7 +1175,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         },
                         {
                           step: 5,
-                          label: '6. DOSSIER',
+                          label: '6. FOLIO',
                           sublabel: '5-Pillar Synthesis',
                           icon: FileText
                         }
@@ -1300,7 +1303,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                             setStagedPrompt(e.target.value);
                             setStagedArchetype(null);
                           }}
-                          placeholder="Enter character concept, tactical role, cybernetics, or background..."
+                          placeholder="Enter persona concept, tactical role, cybernetics, or background..."
                           className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2 rounded text-xs outline-none font-sans"
                         />
                       </div>
@@ -1965,7 +1968,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                           onClick={() => setStagedStep(5)}
                           className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
                         >
-                          <span>Synthesize Persona Dossier</span>
+                          <span>Synthesize Persona Folio</span>
                           <span>→</span>
                         </button>
                       </div>
@@ -2036,7 +2039,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
                         {/* Narrative Summary */}
                         <div className="space-y-1">
-                          <span className="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Backstory Dossier</span>
+                          <span className="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Backstory Folio</span>
                           <p className="text-[11px] text-slate-300 leading-relaxed max-h-28 overflow-y-auto bg-slate-900/60 p-2 rounded border border-slate-800 font-sans">
                             {stagedPersonaResult.character.backstory}
                           </p>
@@ -2110,7 +2113,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                       Canonical Pillars Workflow
                     </span>
                     <p className="text-[11px] text-slate-300 leading-relaxed">
-                      BASTION will evaluate your concept and ground the character strictly within the game database without fabricating content:
+                      BASTION will evaluate your concept and ground the persona strictly within the game database without fabricating content:
                     </p>
                     <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono">
                       <span className="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-600/60">1. Archetype</span>
@@ -2151,7 +2154,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   {/* Prompt Textarea */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                      BASTION Character Concept:
+                      BASTION Persona Concept:
                     </label>
                     <textarea
                       rows={3}
@@ -2248,7 +2251,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                         Overwrite Protection
                       </span>
                       <span className="text-[9px] text-slate-400">
-                        {overwriteMode ? 'Will replace existing character field text' : 'Safely fills blank fields only'}
+                        {overwriteMode ? 'Will replace existing persona field text' : 'Safely fills blank fields only'}
                       </span>
                     </div>
                     <button
@@ -2268,7 +2271,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <div className="bg-slate-900/90 border border-cyan-900/50 rounded-lg p-3">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1.5 mb-2 pb-2 border-b border-slate-800">
                       <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                        Select Character Fields to Generate:
+                        Select Persona Fields to Generate:
                       </span>
                       <div className="flex flex-wrap gap-1.5 text-[9px] font-bold uppercase">
                         <button type="button" onClick={selectAllFields} className="text-cyan-400 hover:text-cyan-300 underline">
@@ -2326,13 +2329,13 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   {/* Prompt Textarea */}
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                      BASTION Character Prompt:
+                      BASTION Persona Prompt:
                     </label>
                     <textarea
                       rows={3}
                       value={genPrompt}
                       onChange={(e) => setGenPrompt(e.target.value)}
-                      placeholder="Describe character archetype, cybernetics, origin, faction allegiance, or motivation..."
+                      placeholder="Describe persona archetype, cybernetics, origin, faction allegiance, or motivation..."
                       className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
                     />
                   </div>
@@ -2401,7 +2404,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <span className="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-600/60">5. Occupation</span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  Every selection grounds the character in the Cortex database without fabricating extraneous canon.
+                  Every selection grounds the persona in the Cortex database without fabricating extraneous canon.
                 </p>
               </div>
 
@@ -2427,7 +2430,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                 </p>
                 <div className="p-2 bg-slate-900 rounded border border-purple-800/50 font-mono text-[10px] text-purple-200">
                   <div className="text-amber-300 font-bold">Value (Cr) = 10 &times; 4<sup>(Crafting DC / 5)</sup></div>
-                  <div className="text-slate-400 text-[9px] mt-0.5">Cost is determined solely by final Crafting DC (modified by design aspects, sockets, and TL/ML). Exceeding character TL/ML generates railguard alerts.</div>
+                  <div className="text-slate-400 text-[9px] mt-0.5">Cost is determined solely by final Crafting DC (modified by design aspects, sockets, and TL/ML). Exceeding persona TL/ML generates railguard alerts.</div>
                 </div>
               </div>
 
@@ -2438,7 +2441,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                 </span>
                 <div className="space-y-1 text-[11px]">
                   <p className="text-emerald-300">
-                    <strong>Positive Keywords (+Weight):</strong> Match character concept and directives to earn BASTION synergy boosts and situational bonuses.
+                    <strong>Positive Keywords (+Weight):</strong> Match persona concept and directives to earn BASTION synergy boosts and situational bonuses.
                   </p>
                   <p className="text-red-300">
                     <strong>Negative Railguards (Exclusions):</strong> Prevent contraindicated weapon/armor combos, incompatible biology, or setting tier breaches.

@@ -108,7 +108,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
             <span className="text-slate-400 font-mono text-xs">OPERATOR CATALOG</span>
           </div>
           <h2 className="text-base sm:text-lg font-bold text-white font-mono uppercase tracking-wide mt-0.5">
-            Character Roster
+            Persona Roster
           </h2>
         </div>
 
@@ -138,7 +138,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
             }}
             className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-all flex items-center gap-1.5"
           >
-            <Plus size={14} /> New Sheet
+            <Plus size={14} /> New Folio
           </button>
 
           <button
@@ -238,7 +238,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               {!rosterSearch && (
                 <div className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg max-w-sm mx-auto text-left">
                   <p className="text-[11px] text-slate-400 font-mono">
-                    💡 <strong className="text-cyan-300">How to share:</strong> Switch to <span className="text-cyan-300 font-bold">My Operators</span> and toggle the <span className="text-amber-300 font-bold">Private/Public</span> badge on any character to make it available to other players.
+                    💡 <strong className="text-cyan-300">How to share:</strong> Switch to <span className="text-cyan-300 font-bold">My Operators</span> and toggle the <span className="text-amber-300 font-bold">Private/Public</span> badge on any persona to make it available to other players.
                   </p>
                 </div>
               )}
@@ -248,7 +248,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               <Users size={28} className="mx-auto text-slate-600 mb-2" />
               <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Operators Found</h4>
               <p className="text-xs text-slate-500 font-mono mt-1 mb-4">
-                {rosterSearch ? `No character sheets match "${rosterSearch}".` : 'Create your first operator persona to get started.'}
+                {rosterSearch ? `No persona folios match "${rosterSearch}".` : 'Create your first operator persona to get started.'}
               </p>
               <button
                 onClick={() => {
@@ -259,7 +259,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                 }}
                 className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
               >
-                <Plus size={13} /> Create Sheet
+                <Plus size={13} /> Create Folio
               </button>
             </div>
           )
@@ -318,7 +318,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                         {isLocked && (
                           <span
                             className="px-1.5 py-0.2 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[8.5px] font-mono font-bold flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)] shrink-0"
-                            title="Dossier Locked & Set for VTT"
+                            title="Folio Locked & Set for VTT"
                           >
                             <Lock size={9} className="text-cyan-400" />
                             <span>Locked</span>
@@ -423,7 +423,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                           onClick={() => handleOpenOperative(docId)}
                           className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-colors flex items-center gap-1 cursor-pointer"
                         >
-                          <span>Open Sheet</span>
+                          <span>Open Folio</span>
                           <ChevronRight size={12} />
                         </button>
                       </>

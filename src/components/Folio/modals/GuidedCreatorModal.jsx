@@ -919,7 +919,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         showToast({
           type: 'error',
           title: 'Deployment Failed',
-          message: 'Unable to save operator dossier to Folio. Please verify persona details and try again.'
+          message: 'Unable to save operator folio to Folio. Please verify persona details and try again.'
         });
       }
     } catch (err) {
@@ -1125,7 +1125,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         setChassisApplied(true);
       }
     }
-    setBastionNotice(`Loaded character draft "${data['char-name'] || 'Persona'}" from BASTION Staged Persona.`);
+    setBastionNotice(`Loaded persona draft "${data['char-name'] || 'Persona'}" from BASTION Staged Persona.`);
   };
 
   useEffect(() => {
@@ -1657,7 +1657,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     handleBastionAutoBuild();
                   }
                 }}
-                placeholder="Enter character concept or trope (e.g. 'covert stealth sniper', 'void privateer', 'combat trauma medic')..."
+                placeholder="Enter persona concept or trope (e.g. 'covert stealth sniper', 'void privateer', 'combat trauma medic')..."
                 className="flex-1 bg-slate-950/90 border border-slate-700 focus:border-cyan-400 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all shadow-inner"
               />
               <button
@@ -1747,7 +1747,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">Character Concept</label>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Persona Concept</label>
               <input 
                 type="text" value={draft['char-concept']} onChange={e => updateDraft('char-concept', e.target.value)}
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
@@ -2130,7 +2130,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
               <span>Species &amp; Transhuman Lineages</span>
             </h3>
             <p className="text-sm text-slate-400">
-              Select your character's species to establish inherent traits, attribute modifiers, setting compatibility, and biology.
+              Select your persona's species to establish inherent traits, attribute modifiers, setting compatibility, and biology.
             </p>
           </div>
 
@@ -3112,7 +3112,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             </div>
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Establish your character's technology and metaphysics setting tiers. Scores under 3 award <strong className="text-emerald-400">+10 CP per level difference</strong>. Increases over 3 cost <strong className="text-amber-400">10 CP per level</strong>.
+            Establish your persona's technology and metaphysics setting tiers. Scores under 3 award <strong className="text-emerald-400">+10 CP per level difference</strong>. Increases over 3 cost <strong className="text-amber-400">10 CP per level</strong>.
           </p>
 
           {/* Setting Tiers from Species & Faction Baseline Panel */}
@@ -3460,7 +3460,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             </div>
           </div>
           <p className="text-sm text-slate-400 mt-1">
-            Establish your character's physiological traits, homeworld adaptations, organizational benefits, and acquired perks. Free traits are granted by background pillars; additional traits cost <strong className="text-cyan-300">1 CP each</strong> and features cost <strong className="text-purple-300">3 CP each</strong>.
+            Establish your persona's physiological traits, homeworld adaptations, organizational benefits, and acquired perks. Free traits are granted by background pillars; additional traits cost <strong className="text-cyan-300">1 CP each</strong> and features cost <strong className="text-purple-300">3 CP each</strong>.
           </p>
         </div>
 
@@ -5124,13 +5124,13 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                         ))}
                       </div>
                       <p className="text-[10px] text-red-300/80">
-                        These negative keywords conflict with your current character concept, archetype, or traits. Review allocations to ensure lore consistency.
+                        These negative keywords conflict with your current persona concept, archetype, or traits. Review allocations to ensure lore consistency.
                       </p>
                     </div>
                   ) : (
                     <div className="p-2 bg-slate-950/60 rounded border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
                       <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />
-                      <span>Zero railguard conflicts detected. Character allocations respect all canonical boundaries and exclusions.</span>
+                      <span>Zero railguard conflicts detected. Persona allocations respect all canonical boundaries and exclusions.</span>
                     </div>
                   )}
                 </div>
@@ -5165,7 +5165,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           {/* Budget Display */}
           <div className="bg-slate-950 p-4 rounded-lg flex justify-between items-center border border-slate-800">
             <div>
-              <span className="font-bold text-slate-400 uppercase tracking-widest text-xs block">Remaining Character Points</span>
+              <span className="font-bold text-slate-400 uppercase tracking-widest text-xs block">Remaining Creation Points</span>
               <span className="text-[11px] text-slate-500">Starting Budget: 150 CP</span>
             </div>
             <span className={`text-2xl font-black font-mono ${bpRemaining < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
@@ -5369,7 +5369,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                     </h4>
                   </div>
                   <p className="text-slate-300">
-                    Characters in Tangent SFF RPG must be canonically synthesized through the 5-pillar sequence:
+                    Personas in Tangent SFF RPG must be canonically synthesized through the 5-pillar sequence:
                   </p>
                   <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
                     <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-600/60 font-bold">1. Concept &amp; Archetype</span>
@@ -5397,7 +5397,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono text-[11px]">
                     <div className="p-2 bg-slate-950 rounded border border-slate-800">
-                      <span className="text-amber-400 font-bold block">150 Character Points (CP):</span>
+                      <span className="text-amber-400 font-bold block">150 Creation Points (CP):</span>
                       <ul className="list-disc list-inside text-slate-400 space-y-0.5 mt-1">
                         <li>Raw Core Attributes: 5 CP per point</li>
                         <li>General Traits: 1 CP each</li>
@@ -5453,7 +5453,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                         <Tag size={12} /> Positive Keywords (+Weight)
                       </span>
                       <p className="text-slate-400">
-                        Open descriptors entered by operators or tagged canonically. When character concept matches positive keywords, BASTION awards synergy score boosts and operators gain situational competence.
+                        Open descriptors entered by operators or tagged canonically. When persona concept matches positive keywords, BASTION awards synergy score boosts and operators gain situational competence.
                       </p>
                     </div>
                     <div className="p-2 bg-slate-950 rounded border border-red-800/40 space-y-1">

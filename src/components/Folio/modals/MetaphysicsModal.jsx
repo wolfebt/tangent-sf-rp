@@ -903,7 +903,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                   Metaphysics, Invocations &amp; Special Abilities
                 </h2>
                 <p className="text-xs text-slate-400">
-                  Awakened Disciplines, 12 Core Focus Skills, Inherent Abilities &amp; Character Catalog
+                  Awakened Disciplines, 12 Core Focus Skills, Inherent Abilities &amp; Persona Catalog
                 </p>
               </div>
             </div>
@@ -1117,7 +1117,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
             }`}
           >
             <span>📋</span>
-            <span>Character's Catalog ({characterPowers.length} Active Powers)</span>
+            <span>Persona's Catalog ({characterPowers.length} Active Powers)</span>
           </button>
 
           <button
@@ -1295,7 +1295,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
             <div className="bg-slate-950/70 border border-purple-900/50 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3 shadow-inner">
               <div className="space-y-0.5">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-purple-300 flex items-center gap-2">
-                  <span>📋</span> Character Powers Catalog
+                  <span>📋</span> Persona Powers Catalog
                 </h3>
                 <p className="text-[11px] text-slate-400">
                   Comprehensive manifest of this persona's active reality invocations and inherent special traits.
@@ -1458,7 +1458,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                     type="text"
                     value={catalogSearch}
                     onChange={(e) => setCatalogSearch(e.target.value)}
-                    placeholder="Search character's powers..."
+                    placeholder="Search persona's powers..."
                     className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-8 pr-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-purple-500/50"
                   />
                   {catalogSearch && (
@@ -1486,7 +1486,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                 <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
                   {catalogSearch || catalogTypeFilter !== 'all' || catalogDisciplineFilter !== 'all'
                     ? 'Try adjusting your search criteria or resetting filters.'
-                    : 'This character has not acquired any codified Invocations or inherent Special Abilities. Browse the Omnicortex Catalog to learn canonical powers or construct custom traits.'}
+                    : 'This persona has not acquired any codified Invocations or inherent Special Abilities. Browse the Omnicortex Catalog to learn canonical powers or construct custom traits.'}
                 </p>
                 <div className="flex items-center justify-center gap-2 pt-2">
                   <button

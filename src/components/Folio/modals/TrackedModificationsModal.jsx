@@ -115,7 +115,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
               <ShieldCheck size={32} className="mx-auto text-cyan-400/60 mb-2" />
               <div className="text-sm font-bold text-slate-300">No Tracked Modifications</div>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
-                Your character has not logged any active game modifications. While in Operator Override, modifications to your sheet will be recorded here for Architect review.
+                Your persona has not logged any active game modifications. While in Operator Override, modifications to your folio will be recorded here for Architect review.
               </p>
             </div>
           ) : (
@@ -237,7 +237,7 @@ export const TrackedModificationsModal = ({ isOpen, onClose }) => {
         <div className="p-3 bg-[#0d121c] border-t border-slate-850 flex items-center justify-between text-[11px] text-slate-400 font-mono">
           <div className="flex items-center gap-1.5 text-cyan-300/80">
             <ShieldCheck size={14} className="text-cyan-400" />
-            <span>Persona Folio is strictly Operator property. Architect cannot directly edit or delete this sheet.</span>
+            <span>Persona Folio is strictly Operator property. Architect cannot directly edit or delete this folio.</span>
           </div>
 
           <button

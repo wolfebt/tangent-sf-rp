@@ -14,8 +14,8 @@ const ADVANCEMENT_COSTS = [
   {
     category: 'Setting Tiers & Tech/Meta Levels',
     items: [
-      { name: 'Tech Level (+1)', cost: '2 AP (10 CP)', increment: 'Max +1 per story milestone', desc: 'Advances the character’s personal technology tier (TL). Increases lowered base TL (TL0–2) or upgrades beyond standard TL3. Costs 10 CP / 2 AP per level.' },
-      { name: 'Meta Level (+1)', cost: '2 AP (10 CP)', increment: 'Max +1 per story milestone', desc: 'Advances the character’s metaphysical / magic tier (ML). Increases lowered base ML (ML0–2) or upgrades beyond standard ML3. Costs 10 CP / 2 AP per level.' }
+      { name: 'Tech Level (+1)', cost: '2 AP (10 CP)', increment: 'Max +1 per story milestone', desc: 'Advances the persona’s personal technology tier (TL). Increases lowered base TL (TL0–2) or upgrades beyond standard TL3. Costs 10 CP / 2 AP per level.' },
+      { name: 'Meta Level (+1)', cost: '2 AP (10 CP)', increment: 'Max +1 per story milestone', desc: 'Advances the persona’s metaphysical / magic tier (ML). Increases lowered base ML (ML0–2) or upgrades beyond standard TL3/ML3. Costs 10 CP / 2 AP per level.' }
     ]
   },
   {
@@ -58,7 +58,7 @@ const AWARD_GUIDELINES = [
     desc: 'Recognizes players who actively engage with the tactical mechanics, overcome combat obstacles, solve environmental puzzles, and support party strategy.'
   },
   {
-    title: 'In-Character Roleplaying',
+    title: 'In-Persona Roleplaying',
     badge: '0 – 2 AP',
     color: 'purple',
     icon: '🎭',
@@ -76,7 +76,7 @@ const AWARD_GUIDELINES = [
     badge: '5 – 10 AP',
     color: 'blue',
     icon: '🌌',
-    desc: 'Major story arc or chapter conclusions. Represents significant narrative progression and provides character downtime reflection.'
+    desc: 'Major story arc or chapter conclusions. Represents significant narrative progression and provides persona downtime reflection.'
   },
   {
     title: 'Epic Actions & Creative Ingenuity',
@@ -126,7 +126,7 @@ export const ExperienceCodexModal = ({
               </h2>
             </div>
             <p className="text-xs text-slate-400">
-              Canonical Tangent Science Fantasy Roleplay Character Advancement System
+              Canonical Tangent Science Fantasy Roleplay Persona Advancement System
             </p>
           </div>
           
@@ -232,7 +232,7 @@ export const ExperienceCodexModal = ({
                   A player cannot dump multiple Advancement Points into a single skill or trait in a single transaction.
                 </p>
                 <div className="p-2.5 rounded bg-black/40 border border-amber-500/30 text-[11px] font-mono text-amber-200/90">
-                  Example: If granted 3 AP after a chapter, a character can increase Technology (+1), Stealth (+1), and buy a Specialization (+1), but CANNOT increase Technology by +3 all at once.
+                  Example: If granted 3 AP after a chapter, a persona can increase Technology (+1), Stealth (+1), and buy a Specialization (+1), but CANNOT increase Technology by +3 all at once.
                 </div>
               </div>
 
@@ -242,7 +242,7 @@ export const ExperienceCodexModal = ({
                     <span>⚖️</span> 1 AP = 1 CP Direct Exchange
                   </h4>
                   <p className="text-slate-400 text-xs">
-                    Advancement Points (AP) represent the experiential growth earned by characters in active play. They function identically to Character Points (CP) from character creation, on a direct 1-for-1 basis.
+                    Advancement Points (AP) represent the experiential growth earned by personas in active play. They function identically to Creation Points (CP) from persona creation, on a direct 1-for-1 basis.
                   </p>
                 </div>
 
@@ -340,7 +340,7 @@ export const ExperienceCodexModal = ({
                   <span>The High Cost of Dying: Revivification Trauma</span>
                 </div>
                 <p className="text-rose-100/90 text-xs leading-relaxed">
-                  A character who survives Death's Door through emergency revivification or miraculous medical intervention suffers intense biological and psychological shock.
+                  A persona who survives Death's Door through emergency revivification or miraculous medical intervention suffers intense biological and psychological shock.
                   Canonically, revivification imposes an immediate <strong>-5 AP Debt</strong> penalty and causes the complete loss of all current Karma.
                 </p>
               </div>

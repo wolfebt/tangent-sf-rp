@@ -951,7 +951,7 @@ const CoreStatsTab = () => {
                     title="Plot Points"
                     badge="Narrative Influence"
                     badgeColor="purple"
-                    description="Heroic tokens awarded for dramatic roleplay and character milestones. Spend to introduce creative plot elements, serendipitous items, or ally interventions."
+                    description="Heroic tokens awarded for dramatic roleplay and persona milestones. Spend to introduce creative plot elements, serendipitous items, or ally interventions."
                     formula={`Tokens: ${plotPoints}`}
                     tags={['Narrative', 'Twists', 'Story']}
                   >
@@ -1038,7 +1038,7 @@ const CoreStatsTab = () => {
                   title="Total Essence Capacity"
                   badge="Total Pool"
                   badgeColor="purple"
-                  description="Total metaphysical energy reserve of the character."
+                  description="Total metaphysical energy reserve of the persona."
                   formula="Essence = Primary Attributes + Meta Skills Total"
                 >
                   <div className="flex flex-col bg-slate-800/50 p-1.5 py-1 rounded border border-purple-700/60 text-center w-full hover:border-purple-400 transition-colors">
@@ -1162,12 +1162,12 @@ const CoreStatsTab = () => {
                   title="Natural DR (Toughness)"
                   badge="Stamina DR"
                   badgeColor="emerald"
-                  description="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point."
+                  description="All persona Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the persona's defenses, minimum of 1 point."
                   formula={`Natural DR = Stamina Total (${derivedStats?.stamina ?? derivedStats?.toughness ?? 0})`}
                   tags={['Stamina', 'Natural DR', 'Min 1 Point']}
                   className="w-full block"
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-2.5 py-1 rounded border border-emerald-900/40 w-full hover:border-emerald-400 transition-colors gap-2 min-h-[34px]" title="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-2.5 py-1 rounded border border-emerald-900/40 w-full hover:border-emerald-400 transition-colors gap-2 min-h-[34px]" title="All persona Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
                     <label className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 shrink-0">
                       Natural DR (STA)
                     </label>
@@ -1305,7 +1305,7 @@ const CoreStatsTab = () => {
                           Status: Permanently Deceased
                         </div>
                         <div className="text-[9px] text-slate-400">
-                          Character has succumbed to death. May be revived via high-level Metaphysics or TL5 Tech.
+                          Persona has succumbed to death. May be revived via high-level Metaphysics or TL5 Tech.
                         </div>
                       </div>
                     </div>
@@ -1315,7 +1315,7 @@ const CoreStatsTab = () => {
                       onClick={async () => {
                         const ok = await confirm({
                           title: 'Perform Revivification',
-                          message: "Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 Experience Debt.",
+                          message: "Perform Revivification? 'The High Cost of Dying' applies: Persona loses ALL remaining Karma Points and suffers a -5 Experience Debt.",
                           danger: true,
                           confirmLabel: 'Revivify (-5 XP Debt)'
                         });
@@ -1324,7 +1324,7 @@ const CoreStatsTab = () => {
                         }
                       }}
                       className="px-2.5 py-1 bg-red-900 hover:bg-red-800 text-red-100 border border-red-500 rounded text-[10px] font-bold tracking-wide uppercase transition-colors shadow flex items-center gap-1 cursor-pointer"
-                      title="Revivify character (High Cost of Dying: -All Karma, -5 Experience Debt)"
+                      title="Revivify persona (High Cost of Dying: -All Karma, -5 Experience Debt)"
                     >
                       <span>⚡</span> Revivify (-5 XP Debt)
                     </button>
@@ -1346,8 +1346,8 @@ const CoreStatsTab = () => {
                         </div>
                         <div className="text-[9px] text-rose-300/80">
                           {isStabilized
-                            ? 'Character is unconscious and severely wounded, but no longer actively dying.'
-                            : 'Character is Comatose. Medical aid (Medicine CR 15) must be applied before clock expires!'}
+                            ? 'Persona is unconscious and severely wounded, but no longer actively dying.'
+                            : 'Persona is Comatose. Medical aid (Medicine CR 15) must be applied before clock expires!'}
                         </div>
                       </div>
                     </div>
@@ -2270,7 +2270,7 @@ const CoreStatsTab = () => {
                   title="Advancement Points (AP)"
                   badge="Heroic Advancement"
                   badgeColor="emerald"
-                  description="System of character progression. Advancement Points (AP) are converted 1:1 into Character Points (CP) to buy attribute points, skills, and features."
+                  description="System of persona progression. Advancement Points (AP) are converted 1:1 into Creation Points (CP) to buy attribute points, skills, and features."
                   formula="1 AP = 1 CP"
                   tags={['Advancement', 'AP', 'CP']}
                   showInfoIcon={true}
@@ -2324,7 +2324,7 @@ const CoreStatsTab = () => {
                       title="Spent Advancement Points"
                       badge="Invested Progression"
                       badgeColor="slate"
-                      description="Total Advancement Points allocated towards character growth across attributes, skills, and traits."
+                      description="Total Advancement Points allocated towards persona growth across attributes, skills, and traits."
                       formula={`Invested: ${spentAP} AP`}
                     >
                       <div className="p-1.5 py-1 rounded border bg-slate-800/50 border-slate-700 text-center flex flex-col justify-between w-full hover:border-slate-500 transition-colors">

@@ -105,11 +105,11 @@ export const RosterCatalogView = ({
               <h1 className="text-xl sm:text-2xl font-mono font-bold uppercase tracking-wider text-slate-100 flex items-center gap-2">
                 <span>PERSONA CATALOG</span>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 font-normal">
-                  {filteredRoster.length} Dossiers
+                  {filteredRoster.length} Folios
                 </span>
               </h1>
               <p className="text-xs text-slate-400 font-mono">
-                Select a persona to inspect or edit their dossier, create a new persona, or explore the public gallery.
+                Select a persona to inspect or edit their folio, create a new persona, or explore the public gallery.
               </p>
             </div>
           </div>
@@ -140,7 +140,7 @@ export const RosterCatalogView = ({
             className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-mono font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
           >
             <Plus size={14} />
-            <span>New Blank Sheet</span>
+            <span>New Blank Folio</span>
           </button>
         </div>
       </div>
@@ -192,7 +192,7 @@ export const RosterCatalogView = ({
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
             <input
               type="text"
-              placeholder="Search dossiers..."
+              placeholder="Search folios..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-cyan-500 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none transition-colors font-mono"
@@ -229,7 +229,7 @@ export const RosterCatalogView = ({
             </div>
             <p className="text-sm font-bold text-slate-400">NO PERSONAS FOUND</p>
             <p className="text-xs text-slate-600 mt-1 max-w-sm">
-              {searchQuery ? `No dossiers match "${searchQuery}".` : catalogTab === 'my-roster' ? 'Your persona roster is currently empty. Click Guided Creator or New Blank Sheet to begin.' : 'No public dossiers loaded yet.'}
+              {searchQuery ? `No folios match "${searchQuery}".` : catalogTab === 'my-roster' ? 'Your persona roster is currently empty. Click Guided Creator or New Blank Folio to begin.' : 'No public folios loaded yet.'}
             </p>
             {catalogTab === 'my-roster' && (
               <button
@@ -273,7 +273,7 @@ export const RosterCatalogView = ({
                       <div className="flex items-center gap-1.5 flex-wrap">
                         {isActive && (
                           <span className="px-2 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400 text-[9.5px] font-mono font-bold text-cyan-300 uppercase">
-                            Active Dossier
+                            Active Folio
                           </span>
                         )}
                         <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-[9.5px] font-mono text-slate-300 uppercase">
@@ -389,7 +389,7 @@ export const RosterCatalogView = ({
                           }`}
                         >
                           <User size={12} />
-                          <span>{isActive ? 'Edit Dossier' : 'Open Sheet'}</span>
+                          <span>{isActive ? 'Edit Folio' : 'Open Folio'}</span>
                         </button>
 
                         <div className="flex items-center gap-1 shrink-0">
@@ -416,7 +416,7 @@ export const RosterCatalogView = ({
                           <button
                             type="button"
                             onClick={async () => {
-                              if (await confirmTypedDeletion(charName, 'persona dossier')) {
+                              if (await confirmTypedDeletion(charName, 'persona folio')) {
                                 onDeleteCharacter(char || docId);
                               }
                             }}
@@ -564,7 +564,7 @@ export const RosterCatalogView = ({
                                 <button
                                   type="button"
                                   onClick={async () => {
-                                    if (await confirmTypedDeletion(charName, 'persona dossier')) {
+                                    if (await confirmTypedDeletion(charName, 'persona folio')) {
                                       onDeleteCharacter(char || docId);
                                     }
                                   }}

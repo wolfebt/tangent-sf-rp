@@ -34,7 +34,7 @@ const KARMA_ACTIONS = [
     timing: 'Anytime while afflicted with a temporary condition',
     scope: 'Temporary conditions with severity stages (Poisoned, Stunned, Blinded, etc.)',
     summary: 'Reduce condition severity by one stage (e.g., Major to Minor).',
-    description: 'Spending a Karma Point allows the character to reduce the condition\'s severity by one stage (e.g., Major Poisoning reduced to Minor Poisoning).',
+    description: 'Spending a Karma Point allows the persona to reduce the condition\'s severity by one stage (e.g., Major Poisoning reduced to Minor Poisoning).',
     tag: 'Condition Relief',
     color: 'cyan'
   },
@@ -45,7 +45,7 @@ const KARMA_ACTIONS = [
     timing: '1 minute out of immediate combat / quiet focus',
     scope: 'Refreshes limited-use daily abilities or traits without taking a Light Rest',
     summary: 'Bypasses the need for a Light Rest; instantly refreshes spent daily powers.',
-    description: 'Allows a character to quickly refresh their abilities and resources, bypassing the need for a Light Rest. Requires spending 1 full minute focusing on inner reserves to push through fatigue.',
+    description: 'Allows a persona to quickly refresh their abilities and resources, bypassing the need for a Light Rest. Requires spending 1 full minute focusing on inner reserves to push through fatigue.',
     tag: 'Instant Recovery',
     color: 'blue'
   },
@@ -56,7 +56,7 @@ const KARMA_ACTIONS = [
     timing: 'Declare SIMULTANEOUSLY with metaphysical skill or feature',
     scope: 'Metaphysics users (Arcane, Psi, Supernatural forces)',
     summary: 'Boosts metaphysical check potency (range, duration, damage) or activates a Karma Feature.',
-    description: 'Available to characters with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feature or boost the effectiveness/range/duration of a metaphysical skill check.',
+    description: 'Available to personas with access to metaphysical disciplines. Can be spent to activate a specialized discipline Karma Feature or boost the effectiveness/range/duration of a metaphysical skill check.',
     tag: 'Metaphysics Boost',
     color: 'purple'
   },
@@ -67,7 +67,7 @@ const KARMA_ACTIONS = [
     timing: 'Action declaration; requires Architect judgment & approval',
     scope: 'Pushing boundaries, rule nudges, emulating basic features for a scene',
     summary: 'Attempt extraordinary or theoretically possible actions beyond normal capabilities.',
-    description: 'Cinematic agency expenditure allowing characters to attempt extraordinary actions beyond normal limits, subject to Architect approval. Success is not guaranteed and may require a check.',
+    description: 'Cinematic agency expenditure allowing personas to attempt extraordinary actions beyond normal limits, subject to Architect approval. Success is not guaranteed and may require a check.',
     tag: 'Cinematic Agency',
     color: 'rose'
   }
@@ -301,7 +301,7 @@ export const DiscreetFateOverrideModal = ({
                   <span>⚠️</span> Karmic Debt Active ({currentKarma} / -{maxKarmaDebt} Limit)
                 </div>
                 <div className="text-[11px] text-rose-300/80">
-                  Your character is borrowing against future fate. The Architect may impose Disadvantage on critical checks or introduce karmic setbacks until your debt is resolved.
+                  Your persona is borrowing against future fate. The Architect may impose Disadvantage on critical checks or introduce karmic setbacks until your debt is resolved.
                 </div>
               </div>
             )}
@@ -492,7 +492,7 @@ export const DiscreetFateOverrideModal = ({
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-3">
               <div className="flex justify-between items-center text-xs font-bold text-slate-300">
                 <span>Advancement Points (AP) &amp; Campaign Budget</span>
-                <span className="text-[10px] font-mono text-emerald-400">1 AP = 1 Character Point</span>
+                <span className="text-[10px] font-mono text-emerald-400">1 AP = 1 Creation Point</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3 font-mono text-xs">
@@ -599,7 +599,7 @@ export const DiscreetFateOverrideModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Karma represents luck, heroic destiny, and narrative momentum. Every character begins with a baseline pool of <strong>3 Karma Points</strong>. Karma resets to maximum at the start of each session and does not regenerate through standard rests (Light or Full Rest).
+                Karma represents luck, heroic destiny, and narrative momentum. Every persona begins with a baseline pool of <strong>3 Karma Points</strong>. Karma resets to maximum at the start of each session and does not regenerate through standard rests (Light or Full Rest).
               </p>
             </div>
 
@@ -611,7 +611,7 @@ export const DiscreetFateOverrideModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Characters who acquire the <strong>Karmic Blessing</strong> feature expand their permanent session Karma maximum by +1 per rank purchased. Characters who take Hindrances like <strong>Unlucky</strong> or <strong>Cursed</strong> have their session maximum reduced accordingly.
+                Personas who acquire the <strong>Karmic Blessing</strong> feature expand their permanent session Karma maximum by +1 per rank purchased. Personas who take Hindrances like <strong>Unlucky</strong> or <strong>Cursed</strong> have their session maximum reduced accordingly.
               </p>
             </div>
 
@@ -623,7 +623,7 @@ export const DiscreetFateOverrideModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                When a character performs an exceptionally selfless, tactical, or dramatic action that elevates the party or story, the Architect may immediately award <strong>+1 Karma</strong>. This can temporarily raise Karma above the baseline max for the current session or pay down active Karmic Debt.
+                When a persona performs an exceptionally selfless, tactical, or dramatic action that elevates the party or story, the Architect may immediately award <strong>+1 Karma</strong>. This can temporarily raise Karma above the baseline max for the current session or pay down active Karmic Debt.
               </p>
             </div>
 
@@ -635,7 +635,7 @@ export const DiscreetFateOverrideModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                When reduced to 0 Karma, characters may continue to spend into <strong>Karmic Debt</strong> up to their Charisma score + 1 (minimum -1). Karmic debt represents borrowing against future fortune. While in debt, the GM gains narrative license to enforce disadvantage, introduce environmental hazards, or turn near-misses into complications.
+                When reduced to 0 Karma, personas may continue to spend into <strong>Karmic Debt</strong> up to their Charisma score + 1 (minimum -1). Karmic debt represents borrowing against future fortune. While in debt, the GM gains narrative license to enforce disadvantage, introduce environmental hazards, or turn near-misses into complications.
               </p>
             </div>
 
@@ -647,7 +647,7 @@ export const DiscreetFateOverrideModal = ({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                When reduced to 0 Health and entering the Death Clock, a character may burn their remaining Karma Points or plunge into maximum Karmic Debt to stabilize automatically, stave off mortality, or pay the spiritual cost of Revivification.
+                When reduced to 0 Health and entering the Death Clock, a persona may burn their remaining Karma Points or plunge into maximum Karmic Debt to stabilize automatically, stave off mortality, or pay the spiritual cost of Revivification.
               </p>
             </div>
 

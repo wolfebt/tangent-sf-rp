@@ -2251,7 +2251,7 @@ export const SkillPoolRankPulldown = ({
                         {allocatedRank > 6 && (
                           <span
                             className="text-[9px] px-1 py-0.2 rounded bg-amber-950/70 border border-amber-500/50 text-amber-300 font-mono"
-                            title="Recommended creation limit is Rank 6 (Trained/Professional). Rank 7-11 allowed for specialized character concept."
+                            title="Recommended creation limit is Rank 6 (Trained/Professional). Rank 7-11 allowed for specialized persona concept."
                           >
                             Specialized (R{allocatedRank})
                           </span>

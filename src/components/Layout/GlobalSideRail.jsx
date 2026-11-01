@@ -80,8 +80,8 @@ export const GlobalSideRail = () => {
       id: 'folio',
       label: 'FOLIO',
       sublabel: isFolio && folio?.characterData?.['char-name']
-        ? `${folio.characterData['char-name']} (Click to toggle Catalog / Dossier)`
-        : 'Persona Roster & Dossiers',
+        ? `${folio.characterData['char-name']} (Click to toggle Catalog / Folio)`
+        : 'Persona Roster & Folios',
       icon: Users,
       colorTheme: 'cyan',
       onClick: () => {

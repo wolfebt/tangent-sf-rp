@@ -105,7 +105,7 @@ const LOCAL_DAMAGE_ROUTING_TIERS = [
     icon: '💥',
     color: 'cyan',
     summary: 'Falls, shockwaves, vehicle collisions, explosions',
-    description: 'Concussive trauma is dispersed across the entire body. If the character attempts to reduce the damage, it is split 50/50 between Vitality and Health.'
+    description: 'Concussive trauma is dispersed across the entire body. If the persona attempts to reduce the damage, it is split 50/50 between Vitality and Health.'
   }
 ];
 
@@ -116,7 +116,7 @@ const LOCAL_MORTALITY_STAGES = [
     status: 'Combat Effective',
     color: 'emerald',
     icon: '🛡️',
-    details: 'The character is fully conscious, functioning, and protected by their dual-track vitality buffer and stamina toughness.'
+    details: 'The persona is fully conscious, functioning, and protected by their dual-track vitality buffer and stamina toughness.'
   },
   {
     stage: '2. Incapacitated',
@@ -124,7 +124,7 @@ const LOCAL_MORTALITY_STAGES = [
     status: 'Unconscious & Prone',
     color: 'amber',
     icon: '🛌',
-    details: 'The character falls unconscious immediately, drops anything held, and falls Prone. Crucially, they are NOT on the death clock because Vitality buffer still cushions them.'
+    details: 'The persona falls unconscious immediately, drops anything held, and falls Prone. Crucially, they are NOT on the death clock because Vitality buffer still cushions them.'
   },
   {
     stage: '3. Death\'s Door',
@@ -132,7 +132,7 @@ const LOCAL_MORTALITY_STAGES = [
     status: 'Comatose (Death Clock Active)',
     color: 'rose',
     icon: '💀',
-    details: 'Both tracks are zero. The character enters a coma. The Death Clock starts with rounds equal to Stamina score (minimum 1 round). Medical aid or healing is urgently required.'
+    details: 'Both tracks are zero. The persona enters a coma. The Death Clock starts with rounds equal to Stamina score (minimum 1 round). Medical aid or healing is urgently required.'
   },
   {
     stage: '4. Deceased',
@@ -174,7 +174,7 @@ const KARMA_ACTIONS = [
     timing: 'Anytime while afflicted with a temporary condition',
     scope: 'Temporary conditions with severity stages (Poisoned, Stunned, Blinded)',
     summary: 'Reduce condition severity by one stage (e.g., Major to Minor).',
-    description: 'Allows characters to reduce the severity of temporary conditions affecting them by one stage (e.g., Major Poisoning to Minor Poisoning).',
+    description: 'Allows personas to reduce the severity of temporary conditions affecting them by one stage (e.g., Major Poisoning to Minor Poisoning).',
     tag: 'Condition Relief',
     color: 'cyan'
   },
@@ -185,7 +185,7 @@ const KARMA_ACTIONS = [
     timing: '1 minute out of immediate combat / quiet focus',
     scope: 'Refreshes limited-use daily abilities or features without taking a Light Rest',
     summary: 'Bypasses the need for a Light Rest; instantly refreshes spent daily powers.',
-    description: 'Allows a character to quickly refresh their abilities and resources, bypassing the need for a Light Rest downtime period through sheer focus.',
+    description: 'Allows a persona to quickly refresh their abilities and resources, bypassing the need for a Light Rest downtime period through sheer focus.',
     tag: 'Instant Recovery',
     color: 'blue'
   },
@@ -607,7 +607,7 @@ const PerceptionEssenceMovementModal = ({
             {/* Core Formulas & Economy */}
             <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 space-y-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
-                <span>📐</span> Core Formulas &amp; Character Progression Economy
+                <span>📐</span> Core Formulas &amp; Persona Progression Economy
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
@@ -619,7 +619,7 @@ const PerceptionEssenceMovementModal = ({
                     </code>
                   </div>
                   <p className="text-slate-300 text-[11.5px] leading-relaxed">
-                    Whenever an Attribute increases, its corresponding sub-attribute check base score automatically shifts by twice that amount. A character with an Attribute of 0 has a base check score of 2. An Attribute of +3 gives a base score of 8.
+                    Whenever an Attribute increases, its corresponding sub-attribute check base score automatically shifts by twice that amount. A persona with an Attribute of 0 has a base check score of 2. An Attribute of +3 gives a base score of 8.
                   </p>
                   <div className="text-[11px] text-slate-400 border-t border-slate-800/80 pt-2 font-mono">
                     Roll Expression: <span className="text-emerald-300 font-bold">2d10 + Total Score + Circumstance Modifiers</span>
@@ -632,10 +632,10 @@ const PerceptionEssenceMovementModal = ({
                     <span className="text-[10px] font-mono text-emerald-400 font-bold">5 CP / Attr • 1 CP / Check</span>
                   </div>
                   <p className="text-slate-300 text-[11.5px] leading-relaxed">
-                    <strong>Primary Attributes</strong> cost <strong>5 Character Points (CP)</strong> per +1 increase. <strong>Attribute Checks</strong> can also be increased independently at a cost of <strong>1 CP</strong> per +1 point.
+                    <strong>Primary Attributes</strong> cost <strong>5 Creation Points (CP)</strong> per +1 increase. <strong>Attribute Checks</strong> can also be increased independently at a cost of <strong>1 CP</strong> per +1 point.
                   </p>
                   <div className="text-[11px] text-slate-400 border-t border-slate-800/80 pt-2">
-                    Characters start with an attribute maximum of <strong>+4</strong> before species traits. Paragon upper score is <strong>+5</strong> + species modifiers.
+                    Personas start with an attribute maximum of <strong>+4</strong> before species traits. Paragon upper score is <strong>+5</strong> + species modifiers.
                   </div>
                 </div>
               </div>
@@ -647,7 +647,7 @@ const PerceptionEssenceMovementModal = ({
                     <span>🎯</span> Targeted Challenges (vs Static CR)
                   </div>
                   <p className="text-[11px] text-slate-300 leading-relaxed">
-                    Targeted challenges pit a character's roll against a static Challenge Rating (CR) set by the Architect or scenario. Meeting or exceeding the CR achieves success.
+                    Targeted challenges pit a persona's roll against a static Challenge Rating (CR) set by the Architect or scenario. Meeting or exceeding the CR achieves success.
                   </p>
                 </div>
 
@@ -789,7 +789,7 @@ const PerceptionEssenceMovementModal = ({
                         onClick={async () => {
                           const ok = await confirm({
                             title: 'Perform Revivification',
-                            message: 'Perform Revivification? Character loses ALL Karma and suffers -5 AP Debt.',
+                            message: 'Perform Revivification? Persona loses ALL Karma and suffers -5 AP Debt.',
                             danger: true,
                             confirmLabel: 'Revivify (-5 AP Debt)'
                           });
@@ -839,7 +839,7 @@ const PerceptionEssenceMovementModal = ({
                     </code>
                   </div>
                   <p className="text-slate-300 text-[11px] leading-relaxed">
-                    All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point.
+                    All persona Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the persona's defenses, minimum of 1 point.
                   </p>
                   <div className="text-[10px] text-slate-400 font-mono border-t border-slate-800/80 pt-1.5">
                     Natural DR: <strong className="text-emerald-300">+{toughness} DR (Min 1 penetrating damage)</strong>
@@ -1197,7 +1197,7 @@ const PerceptionEssenceMovementModal = ({
 
               {experienceDebt > 0 && availableAP > 0 && payExperienceDebt && (
                 <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-xs">
-                  <span className="text-rose-300">Character has active trauma debt. Settle debt using available AP.</span>
+                  <span className="text-rose-300">Persona has active trauma debt. Settle debt using available AP.</span>
                   <button
                     type="button"
                     onClick={() => payExperienceDebt(characterData['character-doc-id'] || characterData.id || 'active', Math.min(experienceDebt, availableAP))}
@@ -1216,7 +1216,7 @@ const PerceptionEssenceMovementModal = ({
               </h4>
               <p className="text-xs text-slate-300 leading-relaxed">
                 Abilities, skills, or other traits may <strong className="text-amber-200">ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD EVENT</strong>. 
-                A player cannot dump multiple points into a single skill or stat at once. Character development reflects balanced, authentic progression over downtime.
+                A player cannot dump multiple points into a single skill or stat at once. Persona development reflects balanced, authentic progression over downtime.
               </p>
             </div>
 
@@ -1308,7 +1308,7 @@ const PerceptionEssenceMovementModal = ({
               </h3>
               <p className="text-xs text-slate-300 leading-relaxed">
                 In Tangent Science Fantasy Roleplay, <strong className="text-cyan-300">Perception</strong> is not an isolated attribute rolled alone. 
-                Instead, it represents a character’s innate sensory acuity, mental clarity, and subconscious environmental processing derived from 
+                Instead, it represents a persona’s innate sensory acuity, mental clarity, and subconscious environmental processing derived from 
                 <strong className="text-amber-300"> Intellect</strong> and <strong className="text-emerald-300">Wisdom</strong>.
               </p>
               <div className="p-3 rounded-lg bg-cyan-950/40 border border-cyan-800/50 text-xs text-cyan-200">
@@ -1977,7 +1977,7 @@ const PerceptionEssenceMovementModal = ({
                 </div>
 
                 <div className="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-[10.5px] text-slate-300">
-                  <strong className="text-emerald-300">Climbing Feature Trait:</strong> Characters with dedicated climbing adaptations scale at base <strong>30 ft/rd</strong> (Scaling 60 ft, Fast Ascent 90 ft, Fast Descent 180 ft).
+                  <strong className="text-emerald-300">Climbing Feature Trait:</strong> Personas with dedicated climbing adaptations scale at base <strong>30 ft/rd</strong> (Scaling 60 ft, Fast Ascent 90 ft, Fast Descent 180 ft).
                 </div>
               </div>
             )}
@@ -2085,7 +2085,7 @@ const PerceptionEssenceMovementModal = ({
                       Hero Financial Status &amp; Wealth Breakdown
                     </h3>
                     <p className="text-[11px] text-slate-400">
-                      Live character wealth evaluation based on Occupation, Origin, Faction, Tech Level &amp; Vocation Skill Ranks
+                      Live persona wealth evaluation based on Occupation, Origin, Faction, Tech Level &amp; Vocation Skill Ranks
                     </p>
                   </div>
                 </div>
@@ -2367,8 +2367,8 @@ const PerceptionEssenceMovementModal = ({
                       </div>
                       <p className="mt-1 text-[11px] font-sans text-slate-300">
                         {isAuto
-                          ? `The item cost is at or below the character's single-purchase threshold. It is acquired automatically without financial tests, bookkeeping, or debt.`
-                          : `The item exceeds the character's auto-buy capacity by ${simResult.liquidGapCost.toLocaleString()} Cr. On a successful Wealth Check (2d10 + WS vs DC ${simItemDC}), the character can purchase the item and incurs a ${simResult.liquidGapCost.toLocaleString()} Cr cycle debt to be paid off when wealth rolls over next cycle (or may pay ${simResult.liquidGapCost.toLocaleString()} Cr directly from liquid credits).`}
+                          ? `The item cost is at or below the persona's single-purchase threshold. It is acquired automatically without financial tests, bookkeeping, or debt.`
+                          : `The item exceeds the persona's auto-buy capacity by ${simResult.liquidGapCost.toLocaleString()} Cr. On a successful Wealth Check (2d10 + WS vs DC ${simItemDC}), the persona can purchase the item and incurs a ${simResult.liquidGapCost.toLocaleString()} Cr cycle debt to be paid off when wealth rolls over next cycle (or may pay ${simResult.liquidGapCost.toLocaleString()} Cr directly from liquid credits).`}
                       </p>
                     </div>
                   );

@@ -143,7 +143,7 @@ export const RosterModal = ({
               </span>
             </div>
             <h2 className="text-xl font-bold text-amber-400 uppercase tracking-wider mt-0.5">
-              Character Roster
+              Persona Roster
             </h2>
           </div>
 
@@ -166,7 +166,7 @@ export const RosterModal = ({
               }}
               className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase shadow transition-colors flex items-center gap-1"
             >
-              <span>+</span> New Sheet
+              <span>+</span> New Folio
             </button>
             <button onClick={onClose} className="text-slate-400 hover:text-white font-bold ml-2 text-lg px-2">
               ✕
@@ -252,7 +252,7 @@ export const RosterModal = ({
             <div className="text-center py-12 border-2 border-dashed border-slate-800 rounded-lg">
               <h3 className="text-base font-bold text-slate-300 uppercase">No Saved Personas in Catalog</h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">
-                Your character sheets automatically save as you work. Create a new sheet or switch tabs to explore community personas.
+                Your persona folios automatically save as you work. Create a new folio or switch tabs to explore community personas.
               </p>
               <button
                 onClick={() => {
@@ -261,7 +261,7 @@ export const RosterModal = ({
                 }}
                 className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs uppercase shadow flex items-center gap-1 mx-auto"
               >
-                <span>+</span> Create New Sheet
+                <span>+</span> Create New Folio
               </button>
             </div>
           ) : filteredRoster.length === 0 ? (
@@ -334,7 +334,7 @@ export const RosterModal = ({
                                     ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60 hover:bg-cyan-900'
                                     : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-slate-200'
                                 }`}
-                                title="Toggle whether this character is publicly viewable by other players via link"
+                                title="Toggle whether this persona is publicly viewable by other players via link"
                               >
                                 <span>{char.isPublic ? 'Public' : 'Private'}</span>
                               </button>
@@ -437,7 +437,7 @@ export const RosterModal = ({
                               rows={3}
                               value={noteTextState}
                               onChange={(e) => setNoteTextState(e.target.value)}
-                              placeholder="Write tactical notes, character background, or equipment logs..."
+                              placeholder="Write tactical notes, persona background, or equipment logs..."
                               className="w-full p-2 bg-slate-950 border border-cyan-500/60 rounded text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-cyan-400 font-sans"
                             />
                             <div className="flex justify-end gap-2">
@@ -517,7 +517,7 @@ export const RosterModal = ({
                               }}
                               className="px-3 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs font-bold uppercase shadow transition-colors flex items-center gap-1"
                             >
-                              View Sheet
+                              View Folio
                             </button>
                           </div>
                         </div>
@@ -735,7 +735,7 @@ export const RosterModal = ({
               </div>
 
               <p className="text-xs text-slate-300 leading-relaxed font-sans">
-                Are you sure you want to delete persona <strong className="text-white uppercase">"{deleteConfirmName}"</strong>? This will remove the character sheet and all associated stats from your catalog.
+                Are you sure you want to delete persona <strong className="text-white uppercase">"{deleteConfirmName}"</strong>? This will remove the persona folio and all associated stats from your catalog.
               </p>
 
               <div className="bg-red-950/30 border border-red-500/30 p-2.5 rounded text-[11px] text-red-300 font-mono">

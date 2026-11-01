@@ -232,7 +232,7 @@ const findCanonicalTrait = (traitIdOrName, speciesContext = null) => {
     trait_type: 'Column Trait',
     trait_tier: 'Basic',
     cp: 1,
-    description: cleanObjDesc || 'Character trait from chosen identity column.',
+    description: cleanObjDesc || 'Persona trait from chosen identity column.',
     mechanic: rawObjMech || '',
     modifiers: []
   };
@@ -1683,7 +1683,7 @@ export const FeaturesTab = ({
 
           {/* Aggregate Telemetry Chips (Compact) */}
           <div className="flex flex-wrap items-center gap-1 text-[10px] sm:text-[11px] font-mono">
-            <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 rounded font-bold shadow-sm" title="Standard Character Features">
+            <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 rounded font-bold shadow-sm" title="Standard Persona Features">
               Features: {totalStandardFeaturesCP} CP
             </span>
             <span className="px-2 py-0.5 bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 rounded font-bold shadow-sm" title="Column Traits (1 CP each)">
@@ -1778,7 +1778,7 @@ export const FeaturesTab = ({
             iconBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
             badgeBg: 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60',
             accentColor: 'text-cyan-400',
-            description: "Special persona aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for features recommended by your character's identity pillars."
+            description: "Special persona aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for features recommended by your persona's identity pillars."
           },
           {
             id: 'features-traits',
@@ -1847,7 +1847,7 @@ export const FeaturesTab = ({
             iconBg: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
             badgeBg: 'bg-rose-950/80 text-rose-300 border-rose-700/60',
             accentColor: 'text-rose-400',
-            description: 'Character flaws, behavioral quirks, physical handicaps, and social debts providing vital CP refunds during persona creation.'
+            description: 'Persona flaws, behavioral quirks, physical handicaps, and social debts providing vital CP refunds during persona creation.'
           }
         ];
 
@@ -2504,7 +2504,7 @@ export const FeaturesTab = ({
                                   title={name}
                                   badge={cat}
                                   badgeColor="rose"
-                                  description={hind.description || 'Character flaw, handicap or obligation.'}
+                                  description={hind.description || 'Persona flaw, handicap or obligation.'}
                                   cost={`-${cp} CP`}
                                   tags={[cat].filter(Boolean)}
                                   showInfoIcon={true}
@@ -2859,7 +2859,7 @@ export const FeaturesTab = ({
                 <div className="flex items-center gap-2">
                   <Star className="w-4 h-4 text-amber-400 shrink-0" />
                   <p className="text-amber-200">
-                    Showing <strong>{recommendedFeatures.length} features</strong> recommended by your character's chosen Species, Occupation, Origin, Faction, or Archetype. Each discounted by <strong>-1 CP</strong> (3 CP &rarr; 2 CP).
+                    Showing <strong>{recommendedFeatures.length} features</strong> recommended by your persona's chosen Species, Occupation, Origin, Faction, or Archetype. Each discounted by <strong>-1 CP</strong> (3 CP &rarr; 2 CP).
                   </p>
                 </div>
                 <PillarRecommendationLegend />
@@ -3493,7 +3493,7 @@ export const FeaturesTab = ({
 
                           {!acquired ? (
                             !isPurchasable ? (
-                              <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900 border border-slate-800" title="Species feature baseline is not directly purchasable by character.">
+                              <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900 border border-slate-800" title="Species feature baseline is not directly purchasable by persona.">
                                 Baseline
                               </span>
                             ) : isPrereqUnmet ? (
@@ -5068,7 +5068,7 @@ export const FeaturesTab = ({
                 <span>Hindrances &amp; Disadvantages</span>
               </h3>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                Character handicaps, social debts, and physiological flaws that yield Creation Point (CP) refunds.
+                Persona handicaps, social debts, and physiological flaws that yield Creation Point (CP) refunds.
               </p>
             </div>
             <div className="flex items-center gap-2 font-mono text-xs">
