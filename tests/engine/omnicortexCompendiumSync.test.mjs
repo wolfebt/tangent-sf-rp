@@ -98,14 +98,14 @@ test('Omnicortex Compendium: 2d10 Dual Resolution Engine Canon (No d20 Resolutio
 
   const content = fs.readFileSync(combatFile, 'utf8');
   assert(content.includes('2d10'), 'Resolution engine must explicitly state 2d10');
-  assert(content.includes('DEFENDER WINS ALL TIES'), 'Must state DEFENDER WINS ALL TIES');
+  assert(/defender wins all ties/i.test(content), 'Must state Defender wins all ties');
   assert(!fs.existsSync(path.join(compDir, '2-01-d20-universal-resolution-engine.md')), 'Legacy d20 file must not exist');
 });
 
-test('Omnicortex Skills: 100% Parity for all 95 Canonical Skills', async () => {
+test('Omnicortex Skills: 100% Parity for all 93 Canonical Skills', async () => {
   const { ALL_CANONICAL_SKILLS } = await import('../../src/data/skillsData.js');
   assert(Array.isArray(ALL_CANONICAL_SKILLS), 'SkillsData must export ALL_CANONICAL_SKILLS');
-  assert.equal(ALL_CANONICAL_SKILLS.length, 95, 'Expected exactly 95 canonical skills');
+  assert.equal(ALL_CANONICAL_SKILLS.length, 93, 'Expected exactly 93 canonical skills (retired Endurance & Arcane)');
 
   const skillFiles = new Set(fs.readdirSync(skillsDir));
   ALL_CANONICAL_SKILLS.forEach(s => {

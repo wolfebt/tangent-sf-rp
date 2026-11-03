@@ -177,7 +177,7 @@ cp_cost: 47
 ### **MANELLI**
 **Cerebral Expression**  
 **Classification:** Humanoid (Mimetic Mimicry)  
-**CP Cost:** 36 CP  
+**CP Cost:** 47 CP  
 
 **Description:**
 The Manelli are a striking and enigmatic humanoid species, distinguished by several unique biological and sensory characteristics. Their appearance is notably human-like, yet their physiology speaks to an ancient, divergent evolutionary path.
@@ -202,12 +202,12 @@ As the "Cerebral Expression," they maintain the Chorus and steer the development
 * **Stigma:** Minor Xeno (hidden) / Severe Xeno (revealed)
 
 **Ability Modifiers:**
-* +2 Intellect (8 CP)
-* +2 Wisdom (8 CP)
-* +1 Charisma (4 CP)
+* +2 Intellect (10 CP)
+* +2 Wisdom (10 CP)
+* +1 Charisma (5 CP)
 
 **Skills:**
-* +10 Skill Ranks to ANY skills (8 CP)
+* +10 Skill Ranks to ANY skills (10 CP)
 
 **Species Features:**
 * **Mimetic Form:** Gain a +2 Bonus to Disguise or Deception checks to pass as human (antennae must be concealed). (2 CP)

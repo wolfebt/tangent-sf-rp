@@ -100,7 +100,7 @@ cp_cost: 45
 
 # 
 
-**CP Cost:** 35 CP  
+**CP Cost:** 45 CP  
 
 **Description:** Androids who have been repurposed, have had major repairs or general augmentations. Due to mismatched parts or stylization they will not have the original form or possibly function. Limbs replaced, accessories mounted, armored plating, lost skin patterns and other ‘mechanical’ modifications.
 

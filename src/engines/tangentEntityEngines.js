@@ -48,7 +48,7 @@ import {
 } from './tangentConstants.js';
 
 import { DEFAULT_SPECIES } from '../data/speciesData.js';
-import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
+import { ALL_CANONICAL_SKILLS, resolveCanonicalSkillAlias } from '../data/skillsData.js';
 import { DEFAULT_SPECIES_TRAITS } from '../data/speciesTraitsData.js';
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData.js';
@@ -1498,25 +1498,30 @@ export function calculateInvocationDC({
 }
 
 /**
- * Resolves Skill Stage from Skill Rank or DC.
+ * Resolves Skill Stage from Skill Rank or Challenge Rating (CR / legacy DC).
  */
 export function getSkillStageFromRank(rank = 1) {
   const r = Math.max(1, Number(rank || 1));
-  if (r <= 5) return SKILL_STAGES[0]; // Stage 1 Novice
-  if (r <= 10) return SKILL_STAGES[1]; // Stage 2 Trained
-  if (r <= 15) return SKILL_STAGES[2]; // Stage 3 Expert
-  if (r <= 20) return SKILL_STAGES[3]; // Stage 4 Master
-  return SKILL_STAGES[4]; // Stage 5 Pinnacle
+  if (r <= 5) return SKILL_STAGES[0];  // Stage 1 Novice (1-5)
+  if (r <= 10) return SKILL_STAGES[1]; // Stage 2 Trained (6-10)
+  if (r <= 15) return SKILL_STAGES[2]; // Stage 3 Expert (11-15)
+  if (r <= 20) return SKILL_STAGES[3]; // Stage 4 Master (16-20)
+  if (r <= 25) return SKILL_STAGES[4]; // Stage 5 Grand Master (21-25)
+  return SKILL_STAGES[5] || SKILL_STAGES[SKILL_STAGES.length - 1]; // Stage 6 Pinnacle (26-30)
 }
 
-export function getSkillStageFromDC(dc = 15) {
-  const d = Number(dc || 15);
-  if (d < 15) return SKILL_STAGES[0];
-  if (d < 20) return SKILL_STAGES[1];
-  if (d < 25) return SKILL_STAGES[2];
-  if (d < 30) return SKILL_STAGES[3];
-  return SKILL_STAGES[4];
+export function getSkillStageFromCR(cr = 15) {
+  const c = Number(cr || 15);
+  if (c < 15) return SKILL_STAGES[0];
+  if (c < 20) return SKILL_STAGES[1];
+  if (c < 25) return SKILL_STAGES[2];
+  if (c < 30) return SKILL_STAGES[3];
+  if (c < 35) return SKILL_STAGES[4];
+  return SKILL_STAGES[5] || SKILL_STAGES[SKILL_STAGES.length - 1];
 }
+
+export const getSkillStageFromDC = getSkillStageFromCR;
+export const calculateInvocationCR = calculateInvocationDC;
 
 /**
  * Calculates Essence cost when pushing an Invocation beyond learned stage.
@@ -1536,7 +1541,7 @@ export function calculateEssenceCost(targetStage = 2, casterStage = 2, sustained
  * Resolves standard scaling formula for an Invocation stage.
  */
 export function calculateInvocationScaling(effectType = 'energyDamage', stageNum = 1) {
-  const stage = Math.max(1, Math.min(5, Number(stageNum || 1)));
+  const stage = Math.max(1, Math.min(6, Number(stageNum || 1)));
   const formulaDef = INVOCATION_SCALING_FORMULAS[effectType] || INVOCATION_SCALING_FORMULAS.energyDamage;
   return {
     effectType: formulaDef.name,
@@ -1550,7 +1555,7 @@ export function calculateInvocationScaling(effectType = 'energyDamage', stageNum
  * Computes full persistent metadata for an Invocation on save.
  */
 export function computeInvocationStats(formData) {
-  const baseDC = Number(formData.baseDifficulty ?? formData.base_dc ?? formData.craft_dc ?? 15);
+  const baseDC = Number(formData.baseDifficulty ?? formData.base_cr ?? formData.base_dc ?? formData.craft_cr ?? formData.craft_dc ?? 15);
   const time = formData.time ?? formData.casting_time ?? 'StandardAction';
   const range = formData.range ?? 'Medium';
   const aoe = formData.area ?? formData.aoe ?? 'SingleTarget';
@@ -1566,12 +1571,14 @@ export function computeInvocationStats(formData) {
     otherMods
   });
 
-  const skillStage = getSkillStageFromDC(finalDC);
+  const skillStage = getSkillStageFromCR(finalDC);
   const essenceThresholds = {
     Stage1_Novice: 0,
     Stage2_Trained: finalDC >= 15 ? 0 : 1,
     Stage3_Expert: finalDC >= 20 ? 0 : (finalDC >= 15 ? 1 : 2),
     Stage4_Master: finalDC >= 25 ? 0 : (finalDC >= 20 ? 1 : 2),
+    Stage5_GrandMaster: finalDC >= 30 ? 0 : (finalDC >= 25 ? 1 : 2),
+    Stage6_Pinnacle: finalDC >= 35 ? 0 : (finalDC >= 30 ? 1 : 2),
     Stage5_Pinnacle: finalDC >= 30 ? 0 : (finalDC >= 25 ? 1 : 2)
   };
 
@@ -1589,8 +1596,11 @@ export function computeInvocationStats(formData) {
   const attrName = foundationAttribute.replace('attr-', '').charAt(0).toUpperCase() + foundationAttribute.replace('attr-', '').slice(1);
 
   return {
+    base_cr: baseDC,
     base_dc: baseDC,
+    final_cast_cr: finalDC,
     final_cast_dc: finalDC,
+    craft_cr: finalDC,
     craft_dc: finalDC,
     skill_stage: skillStage.name,
     skill_stage_num: skillStage.stage,
@@ -1654,6 +1664,8 @@ export function calculateMetaTechDC({
   return Math.max(10, Math.round(activeDC));
 }
 
+export const calculateMetaTechCR = calculateMetaTechDC;
+
 /**
  * Validates UDU Socket / Mount / Module capacity for Meta-Tech.
  */
@@ -1693,7 +1705,7 @@ export function calculateMetaTechCapacity({
  */
 export function computeMetaTechStats(formData) {
   const enhancementType = formData.enhancement_type || formData.enhancementType || 'Active';
-  const baseItemDC = Number(formData.base_item_dc ?? formData.baseItemDC ?? 15);
+  const baseItemDC = Number(formData.base_item_cr ?? formData.baseItemCR ?? formData.base_item_dc ?? formData.baseItemDC ?? 15);
   const invocationRank = Number(formData.invocation_rank ?? formData.invocationRank ?? 10);
   const tl = Number(formData.tech_level ?? formData.tl ?? 3);
   const socketsUsed = Number(formData.sockets?.used ?? formData.sockets_used ?? formData.socketsUsed ?? (invocationRank > 10 ? (invocationRank > 20 ? 3 : 2) : 1));
@@ -1723,12 +1735,17 @@ export function computeMetaTechStats(formData) {
 
   return {
     enhancement_type: enhancementType,
+    base_item_cr: baseItemDC,
+    base_item_dc: baseItemDC,
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
     craft_dc: finalDC,
     credit_value: creditValue,
     material_cost: materialCost,
     crafting_days: craftingDays,
     financial_status: status?.name || 'Affluent',
+    save_cr: saveDC,
     save_dc: saveDC,
     capacity_validation: capacity,
     complexity_tier: getComplexityTier(finalDC),
@@ -1753,32 +1770,36 @@ export function calculateBaseToughness(staminaScore = 0) {
 
 /**
  * Computes starting and maximum pools for Vitality, Health, or Structure.
- * - Starting base: 30 Vitality and 30 Health
- * - BP Cost: 1 BP = +5 Vitality or +5 Health (suggested max 60 each at creation)
- * - Structure = Vitality + Health for Synthetics, Mecha, Oozes, Undead, Golems, Elementals, etc.
+ * - Starting base: 30 Vitality and 30 Health (60 Structure for Synthetics)
+ * - CP Cost: 1 CP = +5 Vitality, +5 Health, or +5 Structure (suggested max 60 Vit/Hea, 120 Structure at creation)
+ * - ZERO STAMINA SCALING: Stamina grants Base Toughness DR and Fortitude/Mortality, NEVER pool size or CP caps.
  * 
  * @param {object} params
- * @param {number} [params.vitalityBP=0] - Number of BP spent on Vitality
- * @param {number} [params.healthBP=0] - Number of BP spent on Health
+ * @param {number} [params.vitalityCP] - Number of CP spent on Vitality (alias: vitalityBP)
+ * @param {number} [params.healthCP] - Number of CP spent on Health (alias: healthBP)
+ * @param {number} [params.structureCP] - Number of CP spent on Structure (alias: structureBP)
  * @param {boolean} [params.isSynthetic=false] - Whether entity uses Structure instead of Vitality/Health
- * @param {number} [params.staminaScore=0] - Stamina score for Toughness derivation
+ * @param {number} [params.staminaScore=0] - Stamina score for Toughness derivation only
  * @returns {object} Calculated pools and resilience stats
  */
 export function calculateVitalityHealthPools({
+  vitalityCP = undefined,
+  healthCP = undefined,
+  structureCP = undefined,
   vitalityBP = 0,
   healthBP = 0,
   structureBP = 0,
   isSynthetic = false,
-  staminaScore = undefined
+  staminaScore = 0
 } = {}) {
-  const hasStaminaCap = staminaScore !== undefined && staminaScore !== null;
-  const maxIncrease = hasStaminaCap ? Math.max(0, Number(staminaScore) * 5) : Infinity;
-  const requestedVitalityBonus = Math.max(0, Number(vitalityBP || 0)) * 2;
-  const requestedHealthBonus = Math.max(0, Number(healthBP || 0)) * 2;
-  const requestedStructureBonus = Math.max(0, Number(structureBP || 0)) * 2;
-  const purchasedVitality = hasStaminaCap ? Math.min(requestedVitalityBonus, maxIncrease) : requestedVitalityBonus;
-  const purchasedHealth = hasStaminaCap ? Math.min(requestedHealthBonus, maxIncrease) : requestedHealthBonus;
-  const purchasedStructure = requestedStructureBonus;
+  const pointsPerCp = VITALITY_HEALTH_STRUCTURE_RULES.pointsPerCp || 5;
+  const effVitCP = Math.max(0, Number((vitalityCP !== undefined ? vitalityCP : vitalityBP) || 0));
+  const effHeaCP = Math.max(0, Number((healthCP !== undefined ? healthCP : healthBP) || 0));
+  const effStrCP = Math.max(0, Number((structureCP !== undefined ? structureCP : structureBP) || 0));
+
+  const purchasedVitality = effVitCP * pointsPerCp;
+  const purchasedHealth = effHeaCP * pointsPerCp;
+  const purchasedStructure = effStrCP * pointsPerCp;
 
   const baseVitality = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseVitality + purchasedVitality;
   const baseHealth = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseHealth + purchasedHealth;
@@ -1787,6 +1808,8 @@ export function calculateVitalityHealthPools({
 
   if (isSynthetic) {
     const structurePoints = baseStructure + (purchasedVitality + purchasedHealth);
+    const totalPurchasedSP = purchasedStructure + purchasedVitality + purchasedHealth;
+    const spCost = Math.ceil(totalPurchasedSP / pointsPerCp);
     return {
       vitality: 0,
       health: 0,
@@ -1796,15 +1819,19 @@ export function calculateVitalityHealthPools({
       maxStructure: structurePoints,
       toughness,
       isSynthetic: true,
+      zeroStaminaScaling: true,
       purchasedVitality,
       purchasedHealth,
       purchasedStructure,
-      maxVitalityIncrease: maxIncrease,
-      maxHealthIncrease: maxIncrease,
-      vitalityBPCost: Math.ceil(purchasedVitality / 2),
-      healthBPCost: Math.ceil(purchasedHealth / 2),
-      structureBPCost: Math.ceil(purchasedStructure / 2),
-      suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax
+      maxVitalityIncrease: null,
+      maxHealthIncrease: null,
+      vitalityCPCost: Math.ceil(purchasedVitality / pointsPerCp),
+      healthCPCost: Math.ceil(purchasedHealth / pointsPerCp),
+      structureCPCost: spCost,
+      vitalityBPCost: Math.ceil(purchasedVitality / pointsPerCp),
+      healthBPCost: Math.ceil(purchasedHealth / pointsPerCp),
+      structureBPCost: spCost,
+      suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingStructureMax || 120
     };
   }
 
@@ -1817,15 +1844,19 @@ export function calculateVitalityHealthPools({
     maxStructure: 0,
     toughness,
     isSynthetic: false,
+    zeroStaminaScaling: true,
     purchasedVitality,
     purchasedHealth,
     purchasedStructure: 0,
-    maxVitalityIncrease: maxIncrease,
-    maxHealthIncrease: maxIncrease,
-    vitalityBPCost: Math.ceil(purchasedVitality / 2),
-    healthBPCost: Math.ceil(purchasedHealth / 2),
+    maxVitalityIncrease: null,
+    maxHealthIncrease: null,
+    vitalityCPCost: Math.ceil(purchasedVitality / pointsPerCp),
+    healthCPCost: Math.ceil(purchasedHealth / pointsPerCp),
+    structureCPCost: 0,
+    vitalityBPCost: Math.ceil(purchasedVitality / pointsPerCp),
+    healthBPCost: Math.ceil(purchasedHealth / pointsPerCp),
     structureBPCost: 0,
-    suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax
+    suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax || 60
   };
 }
 
@@ -1909,57 +1940,107 @@ export function applyDamageToEntity({
   isCritical = false,
   isConcussive = false,
   attemptedReduction = true,
-  toughness = 0,
+  toughness = undefined,
   armorDR = 0,
+  armorLayers = [],
+  armorPenetration = 0,
+  damageType = 'kinetic',
+  isOverchannelBurn = false,
+  directToHealth = false,
+  bypassVitality = false,
+  baseWeaponRawDamage = undefined,
+  sneakAttackBonusDamage = 0,
   staminaScore = 0,
   isAtDeathsDoor = false,
-  deathClockCurrent = undefined
+  inMortalityState = false,
+  deathClockCurrent = undefined,
+  stabilityCurrent = undefined
 } = {}) {
-  const rawDmg = Math.max(0, Number(incomingDamage) || 0);
-  const armorDRVal = Math.max(0, Number(armorDR) || 0);
-  const damageAfterDefenses = Math.max(0, rawDmg - armorDRVal);
+  const rawDmgInput = Math.max(0, Number(incomingDamage) || 0);
+  const dmgType = String(damageType || 'kinetic').toLowerCase();
+  const bypassesAllMitigation = dmgType === 'bleed' || Boolean(isOverchannelBurn);
 
-  const effectiveToughness = (toughness !== undefined && toughness !== null)
-    ? Math.max(0, Number(toughness) || 0)
-    : Math.max(0, Number(staminaScore) || 0);
+  // Armor Layering Cap: highest single domain DR only; never summed across biological, cybernetic, and wearable armor
+  const baseHighestDR = Array.isArray(armorLayers) && armorLayers.length > 0
+    ? Math.max(0, ...armorLayers.map(v => Number(v) || 0))
+    : Math.max(0, Number(armorDR) || 0);
 
-  // Canonical rule: All character Stamina is a natural damage reduction (DR)
-  // and automatically reduces all incoming damage which penetrates the characters defenses, minimum of 1 point.
-  let netDamage = 0;
-  if (damageAfterDefenses > 0) {
-    if (effectiveToughness > 0) {
-      netDamage = Math.max(1, damageAfterDefenses - effectiveToughness);
-    } else {
-      netDamage = damageAfterDefenses;
-    }
-  } else {
-    // Defenses completely deflected the attack; 0 damage penetrates
-    netDamage = 0;
+  let domainDR = baseHighestDR;
+  if (
+    bypassesAllMitigation ||
+    dmgType === 'spectral' ||
+    dmgType === 'phase' ||
+    dmgType === 'mental' ||
+    dmgType === 'psyche' ||
+    dmgType === 'psionic' ||
+    dmgType === 'sonic'
+  ) {
+    domainDR = 0;
+  } else if (dmgType === 'force' || dmgType === 'force_pulse' || isConcussive || dmgType === 'concussive' || dmgType === 'impact') {
+    domainDR = Math.floor(domainDR / 2);
   }
 
-  const damageSoaked = rawDmg - netDamage;
-  const sta = Math.max(1, Number(staminaScore) || 1);
+  const effectiveArmorDR = bypassesAllMitigation ? 0 : Math.max(0, domainDR - Math.max(0, Number(armorPenetration) || 0));
+
+  // Sneak Attack DR Gate: bonus precision dice only apply if base weapon damage deals >= 1 point past Effective Armor DR
+  let rawDmg = rawDmgInput;
+  let sneakAttackBonusApplied = 0;
+  const sneakBonus = Math.max(0, Number(sneakAttackBonusDamage) || 0);
+  if (sneakBonus > 0) {
+    const baseRaw = baseWeaponRawDamage !== undefined
+      ? Math.max(0, Number(baseWeaponRawDamage) || 0)
+      : Math.max(0, rawDmgInput - sneakBonus);
+    if (baseRaw - effectiveArmorDR >= 1) {
+      sneakAttackBonusApplied = sneakBonus;
+      rawDmg = baseRaw + sneakBonus;
+    } else {
+      sneakAttackBonusApplied = 0;
+      rawDmg = baseRaw;
+    }
+  }
+
+  const damageAfterDefenses = Math.max(0, rawDmg - effectiveArmorDR);
+
+  const effectiveToughness = bypassesAllMitigation
+    ? 0
+    : ((toughness !== undefined && toughness !== null)
+      ? Math.max(0, Number(toughness) || 0)
+      : Math.max(0, Number(staminaScore) || 0));
+
+  // Canonical rule (3.00 COMBAT.md & 1.01.RestAndDying.md):
+  // Total Net Damage = max(0, Raw Damage - Effective Armor DR - Target Stamina Mod)
+  const netDamage = damageAfterDefenses > 0
+    ? Math.max(0, damageAfterDefenses - effectiveToughness)
+    : 0;
+
+  const damageSoaked = Math.max(0, rawDmgInput - netDamage);
+  const stabilityMax = calculateStabilityPoints(staminaScore);
 
   if (isSynthetic) {
-    // Synthetics and constructs of most types use structure which is the total of both health
-    // and vitality scores and are also immune to nonlethal damage as well as other immunities.
+    // Synthetics and constructs use Structure and are immune to non-lethal damage.
     if (isNonLethal) {
       return {
         newVitality: 0,
         newHealth: 0,
         newStructure: currentStructure,
-        damageSoaked: rawDmg,
+        damageSoaked: rawDmgInput,
+        effectiveArmorDR,
+        sneakAttackBonusApplied,
         netDamage: 0,
         spillover: 0,
         excessToVitality: 0,
+        excessToStability: 0,
         incapacitated: false,
         unconscious: false,
         prone: false,
         droppedHeldItems: false,
+        inMortalityState: false,
         atDeathsDoor: false,
         isAtDeathsDoor: false,
         comatose: false,
         isComatose: false,
+        stabilityPoints: null,
+        stabilityMax: null,
         deathClock: null,
         deathClockRemaining: null,
         deathClockMax: null,
@@ -1982,17 +2063,23 @@ export function applyDamageToEntity({
       newHealth: 0,
       newStructure,
       damageSoaked,
+      effectiveArmorDR,
+      sneakAttackBonusApplied,
       netDamage,
       spillover: 0,
       excessToVitality: 0,
+      excessToStability: 0,
       incapacitated: destroyed,
       unconscious: destroyed,
       prone: destroyed,
       droppedHeldItems: destroyed,
+      inMortalityState: false,
       atDeathsDoor: false,
       isAtDeathsDoor: false,
       comatose: false,
       isComatose: false,
+      stabilityPoints: null,
+      stabilityMax: null,
       deathClock: null,
       deathClockRemaining: null,
       deathClockMax: null,
@@ -2006,92 +2093,96 @@ export function applyDamageToEntity({
   }
 
   // Biological / living targets
-  // Check if character was already at Death's Door before this incoming hit
-  const wasAtDeathsDoor = Boolean(isAtDeathsDoor || (currentHealth <= 0 && currentVitality <= 0));
-  let massiveDamageDeath = false;
-  if (wasAtDeathsDoor && netDamage >= sta) {
-    massiveDamageDeath = true;
-  }
+  const wasInMortalityState = Boolean(inMortalityState || isAtDeathsDoor || currentHealth <= 0);
+  const bypassesVitality = Boolean((isCritical && !isNonLethal) || bypassesAllMitigation || directToHealth || bypassVitality);
 
   let newVitality = currentVitality;
   let newHealth = currentHealth;
   let spillover = 0;
   let excessToVitality = 0;
+  let excessToStability = 0;
   let concussiveSplit = null;
 
-  if (isConcussive && attemptedReduction) {
+  if ((isConcussive || dmgType === 'concussive' || dmgType === 'impact') && attemptedReduction) {
     concussiveSplit = calculateConcussiveDamageSplit(netDamage, true);
     let remVit = currentVitality - concussiveSplit.vitalityDamage;
     let remHealth = currentHealth - concussiveSplit.healthDamage;
 
-    // If Vitality depleted, excess spills into Health
     if (remVit < 0) {
-      remHealth -= Math.abs(remVit);
       spillover = Math.abs(remVit);
+      remHealth -= spillover;
       remVit = 0;
     }
-
-    // If Health depleted, excess applies to remaining Vitality
     if (remHealth < 0) {
-      excessToVitality = Math.abs(remHealth);
+      excessToStability = Math.abs(remHealth);
       remHealth = 0;
-      remVit = Math.max(0, remVit - excessToVitality);
     }
 
     newVitality = remVit;
     newHealth = remHealth;
-  } else if (isNonLethal) {
-    // Nonlethal damage track: Vitality is depleted first.
-    // Only after Vitality is completely depleted does excess spill into Health.
+  } else if (bypassesVitality) {
+    // Critical Hits, Bleed, Overchannel Burn, and explicit directToHealth bypass Vitality directly to Health
+    const remHealth = currentHealth - netDamage;
+    if (remHealth < 0) {
+      excessToStability = Math.abs(remHealth);
+      newHealth = 0;
+    } else {
+      newHealth = remHealth;
+    }
+  } else {
+    // Canonical Vitality-First Routing (both standard lethal and non-lethal attacks):
+    // Deplete Vitality first; once Vitality hits 0, excess spills into Health; excess past 0 Health reduces Stability.
     let remVit = currentVitality - netDamage;
     if (remVit < 0) {
       spillover = Math.abs(remVit);
       remVit = 0;
     }
     newVitality = remVit;
-    newHealth = Math.max(0, currentHealth - spillover);
-  } else {
-    // Lethal attack (or Critical Hit): Damages Health directly.
-    // When reduced to 0 Health: falls unconscious, drops items, falls prone.
-    // Any excess damage is applied to Vitality (if any remains).
-    let remHealth = currentHealth - netDamage;
-    let remVit = currentVitality;
+
+    const remHealth = currentHealth - spillover;
     if (remHealth < 0) {
-      excessToVitality = Math.abs(remHealth);
-      remHealth = 0;
-      remVit = Math.max(0, currentVitality - excessToVitality);
+      excessToStability = Math.abs(remHealth);
+      newHealth = 0;
+    } else {
+      newHealth = remHealth;
     }
-    newHealth = remHealth;
-    newVitality = remVit;
   }
 
   const zeroHealth = newHealth <= 0;
-  const zeroVitality = newVitality <= 0;
   const incapacitated = zeroHealth;
   const unconscious = zeroHealth;
   const prone = zeroHealth;
   const droppedHeldItems = zeroHealth;
-  const atDeathsDoor = zeroHealth && zeroVitality;
-  const comatose = atDeathsDoor;
-  const deathClockMax = sta;
+  const entersMortality = zeroHealth;
+  const comatose = entersMortality;
 
-  let deathClock = null;
-  if (atDeathsDoor) {
-    deathClock = deathClockCurrent !== undefined ? Math.min(deathClockCurrent, deathClockMax) : deathClockMax;
+  // Massive Damage: single hit >= (STA + 5) while at 0 Health or overflow >= (STA + 5) causes instant clinical death
+  let massiveDamageDeath = wasInMortalityState
+    ? Boolean(netDamage >= stabilityMax)
+    : Boolean(zeroHealth && excessToStability >= stabilityMax);
+  const priorStability = stabilityCurrent !== undefined && stabilityCurrent !== null
+    ? Number(stabilityCurrent)
+    : (deathClockCurrent !== undefined && deathClockCurrent !== null ? Number(deathClockCurrent) : stabilityMax);
+
+  let stabilityPoints = null;
+  if (entersMortality) {
+    if (massiveDamageDeath) {
+      stabilityPoints = 0;
+    } else if (wasInMortalityState) {
+      const startingStability = Math.min(priorStability, stabilityMax);
+      stabilityPoints = Math.max(0, startingStability - netDamage);
+    } else {
+      stabilityPoints = stabilityMax;
+    }
   }
 
-  const dead = massiveDamageDeath || (deathClock !== null && deathClock <= 0);
+  const dead = massiveDamageDeath || (stabilityPoints !== null && stabilityPoints <= 0);
 
   const conditions = [];
   if (dead) {
     conditions.push('Dead');
-  } else {
-    if (incapacitated) {
-      conditions.push('Incapacitated', 'Unconscious', 'Prone');
-    }
-    if (atDeathsDoor) {
-      conditions.push("Death's Door", 'Comatose');
-    }
+  } else if (entersMortality) {
+    conditions.push('Incapacitated', 'Unconscious', 'Prone', 'Bleeding Out', 'Comatose', "Death's Door", 'Mortality State');
   }
 
   return {
@@ -2099,22 +2190,28 @@ export function applyDamageToEntity({
     newHealth,
     newStructure: 0,
     damageSoaked,
+    effectiveArmorDR,
+    sneakAttackBonusApplied,
     netDamage,
     vitalityDamageTaken: currentVitality - newVitality,
     healthDamageTaken: currentHealth - newHealth,
     spillover,
     excessToVitality,
+    excessToStability,
     incapacitated,
     unconscious,
     prone,
     droppedHeldItems,
-    atDeathsDoor,
-    isAtDeathsDoor: atDeathsDoor,
+    inMortalityState: entersMortality,
+    atDeathsDoor: entersMortality,
+    isAtDeathsDoor: entersMortality,
     comatose,
     isComatose: comatose,
-    deathClock,
-    deathClockRemaining: deathClock,
-    deathClockMax,
+    stabilityPoints,
+    stabilityMax,
+    deathClock: stabilityPoints,
+    deathClockRemaining: stabilityPoints,
+    deathClockMax: stabilityMax,
     massiveDamageDeath,
     instantDeath: massiveDamageDeath,
     dead,
@@ -2126,33 +2223,44 @@ export function applyDamageToEntity({
 }
 
 /**
- * Calculates Death's Door clock rounds based on character Stamina score (minimum 1 round).
- * 
+ * Calculates Unified Mortality State Stability Points based on Stamina score (STA + 5, min 1).
+ *
  * @param {number} staminaScore
  * @returns {number}
  */
-export function calculateDeathClock(staminaScore) {
-  return Math.max(1, Number(staminaScore) || 1);
+export function calculateStabilityPoints(staminaScore = 0) {
+  const parsed = Number(staminaScore);
+  const sta = Number.isFinite(parsed) ? parsed : 0;
+  return Math.max(1, sta + 5);
 }
 
 /**
- * Checks if a single hit at Death's Door meets or exceeds STA score for massive damage instant death.
- * 
+ * Backward-compatible alias for calculateStabilityPoints (STA + 5).
+ *
+ * @param {number} staminaScore
+ * @returns {number}
+ */
+export function calculateDeathClock(staminaScore = 0) {
+  return calculateStabilityPoints(staminaScore);
+}
+
+/**
+ * Checks if a single hit meets or exceeds (STA + 5) for Massive Damage clinical death threshold.
+ *
  * @param {number} incomingDamage Net damage after soak
  * @param {number} staminaScore
  * @returns {boolean}
  */
-export function checkMassiveDamage(incomingDamage, staminaScore) {
+export function checkMassiveDamage(incomingDamage, staminaScore = 0) {
   const dmg = Math.max(0, Number(incomingDamage) || 0);
-  const sta = Math.max(1, Number(staminaScore) || 1);
-  return dmg >= sta;
+  return dmg >= calculateStabilityPoints(staminaScore);
 }
 
 /**
- * Resolves stabilization attempt for a dying character at Death's Door:
- * A successful Medicine (DC 15) check or healing magic/tech stops the clock.
- * The character remains unconscious but is no longer dying.
- * 
+ * Resolves stabilization attempt for a dying character in the Mortality State (0 Health):
+ * A successful Medicine (CR 15) check or metaphysical healing (Entropy: Order) stops Bleeding Out.
+ * The character remains unconscious at 0 Health unless healed above 0 Health.
+ *
  * @param {object} params
  * @param {number} [params.medicineCheckRoll=0]
  * @param {boolean} [params.isMedicineSuccess=false]
@@ -2167,6 +2275,7 @@ export function stabilizeEntity({
   const isStabilized = Boolean(hasHealingEffect || isMedicineSuccess || (Number(medicineCheckRoll) >= 15));
   return {
     stabilized: isStabilized,
+    targetCR: 15,
     targetDC: 15,
     roll: Number(medicineCheckRoll) || 0,
     hasHealingEffect: Boolean(hasHealingEffect),
@@ -2174,42 +2283,97 @@ export function stabilizeEntity({
     noLongerDying: isStabilized,
     conditions: isStabilized
       ? ['Incapacitated', 'Unconscious', 'Prone', 'Stabilized']
-      : ['Incapacitated', 'Unconscious', 'Prone', 'Comatose', 'Death\'s Door']
+      : ['Incapacitated', 'Unconscious', 'Prone', 'Bleeding Out', 'Mortality State']
   };
 }
 
 /**
- * Advances the Death's Door clock by 1 round (turn step).
- * If the clock reaches 0, the character dies permanently.
- * 
+ * Advances the Mortality State bleed-out by 1 round:
+ * - Fortitude Stabilization Save CR = 10 + roundsDowned.
+ * - Beating the CR by +5 or more self-stabilizes the character.
+ * - Meeting the CR prevents Stability loss for that round.
+ * - Failing (or no save rolled) deducts 1 Stability Point; reaching 0 Stability causes clinical death.
+ *
  * @param {object} params
- * @param {number} params.currentClock Current rounds remaining on death clock
+ * @param {number} [params.currentClock] Current Stability Points remaining
+ * @param {number} [params.stabilityPoints] Alias for currentClock
  * @param {boolean} [params.isStabilized=false]
+ * @param {number} [params.fortitudeSaveRoll=undefined]
+ * @param {number} [params.roundsDowned=0]
  * @returns {object}
  */
-export function advanceDeathClock({ currentClock = 1, isStabilized = false } = {}) {
+export function advanceDeathClock({
+  currentClock = undefined,
+  stabilityPoints = undefined,
+  isStabilized = false,
+  fortitudeSaveRoll = undefined,
+  roundsDowned = 0
+} = {}) {
+  const current = stabilityPoints !== undefined && stabilityPoints !== null
+    ? Number(stabilityPoints)
+    : (currentClock !== undefined && currentClock !== null ? Number(currentClock) : 1);
+  const saveCR = 10 + Math.max(0, Number(roundsDowned) || 0);
+
   if (isStabilized) {
     return {
-      currentClock: Number(currentClock) || 1,
+      currentClock: current,
+      stabilityPoints: current,
+      saveCR,
+      saveDC: saveCR,
       isStabilized: true,
+      selfStabilized: false,
       dead: false
     };
   }
-  const next = Math.max(0, (Number(currentClock) || 0) - 1);
+
+  if (fortitudeSaveRoll !== undefined && fortitudeSaveRoll !== null) {
+    const rollVal = Number(fortitudeSaveRoll);
+    if (rollVal >= saveCR + 5) {
+      return {
+        currentClock: current,
+        stabilityPoints: current,
+        saveCR,
+        saveDC: saveCR,
+        isStabilized: true,
+        selfStabilized: true,
+        dead: false
+      };
+    }
+    if (rollVal >= saveCR) {
+      return {
+        currentClock: current,
+        stabilityPoints: current,
+        saveCR,
+        saveDC: saveCR,
+        isStabilized: false,
+        selfStabilized: false,
+        dead: current <= 0
+      };
+    }
+  }
+
+  const next = Math.max(0, current - 1);
   return {
     currentClock: next,
+    stabilityPoints: next,
+    saveCR,
+    saveDC: saveCR,
     isStabilized: false,
+    selfStabilized: false,
     dead: next <= 0
   };
 }
 
+export const advanceMortalityTurn = advanceDeathClock;
+
 /**
- * Revivification ("The High Cost of Dying"):
- * Return from the dead option (high-level Metaphysics or Tech TL5).
+ * Revivification ("The High Cost of Dying" — 1.01.RestAndDying.md):
+ * Return from clinical death via TL 5 Resuscitation or Entropy: Order Rank 21+.
  * Penalties:
+ * - Restored to 1 Health with the Exhausted condition applied.
  * - Loses ALL remaining Karma Points (reset to 0).
- * - Suffer a -5 Experience Debt due to the trauma (trait reduction or accumulated/future XP reduction).
- * 
+ * - Suffers +5 Experience Debt.
+ *
  * @param {object} params
  * @param {object} params.characterData
  * @param {number} [params.revivedHealth=1] Initial Health restored on revivification
@@ -2218,14 +2382,38 @@ export function advanceDeathClock({ currentClock = 1, isStabilized = false } = {
 export function revivifyEntity({ characterData = {}, revivedHealth = 1 } = {}) {
   const currentDebt = Number(characterData.experience_debt || 0);
   const karmaLost = Math.max(0, Number(characterData.karma || 0));
+  const clearedDeathStates = new Set([
+    'dead',
+    "death's door",
+    'comatose',
+    'bleeding out',
+    'mortality state',
+    'incapacitated',
+    'unconscious',
+    'stabilized'
+  ]);
+  const priorConditions = Array.isArray(characterData.active_conditions)
+    ? characterData.active_conditions
+    : (Array.isArray(characterData.conditions) ? characterData.conditions : []);
+  const filteredConditions = priorConditions.filter(
+    c => typeof c === 'string' && !clearedDeathStates.has(c.trim().toLowerCase())
+  );
+  if (!filteredConditions.some(c => c.trim().toLowerCase() === 'exhausted')) {
+    filteredConditions.push('Exhausted');
+  }
+
   const updatedData = {
     ...characterData,
     current_health: Math.max(1, Number(revivedHealth) || 1),
     is_dead: false,
+    in_mortality_state: false,
     is_at_deaths_door: false,
+    stability_points: null,
     death_clock: null,
     is_stabilized: true,
     is_comatose: false,
+    active_conditions: filteredConditions,
+    conditions: filteredConditions,
     karma: 0,
     experience_debt: currentDebt + 5
   };
@@ -2236,7 +2424,8 @@ export function revivifyEntity({ characterData = {}, revivedHealth = 1 } = {}) {
       karmaLost,
       karmaRemaining: 0,
       experienceDebtAdded: 5,
-      totalExperienceDebt: currentDebt + 5
+      totalExperienceDebt: currentDebt + 5,
+      exhaustedConditionApplied: true
     }
   };
 }
@@ -2804,8 +2993,11 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     }
   });
 
-  // 5. Hindrances / Disadvantages (Yields CP Refunds unless from Species Package)
-  let disadvantageRefund = 0;
+  // 5. Hindrances / Disadvantages (Personal Hindrances capped at +10 CP; Species Disadvantages & Stigmas exempt per 1.00 CHARACTER CREATION.md)
+  let rawPersonalHindranceRefund = 0;
+  let exemptHindranceRefund = 0;
+  const PERSONAL_HINDRANCE_MAX_REFUND = 10;
+
   const rawHindranceEntries = [
     ...(Array.isArray(characterData.hindrances) ? characterData.hindrances : []),
     ...(Array.isArray(characterData.disadvantages) ? characterData.disadvantages : [])
@@ -2823,21 +3015,27 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
 
   hindrancesList.forEach((dis) => {
     const name = typeof dis === 'object' ? (dis.name || dis.title || 'Unnamed Hindrance') : String(dis);
+    const disSource = typeof dis === 'object' ? String(dis.source || '').toLowerCase() : '';
+    const disCategory = typeof dis === 'object' ? String(dis.category || '').toLowerCase() : '';
     const isSpeciesDis = typeof dis === 'object' && (
-      dis.source === 'species' || 
+      disSource === 'species' || 
       dis.category === 'Species Disadvantage' || 
       dis.category === 'Species' ||
       (speciesCostBreakdown?.itemized?.disadvantages?.some(sd => (sd.name || '').toLowerCase() === name.toLowerCase()))
     );
     const isFactionDis = typeof dis === 'object' && (
-      dis.source === 'faction' ||
+      disSource === 'faction' ||
       dis.category === 'Faction Hindrance' ||
       dis.category === 'Faction Disadvantage' ||
       dis.category === 'Faction'
     );
+    const isStigma = Boolean(
+      (typeof dis === 'object' && (dis.isStigma || disSource === 'stigma' || disCategory.includes('stigma'))) ||
+      name.toLowerCase().includes('stigma')
+    );
 
     if (isSpeciesDis) {
-      const refVal = typeof dis === 'object' ? (dis.refundBP || dis.bp || 3) : 3;
+      const refVal = typeof dis === 'object' ? (dis.refundBP || dis.cp || dis.bp || 3) : 3;
       itemizedList.push({
         category: 'Species Disadvantage',
         item: name,
@@ -2846,19 +3044,37 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
         cost: formatGrantedCost(0, -Math.abs(refVal), 'CP'),
         standaloneCost: -Math.abs(refVal)
       });
-    } else {
-      const defaultRefund = (typeof dis === 'object' && (dis.refundBP || dis.bp)) ? (dis.refundBP || dis.bp) : 3;
+    } else if (isStigma || isFactionDis) {
+      const defaultRefund = (typeof dis === 'object' && (dis.refundBP || dis.cp || dis.bp)) ? (dis.refundBP || dis.cp || dis.bp) : 3;
       const cpVal = getItemCP(dis, defaultRefund);
-      disadvantageRefund += cpVal;
+      exemptHindranceRefund += cpVal;
       itemizedList.push({
-        category: isFactionDis ? 'Faction Hindrance' : 'Hindrance',
+        category: isStigma ? 'Social Stigma' : 'Faction Hindrance',
         item: name,
-        val: isFactionDis ? 'Faction Allegiance Restriction (CP Refund)' : 'Character Hindrance Refund',
+        val: isStigma ? 'Social Stigma Refund (Exempt from +10 CP Cap)' : 'Faction Allegiance Restriction (CP Refund)',
         costVal: -cpVal,
         cost: `-${cpVal} CP`
       });
+    } else {
+      const defaultRefund = (typeof dis === 'object' && (dis.refundBP || dis.cp || dis.bp)) ? (dis.refundBP || dis.cp || dis.bp) : 3;
+      const cpVal = getItemCP(dis, defaultRefund);
+      const remainingAllowance = Math.max(0, PERSONAL_HINDRANCE_MAX_REFUND - rawPersonalHindranceRefund);
+      const effectiveCpVal = Math.min(cpVal, remainingAllowance);
+      rawPersonalHindranceRefund += cpVal;
+      itemizedList.push({
+        category: 'Hindrance',
+        item: name,
+        val: effectiveCpVal < cpVal
+          ? `Character Hindrance Refund (Capped at +${PERSONAL_HINDRANCE_MAX_REFUND} CP max; ${cpVal} CP raw)`
+          : 'Character Hindrance Refund',
+        costVal: -effectiveCpVal,
+        cost: `-${effectiveCpVal} CP`
+      });
     }
   });
+
+  const cappedPersonalHindranceRefund = Math.min(PERSONAL_HINDRANCE_MAX_REFUND, rawPersonalHindranceRefund);
+  const disadvantageRefund = exemptHindranceRefund + cappedPersonalHindranceRefund;
 
   // 6. Features & Perks (Standard 3 CP; 5-Pillar / Recommended Features & Categories get -1 CP discount = 2 CP; min 1 CP; Identity Granted Features = 0 CP [standalone])
   let featuresCost = 0;
@@ -3212,10 +3428,11 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
       itemizedList.push({
         category,
         item: name,
-        val: `DC ${dc} • ${numCr.toLocaleString()} Cr`,
+        val: `CR ${dc} • ${numCr.toLocaleString()} Cr`,
         costVal: 0,
         cost: '0 CP',
         creditVal: numCr,
+        cr: dc,
         dc
       });
     });
@@ -3258,15 +3475,16 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   Object.keys(characterData).forEach((key) => {
     if (key.startsWith('skill-') && key.endsWith('-rank')) {
       const rawRank = parseInt(characterData[key] || 0, 10);
-      const rank = Math.min(20, Math.max(0, rawRank)); // Max level 20 cap
+      const rank = Math.min(30, Math.max(0, rawRank)); // Canonical Max Skill Rank 30 cap (Stage 6 Pinnacle)
       if (rank > 0) {
         const rawSkillId = key.replace('skill-', '').replace('-rank', '');
-        const cleanSkillId = rawSkillId.replace(/^[a-z]+-/, '');
+        const resolvedRawId = resolveCanonicalSkillAlias(rawSkillId)?.id || rawSkillId;
+        const cleanSkillId = resolvedRawId.replace(/^[a-z]+-/, '');
         const storedName = characterData[`skill-${rawSkillId}-name`] || characterData[`skill-${cleanSkillId}-name`];
         
         // Find matching canonical skill if possible
         const cleanNorm = cleanSkillId.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const rawNorm = rawSkillId.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const rawNorm = resolvedRawId.toLowerCase().replace(/[^a-z0-9]/g, '');
         const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
           const sIdNorm = s.id.toLowerCase().replace(/[^a-z0-9]/g, '');
           const sCleanNorm = s.id.replace(/^[a-z]+-/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -3373,43 +3591,52 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     }
   });
 
-  // 14. Purchased Stats Cost (Health & Vitality & Structure: 1 CP per 2 pt increase)
+  // 14. Purchased Stats Cost (Health & Vitality & Structure: 1 CP per 5 pt increase — Canonical 1.00 CHARACTER CREATION.md)
   let purchasedStatsCost = 0;
-  const pHealth = derivedStats?.purchasedHealth || 0;
-  const pVitality = derivedStats?.purchasedVitality || 0;
-  const pStructure = derivedStats?.purchasedStructure || 0;
+  const fallbackBonusHealth = !characterData.is_synthetic && Number(characterData.health) > 30
+    ? Number(characterData.health) - 30
+    : 0;
+  const fallbackBonusVitality = !characterData.is_synthetic && Number(characterData.vitality) > 30
+    ? Number(characterData.vitality) - 30
+    : 0;
+  const fallbackBonusStructure = Number(characterData.structure) > 60
+    ? Number(characterData.structure) - 60
+    : 0;
+  const pHealth = derivedStats?.purchasedHealth !== undefined ? (derivedStats.purchasedHealth || 0) : fallbackBonusHealth;
+  const pVitality = derivedStats?.purchasedVitality !== undefined ? (derivedStats.purchasedVitality || 0) : fallbackBonusVitality;
+  const pStructure = derivedStats?.purchasedStructure !== undefined ? (derivedStats.purchasedStructure || 0) : fallbackBonusStructure;
 
   if (pHealth > 0) {
-    const cost = Math.ceil(pHealth / 2);
+    const cost = Math.ceil(pHealth / 5);
     purchasedStatsCost += cost;
     itemizedList.push({
       category: 'Purchased Stat',
       item: 'Bonus Health',
-      val: `+${pHealth} Health (1 CP / 2 pts)`,
+      val: `+${pHealth} Health (1 CP / 5 pts)`,
       costVal: cost,
       cost: `${cost} CP`
     });
   }
 
   if (pVitality > 0) {
-    const cost = Math.ceil(pVitality / 2);
+    const cost = Math.ceil(pVitality / 5);
     purchasedStatsCost += cost;
     itemizedList.push({
       category: 'Purchased Stat',
       item: 'Bonus Vitality',
-      val: `+${pVitality} Vitality (1 CP / 2 pts)`,
+      val: `+${pVitality} Vitality (1 CP / 5 pts)`,
       costVal: cost,
       cost: `${cost} CP`
     });
   }
 
   if (pStructure > 0) {
-    const cost = Math.ceil(pStructure / 2);
+    const cost = Math.ceil(pStructure / 5);
     purchasedStatsCost += cost;
     itemizedList.push({
       category: 'Purchased Stat',
       item: 'Bonus Structure',
-      val: `+${pStructure} Structure (1 CP / 2 pts)`,
+      val: `+${pStructure} Structure (1 CP / 5 pts)`,
       costVal: cost,
       cost: `${cost} CP`
     });
@@ -3460,6 +3687,9 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     traitsCost,
     traitsCP: traitsCost,
     disadvantageRefund,
+    rawPersonalHindranceRefund,
+    cappedPersonalHindranceRefund,
+    exemptHindranceRefund,
     specialAbilitiesCost,
     awakenedCost,
     invocationsCost,

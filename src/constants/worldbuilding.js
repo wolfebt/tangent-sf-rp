@@ -317,11 +317,12 @@ export const INVOCATION_OTHER_MODIFIERS = [
 ];
 
 export const SKILL_STAGES = [
-  { stage: 1, name: 'Stage 1 — Novice', minRank: 1, maxRank: 5, minDC: 10, maxDC: 14, essenceCost: 0, description: 'Base learned stage: 0 Essence cost (ambient resonance)' },
-  { stage: 2, name: 'Stage 2 — Trained', minRank: 6, maxRank: 10, minDC: 15, maxDC: 19, essenceCost: 0, description: 'Competent execution; standard scaling baseline' },
-  { stage: 3, name: 'Stage 3 — Expert', minRank: 11, maxRank: 15, minDC: 20, maxDC: 24, essenceCost: 0, description: 'Specialized scaling and secondary tactical triggers' },
-  { stage: 4, name: 'Stage 4 — Master', minRank: 16, maxRank: 20, minDC: 25, maxDC: 29, essenceCost: 0, description: 'Grand metaphysical effects with expanded radii' },
-  { stage: 5, name: 'Stage 5 — Pinnacle', minRank: 21, maxRank: 30, minDC: 30, maxDC: 99, essenceCost: 0, description: 'Reality warping power; cosmic scale manifestation' }
+  { stage: 1, name: 'Stage 1 — Novice', minRank: 1, maxRank: 5, minCR: 10, maxCR: 14, minDC: 10, maxDC: 14, iterativeActions: 1, essenceCost: 0, description: 'Base learned stage: 0 Essence cost (ambient resonance)' },
+  { stage: 2, name: 'Stage 2 — Trained', minRank: 6, maxRank: 10, minCR: 15, maxCR: 19, minDC: 15, maxDC: 19, iterativeActions: 1, essenceCost: 0, description: 'Competent execution; standard scaling baseline' },
+  { stage: 3, name: 'Stage 3 — Expert', minRank: 11, maxRank: 15, minCR: 20, maxCR: 24, minDC: 20, maxDC: 24, iterativeActions: 2, essenceCost: 0, description: 'Specialized scaling and 2 iterative combat actions' },
+  { stage: 4, name: 'Stage 4 — Master', minRank: 16, maxRank: 20, minCR: 25, maxCR: 29, minDC: 25, maxDC: 29, iterativeActions: 3, essenceCost: 0, description: 'Mastery tier; unlocks Consolidation Protocol and 3 iterative actions' },
+  { stage: 5, name: 'Stage 5 — Grand Master', minRank: 21, maxRank: 25, minCR: 30, maxCR: 34, minDC: 30, maxDC: 34, iterativeActions: 4, essenceCost: 0, description: 'Grandmaster execution; 4 iterative combat actions' },
+  { stage: 6, name: 'Stage 6 — Pinnacle', minRank: 26, maxRank: 30, minCR: 35, maxCR: 99, minDC: 35, maxDC: 99, iterativeActions: 6, essenceCost: 0, description: 'Pinnacle mastery; reality-warping scale and up to 6 iterative actions' }
 ];
 
 export const INVOCATION_SCALING_FORMULAS = {

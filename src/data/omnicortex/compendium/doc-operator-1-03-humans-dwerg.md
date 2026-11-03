@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 55
+order: 53
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.dwerg","mechanics"]
-updatedAt: "2026-10-14T05:24:25.051Z"
+updatedAt: "2026-11-02T22:49:34.209Z"
 costs:
   bp: 0
   credits: 0
@@ -37,19 +37,20 @@ sockets:
   allocated: []
 ---
 
-# **DWERG \***
+# **DWERG **  
+**
 
-# **DWERG \***
+# **DWERG ***
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
 **Description:** Dwerg, a prominent human variant frequently referred to as Dwarves, possess a distinctive physiological profile rooted in their evolution on a high-gravity world. This intense gravitational environment has acted as a potent selective pressure, fundamentally shaping their physical characteristics.
 
-&nbsp;
+  
 
 The most noticeable result of this evolution is their dense, compact physique and markedly shorter-than-average stature. While classified as Medium size in general terms, their typical height is around 5 feet, giving them a "Stocky" build. Despite this reduced height, their bone density and muscular mass are significantly increased, leading to a body weight comparable to, or sometimes exceeding, that of a baseline human of average height. This combination of short stature and high mass contributes to an exceptionally low center of gravity, granting them superior stability, balance, and physical resilience. Their circulatory and skeletal systems are also uniquely adapted to withstand high-stress environments.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -57,41 +58,41 @@ The most noticeable result of this evolution is their dense, compact physique an
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 2
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Minor Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Str
++1 Str
 
-\+1 Sta
++1 Sta
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Vocation Skills
++10 Vocation Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Mighty Surge (Feature)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Adaptive
 
@@ -111,5 +112,7 @@ Rugged
 
 Skill Focus line
 
-&nbsp;
+  
+**  
+**
 

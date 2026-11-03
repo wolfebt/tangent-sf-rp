@@ -18,15 +18,15 @@ export const TechLevel = {
 export type TechLevel = typeof TechLevel[keyof typeof TechLevel];
 
 /**
- * Tangent UDU (Universal Dimensional Unit) Hierarchy:
+ * Tangent UDU (Universal Displacement Unit) Hierarchy (10:1 Geometric Ladder):
  * - Node: < 10g (Micro/Cyberware)
- * - Socket: < 1kg (Small/Gear mods)
+ * - Socket: < 1kg (Small/Gear mods) - 1 Socket = 10 Nodes
  * - Mount: < 100kg (Medium/Vehicle hardpoints) - 1 Mount = 10 Sockets
  * - Module: < 10t (Large/Starship & Facility bays) - 1 Module = 10 Mounts
  */
 export const UDUTier = {
   Node: 'node',     // Cyberware / Bioware (<10g)
-  Socket: 'socket', // Weapon & Personal Gear Mods (<1kg)
+  Socket: 'socket', // Weapon & Personal Gear Mods (<1kg, 10 Nodes)
   Mount: 'mount',   // Mecha / Drone / Vehicle Hardpoint (<100kg, 10 Sockets)
   Module: 'module'  // Facility / Vehicle Bay / Room (<10t, 10 Mounts)
 } as const;
@@ -57,6 +57,14 @@ export interface MechaChassis {
   installedAugments: Augmentation[];
   hardpointSlots?: HardpointSlot[];
 }
+
+const MECHA_GARAGING_MAP: Record<string, { mountsPerUnit: number; modulesPerUnit: number }> = {
+  Medium: { mountsPerUnit: 1, modulesPerUnit: 0.1 },
+  Large: { mountsPerUnit: 2, modulesPerUnit: 0.2 },
+  Huge: { mountsPerUnit: 5, modulesPerUnit: 0.5 },
+  Gargantuan: { mountsPerUnit: 10, modulesPerUnit: 1.0 },
+  Colossal: { mountsPerUnit: 20, modulesPerUnit: 2.0 }
+};
 
 export class MechaSocketManager {
   /**
@@ -90,7 +98,7 @@ export class MechaSocketManager {
    * Uses canonical 2d10 dice roll (not d20!).
    * TL4 Bioware and above are immune.
    */
-  public applyEMP(chassis: MechaChassis, empStrengthDC: number, rollOverride?: number): string[] {
+  public applyEMP(chassis: MechaChassis, empStrengthCR: number, rollOverride?: number): string[] {
     const disabledHardwareIds: string[] = [];
 
     chassis.installedAugments.forEach(aug => {
@@ -103,7 +111,7 @@ export class MechaSocketManager {
       const d2 = Math.floor(Math.random() * 10) + 1;
       const savingThrow = rollOverride !== undefined ? rollOverride : (d1 + d2);
 
-      if (savingThrow < empStrengthDC) {
+      if (savingThrow < empStrengthCR) {
         disabledHardwareIds.push(aug.id);
       }
     });
@@ -134,6 +142,49 @@ export class MechaSocketManager {
       isValid: totalSocketsUsed <= totalCapacitySockets,
       totalSocketsUsed,
       totalCapacitySockets
+    };
+  }
+
+  /**
+   * Calculates canonical UDU Garaging displacement (5.04 MECHA.md / 5.07 ARCHITECTURE.md).
+   */
+  public calculateGaragingRequirement(mechaSize: string = 'Medium', count: number = 1): {
+    size: string;
+    count: number;
+    mountsRequired: number;
+    modulesRequired: number;
+  } {
+    const rule = MECHA_GARAGING_MAP[mechaSize] || MECHA_GARAGING_MAP.Medium;
+    const qty = Math.max(0, count);
+    return {
+      size: MECHA_GARAGING_MAP[mechaSize] ? mechaSize : 'Medium',
+      count: qty,
+      mountsRequired: Number((rule.mountsPerUnit * qty).toFixed(2)),
+      modulesRequired: Number((rule.modulesPerUnit * qty).toFixed(2))
+    };
+  }
+
+  /**
+   * Validates Meta-Tech Socket-to-Invocation Rank capacity (5.06 META-TECH.md).
+   * - 1 Socket (10 Nodes): Max Rank 10
+   * - 2 Sockets (20 Nodes): Max Rank 20
+   * - 3+ Sockets (or 1 Mount / 1 Module): Max Rank 30
+   */
+  public validateMetaTechSocketRank(socketsEquivalent: number, invocationRank: number): {
+    isValid: boolean;
+    maxInvocationRank: number;
+    requiredSockets: number;
+  } {
+    let maxInvocationRank = 0;
+    if (socketsEquivalent >= 3) maxInvocationRank = 30;
+    else if (socketsEquivalent >= 2) maxInvocationRank = 20;
+    else if (socketsEquivalent >= 1) maxInvocationRank = 10;
+
+    const requiredSockets = invocationRank <= 0 ? 0 : (invocationRank <= 10 ? 1 : (invocationRank <= 20 ? 2 : 3));
+    return {
+      isValid: invocationRank <= maxInvocationRank,
+      maxInvocationRank,
+      requiredSockets
     };
   }
 

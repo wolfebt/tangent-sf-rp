@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 164
+order: 162
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.hostile","mechanics"]
-updatedAt: "2026-10-14T05:38:13.237Z"
+updatedAt: "2026-11-02T22:49:28.053Z"
 costs:
   bp: 0
   credits: 0
@@ -37,35 +37,36 @@ sockets:
   allocated: []
 ---
 
-# **HOSTILE**
+# 1.05.05 ORIGIN: HOSTILE (+0 WS)
+
+* **Executive Summary:** Deathworlds, quarantine zones, high-gravity super-earths, and corrosive hellscapes where the environment itself tries to kill inhabitants daily (Omin II, Tavros, Vulcanis).
+* **EUFT Starting Wealth Modifier:** **+0 WS**
+* **Canonical Society Skills (20 SP Allocation):** Athletics, Alertness, Stealth, Knowledge (Medicine, Nature, Survival), Combat (Any 1) [or ANY 20 SP per open deathworld adaptation]
+* **Typical Archetypes:** Deathworld Survivor, Hazard Scout, Monster Hunter, Quarantine Ranger, Survivalist, Warrior, Scavenger, Shaman, Mutant, Outcast
+
+---
 
 # **HOSTILE**
 
 It is uncommon to find a civilization in a dangerous or poisonous world, but some have chosen to live in such environments for various reasons.
 
-&nbsp;
-
 ## **Society Skills**
 
 ANY
 
-&nbsp;
-
 ## **Archetypes**
 
-Survivalist&nbsp;
+Survivalist
 
-Warrior&nbsp;
+Warrior
 
-Scavenger&nbsp;
+Scavenger
 
-Shaman&nbsp;
+Shaman
 
-Mutant&nbsp;
+Mutant
 
-Outcast&nbsp;
-
-&nbsp;
+Outcast
 
 ## **Traits**
 
@@ -75,15 +76,11 @@ Defending themselves against hostile creatures or other threats.
 
 *\+2 to a Combat Skill of choice*
 
-&nbsp;
-
 ### *Intuition*
 
 The character may have a heightened sense of intuition, allowing them to anticipate danger.
 
-*Re-Roll any one failed Perception check per day*
-
-&nbsp;
+*Re-Roll any one failed Alertness check per day*
 
 ### *Mental Toughness*
 
@@ -91,15 +88,11 @@ Withstanding stress, fear, and other psychological challenges that might arise i
 
 *\+2 Willpower Checks*
 
-&nbsp;
-
 ### *Physical Endurance*
 
 Withstanding harsh conditions and resisting fatigue.
 
 *\+2 Fortitude Checks*
-
-&nbsp;
 
 ### *Pilot Skills*
 
@@ -107,15 +100,11 @@ Experienced piloting various craft in hostile environments.
 
 *\+2 Piloting*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 Adapting to changing circumstances and making the most of limited resources.
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Survival Skills*
 
@@ -123,21 +112,30 @@ Finding food, water, and shelter in hostile environments.
 
 *\+2 Survival Skill Checks*
 
-&nbsp;
-
 ### *Technical Skills*
 
 Repairing or modifying equipment to suit the needs of a hostile environment.
 
 *\+1 to Mechanical, Electrical and Engineering Skill Checks*
 
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Apex Vigilance:** May Take 10 on Alertness checks even under stress or danger.
+* **Environmental Resistance:** +2 to Fortitude Saves against poison, disease, radiation, and extreme weather.
+* **Hardened Survivor:** +1 to Might and Fortitude Saving Throws.
+* **Predator's Instinct:** +2 to Initiative checks.
+* **Scavenger's Eye:** +2 to Vocation (Salvager) and Knowledge (Survival) checks to locate water, shelter, or usable parts.
+* **Stalker:** May Take 10 on Stealth checks in natural or ruined terrain.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **05\. HOSTILE**
 
@@ -212,4 +210,11 @@ Repairing or modifying equipment to suit the needs of a hostile environment.
 * **STYLE:** Termination Zone, Planetary Strip-Mine.  
 * **PALETTE:** Metal Grey, Strip-Mine Brown, Laser Red, Acid Green.  
 * **TOKENS:** Excavators, pits, smoke, lasers, indifference.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** Radiation-lashed volcanic badlands colonized effortlessly by heavy-carapace Murex and Maantene strains. Thick obsidian resin domes shrug off acid rain and ionizing fallout while Spire-Sentries track apex megafauna.
+* **STYLE:** Evolutionary Apex Fortress, Radiation-Hardened Hive.
+* **PALETTE:** Scorched Obsidian, Acid Green, Fallout Amber, Chitin Black.
+* **TOKENS:** Heavy radiation carapace, acid-slick resin, bio-plasma AA turrets, apex predator husks.
 

@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 40
+order: 46
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. metaphysics","matrix"]
-updatedAt: "2026-10-14T06:04:05.751Z"
+updatedAt: "2026-11-02T22:49:08.337Z"
 costs:
   bp: 0
   credits: 0
@@ -37,108 +37,110 @@ sockets:
   allocated: []
 ---
 
-# **METAPHYSICS FRAMEWORK**
+# **99. METAPHYSICS FRAMEWORK**
 
 ## **Introduction: The Ladder of Transcendence**
 
-While Technology is the manipulation of the physical universe through tools and physics, Metaphysics is the manipulation of reality through will and universal constants. This Codex defines the Metafocus Levels (ML), a classification system used to gauge a civilization's understanding, integration, and mastery of the "Meta" (Magic, Psionics, and Dimensional manipulation).
+While Technology is the manipulation of the physical universe through tools and physics, Metaphysics is the manipulation of reality through will and universal constants. This Codex defines the **Metafocus Levels (ML)**—a classification system used to gauge a civilization's understanding, integration, and mastery of the "Meta" (Magic, Psionics, and Dimensional manipulation).
 
-&nbsp;
+## **Independence of Systems**
 
-## **Independence of Systems:**
+A society's Metafocus Level is independent of its Technological Level (TL). A Stone Age (TL 0) tribe may possess Advanced (ML 5) shamanic rites, while a hyper-advanced spacefaring empire (TL 5) may be completely spiritually inert (ML 0). The intersection of these two axes is where unique settings are born.
 
-A society's Metafocus Level is independent of its Technological Level (TL). A Stone Age (TL 0\) tribe may possess Advanced (ML 5\) shamanic rites, while a hyper-advanced spacefaring empire (TL 5\) may be completely spiritually inert (ML 0). The intersection of these two axes is where unique settings are born.
-
-&nbsp;
-
-&nbsp;
+---
 
 ## **Metafocus Levels (ML)**
 
-### ---
+### **ML 0: Null**
 
-### **0 Null**
+- **Definition:** A complete absence of active metaphysical manipulation. The concept of "magic" or "psionics" is myth, fiction, or completely unknown. The laws of physics are treated as immutable and absolute.
+- **Metaphysical Understanding:** **None.** Supernatural events are dismissed as hallucinations, swamp gas, or uncatalogued natural phenomena. There is no vocabulary for the arcane.
+- **Societal Integration:** **Inert.** Society relies entirely on physical tools and social contracts. There are no wizards, no psychics, and no gods that answer prayers.
+- **Examples:** Pre-Awakening Earth, Strict Materialist Colonies, The "Dead Zones" of the Void, Vulcanis.
 
-* **Definition:** A complete absence of active metaphysical manipulation. The concept of "magic" or "psionics" is myth, fiction, or completely unknown. The laws of physics are immutable and absolute.  
-* **Metaphysical Understanding:** **None.** Supernatural events are dismissed as hallucinations, swamp gas, or uncatalogued natural phenomena. There is no vocabulary for the arcane.  
-* **Societal Integration:** **Inert.** Society relies entirely on physical tools and social contracts. There are no wizards, no psychics, and no gods that answer prayers.  
-* **Examples:** Pre-Awakening Earth, Strict Materialist Colonies, The "Dead Zones" of the Void.
+---
 
-### ---
+### **ML 1: Rare**
 
-### **1 Rare**
+- **Definition:** Metaphysics exists but is misunderstood, uncontrolled, and often feared. It manifests as "Wild Talent" or "Dark Miracles."
+- **Metaphysical Understanding:** **Superstition.** The mechanics of the Meta are cloaked in ritual, religion, and fear. Practitioners (Witches, Shamans, Wild Psychics) are born rather than formally trained, and often lack the ability to repeat effects reliably (high incidence of **Energy Surges**).
+- **Societal Integration:** **Ostracized or Revered.** Users are typically outcasts, hermits, or leaders of small, isolated cults. The general populace views metaphysical power with deep suspicion, and laws often forbid its practice or regulate it as a dangerous weapon.
+- **Examples:** Most primitive worlds, Early Coalition settlements (Anti-Psyker stance), Uncontacted Tribal Species.
 
-* **Definition:** Metaphysics exists but is misunderstood, uncontrolled, and often feared. It manifests as "Wild Talent" or "Dark Miracles."  
-* **Metaphysical Understanding:** **Superstition.** The mechanics of the Meta are cloaked in ritual, religion, and fear. Practitioners (Witches, Shamans, Psychics) are born, not made, and often lack the ability to repeat effects reliably (High incidence of **Energy Surges**).  
-* **Societal Integration:** **Ostracized or Revered.** Users are typically outcasts, hermits, or leaders of small, isolated cults. The general populace views magic with deep suspicion. Laws often forbid its practice or regulate it as a dangerous weapon.  
-* **Examples:** Most primitive worlds, The Early Coalition (Anti-Psyker stance), Uncontacted Tribal Species.
+---
 
-### ---
+### **ML 2: Selective**
 
-### **2 Selective**
+- **Definition:** Metaphysics is acknowledged as real but is restricted to specific groups, bloodlines, or clandestine orders. It is the age of "Occultism" and "Secret Ops."
+- **Metaphysical Understanding:** **Esoteric.** Knowledge is hoarded. Ancient tomes, secret scrolls, and classified corporate/government files contain the "codes" to reality. The scientific method is beginning to be applied, but results are kept hidden.
+- **Societal Integration:** **Clandestine.** Magic is not illegal, but it is not public. It is the tool of the elite: the Royal Sorcerer, the Government Psi-Ops Agent, the Shadow Clan. The common citizen knows it exists but will likely never see it firsthand.
+- **Examples:** The Outworlds (Shamans/Witches), Corporate Espionage Units, Dracon Dynasty ancestral houses, The "Hedge Wizards" of the lower decks.
 
-* **Definition:** Metaphysics is acknowledged as real but is restricted to specific groups, bloodlines, or secret societies. It is the age of "Occultism" and "Secret Ops."  
-* **Metaphysical Understanding:** **Esoteric.** Knowledge is hoarded. Ancient tomes, secret scrolls, and classified government files contain the "codes" to reality. The scientific method is beginning to be applied, but results are kept hidden.  
-* **Societal Integration:** **Clandestine.** Magic is not illegal, but it is not public. It is the tool of the elite: The Royal Sorcerer, the Government Psi-Ops Agent, the Ninja Clan. The common citizen knows it exists but will likely never see it.  
-* **Examples:** The Outworlds (Shamans/Witches), Corporate Espionage Units, The "Hedge Wizards" of the lower decks.
+---
 
-### ---
+### **ML 3: Cultured**
 
-### **3 Cultured**
+- **Definition:** Metaphysics is an accepted, if niche, profession. It is treated as a trade, an art form, or a specialized science. The "Masquerade" is broken; metaphysical practice is open.
+- **Metaphysical Understanding:** **Academic.** Universities teach "Theoretical Thaumaturgy," and Psionic Institutes screen children for talent. The laws of the Resonance Field are documented, though they still require innate or cultivated talent (the **Awakened** feature) to utilize.
+- **Societal Integration:** **Specialized.** You hire a Psion to navigate deep space, a Biomancer to heal a chronic illness, or an Elementalist to weld a hull. It is expensive and specialized, but publicly available. *Awakened* is a Recommended Feature for species at this tier.
+- **Examples:** The Dracon Dynasty (Sorcery as Nobility), The Auluran Mystic Caste, Entari Combine, General Impyrium Society.
 
-* **Definition:** Metaphysics is an accepted, if niche, profession. It is treated as a trade, an art form, or a specialized science. The "Masquerade" is broken; magic is open.  
-* **Metaphysical Understanding:** **Academic.** Universities teach "Theoretical Thaumaturgy." Psionic Institutes screen children for talent. The laws of magic are documented, though still require innate talent (The **Awakened** feature) to utilize.  
-* **Societal Integration:** **Specialized.** You hire a Psion to navigate the Warp. You hire a Biomancer to heal a chronic illness. You hire an Elementalist to weld a hull. It is expensive and specialized, but available.  
-* **Examples:** The Dynasty (Sorcery as Nobility), The Auluran Mystic Caste, General Impyrium Society.
+---
 
-### ---
+### **ML 4: Standardized**
 
-### **4 Standardized**
+- **Definition:** Metaphysics is industrialized. It is as reliable as electricity. The "Art" has become "Science."
+- **Metaphysical Understanding:** **Codified.** Invocations are optimized algorithms. "Spells" are bought as software packages, training manuals, or crystal subroutines, and the variables of the Void are calculated and insulated.
+- **Societal Integration:** **Utility.** Streetlights run on localized Aether-cells, hospitals utilize Biomancy vats, and law enforcement employs Telepaths for interrogation. **Magi-Tech** and **Psi-Tech** (the blend of ML and TL) become common consumer infrastructure. *Awakened* is a granted species feature at this tier.
+- **Examples:** The Alterian Enclave (Magic is Physics), The Syndicate (Miracles of Probability), The Ascendancy (Psi-Tech Consensus), High-Ranking Impyrium Regi (Psi-Tech).
 
-* **Definition:** Metaphysics is industrialized. It is as reliable as electricity. The "Art" has become "Science."  
-* **Metaphysical Understanding:** **Codified.** Invocations are optimized algorithms. "Spells" are bought as software packages or training manuals. The variables of the Void are calculated and insulated.  
-* **Societal Integration:** **Utility.** Streetlights run on localized Aether-cells. Hospitals use Biomancy vats. Law enforcement uses Telepaths for interrogation. Magi-Tech (The blend of ML and TL) becomes common consumer goods.  
-* **Examples:** The Alterian Enclave (Magic is Physics), The Syndicate (Miracles of Probability), High-Ranking Impyrium (Psi-Tech).
+---
 
-### ---
+### **ML 5: Advanced**
 
-### **5 Advanced**
+- **Definition:** The line between Thought and Reality is blurred. Metaphysics is the primary interface with the universe.
+- **Metaphysical Understanding:** **Intrinsic.** Manipulation of reality is intuitive. Verbal and somatic components are largely obsolete; focused will alone is sufficient. The "impossible" (Time Manipulation, True Revivification, Matter Genesis) is theoretically solvable.
+- **Societal Integration:** **Trans-Post-Scarcity.** Why build a house when you can sing one from stone? Why farm when you can duplicate food? Society is structured around philosophy, art, and the exploration of consciousness, as survival needs are trivially met via the Meta.
+- **Examples:** The Mondi (Post-Biological Angels), The Sha'Nor (Entities of Entropy), The Mekan (Psychic Constructs), The Radiant Impyrium (Golden Age apex).
 
-* **Definition:** The line between Thought and Reality is blurred. Metaphysics is the primary interface with the universe.  
-* **Metaphysical Understanding:** **Intrinsic.** Manipulation of reality is intuitive. Verbal and Somatic components are largely obsolete; will alone is sufficient. The "impossible" (Time Travel, True Resurrection, Genesis) is theoretically solvable.  
-* **Societal Integration:** **Trans-Post-Scarcity.** Why build a house when you can sing one from stone? Why farm when you can duplicate food? Society is structured around philosophy, art, and the exploration of consciousness, as survival needs are trivially met via the Meta.  
-* **Examples:** The Mondi (Post-Biological Angels), The Sha'Nor (Entities of Entropy), The Mekan (Psychic Constructs).
+---
 
-### ---
+### **ML 6 / X: Deific (NON-PLAYER)**
 
-### **X Deific (NON-PLAYER)**
+- **Definition:** Transcendent. The entities at this level do not merely manipulate reality; they *define* and rewrite it.
+- **Metaphysical Understanding:** **Omniscient.** They see the source code of the Resonance Field and can rewrite it. They create star systems, birth species, and weave pocket dimensions.
+- **Societal Integration:** **Beyond Comprehension.** They are the "Great Old Ones," the "Progenitors," or "Gods." They do not have societies in the mortal sense; they have Pantheons or Collectives.
+- **Examples:** The Ila (The Elohim / Sleeping Gods), The U'Nonn (The Anunnaki / Architects of the Jump Gates), Cosmic Constants.
 
-* **Definition:** Transcendent. The entities at this level do not manipulate reality; they *define* it.  
-* **Metaphysical Understanding:** **Omniscient.** They see the source code of the universe and can rewrite it. They create star systems, birth species, and weave dimensions.  
-* **Societal Integration:** **Beyond Comprehension.** They are the "Great Old Ones," the "Progenitors," or "Gods." They do not have societies in the mortal sense; they have Pantheons or Collectives.  
-* **Examples:** The U'Nonn (Progenitors), The Ila (The Sleeping Gods), The Architects of the Jump Gates.
-
-## ---
-
-&nbsp;
+---
 
 ## **Intersection: The Meta-Tech Threshold**
 
-While this Codex defines the purity of Metaphysics, the Tangent Galaxy often operates at the intersection.
+While this Codex defines the purity of Metaphysics, the Tangent Galaxy often operates at the intersection of Technology and Metaphysics:
 
-* **Magi-Tech /** **Psi-Tech:** Occurs when a **High TL** meets a **High ML**. (e.g., An Alterian Sun-Glaive is a TL 3 device powering an ML 4 Energy Invocation) or when **High TL** is used to constrain or amplify **Raw ML**. (e.g., An Impyrium Psi Lens uses TL 4 circuits to increase a psychic’s ability into a higher effect).  
-* **Relics:** Artifacts from **ML 5/6** civilizations found by **lower ML** explorers. They are often misunderstood as magic or divine miracles.
+- **Magi-Tech / Psi-Tech:** Occurs when a **High TL** meets a **High ML** (e.g., an Alterian Sun-Glaive is a TL 3 device powering an ML 4 Energy Invocation), or when **High TL** engineering is used to constrain or amplify **Raw ML** talent (e.g., an Impyrium or Ascendancy Psi-Lens using TL 4 psycholith circuits to amplify a psychic's ability into a higher effect).
+- **Relics:** Artifacts from **ML 5/6** civilizations found by **lower ML** explorers. They are often revered as divine miracles or feared as cursed anomalies.
 
 *(Note: Detailed mechanics for Meta-Tech artifacts are contained in the Equipment and Weaponry Frameworks, categorized by their requisite Tech and Meta Levels.)*
-
-&nbsp;
 
 ---
 
 # **METAPHYSICS ARCHITECT DIRECTORY INDEX**
 
-Detailed design matrices for constructing Metaphysic Invocations and integrating Meta-Tech hardware are organized in the `./metaphysics/` directory:
+Detailed objective-reality lore and design matrices for constructing Metaphysic Invocations and integrating Meta-Tech hardware are organized in the `./metaphysics/` directory:
 
-* **[Invocation Matrix (99.Metaphysics.InvocationMatrix.md)](./metaphysics/99.Metaphysics.InvocationMatrix.md)** — *Architectural philosophy, Invocation Data Block, CR Parameter Standards (Time, Range, Area, Duration), Scaling Algorithm, and Design Examples*
-* **[Meta-Tech Matrix (99.Metaphysics.MetaTechMatrix.md)](./metaphysics/99.Metaphysics.MetaTechMatrix.md)** — *Integration of Metaphysics and Technology, Capacity Conversion, Passive Enhancement, Invocation Devices, Vehicle/Architecture Integration, and Fabrication Economics*
+- **[The Resonance: Objective Reality & Variant Theologies (04.TheResonance.md)](./metaphysics/04.TheResonance.md)** — *Unified Field Dynamics, Conscious Light, Resonance vs. Dissonance, Tulpa/Egregore Theory, The Great Unwinding, 20 Faction Theologies, and Luminism Profile*
+- **[Invocation Matrix (99.Metaphysics.InvocationMatrix.md)](./metaphysics/99.Metaphysics.InvocationMatrix.md)** — *Architectural philosophy, Invocation Data Block, CR Parameter Standards (Time, Range, Area, Duration), Scaling Algorithm, Design Examples, and Chassis Scale Amplification*
+- **[Meta-Tech Matrix (99.Metaphysics.MetaTechMatrix.md)](./metaphysics/99.Metaphysics.MetaTechMatrix.md)** — *Integration of Metaphysics and Technology, UDU Capacity Conversion, Passive Enhancement, Active Imbuement Devices, Vehicle/Architecture Integration, and Fabrication Economics*
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER (DISC-502)**
+
+- **File Target:** `architect/99. METAPHYSICS.md`
+- **Restoration Pass (Three-Way Merge):**
+  - Restored full Metafocus Levels (ML 0 Null through ML 6/X Deific), Independence of Systems, Intersection: The Meta-Tech Threshold, and complete `./metaphysics/` directory index (`04.TheResonance.md`, `99.Metaphysics.InvocationMatrix.md`, `99.Metaphysics.MetaTechMatrix.md`).
+- **Mechanical Normalization Pass (12 Global Rules):**
+  - Normalized all relative links to `./metaphysics/` and aligned ML 3/4 Awakened feature integration with 150 CP character creation rules.
+
 

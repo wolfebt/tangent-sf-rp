@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 126
+order: 124
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.aeldprovidence","mechanics"]
-updatedAt: "2026-10-14T07:17:46.591Z"
+updatedAt: "2026-11-02T22:49:20.821Z"
 costs:
   bp: 0
   credits: 0
@@ -37,28 +37,92 @@ sockets:
   allocated: []
 ---
 
-## **AELD PROVIDENCE (THE FACTIONAL SCHISMS)**
+# 1.04.AeldProvidence — AELD PROVIDENCE (THE FACTIONAL SCHISMS)
 
-*Note: The Elven species is fractured by profound, millennia-old ideological schisms. Below are the primary political entities.*
+## I. Overview of the Five Aeld Factional Schisms
+ELVEN PROVIDENCE
+OVERVIEW
+The Elven species is not a monolith. While they share a common ancestry, immense lifespans, and an innate connection to the arcane, philosophical schisms and intentional physiological evolutions have fractured them into distinct political entities.
+Where humans might divide themselves by geography or temporary economic interests, Elven factions are divided by profound, deeply entrenched ideologies that have been cultivated over millennia. These factions dictate how they interact with the broader galaxy, how they utilize technology, and how they view the "younger" races.
 
-### **1\. ALTERIAN ENCLAVE (Celestine)**
+(NOTE: For detailed physiological traits, statistical data, and biological capabilities of the sub-races mentioned below, refer to the core species document: 01.02. Elves).
 
-* **Archetype:** Galactic Diplomats / Magi-Tech Architects  
-* **Capital:** Altheria (The Gilded World)  
-* **Mandate:** "Perfect the Art of Living; Maintain the Galactic Balance."  
-* **Profile:** The self-appointed "Elder Siblings" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles ("The Flow"). Governed by a Gerontocracy/Meritocracy. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.
+________________
 
-### **2\. SILVERMOON VANGUARD (Doppelgangers)**
+ALTERIAN ENCLAVE (Celestine)
+The Galactic Diplomats and Magi-Tech Architects
+                                    * Sub-Race Base: Alterian Elves (Clans Lansmarr, Lanaran, Silvermoon, etc.)
+                                    * Political Structure: Gerontocracy (Rule by the Wisest/Eldest) and Meritocracy.
+                                    * Capital Entity: Altheria (The Gilded World).
+                                    * Core Mandate: "Perfect the Art of Living; Maintain the Galactic Balance."
+Faction Overview
+The Alterian Enclave is the most prominent, populous, and outwardly focused of the Elven factions. They act as the self-appointed "Elder Siblings" of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—"The Flow"—which can be mapped, understood, and elegantly manipulated.
+Political Posture
+The Enclave operates on "The Long View." Because their citizens live for centuries, their political and economic strategies are plotted across generations. They are patient to the point of frustrating younger races, taking decades to deliberate on treaties or military actions. However, when the Enclave acts, it does so with overwhelming, heavily coordinated magi-tech superiority. They are frequent mediators in galactic conflicts, leveraging their vast archives of history and profound understanding of other cultures to maintain stability—which ultimately benefits their own trade and research networks.
 
-* **Archetype:** Shadowed Inquisition / Covert Intelligence Network  
-* **Capital:** Nomadic / Classified deep-cover nodes.  
-* **Mandate:** "Eradicate true evil through perfect infiltration and absolute intelligence."  
-* **Profile:** A shadow faction engineered to hunt corruption. They officially "do not exist" to the younger races. They manipulate galactic events from the shadows via assassinations and infiltration. Forced into extreme secrecy due to historical gaslighting and smear campaigns by hostile rulers.
+________________
 
-### **3\. DRACONIAN ORDER**
+SILVERMOON VANGUARD (Doppelgangers)
+The Shadowed Inquisition and Secrecy Network
+                                    * Sub-Race Base: Doppelgangers (Evolved from Alterian Clan Silvermoon).
+                                    * Political Structure: Decentralized Intelligence Network / Covert Meritocracy.
+                                    * Capital Entity: Nomadic; highly classified deep-cover command nodes.
+                                    * Core Mandate: "Eradicate true evil through perfect infiltration and absolute intelligence."
+Faction Overview
+While biologically originating from the Alterian Enclave, the Doppelgangers operate as an entirely separate, shadow faction. They are a weapon forged by ancient sorcery, designed to hunt corruption that conventional armies cannot fight. The Vanguard operates without borders, embedding its agents into the highest echelons of human, alien, and even other elven societies.
+Political Posture
+To the rest of the galaxy, the Silvermoon Vanguard officially does not exist; they are considered a myth or a conspiracy theory by the younger races. In reality, they are a hyper-lethal intelligence faction. They do not conquer territory or engage in open diplomacy. Instead, they manipulate galactic events from the shadows, assassinating warlords, dismantling corrupt syndicates, and subtly shifting the balance of power to prevent multiversal threats. Their allegiance to the Alterian Enclave is largely historical; today, they operate independently, answering only to their own hidden directors.
 
-* **Archetype:** Arcane Custodians / Martial Wardens  
-* **Capital:** Deep-crust Citadel Worlds / Ancient Ruins  
-* **Mandate:** "Guard the ancient power; preserve the bloodline."  
-* **Profile:** The heavy martial backbone of the Elven diaspora. Strictly neutral in standard politics, their sole concern is guarding dangerous ruins, multiversal rifts, and catastrophic magic. Trespassers are met with devastating shock tactics and primal magic.
+Over the centuries, various hostile rulers have frequently employed gaslighting tactics, spreading rumors and conspiracy theories to frame the Doppelgangers as a direct existential threat. These smear campaigns were strategically designed to turn public opinion against them, branding them as dangerous infiltrators rather than guardians. Fearing summary execution if exposed by these fabricated threats, the Vanguard was forced to retreat further into the shadows, adopting extreme measures of secrecy to survive and maintain their operations.
+
+________________
+
+DRACONIAN ORDER
+The Arcane Custodians and Martial Wardens
+                                    * Sub-Race Base: Draconian Elves.
+                                    * Political Structure: Martial Meritocracy / Feudal Orders.
+                                    * Capital Entity: Deep-crust Citadel Worlds and Ancient Ruin complexes.
+                                    * Core Mandate: "Guard the ancient power; preserve the bloodline."
+Faction Overview
+The Draconian Order represents the heavy martial and ancient arcane backbone of the Elven diaspora. Drawing on their formidable physical stature and draconic heritage, this faction is dedicated to guardianship. They claim dominion over the galaxy's most dangerous ancient ruins, multiversal rifts, and repositories of catastrophic magic.
+Political Posture
+The Order is strictly neutral in standard galactic politics, trade wars, or border disputes. They do not care about the economics of the Alterian Enclave or the isolationism of the Nocturne. Their sole political concern is the containment of ancient threats and the preservation of their draconic lineage. If a younger race attempts to colonize a world that houses a sealed arcane vault, the Draconian Order will deploy without warning, utilizing devastating shock tactics and primal magic to eradicate the trespassers. To those who respect their boundaries, they are silent neighbors; to those who seek forbidden power, they are an insurmountable wall of iron and scales.
+
+________________
+
+KOVIAN TRIBUNAL (Nocturne)
+The Militant Isolationists and Elven Supremacists
+                                    * Sub-Race Base: Nocturne Elves.
+                                    * Political Structure: Authoritarian Theocracy (Dictated by the Tribunal).
+                                    * Capital Entity: Stark, heavily fortified Isolation Citadels.
+                                    * Core Mandate: "Maintain Elven purity; sever the rot of the Lesser Species."
+Faction Overview
+The Kovian Tribunal governs the Nocturne, representing the darkest, most xenophobic extreme of Elven philosophy. They view the Alterian Enclave's diplomacy as pathetic fraternization with "Lesser Species," believing that contact with short-lived, chaotic races actively corrupts Elven spiritual and biological purity. The Tribunal enforces a doctrine of absolute, militant isolationism, backed by "Obsidian Futurism"—a dark, lethal approach to magi-tech focused entirely on stealth, defense, and control.
+Political Posture
+The Kovian Tribunal has no diplomatic ties and engages in zero trade. Their borders are closed, heavily monitored, and violently enforced. Any non-Nocturne ship entering their space is destroyed on sight. Their political ideology is deeply supremacist; they document the failures, wars, and ecological disasters of other species as religious proof of their own superiority. Recently, extremist splinters within the faction (Darkwalkers) have begun making pacts with entities like the Sha'Nor, believing that acquiring supreme power—regardless of the cost—is the only way to eventually cleanse the galaxy of inferior life.
+
+________________
+
+VAJAR TRIBES (Wilder)
+The Primal Rejectors of Civilization
+                                    * Sub-Race Base: Vajar (Wild Elves).
+                                    * Political Structure: Decentralized Tribal Chiefdoms / Pack Dynamics.
+                                    * Capital Entity: None. They hold territories on primeval worlds on the far side of the Reach.
+                                    * Core Mandate: "Adapt, survive, and protect the primal ecosystem."
+Faction Overview
+The Vajar Tribes are a total political anomaly compared to the rest of the Elves. Separated from the core elven worlds for millennia, they completely rejected the path of magi-tech advancement. As a faction, they do not build starships, cities, or archives. Instead, their entire societal structure is built around their biological capability to shapeshift and their profound, symbiotic connection to the untamed wilderness.
+Political Posture
+The Vajar do not have a unified central government; they are a vast collection of nomadic tribes and hunting packs. They view the Alterians as soft, the Nocturne as rigid, and technological species (like Humans) as a blight upon the natural world. Politically, they are fiercely territorial isolationists, but unlike the Nocturne's cold, sterile citadels, the Vajar defend living ecosystems. They will aggressively wage asymmetric, guerrilla warfare against mining corporations, colonizers, or any faction that attempts to strip-mine or industrialize their primeval homeworlds. They cannot be reasoned with through economics or diplomacy—only through a profound respect for the laws of nature.
+
+---
+
+## II. Consolidated Aeld Providence Schisms Matrix
+
+| Polity / Order | Sub-Species Base | TL / ML | WS Mod | 20-Point Skill Package Focus | Signature Recommended Features (-1 CP) |
+| :--- | :--- | :---: | :---: | :--- | :--- |
+| **[Alterian Enclave](./1.04.AeldProvidence.AlterianEnclave.md)** | Celestine Aeld | TL 3 / ML 4 | **+3 WS** | Academics, Diplomacy, Attune, Disciplines (Energy, Dimension, Matter), Knowledge (Culture, History, Metaphysics, Appraisal), Insight | Awakened, Artificer, Benefit (Wealth/Immunity), Centering, Discipline Focus, Educated, Magical Aptitude, Platinum Personality, Scholar, Silver Tongue |
+| **[Silvermoon Vanguard](./1.04.AeldProvidence.SilvermoonVanguard.md)** | Doppelgangers | TL 3 / ML 4 | **+3 WS** | Stealth, Bluff, Disguise, Insight, Alertness, Knowledge (Investigation), Melee, Ballistic | Alter Form (Adv), Blind-Fight, Deceitful, Silent Killer, Sneak Attack, Stealthy, Uncanny Dodge |
+| **[Draconian Order](./1.04.AeldProvidence.DraconianOrder.md)** | Draconian Aeld | TL 3 / ML 4 | **+3 WS** | Melee, Defense, Athletics, Intimidate, Attune, Discipline (Energy, Matter), Knowledge (History) | Awakened, Combat Casting, Dragonkin Features, Empowered Strike, Energy Resistance, Power Attack |
+| **[Kovian Tribunal](./1.04.AeldProvidence.KovianTribunal.md)** | Nocturne Aeld | TL 3 / ML 4 | **+3 WS** | Intimidate, Insight, Stealth, Alertness, Melee, Academics, Attune, Discipline (Entropy, Illusion), Knowledge (Law, Metaphysics) | Awakened, Bleed, Blind-Fight, Centering, Darksight, Discipline Focus (Entropy), Evasiveness, Fearless, Iron Will, Quick, Sense, Sneak Attack, Stealthy, Uncanny Dodge, Veiled Threat |
+| **[Vajar Tribes](./1.04.AeldProvidence.VajarTribes.md)** | Wilder Aeld | TL 1 / ML 4 | **+0 WS** | Athletics, Stealth, Alertness, Unarmed, Melee, Attune, Discipline (Entropy, Matter), Knowledge (Nature, Survival) | Acute Sense, Alter Form (Animal), Animal Affinity, Awakened, Danger Sense, Empowered Strike, Endurance, Fast Heal, Natural Weapons, Potent Might, Power Attack, Rage, Scent, Tough, Tracker, Wild Speech |
 

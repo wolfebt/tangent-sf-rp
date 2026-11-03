@@ -284,7 +284,7 @@ export const MessageInput = ({ isCompact = false }) => {
           personaId,
           personaName,
           actionType: ACTION_TYPES.SKILL_CHECK,
-          summary: `${rollResult.label || 'Action Check'}: ${rollResult.total} (${rollResult.expression})${rollResult.isCritSuccess ? ' [CRITICAL 30]' : rollResult.isCritFail ? ' [FUMBLE -10]' : ''}`,
+          summary: `${rollResult.label || 'Action Check'}: ${rollResult.total} (${rollResult.expression})${rollResult.isCritSuccess ? ' [CRITICAL +10]' : rollResult.isCritFail ? ' [FUMBLE -10]' : ''}`,
           details: {
             expression: rollResult.expression,
             rolls: rollResult.rolls,

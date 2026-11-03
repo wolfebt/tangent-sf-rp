@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 162
+order: 160
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.colony","mechanics"]
-updatedAt: "2026-10-14T05:38:13.236Z"
+updatedAt: "2026-11-02T22:49:27.883Z"
 costs:
   bp: 0
   credits: 0
@@ -37,35 +37,36 @@ sockets:
   allocated: []
 ---
 
-# **COLONY**
+# 1.05.03 ORIGIN: COLONY (+0 WS)
+
+* **Executive Summary:** Newly chartered frontier settlements, terraforming outposts, and rugged pioneer towns carving civilization out of untamed worlds.
+* **EUFT Starting Wealth Modifier:** **+0 WS**
+* **Canonical Society Skills (20 SP Allocation):** Athletics, Piloting, Alertness, Knowledge (Survival, Technology, or Any), Vocation (Any)
+* **Typical Archetypes:** Pioneer, Frontier Marshal, Prospector, Terraformer, Outpost Engineer, Homesteader, Doctor, Soldier
+
+---
 
 # **COLONY**
 
 New settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or other easily movable structures will be prevalent. It is simple to combine with another Origin (where the settlers come from or where they are building).
 
-&nbsp;
-
 ## **Society Skills**
 
 Piloting, Alertness, Knowledge (Any), Vocation (Any)
 
-&nbsp;
-
 ## **Archetypes**
 
-Pioneer&nbsp;
+Pioneer
 
-Homesteader&nbsp;
+Homesteader
 
-Prospector&nbsp;
+Prospector
 
-Engineer&nbsp;
+Engineer
 
-Doctor&nbsp;
+Doctor
 
-Soldier&nbsp;
-
-&nbsp;
+Soldier
 
 ## **Traits**
 
@@ -75,15 +76,11 @@ The ability to adapt to new environments and situations is important for a colon
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Adventurous Spirit*
 
 An adventurous spirit and a willingness to explore can be advantageous for a colony character who may need to venture out into the unknown.
 
 *One Skill Check at Advantage per day*
-
-&nbsp;
 
 ### *Community Building*
 
@@ -91,15 +88,11 @@ Skills in community building and social dynamics are essential for a successful 
 
 *Once per Day may reroll a Social Skill Check*
 
-&nbsp;
-
 ### *Diplomacy*
 
 The ability to negotiate and maintain diplomatic relations with other colonies or factions can be crucial for the colony's success.
 
 *\+2 Diplomacy*
-
-&nbsp;
 
 ### *Leadership*
 
@@ -107,15 +100,11 @@ Strong leadership skills to guide and make decisions for the colony.
 
 *\+2 Leadership*
 
-&nbsp;
-
 ### *Problem Solving*
 
 Skilled at solving problems and overcoming challenges that arise in the colony, whether it's dealing with environmental hazards or resolving conflicts among colonists.
 
 *Once per Day may reroll a Mental Skill Check*
-
-&nbsp;
 
 ### *Resource Management*
 
@@ -123,15 +112,11 @@ Adept at managing resources such as food, water, energy, and materials to ensure
 
 *Wealth Checks for Basic Resources made at Advantage*
 
-&nbsp;
-
 ### *Scientific Knowledge*
 
 Knowledge in fields such as biology, engineering, or agriculture can be valuable for a colony character to develop sustainable systems and technologies.
 
 *\+2 to Science Knowledge*
-
-&nbsp;
 
 ### *Survival Skills*
 
@@ -139,15 +124,25 @@ Possess survival skills to navigate and explore unknown territories, and to prot
 
 *\+2 Survival Skill Checks*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Adaptability:** +2 to one chosen Skill Check (may reassign daily).
+* **Community Spirit:** +1 additional bonus when using the Aid Another action.
+* **Frontier Grit:** +1 to Fortitude and Willpower Saving Throws.
+* **Jack-of-All-Trades:** May attempt Untrained (Rank 0) skill checks without the -2 unskilled penalty.
+* **Jury-Rigging:** +2 to Vocation (Mechanic) checks for improvised or emergency repairs.
+* **Resource Management:** Roll Wealth Checks for basic survival necessities and rations at Advantage.
+* **Self-Sufficiency:** +1 to maximum Karma Pool (or +2 Knowledge: Survival).
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **03\. COLONY**
 
@@ -222,4 +217,11 @@ Possess survival skills to navigate and explore unknown territories, and to prot
 * **STYLE:** Expansion Node, Fractal Construction.  
 * **PALETTE:** Construction Yellow, Grey, Laser Red.  
 * **TOKENS:** Hexagons, printers, drones, lasers, no humans.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** A Stage 1–3 Hive Genesis site where an orbital spore-cyst has anchored into raw planetary crust. Murex excavation teams secrete glossy obsidian Hive-Resin foundations around a bubbling emerald Genomatrix pool.
+* **STYLE:** Biomorphic Terraforming, Hive Genesis Outpost.
+* **PALETTE:** Glossy Obsidian, Raw Earth Ochre, Proto-Flux Green, Cyan Synaptic Glow.
+* **TOKENS:** Spore-drop craters, resin secretion arches, gestation pods, root-tendril drills, telepathic synchronization.
 

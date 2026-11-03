@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-asi"
-order: 37
+order: 35
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.asi.wildling","mechanics"]
-updatedAt: "2026-10-14T05:24:25.038Z"
+updatedAt: "2026-11-02T22:49:32.791Z"
 costs:
   bp: 0
   credits: 0
@@ -37,51 +37,51 @@ sockets:
   allocated: []
 ---
 
-## **WILDLING \***
+## **WILDLING ***
 
-&nbsp;
+  
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
 **Description:** While closely related to the true Koban, this lesser-known faction exhibits distinct variations, particularly in their transformation abilities. They are not merely mimics but a parallel evolution, sharing a core Fey lineage. Their natural Fey form shares the earthy and muted palette of the forest floor, featuring mottled coats of fawn, rich cream, or deep russet, allowing them to blend seamlessly with the woodlands.
 
-&nbsp;
+  
 
 The most notable difference, however, lies in their ability to shape-shift. Where the Koban transition into a lithe, graceful humanoid form, these beings take on a natural animal guise. This shift is not merely a superficial change but a deep, spiritual integration with the chosen creature's essence. This grants them the physical prowess, instincts, and sensory perception of the animal they embody—be it the swift silence of a fox, the keen sight of an owl, or the grounded strength of a deer.
 
-&nbsp;
+  
 
 Consequently, these Kin are profoundly attuned to the wild spaces they inhabit. Their connection to nature is not just a preference but a deep, symbiotic bond. They possess an innate, almost telepathic affinity for all creatures, able to soothe panicked beasts, understand the subtle warnings of the birds, and track the movements of the forest inhabitants with uncanny accuracy. They often act as silent guardians of the wilderness, their dual nature—Fey spirit and animal form—making them both a part of the environment and its watchful protector.
 
-&nbsp;
+  
 
-**Classification:** Fey (Shapechanger)&nbsp;
+**Classification:** Fey (Shapechanger) 
 
 **Size:** Small / Medium
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 0
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
 **Homeworld:** Deep forests or Moon-touched wilds (Often live in seclusion from the "Iron" races).
 
 **Stigma:** Stigma (Animal or Xeno)
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Ability
++1 Ability
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Animal Affinity
 
@@ -91,9 +91,9 @@ Alter Form (Animal)
 
 Awakened (Nature, Wis)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Ageless
 
@@ -119,11 +119,10 @@ Run
 
 Quick
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+  
+**  
+**
 

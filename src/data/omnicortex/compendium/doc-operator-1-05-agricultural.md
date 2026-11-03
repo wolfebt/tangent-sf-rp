@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 160
+order: 158
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.agricultural","mechanics"]
-updatedAt: "2026-10-14T05:38:13.235Z"
+updatedAt: "2026-11-02T22:49:27.696Z"
 costs:
   bp: 0
   credits: 0
@@ -37,35 +37,36 @@ sockets:
   allocated: []
 ---
 
-# **AGRICULTURAL**
+# 1.05.01 ORIGIN: AGRICULTURAL (+0 WS)
+
+* **Executive Summary:** Agrarian breadbasket worlds dedicated to mega-scale crop cultivation, hydroponics, and livestock ranching (Sentaris, Karkinos).
+* **EUFT Starting Wealth Modifier:** **+0 WS**
+* **Canonical Society Skills (20 SP Allocation):** Piloting, Alertness, Knowledge (Nature, Survival, Technology), Vocation (Any)
+* **Typical Archetypes:** Homesteader, Rancher, Botanist, Eco-Warden, Harvester Pilot, Farmer, Hunter, Preservationist, Pilot, Technician, Community Leader
+
+---
 
 # **AGRICULTURAL**
 
 Agri-Worlds are essential for mass food production. These worlds typically have low development and population. Most communities range from small houses and other farm-related structures, including barns, silos and the like, to expansive mega-structure Arcologies. They also include most Preservation/Green Worlds, those purposefully left undeveloped but with self-sustaining small communities. Farming and preserved wilds are the focus of these worlds.
 
-&nbsp;
-
 ## **Society Skills**
 
 Piloting, Alertness, Knowledge (Nature, Survival, Technology), Vocation (any)
 
-&nbsp;
-
 ## **Archetypes**
 
-Farmer&nbsp;
+Farmer
 
-Hunter&nbsp;
+Hunter
 
-Preservationist&nbsp;
+Preservationist
 
-Pilot&nbsp;
+Pilot
 
-Technician&nbsp;
+Technician
 
-Community Leader&nbsp;
-
-&nbsp;
+Community Leader
 
 ## **Traits**
 
@@ -73,17 +74,13 @@ Community Leader&nbsp;
 
 Expertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.
 
-*\+2 to Animal Handling*&nbsp;
+*\+2 to Vocation (Handler)*
 
-&nbsp;
-
-### *Botanical Knowledge*&nbsp;
+### *Botanical Knowledge*
 
 Extensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.
 
 *\+2 to Botany Checks*
-
-&nbsp;
 
 ### *Community Building*
 
@@ -91,15 +88,11 @@ Values community and may have skills in building and maintaining relationships w
 
 *Once per Day may reroll a Social Skill Check*
 
-&nbsp;
-
 ### *Green Thumb*
 
 Natural talent for nurturing plants and can make them thrive even in challenging environments. Has a knack for identifying the needs of different plants and providing the necessary care.
 
 *Checks involving nurturing and helping plants may be made at Advantage*
-
-&nbsp;
 
 ### *Mechanical Skills*
 
@@ -107,15 +100,11 @@ Mechanical skills related to farming equipment and machinery. Can repair and mai
 
 *\+2 to Mechanical Skill Checks*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 The character is able to make the most of limited resources and find creative solutions to problems, which is especially important in an environment where resources may be scarce.
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Survival Skills*
 
@@ -123,23 +112,34 @@ Survival skills honed from living and working in remote or harsh environments. C
 
 *\+2 Survival Skill Checks*
 
-&nbsp;
-
 ### *Sustainable Practices*
 
 Knowledgeable about sustainable farming practices and strives to minimize environmental impact. May prioritize organic farming, crop rotation, and water conservation techniques.
 
-*\+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.*
+*\+4 to any Agriculture-based checks in a prepared grow area (Canonical Nov 2 Retrofit; legacy +2) and to prepare and maintain an area.*
 
 ## 
 
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Animal Husbandry:** +2 to Vocation (Handler) checks with livestock and beasts.
+* **Botanical Knowledge:** +2 to Knowledge (Nature / Botany) checks.
+* **Community Building:** Once per day, reroll a failed Social skill check.
+* **Green Thumb:** Roll checks involving nurturing, growing, or identifying plants at Advantage.
+* **Mechanical Skills:** +2 to Vocation (Mechanic) and Knowledge (Technology) checks on agricultural or heavy machinery.
+* **Resourcefulness:** Once per day, roll any one Skill Check of choice at Advantage.
+* **Survival Skills:** +2 to Knowledge (Survival) checks (+3 in wild growth or heavy foliage).
+* **Sustainable Practices:** +4 to Agriculture-related checks in a prepared grow area and to prepare and maintain an area.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **01\. AGRICULTURAL**
 
@@ -214,4 +214,11 @@ Knowledgeable about sustainable farming practices and strives to minimize enviro
 * **STYLE:** Fractal Nutrient Grid, Mathematical Farming.  
 * **PALETTE:** Algae Green, Neon Blue (Grid), Matte Grey, Steel.  
 * **TOKENS:** Geometry, silence, efficiency, protein vats, drones.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** Vast subterranean and surface fungal-slurry basins and Proto-Flux nutrient ponds tended by Murex worker columns. Towering chitinous bio-silos pump emerald nutrient fluid through pulsing green vein-piping to feed the Hive-Spire.
+* **STYLE:** Biomorphic Agrarian, Proto-Flux Cultivation, Predatory Organicism.
+* **PALETTE:** Glossy Obsidian Black, Proto-Flux Emerald Green, Hive-Amber, Pulsating Cyan.
+* **TOKENS:** Spore vats, chitin irrigation conduits, Murex harvesters, glistening resin terraces, living silos.
 

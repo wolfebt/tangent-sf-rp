@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 114
+order: 112
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.vassoth","mechanics"]
-updatedAt: "2026-10-14T05:24:25.076Z"
+updatedAt: "2026-11-02T22:49:31.603Z"
 costs:
   bp: 0
   credits: 0
@@ -37,51 +37,52 @@ sockets:
   allocated: []
 ---
 
-# **VASSOTH \* \*\***
+# **VASSOTH * **  
+**
 
-# **VASSOTH \* \*\***
+# **VASSOTH * **
 
-# 
+  
 
-**CP Cost:** 12 CP  
+**CP Cost:** 
 
 **Description:** The Vassoth are a serpentauric race, characterized by a powerful, scaled serpentine lower body and tail that can reach between 12 and 18 feet in length, supporting a medium-sized humanoid torso and arms. Their heads often blend human and serpent features, possessing sharp, keen eyes and fine scales. As a very old race, the Vassoth possess a long and intertwined history, notably with dragons—a lineage confirmed by their protected Sa-Sa-Si colony on Entari—as well as with the Mondi and various other progenitors. Universally, all Vassoth possess some type of innate attunement to the supernatural, manifesting in diverse ways across their society. This inherent connection to the arcane, coupled with their formidable physical nature, has cemented their historical role as fierce and vigilant guardians.
 
-&nbsp;
+  
 
-**Classification:**&nbsp;
+**Classification:** 
 
-**Size:**&nbsp;
+**Size:** 
 
-**Movement:**&nbsp;
+**Movement:** 
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Str
++1 Str
 
-\+1 Agi
++1 Agi
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Awakened
 
@@ -89,15 +90,15 @@ Constriction {Long body (12-18ft with a medium size humanoid upper body)}
 
 Venom
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Alternate Form (Simple, to one Humanoid form)
 
 Chameleon
 
-Dragonkin (Sa-Sa-Si\*)
+Dragonkin (Sa-Sa-Si*)
 
 Energy Resist line (1 type): Dragonkin
 
@@ -105,11 +106,12 @@ Exoskeleton
 
 Low Light Vision
 
-&nbsp;
+  
+  
 
-&nbsp;
+**Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*
 
-*\*Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*
-
-&nbsp;
+  
+**  
+**
 

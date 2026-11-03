@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 71
+order: 69
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.jorni","mechanics"]
-updatedAt: "2026-10-14T05:24:25.058Z"
+updatedAt: "2026-11-02T22:49:30.613Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,26 @@ sockets:
   allocated: []
 ---
 
-# **JORNI \***
+# **JORNI **  
+**
 
-# **JORNI \***
+# **JORNI ***
 
-&nbsp;
+  
 
-**CP Cost:** 25 CP  
+**CP Cost:** 
 
 **Description:** The Jorni are a formidable and imposing reptilian species, standing at an average height of seven feet. These powerful beings, commonly referred to as Lizardfolk, possess a distinctive physical makeup characterized by their thick, scaly skin, which serves as a natural defense. Their powerful, semi-aquatic builds allow them to navigate and thrive in challenging, waterlogged environments, such as vast swamps and dense, humid jungles.
 
-&nbsp;
+  
 
 The core of the Jorni existence is a deep, instinctual survivalist mindset. Their lives are a relentless pursuit of sustenance and security, driven by a need to overcome the harshness of their chosen habitats. This single-minded focus often leads to them being perceived by other races as cold, stoic, or even emotionless. However, this perception is a misunderstanding of their nature. Jorni are, in fact, highly intelligent creatures who operate with an extreme degree of pragmatism and efficiency. Every action is calculated, serving a direct purpose related to the clan's well-being or the individual's survival; there is little room for frivolous or expressive emotion in their daily calculus.
 
-&nbsp;
+  
 
 Physically, they are built for resilience and combat. Their scales typically range in color from deep greens and earthy browns to muted grays, providing effective camouflage within their native territories. Beyond their natural armor, they possess powerful musculature and a heavy, muscular tail that is crucial for balance, especially when moving swiftly through murky waters or traversing uneven terrain. This combination of powerful build, natural defenses, and a pragmatic, intelligent nature makes the Jorni a truly imposing figure, both when encountered in the wilds and as a relentless opponent in any conflict.
 
-&nbsp;
+  
 
 **Classification:** Reptile Humanoid
 
@@ -63,29 +64,29 @@ Physically, they are built for resilience and combat. Their scales typically ran
 
 **Movement:** 40ft Groundspeed, 40ft Swimspeed, 40ft Climbspeed
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Str
++1 Str
 
-\+1 Sta
++1 Sta
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Climber
 
@@ -99,11 +100,11 @@ Regeneration
 
 Swimmer
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-Adaptation&nbsp;
+Adaptation 
 
 Alertness
 
@@ -137,11 +138,10 @@ Quick line
 
 Venom
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+  
+**  
+**
 

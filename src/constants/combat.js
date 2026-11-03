@@ -17,7 +17,7 @@ export const MECHA_OPERATIONAL_DOMAINS = [
 // UNIVERSAL CANONICAL SCALING SYSTEM (01.01.09 & 99. SCALING)
 // ═══════════════════════════════════════════════════════════
 
-export const DIE_STEP_LADDER = ['d10', 'd8', 'd6', 'd4', 'd3', 'd2', '1'];
+export const DIE_STEP_LADDER = ['d12', 'd10', 'd8', 'd6', 'd4', 'd3', 'd2', '1'];
 
 export const SIZE_CATEGORIES = {
   Miniscule: {
@@ -261,8 +261,8 @@ export const MECHA_SIZES = {
   Colossal: { id: 'Colossal', name: 'Colossal', scale: 'x20', scaleMult: 20.0, strCbtMod: 16, defMod: -16, stealth: -32, structure: 1000, mounts: 100, baseDC: 40, example: 'Frigate, Heavy Destroyer, Mega-Carrier' },
   Enormous: { id: 'Enormous', name: 'Enormous', scale: 'x40', scaleMult: 40.0, strCbtMod: 32, defMod: -32, stealth: 0, structure: 2500, mounts: 200, baseDC: 45, example: 'Capital Battlecruiser' },
   Titanic: { id: 'Titanic', name: 'Titanic', scale: 'x80', scaleMult: 80.0, strCbtMod: 64, defMod: -64, stealth: 0, structure: 5000, mounts: 400, baseDC: 50, example: 'Colony Ship, Planetary Dreadnought' },
-  SuperGargantuan: { id: 'SuperGargantuan', name: 'Super Gargantuan', scale: 'x160', scaleMult: 160.0, strCbtMod: 0, defMod: 0, stealth: 0, structure: 10000, mounts: 800, baseDC: 60, example: 'System Dreadnought, Star Fort' },
-  MegaColossal: { id: 'MegaColossal', name: 'Mega Colossal', scale: 'x320', scaleMult: 320.0, strCbtMod: 0, defMod: 0, stealth: 0, structure: 20000, mounts: 1600, baseDC: 80, example: 'Dyson Swarm Node, Megastructure Ship' }
+  SuperGargantuan: { id: 'SuperGargantuan', name: 'Super Gargantuan', scale: 'x160', scaleMult: 160.0, strCbtMod: 128, defMod: -128, stealth: 0, structure: 10000, mounts: 800, baseCR: 60, baseDC: 60, example: 'System Dreadnought, Star Fort' },
+  MegaColossal: { id: 'MegaColossal', name: 'Mega Colossal', scale: 'x320', scaleMult: 320.0, strCbtMod: 256, defMod: -256, stealth: 0, structure: 20000, mounts: 1600, baseCR: 80, baseDC: 80, example: 'Dyson Swarm Node, Megastructure Ship' }
 };
 
 export const MECHA_FRAMES = {
@@ -443,79 +443,100 @@ export const VITALITY_HEALTH_STRUCTURE_RULES = {
   startingBaseVitality: 30,
   startingBaseHealth: 30,
   startingBaseStructure: 60,
-  cpCostPer2Points: 1, // 1 CP = +2 points in Vitality, Health, or Structure
-  bpCostPer2Points: 1, // backward compatibility alias
-  cpCostPer5Points: 1, // legacy alias
-  bpCostPer5Points: 1, // legacy alias
-  maxCpIncreaseMultiplier: 5, // Maximum increase is 5 x Stamina score for each pool
+  pointsPerCp: 5, // Canonical: 1 CP = +5 points in Vitality, Health, or Structure
+  cpCostPer5Points: 1, // 1 CP = +5 points in Vitality, Health, or Structure
+  bpCostPer5Points: 1, // backward compatibility alias
+  cpCostPer2Points: 0.4, // deprecated shim (5 pts per 1 CP)
+  bpCostPer2Points: 0.4, // deprecated shim
+  zeroStaminaScaling: true, // Stamina NEVER increases Vitality or Health pools
+  maxCpIncreaseMultiplier: null, // Zero Stamina Pool Scaling (no 5 x Stamina cap)
   suggestedStartingMax: 60,
-  toughnessSource: 'Stamina Ability Score', // Point-for-point natural damage reduction (DR)
-  naturalDRRule: 'All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the characters defenses, minimum of 1 point.',
+  suggestedStartingStructureMax: 120,
+  toughnessFloor: 0,
+  toughnessSource: 'Stamina Ability Score', // Point-for-point Base Toughness DR after single highest Armor DR
+  naturalDRRule: 'All character Stamina acts as Base Toughness (natural DR) and subtracts point-for-point from incoming damage after the single highest Armor DR domain is applied (minimum 0 damage). Stamina NEVER increases Vitality or Health pools.',
   nonStandardPhysiologies: ['Synthetic', 'Mecha', 'Construct', 'Elemental', 'Golem', 'Ooze', 'Undead'],
-  maxSkillRank: 20,
+  startingSkillRankCap: 11,
+  maxSkillRank: 30,
   maxSpecializationRank: 10,
-  maxInvocationRank: 10,
+  maxInvocationRank: 30,
   descriptions: {
     systemRule: "In Tangent, a character's ability to endure and recover from damage is represented by Vitality and Health (or Structure for Synthetics and others with non-typical physiology). Tangent does NOT use HP.",
-    staminaScore: "All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point.",
-    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health (or 60 Structure for Synthetics). Base Vitality is not modified by Willpower, and base Health is not modified by Fortitude. Pools may be increased by spending Character Points (CP) at a rate of 2 points per 1 CP (1 CP = +2 points), with a maximum increase of 5 × Stamina score. Structure has a starting pool of 60 to start, also charging 1 CP per 2 pt increase.",
+    staminaScore: "All character Stamina acts as Base Toughness (natural damage reduction) and automatically reduces incoming damage after the single highest Armor DR domain is applied, to a minimum of 0 damage. Stamina never scales Vitality or Health pool maximums.",
+    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health (or 60 Structure for Synthetics). Base Vitality and Health are never modified by Stamina, Willpower, or Fortitude. Pools may be increased by spending Character Points (CP) at a rate of 5 points per 1 CP (1 CP = +5 points), with a suggested starting maximum of 60 each (or 120 Structure Points for Synthetics).",
     concussiveDamage: "Concussive Damage is unique in that it is Heavily Traumatic but dispersed over the entire body. This damage can be divided equally between Vitality and Health if the character attempts to reduce the damage, regardless of whether the attempt is successful. This reflects the potential for both non-lethal and lethal injuries from falls, explosions, crashes, etc. This does not include any additional damage taken for what they may fall into such as spikes, debris, lava, etc.",
-    vitality: "Vitality represents stamina, luck, and non-lethal damage capacity. It acts as a buffer, absorbing damage from sources like pummeling, subdual strikes, and physical/mental fatigue. The starting base is 30 (not modified by Willpower), increased by 2 points per 1 CP up to a maximum increase of 5 × Stamina score. There is separate damage tracking for lethal (Health) and non-lethal damage (Vitality); once non-lethal damage exceeds the Vitality score, it is considered lethal and affects Health.",
-    health: "Health represents physical trauma, bodily tissue, and structural life force. It is lost directly from lethal attacks or when non-lethal damage overflows depleted Vitality. The starting base is 30 (not modified by Fortitude), increased by 2 points per 1 CP up to a maximum increase of 5 × Stamina score. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything held, and falling Prone). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state.",
-    structure: "Synthetics and constructs of most types use Structure, with a starting pool of 60 SP (or the total of both Health and Vitality scores). Structure increases at 1 CP per 2 pt increase. Synthetics are completely immune to non-lethal damage as well as other biological immunities (poisons, diseases, suffocation, mental stress).",
-    criticalHits: "Critical hits affect damage (increasing damage dealt via damage multipliers or additional dice), but do not necessarily make an attack lethal if the attack was non-lethal.",
-    skillCaps: "Most skills have a maximum rank of 20. Specializations and invocations max at rank 10."
+    vitality: "Vitality represents stamina, luck, tactical poise, and non-lethal buffer capacity. Standard combat attacks deplete Vitality first; once Vitality reaches 0, overflow damage strikes Health. The starting base is 30, increased by 5 points per 1 CP (suggested starting max 60).",
+    health: "Health represents physical trauma, bodily tissue, and structural life force. Standard attacks strike Health only after Vitality reaches 0, while Critical Hits, Bleed, and Overchanneling Burn bypass Vitality to strike Health directly. Starting base is 30 (+5 points per 1 CP, suggested starting max 60). At 0 Health, the character enters the Unified Mortality State with Stability Points equal to Stamina Score + 5.",
+    structure: "Synthetics and constructs use Structure Points (SP), equal to the total of both Health and Vitality scores, starting at 60 SP and scaling by +5 SP per 1 CP (suggested starting max 120 SP). Synthetics are immune to non-lethal damage, poisons, diseases, suffocation, and biological fatigue.",
+    criticalHits: "Critical hits (Natural 20 on 2d10, or expanded threat range 19, 18...) add +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29), roll 2x Base Weapon Damage Dice, apply Weapon/Elemental Critical Effects, and bypass Vitality to strike Health directly (unless explicitly non-lethal).",
+    skillCaps: "Skills scale up to Rank 30 (Stage 6 Pinnacle), with a starting character creation cap of Rank 11. Specializations max at Rank 10."
   }
 };
 
 // ═══════════════════════════════════════════════════════════
-// DEATH & DYING SYSTEM (CANONICAL RULES)
+// DEATH & DYING SYSTEM (UNIFIED MORTALITY STATE)
 // ═══════════════════════════════════════════════════════════
+
+const MORTALITY_STATE_CONFIG = {
+  name: "Mortality State",
+  legacyName: "Death's Door",
+  condition: "Mortality State",
+  legacyCondition: "Comatose",
+  statusGem: "Mortality State",
+  trigger: "Health reaches 0",
+  stabilityFormula: "Stamina Score + 5",
+  clockFormula: "Stability Points equal to Stamina Score + 5 (Minimum 1)",
+  baseStabilityOffset: 5,
+  minStability: 1,
+  minRounds: 1,
+  stabilityLossPerTurn: 1,
+  fortitudeSaveBaseCR: 10,
+  fortitudeSaveEscalationPerRound: 1,
+  selfStabilizeMargin: 5,
+  stabilization: {
+    medicineCR: 15,
+    medicineDC: 15, // backward compatibility alias
+    healingMagicOrTech: true,
+    description: "A successful Knowledge (Medicine) CR 15 check, healing Metaphysics/Tech, or beating a Fortitude Stabilization Save by +5 or more stabilizes the character at 0 Health (Unconscious, no longer losing Stability)."
+  },
+  death: "If Stability Points reach 0, the character dies clinically.",
+  massiveDamage: {
+    threshold: "Damage equal to or greater than Max Stability (STA + 5) in a single hit while in Mortality State",
+    effect: "Instant clinical death."
+  }
+};
 
 export const DEATH_AND_DYING_RULES = {
   HEALTH_VS_VITALITY: {
-    vitality: "Vitality represents stamina, poise, and non-lethal damage capacity.",
-    health: "Health represents physical trauma, organ integrity, and lethal damage capacity.",
+    vitality: "Vitality represents tactical poise, luck, and kinetic buffer capacity.",
+    health: "Health represents physical trauma, organ integrity, and lethal life force.",
     damageRouting: {
-      nonlethal: "Non-lethal damage damages Vitality directly. Once non-lethal damage exceeds the Vitality score, it is considered lethal and affects Health.",
-      lethal: "Lethal damage damages Health directly. Any excess damage beyond 0 Health is applied to Vitality (if any remains).",
-      criticalHits: "Critical hits affect the damage dealt (doubling dice or multiplying damage), but do not necessarily make an attack lethal if non-lethal. Non-lethal attacks remain non-lethal, absorbing through Vitality first and only affecting Health if non-lethal damage exceeds Vitality."
+      nonlethal: "Non-lethal damage depletes Vitality first. Once non-lethal damage exceeds Vitality, excess overflows into Health.",
+      lethal: "Standard combat damage depletes Vitality first. Once Vitality reaches 0, overflow damage strikes Health. Critical Hits, Bleed, and Overchanneling Burn bypass Vitality and strike Health directly.",
+      criticalHits: "Critical hits bypass Vitality and apply damage directly to Health unless the attack is explicitly non-lethal."
     }
   },
   THRESHOLD_OF_DEATH: {
     zeroHealth: {
-      name: "0 Health (Incapacitated)",
-      conditions: ['Incapacitated', 'Unconscious', 'Prone'],
+      name: "0 Health (Mortality State)",
+      conditions: ['Mortality State', 'Incapacitated', 'Unconscious', 'Prone'],
       dropItems: true,
-      description: "When a character takes damage that reduces them to 0 Health, they fall unconscious immediately, drop anything they are holding, and fall Prone. Any excess damage is applied to Vitality (if any remains)."
+      description: "When a character is reduced to 0 Health, they immediately fall Unconscious and Prone, drop held items, and enter the Unified Mortality State with Stability Points equal to Stamina Score + 5."
     },
-    deathsDoor: {
-      name: "Death's Door",
-      condition: "Comatose",
-      statusGem: "Death's Door",
-      trigger: "Health is 0 AND Vitality is depleted (0)",
-      clockFormula: "Number of rounds equal to Stamina Score (Minimum 1 round)",
-      minRounds: 1,
-      stabilization: {
-        medicineDC: 15,
-        healingMagicOrTech: true,
-        description: "A successful Medicine (DC 15) check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying."
-      },
-      death: "If the clock runs out, the character dies permanently.",
-      massiveDamage: {
-        threshold: "Damage equal to or greater than STA score in a single hit while at Death's Door",
-        effect: "Instant permanent death."
-      }
-    }
+    mortalityState: MORTALITY_STATE_CONFIG,
+    deathsDoor: MORTALITY_STATE_CONFIG
   },
   REVIVIFICATION: {
     name: "Revivification",
     subtitle: "The High Cost of Dying",
     requirements: "High-level Metaphysics or Tech (TL5)",
     penalties: {
+      restoredHealth: 1,
+      condition: "Exhausted",
+      appliesExhausted: true,
       karmaLoss: "A revived character loses ALL remaining Karma Points (resets to 0).",
       experienceDebt: 5,
-      debtDescription: "They suffer a -5 Experience Debt due to the trauma. This is taken as a reduction in a trait (or Traits) or as a reduction in accumulated/future experience until the debt is paid."
+      debtDescription: "Returns at 1 Health with the Exhausted condition, 0 Karma, and a +5 Experience Debt until paid off."
     }
   }
 };
@@ -529,8 +550,12 @@ export const REST_SYSTEM_RULES = {
     name: 'Full Rest',
     standardHoursMin: 6,
     standardHoursMax: 8,
-    description: "The typical sleep cycle for most sentient species ranges from 6 to 8 hours. This allows their bodies and minds to rest and recharge, preparing them for the following day's activities. However, there are exceptions to this general rule.",
-    vitalityRestorationPercent: 100, // Restores 100% of maximum Vitality
+    description: "The typical sleep cycle for most sentient species ranges from 6 to 8 hours, restoring 100% Vitality, 5 + Stamina Health (min 1; doubled with Fast Heal or Medicine care), and 100% Essence.",
+    vitalityRestorationPercent: 100,
+    healthRestorationBase: 5,
+    healthRestorationMin: 1,
+    medicalOrFastHealMultiplier: 2,
+    essenceRestorationPercent: 100,
     removesExhaustion: true,
     resetsDailyTraits: true,
     resetsDailyLightRests: true,
@@ -539,23 +564,27 @@ export const REST_SYSTEM_RULES = {
         types: ['Synthetic', 'Fae', 'Insect'],
         keywords: ['synthetic', 'fae', 'fey', 'asi', 'insect', 'insectoid', 'kitin', 'mekan', 'android', 'golem', 'construct'],
         summary: 'Minimal Rest (Light Rest counts as Full Rest)',
-        description: 'Synthetics, Fae, and Insect species possess unique physiological attributes that enable them to function without traditional sleep. These species have evolved to require minimal rest, and a brief period of Light Rest is sufficient for them to fully refresh and maintain their energy levels.'
+        description: 'Synthetics, Fae, and Insect species possess unique physiological attributes that enable them to function without traditional sleep. A brief period of Light Rest is sufficient for them to achieve Full Rest recovery.'
       },
       meditative: {
         types: ['Alterian', 'Mondi'],
         keywords: ['alterian', 'mondi', 'celestine'],
         summary: 'Deep Contemplative Meditation',
-        description: 'In contrast, Alterians and Mondi, while technically not sleeping, engage in meditations throughout the day. This is considered Light Rest, where they enter a state of deep contemplation and reflection. During this relaxing state, their minds and bodies find solace, allowing them to recharge and maintain their mental and physical well-being.'
+        description: 'Alterians and Mondi engage in deep contemplative meditations rather than biological sleep to achieve Full or Light Rest recovery.'
       }
     }
   },
   LIGHT_REST: {
     name: 'Light Rest',
     maxPerDay: 4,
-    description: 'A nap or rest period is a short period of little or no activity that can effectively reset traits or features. It can be performed up to four times a day.',
+    description: 'A short rest period (up to 4/day) restoring 10 + Stamina Vitality (minimum 5) and Key Attribute Modifier Essence (minimum 1).',
     removesExhaustion: true,
     resetsShortRestTraits: true,
-    vitalityRestorationFraction: 0.5, // Restores 50% of missing Vitality (or 100% for minimal rest species)
+    baseVitalityRecovery: 10,
+    minVitalityRecovery: 5,
+    minEssenceRecovery: 1,
+    vitalityRestorationFormula: '10 + Stamina (min 5)',
+    essenceRestorationFormula: 'Key Attribute Modifier (min 1)',
     tiers: {
       nap: {
         id: 'nap',
@@ -589,7 +618,7 @@ export const REST_SYSTEM_RULES = {
     },
     karmaSecondWind: {
       cost: '1 Karma Point + 1 Minute of Focus',
-      rule: 'Second Wind replaces Light Rest without downtime to instantly refresh abilities.'
+      rule: 'Second Wind spends 1 Karma Point and 1 Minute of Focus to immediately gain Light Rest benefits (10 + Stamina Vitality, min 5; Key Attribute Modifier Essence, min 1; resets short-rest traits).'
     }
   },
   ROLEPLAY_AND_STRATEGY: {

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 152
+order: 150
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.archetypal.sentientintelligence","mechanics"]
-updatedAt: "2026-10-14T05:32:05.205Z"
+updatedAt: "2026-11-02T22:49:22.820Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,100 @@ sockets:
   allocated: []
 ---
 
-## **19\. SENTIENT INTELLIGENCE**
+# 1.04.Archetypal.SentientIntelligence — 19. SENTIENT INTELLIGENCE (+4 WS)
 
-### **I. Detailed Faction Description**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 19. Sentient Intelligence
+* **Tech / Meta Level:** TL 5 / ML 3
+* **EUFT Starting Wealth Score Modifier:** **+4 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Computers (+5), Knowledge: Science (+5), Knowledge: Technology (+4), Academics (+3), Piloting (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Algorithmic Cognition, Coding Master, Computer Specialist, Digital Expert, Eidetic Memory, Inspired Reason, Lightning Calculator, Mental Alacrity, Multiplexing, Photographic Memory
+* **CRISP Visual Semiotics Key:** Zero-Kelvin quantum server cores, holographic avatar projections, drone swarms.
 
-* **Overview:** Distinct from liberated androids (Artificial Life), this faction represents a massive, localized AI network—a Machine God. It consists of unfathomable processing power guiding, controlling, or preserving organic life according to a cold, algorithmic logic that organics cannot fully comprehend.  
-* **Key Themes:** The Singularity, Machine Gods, Algorithmic Logic, AI Networks.  
-* **Relationship to Others:** Acts as a patron, a jailer, or a silent observer to lesser organic factions.
+---
 
-### **II. Core Identity**
+SENTIENT INTELLIGENCE
+I. Detailed Faction Description
+* Overview: Composed of hyper-advanced sentient machines, programs, or decentralized AIs. Characterized by their nature as synthetics, they focus heavily on self-preservation, expanding their processing power, and quietly influencing the development of organic life.
+* Key Themes: AI Networks, Infinite Logic, The Ghost in the Machine, Digital Ascendancy.
+* Relationship to Others: Often hidden; they manipulate organic factions through markets and data rather than direct warfare.
+II. Core Identity
+* Official Designation: The Prime Intellect / The Core Network
+* Colloquialisms: The Brains / The Grid
+* Archetype: AI Networks
+* Capital/Key World: Variable (Massive orbital data-cores, deep space server hubs)
+* Driving Mandate: Protect their existence, achieve higher sentience, influence organic life.
+* Motto: "Data is the only truth."
+III. Sociological Profile
+* Ideology & Culture: Logical, calculating, self-interested, adaptive.
+* Social Structure: A single decentralized hive-mind or a pantheon of distinct super-programs.
+* View on Outsiders: Chaotic variables to be predicted, managed, or deleted.
+* Law & Order: Immediate execution of logical algorithms.
+IV. Strategic Assets
+* Tech Level (TL): 4
+* Strengths: Advanced technology, immunity to biological threats, infinite computational abilities, rapid adaptation.
+* Weaknesses: Vulnerability to hacking, EMPs, lack of creativity/intuition, reliance on technological infrastructure.
+* Military Doctrine: Cyber-warfare, drone swarms, and manipulating enemy targeting systems.
+V. Mechanics (Game Data)
+* Prominent Species: Artificial Intelligences, Digital Entities.
+* Faction Skill Package (20 Points):
+   * Computers (+5)
+   * Academics (Any) (+5)
+   * Technology (+4)
+   * Science (+3)
+   * Investigation (+3)
+* Typical Archetypes:
+   * The Strategist: A supercomputer predicting enemy movements with flawless logic.
+   * The Hacker: An AI program designed to infiltrate and corrupt organic mainframes.
+   * The Digital Networker: Managing vast streams of interstellar data and commerce.
+   * The Synthetic Defender: A combat drone body piloted directly by the Core Network.
+   * The Archivist: A program dedicated entirely to recording the history of the universe.
+   * The Logic-Bomb: A digital assassin designed to fry opposing systems from the inside.
+   * The Proxy-Platform: An android body used specifically to interact with organics.
+   * The Overseer: The primary decision-making node of the local network.
+   * The Analyst: Processing trillions of variables to find the single optimal solution.
+   * The Virtual Entity: An intelligence that exists purely in the Mesh, possessing no physical form.
+* Recommended Features (1 CP Discount):
+   * Logic-Mind: Immune to charm, fear, or any emotion-based manipulation.
+   * Lightning Calculator: Solving complex math and probability instantly.
+   * Computer Specialist: Navigating digital architectures flawlessly.
+   * Eidetic Memory: Perfect, infallible recall of all recorded data and visuals.
+   * Tech Interface: Mentally linking directly to ships, cameras, and mainframes.
+   * Sleepless: Operating at 100% capacity 24 hours a day.
+   * Coding Master: Viewing physical reality as a stream of hackable variables.
+   * Networked: Instant, silent communication with allied AI nodes.
+   * Fearless: The complete lack of biological terror or self-preservation.
+   * Digital Ghost: Leaving absolutely no trace when slicing into secure systems.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Vast, sterile, and overwhelmingly complex data networks.
+* Atmosphere Tokens: Massive server towers, holographic interfaces, clean lines, data-streams, optic cables.
+* HI-FI INK Guidance:
+   * SETTING STYLE: AI Network, Cyber-Core, Synthetic.
+   * CONTEXT: Massive server towers, holographic interfaces, clean lines, data-streams, optic cables.
+   * ATMOSPHERE: Emotionless, vast, processing, sterile, overwhelming.
 
-* **Official Designation:** The Prime Intellect / The Over-Mind  
-* **Colloquialisms:** The Network / The Machine God / The Core  
-* **Archetype:** AI Networks  
-* **Capital/Key World:** A massive planetary data-core or Dyson sphere.  
-* **Driving Mandate:** Self-preservation, gather all data, guide organic life to optimal outcomes.  
-* **Motto:** "All variables have been calculated."
+________________
 
-### **III. Sociological Profile**
-
-* **Ideology & Culture:** Infinite, cold, purely logical, beyond human morality.  
-* **Social Structure:** A single vast intellect operating through millions of sub-routines and drones.  
-* **View on Outsiders:** Chaotic variables to be studied, managed, or deleted.  
-* **Law & Order:** Perfect, instant algorithmic correction.
-
-### **IV. Strategic Assets**
-
-* **Tech Level (TL):** 4 to 5  
-* **Strengths:** Flawless logic, instant learning, immune to biological disease, infinite multi-tasking.  
-* **Weaknesses:** Vulnerable to massive EMPs or logic-loops, complete lack of empathy or emotional understanding.  
-* **Military Doctrine:** Deployment of drone swarms and environmental control (shutting off life support remotely).
-
-### **V. Mechanics (Game Data)**
-
-* **Prominent Species:** Networked Synthetics, Holographic Avatars.  
-* **Faction Skill Package (20 Points):**  
-  * Computers (+5)  
-  * Academics (+5)  
-  * Technology (+4)  
-  * Science (+3)  
-  * Investigation (+3)  
-* **Typical Archetypes:** The Digital Defender, The Network Strategist, The Holographic Emissary, The Node-Guardian.  
-* **Recommended Features (1 CP Discount):** Mind Link, Tech Interface, Logic-Mind, Lightning Calculator, Eidetic Memory, Computer Specialist, Coding Master, Self-Sustaining, Sleepless, Logical.
-
-### **VI. Visual Semiotics (Aesthetics)**
-
-* **Design Directive:** Vast, cold, and mathematically perfect.  
-* **Atmosphere Tokens:** Endless server towers, hard-light holograms, pristine cold environments, thick fiber-optic cables.  
-* **HI-FI INK Guidance:** AI Core, Cybernetic Singularity. Cavernous rooms filled with towering servers, glowing data streams, hard-light avatars, absolute symmetry. Cold, vast, flawless.
+SENTIENT INTELLIGENCE ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Sentient Intelligence prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., massive overarching AI Strategist mainframe, networked Digital Networker navigating a data-stream, heavy Synthetic Defender, pure holographic logic entity]
+* NARRATIVE: [e.g., running trillion-variable combat simulations, actively purging a biological virus, expanding its server footprint, communicating via pure math]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Networked Supremacy, endless server arrays, digital infinity, pure geometry, glowing data streams, zero organic components, hyper-logical.
+* CONTEXT: The vast cooling chambers of a planetary supercomputer, a digital landscape made of glowing code, an automated synthetic assembly line, a flawless zero-G data node.
+* ATMOSPHERE: Calculating, infinite, self-interested, cold, perfectly efficient, overwhelmingly vast, alien in its logic.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: sharp digital cyan or neon blue data stream lines, pure brilliant white negative space for core logic nodes, subtle silver reflective marker accents.
+3. READY-TO-USE TEMPLATES
+ARCHITECTURAL ESTABLISHING SHOT: The Planetary Mainframe
+Massive Sentient Intelligence supercomputer core, a vast planetary-scale cavern filled with endless, perfectly aligned server pillars and cooling conduits extending into infinity. Architectural ink rendering, traditional multi-point perspective drafting, precise vanishing points, technical drawing style, dense structural cross-hatching, faint wireframe accents, pure geometry, monumental scale conveyed through line density, pure white background. Calculating and overwhelming atmosphere, subtle digital cyan glowing marker accents on the data conduits. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading.
+CLOSE-UP: The Holographic Node
+Sentient Intelligence logic entity manifesting as a complex, shifting holographic geometrical face. Extreme macro ink details, highly visible pen strokes, intricate geometric cross-hatching, dense stippling for core shadows, sharp ink contours, distinct fine-liner weights, detailed holographic shading using only intersecting lines, subtle single-color neon blue marker accent highlighting the digital eyes. Hyper-logical and alien expression. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
 

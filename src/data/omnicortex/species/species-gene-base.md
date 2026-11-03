@@ -142,7 +142,7 @@ cp_cost: 18
 
 # **GEN-E \***
 
-**CP Cost:** 9 CP  
+**CP Cost:** 18 CP  
 
 **Description:** GThe Gen-E designation applies to any individual or population of human stock that has been non-hybridically bio-engineered for specific traits, purposes, or environments. They are the ultimate expression of human adaptability, but achieved through the precise manipulation of their own genome rather than millennia of natural evolution. Unlike other engineered subspecies (like the Digon or Janissary) who are tailored for a single, mass-produced role, the Gen-E are often bespoke individuals or small, specialized cohorts. Their enhancements can be subtle—such as extended lifespan and heightened resistance to disease—or profound, like superior intellect, physical prowess, or deep adaptation to a unique environment. Because they are designed for a purpose, they do not possess a single homeworld, collective culture, or set of unifying features beyond their core human-like form. Their varied genetic 'templates' make them highly adaptable, but they often struggle with a lack of innate cultural identity or connection to the natural human diaspora.
 

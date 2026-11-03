@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 12
+order: 10
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.karma","mechanics"]
-updatedAt: "2026-10-31T11:30:42.672Z"
+updatedAt: "2026-11-02T22:49:17.748Z"
 costs:
   bp: 0
   credits: 0
@@ -37,256 +37,91 @@ sockets:
   allocated: []
 ---
 
-# **KARMA**
+# **1.01.07 KARMA & PLOT POINTS**
 
-# **KARMA**
+**Karma** is a core resource in the Tangent SF RP system that provides players with a strategic pool of points to bend probability, modify character actions, shake off debilitating conditions, and shape narrative outcomes.
 
-The Karma is an aspect of the Tangent RPG system that provides players with a limited resource they can strategically use to influence various aspects of the game. It serves as a pool of points that can be spent to affect dice rolls, modify character actions, and even shape narrative outcomes.
+---
 
-&nbsp;
+## **1. KARMA POOL BASICS**
 
-# ---
+* **Default Starting Pool:** Every character begins with **3 Karma Points (KP)** by default.
+* **Session Reset (Restoration):** All spent Karma Points are **fully restored to maximum at the start of every game session**. Karma Points are **not** recovered through Light or Full Rest.
+* **Heroic & Storyline Gain:** Characters may regain Karma Points mid-session at significant story milestones (chapter transitions) or when the Architect immediately awards **1 Karma Point** for performing "Heroic" or "Awesome" cinematic actions.
+* **Increasing Maximum Karma:**
+  * The **Karmic Blessing** Feature (`1.08.KarmaFeatures.md`) allows characters to permanently increase their maximum Karma Pool (+1 to +2 KP per rank depending on tier).
+  * Certain Origin and Occupation Traits (*Versatility, Guile, Critical Thinking, Risk-Taking, Self-Sufficiency*) increase the maximum Karma Pool by **+1 KP**.
+  * The Architect may also grant permanent Karma Pool increases for major campaign achievements.
 
-# **KARMA POOL BASICS**
+---
 
-*Characters have 3 Karma Points by default.*
+## **2. USING KARMA POINTS (`1 KP` EXPENDITURES)**
 
-* *Session Reset: Karma resets to max (Default 3\) at the start of every session. It does not regenerate via rest.*  
-* *Heroic Gain: Architect may award 1 Karma Point immediately for "Heroic" or "Awesome" actions.*
+Karma Points can be spent to activate six core effects. While spending Karma does not guarantee an automatic success, its benefits stack with all other applicable modifiers. Natural Critical Hits (`Natural 20` / double-10s) and Fumbles (`Natural 2` / double-1s) still apply according to core resolution mechanics.
 
-&nbsp;
+### **1. I Got This (Roll with Advantage — `1 KP`)**
 
-## **Restoration**
+Allows a player to gain **Advantage** on any single roll:
+* **Declaration:** The player must declare they are using *"I Got This"* **before** rolling the dice.
+* **Scope (Any Single Roll):** Can be used on any dice roll—including Attribute Checks, Skill Checks, Attack Rolls, Saving Throws, and even Weapon/Invocation Damage rolls.
+* **Effect (Advantage):** On a `2d10` check, roll an extra `d10` and keep the highest two dice (or on a damage roll, roll the damage dice twice and take the higher result).
 
-All Karma Points are fully restored at the start of each game session and regaining Karma Points through significant story moments (chapters) or by performing 'heroic' or awesome actions. Karma Points are not recovered by rest.
+### **2. Not What I Meant (Non-Combat Reroll — `1 KP`)**
 
-&nbsp;
+Allows a player to reroll a failed Attribute Check or non-combat Skill Check:
+* **Timing:** Declared **immediately after** the initial roll is made.
+* **Scope:** Applies strictly to **Attribute Checks** (*Strength/Might, Agility/Reflex, Stamina/Fortitude, Intellect/Reason, Wisdom/Willpower, Charisma/Etiquette*) and **non-combat Skill Checks** (*Knowledge [Technology], Knowledge [Medicine], Diplomacy, Computers,* etc.). It **excludes** combat Attack rolls, Damage rolls, and other combat-specific rolls.
+* **Acceptance:** The second `2d10` roll result must be accepted, even if it is worse than the first.
 
-## **Increasing**
+### **3. Shake it Off (Condition Severity Reduction — `1 KP`)**
 
-The Karmic Blessing feature allows characters to increase their maximum Karma Pool by \+1 point per rank of the feature.
+Allows a character to reduce the severity of temporary debilitating conditions affecting them:
+* **Temporary Conditions:** Short-term effects that hinder a character's abilities or actions, such as being *Poisoned, Stunned, Blinded, Exhausted, Sickened,* or *Frightened*.
+* **Severity Stages & One-Stage Reduction:** Many conditions have severity tiers (e.g., *Minor, Major, Critical Poisoning*). Spending **1 KP** reduces the condition's severity by **one stage** (e.g., reducing *Major Poisoning* to *Minor Poisoning*, or ending a single-stage temporary condition).
+* **Timing:** Can be declared at any time on the character's turn while suffering from a temporary condition.
 
-Otherwise the pool will be increased by possible Storyline and Architect prerogative.
+### **4. Second Wind (Instant Light Rest — `1 KP`)**
 
-&nbsp;
+Allows a character to rapidly refresh their inner reserves and encounter abilities, bypassing the time requirement of a Light Rest:
+* **Replaces Light Rest:** Grants the full mechanical benefits of a **Light Rest** (`1.01.RestAndDying.md`) without needing 1 to 3 hours of downtime.
+* **1 Full Minute Focus:** Using *"Second Wind"* requires the character to spend **1 full minute** (10 rounds) of uninterrupted focus drawing upon their willpower and determination to push through fatigue and replenish energy.
+* **Specific Benefits:** Restores `10 + Stamina Score` Vitality, restores `Key Attribute Mod` Essence, and refreshes traits, features, or special attacks that reset on a Light Rest.
 
-## **Using Karma Points**
+### **5. So Mote it Be (Metaphysical Amplification — `1 KP`)**
 
-Karma Points can be spent to activate various effects, but they will not guarantee a success. These effects are in additional to any other modifiers and will stack accordingly. Critical failures and successes may be adjusted as any other rolls following the listed mechanics.
+Interacts directly with a character's metaphysical abilities, enhancing their potency or unlocking Karma Feats:
+* **Prerequisite:** Available exclusively to characters with access to metaphysical abilities (*Awakened* or *Special Ability* users channeling magic, psionics, or divine/primal Resonance).
+* **Karma Feat Activation:** Spend **1 KP** to activate a specialized Karma Feat tied to the character's Metaphysic Discipline (`1.08.KarmaFeatures.md`).
+* **Skill & Duration Boost:** Alternatively, spend **1 KP** to boost the effectiveness of a Metaphysic Discipline check—increasing the potency of an invocation, expanding the range of a psychic projection, or extending the duration of *Dimension (Summoning)* or *Illusion (Shadow)* manifestations from `1 Round per Rank` to `1 Minute per Rank`.
+* **Simultaneous Declaration:** Must be declared **simultaneously** with the declaration of the metaphysical skill or feat, before the dice are rolled.
 
-## 
+### **6. By Will Alone (Heroic Rule-Bending — `1 KP`)**
 
-### **I Got This**
+Allows a character to attempt an extraordinary feat that pushes the boundaries of their normal capabilities:
+* **Architect's Discretion:** The player proposes an audacious action, and the Architect judges whether it is theoretically possible within the game world and the character's potential.
+* **Possible but Challenging:** The action must be something not explicitly covered by the character's existing skills or features, yet achievable through extreme effort, luck, or narrative justification—such as a one-time rule nudge in the character's favor, or temporarily emulating a basic Feature for a single action or scene.
+* **Cost & Resolution:** Attempting the action requires spending **1 KP** upfront regardless of outcome. Success is not automatic; the Architect may call for a high-CR Attribute Check, Skill Check, or composite challenge to resolve the feat.
 
-This Karma Point expenditure option allows players to gain an advantage on any single roll.&nbsp;
+---
 
-Declaration
+## **3. PLOT POINTS**
 
-The player must declare they are using "I Got This" before making the roll.
+**Plot Points** are a special narrative resource awarded by the Architect to players who actively engage with the story and its dramatic complications:
 
-&nbsp;
+* **Separate from Karma Pool:** Plot Points function similarly to Karma Points (allowing players to influence rolls, actions, or scene details), but they are tracked separately and **do not count toward the character's Karma Pool maximum**.
+* **Temporary and Scenario-Specific:** Plot Points are temporary and must be spent within the specific scenario or story arc in which they were awarded, encouraging proactive, strategic use.
+* **Compensation and Balance:** Plot Points are frequently granted when characters suffer setbacks beyond their control (such as narrative capture, equipment loss, or overwhelming ambushes), ensuring every player retains meaningful agency in the unfolding story.
 
-Any Single Roll
+---
 
-It can be used on any dice roll, including ability checks, skill checks, attack rolls, saving throws, and even damage rolls. This versatility makes it a valuable tool in various situations.
+## **4. NEGATIVE KARMA (KARMIC DEBT)**
 
-&nbsp;
+**Negative Karma** allows characters to push their luck past their limits—at the price of future narrative and mechanical reckoning:
 
-Advantage
-
-Gaining advantage means rolling the die twice and taking the higher result. This significantly increases the character's chance of success.
-
-&nbsp;
-
-### **Not What I Meant**
-
-This option of the Karma mechanic allows a player to reroll an Ability Check or a non-combat Skill Check.&nbsp;
-
-Timing
-
-The player must declare they are using "Not What I Meant" immediately after the initial roll.&nbsp;
-
-&nbsp;
-
-Scope
-
-It applies to Ability Checks (Strength, Agility, etc.) and non-combat Skill Checks (Technology, Medicine, etc.). This excludes attack rolls, damage rolls, and other combat-specific rolls.
-
-&nbsp;
-
-Acceptance
-
-The second roll's result must be accepted, even if it's worse than the first.&nbsp;
-
-## 
-
-### **Shake it Off**
-
-This Karma Point expenditure option allows characters to reduce the severity of temporary conditions affecting them.&nbsp;
-
-Temporary Conditions
-
-These are short-term effects that hinder a character's abilities or actions. Examples include being Poisoned, Stunned, or Blinded.
-
-&nbsp;
-
-Severity Stages
-
-Many conditions have severity levels, such as Poisoned (Minor, Major, Critical).
-
-&nbsp;
-
-One Stage Reduction
-
-Spending a Karma Point allows the character to reduce the condition's severity by one stage. For example, a character suffering from Major Poisoning could reduce it to Minor Poisoning.
-
-&nbsp;
-
-Timing
-
-This can be used anytime the character is suffering from a temporary condition.
-
-&nbsp;
-
-### **Second Wind**
-
-This Karma Point expenditure option allows a character to quickly refresh their abilities and resources, bypassing the need for a Light Rest.&nbsp;
-
-Replaces Light Rest
-
-A Light Rest is a short period of downtime during which characters can recover some spent abilities or regain limited uses of certain features. "Second Wind" allows a character to achieve the same benefits without needing to take a Light Rest.
-
-&nbsp;
-
-1 Full Minute
-
-Using "Second Wind" requires the character to spend 1 full minute focusing on themselves and their inner reserves. This represents the character drawing upon their willpower and determination to push through fatigue and replenish their energy.
-
-&nbsp;
-
-Specific Benefits
-
-The exact benefits of using "Second Wind" depend on the character's traits, abilities, and features. Generally, it can be used to refresh abilities that have a limited number of uses per day, such as special attacks, traits or features.
-
-&nbsp;
-
-### **So Mote it Be**
-
-This Karma Point expenditure option interacts with a character's metaphysical abilities, enhancing their power or enabling special feats.&nbsp;
-
-Metaphysics Users
-
-This option is available to characters who have access to metaphysical abilities, such as magic, psychic powers, or other supernatural forces.
-
-&nbsp;
-
-Karma Feat Activation
-
-A Karma Point can be spent to activate a Karma Feat, which is a special ability or enhancement tied to the character's metaphysical disciplines. These feats might grant temporary bonuses, unique effects, or powerful attacks.
-
-&nbsp;
-
-Skill Boost
-
-Alternatively, a Karma Point can be used to boost the effectiveness of a metaphysical skill check. This could increase the power of a spell, the range of a psychic ability, or the duration of a supernatural effect.
-
-&nbsp;
-
-Simultaneous Use
-
-The Karma Point expenditure must be declared along with the use of the metaphysical skill or feat. This means the player decides to use "So Mote it Be" at the same time they declare they are using the skill or feat, not after the roll is made.
-
-&nbsp;
-
-### **By Will Alone**
-
-This is a unique Karma Point expenditure, allowing characters to attempt actions that push the boundaries of their normal capabilities.&nbsp;
-
-Architect Discretion
-
-The core of "By Will Alone" is the Architect's judgment. Operators propose an action, and the Architect decides if it's possible within the game world and the character's potential.
-
-&nbsp;
-
-Possible but Challenging
-
-The action must be something that's not explicitly covered by the character's skills or abilities, but is theoretically achievable with extreme effort, luck, or a narrative justification. The effect could involve a nudge of a rule for one action or event in the character’s favor, the emulation of a basic feature for the event or scene and similar low-end temporary game tweaks for character agency (within Architect’s approval for the ongoing story).
-
-&nbsp;
-
-Karma Point Cost
-
-Attempting the action requires spending a Karma Point, regardless of success or failure. This represents the character tapping into their inner reserves or pushing their luck.
-
-&nbsp;
-
-No Guarantee
-
-Even with a Karma Point spent, success is not guaranteed. The Architect may call for an ability check, a skill check, or a unique challenge to resolve the action's outcome.
-
-&nbsp;
-
-# ---
-
-# **PLOT POINTS**
-
-Plot Points are a special resource in Tangent RPG, awarded by the Architect to operators who actively engage with the story and its challenges.
-
-Separate from Karma Pool
-
-Plot Points function similarly to Karma Points, allowing players to influence rolls and actions. However, they are a separate resource and do not count towards the character's Karma Pool maximum.
-
-&nbsp;
-
-## **Temporary and Specific**
-
-Plot Points are temporary and must be used within the specific scenario or story arc they were awarded in. This encourages players to use them strategically and think about how they can best contribute to the unfolding narrative.
-
-&nbsp;
-
-## **Compensation and Balance**
-
-Plot Points are often granted to characters who find themselves in situations beyond their control, as a form of compensation or to help balance the challenges they face. This can help ensure that all players have a meaningful impact on the story, even if their characters are not the most powerful or skilled.
-
-# 
-
-# ---
-
-# **NEGATIVE KARMA**
-
-Negative Karma allows characters to push their luck and potentially face consequences for their actions.
-
-&nbsp;
-
-## **Architect's Discretion**
-
-The allowance of Negative Karma is entirely at the Architect's discretion who will decide when and how to apply its effects, tailoring it to the specific situation and the character's actions. Incurring Negative Karma points are up to the players themselves.
-
-&nbsp;
-
-## **Spending Karma into the Negatives**
-
-Characters can choose to spend Karma Points even when they have none left, effectively going into "Karmic debt." This debt is limited to the character's Charisma score \+1.
-
-&nbsp;
-
-## **Karmic Effects**
-
-Negative Karma Points allow the Architect to introduce various effects that hinder the character or benefit their opponents. These effects are typically narrative in nature, reflecting the character's misfortune or the universe balancing the scales.
-
-&nbsp;
-
-* ### **Disadvantage on Rolls**
-
-  A common Karmic effect is imposing disadvantage on the character's rolls. This means they roll twice and take the lower result, significantly reducing their chances of success.  
-  &nbsp;
-
-* ### **Rerolls**
-
-  The Architect might also force the character to reroll successful rolls, introducing uncertainty and potentially turning a victory into a failure.  
-  &nbsp;
-
-* ### **NPC Benefits**
-
-  Negative Karma can also positively affect NPCs who are directly opposing the character. This could manifest as increased luck, improved skills, or unexpected advantages that help them overcome the character's efforts.
+* **Architect's Discretion:** Allowing Negative Karma is at the Architect's discretion, though choosing to incur Karmic Debt is always initiated by the player (or via the *Unlucky* Hindrance).
+* **Spending Karma into the Negatives (`Charisma Score + 1` Limit):** A character with `0 KP` remaining may choose to spend Karma into the negatives ("Karmic Debt"), up to a maximum debt equal to their **Charisma Score + 1** (minimum 1 if Charisma is 0).
+* **Karmic Backlash Effects:** For each point of Negative Karma carried, the Architect may call in the debt at a dramatic moment to balance the scales:
+  * **Disadvantage on Rolls:** Impose **Disadvantage** on a critical `2d10` roll made by the character.
+  * **Forced Rerolls:** Force the character to reroll a successful check, potentially turning victory into failure.
+  * **NPC Benefits:** Grant an opposing NPC a sudden stroke of luck, tactical advantage, or bonus action against the indebted character. Once the Architect triggers a backlash effect, 1 point of Negative Karma debt is cleared.
 

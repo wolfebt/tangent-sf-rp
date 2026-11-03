@@ -19,14 +19,24 @@ import {
 } from './tangentConstants.js';
 import { 
   calculateCreditValue, 
+  calculateCRFromCredits,
   calculateDCFromCredits,
+  resolveItemCostCR,
   resolveItemCostDC,
   calculateMaterialCost, 
+  calculateScrapMassRequired,
   calculateAllCraftingTiers, 
   getComplexityTier 
 } from './tangentEconEngine.js';
 
-export { calculateCreditValue, calculateDCFromCredits, resolveItemCostDC };
+export {
+  calculateCreditValue,
+  calculateCRFromCredits,
+  calculateDCFromCredits,
+  resolveItemCostCR,
+  resolveItemCostDC,
+  calculateScrapMassRequired
+};
 
 // ═══════════════════════════════════════════════════════════
 // 1. EQUIPMENT FORGE ENGINE (PLAN 17)
@@ -113,12 +123,14 @@ export function calculateEquipmentSockets(size = 'Small', customSlots = null) {
   };
 }
 
+export const calculateEquipmentCR = calculateEquipmentDC;
+
 /**
  * Computes the full persistent metadata for Equipment on save.
  */
 export function computeEquipmentStats(formData) {
   const finalDC = calculateEquipmentDC({
-    baseDC: formData.base_dc ?? formData.craft_dc,
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
     size: formData.size || 'Small',
     workspaceScale: formData.workspace_scale,
     computerPR: formData.computer_pr,
@@ -129,14 +141,19 @@ export function computeEquipmentStats(formData) {
     isRare: !!formData.is_rare
   });
 
-  const creditValue = calculateCreditValue(finalDC);
+  const creditValue = calculateCreditValue(finalDC, { hasFlaw: Array.isArray(formData.downgrades) && formData.downgrades.length > 0 });
   const materialCost = calculateMaterialCost(creditValue);
+  const scrapMassRequired = calculateScrapMassRequired(creditValue);
   const sizeDef = EQUIPMENT_SIZES[formData.size || 'Small'] || EQUIPMENT_SIZES.Small;
 
   return {
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
+    craft_dc: finalDC,
     credit_value: creditValue,
     material_cost: materialCost,
+    scrap_mass_required: scrapMassRequired,
     ws_threshold: finalDC,
     complexity_tier: getComplexityTier(finalDC),
     crafting_days: calculateAllCraftingTiers(creditValue),
@@ -268,12 +285,14 @@ export function calculateWeaponSockets(sizeOrSockets = 'Medium', modifications =
   };
 }
 
+export const calculateWeaponCR = calculateWeaponDC;
+
 /**
  * Computes persistent metadata for Weaponry on save.
  */
 export function computeWeaponStats(formData) {
   const finalDC = calculateWeaponDC({
-    baseDC: formData.base_dc ?? formData.craft_dc ?? 15,
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc ?? 15,
     modifications: formData.modifications || [],
     downgrades: formData.downgrades || [],
     capacityUpgrade: formData.capacity_upgrade || 'typical',
@@ -285,12 +304,17 @@ export function computeWeaponStats(formData) {
 
   const creditValue = calculateCreditValue(finalDC);
   const materialCost = calculateMaterialCost(creditValue);
+  const scrapMassRequired = calculateScrapMassRequired(creditValue);
   const socketStats = calculateWeaponSockets(formData.size || formData.component_slots || 4, formData.modifications || []);
 
   return {
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
+    craft_dc: finalDC,
     credit_value: creditValue,
     material_cost: materialCost,
+    scrap_mass_required: scrapMassRequired,
     ws_threshold: finalDC,
     complexity_tier: getComplexityTier(finalDC),
     crafting_days: calculateAllCraftingTiers(creditValue),
@@ -535,12 +559,14 @@ export function calculateArmorSockets({
   };
 }
 
+export const calculateArmorCR = calculateArmorDC;
+
 /**
  * Computes persistent metadata for Armor on save.
  */
 export function computeArmorStats(formData) {
   const finalDC = calculateArmorDC({
-    baseDC: formData.base_dc ?? formData.craft_dc,
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
     size: formData.size || formData.category || 'Mediumweight',
     coverage: formData.coverage || 'Standard',
     modules: formData.modules || [],
@@ -577,9 +603,13 @@ export function computeArmorStats(formData) {
 
   const creditValue = calculateCreditValue(finalDC);
   const materialCost = calculateMaterialCost(creditValue);
+  const scrapMassRequired = calculateScrapMassRequired(creditValue);
 
   return {
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
+    craft_dc: finalDC,
     final_sp: finalSP,
     total_dr: drStats.totalDR,
     dr_percent: drStats.drPercent,
@@ -587,6 +617,7 @@ export function computeArmorStats(formData) {
     move_penalty: mobilityStats.movePenalty,
     credit_value: creditValue,
     material_cost: materialCost,
+    scrap_mass_required: scrapMassRequired,
     ws_threshold: finalDC,
     complexity_tier: getComplexityTier(finalDC),
     crafting_days: calculateAllCraftingTiers(creditValue),

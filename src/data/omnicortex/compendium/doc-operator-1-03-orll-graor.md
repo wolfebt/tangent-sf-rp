@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-orll"
-order: 86
+order: 84
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.orll.graor","mechanics"]
-updatedAt: "2026-10-14T08:27:00.285Z"
+updatedAt: "2026-11-02T22:49:35.632Z"
 costs:
   bp: 0
   credits: 0
@@ -39,67 +39,67 @@ sockets:
 
 ## **Gra’Or**
 
-&nbsp;
+  
 
-**CP Cost:** 22 CP
+**CP Cost:** 
 
 **Description:** The grey-skinned Orll represent a distinct and notable variance within the broader Orll species. Unlike their more commonly encountered cousins, who are often characterized by volatile temperaments and a propensity for unrestrained aggression, the grey variety is generally considered to possess a significantly higher degree of intelligence and a markedly reduced inclination towards violent, unthinking rage.
 
-&nbsp;
+  
 
 This cognitive divergence is the most defining trait of the grey-skinned Orll. They exhibit complex problem-solving skills, a greater capacity for long-term planning, and a more sophisticated social structure. While their cousins might charge headlong into conflict, the grey Orll prefer to assess threats, formulate strategies, and utilize diplomacy or tactical maneuvering before resorting to outright violence. This inherent restraint and intellectual capacity have often led them to occupy roles of leadership, scholarship, or specialized trade within their own society, or even in interaction with other races. Their calmer demeanor does not equate to weakness; rather, it allows their considerable strength and innate resilience to be deployed with precision and lethal efficiency when necessary.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
 **Size:** Medium
 
-**Movement:** 30ft Groundspeed&nbsp;
+**Movement:** 30ft Groundspeed 
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:**&nbsp;
+**Stigma:** 
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Str
++2 Str
 
-\+2 Sta
++2 Sta
 
-\-1 Cha
+-1 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+5 Skills
++5 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Exoskeleton (light)
 
 Stigma (Xeno & Savage)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+**  
+**
 

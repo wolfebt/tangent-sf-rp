@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 172
+order: 170
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.adept","mechanics"]
-updatedAt: "2026-10-14T05:39:35.563Z"
+updatedAt: "2026-11-02T22:49:26.430Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **ADEPT**
+# 1.06.01 OCCUPATION: ADEPT (Base WS 4)
+
+* **Operational Focus:** Metaphysical Mastery — Psionics, Arcane Magic, Divine Channeling, and Monastic Martial Arts.
+* **EUFT Base Wealth Score:** **Base WS 4**
+* **Canonical Professional Skills (20 SP Allocation):** Attune and any known Metafocus Discipline Focus Skills
+* **Recommended Feature Category (-1 CP Discount):** Discipline Features (Req: Awakened or Special Ability)
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **ADEPT**
 
 An adept is a person who has developed their skills and abilities to a high level in a particular area. This can be achieved through a combination of innate talent, training, and experience. Adepts may possess unique powers or abilities that set them apart from others in their field, making them valuable assets in various situations. These abilities could include mental abilities, arcane study, or some other source. Adepts are often sought after for their expertise and skills, and they can play a vital role in many different areas. For example, they may be used as consultants, trainers, or even soldiers. Adepts can be found in all walks of life, and they can use their skills for good or evil. Some adepts choose to use their powers to help others, while others use them for personal gain or to harm others. Adepts are often seen as mysterious and powerful figures, and they can be both feared and respected. Though many may have Awakened various Metafocus Skills and Abilities \- an Adept has a true understanding of the arts.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Disciplines (Attune or any known Metafocus Skill)
 
-&nbsp;
-
 ## **Recommended Features**
 
 Discipline (Awakened or Special Ability Feature is required)
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -75,8 +77,6 @@ Priest
 
 Shaman
 
-&nbsp;
-
 ## **Traits**
 
 ### *Enhanced Abilities*
@@ -85,15 +85,11 @@ Adepts may be able to temporarily enhance their physical or mental abilities to 
 
 *Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.*
 
-&nbsp;
-
 ### *Heightened Senses*
 
 Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.
 
 *Gains access to purchase Sensory Features \- Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)*
-
-&nbsp;
 
 ### *Martial Arts Mastery*
 
@@ -101,15 +97,11 @@ Many adepts are highly skilled in martial arts, using their physical prowess and
 
 *\+2 Unarmed Combat*
 
-&nbsp;
-
 ### *Mastery of a Discipline*
 
 Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.
 
 *\+2 to a Metafocus Discipline*
-
-&nbsp;
 
 ### *Mystical or Spiritual Connection*
 
@@ -117,23 +109,17 @@ Adepts may have a deep connection to mystical or spiritual forces. They may draw
 
 *\+1 Attune and \+1 Insight*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.
 
 *Once per Day make a Skill Check of choice at Advantage*
 
-&nbsp;
-
 ### *Special Equipment*
 
 Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.
 
 *\+2 Equipment*
-
-&nbsp;
 
 ### *Special Ability*
 
@@ -143,15 +129,11 @@ May be taken multiple times for a different Special Ability.
 
 *Special Ability at level 1 (which are afterwards improved as a skill)*
 
-&nbsp;
-
 ### *Specialized Skills*
 
 Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.
 
 *\+2 to a Skill of Choice*
-
-&nbsp;
 
 ### *Versatility*
 
@@ -160,8 +142,6 @@ Adepts are often versatile characters who can adapt to different situations. The
 *\+1 to Karma Point*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -221,4 +201,10 @@ Adepts are often versatile characters who can adapt to different situations. The
   * **Style:** Digital Sorcery, Fractal Geometry.  
   * **Palette:** Matte Grey, Neon Purple (Data), Grid Black.  
   * **Tokens:** Glitching reality, floating shapes, numbers, cold logic.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Manelli Chorus-Weaver** with twin cranial antennae glowing pulsating cyan, wearing sleek obsidian Hive-Resin vestments threaded with emerald hemocyanin veins, channeling harmonic psionic shockwaves.  
+  * **Style:** Psionic Biocracy, Chorus Conduit.  
+  * **Palette:** Glossy Obsidian, Pulsating Cyan, Emerald Green, Hive-Amber.  
+  * **Tokens:** Cranial antennae, cyan psi-halo, living resin robes, telepathic ripples.
 

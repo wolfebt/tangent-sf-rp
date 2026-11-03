@@ -721,18 +721,20 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.strictEqual(dc, 27);
     });
 
-    it('maps DC and rank to appropriate skill stages', () => {
+    it('maps CR/DC and rank to all 6 canonical skill stages', () => {
       assert.strictEqual(getSkillStageFromRank(3).stage, 1); // Novice
       assert.strictEqual(getSkillStageFromRank(8).stage, 2); // Trained
       assert.strictEqual(getSkillStageFromRank(14).stage, 3); // Expert
       assert.strictEqual(getSkillStageFromRank(19).stage, 4); // Master
-      assert.strictEqual(getSkillStageFromRank(25).stage, 5); // Pinnacle
+      assert.strictEqual(getSkillStageFromRank(25).stage, 5); // Grand Master
+      assert.strictEqual(getSkillStageFromRank(28).stage, 6); // Pinnacle
 
       assert.strictEqual(getSkillStageFromDC(12).stage, 1);
       assert.strictEqual(getSkillStageFromDC(17).stage, 2);
       assert.strictEqual(getSkillStageFromDC(22).stage, 3);
       assert.strictEqual(getSkillStageFromDC(28).stage, 4);
-      assert.strictEqual(getSkillStageFromDC(35).stage, 5);
+      assert.strictEqual(getSkillStageFromDC(32).stage, 5);
+      assert.strictEqual(getSkillStageFromDC(35).stage, 6);
     });
 
     it('calculates essence costs when pushing beyond caster stage', () => {

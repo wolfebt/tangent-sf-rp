@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 252
+order: 246
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","metaphysics","4.00.mental","mechanics"]
-updatedAt: "2026-10-31T10:14:07.281Z"
+updatedAt: "2026-11-02T22:49:26.243Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,15 @@ sockets:
   allocated: []
 ---
 
-# **Mental Invocations**
+# **Mental Invocations**  
+**
 
 # **Mental Invocations**
 
 The following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and CR setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.
 
-## 
-
-## 
+  
+  
 
 ## **PROJECTION INVOCATIONS**
 
@@ -57,45 +57,45 @@ Description: Cause others to sense, feel, or think differently. The active outpu
 
 Standard Range: Extended.
 
-* *Stage 1:* 100 ft  
-* *Stage 2:* 500 ft  
-* *Stage 3:* 2,500 ft  
-* *Stage 4:* 12,500 ft  
-* *Stage 5:* 62,500 ft (\~12 miles)
+  - *Stage 1:* 100 ft
+  - *Stage 2:* 500 ft
+  - *Stage 3:* 2,500 ft
+  - *Stage 4:* 12,500 ft
+  - *Stage 5:* 62,500 ft (\~12 miles)
 
-### 
+  
 
 ### **TELEPATHY**
 
-Classification: Mental (Projection) | Communication | \[Minor\] \[Message\]
+Classification: Mental (Projection) | Communication | [Minor] [Message]
 
 Parameters:
 
-* **Base Difficulty:** 10  
-* **Time:** Free Action (At Will)  
-* **Range:** Extended (See Projection Range)  
-* **Area:** Single Mind  
-* **Duration:** Instantaneous  
-* **Resistance:** None (Voluntary)
+  - **Base Difficulty:** 10
+  - **Time:** Free Action (At Will)
+  - **Range:** Extended (See Projection Range)
+  - **Area:** Single Mind
+  - **Duration:** Instantaneous
+  - **Resistance:** None (Voluntary)
 
 Effect Description:
 
 Sends a short mental message or image to a willing subject within range. Allows for two-way communication if the subject is also telepathic or the caster maintains the link.
 
-### 
+  
 
 ### **COMMAND**
 
-Classification: Mental (Projection) | Control | \[Compulsion\] \[Language-Dependent\]
+Classification: Mental (Projection) | Control | [Compulsion] [Language-Dependent]
 
 Parameters:
 
-* **Base Difficulty:** 10  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** 1 Round  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** 1 Round
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -103,23 +103,23 @@ Issues a one-word command (e.g., "Halt," "Drop," "Flee") to a creature.
 
 **Scaling Function:**
 
-* **Quantity:** Number of targets \= 1 per Stage.  
-* **Severity:** Save CR increases by \+1 per Stage.
+  - **Quantity:** Number of targets = 1 per Stage.
+  - **Severity:** Save CR increases by +1 per Stage.
 
-### 
+  
 
 ### **SUGGESTION**
 
-Classification: Mental (Projection) | Control | \[Influence\] \[Subtle\]
+Classification: Mental (Projection) | Control | [Influence] [Subtle]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** Hours/Level  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** Hours/Level
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -127,23 +127,23 @@ Plants a reasonable suggestion in a creature's mind. The course of activity must
 
 **Scaling Function:**
 
-* **Duration:** 1 Hour per Stage.  
-* **Complexity:** At Stage 3+, suggestion can be unreasonable (but not suicidal).
+  - **Duration:** 1 Hour per Stage.
+  - **Complexity:** At Stage 3+, suggestion can be unreasonable (but not suicidal).
 
-### 
+  
 
 ### **CHARM**
 
-Classification: Mental (Projection) | Social | \[Emotion\] \[Trust\]
+Classification: Mental (Projection) | Social | [Emotion] [Trust]
 
 Parameters:
 
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** Scene  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** Scene
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -151,23 +151,23 @@ Makes a creature regard the caster as a trusted friend and ally.
 
 **Scaling Function:**
 
-* **Quantity:** Number of targets \= 1 per Stage.  
-* **Duration:** Persists for 1 Hour per Stage after the scene ends.
+  - **Quantity:** Number of targets = 1 per Stage.
+  - **Duration:** Persists for 1 Hour per Stage after the scene ends.
 
-### 
+  
 
 ### **DOMINATE**
 
-Classification: Mental (Projection) | Control | \[Overpower\] \[Puppetry\]
+Classification: Mental (Projection) | Control | [Overpower] [Puppetry]
 
 Parameters:
 
-* **Base Difficulty:** 20  
-* **Time:** Full Round Action  
-* **Range:** Extended  
-* **Area:** Single Humanoid  
-* **Duration:** Concentration or Scene  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 20
+  - **Time:** Full Round Action
+  - **Range:** Extended
+  - **Area:** Single Humanoid
+  - **Duration:** Concentration or Scene
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -175,23 +175,23 @@ Takes total control of a humanoid's actions via telepathic link.
 
 **Scaling Function:**
 
-* **Duration:** Maintains control without Concentration for 1 Round per Stage.  
-* **Target:** At Stage 4 (Master), can target Non-Humanoids/Beasts.
+  - **Duration:** Maintains control without Concentration for 1 Round per Stage.
+  - **Target:** At Stage 4 (Master), can target Non-Humanoids/Beasts.
 
-### 
+  
 
 ### **SLEEP**
 
-Classification: Mental (Projection) | Debuff | \[Unconsciousness\] \[Area\]
+Classification: Mental (Projection) | Debuff | [Unconsciousness] [Area]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** 15ft Radius Burst  
-* **Duration:** Minutes/Level  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** 15ft Radius Burst
+  - **Duration:** Minutes/Level
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -199,23 +199,23 @@ Sends a psychic wave that puts creatures into a magical slumber.
 
 **Scaling Function:**
 
-* **Power:** Affects up to 5 HD of creatures per Stage.  
-* **Duration:** 1 Minute per Stage.
+  - **Power:** Affects up to 5 HD of creatures per Stage.
+  - **Duration:** 1 Minute per Stage.
 
-### 
+  
 
 ### **CONFUSION**
 
-Classification: Mental (Projection) | Debuff | \[Chaos\] \[Disorient\]
+Classification: Mental (Projection) | Debuff | [Chaos] [Disorient]
 
 Parameters:
 
-* **Base Difficulty:** 18  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** 20ft Radius  
-* **Duration:** Rounds/Level  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 18
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** 20ft Radius
+  - **Duration:** Rounds/Level
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -223,23 +223,23 @@ Scrambles the victims' thought patterns, causing erratic behavior.
 
 **Scaling Function:**
 
-* **Duration:** 1 Round per Stage.  
-* **Severity:** Save CR increases by \+1 per Stage.
+  - **Duration:** 1 Round per Stage.
+  - **Severity:** Save CR increases by +1 per Stage.
 
-### 
+  
 
 ### **MIND BARRIER**
 
-Classification: Mental (Projection) | Defense | \[Shield\] \[Anti-Psionic\]
+Classification: Mental (Projection) | Defense | [Shield] [Anti-Psionic]
 
 Parameters:
 
-* **Base Difficulty:** 12  
-* **Time:** Swift Action  
-* **Range:** Touch  
-* **Area:** Single Creature  
-* **Duration:** Scene  
-* **Resistance:** None
+  - **Base Difficulty:** 12
+  - **Time:** Swift Action
+  - **Range:** Touch
+  - **Area:** Single Creature
+  - **Duration:** Scene
+  - **Resistance:** None
 
 Effect Description:
 
@@ -247,23 +247,23 @@ Protects a creature from mental intrusion, mind control, and psychic damage.
 
 **Scaling Function:**
 
-* **Integrity:** Grants \+2 Bonus to Will Saves per Stage.  
-* **Absorption:** Grants DR 5 vs Psychic Damage per Stage.
+  - **Integrity:** Grants +2 Bonus to Will Saves per Stage.
+  - **Absorption:** Grants DR 5 vs Psychic Damage per Stage.
 
-### 
+  
 
 ### **STUN**
 
-Classification: Mental (Projection) | Attack | \[Non-Lethal\] \[Overload\]
+Classification: Mental (Projection) | Attack | [Non-Lethal] [Overload]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** 1d4 Rounds  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** 1d4 Rounds
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -271,23 +271,23 @@ Psychically overloads a creature's sensory input, leaving them Stunned.
 
 **Scaling Function:**
 
-* **Duration:** 1 Round \+ (1 Round per Stage).  
-* **Damage:** Inflicts 1d6 Non-Lethal Psychic Damage per Stage.
+  - **Duration:** 1 Round + (1 Round per Stage).
+  - **Damage:** Inflicts 1d6 Non-Lethal Psychic Damage per Stage.
 
-### 
+  
 
 ### **KILL**
 
-Classification: Mental (Projection) | Attack | \[Lethal\] \[Trauma\]
+Classification: Mental (Projection) | Attack | [Lethal] [Trauma]
 
 Parameters:
 
-* **Base Difficulty:** 25  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** Instantaneous  
-* **Resistance:** Fortitude (Partial/Negates Death)
+  - **Base Difficulty:** 25
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** Instantaneous
+  - **Resistance:** Fortitude (Partial/Negates Death)
 
 Effect Description:
 
@@ -295,22 +295,22 @@ A focused psychic strike intended to stop the heart or shut down brain function.
 
 **Scaling Function:**
 
-* **Damage:** 1d6 Direct Damage per Stage (Bypasses Armor).
+  - **Damage:** 1d6 Direct Damage per Stage (Bypasses Armor).
 
-### 
+  
 
 ### **PAIN**
 
-Classification: Mental (Projection) | Attack/Debuff | \[Torture\] \[Debilitating\]
+Classification: Mental (Projection) | Attack/Debuff | [Torture] [Debilitating]
 
 Parameters:
 
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** Concentration  
-* **Resistance:** Fortitude (Halves penalty)
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** Concentration
+  - **Resistance:** Fortitude (Halves penalty)
 
 Effect Description:
 
@@ -318,23 +318,23 @@ Inflicts excruciating psychic pain, imposing penalties on actions.
 
 **Scaling Function:**
 
-* **Severity:** Penalty to Checks \= \-1 per Stage.  
-* **Damage:** 1d4 Psychic Damage per round per Stage.
+  - **Severity:** Penalty to Checks = -1 per Stage.
+  - **Damage:** 1d4 Psychic Damage per round per Stage.
 
-### 
+  
 
 ### **PARALYZE**
 
-Classification: Mental (Projection) | Crowd Control | \[Hold\] \[Motor Control\]
+Classification: Mental (Projection) | Crowd Control | [Hold] [Motor Control]
 
 Parameters:
 
-* **Base Difficulty:** 18  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** Rounds/Level  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 18
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** Rounds/Level
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -342,23 +342,23 @@ Severs the connection between the target's mind and body, freezing them in place
 
 **Scaling Function:**
 
-* **Duration:** 1 Round per Stage per level.  
-* **Quantity:** Number of targets \= 1 per Stage.
+  - **Duration:** 1 Round per Stage per level.
+  - **Quantity:** Number of targets = 1 per Stage.
 
-### 
+  
 
 ### **POSSESSION**
 
-Classification: Mental (Projection) | Control | \[Displacement\] \[Transfer\]
+Classification: Mental (Projection) | Control | [Displacement] [Transfer]
 
 Parameters:
 
-* **Base Difficulty:** 30  
-* **Time:** Full Round Action  
-* **Range:** Extended  
-* **Area:** Single Creature  
-* **Duration:** Concentration  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 30
+  - **Time:** Full Round Action
+  - **Range:** Extended
+  - **Area:** Single Creature
+  - **Duration:** Concentration
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -366,23 +366,23 @@ The caster projects their consciousness into another creature's body, taking ful
 
 **Scaling Function:**
 
-* **Duration:** Can maintain without Concentration for 1 Minute per Stage.  
-* **Access:** At Stage 3+, gains access to the host's memories/skills.
+  - **Duration:** Can maintain without Concentration for 1 Minute per Stage.
+  - **Access:** At Stage 3+, gains access to the host's memories/skills.
 
-### 
+  
 
 ### **DREAM MANIPULATION**
 
-Classification: Mental (Projection) | Utility/Attack | \[Subconscious\] \[Illusion\]
+Classification: Mental (Projection) | Utility/Attack | [Subconscious] [Illusion]
 
 Parameters:
 
-* **Base Difficulty:** 20  
-* **Time:** 1 Minute  
-* **Range:** Unlimited (Known Target)  
-* **Area:** Target's Mind  
-* **Duration:** Sleep Cycle  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 20
+  - **Time:** 1 Minute
+  - **Range:** Unlimited (Known Target)
+  - **Area:** Target's Mind
+  - **Duration:** Sleep Cycle
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -390,23 +390,23 @@ Alters a sleeping creature's dreams. Can send messages or inflict nightmares.
 
 **Scaling Function:**
 
-* **Damage:** Nightmares deal 1d6 Psychic Damage per Stage (prevents healing).  
-* **Complexity:** Detail level of dreamscape scales with Stage.
+  - **Damage:** Nightmares deal 1d6 Psychic Damage per Stage (prevents healing).
+  - **Complexity:** Detail level of dreamscape scales with Stage.
 
-### 
+  
 
 ### **EMOTION CONTROL**
 
-Classification: Mental (Projection) | Social/Debuff | \[Mood\] \[Area\]
+Classification: Mental (Projection) | Social/Debuff | [Mood] [Area]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Extended  
-* **Area:** 20ft Radius  
-* **Duration:** Concentration  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Extended
+  - **Area:** 20ft Radius
+  - **Duration:** Concentration
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -414,12 +414,11 @@ Manipulates the prevailing emotion in an area (Calm, Rage, Fear).
 
 **Scaling Function:**
 
-* **Area:** Radius \= 20ft per Stage.  
-* **Intensity:** Morale Bonus/Penalty \= \+/- 1 per Stage.
+  - **Area:** Radius = 20ft per Stage.
+  - **Intensity:** Morale Bonus/Penalty = +/- 1 per Stage.
 
-## 
-
-## 
+  
+  
 
 ## **SENSE INVOCATIONS**
 
@@ -431,58 +430,58 @@ Description: Precognition, clairvoyance, and delving into the mind of another. T
 
 Standard Range: Extended (See Projection Range).
 
-### 
+  
 
 ### **ANALYZE PSYCHE**
 
-Classification: Mental (Sense) | Sensory | \[Cantrip\] \[Empathy\]
+Classification: Mental (Sense) | Sensory | [Cantrip] [Empathy]
 
 Parameters:
 
-* **Base Difficulty:** 5  
-* **Time:** Swift Action  
-* **Range:** Sight  
-* **Area:** Single Subject  
-* **Duration:** Instantaneous  
-* **Resistance:** Will Save (if unwilling)
+  - **Base Difficulty:** 5
+  - **Time:** Swift Action
+  - **Range:** Sight
+  - **Area:** Single Subject
+  - **Duration:** Instantaneous
+  - **Resistance:** Will Save (if unwilling)
 
 Effect Description:
 
 Detects the presence and general location of intelligent beings. Senses the current state of their psyche, including general mood, mental stability, or emotional ailments.
 
-### 
+  
 
 ### **VISIONS**
 
-Classification: Mental (Sense) | Sensory | \[Minor\] \[Precognition\]
+Classification: Mental (Sense) | Sensory | [Minor] [Precognition]
 
 Parameters:
 
-* **Base Difficulty:** 10  
-* **Time:** Standard Action (At Will)  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Instantaneous  
-* **Resistance:** None
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action (At Will)
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Instantaneous
+  - **Resistance:** None
 
 Effect Description:
 
-Brief flashes of insight regarding the immediate future or distant events. Grants a \+2 Bonus to the next Initiative roll or Surprise check.
+Brief flashes of insight regarding the immediate future or distant events. Grants a +2 Bonus to the next Initiative roll or Surprise check.
 
-### 
+  
 
 ### **DETECTION**
 
-Classification: Mental (Sense) | Sensory | \[Aura\] \[Metaphysical\]
+Classification: Mental (Sense) | Sensory | [Aura] [Metaphysical]
 
 Parameters:
 
-* **Base Difficulty:** 10  
-* **Time:** Standard Action  
-* **Range:** Extended Cone  
-* **Area:** Cone  
-* **Duration:** Concentration  
-* **Resistance:** None
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action
+  - **Range:** Extended Cone
+  - **Area:** Cone
+  - **Duration:** Concentration
+  - **Resistance:** None
 
 Effect Description:
 
@@ -490,23 +489,23 @@ Senses metaphysical auras within range (Magic, Psionics, Spirits).
 
 **Scaling Function:**
 
-* **Range:** Cone Length scales with Extended Range table.  
-* **Clarity:** At Stage 3+, identifies specific Discipline/School.
+  - **Range:** Cone Length scales with Extended Range table.
+  - **Clarity:** At Stage 3+, identifies specific Discipline/School.
 
-### 
+  
 
 ### **DETECT THOUGHTS**
 
-Classification: Mental (Sense) | Sensory | \[Telepathy\] \[Surface\]
+Classification: Mental (Sense) | Sensory | [Telepathy] [Surface]
 
 Parameters:
 
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Extended Cone  
-* **Area:** Cone  
-* **Duration:** Concentration  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Extended Cone
+  - **Area:** Cone
+  - **Duration:** Concentration
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -514,23 +513,23 @@ Reads the surface thoughts of creatures in the area.
 
 **Scaling Function:**
 
-* **Range:** Cone Length scales with Extended Range table.  
-* **Depth:** At Stage 3+, can probe for specific answers (1 question/round).
+  - **Range:** Cone Length scales with Extended Range table.
+  - **Depth:** At Stage 3+, can probe for specific answers (1 question/round).
 
-### 
+  
 
 ### **COMPREHENSION**
 
-Classification: Mental (Sense) | Utility | \[Translation\] \[Universal\]
+Classification: Mental (Sense) | Utility | [Translation] [Universal]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Minutes/Level  
-* **Resistance:** None
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Minutes/Level
+  - **Resistance:** None
 
 Effect Description:
 
@@ -538,23 +537,23 @@ Grants the ability to understand any spoken or written language.
 
 **Scaling Function:**
 
-* **Proficiency:** Stage 1 (Understand) \-\> Stage 2 (Speak) \-\> Stage 3 (Read/Write).  
-* **Duration:** 10 Minutes per Stage.
+  - **Proficiency:** Stage 1 (Understand) -> Stage 2 (Speak) -> Stage 3 (Read/Write).
+  - **Duration:** 10 Minutes per Stage.
 
-### 
+  
 
 ### **SCRYING**
 
-Classification: Mental (Sense) | Sensory | \[Remote Viewing\] \[Divination\]
+Classification: Mental (Sense) | Sensory | [Remote Viewing] [Divination]
 
 Parameters:
 
-* **Base Difficulty:** 20  
-* **Time:** 10 Minutes  
-* **Range:** Unlimited  
-* **Area:** Sensor Point  
-* **Duration:** Concentration  
-* **Resistance:** Will Save (if target is a creature)
+  - **Base Difficulty:** 20
+  - **Time:** 10 Minutes
+  - **Range:** Unlimited
+  - **Area:** Sensor Point
+  - **Duration:** Concentration
+  - **Resistance:** Will Save (if target is a creature)
 
 Effect Description:
 
@@ -562,23 +561,23 @@ Creates an invisible psychic sensor to see/hear a distant location.
 
 **Scaling Function:**
 
-* **Clarity:** Sensor visibility reduces (CR to spot increases by \+2 per Stage).  
-* **Senses:** At Stage 3+, can use Darkvision/Special Senses through the sensor.
+  - **Clarity:** Sensor visibility reduces (CR to spot increases by +2 per Stage).
+  - **Senses:** At Stage 3+, can use Darkvision/Special Senses through the sensor.
 
-### 
+  
 
 ### **CONTACT**
 
-Classification: Mental (Sense) | Communication | \[Long Range\] \[Message\]
+Classification: Mental (Sense) | Communication | [Long Range] [Message]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Long / Planetary  
-* **Area:** Single Mind  
-* **Duration:** 1 Round  
-* **Resistance:** None (Voluntary)
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Long / Planetary
+  - **Area:** Single Mind
+  - **Duration:** 1 Round
+  - **Resistance:** None (Voluntary)
 
 Effect Description:
 
@@ -586,23 +585,23 @@ Allows brief mental contact with another known mind at very far distances.
 
 **Scaling Function:**
 
-* **Range:** Stage 1 (Planet) \-\> Stage 3 (System) \-\> Stage 5 (Galaxy).  
-* **Bandwidth:** Message length increases per Stage.
+  - **Range:** Stage 1 (Planet) -> Stage 3 (System) -> Stage 5 (Galaxy).
+  - **Bandwidth:** Message length increases per Stage.
 
-### 
+  
 
 ### **MIND PROBE**
 
-Classification: Mental (Sense) | Attack/Utility | \[Invasive\] \[Memory\]
+Classification: Mental (Sense) | Attack/Utility | [Invasive] [Memory]
 
 Parameters:
 
-* **Base Difficulty:** 20  
-* **Time:** Full Round Action (Maintained)  
-* **Range:** Touch or Close  
-* **Area:** Single Creature  
-* **Duration:** Concentration  
-* **Resistance:** Will Save (Negates)
+  - **Base Difficulty:** 20
+  - **Time:** Full Round Action (Maintained)
+  - **Range:** Touch or Close
+  - **Area:** Single Creature
+  - **Duration:** Concentration
+  - **Resistance:** Will Save (Negates)
 
 Effect Description:
 
@@ -610,23 +609,23 @@ Forces entry into the deep mind to read buried memories and secrets.
 
 **Scaling Function:**
 
-* **Depth:** Age of memory accessible \= 1 Year per Stage (Stage 5 \= Ancient/Repressed).  
-* **Damage:** Inflicts 1d4 Psychic Damage to target per round of probing.
+  - **Depth:** Age of memory accessible = 1 Year per Stage (Stage 5 = Ancient/Repressed).
+  - **Damage:** Inflicts 1d4 Psychic Damage to target per round of probing.
 
-### 
+  
 
 ### **ACUTE SENSES**
 
-Classification: Mental (Sense) | Buff | \[Perception\] \[Enhancement\]
+Classification: Mental (Sense) | Buff | [Perception] [Enhancement]
 
 Parameters:
 
-* **Base Difficulty:** 10  
-* **Time:** Standard Action  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Hours/Level  
-* **Resistance:** None
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Hours/Level
+  - **Resistance:** None
 
 Effect Description:
 
@@ -634,22 +633,22 @@ Heightens the caster's natural senses (Sight, Hearing, Smell).
 
 **Scaling Function:**
 
-* **Magnitude:** Bonus to Awareness/Perception Checks \= \+2 per Stage.
+  - **Magnitude:** Bonus to Alertness/Perception Checks = +2 per Stage.
 
-### 
+  
 
 ### **ALL-AROUND SIGHT**
 
-Classification: Mental (Sense) | Buff | \[Vision\] \[Defense\]
+Classification: Mental (Sense) | Buff | [Vision] [Defense]
 
 Parameters:
 
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Rounds/Level  
-* **Resistance:** None
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Rounds/Level
+  - **Resistance:** None
 
 Effect Description:
 
@@ -657,23 +656,23 @@ Grants 360-degree vision. Caster cannot be flanked.
 
 **Scaling Function:**
 
-* **Duration:** 1 Minute per Stage.  
-* **Defense:** Grants \+1 Insight Bonus to Defense per Stage.
+  - **Duration:** 1 Minute per Stage.
+  - **Defense:** Grants +1 Insight Bonus to AC per Stage.
 
-### 
+  
 
 ### **SUPER-SENSE**
 
-Classification: Mental (Sense) | Sensory | \[Extra-Sensory\] \[Mode\]
+Classification: Mental (Sense) | Sensory | [Extra-Sensory] [Mode]
 
 Parameters:
 
-* **Base Difficulty:** 18  
-* **Time:** Standard Action  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Minutes/Level  
-* **Resistance:** None
+  - **Base Difficulty:** 18
+  - **Time:** Standard Action
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Minutes/Level
+  - **Resistance:** None
 
 Effect Description:
 
@@ -681,6 +680,11 @@ Grants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).
 
 **Scaling Function:**
 
-* **Range:** Sense Range \= 30ft \+ (10ft per Stage).  
-* **Duration:** 10 Minutes per Stage.
+  - **Range:** Sense Range = 30ft + (10ft per Stage).
+  - **Duration:** 10 Minutes per Stage.
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER**
+* **DISC-421 (4.00.Mental.md Full Restoration):** Restored 100% of the unredacted Projection and Sense Invocation stat blocks, Extended Range table, parameters, descriptions, and scaling functions (Lines 3175–3822).
 

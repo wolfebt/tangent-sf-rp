@@ -92,7 +92,7 @@ cp_cost: 21
 
 # 
 
-**CP Cost:** 53 CP  
+**CP Cost:** 21 CP  
 
 **Description:** A highly advanced silicon based lifeform implementing Polymatter and Holophotonic technology and vast understanding of the secrets of the cosmos, possibly were originally designed by progenitors for observation (possibly the Ila?) and have evolved over the millenia.
 

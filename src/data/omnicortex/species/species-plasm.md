@@ -99,7 +99,7 @@ cp_cost: 28
 
 # 
 
-**CP Cost:** 26 CP  
+**CP Cost:** 28 CP  
 
 **Description:** The Plasm are a truly unique and enigmatic species, classified as a medium humanoid ooze. Their origins trace back to a massive, singular body from which individual Plasm "bud" off to explore the greater universe, driven by an almost insatiable curiosity. Incredibly inquisitive and fast learners, they adapt quickly to new environments and social situations. They are known for being surprisingly amiable and friendly with other species, a stark contrast to the common fear their ooze classification might inspire.
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 148
+order: 146
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.archetypal.political","mechanics"]
-updatedAt: "2026-10-14T05:32:05.203Z"
+updatedAt: "2026-11-02T22:49:22.455Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,100 @@ sockets:
   allocated: []
 ---
 
-## **15\. POLITICAL**
+# 1.04.Archetypal.Political — 15. POLITICAL MOVEMENT (+2 WS)
 
-### **I. Detailed Faction Description**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 15. Political Movement
+* **Tech / Meta Level:** TL 3 / ML 1
+* **EUFT Starting Wealth Score Modifier:** **+2 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Diplomacy (+5), Expression: Oratory (+5), Leadership (+4), Insight (+3), Knowledge: History (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Benefit (Status), Charismatic, Connected, Contacts, Influence, Inspiring Personality, Motivating Persona, Natural Leader, Persuasive, Well Informed
+* **CRISP Visual Semiotics Key:** Floodlit senate podia, holographic campaign banners, roaring public plazas.
 
-* **Overview:** Ideological blocs and powerful lobbying groups fighting for control over existing governmental structures. They fight their wars in boardrooms, assembly halls, and the media, utilizing propaganda, subversion, and massive capital to shape the galaxy's laws to their advantage.  
-* **Key Themes:** Ideological Blocs, Bureaucratic Warfare, Propaganda, Lobbying, Subversion.  
-* **Relationship to Others:** Parasitic or manipulative. They exist within larger factions (like the Syndicate or Coalition) attempting to steer the ship from within.
+---
 
-### **II. Core Identity**
+POLITICAL
+I. Detailed Faction Description
+* Overview: Ideological blocs, lobbying groups, and political parties that operate across borders to gain power and influence. They thrive in the halls of government, utilizing manipulation, strategic alliances, and public relations to achieve dominance without firing a shot.
+* Key Themes: Ideological Blocs, Bureaucracy, Manipulation, Soft Power.
+* Relationship to Others: Deeply entangled with all other factions, constantly shifting alliances.
+II. Core Identity
+* Official Designation: The [Ideology] Party / The Coalition for [X]
+* Colloquialisms: The Bureaucrats / The Spin-Doctors
+* Archetype: Ideological Blocs
+* Capital/Key World: Variable (Operates within the capitals of major powers)
+* Driving Mandate: Control government, promote their ideology, gain power and influence.
+* Motto: "Perception is reality."
+III. Sociological Profile
+* Ideology & Culture: Idealistic, pragmatic, power-hungry, manipulative, strategic, ambitious.
+* Social Structure: Committee-based hierarchies and political ranking.
+* View on Outsiders: Voters, pawns, or political rivals.
+* Law & Order: They write the laws to benefit themselves.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Access to massive resources/information, skilled politicians, ability to manipulate public opinion and form alliances.
+* Weaknesses: Vulnerability to corruption, internal power struggles, reliance on alliances over direct military strength.
+* Military Doctrine: Political maneuvering; deploying military assets only when politically advantageous or easily deniable.
+V. Mechanics (Game Data)
+* Prominent Species: Variable (Usually highly social species).
+* Faction Skill Package (20 Points):
+   * Diplomacy (+5)
+   * Bluff (+5)
+   * Insight (+4)
+   * History (+3)
+   * Law (+3)
+* Typical Archetypes:
+   * The Politician: The public face winning elections and securing votes.
+   * The Strategist: The unseen hand orchestrating campaigns and smear tactics.
+   * The Lobbyist: Buying influence and securing corporate funding for the party.
+   * The Activist: Whipping up public frenzy and organizing massive protests.
+   * The Spin Doctor: Turning disastrous news into political victories.
+   * The Demagogue: Ruling the crowd through fear, anger, and charisma.
+   * The Fixer: Burying scandals and silencing whistleblowers before they leak.
+   * The Diplomat: Negotiating treaties that secretly favor their ideological bloc.
+   * The Fundraiser: Securing the massive wealth required to run galactic campaigns.
+   * The Revolutionary: Attempting to overthrow the current system entirely.
+* Recommended Features (1 CP Discount):
+   * Silver Tongue: The ability to talk their way out of almost any political scandal.
+   * Platinum Personality: Dominating debates and committee meetings with sheer presence.
+   * Connected: A vast web of political favors, blackmail, and corporate donors.
+   * Benefit (Wealth): Access to campaign funds and dark money.
+   * Deceitful: Lying to the public with absolute, undetectable conviction.
+   * Inspiring Personality: Rallying voters to a cause with passionate speeches.
+   * Well Informed: Knowing exactly which politician is secretly compromised.
+   * Lie Detector: Spotting when a rival is bluffing during high-stakes negotiations.
+   * Bureaucratic Bypass: Cutting through red tape to get things done instantly.
+   * Golden Smile: Ensuring the public always views them as the "good guy."
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Official, grand, and subtly manipulative.
+* Atmosphere Tokens: Grand halls, propaganda posters, secret meetings in dark rooms, podiums.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Ideological Blocs, Political Thriller, Bureaucratic.
+   * CONTEXT: Grand halls, propaganda posters, secret meetings in dark rooms, podiums.
+   * ATMOSPHERE: Scheming, tense, official, manipulative, heavy.
 
-* **Official Designation:** The \[Ideology\] Bloc / The Centrist Party / The Vanguard  
-* **Colloquialisms:** The Suits / The Spin-Doctors / The Lobby  
-* **Archetype:** Ideological Blocs  
-* **Capital/Key World:** Usually operating out of major galactic capitals.  
-* **Driving Mandate:** Control the government, spread the ideology, pass favorable legislation.  
-* **Motto:** "Perception is reality."
+________________
 
-### **III. Sociological Profile**
-
-* **Ideology & Culture:** Manipulative, ambitious, driven by ideological purity or sheer greed.  
-* **Social Structure:** Campaign hierarchies, donors, lobbyists, and politicians.  
-* **View on Outsiders:** Voters to be swayed or opponents to be discredited.  
-* **Law & Order:** They write the laws, ensuring loopholes exist for their own benefit.
-
-### **IV. Strategic Assets**
-
-* **Tech Level (TL):** 3 to 4  
-* **Strengths:** Massive political influence, control over media/propaganda, deep financial backing.  
-* **Weaknesses:** Infighting, corruption, gridlock, physically weak if stripped of their protection.  
-* **Military Doctrine:** Information warfare, smear campaigns, and deploying elite, deniable black-ops to remove political rivals.
-
-### **V. Mechanics (Game Data)**
-
-* **Prominent Species:** Highly Cosmopolitan.  
-* **Faction Skill Package (20 Points):**  
-  * Diplomacy (+5)  
-  * Insight (+5)  
-  * Bluff (+4)  
-  * History (+3)  
-  * Computers (Data-Mining) (+3)  
-* **Typical Archetypes:** The Politician, The Campaign Strategist, The Lobbyist, The Spin-Doctor, The Black-Ops Fixer.  
-* **Recommended Features (1 CP Discount):** Silver Tongue, Connected, Inspiring Personality, Trustworthy, Golden Smile, Well-Informed, Benefit (Wealth), Deceitful, Lie Detector, Benefit (Immunity).
-
-### **VI. Visual Semiotics (Aesthetics)**
-
-* **Design Directive:** Pristine, branded, and manipulative.  
-* **Atmosphere Tokens:** Holotables, pristine offices, tailored suits, massive propaganda banners, media drones.  
-* **HI-FI INK Guidance:** Political Thriller, High Society. Pristine offices, sharp suits, floating holographic data, massive digital banners. Tense, wealthy, deceitful.
+POLITICAL ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Political prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Charismatic Politician giving a rousing speech, scheming Political Strategist in a dark room, well-dressed Lobbyist whispering in an ear, passionate Activist with a bullhorn]
+* NARRATIVE: [e.g., swaying a massive crowd from a balcony, manipulating holographic voting data, making a backroom deal with a corporate CEO, leading a massive protest march]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Halls of Power, monumental architecture, backroom shadows, opulent government buildings, media arrays, crowds, imposing statues.
+* CONTEXT: A grand parliamentary chamber with sweeping tiered seating, a smoke-filled private club, a massive public square filled with protestors, a high-tech campaign headquarters.
+* ATMOSPHERE: Ambitious, manipulative, idealistic, tense, influential, powerful, carefully constructed.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: sharp partisan color accents (e.g., vivid crimson red or deep sapphire blue ties/sashes), subtle polished marble negative space, faint glowing holographic data-stream ink.
+3. READY-TO-USE TEMPLATES
+INTERIOR SPACE: The Senate Floor
+Grand political parliamentary chamber, sweeping tiered seating, monumental marble architecture, a holographic podium in the center, politicians engaging in heated debate. Environmental perspective sketch, complex spatial line art, diegetic lighting rendered via varying hatching density, architectural interior drafting, detailed clutter rendered in pure line work, varying line thickness to simulate depth and atmospheric perspective. Halls of power aesthetic, ambitious and tense atmosphere, subtle sharp partisan crimson and sapphire marker accents on the delegates' clothing. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+CLOSE-UP: The Strategist
+Political Strategist face close up, half in deep shadow, eyes sharp and calculating, a faint smirk, manipulating a glowing holographic data-pad showing voting algorithms. Extreme macro ink details, highly visible pen strokes, intricate facial cross-hatching, dense stippling for core shadows, sharp ink contours, distinct fine-liner weights, detailed eye shading using only lines, subtle single-color glowing blue marker accent from the data-pad reflecting on the face. Manipulative and ambitious expression. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
 

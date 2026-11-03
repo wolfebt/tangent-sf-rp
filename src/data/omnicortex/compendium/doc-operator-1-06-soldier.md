@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 183
+order: 181
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.soldier","mechanics"]
-updatedAt: "2026-10-14T05:39:35.569Z"
+updatedAt: "2026-11-02T22:49:27.493Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **SOLDIER**
+# 1.06.12 OCCUPATION: SOLDIER (Base WS 1)
+
+* **Operational Focus:** Professional Warfare, Combined Arms, Tactical Command, and Frontline Defense.
+* **EUFT Base Wealth Score:** **Base WS 1**
+* **Canonical Professional Skills (20 SP Allocation):** Any Combat Skills (plus Athletics, Intimidate, Tactics)
+* **Recommended Feature Category (-1 CP Discount):** Combat Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **SOLDIER**
 
 A Soldier can be described as a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations.A soldier is a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations. Soldiers must be able to think quickly and make decisions under pressure. They must also be able to work as part of a team and follow orders. Soldiers play a vital role in protecting the faction they serve and its citizens. They are often the first to respond to natural disasters and other emergencies. They also help keep the peace and protect their faction's borders. Soldiers are brave and dedicated individuals who put their lives on the line to serve their faction’s interest.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any Combat Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 Combat
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -75,8 +77,6 @@ Special Forces
 
 Empowered
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptable*
@@ -85,15 +85,11 @@ Able to adapt to new situations quickly and can think on their feet
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Attention to Detail*
 
 Pay attention to details and are able to spot potential threats before they become a problem
 
 *\+2 Alertness*
-
-&nbsp;
 
 ### *Combat Training*
 
@@ -101,15 +97,11 @@ Extensive training in combat tactics, weapons handling, and hand-to-hand combat
 
 *\+2 Combat Skill of choice*
 
-&nbsp;
-
 ### *Cool*
 
 Able to remain calm and focused even in high-pressure situations
 
 *\+2 Willpower*
-
-&nbsp;
 
 ### *Cunning*
 
@@ -117,15 +109,11 @@ Rely on their wits and cunning to achieve their objectives, often using deceptio
 
 *Additional \+1 to appropriate maneuvers from having Edge*
 
-&nbsp;
-
 ### *Discipline*
 
 Disciplined and able to follow orders without question, even in high-pressure situations
 
 *\+2 Soldier Vocation*
-
-&nbsp;
 
 ### *Loyal*
 
@@ -133,15 +121,11 @@ Fiercely loyal to their comrades and their mission
 
 *Domination and Mind-Control Resistance Checks are made at Advantage*
 
-&nbsp;
-
 ### *Observant*
 
 Alert and observant, constantly scanning the area for potential threats
 
 *May take 10 on Alertness Checks*
-
-&nbsp;
 
 ### *Physical Prowess*
 
@@ -149,15 +133,11 @@ Physically fit and strong, can endure long periods of physical activity and comb
 
 *\+1 Might and Fortitude Checks*
 
-&nbsp;
-
 ### *Rapid Response*
 
 Able to respond quickly to threats and can act decisively in high-pressure situations
 
 *\+2 Initiative*
-
-&nbsp;
 
 ### *Resourceful*
 
@@ -165,15 +145,11 @@ Able to make weapons out of anything and can adapt to new situations quickly
 
 *Once per Day make a Skill Check of choice at Advantage*
 
-&nbsp;
-
 ### *Stalker*
 
 Skilled in stealth and able to move without detection
 
 *May take 10 on Stealth Checks*
-
-&nbsp;
 
 ### *Strategic*
 
@@ -181,23 +157,17 @@ Experienced in planning and executing missions, skilled at analyzing the battlef
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Team-Oriented*
 
 Able to work in teams and coordinate their efforts to achieve their objectives
 
 *additional \+1 to Aid bonuses*
 
-&nbsp;
-
 ### *Versatile*
 
 Able to operate in a variety of environments, including underwater and in zero-gravity
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Well-Equipped*
 
@@ -206,8 +176,6 @@ Equipped with the latest technology and weaponry
 *\+2 Equipment*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -267,4 +235,10 @@ Equipped with the latest technology and weaponry
   * **Style:** Battle Droid.  
   * **Palette:** Gunmetal, Warning Stripes, Red Eye.  
   * **Tokens:** Guns, heavy steps, armor, war.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Murex Shock Phalanx Trooper** encased in thick, sloped glossy obsidian carapace armor, wielding a heavy bio-plasma rifle fed directly by green vein-piping from their own circulatory system.  
+  * **Style:** Biomorphic Frontline Infantry, Swarm Phalanx.  
+  * **Palette:** Glossy Obsidian Carapace, Arterial Emerald, Bio-Plasma Red/Cyan.  
+  * **Tokens:** Sloped chitin plate, vein-linked bio-rifle, mandible visor, fearless lockstep.
 

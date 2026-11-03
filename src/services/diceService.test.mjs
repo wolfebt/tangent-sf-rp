@@ -1,7 +1,9 @@
 import { 
   rollD10, 
   executeTangentRoll, 
+  targetCRs,
   targetDCs, 
+  resolveNetAdvantageDice,
   resolveCheck, 
   parseDiceExpression, 
   rollDice 
@@ -333,8 +335,8 @@ assert(typeof rolledWithOdds.odds.critRate === 'string', 'odds must include crit
 assert(typeof rolledWithOdds.odds.fumbleRate === 'string', 'odds must include fumbleRate');
 assert(typeof rolledWithOdds.odds.successRate === 'string', 'odds must include successRate');
 
-// Test 12: Expanded Threat Mode (default true: Crit adds +10 to rolled value, Fumble replaces rolled value with flat -10)
-console.log('Testing Expanded Threat Mode (+10 Crit, flat -10 Fumble)...');
+// Test 12: Canonical Threat Mode (default true: Crit adds +10 to rolled dice value, Fumble replaces rolled dice value with flat -10)
+console.log('Testing Canonical Threat Mode (+10 Crit to Roll, Flat -10 Fumble) & 1-for-1 Stack Cancellation...');
 let sawExpandedCrit = false;
 let sawExpandedFumble = false;
 for (let i = 0; i < 400; i++) {
@@ -343,13 +345,13 @@ for (let i = 0; i < 400; i++) {
   if (r.isCrit) {
     sawExpandedCrit = true;
     assert(r.rawNaturalTotal >= 16 && r.rawNaturalTotal <= 20, `Expected raw crit in [16, 20], got ${r.rawNaturalTotal}`);
-    assert(r.naturalTotal === r.rawNaturalTotal + 10, `Expanded crit must add 10 to rolled value (${r.rawNaturalTotal} -> ${r.rawNaturalTotal + 10}), got ${r.naturalTotal}`);
-    assert(r.finalTotal === r.rawNaturalTotal + 10 + 15, `Expanded crit finalTotal must be ${r.rawNaturalTotal + 25}, got ${r.finalTotal}`);
+    assert(r.naturalTotal === r.rawNaturalTotal + 10, `Canonical crit must add 10 to rolled value (${r.rawNaturalTotal} -> ${r.rawNaturalTotal + 10}), got ${r.naturalTotal}`);
+    assert(r.finalTotal === r.rawNaturalTotal + 10 + 15, `Canonical crit finalTotal must be ${r.rawNaturalTotal + 25}, got ${r.finalTotal}`);
   } else if (r.isFumble) {
     sawExpandedFumble = true;
     assert(r.rawNaturalTotal >= 2 && r.rawNaturalTotal <= 6, `Expected raw fumble in [2, 6], got ${r.rawNaturalTotal}`);
-    assert(r.naturalTotal === -10, `Expanded fumble must replace rolled value (${r.rawNaturalTotal}) with flat -10, got ${r.naturalTotal}`);
-    assert(r.finalTotal === -10 + 15, `Expanded fumble with base score 15 must subtract 10 from base score (5), got ${r.finalTotal}`);
+    assert(r.naturalTotal === -10, `Canonical fumble must replace rolled value (${r.rawNaturalTotal}) with flat -10, got ${r.naturalTotal}`);
+    assert(r.finalTotal === -10 + 15, `Canonical fumble finalTotal must be 5 (-10 + 15), got ${r.finalTotal}`);
   } else {
     assert(r.naturalTotal === r.rawNaturalTotal, 'Non-crit/non-fumble must preserve rawNaturalTotal');
     assert(r.finalTotal === r.rawNaturalTotal + 15, 'Non-crit/non-fumble finalTotal must be rawNaturalTotal + 15');
@@ -357,6 +359,15 @@ for (let i = 0; i < 400; i++) {
 }
 assert(sawExpandedCrit, 'Must have observed at least one expanded crit in 400 rolls with critRangeSize 5');
 assert(sawExpandedFumble, 'Must have observed at least one expanded fumble in 400 rolls with fumbleRangeSize 5');
+
+// Test 12b: 1-for-1 Opposing Advantage/Disadvantage Stack Cancellation & targetCRs
+assert(resolveNetAdvantageDice({ advantageStacks: 3, disadvantageStacks: 1 }) === 2, '3 Adv - 1 Dis must net +2 Adv');
+assert(resolveNetAdvantageDice({ advantageStacks: 1, disadvantageStacks: 3 }) === -2, '1 Adv - 3 Dis must net -2 Dis');
+assert(resolveNetAdvantageDice({ advantageStacks: 2, disadvantageStacks: 2 }) === 0, 'Equal stacks must cancel 1-for-1 to 0');
+assert(targetCRs.hard === 15 && targetCRs === targetDCs, 'targetCRs must match canonical CR ladder');
+const crRoll = rollDice('2d10+5', { advantageStacks: 2, disadvantageStacks: 1, targetCR: 'hard' });
+assert(crRoll.advantageDice === 1 && crRoll.dicePool.length === 3, '2 Adv - 1 Dis must roll 3d10kh2');
+assert(crRoll.targetCR === 15 && crRoll.targetDC === 15, 'targetCR and targetDC must both resolve to 15');
 
 // Verify unexpanded mode (expandedThreat: false) preserves raw rolled values on crit & fumble
 for (let i = 0; i < 200; i++) {

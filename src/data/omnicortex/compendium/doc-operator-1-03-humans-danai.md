@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 53
+order: 51
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.danai","mechanics"]
-updatedAt: "2026-10-31T10:38:11.499Z"
+updatedAt: "2026-11-02T22:49:33.926Z"
 costs:
   bp: 0
   credits: 0
@@ -37,11 +37,12 @@ sockets:
   allocated: []
 ---
 
-# **DANAI (Davae Hybrid)**
+# **DANAI (Davae Hybrid)**  
+**
 
 # **DANAI (Davae Hybrid)**
 
-**CP Cost:** 11 CP  
+**CP Cost:** 
 
 **Description:** The Danai are a distinct and potent hybrid subspecies resulting from the genetic blending of baseline humans with the highly-engineered Davae. They represent a more human-centered branch of this lineage, balancing the raw, separatist power of the Davae with traditional human adaptability.
 
@@ -53,7 +54,7 @@ Innate Biotech Understanding: They possess an intuitive, Biotechnology based lin
 
 Physiologically, Danai often retain a more human appearance than their Davae kin, yet subtle traits from the Regi-Davae line—such as a strong preference for left-handedness and a striking presence of iridescent eyes—may be common. They maintain a Hive Connection (Davae Collective), though this link often feels more like a potent, shared ancestry and knowledge base rather than a constant, overriding mental presence, giving them greater individual autonomy.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -61,27 +62,27 @@ Physiologically, Danai often retain a more human appearance than their Davae kin
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Minor Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Int
++1 Int
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Awakened (Mental)
 
@@ -89,11 +90,11 @@ Biotechnology
 
 Hive Connection (Davae Collective)
 
-\+1 Featureure
++1 Feature
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Adaptive Aspects (Davae Collective)
 
@@ -117,5 +118,7 @@ Fast Heal
 
 Regeneration
 
-&nbsp;
+  
+**  
+**
 

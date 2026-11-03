@@ -1,7 +1,7 @@
 /**
  * @file MechaCompanionDeck.tsx
  * @description Tangent SF RP Mecha & Chassis Modular Socket Matrix.
- * Built strictly on docs/game rules/architect/99. MECHA MATRIX.md and 99. EQUIPMENT MATRIX.md:
+ * Built strictly on docs/game_rules/architect/99. MECHA MATRIX.md and 99. EQUIPMENT MATRIX.md:
  * - Universal Displacement Unit (UDU) Hierarchy: Node (<10g) -> Socket (<1kg) -> Mount (<100kg) -> Module (<10t)
  * - Chassis Structure Points (SP) & Armor DR (Kinetic / Energy)
  * - Tech Level traits (TL3 Modular, TL4 Self-Repairing, TL5 Morphic/Weightless)

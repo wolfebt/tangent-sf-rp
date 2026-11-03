@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 61
+order: 59
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.impyriumpsion","mechanics"]
-updatedAt: "2026-10-14T05:24:25.057Z"
+updatedAt: "2026-11-02T22:49:34.334Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,16 @@ sockets:
   allocated: []
 ---
 
-# **IMPYRIUM PSION (I) \* \*\* \*\*\***
+# **IMPYRIUM PSION (I) * ** **  
+**
 
-# **IMPYRIUM PSION (I) \* \*\* \*\*\***
+# **IMPYRIUM PSION (I) * ** **
 
-**CP Cost:** 19 CP  
+**CP Cost:** 
 
 **Description:** The Impyrium Psion is a highly specialized human subspecies 'Evolved' through eugenics and make prominent use of Psitech. Following the Dragon's purge and the catastrophic loss of the Impyrium Regi bloodline with the Grand Fleet's disappearance, the remaining Impyrium innovators developed the Psions as an emergency measure. They were engineered to act as advanced psychic guides and navigators across the Reach, utilizing their innate Psitech and Awakened abilities to maintain cohesion and direction for the scattered Impyrium remnants in the absence of the Regi leadership.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -53,43 +54,43 @@ sockets:
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:**&nbsp;
+**Stigma:** 
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Wis
++1 Wis
 
-\+1 Ability
++1 Ability
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Awakened (Psychic, Wis)
 
 Status (Impyrium)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Aptitude
 
@@ -111,5 +112,7 @@ Low Light Vision
 
 Silver Tongue
 
-&nbsp;
+  
+**  
+**
 

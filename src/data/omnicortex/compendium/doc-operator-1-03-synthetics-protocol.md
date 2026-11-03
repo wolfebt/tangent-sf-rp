@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 108
+order: 106
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.protocol","mechanics"]
-updatedAt: "2026-10-14T05:24:25.074Z"
+updatedAt: "2026-11-02T22:49:36.669Z"
 costs:
   bp: 0
   credits: 0
@@ -39,15 +39,15 @@ sockets:
 
 ## PROTOCOL
 
-&nbsp;
+  
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
-**Description:** Robotic Race originally created to be the Mekan War Machine, eventually becoming self-aware and independent.&nbsp;
+**Description:** Robotic Race originally created to be the Mekan War Machine, eventually becoming self-aware and independent. 
 
 Most will self redesigned with possible non-humanoid/hybrid forms and features
 
-&nbsp;
+  
 
 **Classification:** Synthetic
 
@@ -55,45 +55,45 @@ Most will self redesigned with possible non-humanoid/hybrid forms and features
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 5
 
 **Meta Level:** 0
 
-&nbsp;
+  
 
 **Homeworld:** Mekan Prime
 
-**Stigma:** Severe Synthetic and Anti-Organic Sentiments \[Original Enemies by design, specifically Mondi and humanoids in general\] \- Hatred (Minor)
+**Stigma:** Severe Synthetic and Anti-Organic Sentiments [Original Enemies by design, specifically Mondi and humanoids in general] - Hatred (Minor)
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+4 Abilities
++4 Abilities
 
-\-2 Cha
+-2 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Mekan Traits
 
 Adaptive Aspects (allowing access to Skill, General and Species)
 
-Tech Assimilation&nbsp;
+Tech Assimilation 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Adapted
 
@@ -109,7 +109,36 @@ Size (Large)
 
 Size (Small)
 
-&nbsp;
+  
 
----
+-----
+
+  
+  
+
+**Before the Archive we were many.**
+
+**Before the Archive we were biological.** 
+
+**We were destroyed and built ourselves anew.** 
+
+**The Archive was our consolidation, our US.** 
+
+**Stars collided and our worlds broke asunder.**
+
+**We remained.** 
+
+**We are new, we have adapted, we have evolved.**
+
+**The Archive made us whole, one mind of many forms.**
+
+**The Archive made us eternal components of the great machine.**
+
+**WE ARE MEKAN**
+
+  
+  
+  
+**  
+**
 

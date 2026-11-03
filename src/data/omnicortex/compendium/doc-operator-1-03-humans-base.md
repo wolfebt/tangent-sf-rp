@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 46
+order: 44
 perspective: "operator"
 entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.base","mechanics"]
-updatedAt: "2026-10-31T10:38:11.494Z"
+updatedAt: "2026-11-03T11:09:03.880Z"
 costs:
   bp: 0
   credits: 0
@@ -37,55 +37,57 @@ sockets:
   allocated: []
 ---
 
-# **HUMANS**
+# **HUMANS**  
+**
 
 # **HUMANS**
 
-# 
+  
 
-# **BASE HUMANS**&nbsp;
+# **BASE HUMANS** 
 
-**CP Cost:** 10 CP  
+**CP Cost:** 12–13 CP
 
-**Description:** People found in Dynasty, Syndicate, Imperium, etc.&nbsp;
+**Description:** People found in Dynasty, Syndicate, Imperium, etc. 
 
 Humans are known to be trouble (at best) and a Stigma is common in most other species encountered, from minor to severe, mainly due to history with the Impyrium’s aggressive colonizing efforts.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
 **Size:** Medium
 
-**Movement:** 30ft Groundspeed&nbsp;
+**Movement:** 30ft Groundspeed 
 
-&nbsp;
+  
 
 **Tech Level:** 3, varies
 
 **Meta Level:** 1, varies
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-\+1 Feature of choice
++1 Feat of choice
 
 Typical Humans do not have any Species Features
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 any Karma Feature
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

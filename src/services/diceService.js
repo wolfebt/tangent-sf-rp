@@ -16,9 +16,10 @@ export function rollD10() {
 }
 
 /**
- * Standard Target Difficulty Classes (DCs) for Tangent SF RP.
+ * Standard Target Challenge Ratings (CRs) for Tangent SF RP.
+ * Exported as both targetCRs and targetDCs for full backward compatibility.
  */
-export const targetDCs = {
+export const targetCRs = {
   simple: 0,
   routine: 5,
   challenging: 10,
@@ -29,6 +30,30 @@ export const targetDCs = {
   miraculous: 35
 };
 
+export const targetDCs = targetCRs;
+
+/**
+ * Resolves net Advantage / Disadvantage dice pool shift with 1-for-1 opposing stack cancellation.
+ * @param {Object} [options={}]
+ * @returns {number} Net extra d10s (-5 to +5; positive = keep highest 2, negative = keep lowest 2).
+ */
+export function resolveNetAdvantageDice(options = {}) {
+  if (options.advantageStacks !== undefined || options.disadvantageStacks !== undefined) {
+    const advStacks = Math.max(0, Number(options.advantageStacks) || 0);
+    const disStacks = Math.max(0, Number(options.disadvantageStacks) || 0);
+    return Math.max(-5, Math.min(5, advStacks - disStacks));
+  }
+  if (options.advantageDice !== undefined) {
+    return Math.max(-5, Math.min(5, Number(options.advantageDice) || 0));
+  }
+  const hasAdv = Boolean(options.advantage || options.isAdvantage || options.rollMode === 'advantage');
+  const hasDis = Boolean(options.disadvantage || options.isDisadvantage || options.rollMode === 'disadvantage');
+  if (hasAdv && hasDis) return 0; // Opposing stacks cancel 1-for-1
+  if (hasAdv) return 1;
+  if (hasDis) return -1;
+  return 0;
+}
+
 /**
  * Executes a core Tangent 2d10 check with strict boundary clamping.
  *
@@ -38,9 +63,9 @@ export const targetDCs = {
  * @param {number} [flatModifier=0] - Flat modifier applied to the kept sum (-20 to +70).
  * @param {number} [critRangeSize=1] - Critical threat range size (1 to 5: 1=20, 5=16-20).
  * @param {number} [fumbleRangeSize=1] - Fumble threat range size (1 to 5: 1=2, 5=2-6).
- * @param {boolean} [expandedThreat=true] - When true, a critical success adds 10 to the rolled value
- *                                          (e.g. 20 -> 30, 19 -> 29) and any fumble replaces the rolled
- *                                          value with a flat -10 (subtracting 10 from base score/modifier).
+ * @param {boolean} [expandedThreat=true] - When true, a Critical adds +10 in addition to the rolled dice value
+ *                                          (e.g. 20 -> 30, 19 -> 29, 18 -> 28) and any Fumble replaces the
+ *                                          rolled dice value with a flat -10 (subtracting 10 from base score).
  * @returns {Object} Full clamped roll result containing dicePool, keptDice, totals, thresholds, and flags.
  */
 export function executeTangentRoll(
@@ -48,7 +73,7 @@ export function executeTangentRoll(
   flatModifier = 0,     // Accepts -20 to +70 (Base score 0 to 50 + Ad-Hoc -20 to +20)
   critRangeSize = 1,    // Accepts 1 to 5 (e.g., 1 = 20, 5 = 16-20)
   fumbleRangeSize = 1,  // Accepts 1 to 5 (e.g., 1 = 2, 5 = 2-6)
-  expandedThreat = true // Default true: Crit +10 to roll, Fumble replaced by flat -10
+  expandedThreat = true // Default true: Crit = rolled + 10, Fumble = flat -10
 ) {
   // Clamp inputs to strictly enforce engine limits
   const clampedAdvantage = Math.max(-5, Math.min(5, Number(advantageDice) || 0));
@@ -81,9 +106,9 @@ export function executeTangentRoll(
   let isCrit = rawNaturalTotal >= critThreshold;
   let isFumble = !isCrit && rawNaturalTotal <= fumbleThreshold;
 
-  // When Expanded Threat is active:
-  // - A critical success adds 10 to the rolled value (20 -> 30, 19 -> 29, etc.)
-  // - Any fumble (whether on 2, 3, 4, 5, or 6) replaces the rolled value with a flat -10
+  // Canonical 3.00 COMBAT.md / 00.02 Rule 4:
+  // - Critical: adds +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29, 18 -> 28)
+  // - Fumble: replaces the rolled dice value with a flat -10 (whether rolled on 2, 3, 4..., subtracting 10 from base score)
   let naturalTotal = rawNaturalTotal;
   if (isExpanded) {
     if (isCrit) {
@@ -114,22 +139,22 @@ export function executeTangentRoll(
 }
 
 /**
- * Resolves a roll result against a target Difficulty Class (DC).
+ * Resolves a roll result against a target Challenge Rating (CR).
  * Criticals and fumbles supersede standard +/- 10 margin.
  *
  * @param {Object} rollResult - Result from executeTangentRoll.
- * @param {number|string} targetDC - Numeric DC or key in targetDCs ('challenging', etc.).
- * @returns {Object} Adjudication containing outcome, margin, and finalTotal.
+ * @param {number|string} targetCR - Numeric CR or key in targetCRs ('challenging', etc.).
+ * @returns {Object} Adjudication containing outcome, margin, finalTotal, targetCR, and targetDC.
  */
-export function resolveCheck(rollResult, targetDC) {
-  let dcNumber = 0;
-  if (typeof targetDC === 'string' && targetDCs[targetDC.toLowerCase()] !== undefined) {
-    dcNumber = targetDCs[targetDC.toLowerCase()];
-  } else if (targetDC !== undefined && targetDC !== null && !isNaN(Number(targetDC))) {
-    dcNumber = Number(targetDC);
+export function resolveCheck(rollResult, targetCR) {
+  let crNumber = 0;
+  if (typeof targetCR === 'string' && targetCRs[targetCR.toLowerCase()] !== undefined) {
+    crNumber = targetCRs[targetCR.toLowerCase()];
+  } else if (targetCR !== undefined && targetCR !== null && !isNaN(Number(targetCR))) {
+    crNumber = Number(targetCR);
   }
 
-  let degreeOfSuccess = rollResult.finalTotal - dcNumber;
+  let degreeOfSuccess = rollResult.finalTotal - crNumber;
   let outcome = "Failure";
 
   // Criticals and fumbles supersede standard +/- 10 margin
@@ -149,7 +174,8 @@ export function resolveCheck(rollResult, targetDC) {
     outcome: outcome,
     margin: degreeOfSuccess,
     finalTotal: rollResult.finalTotal,
-    targetDC: dcNumber
+    targetCR: crNumber,
+    targetDC: crNumber
   };
 }
 
@@ -330,14 +356,14 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
   const keep = options.keep !== undefined ? options.keep : parsed.keep;
   const keepCount = baseCount === 1 ? 1 : (keep ? Math.min(keep, baseCount) : baseCount);
 
-  // Resolve advantage dice
+  // Resolve advantage dice (supports 1-for-1 opposing stack cancellation)
   let advDice = 0;
-  if (options.advantageDice !== undefined) {
+  if (options.advantageStacks !== undefined || options.disadvantageStacks !== undefined) {
+    advDice = (Math.max(0, Number(options.advantageStacks) || 0)) - (Math.max(0, Number(options.disadvantageStacks) || 0));
+  } else if (options.advantageDice !== undefined) {
     advDice = Number(options.advantageDice) || 0;
-  } else if (options.advantage || options.isAdvantage || options.rollMode === 'advantage') {
-    advDice = 1;
-  } else if (options.disadvantage || options.isDisadvantage || options.rollMode === 'disadvantage') {
-    advDice = -1;
+  } else {
+    advDice = resolveNetAdvantageDice(options);
   }
   const clampedAdv = Math.max(-10, Math.min(10, advDice));
 
@@ -377,15 +403,17 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
     fumbleThreshold = Math.min(critThreshold - 1, minNatural + fumbleSize - 1);
   }
 
-  // Resolve target DC
+  // Resolve target CR (backward-compatible with targetDC / targetNumber)
   let resolvedDC = null;
-  const rawDC = options.targetDC !== undefined && options.targetDC !== null && options.targetDC !== ''
-    ? options.targetDC
-    : (options.targetNumber !== undefined && options.targetNumber !== null && options.targetNumber !== '' ? options.targetNumber : null);
+  const rawDC = options.targetCR !== undefined && options.targetCR !== null && options.targetCR !== ''
+    ? options.targetCR
+    : (options.targetDC !== undefined && options.targetDC !== null && options.targetDC !== ''
+      ? options.targetDC
+      : (options.targetNumber !== undefined && options.targetNumber !== null && options.targetNumber !== '' ? options.targetNumber : null));
 
   if (rawDC !== null && rawDC !== '') {
-    if (typeof rawDC === 'string' && targetDCs[rawDC.toLowerCase()] !== undefined) {
-      resolvedDC = targetDCs[rawDC.toLowerCase()];
+    if (typeof rawDC === 'string' && targetCRs[rawDC.toLowerCase()] !== undefined) {
+      resolvedDC = targetCRs[rawDC.toLowerCase()];
     } else if (!isNaN(Number(rawDC))) {
       resolvedDC = Number(rawDC);
     }
@@ -421,10 +449,10 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
       const margin = finalTotal - resolvedDC;
 
       if (isCrit) {
-        // Critical Success supersedes DC check
+        // Critical Success supersedes CR check
         successChance += prob;
       } else if (isFumble) {
-        // Critical Failure supersedes DC check
+        // Critical Failure supersedes CR check
         failureChance += prob;
       } else if (margin >= 10) {
         successChance += prob;
@@ -453,7 +481,9 @@ export function calculateRollOdds(expression = '2d10', options = {}) {
     expandedThreat: isExpanded,
     critThreshold,
     fumbleThreshold,
+    targetCR: resolvedDC,
     targetDC: resolvedDC,
+    hasCR: resolvedDC !== null,
     hasDC: resolvedDC !== null,
     // Exact probabilities [0.0 - 1.0]
     successChance,
@@ -486,15 +516,8 @@ export function rollDice(expression = '2d10', options = {}) {
   if (is2d10) {
     const parsed = parseDiceExpression(expression);
     
-    // Resolve advantage dice (-5 to +5)
-    let advDice = 0;
-    if (options.advantageDice !== undefined) {
-      advDice = Number(options.advantageDice) || 0;
-    } else if (options.advantage || options.isAdvantage) {
-      advDice = 1;
-    } else if (options.disadvantage || options.isDisadvantage) {
-      advDice = -1;
-    }
+    // Resolve advantage dice (-5 to +5, with 1-for-1 opposing stack cancellation)
+    const advDice = resolveNetAdvantageDice(options);
 
     // Resolve flat modifier (-20 to +70)
     let flatMod = 0;
@@ -515,8 +538,8 @@ export function rollDice(expression = '2d10', options = {}) {
 
     const tangentResult = executeTangentRoll(advDice, flatMod, critSize, fumbleSize, expandedThreat);
 
-    // Target DC resolution
-    const dcInput = options.targetDC !== undefined ? options.targetDC : options.targetNumber;
+    // Target CR / DC resolution
+    const dcInput = options.targetCR !== undefined ? options.targetCR : (options.targetDC !== undefined ? options.targetDC : options.targetNumber);
     let checkResolution = null;
     if (dcInput !== undefined && dcInput !== null && dcInput !== '') {
       checkResolution = resolveCheck(tangentResult, dcInput);
@@ -561,7 +584,8 @@ export function rollDice(expression = '2d10', options = {}) {
       advantageDice: tangentResult.advantageDice,
       isAdvantage: tangentResult.advantageDice > 0,
       isDisadvantage: tangentResult.advantageDice < 0,
-      targetNumber: checkResolution ? checkResolution.targetDC : null,
+      targetNumber: checkResolution ? checkResolution.targetCR : null,
+      targetCR: checkResolution ? checkResolution.targetCR : null,
       targetDC: checkResolution ? checkResolution.targetDC : null,
       margin: checkResolution ? checkResolution.margin : null,
       isSuccess: checkResolution ? (checkResolution.outcome === 'Critical Success' || checkResolution.outcome === 'Overwhelming Success' || checkResolution.outcome === 'Success') : null,
@@ -575,26 +599,18 @@ export function rollDice(expression = '2d10', options = {}) {
         critRangeSize: tangentResult.critRangeSize,
         fumbleRangeSize: tangentResult.fumbleRangeSize,
         expandedThreat: tangentResult.expandedThreat,
-        targetDC: checkResolution ? checkResolution.targetDC : dcInput
+        targetCR: checkResolution ? checkResolution.targetCR : dcInput
       })
     };
   }
 
   // 2. Generic Polyhedral & Custom Rolls Engine
   // Fully integrates dice pool modifiers (advantage/disadvantage), flat modifiers,
-  // threat ranges (crit & fumble), and target DC resolution.
+  // threat ranges (crit & fumble), and target CR/DC resolution.
   const parsed = parseDiceExpression(expression);
 
-  // Resolve advantage dice (-5 to +5)
-  let advDice = 0;
-  if (options.advantageDice !== undefined) {
-    advDice = Number(options.advantageDice) || 0;
-  } else if (options.advantage || options.isAdvantage) {
-    advDice = 1;
-  } else if (options.disadvantage || options.isDisadvantage) {
-    advDice = -1;
-  }
-  const clampedAdv = Math.max(-5, Math.min(5, advDice));
+  // Resolve advantage dice (-5 to +5, with 1-for-1 opposing stack cancellation)
+  const clampedAdv = resolveNetAdvantageDice(options);
 
   // Resolve flat modifier (-50 to +70)
   let flatMod = 0;
@@ -615,19 +631,16 @@ export function rollDice(expression = '2d10', options = {}) {
   const critSize = Math.max(1, Math.min(5, Number(options.critRangeSize) || 1));
   const fumbleSize = Math.max(1, Math.min(5, Number(options.fumbleRangeSize) || 1));
 
-  // Target DC
-  const dcInput = options.targetDC !== undefined && options.targetDC !== '' && options.targetDC !== null
-    ? options.targetDC
-    : (options.targetNumber !== undefined && options.targetNumber !== '' && options.targetNumber !== null ? options.targetNumber : null);
+  // Target CR / DC
+  const dcInput = options.targetCR !== undefined && options.targetCR !== '' && options.targetCR !== null
+    ? options.targetCR
+    : (options.targetDC !== undefined && options.targetDC !== '' && options.targetDC !== null
+      ? options.targetDC
+      : (options.targetNumber !== undefined && options.targetNumber !== '' && options.targetNumber !== null ? options.targetNumber : null));
 
   const baseCount = Math.max(1, parsed.count || 1);
   const sides = Math.max(2, parsed.sides || 6);
 
-  // When rolling a single die (count === 1):
-  // At advantage: roll 1 + |advDice| dice, keep 1 highest ("best single rolled is used").
-  // At disadvantage: roll 1 + |advDice| dice, keep 1 lowest ("worse single rolled is used").
-  // When rolling multi-dice (count > 1):
-  // Roll count + |advDice| dice, keep count highest (adv) or count lowest (disadv).
   const keepCount = baseCount === 1 ? 1 : (parsed.keep ? Math.min(parsed.keep, baseCount) : baseCount);
   const extraDice = Math.abs(clampedAdv);
   const totalPoolSize = baseCount + extraDice;
@@ -650,10 +663,6 @@ export function rollDice(expression = '2d10', options = {}) {
     rawValues.push(r);
   }
 
-  // Determine kept dice according to advantage / disadvantage rules:
-  // If advantage (> 0): best dice kept (sorted descending)
-  // If disadvantage (< 0): worst dice kept (sorted ascending)
-  // If standard (=== 0): keep parsed.keep or all base dice
   const sortedIndices = rawValues.map((val, idx) => ({ val, idx }));
   if (clampedAdv > 0) {
     sortedIndices.sort((a, b) => b.val - a.val);
@@ -667,10 +676,6 @@ export function rollDice(expression = '2d10', options = {}) {
   const keptDice = rawValues.filter((_, idx) => keptIndices.has(idx));
   const rawNaturalTotal = keptDice.reduce((sum, v) => sum + v, 0);
 
-  // Calculate dynamic threat ranges:
-  // For keepCount dice of `sides` faces:
-  // Max possible natural = keepCount * sides
-  // Min possible natural = keepCount * 1
   const maxNatural = keepCount * sides;
   const minNatural = keepCount * 1;
   const critThreshold = Math.max(minNatural + 1, maxNatural - critSize + 1);
@@ -679,9 +684,9 @@ export function rollDice(expression = '2d10', options = {}) {
   const isCrit = rawNaturalTotal >= critThreshold;
   const isFumble = !isCrit && rawNaturalTotal <= fumbleThreshold;
 
-  // Apply Expanded Threat adjustments when enabled:
-  // - Critical Success adds +10 to the rolled value
-  // - Fumble replaces the rolled value with a flat -10
+  // Apply canonical Threat adjustments when enabled:
+  // - Critical Success adds +10 in addition to the rolled dice value (20 -> 30, 19 -> 29, etc.)
+  // - Fumble replaces the rolled dice value with a flat -10 (subtracting 10 from base score)
   let naturalTotal = rawNaturalTotal;
   if (expandedThreat) {
     if (isCrit) {
@@ -693,7 +698,7 @@ export function rollDice(expression = '2d10', options = {}) {
 
   const finalTotal = naturalTotal + clampedModifier;
 
-  // Target DC resolution with critical/fumble superseding
+  // Target CR resolution with critical/fumble superseding
   let checkResolution = null;
   if (dcInput !== null) {
     checkResolution = resolveCheck({
@@ -744,7 +749,8 @@ export function rollDice(expression = '2d10', options = {}) {
     advantageDice: clampedAdv,
     isAdvantage: clampedAdv > 0,
     isDisadvantage: clampedAdv < 0,
-    targetNumber: checkResolution ? checkResolution.targetDC : (dcInput !== null ? Number(dcInput) || null : null),
+    targetNumber: checkResolution ? checkResolution.targetCR : (dcInput !== null ? Number(dcInput) || null : null),
+    targetCR: checkResolution ? checkResolution.targetCR : (dcInput !== null ? Number(dcInput) || null : null),
     targetDC: checkResolution ? checkResolution.targetDC : (dcInput !== null ? Number(dcInput) || null : null),
     margin: checkResolution ? checkResolution.margin : null,
     isSuccess: checkResolution 
@@ -763,14 +769,16 @@ export function rollDice(expression = '2d10', options = {}) {
       critRangeSize: critSize,
       fumbleRangeSize: fumbleSize,
       expandedThreat: expandedThreat,
-      targetDC: checkResolution ? checkResolution.targetDC : dcInput
+      targetCR: checkResolution ? checkResolution.targetCR : dcInput
     })
   };
 }
 
 export default {
   rollD10,
+  targetCRs,
   targetDCs,
+  resolveNetAdvantageDice,
   executeTangentRoll,
   resolveCheck,
   parseDiceExpression,

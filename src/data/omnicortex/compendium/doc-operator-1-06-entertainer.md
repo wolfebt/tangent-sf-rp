@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 178
+order: 176
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.entertainer","mechanics"]
-updatedAt: "2026-10-14T05:39:35.566Z"
+updatedAt: "2026-11-02T22:49:26.993Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **ENTERTAINER**
+# 1.06.07 OCCUPATION: ENTERTAINER (Base WS 5)
+
+* **Operational Focus:** Performance Arts, Holo-Media, Oratory, Courtesan Intrigue, and Cultural Influence.
+* **EUFT Base Wealth Score:** **Base WS 5**
+* **Canonical Professional Skills (20 SP Allocation):** Any Expression Skills (and Social Manipulation)
+* **Recommended Feature Category (-1 CP Discount):** Skill Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **ENTERTAINER**
 
 Entertainers might perform in various forms of art, such as music, dance, acting, or even virtual reality experiences. They could use advanced technology to create immersive and captivating performances, reaching audiences across different planets and star systems.Entertainers in the future may perform in a variety of ways, including music, dance, acting, and even virtual reality experiences. They can use advanced technology to create immersive and captivating performances that can reach audiences across different planets and star systems. The possibilities for entertainment are truly endless. As technology continues to evolve, so will the ways we can be entertained.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any Expression Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 Skill
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -77,8 +79,6 @@ Actor
 
 Courtesan
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptable*
@@ -87,15 +87,11 @@ Able to adjust performances to suit different audiences
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Charismatic*
 
 Outgoing and charming
 
 *May take 10 on Diplomacy*
-
-&nbsp;
 
 ### *Confident*
 
@@ -103,15 +99,11 @@ Comfortable in the spotlight
 
 *\+2 Willpower*
 
-&nbsp;
-
 ### *Creative*
 
 Skilled at coming up with new ideas
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Energetic*
 
@@ -119,15 +111,11 @@ High levels of energy and enthusiasm
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Fans*
 
 Has a loyal following of fans
 
 *\+2 Wealth and \+1 Manipulations with Fans*
-
-&nbsp;
 
 ### *Fellow Artists*
 
@@ -135,23 +123,17 @@ Has close relationships with other performers
 
 *Gather Information checks made at Advantage when dealing with the entertainment scene*
 
-&nbsp;
-
 ### *Freedom*
 
 Values independence and self-expression
 
 *Domination and Mind-Control Resistance Checks are made at Advantage*
 
-&nbsp;
-
 ### *Fun*
 
 Values having a good time and making others happy
 
 *Regain a Karma Point when a crowd enjoys your performance*
-
-&nbsp;
 
 ### *Venues*
 
@@ -160,8 +142,6 @@ Has strong ties to certain performance venues
 *\+2 Equipment (Hideout) and \+1 Wealth*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -221,4 +201,10 @@ Has strong ties to certain performance venues
   * **Style:** Abstract Art, Screen Saver.  
   * **Palette:** Neon Geometry, Black Void.  
   * **Tokens:** Shapes, lasers, math, hypnosis.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Manelli Harmonic Siren** projecting intoxicating psionic-acoustic chord progressions and bioluminescent light patterns that Entrance an entire amphitheater.  
+  * **Style:** Psionic-Acoustic Virtuoso, Pheromonal Performance.  
+  * **Palette:** Iridescent Obsidian, Bioluminescent Cyan, Emerald Silk, Amber Glow.  
+  * **Tokens:** Resonant antennae, visible sound-waves, hypnotic bioluminescence, grace.
 

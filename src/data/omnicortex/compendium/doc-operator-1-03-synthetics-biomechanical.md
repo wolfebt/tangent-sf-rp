@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 102
+order: 100
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.biomechanical","mechanics"]
-updatedAt: "2026-10-14T05:24:25.071Z"
+updatedAt: "2026-11-02T22:49:36.357Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **BIOMECHANICAL**
+# **BIOMECHANICAL**  
+**
 
 ## **BIOMECHANICAL**
 
-# 
+  
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
 **Description:** Similar to both an Android and Sentient Machine, fully made with Biotechnology, often being simulations of different species. Usually they are custom tailored and augmented for a specific purpose. Example being a bio-printed body awakening fully grown with programmed education and training.
 
-&nbsp;
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -55,41 +56,41 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Xeno, Synthetic
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Abilities
++2 Abilities
 
-\-2 Cha
+-2 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+20 Skills
++20 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Adaptive Aspects
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Acute Sense (any)
 
@@ -99,5 +100,7 @@ Augmentation (any)
 
 Mutation
 
-&nbsp;
+  
+**  
+**
 

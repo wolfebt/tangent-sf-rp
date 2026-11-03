@@ -290,10 +290,16 @@ export const FACTION_WEALTH_MODS = {
   'Terran Coalition': 0,
   'Dynasty': 2,
   'Solarian Dynasty': 2,
+  'Dracon Dynasty': 2,
   'Entari': 3,
   'Entari Confederation': 3,
+  'Entari Combine': 3,
   'Impyrium': 3,
   'The Impyrium': 3,
+  'Radiant Impyrium': 5,
+  'The Radiant Impyrium': 5,
+  'Kovian Tribunal': 3,
+  'The Kovian Tribunal': 3,
   'Mekan': 6,
   'Mekan Sovereign Dominion': 6,
   'Syndicate': 4,
@@ -336,7 +342,11 @@ export const STIGMA_THRESHOLDS = [
 export const FENCE_RATES = {
   legal: 0.50,
   blackMarket: 0.225, // average of 20-25%
-  scrap: 0.10
+  blackMarketMin: 0.20,
+  blackMarketMax: 0.25,
+  scrap: 0.10,
+  pristineMaterialFraction: 0.50,
+  unrefinedScrapMassMultiplier: 5 // 5x Credit Value in unrefined scrap mass covers 50% crafting materials
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -455,7 +465,7 @@ export const WEAPON_MODIFICATIONS = [
   { id: 'smart_link', name: 'Smart-Link HUD', category: 'Optics', sockets: 0, tl: 3, dcMod: 20, effect: 'Wireless HUD link. +2 to Strike. Enables blind-fire' },
   { id: 'thermal_scope', name: 'Thermal Scope', category: 'Optics', sockets: 1, tl: 2, dcMod: 15, effect: 'Negates darkness and visual-obscurement penalties' },
   { id: 'sniper_scope', name: 'Sniper Scope', category: 'Optics', sockets: 1, tl: 1, dcMod: 15, effect: '+50% Range, penalty to hit at Short Range' },
-  { id: 'threat_analyzer', name: 'Threat Analyzer', category: 'Optics', sockets: 1, tl: 3, dcMod: 20, effect: '+1 Penetration (AP) on Aimed shots' },
+  { id: 'threat_analyzer', name: 'Threat Analyzer', category: 'Optics', sockets: 1, tl: 3, dcMod: 20, effect: '+1 Penetration on Aimed shots' },
   { id: 'precog_sights', name: 'Pre-Cog Sights', category: 'Optics', sockets: 2, tl: 5, dcMod: 30, effect: "Negates target's Evasive defense bonuses" },
   { id: 'radar_targeting', name: 'Radar Targeting', category: 'Optics', sockets: 1, tl: 3, dcMod: 20, effect: '+2 Attack vs moving targets' },
   { id: 'sound_targeting', name: 'Sound Targeting', category: 'Optics', sockets: 1, tl: 3, dcMod: 20, effect: '+2 Attack vs targets making noise' },
@@ -490,7 +500,7 @@ export const WEAPON_MODIFICATIONS = [
   { id: 'high_output_emitter', name: 'High-Output Emitter', category: 'Payload', sockets: 2, tl: 3, dcMod: 25, effect: '(Energy) +1 Damage Die, 2x ammo consumption' },
   { id: 'explosive_rounds', name: 'Explosive Rounds Chamber', category: 'Payload', sockets: 1, tl: 1, dcMod: 20, effect: 'Changes damage to Explosive (5ft Blast)' },
   { id: 'stun_module', name: 'Stun / Non-Lethal Module', category: 'Payload', sockets: 1, tl: 3, dcMod: 20, effect: 'Secondary Non-Lethal fire. Fort DC = 10 + 1/2 Dmg' },
-  { id: 'vibro_generator', name: 'Vibro-Generator', category: 'Payload', sockets: 1, tl: 3, dcMod: 20, effect: '(Melee) +1d6 Damage and +2 Penetration (AP)' },
+  { id: 'vibro_generator', name: 'Vibro-Generator', category: 'Payload', sockets: 1, tl: 3, dcMod: 20, effect: '(Melee) +1d6 Damage and +2 Penetration' },
   { id: 'monofilament_edge', name: 'Mono-Filament Edge', category: 'Payload', sockets: 2, tl: 4, dcMod: 25, effect: '(Melee) Critical threat range increases by 1 (e.g. 19-20)' },
   { id: 'caustic_reservoir', name: 'Caustic Acid Reservoir', category: 'Payload', sockets: 1, tl: 3, dcMod: 20, effect: 'Deals 1d4 Corrosive damage on hit' },
   { id: 'null_field_payload', name: 'Null-Field Disruption', category: 'Payload', sockets: 2, tl: 5, dcMod: 30, effect: 'Target must save Fortitude or lose Metafocus 1 round' },

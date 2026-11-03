@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "doc-operator-1-09-hindrances"
-order: 218
+order: 216
 perspective: "operator"
 entry_type: "Hindrance Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.physical","mechanics"]
-updatedAt: "2026-10-31T10:56:34.188Z"
+updatedAt: "2026-11-02T22:49:25.508Z"
 costs:
   bp: 0
   credits: 0
@@ -37,73 +37,71 @@ sockets:
   allocated: []
 ---
 
-# **PHYSICAL & SENSORY HINDRANCES**
+# **1.09.01 PHYSICAL & SENSORY HINDRANCES**
 
-## **Bodily Age**
+* **Personal Hindrance Cap (`1.09 HINDRANCES.md`):** Personal Hindrances grant up to a maximum of **+10 Character Points (CP)** during character creation. Innate species-level biological flaws (such as a Graa's *Armless* trait or a Sigal's *Limbless* trait) do not count toward this personal limit.
 
-CP Value: 5 or 10  
-Category: Physical  
-The character is outside the "prime" age range for their species, suffering physical limitations in exchange for experience or potential.  
-**Child (10 CP):** 7-12ish typical human years.  
-*Effect:* **\-1 Strength, \-1 Agility, \-1 Stamina** (Choose two). The character is small and easily overlooked but physically undeveloped.  
-**Teen (5 CP):** 12-16ish typical human years.  
-*Effect:* **\-1 Strength, \-1 Agility, or \-1 Stamina** (Choose one). The character is going through awkward growth phases.  
-**Old (5 CP):** 60-90ish typical human years.  
-*Effect:* **\-1 Strength, \-1 Agility, or \-1 Stamina** (Choose one). Joints ache and reflexes slow down.  
-**Venerable (10 CP):** 90+ typical human years.  
-*Effect:* **\-1 Strength, \-1 Agility, \-1 Stamina** (Choose two). The character is frail but likely possesses immense knowledge.
+---
 
-### 
+## **1. Bodily Age**
 
-## **Disability**
+* **CP Value:** `5 CP` or `10 CP` | **Category:** Physical
+* **Description:** The character is outside the prime physical age bracket for their species, suffering physical limitations in exchange for youthful potential or advanced life experience:
+  * **Child (`10 CP` — 7 to 12 typical human-equivalent years):** **`-1 Strength, -1 Agility, -1 Stamina` (Choose two)**. The character is small and easily overlooked, but physically undeveloped.
+  * **Teen (`5 CP` — 12 to 16 typical human-equivalent years):** **`-1 Strength, -1 Agility, or -1 Stamina` (Choose one)**. The character is going through awkward growth phases.
+  * **Old (`5 CP` — 60 to 90 typical human-equivalent years):** **`-1 Strength, -1 Agility, or -1 Stamina` (Choose one)**. Joints ache and reflexes slow down.
+  * **Venerable (`10 CP` — 90+ typical human-equivalent years):** **`-1 Strength, -1 Agility, -1 Stamina` (Choose two)**. The character is physically frail, though they often possess deep accumulated knowledge.
 
-CP Value: 3 / 6 / 9 / 18  
-Category: Physical  
-The character is missing limbs or the use of them.  
-**3 CP (Minor):** Missing a Hand or Foot. \-2 to Athletics/Agility tasks involving that limb. Reduced movement if foot.  
-**6 CP (Major):** Missing a full Limb (Arm or Leg). Cannot use two-handed weapons or shields (if Arm). Movement speed halved (if Leg).  
-**9 CP (Severe):** Two Limbs missing or Paraplegic (Legs useless). Requires a wheelchair, hover-chair, or cybernetics (if not bought off with CP).  
-**18 CP (Crippling):** Quadriplegic or all limbs missing. The character is essentially a torso and head, requiring a life-support chair or full-body prosthesis to function.
+---
 
-### 
+## **2. Disability**
 
-## **Distinctive Features**
+* **CP Value:** `3 / 6 / 9 / 18 CP` | **Category:** Physical
+* **Description:** The character is missing one or more limbs or the functional use of them (unless compensated by a purchased cybernetic, biotech, or magitech prosthesis):
+  * **Minor (`3 CP` — Missing a Hand or Foot):** `-2` penalty to Athletics and Agility tasks involving that limb; reduced ground movement speed if missing a foot.
+  * **Major (`6 CP` — Missing a Full Limb [Arm or Leg]):** Cannot wield two-handed weapons or shields (if missing an Arm); base ground movement speed is halved (if missing a Leg).
+  * **Severe (`9 CP` — Two Limbs Missing or Paraplegic [Legs Useless]):** Requires a mobility frame, wheelchair, hover-chair, or un-purchased prosthetic support to traverse terrain.
+  * **Crippling (`18 CP` — Quadriplegic or All Limbs Missing):** The character is effectively a torso and head, requiring a life-support mobility chair or full-body chassis to operate physically. *(Note: Only `+10 CP` maximum may be gained toward the personal Hindrance creation cap).*
 
-CP Value: 3 (Disguisable) / 6 (Not-Disguisable) / 9 (Obvious)  
-Category: Physical / Social  
-The character stands out in a crowd, making them easy to track and impossible to forget.  
-**Disguisable (3 CP):** A large scar, a distinct tattoo, or unique hair color. Can be hidden with a Disguise check.  
-**Not-Disguisable (6 CP):** Extra eyes, blue skin in a human city, a robotic voice, or being 7 feet tall. Disguise checks suffer Hindrance.  
-**Very Obvious (9 CP):** A glowing aura, made of rock, burning skin, or a monstrous appearance. Stealth and Disguise are effectively impossible in populated areas.
+---
 
-### 
+## **3. Distinctive Features**
 
-## **Impaired Sense**
+* **CP Value:** `3 CP` (Disguisable) / `6 CP` (Not-Disguisable) / `9 CP` (Very Obvious) | **Category:** Physical / Social
+* **Description:** The character stands out unmistakably in a crowd, making them easy to track and nearly impossible to forget:
+  * **Disguisable (`3 CP`):** A large facial scar, distinct brand/tattoo, or unusual hair/eye pigmentation. Can be concealed with a standard **Expression (Disguise)** check.
+  * **Not-Disguisable (`6 CP`):** Extra eyes, bright alien skin in a mono-species settlement, a synthetic/robotic vocal cadence, or towering stature (`7+ ft` tall). **Disguise checks are rolled with Disadvantage**.
+  * **Very Obvious (`9 CP`):** A blazing metaphysical aura, crystalline/rock epidermis, burning skin, or monstrous silhouette. Conventional **Stealth and Disguise in populated areas are effectively impossible** without heavy holo-shrouds or *Polymorph / Alter Form* invocations.
 
-CP Value: 4  
-Category: Physical  
-One of the character's primary senses is damaged or weak (but not gone).  
-**Effect:** **Perception/Alertness Checks are made at Hindrance** when relying on the chosen sense (e.g., Near-Sighted, Hard of Hearing).
+---
 
-### 
+## **4. Impaired Sense**
 
-## **Lost Sense**
+* **CP Value:** `4 CP` | **Category:** Physical / Sensory
+* **Description:** One of the character's primary senses (*Vision, Hearing, Smell, Taste, or Touch*) is damaged or weak, though not completely absent (e.g., *Near-Sighted* or *Hard of Hearing*).
+* **Mechanic:** All **Alertness and Perception checks relying on the chosen sense are rolled with Disadvantage** (`2d10` keep lowest 2).
 
-CP Value: 3 / 6 / 9  
-Category: Physical  
-One of the character's senses is completely absent.  
-**3 CP:** Loss of Taste or Smell. (Immune to scent-based nausea, but cannot detect gas leaks/poison).  
-**6 CP:** Loss of Touch (Numbness) or Hearing (Deafness). \-4 to Agility (if Numb) or automatically fail listening checks (if Deaf).  
-**9 CP:** Loss of Sight (Blindness). The character is Blind. All visual checks fail. Movement is difficult. Combat suffers a 50% miss chance unless compensated by other senses/Meta.
+---
 
-### 
+## **5. Lost Sense**
 
-## **Mute**
+* **CP Value:** `3 / 6 / 9 CP` | **Category:** Physical / Sensory
+* **Description:** One of the character's primary senses is completely absent:
+  * **Taste or Smell (`3 CP`):** Immune to scent-based nausea, but automatically fails olfactory/gustatory detection checks (cannot detect gas leaks, spoiled rations, or ingested poisons by scent/taste).
+  * **Touch or Hearing (`6 CP`):** **Loss of Touch (Numbness):** `-4` penalty to fine manual Agility checks. **Loss of Hearing (Deafness):** Automatically fails all auditory Alertness checks and suffers `-2` to Initiative.
+  * **Sight / Blindness (`9 CP`):** The character is permanently **Blinded**. All visual checks automatically fail, movement through unfamiliar terrain is halved, and combat attacks suffer `-5` to Strike/Defense and a **50 percent miss chance** unless compensated by *Echolocation*, *Blindsight*, or *Uncanny Sense*.
 
-CP Value: 2  
-Category: Physical  
-The character cannot speak verbally.  
-**Effect:** Cannot cast spells with Verbal components. Cannot communicate without sign language, writing, or telepathy.
+---
 
-###
+## **6. Mute**
+
+* **CP Value:** `2 CP` | **Category:** Physical
+* **Description:** The character cannot speak vocally.
+* **Mechanic:** Cannot perform Metaphysic Invocations requiring **Verbal** components, and cannot communicate without sign language, written/digital text, or **Telepathy**.
+
+---
+
+## **7. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-308 (1.09.Physical Unredacted Prose & Normalization):** Restored all narrative descriptions from `/game rules/operator/hindrances/1.09.Physical.md` and normalized legacy `Dexterity` -> `Agility`, `suffer Hindrance` -> `rolled with Disadvantage`, and `BP` -> `CP`.
 

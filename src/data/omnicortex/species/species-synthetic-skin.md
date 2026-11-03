@@ -108,7 +108,7 @@ cp_cost: 46
 
 # 
 
-**CP Cost:** 34 CP  
+**CP Cost:** 46 CP  
 
 **Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require CR 30, Technical Scanner with a CR 25 and Biomed Scanners with a CR 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
 

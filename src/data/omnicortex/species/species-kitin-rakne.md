@@ -172,7 +172,7 @@ cp_cost: 42
 ### **RAKNE**
 **Infiltration Expression**  
 **Classification:** Insectoid Aberration (Arachno-Tauric)  
-**CP Cost:** 40 CP  
+**CP Cost:** 42 CP  
 
 **Description:**  
 The Rakne are an intimidating Arachno-tauric species, classified as an Insectoid Aberration. Their form is a composite of a powerful lower spider body supporting a humanoid upper torso, with the species exhibiting a wide range of variation comparable to the diversity found in spider forms across their home world.
@@ -189,13 +189,13 @@ The Rakne are the "Hands of the Collective." Arachno-tauric with a dual-skeletal
 * **Stigma:** Severe Xeno / Monstrous  
 
 **Ability Modifiers:**  
-* +2 Strength (4 CP)  
-* +2 Agility (4 CP)  
-* -1 Stamina (-4 CP)  
-* -1 Charisma (-4 CP)  
+* +2 Strength (10 CP)  
+* +2 Agility (10 CP)  
+* -1 Stamina (-5 CP)  
+* -1 Charisma (-5 CP)  
 
 **Skills:**  
-* +10 Skill Ranks to ANY skills (8 CP)  
+* +10 Skill Ranks to ANY skills (10 CP)  
 
 **Species Features:**  
 * **Multidextrous (4 Arms):** Sharp digits for combat and engineering. (4 CP)  

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-species-matrix"
-order: 11
+order: 13
 perspective: "architect"
 entry_type: "Species Design Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","species","99.species.chassisandmovement","matrix"]
-updatedAt: "2026-10-31T10:39:18.027Z"
+updatedAt: "2026-11-03T10:56:24.812Z"
 costs:
   bp: 0
   credits: 0
@@ -37,213 +37,167 @@ sockets:
   allocated: []
 ---
 
-# **MODULAR SPECIES MATRIX: CHASSIS TYPES, SIZE & MOVEMENT**
+# **99.Species.ChassisAndMovement.md**
 
 ## **III. The Master Catalog (Source of Truth)**
 
-### **1\. Species Types (The Chassis)**
+### **1. Species Types (The Chassis)**
 
-Listed are the common traits to any species of that type. Individual species will have specialized abilities and traits depending on developmental, environmental and/or other factors. \[With noted CP costs for each trait\].
-
-#### 
+Listed below are the common traits of any species of that type, along with itemized Character Point (CP) values. Individual species add specialized abilities and traits depending on developmental, environmental, and cultural factors.
 
 #### **Aberration (1 CP)**
-
 Aberrations have a bizarre anatomy, strange abilities, an alien mindset, or any combination of the three.
-
-* **Senses:** Darkvision out to 60 feet. \[1\]  
-* **Physiology:** Aberrations eat, sleep, and breathe.
-
-#### 
+- **Senses:** **Darksight** out to 60 feet \[1 CP\].
+- **Physiology:** Aberrations breathe, eat, and sleep.
 
 #### **Beast (1 CP)**
-
-A living, nonhuman creature, usually perceived as an animal and/or non-intelligent. Beastkin are hybrids of the Beast type and have similar traits and are added to another corporeal type.
-
-* **Senses:** Low-light vision. \[1\]  
-* **Physiology:** Beasts eat, sleep, and breathe.
-
-#### 
+A living, nonhuman creature, usually perceived as an animal or non-humanoid fauna. **Beastkin** are hybrids of the Beast type and have similar traits added to another corporeal type.
+- **Senses:** **Low-Light Vision** \[1 CP\].
+- **Physiology:** Beasts breathe, eat, and sleep.
 
 #### **Dragon (5 CP)**
-
-Dragons are intelligent reptilian creatures with metaphysical abilities. Dragonkin are hybrids of the dragon type and have similar traits and are added to another corporeal type.
-
-* **Senses:** Darkvision 60 feet \[1\], Low-light vision \[1\].  
-* **Immunities:** Magical sleep effects and paralysis effects. \[3\]  
-* **Physiology:** Dragons breathe, eat, and sleep.
-
-#### 
+Dragons are intelligent reptilian creatures with innate metaphysical abilities. **Dragonkin** are hybrids of the Dragon type and have similar traits added to another corporeal type.
+- **Senses:** **Darksight** 60 feet \[1 CP\], **Low-Light Vision** \[1 CP\].
+- **Immunities:** Immune to magical sleep effects and paralysis effects \[3 CP\].
+- **Physiology:** Dragons breathe, eat, and sleep.
 
 #### **Elemental (13 CP)**
-
-Elementalkin are hybrids of the Elemental type and have similar traits and are added to another corporeal type.
-
-* **Senses:** Darkvision out to 60 feet. \[1\]  
-* **Immunities:** Poison, sleep effects, paralysis, and stunning. \[3+3\]  
-* **Fortification:** Not subject to critical hits or flanking. \[3\]  
-* **Physiology:** Elementals do not eat, sleep, or breathe. \[3\]
-
-#### 
+Beings composed of primordial elemental matter or energy. **Elementalkin** are hybrids of the Elemental type and have similar traits added to another corporeal type.
+- **Senses:** **Darksight** out to 60 feet \[1 CP\].
+- **Immunities:** Immune to poison, sleep effects, paralysis, and stunning \[6 CP\].
+- **Fortification:** Immune to Critical Hits and Flanking \[3 CP\].
+- **Physiology:** Elementals do not breathe, eat, or sleep \[3 CP\].
 
 #### **Entity (24 CP)**
-
-A non-corporeal being which may have never been alive \- such as embodiments, essence, avatars and others.
-
-* **Incorporeal:** Immune to all physical conditional effects due to their incorporeal form. \[3\]  
-* **Fortification:** Not subject to critical hits or flanking. \[3\]  
-* **Immunities:** All mind-affecting effects (charms, compulsions, morale effects, patterns, and phantasms) \[3\]; bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning \[3\]; nonlethal damage, ability drain, or energy drain; damage to physical ability scores (Sta, Agi, Str); exhaustion and fatigue effects. \[3\]  
-* **Senses:** Darkvision and Ether Sight out to 60 feet. \[1+2\]  
-* **Planar:** Not a creature of the material plane and immune to effects which would pertain to similar creatures. \[3\]  
-* **Physiology:** Entities do not eat, sleep, or breathe. \[3\]
-
-#### 
+A non-corporeal being which may have never been biologically alive—such as embodiments, pure essence, avatars, and extradimensional intelligences.
+- **Incorporeal:** Immune to all physical conditional effects due to their incorporeal form \[3 CP\].
+- **Fortification:** Immune to Critical Hits and Flanking \[3 CP\].
+- **Immunities:** Immune to all mind-affecting effects (charms, compulsions, morale effects, patterns, and phantasms) \[3 CP\]; bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning \[3 CP\]; non-lethal damage, ability drain, energy drain, damage to physical ability scores (STA, AGI, STR), exhaustion, and fatigue effects \[3 CP\].
+- **Senses:** **Darksight** and **Ethersight** out to 60 feet \[3 CP\].
+- **Planar:** Not a creature of the material plane and immune to effects which pertain exclusively to material creatures \[3 CP\].
+- **Physiology:** Entities do not breathe, eat, or sleep \[3 CP\].
 
 #### **Fey (3 CP)**
-
-A fey is a creature with supernatural abilities and connections to nature or to some other force or place. Feykin are hybrids of the Fey type and have similar traits and are added to another corporeal type.
-
-* **Senses:** Low-light vision. \[1\]  
-* **Traits:** Sleepless. \[2\]  
-* **Physiology:** Fey breathe and eat.
-
-#### 
+A fey is a creature with supernatural abilities and connections to nature or to some other force or twilight place. **Feykin** are hybrids of the Fey type and have similar traits added to another corporeal type.
+- **Senses:** **Low-Light Vision** \[1 CP\].
+- **Traits:** **Sleepless** \[2 CP\].
+- **Physiology:** Fey breathe and eat.
 
 #### **Humanoid (0 CP)**
-
-Humanoid species have no special or supernatural abilities, but most can speak and have well-developed societies. Humanoids are usually Medium but Small and Large sized varieties are known.
-
-* **Physiology:** Humanoids breathe, eat, and sleep.
-
-#### 
+Humanoid species have no special innate supernatural chassis abilities, but most can speak and have well-developed societies. Humanoids are usually Medium, though Small and Large varieties exist.
+- **Physiology:** Humanoids breathe, eat, and sleep.
 
 #### **Mythical (5 CP)**
-
-Beings that usually resemble beasts (or possibly other creature types), typically more intelligent and have special abilities or supernatural powers.
-
-* **Senses:** Darkvision out to 60 feet and low-light vision. \[1+1\]  
-* **Physiology:** Mythicals do not eat, sleep, or breathe. \[3\]
-
-#### 
+Beings that resemble beasts (or other creature types), typically possessing high sapience and special abilities or supernatural powers.
+- **Senses:** **Darksight** out to 60 feet \[1 CP\] and **Low-Light Vision** \[1 CP\].
+- **Physiology:** Mythicals do not breathe, eat, or sleep \[3 CP\].
 
 #### **Ooze (6 CP)**
-
-Oozes are gelatinous / semi-solid amorphous creatures also used to describe swarms of small creatures. Many oozes use blindsight or other non-visual senses to navigate.
-
-* **Amorphous:** Immune to all physical conditional effects due to the nature of their slippery form or base components. \[3\]  
-* **Fortification:** Not subject to critical hits or flanking. \[3\]
-
-#### 
+Oozes are gelatinous / semi-solid amorphous creatures (also used to describe coherent swarms of diminutive creatures). Many oozes use blindsight or other non-visual senses to navigate.
+- **Amorphous:** Immune to all physical conditional effects due to their slippery form or base components, and able to compress through narrow gaps \[3 CP\].
+- **Fortification:** Immune to Critical Hits and Flanking \[3 CP\].
 
 #### **Planar (4 CP)**
-
-A Planar is at least partially composed of the essence (but not necessarily the matter) of some plane other than the Material Plane. Planar creatures may have familiar forms of other types but may or may not have abilities to match.
-
-* **Senses:** Darkvision 60 feet. \[1\]  
-* **Planar Origin:** Not a creature of the material plane and immune to effects which would pertain to similar creatures. \[3\]  
-* **Physiology:** Planars breathe, eat, and sleep.
-
-#### 
+A Planar is at least partially composed of the essence (though not necessarily the matter) of a plane other than the Material Plane.
+- **Senses:** **Darksight** 60 feet \[1 CP\].
+- **Planar Origin:** Extradimensional physiology \[3 CP\].
+- **Physiology:** Planars breathe, eat, and sleep.
 
 #### **Synthetic (15 CP)**
-
-Animated objects or artificially created creatures. Synthetics designed to emulate another type may have its form but may or may not have abilities to match.
-
-* **Senses:** Low-light vision \[1\] and Darkvision 60 feet \[1\].  
-* **Mental Immunity:** Immune to all mind-affecting effects (charms, compulsions, morale effects, patterns, and phantasms). \[3\]  
-* **Repair Required:** Cannot heal damage on their own and must be repaired in some means (such as by physical maintenance, metaphysic repairs or an auto-repair augmentation). \[-3\]  
-* **Metabolic Immunity:** Not subject to ability damage, ability drain, fatigue, exhaustion, energy drain, or nonlethal damage. \[3\]  
-* **Fortitude Immunity:** Immune to any effect that requires a Fortitude save (unless the effect also works on objects or is harmless). \[3\]  
-* **Hardened Frame:** Synthetics are hard to destroy, and gain bonus hit points based on their size. \[2\]  
-  * *Tiny:* — | *Small:* \+10 | *Medium:* \+20 | *Large:* \+40 | *Huge:* \+80  
-* **Synthetic Strength:** For the effects of moving weights \- such as for Lifting/Carrying purposes and Grappling, is equivalent to a creature which is larger by one size (such as a Medium sized Synthetic will count as a Large creature). \[2\]  
-* **Physiology:** Synthetics do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. \[3\]
-
-#### 
+Animated objects or artificially engineered mechanical, android, or bio-synthetic creatures.
+- **Senses:** **Low-Light Vision** \[1 CP\] and **Darksight** 60 feet \[1 CP\].
+- **Mental Immunity:** Digitized Mind — immune to all standard biological mind-affecting effects (charms, compulsions, morale effects, patterns, and phantasms) \[3 CP\].
+- **Repair Required:** Cannot heal damage naturally on their own; Synthetics combine **Base 30 Vitality + Base 30 Health into Base 60 Structure Points (SP)** and must be repaired via physical maintenance (`Vocation: Mechanic` / `Knowledge: Engineering`), *Matter* invocations, or an auto-repair augmentation \[-3 CP\].
+- **Metabolic Immunity:** Not subject to biological ability damage, ability drain, fatigue, exhaustion, energy drain, starvation, asphyxiation, or non-lethal damage \[3 CP\].
+- **Fortitude Immunity:** Immune to any effect that requires a biological Fortitude save (unless the effect also works on objects or is harmless) \[3 CP\].
+- **Hardened Frame / Resilient Design:** Synthetics are hard to destroy, gaining base **DR 5/-** and bonus Structure Points based on their size: *Tiny:* — | *Small:* +10 SP | *Medium:* +20 SP | *Large:* +40 SP | *Huge:* +80 SP \[2 CP\].
+- **Synthetic Strength:** For lifting, carrying capacity, and Grappling, counts as **1 Size Category larger** (e.g., a Medium Synthetic counts as Large) \[2 CP\].
+- **Physiology:** Synthetics do not breathe, eat, or sleep, unless they choose to gain a beneficial effect from one of these activities \[3 CP\].
 
 #### **Undead (20 CP)**
-
-Undead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.
-
-* **Senses:** Darkvision 60 feet. \[1\]  
-* **Mental Immunity:** Immune to all mind-affecting effects. \[3\]  
-* **Physical Immunity:** Immune to bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning. \[3\]  
-* **Metabolic Immunity:** Not subject to nonlethal damage, ability drain, or energy drain, and are immune to damage to physical ability scores (Sta, Agi, Str), as well as to exhaustion and fatigue effects. \[3\]  
-* **Negative Energy Affinity:** Harmed by positive energy and healed by negative energy. An undead creature with the fast healing special quality still benefits from that quality. (Note: Deathless are a variant Undead type with inverted energy traits). \[2\]  
-* **Fortitude Immunity:** Immune to any effect that requires a Fortitude save (unless the effect also works on objects or is harmless). \[3\]  
-* **Resurrection Limits:** Immune to raise dead/reincarnate. Resurrection and true resurrection can affect undead creatures. \[2\]  
-* **Physiology:** Undead do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. \[3\]
-
-#### 
+Undead species are once-living corporeal creatures animated by spiritual or entropic forces.
+- **Senses:** **Darksight** 60 feet \[1 CP\].
+- **Mental Immunity:** Immune to all mind-affecting effects \[3 CP\].
+- **Physical Immunity:** Immune to bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning \[3 CP\].
+- **Metabolic Immunity:** Not subject to non-lethal damage, ability drain, energy drain, or damage to physical ability scores (STA, AGI, STR), as well as exhaustion and fatigue effects \[3 CP\].
+- **Negative Energy Affinity:** Harmed by positive energy (*Entropy: Order*) and healed by negative energy (*Entropy: Chaos*). *(Note: Deathless are a variant Undead type with inverted energy traits)* \[2 CP\].
+- **Fortitude Immunity:** Immune to any effect that requires a Fortitude save (unless the effect also works on objects or is harmless) \[3 CP\].
+- **Resurrection Limits:** Affected only by high-tier *Revivify / True Resurrection* \[2 CP\].
+- **Physiology:** Undead do not breathe, eat, or sleep \[3 CP\].
 
 #### **Verdant (9 CP)**
+This type encompasses sapient botanical and fungal creatures.
+- **Senses:** **Low-Light Vision** \[1 CP\].
+- **Mental Immunity:** Immune to all standard mind-affecting effects \[3 CP\].
+- **Physical Immunity:** Immune to paralysis, poison, polymorph, sleep effects, and stunning \[3 CP\].
+- **Physiology:** Verdants breathe and eat (or photosynthesize), but do not sleep (unless for beneficial effects/Essence regain) \[2 CP\].
 
-This type encompasses vegetable creatures. Note that regular plants lack Wisdom and Charisma scores and are not creatures, but considered living objects. Verdant may be applied to another corporeal type for plant based creatures.
+---
 
-* **Senses:** Low-light vision. \[1\]  
-* **Mental Immunity:** Immune to all mind-affecting effects. \[3\]  
-* **Physical Immunity:** Immune to paralysis, poison, polymorph, sleep effects, and stunning. \[3\]  
-* **Physiology:** Verdants breathe and eat, but do not sleep (unless for beneficial effects/essence regain). \[2\]
+### **2. Species Size Categories**
 
-### 
+| Size Category | CP Cost | Attribute, Combat & Scaling Modifiers | Dimensions / Examples |
+| :--- | :---: | :--- | :--- |
+| **Medium** | **0 CP** | Baseline (+0 Attributes, +0 Combat Mod, `x1` Damage/Speed, +0 Stability) | 4 to 8 ft / 60 to 500 lbs *(Human, Alterian, Rottweiler, Motorcycle)* |
+| **Large** | **2 CP** | **Stats:** +2 STR, -2 AGI \| **Combat Mod:** -2 \| **Dmg/Speed:** `x2` \| **Stability:** +4 | 8 to 16 ft / 500 to 4,000 lbs *(Kongi, Vassoth, Horse, Lion, Small Car)* |
+| **Huge** | **4 CP** | **Stats:** +4 STR, -4 AGI \| **Combat Mod:** -4 \| **Dmg/Speed:** `x5` \| **Stability:** +8 | 16 to 32 ft / > 4,000 lbs *(Adult Dragon, Elephant, Delivery Truck)* |
+| **Small** | **2 CP** | **Stats:** +2 AGI, -2 STR \| **Combat Mod:** +2 \| **Dmg:** -1 die size \| **Speed:** -5 ft \| **Stability:** -4 | 2 to 4 ft / 8 to 60 lbs *(Koban, Chimpanzee, Lynx, Scooter)* |
+| **Tiny** | **4 CP** | **Stats:** +4 AGI, -4 STR \| **Combat Mod:** +4 \| **Dmg:** -2 die size \| **Speed:** -10 ft \| **Stability:** -8 | 1 to 2 ft / 1 to 8 lbs *(Asi Fey, House Cat, Hawk, Skateboard)* |
+| **Diminutive** | **6 CP** | **Stats:** +8 AGI, -8 STR \| **Combat Mod:** +8 \| **Dmg:** -3 die size \| **Speed:** -10 ft \| **Stability:** -16 | 6 to 12 in / < 1 lb *(Micro-Swarm, Rat, Sparrow, Mini-Drone)* |
 
-### **2\. Species Size Categories**
+---
 
-| Size | Cost | Modifiers & Effects | Dimensions / Examples |
-| :---- | :---- | :---- | :---- |
-| **Medium** | **0 CP** | No modifier from size for ability scores, combat or movement | 4 to 8 ft / 60 to 500 lbs *(Human, Rottweiler, Motorcycle)* |
-| **Huge** | **4 CP** | **Stats:** \+4 Str, \-4 Agi **Combat:** \-4 Combat mod **Dmg:** x5 dice **Speed:** x5 **Stability:** \+8 | \>16 ft / \>4,000 lbs *(Elephant, Rhinoceros, Delivery Truck)* |
-| **Large** | **2 CP** | **Stats:** \+2 Str, \-2 Agi **Combat:** \-2 Combat mod **Dmg:** x2 dice **Speed:** x2 **Stability:** \+4 | \>8 ft / \>500 lbs *(Horse, Lion, Small Car)* |
-| **Small** | **2 CP** | **Stats:** \+2 Agi, \-2 Str **Combat:** \+2 Combat mod **Dmg:** \-1 die size **Speed:** \-5 ft **Stability:** \-4 | \<4 ft tall / \<60 lbs *(Chimpanzee, Lynx, Scooter)* |
-| **Tiny** | **4 CP** | **Stats:** \+4 Agi, \-4 Str **Combat:** \+4 Combat mod **Dmg:** \-2 die size **Speed:** \-10 ft **Stability:** \-8 | \<2 ft tall / \<8 lbs *(House Cat, Hawk, Skateboard)* |
-| **Diminutive** | **6 CP** | **Stats:** \+8 Agi, \-8 Str **Combat:** \+8 Combat mod **Dmg:** \-3 die size **Speed:** \-10 ft **Stability:** \-16 | \<1 ft tall / \<1 lb *(Rat, Sparrow, Mini-Drone)* |
+### **3. Species Movement Modes**
 
-### 
+All speeds listed are calibrated for Medium-sized species (apply Size Category multipliers if larger). A species may select at most **one** base speed modifier trait (marked with `*`):
 
-### **3\. Movement Modes**
+| Movement Mode | CP Cost | Mechanical Effect |
+| :--- | :---: | :--- |
+| **Normal Speed** | **0 CP** | Base ground walk speed of **30 feet**. Determines speed of other modes. |
+| **Fast** `*` | **2 CP** | Base Ground Speed **+10 feet** (40 ft). |
+| **Very Fast** `*` | **4 CP** | Base Ground Speed **+20 feet** (50 ft). |
+| **Slow** `*` | **-2 CP** | Base Ground Speed **-10 feet** (20 ft — refunds 2 CP). |
+| **Ponderous** `*` | **-4 CP** | Base Ground Speed **-20 feet** (10 ft — refunds 4 CP). |
+| **Climber** | **2 CP** | Base Climb Speed **30 feet**, plus +5 species bonus on Climbing checks. |
+| **Gliding Wings** | **1 CP** | Move 5 ft horizontally per 1 ft of descent. Speed 30 ft/rnd (60 ft diving). |
+| **Leaper** | **1 CP** | Always considered to have a running start when making Athletics (Jump) checks. |
+| **Mountaineer** | **1 CP** | Immune to altitude sickness; retains full Defense on narrow or slippery ledges. |
+| **Sprinter** | **1 CP** | Gain **+10 foot** species bonus to total movement distance when running/sprinting (Ranked). |
+| **Swimmer** | **2 CP** | Base Swim Speed **30 feet**, plus +5 species bonus on Swim checks. |
+| **Terrain Movement** | **1 CP** | Move through one chosen natural Difficult Terrain type at normal speed. |
+| **Burrow** | **2 CP** | Base Burrow Speed **20 feet**. |
+| **Basic Flight** | **2 CP** | Base Fly Speed **30 feet** (Poor Maneuverability). |
+| **Improved Flight Speed** | **1 CP** | Increases Base Fly Speed by **+10 feet** (Ranked). |
+| **Improved Maneuverability** | **1 CP** | Flight maneuverability improves by 1 step (*Clumsy -> Poor -> Average -> Good -> Perfect*, Ranked). |
+| **Strong Flyer** | **2 CP** | Increases the Size Category multiplier by +1 for Flying Speed. |
+| **Hauler** | **1 CP** | Not encumbered by carrying a Heavy Load. |
+| **Marcher** | **1 CP** | Accumulates half fatigue when moving overland at a regular forced-march pace. |
 
-All speeds listed are for Medium Sized Species. Note modifiers to speed if not Medium Size.
+---
 
-Species may only take 1 of the speed modifier traits (marked with \*).
+### **4. Species Attributes & Skill Packages (Rule 9 Universal Straight Pricing)**
 
-| Mode | Cost | Effect |
-| :---- | :---- | :---- |
-| **Normal Speed** | 0 CP | Base ground speed of 30 feet. Determines speed of other modes. |
-| **Very Fast** | 4 CP | Base Speed \+20 feet. \* |
-| **Fast** | 2 CP | Base Speed \+10 feet. \* |
-| **Slow** | \+2 CP | Base Speed \-10 feet. (CP Gain) \* |
-| **Ponderous** | \+4 CP | Base Speed \-20 feet. (CP Gain) \* |
-| **Climber** | 2 CP | Base Climb Speed 30, and gain the \+5 racial bonus on climbing checks. |
-| **Gliding Wings** | 1 CP | While in midair, move 5ft horizontal for every 1ft fall. Speed 30ft/rnd (60 diving). |
-| **Leaper** | 1 CP | Always considered to have a running start when making Jump checks. |
-| **Mountaineer** | 1 CP | Immune to altitude sickness, no defense loss on narrow/slippery surfaces. |
-| **Sprinter** | 1 CP | Gain \+10 foot racial bonus to speed when running. Ranked. |
-| **Swim** | 2 CP | Swim speed 30 feet. Gain \+5 racial bonus on Swim checks. |
-| **Terrain Movement** | 1 CP | Move through naturally difficult terrain (specific type) at normal speed. |
-| **Burrow** | 2 CP | Base Burrow Speed 20\. |
-| **Basic Flight** | 2 CP | Base Fly Speed 30 (Poor Maneuverability). |
-| **Improved Flight Speed** | 1 CP | Increases base flight speed by 10 feet. Ranked. |
-| **Improved Maneuverability** | 1 CP | Maneuverability improves by 1 step (Clumsy \> Poor \> Average \> Good \> Perfect). Ranked. |
-| **Strong Flyer** | 2 CP | Increase the Size category multiplier by 1 for Flying Speed. |
-| **Hauler** | 1 CP | Not encumbered by carrying a Heavy Load. |
-| **Marcher** | 1 CP | Fatigued ½ when moving at a regular pace. |
+Both inside a **Species Package** (`operator/1.03 SPECIES.md` and `architect/99. MODULAR SPECIES MATRIX.md`) and during **Character Creation Customization** (`operator/1.01 CHARACTER CREATION.md`), biological Attribute adjustments and Skill allocations use straight, undiscounted Character Point values:
 
-### 
+| Species Modifier | Species Package Cost | Post-Species Customization Cost | Mechanical Effect |
+| :--- | :---: | :---: | :--- |
+| **Improved Strength (STR)** | **5 CP per +1** | 5 CP per +1 | **+1** species bonus to Strength (Might). |
+| **Improved Agility (AGI)** | **5 CP per +1** | 5 CP per +1 | **+1** species bonus to Agility (Reflex). |
+| **Improved Stamina (STA)** | **5 CP per +1** | 5 CP per +1 | **+1** species bonus to Stamina (Fortitude / Base Toughness). |
+| **Improved Intellect (INT)** | **5 CP per +1** | 5 CP per +1 | **+1** species bonus to Intellect (Reason). |
+| **Improved Wisdom (WIS)** | **5 CP per +1** | 5 CP per +1 | **+1** species bonus to Wisdom (Willpower). |
+| **Improved Charisma (CHA)** | **5 CP per +1** | 5 CP per +1 | **+1** species bonus to Charisma (Etiquette). |
+| **Reduced Attribute (Penalty)** | **-5 CP per -1** | -5 CP per -1 | **-1** species penalty to an Attribute Score (refunds 5 CP). |
+| **Species Skill Package** | **5 CP per 5 Ranks (1 CP/Rank)** | 1 CP per 1 Rank (5 CP for 5) | **+5 Species Skill Ranks** in a specified skill set or group (10 CP for +10 Ranks, 20 CP for +20 Ranks; zero package discount). |
 
-### **4\. Attributes & Skills**
+---
 
-| Ability | Cost | Effect |
-| :---- | :---- | :---- |
-| **Improved Charisma** | 5 CP | \+1 racial bonus to Charisma. |
-| **Improved Stamina** | 5 CP | \+1 racial bonus to Stamina. |
-| **Improved Agility** | 5 CP | \+1 racial bonus to Agility. |
-| **Improved Intellect** | 5 CP | \+1 racial bonus to Intellect. |
-| **Improved Strength** | 5 CP | \+1 racial bonus to Strength. |
-| **Improved Wisdom** | 5 CP | \+1 racial bonus to Wisdom. |
-| **Reduced Ability** | \-5 CP | Penalties to Ability Scores (+4 CP per \-1 to Ability Scores). |
-| **Skill Points** | 5 CP | \+5 Species Skill Points (Specific Skill Set or a Listed Group). |
+## **DISCREPANCY & RESTORATION LEDGER (DISC-529)**
 
-### 
+- **File Target:** `architect/species/99.Species.ChassisAndMovement.md`
+- **Restoration Pass (Three-Way Merge):**
+  - Restored 100% of Part III.1–4 (13 Species Chassis Types, 6 Size Categories, 19 Movement Modes, and Species Attributes & Skill Packages).
+- **Mechanical Normalization Pass (12 Global Rules):**
+  - Enforced Rule 9 in Section 4: Universal straight CP pricing everywhere (+1 Attribute = 5 CP, -1 Attribute Penalty = -5 CP refund, 1 Skill Rank = 1 CP / 5 CP per 5 Ranks, with zero package discount).
 
-###
 

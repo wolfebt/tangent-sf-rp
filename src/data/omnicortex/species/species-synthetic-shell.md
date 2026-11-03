@@ -88,7 +88,7 @@ cp_cost: 27
 
 # 
 
-**CP Cost:** 43 CP  
+**CP Cost:** 27 CP  
 
 **Description:** A synthetic body housing a previously organic consciousness \- body is a variant of another type of Synthetic, such as an Android, a Sentient Machine or an Intellect Construct. Tech 4 bodies are viable for housing of remote operations but the consciousness transfer technology is Tech 5 (or experimental at TL4).
 

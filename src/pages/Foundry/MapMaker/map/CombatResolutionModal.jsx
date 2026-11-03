@@ -36,7 +36,7 @@ import { resolveAllTacticalAttacks } from '../../../../utils/combatUtils';
 
 /**
  * Canonical Tangent Hit Locations & Called Shots (1d10 Table, 1d6 Melee)
- * Strictly adhering to docs/game rules/operator/3.00 COMBAT.md and rule-hit-locations-d10.md:
+ * Strictly adhering to docs/game_rules/operator/3.00 COMBAT.md and rule-hit-locations-d10.md:
  * - 1: Head (Reason Save vs Damage or Stunned; fail by 10+ = Unconscious) -> -4 Called Shot
  * - 2, 3, 4: Torso (Fortitude Save vs Damage or Winded -2 actions; fail by 10+ = Gasping / Incapacitated) -> -2 Called Shot
  * - 5: Right Arm (Reflex Save vs Damage or Disarmed; fail by 10+ = Arm Crippled) -> -4 Called Shot
@@ -1070,13 +1070,13 @@ export default function CombatResolutionModal({
                     )}
 
                     {computedOutcome.isDoubleTens && (
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/30 text-amber-300 font-bold border border-amber-500/50">
-                        NATURAL 10-10 (+30)
+                      <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-amber-500/30 text-amber-300 font-bold border border-amber-500/50">
+                        NATURAL 10-10 (+10 &rarr; 30)
                       </span>
                     )}
                     {computedOutcome.isDoubleOnes && (
                       <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/30 text-rose-300 font-bold border border-rose-500/50">
-                        FUMBLE 1-1 (-10)
+                        FUMBLE 1-1 (FLAT -10)
                       </span>
                     )}
                   </div>

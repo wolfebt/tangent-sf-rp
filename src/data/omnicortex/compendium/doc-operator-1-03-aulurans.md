@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 38
+order: 36
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aulurans","mechanics"]
-updatedAt: "2026-10-14T05:24:25.041Z"
+updatedAt: "2026-11-02T22:49:33.214Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **AULURANS**
+# **AULURANS**  
+**
 
 # **AULURANS**
 
@@ -59,31 +60,31 @@ The Aulurans are a species defined by profound loss and radical adaptation. Once
 
 Instead of fighting back with traditional ballistics or steel, the Aulurans fought back with **Life**. They retreated to the fringes and weaponized their mastery of nature. Today, they are known as "The Great Gardeners" or "Retaliators"—terraforming worlds into virulent, hyper-accelerated jungles that serve as both home and fortress.
 
-### 
+  
 
 ### **Philosophy: Living Technology**
 
 To an Auluran, a metal ship is a "dead coffin." Their philosophy rejects the static nature of industrial technology in favor of **Biotechnology**. They identified organisms with desirable traits, manipulated their genetics, and cultivated them on a massive scale in bio-farms.
 
-&nbsp;
+  
 
 #### **Grown, Not Built**
 
 Their structures are marvels of engineering grown from the earth, seamlessly blending with nature. They are made of living plants and fungi, creating vibrant facades that change with the seasons. Interiors are filled with light, air, and natural ventilation.
 
-&nbsp;
+  
 
 #### **The Immune System**
 
 They view the galaxy through a biological lens. Aulurans see themselves as the "white blood cells" of the universe. Allies are healthy cells; enemies (like the Impyrium) are pathogens to be purged.
 
-### 
+  
 
 ### **The Homeworld Environment**
 
 Their original homeworld was a lush, verdant planet dominated by towering trees reaching heights of over a hundred meters, their gnarled trunks and branches reaching up like ancient guardians. The Aulurans have always been fiercely protective of these ecosystems. In response to the Incursion, they have terraformed several worlds to match this environment, creating wild, overgrown planets that are hostile to outsiders but home to them.
 
-### 
+  
 
 ### **General Species Features & Mechanics**
 
@@ -97,7 +98,7 @@ Their original homeworld was a lush, verdant planet dominated by towering trees 
 
 **Scent:** Enhanced olfactory senses.
 
-&nbsp;
+  
 
 **Natural Weapons:**
 
@@ -105,29 +106,28 @@ Their original homeworld was a lush, verdant planet dominated by towering trees 
 
 **Fangs:** Piercing damage.
 
-**Damage:** Base 1d4 \+ (1d4 per 2 points of Str). *Note: Graa have a base 1d8.*
+**Damage:** Base 1d4 + (1d4 per 2 points of Str). *Note: Graa have a base 1d8.*
 
 **Prehensile Feet:** Partially usable as hands (-4 penalty on checks requiring manual precision).
 
-**Climbing Bonus:** \+5 to all Climbing checks using Claws and Prehensile Feet.
+**Climbing Bonus:** +5 to all Climbing checks using Claws and Prehensile Feet.
 
-&nbsp;
+  
 
 #### **Recommended Features:**
 
 Acrobatic, Alertness, Acute Sense, Athletic, Augmented (Biotech), Dark Sight, Thermal Sight, Quick.
 
-- Caste Training:
+  - Caste Training:
 
-  **Mystic Caste:** Discipline Features
+**Mystic Caste:** Discipline Features
 
-  **Scholar Caste:** Skill Features
+**Scholar Caste:** Skill Features
 
-  **Warrior Caste:** Combat Features
+**Warrior Caste:** Combat Features
 
-## 
-
-## 
+  
+  
 
 # **SOCIAL STRUCTURE: THE THREE CASTES**
 
@@ -135,7 +135,7 @@ Auluran society is organized into a rigid **Caste System**. Crucially, this syst
 
 Historically, the sub-species drifted toward specific roles: Dar as advisors, Koda as warriors, and Graa as protectors. However, with the emergence of the **Scholar Caste**, these conventions have changed. A **Warrior Dar**, an **Awakened Koda**, or a **Scholar Graa** are now equally supported by their pursued Caste regardless of their biological form.
 
-### 
+  
 
 ## **The Warrior Caste**
 
@@ -145,7 +145,7 @@ Historically, the sub-species drifted toward specific roles: Dar as advisors, Ko
 
 **Training:** Focuses on Combat Features and physical conditioning.
 
-### 
+  
 
 ## **The Mystic Caste**
 
@@ -155,7 +155,7 @@ Historically, the sub-species drifted toward specific roles: Dar as advisors, Ko
 
 **Training:** Focuses on Discipline Features and Meta-skills.
 
-### 
+  
 
 ## **The Scholar Caste**
 
@@ -165,9 +165,8 @@ Historically, the sub-species drifted toward specific roles: Dar as advisors, Ko
 
 **Training:** Focuses on Skill Features and Academic knowledge.
 
-## 
-
-## 
+  
+  
 
 # **SPECIES BIOLOGY (THE SUB-SPECIES)**
 
@@ -175,9 +174,8 @@ The Aulurans are a distinct race characterized by feline attributes. Their fur r
 
 The species manifests in three distinct biological variations.
 
-### 
-
-## 
+  
+  
 
 # **AESTHETICS & TECHNOLOGY**
 
@@ -189,9 +187,9 @@ The species manifests in three distinct biological variations.
 
 **Colors:** Natural camouflage (Dark Greens, Browns, Ochers) accented with "Warning Colors" (Electric Blue, Toxic Green).
 
-### 
+  
 
-## **The Great Garden (Tech Level 4\)**
+## **The Great Garden (Tech Level 4)**
 
 **Weaponry:** Natural Weapons (Claws/Fangs) are standard. Tech weaponry includes Needle Rifles (neuro-toxins) and Acid-Spitters.
 
@@ -199,21 +197,20 @@ The species manifests in three distinct biological variations.
 
 **Starships:** Void-Whales and Bio-Frigates. Constructed from genetically modified organisms, possessing regenerative abilities.
 
-## 
+  
 
 ## **Summary**
 
 The Aulurans are a "high-concept" faction that subverts the "primitive cat-person" trope. They are highly advanced bio-engineers. Whether playing a psychic Dar Mystic, a towering 7ft Koda Warrior, or a massive Graa Scholar using telekinesis to operate a computer, the Aulurans represent the apex of biological evolution.
 
-&nbsp;
+  
+  
 
-# 
-
-# ---
+# -----
 
 # **AULURAN IMAGE SYNTHESIS: THE BIOLOGICAL HUNTERS**
 
-## 
+  
 
 ## **I. Visual Philosophy & Ecosystem**
 
@@ -223,7 +220,7 @@ Core Design Philosophy: Predatory Biomimicry.
 
 Unlike the Aeld (who sculpt art) or Humans (who build blocks), Aulurans grow and weave their technology. Their designs mimic the efficiency of biology: armor that flexes like skin, ships that swim through the void, and cities that photosynthesize.
 
-### 
+  
 
 ### **The Visual Ecosystem**
 
@@ -231,19 +228,19 @@ Unlike the Aeld (who sculpt art) or Humans (who build blocks), Aulurans grow and
 
 Auluran tech avoids static shapes. Structures and vehicles are designed with muscular curvature, articulated joints, and textures resembling carapace, scales, or hardened wood.
 
-&nbsp;
+  
 
 #### **Tactile & Olfactory Interfaces**
 
 Screens are secondary. Auluran technology utilizes haptic feedback suits and even scent-synthesizers to convey data, leveraging their heightened senses.
 
-&nbsp;
+  
 
-### **Materiality: Bio-Ceramics and Nano-Lattice Weaves.**&nbsp;
+### **Materiality: Bio-Ceramics and Nano-Lattice Weaves.** 
 
 Their metal looks matte and textured, often coated in self-repairing resin. There is no rust, only "wither" or "bruising" on damaged tech.
 
-### 
+  
 
 #### **Sensory Experience (Context Tokens)**
 
@@ -251,25 +248,25 @@ Their metal looks matte and textured, often coated in self-repairing resin. Ther
 
 Vibrant alien jungles, glowing eyes in the dark, structures pulsing with life, weapons grown from bone/muscle.
 
-&nbsp;
+  
 
 #### **Sound**
 
 Chittering of living tools, roar of beast-ship engines, rustle of leaves, primal drums mixed with bio-acoustic hums.
 
-&nbsp;
+  
 
 #### **Smell/Taste**
 
 Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid growth.
 
-## 
+  
 
 ## **II. The Biological Chassis (Subspecies)**
 
 *Select ONE chassis to define the physical body.*
 
-### 
+  
 
 ### **The Dar (The Spiritual Apex)**
 
@@ -281,7 +278,7 @@ Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid gr
 
 **Key Tech:** **Thought-Loms.** Devices that obey mental commands, appearing as floating orbs or jewelry until activated.
 
-### 
+  
 
 ### **The Koda (The Tactical Hunter)**
 
@@ -293,7 +290,7 @@ Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid gr
 
 **Key Tech:** **Chameleon-Skin.** Active camouflage is standard issue, allowing them to vanish into urban or jungle environments instantly.
 
-### 
+  
 
 ### **The Graa (The Industrial Vanguard)**
 
@@ -305,13 +302,13 @@ Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid gr
 
 **Key Tech:** Graa often carry several small repair or recon drones in their harness as well as manipulation **waldos / utility arms** to interact with technology despite being armless.
 
-## 
+  
 
 ## **III. The Caste Overlay (Role & Gear)**
 
 *Apply ONE caste to define attire, equipment, and atmosphere.*
 
-### 
+  
 
 ### **The Warrior (The Protector)**
 
@@ -321,7 +318,7 @@ Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid gr
 
 **Atmosphere:** A jungle patrol, a boarding pod (spore pod), a defensive nest. Dappled sunlight filtering through canopy, spores in the air, deep shadows, organic honeycomb structures, vibrant moss.
 
-### 
+  
 
 ### **The Mystic (The Enlightened)**
 
@@ -331,7 +328,7 @@ Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid gr
 
 **Atmosphere:** The heart of a Grown Starship, an amber-lit genetic archive. "Hunter's Moon" lighting (Silver/Blue), translucent living walls, pulsing bioluminescent veins, floating genetic data-streams, humid and silent.
 
-### 
+  
 
 ### **The Scholar (The Studious)**
 
@@ -341,29 +338,29 @@ Musk, ozone, crushed herbs, iron (blood), sweet nectar, earthy scent of rapid gr
 
 **Atmosphere:** A vast, silent library, a geometrically complex data-storage vault. Dust motes in shafts of light, hushed and reverent silence, polished obsidian floors, glowing archival spheres, "Mourner's Sun" dimness.
 
-## 
+  
 
 ## **IV. AI Prompt Framework**
 
-*Use this structure to generate assets. Combine a \[CONTENT\] block with the \[GUIDANCE\] and \[HI FI INK\] blocks.*
+*Use this structure to generate assets. Combine a [CONTENT] block with the [GUIDANCE] and [HI FI INK] blocks.*
 
-### 
+  
 
-### **\[CONTENT PROMPT\]**
+### **[CONTENT PROMPT]**
 
 *Define the Subject, Action, and Narrative.*
 
 **Example Construction:**
 
-SUBJECT: A \[Insert Chassis: Koda/Dar/Graa\] \[Insert Role: Warrior/Mystic/Scholar\] in a \[Location\].
+SUBJECT: A [Insert Chassis: Koda/Dar/Graa] [Insert Role: Warrior/Mystic/Scholar] in a [Location].
 
-VISUALS: \[Insert Caste Visuals \+ Chassis Motif\].
+VISUALS: [Insert Caste Visuals + Chassis Motif].
 
-ACTION: \[Dynamic Pose/Action\].
+ACTION: [Dynamic Pose/Action].
 
-### 
+  
 
-### **\[GUIDANCE PROMPT\]**
+### **[GUIDANCE PROMPT]**
 
 *Copy/Paste this block for the Auluran Aesthetic.*
 
@@ -377,9 +374,9 @@ ATMOSPHERE: Humid, Vibrant, Kinetic, Alert, predatory tension, dappled sunlight 
 
 PALETTE: Natural Camouflage (Dark Greens, Browns, Ochers) accented with Warning Colors (Electric Blue, Toxic Green).
 
-### 
+  
 
-### **\[HI FI INK\]**
+### **[HI FI INK]**
 
 *Copy/Paste this block for the Global Rendering Style.*
 
@@ -387,11 +384,11 @@ RENDERING: Photorealistic Cinematic Art, 4k raw imagery, lineless rendering, vol
 
 NEGATIVE PROMPT: outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like, Human face, flat face, round ears, clumsy, slow, robotic stiffness, steam, gears, riveted metal, blocky architecture, concrete, primitive loincloths (unless specifically requested), primitive stone weapons.
 
-## 
+  
 
 ## **V. Example Prompt Application (Koda Scout)**
 
-PROMPT: \[HI FI INK\] \- \[GUIDANCE PROMPT\]
+PROMPT: [HI FI INK] - [GUIDANCE PROMPT]
 
 SUBJECT: A Koda Auluran sniper perched on a tree limb.
 
@@ -403,9 +400,9 @@ BACKGROUND: A futuristic jungle city with bioluminescent skyscrapers.
 
 ATMOSPHERE: Silent, deadly, high-tech hunter.
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+**  
+**
 

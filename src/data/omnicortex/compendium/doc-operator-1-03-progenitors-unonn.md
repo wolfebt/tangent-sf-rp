@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-progenitors"
-order: 91
+order: 89
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.progenitors.unonn","mechanics"]
-updatedAt: "2026-10-14T05:24:25.077Z"
+updatedAt: "2026-11-03T11:18:11.657Z"
 costs:
   bp: 0
   credits: 0
@@ -39,7 +39,7 @@ sockets:
 
 # **U’NONN**
 
-**CP Cost:** 79 CP
+**CP Cost:** 111 CP
 
 **Description:** U’Nonn are ancient primordial progenitors who command matter and energy directly through pure thought and deific metaphysical matrices.
 
@@ -55,14 +55,14 @@ sockets:
 
 **Homeworld:** Extragalactic Citadel of Void
 
-**Stigma:** Deific (-6), Xeno (-2)
+**Stigma:** Deific (-6 CP), Xeno (-2 CP)
 
 **Ability Modifiers:**
-* +4 Int [16 CP]
-* +6 Ability [24 CP]
+* +4 Intellect [20 CP]
+* +6 Any Attributes [30 CP]
 
 **Skills:**
-* +40 Skills [32 CP]
+* +40 Skill Ranks [40 CP]
 
 **Species Features:**
 * Progenitor Heritage [26 CP]

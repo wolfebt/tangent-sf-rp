@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 function rulesCompendiumPlugin() {
-  const rulesDir = path.resolve(__dirname, 'docs/game rules')
+  const rulesDir = path.resolve(__dirname, 'docs/game_rules')
   const seedFile = path.resolve(__dirname, 'src/data/compendiumSeed.json')
 
   return {
@@ -49,13 +49,13 @@ function rulesCompendiumPlugin() {
         }
 
         server.watcher.on('add', p => {
-          if (p.includes('game rules')) handleRuleChange('add', p)
+          if (p.includes('game_rules')) handleRuleChange('add', p)
         })
         server.watcher.on('change', p => {
-          if (p.includes('game rules')) handleRuleChange('change', p)
+          if (p.includes('game_rules')) handleRuleChange('change', p)
         })
         server.watcher.on('unlink', p => {
-          if (p.includes('game rules')) handleRuleChange('unlink', p)
+          if (p.includes('game_rules')) handleRuleChange('unlink', p)
         })
       }
     }
@@ -85,7 +85,7 @@ export default defineConfig(({ command, mode }) => {
     server: {
     watch: {
       ignored: [
-        '**/docs/!(game rules)/**',
+        '**/docs/!(game_rules)/**',
         '**/src/data/omnicortex/compendium/**',
         '**/playwright-report/**',
         '**/test-results/**',

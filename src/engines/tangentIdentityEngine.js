@@ -14,7 +14,7 @@ import { DEFAULT_ARCHETYPES } from '../data/archetypesData.js';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_FACTIONS } from '../data/factionsData.js';
-import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
+import { ALL_CANONICAL_SKILLS, resolveCanonicalSkillAlias } from '../data/skillsData.js';
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
 import { 
   ALL_CANONICAL_TRAITS,
@@ -95,11 +95,14 @@ export const removeOrDecrementSkill = (characterData, skillNameOrId, rankToDeduc
   const cleanId = rawStr.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   const innerNameLower = innerName.toLowerCase();
+  const aliasResolvedObj = resolveCanonicalSkillAlias(cleanId) || resolveCanonicalSkillAlias(innerCleanId);
+  const aliasResolvedId = aliasResolvedObj?.id || null;
 
   const canonSkill = canonicalSkillsList.find(s => {
     const n = (s.name || '').toLowerCase();
     const idWithoutPrefix = (s.id || '').replace(/^[a-z]+-/, '');
-    return n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId ||
+    return (aliasResolvedId && s.id === aliasResolvedId) ||
+           n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId ||
            n === innerNameLower || s.id === innerCleanId || idWithoutPrefix === innerCleanId;
   });
 
@@ -899,10 +902,12 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
         const rawStr = String(skNameRaw).trim();
         const lowerRaw = rawStr.toLowerCase();
         const candidatePrefix = rawStr.replace(/\s*\(.*\)/, '').trim().toLowerCase();
+        const aliasResolvedObj = resolveCanonicalSkillAlias(rawStr) || resolveCanonicalSkillAlias(candidatePrefix);
+        const aliasResolvedId = aliasResolvedObj?.id || null;
 
         const skObj = allSkillsList.find(s => {
           const sName = (s.name || '').toLowerCase();
-          return sName === lowerRaw || sName === candidatePrefix;
+          return (aliasResolvedId && s.id === aliasResolvedId) || sName === lowerRaw || sName === candidatePrefix;
         });
 
         const finalSkillName = skObj?.name || rawStr;
@@ -912,7 +917,7 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
 
         const canonRankKey = `skill-${cleanId}-rank`;
         const currentRank = parseInt(updated[canonRankKey] || 0, 10);
-        const nextRank = Math.max(rank, currentRank + rank);
+        const nextRank = Math.min(11, Math.max(rank, currentRank + rank)); // Creation Skill Rank Cap 11 per 1.00 CHARACTER CREATION.md
 
         updated[`skill-${cleanId}-rank`] = nextRank;
         updated[`skill-${cleanId}-base`] = baseAttr;

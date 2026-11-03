@@ -198,7 +198,7 @@ Significant differences in physical traits exist among the major clans:
 
 ## **General Species Features & Mechanics**
 
-**CP Cost:** 28 CP  
+**CP Cost:** 34 CP  
 
 **Classification:** Humanoid
 

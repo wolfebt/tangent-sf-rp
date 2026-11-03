@@ -1,8 +1,8 @@
 /**
  * @file compileMechanicsDataset.mjs
  * @description Compiles the 100% CANONICAL Tangent SF RP MECHANICS rules dataset for BASTION.
- * Strictly grounded in: docs/game rules/operator/ (3.00 COMBAT.md, 1.00, 1.01, 1.10, 2.00, 4.00)
- * and docs/game rules/architect/
+ * Strictly grounded in: docs/game_rules/operator/ (3.00 COMBAT.md, 1.00, 1.01, 1.10, 2.00, 4.00)
+ * and docs/game_rules/architect/
  */
 
 import fs from 'fs';
@@ -52,7 +52,7 @@ addMechanic({
   id: 'mech-combat-core-resolution',
   title: '2d10 Dual Resolution & Target Defense',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Core Mechanics',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Core Mechanics',
   summary: 'The Attack Roll is 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs. Target Defense (DC).',
   mechanic_formula: 'Attack Roll = 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs Target Defense (DC)',
   rules_text: `TANGENT uses a 2d10 dice system for all tactical combat:
@@ -74,7 +74,7 @@ addMechanic({
   id: 'mech-combat-actions-by-skill-tier',
   title: 'Combat Actions & Iterative Penalty by Skill Tier',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Skill Focus & Actions',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Skill Focus & Actions',
   summary: 'Combat actions per turn are unlocked by Skill Rank. Iterative attacks suffer sequential -5 penalties.',
   mechanic_formula: 'Rank 1-5: 1 action | Rank 6-10: 2nd action (-5) | Rank 11-15: 3rd action (-10) | Rank 16-20: 4th (-15) | Rank 21-25: 5th (-20) | Rank 26-30: 6th (-25)',
   rules_text: `Combat capability is defined by Skill Tier. As a character gains Ranks, they unlock additional actions:
@@ -97,7 +97,7 @@ addMechanic({
   id: 'mech-combat-initiative',
   title: 'Initiative Reflex Check',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Initiative',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Initiative',
   summary: 'Initiative is determined by rolling 2d10 + Reflex Save + Agility Mod. High roll goes first.',
   mechanic_formula: 'Initiative = 2d10 + Reflex Save + Agility Mod',
   rules_text: `Initiative determines the turn order in tactical encounters:
@@ -114,7 +114,7 @@ addMechanic({
   id: 'mech-combat-edge-system',
   title: 'EDGE Tactical Advantage System',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Edge',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Edge',
   summary: 'Edge represents situational and tactical advantages gained through movement, positioning, and environment.',
   mechanic_formula: 'Edge Modifiers: Aiming (+2/rnd), Flanking (+2), High Ground (+2 Strike, +2 Crit), Evasive (+1 Def + 1/10ft)',
   rules_text: `Edge modifiers govern tactical positioning in Tangent:
@@ -143,19 +143,19 @@ addMechanic({
   id: 'mech-combat-damage-calculation',
   title: 'Combat Damage & Armor DR Absorption',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Damage & Health',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Damage & Health',
   summary: 'Total Damage = (Weapon Dice + Ability Mod + Precision/Skill) - (Target Armor DR + Target STA Mod). Force damage ignores half DR.',
   mechanic_formula: 'Total Damage = (Weapon Dice + Ability Mod + Precision/Skill Bonuses) - (Target Armor DR + Target STA Mod)',
   rules_text: `Damage calculation in Tangent sums weapon impact, ability, and skill, mitigated by armor and constitution:
 - Components:
   * Weapon Dice: Inherent damage capability of weapon.
   * Relevant Ability: STR for melee/heavy thrown; AGI for light/ranged weapons; INT/WIS/CHA for metaphysical invocations.
-  * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Vital Strikes.
-  * Target Armor DR: Flat Damage Resistance of worn protective gear.
-  * Target STA Mod: Target natural physical constitution reduces damage taken.
+  * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Precision Strikes (strike consolidation into 2x/3x/4x base weapon dice is strictly gated behind the Precision Strike / Improved Precision Strike / Greater Precision Strike Combat Features).
+  * Target Armor DR & Penetration: Highest single domain Damage Resistance reduced by weapon Penetration (minimum 0 DR).
+  * Target STA Mod: Target natural physical constitution reduces damage taken point-for-point after Armor DR.
 - Force Damage Subtype: Kinetic force energy that completely ignores 1/2 of Target Armor DR.
-- Critical Hit (Natural 20): Doubles weapon damage dice and adds +30 to base attack score.
-- Fumble (Natural 1): Subtracts 10 from base attack score; potential fumble consequences.`,
+- Critical Hit (Natural 20 or expanded threat): Adds +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29), doubles weapon damage dice, and bypasses Vitality to strike Health directly.
+- Fumble (Natural 2 or expanded fumble): Replaces the rolled dice value with a flat -10 (subtracting 10 from the base attack score); potential fumble consequences.`,
   examples: [
     'Attacker with STR +3 and Heavy Blades Rank 4 hits with a 2d8 sword. Raw damage = 2d8 (11) + 3 + 4 = 18. Target has DR 4 armor and STA +2. Total damage = 18 - (4 + 2) = 12.'
   ],
@@ -166,7 +166,7 @@ addMechanic({
   id: 'mech-combat-called-shots-locations',
   title: 'Called Shots & Hit Location Saving Throws',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Locations & Called Shots',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Locations & Called Shots',
   summary: 'Called shots target body anatomy at attack penalties. Hits force location-specific saving throws with impediment durations.',
   mechanic_formula: 'Called Shots: Torso -1, Head/Arm/Leg -2, Neck/Groin/Hand/Foot -4, Digits/Eyes -5',
   rules_text: `Called shots allow deliberate targeting of vulnerable anatomy (or roll 1d10 on critical hit):
@@ -190,7 +190,7 @@ addMechanic({
   id: 'mech-combat-disabled-destroyed-thresholds',
   title: 'Limb Damage: Disabled (1/3 Health) & Destroyed (2/3 Health)',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § Limb Damage & Critical Injuries',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § Limb Damage & Critical Injuries',
   summary: 'Taking 1/3 of Health in damage disables a limb (or causes unconsciousness if Head). Taking 2/3 of Health destroys it.',
   mechanic_formula: 'Disabled = Damage >= 1/3 Health (Sta Check CR 10 + damage to use) | Destroyed = Damage >= 2/3 Health',
   rules_text: `Specific body locations have distinct structural thresholds:
@@ -214,7 +214,7 @@ addMechanic({
   id: 'mech-combat-mortality-state',
   title: 'The Mortality State (0 HP) & Stability Points',
   category: 'combat',
-  citation: 'docs/game rules/operator/3.00 COMBAT.md § The Mortality State',
+  citation: 'docs/game_rules/operator/3.00 COMBAT.md § The Mortality State',
   summary: 'At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (STA + 5) reach 0.',
   mechanic_formula: 'Stability Points = STA Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15',
   rules_text: `When Health Points reach 0, characters enter the Mortality State:
@@ -237,7 +237,7 @@ addMechanic({
   id: 'mech-scaling-14-tiers',
   title: '14 Size Categories & Scaling Multipliers',
   category: 'scaling',
-  citation: 'docs/game rules/operator/1.10 SCALING.md § Size Categories',
+  citation: 'docs/game_rules/operator/1.10 SCALING.md § Size Categories',
   summary: 'Objects and creatures scale across 14 size tiers (Miniscule to Mega Colossal) multiplying weapon dice, SP, speed, range, and starship blast radius.',
   mechanic_formula: 'Multiplier applies to Weapon Dice, Structure Points, Speed, and Ranges (Miniscule -5ds to Mega Colossal x320)',
   rules_text: `Size categories dramatically alter physical impact, damage capacity, and dimensional ranges:
@@ -274,7 +274,7 @@ addMechanic({
   id: 'mech-economatrix-standard-curve',
   title: 'Tangent Standard Curve (TSC) & Wealth Score',
   category: 'economatrix',
-  citation: 'docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework',
+  citation: 'docs/game_rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework',
   summary: 'Item value quadruples every +5 DC increment: Value = 10 * 4^(CR / 5). Purchase CR equals Crafting CR.',
   mechanic_formula: 'Value = 10 * 4^(CR / 5) | Purchase CR = Crafting CR <= Wealth Score',
   rules_text: `The Tangent Economic Matrix establishes that Complexity Determines Value:
@@ -302,7 +302,7 @@ addMechanic({
   id: 'mech-metaphysics-triad-casting',
   title: 'Metaphysics Triad & Take-10 Invocation Casting',
   category: 'metaphysics',
-  citation: 'docs/game rules/operator/4.00 METAPHYSICS.md § Core Mechanics',
+  citation: 'docs/game_rules/operator/4.00 METAPHYSICS.md § Core Mechanics',
   summary: 'Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or 2d10).',
   mechanic_formula: 'Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10) | Strain = 1 Non-Lethal / 5 pts under CR',
   rules_text: `Reality manipulation operates on a distinct mechanical triad:
@@ -329,14 +329,15 @@ addMechanic({
   id: 'mech-character-150cp-creation',
   title: '150 Character Points & Foundational Backgrounds',
   category: 'character_creation',
-  citation: 'docs/game rules/operator/1.01 CHARACTER CREATION.md § Character Points',
+  citation: 'docs/game_rules/operator/1.01 CHARACTER CREATION.md § Character Points',
   summary: 'Characters start with 150 CP (Character Points). Faction, Origin, and Occupation grant 60 skill ranks, 4 features, and 4 traits for free.',
-  mechanic_formula: 'Total Budget = 150 CP | Attributes: 5 CP per +1 (Soft cap +4) | Skills: 1 CP/rank | Features: 3 CP base',
+  mechanic_formula: 'Total Budget = 150 CP | Attributes: 5 CP per +1 (-5 CP per -1; no package discount) | Skills: 1 CP/rank (5 CP per 5 ranks; no package discount) | Features: 3 CP base',
   rules_text: `Operative creation is governed by strict mathematical allocation:
 - 150 Character Points (CP) starting budget.
-- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1, soft cap +4 at creation.
-- Skills: Cost 1 CP per rank at creation.
-- Features: Base cost 3 CP (minimum 1 CP).
+- Universal Straight Build Cost (Zero Package Discount): Across Character Creation, Species Packages, Companion Packages, and Bestiary Point-Buy, +1 Attribute = 5 CP (-1 Attribute Penalty = -5 CP refund) and 1 Skill Rank = 1 CP (5 Skill Ranks = 5 CP).
+- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1 (-5 CP refund per -1), soft cap +4 at creation.
+- Skills: Cost 1 CP per rank (5 CP per 5 ranks) universally.
+- Features: Base cost 3 CP (Recommended Feature: 2 CP, minimum 1 CP). Species Traits: Basic 1 CP, Advanced 2 CP, Elite 4 CP.
 - Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.
 - Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.`,
   examples: [
@@ -353,7 +354,7 @@ addMechanic({
   id: 'mech-companion-40cp-formula',
   title: 'Companion Feature Unlock & Modular 40 CP Architecture',
   category: 'companions',
-  citation: 'docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition & Construction',
+  citation: 'docs/game_rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition & Construction',
   summary: 'Companions must be unlocked by purchasing the COMPANION feature (3 CP, Cha 1). May purchase multiple times for additional cohorts or +10 CP build budget.',
   mechanic_formula: 'Companion Feature = 3 CP (Cha 1) | Cohort Budget = Form (15 CP) + Function (25 CP) = 40 CP Base | +10 CP per Rank above Rank 1',
   rules_text: `Access and construction of loyal cohorts follow strict modular rules:
@@ -383,7 +384,7 @@ addMechanic({
   id: 'mech-vitals-30-30-60',
   title: 'Vitals & Structure: 30 VP / 30 HP / 60 SP Base (No Stamina Bonus)',
   category: 'vitals',
-  citation: 'docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals & Derivations',
+  citation: 'docs/game_rules/operator/1.01 CHARACTER CREATION.md § Vitals & Derivations',
   summary: 'Characters start with Base Vitality 30, Base Health 30, and Base Structure 60 (for Medium synthetics). Stamina does NOT add to VP or HP, but provides natural DR (Toughness).',
   mechanic_formula: 'Vitality Base = 30 | Health Base = 30 | Structure Base = 60 * Size Scaling Multiplier | Stamina = Natural DR (Toughness)',
   rules_text: `Vitals and physical resilience are strictly decoupled from flat stamina additions:
@@ -391,7 +392,7 @@ addMechanic({
   * Base Vitality = 30 points.
   * Base Health = 30 points.
   * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.
-  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).
+  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +5 points).
 - Synthetics, Constructs & Mecha:
   * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.
   * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.`,
@@ -410,7 +411,7 @@ addMechanic({
   id: 'mech-karma-spending-actions',
   title: 'Karma Points Economy & The 6 Canonical Spending Actions',
   category: 'core_resolution',
-  citation: 'docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md',
+  citation: 'docs/game_rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md',
   summary: 'Characters have a default pool of 3 Karma Points (resets per session, no rest recovery). 6 canonical spending actions (1 KP each) provide narrative and tactical agency.',
   mechanic_formula: 'Starting Pool = 3 KP | 6 Actions @ 1 KP each | Karmic Debt Limit = Charisma + 1',
   rules_text: `Karma represents tactical luck and narrative control:
@@ -442,7 +443,7 @@ addMechanic({
   id: 'mech-augmentations-body-alteration-tiers',
   title: 'Augmentation System: Body Alteration Tiers (No Max Strain)',
   category: 'technology',
-  citation: 'docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md',
+  citation: 'docs/game_rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md',
   summary: 'The Augmentation system has NO max strain. Tiers are defined by physical body alteration percentages: Augmentation (<20%), Heavy Augmentation (<50%), and Severe Augmentation (>50% up to FBC).',
   mechanic_formula: 'Tier 1: Augmentation (<20% alteration) | Tier 2: Heavy Augmentation (<50% alteration) | Tier 3: Severe Augmentation (>50% up to FBC)',
   rules_text: `Cybernetic and biological modifications are categorized without strain ceilings:
@@ -467,7 +468,7 @@ addMechanic({
   id: 'mech-mecha-vehicles-all-sorts',
   title: 'Mecha Taxonomy: Vehicles Across All Form Factors',
   category: 'technology',
-  citation: 'docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md',
+  citation: 'docs/game_rules/architect/99. TECHNOLOGY, MECHA MATRIX.md',
   summary: 'Mecha encompasses vehicles of all sorts across the entire technological spectrum — from hoverboards, motorcycles, and cars to power armor, walkers, fighter jets, and starships.',
   mechanic_formula: 'Mecha Classification: Personal/Mount -> Ground Vehicle -> Power Armor -> Walker -> Atmospheric Aircraft -> Starship',
   rules_text: `Mecha is the universal vehicle and vehicular chassis classification in Tangent:
@@ -508,8 +509,8 @@ console.log(`Saved JSON mechanics rules to: ${JSON_OUTPUT_PATH}`);
 const jsContent = `/**
  * @file mechanicsData.js
  * @description 100% CANONICAL Tangent SF RP BASTION Mechanics Rules Dataset
- * Strictly grounded in: docs/game rules/operator/ (3.00 COMBAT.md, 1.00, 1.01, 1.10, 2.00, 4.00)
- * and docs/game rules/architect/
+ * Strictly grounded in: docs/game_rules/operator/ (3.00 COMBAT.md, 1.00, 1.01, 1.10, 2.00, 4.00)
+ * and docs/game_rules/architect/
  * Total Rules: ${mechanics.length}
  */
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 93
+order: 91
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.sefalin","mechanics"]
-updatedAt: "2026-10-14T05:24:25.067Z"
+updatedAt: "2026-11-02T22:49:31.306Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,26 @@ sockets:
   allocated: []
 ---
 
-# **SEFALIN \* \*\***
+# **SEFALIN * **  
+**
 
-# SEFALIN \* \*\*
+# SEFALIN * **
 
-# 
+  
 
-**CP Cost:** 23 CP  
+**CP Cost:** 
 
 **Description:** The Sefalin are a fascinating species, classified as an Aquatic Aberration with a distinct Cephalotauric form. Their upper body is that of a smooth-skinned aquatic humanoid, but their lower half transitions into a formidable arrangement of six prehensile tentacles, replacing the typical legs of a terrestrial being.
 
-&nbsp;
+  
 
 Perfectly Adapted to Deep Sea environments, Sefalin possess remarkable physical traits that allow them to thrive in the crushing pressures and cold of their homeworld's watery depths, including an Amphibious nature that grants them a movement speed of 40 ft on both land and water. They exhibit incredible vitality, possessing Fast Heal and Regeneration abilities.
 
-&nbsp;
+  
 
 Beyond their physical resilience, the Sefalin are Psychic having a deep connection to mental energies and advanced cognitive abilities. This, combined with their integration of Biotechnology shows them as a highly advanced, yet enigmatic, civilization. Their natural ability to change their appearance, noted as Chameleon, further enhances their mysterious nature.
 
-&nbsp;
+  
 
 **Classification:** Aquatic Aberration
 
@@ -63,31 +64,31 @@ Beyond their physical resilience, the Sefalin are Psychic having a deep connecti
 
 **Movement:** 40 ft Swimspeed, 40 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+5 Skills
++5 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Adapted (Deep Sea)
 
@@ -107,9 +108,9 @@ Quick
 
 Regeneration
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Ageless
 
@@ -119,19 +120,19 @@ Ink Cloud (Visual Obscurement, Water only)
 
 Immortality
 
-Immunity \- Pressure
+Immunity - Pressure
 
-Immunity \- Cold
+Immunity - Cold
 
 Multidextrous
 
 Quicker
 
-Resistance \- Heat 10
+Resistance - Heat 10
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+**  
+**
 

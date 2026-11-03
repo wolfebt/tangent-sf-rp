@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const docsDir = 'docs/game rules';
+const docsDir = 'docs/game_rules';
 
 function replaceInText(text) {
   let updated = text;
@@ -79,6 +79,6 @@ function processDir(dir) {
   }
 }
 
-console.log('Starting BP -> CP migration in docs/game rules...');
+console.log('Starting BP -> CP migration in docs/game_rules...');
 processDir(docsDir);
 console.log(`Finished. Updated ${modifiedFiles} files.`);

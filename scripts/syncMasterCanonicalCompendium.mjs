@@ -28,6 +28,7 @@ const PREFERRED_OP_MASTER_ORDER = [
 ];
 
 const PREFERRED_ARCH_MASTER_ORDER = [
+  '00.00 GM GUIDELINES.md',
   '02 ECONOMY AND WEALTH.md',
   '99. MODULAR CHARACTER MATRIX.md',
   '99. MODULAR SPECIES MATRIX.md',
@@ -71,8 +72,6 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '1.01.PipelineCapabilities.md',
   '1.01.StartingWealthAndMeta.md',
   '1.01.Attributes.md',
-  '1.01.Attributes.Physical.md',
-  '1.01.Attributes.MentalSocial.md',
   '1.01.Perception.md',
   '1.01.VitalityHealthStructure.md',
   '1.01.Karma.md',
@@ -302,10 +301,6 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '3.00.StatusEffects.md',
   '3.00.DamageAndLocations.md',
   '3.00.DamageTypes.md',
-  '3.00.DamageTypes.Energy.md',
-  '3.00.DamageTypes.Kinetic.md',
-  '3.00.DamageTypes.Elemental.md',
-  '3.00.DamageTypes.PlanarAndMind.md',
   '3.00.VehicularCombat.md',
   // 4.00 Metaphysics
   '4.00.SensoryManifestations.md',
@@ -324,9 +319,11 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '99.Character.ModuleC_E.BiologySoulLifepath.md',
   '99.Character.ModuleE.LifepathSchema.md',
   '99.Character.ModuleF_G.GenreAndVisuals.md',
+  '04.03.BestiaryAndXenofauna.md',
   // 99 Modular Species Matrix
   '99.Species.ChassisAndMovement.md',
   '99.Species.TraitsAndDisadvantages.md',
+  '04.03.01.DragonsCodex.md',
   // 99 Modular Companion Matrix
   '99.Companion.FormPackages.md',
   '99.Companion.FunctionAndExamples.md',
@@ -334,9 +331,12 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '99.Planetary.AstrophysicsAndGeophysics.md',
   '99.Planetary.CivilizationAndEconomy.md',
   '99.Planetary.HazardsAndEncounters.md',
+  '04.00.StarAtlasAndGazetteer.md',
   // 99 Technology
   '99.Tech.Levels.md',
   '99.Tech.CivilizationDomains.md',
+  '06.AetheriumAndAetherite.md',
+  '06.PolyMatterAndPicotech.md',
   '99.Tech.Weaponry.ForgeProtocol.md',
   '99.Tech.Weaponry.Catalog.md',
   '99.Tech.Armor.DesignAndCatalog.md',
@@ -354,6 +354,7 @@ const CUSTOM_SUBARTICLE_ORDER = [
   '99.Tech.Architecture.MobileAndVFT.md',
   '99.Tech.Architecture.ExamplesAndSkins.md',
   // 99 Metaphysics
+  '04.TheResonance.md',
   '99.Metaphysics.InvocationMatrix.md',
   '99.Metaphysics.MetaTechMatrix.md'
 ];
@@ -499,7 +500,13 @@ const SPECIAL_TOKEN_LABELS = {
   'EconomyAndExemplars': 'Armor Economy & Exemplars',
   'SystemsAndMastercrafting': 'Systems, Biotech & Mastercrafting',
   'ComponentsAndWeapons': 'Components, VFT & Weapons',
-  'AutomataAndGear': 'Automata, Specialized Gear & Economics'
+  'AutomataAndGear': 'Automata, Specialized Gear & Economics',
+  'BestiaryAndXenofauna': 'Bestiary & Xenofauna',
+  'TheResonance': 'The Resonance',
+  'StarAtlasAndGazetteer': 'Star Atlas & Gazetteer',
+  'DragonsCodex': 'Dragons Codex',
+  'AetheriumAndAetherite': 'Aetherium & Aetherite',
+  'PolyMatterAndPicotech': 'Poly-Matter & Picotech'
 };
 
 function humanizeToken(token) {
@@ -532,8 +539,25 @@ function formatArticleDisplayName(fileObj) {
     return formatted;
   }
 
-  // Subfolder file: e.g. "1.01.VitalityHealthStructure", "1.03.Aeld.Alterian", "99.Tech.Mecha.ForgeProtocol"
+  // Subfolder file: e.g. "1.01.VitalityHealthStructure", "1.03.Aeld.Alterian", "99.Tech.Mecha.ForgeProtocol", "04.03.BestiaryAndXenofauna"
   const parts = cleanFileName.split('.');
+  if (fileObj.relBranch.startsWith('architect/')) {
+    let idx = 0;
+    while (idx < parts.length && /^\d+$/.test(parts[idx])) {
+      idx++;
+    }
+    const rest = parts.slice(idx).map(humanizeToken);
+    if (rest.length >= 3) {
+      return `${rest[0]} (${rest[1]}): ${rest.slice(2).join(' — ')}`;
+    }
+    if (rest.length === 2) {
+      return `${rest[0]}: ${rest[1]}`;
+    }
+    if (rest.length === 1) {
+      return rest[0];
+    }
+  }
+
   if (parts.length >= 3 && /^\d+$/.test(parts[0]) && /^\d+$/.test(parts[1])) {
     const numPrefix = `${parts[0]}.${parts[1]}`;
     if (numPrefix === '1.04' && parts[2] === 'Archetypal' && parts[3]) {
@@ -553,17 +577,6 @@ function formatArticleDisplayName(fileObj) {
     return `${numPrefix} ${rest[0]}: ${rest.slice(1).join(' — ')}`;
   }
 
-  if (parts.length >= 2 && (parts[0] === '02' || parts[0] === '99')) {
-    const rest = parts.slice(1).map(humanizeToken);
-    if (rest.length >= 3) {
-      return `${rest[0]} (${rest[1]}): ${rest.slice(2).join(' — ')}`;
-    }
-    if (rest.length === 2) {
-      return `${rest[0]}: ${rest[1]}`;
-    }
-    return rest.join(': ');
-  }
-
   return cleanFileName;
 }
 
@@ -577,6 +590,12 @@ function makeArticleId(subfolderKey, fileName) {
   return `doc-${subfolderKey}-${normalizedSlug}`;
 }
 
+const OMNIBUS_SPECIES_BATCH_FILES = new Set([
+  '1.03.aeldandasi.md',
+  '1.03.humansauluranskitin.md',
+  '1.03.syntheticsandxeno.md'
+]);
+
 /**
  * Recursively scans directory and all subdirectories for markdown (.md) rule files.
  */
@@ -589,7 +608,8 @@ function scanRuleFiles(rulesDir) {
       const fullPath = path.join(currentDir, entry.name);
       if (entry.isDirectory()) {
         const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
-        if (subRel.replace(/\\/g, '/').toLowerCase() === 'architect/archetypes') {
+        const normSubRel = subRel.replace(/\\/g, '/').toLowerCase();
+        if (normSubRel === 'architect/archetypes' || normSubRel === 'architect/schemas') {
           continue;
         }
         traverse(fullPath, subRel);
@@ -600,16 +620,22 @@ function scanRuleFiles(rulesDir) {
         !entry.name.startsWith('.')
       ) {
         const normalizedRelBranch = relBranch.replace(/\\/g, '/');
-        if (
-          normalizedRelBranch.toLowerCase() === 'architect' &&
-          entry.name.toLowerCase().includes('archetypes')
-        ) {
+        const lowerBranch = normalizedRelBranch.toLowerCase();
+        const lowerName = entry.name.toLowerCase();
+        // Skip root-level repo governance/README manifests, legacy architect archetypes, and omnibus species duplicates
+        if (!lowerBranch) {
+          continue;
+        }
+        if (lowerBranch === 'architect' && lowerName.includes('archetypes')) {
+          continue;
+        }
+        if (lowerBranch === 'operator/species' && OMNIBUS_SPECIES_BATCH_FILES.has(lowerName)) {
           continue;
         }
         discovered.push({
           fullPath,
           fileName: entry.name,
-          relBranch: normalizedRelBranch.toLowerCase(),
+          relBranch: lowerBranch,
           relPath: `${normalizedRelBranch}/${entry.name}`
         });
       }
@@ -802,13 +828,13 @@ function compareSiblingFiles(a, b) {
 }
 
 /**
- * Synchronizes all markdown files from `docs/game rules` and all subfolders into
+ * Synchronizes all markdown files from `docs/game_rules` and all subfolders into
  * `src/data/compendiumSeed.json` and `src/data/omnicortex/compendium/*.md`.
  */
 export function syncCanonicalCompendium({ silent = false } = {}) {
-  let rulesDir = path.join(projectRoot, 'docs', 'game rules');
+  let rulesDir = path.join(projectRoot, 'docs', 'game_rules');
   if (!fs.existsSync(rulesDir)) {
-    rulesDir = path.join(projectRoot, '..', 'docs', 'game rules');
+    rulesDir = path.join(projectRoot, '..', 'docs', 'game_rules');
   }
 
   if (!fs.existsSync(rulesDir)) {
@@ -956,7 +982,7 @@ export function syncCanonicalCompendium({ silent = false } = {}) {
   const combatArt = finalArticles.find(a => a.id === 'doc-operator-3-00-combat');
   if (combatArt) {
     assert(combatArt.description.includes('2d10'), 'Combat doc must state 2d10 resolution');
-    assert(combatArt.description.includes('DEFENDER WINS ALL TIES'), 'Combat doc must state DEFENDER WINS ALL TIES');
+    assert(/defender wins all ties/i.test(combatArt.description), 'Combat doc must state Defender wins all ties');
   }
 
   // Clean stale/orphaned .md files in MD_OUTPUT_DIR that are no longer in finalArticles

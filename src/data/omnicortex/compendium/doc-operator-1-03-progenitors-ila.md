@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-progenitors"
-order: 90
+order: 88
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.progenitors.ila","mechanics"]
-updatedAt: "2026-10-14T05:24:25.077Z"
+updatedAt: "2026-11-03T11:18:09.961Z"
 costs:
   bp: 0
   credits: 0
@@ -39,7 +39,7 @@ sockets:
 
 # **ILA**
 
-**CP Cost:** 118 CP
+**CP Cost:** 112 CP
 
 **Description:** The Ila are god-like precursor architects of transcendent intelligence and luminous presence, founders of ancient megastructures and stargates.
 
@@ -55,13 +55,13 @@ sockets:
 
 **Homeworld:** The Ring Architect Capitals
 
-**Stigma:** Deific (-6), Xeno (-2)
+**Stigma:** Deific (-6 CP), Xeno (-2 CP)
 
 **Ability Modifiers:**
-* +4 Int [16 CP]
+* +4 Intellect [20 CP]
 
 **Skills:**
-* +40 Skills [32 CP]
+* +40 Skill Ranks [40 CP]
 
 **Species Features:**
 * Progenitor Heritage [26 CP]

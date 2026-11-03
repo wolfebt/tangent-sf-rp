@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-shanor"
-order: 95
+order: 93
 perspective: "operator"
 entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.shanor.base","mechanics"]
-updatedAt: "2026-10-14T08:27:01.525Z"
+updatedAt: "2026-11-02T22:49:35.966Z"
 costs:
   bp: 0
   credits: 0
@@ -37,23 +37,24 @@ sockets:
   allocated: []
 ---
 
+# **SHA’NOR**  
+**
+
 # **SHA’NOR**
 
-# **SHA’NOR (BASE)**
+  
 
-# 
-
-**CP Cost:** 41 CP
+**CP Cost:** 
 
 **Description:** Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are an extremely ancient species and are physically unlike any other species ever encountered. Being composed of what seems to be both some type of shifting organic material and dark matter simultaneously would indicate an other dimensional origin.
 
-Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, \-1 Sta), will feed once a month or Cha check of CR 10 (-1 per each month past due) failure resulting in \-1 Sta (discorporating after total Sta of \-5).&nbsp;
+Sha’Nor require energy from living beings on a semi-regular basis or have a risk of discorporation (feeding is not necessarily lethal but will weaken the source for a day, -1 Sta), will feed once a month or Cha check of DC10 (-1 per each month past due) failure resulting in -1 Sta (discorporating after total Sta of -5). 
 
 Many quite enjoy feeding and have learned to gain additional energy from it.
 
-Sha’Nor have Advanced Spiritual based Magi-Tech, coupling Void Magic with TL5 Advancements, and is considered Extremely Alien by all other Species \- as no others have learned to tap the Void as they have nor possess their pseudo-solid state (double all Familiarity and Technological penalties, and some telepathic and telekinetic ability is needed to link to the devices essence and attempt operation). Sha’Nor suffers ALL Unfamiliarity Penalties for other technologies.
+Sha’Nor have Advanced Spiritual based Magi-Tech, coupling Void Magic with TL5 Advancements, and is considered Extremely Alien by all other Species - as no others have learned to tap the Void as they have nor possess their pseudo-solid state (double all Familiarity and Technological penalties, and some telepathic and telekinetic ability is needed to link to the devices essence and attempt operation). Sha’Nor suffers ALL Unfamiliarity Penalties for other technologies.
 
-&nbsp;
+  
 
 **Classification:** Spectral Aberration
 
@@ -61,41 +62,41 @@ Sha’Nor have Advanced Spiritual based Magi-Tech, coupling Void Magic with TL5 
 
 **Movement:** 30 ft Groundspeed, 30 ft Flightspeed
 
-&nbsp;
+  
 
 **Tech Level:** 5
 
 **Meta Level:** 5
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Xeno and Monstrous
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Wis
++1 Wis
 
-\+1 Ability
++1 Ability
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Ageless
 
 Alter Form, Advanced (assumes corporeal form, no flight)
 
-Awakened (Void \- Wisdom \- (Matter or Entropy \- Chaos))
+Awakened (Void - Wisdom - (Matter or Entropy - Chaos))
 
 Bodyform Adaptation
 
@@ -115,15 +116,15 @@ Telepathic
 
 Vampiric (Flaw)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 # Discipline Features
 
 Special Abilities
 
-&nbsp;
+  
 
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+___________________________
 

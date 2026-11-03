@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aulurans"
-order: 41
+order: 39
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aulurans.koda","mechanics"]
-updatedAt: "2026-10-14T05:24:25.042Z"
+updatedAt: "2026-11-02T22:49:33.073Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **KODA**
+# **KODA**  
+**
 
 ## **KODA**
 
@@ -53,7 +54,7 @@ sockets:
 
 **Movement:** 50ft Groundspeed.
 
-**Ability Modifiers:** \+1 Agility, \+1 Strength
+**Ability Modifiers:** +1 Agility, +1 Strength
 
 **Species Features:**
 
@@ -67,5 +68,7 @@ sockets:
 
 **Martial Arts:** Natural combat prowess.
 
-&nbsp;
+  
+**  
+**
 

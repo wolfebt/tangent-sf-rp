@@ -143,7 +143,7 @@ cp_cost: 29
 
 # **JANISSARY (S) \***
 
-**CP Cost:** 16 CP  
+**CP Cost:** 29 CP  
 
 **Description:** The Janissary operatives are not naturally born; instead, they are rapidly grown to physical adulthood from engineered zygotes in specialized gestation tanks. This accelerated biological maturation is a tactical necessity, enabling a fully mature fighting force to be deployed in a fraction of the time required by natural human development.
 

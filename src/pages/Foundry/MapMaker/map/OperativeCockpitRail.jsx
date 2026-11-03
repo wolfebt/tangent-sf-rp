@@ -534,9 +534,8 @@ export const OperativeCockpitRail = ({
     const isCritSuccess = diceResult.rolls[0] === 10 && diceResult.rolls[1] === 10;
     const isCritFumble = diceResult.rolls[0] === 1 && diceResult.rolls[1] === 1;
 
-    let finalStrikeScore = d10Sum + totalStrikeMod;
-    if (isCritSuccess) finalStrikeScore += 30; // RULE-RES-03
-    if (isCritFumble) finalStrikeScore -= 10;
+    const effectiveDiceScore = isCritSuccess ? (d10Sum + 10) : isCritFumble ? -10 : d10Sum;
+    let finalStrikeScore = effectiveDiceScore + totalStrikeMod;
 
     // 5. Defender Target
     const targetDefense = resolvedTargetToken ? (resolvedTargetToken.defense || 12) : 15;

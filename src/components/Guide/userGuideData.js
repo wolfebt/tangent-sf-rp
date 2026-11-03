@@ -24,9 +24,9 @@ export const USER_GUIDE_SECTIONS = [
     lead: 'Welcome to the official Tangent Science Fantasy Roleplaying System Manual. Designed for high-velocity science fantasy adventures, Tangent unites cosmic space opera, grounded cybernetics, psionic disciplines, and megacorporate intrigue within an integrated digital operating system.',
     architectureHighlights: [
       {
-        title: '270 Canonical Compendium Articles',
+        title: '295 Canonical Compendium Articles',
         badge: 'Source of Truth',
-        desc: 'Split cleanly into 1.00 Operator Core Rules (224 articles across 14 master volumes) and 5.00 Architect Modular Matrices (46 articles across 9 master matrices), synchronized build-time with OPFS local storage.'
+        desc: 'Split cleanly into 1.00 Operator Core Rules (246 articles across 14 master volumes) and 5.00 Architect Modular Matrices (49 articles across 9 master matrices), synchronized build-time with OPFS local storage.'
       },
       {
         title: 'Cyan Ringed Planet Brand & Identity',
@@ -60,7 +60,7 @@ export const USER_GUIDE_SECTIONS = [
         content: `Tangent SF RP is built on the principle of **Zero-Friction Immersion**. Traditional tabletop roleplaying games suffer from cognitive overload: tracking hit points across scrap paper, disputing rulebook interpretations, and managing disconnected map software. 
 
 Tangent integrates every aspect of the tabletop lifecycle into a cohesive digital workspace:
-- **Instantaneous Rules Adjudication**: Single source of truth with 270 canonical rulebook & modular articles and Bastion AI query citations.
+- **Instantaneous Rules Adjudication**: Single source of truth with 295 canonical rulebook & modular articles and Bastion AI query citations.
 - **Local-First & Cloud-Synced**: Operates offline via indexed browser storage while seamlessly syncing party state and map tokens when online.
 - **Modular Studio Architecture**: Jump between the Character Folio, Tactical VTT, Story Weaver, and Planetary Codex in a single click.`
       },
@@ -184,25 +184,25 @@ Tangent integrates every aspect of the tabletop lifecycle into a cohesive digita
     id: 'dbm',
     num: 3,
     title: 'Omnicortex DBM & Compendium',
-    fullTitle: 'Master Rules Compendium, 270 Canonical Articles & Relational DBM',
+    fullTitle: 'Master Rules Compendium, 295 Canonical Articles & Relational DBM',
     badge: 'Rules Compendium',
     color: '#10b981',
     iconName: 'Database',
     sixW: [
       'Operators referencing rules, Architects adjudicating disputes, and creators researching setting lore.',
-      'The definitive relational database and 270-article master rules compendium for the Tangent universe.',
+      'The definitive relational database and 295-article master rules compendium for the Tangent universe.',
       'Located in the Compendium view (/compendium) within the Omnicortex DBM module.',
       'Consulted whenever rules questions emerge, during session preparation, and while studying alien species and faction profiles.',
       'To provide an unambiguous, immutable single source of truth across all 1.00 Operator rules and 5.00 Architect matrices.',
       'Explored using dual-rail category tabs, fuzzy full-text search, bracket hyperlinks ([[Topic]]), and Bastion AI natural-language querying.'
     ],
-    lead: 'The Omnicortex DBM is the living encyclopedia and computational heart of Tangent. It organizes all 270 canonical rulebook documents into two distinct perspectives—1.00 Operator Core Rules for players, and 5.00 Architect Modular Matrices for game masters.',
+    lead: 'The Omnicortex DBM is the living encyclopedia and computational heart of Tangent. It organizes all 295 canonical rulebook documents into two distinct perspectives—1.00 Operator Core Rules for players, and 5.00 Architect Modular Matrices for game masters.',
     sections: [
       {
-        heading: 'The 270 Canonical Compendium Articles',
+        heading: 'The 295 Canonical Compendium Articles',
         content: `All game rules are synchronized build-time into immutable, high-speed markdown documents cached in the browser:
-- **1.00 Operator Core Rules (224 Articles across 14 Master Volumes)**: Covers foundational player mechanics, 2d10 core resolution, 6 core attributes, 48 archetypes, 84 species across 10 lineages, 41 factions, 11 origins, 13 occupations, 101 skills, 284 features, hindrances, 14-tier scaling, Economatrix, tactical combat, and 6 metaphysics disciplines.
-- **5.00 Architect Modular Matrices (46 Articles across 9 Master Matrices)**: In-depth worldbuilding and Architect adjudication matrices, including Economic Unified Field Theory, Modular Character/Species/Faction/Companion/Planetary Matrices, Technology Forge Protocols (Weaponry, Armor, Equipment, Augmentations, Mecha, Architecture), and Invocation/Meta-Tech Matrices.`
+- **1.00 Operator Core Rules (246 Articles across 14 Master Volumes)**: Covers foundational player mechanics, 2d10 core resolution, 6 core attributes, 48 archetypes, 84 species across 10 lineages, 41 factions, 11 origins, 13 occupations, 101 skills, 284 features, hindrances, 14-tier scaling, Economatrix, tactical combat, and 6 metaphysics disciplines.
+- **5.00 Architect Modular Matrices (49 Articles across 9 Master Matrices)**: In-depth worldbuilding and Architect adjudication matrices, including GM Guidelines, Economic Unified Field Theory, Modular Character/Species/Faction/Companion/Planetary Matrices, Bestiary, Star Atlas, Dragons Codex, Technology Forge Protocols (Aetherium, Poly-Matter, Weaponry, Armor, Equipment, Augmentations, Mecha, Architecture), and Resonance/Invocation/Meta-Tech Matrices.`
       },
       {
         heading: 'Dual-Rail Drawer & Sequential Reading',

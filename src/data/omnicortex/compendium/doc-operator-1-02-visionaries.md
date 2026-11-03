@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 19
+order: 17
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.visionaries","mechanics"]
-updatedAt: "2026-11-01T12:54:00.794Z"
+updatedAt: "2026-11-02T22:49:17.415Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,57 @@ sockets:
   allocated: []
 ---
 
-# **VISIONARIES (The Idealists)**
+# **1.02.03 VISIONARIES (THE IDEALISTS)**
 
 Focus: Identity, Meaning, Connection, and Influence.
 
 Visionaries are the soul of the party. They focus on the big picture, social harmony, and the metaphysical connection between beings. They are the leaders, the diplomats, and the mystics.
 
-### 
+* **80-CP Archetype Chassis Allocation:** Every Archetype below is a pre-calculated **80 Character Point (CP) Chassis**:
+  * **Primary Attribute at `+3`:** `15 CP` (`5 CP` per `+1`)
+  * **Secondary Attribute at `+2`:** `10 CP` (`5 CP` per `+1`)
+  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
+  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
+  * **2 Signature Traits (`1 CP` each) & 3 Recommended Core Features (`9 CP`):** `13 CP`
+* **Customization Budget (`70 CP`):** Operators spend their remaining **70 CP** (from the **150 CP** starting budget) on their Species Package (`1.03 SPECIES.md`), Saving Throws, Vitality and Health pools (`Base 30` each, scaled strictly at `+5 points per 1 CP`; **never scaled by Stamina**), and free customization, alongside their **60 Background Skill Ranks** (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation).
 
-## **THE ACTIVIST**
+---
+
+## **I. VISIONARY ARCHETYPE ALIGNMENT MATRIX (`_NF_`)**
+
+| **Archetype** | **Attributes (Pri/Sec)** | **Recommended Skills** | **Core Signature Features** |
+| :-: | :-: | :-: | :-: |
+| **The Activist** | Charisma / Wisdom | Diplomacy, Culture, Gather Info, Insight, Oratory | Voice of the People, Community Organizer |
+| **The Demagogue** | Charisma / Intellect | Oratory, Bluff, Intimidate, Culture, Knowledge (Politics) | Voice of Dissent, Subversive Tactics |
+| **The Envoy** | Charisma / Wisdom | Diplomacy, Culture, Insight, Knowledge (Politics), Etiquette | Diplomatic Immunity, Master Negotiator |
+| **The Commander** | Charisma / Intellect | Diplomacy, Intimidate, Knowledge (Tactics), Insight, Oratory | Commanding Presence, Pirate Captain |
+| **The Kingpin** | Charisma / Strength | Intimidate, Bluff, Gather Info, Vocation (Criminal), Insight | Commanding Presence, Network of Power |
+| **The Zealot** | Wisdom / Charisma | Oratory, Intimidate, Knowledge (Religion), Survival, Insight | Unwavering Conviction, Fearsome Reputation |
+| **The Aristocrat** | Charisma / Intellect | Culture, Diplomacy, Etiquette, Knowledge (History), Vocation (Noble) | Noble Lineage, Courtly Intrigue |
+| **The Senator** | Charisma / Wisdom | Diplomacy, Bluff, Knowledge (Politics), Culture, Insight | Political Acumen, Influence Network |
+| **The Oracle** | Wisdom / Stamina | Insight, Alertness, Knowledge (Religion), Culture, Medicine | Prophetic Visions, Spiritual Advisor |
+| **The Chronicler** | Charisma / Intellect | Knowledge (History), Culture, Oratory, Gather Info, Vocation (Writer) | Masterful Narrator, World Builder |
+| **The Ascetic** | Wisdom / Stamina | Survival, Acrobatics, Insight, Knowledge (Religion), Athletics | Inner Peace, Spiritual Attunement |
+| **The Cult Leader** | Charisma / Wisdom | Oratory, Bluff, Diplomacy, Knowledge (Religion), Insight | Divine Inspiration, Spiritual Leader |
+| **The Doomsayer** | Charisma / Wisdom | Intimidate, Oratory, Knowledge (Religion), Survival, Culture | Harbinger of Doom, Embrace the Void |
+| **The Missionary** | Charisma / Stamina | Diplomacy, Culture, Survival, Medicine, Knowledge (Religion) | Divine Inspiration, Spiritual Guide |
+| **The Mystic** | Wisdom / Insight (Wis) | Insight, Alertness, Knowledge (Arcana), Medicine, Survival | Prophetic Visions, Spiritual Advisor |
+| **The Officer** | Charisma / Intellect | Diplomacy, Knowledge (Tactics), Intimidate, Insight, Vocation (Military) | Tactical Expertise, Inspiring Leader |
+| **The Peacekeeper** | Charisma / Stamina | Diplomacy, Intimidate, Insight, Gather Info, Medicine | Pacifying Presence, Defensive Stance |
+| **The Priest** | Wisdom / Charisma | Diplomacy, Knowledge (Religion), Culture, Insight, Oratory | Religious Authority, Spiritual Guidance |
+| **The Revolutionary** | Charisma / Wisdom | Oratory, Intimidate, Gather Info, Survival, Bluff | Inspiring Rhetoric, Rebel Leader |
+| **The Socialite** | Charisma / Wisdom | Diplomacy, Gather Info, Culture, Etiquette, Bluff | Social Butterfly, Connections |
+| **The Mentor** | Wisdom / Intellect | Diplomacy, Insight, Knowledge (History), Culture, Medicine | Shared Wisdom, Mentorship |
+| **The Spirit-Walker** | Wisdom / Stamina | Survival, Alertness, Knowledge (Religion), Medicine, Insight | Spirit Walker, Spiritual Attunement |
+| **The Icon** | Charisma / Wisdom | Oratory, Diplomacy, Culture, Disguise, Bluff | Star Power, Inspiring Personality |
+| **The Arbitrator** | Wisdom / Charisma | Diplomacy, Insight, Intimidate, Knowledge (Law), Gather Info | Conflict Resolution, Master Negotiator |
+| **The Philosopher** | Intellect / Wisdom | Knowledge (Philosophy), Culture, Logic, Insight, Oratory | Metacognition, Enlightened Mind |
+
+---
+
+## **II. COMPLETE ARCHETYPE PROFILES (1–25)**
+
+## **1. THE ACTIVIST**
 
 A passionate individual who fights for social justice and equality. They utilize their voice to raise awareness and effect change.
 
@@ -53,18 +95,18 @@ A passionate individual who fights for social justice and equality. They utilize
 
 *"We do not beg for freedom. We demand it."*
 
-* **Core Concept:** Buffer / Leader / Moral Compass  
-* **Recommended Occupations:** Citizen, Representative.  
-* **Recommended Origins:** Urban, Colony, Enlightened.  
-* **Recommended Factions:** Coalition (Freedom Movement), Entari Combine (Ethicists), Outworlds.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Knowledge (History), Leadership.  
-* **Signature Traits (1 CP):** Voice of the People, Community Organizer.  
-* **Tactical Role:** Rally NPCs to the party's cause, de-escalate riots, negotiate with locals.
+  - **Core Concept:** Buffer / Leader / Moral Compass
+  - **Recommended Occupations:** Citizen, Representative.
+  - **Recommended Origins:** Urban, Colony, Enlightened.
+  - **Recommended Factions:** Coalition (Freedom Movement), Entari Combine (Ethicists), Outworlds.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (History), Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Voice of the People, Community Organizer.
+  - **Tactical Role:** Rally NPCs to the party's cause, de-escalate riots, negotiate with locals.
 
-### 
+---
 
-## **THE DEMAGOGUE**
+## **2. THE DEMAGOGUE**
 
 A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media.
 
@@ -72,18 +114,18 @@ A skilled propagandist who spreads dissent and undermines authority through pers
 
 *"The truth is whatever I say it is loud enough."*
 
-* **Core Concept:** Debuffer / Chaos Agent / Crowd Control  
-* **Recommended Occupations:** Criminal, Entertainer.  
-* **Recommended Origins:** Urban, Industrial, Colony.  
-* **Recommended Factions:** Coalition (Rebels), Outworlds (Cults), Syndicate (Hostile Takeover).  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Expression (any), Bluff, Knowledge (Computers).  
-* **Signature Traits (1 CP):** Voice of Dissent, Subversive Tactics.  
-* **Tactical Role:** Incite distractions, turn enemy minions against leaders, sow confusion.
+  - **Core Concept:** Debuffer / Chaos Agent / Crowd Control
+  - **Recommended Occupations:** Criminal, Entertainer.
+  - **Recommended Origins:** Urban, Industrial, Colony.
+  - **Recommended Factions:** Coalition (Rebels), Outworlds (Cults), Syndicate (Hostile Takeover).
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Expression (any), Bluff, Knowledge (Computers).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Voice of Dissent, Subversive Tactics.
+  - **Tactical Role:** Incite distractions, turn enemy minions against leaders, sow confusion.
 
-### 
+---
 
-## **THE ENVOY**
+## **3. THE ENVOY**
 
 An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace.
 
@@ -91,18 +133,18 @@ An adept negotiator entrusted with representing their faction. They navigate dip
 
 *"A treaty is just a pause between wars. Let's make it a long one."*
 
-* **Core Concept:** Face / Shield / Connection Hub  
-* **Recommended Occupations:** Representative, Noble.  
-* **Recommended Origins:** Urban, Enlightened, Leisure.  
-* **Recommended Factions:** Entari Combine (Diplomats), Alterian Enclave (Ambassadors), Ascendancy.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Knowledge (History), Knowledge (Culture).  
-* **Signature Traits (1 CP):** Diplomatic Immunity, Master Negotiator.  
-* **Tactical Role:** Prevent combat before it starts, call in faction favors, secure safe houses.
+  - **Core Concept:** Face / Shield / Connection Hub
+  - **Recommended Occupations:** Representative, Citizen (Elite / *Noble*).
+  - **Recommended Origins:** Urban, Enlightened, Leisure.
+  - **Recommended Factions:** Entari Combine (Diplomats), Alterian Enclave (Ambassadors), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (History), Knowledge (Culture).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Diplomatic Immunity, Master Negotiator.
+  - **Tactical Role:** Prevent combat before it starts, call in faction favors, secure safe houses.
 
-### 
+---
 
-## **THE COMMANDER**
+## **4. THE COMMANDER**
 
 A charismatic and cunning leader who commands a starship, charting courses and leading crew in dangerous adventures.
 
@@ -110,18 +152,18 @@ A charismatic and cunning leader who commands a starship, charting courses and l
 
 *"On my deck, my word is law. Prepare for hard burn."*
 
-* **Core Concept:** Leader / Buffer / Vehicle Expert  
-* **Recommended Occupations:** Spacer, Officer.  
-* **Recommended Origins:** Spacer, Militaristic, Colony.  
-* **Recommended Factions:** Impyrium (Admiralty), Dynasty (Fleet Lords), Ascendancy.  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Leadership, Diplomacy, Knowledge (Tactics), Combat (any).  
-* **Signature Traits (1 CP):** Commanding Presence, Pirate Captain.  
-* **Tactical Role:** Buffing the party (Orders), piloting/commanding vehicles, face of the group.
+  - **Core Concept:** Leader / Buffer / Vehicle Expert
+  - **Recommended Occupations:** Specialist / Scout (*Spacer*), Soldier (Officer).
+  - **Recommended Origins:** Spacer, Militaristic, Colony.
+  - **Recommended Factions:** Impyrium (Admiralty), Dynasty (Fleet Lords), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Diplomacy, Knowledge (Tactics), Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Commanding Presence, Pirate Captain.
+  - **Tactical Role:** Buffing the party (Orders), piloting/commanding vehicles, face of the group.
 
-### 
+---
 
-## **THE KINGPIN**
+## **5. THE KINGPIN**
 
 Leader of a criminal organization, overseeing illegal activities and managing a network of underlings.
 
@@ -129,18 +171,18 @@ Leader of a criminal organization, overseeing illegal activities and managing a 
 
 *"It's just business. But for you, it's personal."*
 
-* **Core Concept:** Leader / Minion Master / Intimidator  
-* **Recommended Occupations:** Criminal, Representative.  
-* **Recommended Origins:** Urban, Industrial, Colony.  
-* **Recommended Factions:** Syndicate (Shadow Boards), Coalition (Crime Lords), Outworlds.  
-* **Key Attributes:** Charisma (Primary), Strength (Secondary).  
-* **Essential Skills:** Intimidation, Leadership, Diplomacy, Streetwise.  
-* **Signature Traits (1 CP):** Commanding Presence, Network of Power.  
-* **Tactical Role:** Controlling NPC minions, sourcing illegal gear, intimidation.
+  - **Core Concept:** Leader / Minion Master / Intimidator
+  - **Recommended Occupations:** Criminal, Representative.
+  - **Recommended Origins:** Urban, Industrial, Colony.
+  - **Recommended Factions:** Syndicate (Shadow Boards), Coalition (Crime Lords), Outworlds.
+  - **Key Attributes:** Charisma (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Leadership, Diplomacy, Streetwise.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Commanding Presence, Network of Power.
+  - **Tactical Role:** Controlling NPC minions, sourcing illegal gear, intimidation.
 
-### 
+---
 
-## **THE ZEALOT**
+## **6. THE ZEALOT**
 
 Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma.
 
@@ -148,18 +190,18 @@ Roots out heresy and dissent. Skilled in interrogation and intimidation to enfor
 
 *"Innocence proves nothing."*
 
-* **Core Concept:** Social Combat / Anti-Meta  
-* **Recommended Occupations:** Agent, Soldier (Impyrium).  
-* **Recommended Origins:** Militaristic, Urban (Capital), Enlightened.  
-* **Recommended Factions:** Impyrium (Inquisitors), Auluran (Purists), Dracon Dynasty.  
-* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
-* **Essential Skills:** Intimidation, Investigation, Insight, Bluff.  
-* **Signature Traits (1 CP):** Unwavering Conviction, Fearsome Reputation.  
-* **Tactical Role:** Breaking enemy morale, uncovering spies, resisting psychic attacks.
+  - **Core Concept:** Social Combat / Anti-Meta
+  - **Recommended Occupations:** Agent, Soldier (Impyrium).
+  - **Recommended Origins:** Militaristic, Urban (Capital), Enlightened.
+  - **Recommended Factions:** Impyrium (Inquisitors), Auluran (Purists), Dracon Dynasty.
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Investigation, Insight, Bluff.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Unwavering Conviction, Fearsome Reputation.
+  - **Tactical Role:** Breaking enemy morale, uncovering spies, resisting psychic attacks.
 
-### 
+---
 
-## **THE ARISTOCRAT**
+## **7. THE ARISTOCRAT**
 
 A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.
 
@@ -167,18 +209,18 @@ A member of the aristocracy, born into a position of privilege and power. They w
 
 *"Do you know who I am? That was a rhetorical question."*
 
-* **Core Concept:** Resource Access / Face / Leader  
-* **Recommended Occupations:** Noble, Citizen.  
-* **Recommended Origins:** Leisure, Urban, Enlightened.  
-* **Recommended Factions:** Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders).  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Knowledge (History), Insight, Knowledge (Nobility).  
-* **Signature Traits (1 CP):** Noble Lineage, Courtly Intrigue.  
-* **Tactical Role:** Gaining access to high-security areas via status, funding, legal immunity.
+  - **Core Concept:** Resource Access / Face / Leader
+  - **Recommended Occupations:** Representative / Citizen (Elite), Citizen.
+  - **Recommended Origins:** Leisure, Urban, Enlightened.
+  - **Recommended Factions:** Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders).
+  - **Key Attributes:** Charisma (+3 Primary), History (Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Knowledge (History), Insight, Knowledge (Nobility).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Noble Lineage, Courtly Intrigue.
+  - **Tactical Role:** Gaining access to high-security areas via status, funding, legal immunity.
 
-### 
+---
 
-## **THE SENATOR**
+## **8. THE SENATOR**
 
 Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion.
 
@@ -186,18 +228,18 @@ Charismatic figure who navigates the political landscape, builds alliances, and 
 
 *"I don't need a weapon. I have a mandate."*
 
-* **Core Concept:** Face / Leader / Buffer  
-* **Recommended Occupations:** Representative, Noble.  
-* **Recommended Origins:** Urban, Leisure, Enlightened.  
-* **Recommended Factions:** Impyrium (Senate), Coalition (Council), Entari Combine.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Diplomacy, Bluff, Insight, Leadership.  
-* **Signature Traits (1 CP):** Political Acumen, Influence Network.  
-* **Tactical Role:** Dealing with authorities, securing funding, changing laws.
+  - **Core Concept:** Face / Leader / Buffer
+  - **Recommended Occupations:** Representative, Citizen (Elite / *Noble*).
+  - **Recommended Origins:** Urban, Leisure, Enlightened.
+  - **Recommended Factions:** Impyrium (Senate), Coalition (Council), Entari Combine.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Bluff, Insight, Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Political Acumen, Influence Network.
+  - **Tactical Role:** Dealing with authorities, securing funding, changing laws.
 
-### 
+---
 
-## **THE ORACLE**
+## **9. THE ORACLE**
 
 Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.
 
@@ -205,18 +247,18 @@ Possesses innate mental powers or spiritual connection. Seers, telepaths, and pr
 
 *"Your thoughts are so... loud."*
 
-* **Core Concept:** Caster / Sensor / Controller  
-* **Recommended Occupations:** Adept, Enlightened.  
-* **Recommended Origins:** Enlightened, Research, Leisure.  
-* **Recommended Factions:** Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers).  
-* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
-* **Essential Skills:** Insight, Diplomacy, Two Disciplines (Mental/Divination).  
-* **Signature Traits (1 CP):** Prophetic Visions, Spiritual Advisor.  
-* **Tactical Role:** Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.
+  - **Core Concept:** Caster / Sensor / Controller
+  - **Recommended Occupations:** Adept, Enlightened.
+  - **Recommended Origins:** Enlightened, Research, Leisure.
+  - **Recommended Factions:** Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers).
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Diplomacy, Attune, Discipline: Mental (Sense & Projection).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Prophetic Visions, Spiritual Advisor.
+  - **Tactical Role:** Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.
 
-### 
+---
 
-## **THE CHRONICLER**
+## **10. THE CHRONICLER**
 
 Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms.
 
@@ -224,18 +266,18 @@ Weaver of words and tales, captivating audiences with immersive narratives and t
 
 *"Let me tell you how this ends."*
 
-* **Core Concept:** Bard / Historian / Buffer  
-* **Recommended Occupations:** Entertainer, Scholar.  
-* **Recommended Origins:** Enlightened, Urban, Leisure.  
-* **Recommended Factions:** Alterian Enclave (Historians), Impyrium (Archivists), Entari Combine.  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Expression (Oratory), Knowledge (History), Diplomacy, Bluff.  
-* **Signature Traits (1 CP):** Masterful Narrator, World Builder.  
-* **Tactical Role:** Buffing allies with inspiration, gathering local lore, engaging social encounters.
+  - **Core Concept:** Bard / Historian / Buffer
+  - **Recommended Occupations:** Entertainer, Scholar.
+  - **Recommended Origins:** Enlightened, Urban, Leisure.
+  - **Recommended Factions:** Alterian Enclave (Historians), Impyrium (Archivists), Entari Combine.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Expression (Oratory), Knowledge (History), Diplomacy, Bluff.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Masterful Narrator, World Builder.
+  - **Tactical Role:** Buffing allies with inspiration, gathering local lore, engaging social encounters.
 
-### 
+---
 
-## **THE ASCETIC**
+## **11. THE ASCETIC**
 
 A devout individual dedicated to prayer and meditation, seeking enlightenment.
 
@@ -243,18 +285,18 @@ A devout individual dedicated to prayer and meditation, seeking enlightenment.
 
 *"Peace is not the absence of conflict, but the ability to handle it."*
 
-* **Core Concept:** Monk / Buffer / Mental Tank  
-* **Recommended Occupations:** Adept, Scholar.  
-* **Recommended Origins:** Enlightened, Hostile, Agricultural.  
-* **Recommended Factions:** Auluran (Dar Mystics), Mekan (Code Monks), Outworlds.  
-* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
-* **Essential Skills:** Insight, Alertness, Knowledge (Religion), Knowledge (Metaphysics).  
-* **Signature Traits (1 CP):** Inner Peace, Spiritual Attunement.  
-* **Tactical Role:** Resisting mental attacks, calming emotions, spiritual guidance.
+  - **Core Concept:** Monk / Buffer / Mental Tank
+  - **Recommended Occupations:** Adept, Scholar.
+  - **Recommended Origins:** Enlightened, Hostile, Agricultural.
+  - **Recommended Factions:** Auluran (Dar Mystics), Mekan (Code Monks), Outworlds.
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Alertness, Knowledge (Religion), Knowledge (Metaphysics).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Inner Peace, Spiritual Attunement.
+  - **Tactical Role:** Resisting mental attacks, calming emotions, spiritual guidance.
 
-### 
+---
 
-## **THE CULT LEADER**
+## **12. THE CULT LEADER**
 
 A charismatic leader who inspires and guides followers, delivering divine pronouncements.
 
@@ -262,18 +304,18 @@ A charismatic leader who inspires and guides followers, delivering divine pronou
 
 *"Have faith, for the path is clear."*
 
-* **Core Concept:** Leader / Buffer / Minion Master  
-* **Recommended Occupations:** Representative, Adept.  
-* **Recommended Origins:** Urban, Colony, Enlightened.  
-* **Recommended Factions:** Outworlds, Impyrium (Heretics), Syndicate (Corporate Cults).  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Leadership, Diplomacy, Insight, Knowledge (Religion).  
-* **Signature Traits (1 CP):** Divine Inspiration, Spiritual Leader.  
-* **Tactical Role:** Controlling minions, inspiring allies, social manipulation.
+  - **Core Concept:** Leader / Buffer / Minion Master
+  - **Recommended Occupations:** Representative, Adept.
+  - **Recommended Origins:** Urban, Colony, Enlightened.
+  - **Recommended Factions:** Outworlds, Impyrium (Heretics), Syndicate (Corporate Cults).
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Diplomacy, Insight, Knowledge (Religion).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Divine Inspiration, Spiritual Leader.
+  - **Tactical Role:** Controlling minions, inspiring allies, social manipulation.
 
-### 
+---
 
-## **THE DOOMSAYER**
+## **13. THE DOOMSAYER**
 
 A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it.
 
@@ -281,18 +323,18 @@ A nihilistic prophet who believes the end is inevitable and seeks to hasten or w
 
 *"The void calls, and I am its voice."*
 
-* **Core Concept:** Debuffer / Intimidator / Caster  
-* **Recommended Occupations:** Adept, Outcast.  
-* **Recommended Origins:** Hostile, Spacer, Enlightened.  
-* **Recommended Factions:** Outworlds (Entropy Cults), Sha'Nor, Coalition.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Intimidation, Diplomacy, Discipline (Entropy \- Chaos).  
-* **Signature Traits (1 CP):** Harbinger of Doom, Embrace the Void.  
-* **Tactical Role:** Demoralizing enemies, inflicting fear, wielding entropic magic.
+  - **Core Concept:** Debuffer / Intimidator / Caster
+  - **Recommended Occupations:** Adept, Outcast.
+  - **Recommended Origins:** Hostile, Spacer, Enlightened.
+  - **Recommended Factions:** Outworlds (Entropy Cults), Sha'Nor, Coalition.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Diplomacy, Discipline (Entropy - Chaos).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Harbinger of Doom, Embrace the Void.
+  - **Tactical Role:** Demoralizing enemies, inflicting fear, wielding entropic magic.
 
-### 
+---
 
-## **THE MISSIONARY**
+## **14. THE MISSIONARY**
 
 A zealous preacher who travels the galaxy to spread their faith.
 
@@ -300,18 +342,18 @@ A zealous preacher who travels the galaxy to spread their faith.
 
 *"There is no place too dark for the light to reach."*
 
-* **Core Concept:** Face / Healer / Support  
-* **Recommended Occupations:** Adept, Representative.  
-* **Recommended Origins:** Enlightened, Colony, Spacer.  
-* **Recommended Factions:** Impyrium (State Religion), Entari Combine (Ethical), Ascendancy.  
-* **Key Attributes:** Charisma (Primary), Stamina (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Knowledge (Survival), Knowledge (Religion).  
-* **Signature Traits (1 CP):** Divine Inspiration, Spiritual Guide.  
-* **Tactical Role:** Converting NPCs, providing healing/support, navigating cultural/religious encounters.
+  - **Core Concept:** Face / Healer / Support
+  - **Recommended Occupations:** Adept, Representative.
+  - **Recommended Origins:** Enlightened, Colony, Spacer.
+  - **Recommended Factions:** Impyrium (State Religion), Entari Combine (Ethical), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (Survival), Knowledge (Religion).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Divine Inspiration, Spiritual Guide.
+  - **Tactical Role:** Converting NPCs, providing healing/support, navigating cultural/religious encounters.
 
-### 
+---
 
-## **THE MYSTIC**
+## **15. THE MYSTIC**
 
 A wise and insightful individual who perceives glimpses of the future and offers guidance.
 
@@ -319,18 +361,18 @@ A wise and insightful individual who perceives glimpses of the future and offers
 
 *"The future is written, but the ink is not yet dry."*
 
-* **Core Concept:** Diviner / Support / Advisor  
-* **Recommended Occupations:** Adept, Scholar.  
-* **Recommended Origins:** Enlightened, Research, Leisure.  
-* **Recommended Factions:** Auluran, Alterian Enclave, Ascendancy.  
-* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
-* **Essential Skills:** Insight, Diplomacy, Discipline (Divination).  
-* **Signature Traits (1 CP):** Prophetic Visions, Spiritual Advisor.  
-* **Tactical Role:** Gaining initiative bonuses, avoiding traps, gathering info via divination.
+  - **Core Concept:** Diviner / Support / Advisor
+  - **Recommended Occupations:** Adept, Scholar.
+  - **Recommended Origins:** Enlightened, Research, Leisure.
+  - **Recommended Factions:** Auluran, Alterian Enclave, Ascendancy.
+  - **Key Attributes:** Wisdom (+3 Primary), Insight (Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Diplomacy, Discipline: Mental (Sense).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Prophetic Visions, Spiritual Advisor.
+  - **Tactical Role:** Gaining initiative bonuses, avoiding traps, gathering info via divination.
 
-### 
+---
 
-## **THE OFFICER**
+## **16. THE OFFICER**
 
 A strategic leader who commands troops and coordinates military operations.
 
@@ -338,18 +380,18 @@ A strategic leader who commands troops and coordinates military operations.
 
 *"Form up\! Hold the line\!"*
 
-* **Core Concept:** Leader / Tactician / Buffer  
-* **Recommended Occupations:** Soldier (Officer), Noble.  
-* **Recommended Origins:** Militaristic, Urban, Colony.  
-* **Recommended Factions:** Impyrium (Legions), Dracon Dynasty, Coalition (Militia).  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Leadership, Knowledge (Tactics), Diplomacy, Combat (Any).  
-* **Signature Traits (1 CP):** Tactical Expertise, Inspiring Leader.  
-* **Tactical Role:** Granting bonuses to allies, organizing attacks, managing NPC troops.
+  - **Core Concept:** Leader / Tactician / Buffer
+  - **Recommended Occupations:** Soldier (Officer), Representative (*Noble*).
+  - **Recommended Origins:** Militaristic, Urban, Colony.
+  - **Recommended Factions:** Impyrium (Legions), Dracon Dynasty, Coalition (Militia).
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Knowledge (Tactics), Diplomacy, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Tactical Expertise, Inspiring Leader.
+  - **Tactical Role:** Granting bonuses to allies, organizing attacks, managing NPC troops.
 
-### 
+---
 
-## **THE PEACEKEEPER**
+## **17. THE PEACEKEEPER**
 
 A protector of the innocent and champion of peace, using force and words.
 
@@ -357,18 +399,18 @@ A protector of the innocent and champion of peace, using force and words.
 
 *"Stand down. There is no need for bloodshed today."*
 
-* **Core Concept:** Tank / Diplomat / Controller  
-* **Recommended Occupations:** Soldier, Representative.  
-* **Recommended Origins:** Urban, Colony, Enlightened.  
-* **Recommended Factions:** Entari Combine (Constables), Ascendancy (Judges), Coalition.  
-* **Key Attributes:** Charisma (Primary), Stamina (Secondary).  
-* **Essential Skills:** Athletics, Diplomacy, Insight, Combat (any).  
-* **Signature Traits (1 CP):** Pacifying Presence, Defensive Stance.  
-* **Tactical Role:** De-escalating combat, protecting allies, subduing enemies non-lethally.
+  - **Core Concept:** Tank / Diplomat / Controller
+  - **Recommended Occupations:** Soldier, Representative.
+  - **Recommended Origins:** Urban, Colony, Enlightened.
+  - **Recommended Factions:** Entari Combine (Constables), Ascendancy (Judges), Coalition.
+  - **Key Attributes:** Charisma (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Diplomacy, Insight, Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Pacifying Presence, Defensive Stance.
+  - **Tactical Role:** De-escalating combat, protecting allies, subduing enemies non-lethally.
 
-### 
+---
 
-## **THE PRIEST**
+## **18. THE PRIEST**
 
 A devout servant of a state religion, maintaining morale and conducting ceremonies.
 
@@ -376,18 +418,18 @@ A devout servant of a state religion, maintaining morale and conducting ceremoni
 
 *"By the authority vested in me, I command you to cease."*
 
-* **Core Concept:** Support / Leader / Face  
-* **Recommended Occupations:** Adept, Representative.  
-* **Recommended Origins:** Enlightened, Urban, Colony.  
-* **Recommended Factions:** Impyrium (Orthodoxy), Dracon Dynasty (Dragon Cults).  
-* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Knowledge (History), Knowledge (Religion).  
-* **Signature Traits (1 CP):** Religious Authority, Spiritual Guidance.  
-* **Tactical Role:** Social influence via religious rank, buffing morale, healing.
+  - **Core Concept:** Support / Leader / Face
+  - **Recommended Occupations:** Adept, Representative.
+  - **Recommended Origins:** Enlightened, Urban, Colony.
+  - **Recommended Factions:** Impyrium (Orthodoxy), Dracon Dynasty (Dragon Cults).
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (History), Knowledge (Religion).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Religious Authority, Spiritual Guidance.
+  - **Tactical Role:** Social influence via religious rank, buffing morale, healing.
 
-### 
+---
 
-## **THE REVOLUTIONARY**
+## **19. THE REVOLUTIONARY**
 
 A charismatic leader who inspires and unites the rebellion.
 
@@ -395,18 +437,18 @@ A charismatic leader who inspires and unites the rebellion.
 
 *"Break the chains\! Rise up\!"*
 
-* **Core Concept:** Leader / Agitator / Skirmisher  
-* **Recommended Occupations:** Citizen, Criminal.  
-* **Recommended Origins:** Industrial, Colony, Urban.  
-* **Recommended Factions:** Coalition (Independence), Outworlds, Syndicate (Unionizers).  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Leadership, Diplomacy, Insight, Knowledge (Tactics), Combat (any).  
-* **Signature Traits (1 CP):** Inspiring Rhetoric, Rebel Leader.  
-* **Tactical Role:** Inspiring NPCs to fight, leading riots/raids, boosting ally morale.
+  - **Core Concept:** Leader / Agitator / Skirmisher
+  - **Recommended Occupations:** Citizen, Criminal.
+  - **Recommended Origins:** Industrial, Colony, Urban.
+  - **Recommended Factions:** Coalition (Independence), Outworlds, Syndicate (Unionizers).
+  - **Key Attributes:** Charisma (+3 Primary), Spirit (Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Diplomacy, Insight, Knowledge (Tactics), Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Inspiring Rhetoric, Rebel Leader.
+  - **Tactical Role:** Inspiring NPCs to fight, leading riots/raids, boosting ally morale.
 
-### 
+---
 
-## **THE SOCIALITE**
+## **20. THE SOCIALITE**
 
 A charismatic individual who thrives in social settings and networking.
 
@@ -414,18 +456,18 @@ A charismatic individual who thrives in social settings and networking.
 
 *"Oh, darling, you simply must tell me everything."*
 
-* **Core Concept:** Face / Info Gatherer / Buffer  
-* **Recommended Occupations:** Citizen (Elite), Entertainer.  
-* **Recommended Origins:** Leisure, Urban, Enlightened.  
-* **Recommended Factions:** Syndicate (Elites), Entari Combine, Dracon Dynasty.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Bluff, Insight, Leadership, Diplomacy, Etiquette.  
-* **Signature Traits (1 CP):** Social Butterfly, Connections.  
-* **Tactical Role:** Gathering rumors, gaining access to restricted social areas, manipulating NPCs.
+  - **Core Concept:** Face / Info Gatherer / Buffer
+  - **Recommended Occupations:** Citizen (Elite), Entertainer.
+  - **Recommended Origins:** Leisure, Urban, Enlightened.
+  - **Recommended Factions:** Syndicate (Elites), Entari Combine, Dracon Dynasty.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Bluff, Insight, Leadership, Diplomacy, Etiquette.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Social Butterfly, Connections.
+  - **Tactical Role:** Gathering rumors, gaining access to restricted social areas, manipulating NPCs.
 
-### 
+---
 
-## **THE MENTOR**
+## **21. THE MENTOR**
 
 The experienced instructor who guides the growth of others, identifying potential and refining raw talent.
 
@@ -433,18 +475,18 @@ The experienced instructor who guides the growth of others, identifying potentia
 
 *"You have the spark. Let me show you how to start the fire."*
 
-* **Core Concept:** Buffer / Support / Teacher  
-* **Recommended Occupations:** Scholar, Representative.  
-* **Recommended Origins:** Research, Urban, Enlightened.  
-* **Recommended Factions:** Ascendancy (Academics), Impyrium (Masters), Entari Combine.  
-* **Key Attributes:** Wisdom (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Knowledge (Academics), Insight, Leadership.  
-* **Signature Traits (1 CP):** Shared Wisdom, Mentorship.  
-* **Tactical Role:** Granting bonuses to allies' learning and skill checks, tactical instruction.
+  - **Core Concept:** Buffer / Support / Teacher
+  - **Recommended Occupations:** Scholar, Representative.
+  - **Recommended Origins:** Research, Urban, Enlightened.
+  - **Recommended Factions:** Ascendancy (Academics), Impyrium (Masters), Entari Combine.
+  - **Key Attributes:** Wisdom (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Knowledge (Academics), Insight, Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Shared Wisdom, Mentorship.
+  - **Tactical Role:** Granting bonuses to allies' learning and skill checks, tactical instruction.
 
-### 
+---
 
-## **THE SPIRIT-WALKER**
+## **22. THE SPIRIT-WALKER**
 
 The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.
 
@@ -452,18 +494,18 @@ The conduit between the material plane and the spiritual realms, interpreting th
 
 *"The veil is thin here. Can you hear the ancestors?"*
 
-* **Core Concept:** Medium / Scout / Utility  
-* **Recommended Occupations:** Adept, Scout.  
-* **Recommended Origins:** Enlightened, Agricultural, Hostile.  
-* **Recommended Factions:** Auluran (Mystics), Sha'Nor, Outworlds (Shamans).  
-* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
-* **Essential Skills:** Discipline (Entropy \- Order (Nature/Life)), Insight, Alertness, Knowledge (Nature).  
-* **Signature Traits (1 CP):** Spirit Walker, Spiritual Attunement.  
-* **Tactical Role:** Detecting other-dimensional threats, communing with local spirits, planar navigation.
+  - **Core Concept:** Medium / Scout / Utility
+  - **Recommended Occupations:** Adept, Scout.
+  - **Recommended Origins:** Enlightened, Agricultural, Hostile.
+  - **Recommended Factions:** Auluran (Mystics), Sha'Nor, Outworlds (Shamans).
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Discipline (Entropy - Order (Nature/Life)), Insight, Alertness, Knowledge (Nature).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Spirit Walker, Spiritual Attunement.
+  - **Tactical Role:** Detecting other-dimensional threats, communing with local spirits, planar navigation.
 
-### 
+---
 
-## **THE ICON**
+## **23. THE ICON**
 
 The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure.
 
@@ -471,18 +513,18 @@ The public figure who embodies a concept or cause, wielding their fame as a sour
 
 *"I don't just represent the cause. I am the cause."*
 
-* **Core Concept:** Social Influence / Leader / Face  
-* **Recommended Occupations:** Entertainer, Representative.  
-* **Recommended Origins:** Leisure, Urban, Industrial.  
-* **Recommended Factions:** Syndicate (Brand Identity), Coalition (Rebel Face), Entari.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Expression (any), Diplomacy, Bluff, Leadership.  
-* **Signature Traits (1 CP):** Star Power, Inspiring Personality.  
-* **Tactical Role:** Rallying public support, demoralizing opposition through reputation, high-stakes negotiation.
+  - **Core Concept:** Social Influence / Leader / Face
+  - **Recommended Occupations:** Entertainer, Representative.
+  - **Recommended Origins:** Leisure, Urban, Industrial.
+  - **Recommended Factions:** Syndicate (Brand Identity), Coalition (Rebel Face), Entari.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Expression (any), Diplomacy, Bluff, Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Star Power, Inspiring Personality.
+  - **Tactical Role:** Rallying public support, demoralizing opposition through reputation, high-stakes negotiation.
 
-### 
+---
 
-## **THE ARBITRATOR**
+## **24. THE ARBITRATOR**
 
 The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice.
 
@@ -490,18 +532,18 @@ The neutral mediator who resolves disputes with absolute impartiality and a deep
 
 *"Justice is a scale. It must be balanced, not broken."*
 
-* **Core Concept:** Mediator / Social / Buffer  
-* **Recommended Occupations:** Agent, Scholar.  
-* **Recommended Origins:** Research, Urban, Colony.  
-* **Recommended Factions:** Ascendancy (Judges), Entari Combine (Ethicists), Syndicate.  
-* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
-* **Essential Skills:** Insight, Knowledge (Law), Diplomacy, Investigation.  
-* **Signature Traits (1 CP):** Conflict resolution, Master Negotiator.  
-* **Tactical Role:** Preventing conflict escalation, identifying lies, securing diplomatic safety.
+  - **Core Concept:** Mediator / Social / Buffer
+  - **Recommended Occupations:** Agent, Scholar.
+  - **Recommended Origins:** Research, Urban, Colony.
+  - **Recommended Factions:** Ascendancy (Judges), Entari Combine (Ethicists), Syndicate.
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Knowledge (Law), Diplomacy, Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Conflict resolution, Master Negotiator.
+  - **Tactical Role:** Preventing conflict escalation, identifying lies, securing diplomatic safety.
 
-### 
+---
 
-## **THE PHILOSOPHER**
+## **25. THE PHILOSOPHER**
 
 The seeker of deeper meaning who challenges the assumptions of society and explores the fundamental nature of existence.
 
@@ -509,16 +551,18 @@ The seeker of deeper meaning who challenges the assumptions of society and explo
 
 *"To know the universe, one must first know the silence between the thoughts."*
 
-* **Core Concept:** Support / Lore / Mental Tank  
-* **Recommended Occupations:** Scholar, Adept.  
-* **Recommended Origins:** Enlightened, Research, Urban.  
-* **Recommended Factions:** Alterian Enclave (Sages), Mekan (Code Adherents), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Academics, Insight, Diplomacy, Knowledge (History).  
-* **Signature Traits (1 CP):** Metacognition, Enlightened Mind.  
-* **Tactical Role:** Resisting mental intrusion, providing ethical guidance, identifying historical/philosophical context.
+  - **Core Concept:** Support / Lore / Mental Tank
+  - **Recommended Occupations:** Scholar, Adept.
+  - **Recommended Origins:** Enlightened, Research, Urban.
+  - **Recommended Factions:** Alterian Enclave (Sages), Mekan (Code Adherents), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Insight, Diplomacy, Knowledge (History).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Metacognition, Enlightened Mind.
+  - **Tactical Role:** Resisting mental intrusion, providing ethical guidance, identifying historical/philosophical context.
 
-## 
+---
 
-##
+## **III. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-305 (1.02.Visionaries.md Full Narrative & Quote Restoration):** Restored 100% of the omitted narrative descriptions, second-person roleplay paragraphs, and iconic quotes for all 25 `_NF_` Archetypes from `/_ _ TANGENT RP CODEX _ _/1.02 ARCHETYPES` and `/game rules/operator/archetypes/1.02.Visionaries.md`, integrated the `Visionary Archetype Alignment Matrix` from `TANGENT RP Signature Features Alignment`, and applied all canonical Attribute (`Stamina`, `Agility`, `Wisdom`), Skill (`Alertness`, `Insight`, `Vocation [Handler]`, `Knowledge [Language]`), and `80-CP Chassis` normalizations.
 

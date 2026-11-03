@@ -152,7 +152,7 @@ cp_cost: 35
 ### **SYNDESS**
 **Pilot Expression**  
 **Classification:** Insectoid Larva (Multi-segmented Integration Strain)  
-**CP Cost:** 33 CP  
+**CP Cost:** 35 CP  
 
 **Description:**  
 The Syndess is the "Integration Expression," a specialized strain that has traded physical autonomy for cognitive and reactive supremacy. In their natural state, they resemble elongated, multi-segmented insectoids roughly 3 feet in length. A true xeno-insect form with combined features of the shrimp, caterpillar and centipede. Their bodies are composed of soft, translucent emerald-green dermis protected by thin, flexible rings of glossy obsidian chitin.

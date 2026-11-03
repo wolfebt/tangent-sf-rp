@@ -130,7 +130,7 @@ cp_cost: 13
 
 # **DANAI (Davae Hybrid)**
 
-**CP Cost:** 11 CP  
+**CP Cost:** 13 CP  
 
 **Description:** The Danai are a distinct and potent hybrid subspecies resulting from the genetic blending of baseline humans with the highly-engineered Davae. They represent a more human-centered branch of this lineage, balancing the raw, separatist power of the Davae with traditional human adaptability.
 

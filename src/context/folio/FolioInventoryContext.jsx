@@ -178,7 +178,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
         showToast({
           type: 'info',
           title: financing.viaWealthCheck ? 'Wealth Check Passed — Cycle Debt Incurred' : 'Credit Debt Incurred',
-          text: `${financing.viaWealthCheck ? `Wealth Check (${financing.rollTotal} vs DC ${financing.itemDC}) approved: ` : ''}Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" (${cycleLabel}) for "${cleanItem.name || 'Property'}".`
+          text: `${financing.viaWealthCheck ? `Wealth Check (${financing.rollTotal} vs CR ${financing.itemCR ?? financing.itemDC}) approved: ` : ''}Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" (${cycleLabel}) for "${cleanItem.name || 'Property'}".`
         });
       }
     }
@@ -209,6 +209,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
     }
 
     const cpCost = parseInt(cleanItem.cpCost ?? cleanItem.cp ?? cleanItem.cost_cp ?? 0, 10) || 0;
+    const itemCraftCr = cleanItem.craft_cr ?? cleanItem.craft_dc;
     const normalizedItem = {
       id: cleanItem.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
       name: cleanItem.name,
@@ -219,6 +220,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
       resistance: cleanItem.resistance || cleanItem.armor || '',
       weight: cleanItem.weight || cleanItem.wt || 1,
       techLevel: cleanItem.techLevel || cleanItem.tl || 1,
+      ...(itemCraftCr !== undefined ? { craft_cr: itemCraftCr, craft_dc: itemCraftCr } : {}),
       cp: cpCost,
       cost: cpCost,
       description: cleanItem.description || cleanItem.notes || '',
@@ -313,7 +315,7 @@ export const FolioInventorySliceProvider = ({ children }) => {
         showToast({
           type: 'info',
           title: financing.viaWealthCheck ? 'Wealth Check Passed — Cycle Debt Incurred' : 'Credit Debt Incurred',
-          text: `${financing.viaWealthCheck ? `Wealth Check (${financing.rollTotal} vs DC ${financing.itemDC}) approved: ` : ''}Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" (${cycleLabel}) for "${normalizedItem.name || 'Property'}".`
+          text: `${financing.viaWealthCheck ? `Wealth Check (${financing.rollTotal} vs CR ${financing.itemCR ?? financing.itemDC}) approved: ` : ''}Added ${debtAmt.toLocaleString()} Cr debt from "${debtor}" (${cycleLabel}) for "${normalizedItem.name || 'Property'}".`
         });
       }
     }

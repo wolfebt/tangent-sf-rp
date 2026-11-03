@@ -124,13 +124,50 @@ export function calculateRestDegradation(startingTier = 'nap', strenuousInterrup
   };
 }
 
+function resolveCharacterStaminaMod(character = {}, explicitStaminaMod = undefined) {
+  if (explicitStaminaMod !== undefined && explicitStaminaMod !== null && !Number.isNaN(Number(explicitStaminaMod))) {
+    return Number(explicitStaminaMod);
+  }
+  const baseSta = Number(
+    character['attr-stamina'] ??
+    character.stamina ??
+    character.attributes?.sta ??
+    character.attributes?.con ??
+    0
+  ) || 0;
+  const modSta = Number(character['attr-stamina-mod'] ?? 0) || 0;
+  return baseSta + modSta;
+}
+
+function resolveCharacterKeyAttributeMod(character = {}, explicitKeyMod = undefined) {
+  if (explicitKeyMod !== undefined && explicitKeyMod !== null && !Number.isNaN(Number(explicitKeyMod))) {
+    return Number(explicitKeyMod);
+  }
+  const intVal = (Number(character['attr-intellect'] ?? character.intellect ?? character.attributes?.int ?? 0) || 0) + (Number(character['attr-intellect-mod'] ?? 0) || 0);
+  const wisVal = (Number(character['attr-wisdom'] ?? character.wisdom ?? character.attributes?.wis ?? 0) || 0) + (Number(character['attr-wisdom-mod'] ?? 0) || 0);
+  const chaVal = (Number(character['attr-charisma'] ?? character.charisma ?? character.attributes?.cha ?? 0) || 0) + (Number(character['attr-charisma-mod'] ?? 0) || 0);
+  return Math.max(intVal, wisVal, chaVal);
+}
+
+function characterHasFastHeal(character = {}) {
+  const pools = [
+    ...(Array.isArray(character.traits) ? character.traits : []),
+    ...(Array.isArray(character.features) ? character.features : [])
+  ];
+  return pools.some(entry => {
+    const label = typeof entry === 'object' ? String(entry.name || entry.title || entry.id || '') : String(entry || '');
+    return label.toLowerCase().includes('fast heal');
+  });
+}
+
 /**
- * Executes a canonical Rest Cycle on a character.
+ * Executes a canonical Rest Cycle on a character per 3.00 COMBAT.md & 4.00 METAPHYSICS.md.
  * 
  * Rules applied:
- * - Full Rest: 6 to 8 hours. Restores 100% of max Vitality. Clears Exhaustion. Resets daily features. Resets daily Light Rests.
+ * - Full Rest: 6 to 8 hours. Restores 100% Vitality, (5 + Stamina Mod, min 1) Health (2x with Medical Care or Fast Heal), and 100% Essence. Clears Exhaustion. Resets daily Light Rests.
  * - Minimal Rest Species (Synthetics, Fae, Insect): A brief Light Rest provides Full Rest benefits.
- * - Light Rest: Max 4 per day. Takes 1h (Nap), 2h (Lounging), or 3h (Light Duty). Clears Exhaustion. Resets short-rest traits.
+ * - Light Rest: Max 4 per day (1h Nap, 2h Lounging, 3h Light Duty). Restores (10 + Stamina Mod, min 5) Vitality and (Key Attribute Mod, min 1) Essence. Clears Exhaustion.
+ * - Second Wind (1 Karma + 1 min): Grants immediate Light Rest recovery without downtime or consuming daily Light Rest slots.
  * - Strenuous Activity: Each interruption worsens tier (Nap -> Lounging -> Light Duty -> Not Rested).
  * 
  * @param {object} params
@@ -140,6 +177,10 @@ export function calculateRestDegradation(startingTier = 'nap', strenuousInterrup
  * @param {number} [params.interruptions=0] - Strenuous interruptions count
  * @param {number} [params.currentLightRestsToday=0] - Rests already taken today
  * @param {boolean} [params.isSecondWind=false] - If triggered via Karma "Second Wind"
+ * @param {boolean} [params.hasMedicalCare=false] - Whether treated with CR 15 Medicine / Medical Bay
+ * @param {boolean} [params.hasFastHeal=false] - Explicit override for Fast Heal trait
+ * @param {number} [params.staminaMod] - Optional explicit Stamina modifier override
+ * @param {number} [params.keyAttributeMod] - Optional explicit Key Metaphysics Attribute modifier override
  * @returns {object} Rest execution result
  */
 export function executeRestCycle({
@@ -148,19 +189,37 @@ export function executeRestCycle({
   activityTier = 'nap',
   interruptions = 0,
   currentLightRestsToday = 0,
-  isSecondWind = false
+  isSecondWind = false,
+  hasMedicalCare = false,
+  hasFastHeal = false,
+  staminaMod = undefined,
+  keyAttributeMod = undefined
 } = {}) {
   const speciesProfile = getSpeciesRestProfile(character);
-  const maxVitality = Math.max(30, parseInt(character.vitality || VITALITY_HEALTH_STRUCTURE_RULES.startingBaseVitality, 10));
-  const currentVitality = parseInt(character.current_vitality !== undefined ? character.current_vitality : character.vitality || 30, 10);
-  const currentHealth = parseInt(character.current_health !== undefined ? character.current_health : character.health || 30, 10);
-  const maxHealth = Math.max(30, parseInt(character.health || 30, 10));
+  const maxVitality = Math.max(1, parseInt(character.vitality || VITALITY_HEALTH_STRUCTURE_RULES.startingBaseVitality, 10));
+  const currentVitality = parseInt(character.current_vitality !== undefined ? character.current_vitality : maxVitality, 10);
+  const maxHealth = Math.max(1, parseInt(character.health || VITALITY_HEALTH_STRUCTURE_RULES.startingBaseHealth, 10));
+  const currentHealth = parseInt(character.current_health !== undefined ? character.current_health : maxHealth, 10);
 
-  // Handle Second Wind (Karma expenditure) — bypasses downtime, replaces Light Rest
+  const rawMaxEssence = parseInt(character.max_essence ?? character.essence ?? 0, 10) || 0;
+  const maxEssence = Math.max(0, rawMaxEssence);
+  const currentEssence = character.current_essence !== undefined
+    ? parseInt(character.current_essence, 10) || 0
+    : maxEssence;
+
+  const staMod = resolveCharacterStaminaMod(character, staminaMod);
+  const keyMod = resolveCharacterKeyAttributeMod(character, keyAttributeMod);
+  const doubledHealthRecovery = Boolean(hasMedicalCare || hasFastHeal || characterHasFastHeal(character));
+
+  const lightVitalityGain = Math.max(5, 10 + staMod);
+  const lightEssenceGain = Math.max(1, keyMod);
+  const fullHealthGain = Math.max(1, 5 + staMod) * (doubledHealthRecovery ? 2 : 1);
+
+  // Handle Second Wind (1 Karma + 1 min) — grants immediate Light Rest recovery without downtime
   if (isSecondWind) {
-    const missingVit = Math.max(0, maxVitality - currentVitality);
-    const restoredVit = Math.ceil(missingVit * 0.5);
-    const nextVit = Math.min(maxVitality, currentVitality + restoredVit);
+    const nextVit = Math.min(maxVitality, currentVitality + lightVitalityGain);
+    const nextEssence = maxEssence > 0 ? Math.min(maxEssence, Math.max(0, currentEssence) + lightEssenceGain) : currentEssence;
+    const essenceRestored = maxEssence > 0 ? Math.max(0, nextEssence - currentEssence) : 0;
 
     return {
       success: true,
@@ -168,13 +227,16 @@ export function executeRestCycle({
       effectiveTier: 'second_wind',
       hoursSpent: 0,
       newVitality: nextVit,
-      vitalityRestored: nextVit - currentVitality,
+      vitalityRestored: Math.max(0, nextVit - currentVitality),
       newHealth: currentHealth,
+      healthRestored: 0,
+      newEssence: nextEssence,
+      essenceRestored,
       newLightRestsToday: currentLightRestsToday,
       clearedConditions: ['Exhausted'],
       resetFeatures: true,
       speciesProfile,
-      logMessage: 'Second Wind executed (1 Karma + 1 min focus). Refreshed short-rest features and recovered Vitality without downtime.'
+      logMessage: `Second Wind executed (1 Karma + 1 min focus). Recovered +${Math.max(0, nextVit - currentVitality)} Vitality${maxEssence > 0 ? `, +${essenceRestored} Essence` : ''}, cleared Exhaustion, and refreshed short-rest features without downtime.`
     };
   }
 
@@ -182,6 +244,10 @@ export function executeRestCycle({
   if (restType === 'full') {
     const newVitality = maxVitality;
     const vitalityRestored = Math.max(0, newVitality - currentVitality);
+    const newHealth = Math.min(maxHealth, currentHealth + fullHealthGain);
+    const healthRestored = Math.max(0, newHealth - currentHealth);
+    const newEssence = maxEssence > 0 ? maxEssence : currentEssence;
+    const essenceRestored = maxEssence > 0 ? Math.max(0, newEssence - currentEssence) : 0;
 
     return {
       success: true,
@@ -190,12 +256,16 @@ export function executeRestCycle({
       hoursSpent: 8,
       newVitality,
       vitalityRestored,
-      newHealth: currentHealth,
+      newHealth,
+      healthRestored,
+      newEssence,
+      essenceRestored,
+      doubledHealthRecovery,
       newLightRestsToday: 0, // Resets daily light rest count
       clearedConditions: ['Exhausted'],
       resetFeatures: true,
       speciesProfile,
-      logMessage: `Full Rest completed (6–8 hours). 100% Vitality restored (+${vitalityRestored} Vit), Exhaustion cleared, all daily traits reset, daily rest count reset to 0.`
+      logMessage: `Full Rest completed (6–8 hours). 100% Vitality restored (+${vitalityRestored} Vit), +${healthRestored} Health recovered${doubledHealthRecovery ? ' (2x Medical/Fast Heal)' : ''}${maxEssence > 0 ? `, 100% Essence restored (+${essenceRestored})` : ''}, Exhaustion cleared, daily rest count reset to 0.`
     };
   }
 
@@ -222,34 +292,40 @@ export function executeRestCycle({
     };
   }
 
-  // If species is Minimal Rest (Synthetic, Fae, Insect), a Light Rest fully refreshes like a Full Rest!
+  // Minimal Rest species (Synthetic, Fae, Insect) gain Full Rest benefits from a Light Rest
   let newVitality = currentVitality;
   let vitalityRestored = 0;
+  let newHealth = currentHealth;
+  let healthRestored = 0;
+  let newEssence = currentEssence;
+  let essenceRestored = 0;
 
   if (speciesProfile.lightRestCountsAsFull) {
     newVitality = maxVitality;
     vitalityRestored = Math.max(0, newVitality - currentVitality);
+    newHealth = Math.min(maxHealth, currentHealth + fullHealthGain);
+    healthRestored = Math.max(0, newHealth - currentHealth);
+    newEssence = maxEssence > 0 ? maxEssence : currentEssence;
+    essenceRestored = maxEssence > 0 ? Math.max(0, newEssence - currentEssence) : 0;
   } else {
-    // Standard or Meditative Light Rest restoration
-    const missingVit = Math.max(0, maxVitality - currentVitality);
-    let fraction = 0.5;
-    if (degradation.effectiveTier === 'lounging') fraction = 0.4;
-    else if (degradation.effectiveTier === 'light_duty') fraction = 0.3;
-
-    const restoredAmount = Math.max(1, Math.ceil(missingVit * fraction));
-    newVitality = Math.min(maxVitality, currentVitality + (missingVit > 0 ? restoredAmount : 0));
+    // Canonical Light Rest restoration: (10 + Stamina Mod, min 5) Vitality & (Key Attribute Mod, min 1) Essence
+    newVitality = Math.min(maxVitality, currentVitality + lightVitalityGain);
     vitalityRestored = Math.max(0, newVitality - currentVitality);
+    if (maxEssence > 0) {
+      newEssence = Math.min(maxEssence, Math.max(0, currentEssence) + lightEssenceGain);
+      essenceRestored = Math.max(0, newEssence - currentEssence);
+    }
   }
 
   const nextRestsToday = Math.min(REST_SYSTEM_RULES.LIGHT_REST.maxPerDay, restsToday + 1);
 
   let message = `Light Rest (${degradation.name}, ${degradation.durationHours}h) completed.`;
   if (speciesProfile.lightRestCountsAsFull) {
-    message += ` Physiological adaptation (${speciesProfile.subType}): Light Rest fully refreshes energy (+${vitalityRestored} Vit restored).`;
+    message += ` Physiological adaptation (${speciesProfile.subType}): Light Rest fully refreshes energy (+${vitalityRestored} Vit${healthRestored > 0 ? `, +${healthRestored} Health` : ''}).`;
   } else if (speciesProfile.category === 'meditative') {
-    message += ` Meditative reflection (${speciesProfile.subType}): Mind and body recharged (+${vitalityRestored} Vit restored).`;
+    message += ` Meditative reflection (${speciesProfile.subType}): Mind and body recharged (+${vitalityRestored} Vit${essenceRestored > 0 ? `, +${essenceRestored} Essence` : ''}).`;
   } else {
-    message += ` Recovered +${vitalityRestored} Vitality.`;
+    message += ` Recovered +${vitalityRestored} Vitality${essenceRestored > 0 ? `, +${essenceRestored} Essence` : ''}.`;
   }
   if (degradation.degradedSteps > 0) {
     message += ` (Degraded by ${degradation.degradedSteps} step(s) due to strenuous interruptions).`;
@@ -262,7 +338,10 @@ export function executeRestCycle({
     hoursSpent: degradation.durationHours,
     newVitality,
     vitalityRestored,
-    newHealth: currentHealth,
+    newHealth,
+    healthRestored,
+    newEssence,
+    essenceRestored,
     newLightRestsToday: nextRestsToday,
     clearedConditions: ['Exhausted'],
     resetFeatures: true,

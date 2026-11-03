@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 166
+order: 164
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.leisure","mechanics"]
-updatedAt: "2026-10-14T05:38:13.238Z"
+updatedAt: "2026-11-02T22:49:28.210Z"
 costs:
   bp: 0
   credits: 0
@@ -37,21 +37,24 @@ sockets:
   allocated: []
 ---
 
-# **LEISURE**
+# 1.05.07 ORIGIN: LEISURE (+3 WS)
+
+* **Executive Summary:** Idyllic garden resorts, orbital casino rings, and aristocratic pleasure worlds (Almathea, Entari Prime).
+* **EUFT Starting Wealth Modifier:** **+3 WS**
+* **Canonical Society Skills (20 SP Allocation):** Diplomacy, Bluff, Insight, Expression (Any), Knowledge (Culture, Nobility), Vocation (Hospitality/Art or Any), Social (Any)
+* **Typical Archetypes:** Socialite, Aristocrat, Celebrity, Resort Scion, Courtesan, Gambler, Aesthete, Concierge, Entertainer, Artisan, Security Officer
+
+---
 
 # **LEISURE**
 
-These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. They often cater to tourists, with notable resort or vacation spots where guest services are a priority.&nbsp;
+These worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. They often cater to tourists, with notable resort or vacation spots where guest services are a priority.
 
 The wealthy/upper class will enjoy the leisurely side of the resorts, while those of lower station will likely be working \- both are considered for this origin.
-
-&nbsp;
 
 ## **Society Skills**
 
 Vocation (any), Social (any)
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -67,8 +70,6 @@ Artisan
 
 Security Officer
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -77,15 +78,11 @@ The ability to adapt to new environments and situations is important for an indu
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Diplomacy*
 
 Ability to negotiate, develop and maintain relations with others.
 
 *\+2 Diplomacy*
-
-&nbsp;
 
 ### *Entertainment Skill*
 
@@ -93,15 +90,11 @@ Skills related to entertainment or leisure activities, such as music, art, sport
 
 *\+2 to a Non-Combat Skill of choice*
 
-&nbsp;
-
 ### *Lifestyle Preferences*
 
 Specific preferences for their lifestyle. May enjoy the finer things in life, demand practical comforts, or prefer a simple and minimalist lifestyle.
 
 *\+1 Wealth and \+1 Diplomacy*
-
-&nbsp;
 
 ### *Non-Combat Focus*
 
@@ -109,15 +102,11 @@ Excel in areas outside of combat. May have skills related to entertainment, rela
 
 *\+2 to a Vocation Skill of choice*
 
-&nbsp;
-
 ### *Optimistic*
 
 Generally positive and optimistic outlook on life. May be cheerful, relaxed, and go with the flow.
 
 *\+1 to Karma Pool*
-
-&nbsp;
 
 ### *Management*
 
@@ -125,15 +114,11 @@ Desire to manage certain assets, such as a ship or a leisure establishment. May 
 
 *\+1 Wealth and \+1 Leadership*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 These characters may be used to finding creative solutions to problems.
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Smooth talking*
 
@@ -141,19 +126,24 @@ Charismatic and skilled in communication. May be able to negotiate, persuade, or
 
 *\+2 Etiquette Checks*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Affluent Connections:** +1 to Starting Wealth Score (in addition to the +3 Leisure Origin modifier) or Advantage on Gather Information checks in high society.
+* **Artistic Appreciation:** +2 to Knowledge (Appraisal) and Expression checks.
+* **Charming:** May Take 10 on Diplomacy checks in non-combat social settings.
+* **Cosmopolitan Etiquette:** +2 to Etiquette (Charisma) checks and Knowledge (Culture / Nobility).
+* **High-Stakes Composure:** +2 to Bluff checks when gambling or concealing motives at social functions.
+* **Silver Spoon:** Starts with 1 mastercrafted personal luxury item (CR <= WS + 2) at no liquid cost.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **07\. LEISURE**
 
@@ -228,4 +218,11 @@ Charismatic and skilled in communication. May be able to negotiate, persuade, or
 * **STYLE:** Simulation Chamber, The Matrix.  
 * **PALETTE:** Dark Grey, Status Light Green/Red, Cable Black.  
 * **TOKENS:** Pods, cables, silence, darkness, mind-upload.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** A diplomatic xenobiology conservatory maintained by human-mimetic Manelli envoys to host off-world dignitaries. Sculpted amber resin pavilions overlook tranquil bioluminescent gardens while the Chorus hums in serene mathematical harmony.
+* **STYLE:** Mimetic Diplomatic Conservatory, Serene Biomorphic Pavilion.
+* **PALETTE:** Translucent Hive-Amber, Emerald Foliage, Cyan Blossom Glow, Polished Obsidian.
+* **TOKENS:** Sculpted resin arches, pheromonal gardens, Manelli hosts, tranquil bioluminescence, alien symmetry.
 

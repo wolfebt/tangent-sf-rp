@@ -157,7 +157,7 @@ cp_cost: 55
 
 # 
 
-**CP Cost:** 50 CP  
+**CP Cost:** 55 CP  
 
 **Description:** The Mekan entity is a highly intelligent essence of psychic-elemental energy. This essence is the core power animating and empowering their mechanical body, which serves as a vital physical containment. Through sheer force of will, a Mekan bonds with machinery, gaining a specific form and the associated abilities.
 

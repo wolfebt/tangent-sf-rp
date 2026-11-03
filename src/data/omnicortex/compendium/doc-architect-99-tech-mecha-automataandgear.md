@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 35
+order: 41
 perspective: "architect"
 entry_type: "Tech Matrix (mecha)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.mecha.automataandgear","matrix"]
-updatedAt: "2026-10-14T06:04:05.767Z"
+updatedAt: "2026-11-02T22:49:14.820Z"
 costs:
   bp: 0
   credits: 0
@@ -39,155 +39,106 @@ sockets:
 
 # **AUTOMATA INTEGRATION, SPECIALIZED GEAR & ECONOMICS**
 
-### **3.0 Automata Integration Protocol (Instructional Guide)**
+### **3. Automata Integration Protocol (Instructional Guide)**
 
 When a Mecha is equipped with a Computer Core instead of a traditional Cockpit, it sheds the need for a biological pilot and transitions into an **Automata**. Because these vehicles operate independently, they must possess their own mechanical stat block representing their strength, logic, and operational skill sets.
 
 **Instructional Parameters:**
 
-* **Who:** Game Masters designing automated encounters, combat encounters, or defensive perimeters; Players deploying autonomous drones, synthetic companions, or unmanned mecha.  
-* **What:** A systematic, four-step procedure to calculate the physical and mental statistics of unmanned, AI-driven Mecha (Automata), transitioning them from static equipment into independent actors.  
-* **Where/When:** Executed during the finalization phase of the Mecha Forge Protocol (Step 6), or utilized anytime a Player acquires a robotic companion.  
-* **Why:** To ensure automated units operate with mathematically consistent attributes and skills tied strictly to their chassis size and processor rating, preventing arbitrary stat blocks and preserving Ludonarrative Consistency.  
+* **Who:** Game Masters designing automated encounters, combat encounters, or defensive perimeters; Players deploying autonomous drones, synthetic companions, or unmanned mecha.
+* **What:** A systematic, four-step procedure to calculate the physical and mental statistics of unmanned, AI-driven Mecha (Automata), transitioning them from static equipment into independent actors.
+* **Where/When:** Executed during the finalization phase of the Mecha Forge Protocol (Step 6), or utilized anytime a Player acquires a robotic companion.
+* **Why:** To ensure automated units operate with mathematically consistent attributes and skills tied strictly to their chassis size and processor rating, preventing arbitrary stat blocks and preserving Ludonarrative Consistency.
 * **How:** Execute the following four-step generation sequence to finalize the Automata's independent stat block.
 
-#### 
-
-#### **Step 1: Calculate Physical Attributes (The Chassis)**
+#### **Step: Calculate Physical Attributes (The Chassis)**
 
 An Automata's physical capabilities are entirely dictated by the hardware of its Frame and Size Category. They do not roll for these stats; they are intrinsic constants of the engineering.
 
-* **Strength:** Equal to the Chassis's STR/CBT MOD (from the Step 1 Size Table). *Example: A Large Automata possesses a \+2 Strength modifier.* Upgrades like Myomer Musculature (+4 Strength) are added directly to this base modifier.  
-* **Agility:** Base 0 \+ Handling Mod (from the Step 2 Body Type Table) \+ any localized mobility upgrades. *Example: A Racing Drone frame possesses \+4 Agility.*  
+* **Strength:** Equal to the Chassis's STR/CBT MOD (from the Step 1 Size Table). *Example: A Large Automata possesses a +2 Strength modifier.* Upgrades like Myomer Musculature (+4 Strength) are added directly to this base modifier.
+* **Agility:** Base 0 + Handling Mod (from the Step 2 Body Type Table) + any localized mobility upgrades. *Example: A Racing Drone frame possesses +4 Agility.*
 * **Stamina:** Automata do not possess Stamina or Vitality as they are inorganic constructs. They rely entirely on their Structure Points (SP) and Damage Resistance (DR). They are immune to biological effects, poisons, disease, and fatigue.
 
-#### 
-
-#### **Step 2: Calculate Mental Attributes (The Processor Core)**
+#### **Step: Calculate Mental Attributes (The Processor Core)**
 
 Automata rely on their **Processor Rating (PR)** to determine their cognitive capability and reaction times. The PR is strictly gated by the Tech Level of the installed Computer Core (as defined in the Computational Assets ecosystem).
 
-* **TL 2 (Basic Logic):** PR 0\. Intellect 0, Wisdom \-2, Charisma \-4. *Cannot adapt to unknown variables.*  
-* **TL 3 (Algorithmic AI):** PR 1\. Intellect \+1, Wisdom \-1, Charisma \-2. *Standard trade and security drones.*  
-* **TL 4 (Heuristic AI):** PR 2\. Intellect \+2, Wisdom 0, Charisma 0\. *Advanced combat automata capable of predictive tactics.*  
-* **TL 5 (Persona AI):** PR 4\. Intellect \+4, Wisdom \+2, Charisma \+4 (Possesses a fully simulated, charming personality overlay).
+* **TL 2 (Basic Logic):** PR 0. Intellect 0, Wisdom -2, Charisma -4. *Cannot adapt to unknown variables.*
+* **TL 3 (Algorithmic AI):** PR 1. Intellect +1, Wisdom -1, Charisma -2. *Standard trade and security drones.*
+* **TL 4 (Heuristic AI):** PR 2. Intellect +2, Wisdom 0, Charisma 0. *Advanced combat automata capable of predictive tactics.*
+* **TL 5 (Persona AI):** PR 4. Intellect +4, Wisdom +2, Charisma +4 (Possesses a fully simulated, charming personality overlay).
 
-#### 
-
-#### **Step 3: Allocate Skill Matrices (Software)**
+#### **Step: Allocate Skill Matrices (Software)**
 
 Automata do not possess natural life experiences; their skills are hard-coded into their logic matrices via Expert Software and Operation Software.
 
-* **Base Skill Ranks:** An Automata receives a total number of Skill Ranks equal to (PR \+ 1\) \* 5. These are typically allocated primarily to Combat, Piloting, and Alertness.  
-* **Hard-Coded Limits:** An Automata cannot possess a Skill Rank higher than PR \* 3 (Minimum cap of 5 for PR 0 and PR 1 drones).  
-* **Targeting Computers:** If a specific Targeting Computer module is installed onto the chassis (e.g., Basic \+1, AI \+2), this bonus acts as an Equipment Bonus applied *on top* of their base calculated Attack skill.
+* **Base Skill Ranks:** An Automata receives a total number of Skill Ranks equal to `(PR + 1) * 5`. These are typically allocated primarily to Combat, Piloting, and Alertness.
+* **Hard-Coded Limits:** An Automata cannot possess a Skill Rank higher than `PR * 3` (Minimum cap of 5 for PR 0 and PR 1 drones).
+* **Targeting Computers:** If a specific Targeting Computer module is installed onto the chassis (e.g., Basic +1, AI +2), this bonus acts as an Equipment Bonus applied *on top* of their base calculated Attack skill.
 
-#### 
-
-#### **Step 4: Establish Action Economy & Initiative**
+#### **Step: Establish Action Economy & Initiative**
 
 Automata roll their own Initiative and operate independently in the combat order, functioning identically to an NPC.
 
-* **Initiative Formula:** 2d10 \+ Agility Mod \+ Alertness Skill \+ PR. (The PR represents their literal processing speed and ability to prioritize threats in milliseconds).  
+* **Initiative Formula:** `2d10 + Agility Mod + Alertness Skill + PR`. (The PR represents their literal processing speed and ability to prioritize threats in milliseconds).
 * **Operational Directives:** Semi-autonomous Automata must be given commands (requiring a Move Action from a controller via a comm-link) to change their primary directive. Fully autonomous units follow their programmed threat-assessment matrices without the need for external input.
-
-### 
-
-### 
-
-### ---
 
 ### **Specialized Gear and Utility Ecosystems**
 
 Beyond combat and architecture, the Equipment Matrix codifies the rules for exploration, survival, and computational problem-solving, ensuring that all gear interfaces seamlessly with core gameplay loops.
 
-&nbsp;
-
 **Advanced Grown Technologies (Biotech Protocols)** Factions utilizing grown biotechnology (like the Auluran and Thorn) subvert traditional battery mechanics, requiring distinct operational rules. Grown tech is subject to three core protocols:
 
-* **Symbiosis (Bonding):** Living gear must genetically and bio-electrically "bond" with a host over a 24-hour attunement period. Failure to attune results in a persistent \-2 operational penalty across all checks.  
-* **Sustenance (Feeding):** Grown technology cannot be recharged via a power grid; it requires nutrient consumption. Minor items (Diminutive/Tiny size) feed harmlessly on the user's waste heat and dead skin flakes. Heavy weapons and armor must be fully submerged in a Nutrient Solution (costing 10 Cr per dose) once per week, lest they degrade and gain the "Broken" (Starving) condition.  
+* **Symbiosis (Bonding):** Living gear must genetically and bio-electrically "bond" with a host over a 24-hour attunement period. Failure to attune results in a persistent -2 operational penalty across all checks.
+* **Sustenance (Feeding):** Grown technology cannot be recharged via a power grid; it requires nutrient consumption. Minor items (Diminutive/Tiny size) feed harmlessly on the user's waste heat and dead skin flakes. Heavy weapons and armor must be fully submerged in a Nutrient Solution (costing 10 Cr per dose) once per week, lest they degrade and gain the "Broken" (Starving) condition.
 * **Bio-Repair:** Damage to living gear is healed via Medicine or Xenobiology checks rather than Engineering. A healthy host naturally facilitates the automatic regeneration of 1 Structure Point per hour for their bonded equipment.
-
-&nbsp;
 
 **Specific Factional Innovations:**
 
-* **Empathic Carapace (Auluran):** Reactive armor that adapts when struck by energy (Fire/Cold/Elec), granting DR \+5 against that specific energy type for the remainder of the Scene.  
-* **Chorist Node (Auluran):** A grown neural-graft transceiver. Allows Telepathy (1 mile radius) with other Node users and grants Advantage on Empathy checks.  
-* **Sunglass Laminates (Alterian):** Crystalline structures grown from silica and light. Acts as a solar capacitor, recharging energy weapons automatically in sunlight.  
-* **Hive-Resin (Kitin):** A secreted construction material lighter than plasteel but self-sealing. Structures grant \+2 to Stealth (sound dampening) inside them.
+* **Empathic Carapace (Auluran):** Reactive armor that adapts when struck by energy (Fire/Cold/Elec), granting DR +5 against that specific energy type for the remainder of the Scene.
+* **Chorist Node (Auluran):** A grown neural-graft transceiver. Allows Telepathy (1 mile radius) with other Node users and grants Advantage on Empathy checks.
+* **Sunglass Laminates (Alterian):** Crystalline structures grown from silica and light. Acts as a solar capacitor, recharging energy weapons automatically in sunlight.
+* **Hive-Resin (Kitin):** A secreted construction material lighter than plasteel but self-sealing. Structures grant +2 to Stealth (sound dampening) inside them.
 
-&nbsp;
+**Programmable Matter and Utility Devices** Beyond the organic growth of the Auluran, high-tech factions utilize advanced material science for everyday utility. **Programmable Matter**, often referred to as "Picotech" (TL 4, CR 25), consists of a canister of smart sand or fluid metal that can be commanded to reshape into any Simple tool, requiring user instruction to shift forms. Visual utility is provided by **Image Projectors**, which scale from TL 2 (CR 5) units projecting 2D images with sound, up to TL 3 (CR 10) Holo Emitters capable of projecting localized 3D holograms.
 
-**Programmable Matter and Utility Devices** Beyond the organic growth of the Auluran, high-tech factions utilize advanced material science for everyday utility. **Programmable Matter**, often referred to as "Picotech" (TL 4, CR 25), consists of a canister of smart sand or fluid metal that can be commanded to reshape into any Simple tool, requiring user instruction to shift forms. Visual utility is provided by **Image Projectors**, which scale from TL 2 (CR 5\) units projecting 2D images with sound, up to TL 3 (CR 10\) Holo Emitters capable of projecting localized 3D holograms.
+**Computational Assets and Software Systems** Computers and digital decks are defined by their Processor Rating (PR). A **Basic Processor** (TL 3, CR 10) operates at PR 0, capable only of simple calculations and data storage. **Advanced Processors** (TL 5, CR 25) reach PR 4 and can host robust Persona AIs, possessing pseudo-intelligence and a Charisma score equal to their PR. Computers run specialized software to aid users:
 
-&nbsp;
-
-**Computational Assets and Software Systems** Computers and digital decks are defined by their Processor Rating (PR). A **Basic Processor** (TL 3, CR 10\) operates at PR 0, capable only of simple calculations and data storage. **Advanced Processors** (TL 5, CR 25\) reach PR 4 and can host robust Persona AIs, possessing pseudo-intelligence and a Charisma score equal to their PR. Computers run specialized software to aid users:
-
-* **Expert Software:** (Ranging from CR 10 to CR 30\) Grants a direct \+1 to \+5 Aid Bonus to specific Skill checks.  
+* **Expert Software:** (Ranging from CR 10 to CR 30) Grants a direct +1 to +5 Aid Bonus to specific Skill checks.
 * **Operation Software:** Allows a user to automatically "Take 10" on specific skill checks when the software is active, critically reducing the risk of catastrophic failure during routine high-stakes operations, such as orbital astrogation or systemic hacking.
-
-&nbsp;
 
 **Surveillance and Communications** Information gathering and transmission are categorized into three distinct operational spheres:
 
-* **Passive Sensors:** Range from simple TL 2 (CR 5\) Rangefinders and Cameras to TL 3 (CR 10\) Holo-Cams.  
-* **Comm Units:** Dictate connection scale: Audio/Visual radios (TL 2, CR 5\) handle standard comms, Holographic transceivers (TL 3, CR 10\) project 3D representations, and Telepathic arrays (TL 4/5, CR 25\) allow for planetary-scale communication requiring the Telepathy skill.  
-* **Counter-Intel:** To protect this data, gear includes TL 2 (CR 10\) Scrambler Units and advanced TL 4 (CR 20\) Encryption Suites.
-
-&nbsp;
+* **Passive Sensors:** Range from simple TL 2 (CR 5) Rangefinders and Cameras to TL 3 (CR 10) Holo-Cams.
+* **Comm Units:** Dictate connection scale: Audio/Visual radios (TL 2, CR 5) handle standard comms, Holographic transceivers (TL 3, CR 10) project 3D representations, and Telepathic arrays (TL 4/5, CR 25) allow for planetary-scale communication requiring the Telepathy skill.
+* **Counter-Intel:** To protect this data, gear includes TL 2 (CR 10) Scrambler Units and advanced TL 4 (CR 20) Encryption Suites.
 
 **Vocation Tools and Facilities** Vocation tools provide direct Equipment Bonuses to relevant skill checks, scaling rapidly with the facility's volumetric footprint and the number of users supported:
 
-* **Basic Tools:** A portable belt or pack (CR 5\) that requires Trained skill but offers no intrinsic bonus, supporting 1 user.  
-* **Full Set:** A semi-portable caddy (CR 10\) requiring Trained skill, granting a \+2 Equipment Bonus and supporting 2 users.  
-* **Shop/Lab:** A dedicated room (CR 20\) requiring Expert skill, granting a \+4 Equipment Bonus and supporting 5 users.  
-* **Facility:** A building or campus (CR 30\) requiring Master skill, granting a \+6 Equipment Bonus and supporting 10 or more users.
-
-&nbsp;
+* **Basic Tools:** A portable belt or pack (CR 5) that requires Trained skill but offers no intrinsic bonus, supporting 1 user.
+* **Full Set:** A semi-portable caddy (CR 10) requiring Trained skill, granting a +2 Equipment Bonus and supporting 2 users.
+* **Shop/Lab:** A dedicated room (CR 20) requiring Expert skill, granting a +4 Equipment Bonus and supporting 5 users.
+* **Facility:** A building or campus (CR 30) requiring Master skill, granting a +6 Equipment Bonus and supporting 10 or more users.
 
 **Specific tool systems integrate directly into this hierarchy:**
 
-* **Diagnostics Systems & Databases:** Grant scaling bonuses (+2 at TL 3, \+4 at TL 4, and \+6 at TL 5\) to Repair and Knowledge checks respectively.  
-* **Multi-Tools:** Replicate non-powered tools at TL 3 (CR 10), powered tools at TL 4 (CR 15, \+2 Bonus), and become fully polymorphic at TL 5 (CR 25, \+4 Bonus).  
-* **Medical Tools:** Follow exact scaling rules. A Field Surgery Pack acts as a basic kit (Tiny, CR 10\) granting a \+2 Equipment Bonus to Medicine. A Portable Nurse is a TL 3 unit running Expert Software acting as an automated secondary aid. An Autodoc is a TL 4 (CR 20\) autonomous robotic surgeon capable of running Operation Software independently. Operating Theaters are Medium-sized room installations (CR 20\) granting a \+4 Equipment Bonus. A Medical Lab requires a Facility-sized architectural Module (CR 30), granting a \+6 Equipment Bonus and supporting multiple trauma patients simultaneously.
+* **Diagnostics Systems & Databases:** Grant scaling bonuses (+2 at TL 3, +4 at TL 4, and +6 at TL 5) to Repair and Knowledge checks respectively.
+* **Multi-Tools:** Replicate non-powered tools at TL 3 (CR 10), powered tools at TL 4 (CR 15, +2 Bonus), and become fully polymorphic at TL 5 (CR 25, +4 Bonus).
+* **Medical Tools:** Follow exact scaling rules. A Field Surgery Pack acts as a basic kit (Tiny, CR 10) granting a +2 Equipment Bonus to Medicine. A Portable Nurse is a TL 3 unit running Expert Software acting as an automated secondary aid. An Autodoc is a TL 4 (CR 20) autonomous robotic surgeon capable of running Operation Software independently. Operating Theaters are Medium-sized room installations (CR 20) granting a +4 Equipment Bonus. A Medical Lab requires a Facility-sized architectural Module (CR 30), granting a +6 Equipment Bonus and supporting multiple trauma patients simultaneously.
 
-&nbsp;
-
-### 
-
-### ---
-
-**Environmental and Survival Gear** Exploration equipment interfaces directly with the core survival mechanics, specifically the degradation and restoration of the Supply Die. Advanced purifiers and survival canteens allow characters to actively restore degraded Supply Dice in the field without returning to civilization. To mitigate extreme climates, explorers utilize **Enviro Fields**, a TL 3 (CR 15\) deployable generator that establishes a 20ft radius of Environmental Protection Rating (EPR) 1, shielding occupants from hostile weather and extreme temperatures. For vertical traversal, climbing gear scales significantly by era: Standard gear (TL 2, CR 5\) relies on ropes and pitons, Improved gear (TL 3, CR 10\) grants a \+1 bonus per Athletics skill stage, and Electro-Adhesive grips (TL 4, CR 15\) allow a user to automatically Take 10 on climb checks. At the apex of traversal technology, **Grav Attenuators**, a TL 5 (CR 25\) mobility device, grant a user Advantage on all climbing and traversal checks by entirely dampening localized gravity.
-
-### 
-
-### 
-
-### ---
+**Environmental and Survival Gear** Exploration equipment interfaces directly with the core survival mechanics, specifically the degradation and restoration of the Supply Die. Advanced purifiers and survival canteens allow characters to actively restore degraded Supply Dice in the field without returning to civilization. To mitigate extreme climates, explorers utilize **Enviro Fields**, a TL 3 (CR 15) deployable generator that establishes a 20ft radius of Environmental Protection Rating (EPR) 1, shielding occupants from hostile weather and extreme temperatures. For vertical traversal, climbing gear scales significantly by era: Standard gear (TL 2, CR 5) relies on ropes and pitons, Improved gear (TL 3, CR 10) grants a +1 bonus per Athletics skill stage, and Electro-Adhesive grips (TL 4, CR 15) allow a user to automatically Take 10 on climb checks. At the apex of traversal technology, **Grav Attenuators**, a TL 5 (CR 25) mobility device, grant a user Advantage on all climbing and traversal checks by entirely dampening localized gravity.
 
 ### **Economic Integration: The Tangent Standard Economics**
 
-The most significant advancement in the Tangent Matrix is the complete eradication of economic dissonance—the historically persistent fracture between the narrative abstraction of wealth and the mechanical reality of crafting and buying items. In legacy RPG systems, the cost to craft an item is derived from its market price, which is often assigned arbitrarily based on perceived combat utility rather than engineering complexity. This results in linear pricing models that fail catastrophically in science fiction settings; a starship is not merely a very large rifle, it represents an order-of-magnitude leap in manufacturing difficulty.
-
 The Tangent Standard Economics posits a singular, mathematically rigorous solution: **Complexity Determines Value.** The market price of an item is simply the societal aggregate of the skill (Crafting CR) and time required to produce it.
 
-&nbsp;
-
-**1\. The Tangent Standard Curve (TSC)** Because the gap between a simple survival tool and a dimensional jump-gate is logarithmic, the cost scaling must be exponential. The market price of every physical asset within the Tangent galaxy is generated using the Tangent Standard Curve (TSC) formula. This formula dictates that an item's value in Credits equals a baseline value of 10 Credits (representing the simplest manufactured good or scrap metal at CR 0\) multiplied by a growth factor of 4, raised to the power of the item's Crafting CR divided by 5\. The growth factor of 4 ensures that value inherently quadruples across every tier interval of 5 CR.
-
-Value (Credits) \= 10 \* 4^(CR / 5)
-
-By strictly adhering to this calculation, all pricing debates are eliminated. This mathematical rigidity allows Game Masters to value any new, homebrew, or precursor artifact instantly simply by assigning it a Crafting CR based on its operational complexity.
-
-&nbsp;
+**1. The Tangent Standard Curve (TSC)**
+`Value (Credits) = 10 * 4^(CR / 5)`
 
 **The Master Valuation Table**
 
 | CR | COMPLEXITY | CREDITS | EXAMPLES (SCI-FI / FANTASY) |
-| :---- | :---- | :---- | :---- |
+| :--- | :--- | :--- | :--- |
 | 0 | Scrap | 10 | Raw ore, ration bar, wooden club. |
 | 5 | Simple | 40 | Knife, backpack, basic clothing, bandages. |
 | 10 | Standard | 160 | Pistol, sword, light armor, commlink. |
@@ -200,166 +151,79 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 | 45 | Mythic | 2,621,440 | Frigate, resurrection chamber, moon base module. |
 | 50 | Transcendent | 10,485,760 Cr | Dreadnought, planetary shield generator. |
 
-&nbsp;
+**2. Wealth Score and Purchasing Power**
+**The Golden Rule of Tangent Wealth:** A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score (`Purchase CR = Crafting CR`).
 
-**2\. Wealth Score and Purchasing Power** Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital. The '99 \- AUGMENTATIONS MATRIX' utilizes Character Points (CP) for biological tolerance; the Equipment Matrix utilizes Wealth Score for material acquisition, translating a character's intrinsic potential into extrinsic economic power.
+**3. The Liquidity Gap and Friction Mechanics**
+* **The Liquidity Constraint (The Gap Rule):** `Cost (Liquid) = Value (Item CR) - Value (Wealth Score)`
+* **Liquidity Drag (The Fence Rate):** Legal goods sell at 50% of Total Value; Black market or stolen goods sell at 20-25% of Total Value; Scrap sells at 10% of Total Value (requiring 5x the item's Credit Value in unrefined scrap mass to meet the 50% crafting material requirement).
 
-The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth:** A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score. This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase CR \= Crafting CR.
-
-&nbsp;
-
-**Expanded Financial Status Hierarchy**
-
-| WEALTH&nbsp; | STATUS | AUTO-BUY&nbsp; | LIFESTYLE DESCRIPTION |
-| :---- | :---- | :---- | :---- |
-| 0 | Indebted | 0 Cr | Debt slavery or prison. |
-| 1 \- 4 | Impoverished | 10 \- 30 Cr | Homeless/Squatter. Scavenges for food. |
-| 5 \- 9 | Struggling | 40 \- 150 Cr | Shared room in slum. Processed rations. |
-| 10 \- 14 | Middle Class | 160 \- 600 Cr | Private apt, steady wage. Consumer vehicle. |
-| 15 \- 19 | Affluent | 640 \- 2,500 Cr | High-end condo. Quality personal vehicle. |
-| 20 \- 29 | Wealthy | 2,500 \- 40,000 Cr | Large estate, servants. Minor corporate investor. |
-| 30 \- 39 | Hegemon | 41K \- 650K Cr | Skyscraper penthouse. Owns small corporation. |
-| 40 \- 49 | Industrialist | 650K \- 10M Cr | Megacorp exec. Owns starships (Corvettes). |
-| 50 \- 59 | Dynastic | 10M \- 167M Cr | Minor nobility. Owns space stations. |
-| 60 \- 69 | System Lord | 167M \- 2.6B Cr | Rules a solar system. Owns capital ships. |
-| 70 \- 79 | Sector Ruler | 2.6B \- 42B Cr | Rules a cluster. Personal flagship is a Dreadnought. |
-| 80+ | Faction Ruler | 42B+ Cr | Emperor. Economy is post-scarcity. |
-
-&nbsp;
-
-**3\. The Liquidity Gap and Friction Mechanics** A common failure point in abstract wealth systems is the "infinite money loop," where players attempt to use their passive Wealth Score to acquire high-value items for free and immediately sell them for infinite cash. Tangent mitigates this via strict friction mechanics, ensuring "Loot" (liquid Credits) remains a vital gameplay reward at all tiers.
-
-&nbsp;
-
-**The Liquidity Constraint (The Gap Rule):** When a character seeks an item with a CR exceeding their Wealth Score, their passive income cannot cover the transaction. They must bridge the gap with liquid Credits. The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's CR. Formula: Cost (Liquid) \= Value (Item CR) \- Value (Wealth Score) Example: A Wealth Score 15 character (Auto-buy limit \~640 Cr) wants a Stealth Suit (CR 18, Value \~1,470 Cr). They use their WS 15 to cover the base lifestyle cost, leaving 830 Credits that must be paid in cash from their adventuring savings.
-
-&nbsp;
-
-**Liquidity Drag (The Fence Rate):** To further prevent market abuse, the economy imposes Liquidity Drag. In real-world economics and RPG simulations, the "Buy" price and "Sell" price are never identical due to fencing effort, market saturation, and legality. The Sell Price of an item is heavily reduced:
-
-* **Legal goods:** Sell at 50% of Total Value.  
-* **Black market or stolen goods:** Sell at 20-25% of Total Value.  
-* **Scrap:** Sells at 10% of Total Value.
-
-Because the raw materials required to craft an item also cost 50% of the item's Total Value, a character who buys materials and crafts an item for immediate resale operates at a 0% profit margin. Profit is only possible through adventuring, scavenging materials for free, or utilizing specialized merchant skills.
-
-&nbsp;
-
-**4\. The Productivity Engine and Macro-Economics** Because the Tangent Standard Curve dictates that value scales exponentially, a linear crafting system (e.g., generating 50 credits of value per day) would require literal centuries to build high-end assets, ending campaigns before items are finished. Tangent solves the "Time vs. Cost" paradox through the **Productivity Engine**, converting effort into Productivity Points (PP).
-
-&nbsp;
-
-**The Productivity Formula:** To craft an item, the creator must accumulate a Target PP equal exactly to the item's Credit Value. Daily progress is generated based on the crafter's skill variance and the tier of their infrastructure. A creator's Daily Progress in Productivity Points is calculated by taking their Craft Check Result, subtracting 10, and multiplying that number by the tool's Tier Multiplier.
-
-Daily Progress (PP) \= (Craft Check Result \- 10\) \* Tool Tier Multiplier
-
-The Tool Tier Multiplier is the critical variable that allows the timeline to scale exponentially alongside the item's value:
-
-| TOOL TIER | MULTIPLIER | DESCRIPTION & EXAMPLES |
-| :---- | :---- | :---- |
-| Tier 0 | x1 | **Improvised:** Bare hands, stone tools. |
-| Tier 1 | x10 | **Basic:** Handheld power tools, garage kit. |
-| Tier 2 | x50 | **Advanced:** Professional machine shop. |
-| Tier 3 | x200 | **Industrial:** Automated factory lines. |
-| Bio | X200 to x1,000 | **Cultivation:** Hyper-Growth Vats. Requires Medicine/Nature and Engineering checks. |
-| Tier 4 | x1,000 | **Nanoforge:** Molecular assembly swarms. |
-| Tier 5 | x5,000 | **Genesis:** Thought-responsive Polymatter loom, Holophotonics or metaphysical fabrication. |
-
-Under this engine, a Mastercraft Titan Mech Suit (CR 30, Target PP \= 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build. However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.
-
-&nbsp;
-
-### 
-
-### ---
-
-**Macro-Scale Construction and Faction Labor Pools:**
-
-For astronomical projects like a Dreadnought (CR 50, Value \~10.5 Million Cr) or a Titanic Arcology (CR 60+, Value \~167 Million Cr), individual crafting is physically impossible. Factions utilize Labor Pools to execute macro-scale construction. The Daily PP output is simply the sum of individual workers.
-
-A shipyard employing 1,000 engineers operating Industrial (x200) tools can generate 1,000,000 PP per day, completing a capital ship in roughly 10.5 days. This macro-economic logic drives factional warfare; maintaining these shipyards requires an uninterrupted flow of massive liquid capital (5.25 Million Cr in raw materials per ship), forcing factions to fight for territorial resources to keep their production engines fed.
-
-### 
-
-### 
-
-### ---
+**4. The Productivity Engine and Macro-Economics**
+`Daily Progress (PP) = (Craft Check Result - 10) * Tool Tier Multiplier`
 
 ### **Standardization Protocols: Vehicle Entry Format**
 
 When committing a new vehicle design to the master lore compendium or a character sheet, utilize the following format block for uniformity:
 
-&nbsp;
-
-**Name:** Model Name / Designation
-
-**Classification:** e.g., Ground Transport, Aero-Fighter
-
-**Tech/Meta Level:** 0-5
-
-**Faction/Origin:** e.g., Syndicate, Dynasty
-
+**Name:** Model Name / Designation  
+**Classification:** e.g., Ground Transport, Aero-Fighter  
+**Tech/Meta Level:** 0-5  
+**Faction/Origin:** e.g., Syndicate, Dynasty  
 **Cost/Wealth:** Crafting CR / Credit Value
 
-&nbsp;
-
 **CORE STATISTICS**
-
-**Size Category:** Medium to Titanic
-
-**Scale:** x1 to x80
-
-**Structure (SP):** Total Structure Points (If reduced to 50% SP, roll on System Failure Table)
-
-**Mounts:** Total Capacity
-
-**Damage Resistance (DR):** Value
-
-**Defense (CR):** Base 10 \+ Pilot Agility Modifier \+ Vehicle Combat Mod (Scale) \+ Handling Mod (Body Type)
-
-&nbsp;
+* **Size Category:** Medium to Titanic
+* **Scale:** x1 to x80
+* **Structure (SP):** Total Structure Points (Pre-calculated in Size Table; if reduced to 50% SP, roll on System Failure Table)
+* **Mounts:** Total Capacity (Garaging cost = 1 Mount per 1 Scale Multiplier)
+* **Damage Resistance (DR):** Value
+* **Defense (CR):** `Base 10 + Pilot Agility Modifier + Vehicle Combat Mod (Scale) + Handling Mod (Body Type)`
 
 **MOVEMENT & PROPULSION**
-
-**Primary Mode:** Type
-
-**Engine Type:** Type
-
-**Speed:** Tactical / Travel
-
-**Handling/Maneuverability:** Modifier value applied to Initiative & Pilot Checks
-
-&nbsp;
+* **Primary Mode:** Type
+* **Engine Type:** Type
+* **Speed:** Tactical / Travel
+* **Handling/Maneuverability:** Modifier value applied to Initiative & Pilot Checks
 
 **CREW & CAPACITY**
-
-**Pilot:** Required Mounts
-
-**Crew/Gunners:** Additional Stations (Minimum \= Scale Multiplier, unless AI equipped)
-
-**Passengers/Cargo:** Mounts Allocated
-
-&nbsp;
+* **Pilot:** Required Mounts
+* **Crew/Gunners:** Additional Stations (Minimum = Scale Multiplier, unless AI equipped)
+* **Passengers/Cargo:** Mounts Allocated
 
 **SYSTEMS & LOADOUT**
-
-**Mounts:** Location
-
-**Weapon:** Name (Scale: Mecha/Personal, Dmg: X)
-
-**Defensive Systems:** Shields, Smoke
-
-**Utility/Sensors:** Radar, Drills
-
-&nbsp;
+* **Mounts:** Location
+* **Weapon:** Name (Scale: Mecha/Personal, Dmg: X)
+* **Defensive Systems:** Shields, Smoke
+* **Utility/Sensors:** Radar, Drills
 
 **AESTHETICS & VISUALS**
+* **The Structure:** Silhouette
+* **The Motif:** Theme
+* **Texture/Material:** Surface detail
+* **Lighting/Atmosphere:** Mood
 
-**The Structure:** Silhouette
+### EUFT & Matrix Systems Audit Retrofits (Canonical Reference)
 
-**The Motif:** Theme
+* **Tangent Standard Curve (Base CR Intervals of 5):** `Value (Credits) = 10 * 4 ^ (CR / 5)`.
+* **Linear Micro-Modifiers (+1 to +4 CR):** Non-multiple-of-5 CR adjustments apply linear multipliers to the nearest base 5-CR tier rather than exponential compounding:
+  * **+1 CR:** `x1.3` (+30% Base Value)
+  * **+2 CR:** `x1.75` (+75% Base Value)
+  * **+3 CR:** `x2.3` (+130% Base Value)
+  * **+4 CR:** `x3.0` (+200% Base Value)
+  * **-1 CR (Flaw):** `x0.75` (-25% Base Value)
+* **Crafting Material & Scrap Ratio:** Pristine raw materials cost **50%** of an item's total Credit Value. Unrefined **Scavenged Scrap** retains **10%** value, requiring **5x the item's Credit Value** in raw scrap mass to satisfy the 50% crafting material threshold.
+* **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
+* **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
 
-**Texture/Material:** Surface detail
 
-**Lighting/Atmosphere:** Mood
+---
+
+## DISCREPANCY & RESTORATION LEDGER (DISC-542)
+
+* **Target Path:** `architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md`
+* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - MECHA` & `/game rules/architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md` (`1jU22GrwuCktcSkVqc3Bhh92arCmtS7BC`)
+* **Restoration & Normalization Log:**
+  * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
+  * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).
+  * Restored 4-Step Automata Integration Protocol (`Initiative = 2d10 + Agility Mod + Alertness Skill + PR`), Specialized Gear and Biotech Protocols, Economic Integration, and Vehicle Standardization Entry Format.
 

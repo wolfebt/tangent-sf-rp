@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-aeldprovidence"
-order: 127
+order: 125
 perspective: "operator"
 entry_type: "Primary Faction Enclave"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.aeldprovidence.alterianenclave","mechanics"]
-updatedAt: "2026-10-14T05:32:05.193Z"
+updatedAt: "2026-11-02T22:49:20.317Z"
 costs:
   bp: 0
   credits: 0
@@ -37,10 +37,92 @@ sockets:
   allocated: []
 ---
 
-### **1\. ALTERIAN ENCLAVE (Celestine)**
+# 1.04.AeldProvidence.AlterianEnclave — ALTERIAN ENCLAVE (CELESTINE) (+3 WS)
 
-* **Archetype:** Galactic Diplomats / Magi-Tech Architects  
-* **Capital:** Altheria (The Gilded World)  
-* **Mandate:** "Perfect the Art of Living; Maintain the Galactic Balance."  
-* **Profile:** The self-appointed "Elder Siblings" of the galaxy. They engage heavily in galactic trade and diplomacy, believing the universe functions on harmonic principles ("The Flow"). Governed by a Gerontocracy/Meritocracy. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetype:** Galactic Diplomats & Magi-Tech Architects | **Capital:** Altheria (The Gilded World)
+* **Sub-Species Base:** Alterian (Celestine) Aeld (Clans Lansmarr, Lanaran, Silvermoon)
+* **Tech / Meta Level:** TL 3 / ML 4 (High Magi-Tech) | **EUFT Starting Wealth Modifier:** **+3 WS**
+* **Canonical Faction Skill Package (20 SP):** Diplomacy (+5), Academics: History/Arcane (+4), Attune (+3), Discipline: Matter [Transmutation] (+3), Insight (+3), Knowledge: Appraisal (+2). *(Also supports Energy/Dimension Disciplines and Knowledge: Culture/Metaphysics).*
+* **Canonical Recommended Features (-1 CP Discount):** Artificer, Awakened, Benefit (Immunity), Benefit (Wealth), Centering, Connected, Discipline Focus, Educated, Insightful Reason, Magical Aptitude, Platinum Personality, Scholar, Silver Tongue, Versatile Curator.
+* **CRISP Visual Semiotics:** Interstellar High-Fantasy; sprawling gilded architecture, floating crystalline spires, polished wood pathways, libraries of glass, and warm golden/amber harmonic light.
+
+---
+
+ALTERIAN ENCLAVE (Celestine)
+The Galactic Diplomats and Magi-Tech Architects
+                                    * Sub-Race Base: Alterian Elves (Clans Lansmarr, Lanaran, Silvermoon, etc.)
+                                    * Political Structure: Gerontocracy (Rule by the Wisest/Eldest) and Meritocracy.
+                                    * Capital Entity: Altheria (The Gilded World).
+                                    * Core Mandate: "Perfect the Art of Living; Maintain the Galactic Balance."
+Faction Overview
+The Alterian Enclave is the most prominent, populous, and outwardly focused of the Elven factions. They act as the self-appointed "Elder Siblings" of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—"The Flow"—which can be mapped, understood, and elegantly manipulated.
+Political Posture
+The Enclave operates on "The Long View." Because their citizens live for centuries, their political and economic strategies are plotted across generations. They are patient to the point of frustrating younger races, taking decades to deliberate on treaties or military actions. However, when the Enclave acts, it does so with overwhelming, heavily coordinated magi-tech superiority. They are frequent mediators in galactic conflicts, leveraging their vast archives of history and profound understanding of other cultures to maintain stability—which ultimately benefits their own trade and research networks.
+
+________________
+
+---
+
+## **I. Detailed Faction Description**
+* **Overview:** The Alterian Enclave is the most prominent, populous, and outwardly focused of the Aeld (Elven) factions. They act as the self-appointed 'Elder Siblings' of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—'The Flow'—which can be mapped, understood, and elegantly manipulated. Because their citizens live for centuries, their political and economic strategies are plotted across generations. They take 'The Long View,' moving slowly but acting with overwhelming magi-tech superiority when necessary.
+* **Key Themes:** Interstellar High-Fantasy, Galactic Diplomats, The Long View, Harmonic Arcane Tech.
+* **Relationship to Others:** Frequent mediators in galactic conflicts; they leverage vast archives to maintain stability, which ultimately benefits their own trade networks. Disdained by the Kovian Tribunal and pitied by the Vajar Tribes.
+
+## **II. Core Identity**
+* **Official Designation:** The Alterian Enclave
+* **Colloquialisms:** The Enclave / Celestines / The Elder Siblings
+* **Archetype:** Galactic Diplomats / Magi-Tech Architects
+* **Capital/Key World:** Altheria (The Gilded World)
+* **Symbol/Sigil:** A silver tree blooming with crystal leaves.
+* **Driving Mandate:** Perfect the Art of Living; Maintain the Galactic Balance.
+* **Motto:** 'Time is a river we have already mapped.'
+
+## **III. Sociological Profile**
+* **Core Beliefs:** The universe is an instrument to be tuned. Art, diplomacy, and magic are interchangeable sciences.
+* **Social Structure:** Gerontocracy (Rule by the Wisest/Eldest) combined with a strict Meritocracy based on artistic and arcane achievement.
+* **View on Outsiders:** Paternalistic and benevolent, though often perceived as condescending by shorter-lived species.
+* **Law & Order:** Governed by complex philosophical debates and mediations. Punishments involve exile or psychological rehabilitation.
+* **Governance:** Gerontocratic Meritocracy led by the Council of Elders (widely overseen by Clan Lanaran).
+
+## **IV. Strategic Assets**
+* **Tech Level (TL):** 3 (Standard) / Functionally higher due to magical integration.
+* **Meta Level (ML):** 4 (High Magi-Tech).
+* **Wealth Modifier:** +3 WS (Vast cultural and magical wealth).
+* **Primary Exports:** Diplomatic mediation, luxury magi-tech goods, artwork, historical data.
+* **Military Doctrine:** 'Overwhelming Harmony.' Avoid conflict through diplomacy, but when forced, deploy pinpoint arcane artillery and reality-warping magi-tech (Celestine Rangers, Crystal-Molders, Harmonic Arcanists, Sun-Skiffs, Star-Galleons).
+
+## **V. Mechanics (Game Data)**
+* **Prominent Species:** Alterian (Celestine) Aeld.
+* **Faction Skill Package (20 Points):** Diplomacy (+5), Academics: History/Arcane (+4), Attune (+3), Discipline: Matter [Transmutation] (+3), Insight (+3), Knowledge: Appraisal (+2).
+* **Typical Archetypes:** The Envoy, The Virtuoso, The Oracle, The Chronicler, The Broker, The Philosopher, The Relic Hunter, The Magus, The Xenologist, The Linguist.
+* **Recommended Features (1 CP Discount):** Benefit (Wealth), Benefit (Immunity), Silver Tongue, Platinum Personality, Magical Aptitude, Awakened, Connected, Educated, Scholar, Centering, Insightful Reason, Versatile Curator.
+
+## **VI. Visual Semiotics (Aesthetics)**
+* **Design Directive: 'Interstellar High-Fantasy':** Sprawling gilded architecture, floating crystalline spires, libraries of glass, and polished wood pathways weaving seamlessly through nature.
+* **Palette:** Primary: Crystal (Translucent Whites/Blues), Polished Wood | Secondary: Natural Earth Tones, Gold trim | Accent: Visualized sound wave colors, bright amber.
+* **Lighting:** Golden/Amber Tones filtering through leaves and glass.
+* **Shape Language:** Elegant Lattices (Crystal-Molding), Natural Flow, Empathic Interfaces.
+
+---
+
+## **ALTERIAN ENCLAVE — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
+
+### **1. HI-FI INK MODULAR PROMPT STRUCTURE**
+* **CONTENT PROMPT — SUBJECT:** [e.g., Alterian Diplomat in flowing ceremonial robes, Crystal-Molding Architect, ancient Aeld Magi-Tech scholar, sleek Star-Galleon with sweeping wooden/ceramic sails]
+* **NARRATIVE:** [e.g., meditating in a resonant archive, mediating a complex trade dispute, weaving a force-barrier with sound-wave magic, observing the cosmos with immense patience]
+* **GUIDANCE PROMPT — SETTING STYLE:** Interstellar High-Fantasy, seamless integration of polished ceramic and living wood, floating crystals, sweeping elegant curves, harmonic principles.
+* **CONTEXT:** A golden-hour council chamber, a vast archive lit by amber crystals, an observation deck of a harmonious starship, elegant crystalline spires.
+* **ATMOSPHERE:** Peaceful, ancient, harmonious, infinitely patient, highly advanced, elegant, radiating deep wisdom.
+* **RENDERING PROMPT — RENDERING:** High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* **NEGATIVE PROMPT:** photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
+
+### **2. HI-FI SKETCH MODULAR PROMPT STRUCTURE & FACTION-SPECIFIC INK ACCENTS**
+* **RENDERING:** Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* **Accent Tokens:** subtle golden amber marker wash on crystals, selective polished ceramic white negative space, faint visual sound-wave ink ripples in warm gold, precise natural wood-grain texturing.
+
+### **3. READY-TO-USE TEMPLATES**
+* **CHARACTER CONCEPT SHEET: The Magi-Tech Architect:** Alterian Enclave Crystal-Molding Architect wearing elegant layered robes, utilizing a floating crystal focus to weave matter. Character design sketchbook page, turnaround views, Interstellar High-Fantasy aesthetic, flowing ceramic and wood motifs, subtle golden amber crystal marker accent.
+* **ARCHITECTURAL ESTABLISHING SHOT: The Resonant Archive:** Vast Alterian Enclave library archive, towering shelves of flowing polished wood and white ceramic, glowing crystalline data-nodes floating in the air, immense scale and harmonic geometry. Peaceful and ancient atmosphere, subtle warm golden hour marker light accents.
+
 

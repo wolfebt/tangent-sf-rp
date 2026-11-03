@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 101
+order: 99
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.skins","mechanics"]
-updatedAt: "2026-10-14T05:24:25.070Z"
+updatedAt: "2026-11-02T22:49:36.918Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,25 @@ sockets:
   allocated: []
 ---
 
-# **SKINS \***
+# **SKINS **  
+**
 
-### ***SKINS \****
+### ***SKINS **
 
-# 
+  
 
-**CP Cost:** 34 CP  
+**CP Cost:** 
 
-**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require CR 30, Technical Scanner with a CR 25 and Biomed Scanners with a CR 20 \- medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included \[limited blood simulation\]).
+**Description:** Experimental design to be more Human like in form and function, for various reasons including infiltration. No obvious distinguishable traits showing mechanical nature. Casual observation will not show any sign of being a Synthetic, a cursory exam will require CR 30, Technical Scanner with a CR 25 and Biomed Scanners with a CR 20 - medical treatment will also reveal nature to the physician (although wounds would outwardly be ‘normal’ with loss of fluids included [limited blood simulation]).
 
-&nbsp;
+  
 
-*Heals as a typical human, with repair using nanotechnology.*&nbsp;
+*Heals as a typical human, with repair using nanotechnology.* 
 
 *May take any Features as if organic and Synthetic Features as well, may incorporate Biotech Augmentations as if organic.*
 
-&nbsp;
-
-&nbsp;
+  
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -63,41 +63,42 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 1
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:** Special \- Stigma (Infiltrator) IF Discovered and obvious other implications of an infiltrator
+**Stigma:** Special - Stigma (Infiltrator) IF Discovered and obvious other implications of an infiltrator
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Intellect
++2 Intellect
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-Alter Form (Basic only, Humanoid Disguise \+10)
+Alter Form (Basic only, Humanoid Disguise +10)
 
 Adaptive Aspects
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

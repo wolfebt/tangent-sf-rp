@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 99
+order: 97
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.android","mechanics"]
-updatedAt: "2026-10-14T05:24:25.069Z"
+updatedAt: "2026-11-02T22:49:36.294Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **ANDROID \***
+# **ANDROID **  
+**
 
-## **ANDROID \***
+## **ANDROID ***
 
-# 
+  
 
-**CP Cost:** 42 CP  
+**CP Cost:** 
 
 **Description:** Humanlike in general form and function, and often looking synthetic with bright or metallic skin and hair colors as well as adjustable illuminations and circuitry patterns. Began in the Syndicate as a labor caste, originally designed by unknowingly using the Impyrium’s knowledge of the Mekan neural network and advanced technology.
 
-&nbsp;
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -55,41 +56,43 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 0
 
-&nbsp;
+  
 
 **Homeworld:** Vulcan. Most Androids were assembled on and will call this Syndicate world home, which is now completely populated with various synthetics after a catastrophic environmental collapse.
 
 **Stigma:** Synthetic
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Int
++1 Int
 
-\+2 Abilities
++2 Abilities
 
-\-1 Cha
+-1 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
+  
+**  
+**
 

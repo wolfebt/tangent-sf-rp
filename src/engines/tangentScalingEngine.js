@@ -56,19 +56,20 @@ export function stepDieSide(dieStr, steps = 0) {
   if (match) {
     const count = match[1] ? parseInt(match[1], 10) : 1;
     const sides = `d${match[2]}`;
-    const ladder = DIE_STEP_LADDER; // ['d10', 'd8', 'd6', 'd4', 'd3', 'd2', '1']
+    const ladder = DIE_STEP_LADDER; // ['d12', 'd10', 'd8', 'd6', 'd4', 'd3', 'd2', '1']
     
     let currentIndex = ladder.indexOf(sides);
     if (currentIndex === -1) {
-      // Find nearest or fallback
+      // Find nearest or fallback along canonical 8-step ladder
       const sideNum = parseInt(match[2], 10);
-      if (sideNum >= 12) currentIndex = 0; // Starts at d10
-      else if (sideNum >= 8) currentIndex = 1;
-      else if (sideNum >= 6) currentIndex = 2;
-      else if (sideNum >= 4) currentIndex = 3;
-      else if (sideNum >= 3) currentIndex = 4;
-      else if (sideNum >= 2) currentIndex = 5;
-      else currentIndex = 6;
+      if (sideNum >= 12) currentIndex = 0; // d12
+      else if (sideNum >= 10) currentIndex = 1; // d10
+      else if (sideNum >= 8) currentIndex = 2; // d8
+      else if (sideNum >= 6) currentIndex = 3; // d6
+      else if (sideNum >= 4) currentIndex = 4; // d4
+      else if (sideNum >= 3) currentIndex = 5; // d3
+      else if (sideNum >= 2) currentIndex = 6; // d2
+      else currentIndex = 7; // 1 pt min
     }
 
     const newIndex = Math.min(ladder.length - 1, currentIndex + numSteps);
@@ -88,6 +89,8 @@ export function stepDieSide(dieStr, steps = 0) {
 
   return str;
 }
+
+export const stepDownDamageDie = stepDieSide;
 
 /**
  * Scales damage dice by size category.
@@ -359,10 +362,12 @@ export function scaleMetaTechInvocation({
   baseDamage = '5d6',
   baseRange = 100,
   baseArea = 20,
+  saveCR,
   saveDC = 15
 } = {}, hostChassisSize = 'Huge') {
   const size = getScalingCategory(hostChassisSize);
   const mult = size.scaleMultiplier;
+  const resolvedSaveCR = Number(saveCR ?? saveDC) || 15;
 
   const scaledDamage = scaleDamageDice(baseDamage, hostChassisSize);
   const scaledRange = baseRange ? Math.round(Number(baseRange) * mult) : null;
@@ -378,9 +383,11 @@ export function scaleMetaTechInvocation({
     scaledRange: scaledRange ? `${scaledRange} ft` : 'N/A',
     baseArea: baseArea ? `${baseArea} ft radius` : 'N/A',
     scaledArea: scaledArea ? `${scaledArea} ft radius` : 'N/A',
-    saveDC: Number(saveDC) || 15,
+    saveCR: resolvedSaveCR,
+    saveDC: resolvedSaveCR,
+    saveCRRule: 'Preserved: Save CRs remain unchanged by chassis scale',
     saveDCRule: 'Preserved: Save DCs remain unchanged by chassis scale',
-    summary: `${name} hosted on ${size.name} chassis (x${mult} Scale): Damage amplified to ${scaledDamage}, Range ${scaledRange ? `${scaledRange} ft` : 'N/A'}, Area ${scaledArea ? `${scaledArea} ft radius` : 'N/A'}. Save DC ${saveDC} is unaffected.`
+    summary: `${name} hosted on ${size.name} chassis (x${mult} Scale): Damage amplified to ${scaledDamage}, Range ${scaledRange ? `${scaledRange} ft` : 'N/A'}, Area ${scaledArea ? `${scaledArea} ft radius` : 'N/A'}. Save CR ${resolvedSaveCR} is unaffected.`
   };
 }
 
@@ -416,13 +423,22 @@ export function scaleRange(baseRangeFt, sizeCategory = 'Medium') {
 
 /**
  * Scale Structure Points (SP) based on size category.
- * @param {number} baseSP - Base SP for medium chassis
- * @param {string} sizeCategory - Size category ID or name
+ * Per 1.10 SCALING.md: Medium baseline is 60 SP.
+ * Per 5.04 MECHA.md Mecha Scale Multiplier Rule: Pre-calculated vehicle/mecha table SP
+ * (200..3200) is NEVER multiplied a second time by the chassis scale multiplier.
+ *
+ * @param {number} [baseSP=60] - Base SP for Medium chassis (canonical 60 SP)
+ * @param {string} [sizeCategory='Medium'] - Size category ID or name
+ * @param {object} [options]
+ * @param {boolean} [options.isPreCalculatedVehicleSP=false] - Guard against double-multiplying pre-calculated Mecha/Vehicle SP
  * @returns {number} Scaled Structure Points
  */
-export function scaleStructurePoints(baseSP = 50, sizeCategory = 'Medium') {
+export function scaleStructurePoints(baseSP = 60, sizeCategory = 'Medium', options = {}) {
+  const sp = Number(baseSP) || 60;
+  if (options?.isPreCalculatedVehicleSP) {
+    return Math.max(1, Math.round(sp));
+  }
   const size = getScalingCategory(sizeCategory);
-  const sp = Number(baseSP) || 50;
   return Math.max(1, Math.round(sp * size.scaleMultiplier));
 }
 
@@ -460,9 +476,9 @@ export function validateAssetScaling(asset = {}) {
   }
 
   // 2. Structure Points check
-  if (asset.durability || asset.sp) {
+  if (!asset.isPreCalculatedVehicleSP && (asset.durability || asset.sp)) {
     const enteredSP = Number(asset.durability || asset.sp);
-    const expectedBaseSP = size.scaleMultiplier >= 1 ? 50 * size.scaleMultiplier : Math.round(50 * size.scaleMultiplier);
+    const expectedBaseSP = size.scaleMultiplier >= 1 ? 60 * size.scaleMultiplier : Math.round(60 * size.scaleMultiplier);
     if (enteredSP < expectedBaseSP * 0.25) {
       warnings.push(`Entered SP (${enteredSP}) is significantly lower than typical ${size.name} baseline (~${expectedBaseSP} SP).`);
     }
@@ -489,15 +505,16 @@ export function validateAssetScaling(asset = {}) {
 }
 
 /**
- * Real-time validation of entered credit cost vs. calculated TSC value from DC.
+ * Real-time validation of entered credit cost vs. calculated EUFT value from CR/DC.
  * 
- * @param {number} enteredDC - Crafting or complexity DC
+ * @param {number} enteredCR - Crafting or complexity CR/DC
  * @param {number} enteredCost - Entered or overridden credit cost
+ * @param {number|object} [microMods=0] - Optional EUFT linear micro-modifiers
  * @returns {object} Valuation analysis
  */
-export function validateAssetValuation(enteredDC, enteredCost) {
-  const dc = Number(enteredDC) || 0;
-  const tscValue = calculateCreditValue(dc);
+export function validateAssetValuation(enteredCR, enteredCost, microMods = 0) {
+  const dc = Number(enteredCR) || 0;
+  const tscValue = calculateCreditValue(dc, microMods);
   const cost = enteredCost !== undefined && enteredCost !== null && !isNaN(enteredCost) ? Number(enteredCost) : tscValue;
 
   const ratio = tscValue > 0 ? cost / tscValue : 1.0;
@@ -521,7 +538,9 @@ export function validateAssetValuation(enteredDC, enteredCost) {
   const wsStatus = getFinancialStatus(dc);
 
   return {
+    cr: dc,
     dc,
+    euftValue: tscValue,
     tscValue,
     enteredCost: cost,
     ratio: Math.round(ratio * 100) / 100,

@@ -161,7 +161,7 @@ cp_cost: 41
 ### **MAANTENE**
 **Recon Expression**  
 **Classification:** Insectoid Aberration (Quadruped)  
-**CP Cost:** 37 CP  
+**CP Cost:** 41 CP  
 
 **Description:**  
 The Manteene are quadrupedal insectoids that stand roughly the same height as humans but appear much larger due to their length and limb span. They are covered in a tough, chitinous armor, typically sandy-yellow or golden-brown to blend with desert environments. This carapace can often shift in color and texture (similar to a chameleon) to match their surroundings. They are quadruped with legs designed for leaping. Above these, they have four arms: a smaller upper pair for fine manipulation and a larger lower pair for heavy lifting and combat. Their heads are distinctly mantis-like, featuring large, multi-faceted black compound eyes, twitching antennae used for sensing vibrations and communication, and complex mandible mechanism.
@@ -178,12 +178,12 @@ The Maantene represent the "Recon Expression," specialized for survival in hosti
 * **Stigma:** Severe Xeno  
 
 **Ability Modifiers:**  
-* +2 Agility (4 CP)  
-* +1 Stamina (4 CP)  
-* -1 Charisma (-4 CP)  
+* +2 Agility (10 CP)  
+* +1 Stamina (5 CP)  
+* -1 Charisma (-5 CP)  
 
 **Skills:**  
-* +10 Skill Ranks to ANY skills (8 CP)  
+* +10 Skill Ranks to ANY skills (10 CP)  
 
 **Species Features:**  
 * **Awakened (Psychic, Int or Wis):** Conductor of the Hive’s psionic Chorus. (2 CP)  

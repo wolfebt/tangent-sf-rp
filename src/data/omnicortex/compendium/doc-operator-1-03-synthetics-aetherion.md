@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 104
+order: 102
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.aetherion","mechanics"]
-updatedAt: "2026-10-14T05:24:25.073Z"
+updatedAt: "2026-11-02T22:49:36.232Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **AETHERION**
+# **AETHERION**  
+**
 
 ## **AETHERION**
 
-# 
+  
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
 **Description:** Aether powered golem created by advanced Metaphysics and Technology, designed by progenitors as builders (possibly the U’Nonn?)
 
-&nbsp;
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -55,35 +56,36 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 5
 
 **Meta Level:** 5
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Synthetic, Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

@@ -11,7 +11,7 @@ export const RULEBOOK_CORPUS = [
     id: 'combat_resolution',
     topic: '2d10 Dual-Resolution & Critical Rolls',
     category: 'Combat & Resolution',
-    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    source: 'docs/game_rules/operator/3.00 COMBAT.md',
     page: 27,
     keywords: ['2d10', 'dual', 'resolution', 'roll', 'check', 'critical', 'fumble', 'triumph', 'double', 'skill check', 'combat'],
     summary: 'Roll 2d10 + Skill Rank + Linked Attribute Modifier + Modifiers vs. Target Defense or Challenge Rating (CR). Defender wins all ties.',
@@ -27,22 +27,22 @@ export const RULEBOOK_CORPUS = [
     id: 'damage_pools',
     topic: 'Damage Classification: Vitality, Health & Synthetic Structure',
     category: 'Health & Damage',
-    source: 'docs/game rules/operator/1.00 INTRODUCTION.md & 3.00 COMBAT.md',
+    source: 'docs/game_rules/operator/1.00 INTRODUCTION.md & 3.00 COMBAT.md',
     page: 83,
     keywords: ['vitality', 'health', 'structure', 'synthetic', 'damage', 'lethal', 'non-lethal', 'nonlethal', 'fatigue', 'stamina', 'toughness', 'cuts', 'burns'],
     summary: 'Base 30 Vitality (VP) absorbs non-lethal fatigue; Base 30 Health (HP) tracks lethal trauma; Synthetics use a unified 60 SP Structure Pool. Stamina provides Toughness DR, not flat VP/HP.',
     content: `Tangent SF RP strictly differentiates non-lethal wear from lethal trauma:
-- **🔵 Vitality Pool (Base 30 VP):** Physical resilience, luck, and stamina. Absorbs non-lethal damage, fatigue, sensory shock, and initial combat strain. Stamina does NOT add a flat bonus to base Vitality or Health; pools are increased solely through Size tier, traits, features, or CP purchases (1 CP = +2 pts). Overflow beyond 0 spills directly into Health as lethal damage.
-- **🔴 Health Pool (Base 30 HP):** Structural biological integrity and life force. Damage here is lethal trauma (bullet wounds, cuts, burns, penetrating injuries). Recovers slowly. Reducing Health to 0 enters the Mortality State.
-- **🤖 Structure Pool (Synthetics & Mecha, Base 60 SP for Medium):** Synthetics, androids, vehicles, and mecha possess a unified Structure Pool (replacing Vitality and Health). Synthetics are completely IMMUNE to non-lethal damage, biological toxins, vacuum, and suffocation. Synthetic limbs possess 50% more durability/damage threshold before being Disabled or Destroyed.
-- **🛡️ Armor DR & Toughness (Stamina):** Incoming damage is reduced by Target Armor DR + Target Stamina/Toughness (STA) natural Damage Reduction before penetrating into Vitality or Structure.
+- **🔵 Vitality Pool (Base 30 VP):** Physical resilience, luck, and stamina. Absorbs standard physical/energy combat damage, non-lethal damage, fatigue, and sensory shock FIRST before spilling excess into Health. Stamina does NOT add a flat bonus to base Vitality or Health; pools are increased solely through Size tier, traits, features, or CP purchases (1 CP = +5 pts, no Stamina cap).
+- **🔴 Health Pool (Base 30 HP):** Structural biological integrity and life force. Damage here is lethal trauma (overflow beyond 0 VP, plus Bleed and Overchannel Burn which bypass Vitality, Armor DR, and Stamina directly to Health). Recovers slowly. Reducing Health to 0 enters the Mortality State.
+- **🤖 Structure Pool (Synthetics & Mecha, Base 60 SP for Medium):** Synthetics, androids, vehicles, and mecha possess a unified Structure Pool (replacing Vitality and Health; 1 CP = +5 SP). Synthetics are completely IMMUNE to non-lethal damage, biological toxins, vacuum, and suffocation. Synthetic limbs possess 50% more durability/damage threshold before being Disabled or Destroyed.
+- **🛡️ Armor Layering Cap & Toughness (Stamina):** Only the single highest worn/implanted/innate Armor DR domain applies (never summed). Incoming damage is reduced by Effective Armor DR + Target Stamina/Toughness (STA) natural Damage Reduction (minimum 0 damage floor) before penetrating into Vitality or Structure.
 - **⚡ Damage Types:** Kinetic (Blunt, Slashing, Piercing; Force ignores 1/2 DR), Energy (Fire, Cold, Sonic, Voltic, Corrosive, Disruptor), Radiation (Ra-D), and Mental (ignores physical armor).`
   },
   {
     id: 'massive_damage_death_clock',
     topic: 'The Mortality State, Bleeding Out & Stabilization',
     category: 'Health & Damage',
-    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    source: 'docs/game_rules/operator/3.00 COMBAT.md',
     page: 255,
     keywords: ['mortality state', 'death clock', 'bleeding out', 'stability', 'stabilize', 'dying', 'incapacitated', 'stamina', 'unconscious', 'massive damage'],
     summary: 'When Health reaches 0, the operator enters the Mortality State: prone, incapacitated, bleeding out 1 Stability/turn until stabilized (CR 15 Medicine).',
@@ -59,7 +59,7 @@ export const RULEBOOK_CORPUS = [
     id: 'action_economy',
     topic: 'Skill Tier Action Economy & Combat Turn Budget',
     category: 'Combat & Tactics',
-    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    source: 'docs/game_rules/operator/3.00 COMBAT.md',
     page: 41,
     keywords: ['action', 'economy', 'turn', 'round', 'skill tier', 'standard', 'movement', 'reaction', 'active defense', 'focus'],
     summary: 'Turn actions are unlocked by Skill Tier (Rank 0: Full Round, 1–5: 1 action, 6–10: 2nd at -5, 11–15: 3rd at -10...). Active Defense has cumulative -5 subsequent penalties.',
@@ -80,7 +80,7 @@ export const RULEBOOK_CORPUS = [
     id: 'cover_evasion',
     topic: 'Cover, Evasion, EDGE & Defense Modifiers',
     category: 'Combat & Tactics',
-    source: 'docs/game rules/operator/3.00 COMBAT.md',
+    source: 'docs/game_rules/operator/3.00 COMBAT.md',
     page: 75,
     keywords: ['cover', 'evasion', 'defense', 'dc', 'cr', 'edge', 'half cover', 'full cover', 'aiming', 'flanking'],
     summary: 'Opposed Defense is 2d10 + Agility + Defense Skill (Defender wins ties); Unopposed baseline is CR 15. Half Cover grants +2; Full Cover grants +4; Aiming grants +2/round.',
@@ -105,7 +105,7 @@ export const RULEBOOK_CORPUS = [
     id: 'essence_burn',
     topic: 'Metaphysics Triad, Essence Pool, Surge & Strain',
     category: 'Metaphysics & Psionics',
-    source: 'docs/game rules/operator/4.00 METAPHYSICS.md',
+    source: 'docs/game_rules/operator/4.00 METAPHYSICS.md',
     page: 1,
     keywords: ['essence', 'burn', 'strain', 'surge', 'triad', 'attune', 'discipline', 'invocation', 'metaphysics', 'potency'],
     summary: 'The Triad governs casting: Attune (Accuracy), Discipline (Domain), Invocation (Form). Overspending causes Strain and direct damage.',
@@ -125,7 +125,7 @@ export const RULEBOOK_CORPUS = [
     id: 'karma_system',
     topic: 'Karma System, Heroic Luck & Karmic Debt',
     category: 'Karma & Fate',
-    source: 'docs/game rules/operator/1.00 INTRODUCTION.md & 1.09 HINDRANCES.md',
+    source: 'docs/game_rules/operator/1.00 INTRODUCTION.md & 1.09 HINDRANCES.md',
     page: 58,
     keywords: ['karma', 'fate', 'luck', 'reroll', 'i got this', 'not what i meant', 'shake it off', 'second wind', 'so mote it be', 'by will alone', 'triumph', 'debt', 'hindrance'],
     summary: 'Operators start with Base 3 Karma points, refreshing per session (not rest). 6 canonical spending actions (1 KP each). Karmic Debt caps at Charisma + 1.',
@@ -145,7 +145,7 @@ export const RULEBOOK_CORPUS = [
     id: 'economatrix_pricing',
     topic: 'Economatrix TSC Valuation Equation & Wealth Mechanics',
     category: 'Economy & Equipment',
-    source: 'docs/game rules/operator/2.00 ECONOMATRIX.md & architect/02 ECONOMY AND WEALTH.md',
+    source: 'docs/game_rules/operator/2.00 ECONOMATRIX.md & architect/02 ECONOMY AND WEALTH.md',
     page: 1,
     keywords: ['economy', 'price', 'credits', 'tsc', 'dc', 'cr', 'valuation', 'wealth score', 'liquidity gap', 'financial status', 'tech level', 'meta level'],
     summary: 'TSC Valuation V = 10 * 4^(CR/5) determined solely by Crafting CR/DC. Golden Rule: Purchase CR = Crafting CR <= Wealth Score.',
@@ -167,7 +167,7 @@ export const RULEBOOK_CORPUS = [
     id: 'starship_bridge',
     topic: 'Starship Bridge Stations, Subsystem Targeting & 14-Tier Scaling',
     category: 'Vehicles & Starships',
-    source: 'docs/game rules/operator/1.10 SCALING.md & 3.00 COMBAT.md',
+    source: 'docs/game_rules/operator/1.10 SCALING.md & 3.00 COMBAT.md',
     page: 1,
     keywords: ['starship', 'bridge', 'vehicle', 'helm', 'tactical', 'engineering', 'ewar', 'subsystems', 'shields', 'scaling'],
     summary: '14-Tier Scaling matrix (Miniscule to Mega Colossal). 4 Bridge Stations (Helm, Tactical, Engineering, Science/EWAR) manage shipboard operations.',

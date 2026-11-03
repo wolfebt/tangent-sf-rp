@@ -145,7 +145,7 @@ Even in their humanoid form, the Wild Aeld are never entirely free from their be
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 21 CP  
+**CP Cost:** 24 CP  
 
 **Classification:** Humanoid
 

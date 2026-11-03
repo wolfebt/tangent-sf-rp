@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 94
+order: 92
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.shanor","mechanics"]
-updatedAt: "2026-10-14T08:26:07.063Z"
+updatedAt: "2026-11-03T11:18:07.927Z"
 costs:
   bp: 0
   credits: 0
@@ -45,7 +45,7 @@ Known across the galaxy as Harbingers of Entropy, Dark Hungers, and Smoke Demons
 
 ## **Sha’Nor Lineage & Offshoot Index**
 
-* **Sha’Nor (Base) [41 CP]:** Aberration (1) | +1 Wis [4], +1 Ability [4] | +10 Skills [8] | Ageless [2], Alter Form (Advanced - Special Ability) [2], Awakened (Void) [2], Bodyform Adaptation [2], Fast Heal [2], Immortal [4], Non-Typical Anatomy [4], Regeneration [4], Semi-Corporeal [4], Telepathic [4], Flight [4], Vampiric [-4] | Stigma: Monstrous (-6), Xeno (-2)
-* **Tenen [38 CP]:** Spectral (1) | +1 Wis / +1 Ability [4] | +10 Skills [8] | Ageless [2], Alter Form (Advanced - Special Ability) [2], Awakened (Cosmic / Order) [2], Bodyform Adaptation [2], Fast Heal [2], Immortal [4], Non-Typical Anatomy [4], Regeneration [4], Semi-Corporeal [4], Telepathic [4], Flight [4] | Stigma: Xeno (-2)
-* **Eakren [1 CP]:** Aberration (1) | PC Stats | — | Corrupted Traits [Varies], Mutation [Varies], Origin Traits [Varies], Animal Body / Bodyform Adaptation | Stigma: Monstrous (-4) / Beast
+* **Sha’Nor (Base) [43 CP]:** Aberration (1 CP) | +1 WIS [5 CP], +1 Any Attribute [5 CP] | +10 Skills [10 CP] | *Ageless* [2 CP], *Alter Form (Advanced — Special Ability)* [2 CP], *Awakened (Void)* [2 CP], *Bodyform Adaptation* [2 CP], *Fast Heal* [2 CP], *Immortal* [4 CP], *Non-Typical Anatomy* [4 CP], *Regeneration* [4 CP], *Semi-Corporeal* [4 CP], *Telepathic* [4 CP], *Flight* [4 CP], *Vampiric* [-4 CP] | Stigma: Monstrous (-6 CP), Xeno (-2 CP)
+* **Tenen [48 CP]:** Spectral (1 CP) | +1 WIS / +1 Any Attribute [5 CP] | +10 Skills [10 CP] | *Ageless* [2 CP], *Alter Form (Advanced — Special Ability)* [2 CP], *Awakened (Cosmic / Order)* [2 CP], *Bodyform Adaptation* [2 CP], *Fast Heal* [2 CP], *Immortal* [4 CP], *Non-Typical Anatomy* [4 CP], *Regeneration* [4 CP], *Semi-Corporeal* [4 CP], *Telepathic* [4 CP], *Flight* [4 CP] | Stigma: Xeno (-2 CP)
+* **Eakren [1 CP Base + Traits]:** Aberration (1 CP) | Standard PC Stats | — | *Corrupted Traits* [Varies], *Mutation* [Varies], *Origin Traits* [Varies], *Animal Body / Bodyform Adaptation* | Stigma: Monstrous (-4 CP) / Beast
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 144
+order: 142
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.archetypal.mercenary","mechanics"]
-updatedAt: "2026-10-14T05:32:05.202Z"
+updatedAt: "2026-11-02T22:49:22.002Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,100 @@ sockets:
   allocated: []
 ---
 
-## **11\. MERCENARY**
+# 1.04.Archetypal.Mercenary — 11. MERCENARY COMPANY (+2 WS)
 
-### **I. Detailed Faction Description**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 11. Mercenary Company
+* **Tech / Meta Level:** TL 3 / ML 1
+* **EUFT Starting Wealth Score Modifier:** **+2 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Ballistic (+5), Melee (+4), Knowledge: Tactics (+4), Athletics (+4), Intimidate (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Armor Proficiency, Burst Attack, Combat Reflexes, Combat Skill Focus, Dead Aim, Diehard, Power Attack, Quick, Tough, Weapon Specialization
+* **CRISP Visual Semiotics Key:** Carbon-scored assault plate, unit insignias painted on pauldrons, gunship hangars.
 
-* **Overview:** Private Military Companies (PMCs) and independent warbands who fight for the highest bidder. They hold no allegiance to flags, kings, or causes—only to the contract.  
-* **Key Themes:** Guns for Hire, The Contract, Brotherhood, Expendable Assets, High-Tech Warfare.  
-* **Relationship to Others:** Hired by everyone, trusted by no one. They are the disposable blades of the major powers.
+---
 
-### **II. Core Identity**
+MERCENARY
+I. Detailed Faction Description
+* Overview: Private military companies and mercenary bands that provide professional violence for hire. They are opportunistic and highly efficient, possessing advanced gear and tactics, but their loyalty is strictly tied to the highest bidder.
+* Key Themes: Guns for Hire, Tactical Operations, Shifting Loyalties, War Economy.
+* Relationship to Others: Transactional. Today's employer is tomorrow's target.
+II. Core Identity
+* Official Designation: [Name] Private Military Company (PMC) / The Free Company
+* Colloquialisms: Guns for Hire / Dogs of War / Contractors
+* Archetype: Guns for Hire
+* Capital/Key World: Variable (Mobile fleets or heavily fortified FOBs)
+* Driving Mandate: Secure lucrative contracts, build reputation, achieve personal wealth.
+* Motto: "Loyalty is a contract. Sign at the bottom."
+III. Sociological Profile
+* Ideology & Culture: Opportunistic, ruthless, efficient, professional, pragmatic, loyal (to the coin).
+* Social Structure: Military hierarchy based on combat experience and tactical value.
+* View on Outsiders: Clients or Targets.
+* Law & Order: Strict internal articles of war and contract law.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Highly skilled in combat/tactics, access to advanced weaponry, adaptable to various combat environments.
+* Weaknesses: Potential for betrayal/desertion, loyalty tied to financial gain, difficulty forming long-term alliances.
+* Military Doctrine: Highly adaptable, combined arms, objective-focused strikes.
+V. Mechanics (Game Data)
+* Prominent Species: Variable (Combat-oriented species prevalent).
+* Faction Skill Package (20 Points):
+   * Combat (Any) (+5)
+   * Tactics (+4)
+   * Athletics (+4)
+   * Survival (+4)
+   * Mechanics (+3)
+* Typical Archetypes:
+   * The Shock Trooper: Kicking down doors and clearing rooms with heavy firepower.
+   * The Sniper: Providing lethal overwatch and assassination from a distance.
+   * The Tactician: Analyzing the battlefield and directing the squad to victory.
+   * The Combat Medic: Patching up bullet wounds while under heavy enemy fire.
+   * The Heavy Weapons Specialist: Laying down suppressive fire with rotary cannons.
+   * The Infiltrator: Slipping past guards to disable security or plant explosives.
+   * The Demolitions Expert: Ensuring nothing is left standing after the contract is done.
+   * The Pilot: Flying hot extractions while dodging anti-air flak.
+   * The Quartermaster: Securing black-market ammunition and armor for the company.
+   * The Bounty Hunter: Tracking down specific targets for a high-value payout.
+* Recommended Features (1 CP Discount):
+   * Combat Specialist: Intensive, professional training with firearms or blades.
+   * Weapon Focus: Masterful dedication to a specific, signature weapon.
+   * Tough: Shrugging off the bruises and shrapnel of a chaotic warzone.
+   * Armor Proficiency: Moving fluidly while wearing heavy, tactical body armor.
+   * Quick Draw: Drawing a weapon and firing before the enemy can react.
+   * Danger Sense: A paranoia-honed instinct warning of ambushes or traps.
+   * Diehard: Refusing to die, continuing to fight even while bleeding out.
+   * Opportunist: Striking ruthlessly when an enemy drops their guard.
+   * Veteran Instincts: Remaining perfectly calm when the shooting starts.
+   * Tactical Reload: Swapping magazines at blinding speeds during a firefight.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Tactical, functional, and battle-scarred.
+* Atmosphere Tokens: Drop ships, customized weaponry, forward operating bases, scarred armor.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Tactical Military, Mercenary Grit, Functional.
+   * CONTEXT: Drop ships, scarred armor, customized weaponry, forward operating bases.
+   * ATMOSPHERE: Gritty, violent, professional, kinetic, dusty.
 
-* **Official Designation:** \[Company Name\] Solutions / The Vanguard / The Blood-Sworn  
-* **Colloquialisms:** Mercs / Hired Guns / Dogs of War  
-* **Archetype:** Guns for Hire  
-* **Capital/Key World:** Variable (Often operate from massive fleet-carriers or lawless frontier stations)  
-* **Driving Mandate:** Fulfill the contract, get paid, survive.  
-* **Motto:** "Loyalty ends when the credits run out."
+________________
 
-### **III. Sociological Profile**
-
-* **Ideology & Culture:** Pragmatic, cynical, fiercely loyal to their immediate squad mates.  
-* **Social Structure:** A strict military hierarchy based entirely on combat experience and survival.  
-* **View on Outsiders:** Clients, targets, or civilians in the way.  
-* **Law & Order:** Governed by "The Contract." Desertion is met with lethal internal discipline.
-
-### **IV. Strategic Assets**
-
-* **Tech Level (TL):** 3  
-* **Strengths:** High combat skill, extreme adaptability, battle-tested veterans, lack of bureaucratic red tape.  
-* **Weaknesses:** Zero political loyalty, high turnover rate, reliant on clients for major funding and resupply.  
-* **Military Doctrine:** Highly variable based on the contract (Assassination, Siege, Escort, or Shock Assault).
-
-### **V. Mechanics (Game Data)**
-
-* **Prominent Species:** Highly diverse.  
-* **Faction Skill Package (20 Points):**  
-  * Combat (Any) (+5)  
-  * Tactics (+4)  
-  * Survival (+4)  
-  * Mechanics (+4)  
-  * Athletics (+3)  
-* **Typical Archetypes:** The Shock Trooper, The Sniper, The Tactician, The Combat Medic, The Quartermaster.  
-* **Recommended Features (1 CP Discount):** Weapon Focus, Tough, Armor Proficiency, Combat Reflexes, Danger Sense, Burst Attack, Gearhead, Diehard, Endurance, Weapon Improvisation.
-
-### **VI. Visual Semiotics (Aesthetics)**
-
-* **Design Directive:** Tactical, scarred, and heavily armed.  
-* **Atmosphere Tokens:** Tactical webbing, mismatched high-end gear, drop-ships, scarred armor, ballistic plating, weapon grease.  
-* **HI-FI INK Guidance:** Military Sci-Fi, Tactical, Gritty. Dropship interiors, heavy ballistic plating, customized weaponry, ammo bandoliers, blast scarring. Tense, violent.
+MERCENARY ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Mercenary prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., heavily armed Shock Trooper in modular armor, calculating Tactician reviewing a holographic battlefield, cynical Sniper adjusting a scope, dropship Pilot in a flight suit]
+* NARRATIVE: [e.g., securing a lucrative extraction point, repairing gear after a grueling contract, receiving payment in unmarked cred-sticks, breaching a fortified bunker]
+[GUIDANCE PROMPT]
+* SETTING STYLE: PMC (Private Military Company), tactical, modular gear, pragmatic, battle-worn but functional, heavily armed, unbranded lethality.
+* CONTEXT: A scarred dropship interior, a forward operating base in a warzone, a smoky cantina negotiating a contract, a high-tech armory.
+* ATMOSPHERE: Opportunistic, ruthless, efficient, pragmatic, tense, loyal to the coin.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: subtle gunmetal grey shading, selective olive drab or desert tan marker wash on armor plates, precise crimson laser sight dots.
+3. READY-TO-USE TEMPLATES
+CHARACTER CONCEPT SHEET: The Shock Trooper
+Mercenary PMC Shock Trooper wearing heavily customized, modular tactical armor, carrying a heavy rail-rifle with aftermarket modifications. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Pragmatic and battle-hardened aesthetic, ruthless expression, subtle gunmetal grey and desert tan marker accents on the plating. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+INTERIOR SPACE: The Dropship Bay
+Interior of a heavily scarred mercenary dropship, weapon racks lined with diverse customized firearms, scratched metal deck, tactical hololith projecting a target location in the center. Environmental perspective sketch, complex spatial line art, diegetic lighting rendered via varying hatching density, architectural interior drafting, detailed clutter rendered in pure line work, varying line thickness to simulate depth. Tactical and tense atmosphere, subtle olive drab marker wash and glowing red hololith accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines.
 

@@ -119,7 +119,7 @@ cp_cost: 11
 
 # **AQUATICAN (S)**
 
-**CP Cost:** 7 CP  
+**CP Cost:** 11 CP  
 
 **Description:** Aquatic Humans of Aquatica, a unique and potent engineered human-variant. This species has been in existence for over a century, representing one of the Syndicate's most ambitious and successful genetic projects. They are the Syndicate's original Chimera GeNe, developed through the precise splicing of Aquarian genetics with standard Human DNA.
 

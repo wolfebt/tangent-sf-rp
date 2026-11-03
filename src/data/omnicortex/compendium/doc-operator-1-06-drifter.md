@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 177
+order: 175
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.drifter","mechanics"]
-updatedAt: "2026-10-14T05:39:35.566Z"
+updatedAt: "2026-11-02T22:49:26.915Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **DRIFTER**
+# 1.06.06 OCCUPATION: DRIFTER (Base WS 1)
+
+* **Operational Focus:** Nomadic Survival, Scavenging, Freelance Mercenary Work, and Frontier Independence.
+* **EUFT Base Wealth Score:** **Base WS 1**
+* **Canonical Professional Skills (20 SP Allocation):** Piloting, Knowledge (Survival), and any 3 Knowledge or Vocation Skills
+* **Recommended Feature Category (-1 CP Discount):** General Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **DRIFTER**
 
 A drifter is a person who travels from place to place, often without a fixed home or occupation. They may take on various temporary jobs or roles to survive, and their lifestyle is typically characterized by freedom, adaptability, and a sense of adventure. Drifters may be motivated by a variety of factors, such as a desire to see the world, a need to escape from a difficult situation, or simply a love of travel. They may also be drawn to the drifter lifestyle because it offers them a sense of freedom and independence. While the drifter lifestyle can be challenging, it can also be very rewarding. Drifters often have the opportunity to meet new people, experience different cultures, and see amazing things. They may also develop a strong sense of self-reliance and independence. Drifters can be found in various settings, such as aboard starships, space stations, or on distant planets.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Pilot, Survival and any three Knowledge or Vocation Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 General
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -89,8 +91,6 @@ Bodyguard
 
 Medical Specialist
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -99,15 +99,11 @@ Often adaptable and able to adjust to new environments and situations quickly
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Adventurous Spirit*
 
 Strong sense of adventure and are always seeking new experiences and challenges
 
 *Regain a Karma Point on the first encounter when dealing with something new \- creature, area, technology, etc.*
-
-&nbsp;
 
 ### *Aggressiveness*
 
@@ -115,15 +111,11 @@ Exhibit aggressive behavior and are not afraid to use violence to achieve their 
 
 *\+2 Intimidate*
 
-&nbsp;
-
 ### *Caution*
 
 Cautious and prefer to avoid unnecessary risks, especially when dealing with others
 
 *\+2 Insight*
-
-&nbsp;
 
 ### *Combat Training*
 
@@ -131,15 +123,11 @@ Skilled with firearms and other weapons, making them formidable opponents in com
 
 *\+2 Combat Skill of choice*
 
-&nbsp;
-
 ### *Fearlessness*
 
 Seem fearless and willing to take risks in order to achieve their goals
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Jack-of-All-Trades*
 
@@ -147,15 +135,11 @@ Possess a wide range of skills and knowledge, allowing them to adapt to various 
 
 *May use any skill without formal training*
 
-&nbsp;
-
 ### *Loyalty*
 
 While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups
 
 *Domination and Mind-Control Resistance Checks are made at Advantage*
-
-&nbsp;
 
 ### *Mobility*
 
@@ -163,15 +147,11 @@ Often on the move, traveling from place to place and exploring new territories
 
 *\+2 Equipment (Vehicle)*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 Skilled at finding ways to survive and thrive in difficult situations
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Scavenging*
 
@@ -179,15 +159,11 @@ Excel at scavenging and salvaging useful items from abandoned places or wreckage
 
 *\+2 Salvage checks*
 
-&nbsp;
-
 ### *Self-sufficiency*
 
 Often self-sufficient and able to take care of themselves without relying on others
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Stalker*
 
@@ -195,23 +171,17 @@ Possess stealthy skills, allowing them to move silently and go unnoticed when ne
 
 *May take 10 on Stealth Checks*
 
-&nbsp;
-
 ### *Street Smarts*
 
 Streetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information
 
 *\+2 Streetwise*
 
-&nbsp;
-
 ### *Survival*
 
 Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter
 
 *\+2 Survival*
-
-&nbsp;
 
 ### *Unpredictability*
 
@@ -220,8 +190,6 @@ Unpredictable in their actions and decisions, making them both intriguing allies
 *\+2 Initiative*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -281,4 +249,10 @@ Unpredictable in their actions and decisions, making them both intriguing allies
   * **Style:** Space Probe, Voyager.  
   * **Palette:** Space Black, Metal, Lens Flare.  
   * **Tokens:** Antenna, camera lens, thrusters, void.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Wandering Maantene Outrider** clad in weathered desert-camo chitin and scavenged thermal cloaks, roaming the frontier aboard a symbiotic bio-skiff.  
+  * **Style:** Nomadic Strain, Frontier Bio-Scavenger.  
+  * **Palette:** Weathered Chitin Black, Dust Ochre, Faded Emerald, Cyan Eye-Lenses.  
+  * **Tokens:** Mantid forelimbs, weathered cloak, bio-skiff tether, radiation resistance.
 

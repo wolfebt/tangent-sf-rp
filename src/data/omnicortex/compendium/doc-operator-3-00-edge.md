@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 236
+order: 234
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.edge","mechanics"]
-updatedAt: "2026-10-31T10:39:18.091Z"
+updatedAt: "2026-11-03T10:29:35.932Z"
 costs:
   bp: 0
   credits: 0
@@ -37,115 +37,82 @@ sockets:
   allocated: []
 ---
 
-# **EDGE**
+# **3.00.01 EDGE & TACTICAL MANEUVERS**
 
-# **EDGE**
+**Edge** refers to tactical advantage modifiers that characters can gain or lose based on their movements, elevation, positioning, cover, and deception during combat. These modifiers significantly influence the outcome of attack and defense rolls, making positioning and action economy central to tactical combat.
 
-*Edge refers to tactical advantage modifiers that characters can gain or lose based on their movements, positions, and the environment during combat. These modifiers can significantly influence the outcome of attacks and defense, making them a crucial aspect of tactical combat. Here's a breakdown of some of the Edge modifiers:*
+---
 
-&nbsp;
+## **1. POSITIONAL & MOVEMENT EDGE**
 
-## 
+### **Aiming**
 
-## **Aiming**
+Having the target in sights and taking time to steady and lead the shot grants **+2 to Strike per round/action of Aiming**, up to a maximum bonus equal to **1/2 the attacker's Combat Skill Rank** (or `[Agility * 2] + 2`). Requires an Aim action; the attacker cannot move prior to firing the aimed shot.
 
-Having the target in sights and time to steady and lead the shot, gain \+2 to Strike per round of Aiming (up to 1/2 the attacker’s Skill Level)
+### **Flanking**
 
-&nbsp;
+Tactical advantage gained when an attacker and at least one conscious ally are positioned on opposite sides or angles of the same target. This positioning forces the defender to divide their attention, granting a **+2 bonus to Melee Strike rolls** to each flanking attacker.
 
-## **Flanking**
+### **Advancing Target (Reckless Approach)**
 
-Advantage gained when an attacker has allies positioned on multiple sides of the target. This positioning creates an opportunity to exploit openings in the target's defenses, granting a \+2 bonus to hit.
+When an opponent approaches directly toward you without utilizing Cover or Evasive Movement, you may make an **Extra Reaction Attack against the target at `-5` to Strike**, and **re-roll Initiative** for the next round if they successfully move into Melee reach.
 
-&nbsp;
+### **Retreating Target (Unprotected Flight)**
 
-## **Advancing Target**
+When an opponent quickly leaves a threatened area at Jog, Run, or Sprint speed while forgoing Evasion or Cover, threatened defenders may make an **Extra Reaction Attack against the target at `-5` to Strike** and **re-roll Initiative**.
 
-Target approaching without Cover or Evasion. Extra Attack on target at \-5 to Strike and re-roll Initiative if successfully moved into Melee.
+### **High Ground**
 
-&nbsp;
+Attacking from superior elevation (rooftops, ledges, stairs, flying, or standing over a Prone opponent) grants **+2 to Strike** and **+2 to Critical Threat / Damage Range**.
 
-## **Retreating Target**
+### **Prone**
 
-Target quickly leaving the area forgoing any evasion or cover, Jog/Run/Sprint Speed. Extra attack on target at \-5 to Strike and reroll Initiative.
+Lying flat on the ground:
+* **Against Melee / Point Blank Opponents:** Opponents within Melee or Point Blank range gain the **High Ground Bonus (`+2` to Strike and `+2` to Critical Range)** against the Prone combatant, while the Prone combatant suffers `-2` on Melee strikes.
+* **Against Ranged Opponents (Beyond Point Blank):** The Prone combatant receives a **+2 Defense Bonus for each Range Category beyond Point Blank** due to ground profile cover *(an opponent with High Ground at range reduces this bonus according to their line of effect)*.
+* **Taking Full Cover:** With a successful active **Defense check**, a Prone combatant behind low cover may claim **Full Cover** from ranged attacks.
+* **Standing Up:** Requires a **Move Action**.
 
-&nbsp;
+### **Braced**
 
-## **High Ground**
+Planting one's stance to receive a Charge, hold a line, or fire heavy weaponry:
+* Negates heavy weapon recoil penalties and grants **Advantage** on Might/Stability saves against being tripped, shoved, or overrun.
+* Allows a **Block or readied weapon strike** to be used as an immediate counter-attack upon being hit or approached by an **Advancing / Charging Target**.
 
-\+2 to Strike and \+2 to Critical Damage Range
+### **Charge**
 
-&nbsp;
+Rushing at least 10 feet in a straight line into melee:
+* On a successful strike, add **+1d bonus Weapon Damage** plus **+1 point of Impact Damage per 10 feet of Speed** (up to a maximum of **+100% increase** in the attack's base damage), while taking **`-1` to Strike per stage of speed** (*Walk `-1`, Jog `-2`, Run `-3`, Sprint `-4`*) and `-2` to Defense until the start of the attacker's next turn.
 
-## **Prone**
+### **Close In (Guarded Approach)**
 
-On the ground&nbsp;
+Advancing defensively toward an opponent at base Walk speed with guard raised. Incurs **NO Modifiers** and is **not** counted as an *Advancing Target* (does not provoke the `-5` reaction attack).
 
-\- vs an opponent in Melee/Point Blank Range they will have High Ground Bonus
+### **Withdraw (Guarded Retreat)**
 
-\- vs a Ranged opponent receive a \+2 Defense Bonus for each Range Category after Point Blank for ground cover&nbsp;
+Pulling back defensively from melee at base Walk speed. Incurs **NO Modifiers** and is **not** counted as a *Retreating Target* (does not provoke Opportunity or Retreating Target attacks).
 
-  (Opponent with High Ground at Range will reduce bonuses based on line of effect accordingly) 
+### **Evasive Movement**
 
-\- with a successful Defense check the Prone Combatant may be able to take full cover from Ranged Attacks
+Moving quickly while weaving fully defensively. Grants **+1 Defense base, plus an additional +1 Defense per 10 feet of Movement Speed** expended during the turn.
 
-&nbsp;
+### **Subtle**
 
-## **Braced**
+A movement and action mode for quiet, sneaky, or low-profile actions intended not to draw attention. Used alongside movement paces and required to maintain or initiate **Stealth**-based skill actions during an encounter.
 
-Set to receive a Charge or to stay in place. Block usable as a counter attack on getting hit (or readied weapon) and bonus is gained for Advancing Target
+---
 
-&nbsp;
+## **2. DECEPTION & AMBUSH EDGE**
 
-## **Charge**
+### **Feint (False Defense)**
 
-on successful strike add \+1d to Attack Damage and \-1 to strike per stage of speed (walk, jog, run, sprint), also an additional \+1 Point of Impact Damage per 10 ft of Speed (up to a maximum of \+100% increase in the attack’s damage)
+An Attacker can make an opposed **Bluff Check vs. the Target's Insight Check** to lead the target into a **False Defense**, forcing an opening for a follow-up **Sneak Attack** made at **`-5` to Strike**—against which the target has **NO Active/Agility Defense** (base passive armor/size defense only).
 
-&nbsp;
+### **Surprise / Sneak Attack ("Getting the Drop")**
 
-## **Close In**
+When the Target is completely unaware of an incoming attack, they are unable to make any Active Defense check to evade the strike or reduce incoming Precision Damage. If an Attacker catches a target unaware, they also have the opportunity to inflict massive bonus damage or debilitating effects if trained:
 
-Guarded approach, defensive advancement at base speed. NO Modifiers and not counted as an Advancing Target
-
-&nbsp;
-
-## **Withdraw**
-
-Pulling back, defensively at base speed. NO Modifiers and not counted as a Retreating Target
-
-&nbsp;
-
-## **Evasive Movement**
-
-Fully Defensive while moving quickly, \+1 Defense and another \+1 per 10ft Movement Speed
-
-&nbsp;
-
-## **Subtle**
-
-Condition which is for quiet, sneaky or low key actions trying to not draw attention. Used along with other conditions listed but required for availability of different Skill Actions.
-
-&nbsp;
-
-## **Feint**
-
-An Attacker can make a Bluff check (vs Insight) to lead the Target into a False Defense, forcing an opening for a Sneak Attack made at \-5 to Strike (with the Target having NO Defense)
-
-&nbsp;
-
-## **Surprise / Sneak Attack**
-
-The Target is unaware of an incoming Attack and will be unable to make any Defense check to Evade the Attack and subsequently reduce damage if not Evaded.
-
-If an Attacker is able to catch a Target unaware they will also have the opportunity to inflict more damage or other effects if so trained.
-
-This is the “Getting the drop on em’”, whether it’s from a literal backstab, sniper’s shot, waiting in ambush, to firing a pistol thru a pocket or casually stabbing someone in conversation \- the attack went unnoticed until it happened with no defense allowed. Often due to Stealth (vs Insight) but may also be gained from a Bluff (vs Sense Motive) and / or situational/environmental factors.&nbsp;
-
-Made at \-5 to hit but with NO DEFENSE from the target, Damage is made at Advantage in addition to other effects.
-
-*Danger Sense Feature will allow an Advantageous check to be aware of an impending attack regardless of the source*
-
-&nbsp;
-
-#
+* **Narrative Triggers:** "Getting the drop on 'em"—whether from a literal backstab, a sniper's long-range shot, waiting in ambush, firing a concealed pistol through a coat pocket, or striking mid-conversation—occurs whenever the attack goes unnoticed until impact, typically resolved via **Stealth vs. Alertness** or **Bluff vs. Insight** alongside environmental factors.
+* **Called Ambush (`-5` Strike Option):** Executed at **`-5` to Hit**, but with **NO DEFENSE** from the unaware target; **Weapon Damage is rolled with Advantage** (roll damage dice twice and keep highest) in addition to **Sneak Attack bonus dice** (`+1d6` per rank + Intellect Mod, applied if at least 1 point of damage penetrates Armor DR).
+* **Danger Sense Counter:** The **Danger Sense** Feature (`1.08.GeneralFeatures.md`) allows the defender to roll an **Advantageous Alertness check** to become aware of an impending attack regardless of the source.
 

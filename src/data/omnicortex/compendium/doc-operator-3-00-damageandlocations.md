@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 238
+order: 236
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.damageandlocations","mechanics"]
-updatedAt: "2026-10-31T11:30:42.681Z"
+updatedAt: "2026-11-03T10:29:32.256Z"
 costs:
   bp: 0
   credits: 0
@@ -37,211 +37,92 @@ sockets:
   allocated: []
 ---
 
-# **DAMAGE**
-
-# **DAMAGE**
-
-*The attacker rolls a 2d10, adds their relevant Ability Score modifier and any applicable Skill modifiers, and compares the total to the target's Defense. If the total equals or exceeds the target's Defense, the attack hits.*
-
-*Upon a successful hit, the attacker then rolls their weapon's damage dice, adds any relevant damage modifiers, and subtracts the target's Damage Resist (DR). The resulting number is the amount of damage the target takes.*
-
-*Different weapons deal different damage types, which can be more or less effective against certain targets. For example, piercing damage is good against unarmored targets, while blunt damage is better against armored targets.*
-
-&nbsp;
-
-Core Mechanic
-
-Damage is calculated by summing several components:
-
-**Weapon Die Damage**
-
-Determined by the weapon used and its inherent damage capabilities.
-
-&nbsp;
-
-**Relevant Ability**
-
-The character's strength, agility, or other relevant ability modifier is added, reflecting their physical prowess.
-
-&nbsp;
-
-**Precision Damage**
-
-This includes bonuses from skill level and additional effects like sneak attacks, rewarding accuracy and tactical positioning.
-
-&nbsp;
-
-**Target's Armor DR**
-
-The target's Damage Resist (DR) is subtracted, representing their armor's effectiveness in mitigating damage. Different armor types offer varying levels of protection against specific damage types.
-
-&nbsp;
-
-**Target's STA**
-
-The target's Stamina modifier is subtracted, representing their physical resilience and ability to withstand injury.
-
-&nbsp;
-
-Damage Types
-
-Tangent features a variety of damage types, including kinetic, energy, and other special types. Kinetic damage encompasses blunt, slashing, and piercing attacks, while energy damage includes fire, cold, and other elemental or exotic forms.
-
-&nbsp;
-
-Armor and Penetration
-
-Armor plays a crucial role in reducing damage, with different armor types offering specific DR against different damage types. Some weapons, however, have penetration effects that allow them to bypass a portion of the target's DR.
-
-&nbsp;
-
-Critical Hits and Fumbles
-
-A natural 20 on the attack roll results in a critical hit, doubling the weapon's damage dice and adding 30 to the base attack score. Conversely, a natural 1 results in a fumble, subtracting 10 from the base attack score and potentially causing additional negative consequences.
-
-&nbsp;
-
-Location-Based Effects
-
-Attacks can target specific body locations, with successful hits potentially causing debilitating effects like being winded, disarmed, or hobbled. Critical hits can even cause more severe consequences, such as unconsciousness or crippled limbs.
-
-&nbsp;
-
-Healing and Recovery
-
-Characters can recover from damage through rest, medical attention, or the use of metaphysical abilities. However, severe injuries may require extended recovery periods or even cause permanent disabilities.
-
-&nbsp;
-
-Additional Notes
-
-The damage system interacts with other mechanics, such as cover, movement, and tactical positioning, adding a layer of strategic depth to combat encounters. Furthermore, the system allows for customization through weapon enhancements, special abilities, and other factors, enabling players to tailor their characters' combat capabilities to their preferred playstyle.
-
-&nbsp;
-
-## **METAFOCUS**
-
-- An Invocation is considered the weapon with the damage and type determined accordingly  
-- Attack is made with Attune Skill \[Strike, opposed by the Defense score or sets the CR of an Effect\]  
-- Damage or Effect is then determined by the Invocation and Discipline Skill Level  
-- Spontaneous Casting is included but use the Discipline’s Skill as appropriate
-
-&nbsp;
-
-## **RELEVANT ABILITIES**
-
-- Strength for most melee attacks and throwing heavy objects  
-- Agility is finesse of light or natural weapons and most ranged physical attacks  
-- Intelligence is key to magic directly weaving its effects  
-- Charisma is key in more subtle and controlling factors  
-- Stamina and Wisdom\* are Abilities that are not generally used Offensively&nbsp;  
-  (covering the body (Fortitude) and mind (Willpower) defensively)  
-  \* Wisdom may be used in place of Intelligence/Charisma in Metaphysic Skill checks if desired for faith based caster types
-
-&nbsp;
-
-## **OTHER**
-
-- Precision Damage is a bonus directly from the skill level of the attacker (relative Combat or Focus Skill)  
-- A Target who is actively defending will reduce damage by their Defense score (in counter to Precision Damage)  
-- Sneak Attack Damage is added only if at least 1 point of damage affects the target&nbsp;  
-  (determine damage after Armor but before Sta modifier)
-
-&nbsp;
-
-&nbsp;
-
-## **LOCATIONS**
-
-d10 for Hit Location (on a critical hit) or to make called shots: \-2 to torso or leg or \-4 to head or arm
-
-**1**
-
-HEAD
-
-KO (Reason Save or Stunned for 1+ rounds\*, failure by 10+ Unconscious)
-
-&nbsp;
-
-**2,3,4**
-
-TORSO
-
-Winded (Fort Save or cumulative \-2 on actions for 1+ rounds\*, failure by 10+ Gasping/Incapacitated)
-
-&nbsp;
-
-**5 (R) or 6 (L)**
-
-ARM
-
-Disarmed (Ref Save or drop held item, failure by 10+ Arm is Crippled/Non-Functional)
-
-&nbsp;
-
-**7,8 (R) or 9,0 (L)**
-
-LEG
-
-Hobbled (Might Save or 1/2 speed for 1+ rounds\*, failure by 10+ Leg is Crippled/Non-Functional)
-
-&nbsp;
-
-*In Melee and Unarmed, unless a Leg Attack or Maneuver is made, location will be determined by rolling 1d6*
-
-*\* Duration of Impediment will be 1 round per point under the save CR (based directly on the Damage done)*
-
-&nbsp;
-
-### 
-
-### **Disabled**
-
-Taking 1/3rd of the Health Score in Damage to A limb will disable it (or Unconsciousness if Head)
-
-Sta Check with a CR of10 \+ the damage taken to keep using it
-
-\-4 on all actions for Head, \-4 Str and Agility for an Arm or Half Ground Speed and no Rush Maneuver if Leg
-
-Medical Attention or Metaphysics will be required to properly heal
-
-&nbsp;
-
-### **Destroyed**
-
-Taking 2/3rds of the Health to an area will likely damage it beyond ANY further use (Brain Death\*\* if Head)
-
-NO Check, it’s mangled and little use (Traumatic Damage Control also needed for Shock, Bleeding, etc)&nbsp;
-
-&nbsp;
-
-\*\* Brain Death will be at the Architect’s discretion (as any instant kill), IF they survive, they should still be Disabled and it will require intense recovery and downtime.
-
-&nbsp;
-
-## **Technology Level 3+ Limb Replacements**
-
-A replacement limb will require a day of surgery and recovery whether Bio or Synth.
-
-    Bio Limb must be matched (+1 day) or grown (+2d4 days)
-
-    Synth Limb available can be prepped for installation during surgery time.
-
-&nbsp;
-
-*Body Replacement see Augmentations \- Body Mods*&nbsp;
-
- *Tech 4 Tran-Cerebral Venture*&nbsp;
-
- *Tech 5 Consciousness Transfer*
-
-&nbsp;
-
-Note \- Bio / Natural Limbs are the same damage capacity for being Disabled or Destroyed.&nbsp;
-
-Synth Limbs can take 50% more damage before Disabled or Destroyed but may **not** get the Sta check to remain functional at Disabled.
-
-&nbsp;
-
-##
+# **3.00.03 DAMAGE & HIT LOCATIONS**
+
+The attacker rolls **`2d10`**, adds their relevant **Attribute Modifier** and **Combat Skill Rank** (plus situational modifiers), and compares the total to the target's **Defense (CR)**. If the attack exceeds the target's Defense (or meets/exceeds an unopposed CR), the attack hits. Upon a successful hit, the attacker rolls their weapon's damage dice, adds relevant damage modifiers, and subtracts the target's effective **Armor Damage Resistance (DR)** and **Stamina (STA) Base Toughness**. The resulting net total is the damage the target sustains.
+
+---
+
+## **1. CORE DAMAGE RESOLUTION ENGINE**
+
+Damage is calculated by resolving five sequential components:
+
+```text
+Step 1 (Raw Damage)       = Weapon Die Damage + Relevant Attribute Modifier + Precision Damage
+Step 2 (Armor Mitigation) = Raw Damage - max(0, Target Armor DR - Weapon Penetration)
+Step 3 (Sneak Attack)     = If Step 2 >= 1, add Sneak Attack Bonus Dice + Intellect Modifier
+Step 4 (Base Toughness)   = Subtract Target's Stamina (STA) Modifier (Point-for-Point)
+=================================================================================================
+Final Net Damage          = Applied to Target's Vitality (or directly to Health on a Critical Hit / 0 Vitality)
+```
+
+### **Component Definitions**
+
+* **Weapon Die Damage:** Determined by the weapon or invocation used and its inherent damage rating (multiplied by the attacker's **Scaling Modifier** if Large or larger).
+* **Relevant Offensive Attribute:**
+  * **Strength (`STR`):** Standard melee weapons, unarmed strikes, and thrown heavy objects.
+  * **Agility (`AGI`):** Finesse of light or natural melee weapons and physical/energy ranged attacks.
+  * **Intellect (`INT`):** Key attribute for Arcane and Psychic Metafocus weaving.
+  * **Charisma (`CHA`):** Key attribute for Hereditary/Sorcerous and Bardic Metafocus effects.
+  * **Wisdom (`WIS`):** Used in place of Intellect or Charisma for Divine, Faith, and Primal Metafocus checks *(while Stamina and Wisdom primarily govern defensive Fortitude and Willpower saves)*.
+* **Precision Damage:** Bonus damage derived directly from the Skill Stage/Rank of the attacker (in their relative Combat or Metafocus Focus skill).
+  * **Active Defense Counter:** A target who is **actively defending** (rolling an Active Defense Reaction) reduces incoming Precision Damage by their **Defense Skill Rank**.
+* **Target's Armor DR & Penetration:** The target's highest applicable Damage Resistance (`Armor Layering Cap`: biological, cybernetic, and wearable DR do not stack; only the single highest DR applies) is subtracted from incoming damage. Weapons with **Penetration** bypass an equal number of points of the target's Armor DR (minimum 0 DR).
+* **Sneak Attack Damage:** Added **only if at least 1 point of damage penetrates the target's Armor DR** *(determined after subtracting Armor DR, but **before** subtracting the target's Stamina modifier)*.
+* **Target's Stamina (`STA`) Modifier (Base Toughness):** Subtracted point-for-point from remaining wound damage, representing physical resilience and ability to withstand injury.
+* **Critical Hits (`Natural 20`) & Fumbles (`Natural 2`):**
+  * **Critical Hit (`Natural 20` / Double-10s on `2d10`, or expanded threat range `19, 18...`):** Adds **`+10` in addition to the rolled dice value** (e.g., `20 -> 30`, `19 -> 29`, `18 -> 28`), doubles (`2x`) the weapon's base damage dice, bypasses Vitality to strike **Health** directly, triggers the weapon's elemental/critical effect, and rolls on the **Hit Location Table** below.
+  * **Fumble (`Natural 2` / Double-1s on `2d10`, or expanded fumble range `3, 4...`):** Replaces the rolled dice value with a **flat `-10`** (subtracting `10` from the character's base attack score regardless of whether the fumble rolled on `2, 3, 4...`) and triggers a situational complication (weapon jam, overheated cell, dropped weapon, or opening to counter-attack).
+* **Metafocus Invocations as Weapons:**
+  * An **Invocation** is treated as the weapon, with its damage dice and damage type determined by the specific Discipline and Invocation description (`4.00 METAPHYSICS.md`).
+  * The attack roll (Strike, opposed by Target Defense, or setting the CR of a resisted effect) is made using the caster's **Attune** or **Discipline Focus Skill**.
+  * Damage or effect magnitude is scaled by the caster's **Discipline Skill Stage** and **Invocation Rank** (spontaneous free-casting uses the Discipline Focus skill without an Invocation Rank bonus).
+
+---
+
+## **2. HIT LOCATIONS & CRITICAL IMPEDIMENTS (`1d10` / `1d6`)**
+
+When a **Critical Hit** is scored—or when an attacker declares an intentional **Called Shot** (`-2` to Torso or Leg, `-4` to Head or Arm, `-5` to Eyes/Digits)—determine the struck body location and its resulting **Impediment Condition** (`Save CR = 10 + Final Net Damage Dealt`):
+
+| `1d10` Roll | Hit Location | Called Shot Penalty | Impediment Condition & Saving Throw (`CR = 10 + Net Damage Dealt`) |
+| :---: | :---: | :---: | :--- |
+| **1** | **HEAD** | `-4` *(Cranium `-2`, Eyes `-5`)* | **Knockout (KO):** Target must pass a **Reason (Intellect) Save** or be **Stunned** for `1 round per point` failed *(Failure by 10+ renders the target **Unconscious**)*. |
+| **2, 3, 4** | **TORSO** | `-2` *(Center `-1`, Groin `-4`)* | **Winded:** Target must pass a **Fortitude (Stamina) Save** or suffer a **cumulative `-2` penalty on all actions** for `1 round per point` failed *(Failure by 10+ leaves the target **Gasping / Incapacitated**)*. |
+| **5 (R) / 6 (L)** | **ARM** | `-4` *(Arm `-2`, Forearm `-3`, Digits `-5`)* | **Disarmed:** Target must pass a **Reflex (Agility) Save** or drop held item *(Failure by 10+ leaves the Arm **Crippled / Non-Functional**)*. |
+| **7, 8 (R) / 9, 0 (L)** | **LEG** | `-2` *(Thigh/Shin `-3`, Foot `-4`, Digits `-5`)* | **Hobbled:** Target must pass a **Might (Strength) Save** or be reduced to **`1/2` Movement Speed** for `1 round per point` failed *(Failure by 10+ leaves the Leg **Crippled / Non-Functional**)*. |
+
+* **Melee & Unarmed Location Die (`1d6`):** In Melee and Unarmed combat, unless a low/leg attack or specific maneuver is declared, random hit locations are determined by rolling **`1d6`** (striking Head [`1`], Torso [`2–4`], Right Arm [`5`], or Left Arm [`6`]).
+* **Duration of Impediment:** The duration of any non-permanent impediment is **1 round per point by which the target failed the Save CR** (where `CR = 10 + Net Damage Dealt`).
+
+---
+
+## **3. DISABLED & DESTROYED LIMBS**
+
+### **A. Disabled (`1/3` of Maximum Health Score)**
+
+Taking damage to a specific limb or location equal to at least **one-third (`1/3`) of the character's Maximum Health Score** disables that location:
+* **Head:** Causes immediate **Unconsciousness** unless the character passes a **Fortitude Save (`CR = 10 + Damage Taken`)**; even if conscious, the character suffers **`-4` on all actions**.
+* **Arm:** The arm hangs uselessly. Imposes **`-4` to Strength and Agility checks** involving that limb (requires a **Fortitude Check `CR = 10 + Damage Taken`** to force a single action through the pain).
+* **Leg:** Reduces the character to **Half (`1/2`) Ground Speed** and prohibits Jog, Run, Sprint, or Rush maneuvers.
+* **Recovery:** Clinical **Knowledge (Medicine)** surgery or a restorative Metaphysic Invocation (*Entropy: Order*) is required to properly heal a Disabled limb.
+
+### **B. Destroyed (`2/3` of Maximum Health Score)**
+
+Taking damage to a specific location equal to at least **two-thirds (`2/3`) of the character's Maximum Health Score** mangles or severs the limb beyond any further natural use:
+* **No Save:** There is no Fortitude check to keep using a Destroyed limb; immediate trauma control is required for shock and bleeding.
+* **Head Destruction (Brain Death):** Causes immediate **Brain Death** (at the Architect's discretion, if the character survives via Karma expenditure, they remain permanently Disabled/Comatose until undergoing intensive high-TL reconstruction or metaphysical regeneration).
+
+---
+
+## **4. TECHNOLOGY LEVEL 3+ LIMB & BODY REPLACEMENTS**
+
+* **Limb Replacement Surgery (`1 Day`):** Installing a replacement limb requires **1 full day of surgery and recovery**, whether Biological or Synthetic:
+  * **Biological Cloned / Grafted Limb:** Must be tissue-matched (`+1 day`) or vat-grown (`+2d4 days`) prior to surgery (or attached instantaneously via the *Grafting* Invocation).
+  * **Synthetic Cyber-Limb (`TL 3+`):** Can be prepped and calibrated during the 1-day surgical window (`2.00.Augmentations.md`).
+* **Biological vs. Synthetic Limb Durability:**
+  * **Biological / Natural Limbs:** Share the standard `1/3 Max Health` (Disabled) and `2/3 Max Health` (Destroyed) thresholds.
+  * **Synthetic Limbs (`+50%` Threshold):** Can sustain **50% more damage** (`1/2 Max Health` for Disabled; `Full Max Health` for Destroyed) before being Disabled or Destroyed, but they **do not** receive a Stamina/Fortitude check to remain temporarily functional once Disabled.
+* **Full Body Replacement (`2.00.Augmentations.md`):**
+  * **Tech Level 4:** *Trans-Cerebral Venture / Cloned Re-Sleeving* (`CR 30`).
+  * **Tech Level 5:** *Digital Consciousness Transfer / Polymatter Reconstruction* (`CR 35–40`).
 

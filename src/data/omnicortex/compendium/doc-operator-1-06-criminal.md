@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 176
+order: 174
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.criminal","mechanics"]
-updatedAt: "2026-10-14T05:39:35.565Z"
+updatedAt: "2026-11-02T22:49:26.820Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **CRIMINAL**
+# 1.06.05 OCCUPATION: CRIMINAL (Base WS 4)
+
+* **Operational Focus:** Underworld Enterprise — Heists, Smuggling, Slicing, Assassination, and Black-Market Syndicates.
+* **EUFT Base Wealth Score:** **Base WS 4**
+* **Canonical Professional Skills (20 SP Allocation):** Bluff, Diplomacy, Alertness, Stealth, and 1 Knowledge or Vocation Skill
+* **Recommended Feature Category (-1 CP Discount):** Skill Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **CRIMINAL**
 
 A Criminal is a character who engages in illegal activities for personal gain or as part of an organized group. This can include roles such as thieves, con artists, burglars, assassins, and members of criminal organizations. Criminal characters often possess skills in stealth, deception, and combat, allowing them to navigate the dangerous underworld and accomplish their objectives. Many Criminals can be quite brutish but some will be quite professional and honorable. Though others commit a myriad assortment of crimes on a regular basis, no one is as good at crime-for-profit as an actual Criminal.
 
-&nbsp;
-
 ## **Professional Skills**
 
-Bluff, Diplomacy, Awareness, Stealth and one Knowledge or Vocation
-
-&nbsp;
+Bluff, Diplomacy, Alertness, Stealth and one Knowledge or Vocation
 
 ## **Recommended Features**
 
 Skill
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -81,8 +83,6 @@ Slaver
 
 Hacker
 
-&nbsp;
-
 ## **Traits**
 
 ### *Aggressiveness*
@@ -91,15 +91,11 @@ Criminals may be more prone to violence and aggression than the average person
 
 *\+2 Intimidation*
 
-&nbsp;
-
 ### *B\&E*
 
 Experience with breaking and entering into secure locations
 
 *\+2 all checks to the Infiltration of a physical location*
-
-&nbsp;
 
 ### *Combat Training*
 
@@ -107,15 +103,11 @@ Criminals may have experience with hand-to-hand combat or the use of weapons
 
 *\+2 to a Combat Skill of choice*
 
-&nbsp;
-
 ### *Deception*
 
 Criminals are often skilled at lying and manipulating others to get what they want
 
 *\+1 Manipulation Skills*
-
-&nbsp;
 
 ### *Hacking*
 
@@ -123,15 +115,11 @@ Experience with hacking into computer systems and stealing information
 
 *\+2 all checks to the Infiltration of a digital domain*
 
-&nbsp;
-
 ### *Networking*
 
 Criminals may have a network of contacts and associates that they can call upon for assistance
 
 *Gather Information checks at Advantage*
-
-&nbsp;
 
 ### *Resourcefulness*
 
@@ -139,15 +127,11 @@ Criminals may have a knack at finding creative solutions to problems, especially
 
 *Once per Day make a Skill Check of choice at Advantage*
 
-&nbsp;
-
 ### *Risk-taking*
 
 Criminals may be more willing to take risks and engage in dangerous behavior
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Self-preservation*
 
@@ -155,23 +139,17 @@ Criminals may be skilled at protecting themselves and avoiding capture by law en
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Smooth*
 
 Criminals may be charming and persuasive, able to talk their way out of difficult situations
 
 *\+2 Bluff*
 
-&nbsp;
-
 ### *Stalker*
 
 Skilled at moving quietly and avoiding detection
 
 *May take 10 on Stealth Checks*
-
-&nbsp;
 
 ### *Street smarts*
 
@@ -180,8 +158,6 @@ Criminals may have a deep understanding of the criminal underworld and how to na
 *\+2 Streetwise*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -241,4 +217,10 @@ Criminals may have a deep understanding of the criminal underworld and how to na
   * **Style:** Glitch, Malfunction.  
   * **Palette:** Error Red, Spark White, Metal.  
   * **Tokens:** Sparks, jagged movements, broken casing.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Severed Strain / Rogue Bio-Smuggler** trafficking forbidden Genomatrix proto-flux vials and wetware grafts through neon-lit underhive tunnels, shielded by psionic static dampeners.  
+  * **Style:** Bio-Contraband Smuggler, Underhive Wetware Broker.  
+  * **Palette:** Oil-Slick Obsidian, Toxic Emerald, Static Violet, Amber Vials.  
+  * **Tokens:** Proto-flux canisters, neural dampener, concealed bio-blade, wetware ports.
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "doc-architect-99-metaphysics"
-order: 42
+order: 49
 perspective: "architect"
 entry_type: "Metaphysics Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","metaphysics","99.metaphysics.metatechmatrix","matrix"]
-updatedAt: "2026-10-14T06:04:05.749Z"
+updatedAt: "2026-11-02T22:49:11.352Z"
 costs:
   bp: 0
   credits: 0
@@ -37,392 +37,277 @@ sockets:
   allocated: []
 ---
 
-# **META-TECH FRAMEWORK**
+# **99. METAPHYSICS: META-TECH MATRIX**
 
-## Integration of Metaphysics and Technology
+## **Integration of Metaphysics and Technology**
 
-&nbsp;
+---
 
-&nbsp;
+## **1. OPERATIONAL PHILOSOPHY**
 
-## **1\. OPERATIONAL PHILOSOPHY**
+In the Tangent Universe, the divide between Science and Sorcery is a matter of origin and methodology, not underlying effect. **Meta-Tech** represents the engineering bridge where physical hardware accommodates and projects reality-warping patterns of the Resonance Field.
 
-In the Tangent Universe, the divide between Science and Sorcery is a matter of origin, not effect. **Meta-Tech** represents the bridge where engineering accommodates reality-warping patterns.
+This framework governs three distinct engineering applications:
 
-This framework allows for three distinct engineering goals:
+1. **Enhancement (Passive):** Using *Matter* or *Energy* disciplines to permanently improve the physical properties of a device (e.g., Unbreakable/Self-Mending Armor, Mono-edge/Ghost-Strike Blades).
+2. **Imbuement (Active):** Installing a specific **Invocation** into a device so it can be "cast" via a physical trigger rather than a ritual by any operator, Awakened or mundane (e.g., a gun that fires *Thermal Lance*, a belt that triggers *Long Step / Force Field*).
+3. **Interface & Amplification (Symbiotic / Chassis-Scaled):** Hardware that amplifies an Awakened user's natural Metaphysical Skills and scales them to vehicular or architectural magnitudes (e.g., Psi-Amps, Elemental Focus Cannons, Ley-Line Spires).
 
-1. **Enhancement (Passive):** Using *Matter* or *Energy* disciplines to permanently improve the physical properties of a device (e.g., Unbreakable Armor, Mono-edge Blades).  
-2. **Imbuement (Active):** Installing a specific **Invocation** into a device, allowing it to be "cast" via a trigger rather than a ritual (e.g., A Gun that fires *Thermal Lance*, a Belt that casts *Force Field*).  
-3. **Interface (Symbiotic):** Devices that amplify the user's natural Metaphysical Skills (e.g., Psi-Amps).
+---
 
-### 
+## **2. THE CAPACITY SYSTEM: META-CONVERSION**
 
-### 
+Introducing a metaphysical pattern into a physical object requires converting and allocating **Universal Displacement Unit (UDU)** capacity:
 
-## **2\. THE CAPACITY SYSTEM: META-CONVERSION**
+### **2.1 Conversion & Rank Limits**
 
-To introduce a metaphysical effect into a physical object, the object's capacity must be converted to accept the pattern. We utilize the **Universal Displacement Unit (UDU)** system established in the Equipment Framework.
+The UDU tier used (**Socket, Mount, or Module**) dictates the **Operational Scale** of the manifestation, while the **Skill Rank** engineered into the device determines its **Power Level**:
 
-#### 
+- **1 Socket (Personal Scale):** Holds up to **Rank 10** (Trained Effect).
+- **2 Sockets (Personal Scale):** Holds up to **Rank 20** (Master Effect).
+- **3 Sockets (Personal Scale):** Holds up to **Rank 30** (Pinnacle Effect).
 
-#### **2.1 Conversion & Ranks**
+| Scale Tier | Physical UDU Unit | Operational Scale | Invocation Rank Capacity |
+| :--- | :--- | :--- | :--- |
+| **Tier 1: Personal** | **Socket** | Personal Scale (`x1`) | 1 Socket per 10 Ranks of the Invocation. |
+| **Tier 2: Mecha** | **Mount** | Vehicle Scale (`x2` to `x20`) | 1 Meta-Mount holds any Rank up to Pinnacle (Rank 30). |
+| **Tier 3: Structure** | **Module** | Strategic / Capital Scale (`x5` to `x80+`) | 1 Meta-Module holds any Rank up to Pinnacle (Rank 30). |
 
-The type of capacity used (Socket, Mount, or Module) dictates the **Operational Scale** of the effect. However, the **Power Level** of the effect is determined by the **Skill Rank** installed during creation.
+- **The Principle of Scale:** An Invocation installed in a **Mount** or **Module** is fundamentally more potent than one in a **Socket**, scaling its mass, area, and range by the host chassis multiplier:
+  - *Personal Example:* A **Rank 10** *Teleport* in a Suit (**1 Socket**) translocates a single person up to 5 miles.
+  - *Vehicular Example:* A **Rank 10** *Teleport* in a Huge Mech (**1 Meta-Mount**, `x5` Scale) translocates the entire 10-ton vehicle and its crew up to 25 miles.
 
-Capacity Cost:
+---
 
-* **1 Socket** holds up to **Rank 10** (Trained Effect).  
-* **2 Sockets** holds up to **Rank 20** (Master Effect).  
-* **3 Sockets** holds up to **Rank 30** (Pinnacle Effect).
+## **3. ENHANCEMENT: PASSIVE INTEGRATION**
 
-&nbsp;
+*The application of **Matter: Enhancement**, **Energy: Force**, or **Dimension** patterns to permanently upgrade hardware specifications.*
 
-| Scale Tier | Physical Unit | Operational Scale | Capacity Limit |
-| :---- | :---- | :---- | :---- |
-| **Tier 1: Personal** | **Socket** | **Personal Scale** | 1 Socket per 10 Ranks of the Invocation. |
-| **Tier 2: Mecha** | **Mount** | **Vehicle Scale** | 1 Mount holds any Rank up to Pinnacle (Rank 30). |
-| **Tier 3: Structure** | **Module** | **Strategic Scale** | 1 Module holds any Rank up to Pinnacle (Rank 30). |
+These effects are "Always On" or trigger reactively on impact; they do not require an Action to activate.
 
-* **The Principle of Scale:** An Invocation installed in a **Mount** is fundamentally more potent than one in a **Socket**.  
-  * *Example:* A **Rank 10** *Teleport* in a Suit (**1 Sockets**) moves a person 5 miles.  
-  * *Example:* A **Rank 10** *Teleport* in a Mech (**1 Mount**) moves a 10-ton vehicle (Huge size) 25 miles.
+### **3.1 Weapon Enhancement Examples**
 
-### 
+- **Fabrication Cost:** Adds **+5 Crafting CR per Socket** to the base weapon's Crafting CR.
 
-&nbsp;
+| Enhancement | Discipline Base | Socket Cost | Mechanical Effect |
+| :--- | :--- | :---: | :--- |
+| **Energy Sheath** | Energy (Elemental) | 1 Socket | Weapon deals **+`1d6` Energy Damage** (*Pyro, Cryo, Voltic, Sonic, or Corrosive*). |
+| **Ghost-Strike** | Dimension (Phase) | 1 Socket | Ignores physical Armor DR; mitigated only by Force Fields or Phase wards. |
+| **Seeking** | Mental (Sense) | 1 Socket | Grants **+2 bonus to Attack (Strike) rolls** via micro-telekinetic trajectory correction. |
+| **Vampiric** | Entropy (Chaos) | 1 Socket | On a Critical Hit, the wielder recovers **Health/Vitality equal to 1/2 the net damage dealt**. |
+| **Soul-Bound** | Mental (Projection) | 1 Socket | Biometrically/psychically locked to a single attuned user; cannot be disarmed or used by others. |
 
-### **3\. ENHANCEMENT: PASSIVE INTEGRATION**
+### **3.2 Protective Enhancement Examples**
 
-*The application of **Matter: Enhancement** or **Energy: Force** to improve specifications.*
+- **Fabrication Cost:** Adds **+5 Crafting CR per Socket** to the base armor's Crafting CR.
 
-These effects are "Always On" or reactive. They do not require an Action to activate; they simply function as part of the item.
+| Enhancement | Discipline Base | Socket Cost | Mechanical Effect |
+| :--- | :--- | :---: | :--- |
+| **Featherweight** | Dimension (Gravity) | 1 Socket | Armor counts as **1 weight category lighter** (halving mass and mobility penalties). |
+| **Chameleon Weave** | Illusion (Shadow) | 1 Socket | Grants the *Obscure / Blending* effect (**+4 to Stealth checks**) while stationary. |
+| **Hardened Logic** | Mental (Shield) | 1 Socket | Wearer rolls Saving Throws against hacking, neural disruption, and psionic intrusion at **Advantage**. |
+| **Auto-Mend** | Matter (Repair) | 1 Socket | Armor autonomously regenerates **`1d4` Structure Points (SP) per hour**. |
 
-#### 
+---
 
-#### **3.1 Weapon Enhancement Examples**
+## **4. IMBUEMENT: ACTIVE INVOCATION DEVICES**
 
-*Cost: Adds to Base CR (\+5 CR per Socket).*
+*Hard-coding a specific Invocation into a machine so any operator (even non-Awakened) can trigger it.*
 
-| Enhancement&nbsp; | Discipline Base | Sockets | Effect |
-| :---- | :---- | :---- | :---- |
-| **Energy Sheath** | Energy (Elemental) | 1 | Weapon deals \+1d6 Energy Dmg (Pyro/Cryo/Voltic). |
-| **Ghost-Strike** | Dimension (Phase) | 1 | Ignores DR from physical armor; only stopped by Force Fields. |
-| **Seeking** | Mental (Sense) | 1 | \+2 Bonus to Attack Rolls (Micro-telekinetic correction). |
-| **Vampiric** | Entropy (Chaos) | 1 | On Critical Hit, wielder heals HP equal to 1/2 damage dealt. |
-| **Soul-Bound** | Mental (Projection) | 1 | Weapon functions only for specific user; cannot be disarmed. |
+### **4.1 The Device Stat Block**
 
-#### 
+When an Invocation is built into an item, its variable stats become **Fixed Constants** based on the engineering quality:
 
-#### **3.2 Protective Enhancement Examples**
+- **Fixed Rank:** The device is crafted with a specific Skill Rank (e.g., Rank 12) and *always* manifests at this Rank/Stage. Effect magnitude, duration, and range are calculated using the device's Fixed Rank.
+- **Accuracy & Save CR:**
+  - **Save CR:** The Save CR against the device is `10 + (Fixed Rank / 2) + Device Quality Bonus`.
+  - **Attack Roll (Strike):** Directed rays, projectiles, or melee touches use the wielder's **Knowledge (Technology)** or **Combat (Ranged / Melee)** skill rank—*not* the device's Fixed Rank.
+- **Power Source:**
+  - **Internal Charges (Aether Cells):** Powered by internal Aetherite energy cells (limited shots before reload/recharge).
+  - **User Focus (Essence / Karma):** Draws directly from the wielder's personal **Essence Pool** (`1 Essence = 1 Charge`) or **Karma**.
 
-*Cost: Adds to Base CR (\+5 CR per Socket).*
+---
 
-| Enhancement&nbsp; | Discipline Base | Sockets | Effect |
-| :---- | :---- | :---- | :---- |
-| **Featherweight** | Dimension (Gravity) | 1 | Armor counts as one weight category lighter. |
-| **Chameleon Weave** | Illusion (Shadow) | 1 | Grants *Obscure* effect (+4 Stealth) while stationary. |
-| **Hardened Logic** | Mental (Shield) | 1 | Advantage Save vs. Hacking/Psionic intrusion. |
-| **Auto-Mend** | Matter (Repair) | 1 | Armor regenerates 1d4 SP per hour. |
+### **4.2 Examples of Invocation Devices**
 
-### 
+#### **Prototype A: The "Breacher" Gauntlet**
 
-### 
+- **Base Item:** Heavy Gauntlet (TL 3) | **System Classification:** **TL 3 / ML 4**
+- **Installed Invocation:** *Matter: Transmutation (Petrify / Sunder Structure)*
+- **Installed Rank:** **Rank 12** (Stage 3 — Expert)
+- **Capacity Cost:** **2 Sockets** (Ranks 11–20 require 2 Sockets)
+- **Crafting CR:** **CR 27** (`Base 15 + Rank 12 + 0 [TL 3]`)
+- **Market Value:** ~13,312 Credits (`CR 25 Base 10,240 * 1.75 [+2 CR]` = 17,920 Cr, or ~13,000 Cr regional baseline)
+- **Mechanical Effect:** Delivers a molecular-disrupting touch attack that inflicts Stage 3 Corrosive/Transmutation structural damage and weakens structure as a Rank 12 Caster.
+
+#### **Prototype B: The "Blink" Belt**
+
+- **Base Item:** Utility Belt (TL 4) | **System Classification:** **TL 4 / ML 3**
+- **Installed Invocation:** *Dimension: Teleport (Long Step / Gate)*, limited to **3 uses per day**
+- **Installed Rank:** **Rank 10** (Stage 2 — Trained; half rank CR modifier due to 3/day charge limit)
+- **Capacity Cost:** **1 Socket** (Ranks 1–10 require 1 Socket)
+- **Crafting CR:** **CR 20** (`Base 15 + [Rank 10 / 2 daily limit]`)
+- **Market Value:** **2,560 Credits**
+- **Mechanical Effect:** Teleports the wearer within line of sight. Holds 3 Charges/Day.
+
+#### **Prototype C: "Scream" Psycho-Acoustic Grenade**
+
+- **Base Item:** Thrown Grenade Chassis (TL 3) | **System Classification:** **TL 3 / ML 4**
+- **Installed Invocation:** *Mental: Projection (Fear)*
+- **Installed Rank:** **Rank 15** (Stage 3 — Expert)
+- **Capacity Cost:** **1 Socket** (Consumable / Destroyed on use)
+- **Crafting CR:** **CR 20** (`Base 15 + Rank 15 - 10 Consumable Discount`)
+- **Market Value:** **2,560 Credits**
+- **Mechanical Effect:** 30 ft Radius psychic burst. Targets in the blast must succeed on a **Willpower Save (CR 18)** or become **Frightened** for 3 rounds.
+
+---
+
+## **5. VEHICLE & ARCHITECTURE INTEGRATION**
+
+*Scaling the system to Mecha (Tier 2) and Structures (Tier 3).*
+
+At this scale, builders utilize **Meta-Mounts** and **Meta-Modules** to apply metaphysical effects across a vehicle's massive frame or a strategic city district.
+
+### **5.1 Vehicle System Examples (Meta-Mounts)**
+
+*`1 Meta-Mount = Vehicle-Scale Effect` (Supports up to Rank 30).*
+
+- **Void-Drive (Engine):**
+  - *Installs:* *Dimension: Teleport*.
+  - *Scale Effect:* Teleports the **entire vehicle and its crew** across tactical or planetary distances scaled by Engine Power (Rank).
+- **Kinetic Barrier (Defense):**
+  - *Installs:* *Energy: Force (Shield)*.
+  - *Scale Effect:* Covers the entire hull (Huge/Gargantuan), providing Vehicle-Scale DR and Ablative Shield Points.
+- **Psychic Gunnery Chair (Control):**
+  - *Installs:* *Mental: Sense (Precognition)*.
+  - *Scale Effect:* Links the gunner's mind to the ship's sensors, allowing them to fire at targets miles away with precognitive accuracy (+2 to +5 Strike).
+- **Phase-Shift Generator (Utility):**
+  - *Installs:* *Dimension: Phase*.
+  - *Scale Effect:* Turns the entire vehicle incorporeal for short durations, allowing it to pass through physical barriers, terrain, or enemy blockades.
+- **Biomorphic Repair Node (Utility):**
+  - *Installs:* *Matter: Transmutation (Repair)*.
+  - *Scale Effect:* Floods the chassis with nanites or organic resin, granting Fast Healing to the vehicle's Structure Points (SP) automatically.
+- **Mirage Emitter (Defense):**
+  - *Installs:* *Illusion: Phantasm*.
+  - *Scale Effect:* Projects a massive, multi-sensory decoy of the vehicle (or an entire squadron) to confuse sensors, or renders the vehicle invisible to visual and radar detection.
+- **Elemental Ram (Weapon):**
+  - *Installs:* *Energy: Elemental (Pyro/Cryo/Voltic)*.
+  - *Scale Effect:* Wreathes the vehicle's hull in a destructive energy field. Any Ramming attack deals massive additional Energy damage and applies critical effects (*Burn/Freeze/Stun*) to the target.
+
+---
+
+### **5.2 Architectural System Examples (Meta-Modules)**
+
+*`1 Meta-Module = Strategic / City-Scale Effect` (Supports up to Rank 30).*
+
+- **Sanctuary Generator:**
+  - *Installs:* *Entropy: Order (Stasis)*.
+  - *Scale Effect:* Covers the entire building footprint, preventing decay, spoilage, and aging for all contents and structural elements.
+- **Teleportation Circle:**
+  - *Installs:* *Dimension: Teleport (Portal / Gate)*.
+  - *Scale Effect:* Creates a permanent, stable gateway capable of moving hundreds of personnel or cargo crates per hour.
+- **Scrying Spire:**
+  - *Installs:* *Mental: Sense (Clairvoyance / Scrying)*.
+  - *Scale Effect:* Amplifies range to Planetary or Star-System scale, allowing the tower to monitor orbital approaches in real time.
+- **Weather Control Node:**
+  - *Installs:* *Energy: Elemental (Air/Water)*.
+  - *Scale Effect:* Manipulates atmospheric conditions over a 50-mile radius—summoning storms, clearing skies, or altering temperature for terraforming or defense.
+- **Mirage Dome:**
+  - *Installs:* *Illusion: Phantasm*.
+  - *Scale Effect:* Projects a city-wide visual and sensor overlay—hiding the settlement from orbit, masking it as a ruin, or projecting a natural sky inside a subterranean cavern.
+- **Null-Field Generator:**
+  - *Installs:* *Mental: Shield*.
+  - *Scale Effect:* Projects a psychic dampening field across the district, blocking external telepathy/scrying and suppressing mass panic or riots inside.
+- **Auto-Fabrication Plant:**
+  - *Installs:* *Matter: Transmutation (Creation)*.
+  - *Scale Effect:* A massive facility that pulls raw matter from the environment to mass-produce simple items or automatically repair the city's infrastructure.
+- **Phase-Anchor Vault:**
+  - *Installs:* *Dimension: Phase*.
+  - *Scale Effect:* Shifts the entire structure slightly out of sync with baseline reality, rendering it invisible and intangible to normal matter and accessible only via specific harmonic frequencies.
+
+---
+
+### **5.3 Amplification Systems (Meta-Scaling)**
+
+*Hardware that allows an Awakened user to channel their own Invocations through the device's scale.*
+
+Unlike Imbuement (which has a fixed hard-coded Invocation), an **Amplifier** acts as a focusing lens for the pilot's *own* known Invocations:
+
+- **Constraint:** The device must be tuned to a specific **Discipline** (e.g., *Energy Amplifier*, *Mental Amplifier*).
+- **Requirement:** The user must be **Awakened** and know the Invocation they are attempting to amplify.
+- **The Scaling Factor:** When channeling through an Amplifier, the Invocation's output (Damage Dice, Range, and Area) is multiplied by the **Chassis Scale**:
+
+| Chassis Scale | Multiplier | Narrative & Operational Effect |
+| :--- | :---: | :--- |
+| **Medium (`x1`)** | `x1` | Normal Personal Power. |
+| **Large (`x2`)** | `x2` | Light Vehicular Scale — *Elemental Blasts* hit like light autocannons. |
+| **Huge (`x5`)** | `x5` | Tank / Mecha Scale — *Telepathy* reaches the horizon; *Force Waves* topple walkers. |
+| **Gargantuan (`x10`)** | `x10` | Siege / Dropship Scale — *Earthquakes* level city blocks. |
+| **Titanic (`x80`)** | `x80` | Orbital / Capital Scale — Fleet-killing lances and planetary rituals. |
+
+- **Example Components:**
+  - **Psionic Broadcast Array (1 Meta-Mount):** Allows a Telepath (*Mental: Projection*) to broadcast *Telepathy* or *Domination* to every mind within the vehicle's sensor range (1–50 miles depending on tech).
+  - **Elemental Focus Cannon (1 Meta-Mount):** The pilot casts *Energy: Pyro* into the cannon's breech, amplifying it into a plasma beam equivalent to a Heavy Turbo-Laser (`Damage * x5` for Huge Mecha).
+  - **Ley-Line Spire (1 Meta-Module):** An architectural focus. A mage standing in the Spire can cast *Dimension: Portal* to open a gate large enough for an army, or *Weather Control* to alter the climate of an entire region.
+
+---
+
+## **6. INTERFACE & ATTUNEMENT PROTOCOLS**
+
+Characters interact with Meta-Tech through one of three operational modes:
+
+1. **Plug & Play (Tech-Dominant):**
+   - *Requirement:* None.
+   - *Mechanic:* The item has a button or trigger and uses the operator's **Knowledge (Technology)** skill or **Combat (Ranged / Melee)** attack bonus.
+   - *Drawback:* No scaling. The item is exactly as powerful as its **Fixed Rank** and cannot be pushed.
+2. **Attuned (Meta-Dominant):**
+   - *Requirement:* **Awakened** Feature or **Technologist (Meta-Sciences)**.
+   - *Mechanic:* The user bonds with the item during a **Light Rest**.
+   - *Benefit:* The user can add their **Attune** bonus to the item's Save CR or Attack Roll, and can spend **1 Karma Point** to temporarily boost the item's **Rank by +2** for a single action.
+3. **Symbiotic (Bio-Linked):**
+   - *Requirement:* **Augmented** or **Biotech** integration (`1 Socket = 10 Nodes`).
+   - *Mechanic:* The item is physically grafted to the user.
+   - *Benefit:* Activation is a **Free Action** (Mental Trigger), and the item regenerates charges using the user's **Essence Pool** (`1 Essence = 1 Charge`).
+
+---
+
+## **7. FABRICATION & ECONOMICS**
+
+Meta-Tech creation aligns with the **Tangent Economic Unified Field Theory (EUFT)** (`Value = 10 * 4 ^ (CR / 5)`):
+
+### **7.1 The Fabrication CR Formulas**
+
+- **Passive Enhancement CR:**
+  - `Final CR = Base Item CR + (Sockets Used * 5)`
+  - *Explanation:* Every Socket used for a passive enhancement increases complexity by +5 CR, quadrupling the item's value (shifting it one Wealth Tier).
+  - *Example:* A Rifle (CR 15) with an *Energy Sheath* (1 Socket) becomes CR 20 (Expert), jumping from 640 Cr to 2,560 Cr.
+- **Active Imbuement CR (Permanent Device):**
+  - `Final CR = 15 (Containment Base) + Invocation Rank + Tech Level Modifier`
+  - *TL Modifiers:* TL 3 (+0 CR), TL 4 (+2 CR), TL 5 (+5 CR).
+  - *Example:* A Rank 10 *Fire Wand* (TL 3) = `15 + 10 + 0 = CR 25` (Market Value = 10,240 Cr).
+- **Consumable Modifier (Single Use):**
+  - `Consumable CR = Standard Active Imbuement Formula - 10`
+  - *Explanation:* Creating a device that burns out after a single use requires far less stabilization than a permanent relic.
+  - *Example:* A Rank 10 *Healing Elixir* = `(15 + 10) - 10 = CR 15` (Market Value = 640 Cr).
+
+### **7.2 Material Components**
+
+Meta-Tech cannot be forged from scrap steel; it requires **Conductive Exotic Materials** (`./technology/core/06.AetheriumAndAetherite.md`):
+
+- **Material Cost:** Pristine conductive materials for a Meta-Tech project always cost **50% of the Final Credit Value**.
+- **Required Substrates:**
+  - **Refined Aetherite / Aetherium:** Required for all **Active Imbuements**.
+  - **Resonance Crystals / Psycholith:** Required for **Passive Enhancements** and **Psionic Amplifiers**.
+  - **Biotech Amniotic Paste:** Required for **Symbiotic (Bio-Linked)** interfaces.
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER (DISC-524)**
+
+- **File Target:** `architect/metaphysics/99.Metaphysics.MetaTechMatrix.md`
+- **Restoration Pass (Three-Way Merge):**
+  - Restored 100% of the Meta-Tech Framework (Operational Philosophy, UDU Capacity Conversion, Passive Enhancements, Active Imbuement Devices, Vehicle Meta-Mounts, Architectural Meta-Modules, Amplification Systems, Attunement Modes, and EUFT Fabrication Formulas).
+- **Mechanical Normalization Pass (12 Global Rules):**
+  - Verified all EUFT valuation formulas (`Value = 10 * 4 ^ (CR / 5)` + linear micro-modifiers) and 50% exotic material cost ratio.
 
-### **4\. IMBUEMENT: INVOCATION DEVICES**
-
-*Hard-coding a specific Invocation (Spell) into a machine.*
-
-This allows a user (even a non-Awakened one) to trigger a specific metaphysical effect.
-
-#### 
-
-#### **4.1 The Device Stat Block**
-
-When an Invocation is built into an item, its variable stats become **Fixed Constants** based on the engineering quality.
-
-* **Fixed Rank:** The device is crafted with a specific Skill Rank (e.g., Rank 12). It *always* casts at this Rank.  
-  * *Calculations:* Effect Magnitude, Duration, and Range are calculated using the device's Fixed Rank.  
-  * *Example:* A *Rank 8 Fire Wand* deals damage as if the caster had Rank 8 Energy.
-
-&nbsp;
-
-* **Accuracy / Save CR:** \* The **Save CR** against the device is 10 \+ (Fixed Rank / 2\) \+ Device Quality.  
-  * The **Attack Roll** uses the wielder's **Technology (Operation)** or **Combat (Ranged)** skill, *not* the device's Rank.
-
-&nbsp;
-
-* **Power Source:**  
-  * **Charges (Ammo):** The item has internal batteries (Aether Cells). Limited shots before recharge.  
-  * **User Focus (Mana):** The user burns their own Karma or Essence to power it.
-
-  #### 
-
-  #### **4.2 Examples of Invocation Devices**
-
-**Prototype A: The "Breacher" Gauntlet**
-
-* **Base Item:** Heavy Gauntlet (TL 3).  
-* **System Classification:** **TL 3 / ML 4**.  
-* **Installed Invocation:** *Matter: Transmutation (Petrify/Weaken)*.  
-* **Rank:** **Rank 12** (Expert).  
-* **Capacity Cost:** 2 Sockets (Rank 11-20 requires 2).  
-* **Craft CR:** **27** (Base 15 \+ Rank 12).  
-* **Market Value:** \~13,000 Credits.  
-* **Effect:** Deals damage/weakens structure as a Rank 12 Caster.
-
-&nbsp;
-
-**Prototype B: The "Blink" Belt**
-
-* **Base Item:** Utility Belt (TL 4).  
-* **System Classification:** **TL 4 / ML 3**.  
-* **Installed Invocation:** *Dimension: Teleport (Gate), limited 3 uses per day*.  
-* **Rank:** **Rank 10** (Trained), half cost due to limit.  
-* **Capacity Cost:** 1 Socket (Rank 1-10 requires 1).  
-* **Craft CR:** **27** (Base 15 \+ Rank 10/2 daily use limit).  
-* Market Value: \~2,560 Credits.  
-* **Effect:** Teleport range calculated at Rank 8\. 3 Charges/Day.
-
-&nbsp;
-
-**Prototype C: "Scream" Grenade**
-
-* **Base Item:** Grenade Chassis (TL 3).  
-* **System Classification:** **TL 3 / ML 4**.  
-* **Installed Invocation:** *Mental: Projection (Fear)*.  
-* **Rank:** **Rank 15** (Expert).  
-* **Capacity Cost:** 1 Socket (Consumable/Destroyed on use).  
-* **Craft CR:** **20** (Base 15 \+ Rank 15 \- 10 Consumable Discount).  
-* **Market Value:** \~2,560 Credits.  
-* **Effect:** 30ft Radius burst. Targets must Save vs Will (CR based on Rank 15).
-
-### 
-
-### 
-
-### **5\. VEHICLE & ARCHITECTURE INTEGRATION**
-
-*Scaling the system to Mecha (Tier 2\) and Structures (Tier 3).*
-
-At this scale, we use **Meta-Mounts** and **Meta-Modules**. The sheer size of the generator allows the effect to apply to the vehicle's massive frame or cover a wide strategic area.
-
-#### 
-
-#### **5.1 Vehicle System Examples (Meta-Mounts)**
-
-*1 Meta-Mount \= Vehicle Scale Effect (Supports up to Rank 30).*
-
-* **Void-Drive (Engine):** \* Installs *Dimension: Teleport*.  
-  * **Scale Effect:** Instead of teleporting a person, it teleports the *entire vehicle* and its crew. Range scales with Engine Power (Rank).
-
-&nbsp;
-
-* **Kinetic Barrier (Defense):** \* Installs *Energy: Force (Shield)*.  
-  * **Scale Effect:** Covers the entire hull (Huge/Gargantuan). Provides Vehicle-Scale DR.
-
-&nbsp;
-
-* **Psychic Gunnery Chair (Control):** \* Installs *Mental: Sense (Precognition)*.  
-  * **Scale Effect:** Links the gunner's mind to the ship's sensors, allowing them to fire at targets miles away with precognitive accuracy.
-
-&nbsp;
-
-* **Phase-Shift Generator (Utility):** \* Installs *Dimension: Phase*.  
-  * **Scale Effect:** Turns the entire vehicle incorporeal for short durations, allowing it to pass through physical barriers, terrain, or enemy blockades.
-
-&nbsp;
-
-* **Biomorphic Repair Node (Utility):** \* Installs *Matter: Transmutation (Repair)*.  
-  * **Scale Effect:** Floods the chassis with nanites or organic resin. Grants Fast Healing to the vehicle's Structure Points (SP), repairing battle damage automatically.
-
-&nbsp;
-
-* **Mirage Emitter (Defense):** \* Installs *Illusion: Phantasm*.  
-  * **Scale Effect:** Projects a massive, multi-sensory decoy of the vehicle (or an entire squadron) to confuse sensors, or renders the vehicle invisible to visual and radar detection.
-
-&nbsp;
-
-* **Elemental Ram (Weapon):** \* Installs *Energy: Elemental (Pyro/Cryo/Voltic)*.  
-  * **Scale Effect:** Wreathes the vehicle's hull in a destructive energy field. Any Ramming attack deals massive additional Energy damage and applies critical effects (Burn/Freeze/Stun) to the target.
-
-  #### 
-
-  #### **5.2 Architectural System Examples (Meta-Modules)**
-
-*1 Meta-Module \= Strategic/City Scale Effect (Supports up to Rank 30).*
-
-&nbsp;
-
-* **Sanctuary Generator:** \* Installs *Entropy: Order (Stasis)*.  
-  * **Scale Effect:** Covers the entire building footprint. Prevents decay/aging for all contents and structural elements.
-
-&nbsp;
-
-* **Teleportation Circle:** \* Installs *Dimension: Teleport (Portal)*.  
-  * **Scale Effect:** Creates a permanent, stable gateway capable of moving hundreds of people or cargo crates per hour.
-
-&nbsp;
-
-* **Scrying Spire:** \* Installs *Mental: Sense (Clairvoyance)*.  
-  * **Scale Effect:** Amplifies range to Planetary or System scale, allowing the tower to monitor orbit.
-
-&nbsp;
-
-* **Weather Control Node:** \* Installs *Energy: Elemental (Air/Water)*.  
-  * **Scale Effect:** Manipulates atmospheric conditions over a 50-mile radius. Can summon storms, clear skies, or alter temperature for terraforming or defense.
-
-&nbsp;
-
-* **Mirage Dome:** \* Installs *Illusion: Phantasm*.  
-  * **Scale Effect:** Projects a city-wide visual overlay. Can hide the settlement from orbit, mask it as a ruin, or create a fake idyllic sky in a subterranean cavern.
-
-&nbsp;
-
-* **Null-Field Generator:** \* Installs *Mental: Shield*.  
-  * **Scale Effect:** Projects a psychic dampening field across the district. Blocks telepathy and sensing attempts from outside; suppresses strong emotions (preventing riots) inside.
-
-&nbsp;
-
-* **Auto-Fabrication Plant:** \* Installs *Matter: Transmutation (Creation)*.  
-  * **Scale Effect:** A massive facility that pulls raw matter from the environment to mass-produce simple items or automatically repair the city's infrastructure.
-
-&nbsp;
-
-* **Phase-Anchor Vault:** \* Installs *Dimension: Phase*.  
-  * **Scale Effect:** Shifts the entire structure slightly out of sync with reality. It becomes invisible and intangible to normal matter, accessible only via specific harmonic frequencies.
-
-  #### 
-
-  #### **5.3 Amplification Systems (Meta-Scaling)**
-
-*Hardware that allows a user to channel their own Invocations through the device's scale.*
-
-Unlike Imbuement (which has a fixed spell), an **Amplifier** acts as a lens for the pilot's *own* known Invocations.
-
-* **Constraint:** The device must be tuned to a specific **Discipline** (e.g., Energy Amplifier, Mental Amplifier).  
-* **Requirement:** The user must be **Awakened** and know the Invocation they are attempting to amplify.
-
-&nbsp;
-
-**The Scaling Factor:** When channeling through an Amplifier, the Invocation's output is multiplied by the Chassis Scale.
-
-| Chassis Scale | Multiplier | Narrative Effect |
-| :---- | :---- | :---- |
-| **Medium (x1)** | x1 | Normal Personal Power. |
-| **Large (x2)** | x2 | "Ogre-Sized" Magic. Fireballs hit like light cannons. |
-| **Huge (x5)** | x5 | "Tank-Sized" Magic. Telepathy reaches the horizon. |
-| **Gargantuan (x10)** | x10 | "Siege-Sized" Magic. Earthquakes level city blocks. |
-| **Titanic (x80)** | x80 | "Orbital-Sized" Magic. Glassing a planet surface. |
-
-&nbsp;
-
-* **Amplified Damage:** If the Invocation deals damage (e.g., *Energy: Bolt*), the damage dice are multiplied by the Scale Factor (or the damage is applied to Structure Points directly).  
-* **Amplified Range/Area:** Personal Ranges (Close, Medium, Long) are replaced by Vehicle Sensor Ranges (Tactical, Visual, Radar).
-
-**Example Components:**
-
-* **Psionic Broadcast Array (Mount):**  
-  * *Cost:* 1 Meta-Mount.  
-  * *Function:* Allows a Telepath (Mental: Projection) to broadcast *Telepathy* or *Domination* to every mind within the vehicle's sensor range (1-50 miles depending on tech).
-
-&nbsp;
-
-* **Elemental Focus Cannon (Mount):**  
-  * *Cost:* 1 Meta-Mount.  
-  * *Function:* The pilot casts *Energy: Pyro* into the cannon's breach. The cannon amplifies it into a beam of plasma equivalent to a Heavy Turbo-Laser (Damage x5 for Huge Mecha).
-
-&nbsp;
-
-* **Ley-Line Spire (Module):**  
-  * *Cost:* 1 Meta-Module.  
-  * *Function:* An architectural focus. A mage standing in the Spire can cast *Dimension: Portal* to open a gate large enough for an army, or *Weather Control* to alter the climate of the entire region.
-
-### 
-
-### 
-
-### **6\. INTERFACE & ATTUNEMENT**
-
-*The Rules of Engagement.*
-
-How do characters interact with Meta-Tech?
-
-**1\. Plug & Play (Tech-Dominant)**
-
-* *Requirement:* None.  
-* *Mechanic:* The item has a button or trigger. It uses the User's **Technology** skill or **Base Attack Bonus**.  
-* *Drawback:* No scaling. The item is exactly as powerful as its **Fixed Rank**. It cannot be "pushed."
-
-&nbsp;
-
-**2\. Attuned (Meta-Dominant)**
-
-* *Requirement:* **Awakened** Feature or **Technologist (Meta-Sciences)**.  
-* *Mechanic:* The user bonds with the item (Short Rest).  
-* *Benefit:* The user can add their **Attune** bonus to the item's CR or Attack Roll.  
-* *Synergy:* The user can spend **Karma** to temporarily boost the Item's **Rank** by \+2 for a single action.
-
-&nbsp;
-
-**3\. Symbiotic (Bio-Linked)**
-
-* *Requirement:* **Augmented** or **Biotech** integration.  
-* *Mechanic:* The item is physically grafted to the user.  
-* *Benefit:* Activation is a **Free Action** (Mental Trigger). The item regenerates charges using the user's **Essence** (1 Essence \= 1 Charge).
-
-### 
-
-### 
-
-### **7\. FABRICATION & ECONOMICS**
-
-This section aligns Meta-Tech creation with the **Tangent Economic Unified Field Theory** (Codex 99). The complexity of binding metaphysics to physics ensures that these items are significantly more valuable than their mundane counterparts.
-
-#### 
-
-#### **7.1 The Fabrication Formula**
-
-To determine the Crafting CR (and thus the Market Value) of any Meta-Tech device, use the following logic:
-
-&nbsp;
-
-Passive Enhancement CR:
-
-CR \= Base Item CR \+ (Sockets Used x 5\)
-
-* *Explanation:* Every Socket used for an enhancement increases the complexity by \+5 CR, effectively quadrupling the item's value (shifting it one Wealth Tier).  
-* *Example:* A Rifle (CR 15\) with an Energy Sheath (1 Socket) becomes CR 20 (Expert). Value jumps from 640 Cr to 2,560 Cr.
-
-&nbsp;
-
-Active Imbuement CR:
-
-CR \= 15 \+ (Invocation Rank) \+ (TL Modifier)
-
-* *Base Constant:* 15 (The complexity of containment fields).  
-* *TL Modifiers:* TL3 (+0), TL4 (+2), TL5 (+5).  
-* *Example:* A Rank 10 Fire Wand (TL3) \= 15 \+ 10 \+ 0 \= **CR 25**. (Market Value \~10,240 Cr).
-
-&nbsp;
-
-Consumable Modifier (Single Use):
-
-CR \= Standard Formula \- 10
-
-* *Explanation:* Creating a device that burns out after one use requires far less stabilization than a permanent relic.  
-* *Example:* A Rank 10 Healing Potion \= (15 \+ 10\) \- 10 \= **CR 15**. (Market Value \~640 Cr).
-
-  #### 
-
-  #### **7.2 Material Components**
-
-Meta-Tech cannot be built from scrap steel. It requires **Conductive Materials**.
-
-* **Wealth Rating Increase:** The raw materials for a Meta-Tech project always cost **50% of the Final Value**.  
-* **Required Resources:**  
-  * *Aetherium:* Required for Active Imbuements.  
-  * *Resonance Crystals:* Required for Passive Enhancements.  
-  * *Biotech Paste:* Required for Symbiotic interfaces.
-
-&nbsp;
 

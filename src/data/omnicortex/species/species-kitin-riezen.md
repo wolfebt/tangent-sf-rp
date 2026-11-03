@@ -166,8 +166,8 @@ They are not part of the Kitin Collective and are considered a biological "heres
 * **Stigma:** Severe Xeno, Monstrous (when inhabiting hosts)  
 
 **Ability Modifiers:**  
-* +2 Agility (8 CP)  
-* -2 Charisma (-8 CP; except with other Riezen)  
+* +2 Agility (10 CP)  
+* -2 Charisma (-10 CP; except with other Riezen)  
 
 **Species Features:**  
 * **Hive Mind:** The swarm is a single consciousness. It cannot be "killed" unless the majority of the swarm is destroyed. (2 CP)  

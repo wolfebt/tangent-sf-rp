@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 112
+order: 110
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.thorn","mechanics"]
-updatedAt: "2026-10-14T05:24:25.075Z"
+updatedAt: "2026-11-02T22:49:31.462Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,26 @@ sockets:
   allocated: []
 ---
 
-# **\+THORN \***
+# **+THORN **  
+**
 
-# \+THORN \*
+# +THORN *
 
-# 
+  
 
-**CP Cost:** 30 CP  
+**CP Cost:** 
 
 **Description:** The Thorn are a Verdant Humanoid species, a living testament to a planet's desperate defense mechanism. Their accelerated, directed evolution was not a natural occurrence but a radical consequence of a planetary ecosystem's psychic retaliation against a large-scale, intrusive terraforming operation. The planet's entire biosphere possesses a singular, distributed psychic presence—a collective consciousness woven into the fabric of all life. This unified, yet diffuse, mind, under existential threat, executed a deliberate and rapid speciation event. This critical branch in its consciousness led to the awakening of individual flora humanoids, giving rise to the Thorn. Their genesis began when the planet's flora, directed by the overarching psychic-active biosphere, underwent a process of rapid, highly-controlled evolution specifically designed to neutralize and shut down the invasion.
 
-&nbsp;
+  
 
 As an intelligent and sapient species, the Thorn are fundamentally bipedal plant species, retaining an inherent Plant-like structure even while achieving a predominantly Humanoid form. Their biology is fundamentally tied to photosynthesis, possessing the essential Chloroplast feature that allows them to efficiently convert ambient light—whether from a star or artificial sources—directly into all necessary sustenance. This light-dependence is a core aspect of their existence.
 
-&nbsp;
+  
 
 What truly distinguishes the Thorn, however, is their profound biological malleability and psychic aptitude. They possess the unique ability to deliberately and consciously shift their biology via Adaptive Aspects. This capacity allows them to rapidly alter their physical structure, density, or function to suit immediate environmental or combat needs, demonstrating an incredible level of genetic control. This deep, intrinsic connection to the forces that birthed them has left them Awakened with a powerful, innate Entropic Psychic Nature attunement and focus. This unique psychic signature gives every Thorn an intrinsic, powerful connection to the fundamental cosmic forces of life, death, and decay. They are conduits for the cycle of existence, able to perceive and subtly manipulate the vital energy that drives growth and the entropic decay that facilitates renewal, making them formidable both as preservers and as instruments of unavoidable change.
 
-&nbsp;
+  
 
 **Classification:** Verdant Humanoid
 
@@ -63,27 +64,27 @@ What truly distinguishes the Thorn, however, is their profound biological mallea
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 0
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Abilities
++2 Abilities
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Adaptive Aspects (choose 4 Features with 1 active)
 
@@ -107,9 +108,9 @@ Regeneration
 
 Verdant
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Adaptation
 
@@ -125,7 +126,8 @@ Constriction
 
 Exoskeleton (Light)
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

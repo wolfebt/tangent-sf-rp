@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 245
+order: 239
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","4.00 metaphysics","mechanics"]
-updatedAt: "2026-10-31T11:30:42.655Z"
+updatedAt: "2026-11-03T10:29:37.469Z"
 costs:
   bp: 0
   credits: 0
@@ -37,71 +37,69 @@ sockets:
   allocated: []
 ---
 
-# **METAPHYSICS**
-
-# **METAPHYSICS**
-
-## 
+# **4.00 METAPHYSICS**
 
 ## **The Omni-Codex of Metaphysic Invocations and Reality Manipulation**
 
 The manipulation of reality within the Tangent framework is not merely the recitation of arcane words, but the deliberate restructuring of universal constants through the application of will. This system operates on a distinct triad of mechanics—Attune, Discipline, and Invocation—which collectively allow for the harnessing of powers that defy standard physics. Unlike "Vancian" magic systems where spells are distinct, immutable memory packets that vanish upon use, the Metaphysic system implies a fluid, skill-based manipulation of energy sources, whether they be the Void, the Weave, or the Quantum Field.
 
-### 
+  
 
 ### **Metafocus Level (ML)**
 
 Comparable to the Technological Level of a society, the Metafocus Level determines the prominence of Metaphysics within a civilization or demographic. Double the ML to determine a starting character’s maximum level in Metafocus Discipline Skills. (Note: The *Attune* skill is not limited by ML).
 
-| ML | CLASSIFICATION | DESCRIPTION | EXAMPLES |
-| :---: | :---: | ----- | ----- |
-| **0** | Null&nbsp; | No native Meta users. | None |
-| **1** | Rare&nbsp; | Negligible ratio of Meta Users; likely to be harshly judged or highly expected of. | Skeptical / Most races |
-| **2** | Selective&nbsp; | More ‘in tune’ people but in minorities or reclusive. Early stage of Enlightenment.&nbsp; | Special Ops, Cults |
-| **3** | Cultured&nbsp; | Uncommon but accepted Meta Usage (Adepts of various types).  Awakened as a recommended feature of the species. | Aulurans, Dynasty, Impyrium |
-| **4** | Standardized&nbsp; | Common Meta Usage; used by many and evident in society.  Awakened as a granted feature of the species. | Alterians, Impyrium Regi, Psion |
-| **5** | Advanced&nbsp; | Very Common Meta Usage; prominent usage by everyone. | Mondi, Shar Knor |
-| **6** | Deific&nbsp; | Transcended; casually affecting reality. NOT AVAILABLE TO PCs. | Progenitor types |
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **ML** | **CLASSIFICATION** | **DESCRIPTION** | **EXAMPLES** |
+| **0** | Null  | No native Meta users. | None |
+| **1** | Rare  | Negligible ratio of Meta Users; likely to be harshly judged or highly expected of. | Skeptical / Most races |
+| **2** | Selective  | More ‘in tune’ people but in minorities or reclusive. Early stage of Enlightenment.  | Special Ops, Cults |
+| **3** | Cultured  | Uncommon but accepted Meta Usage (Adepts of various types). Awakened as a recommended feature of the species. | Aulurans, Dynasty, Impyrium |
+| **4** | Standardized  | Common Meta Usage; used by many and evident in society. Awakened as a granted feature of the species. | Alterians, Impyrium Regi, Psion |
+| **5** | Advanced  | Very Common Meta Usage; prominent usage by everyone. | Mondi, Shar Knor |
+| ***6*** | *Deific*  | *Transcended; casually affecting reality. NOT AVAILABLE TO PCs.* | *Progenitor types* |
 
-### 
+  
 
-### ---
+### -----
 
 ### **Core Mechanics & Awakening**
 
 Metafocus Disciplines represent the knowledge and ability to consciously alter reality. This covers all metaphysical powers including Studied Arcanists, Transcendental Psychics, Devout Priests, Akashic Channelers, and Latent Abilities.
 
-&nbsp;
+  
 
 ## **Awakening & Disciplines:**
 
-* Acquisition: Characters must attain Disciplines through Awakening. Skill points must be allotted to Attune and each Discipline’s 2 Metafocus Skills.  
-* Expansion: Additional purchases of Awakening are required to attain other Disciplines (gaining access to the 2 skills from each). Note: *Attune* is learned with the initial Awakening and applies to all.  
-* Schools of Thought: Many Schools teaching various disciplines will be limited in teaching others of a like school (e.g., Magic & Magic, Psychic & Psychic). Studying from a different School of Thought may be possible but will be more complicated depending on the severity of the difference (see *Basics \- Skills, Learning*).
+  - Acquisition: Characters must attain Disciplines through Awakening. Skill points must be allotted to Attune and each Discipline’s 2 Metafocus Skills.
+  - Expansion: Additional purchases of Awakening are required to attain other Disciplines (gaining access to the 2 skills from each). Note: *Attune* is learned with the initial Awakening and applies to all.
+  - Schools of Thought: Many Schools teaching various disciplines will be limited in teaching others of a like school (e.g., Magic & Magic, Psychic & Psychic). Studying from a different School of Thought may be possible but will be more complicated depending on the severity of the difference (see *Basics - Skills, Learning*).
 
-&nbsp;
+  
 
 ## **Skills Breakdown:**
 
-* Attune Skill: A general multi-purpose skill for drawing and channeling energy. Required for all Disciplines. Attune Abilities listed under each Discipline require no check to use.  
-* Metafocus Skills: The specific skills of manipulating patterns (determines efficiency).  
-  * Minor Abilities: Cantrips/tricks listed for each skill require no roll to use; benefits are based on the skill stage.  
-  * Sensing: Used to sense controlled forces at work and identify effects/sources.  
-  * Learning: Skill checked to learn Invocations and other similar effects.
+  - Attune Skill: A general multi-purpose skill for drawing and channeling energy. Required for all Disciplines. Attune Abilities listed under each Discipline require no check to use.
+  - Metafocus Skills: The specific skills of manipulating patterns (determines efficiency).
+      
+      - Minor Abilities: Cantrips/tricks listed for each skill require no roll to use; benefits are based on the skill stage.
+      - Sensing: Used to sense controlled forces at work and identify effects/sources.
+      - Learning: Skill checked to learn Invocations and other similar effects.
 
-&nbsp;
+  
 
 ## **Source Attribute**
 
 The Key Ability is chosen at Awakening and determines the "flavor" of the source.
 
-* Intelligence Based (Reason and Logic): Psychic, Arcane, Akashic.  
-* Wisdom Based (Willpower and Intuition): Divine, Nature, Cosmic.  
-* Charisma Based (Confidence and Dominance): Bardic, Hereditary, Granted.
+  - Intellect Based (Reason and Logic): Psychic, Arcane, Akashic.
+  - Wisdom Based (Willpower and Intuition): Divine, Nature, Cosmic.
+  - Charisma Based (Confidence and Dominance): Bardic, Hereditary, Granted.
 
-&nbsp;
+  
 
----
+-----
 
 ## **The Mechanics of Casting**
 
@@ -109,75 +107,74 @@ The Key Ability is chosen at Awakening and determines the "flavor" of the source
 
 The potency of an effect is calculated as follows:
 
-> \[Key Ability \+ Discipline Skill Level \+ Invocation Level \+ 10 (or 2d10)\]
+[Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10)]
 
-* Attune Check: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.  
-* Discipline Check: Used to determine the severity of Effects and/or Damage.
+  - Attune Check: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.
+  - Discipline Check: Used to determine the severity of Effects and/or Damage.
 
-&nbsp;
+  
 
 ### **Free-Casting vs. Invocations**
 
-1. ## **Free-Casting (Spontaneous):**
+1.  **## **Free-Casting (Spontaneous):**  
+      - Involves a narrative of the effect within the confines of the Discipline’s level.
+      - Process: Make an Attune check to draw/channel energy (sets CR/Attack), followed by a Discipline Skill check for severity.
+      - Risks: High volatility.
+2.  **## **Invocations (Codified):**  
+      - Represents rote muscle memory.
+      - Bonus: Invocation Levels are added to the Discipline Skill checks they are based on. (Invocations are considered Discipline Specializations).
+      - Operational Safety: The user effectively "Takes 10" by default on the Discipline check (Calculation: Key + Skill + Invocation + 10). A roll may still be attempted if a better result is desired.
 
-   * Involves a narrative of the effect within the confines of the Discipline’s level.  
-   * Process: Make an Attune check to draw/channel energy (sets CR/Attack), followed by a Discipline Skill check for severity.  
-   * Risks: High volatility.
-
-2. ## **Invocations (Codified):**
-
-   * Represents rote muscle memory.  
-   * Bonus: Invocation Levels are added to the Discipline Skill checks they are based on. (Invocations are considered Discipline Specializations).  
-   * Operational Safety: The user effectively "Takes 10" by default on the Discipline check (Calculation: Key \+ Skill \+ Invocation \+ 10). A roll may still be attempted if a better result is desired.
-
-   #### 
+  
 
 ### **Metaphysic Checks & Difficulty**
 
 Base CR for activating a Metafocus Discipline or Invocation:
 
-* Very Easy (CR 5): Safe Quiet Area, Sanctum, Laboratory, Library.  
-* Easy (CR 10): Casual, Non-Hostile Environment, Walking, Passenger in Vehicle.  
-* Average (CR 15): Very Active or Hostile Environment, Vigorous Movement, Combat.  
-* Difficult (CR 20): Extreme Activity, Crashing, Uncontrolled Fall.
+  - Very Easy (CR 5): Safe Quiet Area, Sanctum, Laboratory, Library.
+  - Easy (CR 10): Casual, Non-Hostile Environment, Walking, Passenger in Vehicle.
+  - Average (CR 15): Very Active or Hostile Environment, Vigorous Movement, Combat.
+  - Difficult (CR 20): Extreme Activity, Crashing, Uncontrolled Fall.
 
-&nbsp;
+  
 
 ### **Criticals & Failure**
 
-* Critical Success: \+30 bonus to the check and a dramatic improvement of the effect.  
-* Critical Mistake: \-10 to the check and a disastrous backfire (Architect's call).  
-* Energy Surge (Attune \<= 0): An Attune check resulting in 0 or less becomes an uncontrolled energy surge (wrong target, area effect, unintended consequence).  
-* Fizzle/Transposition (Discipline \<= 0): A Discipline check resulting in 0 or less causes a different effect than desired: from a dramatic fizzle to transposed energy.  
-* Internalized Strain (Failure): Failing a check deals 1 point of Non-Lethal Damage per 5 points of failure. This is painful strain from Channeling and cannot be absorbed by Stamina or Armor.  
-* Fumble: Requires a check to see if the caster suffers the effect themselves (Check based on type of Effect).
+  - Critical Success: Adds +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29) and produces a dramatic improvement of the effect.
+  - Critical Mistake (Fumble): Replaces the rolled dice value with a flat -10 (subtracting 10 from the caster's base check score) and triggers a disastrous backfire (GM's call).
+  - Energy Surge (Attune \<= 0): An Attune check resulting in 0 or less becomes an uncontrolled energy surge (wrong target, area effect, unintended consequence).
+  - Fizzle/Transposition (Discipline \<= 0): A Discipline check resulting in 0 or less causes a different effect than desired: from a dramatic fizzle to transposed energy.
+  - Internalized Strain (Failure): Failing a check deals 1 point of Non-Lethal Damage per 5 points of failure. This is painful strain from Channeling and cannot be absorbed by Stamina or Armor.
+  - Fumble: Requires a check to see if the caster suffers the effect themselves (Check based on type of Effect).
 
-&nbsp;
+  
 
 ### **Metafoci Components**
 
 Ranges & Modifiers
 
+|  |  |  |
+| :-: | :-: | :-: |
 | Range | Distance | Check Modifier |
-| ----- | ----- | ----- |
 | Melee / Point Blank | 5 ft (Small/Med) | \+5 to Check |
 | Close | Up to 100 ft | None |
 | Medium | Up to 500 ft | \-5 to Check |
 | Long | Up to 2,500 ft | \-10 to Check |
 | Extended | Miles+ | \-15 to Check |
-| Note for Extended: | Target or location must be accurately detected or known well. |  |
+| Note for Extended: | Target or location must be accurately detected or known well. |   |
 
-&nbsp;
+  
 
 ### **Targeting & Area Effects**
 
-* Multiple Targets: \-5 to Attune check per extra target with full effect for each. Otherwise, damage/effects are divided amongst subjects.  
-* Area Effects:  
-  * Blast (10 ft radius sphere): \-5 to Focus Skill check.  
-  * Line (5 ft wide x 60 ft long): \-10 to Focus Skill check.  
-  * Cone (90 ft long x 45 ft wide): \-15 to Focus Skill check.
+  - Multiple Targets: -5 to Attune check per extra target with full effect for each. Otherwise, damage/effects are divided amongst subjects.
+  - Area Effects:
+      
+      - Blast (10 ft radius sphere): -5 to Focus Skill check.
+      - Line (5 ft wide x 60 ft long): -10 to Focus Skill check.
+      - Cone (90 ft long x 45 ft wide): -15 to Focus Skill check.
 
-&nbsp;
+  
 
 ### **Damage Calculation**
 
@@ -185,111 +182,116 @@ Ranges & Modifiers
 
 Meta Combat
 
-* Attack Roll: Attune is used for the Attack Roll. Target defense is treated as similar attacks.  
-* Counter Effect: A defender may attempt to nullify an incoming effect.  
-  * Step 1: Attune is used by Attacker and Defender.  
-  * Step 2: If the Defender has a higher success, they may make an Opposed Metafocus Skill check.  
-  * Resolution: If Attacker succeeds the opposed check, the Effect is normal. If Defender wins, the Effect is countered and nullified.  
-* Resolution: Damage, Range, and other factors are determined by the level of the Metafocus Skill.
+  - Attack Roll: Attune is used for the Attack Roll. Target defense is treated as similar attacks.
+  - Counter Effect: A defender may attempt to nullify an incoming effect.
+      
+      - Step 1: Attune is used by Attacker and Defender.
+      - Step 2: If the Defender has a higher success, they may make an Opposed Metafocus Skill check.
+      - Resolution: If Attacker succeeds the opposed check, the Effect is normal. If Defender wins, the Effect is countered and nullified.
+  - Resolution: Damage, Range, and other factors are determined by the level of the Metafocus Skill.
 
-&nbsp;
+  
+  
 
-&nbsp;
-
----
+-----
 
 ## **Composite Invocations: The Synthesis of Disciplines**
 
-Composite Invocations require ranks in multiple Disciplines.&nbsp;
+Composite Invocations require ranks in multiple Disciplines. 
 
 Rule: Invocation Level is added to the *lowest* of the requisite Discipline Skills used.
 
-* Magitech & Cybermancy (Mental \+ Energy): Machine Spirit (Interface), Construct Intelligence (AI).  
-* Biostasis & Time Warping (Entropy \+ Dimension): Temporal Stasis (Freeze time), Accelerated Decay (Rapid aging).  
-* Elemental Constructs (Matter \+ Energy): Living Spell (Minion), Plasma Forging (Energy weapons).  
-* Spatial Illusions (Illusion \+ Dimension): Labyrinth (Infinite maze), Shadow Step Assault (Teleport attacks).  
-* Biomancy (Matter \+ Entropy): Life Transfer (Drain/Heal), Flesh Crafting (Reshaping).
+  - Magitech & Cybermancy (Mental + Energy): Machine Spirit (Interface), Construct Intellect (AI).
+  - Biostasis & Time Warping (Entropy + Dimension): Temporal Stasis (Freeze time), Accelerated Decay (Rapid aging).
+  - Elemental Constructs (Matter + Energy): Living Spell (Minion), Plasma Forging (Energy weapons).
+  - Spatial Illusions (Illusion + Dimension): Labyrinth (Infinite maze), Shadow Step Assault (Teleport attacks).
+  - Biomancy (Matter + Entropy): Life Transfer (Drain/Heal), Flesh Crafting (Reshaping).
 
-&nbsp;
+  
 
----
+-----
 
 ## **The Essence Pool Calculation**
 
 Your character’s total Essence capacity represents their comprehensive "lodestar"—the intersection of biological/synthetic substrate, channeling precision, and breadth of metaphysical study.
 
-**Essence Pool \= (Sum of all 6 Ability Scores) \+ (Attune Skill Rank) \+ (Total Ranks in all known Discipline Skills).**
+**Essence Pool = (Sum of all 6 Ability Scores) + (Attune Skill Rank) + (Total Ranks in all known Discipline Skills).**
 
-&nbsp;
+  
 
-* **Ability Substrate:** Since the average human ability score is zero, the pool begins with the character's natural or engineered aptitudes. Physical attributes (Strength, Agility, Stamina) contribute to the "containment" of energy, while Mental attributes (Intellect, Wisdom, Charisma) determine the "flavor" and depth of the source. Permanent modifications, such as improved with experience, augmentations or a permanent injury, will affect the Essence score but temporary adjustments do not affect it unless specifically stated.  
-  &nbsp;  
-* **The Conduit (Attune):** Adding the **Attune** rank ensures that as a character becomes more precise in opening conduits to their power source, their capacity to hold that energy expands. Again only permanent modifications to Attune will adjust the Essence score.  
-  &nbsp;  
-* **The Breadth (Disciplines):** Total ranks from skills in all known Disciplines (e.g., Energy, Matter, Entropy) represent the character's cumulative understanding of reality's "Code". Ranks from the discipline skills are specifically counted \- ranks in Invocations are not counted towards the Essence total, only the ranks from the skills listed under each discipline are used (such as for the Energy Discipline we will use the ranks from Elemental and Force but not from the Fireball or Teleknesis Invocations).
+  - **Ability Substrate:** Since the average human ability score is zero, the pool begins with the character's natural or engineered aptitudes. Physical attributes (Strength, Agility, Stamina) contribute to the "containment" of energy, while Mental attributes (Intellect, Wisdom, Charisma) determine the "flavor" and depth of the source. Permanent modifications, such as improved with experience, augmentations or a permanent injury, will affect the Essence score but temporary adjustments do not affect it unless specifically stated.
 
-&nbsp;
+  
+
+  - **The Conduit (Attune):** Adding the **Attune** rank ensures that as a character becomes more precise in opening conduits to their power source, their capacity to hold that energy expands. Again only permanent modifications to Attune will adjust the Essence score.
+
+  
+
+  - **The Breadth (Disciplines):** Total ranks from skills in all known Disciplines (e.g., Energy, Matter, Entropy) represent the character's cumulative understanding of reality's "Code". Ranks from the discipline skills are specifically counted - ranks in Invocations are not counted towards the Essence total, only the ranks from the skills listed under each discipline are used (such as for the Energy Discipline we will use the ranks from Elemental and Force but not from the Fireball or Teleknesis Invocations).
+
+  
 
 ### **The Essence Cost Scale**
 
 In this framework, the metabolic or spiritual cost of an invocation is determined by the **Base CR** required to activate the effect based on the current environment and stress levels.
 
-| Difficulty | Base CR | Essence&nbsp; | Environmental Context |
-| ----- | :---: | :---: | ----- |
-| **Very Easy** | CR 5 | **0**&nbsp; | Safe areas, Sanctums, Libraries, Laboratories. |
-| **Easy** | CR 10 | **0**&nbsp; | Casual travel, walking, non-hostile environments. |
-| **Average** | CR 15 | **1**&nbsp; | Combat, vigorous movement, active hostility. |
-| **Difficult** | CR 20 | **2**&nbsp; | Extreme activity, uncontrolled falls, crashing. |
-| **Very Difficult** | CR 25 | **3**&nbsp; | High-intensity chaos, environmental catastrophes. |
-| **Nearly Impossible** | CR 30 | **4**&nbsp; | Legendary feats, global reality shifts. |
-| **Miraculous** | CR 35 | **5**&nbsp; | Progenitor-tier interactions (rarely for PCs). |
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **Difficulty** | **Base CR** | **Essence**  | **Environmental Context** |
+| **Very Easy** | CR 5 | **0**  | Safe areas, Sanctums, Libraries, Laboratories. |
+| **Easy** | CR 10 | **0**  | Casual travel, walking, non-hostile environments. |
+| **Average** | CR 15 | **1**  | Combat, vigorous movement, active hostility. |
+| **Difficult** | CR 20 | **2**  | Extreme activity, uncontrolled falls, crashing. |
+| **Very Difficult** | CR 25 | **3**  | High-intensity chaos, environmental catastrophes. |
+| **Nearly Impossible** | CR 30 | **4**  | Legendary feats, global reality shifts. |
+| **Miraculous** | CR 35 | **5**  | Progenitor-tier interactions (rarely for PCs). |
 
-&nbsp;
+  
 
 ## **Strategic Implications for Invocations**
 
 This cost structure fundamentally changes the economy of **Codified Invocations** and **Free-Casting**:
 
-#### 
+  
 
-### **1\. Operational Safety (Codified Invocations)**
+### **1. Operational Safety (Codified Invocations)**
 
 Codified Invocations represent rote muscle memory where a user can effectively **"Take 10"** on their Discipline check.
 
-* **The "Sanctum" Bonus:** If an Arcanist performs a learned ritual in a laboratory (CR 5), they pay **0 Essence**, as their familiarity and the stable environment minimize the toll on their internal reservoir.  
-* **The Combat Tax:** Using the same invocation in a firefight (CR 15\) imposes an immediate **1 Essence** cost to stabilize the conduit amidst the chaos.
+  - **The "Sanctum" Bonus:** If an Arcanist performs a learned ritual in a laboratory (CR 5), they pay **0 Essence**, as their familiarity and the stable environment minimize the toll on their internal reservoir.
+  - **The Combat Tax:** Using the same invocation in a firefight (CR 15) imposes an immediate **1 Essence** cost to stabilize the conduit amidst the chaos.
 
-  #### 
+  
 
-### **2\. Free-Casting and Volatility**
+### **2. Free-Casting and Volatility**
 
 **Free-Casting** (spontaneous metaphysics) remains high-risk.
 
-* If a player attempts a spontaneous effect in a **Difficult** environment (CR 20), they must spend **2 Essence** upfront.  
-* **Failure and Feedback:** If the check fails, the Essence is still consumed, and the character suffers **Internalized Strain** (1d6 points of Non-Lethal damage per 5 points of failure).  
-* **Energy Surges:** If an **Attune** result is 0 or less, the Essence cost for that increment is doubled as the reservoir "leaks" into the environment during the surge.
+  - If a player attempts a spontaneous effect in a **Difficult** environment (CR 20), they must spend **2 Essence** upfront.
+  - **Failure and Feedback:** If the check fails, the Essence is still consumed, and the character suffers **Internalized Strain** (1d6 points of Non-Lethal damage per 5 points of failure).
+  - **Energy Surges:** If an **Attune** result is 0 or less, the Essence cost for that increment is doubled as the reservoir "leaks" into the environment during the surge.
 
-  #### 
+  
 
-### **3\. Scaling for Higher Tiers**
+### **3. Scaling for Higher Tiers**
 
 As characters develop their training and skills, their Essence Pool grows, allowing them to absorb the higher costs of Master and Pinnacle tier effects.
 
-* **Extreme Range/Area:** Large area effects (Cones/Lines) or Extended ranges often push the CR into the 25–30+ range. A character must have a substantial pool to manifest these legendary feats frequently.
+  - **Extreme Range/Area:** Large area effects (Cones/Lines) or Extended ranges often push the CR into the 25–30+ range. A character must have a substantial pool to manifest these legendary feats frequently.
 
-### 
+  
 
 ### **Essence Recovery and The Toll**
 
-* **Light Rest:** Allows for the recovery of Essence equal to the character's **Key Ability Modifier** (minimum 1\) per hour.  
-* **Full Rest (6-8 Hours):** Fully restores the Essence Pool as the body and mind realign with the universal constant.  
-* **The Burn:** If a character's Essence Pool is empty, they may "burn" their own life force to power an invocation. Each point of Essence needed deals **2 points of direct Health damage** (not absorbed by armor or Stamina), representing the physical destruction of the body as it acts as an unshielded conduit.
+  - **Light Rest:** Allows for the recovery of Essence equal to the character's **Key Ability Modifier** (minimum 1) per hour.
+  - **Full Rest (6-8 Hours):** Fully restores the Essence Pool as the body and mind realign with the universal constant.
+  - **The Burn:** If a character's Essence Pool is empty, they may "burn" their own life force to power an invocation. Each point of Essence needed deals **2 points of direct Health damage** (not absorbed by armor or Stamina), representing the physical destruction of the body as it acts as an unshielded conduit.
 
-&nbsp;
+  
+  
+  
 
-&nbsp;
-
-&nbsp;
+-----
 
 ---
 
@@ -303,6 +305,10 @@ Complete invocation catalogs for all six Metaphysic Disciplines (and their twelv
 * **[Illusion Invocations](./metaphysics/4.00.Illusion.md)** — *Phantasm Invocations (Analyze Illusion through Obscure) and Shadow Invocations (Light Manipulation through Shadow Assault)*
 * **[Matter Invocations](./metaphysics/4.00.Matter.md)** — *Enhancement Invocations (Reinforced Item through Fly) and Transmutation Invocations (Analyze Structure through Mutation)*
 * **[Mental Invocations](./metaphysics/4.00.Mental.md)** — *Projection Invocations (Telepathy through Emotion Control) and Sense Invocations (Analyze Psyche through Super-Sense)*
-
 * **[Codex: Meta-Sensory Manifestations](./metaphysics/4.00.SensoryManifestations.md)** — *Visual, auditory, and somatic signatures for Psychic, Magic, and Divine manifestations*
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER**
+* **DISC-414 (4.00 Metaphysics Core Framework Restoration):** Restored 100% of the Omni-Codex of Metaphysic Invocations, Metafocus Level (ML 0–6), Core Mechanics & Awakening, Free-Casting vs. Codified Invocations, Criticals & Failure, Composite Invocations, Essence Pool Calculation, and Strategic Implications from `/_ _ TANGENT RP CODEX _ _/4.00 METAPHYSICS` (Lines 1–260), normalizing `10 (or d20)` to `10 (or 2d10)` and `DC` to `CR`.
 

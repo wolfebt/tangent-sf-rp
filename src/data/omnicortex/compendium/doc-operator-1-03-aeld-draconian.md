@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aeld"
-order: 26
+order: 24
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld.draconian","mechanics"]
-updatedAt: "2026-10-31T10:38:11.464Z"
+updatedAt: "2026-11-02T22:49:31.916Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **DRACONIAN (Scaled)**
+# **DRACONIAN (Scaled)**  
+**
 
 # **DRACONIAN (Scaled)**
 
@@ -45,11 +46,11 @@ Draconian Aeld are a distinct group within the Elven populace, characterized by 
 
 Although Medium-sized Humanoids, Draconian Aeld typically reach heights of about seven feet (7 ft). This makes them considerably taller and often more imposing than the average Elf, reflecting the large stature associated with their Dragon progenitors. Their build tends to be more robust and muscular than typical Aeld, yet they still maintain a characteristic elven grace.
 
-&nbsp;
+  
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 19 CP  
+**CP Cost:** [TBD]
 
 **Classification:** Humanoid
 
@@ -61,43 +62,43 @@ Although Medium-sized Humanoids, Draconian Aeld typically reach heights of about
 
 **Meta Level:** 4
 
-**Homeworld:** \[TBD\]
+**Homeworld:** [TBD]
 
 **Stigma:** Dragonkin and Xeno
 
-&nbsp;
+  
 
 **Ability Modifiers:**
 
-\+1 Int
++1 Int
 
-\+1 Any
++1 Any
 
-&nbsp;
+  
 
 **Skills:**
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
 **Species Features:**
 
-Dragonkin *(Gain Low Light Vision and Sharp Senses (+2 Awareness checks) in addition to listed Species traits and certain physical traits such as Scales, Claws, Pronounced Fangs and possible Horns allowing Natural Attacks of 1d6 damage)*
+Dragonkin *(Gain Low Light Vision and Sharp Senses (+2 Alertness checks) in addition to listed Species traits and certain physical traits such as Scales, Claws, Pronounced Fangs and possible Horns allowing Natural Attacks of 1d6 damage)*
 
 Awakened (Arcane, Intellect)
 
 Sleepless (and Immune to Sleep Effects)
 
-\+1 Feature
++1 Feat
 
-&nbsp;
+  
 
 **Recommended Features:**
 
 Awakened (Arcane), Discipline features, Dragonkin Features, Energy Resist line, Exoskeleton, Headstrong, Intimidating Prowess, Natural Weapons, Resilient.
 
-### 
+  
 
 ### **Aesthetic Profile: The Dragonkin Guardians**
 
@@ -107,7 +108,7 @@ Awakened (Arcane), Discipline features, Dragonkin Features, Energy Resist line, 
 
 **The Motif:** Imposing Dragonkin lineage, graceful Draconic sorcerer, blending Elven elegance with primal arcane power.
 
-&nbsp;
+  
 
 **Setting Style Description (Crisp):**
 
@@ -119,7 +120,7 @@ Awakened (Arcane), Discipline features, Dragonkin Features, Energy Resist line, 
 
 **Palette:** Deep metallics (Silver, Black Iron, Gold), Arcane accents (Electric Blue, Violet).
 
-&nbsp;
+  
 
 **Guidance & Atmosphere Tokens:**
 
@@ -129,7 +130,7 @@ Awakened (Arcane), Discipline features, Dragonkin Features, Energy Resist line, 
 
 **Architecture/Tech:** Flowing, reinforced robes/light armor blending elven elegance with draconic motifs. Weapons are staves, focusing crystals, or arcane catalysts.
 
-### 
+  
 
 ### **Common Personas**
 
@@ -139,5 +140,6 @@ Awakened (Arcane), Discipline features, Dragonkin Features, Energy Resist line, 
 
 **The Wyrm-Knight:** An elite shock trooper combining elven agility with draconic brute strength. Clad in silver and gold reinforced plating, utilizing their imposing height to dominate the battlefield.
 
-**The Bloodline Custodian:** A historian and preserver of their draconic heritage. Exceptionally tall and robust, adorned in deep metallic silks, carrying an ancient crystal catalyst shaped like a dragon's eye.
+**The Bloodline Custodian:** A historian and preserver of their draconic heritage. Exceptionally tall and robust, adorned in deep metallic silks, carrying an ancient crystal catalyst shaped like a dragon's eye.**  
+**
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 81
+order: 79
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.kongi","mechanics"]
-updatedAt: "2026-10-14T05:24:25.063Z"
+updatedAt: "2026-11-02T22:49:30.853Z"
 costs:
   bp: 0
   credits: 0
@@ -37,19 +37,20 @@ sockets:
   allocated: []
 ---
 
-# **KONGI**
+# **KONGI**  
+**
 
 # **KONGI**
 
-# 
+  
 
-**CP Cost:** 24 CP  
+**CP Cost:** 
 
 **Description:** The Kongi are a fascinating species of simian-like humanoids, medium in size, originating from a high-gravity, cavernous homeworld. This environment has profoundly shaped their biology and culture.
 
 Their evolution in a high-gravity environment has resulted in exceptional physical strength and agility and they possess several key features that allow them to thrive in their native habitat.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -57,33 +58,33 @@ Their evolution in a high-gravity environment has resulted in exceptional physic
 
 **Movement:** 30 ft Groundspeed, 30 ft Climbspeed
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Minor Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Str
++2 Str
 
-\+1 Agi
++1 Agi
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Climber
 
@@ -97,9 +98,9 @@ Prehensile Feet
 
 Scent
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Acrobatic
 
@@ -123,9 +124,9 @@ Steady
 
 Skill Focus (any Physical)
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+**  
+**
 

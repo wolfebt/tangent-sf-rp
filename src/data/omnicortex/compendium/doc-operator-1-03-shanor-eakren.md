@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-shanor"
-order: 97
+order: 95
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.shanor.eakren","mechanics"]
-updatedAt: "2026-10-14T08:27:04.530Z"
+updatedAt: "2026-11-02T22:49:36.029Z"
 costs:
   bp: 0
   credits: 0
@@ -39,15 +39,15 @@ sockets:
 
 ## EAKREN
 
-# 
+  
 
-**CP Cost:** 1 CP
+**CP Cost:** 
 
 **Description:** Various creatures (including humanoid, animal and plant based) which are infused and mutated by the Shar’Nor (aka the Corrupted)
 
-\[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities\]
+[akin to Awakened Animals, Adjusted PC Build and Equivalent Abilities]
 
-&nbsp;
+  
 
 **Classification:** Aberration
 
@@ -55,19 +55,19 @@ sockets:
 
 **Movement:** varies
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 1
 
-&nbsp;
+  
 
 **Homeworld:** –
 
 **Stigma:** Beast
 
-&nbsp;
+  
 
 **Species Features:**
 
@@ -79,9 +79,9 @@ Typical PC Ability Scores
 
 Mutation
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Alter Form
 
@@ -95,7 +95,8 @@ Immortality
 
 Regeneration
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

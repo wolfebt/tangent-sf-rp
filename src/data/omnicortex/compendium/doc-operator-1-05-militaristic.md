@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 167
+order: 165
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.militaristic","mechanics"]
-updatedAt: "2026-10-14T05:38:13.238Z"
+updatedAt: "2026-11-02T22:49:28.305Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,14 @@ sockets:
   allocated: []
 ---
 
-# **MILITARISTIC**
+# 1.05.08 ORIGIN: MILITARISTIC (+0 WS)
+
+* **Executive Summary:** Fortress worlds, fleet academies, and martial bastions where every citizen is drilled from youth in the art of war (Aurelia, Draconis).
+* **EUFT Starting Wealth Modifier:** **+0 WS**
+* **Canonical Society Skills (20 SP Allocation):** Athletics, Alertness, Intimidate, Knowledge (History, Tactics), Combat (Any), Physical (Any), Vocation (Any)
+* **Typical Archetypes:** Cadet, Shock Trooper, Legionnaire, Tactical Officer, Quartermaster, Sharpshooter, Combat Medic, Tactician, Military Engineer, Military Intelligence Officer
+
+---
 
 # **MILITARISTIC**
 
@@ -45,13 +52,9 @@ Whether an outpost, training facility or some other strategic world, there is a 
 
 Structures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.
 
-&nbsp;
-
 ## **Society Skills**
 
 Physical (any), Vocation (any), Combat (any)
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -67,8 +70,6 @@ Military Engineer
 
 Military Intelligence Officer
 
-&nbsp;
-
 ## **Traits**
 
 ### *Combat Trained*
@@ -77,15 +78,11 @@ Skilled in combat, with training in various weapons and tactics. Proficient in h
 
 *\+2 to a Combat Skill of choice*
 
-&nbsp;
-
 ### *Disciplined*
 
 Highly disciplined, following orders and adhering to strict protocols. Strong sense of duty and loyalty to commanding officers and fellow soldiers.
 
 *\+2 Soldier Vocation*
-
-&nbsp;
 
 ### *Honor-bound*
 
@@ -93,15 +90,11 @@ Strong sense of honor and duty. Willing to put themselves in harm's way to prote
 
 *Any One check per day at Advantage, but must be for another*
 
-&nbsp;
-
 ### *Leadership*
 
 Experience in leading troops. Skilled at inspiring and motivating others to follow their lead.
 
 *\+2 Leadership Checks*
-
-&nbsp;
 
 ### *Loyal*
 
@@ -109,15 +102,11 @@ Strong sense of loyalty to comrades and mission. Willing to sacrifice themselves
 
 *Domination and Mind-Control Resistance Checks are made at Advantage*
 
-&nbsp;
-
 ### *Milspec Gear*
 
 Access to military grade hardware.
 
 *\+2 Equipment*
-
-&nbsp;
 
 ### *Pilot Skills*
 
@@ -125,15 +114,11 @@ Experienced piloting various military craft.
 
 *\+2 Piloting*
 
-&nbsp;
-
 ### *Strategic*
 
 Experience in planning and executing missions. Skilled at analyzing the battlefield and making strategic decisions.
 
 *Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score \+2*
-
-&nbsp;
 
 ### *Tough*
 
@@ -141,17 +126,24 @@ Physically and mentally tough, able to withstand harsh conditions and endure lon
 
 *\+1 Fortitude and Willpower Checks*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Chain of Command:** +2 to Leadership and Knowledge (Tactics) checks.
+* **Combat Training:** +2 to one Combat Skill of choice (or +1 Attack with a chosen weapon group).
+* **Drill Conditioning:** +1 to Might and Fortitude Saving Throws.
+* **Iron Discipline:** +2 to Willpower Saving Throws against Fear and Intimidation.
+* **Rapid Deployment:** +2 to Initiative checks.
+* **Tactical Coordination:** Grants an additional +1 bonus when aiding an ally in combat.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **08\. MILITANT**
 
@@ -226,4 +218,11 @@ Physically and mentally tough, able to withstand harsh conditions and endure lon
 * **STYLE:** Kill-Box, Turret Defense.  
 * **PALETTE:** Laser Red, Concrete Grey, Gunmetal.  
 * **TOKENS:** Turrets, sensors, lasers, walls, no humans.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** A fortified stagingbastionringed by Spire-Sentry bio-plasma batteries and Vibration Anchors. Thousands of Murex infantry and Apex-Cutter walkers stand in absolute, silent telepathic lockstep beneath orbital Void-Terror dreadnoughts.
+* **STYLE:** Swarm Staging Citadel, Total Psionic Lockstep.
+* **PALETTE:** Carapace Obsidian, Bio-Plasma Crimson/Cyan, Vein Emerald, Warning Amber.
+* **TOKENS:** Spire-Sentry batteries, synchronized phalanxes, bio-lances, orbital hive-ships, zero individuality.
 

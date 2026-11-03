@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 84
+order: 82
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.orll","mechanics"]
-updatedAt: "2026-10-14T08:26:05.771Z"
+updatedAt: "2026-11-03T11:18:06.102Z"
 costs:
   bp: 0
   credits: 0
@@ -45,6 +45,6 @@ The Orll are a powerful, barrel-chested humanoid lineage forged by the unforgivi
 
 ## **Orll Lineage & Offshoot Index**
 
-* **Orll (Base) [13 CP]:** Humanoid (0) | +2 Str, +2 Sta [16], -1 Int, -1 Cha [-10] | +5 Skills [4] | Exoskeleton (Light) [2], Rage [3] | Stigma: Savage (-4), Xeno (-2)
-* **Gra’Or [22 CP]:** Humanoid (0) | +2 Str [8], +2 Sta [8], -1 Cha [-5] | +5 Skills [4] | Chloroplast [2], Exoskeleton (Light) [2] | Stigma: Xeno (-2)
+* **Orll (Base) [14 CP]:** Humanoid (0) | +2 STR [10 CP], +2 STA [10 CP], -1 INT [-5 CP], -1 CHA [-5 CP] | +5 Skills [5 CP] | *Exoskeleton (Light)* [2 CP], *Rage* [3 CP] | Stigma: Savage (-4 CP), Xeno (-2 CP)
+* **Gra’Or [22 CP]:** Humanoid (0) | +2 STR [10 CP], +2 STA [10 CP], -1 CHA [-5 CP] | +5 Skills [5 CP] | *Chloroplast* [2 CP], *Exoskeleton (Light)* [2 CP] | Stigma: Xeno (-2 CP)
 

@@ -112,7 +112,7 @@ cp_cost: 28
 
 # 
 
-**CP Cost:** 25 CP  
+**CP Cost:** 28 CP  
 
 **Description:** An Ooze composed of a nano-machine hyper colony \- slithers on surfaces or with flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4 it is likely just an advanced automata.
 

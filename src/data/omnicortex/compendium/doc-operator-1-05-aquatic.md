@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 161
+order: 159
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.aquatic","mechanics"]
-updatedAt: "2026-10-31T10:38:11.410Z"
+updatedAt: "2026-11-02T22:49:27.794Z"
 costs:
   bp: 0
   credits: 0
@@ -37,19 +37,22 @@ sockets:
   allocated: []
 ---
 
-# **AQUATIC**
+# 1.05.02 ORIGIN: AQUATIC (+1 WS)
+
+* **Executive Summary:** Pelagic ocean worlds with over 85 percent surface water coverage, inhabited via floating flotillas, sea-stacks, and abyssal domes (Aquatica).
+* **EUFT Starting Wealth Modifier:** **+1 WS**
+* **Canonical Society Skills (20 SP Allocation):** Athletics (Swim), Piloting (Seacraft/Sub), Alertness, Knowledge (Navigation, Survival), Vocation (Any)
+* **Typical Archetypes:** Mariner, Deep-Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver
+
+---
 
 # **AQUATIC**
 
 This world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.
 
-&nbsp;
-
 ## **Society Skills**
 
 Athletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -65,10 +68,6 @@ Underwater Salvage Expert
 
 Diver
 
-&nbsp;
-
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -77,15 +76,11 @@ The character is able to adapt to new environments and situations quickly, makin
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Aquatic Construction*
 
 Skilled in manufacturing buildings, flotillas and other water based habitats and structures.
 
 *\+2 to all Construction Checks*
-
-&nbsp;
 
 ### *Curiosity*
 
@@ -93,15 +88,11 @@ The character has a natural curiosity about the world around them, which drives 
 
 *Regain a Karma Point on the first encounter when dealing with something new during the session \- creature, area, technology, etc.*
 
-&nbsp;
-
 ### *Empathy*
 
 The character has a strong sense of empathy and is able to understand and connect with other creatures. Sensing basic needs, drives and emotions of a creature.
 
 *\+2 Insight and \+2 Handler Checks while being Friendly to other creature*
-
-&nbsp;
 
 ### *Environmental Awareness*
 
@@ -109,15 +100,11 @@ The character is highly attuned to their environment and is able to sense change
 
 *\+2 Alertness*
 
-&nbsp;
-
 ### *Sea Piloting*
 
 To move at high speeds or to operate the bigger craft, from personal jets to colossal platforms.
 
 *\+2 to all Seacraft Operation \- Submersibles, Boats, Hovercraft, and Aircraft*
-
-&nbsp;
 
 ### *Resourcefulness*
 
@@ -125,23 +112,32 @@ The character is able to make the most of limited resources and find creative so
 
 *Once per Day make a Skill Check of choice at Advantage*
 
-&nbsp;
-
 ### *Survival Skills*
 
 The character has a range of survival skills that are specific to life in the aquatic world, such as the ability to find food and shelter, navigate underwater terrain, and avoid predators.
 
 *\+2 Survival Skill Checks*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Adaptability:** +2 to one chosen Skill Check (may reassign the chosen skill daily after a Full Rest).
+* **Aquatic Construction:** +2 to Vocation (Architect / Builder / Engineering) checks for water-based or pressurized structures.
+* **Curiosity:** Regain 1 spent Karma Point on the first encounter with a novel creature, location, or technology each session.
+* **Empathy:** +2 to Insight and Vocation (Handler) checks while acting Friendly toward another creature.
+* **Environmental Awareness:** +2 to Alertness checks.
+* **Sea Piloting:** +2 to Piloting checks with submersibles, watercraft, hovercraft, and seaplanes.
+* **Resourcefulness:** Once per day, roll any one Skill Check of choice at Advantage.
+* **Survival Skills:** +2 to Knowledge (Survival) checks (+3 in aquatic or coastal environments).
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **02\. AQUATIC**
 
@@ -216,4 +212,11 @@ The character has a range of survival skills that are specific to life in the aq
 * **STYLE:** Liquid Cooling Ocean, Digital Sea.  
 * **PALETTE:** Electric Blue, Chrome, Coolant Green, Mirror Black.  
 * **TOKENS:** Server racks, cooling pipes, geometric islands, still water.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** Abyssal Hive-Resin reefs anchored to deep oceanic thermal vents. Biomorphic Mako-Seeker submersibles and Eurypterid-Strike predators glide silently between glowing cyan sensory nodes and pressurized gestation cysts.
+* **STYLE:** Abyssal Biomorphic Reef, Deep-Trench Hive-State.
+* **PALETTE:** Abyssal Obsidian, Bioluminescent Cyan, Hemocyanin Emerald, Thermal Vent Amber.
+* **TOKENS:** Living submarine husks, hydrothermal proto-flux vents, chitin pressure domes, aquatic swarm patrols.
 

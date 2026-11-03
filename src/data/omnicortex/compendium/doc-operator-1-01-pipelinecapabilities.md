@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.pipelinecapabilities","mechanics"]
-updatedAt: "2026-10-31T10:56:34.080Z"
+updatedAt: "2026-11-03T10:58:47.245Z"
 costs:
   bp: 0
   credits: 0
@@ -37,158 +37,105 @@ sockets:
   allocated: []
 ---
 
-# **CHARACTER CREATION PIPELINE II: CAPABILITIES & LOADOUT**
+# **1.01.02 CHARACTER CREATION PIPELINE II: CAPABILITIES, VITALITY & LOADOUT**
 
-# **TECHNOLOGY**
+## **1. TECHNOLOGY LEVEL**
 
-The **Technology Level** stage of character creation in Tangent involves determining your character's access to and understanding of technology. This is influenced by their species and faction and has significant impacts on their skills, wealth, and available equipment.
+The **Technology Level (TL)** stage (`99. TECHNOLOGY.md`) determines your character's baseline familiarity with and access to technology, influenced by their Species, Faction, and Origin:
 
-* ## **Skill Bonuses**
+* **Skill Bonuses (Education):** Characters gain specific Education Skill Points based on their society's Technology Level, reflecting the foundational literacy and technical training of their era.
+* **Wealth Bonus:** Technology Level modifies the character's starting **Wealth Score (WS)**, representing the economic productivity of advanced infrastructure.
+* **Equipment & Improvements:** Availability of weapons, armor, augmentations, and vehicles is tied directly to Tech Level.
+* **Skill Access:** Characters from pre-spaceflight backgrounds (`TL 0–2`) have restricted access to high-technology skills (`Computers`, `Piloting [Starship]`, advanced `Knowledge [Technology]`) at creation unless they purchase the *Technologist* feature or higher TL familiarity.
 
-  Characters gain specific bonuses to certain skills based on their technology level, reflecting the knowledge and expertise associated with that level of technological advancement.
+| Tech Level | Era | CP Cost / Refund | Education Skill Bonus | Wealth Modifier |
+| :--- | :--- | :--- | :--- | :--- |
+| **TL 0** | Stone Age (Primitive) | **-30 CP** *(Grants +30 CP)* | `Alertness +2`, `Survival +2`, 3 Skills `+2` (Limited) | **-4 WS** |
+| **TL 1** | Metal Age (Industrial) | **-20 CP** *(Grants +20 CP)* | 2 Vocations `+2`, 3–4 Skills `+2` (Limited) | **-2 WS** |
+| **TL 2** | Data Age (Digital) | **-10 CP** *(Grants +10 CP)* | **+20 Education Skill Points** (Limited) | **+0 WS** |
+| **TL 3** | Space Age (Galactic Baseline) | **0 CP** | **+25 to +30 Education Skill Points** | **+2 WS** |
+| **TL 4** | Stellar Age (Enhanced) | **+10 CP** | **+40 Education Skill Points** | **+4 WS** |
+| **TL 5** | Galactic Age (Advanced) | **+20 CP** | **+50 Education Skill Points** | **+8 WS** |
 
-* ## **Wealth Bonus**
+### **Walkthrough Example: Xy'larra (Technology Level)**
 
-  Technology level also provides a wealth bonus, representing the increased access to resources and opportunities that come with advanced technology.
+*Being an Alterian from the Alterian Enclave, Xy'larra is both tech-savvy and magic-adept, seamlessly blending Space Age tools with arcane arts (**Tech Level 3** at **0 CP**, **+2 WS**). She receives **+25 Education Skill Points** for skills of choice and has access to a full range of Meta training due to its widespread integration in Alterian society.*
+* ***Allocation:** She uses her 25 Education Skill Points to pick up **Alertness 5** and **Unarmed 5**, and adds another **+5 each to Academics, Bluff, and Diplomacy** (raising Academics, Bluff, and Diplomacy from Rank 5 to Rank 10).*
 
-* ## **Equipment and Improvements**
+---
 
-  The availability of equipment, augmentations, and other technological enhancements is directly tied to a character's technology level. Higher technology levels unlock more advanced and powerful options.
+## **2. VITALITY, HEALTH & STRUCTURE POOLS (ZERO STAMINA SCALING)**
 
-* ## **Skill Access**
+Every biological character possesses two distinct damage buffers—**Vitality** (non-lethal endurance, luck, and fatigue buffer) and **Health** (lethal physical body and life force)—while Synthetics, Constructs, Oozes, and Undead combine both into a single **Structure Points (SP)** pool (`1.01.VitalityHealthStructure.md`):
 
-  The character's technology level may also limit their access to certain skills that require specific technological knowledge or training.
+* **Starting Baseline (`0 CP`):**
+  * **Vitality:** **30 points**
+  * **Health:** **30 points**
+  * **Structure (Synthetics / Constructs):** **60 Structure Points (SP)** (`Vitality + Health` combined)
+* **CP Pool Progression (`+5 Points` per `1 CP`):**
+  * Spend **1 CP** to increase **Vitality by +5 points** (`+5 Vitality = 1 CP`).
+  * Spend **1 CP** to increase **Health by +5 points** (`+5 Health = 1 CP`).
+  * Spend **1 CP** to increase **Structure by +5 SP** (`+5 SP = 1 CP`).
+  * **Suggested Starting Maximum:** **60 Vitality** and **60 Health** (6 CP invested in each pool), or **120 SP** for Synthetics/Constructs.
+* **Zero Stamina Scaling:** The **Stamina (STA)** attribute **never** increases Vitality, Health, or Structure pools. Instead, the Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR and sets the character's **Stability Points (`STA + 5`)** / negative Health **Threshold of Death (`-STA`)**.
 
-&nbsp;
+---
 
-*Example:*
+## **3. HINDRANCES**
 
-*Being an Alterian from the Alterian Combine Xy'larra is both tech-savvy and magic-adept, seamlessly blending futuristic tools with arcane arts. Alterians are known for grace, agility, and magical talent, living in a Space Age society that values both innovation and tradition. She gains a \+25 Skills Points for skills of choice and has access to a full range of Meta training from her people due to its widespread use in Elven society.*
+Players have the option to select personal **Hindrances** (`1.09 HINDRANCES.md`)—physical disabilities, mental/psychological quirks, or social/background obligations—that add narrative depth and challenge in exchange for bonus Character Points (CP):
 
-- *Good time to pick up some other skills such as Alertness 5 and Unarmed 5, and she’ll add another 5 to Academics, Bluff and Diplomacy.*
+* **Personal Hindrance Cap (`+10 CP` Maximum):** A character may gain at most **+10 CP** from personal Hindrances during character creation. Players may take additional narrative flaws for roleplaying depth, but cannot gain more than +10 CP from them.
+* **Species-Level Exemption:** Species-level disadvantages and Xeno Stigmas are part of the Species Package cost and are **exempt** from the 10 CP personal Hindrance cap.
 
-# 
+### **Walkthrough Example: Xy'larra (Hindrances)**
 
-# ---
+*Although Xy'larra did not have a destitute upbringing, during her travels she became responsible for a **Dependent**—her teenage cousin Marla. Because Marla is somewhat capable, this grants **+3 CP** (well within the +10 CP personal Hindrance cap) to add to Xy'larra's customization budget. Marla may eventually evolve into a Companion feature or an independent character over time, but for now she is an Alterian teenager traveling aboard Xy'larra's ship with all the narrative complications that entails.*
 
-# **HINDRANCES**
+---
 
-Players have the option to select Hindrances for their characters, such as quirks, flaws, or disabilities. These Hindrances add depth and realism to the character, making them more relatable and nuanced. However, they also come with drawbacks that can hinder the character's abilities or create challenges in certain situations. In exchange for taking on these Hindrances, players are rewarded with additional Character Points (CP) that can be used to purchase other aspects of their character, such as skills, features, or equipment.&nbsp;
+## **4. FEATURES**
 
-&nbsp;
+The **Features** stage (`1.08 FEATURES.md`) allows players to customize their character with specialized talents, combat techniques, discipline masteries, karma blessings, or skill enhancements:
 
-*Example:*
+* **Standard CP Cost:** The default cost for any Feature is **3 Character Points (CP)**.
+* **Recommended Feature Discount (`-1 CP`):** If a Feature is recommended by the character's **Species, Faction, Origin, or Occupation**, its cost is reduced by **1 CP** (to **2 CP**; the absolute minimum cost of any Feature after all reductions is **1 CP**).
+* **Strategic Customization:** Features provide increased resilience, specialized skill proficiencies, combat maneuvers, or unique narrative privileges.
 
-- *Although she didn’t have tedious background but during her travels Xy'larra has gained a Dependent \- Marla a young cousin who she is responsible for but who happens to be somewhat capable so gains 3 CP to add to the characters total (less capable dependent would garner more points) \- The Marla dependent may evolve into the companion feature or an entirely separate character in time, but for now she’s an Elven teenager running around with all the possible implications of such.*
+### **Walkthrough Example: Xy'larra (Features)**
 
-# 
+*In addition to her foundational **Attractive** and **Educated** features (from Occupation) and **Awakened x3** (from Species and Faction, unlocking the **Mental**, **Entropy**, and **Dimension** Disciplines), Xy'larra's Representative occupation recommends the **Skill Feature** category—reducing the cost of all Skill Features from 3 CP to **2 CP**, guiding her toward a highly versatile, skill-intensive ambassadorial build.*
 
-# ---
+---
 
-# **FEATURES**
+## **5. SKILLS**
 
-The **Features** stage of character creation in Tangent allows you to further customize your character by selecting features that enhance their capabilities. These features can represent a wide range of abilities, from innate talents and learned techniques to technological or magical enhancements.
+The **Skills** stage (`1.07 SKILLS.md`) involves allocating Character Points to enhance or broaden your character's competencies across five overarching categories:
 
-* ## **CP Cost**
+* **Cost:** Both inside a Species Package and during post-species customization, each Skill Rank costs a straight **1 CP** (`1 CP = 1 Skill Rank`, `5 CP = 5 Skill Ranks`, zero package discount; maximum starting rank at creation is **Rank 11 [Expert]**).
+* **The Five Skill Categories:**
+  1. **Physical:** Governs physical movement and coordination (*Acrobatics, Athletics,Piloting, Riding, Stealth, Thievery*).
+  2. **Mental:** Pertains to intellect, analysis, and trade proficiencies (*Academics, Computers, Investigation, Survival, Knowledge [8 sub-skills], Vocation [11 sub-skills]*).
+  3. **Social:** Focuses on interpersonal communication and performance (*Manipulation [Barter, Bluff, Diplomacy, Insight, Intimidate, Leadership, Streetwise]* and *Expression [8 performance sub-skills]*).
+  4. **Metaphysic (Discipline):** Represents specialized Resonance training (*Attune* and the 12 Focus Skills across the 6 Metaphysic Disciplines).
+  5. **Combat:** Determines effectiveness in personal and vehicular engagements (*Defense, Unarmed, Melee, Ranged, Ballistic, Energy, Heavy Weapons, Heavy Energy, Demolitions*).
 
-  The default cost for a feature is 3 Character Points (CP), but this cost can be reduced if the feature is recommended by the character's species, origin, faction, or occupation. This encourages players to consider features that complement their character's background and role in the game world.
+### **Walkthrough Example: Xy'larra (Compiled Baseline Skills)**
 
-* ## **Variety of Options**
+*Focusing on her role as an Explorative Ambassador, Xy'larra has accumulated the following baseline Skill Ranks from her Species (10), Faction (20), Origin (20), Occupation (20), and TL 3 Education (25) packages:*
+* **Academics 10**, **Bluff 10**, **Diplomacy 10**, **Insight 10**, **Mental: Sense 10** *(Metaphysic Focus)*
+* **Alertness 5**, **Attune 5** *(Metaphysic Activation)*, **Defense 5**, **Knowledge (Culture) 5**, **Knowledge (Navigation) 5**, **Melee 5**, **Piloting 5**, **Unarmed 5**, **Vocation (Ambassador) 5**
 
-  Features can provide a variety of options, such as increased resilience; improved skills or proficiencies; or even unique abilities that set the character apart from others.
+---
 
-* ## **Strategic Choices**
+## **6. AUGMENTATIONS**
 
-  Choosing features requires careful consideration, as players must balance the benefits of each feature against its CP cost and its relevance to the character's overall concept and playstyle.
+The **Augmentations** stage (`2.00.Augmentations.md`) is optional and allows players to enhance their characters with permanent cybernetic, biological (`Bioware`), or metaphysical (`Meta-Tech`) modifications:
 
-&nbsp;
+* **Commonplace / Fashionware Implants (`0 CP`, `0 Nodes`):** Minor, non-invasive TL 3+ implants—such as a subdermal *ID Chip*, *Comm Implant*, *Body Monitor*, *Nano Groomers*, or *Sculpted Body*—cost **0 CP** and **0 Nodes**, acquired simply via Wealth Score or Credits.
+* **Invasive Augmentations (`Augmented` Feature + CP/Node Costs):** Require the **Augmented** Feature (**3 CP**, which grants a **6 CP credit** toward installed augmentations; **Heavy** and **Extreme** stages grant an additional +6 CP credit each) and consume anatomical **Node Capacity** (*Head 10, Torso 50, Arms 30 each, Legs 40 each*).
 
-*Example:*
+### **Walkthrough Example: Xy'larra (Augmentations)**
 
-*In addition to the Attractive and Educated features gained from her occupation package Xy'larra will want more features to focus and expand on her concept. Features cost 3 CP each unless recommended from a character’s aspect (such as occupation and at a minimum cost of 1 CP after all reductions). In Xy'larra’s case Skill Features are recommended, reducing the costs of all Skill Features to 2 CP \- guiding her to be more skill intensive coupling with many of the features granting bonuses and modifiers to skill checks.*
-
-- *Currently she has the following Features:*  
-  *Attractive*  
-  *Educated*  
-  *Awakened x3 to open the skills for the Mental, Entropy and Dimensional Disciplines*
-
-# 
-
-# ---
-
-# **SKILLS**
-
-The **Skills** stage of character creation in Tangent involves allocating Character Points (CP) to enhance your character's various skills.&nbsp;
-
-Each rank of a skill will costs 1 CP, allowing you to improve your character's competencies in different areas. Skills are categorized into five groups:
-
-* ## **Physical**
-
-  These skills govern physical actions and attributes, such as athletics, acrobatics, and stealth.
-
-* ## **Mental**
-
-  These skills pertain to intellectual pursuits and knowledge, including technology, medicine, and science.
-
-* ## **Social**
-
-  These skills focus on interaction and communication with others, encompassing skills like persuasion, deception, and leadership.
-
-* ## **Discipline**
-
-  These skills represent specialized training and focus often associated with specific professions or various Metaphysical practices.
-
-* ## **Combat**
-
-  These skills determine a character's effectiveness in combat situations, including melee combat, ranged combat, and tactics.
-
-&nbsp;
-
-*Example:*
-
-*Xy'larra wants to be capable in a wide range of skills with a focus on being an Explorative Ambassador.*
-
-- *She currently she has the following from her character aspects so far:*  
-  *Piloting 5*  
-  *Alertness 5*  
-  *Academics 10*  
-  *Culture 5 (Know)*
-
-Navigation 5 (Know)
-
-Ambassador 5 (Voc)
-
-Insight 10
-
-Bluff 10
-
-Diplomacy 10
-
-Defense 5
-
-*Melee 5*
-
-*Unarmed 5*
-
-*Attune 5 (Metaphysic Skill)*
-
-*Sensory 10 (Mental Discipline \- Metaphysic Skill)*
-
-# 
-
-# ---
-
-# **AUGMENTATIONS**
-
-The Augmentations stage of character creation in Tangent is optional and allows players to enhance their characters with permanent augmentations, such as cybernetics or bio-modifications. These augmentations can offer significant advantages, such as increased strength, enhanced senses, or unique abilities. However, they may also come with drawbacks or limitations, and they require Character Points (CP) to acquire.&nbsp;
-
-&nbsp;
-
-*Example:*
-
-- *Not feeling a lot of Augmentations she ends up with a subdermal Comm Implant and ID Chip (for convenience wise and negligible invasiveness).*
-
-# 
-
-# ---
+*Preferring minimal surgical invasiveness, Xy'larra installs a subdermal **Comm Implant** (`CR 10`) and **ID Chip** (`CR 5`) for diplomatic convenience at **0 CP** and **0 Nodes**.*
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 124
+order: 122
 perspective: "operator"
 entry_type: "Primary Faction"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.major.auluranclans","mechanics"]
-updatedAt: "2026-10-14T05:32:05.191Z"
+updatedAt: "2026-11-02T22:49:23.772Z"
 costs:
   bp: 0
   credits: 0
@@ -37,89 +37,127 @@ sockets:
   allocated: []
 ---
 
-## **AULURAN CLANS**
+# 1.04.Major.AuluranClans — THE AULURAN CLANS (+2 WS)
 
-### **I. Detailed Faction Description**
-
-* **Overview:** The Aulurans are defined by radical adaptation following the genocide of their homeworld by the Impyrium. They fought back with Life—specifically, Emulated Biology. They terraform worlds using hyper-accelerated Organic Mimetics. Their tech is pseudo-living, utilizing synthetic tissues and neural-growth circuits. They view the galaxy through the lens of an immune system: outsiders are either compatible cells or pathogens.  
-* **Key Themes:** Nature as Machine, Organic Mimetics, Regrowth, Modular Adaptation.  
-* **Relationship to Others:** Hostile to Impyrium; Wary of Coalition (Polluters); Allies with Entari; Terrified of the Kitin Collective.
-
-### **II. Core Identity**
-
-* **Official Designation:** The Auluran Collective  
-* **Colloquialisms:** The Gardeners / The Retaliators  
-* **Archetype:** Biomorphic Solarpunk / Eco-Militants  
-* **Capital/Key World:** New Home (The World-Tree)  
-* **Symbol/Sigil:** The Spiral Leaf  
-* **Driving Mandate:** Grow the Garden; Choke the Weeds.  
-* **Motto:** "Static metal is death. Adaptive life is strength."
-
-### **III. Sociological Profile**
-
-#### **Ideology & Culture**
-
-* **Core Beliefs:** The Chorus (The psychic/neural web of the collective connecting all life and tech).  
-* **Social Structure:** Caste System based on contribution (Mystic, Warrior, Scholar) independent of their three biological sub-species (Dar, Koda, Graa).  
-* **View on Outsiders:** Protective and cautious; rapid to purge perceived "infections."  
-* **Law & Order:** Governed by the harmony of The Chorus; dissonance is organically corrected.
-
-#### **Governance**
-
-* **Government Type:** Neural Collective / Caste Council.  
-* **Leadership:** Council of Mystics and Elder Life-Shapers.  
-* **Succession:** Biological ascension/merging within the Chorus.
-
-### **IV. Strategic Assets**
-
-#### **Economy & Tech**
-
-* **Tech Level (TL):** 4 (Advanced Bio-Technology / Organic Mimetics)  
-* **Meta Level (ML):** 4 (The Chorus \- Planetary neural web)  
-* **Wealth Modifier:** \+0 (Non-monetary, Resource Abundant)  
-* **Primary Exports:** Biological sciences, terraforming tech, organic-mechanical hybrids.  
-* **Economic Model:** Bio-Symbiotic Collectivism.
-
-#### **Military Profile**
-
-* **Doctrine:** Immune system response: Swarm, adapt, consume, and regrow.  
-* **Key Units:** Biode Pilots, Thorn Sentinels.  
-* **Naval Assets:** World-Roots (massive data/nutrient hubs), Grown starships.  
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetype:** Biomorphic Verdant Caste Confederacy | **Capital:** New Home (`B:7:5:8:8:13:4:4:4`)
+* **Tech / Meta Level:** TL 4 (Biotech / Organic Mimetics) / ML 4 (The Chorus) | **EUFT Starting Wealth Modifier:** **+2 WS**
+* **Overview & Doctrine:** Divided into the Dar (Mystics), Koda (Warriors), and Graa (Protectors), the Aulurans reject 'dead metal' in favor of grown living starships, symbiotic armor, and World-Tree communion.
+* **Prominent Species:** Aulurans (Dar, Koda, Graa, Prokos), Thorn, Lin, Asi Fey.
+* **Canonical Faction Skill Package (20 SP):** Athletics, Acrobatics, Stealth, Alertness, Unarmed, Melee, Attune, Discipline (Entropy, Matter), Knowledge (Medicine, Nature, Survival), Vocation (Handler). *(Standard Preset: Knowledge: Nature [Biology] +5, Knowledge: Survival +4, Knowledge: Medicine +3, Stealth +3, Vocation: Handler +3, Combat +2).*
+* **Canonical Recommended Features (-1 CP Discount):** Acute Sense, Animal Affinity, Augmented (Pseudo-Symbiotic), Awakened, Benefit (Symbiotes), Biotechnology, Biotechnologist, Climber, Companion, Fast Heal, Natural Weapons, Naturalist, Scent, Self-Sufficient, Sense, Stealthy, Tolerance, Wild Speech.
+* **Typical Archetypes:** The Warden, The Field Medic, The Beast-Handler, The Pathfinder, The Zealot, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Geneticist, The Planetologist, The Biologist.
 * **Unique Tech/Materials:** Pseudo-Symbiosis (reactive carapace armor), Biodes (massive engineered war-frames).
+* **CRISP Visual Semiotics:** Towering bioluminescent World-Trees, living chitin-and-ironwood armor, glowing amber sap conduits, and predatory feline grace.
 
-### **V. Mechanics (Game Data)**
+---
 
-* **Prominent Species:** Aulurans (Dar, Koda, Graa).  
-* **Faction Skill Package (20 Points):**  
-  * Nature (Biology): \+5  
-  * Survival: \+4  
-  * Medicine: \+3  
-  * Stealth: \+3  
-  * Animal Handling: \+3  
-  * Combat: \+2  
-* **Typical Archetypes:** The Warden, The Field Medic, The Beast-Handler, The Pathfinder, The Zealot, The Oracle, The Ascetic, The Spirit-Walker, The Magus, The Geneticist, The Planetologist, The Biologist.  
-* **Recommended Features (1 CP Discount):**  
-  * Biotechnology, Awakened, Naturalist, Animal Affinity, Wild Speech, Fast Heal, Scent, Stealthy, Climber, Self Sufficient, Tolerance, Sense.
+AULURAN CLANS
+Description
+The Aulurans are a species defined by loss and radical adaptation. Their original homeworld was destroyed via ecological attacks during an Impyrium Incursion, a traumatic event that reshaped their entire civilization. In response, they did not just fight back with weapons; they fought back with Life—specifically, Emulated Biology. They have since terraformed several worlds using virulent, hyper-accelerated Organic Mimetics. To an outsider, an Auluran world looks like an untamed jungle; to an Auluran, it is a highly advanced, pseudo-living machine.
+The Organic Mimetic Philosophy
+Their society is built upon the philosophy of Biomorphic Fabrication: they do not build dead machines, nor do they rely on simple nature; they engineer "organic machinery." Their tech is pseudo-living, utilizing synthetic tissues, mimetic polymers, and neural-growth circuits to achieve technological capabilities far beyond metal-and-wire construction. They view the galaxy through the lens of an immune system—outsiders are either compatible cells (allies) or pathogens (enemies).
+Social Structure
+Auluran society is distinguished by the separation of biology and vocation. While the species manifests in three distinct biological sub-species (Dar, Koda, and Graa), their societal roles are governed by a Caste System (Mystic, Warrior, Scholar) that is independent of physical form. While historical trends once aligned specific forms with specific jobs, modern Auluran culture supports any sub-species pursuing any Caste.
+________________
+Overview
+The Aulurans have weaponized emulated nature to survive genocide. They use Biotechnology for everything, operating on three distinct layers of integration:
+                                    1. The Personal Layer (Pseudo-Symbiosis): Every Auluran utilizes beneficial pseudo-living mimetics. Armor is not a "suit" but a reactive carapace of mimetic chitin that interfaces with the user's nervous system. Weapons are organic-mechanical hybrids—rifles of carbon-fiber "wood" that fire pressurized, self-guided thorns, or glands that synthesize corrosive enzymes.
+                                    2. The Vehicular Layer (The Biode): They birth Biodes—massive, engineered war-frames that emulate the strengths of apex predators through synthetic biology. Piloted via total sensory immersion, these frames heal via rapid cellular reconstruction and function as an extension of the pilot's own body.
+                                    3. The Structural Layer (The World-Root): Their cities are adaptive, biomorphic arcologies. "World-Trees" are actually massive data-and-nutrient hubs. Their "Terraforming Engines" are viral mimetic spores that rewrite a planet's surface into an interconnected, organic-mechanical landscape.
 
-### **VI. Visual Synthesis Protocols (Aesthetics)**
+                                    * Key Themes: Nature as Machine, Organic Mimetics, Regrowth, Modular Adaptation.
+                                    * Relationships: Hostile to Impyrium (Invaders); Wary of Coalition (Polluters); Allies with Entari (Preservers); Terrified of the Kitin Collective (Devourers).
+________________
+Core Identity
+                                    * Official Designation: The Auluran Collective
+                                    * Colloquialisms: The Gardeners / The Retaliators
+                                    * Archetype: Biomorphic Solarpunk / Eco-Militants
+                                    * Driving Mandate: Grow the Garden; Choke the Weeds.
+                                    * Symbol/Sigil: The Spiral Leaf.
+                                    * Capital/Key World: New Home (The World-Tree).
+________________
+Sociological Profile
+Ideology & Culture
+                                    * Core Beliefs: "Static metal is death. Adaptive life is strength."
+                                    * Social Structure: Caste System based on contribution (Mystic, Warrior, Scholar).
+                                    * Philosophy: The Chorus (The psychic/neural web of the collective).
+                                    * Magic/Psionics: Common. Nature magic (Druidic) and neural empathy.
+________________
+Mechanics (Game Data)
+Advancements
+                                    * Tech Level: 4 (Advanced Bio-Technology / Organic Mimetics)
+                                    * Focus: Genetic Engineering, Mimetic Fabrication, Pseudo-Living Systems.
+                                    * Meta Level: 4 (The Chorus)
+                                    * Focus: The Chorus. A planetary-wide neural web connecting all life and tech.
+Faction Skill Package (20 Points)
+                                    * Nature (Biology): +5 (Innate understanding of mimetics)
+                                    * Survival: +4 (Living off adaptive biospheres)
+                                    * Medicine: +3 (Biotechnical repair/healing)
+                                    * Stealth: +3 (Active mimetic camouflage)
+                                    * Vocation (Handler): +3 (Neural-linking with beasts)
+                                    * Combat: +2 (Using biomorphic weaponry)
+Recommended Features (1 CP Discount)
+                                    * Benefit (Symbiotes): Start with a Bio-Tech device (armor, weapon, or utility).
+                                    * Augmented (Pseudo-Symbiotic): Auluran augments are modular and interchangeable.
+                                    * Cost: Same CP cost as standard augments.
+                                    * Interchangeability: Due to standardized neural-grafting ports, an Auluran augment can be exchanged for another Auluran-made augment with significantly reduced downtime and surgical risk (Easier to swap than standard cybernetics).
+________________
+Visual Semiotics (AESTHETICS)
+Design Directive: "Biomorphic Solarpunk."
+The Auluran aesthetic is Grown Machinery. It features organic curves, but with visible "mechanical" purpose—heatsinks that look like gills, or fiber-optic veins.
+Palette
+                                    * Primary: Bark Brown, Fiber-Wood Grey.
+                                    * Secondary: Moss Green, Synthetic Chitin (Matte Black/Bone).
+                                    * Accent: Bioluminescent Green (Neural Activity) or Amber (Nutrient Fluids).
+Lighting & Atmosphere
+                                    * Key Style: Dappled Sunlight combined with pulsing bioluminescence.
+                                    * Mood: Vibrant, Humid, Technologically Alive.
+Shape Language
+                                    * Organic Curves: Structures emulate shells, skeletons, and root systems.
+                                    * Asymmetry: Functional asymmetry typical of biological systems.
+                                    * Integration: Technology "flows" into the environment rather than displacing it.
+________________
+Unique Technology: The Biode
+The pinnacle of Auluran engineering: massive biological war-forms (Mecha Mimetics).
+                                    * The Womb-Cockpit: Pilot is submerged in oxygenated, neural-conductive fluid.
+                                    * Neural Link: Direct brain-to-frame interface via pseudo-living umbilical cables.
+                                    * Sensory Merge: The pilot is the Biode.
+                                    * Weaponry: Bio-Thermal Glands, Mimetic Razor-Whips, Adaptive Spore-Defense.
+________________
+Common Personas
+                                    * The Life-Shaper: A fabrication engineer who "grows" tools. Uses neural-linked robes and spore-drones for precision cellular assembly.
+                                    * The Biode Pilot: A warrior optimized for neural-linking. Often bears visible interface ports along the spine.
+                                    * The Thorn Sentinel: Elite scouts using active mimetic camouflage to vanish into the "wild" city.
+                                    * The Envoy: Pheromonal diplomats who use biological auras to influence negotiations.
+________________
+Scene Vignettes
+A. The Canopy City
+An urban environment where the "skyscrapers" are giant, hollowed burls with integrated solar-collecting leaves. Bridges are woven polymers that act as both pathways and data conduits.
+B. The Deep Root Forge
+A massive, underground manufacturing vat where "iron-wood" frames are grown. The sound is a low, rhythmic thrumming—the heartbeat of the forge—as nutrient-rich "sap" is pumped into growing starship hulls.
+C. The Symbiosis Spire
+The central node of the Chorus. It is a petrified-wood spire with calcified coral plating, acting as a massive antenna for the collective's psychic and data transmissions.
 
-#### **HI-FI INK Prompt Framework**
+---
 
-* **SETTING STYLE:** Biomorphic Solarpunk, Grown Machinery, Organic Integration, Eco-Militant.  
-* **CONTEXT:** Canopy cities, hollowed burls, woven polymer bridges, organic curves, heatsinks that look like gills, fiber-optic veins. Palette: Bark Brown, Fiber-Wood Grey, Moss Green, Synthetic Chitin (Matte Black/Bone).  
-* **ATMOSPHERE:** Vibrant, humid, technologically alive. Dappled sunlight mixed with pulsing bioluminescence (green or amber).
+## **AULURAN CLANS — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
 
-### **VII. Expansion Modules (Optional)**
+### **1. HI-FI INK MODULAR PROMPT STRUCTURE**
+* **CONTENT PROMPT — SUBJECT:** [e.g., Life-Shaper engineering tools with spore-drones, Biode Pilot with visible spinal interface ports, Thorn Sentinel in mimetic camouflage, massive biological war-frame Mecha]
+* **NARRATIVE:** [e.g., growing a starship hull in a nutrient vat, merging nervously with a pseudo-living umbilical cable, firing a carbon-fiber rifle that shoots thorns, blending perfectly into a giant fungal forest]
+* **GUIDANCE PROMPT — SETTING STYLE:** Biomorphic Solarpunk, Grown Machinery, Organic Mimetics, pseudo-living systems, functional asymmetry, bone and shell structures.
+* **CONTEXT:** Canopy cities built into giant hollowed burls, underground forge vats pumping nutrient sap, petrified-wood spires acting as psychic antennas.
+* **ATMOSPHERE:** Vibrant, humid, technologically alive, rhythmic, pulsating, harmonized with nature but engineered for war.
+* **RENDERING PROMPT — RENDERING:** High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* **NEGATIVE PROMPT:** photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
 
-#### **Unique Technology: The Biode**
+### **2. HI-FI SKETCH MODULAR PROMPT STRUCTURE & FACTION-SPECIFIC INK ACCENTS**
+* **RENDERING:** Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* **Accent Tokens:** subtle bioluminescent green ink dots for neural activity, faint amber marker wash for nutrient fluids, selective moss green shading, precise fiber-wood brown accents.
 
-* The pinnacle of Auluran engineering. Massive biological war-forms (Mecha Mimetics).  
-* Piloted via "Womb-Cockpits" (submerged in oxygenated, neural-conductive fluid).  
-* Direct brain-to-frame neural links utilizing pseudo-living umbilical cables.  
-* Weaponry includes Bio-Thermal Glands and Mimetic Razor-Whips.
+### **3. READY-TO-USE TEMPLATES**
+* **VEHICLE / MECH DESIGN: The Biode:** Massive Auluran Biode war-frame, engineered biological mecha resembling an apex predator, synthetic tissues, mimetic polymer chitin plating, bio-thermal glands, pseudo-living umbilical interface cables. Industrial design sketch, subtle Copic marker splash of bioluminescent green and bark brown.
+* **ARCHITECTURAL ESTABLISHING SHOT: The Canopy City:** Auluran Canopy City, skyscrapers made of giant hollowed tree burls with integrated solar-collecting leaves, woven polymer bridges acting as data conduits connecting massive branches. Architectural ink rendering, subtle moss green marker accents.
 
-#### **Scene Vignettes**
-
-* **The Deep Root Forge:** Underground manufacturing vats where "iron-wood" frames are grown via nutrient-rich "sap."  
-* **The Symbiosis Spire:** A petrified-wood spire with calcified coral plating acting as the primary antenna for The Chorus.
 

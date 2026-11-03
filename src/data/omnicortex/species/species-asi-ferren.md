@@ -133,7 +133,7 @@ cp_cost: 24
 
 &nbsp;
 
-**CP Cost:** 30 CP  
+**CP Cost:** 24 CP  
 
 **Description:** The Ferren are a fascinating species of arboreal fey, distinguished by their slender, elf-like appearance and, most notably, a unique split tail that helps them maintain balance as they leap through the forest canopy. These spritelike beings possess an insatiable curiosity that drives their every action, often leading them far afield from their original intent.
 

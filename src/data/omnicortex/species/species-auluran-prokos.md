@@ -157,7 +157,7 @@ cp_cost: 23
 
 # 
 
-**CP Cost:** 20 CP  
+**CP Cost:** 23 CP  
 
 **Description:** The Prokos stand as a unique and fascinating sub-species within the broader spectrum of feline humanoids. Their lineage traces a distant connection to the graceful Aulurans, simultaneously exhibiting a blend of physical and behavioral traits shared with both the Koda and the Graa.&nbsp;
 

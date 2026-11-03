@@ -162,7 +162,7 @@ export const executeDeckProgram = (session, programId, operativeMod = 3, customR
   const isCritTriumph = d1 === 10 && d2 === 10;
   const isCritFumble = d1 === 1 && d2 === 1;
 
-  const baseDiceSum = isCritTriumph ? 30 : isCritFumble ? -10 : (d1 + d2);
+  const baseDiceSum = isCritTriumph ? (d1 + d2 + 10) : isCritFumble ? -10 : (d1 + d2);
   const rollTotal = baseDiceSum + operativeMod;
 
   const targetCr = session.targetNode.baseDc;

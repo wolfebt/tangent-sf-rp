@@ -789,7 +789,7 @@ export const categoryConfig = {
             classification: { type: 'select', options: ['Melee (Slashing)', 'Melee (Blunt)', 'Melee (Piercing)', 'Ranged (Ballistic)', 'Heavy (Ballistic)', 'Ranged (Energy)', 'Heavy (Energy)'] },
             damage: { type: 'text', label: 'Damage (DMG)' },
             damage_type: { type: 'select', options: ['Kinetic', 'Force', 'Thermal (Pyro/Cryo)', 'Voltic (Electrical)', 'Sonic', 'Corrosive (Acid)', 'Psychic/Metaphysical'] },
-            ap: { type: 'number', label: 'Penetration (AP)' },
+            ap: { type: 'number', label: 'Penetration' },
             ammunition: { type: 'text', label: 'Ammunition / Capacity' },
             power_source: { type: 'text', label: 'Power Source' },
             faction_skin: { type: 'select', source: 'factions', manageable: true },

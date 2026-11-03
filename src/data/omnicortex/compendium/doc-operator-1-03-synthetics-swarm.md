@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 111
+order: 109
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.swarm","mechanics"]
-updatedAt: "2026-10-14T05:24:25.073Z"
+updatedAt: "2026-11-02T22:49:36.981Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **SWARM**
+# **SWARM**  
+**
 
 ## **SWARM**
 
-# 
+  
 
-**CP Cost:** 25 CP  
+**CP Cost:** 
 
-**Description:** An Ooze composed of a nano-machine hyper colony \- slithers on surfaces or with flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4 it is likely just an advanced automata.
+**Description:** An Ooze composed of a nano-machine hyper colony - slithers on surfaces or with flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4 it is likely just an advanced automata.
 
-&nbsp;
+  
 
 **Classification:** Synthetic Ooze
 
@@ -55,35 +56,36 @@ sockets:
 
 **Movement:** 30 ft Groundspeed / 30 ft Flightspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 0
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Synthetic, Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

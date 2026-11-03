@@ -1,7 +1,7 @@
 /**
  * @file TangentActionDeck.tsx
  * @description Canonical Tangent SF RP Tactical Action Deck.
- * Strictly adheres to docs/game rules/operator/3.00 COMBAT.md:
+ * Strictly adheres to docs/game_rules/operator/3.00 COMBAT.md:
  * - Skill-Rank-driven attack economy (Rank 0 Full Round, Rank 1-5: 1 action, Rank 6-10: 2 actions, etc.)
  * - Multiple Attack Penalty (MAP) progression (Action 1: 0, Action 2: -5, Action 3: -10, etc.)
  * - Active Defenses (Dodge, Parry, Block) with -5 cumulative consecutive reaction penalty

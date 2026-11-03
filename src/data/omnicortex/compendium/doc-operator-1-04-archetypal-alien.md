@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 134
+order: 132
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.archetypal.alien","mechanics"]
-updatedAt: "2026-10-14T05:32:05.197Z"
+updatedAt: "2026-11-02T22:49:20.915Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,100 @@ sockets:
   allocated: []
 ---
 
-## **1\. ALIEN**
+# 1.04.Archetypal.Alien — 01. ALIEN ENCLAVE (+1 WS)
 
-### **I. Detailed Faction Description**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 01. Alien Enclave
+* **Tech / Meta Level:** TL 3 / ML 3
+* **EUFT Starting Wealth Score Modifier:** **+1 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Alertness (+5), Knowledge: Culture (+5), Knowledge: Xenology (+4), Knowledge: Survival (+3), Stealth (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Adapted, Acute Sense, Biotechnology, Darksight, Danger Sense, Low-Light Vision, Resistance, Scent, Telepathy, Uncanny Sense
+* **CRISP Visual Semiotics Key:** Non-Euclidean organic spires, bioluminescent atmospheric filters, iridescent xeno-alloys.
 
-* **Overview:** These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race.  
-* **Key Themes:** Extraterrestrial Enigma, Xenobiology, The Unknown, Survival.  
-* **Relationship to Others:** Difficult. Often marred by cultural misunderstandings or a lack of understanding of human psychology.
+---
 
-### **II. Core Identity**
+ALIEN
+I. Detailed Faction Description
+* Overview: These factions are composed of non-human species with origins and psychologies that are fundamentally extraterrestrial. Their motives often seem inscrutable or dangerous to humanity, driven by a biological imperative to expand, explore, or ensure the survival of their race.
+* Key Themes: Extraterrestrial Enigma, Xenobiology, The Unknown, Survival.
+* Relationship to Others: Difficult. Often marred by cultural misunderstandings or a lack of understanding of human psychology.
+II. Core Identity
+* Official Designation: [Species Name] Hegemony / Hive / Empire
+* Colloquialisms: The Xenos / The Outsiders / The Anomalies
+* Archetype: Extraterrestrial Enigma
+* Capital/Key World: Variable (Often a hostile or exotic biome)
+* Driving Mandate: Expand territory, reproduce, eliminate threats, explore the universe.
+* Motto: "Survival through adaptation."
+III. Sociological Profile
+* Ideology & Culture: Alien, inscrutable, dangerous, curious, enigmatic, adaptable.
+* Social Structure: Variable (Hive castes, biological meritocracies, or psychic collectives).
+* View on Outsiders: Curious, defensive, or predatory.
+* Law & Order: Governed by biological imperatives rather than written constitutions.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Advanced biology, ability to adapt to new environments, powerful weapons, unique abilities, deep cosmic understanding.
+* Weaknesses: Difficulty communicating with humans/other species, vulnerability to unfamiliar threats.
+* Military Doctrine: Variable, often relying on biological weapons or overwhelming environmental adaptation.
+V. Mechanics (Game Data)
+* Prominent Species: Variable (Non-Human).
+* Faction Skill Package (20 Points):
+   * Survival (+5)
+   * Athletics (+4)
+   * Alertness (+4)
+   * Stealth (+4)
+   * Combat (Any) (+3)
+* Typical Archetypes:
+   * The Scout: Explores and maps hostile, unfamiliar terrain.
+   * The Hunter: An apex predator stalking prey across varied biomes.
+   * The Emissary: Attempts to bridge the gap between alien and human thought.
+   * The Bio-Shaper: Utilizes organic chemistry to alter their environment.
+   * The Survivor: Capable of living through the harshest planetary conditions.
+   * The Brute: Uses overwhelming physical strength to crush enemies.
+   * The Observer: Silently watches and records the actions of other species.
+   * The Hive-Node: A synapse point for a localized telepathic network.
+   * The Infiltrator: Slips past security using unique alien physiology.
+   * The Xenologist: Studies alien races to understand and exploit their weaknesses.
+* Recommended Features (1 CP Discount):
+   * Alien Physiology: Non-standard biology granting unique resistances.
+   * Natural Weapons: Equipped with biological claws, fangs, or bone-spurs.
+   * Environmental Adaptation: Immune to specific harsh climates or atmospheres.
+   * Scent: The ability to track prey by smell across long distances.
+   * Fast Heal: Rapid cellular regeneration recovering deep wounds.
+   * Telepathy: Communicating silently without relying on vocal cords.
+   * Wall-Crawler: Moving seamlessly across vertical and inverted surfaces.
+   * Toxic Resistance: Innate biological immunity to local poisons and venoms.
+   * Pheromone Control: Manipulating the emotions of others via chemical release.
+   * Echolocation: Navigating and fighting in absolute, pitch-black darkness.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Organic, non-Euclidean, and unfamiliar.
+* Atmosphere Tokens: Bioluminescence, organic architecture, chitin, strange geometries, enigmatic, alien.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Extraterrestrial Enigma, Xenobiology.
+   * CONTEXT: Organic structures, alien flora, non-Euclidean environments, bioluminescent atmospheres.
+   * ATMOSPHERE: Mysterious, exotic, dangerous, awe-inspiring, eerie.
 
-* **Official Designation:** \[Species Name\] Hegemony / Hive / Empire  
-* **Colloquialisms:** The Xenos / The Outsiders / The Anomalies  
-* **Archetype:** Extraterrestrial Enigma  
-* **Capital/Key World:** Variable (Often a hostile or exotic biome)  
-* **Driving Mandate:** Expand territory, reproduce, eliminate threats, explore the universe.  
-* **Motto:** "Survival through adaptation."
+________________
 
-### **III. Sociological Profile**
-
-* **Ideology & Culture:** Alien, inscrutable, dangerous, curious, enigmatic, adaptable.  
-* **Social Structure:** Variable (Hive castes, biological meritocracies, or psychic collectives).  
-* **View on Outsiders:** Curious, defensive, or predatory.  
-* **Law & Order:** Governed by biological imperatives rather than written constitutions.
-
-### **IV. Strategic Assets**
-
-* **Tech Level (TL):** 3  
-* **Strengths:** Advanced biology, ability to adapt to new environments, powerful weapons, unique abilities, deep cosmic understanding.  
-* **Weaknesses:** Difficulty communicating with humans/other species, vulnerability to unfamiliar threats.  
-* **Military Doctrine:** Variable, often relying on biological weapons or overwhelming environmental adaptation.
-
-### **V. Mechanics (Game Data)**
-
-* **Prominent Species:** Variable (Non-Human).  
-* **Faction Skill Package (20 Points):**  
-  * Survival (+5)  
-  * Athletics (+4)  
-  * Awareness (+4)  
-  * Stealth (+4)  
-  * Combat (Any) (+3)  
-* **Typical Archetypes:** The Scout, The Hunter, The Emissary, The Bio-Shaper, The Survivor, The Brute, The Observer, The Hive-Node, The Infiltrator, The Xenologist.  
-* **Recommended Features (1 CP Discount):** Alien Physiology, Natural Weapons, Environmental Adaptation, Scent, Fast Heal, Telepathy, Wall-Crawler, Toxic Resistance, Pheromone Control, Echolocation.
-
-### **VI. Visual Semiotics (Aesthetics)**
-
-* **Design Directive:** Organic, non-Euclidean, and unfamiliar.  
-* **Atmosphere Tokens:** Bioluminescence, organic architecture, chitin, strange geometries, enigmatic, alien.  
-* **HI-FI INK Guidance:** Extraterrestrial Enigma, Organic structures, alien flora, non-Euclidean environments, bioluminescent atmospheres. Mysterious, exotic, dangerous.
+ALIEN ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your generic Alien prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Enigmatic Alien Diplomat with non-humanoid anatomy, Bizarre Extraterrestrial Warrior with crystalline carapace, Xeno-Scientist examining a human artifact, towering alien biomechanical walker]
+* NARRATIVE: [e.g., communicating via bioluminescent flashes, adapting rapidly to a toxic atmosphere, guarding an ancient nesting ground, observing human behavior with cold curiosity]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Extraterrestrial, Bizarre Biology, non-Euclidean architecture, exotic flora/fauna, inscrutable, highly evolved, defying human conventions.
+* CONTEXT: A bizarre alien landscape under a binary star, a xenobiological laboratory, a fluid-filled command chamber, a crystalline hive structure.
+* ATMOSPHERE: Enigmatic, curious, dangerous, completely foreign, unearthly, adaptable.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: subtle iridescent fluid marker wash, precise bioluminescent neon pink or strange green ink dots, faint unearthly spectral glow.
+3. READY-TO-USE TEMPLATES
+CHARACTER CONCEPT SHEET: The Xeno-Infiltrator
+Enigmatic Alien Infiltrator with multi-jointed limbs and a smooth, sensory-pitted carapace, adapting its form to mimic human posture. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Extraterrestrial biology aesthetic, inscrutable expression, subtle iridescent fluid marker accent on the sensory pits. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+MASTER SHOT: First Contact
+A towering, bizarre extraterrestrial being communicating with human explorers via swirling patterns of light on its skin, standing in a landscape of jagged, twisting flora. Non-humanoid anatomy, extreme scale difference. Standard 50mm lens, eye-level camera angle, balanced cinematic framing, mid-shot composition, seamless environmental integration. Enigmatic and unearthly atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, mostly monochrome, black ink on clean paper, selective neon pink bioluminescent marker dots. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
 

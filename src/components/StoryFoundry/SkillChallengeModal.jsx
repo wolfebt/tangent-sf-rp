@@ -59,7 +59,7 @@ const SkillChallengeModal = ({
     const attrBonus = 2; // Standard average modifier
     const totalMod = skillBonus + attrBonus + situationalMod + repeatPenalty;
 
-    const baseDiceSum = isCritTriumph ? 30 : isCritFumble ? -10 : (d1 + d2);
+    const baseDiceSum = isCritTriumph ? (d1 + d2 + 10) : isCritFumble ? -10 : (d1 + d2);
     const rollTotal = baseDiceSum + totalMod;
 
     const updated = evaluateSkillChallengeRoll(

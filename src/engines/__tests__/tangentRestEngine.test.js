@@ -1,4 +1,4 @@
-﻿import { describe, it } from 'node:test';
+import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
 import {
@@ -210,11 +210,15 @@ describe('Tangent SF RP — Canonical REST & Recovery Rules Engine', () => {
   });
 
   describe('Light Rest Execution for Standard & Meditative Species', () => {
-    it('restores 50% of missing Vitality on Nap (1h) for standard biological species', () => {
+    it('restores 10 + STA Vitality (min 5) and KeyMod Essence on Nap (1h) for standard biological species', () => {
       const human = {
         'char-species': 'Terran Human',
+        'attr-stamina': 2,
+        'attr-intellect': 3,
         vitality: 40,
-        current_vitality: 20 // 20 missing
+        current_vitality: 20, // 20 missing
+        essence: 20,
+        current_essence: 10
       };
 
       const result = executeRestCycle({
@@ -226,18 +230,22 @@ describe('Tangent SF RP — Canonical REST & Recovery Rules Engine', () => {
       });
 
       assert.strictEqual(result.success, true);
-      // Missing 20 * 0.5 = +10 restored -> 30
-      assert.strictEqual(result.vitalityRestored, 10);
-      assert.strictEqual(result.newVitality, 30);
+      // 10 + STA(2) = +12 Vitality -> 32; KeyMod INT(3) = +3 Essence -> 13
+      assert.strictEqual(result.vitalityRestored, 12);
+      assert.strictEqual(result.newVitality, 32);
+      assert.strictEqual(result.essenceRestored, 3);
+      assert.strictEqual(result.newEssence, 13);
       assert.strictEqual(result.newLightRestsToday, 1);
+      // Canonical rule (1.01.RestAndDying.md): Light Rest removes Fatigue/Exhaustion
       assert.strictEqual(result.clearedConditions.includes('Exhausted'), true);
     });
 
-    it('restores 40% of missing Vitality on Lounging (2h)', () => {
+    it('restores full 10 + STA Vitality once Lounging (2h) completes', () => {
       const human = {
         'char-species': 'Terran Human',
+        'attr-stamina': 0, // base 10 + 0 = 10 (equally effective once 2h completed)
         vitality: 40,
-        current_vitality: 20 // 20 missing
+        current_vitality: 20
       };
 
       const result = executeRestCycle({
@@ -247,17 +255,17 @@ describe('Tangent SF RP — Canonical REST & Recovery Rules Engine', () => {
       });
 
       assert.strictEqual(result.success, true);
-      // Missing 20 * 0.4 = +8 restored -> 28
-      assert.strictEqual(result.vitalityRestored, 8);
-      assert.strictEqual(result.newVitality, 28);
+      assert.strictEqual(result.vitalityRestored, 10);
+      assert.strictEqual(result.newVitality, 30);
       assert.strictEqual(result.hoursSpent, 2);
     });
 
-    it('restores 30% of missing Vitality on Light Duty (3h)', () => {
+    it('restores full 10 + STA Vitality once Light Duty (3h) completes', () => {
       const human = {
         'char-species': 'Terran Human',
+        'attr-stamina': 0, // base 10 + 0 = 10 (equally effective once 3h completed)
         vitality: 40,
-        current_vitality: 20 // 20 missing
+        current_vitality: 20
       };
 
       const result = executeRestCycle({
@@ -267,9 +275,8 @@ describe('Tangent SF RP — Canonical REST & Recovery Rules Engine', () => {
       });
 
       assert.strictEqual(result.success, true);
-      // Missing 20 * 0.3 = +6 restored -> 26
-      assert.strictEqual(result.vitalityRestored, 6);
-      assert.strictEqual(result.newVitality, 26);
+      assert.strictEqual(result.vitalityRestored, 10);
+      assert.strictEqual(result.newVitality, 30);
       assert.strictEqual(result.hoursSpent, 3);
     });
   });

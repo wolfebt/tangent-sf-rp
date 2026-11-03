@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 168
+order: 166
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.research","mechanics"]
-updatedAt: "2026-10-14T05:38:13.239Z"
+updatedAt: "2026-11-02T22:49:28.385Z"
 costs:
   bp: 0
   credits: 0
@@ -37,19 +37,22 @@ sockets:
   allocated: []
 ---
 
-# **RESEARCH**
+# 1.05.09 ORIGIN: RESEARCH (+2 WS)
+
+* **Executive Summary:** University worlds, deep-space science stations, and classified black-site laboratories (New Aurelia, Altheria).
+* **EUFT Starting Wealth Modifier:** **+2 WS**
+* **Canonical Society Skills (20 SP Allocation):** Academics, Computers, Alertness, Knowledge (Investigation, Medicine, Physics, Science, Technology), Mental (Any)
+* **Typical Archetypes:** Lab Scientist, Xenologist, Field Researcher, AI Programmer, Archivist, Scientist, Analyst, Theorist, Technician, Security Officer
+
+---
 
 # **RESEARCH**
 
 A complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject. Structures can range from prefabricated or mobile to large laboratory complexes, depending on need and resources.
 
-&nbsp;
-
 ## **Society Skills**
 
 Mental (any)
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -65,8 +68,6 @@ Technician
 
 Security Officer
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -75,15 +76,11 @@ The ability to adapt to new environments and situations is important for a resea
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Analytical thinking*
 
 Researchers would be skilled at analyzing data and drawing conclusions from it. They would be able to identify patterns and trends in complex information.
 
-*\+2 Logic Checks*
-
-&nbsp;
+*\+2 Reason (Intellect) Checks*
 
 ### *Attention to detail*
 
@@ -91,15 +88,11 @@ Researchers would have a keen eye for detail and be able to notice small nuances
 
 *\+2 Alertness*
 
-&nbsp;
-
 ### *Collaboration*
 
 Researchers would be able to work well with others, including other researchers and non-researchers alike. They would be able to communicate their findings effectively and work together to achieve common goals.
 
 *additional \+1 to Aid bonuses received and granted*
-
-&nbsp;
 
 ### *Curiosity*
 
@@ -107,15 +100,11 @@ The character has a natural curiosity about the world around them, which drives 
 
 *Regain a Karma Point on the first encounter when dealing with something new during the session \- creature, area, technology, etc.*
 
-&nbsp;
-
 ### *Intellectualism*
 
 Researchers would be knowledgeable and intelligent, with a deep understanding of their field of study. They would likely have a high level of education and expertise in their area of research.
 
 *\+2 Academics and \+2 to a Mental Skill Specialization*
-
-&nbsp;
 
 ### *Persistence*
 
@@ -123,15 +112,11 @@ Researchers would be persistent in their pursuit of knowledge and discovery. The
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Problem-solving*
 
 Researchers would be adept at solving problems and overcoming obstacles. They would be able to think creatively and come up with innovative solutions to challenges.
 
 *Once per Day may reroll a Mental Skill Check*
-
-&nbsp;
 
 ### *Studious*
 
@@ -139,17 +124,24 @@ Gained increased knowledge on a topic through diligent research.
 
 *\+2 to a Knowledge of choice*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Analytical Mind:** Once per day, reroll a failed Knowledge (Investigation) or Knowledge (Science) check.
+* **Data Synthesis:** Roll Academics (Research) checks in libraries or databases at Advantage.
+* **Laboratory Safety:** +4 bonus to prototyping checks to avoid chemical or technological mishaps.
+* **Methodical:** Increases the bonus from Meticulous time investment by +1 per step.
+* **Peer Network:** Gather Information checks within academic, scientific, or medical communities are rolled at Advantage.
+* **Tech Savant:** +2 to Computers and Knowledge (Technology) checks.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **09\. RESEARCH**
 
@@ -224,4 +216,11 @@ Gained increased knowledge on a topic through diligent research.
 * **STYLE:** The Great Calculation, Supercomputer.  
 * **PALETTE:** Server Black, LED Red/Green, Cable Grey.  
 * **TOKENS:** Servers, cables, lights, heat, humming.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** A Genomatrix Evolutionary Laboratory where Manelli geneticists steer real-time embryonic adaptations inside translucent amber stasis cysts. Sensory pit arrays and living neural wetware sequence captured xeno-DNA.
+* **STYLE:** Genetic Steering Sanctum, Biomorphic Wetware Lab.
+* **PALETTE:** Stasis Amber, Proto-Flux Green, Synaptic Cyan, Glossy Obsidian.
+* **TOKENS:** Pre-hatch stasis pods, DNA helix projections, Manelli brood-scientists, living microscopes, neural wetware.
 

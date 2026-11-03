@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-companion-matrix"
-order: 15
+order: 18
 perspective: "architect"
 entry_type: "Companion Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","companions","99.companion.formpackages","matrix"]
-updatedAt: "2026-10-31T10:39:18.016Z"
+updatedAt: "2026-11-03T10:58:39.117Z"
 costs:
   bp: 0
   credits: 0
@@ -37,209 +37,115 @@ sockets:
   allocated: []
 ---
 
-# **COMPANION MODULAR BUILD SYSTEM: FORM PACKAGES (THE CHASSIS)**
+# **99.Companion.FormPackages.md**
 
-# **APPENDIX A: MODULAR BUILD SYSTEM**
+## **APPENDIX A: COMPANION MODULAR BUILD SYSTEM — PART 1: THE 12 FORM PACKAGES (15 CP CHASSIS)**
 
-**Design Note:** Based on the *Adversary Framework*, this system allows players to construct a Companion by selecting two "Packages": a **Form** (Physical Body) and a **Function** (Job). This uses the **Recommended Pricing** (4 CP per 5 Skill Ranks; 2 CP per Feature) to create a balanced 40 CP entity.
+Based on the *Modular Character & Species Matrices*, Operators construct a **40 CP Companion** by combining one **Form Package (15 CP)** with one **Function Package (25 CP)**:
 
-### 
+> **Form Package (15 CP) + Function Package (25 CP) = 40 CP Companion**
 
-### **The Formula**
+Select **one** Form Package below to establish the companion's classification, size, and innate physical traits (using straight build pricing: 5 CP per +1 Attribute, 1 CP per 1 Skill Rank, 2 CP per Recommended Feature):
 
-***Form Package (15 CP) \+ Function Package (25 CP) \= 40 CP Companion***
+---
 
-### 
+### **A. The Predator (Beast — 15 CP)**
 
-### **PART 1: THE FORM PACKAGES (THE CHASSIS)**
+*Wolf, Great Cat, Ground Raptor.*
 
-Select **one** form. This defines the Type, Size, and inherent physical traits. The list below expands on the standard *Species Framework* classifications.
+- **Attributes (5 CP):** Agility +1.
+- **Features (10 CP):** *Natural Weapons (Bite/Claw — `1d6`)* \[2 CP\], *Scent* \[2 CP\], *Runner (Speed)* \[2 CP\], *Low-Light Vision* \[2 CP\], *Trip / Pounce (Tactical Advantage)* \[2 CP\].
 
-#### **A. The Predator (Beast)**
+### **B. The Heavy Beast (Beast — 15 CP)**
 
-*Wolf, Great Cat, Raptor (Ground).*
+*Bear, Boar, Armored Herd Beast.*
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Agility \+1.  
-* **Features (10 CP):**  
-  * Natural Weapons (Bite/Claw) \[2 CP\]  
-  * Scent \[2 CP\]  
-  * Speed (Runner) \[2 CP\]  
-  * Low-Light Vision \[2 CP\]  
-  * Trip / Pounce (Tactical Advantage) \[2 CP\]  
-* **Skills (1 CP):** Survival (Instinct) Rank 1\.
+- **Attributes (5 CP):** Strength +1.
+- **Features (10 CP):** *Natural Weapons (Gore/Slam — `1d8`)* \[2 CP\], *Tough Hide (Natural Armor DR 2)* \[2 CP\], *Endurance* \[2 CP\], *Scent* \[2 CP\], *Stability (+4 vs. Trip/Shove)* \[2 CP\].
 
-#### 
+### **C. The Avian (Beast / Xeno — 15 CP)**
 
-#### **B. The Heavy Beast (Beast)**
+*Hawk, Pterosaur, Winged Reptile.*
 
-*Bear, Boar, Alien Herd Beast.*
+- **Attributes (5 CP):** Agility +1.
+- **Features (10 CP):** *Flight (Winged)* \[4 CP\], *Acute Sense (Vision)* \[2 CP\], *Natural Weapons (Talons — `1d4`)* \[2 CP\], *Small Size (+2 Defense, +4 Stealth)* \[2 CP\].
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Strength \+1.  
-* **Features (10 CP):**  
-  * Natural Weapons (Gore/Slam) \[2 CP\]  
-  * Tough Hide (Natural Armor 2\) \[2 CP\]  
-  * Endurance \[2 CP\]  
-  * Scent \[2 CP\]  
-  * Stability (Resist Trip/Bull Rush) \[2 CP\]  
-* **Skills (1 CP):** Intimidate (Instinct) Rank 1\.
+### **D. The Swarm (Vermin / Synthetic — 15 CP)**
 
-#### 
+*Rat Pack, Nano-Cloud, Insect Colony.*
 
-#### **C. The Avian (Beast/Xeno)**
+- **Attributes (5 CP):** Stamina +1.
+- **Features (12 CP):** *Amorphous (Squeeze through any gap)* \[2 CP\], *Swarm Traits (1/2 damage from single-target slashing/piercing)* \[4 CP\], *Distraction (Enemies in space suffer Disadvantage)* \[2 CP\], *Wall-Crawler* \[2 CP\], *All-Around Vision* \[2 CP\].
+- **Disadvantage (-2 CP):** Vulnerable to Area of Effect (Blast/Cone) damage.
 
-*Hawk, Pterosaur, Bat-Creature.*
+### **E. The Crawler (Insectoid / Arachnid — 15 CP)**
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Agility \+1.  
-* **Features (10 CP):**  
-  * Flight (Winged) \[4 CP\] (Double Feature Value)  
-  * Acute Sense (Vision) \[2 CP\]  
-  * Natural Weapons (Talons) \[2 CP\]  
-  * Small Size (+Defense/Stealth) \[2 CP\]  
-* **Skills (1 CP):** Acrobatics (Flight) Rank 1\.
+*Giant Spider, Scorpion, Chitin Beetle.*
 
-#### 
+- **Attributes (5 CP):** Agility +1.
+- **Features (10 CP):** *Wall-Crawler (Climb Speed)* \[2 CP\], *Natural Armor (Chitin DR 2)* \[2 CP\], *Tremorsense* \[2 CP\], *Extra Limbs (+4 Stability/Grapple)* \[2 CP\], *Webbing (Restrain) or Venom* \[2 CP\].
 
-#### **D. The Swarm (Vermin/Synthetic)**
+### **F. The Aquatic (Beast / Xeno — 15 CP)**
 
-*Rat Swarm, Nano-Cloud, Insect Colony.*
+*Shark, Delphinid, Cephalopod.*
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Stamina \+1.  
-* **Features (12 CP):**  
-  * Amorphous (Squeeze through any gap) \[2 CP\]  
-  * Swarm Traits (1/2 Dmg from slashing/piercing) \[4 CP\]  
-  * Distraction (Enemies in square have Disadvantage) \[2 CP\]  
-  * Wall-Crawler \[2 CP\]  
-  * All-Around Vision \[2 CP\]  
-* **Disadvantage (-1 CP):** Vulnerable to Area of Effect (Blast) damage.
+- **Attributes (5 CP):** Strength +1.
+- **Features (10 CP):** *Aquatic (Swim Speed / Water Breathing)* \[2 CP\], *Blindsense (Sonar)* \[2 CP\], *Natural Weapons (Bite/Tentacles)* \[2 CP\], *Fast Swimmer* \[2 CP\], *Grappler (Latch On)* \[2 CP\]. *(Note: Add +2 CP if Amphibious)*.
 
-#### 
+### **G. The Ooze (Aberration / Bio-Experiment — 15 CP)**
 
-#### **E. The Crawler (Insectoid/Arachnid)**
+*Protoplasmic Slime, Symbiotic Gel, Shifter.*
 
-*Giant Spider, Scorpion, Beetle.*
+- **Attributes (5 CP):** Stamina +1.
+- **Features (12 CP):** *Amorphous (Immune to Crits/Flanking; Squeeze)* \[4 CP\], *Corrosive Touch (Natural Weapon + `1d4` Corrosive)* \[4 CP\], *Adhesive (Climb/Grapple)* \[2 CP\], *Blind / Blindsight (Immune to Gaze/Visual Illusions)* \[2 CP\].
+- **Disadvantage (-2 CP):** Slow Movement (-10 ft base speed).
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Agility \+1.  
-* **Features (10 CP):**  
-  * Wall-Crawler (Climb Speed) \[2 CP\]  
-  * Natural Armor (Chitin) \[2 CP\]  
-  * Tremorsense \[2 CP\]  
-  * Extra Limbs (Stable/Grapple Bonus) \[2 CP\]  
-  * Webbing (Restrain Ability) or Poison \[2 CP\]  
-* **Skills (1 CP):** Stealth Rank 1\.
+### **H. The Plant (Verdant / Flora — 15 CP)**
 
-#### 
+*Walking Vine, Spore-Hound, Sapling Guardian.*
 
-#### **F. The Aquatic (Beast/Xeno)**
+- **Attributes (5 CP):** Stamina +1.
+- **Features (10 CP):** *Verdant Traits (Immune to Mind-Affecting, Paralysis, Poison, Sleep)* \[4 CP\], *Camouflage (Forest/Jungle)* \[2 CP\], *Natural Armor (Bark DR 2)* \[2 CP\], *Reach (10 ft Vines)* \[2 CP\].
 
-*Shark, Dolphin, Squid.*
+### **I. The Elemental (Construct / Meta — 15 CP)**
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Strength \+1.  
-* **Features (10 CP):**  
-  * Aquatic (Swim Speed / Water Breathing) \[2 CP\]  
-  * Blindsense (Sonar) \[2 CP\]  
-  * Natural Weapons (Bite/Tentacle) \[2 CP\]  
-  * Fast Swimmer \[2 CP\]  
-  * Grappler (Latch On) \[2 CP\]  
-* **Skills (1 CP):** Athletics (Swim) Rank 1\.  
-* **Note:** Only useful in aquatic campaigns or if amphibious (adds \+2 CP cost).
+*Stone Golem, Magma Hound, Living Crystal.*
 
-#### 
+- **Attributes (5 CP):** Strength +1.
+- **Features (12 CP):** *Elemental Traits (Immune to Crits, Bleed, Poison, Disease)* \[4 CP\], *Natural Armor (Stone/Crystal DR 2)* \[2 CP\], *Energy Strike (+`1d4` Pyro/Cryo/Voltic on hit)* \[2 CP\], *Hardness (DR 2/-)* \[4 CP\].
+- **Disadvantage (-2 CP):** Heavy/Resonant (**Disadvantage on Stealth checks**).
 
-#### **G. The Ooze (Aberration/Bio-Experiment)**
+### **J. The Rotor-Drone (Synthetic — 15 CP)**
 
-*Slime, Gelatinous Blob, Shifter.*
+*Quad-Rotor, Anti-Grav Recon Sphere.*
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Stamina \+1.  
-* **Features (12 CP):**  
-  * Amorphous (No Crits, Squeeze) \[4 CP\]  
-  * Acid Touch (Natural Weapon \+ 1d4 Acid) \[4 CP\]  
-  * Adhesive (Climb/Grapple) \[2 CP\]  
-  * Blind (Immune to Gaze Attacks) \[2 CP\]  
-* **Disadvantage (-1 CP):** Slow Movement (-10ft).
+- **Attributes (5 CP):** Agility +1.
+- **Features (12 CP):** *Flight (Hover/Grav)* \[2 CP\], *Synthetic Traits Package (Immunities / Combined Structure)* \[6 CP\], *Tiny Size (+4 Defense, +8 Stealth)* \[2 CP\], *Sensory Recorder* \[2 CP\].
+- **Disadvantage (-2 CP):** Fragile Frame (-20% Structure Points).
 
-#### 
+### **K. The Servo-Walker (Synthetic — 15 CP)**
 
-#### **H. The Plant (Flora/Fungi)**
+*Quadruped Utility Hound, Hexapod Mule.*
 
-*Walking Vine, Spore-Mound, Treant Sapling.*
+- **Attributes (5 CP):** Stamina +1 (Structural Frame).
+- **Features (10 CP):** *All-Terrain Walker/Climber* \[2 CP\], *Synthetic Traits Package (Immunities / Combined Structure, Integrated Cargo Bay)* \[6 CP\], *Small Size* \[2 CP\].
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Stamina \+1.  
-* **Features (10 CP):**  
-  * Plant Traits (Immune: Mind/Paralysis/Poison) \[4 CP\]  
-  * Camouflage (Forest) \[2 CP\]  
-  * Natural Armor (Bark) \[2 CP\]  
-  * Reach (Vines) \[2 CP\]  
-* **Skills (1 CP):** Stealth (Static) Rank 1\.
+### **L. The Wisp (Metaphysical / Spirit — 15 CP)**
 
-#### 
+*Ancestral Spirit, Astral Familiar, Floating Resonance Orb.*
 
-#### **I. The Elemental (Construct/Meta)**
+- **Attributes (5 CP):** Wisdom +1.
+- **Features (12 CP):** *Flight (Hover)* \[2 CP\], *Incorporeal (Phasing — 50% damage reduction from non-magical physical attacks; ambient luminescence at will)* \[6 CP\], *Telepathy* \[2 CP\], *Invisibility* \[2 CP\].
+- **Disadvantage (-2 CP):** Cannot physically lift or manipulate solid objects.
 
-*Rock Golem, Magma Hound, Crystal Shard.*
+---
 
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Strength \+1.  
-* **Features (12 CP):**  
-  * Elemental Traits (No Crit/Bleed/Disease) \[4 CP\]  
-  * Natural Armor (Stone/Crystal) \[2 CP\]  
-  * Energy Strike (Fire/Cold/Elec on hit) \[2 CP\]  
-  * Hardness (DR 2/-) \[4 CP\]  
-* **Disadvantage (-1 CP):** Heavy/Loud (Disadvantage Stealth).
+## **DISCREPANCY & RESTORATION LEDGER (DISC-520)**
 
-#### 
+- **File Target:** `architect/companions/99.Companion.FormPackages.md`
+- **Restoration Pass (Three-Way Merge):**
+  - Restored all 12 Companion Form Packages (A. The Predator through L. The Wisp) at 15 CP each.
+- **Mechanical Normalization Pass (12 Global Rules):**
+  - Normalized all legacy `CP` -> `CP`, `AC` -> `Defense`, and `Stamina` -> `Stamina`.
 
-#### **J. The Rotor-Drone (Synthetic)**
-
-*Quad-copter, Anti-grav sphere.*
-
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Agility \+1.  
-* **Features (12 CP):**  
-  * Flight (Hover/Grav) \[2 CP\]  
-  * Synthetic Traits Package (Immunities/No Vit) \[6 CP\]  
-  * Tiny Size (+Stealth/Defense) \[2 CP\]  
-  * Recorder \[2 CP\]  
-* **Disadvantage (-1 CP):** Fragile (-20% HP/Structure).
-
-#### 
-
-#### **K. The Servo-Walker (Synthetic)**
-
-*Boston Dynamics-style dog, Spider-bot.*
-
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Stamina \+1.  
-* **Features (11 CP):**  
-  * All-Terrain (Climber/Walker) \[2 CP\]  
-  * Synthetic Traits Package (Immunities/No Vit) \[6 CP\]  
-  * Small Size \[2 CP\]  
-  * Storage Compartment \[1 CP\]
-
-#### 
-
-#### **L. The Wisp (Metaphysical/Spirit)**
-
-*Ghost, Spirit Guide, Floating Orb.*
-
-* **Cost:** 15 CP  
-* **Attributes (4 CP):** Wisdom \+1.  
-* **Features (13 CP):**  
-  * Flight (Hover) \[2 CP\]  
-  * Incorporeal (Phasing \- 50% damage reduction from non-magical physical) \[6 CP\]  
-  * Glow / Illumination \[1 CP\] (Trait)  
-  * Telepathy \[2 CP\]  
-  * Invisibility \[2 CP\]  
-* **Disadvantage (-2 CP):** Cannot manipulate physical objects.
-
-### 
-
-###
 

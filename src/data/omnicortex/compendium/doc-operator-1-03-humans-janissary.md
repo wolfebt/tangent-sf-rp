@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 63
+order: 61
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.janissary","mechanics"]
-updatedAt: "2026-10-14T05:24:25.057Z"
+updatedAt: "2026-11-02T22:49:34.475Z"
 costs:
   bp: 0
   credits: 0
@@ -37,23 +37,24 @@ sockets:
   allocated: []
 ---
 
-# **JANISSARY (S) \***
+# **JANISSARY (S) **  
+**
 
-# **JANISSARY (S) \***
+# **JANISSARY (S) ***
 
-**CP Cost:** 16 CP  
+**CP Cost:** 
 
 **Description:** The Janissary operatives are not naturally born; instead, they are rapidly grown to physical adulthood from engineered zygotes in specialized gestation tanks. This accelerated biological maturation is a tactical necessity, enabling a fully mature fighting force to be deployed in a fraction of the time required by natural human development.
 
-&nbsp;
+  
 
 Following this physical maturation, Janissary soldiers undergo an intense, virtual training regimen. Advanced neural interface systems directly link to their minds, bypassing traditional, slow learning and memorization. Complex skill sets—from advanced tactical combat and demolitions to cryptography and xenolinguistics—are directly 'programmed' into their neural architecture, creating a force with unparalleled immediate proficiency.
 
-&nbsp;
+  
 
 A critical, intentional outcome of this forced development and programmed education is the complete omission of childhood and all traditional social developmental stages. While possessing the physical maturity and technical competence of a veteran soldier, Janissary entirely lack the nuanced social and emotional context essential for human interaction and non-combat critical decision-making. They possess no personal history, emotional attachments, or the moral framework typically developed through years of social experience. This developmental void results in highly efficient, emotionally detached, and singularly focused combat instruments. Though perfectly suited for the brutal, utilitarian demands of the battlefield, they remain fundamentally alien to natural human society.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -61,43 +62,43 @@ A critical, intentional outcome of this forced development and programmed educat
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 3
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Xeno (Social Disconnection)
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Abilities
++2 Abilities
 
-\-1 Cha
+-1 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+20 Combat Related Skills
++20 Combat Related Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Augmented
 
-\+1 Combat Feature
++1 Combat Feature
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Ability Check Features
 
@@ -111,13 +112,15 @@ Exoskeleton (Partial)
 
 Fearless
 
-Improved Healing (double healing rate)&nbsp;
+Improved Healing (double healing rate) 
 
 Low Light Vision
 
 Scent
 
-Toxin Resist (+4 vs Diseases, \+2 vs Poisons)
+Toxin Resist (+4 vs Diseases, +2 vs Poisons)
 
-&nbsp;
+  
+**  
+**
 

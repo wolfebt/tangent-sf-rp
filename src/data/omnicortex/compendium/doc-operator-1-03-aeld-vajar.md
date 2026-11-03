@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aeld"
-order: 28
+order: 26
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld.vajar","mechanics"]
-updatedAt: "2026-10-14T05:24:25.035Z"
+updatedAt: "2026-11-02T22:49:32.072Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **VAJAR (Wilder)**
+# **VAJAR (Wilder)**  
+**
 
 # **VAJAR (Wilder)**
 
@@ -47,11 +48,11 @@ A defining characteristic of this lineage is their natural, powerful affinity fo
 
 Even in their humanoid form, the Wild Aeld are never entirely free from their bestial connection. Each member of this ancient line permanently possesses at least one physical animal trait. This mark is a constant, subtle reminder of their shifting nature, often taking the form of heightened senses (such as the sharp, amber eyes of a predator), small but distinct physical features (like tufted ears or a fine coat of fur along the forearms), or unique physiological adaptations (such as enhanced musculature for leaping or slightly elongated teeth). This permanent trait is typically present from birth and helps to classify a Wild Elf's primary affinity, often guiding their role within the tribe and influencing the animal forms they most frequently adopt.
 
-&nbsp;
+  
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 21 CP  
+**CP Cost:** [TBD]
 
 **Classification:** Humanoid
 
@@ -63,23 +64,23 @@ Even in their humanoid form, the Wild Aeld are never entirely free from their be
 
 **Meta Level:** 4
 
-**Homeworld:** \[TBD\]
+**Homeworld:** [TBD]
 
 **Stigma:** Feral and Xeno
 
-&nbsp;
+  
 
 **Ability Modifiers:**
 
-\+2 Ability (Any)
++2 Ability (Any)
 
-&nbsp;
+  
 
 **Skills:**
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
 **Species Features:**
 
@@ -91,13 +92,13 @@ Mutation (Animalistic)
 
 Sleepless (and Immune to Sleep Effects)
 
-&nbsp;
+  
 
 **Recommended Features:**
 
 Acute Senses, Adapted (Arboreal), Animal Companion, Camouflage, Combat Reflexes, Danger Sense, Natural Weapons (Claws/Bite), Regeneration, Speak with Animals, Survival Expertise, Track, Wilderness Stride.
 
-### 
+  
 
 ### **Aesthetic Profile: The Primitive Shifters**
 
@@ -105,9 +106,9 @@ Acute Senses, Adapted (Arboreal), Animal Companion, Camouflage, Combat Reflexes,
 
 **The Structure:** Graceful yet rugged, 6+ ft tall. Enhanced musculature, slight fur patches, or slit pupils.
 
-**The Motif:** True Primal Existence. Tech Level 1\. A deep, instinctual bond with nature that rejects civilization and technology entirely.
+**The Motif:** True Primal Existence. Tech Level 1. A deep, instinctual bond with nature that rejects civilization and technology entirely.
 
-&nbsp;
+  
 
 **Setting Style Description (Crisp):**
 
@@ -121,7 +122,7 @@ Acute Senses, Adapted (Arboreal), Animal Companion, Camouflage, Combat Reflexes,
 
 **Philosophy:** "Nature is the Machine." Enhancing simple materials with high-level metaphysics.
 
-&nbsp;
+  
 
 **Guidance & Atmosphere Tokens:**
 
@@ -129,11 +130,11 @@ Acute Senses, Adapted (Arboreal), Animal Companion, Camouflage, Combat Reflexes,
 
 **Lighting:** Dappled sunlight filtering through leaves, firelight from campfires, bioluminescent neon glow from flora, deep shadows.
 
-**Architecture/Tech:** Primitive Tech Level 1\. Weapons are hand-crafted from ironwood, bone, obsidian, and flint. Simple leather bindings. Shelters are natural caves or woven living branches. No metalworking beyond simple scavenged scraps.
+**Architecture/Tech:** Primitive Tech Level 1. Weapons are hand-crafted from ironwood, bone, obsidian, and flint. Simple leather bindings. Shelters are natural caves or woven living branches. No metalworking beyond simple scavenged scraps.
 
 **Fashion:** Real furs, cured leathers, woven plant fibers. Ornaments of bone, feathers, and carved wood. War paint using natural pigments.
 
-### 
+  
 
 ### **Common Personas**
 
@@ -145,7 +146,8 @@ Acute Senses, Adapted (Arboreal), Animal Companion, Camouflage, Combat Reflexes,
 
 **The Canopy Scout:** A tracker who navigates the ancient trees with absolute silence. Wears deep forest greens and mud-cured leathers, carrying a bone-carved shortbow tipped with natural toxins.
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

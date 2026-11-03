@@ -132,7 +132,7 @@ Consequently, the Elven who are drawn to the Nocturne ideology are often those o
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 13 CP  
+**CP Cost:** 21 CP  
 
 **Classification:** Humanoid
 

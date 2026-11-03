@@ -25,41 +25,42 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
       assert.strictEqual(pools.suggestedMax, 60);
     });
 
-    it('increases Vitality and Health at a rate of 2 points per 1 CP/BP', () => {
+    it('increases Vitality and Health at the canonical rate of 5 points per 1 CP/BP', () => {
       const pools = calculateVitalityHealthPools({
-        vitalityBP: 2, // +4 Vitality
-        healthBP: 3    // +6 Health
+        vitalityBP: 2, // +10 Vitality
+        healthBP: 3    // +15 Health
       });
-      assert.strictEqual(pools.vitality, 34);
-      assert.strictEqual(pools.health, 36);
-      assert.strictEqual(pools.purchasedVitality, 4);
-      assert.strictEqual(pools.purchasedHealth, 6);
+      assert.strictEqual(pools.vitality, 40);
+      assert.strictEqual(pools.health, 45);
+      assert.strictEqual(pools.purchasedVitality, 10);
+      assert.strictEqual(pools.purchasedHealth, 15);
       assert.strictEqual(pools.vitalityBPCost, 2);
       assert.strictEqual(pools.healthBPCost, 3);
     });
 
-    it('caps purchased Vitality and Health at a maximum increase of 5 x Stamina score', () => {
+    it('enforces Zero Stamina Pool Scaling (no Stamina-based cap or flat bonus on Vitality or Health)', () => {
       const pools = calculateVitalityHealthPools({
-        vitalityBP: 10, // +20 requested
-        healthBP: 12,   // +24 requested
-        staminaScore: 3 // max increase = 15 each
+        vitalityBP: 10, // +50 requested
+        healthBP: 12,   // +60 requested
+        staminaScore: 3 // provides Toughness DR 3, does NOT cap or inflate pools
       });
-      assert.strictEqual(pools.vitality, 45); // 30 + 15
-      assert.strictEqual(pools.health, 45);   // 30 + 15
-      assert.strictEqual(pools.purchasedVitality, 15);
-      assert.strictEqual(pools.purchasedHealth, 15);
-      assert.strictEqual(pools.maxVitalityIncrease, 15);
-      assert.strictEqual(pools.maxHealthIncrease, 15);
+      assert.strictEqual(pools.vitality, 80); // 30 + 50
+      assert.strictEqual(pools.health, 90);   // 30 + 60
+      assert.strictEqual(pools.purchasedVitality, 50);
+      assert.strictEqual(pools.purchasedHealth, 60);
+      assert.strictEqual(pools.maxVitalityIncrease, null);
+      assert.strictEqual(pools.maxHealthIncrease, null);
+      assert.strictEqual(pools.toughness, 3);
     });
 
-    it('calculates Structure by starting at base 60 with purchased bonuses for Synthetics', () => {
+    it('calculates Structure by starting at base 60 with +5 SP per CP for Synthetics', () => {
       const bioPools = calculateVitalityHealthPools({
         vitalityBP: 2,
         healthBP: 2,
         isSynthetic: false
       });
-      assert.strictEqual(bioPools.vitality, 34);
-      assert.strictEqual(bioPools.health, 34);
+      assert.strictEqual(bioPools.vitality, 40);
+      assert.strictEqual(bioPools.health, 40);
       assert.strictEqual(bioPools.structure, 0);
 
       const synthPools = calculateVitalityHealthPools({
@@ -67,8 +68,8 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
         healthBP: 2,
         isSynthetic: true
       });
-      // 60 base structure + 4 vitality bonus + 4 health bonus = 68 Structure Points
-      assert.strictEqual(synthPools.structure, 68);
+      // 60 base structure + 10 + 10 = 80 Structure Points
+      assert.strictEqual(synthPools.structure, 80);
       assert.strictEqual(synthPools.vitality, 0);
       assert.strictEqual(synthPools.health, 0);
       assert.strictEqual(synthPools.isSynthetic, true);
@@ -111,8 +112,8 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
     });
   });
 
-  describe('Damage Resolution Engine (Lethal, Non-Lethal & Spillover)', () => {
-    it('reduces incoming damage point-for-point using Armor DR and Toughness', () => {
+  describe('Damage Resolution Engine (Vitality-First, 0 Toughness Floor & Spillover)', () => {
+    it('reduces incoming damage point-for-point using Armor DR and Toughness, depleting Vitality first', () => {
       const result = applyDamageToEntity({
         currentVitality: 30,
         currentHealth: 30,
@@ -120,25 +121,25 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
         armorDR: 3,
         toughness: 4 // total soak = 7
       });
-      // 12 - 7 = 5 net damage to Health (lethal)
+      // 12 - 7 = 5 net damage to Vitality first
       assert.strictEqual(result.damageSoaked, 7);
       assert.strictEqual(result.netDamage, 5);
-      assert.strictEqual(result.newHealth, 25);
-      assert.strictEqual(result.newVitality, 30);
+      assert.strictEqual(result.newVitality, 25);
+      assert.strictEqual(result.newHealth, 30);
     });
 
-    it('automatically reduces penetrating damage with Stamina natural DR to a minimum of 1 point', () => {
+    it('reduces penetrating damage with Stamina natural DR down to a canonical minimum of 0 points', () => {
       const result = applyDamageToEntity({
         currentVitality: 30,
         currentHealth: 30,
         incomingDamage: 6,
         armorDR: 4,     // 6 - 4 = 2 penetrating damage
-        toughness: 5    // Stamina natural DR = 5 > 2
+        toughness: 5    // Stamina natural DR = 5 > 2 -> 0 net damage
       });
-      // Penetrating damage cannot be reduced below 1
-      assert.strictEqual(result.netDamage, 1);
-      assert.strictEqual(result.damageSoaked, 5);
-      assert.strictEqual(result.newHealth, 29);
+      assert.strictEqual(result.netDamage, 0);
+      assert.strictEqual(result.damageSoaked, 6);
+      assert.strictEqual(result.newVitality, 30);
+      assert.strictEqual(result.newHealth, 30);
     });
 
     it('inflicts 0 damage when defenses completely deflect incoming damage', () => {
@@ -285,10 +286,12 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
       assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax, 60);
       assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.systemRule.includes('Tangent does NOT use HP'));
       assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.staminaScore.includes('natural damage reduction'));
-      assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.staminaScore.includes('minimum of 1 point'));
-      assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.maxSkillRank, 20);
+      assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.staminaScore.includes('minimum of 0'));
+      assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.pointsPerCp, 5);
+      assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.startingSkillRankCap, 11);
+      assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.maxSkillRank, 30);
       assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.maxSpecializationRank, 10);
-      assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.maxInvocationRank, 10);
+      assert.strictEqual(VITALITY_HEALTH_STRUCTURE_RULES.maxInvocationRank, 30);
       assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.concussiveDamage.includes('divided equally'));
       assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.structure.includes('total of both Health and Vitality scores'));
       assert.ok(VITALITY_HEALTH_STRUCTURE_RULES.descriptions.structure.includes('immune to non-lethal damage'));

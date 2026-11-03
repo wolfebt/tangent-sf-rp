@@ -123,7 +123,7 @@ cp_cost: 22
 
 # 
 
-**CP Cost:** 23 CP  
+**CP Cost:** 22 CP  
 
 **Description:** The Sefalin are a fascinating species, classified as an Aquatic Aberration with a distinct Cephalotauric form. Their upper body is that of a smooth-skinned aquatic humanoid, but their lower half transitions into a formidable arrangement of six prehensile tentacles, replacing the typical legs of a terrestrial being.
 

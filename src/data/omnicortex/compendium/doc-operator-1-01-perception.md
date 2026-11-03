@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 10
+order: 8
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.perception","mechanics"]
-updatedAt: "2026-10-31T11:30:42.675Z"
+updatedAt: "2026-11-02T22:49:17.961Z"
 costs:
   bp: 0
   credits: 0
@@ -37,53 +37,63 @@ sockets:
   allocated: []
 ---
 
-# **PERCEPTION**
+# **1.01.05 PERCEPTION & DETECTION**
 
-# **PERCEPTION**
+**Perception** is a derived sub-ability calculated from a character's **Intellect (INT)** and **Wisdom (WIS)** scores. This composite attribute reflects overall situational awareness, sensory acuity, mental focus, and intuitive ability to perceive and interpret one's surroundings. It plays a vital role in detection checks throughout the game—impacting a character's ability to notice subtle details, spot hidden dangers, read social subtext, and analyze metaphysical or technological anomalies.
 
-Perception is a sub-ability derived from a character's Intellect and Wisdom scores. This attribute reflects a character's overall awareness and their ability to perceive and interpret their surroundings. It plays a vital role in various detection checks throughout the game, impacting a character's ability to notice details, spot hidden dangers, and understand the subtleties of their environment.
+```text
+Perception Base Score = Intellect Score (INT) + Wisdom Score (WIS)
+```
 
-&nbsp;
+Perception is rarely used in isolation; in almost all situations, the **Perception Base Score** is combined with one of four specialized detection skills depending on the nature of the phenomenon being observed.
 
-The base score for Perception is calculated by adding the character's Intellect and Wisdom scores together. This combined value represents their innate sensory acuity, mental focus, and intuitive awareness. However, Perception is not used in isolation. In most situations, it's combined with specific skills to determine a character's success in different types of detection checks.
+---
 
-&nbsp;
+## **1. DEFAULT DETECTION CHECK (`ALERTNESS`)**
 
-# **Default Detection Check (Alertness)**
+In standard situations where a character is scanning their surroundings, keeping watch, listening for footsteps, or noticing anything out of the ordinary, their **Perception Base Score** is combined with their **Alertness** skill rank:
 
-In most standard situations, where a character is simply trying to be aware of their surroundings and notice anything out of the ordinary, their Perception base score is combined with their Alertness skill. This represents a general awareness and the ability to spot visual, auditory, or other sensory cues that might indicate something important or unusual.
+```text
+Active Detection Check = 2d10 + Perception Base (INT + WIS) + Alertness Skill Rank + Modifiers vs. CR (or Opposed Stealth)
+Passive Perception CR  = 10 + Perception Base (INT + WIS) + Alertness Skill Rank
+```
 
-&nbsp;
+This represents general environmental awareness and the ability to spot visual, auditory, or tactile cues indicating hidden traps, ambushes, or concealed objects.
 
-# **Focused Perception Types**
+---
 
-There are three additional, more specialized types of Perception checks that can be used in specific situations:
+## **2. FOCUSED PERCEPTION TYPES**
 
-&nbsp;
+There are three specialized types of Perception checks used when analyzing specific domains:
 
-* ### **Meta (Attune)**
+### **A. Meta Perception (`Perception Base + Attune`)**
 
-  When dealing with Meta effects (such as magic, psychic powers, or other supernatural phenomena), the Attune skill is added to the Perception base score. This allows the character to detect and analyze these subtle energies, and utilize Metafocus-based sensory abilities.  
-  &nbsp;
+When dealing with Metaphysical effects—such as arcane weaves, psychic powers, dimensional rifts, or supernatural phenomena—the **Attune** skill rank is added to the **Perception Base Score (`INT + WIS`)**. This allows the character to detect, identify, and analyze subtle Resonance energies and utilize Metafocus-based sensory abilities.
 
-* ### **Social (Insight)**
+### **B. Social Perception (`Perception Base + Insight`)**
 
-  When trying to "read" other characters and understand their intentions, the Insight skill is added to the Perception base score. This represents the ability to pick up on subtle social cues, body language, and vocal tones to discern hidden emotions, motivations, and potential deceptions.  
-  &nbsp;
+When trying to "read" other characters and understand their true intentions, the **Insight** skill rank is added to the **Perception Base Score (`INT + WIS`)**. This represents the ability to pick up on subtle social cues, micro-expressions, body language, and vocal tones to discern hidden emotions, agendas, coercion, and potential deceptions (typically opposed by the target's `Bluff` check).
 
-* ### **Technical (Technology)**
+### **C. Technical Perception (`Perception Base + Knowledge [Technology]`)**
 
-  When analyzing technology or using certain technological sensory devices, the Technology (Knowledge) skill is added to the Perception base score. This reflects the character's understanding of how technology works and their ability to better identify its functions, strengths, and weaknesses.
+When analyzing machinery, fortifications, or electronics—or when operating technological sensory devices, diagnostic scanners, and shipboard sensor arrays—the **Knowledge (Technology)** skill rank is added to the **Perception Base Score (`INT + WIS`)**. This reflects the character's understanding of how technological systems function and their ability to identify a device's purpose, strengths, structural weak points, or hidden sabotage.
 
-&nbsp;
+---
 
-## **Modifiers**
+## **3. ENVIRONMENTAL & SITUATIONAL MODIFIERS**
 
-The Architect may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as visibility, distance, the nature of the thing being detected, and any other relevant environmental or situational factors.
+The Architect applies situational modifiers to Perception checks based on visibility, distance, ambient noise, and the nature of the target:
 
-&nbsp;
+* **Distance:** `-1` penalty per 10 feet of distance (or per sensor range increment in vehicular/orbital scanning).
+* **Dim Light / Concealment:** `-2` to `-5` penalty on visual checks (mitigated or negated by *Low-Light Vision* or *Darksight*).
+* **Total Darkness / Blinded:** Visual checks fail automatically unless the character possesses *Darksight*, *Blindsight*, *Echolocation*, or *Thermal Sight*.
+* **Distracted / Focused Task:** `-5` penalty while absorbed in a complex Focused Task (`1.07.Mechanics.TimeAndFocus.md`).
 
-Example
+### **Walkthrough Example: Multi-Modal Perception**
 
-A character with an Intellect score of \+2 and a Wisdom score of \+1 has a Perception base score of 3\. If they are trying to notice a hidden trap, they would make an Alertness check with a modifier of \+3. However, if they are trying to locate an item using magical means, they would make an Attune check with a modifier of \+3 instead. While a check for a social situation will be added to Insight as checks for analyzing tech will use Technology (Knowledge).
+*A character with an **Intellect score of `+2`** and a **Wisdom score of `+1`** has a **Perception Base Score of `+3`** (`2 + 1 = +3`):*
+* *If they are trying to notice a hidden mechanical trap in a corridor, they roll an **Alertness** check with a base modifier of **`+3 + Alertness Rank`**.*
+* *If they are trying to locate an enchanted artifact or sense an invisible psychic observer, they roll an **Attune** check with a base modifier of **`+3 + Attune Rank`**.*
+* *If they are trying to read a merchant's bluff during negotiations, they roll an **Insight** check with a base modifier of **`+3 + Insight Rank`**.*
+* *If they are analyzing an unfamiliar alien reactor core for structural flaws, they roll a **Knowledge (Technology)** check with a base modifier of **`+3 + Knowledge (Technology) Rank`**.*
 

@@ -940,12 +940,12 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                   </span>
                   {latestRoll.isCritSuccess && (
                     <span className="text-[10px] font-extrabold text-amber-300 uppercase tracking-wider animate-pulse">
-                      ⚡ CRITICAL SUCCESS (+30 CHECK / MIRACULOUS TRANSCENDENCE)!
+                      ⚡ CRITICAL SUCCESS (+10 TO ROLL / MIRACULOUS TRANSCENDENCE)!
                     </span>
                   )}
                   {latestRoll.isCritFail && (
                     <span className="text-[10px] font-extrabold text-rose-400 uppercase tracking-wider">
-                      💀 CRITICAL MISTAKE (-10 CHECK / DISASTROUS BACKFIRE)!
+                      💀 CRITICAL MISTAKE (FLAT -10 ROLL / DISASTROUS BACKFIRE)!
                     </span>
                   )}
                   {latestRoll.total <= 0 && (

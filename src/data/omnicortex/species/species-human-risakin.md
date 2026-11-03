@@ -115,7 +115,7 @@ cp_cost: 34
 
 # **RISAKIN (Giant Folk)**
 
-**CP Cost:** 25 CP  
+**CP Cost:** 34 CP  
 
 **Description:** The Risakin, represents a branch of humanity that underwent natural evolution on high-gravity worlds. Standing approximately 10 feet tall, these humans evolved to be immensely strong and resilient to survive environments where their smaller cousins would struggle. Originally indigenous to low-tech (TL1 to TL2) clan-based societies, some Risakin have become spacefaring after being recruited or integrated by the Impyrium as heavy shock troopers and industrial laborers (limited numbers as most disdain the Impyriums fronted superiority).
 

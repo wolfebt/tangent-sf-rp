@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-orll"
-order: 85
+order: 83
 perspective: "operator"
 entry_type: "Baseline Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.orll.base","mechanics"]
-updatedAt: "2026-10-14T05:24:25.065Z"
+updatedAt: "2026-11-02T22:49:35.569Z"
 costs:
   bp: 0
   credits: 0
@@ -37,61 +37,62 @@ sockets:
   allocated: []
 ---
 
-# **ORLL**
+# **ORLL**  
+**
 
 # **ORLL**
 
-# 
+  
 
-**CP Cost:** 13 CP  
+**CP Cost:** 
 
 **Description:** The Orll are a powerful and incredibly stocky humanoid species, immediately recognizable across the known territories by their imposing, often barrel-chested build, which belies a surprising agility. Their most distinct physical features include a pair of prominent, upward-curving tusks that jut from their lower jaw, and a thick, dense coat of coarse body fur, typically in shades of earthy brown, gray, or black. This formidable coat is not merely an aesthetic trait; it provides exceptional natural insulation, allowing the Orll to thrive and maintain their hardiness against the constant, biting cold of their wooded mountain homelands.
 
-&nbsp;
+  
 
 Every aspect of their physical form—from their heavily muscled limbs to their broad, flattened noses and deeply set eyes—is a testament to an ancestral life of hardship and survival in the harshest environments. Their formidable strength, coupled with their sheer physical resilience, embodies a savage, enduring nature and a primal ferocity that commands respect, often fear, from other races. The Orll are a race forged by the unforgiving high peaks, where only the strongest and most resilient can endure.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
 **Size:** Medium
 
-**Movement:** 30ft Groundspeed&nbsp;
+**Movement:** 30ft Groundspeed 
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:**&nbsp;
+**Stigma:** 
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Str
++2 Str
 
-\+2 Sta
++2 Sta
 
-\-1 Int
+-1 Int
 
-\-1 Cha
+-1 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+5 Skills
++5 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Exoskeleton (light)
 
@@ -99,11 +100,11 @@ Rage
 
 Stigma (Xeno & Savage)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
+  
 
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+___________________________
 

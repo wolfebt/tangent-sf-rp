@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 14
+order: 12
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.restanddying","mechanics"]
-updatedAt: "2026-10-14T05:54:39.329Z"
+updatedAt: "2026-11-02T22:49:18.274Z"
 costs:
   bp: 0
   credits: 0
@@ -37,143 +37,76 @@ sockets:
   allocated: []
 ---
 
-# **REST**
+# **1.01.09 REST, DEATH & DYING**
 
-# **REST**
+## **1. REST & RESOURCE MANAGEMENT**
 
-In-game features or abilities that require rest add a layer of strategy and resource management to gameplay. Players must balance using these abilities with resting to ensure they are available when needed. This can be particularly challenging in fast-paced games or during intense battles, where players may be tempted to overuse their abilities without considering the consequences.&nbsp;
+In-game features, Essence pools, and physical buffers that require rest add a vital layer of tactical resource management to gameplay. Operators must balance expending powerful abilities in the heat of battle against conserving reserves for subsequent encounters, while seeking secure locations—such as starship berths, frontier inns, or fortified camps—to recuperate, interact with companions, and plan their next move.
 
-&nbsp;
+---
 
-The need for rest can have a significant impact on gameplay. For example, players may have to choose between using a powerful ability in the heat of battle or saving it for later, knowing that they will need to rest before they can use it again. This can lead to difficult decisions and strategic trade-offs. Players must carefully consider the risks and rewards of using their abilities, as well as the impact it will have on their character's overall health and stamina.
+## **2. FULL REST (`6–8 Hours` Sleep / Species Exceptions)**
 
-&nbsp;
+* **Standard Biological Sleep Cycle:** The typical Full Rest cycle for most sentient biological species ranges from **6 to 8 hours** of uninterrupted sleep, recharging body and mind for the following day.
+* **Mechanical Recovery:**
+  * **Vitality & Essence Pools:** Restored to **100% Maximum**.
+  * **Health Pool:** Restores **`5 + Stamina Score` Health** (minimum 1 Health; doubled by the *Fast Heal* Feature or continuous *Knowledge [Medicine]* care).
+  * **Daily Abilities:** Resets all `1/Day` traits, features, and invocations. *(Note: Karma Points reset only at the start of each game session, never via rest).*
+* **Physiological Exceptions:**
+  * **Synthetics, Fae, and Insectoid (Kitin) Species:** Possess unique physiological architectures that function without traditional sleep. A brief **Light Rest** period is sufficient for them to refresh their operational cycles and maintain energy levels.
+  * **Alterians and Mondi (Trance / Meditation):** While not sleeping in the human sense, Alterians and Mondi enter a state of deep, conscious contemplation and meditation (`4 hours`, or meditative Light Rest intervals throughout the day) that provides the full restorative benefits of sleep while remaining dimly aware of their surroundings.
 
-Rest mechanics also encourage roleplaying opportunities. Players may need to find safe places to rest, such as inns or campsites, and take time to relax and recover. This can provide opportunities for character development and interaction, as players can talk to NPCs, learn new information, or simply take a break from the action. Rest mechanics can help to create a more immersive and believable game world, as players must take into account their character's physical and mental needs.
+---
 
-&nbsp;
+## **3. LIGHT REST (UP TO 4 TIMES PER DAY)**
 
-# ---
+A **Light Rest** is a short period of minimal physical and mental exertion that restores **Vitality (`10 + Stamina Score`, minimum 5)**, recovers **Essence (`Key Attribute Modifier`, minimum 1)**, removes **Fatigue/Exhaustion**, and resets encounter/short-cooldown traits and features. It may be performed **up to four times per day**.
 
-# **FULL REST**&nbsp;
+The duration required to qualify as a Light Rest depends on the character's activity level:
 
-The typical sleep cycle for most sentient species ranges from 6 to 8 hours. This allows their bodies and minds to rest and recharge, preparing them for the following day's activities. However, there are exceptions to this general rule.
+1. **Nap or Meditation (`1 Hour`):**
+   * The most restorative Light Rest option, ideal for rapidly resetting traits, features, and Vitality.
+   * During this hour, the character must do nothing else except rest, sleep, or meditate.
+2. **Lounging (`2 Hours`):**
+   * Less intensive than a dedicated nap, but equally effective once completed.
+   * Allows casual observation, eating, light conversation, and non-laborious recreation.
+3. **Light Duty (`3 Hours`):**
+   * The longest Light Rest tier, allowing operators to remain productive while recovering.
+   * Permits light recreation, routine watch duty, basic gear maintenance, and minimal-labor tasks.
 
-&nbsp;
+* **Interruption & Degradation Rule:** Any activity more strenuous than those listed above—including combat, physical labor, intense exercise, or mentally taxing crafting/research—interrupts rest. Each time a strenuous activity is performed during a rest window, it **worsens the rest category by one step** (`Nap [1 hr] -> Lounging [2 hrs] -> Light Duty [3 hrs] -> Not Rested`).
 
-Synthetics, Fae, and Insect species possess unique physiological attributes that enable them to function without traditional sleep. These species have evolved to require minimal rest, and a brief period of Light Rest is sufficient for them to fully refresh and maintain their energy levels.
+---
 
-&nbsp;
+## **4. DEATH & DYING (THE UNIFIED MORTALITY STATE)**
 
-In contrast, Alterians and Mondi, while technically not sleeping, engage in meditations throughout the day. This is considered Light Rest, where they enter a state of deep contemplation and reflection. During this relaxing state, their minds and bodies find solace, allowing them to recharge and maintain their mental and physical well-being.
+Death is the terminal state reached when a character's physical integrity collapses from lethal combat injuries or environmental hazards.
 
-&nbsp;
+### **1. Vitality vs. Health**
 
-The ability of these species to function without extended periods of sleep demonstrates how life can flourish in various forms, each with its own unique set of requirements and characteristics.
+* **Vitality (`Base 30 + 5/CP`):** Represents physical endurance, luck, and minor bruising (non-lethal damage buffer).
+* **Health (`Base 30 + 5/CP`):** Represents physical trauma and structural life force, depleted by Critical Hits or overflow damage once Vitality reaches `0`.
 
-&nbsp;
+### **2. Entering the Mortality State (`0 Health` / Death's Door)**
 
-# ---
+When a character takes damage that reduces their **Health to `0`** (with Vitality at `0`), they enter the **Mortality State (Death's Door)**:
 
-# **LIGHT REST**
+* **Unconscious & Incapacitated:** The character immediately falls **Prone**, drops held items, and is **Unconscious / Comatose** and **Incapacitated** (unless possessing the *Diehard* Feature).
+* **Stability Threshold (`Stamina Score + 5`):** A dying character possesses a **Stability Points** pool equal to their **`Stamina Score + 5`** (representing their physiological reserve at Death's Door; in gritty lethal variants, the raw clock is `Stamina Score` rounds, minimum 1 round).
+* **Bleeding Out (`-1 Stability Point` per Turn):** At the start of each of the character's turns in the Mortality State, they roll a **Fortitude Stabilization Save (`CR 10 + 1 per round spent dying`)**:
+  * **Success by 5 or more:** The character **self-stabilizes** and stops Bleeding Out.
+  * **Failure:** The character suffers **1 point of Stability Damage** (losing 1 Stability Point / sliding `-1` closer to death).
+* **Stabilization & Recovery:** The character immediately stops Bleeding Out and is stabilized if they receive any magical/metaphysical healing (*Entropy: Order*) or if an ally succeeds on a **Knowledge (Medicine) Check (`CR 15`)** (or applies a *Trauma Patch*). A stabilized character remains unconscious at `0 Health` until they recover at least 1 Health.
+* **Massive Damage Instant Death:** If a character at Death's Door (`0 Health`) suffers damage from a single attack equal to or greater than their **Stamina Score** (or `10 + Stamina Score`), they die instantly.
+* **Death (`0 Stability Points`):** If a character's **Stability Points** are reduced to **`0`** before they are stabilized, the character **dies permanently**.
 
-A nap or rest period is a short period of little or no activity that can effectively reset traits or features. It can be performed up to four times a day.
+---
 
-&nbsp;
+## **5. REVIVIFICATION & THE HIGH COST OF DYING**
 
-Time needed to count as a Light Rest depends on the activity level of the character.
+Returning a deceased character from the dead is rare, requiring high-level Metaphysics (*Entropy: Order — Revivify*, `4.00.Entropy.md`) or advanced Tech Level 4–5 medical infrastructure (*Resurrection Chamber / Trans-Cerebral Pod*, `2.00.CraftingAndValuation.md`), and carries a heavy toll known as **The High Cost of Dying**:
 
-&nbsp;
-
-## **Nap or Meditation (1 hour)**
-
-* This is the most restful period and is ideal for resetting traits or features.  
-* During this time, it's important to do nothing else but rest and relax.
-
-&nbsp;
-
-## **Lounging (2 hours)**
-
-* This type of rest period is less restful than a nap or meditation but still beneficial.  
-* Casual observation, light recreation, and non-laborious activities are allowed during this time.
-
-&nbsp;
-
-## **Light Duty (3 hours)**
-
-* This type of rest period is the least restful but still counts as a rest period.  
-* Light recreation, casual work, and minimal labor activities are allowed during this time.  
-  &nbsp;
-
-*Any activities more strenuous than those listed above will count against rest. This includes physical labor, intense exercise, and mentally demanding tasks. Each time a strenuous activity is performed, it will worsen the rest category (e.g., Nap to Lounging to Light Duty to Not Rested).*
-
-&nbsp;
-
-# 
-
-&nbsp;
-
-# **DEATH & DYING**
-
-# **DEATH & DYING**
-
-Death is a state reached when a character loses all their health points. This can occur due to combat injuries, environmental hazards, or other detrimental effects. However, in Tangent, there's a nuance to this: characters have Vitality Points that provide a buffer against death.
-
-## 
-
-# **THE MECHANICS OF DYING**
-
-## **1\. Health vs. Vitality**
-
-* Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage.  
-* Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted.
-
-### 
-
-### 
-
-## **2\. The Threshold of Death**
-
-When a character takes damage that reduces them to 0 Health, the following sequence occurs:
-
-1. ### **0 Health (Incapacitated)**
-
-The character falls unconscious immediately. They drop anything they are holding and fall Prone. Any excess damage is applied to Vitality (if any remains).
-
-2. ### **Death's Door**
-
-If Health is 0 and Vitality is depleted (0), the character enters the "Death's Door" state.
-
-* #### **Condition**
-
-  The character is Comatose and severely wounded.
-
-  * #### **The Clock**
-
-  The character has a number of rounds equal to their Stamina Score to receive medical aid (Minimum 1 round).
-
-  * #### **Stabilization**
-
-  A successful Medicine (CR 15\) check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying.
-
-  * #### **Death**
-
-  If the clock runs out, the character dies permanently.
-
-  * #### **Massive Damage**
-
-  If the character takes damage equal to or greater than their STA score in a *single hit* while at Death's Door, they die instantly.
-
-### 
-
-### 
-
-## **3\. Revivification**
-
-This is the return from the dead option. It is generally rare, involves high-level Metaphysics or Tech (TL5), and carries a heavy toll—known as "The High Cost of Dying."
-
-### **Penalties:**
-
-* A revived character loses ALL remaining Karma Points.  
-* They suffer a \-5 Experience Debt due to the trauma. This is taken as a reduction in a trait (or Traits) or as a reduction in accumulated/future experience until the debt is paid.
+1. **Total Karma Depletion:** A revived character immediately **loses ALL remaining Karma Points** for the current session.
+2. **Experience Debt (`-5 AP Debt`):** The trauma of death and resuscitation inflicts a **-5 Experience Debt (-5 Award Points / CP)**. This debt is either deducted immediately as a permanent reduction in one or more character traits/ranks or recorded as a `-5 AP` deficit that consumes the next 5 Award Points the character earns until the debt is paid in full.
+3. **Post-Revival Exhaustion:** The character returns at `1 Health` (or `1 Health per Stage` of the revival effect) and suffers the **Exhausted** condition until they complete a **Full Rest**.
 

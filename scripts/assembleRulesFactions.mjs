@@ -8,7 +8,7 @@ const projectRoot = path.resolve(__dirname, '..');
 
 const majorPath = path.join(projectRoot, 'docs', 'MAJOR Factions.md');
 const minorPath = path.join(projectRoot, 'docs', 'MINOR Factions.md');
-const targetPath = path.join(projectRoot, 'docs', 'game rules', 'operator', '1.04 FACTIONS.md');
+const targetPath = path.join(projectRoot, 'docs', 'game_rules', 'operator', '1.04 FACTIONS.md');
 
 let majorContent = fs.readFileSync(majorPath, 'utf8');
 let minorContent = fs.readFileSync(minorPath, 'utf8');

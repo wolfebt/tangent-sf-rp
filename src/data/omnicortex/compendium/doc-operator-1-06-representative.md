@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 180
+order: 178
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.representative","mechanics"]
-updatedAt: "2026-10-14T05:39:35.567Z"
+updatedAt: "2026-11-02T22:49:27.165Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,15 @@ sockets:
   allocated: []
 ---
 
-# **REPRESENTATIVE**
+# 1.06.09 OCCUPATION: REPRESENTATIVE (Base WS 6)
+
+* **Operational Focus:** Diplomacy, Governance, Corporate Executive Representation, and Statecraft.
+* **EUFT Base Wealth Score:** **Base WS 6**
+* **Canonical Professional Skills (20 SP Allocation):** Any Manipulation Skills (plus Culture, Law, Nobility, Ambassador)
+* **Recommended Feature Category (-1 CP Discount):** Skill Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **REPRESENTATIVE**
 
@@ -49,19 +57,13 @@ A Corporate Representative might be responsible for representing the interests o
 
 Representatives play an important role in maintaining order and cooperation between different groups. They use their skills in diplomacy, negotiation, and communication to build relationships, resolve conflicts, and advocate for the interests of their constituents.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any Manipulation Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 Skill
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -77,8 +79,6 @@ Cultural Ambassador
 
 Corporate Administrator
 
-&nbsp;
-
 ## **Traits**
 
 ### *Analytical*
@@ -87,15 +87,11 @@ Ability to analyze data and information to make informed decisions
 
 *\+2 Alertness*
 
-&nbsp;
-
 ### *Conflict resolution*
 
 Ability to resolve conflicts effectively and find solutions that satisfy all parties involved
 
 *\+2 Diplomacy*
-
-&nbsp;
 
 ### *Creativity*
 
@@ -103,15 +99,11 @@ Ability to think creatively and develop innovative solutions to complex problems
 
 *\+1 Karma*
 
-&nbsp;
-
 ### *Emotional intelligence*
 
 Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states
 
 *\+2 Insight*
-
-&nbsp;
 
 ### *Flexibility*
 
@@ -119,23 +111,17 @@ Ability to adapt to changing circumstances and adjust plans and strategies as ne
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Integrity*
 
 Honest and trustworthy, able to maintain a high level of integrity in their work
 
 *\+1 Karma*
 
-&nbsp;
-
 ### *Languages*
 
 Ability to speak multiple languages and communicate effectively with people from different cultures and backgrounds
 
-*\+2 Language*
-
-&nbsp;
+*+2 Knowledge (Language)*
 
 ### *Negotiation*
 
@@ -143,25 +129,17 @@ Skilled negotiator, able to find common ground with others and reach mutually be
 
 *\+1 all Manipulation Skills*
 
-&nbsp;
-
 ### *Networking*
 
 Ability to build strong relationships with others, including politicians, businesspeople, and other diplomats
 
 *Gather Information checks at Advantage*
 
-&nbsp;
-
 ### *Time Management*
 
 Ability to manage time effectively and prioritize tasks to ensure that they are completed on time
 
 *Reduce Rush modifier to Skill check by 2*
-
-&nbsp;
-
-&nbsp;
 
 ---
 
@@ -221,4 +199,10 @@ Ability to manage time effectively and prioritize tasks to ensure that they are 
   * **Style:** AI Interface.  
   * **Palette:** Screen Gold, Black surround.  
   * **Tokens:** Face, pixels, speaker, data.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Manelli Diplomatic Interface** in immaculate mimetic formalwear accented with glossy obsidian collar-plates, speaking with the unified, unshakeable voice of a billion minds in the Chorus.  
+  * **Style:** Voice of the Star Hive, Psionic Envoy.  
+  * **Palette:** Obsidian Black, Emerald Trim, Pulsating Cyan Halo, Porcelain Mimetic Skin.  
+  * **Tokens:** Subtle antennae, serene expression, Chorus synchronization, diplomatic seal.
 

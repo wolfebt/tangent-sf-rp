@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 146
+order: 144
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.archetypal.mutant","mechanics"]
-updatedAt: "2026-10-14T05:32:05.203Z"
+updatedAt: "2026-11-02T22:49:22.252Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,100 @@ sockets:
   allocated: []
 ---
 
-## **13\. MUTANT**
+# 1.04.Archetypal.Mutant — 13. MUTANT UNDERGROUND (+0 WS)
 
-### **I. Detailed Faction Description**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 13. Mutant Underground
+* **Tech / Meta Level:** TL 2 / ML 3
+* **EUFT Starting Wealth Score Modifier:** **+0 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Knowledge: Survival (+5), Stealth (+5), Streetwise (+4), Unarmed (+3), Athletics (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Acute Sense, Adapted, Danger Sense, Darksight, Diehard, Endurance, Fast Heal, Great Fortitude, Natural Weapons, Resistance
+* **CRISP Visual Semiotics Key:** Sub-city sewer sanctuaries, asymmetrical bio-mutations, salvaged hazard gear.
 
-* **Overview:** Factions composed of genetically unstable, irradiated, or intentionally altered beings living on the fringes of society. They are often outcasts, banding together for survival in toxic wastelands or deep subterranean slums. They possess strange, volatile powers that make them dangerous and unpredictable.  
-* **Key Themes:** Genetic Instability, Persecution, Hidden Powers, The Altered, Outcasts.  
-* **Relationship to Others:** Highly distrustful of baseline species, who often persecute, exploit, or hunt them.
+---
 
-### **II. Core Identity**
+MUTANT
+I. Detailed Faction Description
+* Overview: Factions formed by outcasts and altered beings possessing unique genetic anomalies or powers. Often driven to the fringes of society, they band together for protection, seeking acceptance from other races or, in radical cases, aiming to achieve dominance over non-mutants.
+* Key Themes: The Altered, Persecution, Hidden Powers, Found Family.
+* Relationship to Others: Often oppressed by major powers; distrustful of "normals."
+II. Core Identity
+* Official Designation: The Altered Brotherhood / The Mutant Underground
+* Colloquialisms: Muties / Freaks / The Altered
+* Archetype: The Altered
+* Capital/Key World: Variable (Slums, irradiated zones, hidden sanctuaries)
+* Driving Mandate: Protect their kind, find a place in society, achieve dominance (radical).
+* Motto: "Our blood is the future."
+III. Sociological Profile
+* Ideology & Culture: Defensive, proud, misunderstood, protective, defiant.
+* Social Structure: Egalitarian brotherhoods or power-based meritocracies.
+* View on Outsiders: Wary, expecting prejudice or violence.
+* Law & Order: Pack mentality; protecting one another is the only true law.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Unique abilities and powers, strong sense of community, adaptability to harsh/irradiated environments.
+* Weaknesses: Vulnerability to prejudice and persecution, difficulty communicating with non-mutants, internal divisions over how to handle baseline species.
+* Military Doctrine: Asymmetric warfare heavily reliant on unique superhuman abilities rather than standard weapons.
+V. Mechanics (Game Data)
+* Prominent Species: Mutated variations of baseline species.
+* Faction Skill Package (20 Points):
+   * Survival (+5)
+   * Streetwise (+4)
+   * Intimidate (+4)
+   * Stealth (+4)
+   * Athletics (+3)
+* Typical Archetypes:
+   * The Warrior: Utilizing physical mutations to overpower prejudiced enforcers.
+   * The Outcast Leader: Guiding the community and fighting for mutant rights.
+   * The Mutant Psychic: Wielding unstable, terrifying psionic abilities.
+   * The Scavenger: Braving irradiated zones where normal humans would die.
+   * The Brute: A towering, heavily mutated powerhouse absorbing immense damage.
+   * The Freak: Using terrifying physical deformities to intimidate and control.
+   * The Unseen Infiltrator: Utilizing active camouflage or shifting forms to hide.
+   * The Irradiated Shaman: Viewing mutations as a spiritual gift rather than a curse.
+   * The Tunnel Rat: Navigating the deep under-city where the altered hide.
+   * The Bio-Hazard: Exuding toxic spores or radiation to melt enemies.
+* Recommended Features (1 CP Discount):
+   * Radiation Immunity: Surviving in fallout zones without taking damage.
+   * Fast Heal: Rapidly regenerating tissue damaged by bigoted attacks.
+   * Natural Weapons: Wielding biological claws, acid, or bone armor.
+   * Darksight: Seeing perfectly in the pitch-black sewers and under-cities.
+   * Tough: Shrugging off physical blows thanks to dense mutant musculature.
+   * Potent Might: Leveraging unnatural strength to break steel or bone.
+   * Energy Resistance: Innate immunity to fire, electricity, or extreme cold.
+   * Danger Sense: An evolutionary instinct warning of impending lynch mobs.
+   * Uncanny Dodge: Avoiding attacks using hyper-evolved reflexes.
+   * Camouflage: Blending into the shadows to avoid the gaze of "normals".
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Gritty, desperate, and uniquely diverse.
+* Atmosphere Tokens: Slums, radiation zones, unusual physical traits, rugged survival gear, shadowed hideouts.
+* HI-FI INK Guidance:
+   * SETTING STYLE: The Altered, Mutant Underground, Post-Apocalyptic.
+   * CONTEXT: Slums, radiation zones, unusual physical traits, rugged survival gear, shadowed hideouts.
+   * ATMOSPHERE: Desperate, resilient, misunderstood, gritty, tense.
 
-* **Official Designation:** The Altered / The Rad-Children / The Deviants  
-* **Colloquialisms:** Mutants / Freaks / Glowing Ones  
-* **Archetype:** The Altered  
-* **Capital/Key World:** Variable (Radioactive zones, under-cities, toxic biomes).  
-* **Driving Mandate:** Survive persecution, find acceptance, or dominate the baselines.  
-* **Motto:** "Broken DNA forged stronger souls."
+________________
 
-### **III. Sociological Profile**
-
-* **Ideology & Culture:** Insular, defensive, fiercely protective of their own kind, desperate.  
-* **Social Structure:** Loose clans or brotherhoods led by the most powerful or most stable mutants.  
-* **View on Outsiders:** Feared or hated as oppressors.  
-* **Law & Order:** Street justice and survival of the fittest.
-
-### **IV. Strategic Assets**
-
-* **Tech Level (TL):** 2 to 3 (Often scavenged).  
-* **Strengths:** Extreme resilience to environmental hazards, unique physiological powers, unpredictability.  
-* **Weaknesses:** Genetic instability, societal rejection, lack of standardized manufacturing or logistics.  
-* **Military Doctrine:** Guerilla tactics, utilizing hazardous terrain and unleashing volatile biological powers.
-
-### **V. Mechanics (Game Data)**
-
-* **Prominent Species:** Humans/Aliens (Heavily Mutated).  
-* **Faction Skill Package (20 Points):**  
-  * Survival (+5)  
-  * Stealth (+4)  
-  * Intimidate (+4)  
-  * Athletics (+4)  
-  * Awareness (+3)  
-* **Typical Archetypes:** The Mutant Psychic, The Beast-Brute, The Infiltrator, The Under-City Guide, The Wasteland Warlord.  
-* **Recommended Features (1 CP Discount):** Augmented, Fast Heal, Tough, Darksight, Energy Resistance, Tolerance, Danger Sense, Natural Weapons, Wall-Crawler, Unsettling Aura.
-
-### **VI. Visual Semiotics (Aesthetics)**
-
-* **Design Directive:** Asymmetrical, raw, and survivalist.  
-* **Atmosphere Tokens:** Glowing veins, ragged clothing, concealed features, bio-luminescent scars, toxic environments.  
-* **HI-FI INK Guidance:** Biopunk, Gritty Survival. Rags and scavenged armor hiding asymmetrical biological growths, glowing veins, toxic smog, under-city shadows. Desperate, volatile.
+MUTANT ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Mutant prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Mutated Warrior with chitinous skin and extra limbs, misunderstood Leader hiding features under a cowl, Mutant Psychic with a glowing enlarged cranium, feral Infiltrator]
+* NARRATIVE: [e.g., defending an outcast settlement, struggling to control emerging telekinetic powers, hunting in a toxic wasteland, facing down prejudiced enforcers]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Outcast, Wasteland Survival, genetic drift, asymmetrical biology, makeshift clothing, radiation zones, hidden sanctuaries.
+* CONTEXT: A subterranean mutant haven built from scrap, a highly irradiated red-zone, a ruined city reclaimed by twisted nature, a secret underground fighting ring.
+* ATMOSPHERE: Defensive, proud, misunderstood, survivalist, tense, unnatural, fiercely protective.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: unnatural skin tone marker wash (e.g., faint violet or sickly yellow), vivid glowing vein accents in toxic green or neon purple, subtle crimson for irritated skin or eyes.
+3. READY-TO-USE TEMPLATES
+CLOSE-UP: The Awakening Mutation
+Mutant Psychic face close up, eyes glowing with uncontrolled power, skin showing subtle, asymmetrical crystalline growths along the jawline, enlarged cranial structure. Extreme macro ink details, highly visible pen strokes, intricate facial cross-hatching, dense stippling for core shadows, sharp ink contours, distinct fine-liner weights, detailed eye shading using only lines, subtle single-color glowing violet marker accent on the crystalline growths and eyes. Misunderstood and proud expression. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
+CHARACTER CONCEPT SHEET: The Feral Warrior
+Mutant Feral Warrior, heavily muscled with asymmetrical bone spurs protruding from the forearms, wearing makeshift clothing scavenged from a wasteland. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Outcast survivalist aesthetic, defensive and defiant expression, subtle toxic green marker accent on the glowing bone spurs. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading.
 

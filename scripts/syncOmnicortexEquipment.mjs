@@ -9,11 +9,17 @@ const projectRoot = path.resolve(__dirname, '..');
 const omniRoot = path.join(projectRoot, 'src', 'data', 'omnicortex');
 const staticDataRoot = path.join(projectRoot, 'src', 'data');
 
-// Canonical Tangent Standard Curve (TSC) Formula: Value = round(10 * 4^(DC / 5))
-function tscCredits(dc) {
-  const numDc = Number(dc) || 0;
-  if (numDc < 0) return 10;
-  return Math.round(10 * Math.pow(4, numDc / 5));
+// Canonical EUFT Linear Micro-Modifiers: Base_5 = floor(CR / 5) * 5; Value = round((10 * 4^(Base_5 / 5)) * MicroMod)
+const EUFT_MICRO_MODIFIERS = { 0: 1.00, 1: 1.30, 2: 1.75, 3: 2.30, 4: 3.00 };
+function tscCredits(cr) {
+  const numCr = Number(cr) || 0;
+  if (numCr < 0) return 10;
+  const intCr = Math.round(numCr);
+  const base5 = Math.floor(intCr / 5) * 5;
+  const offset = intCr - base5;
+  const baseCredits = 10 * Math.pow(4, base5 / 5);
+  const mult = EUFT_MICRO_MODIFIERS[offset] ?? Math.pow(4, offset / 5);
+  return Math.round(baseCredits * mult);
 }
 
 // 1. Weaponry Sync & Cost Backfill
@@ -32,9 +38,12 @@ function syncWeaponry() {
     const id = data.id || f.replace(/\.md$/, '');
     const name = data.name || data.title || id;
     const tl = data.tech_level !== undefined ? parseInt(data.tech_level, 10) : (parseInt(data.tl || 2, 10) || 2);
-    const craftDc = data.craft_dc !== undefined ? parseInt(data.craft_dc, 10) : (data.dc !== undefined ? parseInt(data.dc, 10) : (5 + tl * 5));
+    const craftDc = data.craft_cr !== undefined
+      ? parseInt(data.craft_cr, 10)
+      : (data.craft_dc !== undefined ? parseInt(data.craft_dc, 10) : (data.cr !== undefined ? parseInt(data.cr, 10) : (data.dc !== undefined ? parseInt(data.dc, 10) : (5 + tl * 5))));
+    const designCr = data.design_cr ?? data.design_dc ?? craftDc;
     const credits = (data.costs?.credits > 0 ? data.costs.credits : null) || (data.cost > 0 ? data.cost : null) || tscCredits(craftDc);
-    const bp = data.costs?.bp ?? 0;
+    const bp = data.costs?.cp ?? data.costs?.bp ?? 0;
 
     const itemObj = {
       ...data,
@@ -49,11 +58,13 @@ function syncWeaponry() {
       ammo: data.ammo || data.ammunition || '-',
       ammunition: data.ammunition || data.ammo || '-',
       tech_level: tl,
+      craft_cr: craftDc,
       craft_dc: craftDc,
-      design_dc: data.design_dc ?? craftDc,
+      design_cr: designCr,
+      design_dc: designCr,
       cost: credits,
       costs: {
-        cp: data.costs?.cp || 0,
+        cp: data.costs?.cp ?? bp,
         bp,
         credits,
         nodes: data.costs?.nodes || 0,
@@ -103,9 +114,12 @@ function syncArmoring() {
     const id = data.id || f.replace(/\.md$/, '');
     const name = data.name || data.title || id;
     const tl = data.tech_level !== undefined ? parseInt(data.tech_level, 10) : (parseInt(data.tl || 2, 10) || 2);
-    const craftDc = data.craft_dc !== undefined ? parseInt(data.craft_dc, 10) : (data.design_dc !== undefined ? parseInt(data.design_dc, 10) : (5 + tl * 5));
+    const craftDc = data.craft_cr !== undefined
+      ? parseInt(data.craft_cr, 10)
+      : (data.craft_dc !== undefined ? parseInt(data.craft_dc, 10) : (data.design_cr !== undefined ? parseInt(data.design_cr, 10) : (data.design_dc !== undefined ? parseInt(data.design_dc, 10) : (5 + tl * 5))));
+    const designCr = data.design_cr ?? data.design_dc ?? craftDc;
     const credits = (data.costs?.credits > 0 ? data.costs.credits : null) || (data.cost > 0 ? data.cost : null) || tscCredits(craftDc);
-    const bp = data.costs?.bp ?? 0;
+    const bp = data.costs?.cp ?? data.costs?.bp ?? 0;
 
     const itemObj = {
       ...data,
@@ -119,11 +133,13 @@ function syncArmoring() {
       sp: data.sp ?? data.durability ?? 15,
       durability: data.durability ?? data.sp ?? 15,
       tech_level: tl,
+      craft_cr: craftDc,
       craft_dc: craftDc,
-      design_dc: data.design_dc ?? craftDc,
+      design_cr: designCr,
+      design_dc: designCr,
       cost: credits,
       costs: {
-        cp: data.costs?.cp || 0,
+        cp: data.costs?.cp ?? bp,
         bp,
         credits,
         nodes: data.costs?.nodes || 0,

@@ -2352,9 +2352,9 @@ Player characters in Tangent Science Fantasy Roleplay choose from a diverse arra
 
 ## 1. Species Point Economy
 
-- **BP Cost Range:** Species costs range from **10 BP** (Base Humans) up to **35+ BP** for advanced synthetics and **80+ BP** for deific precursor archetypes.
-- **Inherent Ability Modifiers:** Calculated at **4 BP per +1 Ability Score** (or -5 BP Disadvantage for -1).
-- **Skill Bonus Packages:** Calculated at **4 BP per set of 5 Skill Ranks** (+16 BP for +20 skills).
+- **BP Cost Range:** Species costs range from **12–13 BP** (Base Humans) up to **40+ BP** for advanced synthetics and **110+ BP** for deific precursor archetypes.
+- **Inherent Ability Modifiers:** Calculated universally at **5 BP per +1 Ability Score** (or -5 BP Disadvantage for -1; zero package discount).
+- **Skill Bonus Packages:** Calculated universally at **5 BP per set of 5 Skill Ranks** (1 BP per Rank; +20 BP for +20 skills; zero package discount).
 - **Inherent Traits & Features:** Categorized as Basic (1 BP), Advanced (2 BP), or Elite (4 BP).
 - **Recommended Features:** When purchasing features recommended for your species during character creation, receive a **1 BP discount** (minimum cost 1 BP).
 - **Social Stigmas:** Social reaction penalties range from **Minor (-1 BP)**, **Typical (-2 BP)**, to **Severe (-4 BP)**, which also dictate the **Alien Mind Factor** modifier for mental contact.

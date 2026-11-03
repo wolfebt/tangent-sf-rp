@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 89
+order: 87
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.progenitors","mechanics"]
-updatedAt: "2026-10-14T05:24:25.077Z"
+updatedAt: "2026-11-02T22:49:35.904Z"
 costs:
   bp: 0
   credits: 0

@@ -116,7 +116,7 @@ cp_cost: 20
 
 # 
 
-**CP Cost:** 19 CP  
+**CP Cost:** 20 CP  
 
 **Description:** The Weti are **tiny arboreal simian humanoids** originating from a dense, high-canopy jungle homeworld, where their tool use and complex social structures were tragically overlooked by early off-world visitors. Standing roughly two feet tall and covered in a fine, brown-to-grey pelt, their quick, agile movements and specialized **prehensile tails** initially led to their classification by many as merely clever beasts. They possess a high degree of natural **agility** and are exceptionally **quick** and skilled at **climbing**, enabling them to navigate their vertical environment with ease.
 

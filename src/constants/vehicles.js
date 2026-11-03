@@ -57,11 +57,11 @@ export const ENVIRONMENTAL_MODIFIERS = {
 };
 
 export const MECHA_GARAGING_RULES = {
-  Medium: { size: 'Medium', scale: 'x1 Scale (<8ft)', modulesPerUnit: 0.025, unitsPerModule: 40, description: 'Requires ~0.025 Modules (40 units fit in 1 Module)' },
-  Large: { size: 'Large', scale: 'x2 Scale (<16ft)', modulesPerUnit: 0.50, unitsPerModule: 2, description: 'Requires 0.50 Modules (2 units fit in 1 Module)' },
-  Huge: { size: 'Huge', scale: 'x5 Scale (<32ft)', modulesPerUnit: 5.0, unitsPerModule: 0.2, description: 'Requires 5 Full Modules (Hangar Bay) per unit' },
-  Gargantuan: { size: 'Gargantuan', scale: 'x10 Scale (<64ft)', modulesPerUnit: 10.0, unitsPerModule: 0.1, description: 'Requires 10 Full Modules (Heavy Bay) per unit' },
-  Colossal: { size: 'Colossal', scale: 'x20 Scale (<128ft)', modulesPerUnit: 20.0, unitsPerModule: 0.05, description: 'Requires 20 Full Modules (Launch Gantry) per unit' }
+  Medium: { size: 'Medium', scale: 'x1 Scale (<8ft)', mountsPerUnit: 1, modulesPerUnit: 0.1, unitsPerModule: 10, description: 'Requires 1 Mount (0.1 Modules; 10 units fit in 1 Module)' },
+  Large: { size: 'Large', scale: 'x2 Scale (<16ft)', mountsPerUnit: 2, modulesPerUnit: 0.2, unitsPerModule: 5, description: 'Requires 2 Mounts (0.2 Modules; 5 units fit in 1 Module)' },
+  Huge: { size: 'Huge', scale: 'x5 Scale (<32ft)', mountsPerUnit: 5, modulesPerUnit: 0.5, unitsPerModule: 2, description: 'Requires 5 Mounts (0.5 Modules; 2 units fit in 1 Module)' },
+  Gargantuan: { size: 'Gargantuan', scale: 'x10 Scale (<64ft)', mountsPerUnit: 10, modulesPerUnit: 1.0, unitsPerModule: 1, description: 'Requires 10 Mounts (1.0 Full Module per unit)' },
+  Colossal: { size: 'Colossal', scale: 'x20 Scale (<128ft)', mountsPerUnit: 20, modulesPerUnit: 2.0, unitsPerModule: 0.5, description: 'Requires 20 Mounts (2.0 Full Modules per unit)' }
 };
 
 // 9.1 Hardpoints: Armor Plating & Shields (Uses MOUNTS)

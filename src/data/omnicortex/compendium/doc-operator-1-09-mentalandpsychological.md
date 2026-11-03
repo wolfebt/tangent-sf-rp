@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "doc-operator-1-09-hindrances"
-order: 219
+order: 217
 perspective: "operator"
 entry_type: "Hindrance Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.mentalandpsychological","mechanics"]
-updatedAt: "2026-11-01T13:12:05.868Z"
+updatedAt: "2026-11-02T22:49:25.415Z"
 costs:
   bp: 0
   credits: 0
@@ -37,117 +37,113 @@ sockets:
   allocated: []
 ---
 
-# **MENTAL, PSYCHOLOGICAL & METAPHYSICAL HINDRANCES**
+# **1.09.02 MENTAL, PSYCHOLOGICAL & METAPHYSICAL HINDRANCES**
 
-## **Addiction**
+* **Personal Hindrance Cap (`1.09 HINDRANCES.md`):** Personal/typical Hindrances grant up to a maximum of **+10 Character Points (CP)** during character creation. Innate species-level hindrances, biological disadvantages, and Xeno Stigmas (`1.03 SPECIES.md`) do **not** count toward the 10 CP limit for typical hindrances.
 
-CP Value: 3 (Minor) / 6 (Moderate) / 9 (Major)  
-Category: Psychological / Physical  
-The character has a chemical or psychological dependency on a substance or stimulus.  
-**Minor (3 CP):** A bad habit (e.g., tobacco, alcohol, mild gambling). The character suffers \-2 to Will saves if they haven't indulged within 24 hours.  
-**Moderate (6 CP):** A serious dependency (e.g., hallucinogens, painkillers, hard gambling). If the character goes 24 hours without the substance, they suffer the "Sickened" condition (-2 to all checks) until they indulge.  
-**Major (9 CP):** A debilitating addiction (e.g., rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character suffers Hindrance on all rolls and takes 1 point of Stamina damage per day until they indulge or endure a lengthy detox process.
+---
 
-### 
+## **1. Addiction**
 
-## **Covetous**
+* **CP Value:** `3 CP` (Minor) / `6 CP` (Moderate) / `9 CP` (Major) | **Category:** Psychological / Physical
+* **Description:** The character has a chemical, neural, or psychological dependency on a substance or stimulus:
+  * **Minor (`3 CP`):** A mild habit (e.g., tobacco, alcohol, recreational gambling). The character suffers **`-2` to Willpower Saves** if they have not indulged within 24 hours.
+  * **Moderate (`6 CP`):** A serious dependency (e.g., hallucinogens, painkillers, high-stakes gambling). If deprived for 24 hours, the character suffers the **Sickened (`-2` to all checks)** condition until they indulge.
+  * **Major (`9 CP`):** A debilitating addiction (e.g., rare combat stims, neural-jacking, Void-dust). Withdrawal begins after 12 hours: the character **rolls all checks with Disadvantage** and takes **`1` point of Stamina damage per day** until they indulge or complete a clinical detox regimen.
 
-CP Value: 3 (Minor) / 6 (Moderate) / 9 (Major)  
-Category: Psychological  
-The character has an overwhelming desire for something, be it wealth, attention, or power.  
-**Types:** Greed (Money), Lechery (Romance/Lust), Ambition (Power/Status), Conspicuousness (Fame/Attention).  
-**Mechanic:** When presented with the object of their desire, the character must make a Will Save (CR 15 \+ Severity) to avoid acting on the impulse immediately, regardless of danger or propriety.  
-*Minor (3 CP):* Grumbles or complains if denied.  
-*Moderate (6 CP):* Will take risks or suffer social faux pas to acquire it.  
-*Major (9 CP):* Will steal, betray, or fight to satisfy the craving.
+---
 
-### 
+## **2. Covetous**
 
-## **Emotional Issues**
+* **CP Value:** `3 CP` (Minor) / `6 CP` (Moderate) / `9 CP` (Major) | **Category:** Psychological
+* **Description:** The character has an overwhelming desire for a specific pursuit—whether wealth, romance, status, or fame.
+* **Types:** *Greed (Money/Loot)*, *Lechery (Romance/Lust)*, *Ambition (Power/Rank)*, *Conspicuousness (Fame/Attention)*.
+* **Mechanic:** When presented with the object of their desire, the character must pass a **Willpower Save (`CR = 15 + CP Value`)** to avoid acting on the impulse immediately, regardless of danger or propriety:
+  * **Minor (`3 CP` — `CR 18`):** Grumbles, fixates, and complains if denied (`-1` morale penalty for the scene).
+  * **Moderate (`6 CP` — `CR 21`):** Takes significant personal risks or commits social faux pas to acquire it.
+  * **Major (`9 CP` — `CR 24`):** Will steal, betray allies, or fight to satisfy the craving.
 
-CP Value: 3 / 6 / 9 / 12  
-Category: Psychological  
-The character suffers from emotional volatility or regulation issues, making consistent reactions difficult.  
-**Minor (3 CP):** Mood swings. The character's emotional state fluctuates, leading to minor social awkwardness or misunderstandings. \-2 penalty to social interactions when under pressure or stressed.  
-**Moderate (6 CP):** Prone to outbursts or deep withdrawal. The character struggles to contain intense feelings. Must make a Will save (CR 15\) to avoid breaking down, flying into a rage, or freezing up (e.g., *Stunned* for 1 round) when faced with significant emotional triggers or pressure.  
-**Major (9 CP):** Debilitating. The character's emotional state frequently overrides rational thought. The character may become Catatonic (Unable to act, *Defenseless*) or Hysterical (Must make a *Charge* or *Attack* against a random target) during combat or high-stress scenes. Will Save CR 20 to act normally. This must be checked at the start of any round where the character takes damage or witnesses a traumatic event.  
-**Severe (12 CP):** Crippling instability. The character's emotional state is a liability. They have a permanent \-2 penalty to all Will saves. In any stressful or combat situation, they must make a Will Save (CR 18\) at the start of their turn or suffer from a random, debilitating emotional state (e.g., *Panicked*, *Paralyzed*, or *Staggered* due to overwhelming rage/grief) for the round. They also require constant emotional support or monitoring from allies.
+---
 
-### 
+## **3. Emotional Issues**
 
-## **Extreme Morality**
+* **CP Value:** `3 / 6 / 9 / 12 CP` | **Category:** Psychological
+* **Description:** The character suffers from emotional volatility or dysregulation under stress, making consistent reactions difficult:
+  * **Minor (`3 CP`):** Mood swings. Emotional fluctuations cause minor social friction; **`-2` penalty to Social interactions** when under pressure or stressed.
+  * **Moderate (`6 CP`):** Prone to outbursts or deep withdrawal. Must pass a **Willpower Save (`CR 15`)** when faced with significant emotional triggers or pressure to avoid breaking down, flying into a rage, or freezing up (**Stunned** for 1 round).
+  * **Major (`9 CP`):** Debilitating volatility. Must pass a **Willpower Save (`CR 20`)** at the start of any round in which they take damage or witness a traumatic event, or become **Catatonic** (*Unable to act, Defenseless*) or **Hysterical** (*Forced to Charge or Attack a random target*).
+  * **Severe (`12 CP`):** Crippling instability. Suffers a permanent **`-2` penalty to all Willpower Saves**. In any stressful or combat situation, must pass a **Willpower Save (`CR 18`)** at the start of each turn or suffer a random debilitating emotional state (*Panicked, Paralyzed, or Staggered/Dazed*) for the round. *(Capped at `+10 CP` toward the personal Hindrance creation limit).*
 
-CP Value: 4 / 8 / 12  
-Category: Psychological / Metaphysical  
-The character holds blatant, unshakeable moral views aligned with cosmic forces (Good, Evil, Law, Chaos).  
-**Mechanic:** The character is physically incapable (or psychologically unwilling to the point of pain) of acting against their alignment.  
-*Minor (4 CP):* Will simply refuse to do it.  
-*Moderate (8 CP):* Will actively stop others from doing it.  
-*Major (12 CP):* Will violently oppose the antithesis of their morality, even if it means death.
+---
 
-### 
+## **4. Extreme Morality**
 
-## **Hatred**
+* **CP Value:** `4 / 8 / 12 CP` | **Category:** Psychological / Metaphysical
+* **Description:** The character holds blatant, unshakeable moral views aligned with cosmic or ideological forces (*Good, Evil, Lawful, or Chaotic*), detectable by *Sense Evil / Sense Morality* invocations:
+  * **Minor (`4 CP`):** Refuses to personally perform actions contrary to their alignment (*Petty/Minor aura*).
+  * **Moderate (`8 CP`):** Actively intervenes to stop allies or bystanders from violating their ethos (*Moderate aura: `+50 percent` detection range, `+5` to detect*).
+  * **Major (`12 CP`):** Violently opposes the antithesis of their morality even if it means certain death (*Extreme aura: `2x` detection range, `+10` to detect; capped at `+10 CP` toward the personal Hindrance limit*).
 
-CP Value: 3 (Minor) / 6 (Moderate) / 9 (Major)  
-Category: Psychological  
-The character bears a deep grudge against a specific group (Species, Faction, Organization).  
-**Minor (3 CP):** Disgust/Prejudice. \-2 to Social interactions with the target group.  
-**Moderate (6 CP):** Loathing. Will check required to assist or save them.  
-**Major (9 CP):** Violence. Will check required *not* to attack them on sight or sabotage them.
+---
 
-### 
+## **5. Hatred**
 
-## **Honorable**
+* **CP Value:** `3 CP` (Minor) / `6 CP` (Moderate) / `9 CP` (Major) | **Category:** Psychological
+* **Description:** The character bears a deep-seated grudge or vendetta against a specific group (*Species, Faction, or Organization*):
+  * **Minor (`3 CP` — Disgust/Prejudice):** **`-2` penalty to Social interactions** with members of the target group.
+  * **Moderate (`6 CP` — Loathing):** Requires a **Willpower Save (`CR 15`)** to assist, heal, or cooperate with a member of the target group.
+  * **Major (`9 CP` — Blood Feud/Violence):** Requires a **Willpower Save (`CR 20`)** *not* to attack or sabotage members of the target group on sight.
 
-CP Value: 3 / 6 / 9  
-Category: Psychological  
-The character is bound by a strict personal code of morals, etiquette, or rules of engagement.  
-**Minor (3 CP):** General gentlemanly conduct. Won't cheat at cards.  
-**Moderate (6 CP):** Bushido/Chivalry. Won't attack an unarmed foe, won't lie.  
-**Major (9 CP):** Absolute Pacifism or Truth. Cannot break their word or code even to save their own life.
+---
 
-### 
+## **6. Honorable**
 
-## **Mental Issues**
+* **CP Value:** `3 / 6 / 9 CP` | **Category:** Psychological
+* **Description:** The character is bound by a strict personal code of morals, etiquette, or rules of engagement:
+  * **Minor (`3 CP`):** General gentlemanly/fair conduct; will not cheat, steal from the helpless, or ambush innocents.
+  * **Moderate (`6 CP`):** Bushido/Chivalric code; will not strike an unarmed or flat-footed foe, lie under oath, or abandon a comrade.
+  * **Major (`9 CP`):** Absolute Pacifism or Absolute Truth; cannot break their sworn word or code even to save their own life.
 
-CP Value: 3 / 6 / 9 / 12  
-Category: Mental  
-General category for neurodivergence or mental blocks that hinder standard operation.  
-**Minor (3 CP):** Mild distraction or fixation. \-2 to Concentration.  
-**Moderate (6 CP):** Confused state under stress. When under a duress or stressful situation, the character suffers a \-2 penalty to all mental checks.  
-**Major (9 CP):** Disassociated or Hallucinogenic. The Architect may dictate the character sees things that aren't there, or is unable to distinguish fantasy from reality. The character suffers a \-4 penalty to all checks involving Perception or situational awareness.  
-**Severe (12 CP):** Catatonic or Paralyzing Anxiety. The character is overcome by their mental block and is unable to take any meaningful action for the duration, or until a specific trigger is removed. They may take only defensive actions (like dodging or bracing) and cannot initiate attacks or complex interactions.
+---
 
-### 
+## **7. Mental Issues**
 
-## **Nightmares**
+* **CP Value:** `3 / 6 / 9 / 12 CP` | **Category:** Mental
+* **Description:** Cognitive blocks, dissociation, or severe paranoia that hinder standard operation under pressure:
+  * **Minor (`3 CP`):** Mild distraction or fixation; **`-2` penalty to Concentration checks**.
+  * **Moderate (`6 CP`):** Confused state under duress; suffers a **`-2` penalty to all Mental checks** during combat or time-critical stress.
+  * **Major (`9 CP`):** Dissociated or hallucinatory episodes; the Architect may introduce phantom sensory stimuli, and the character suffers a **`-4` penalty to all Alertness and Perception checks**.
+  * **Severe (`12 CP`):** Catatonic or paralyzing anxiety under trigger conditions; unable to initiate attacks or complex interactions (restricted to defensive actions like dodging or bracing) until the trigger is removed. *(Capped at `+10 CP` toward the personal Hindrance limit).*
 
-CP Value: 2  
-Category: Mental  
-The character is plagued by horrific dreams.  
-**Effect:** Every time the character takes a Long Rest, roll a d10. On a **1**, the character has a night of terror and gains **no benefit from the rest**. They begin the next day Fatigued (-2 to all actions).
+---
 
-### 
+## **8. Nightmares**
 
-## **Technologically Impaired**
+* **CP Value:** `2 CP` | **Category:** Mental
+* **Description:** The character is plagued by horrific, recurring terrors whenever they sleep.
+* **Mechanic:** Every time the character takes a **Full Rest (Long Rest)**, roll `1d10`. On a result of **`1`**, a night of terror prevents recovery: they gain **no benefit from the rest** and begin the next day **Fatigued (`-2` to all actions)**.
 
-CP Value: 10 / 20 / 30  
-Category: Mental / Background  
-The character is baffled by modern technology. This is common for "Primitive" origins or magical purists.  
-**10 CP:** **\-1 Tech Level.** (e.g., A TL 3 character treats all TL 3 items as unfamiliar).  
-**20 CP:** **\-2 Tech Level.** (e.g., A TL 3 character struggles with TL 2 items).  
-**30 CP:** **\-3 Tech Level.** The character is effectively a Luddite. They cannot use computers, modern weapons, or pilot vehicles without massive penalties.
+---
 
-### 
+## **9. Technologically Impaired**
 
-## **Unlucky**
+* **CP Value:** `10 / 20 / 30 CP` | **Category:** Mental / Background
+* **Description:** Common among *Primitive* origins or sheltered arcane purists, the character is baffled by modern technology:
+  * **10 CP (`-1 Tech Level`):** Treats items of their campaign baseline Tech Level as unfamiliar (`-2` penalty / Disadvantage; e.g., a TL 3 character treats TL 3 gear as unfamiliar).
+  * **20 CP (`-2 Tech Level`):** Struggles even with industrial/modern hardware two tiers below campaign standard.
+  * **30 CP (`-3 Tech Level`):** Effectively a Luddite; cannot operate computers, modern weapons, or vehicles without severe unfamiliarity penalties. *(Note: Personal Hindrance CP gain is capped at `+10 CP` unless approved as a campaign origin template).*
 
-CP Value: 3 / 6 / 9  
-Category: Metaphysical / Karma  
-The universe conspires against the character.  
-**3 CP:** **\-2 to Karma Pool** maximum.  
-**6 CP:** **\-4 to Karma Pool** maximum.  
-**9 CP:** **\-6 to Karma Pool** maximum.  
-*Note:* This can reduce a Karma Pool to 0 or negative (Karmic Debt), meaning the character starts every session owing the Architect bad luck.
+---
+
+## **10. Unlucky**
+
+* **CP Value:** `3 / 6 / 9 CP` | **Category:** Metaphysical / Karma
+* **Description:** The universe conspires against the character.
+* **Mechanic:** Permanently reduces the character's maximum **Karma Pool** by **`-2 KP` (`3 CP`)**, **`-4 KP` (`6 CP`)**, or **`-6 KP` (`9 CP`)**. This can reduce a character's Karma Pool to `0` or into negative numbers (**Karmic Debt**), meaning the character begins every session owing the Architect bad-luck complications (`1.01.Karma.md`).
+
+---
+
+## **11. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-309 (1.09.MentalAndPsychological Unredacted Prose & Normalization):** Restored 100% of the narrative descriptions from `/game rules/operator/hindrances/1.09.MentalAndPsychological.md` and normalized legacy `Constitution damage` -> `Stamina damage`, `DC` -> `CR`, `suffers Hindrance` -> `rolls all checks with Disadvantage`, and `BP` -> `CP`.
 

@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 14
+order: 17
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular companion matrix","matrix"]
-updatedAt: "2026-11-01T13:12:04.422Z"
+updatedAt: "2026-11-03T10:58:37.221Z"
 costs:
   bp: 0
   credits: 0
@@ -37,307 +37,148 @@ sockets:
   allocated: []
 ---
 
-# **COMPANIONS**
+# **99. MODULAR COMPANION MATRIX**
 
-**Subtitle:** Biological, Synthetic, and Metaphysical Cohorts
+- **Subtitle:** Biological, Synthetic, and Metaphysical Cohorts (Version 1.5 — Expanded Species Forms)
+- **References:** `operator/1.08 FEATURES.md` (`1.08.SpecialFeatures.md`), `architect/99. MODULAR SPECIES MATRIX.md`, and `architect/99. MODULAR CHARACTER MATRIX.md`
 
-**Version:** 1.5 (Expanded Species Forms)
+---
 
-**Reference:** Integration with 01.07.07 Special Features, 99 Framework \- Species & Adversary
+## **1. INTRODUCTION**
 
-## 
+In the Tangent universe, a "Companion" is more than a pet; it is a mechanical extension of the character's will and capabilities. Whether it is a bio-engineered attack hound, a hovering utility drone, or a metaphysical spirit-guide, all companions share a unified ruleset for construction and operation. This framework bridges the gap between **Equipment** (mindless tools) and **NPCs** (independent characters), providing a balanced system for player-controlled entities.
 
-## ---
+---
 
-## **1\. INTRODUCTION**
+## **2. ACQUISITION & THE COMPANION FEATURE**
 
-In the Tangent universe, a "Companion" is more than a pet; it is a mechanical extension of the character's will and capabilities. Whether it is a bio-engineered attack hound, a hovering utility drone, or a metaphysical spirit-guide, all companions share a unified ruleset for construction and operation.
+Access to a loyal cohort is governed by the **Companion** Feature (`operator/features/1.08.SpecialFeatures.md`):
 
-This framework bridges the gap between **Equipment** (mindless tools) and **NPCs** (independent characters), providing a balanced system for player-controlled entities.
+- **Prerequisite:** Charisma 1 | **Cost:** 3 CP Standard (2 CP if Recommended)
+- **Base Budget (Rank 1):** Constructs a loyal cohort on a **40 Character Point (CP)** budget (`15 CP Form Package + 25 CP Function Package`).
+- **Ranked Progression (Rank 2+):** Each additional rank grants **+10 CP** (or **+40 CP** full tier upgrade) to an existing Companion's build budget, OR allows the acquisition of a second 40 CP Companion.
 
-## 
+### **Essential Bond Sub-Features**
 
-## ---
+| Sub-Feature Name | Prerequisite | Mechanical Benefit |
+| :--- | :--- | :--- |
+| **Familiar** | Companion, Bonded, Awakened | **Empathic Link (+20 CP to Companion):** Know direction, distance, and general physical/emotional state at all times across planetary range. |
+| **Mind Link** | Familiar or Bonded | **Telepathic Link (+10 CP to Companion):** Communicate silently with the companion; share Knowledge skills using the higher rank of the two. |
+| **Shared Senses** | Familiar or Bonded | **Sensory Share (+10 CP to Companion):** Perceive through the companion's senses as a Standard Action (concentration). While doing so, your own body is Blind/Deaf. |
+| **Loyal Protector** | Companion | **Interception (2 CP Companion Feature):** If the companion is adjacent to you, it can spend its Reaction to take an incoming hit meant for you. |
 
-## **2\. ACQUISITION & THE COMPANION FEATURE**
+---
 
-Access to a loyal cohort is governed by the **Companion** Feature found in 01.07.07 Special Features.
+## **3. CONSTRUCTION: THE BUILD SYSTEM (40 CP BUDGET)**
 
-### 
+Companions are built using the same physics as Player Characters but with a focused 40 CP budget (`15 CP Form + 25 CP Function`). To ensure survivability alongside their operator, Companions also inherit the baseline **Vitality/Health Bonus** and **Base Armor DR** of the MCM Threat Tier corresponding to their total CP budget (`99. MODULAR CHARACTER MATRIX.md`).
 
-### **The Core Feature**
+### **Step 1: Choose Chassis Type & Integrity Pools**
 
-**Feature:** Companion
+- **A. Biological (Beast / Xeno / Verdant / Ooze):**
+  - **Integrity:** **Base 30 Vitality and Base 30 Health** (scaled by Size Multiplier; Oozes combine both into **60 Base Structure Points**), increased by +5 points per 1 CP invested. **Stamina (STA) provides point-for-point Base Toughness and Fortitude Saves, and never increases Vitality or Health.**
+  - **Recovery:** Natural healing via **Full Rest (6–8 Hours)** or **Knowledge (Medicine / Nature)** skill.
+  - **Fuel:** Food, water, or sunlight.
+- **B. Synthetic (Drone / Bot / Automata):**
+  - **Integrity:** **Structure Points (`SP = Combined Vitality + Health`, Base 60 SP** before Size Multiplier; increased by +5 SP per 1 CP). Synthetics have no separate Vitality buffer.
+  - **Recovery:** Requires repair via **Vocation (Mechanic) / Knowledge (Engineering)** (`1 hour per 10 SP`) or replacement components.
+  - **Immunities:** Immune to biological mind-affecting effects, poison, disease, fatigue, exhaustion, and non-lethal pain/stun.
+  - **Fuel:** Energy cells or internal power core.
+- **C. Metaphysical (Spirit / Elemental / Construct):**
+  - **Integrity:** **Essence / Structure Pool** (Base 30 Vitality + 30 Health, or combined 60 SP for Elementals).
+  - **Recovery:** Requires an **Attune** check or direct **Essence donation (`1:1`)** from the master.
+  - **Immunities:** Physical grappling (if Incorporeal), poison, and disease.
 
-**Prerequisite:** Charisma 1
+### **Step 2: Attribute, Skill & Feature Allocation Rules**
 
-**Cost:** 3 CP (Standard Feature Cost)
+- **Attributes:** Cost **5 CP** per +1 Score (and refund **-5 CP** per -1 Penalty; straight values with no package discount).
+- **Skills:** Cost **1 CP per 1 Rank** (**5 CP per 5 Ranks** — straight values with no package discount).
+- **Features:**
+  - **Standard Cost:** 3 CP.
+  - **Recommended / Package Cost:** 2 CP.
+- **Size Categories:**
+  - **Small / Tiny:** 2 CP (Recommended Feature: Dwarfism — gains Stealth/Defense bonuses).
+  - **Medium:** 0 CP baseline.
+  - **Large:** 2 CP (Recommended Feature: Giant — gains Strength/Carrying Capacity bonuses).
 
-**Benefit:** You gain a loyal cohort constructed with **40 Character Points (CP)**.
+#### **Sample Build 1: "Fenris" Attack Dog (Biological — 40 CP)**
 
-**Special:** Ranked.
+- **Attributes (15 CP):** STR +2 (10 CP), AGI +1 (5 CP).
+- **Features (8 CP):** *Natural Weapons (Teeth 1d6)* (2 CP), *Scent* (2 CP), *Trip Attack* (2 CP), *Speed / Runner* (2 CP).
+- **Skills (17 CP):** *Unarmed Combat* Rank 5 (5 CP), *Knowledge (Survival — Track)* Rank 4 (4 CP), *Alertness* Rank 4 (4 CP), *Athletics* Rank 2 (2 CP), *Stealth* Rank 2 (2 CP).
+- **Total:** **40 CP**.
 
-* **Rank 1:** Base Companion (40 CP).  
-* **Rank 2+:** Each additional Rank grants **\+10 CP** to the Companion's build budget OR allows the acquisition of a second 40 CP Companion.
+#### **Sample Build 2: "Spy-Glass" Recon Drone (Synthetic — 40 CP)**
 
-### 
+- **Attributes (10 CP):** AGI +2 (10 CP) *(INT/CHA/STR are 0)*.
+- **Features (14 CP):** *Flight (Grav)* (2 CP), *Synthetic Traits Package (Immunities / Combined SP)* (6 CP), *Tiny Size* (2 CP), *Sensory Recorder* (2 CP), *Darksight* (2 CP).
+- **Skills (16 CP):** *Stealth* Rank 7 (7 CP), *Alertness* Rank 7 (7 CP), *Knowledge (Investigation / Search)* Rank 2 (2 CP).
+- **Total:** **40 CP**.
 
-### **Essential Sub-Features**
+---
 
-These features modify the bond between master and companion.
-
-| Feature Name | Prerequisite | Benefit |
-| :---- | :---- | :---- |
-| **Familiar** | Companion | **Empathic Link.** You know the companion's direction, distance, and general emotional state/status at all times (Planetary Range). |
-| **Mind Link** | Companion | **Telepathic Link.** You can communicate silently with the companion. You may share Knowledge skills (using the better rank of the two). |
-| **Shared Senses** | Companion | **Sensory Share.** You can see/hear through the companion's senses as a Standard Action (concentration). While doing so, your own body is Blind/Deaf. |
-| **Loyal Protector** | Companion | **Interception.** If the companion is adjacent to you, it can take a hit meant for you (Reaction). |
-
-## 
-
-## ---
-
-## **3\. CONSTRUCTION: THE BUILD SYSTEM**
-
-Companions are built using the same physics as Player Characters but with a reduced budget. They do not have "Classes" or "Occupations"; they are built for specific functions using **Attributes**, **Skills**, and **Features**.
-
-### 
-
-### **Step 1: Choose Chassis Type**
-
-This determines the companion's nature, immunities, and recovery.
-
-**A. Biological (Beast / Xeno / Plant / Ooze)**
-
-* **Integrity:** Vitality \+ Health.  
-* **Recovery:** Natural Healing (Long Rest) or Medicine Skill.  
-* **Immunity:** None (unless specified by Form).  
-* **Fuel:** Food/Water/Sunlight.
-
-&nbsp;
-
-**B. Synthetic (Drone / Bot)**
-
-* **Integrity:** Structure Points (Health x 1.5). No Vitality.  
-* **Recovery:** Requires Repair (Engineering Skill) or Replacement Parts.  
-* **Immunity:** Mental, Poison, Disease, Fatigue, Pain.  
-* **Fuel:** Energy Cells / Power Core.
-
-&nbsp;
-
-**C. Metaphysical (Spirit / Elemental / Construct)**
-
-* **Integrity:** Essence (Functions as Health).  
-* **Recovery:** Requires Attune check or Essence donation from master.  
-* **Immunity:** Physical Grappling (if Incorporeal), Poison, Disease.  
-* **Fuel:** Master's Essence or Ambient Magic.
-
-### 
-
-### **Step 2: Attribute & Skill Allocation (The 40 CP Budget)**
-
-Unlike PCs who start with 150 CP, Companions must be hyper-specialized.
-
-* **Attributes:** Cost **4 CP** per \+1 Score. (Negative attributes refund CP).  
-* **Skills:**  
-  * **Standard Cost:** 1 CP per Rank.  
-  * **Recommended/Package Cost:** 4 CP per 5 Ranks (20% Discount).  
-* **Features:**  
-  * **Standard Cost:** 3 CP.  
-  * **Recommended/Package Cost:** 2 CP.  
-* **Size:**  
-  * **Small/Tiny:** 2 CP (Recommended Feature: Dwarfism). *Gain Stealth/Defense bonuses.*  
-  * **Medium:** 0 CP.  
-  * **Large:** 2 CP (Recommended Feature: Giant). *Gain Strength/Carrying Capacity bonuses.*
-
-&nbsp;
-
-**Sample Build: "Fenris" Attack Dog (Biological)**
-
-* **Budget:** 40 CP  
-* **Attributes (12 CP):** Str \+2 (8), Agi \+1 (4).  
-* **Features (8 CP):**  
-  * Natural Weapons (Teeth/d6) (2 CP)  
-  * Scent (2 CP)  
-  * Trip Attack (2 CP)  
-  * Speed/Runner (2 CP)  
-* **Skills (20 CP):**  
-  * Unarmed Combat: Rank 5 (4 CP)  
-  * Survival (Track): Rank 5 (4 CP)  
-  * Alertness: Rank 5 (4 CP)  
-  * Athletics: Rank 5 (4 CP)  
-  * Stealth: Rank 5 (4 CP)  
-    \[Added due to cost savings\]  
-* **Total:** 40 CP.
-
-&nbsp;
-
-**Sample Build: "Spy-Glass" Drone (Synthetic)**
-
-* **Budget:** 40 CP  
-* **Attributes (8 CP):** Agi \+2 (8). (Int/Cha/Str are 0 or \-1).  
-* **Features (14 CP):**  
-  * Flight (Grav) (2 CP)  
-  * Synthetic Traits Package (Immunities/No Vit) (6 CP)  
-  * Tiny Size (2 CP)  
-  * Recorder (2 CP)  
-  * Darksight (2 CP)  
-* **Skills (18 CP):**  
-  * Stealth: Rank 10 (8 CP)  
-    \[2 x 5 Rank Packages\]  
-  * Alertness: Rank 10 (8 CP)  
-    \[2 x 5 Rank Packages\]  
-  * Search: Rank 2 (2 CP)  
-* **Total:** 40 CP.
-
-## 
-
-## ---
-
-## **4\. OPERATIONAL MECHANICS**
-
-How the companion functions in gameplay.
+## **4. OPERATIONAL MECHANICS & COMMAND ECONOMY**
 
 ### **The Command Economy**
 
-A Companion is an extension of the player. It does not have its own "Turn" in the initiative order; it acts on the **Player's Turn**.
+A Companion is an extension of the player. It does not roll its own separate initiative; it acts on the **Player's Turn**:
 
-1. **Direct Command (Move Action):** The player issues a specific verbal or gestural command ("Attack," "Guard," "Fetch"). The Companion performs the action immediately.  
-2. **Linked Command (Free Action):** If the player has **Mind Link** or a **Data-Tether** (Tech Item), commands are Free Actions.  
-3. **Autonomous Protocol (No Action):** If no command is issued, the Companion follows its last order or its basic instinct (Defend Self / Follow Master). It will *not* attack or perform complex tasks without orders.
-
-### 
+1. **Direct Command (Move Action):** The player issues a specific verbal or gestural command (*"Attack," "Guard," "Fetch"*). The Companion performs its turn immediately.
+2. **Linked Command (Free Action):** If the player has **Mind Link**, a **Neural Mech/Drone Link**, or a **Data-Tether**, issuing commands is a **Free Action**.
+3. **Autonomous Protocol (No Action):** If no command is issued, the Companion follows its last standing order or basic instinct (Defend Self / Follow Master). It will *not* initiate new attacks or complex tasks without orders.
 
 ### **Distance & Autonomy**
 
-* **Command Range:** Voice/Visual range (typically 50ft).  
-* **Tether Range (Tech/Magic):** Defined by the equipment (usually 1 mile).  
-* **Beyond Range:** The companion reverts to its **Default Protocol** (Wait, Return Home, or Hide).
+- **Command Range:** Voice/Visual range (typically 50 ft).
+- **Tether Range (Tech/Magic):** Defined by the equipment or link (typically 1 mile, or planetary with *Familiar*).
+- **Beyond Range:** The companion reverts to its **Default Protocol** (*Wait, Return Home, or Hide*).
 
-### 
+---
 
-### **Combat Statistics**
+## **5. REPAIR, RECOVERY, AND DEATH**
 
-* **Initiative:** Shared with the Player. They act simultaneously.  
-* **Attacks:** The Companion uses its own Attack Bonus (Attribute \+ Skill).  
-* **Defense:** The Companion has its own Defense and DR.
+- **Biological:** Heals naturally like a PC. If Health reaches negative (`Stamina Score + 5` Mortality State failure), it dies. The player must spend narrative downtime (Training Period) to acquire and bond a replacement animal (0 CP cost to replace).
+- **Synthetic:** Repaired via Engineering/Mechanics (`1 hr per 10 SP`). If Structure reaches 0, it is wrecked and can be rebuilt from pristine parts for **50% of the Credit cost** of materials (or **5x Item Credit Value** in unrefined scavenged scrap mass at the 10% scrap ratio).
+- **Metaphysical:** If Essence/Health reaches 0, it discorporates to its home plane and cannot be summoned again until the next Sunrise/Sunset or by spending **1 Karma Point**.
 
-## 
+---
 
-## ---
+## **6. PROGRESSION, UPGRADES & EQUIPMENT INTEGRATION**
 
-## **5\. REPAIR, RECOVERY, AND DEATH**
+1. **The "Award Point" Tithe:** An operator may invest earned **Award Points (AP)** into their companion at a **1 AP = 1 CP** ratio.
+2. **Taking the Feature Again:** Selecting **Companion Rank 2+** adds **+10 CP** to the companion's build budget.
+3. **Equipment Integration (Sockets vs. Mounts):**
+   - **Small/Medium Companions:** Use **Sockets** (e.g., a hound wearing a camera collar `[1 Socket]`, or a drone with an integrated light pistol `[1 Socket]`).
+   - **Large Companions:** Use **Mounts** (e.g., a cavalry mount fitted with a heavy saddle-gun `[1 Mount]`).
 
-Companions are durable, but not immortal.
+---
 
-**Biological:**
+## **7. COMPANION ARCHETYPES & MODULAR PACKAGE SUMMARY**
 
-* **Healing:** Heals naturally like a PC.  
-* **Death:** If Health reaches negative (Stamina Score), it dies.  
-* **Replacement:** The player must spend time (Training Period) to acquire a new animal. No CP cost to replace, but narrative time is required.
-
-&nbsp;
-
-**Synthetic:**
-
-* **Repair:** Does not heal. Must be repaired (1 hr per 10 SP, Material Cost).  
-* **Destruction:** If Structure reaches 0, it is wrecked.  
-* **Rebuild:** Can be rebuilt from scrap for 50% of the Credit cost of the materials. If total loss, must be re-fabricated.
-
-&nbsp;
-
-**Metaphysical:**
-
-* **Discorporation:** If Health (Essence) reaches 0, it vanishes to its home plane.  
-* **Summoning:** Cannot be summoned again until the next Sunrise/Sunset or by spending **1 Karma Point**.
-
-## 
-
-## ---
-
-## **6\. PROGRESSION & UPGRADES**
-
-As the player grows, the companion should not become obsolete.
-
-**1\. The "Award Point" Tithe (Optional Rule)**
-
-The Architect may allow an operator to invest their earned **Award Points (AP)** into their companion instead of themselves.
-
-* **Ratio:** 1 AP \= 1 CP for the Companion.
-
-&nbsp;
-
-**2\. Taking the Feature Again**
-
-The most standard method of upgrade is taking **Companion Rank 2**.
-
-* **Benefit:** \+10 CP to the existing companion. This represents training, cybernetic upgrades, or evolution.
-
-&nbsp;
-
-**3\. Equipment Integration (Sockets vs. Mounts)**
-
-Companions can carry and use gear based on their scale.
-
-* **Small/Medium Companions:** Use **Sockets**. (e.g., A dog wearing a camera collar \[1 Socket\], a Drone with a built-in pistol \[1 Socket\]).  
-* **Large Companions:** Use **Mounts**. (e.g., A riding beast with a heavy saddle-gun \[1 Mount\]).
-
-## 
-
-## ---
-
-## **7\. COMPANION ARCHETYPES**
-
-Standard templates for quick creation.
-
-**TYPE A: THE GUARDIAN**
-
-*Focus: Combat / Defense*
-
-* **Attributes:** Strength, Stamina.  
-* **Key Skills:** Unarmed Combat, Intimidate.  
-* **Key Features:** Natural Weapons, Loyal Protector, Armor Proficiency.
-
-&nbsp;
-
-**TYPE B: THE SCOUT**
-
-*Focus: Recon / Stealth*
-
-* **Attributes:** Agility, Wisdom.  
-* **Key Skills:** Stealth, Perception, Survival.  
-* **Key Features:** Flight (or Fast Movement), Acute Senses, Camouflage.
-
-&nbsp;
-
-**TYPE C: THE UTILITY**
-
-*Focus: Support / Interface*
-
-* **Attributes:** Intellect (if AI) or Agility.  
-* **Key Skills:** Computers, Mechanics, Search.  
-* **Key Features:** Tool Integration (lockpicks, welder), Data Jack, Hover.
-
-&nbsp;
-
-**TYPE D: THE MOUNT**
-
-*Focus: Mobility*
-
-* **Attributes:** Strength, Stamina.  
-* **Key Skills:** Athletics (Run).  
-* **Key Features:** Large Size (Feature: Giant), Sure-Footed, Endurance, Speed.
-
-# 
-
-## ---
+- **Type A — The Guardian (Combat / Defense):** Strength, Stamina | Unarmed Combat, Intimidate | *Natural Weapons, Loyal Protector, Armor Proficiency*.
+- **Type B — The Scout (Recon / Stealth):** Agility, Wisdom | Stealth, Alertness, Knowledge (Survival) | *Flight (or Fast Movement), Acute Senses, Camouflage*.
+- **Type C — The Utility (Support / Interface):** Intellect or Agility | Knowledge (Computers), Vocation (Mechanic), Knowledge (Investigation) | *Tool Integration, Data Jack, Hover*.
+- **Type D — The Mount (Mobility):** Strength, Stamina | Athletics (Run) | *Large Size (Giant), Sure-Footed, Endurance, Speed*.
 
 ---
 
 # **MODULAR COMPANION MATRIX DIRECTORY INDEX**
 
-Appendix A Modular Build System packages and assembly templates are organized in the `./companions/` directory:
+Appendix A Modular Build System packages (`15 CP Form + 25 CP Function = 40 CP`) and the Tiny Battle Companions ("Thralls") Compendium are organized in the `./companions/` directory:
 
-* **[Part 1: The Form Packages (The Chassis)](./companions/99.Companion.FormPackages.md)** — *Base formula and biological/synthetic/metaphysical chassis templates*
-* **[Part 2 & 3: The Function Packages & Assembly Examples](./companions/99.Companion.FunctionAndExamples.md)** — *Role/Job packages and complete pre-assembled companion builds*
+- **[Part 1: The 12 Form Packages (The Chassis)](./companions/99.Companion.FormPackages.md)** — *15 CP biological, synthetic, and metaphysical chassis templates (Predator through Wisp)*
+- **[Part 2, 3 & 4: Function Packages, Assembly Examples & Tiny Battle Thralls](./companions/99.Companion.FunctionAndExamples.md)** — *25 CP role packages, 5 complete 40 CP assembly builds, and 10 Tiny Battle Companion ("Thralls") stat blocks*
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER (DISC-504)**
+
+- **File Target:** `architect/99. MODULAR COMPANION MATRIX.md`
+- **Restoration Pass (Three-Way Merge):**
+  - Merged 100% of the narrative and operational sections (Sections 1–7, Sample Builds 'Fenris' and 'Spy-Glass', Command Economy, Recovery/Death, and Upgrades) from `/game rules/architect/99. MODULAR COMPANION MATRIX.md` with the Nov 2 canonical tables.
+  - Updated Synthetic rebuild economics with the 50% pristine / 10% scrap (5x mass) EUFT rule.
+- **Mechanical Normalization Pass (12 Global Rules):**
+  - Replaced all legacy `CP` -> `CP`, `Stamina` -> `Stamina`, `Perception/Alertness` -> `Alertness`, and `Search` -> `Knowledge (Investigation)`.
+  - Enforced Zero Stamina Scaling on Companion Vitality/Health pools.
+
 

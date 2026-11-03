@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 225
+order: 223
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","economatrix","2.00.interstellartrade","mechanics"]
-updatedAt: "2026-10-31T11:30:42.704Z"
+updatedAt: "2026-11-02T22:49:19.702Z"
 costs:
   bp: 0
   credits: 0
@@ -37,108 +37,236 @@ sockets:
   allocated: []
 ---
 
-# **INTERSTELLAR TRADE & MERCANTILE ENGINE**
+# **2.00.09 INTERSTELLAR TRADE & MERCANTILE ENGINE**
 
-## **7. Economy and Trade: Interstellar Mercantile Engine**
+# **Economy and Trade**
 
-In the Tangent universe, economics is warfare by other means. Trade routes are the arteries of civilization, and commodities fuel the expansion of star-nations.
+## **1. Economic Framework: Resources and Trade**
 
-### **7.1 World Trade Classifications and Market Modifiers**
+In the Tangent universe, economics is warfare by other means. Trade routes are the arteries of civilization, and commodities are the blood that fuels the expansion of empires. Whether moving legitimate freight for the Syndicate or smuggling Aether-dust through a Coalition blockade, the flow of goods defines the rise and fall of planetary powers.
 
-Planetary systems possess trade codes that influence local supply and demand:
+This section provides the mechanics for commodity exchange, cargo speculation, and the dangerous allure of the black market, underpinned by the **Tangent Economic Unified Field Theory**.
 
-| Code | Classification | Requirements (TWP) | Primary Exports | Market Modifiers & Opportunities |
-| :---: | :--- | :--- | :--- | :--- |
-| **Ag** | Agricultural | Atmos 4-9, Hydro 4-8, Pop 5-7 | Foodstuffs, Bio-matter, Timber | **Food:** -50% Cost. **Machinery:** +20% Cost. High demand for harvesters. |
-| **As** | Asteroid | Size 0, Atmos 0, Hydro 0 | Ores, Crystals, Zero-G Alloys | **Minerals:** -40% Cost. **Food:** +50% Cost. Hungry for organics and luxuries. |
-| **Ba** | Barren | Pop 0, Gov 0, Law 0 | Salvage, Precursor Artifacts | **All Goods:** Unavailable (scavenge only). High survival gear premium. |
-| **De** | Desert | Hydro 0 | Silica, Solar Energy, Salt | **Water:** +100% Cost. Premium market for atmospheric condensers. |
-| **Fl** | Fluid Oceans | Atmos 10+ (Exotic), Hydro 1+ | Chemical Compounds, Fuel | **Chems:** -30% Cost. **Machinery:** +20% Cost due to corrosive seas. |
-| **Ga** | Garden | Size 5+, Atmos 4-9, Hydro 4-8 | Luxuries, Fine Art, Biologics | **Luxuries:** -20% Cost. High demand for exotic delicacies and prestige items. |
-| **Hi** | High Population | Pop 9+ | Manufactured Goods, Electronics | **Manufactured:** -10% Cost. **Food:** +20% Cost. Consumes raw minerals. |
-| **Ht** | High Tech | TL 4+ | Computers, Cybernetics, Ships | **High Tech:** -10% Cost. **Raw Mats:** +30% Cost for precision manufacturing. |
-| **Ic** | Ice-Capped | Atmos 0-1, Hydro 1+ | Glacial Water, Superconductors | **Water:** Cheap. **Thermal Gear:** Premium. Exports heavy coolant. |
-| **In** | Industrial | Atmos 0-2/4/7/9, Pop 9+ | Weapons, Vehicles, Modules | **Industrial:** -20% Cost. **Food:** +30% Cost. Massive resource appetite. |
-| **Lo** | Low Population | Pop 1-3 | Raw Resources | **Manufactured:** +50% Cost (scarcity). Exports unrefined materials. |
-| **Lt** | Low Tech | TL 2 or less | Handcrafted Curios, Raw Ore | **High Tech:** Unavailable or +200% Cost. Exports unique cultural items. |
-| **Na** | Non-Agricultural| Arid or sterile soil | Synthetic Polymers, Ore | **Food:** +10% Cost. Dependent on imported nutrition paste. |
-| **Ni** | Non-Industrial | Pop 4-6 | Unprocessed Minerals | **Manufactured:** +10% Cost. Service economies seeking luxury goods. |
-| **Po** | Poor | Resource-depleted | Scrap, Manual Labor | **Labor:** Cheap. **All Manufactured:** +10% Cost. Desperate for medicine. |
-| **Ri** | Rich / Mining | Economic powerhouse | Luxuries, Precious Metals | **Raw Mats:** -30% Cost. High disposable income; buys luxury art and tech. |
-| **Va** | Vacuum | Atmos 0 | Isotopes, Vacuum Alloys | **Air/Water:** +100% Cost. Dependent on enclosed environmental support. |
-| **Wa** | Water World | Hydro 10 | Seafood, Hydrogen, Deuterium | **Food:** -20% Cost. **Land Commodities (Metals/Wood):** +50% Cost. |
+### **1.1. Trade Classifications and Codes**
 
-### **7.2 Trade Route Dynamics (The Cluster Loops)**
-* **The Survival Loop ($\text{Ag} \leftrightarrow \text{In}$):** Industrial worlds manufacture harvesters; agricultural worlds feed factory workforces. Heavy patrols, low piracy, tight margins, high volume.
-* **The Extraction Chain ($\text{As}/\text{Ri} \leftrightarrow \text{Ht}$):** Asteroids feed foundries with raw iridium; high-tech worlds return mining lasers and cybernetics. Moderate margins, high piracy threat.
-* **The Life Support Run ($\text{Ic}/\text{Wa} \leftrightarrow \text{De}/\text{Va}$):** Moving water and hydrogen to arid colonies. Highly volatile; disruptions cause acute crises.
+Worlds are assigned tags that influence supply and demand, creating a web of interdependence between systems. A savvy trader knows that a world's classification is a roadmap to profit.
 
-### **7.3 Commodities & Exchange Matrix**
+#### **1.1.1. World Codes & Market Modifiers**
 
-Prices represent the galactic baseline average per metric ton:
+|  |  |  |  |  |
+| :-: | :-: | :-: | :-: | :-: |
+| **Code** | **Classification** | **Requirements (TWP Logic)** | **Primary Exports** | **Market Modifiers & Opportunities** |
+| **Ag** | Agricultural | Atmos 4-9, Hydro 4-8, Pop 5-7 | Foodstuffs, Textiles, Bio-matter, Timber | **Food:** -50% Cost. **Ind:** +20% Cost. High demand for Machinery and Tech to maintain automated harvesters. |
+| **As** | Asteroid | Size 0, Atmos 0, Hydro 0 | Ores, Crystals, Zero-G Tech | **Minerals:** -40% Cost. **Food:** +50% Cost. Desperate for organics and luxury entertainment to combat isolation. |
+| **Ba** | Barren | Pop 0, Gov 0, Law 0 | Salvage, Artifacts | **All Goods:** Unavailable. Scavenge only. High demand for Survival Gear among xeno-archaeologists. |
+| **De** | Desert | Hydro 0 | Silica, Solar Energy, Artifacts, Salt | **Water:** +100% Cost. **Survival Gear:** Premium. Prime market for water-reclamation tech and cooling units. |
+| **Fl** | Fluid Oceans | Atmos 10+ (Exotic), Hydro 1+ | Chemical Compounds, Fuel | **Chems:** -30% Cost. **Machinery:** +20% Cost. Corrosive atmosphere creates constant demand for replacement parts and alloys. |
+| **Ga** | Garden | Size 5+, Atmos 4-9, Hydro 4-8 | Luxuries, Art, Biologicals | **Luxuries:** -20% Cost. **High Tech:** Standard. Often a hub for tourism; high demand for exotic foods and high-status items. |
+| **Hi** | High Pop | Pop 9+ | Manufactured Goods, Information | **Manuf:** -10% Cost. **Food:** +20% Cost. Voracious appetite for raw materials and food; produces cheap consumer electronics. |
+| **Ht** | High Tech | TL 12+ (standard) or TL 4+ (Tangent) | Computers, Medical, Cybernetics, Ships | **High Tech:** -10% Cost. **Raw Mats:** +30% Cost. Exports advanced weaponry and medical pods; imports rare minerals for manufacturing. |
+| **Ic** | Ice-Capped | Atmos 0-1, Hydro 1+ | Water (Ice), Superconductors, Cryo-Tech | **Water:** Cheap. **Heat Gear:** Premium. Exports coolant and pure water; desperate for fusion cells and thermal insulation. |
+| **In** | Industrial | Atmos 0-2/4/7/9, Pop 9+ | Weapons, Vehicles, Modules, Electronics | **Ind Goods:** -20% Cost. **Food:** +30% Cost. The forge of the sector. Imports vast quantities of metal and workforce sustenance. |
+| **Lo** | Low Pop | Pop 1-3 | Raw Materials | **All Manufactured:** +50% Cost (Scarcity). Dependent on trade for advanced tools; exports raw, unprocessed resources. |
+| **Lt** | Low Tech | Pre-industrial (TL2 or less) | Handmade Goods, Raw Resources | **High Tech:** Unavailable or +200% Cost. High value placed on off-world "magic" (tech); exports exotic, hand-crafted curios. |
+| **Na** | Non-Ag | Too dry/barren for farming | Textiles (Synthetic), Processed Ore | **Textiles:** Standard. **Food:** +10% Cost. Often factory worlds or prison colonies; relies on imported synthetic foodstuffs. |
+| **Ni** | Non-Ind | Pop 4-6 | Raw Materials | **Manuf:** +10% Cost. Service economies or developing worlds; high demand for off-world entertainment and luxury. |
+| **Po** | Poor | Lacking resources/viable land | Scrap, Labor | **Labor:** Cheap. **All Goods:** +10% Cost. Exports cheap workforce contracts; desperate for basic medical supplies. |
+| **Ri** | Rich / Mining | Economic powerhouse / Rare minerals | Luxuries, Advanced Tech, Ores, Crystals | **Luxuries:** Standard. **Raw Mats:** -30% Cost. High disposable income; prime market for exotic art, pets, and illegal vices. |
+| **Va** | Vacuum | Atmos 0 | Salvage, Zero-G Goods, Ores | **Air/Water:** +100% Cost. **Zero-G Gear:** Cheap. Dependent on life-support imports; exports refined isotopes and vacuum-welded hulls. |
+| **Wa** | Water World | Hydro 10 (A) | Seafood, Hydrogen, Algae, Deuterium | **Food:** -20% Cost. **Land Goods:** +50% Cost. Exports protein paste base; imports metals and wood, which are luxury items here. |
 
-| Category | Trade Good | Base Cost/Ton | Tangent Setting Context |
-| :--- | :--- | :---: | :--- |
-| **Essential** | **Foodstuffs** | 500 Cr | Bulk algae paste, Karkinos grains, dehydrated rations. |
-| **Essential** | **Water (Ice)** | 250 Cr | Glacial bricks from Krias; critical for desert habs. |
-| **Essential** | **Textiles** | 1,000 Cr | Synthetic ballistic polymers or Rakne spider-silk. |
-| **Industrial**| **Polymers** | 4,000 Cr | Rapid-print resin and structural elastomers. |
-| **Industrial**| **Chemicals** | 5,000 Cr | Industrial acids, fertilizer, refined liquid hydrogen. |
-| **Industrial**| **Metals (Common)** | 7,000 Cr | Durasteel beams, structural copper, aluminum. |
-| **Industrial**| **Metals (Rare)** | 25,000 Cr | Titanium, platinum, iridium for hyperdrive coils. |
-| **Tech** | **Machinery** | 15,000 Cr | Mekan drill-heads, atmospheric scrubbers, turbine modules. |
-| **Tech** | **Electronics** | 30,000 Cr | Sensor arrays, comms repeaters, Syndicate datapads. |
-| **Tech** | **High Tech** | 50,000 Cr | Fusion reactor cores, grav-plates, Ascendancy psi-nodes. |
-| **Luxury** | **Luxuries** | 100,000 Cr | Alterian sun-wine, rare spices, fine art, physical books. |
-| **Luxury** | **Biologics** | 75,000 Cr | Auluran graft-seeds, cloned organs, exotic gene-lines. |
-| **Restricted**| **Weaponry** | 40,000 Cr | Mil-spec mag-rail crates, vehicle ordnance, explosives. |
-| **Restricted**| **Armor** | 35,000 Cr | Legionnaire plasteel plate, powered suit servos. |
+#### **1.1.2. Trade Route Dynamics: The Cluster Theory**
 
-### **7.4 Speculative Cargo Exchange Loop**
+Planetary economies rarely exist in a vacuum. They form **Trade Clusters**—symbiotic relationships between neighboring systems. Identifying these loops is the first step to building a mercantile empire.
 
-Operatives operating as independent traders execute a 4-step mercantile loop:
-1. **Market Assessment (Appraisal Check):** An Intelligence + Appraisal check (DC 15) reveals price variances and temporary supply shocks in the sector.
-2. **Acquisition (Purchase):** Cargo is purchased at the Source World, applying world trade modifiers (e.g. -50% for Food on Ag worlds) and Charisma negotiation checks (lowering costs by 5%–10%).
-3. **Transport (Logistics):** Moving goods incurs operational fuel, docking fees, and crew maintenance (roughly 10% of cargo value per hyperlane jump), along with hazard encounter checks.
-4. **Liquidation (Broker Check):** At the Destination World, the operative rolls Intelligence + Broker vs. Market DC 15:
-   * *Critical Success (Natural 20 / Margin $\ge 10$):* Bidding war ensues; sell at **+50%** above market price.
-   * *Success:* Sell at market price plus **10%–20%** profit margin.
-   * *Failure:* Market saturation; sell at base market price (break even or minor loss after expenses).
-   * *Critical Failure:* Tariff spike, embargo, or market collapse; sell at **-20%** net loss.
+  - **The Survival Loop (Ag ↔ In):** The most common route. Industrial worlds (In) produce the tractors and harvesters that Agricultural worlds (Ag) need, while Ag worlds provide the gigatons of grain required to feed the Industrial workforce.
+      
+      - *Route Risk:* Low piracy (heavily patrolled), low profit margins, high volume.
+  - **The Extraction Chain (As/Ri ↔ Ht):** Asteroid belts (As) and Mining worlds (Ri) strip-mine raw materials to feed High Tech (Ht) foundries. In return, Ht worlds supply the advanced mining lasers, gravity plating, and cybernetics needed to survive the mines.
+      
+      - *Route Risk:* High piracy (valuable cargo), moderate margins.
+  - **The Life Support Run (Ic/Wa ↔ De/Va):** Moving water and oxygen from Ice (Ic) or Water (Wa) worlds to Desert (De) or Vacuum (Va) colonies. This is often a lifeline route; disruption here causes immediate humanitarian crises.
+      
+      - *Route Risk:* Variable. Often subsidized by government contracts.
 
-#### **Market Volatility Events (d6)**
-* **1 — Blockade / Embargo:** Import/export halts; Essential goods and Weaponry triple in price (x3).
-* **2 — Famine / Blight:** Agri-world collapse; Foodstuffs cost x5; Biologics demand spikes.
-* **3 — Tech Boom:** Innovation spike; High Tech and Electronics prices drop by 50% (surplus).
-* **4 — War Declaration:** Military mobilization; Metals, Weaponry, and Armor costs double (x2).
-* **5 — Resource Discovery:** Mining rush; raw ore prices crash locally (-50%); Machinery demand surges.
-* **6 — Trade Festival:** Free-trade charter; tariffs waived; +2 bonus to all Negotiation and Broker checks.
+### **1.2. Commodities & Exchange Matrix**
 
-### **7.5 Gray and Black Markets**
-On worlds with Law Level 6+, restricted contraband carries immense profit:
-* **Combat Stims:** 20,000 Cr / kg (High demand on Industrial and war worlds).
-* **Unshackled Sentient AI Cores:** 500,000 Cr / unit (Banned in Impyrium; prized by Syndicate).
-* **Precursor Xeno-Relics:** Variable (Coveted by researchers; illicit under Coalition charters).
-* **Smuggling Checks:** Pilot + Deception vs. Starport Security Sensor DC. Shielded cargo holds impose Disadvantage on security scans.
+While the Wealth Matrix handles personal gear, bulk trade goods (Commodities) form the backbone of the speculative market. Prices listed below are the **Base Galactic Average**.
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **Category** | **Trade Good** | **Base Cost/Ton** | **Description & Tangent Flavor** |
+| **Essential** | Foodstuffs | 500 cr | Bulk grain, algae paste, or dehydrated rations. Essential for station survival. *Example: Karkinos Grains.* |
+| **Essential** | Water (Ice) | 250 cr | Pure glacial ice or cometary fragments. Vital for desert/barren worlds. *Example: Krias Glacial Bricks.* |
+| **Essential** | Textiles | 1,000 cr | Synthetic polymers, spider-silk from Rakne farms, or standard cotton. *Example: Rakne Silk.* |
+| **Industrial** | Polymers | 4,000 cr | Raw plastics, rapid-print resin, and synthetic rubber. Used in 3D printing and construction. |
+| **Industrial** | Chemicals | 5,000 cr | Fertilizers, industrial acids, and refined starship fuel (Hydrogen). *Example: Volatile Acids.* |
+| **Industrial** | Metals (Common) | 7,000 cr | Steel, Aluminum, Copper. Used for construction and basic hulls. *Example: Durasteel beams.* |
+| **Industrial** | Metals (Rare) | 25,000 cr | Titanium, Tungsten, Platinum. Used for high-end components. *Example: Iridium ore.* |
+| **Tech** | Machinery | 15,000 cr | Heavy mining drills, atmospheric scrubbers, vehicle parts. *Example: Mekan Drill-Heads.* |
+| **Tech** | Electronics | 30,000 cr | Sensor arrays, comms relays, consumer devices. *Example: Syndicate Data-Pads.* |
+| **Tech** | High Tech | 50,000 cr | Grav-plates, fusion cores, medical pods. High value, low mass. *Example: Ascendancy Psi-Nodes.* |
+| **Luxury** | Luxuries | 100,000 cr | Artwork, vintage wines, rare spices, actual paper books. *Example: Alterian Sun-Wine.* |
+| **Luxury** | Biologics | 75,000 cr | Gene-seed, cloned organs, exotic pets (or their DNA). *Example: Auluran Graft-Seeds.* |
+| **Restricted** | Weaponry | 40,000 cr | Small arms crates, vehicle turrets, explosives. (Law Level restrictions apply). *Example: Mag-Rail Rifles.* |
+| **Restricted** | Armor | 35,000 cr | Plasteel plating, powered suit servos. *Example: Legionnaire Plate.* |
+
+### **1.4. Exchange Mechanics: Speculative Cargo**
+
+Players acting as "Free Traders" or Corporate Agents generate profit by exploiting the price gap between Supply (Source) and Demand (Destination) worlds. The core loop involves risk assessment, negotiation, and logistics.
+
+#### **The Speculation Loop: An Example**
+
+*Captain Vance wants to run a cargo of Rare Metals from the Asteroid Belt (As) to a High Tech (Ht) world.*
+
+  - **Assessment:** Vance rolls **Appraisal (CR 15)**. Success\! He knows the Asteroid miners are flooding the market, dropping prices to 60% of base.
+  - **Purchase:** He buys 10 tons of Rare Metals. Base cost is 25,000 cr/ton. With the -40% Asteroid modifier and current fluctuation, he pays only 15,000 cr/ton. Total investment: 150,000 cr.
+  - **Transport:** He dodges a pirate patrol in the Belt (Risk).
+  - **Liquidation:** Arriving at the Ht world, he rolls **Broker**. A critical success\! The High Tech world usually pays +30% for raw mats, but Vance triggers a bidding war. He sells at 200% of base value (50,000 cr/ton). Total Sale: 500,000 cr. Profit: 350,000 cr.
+
+#### **Step-by-Step Procedure:**
+
+1.  **Market Assessment (Appraisal):** The character must identify a profitable route. A successful **Appraisal (Int)** check (CR 15) reveals the current market variance of a system.
+      
+      - *Success:* Reveal accurate prices and any temporary modifiers.
+      - *Failure:* Prices are obscured or outdated (1d6 days old).
+2.  **Acquisition (Purchase):** Cargo is purchased at the **Source World**.
+      
+      - *Base Price:* Modified by the World Trade Codes (e.g., -50% for Food on Ag worlds).
+      - *Negotiation:* A successful **Diplomacy** or **Bluff** check can lower the purchase price by an additional 5-10%.
+3.  **Transport (Logistics):** The journey to the **Destination World**.
+      
+      - *Expenses:* Fuel, docking fees, and crew wages must be factored in (approx. 10% of cargo value per jump).
+      - *Risk:* Random encounters (Pirates, Customs) increase with the value of the cargo. High-value cargo attracts high-level threats.
+4.  **Liquidation (Brokerage):** Selling the goods at the destination.
+      
+      - *Broker Check:* Roll Intellect + Broker vs. Market CR (Base 15).
+      - *Success:* Sell at **Market Price** + 10-20% profit margin.
+      - *Critical Success:* Bidding war ensues. Sell at +50% profit.
+      - *Failure:* Market saturation. Sell at **Market Price** (break even or minor loss after expenses).
+      - *Critical Failure:* Market crash, tariff hike, or embargo. Sell at -20% loss.
+
+#### **Market Volatility & Trade Events**
+
+The economy is not static. GMs may introduce events that drastically alter scarcity.
+
+|  |  |  |
+| :-: | :-: | :-: |
+| **d6** | **Event** | **Effect on Market** |
+| **1** | Blockade / Embargo | Import/Export Halt. Prices for **Essential** and **Weapons** triple (x3). Black Market flourishes. |
+| **2** | Famine / Blight | Agri-Collapse. **Foodstuffs** cost x5. **Biologics** demand increases. |
+| **3** | Tech Boom | Innovation Spike. **High Tech** and **Electronics** prices drop by 50% (Surplus). |
+| **4** | War Declaration | Military Buildup. **Metals**, **Weaponry**, and **Armor** demand spikes (x2 cost). |
+| **5** | Resource Discovery | Mining Rush. **Raw Materials** prices crash locally (-50%). **Machinery** demand rises. |
+| **6** | Trade Festival | Free Trade Zone. Tariffs suspended. +2 Bonus to all Negotiation/Broker checks this week. |
+
+### **1.5. The Gray and Black Markets**
+
+Not all trade is legal. The **Black Market** operates in the shadows of high-Law worlds (Law 6+), offering immense profit at the risk of imprisonment or seizure. While the Grey Market deals in legal goods sold without tax (avoiding tariffs), the Black Market deals in goods that are explicitly banned.
+
+#### **Contraband Categories:**
+
+  - **Combat Drugs:** Stimulants, pain-suppressors. (Value: 20k/kg). *High demand on Industrial and War-torn worlds.*
+  - **Sentient AI Cores:** Unshackled artificial intelligence. (Value: 500k/unit). *Strictly banned by the Dynasty and Coalition; highly prized by the Syndicate.*
+  - **Xeno-Artifacts:** Progenitor tech or non-sanctioned alien relics. (Value: Variable/High). *Illegal in Impyrium space; coveted by researchers and collectors.*
+  - **Restricted Weaponry:** Mil-spec WMDs or disruptors. (Value: 2x Legal Weapons).
+
+#### **Smuggling Mechanics:**
+
+  - **The Run:** Moving goods requires a Pilot + Deception check vs. System Authority scans. The CR is determined by the Starport Law Level.
+  - **Concealment:** Ships can install "Shielded Cargo Holds" (TL4) to impose Disadvantage on scan checks. False manifests (Forgery) can also grant bonuses.
+  - **The Fence:** Selling contraband requires a Streetwise check to find a buyer without alerting the authorities.
+  - **Consequences:** Getting caught in a Law 8+ system results in immediate ship impoundment and imprisonment. In Law 5-7, bribes (10-20% cargo value) may work to smooth things over.
+
+### **1.6. Logistics and Cargo Capacity**
+
+Understanding capacity is vital for any hauler. Tangent uses the **Universal Displacement Unit (UDU)** system, where cargo space is measured in **Slots** or **Tons**.
+
+#### **Cargo Scaling:**
+
+  - **1 Slot (Personal):** Can hold \~1kg of small goods (Drugs, Gems, Data).
+  - **1 Mount (Vehicle):** Can hold \~100kg (Crates of weapons, spare parts). 100 Sockets
+  - **1 Module (Starship/Structure):** Can hold \~10 Tons (Bulk ore, vehicles, containers). 100 Mounts
+  - *Note:* Most freighter capacities are listed in **Modules**. A "Cargo Bay" system usually provides 10-50 Modules of space depending on ship size.
+
+#### **Freight Contracts:**
+
+Unlike speculation, Freight involves carrying someone else's goods for a flat fee. It is lower risk but lower reward (Standard: 1,000 cr per ton / per parsec). Failure to deliver results in reputation loss and penalties.
+
+  - **Mail/Courier:** High-priority data or small packages. Requires high speed and high security. (Standard: 5,000 cr per delivery). Often targeted by pirates looking for intel.
+
+#### **Passenger Liners:**
+
+Transporting people is a steady income source but requires Life Support modules.
+
+  - **Low Passage:** Cryo-berth (frozen). Cheap (1,000 cr). Risk of "thaw sickness." Minimum space required.
+  - **Mid Passage:** Standard cabin. (5,000 cr). Requires food and basic comfort.
+  - **High Passage:** Luxury suite. (10,000 cr). Demands high-quality service and entertainment.
+
+  
+  
+  
+  
+**  
+**
 
 ---
 
-## **8. Stress Testing, Edge Cases, and Macro-Economics**
+## **8. Stress Testing and Edge Cases**
 
-### **8.1 The "Infinite Wealth" Exploit**
-A high-level party cannot flood a backwater settlement with 100 crafted Plasma Rifles. Every settlement has an Economic Absorption Limit based on its population and Wealth Score. Selling bulk assets requires a Mercantile DC that increases with volume:
-* Sell 1 rifle: DC 10 (Routine local merchant).
-* Sell 10 rifles: DC 20 (Requires corporate broker or regional military contractor).
-* Sell 100 rifles: DC 40 (Requires interstellar syndicate or planetary defense ministry).
+  
 
-### **8.2 The Precursor Artifact Problem**
-When characters uncover an alien artifact, the Architect assigns its value using the Tangent Standard Curve based on its functional magnitude:
-* Planetary Climate Stabilizer: DC 60 $\implies 10 \times 4^{(60/5)} \approx \mathbf{167.7\text{ Million Credits}}$.
-Such assets cannot be liquidated at a typical market; finding a buyer with Hegemon or Dynastic status (WS 50+) forms an entire diplomatic, political, or heist campaign arc.
+### **8. The "Infinite Wealth" Exploit**
 
-### **8.3 Party Wealth Pooling**
-* **Liquid Credits:** Characters may freely pool liquid cash (loot) to purchase high-value assets.
-* **Wealth Score:** Wealth Score is personal extrinsic leverage. Four Middle Class operators (WS 10) cannot add their scores together to claim WS 40 status. To acquire high-DC assets, they must utilize the Liquidity Gap rule and pay the remaining cash cost from pooled savings.
+**Scenario:** A high-level party pools their money to buy a Nanoforge (x1,000 multiplier) and tries to flood the market with Plasma Rifles (CR 20).
+
+**The Check:** The economy is not a bottomless pit. Selling items requires a Buyer.
+
+**Market Saturation:** Each settlement has a "Wealth Limit" (similar to Skyrim shopkeepers or D\&D settlement caps). A village cannot buy 100 Plasma Rifles. A metropolis can, but prices will crash (Supply/Demand).
+
+**GM Tool:** The GM imposes a "Mercantile CR" to find buyers for bulk goods. The CR increases with the quantity sold.
+
+  - Sell 1 Rifle: CR 10 (Easy).
+  - Sell 10 Rifles: CR 20 (Hard).
+  - Sell 100 Rifles: CR 40 (Impossible without contacts).
+
+  
+
+### **8. The "Artifact" Problem**
+
+Scenario: Players find a Precursor Artifact. What is it worth?
+
+Resolution: The GM assigns a Craft CR based on its function.
+
+  - Does it kill gods? CR 60.
+  - Value: 10 \\times 4^{(60/5)} = 10 \\times 4^{12} \\approx 167 Million Credits.
+
+The players now have an asset worth a planetary GDP. They cannot sell it at a pawn shop (no buyer has that Wealth Score). They must find a Hegemon tier buyer, turning the "sale" into a campaign arc involving diplomacy, intrigue, and heist defense.
+
+  
+
+### **8. Party Pooling**
+
+Can a party of 4 "Middle Class" (WS 10) characters combine funds to buy a "Wealthy" (WS 20) item?
+
+  - **Liquid Credits:** Yes. They can pool loot.
+  - **Wealth Score:** No. Wealth Score is personal status. Four middle managers do not equal one CEO. They cannot combine their WS to auto-purchase a tank. They must use the Gap Rule and pay cash.
+
+  
+  
+
+## **9. Conclusion**
+
+The Tangent Economic Matrix succeeds by establishing a rigid, mathematical backbone (Value = f(CR)) while allowing for flexible gameplay interfaces (Wealth Score for lifestyle, Credits for loot).
+
+  - **Crafting CR** is the absolute truth of the universe. It dictates **Value**.
+  - **Value** dictates the **Time** required to build and the **Wealth** required to buy.
+  - **Character Points** allow players to invest in this system, gaining exponential returns on Purchasing Power, paralleling the exponential returns of Combat Power in a leveling RPG.
+
+This system avoids the pitfalls of linear crafting times, resolves the abstraction issues of wealth scores, and scales effortlessly from the street level to the starship level. It provides the Tangent SciFi Fantasy RPG with an economy that is consistent, exploitable only through gameplay effort, and robust enough to support years of campaign escalation.
 
 ---
+
+## **DISCREPANCY & RESTORATION LEDGER**
+* **DISC-413 (Interstellar Trade & Mercantile Engine Full Restoration):** Restored 100% of Economy and Trade (World Trade Classifications, Trade Route Dynamics, Commodities & Exchange Matrix, Speculative Cargo Exchange Loop, Market Volatility Events, and Gray/Black Markets) plus Section 8 (Stress Testing & Edge Cases) from `/_ _ TANGENT RP CODEX _ _/2.00 ECONOMATRIX` (Lines 385–440 and 533–703).
 

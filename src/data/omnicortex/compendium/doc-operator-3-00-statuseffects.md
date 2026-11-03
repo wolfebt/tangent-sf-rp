@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 237
+order: 235
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.statuseffects","mechanics"]
-updatedAt: "2026-10-31T10:38:11.299Z"
+updatedAt: "2026-11-02T22:49:18.899Z"
 costs:
   bp: 0
   credits: 0
@@ -37,26 +37,26 @@ sockets:
   allocated: []
 ---
 
-# **STATUS EFFECTS**
+# **3.00.02 STATUS EFFECTS & CONDITIONS**
 
-&nbsp;
+Combatants in Tangent frequently encounter environmental hazards, suppressive fire, elemental weaponry, and metaphysical invocations that inflict debilitating **Status Conditions**. Unless noted otherwise, multiple instances of the same status condition do not stack their numerical penalties; instead, they extend the duration or advance the condition by one severity stage (see *Shake it Off* in `1.01.Karma.md`).
 
-# **STATUS EFFECTS**
+---
 
-&nbsp;
+## **1. MASTER STATUS EFFECTS MATRIX**
 
-| Status | Mechanical Effect | Cure / Removal |
-| :---- | :---- | :---- |
-| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (CR 10\) or any Healing ability/item. |
-| **Blinded** | \-5 Penalty to Attack/Defense. Visual Perception fails automatically. | Medical intervention or Time (Temporary: 1d4 rounds). |
-| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will CR 12\) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |
-| **Dazed** | Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions. | Ends automatically at the end of the creature's next turn. |
-| **Entangled** | Movement \= 0\. \-2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (CR 15\) or Cutting free (Structure damage). |
-| **Exhausted** | \-2 Penalty to Physical Checks (Str/Agi/Sta). Speed \-50%. No Run/Charge. | Requires 8 Hours of Rest with food/water. |
-| **Freeze** | Target is encased/chilled. Speed \= 0\. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (CR 20\) to shatter ice or Fire Dmg to melt. |
-| **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |
-| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense \= Base (No Agi/Skill). | Fortitude Save (CR 15\) at end of turn to recover. |
-| **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |
-
-##
+| Status Condition | Mechanical Effect | Cure / Removal Protocol |
+| :--- | :--- | :--- |
+| **Bleeding (`Bleed X`)** | Target takes **`1d4` (or `X`) Bleed Damage** at the start of each of their turns. **Bypasses Armor DR and Stamina Base Toughness.** | **Knowledge (Medicine) Check (`CR 10–15`)** or any restorative Healing ability, trauma patch, or *Entropy (Order)* Invocation. |
+| **Blinded** | **`-5` Penalty to Attack (Strike) and Defense.** All visual Perception (`Alertness`) checks fail automatically; opponents gain concealment. | Medical intervention, *Restore* Invocation, or duration expires *(Temporary flash/blindness: `1d4` rounds)*. |
+| **Burning** | Takes **`1d6` (or weapon-rated) Pyro/Fire Damage** per round. Must pass a **Panic Check (Willpower Save `CR 12`)** each turn or spend turn flailing/fleeing. | Spend a **Full-Round Action** to extinguish flames (*Stop, Drop, Roll* — Reflex Save `CR 12`) or apply fire-retardant foam/immersion. |
+| **Dazed** | Mentally reeling. Restricted to **1 single Action per turn** (Move OR Standard Action) and **cannot take Reactions** (no Active Defense or AoOs). | Ends automatically at the end of the creature's next turn (or via *Shake it Off* Karma spend). |
+| **Entangled / Snared** | **Movement Speed = `0`** (or halved if mobile tether). **`-2` Penalty to Attack and Defense**; cannot use Evasive Movement or Dodge. | **Might (Strength) Check (`CR 15–20`)** to burst free, `Acrobatics` (Escape) check, or dealing slashing/energy damage to the snare's Structure (SP). |
+| **Exhausted / Fatigued** | **`-2` Penalty to all Physical Checks** (`STR`, `AGI`, `STA`). **Movement Speed `-50%`**; cannot Jog, Run, Sprint, or Charge. | Requires **6–8 Hours of Full Rest** with food and water (or **1-Hour Nap Light Rest** for movement fatigue / *Second Wind* Karma spend). |
+| **Frozen (`Freeze`)** | Target is encased in ice or cryo-locked. **Movement Speed = `0`**. Target gains **Vulnerability (`1.5x` to `2x` damage) to Physical (Blunt) and Sonic damage**. | **Might (Strength) Check (`CR 20`)** to shatter the ice from within, or exposure to Pyro/Fire damage to melt the casing. |
+| **Prone** | Lying on the ground. Melee attackers within Point Blank gain **High Ground (`+2` Strike, `+2` Crit)**; target gains **`+2` Defense vs. Ranged per Range Category beyond Point Blank**. | Spend a **Move Action** to stand up (or a Free Action with an `Acrobatics` *Kip-Up* check `CR 15`). |
+| **Stunned** | Incapacitated. **Loses all Actions and Reactions**, drops held items, and **Defense is reduced to Base (`10 + Size/Armor`, losing all Agility and Defense Skill bonuses)**. | **Fortitude Save (`CR 15`)** at the end of each of the target's turns to recover. |
+| **Suppressed** | Pinned down by heavy automatic or area fire. Leaving cover triggers an immediate **free Suppression Attack of Opportunity** from the suppressing shooter. | Ends when the suppressing attacker stops firing, runs out of ammunition/reloads, loses line of sight, or is neutralized. |
+| **Winded** | Struck in the solar plexus/lungs (Torso Crit). Suffers a **cumulative `-2` penalty on all actions**; failure by 10+ on the Fortitude Save leaves the target **Gasping / Incapacitated**. | Recovers automatically after `1 round per point` by which the initial Fortitude Save (`CR = 10 + Damage`) failed, or via *Shake it Off*. |
+| **Hobbled** | Struck in the leg/locomotor assembly (Leg Crit). **Movement Speed is reduced to `1/2`** and cannot Sprint; failure by 10+ on the Might Save leaves the Leg **Crippled**. | Recovers after `1 round per point` by which the Might Save failed (or requires medical surgery if Disabled/Crippled). |
 

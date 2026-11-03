@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 110
+order: 108
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.shell","mechanics"]
-updatedAt: "2026-10-14T05:24:25.073Z"
+updatedAt: "2026-11-02T22:49:36.856Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **SHELL**
+# **SHELL**  
+**
 
 ## **SHELL**
 
-# 
+  
 
-**CP Cost:** 43 CP  
+**CP Cost:** 
 
-**Description:** A synthetic body housing a previously organic consciousness \- body is a variant of another type of Synthetic, such as an Android, a Sentient Machine or an Intellect Construct. Tech 4 bodies are viable for housing of remote operations but the consciousness transfer technology is Tech 5 (or experimental at TL4).
+**Description:** A synthetic body housing a previously organic consciousness - body is a variant of another type of Synthetic, such as an Android, a Sentient Machine or an Intellect Construct. Tech 4 bodies are viable for housing of remote operations but the consciousness transfer technology is Tech 5 (or experimental at TL4).
 
-&nbsp;
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -55,35 +56,36 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
-**Meta Level:** \-
+**Meta Level:** -
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Synthetic
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

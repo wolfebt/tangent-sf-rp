@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 20
+order: 18
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.savants","mechanics"]
-updatedAt: "2026-11-01T12:54:03.998Z"
+updatedAt: "2026-11-02T22:49:17.102Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,57 @@ sockets:
   allocated: []
 ---
 
-# **SAVANTS (The Rationals)**
+# **1.02.04 SAVANTS (THE RATIONALS)**
 
 Focus: Competence, Knowledge, Systems, and Strategy.
 
 Savants are the brains of the operation. They solve puzzles, build tech, plan heists, and wield magic as a science.
 
-### 
+* **80-CP Archetype Chassis Allocation:** Every Archetype below is a pre-calculated **80 Character Point (CP) Chassis**:
+  * **Primary Attribute at `+3`:** `15 CP` (`5 CP` per `+1`)
+  * **Secondary Attribute at `+2`:** `10 CP` (`5 CP` per `+1`)
+  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
+  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
+  * **2 Signature Traits (`1 CP` each) & 3 Recommended Core Features (`9 CP`):** `13 CP`
+* **Customization Budget (`70 CP`):** Operators spend their remaining **70 CP** (from the **150 CP** starting budget) on their Species Package (`1.03 SPECIES.md`), Saving Throws, Vitality and Health pools (`Base 30` each, scaled strictly at `+5 points per 1 CP`; **never scaled by Stamina**), and free customization, alongside their **60 Background Skill Ranks** (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation).
 
-## **THE STRATEGIST**
+---
+
+## **I. SAVANT ARCHETYPE ALIGNMENT MATRIX (`_NT_`)**
+
+| **Archetype** | **Attributes (Pri/Sec)** | **Recommended Skills** | **Core Signature Features** |
+| :-: | :-: | :-: | :-: |
+| **The Strategist** | Intellect / Wisdom | Knowledge (Tactics), Computers, Insight, Culture, Logic | Enhanced Processing, Logical Deduction |
+| **The Relic Hunter** | Intellect / Stamina | Knowledge (History), Survival, Athletics, Engineering, Appraise | Excavation Expert, Artifact Analyst |
+| **The Magus** | Intellect / Stamina | Knowledge (Arcana), Alertness, Insight, Culture, Vocation (Scholar) | Arcane Mastery, Spell Weaving |
+| **The Astromancer** | Intellect / Wisdom | Knowledge (Astrogation), Computers, Science, Insight, Piloting | Celestial Savant, Observational Skills |
+| **The Geneticist** | Intellect / Wisdom | Science, Medicine, Computers, Knowledge (Biology), Vocation (Doctor) | Biotechnologist, Adaptive Engineering |
+| **The Maker** | Intellect / Agility | Engineering, Vocation (Crafter), Computers, Knowledge (Tech), Legerdemain | Master Builder, Technical Aptitude |
+| **The Decker** | Intellect / Agility | Computers, Knowledge (Tech), Engineering, Stealth, Gather Info | Cyber Warfare, Digital Ghost |
+| **The Archivist** | Intellect / Wisdom | Knowledge (History), Culture, Computers, Logic, Vocation (Librarian) | Historical Scholar, Archivist |
+| **The Detective** | Intellect / Wisdom | Gather Info, Insight, Alertness, Computers, Knowledge (Law) | Keen Observer, Unwavering Determination |
+| **The Academic** | Intellect / Wisdom | Science, Culture, Knowledge (History), Computers, Logic | Scientific Method, Inquisitive Mind |
+| **The Architect** | Intellect / Wisdom | Engineering, Vocation (Architect), Computers, Knowledge (Physics), Culture | Macro-Engineering, Coordination |
+| **The Cryptographer** | Intellect / Wisdom | Computers, Logic, Knowledge (Math), Insight, Engineering | Codebreaker, Analytical Mind |
+| **The Cyberneticist** | Intellect / Technology | Engineering, Medicine, Computers, Science, Vocation (Surgeon) | Cybernetic Enhancement, Biomechanical Integration |
+| **The Forensic Path.** | Intellect / Wisdom | Medicine, Science, Alertness, Insight, Computers | Forensic Analysis, Medical Expertise |
+| **The Navigator** | Intellect / Wisdom | Knowledge (Astrogation), Piloting, Computers, Survival, Alertness | Cartographer, Ace Pilot |
+| **The Planetologist** | Intellect / Stamina | Science, Knowledge (Geology), Survival, Alertness, Computers | Planetary Savant, Field Researcher |
+| **The Roboticist** | Intellect / Technology | Engineering, Computers, Knowledge (Tech), Science, Logic | Robotic Affinity, Automation Expert |
+| **The Tactician** | Intellect / Charisma | Knowledge (Tactics), Diplomacy, Intimidate, Computers, Insight | Battlefield Alertness, Tactical Genius |
+| **The Technician** | Intellect / Agility | Engineering, Computers, Knowledge (Tech), Legerdemain, Vocation (Mechanic) | Technical Expertise, Problem Solver |
+| **The Xenologist** | Intellect / Charisma | Culture, Diplomacy, Knowledge (Biology), Science, Gather Info | Cultural Sensitivity, Xeno-Linguist |
+| **The Theoretician** | Intellect / Wisdom | Logic, Science, Knowledge (Physics), Computers, Culture | Logical Deduction, Innovative Thinking |
+| **The Biologist** | Intellect / Wisdom | Science, Knowledge (Biology), Medicine, Survival, Vocation (Handler) | Scientific Method, Ecological Expertise |
+| **The Net-Architect** | Intellect / Agility | Computers, Engineering, Knowledge (Tech), Logic, Vocation (Programmer) | Automation Expert, Master Builder |
+| **The Linguist** | Intellect / Charisma | Culture, Diplomacy, Gather Info, Logic, Knowledge (Knowledge (Language)) | Polyglot, Cultural Interpreter |
+| **The Xeno-Surveyor** | Intellect / Wisdom | Survival, Science, Piloting, Alertness, Knowledge (Geology) | Cartographer, Planetary Savant |
+
+---
+
+## **II. COMPLETE ARCHETYPE PROFILES (1–25)**
+
+## **1. THE STRATEGIST**
 
 A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss.
 
@@ -53,18 +95,18 @@ A proficient analytical thinker adept at processing data and solving problems. T
 
 *"The probability of success increases by 40% if you stop screaming."*
 
-* **Core Concept:** Utility / Investigation / Puzzle Solver  
-* **Recommended Occupations:** Scholar, Specialist, Agent.  
-* **Recommended Origins:** Research, Urban, Militaristic.  
-* **Recommended Factions:** Mekan (Logic Engines), Impyrium (Tacticians), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Investigation), Insight, Knowledge (Technology), Alertness.  
-* **Signature Traits (1 CP):** Enhanced Processing, Logical Deduction.  
-* **Tactical Role:** Identify enemy weaknesses, crack codes, reconstruct crime scenes.
+  - **Core Concept:** Utility / Investigation / Puzzle Solver
+  - **Recommended Occupations:** Scholar, Specialist, Agent.
+  - **Recommended Origins:** Research, Urban, Militaristic.
+  - **Recommended Factions:** Mekan (Logic Engines), Impyrium (Tacticians), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Insight, Knowledge (Technology), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Enhanced Processing, Logical Deduction.
+  - **Tactical Role:** Identify enemy weaknesses, crack codes, reconstruct crime scenes.
 
-### 
+---
 
-## **THE RELIC HUNTER**
+## **2. THE RELIC HUNTER**
 
 Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of civilizations long gone.
 
@@ -72,18 +114,18 @@ Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of
 
 *"It belongs in a museum\! Or at least, in my cargo hold."*
 
-* **Core Concept:** Explorer / Lore Expert / Trap Specialist  
-* **Recommended Occupations:** Scholar, Explorer.  
-* **Recommended Origins:** Research, Colony, Spacer.  
-* **Recommended Factions:** Alterian Enclave (Lore), Syndicate (Profit), Ascendancy (Research).  
-* **Key Attributes:** Intellect (Primary), Stamina (Secondary).  
-* **Essential Skills:** Knowledge (Investigation), Knowledge (History), Knowledge (Survival), Knowledge (Culture).  
-* **Signature Traits (1 CP):** Excavation Expert, Artifact Analyst.  
-* **Tactical Role:** Navigate dungeons, identify magical/tech loot, bypass ancient defenses.
+  - **Core Concept:** Explorer / Lore Expert / Trap Specialist
+  - **Recommended Occupations:** Scholar, Scout (*Explorer*).
+  - **Recommended Origins:** Research, Colony, Spacer.
+  - **Recommended Factions:** Alterian Enclave (Lore), Syndicate (Profit), Ascendancy (Research).
+  - **Key Attributes:** Intellect (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Knowledge (History), Knowledge (Survival), Knowledge (Culture).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Excavation Expert, Artifact Analyst.
+  - **Tactical Role:** Navigate dungeons, identify magical/tech loot, bypass ancient defenses.
 
-### 
+---
 
-## **THE MAGUS**
+## **3. THE MAGUS**
 
 A master of arcane magic, manipulating subtle energies to cast powerful spells through intricate gestures and rituals.
 
@@ -91,18 +133,18 @@ A master of arcane magic, manipulating subtle energies to cast powerful spells t
 
 *"Physics is just a suggestion I choose to ignore."*
 
-* **Core Concept:** Artillery / Utility / Glass Cannon  
-* **Recommended Occupations:** Adept, Scholar.  
-* **Recommended Origins:** Enlightened, Research, Urban.  
-* **Recommended Factions:** Alterian Enclave (Arcanists), Dracon Dynasty (Sorcerers), Auluran (Shamans).  
-* **Key Attributes:** Intellect (Primary), Stamina (Secondary).  
-* **Essential Skills:** Alertness, Two Disciplines (e.g., Energy, Dimension), Attune.  
-* **Signature Traits (1 CP):** Arcane Mastery, Spell Weaving.  
-* **Tactical Role:** Area damage, battlefield control, utility casting.
+  - **Core Concept:** Artillery / Utility / Glass Cannon
+  - **Recommended Occupations:** Adept, Scholar.
+  - **Recommended Origins:** Enlightened, Research, Urban.
+  - **Recommended Factions:** Alterian Enclave (Arcanists), Dracon Dynasty (Sorcerers), Auluran (Shamans).
+  - **Key Attributes:** Intellect (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Alertness, Two Disciplines (e.g., Energy, Dimension), Attune.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Arcane Mastery, Spell Weaving.
+  - **Tactical Role:** Area damage, battlefield control, utility casting.
 
-### 
+---
 
-## **THE ASTROMANCER**
+## **4. THE ASTROMANCER**
 
 Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos.
 
@@ -110,18 +152,18 @@ Specializes in the study of celestial objects and phenomena. They provide naviga
 
 *"We are all just stardust. Some of us are just moving faster than others."*
 
-* **Core Concept:** Expert / Navigator / Science Support  
-* **Recommended Occupations:** Scholar, Spacer.  
-* **Recommended Origins:** Research, Spacer, Enlightened.  
-* **Recommended Factions:** Alterian Enclave, Ascendancy, Void-dwelling species.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Academics, Knowledge (Technology), Knowledge (Physics), Alertness.  
-* **Signature Traits (1 CP):** Celestial Savant, Observational Skills.  
-* **Tactical Role:** Navigation through anomalies, identifying cosmic threats, operating ship sensors.
+  - **Core Concept:** Expert / Navigator / Science Support
+  - **Recommended Occupations:** Scholar, Spacer.
+  - **Recommended Origins:** Research, Spacer, Enlightened.
+  - **Recommended Factions:** Alterian Enclave, Ascendancy, Void-dwelling species.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Technology), Knowledge (Astrophysics), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Celestial Savant, Observational Skills.
+  - **Tactical Role:** Navigation through anomalies, identifying cosmic threats, operating ship sensors.
 
-### 
+---
 
-## **THE GENETICIST**
+## **5. THE GENETICIST**
 
 Applies genetic engineering and biotechnology to create innovative tools, medicines, and biological constructs.
 
@@ -129,18 +171,18 @@ Applies genetic engineering and biotechnology to create innovative tools, medici
 
 *"Evolution is too slow. I prefer immediate results."*
 
-* **Core Concept:** Healer / Crafter / Pet Master  
-* **Recommended Occupations:** Specialist, Scholar (Auluran).  
-* **Recommended Origins:** Research, Agricultural, Enlightened.  
-* **Recommended Factions:** Auluran (Bio-Shapers), Syndicate (Augmenters), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Knowledge (Medicine), Knowledge (Science \- Genetics), Knowledge (Science \- Biology).  
-* **Signature Traits (1 CP):** Biotechnologist, Adaptive Engineering.  
-* **Tactical Role:** Healing, creating buffs/mutations, identifying xeno-threats.
+  - **Core Concept:** Healer / Crafter / Pet Master
+  - **Recommended Occupations:** Specialist, Scholar (Auluran).
+  - **Recommended Origins:** Research, Agricultural, Enlightened.
+  - **Recommended Factions:** Auluran (Bio-Shapers), Syndicate (Augmenters), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Medicine), Knowledge (Science - Genetics), Knowledge (Science - Biology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Biotechnologist, Adaptive Engineering.
+  - **Tactical Role:** Healing, creating buffs/mutations, identifying xeno-threats.
 
-### 
+---
 
-## **THE MAKER**
+## **6. THE MAKER**
 
 A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software.
 
@@ -148,18 +190,18 @@ A brilliant inventor and technician who develops and maintains advanced technolo
 
 *"Give me a wrench and five minutes. I'll make it work."*
 
-* **Core Concept:** Utility / Support / Repair  
-* **Recommended Occupations:** Builder, Specialist.  
-* **Recommended Origins:** Industrial, Urban, Research.  
-* **Recommended Factions:** Mekan (Constructors), Syndicate (Engineers), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Vocation (Mechanic), Vocation (Electrician).  
-* **Signature Traits (1 CP):** Master Builder, Technical Aptitude.  
-* **Tactical Role:** Fixing the ship/vehicle, building defenses, analyzing enemy tech.
+  - **Core Concept:** Utility / Support / Repair
+  - **Recommended Occupations:** Builder, Specialist.
+  - **Recommended Origins:** Industrial, Urban, Research.
+  - **Recommended Factions:** Mekan (Constructors), Syndicate (Engineers), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Engineer), Vocation (Mechanic), Vocation (Electrician).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Master Builder, Technical Aptitude.
+  - **Tactical Role:** Fixing the ship/vehicle, building defenses, analyzing enemy tech.
 
-### 
+---
 
-## **THE DECKER**
+## **7. THE DECKER**
 
 A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities.
 
@@ -167,18 +209,18 @@ A master of cyberspace who infiltrates networks, manipulates data, and exploits 
 
 *"Access granted. Now, let's see what you're hiding."*
 
-* **Core Concept:** Tech / Stealth / Intel  
-* **Recommended Occupations:** Specialist, Criminal.  
-* **Recommended Origins:** Urban, Industrial, Research.  
-* **Recommended Factions:** Syndicate (The Grid), Mekan (The Code), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Investigation, Knowledge (Computers).  
-* **Signature Traits (1 CP):** Cyber Warfare, Digital Ghost.  
-* **Tactical Role:** Disabling alarms, stealing data, controlling enemy drones/turrets.
+  - **Core Concept:** Tech / Stealth / Intel
+  - **Recommended Occupations:** Specialist, Criminal.
+  - **Recommended Origins:** Urban, Industrial, Research.
+  - **Recommended Factions:** Syndicate (The Grid), Mekan (The Code), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Investigation, Knowledge (Computers).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cyber Warfare, Digital Ghost.
+  - **Tactical Role:** Disabling alarms, stealing data, controlling enemy drones/turrets.
 
-### 
+---
 
-## **THE ARCHIVIST**
+## **8. THE ARCHIVIST**
 
 Studies history and culture. Provides context and insight into societies and ancient technologies.
 
@@ -186,18 +228,18 @@ Studies history and culture. Provides context and insight into societies and anc
 
 *"Those who do not learn from the past are doomed to be eaten by it."*
 
-* **Core Concept:** Knowledge / Utility  
-* **Recommended Occupations:** Scholar, Representative.  
-* **Recommended Origins:** Enlightened, Research, Leisure.  
-* **Recommended Factions:** Mekan (Memory Banks), Impyrium (Vaults), Alterian Enclave.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Academics, Insight, Knowledge (History), Knowledge (Culture).  
-* **Signature Traits (1 CP):** Historical Scholar, Archivist.  
-* **Tactical Role:** Solving puzzles, identifying enemy origins, diplomatic context.
+  - **Core Concept:** Knowledge / Utility
+  - **Recommended Occupations:** Scholar, Representative.
+  - **Recommended Origins:** Enlightened, Research, Leisure.
+  - **Recommended Factions:** Mekan (Memory Banks), Impyrium (Vaults), Alterian Enclave.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Insight, Knowledge (History), Knowledge (Culture).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Historical Scholar, Archivist.
+  - **Tactical Role:** Solving puzzles, identifying enemy origins, diplomatic context.
 
-### 
+---
 
-## **THE DETECTIVE**
+## **9. THE DETECTIVE**
 
 Relentless detective who uncovers conspiracies and brings criminals to justice.
 
@@ -205,18 +247,18 @@ Relentless detective who uncovers conspiracies and brings criminals to justice.
 
 *"Everyone has a secret. I just have to find the loose thread."*
 
-* **Core Concept:** Investigation / Perception  
-* **Recommended Occupations:** Agent, Citizen (Law).  
-* **Recommended Origins:** Urban, Colony, Hostile.  
-* **Recommended Factions:** Coalition (Marshals), Syndicate (PIs), Entari Combine.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Investigation), Insight, Stealth, Knowledge (Law/Streetwise).  
-* **Signature Traits (1 CP):** Keen Observer, Unwavering Determination.  
-* **Tactical Role:** Finding plot hooks, solving mysteries, tracking targets in cities.
+  - **Core Concept:** Investigation / Perception
+  - **Recommended Occupations:** Agent, Citizen (Law).
+  - **Recommended Origins:** Urban, Colony, Hostile.
+  - **Recommended Factions:** Coalition (Marshals), Syndicate (PIs), Entari Combine.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Insight, Stealth, Knowledge (Law/Streetwise).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Keen Observer, Unwavering Determination.
+  - **Tactical Role:** Finding plot hooks, solving mysteries, tracking targets in cities.
 
-### 
+---
 
-## **THE ACADEMIC**
+## **10. THE ACADEMIC**
 
 Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses.
 
@@ -224,18 +266,18 @@ Conducts research to further knowledge. Systematically gathers evidence and test
 
 *"Hypothesis: This might explode. Experiment: Let's find out."*
 
-* **Core Concept:** Intelligence / Utility / Crafter  
-* **Recommended Occupations:** Scholar, Specialist.  
-* **Recommended Origins:** Research, Enlightened, Urban.  
-* **Recommended Factions:** Ascendancy (Universities), Entari Combine (Colleges), Alterian Enclave.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Academics, Knowledge (Investigation), Knowledge (Technology), Knowledge (Science).  
-* **Signature Traits (1 CP):** Scientific Method, Inquisitive Mind.  
-* **Tactical Role:** Analyzing anomalies, solving environmental puzzles, crafting items.
+  - **Core Concept:** Intelligence / Utility / Crafter
+  - **Recommended Occupations:** Scholar, Specialist.
+  - **Recommended Origins:** Research, Enlightened, Urban.
+  - **Recommended Factions:** Ascendancy (Universities), Entari Combine (Colleges), Alterian Enclave.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Investigation), Knowledge (Technology), Knowledge (Science).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Scientific Method, Inquisitive Mind.
+  - **Tactical Role:** Analyzing anomalies, solving environmental puzzles, crafting items.
 
-### 
+---
 
-## **THE ARCHITECT**
+## **11. THE ARCHITECT**
 
 Skilled in the design and upkeep of infrastructure.
 
@@ -243,18 +285,18 @@ Skilled in the design and upkeep of infrastructure.
 
 *"Form follows function, but strength is non-negotiable."*
 
-* **Core Concept:** Builder / Support / Utility  
-* **Recommended Occupations:** Builder, Scholar.  
-* **Recommended Origins:** Urban, Industrial, Colony.  
-* **Recommended Factions:** Syndicate (Arcologies), Dynasty (Fortresses), Mekan (Megastructures).  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Vocation (Architect), Knowledge (Technology), Vocation (Engineer).  
-* **Signature Traits (1 CP):** Macro-Engineering, Coordination.  
-* **Tactical Role:** Designing bases, identifying structural weaknesses, overseeing construction.
+  - **Core Concept:** Builder / Support / Utility
+  - **Recommended Occupations:** Builder, Scholar.
+  - **Recommended Origins:** Urban, Industrial, Colony.
+  - **Recommended Factions:** Syndicate (Arcologies), Dynasty (Fortresses), Mekan (Megastructures).
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Architecture), Knowledge (Technology), Vocation (Engineer).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Macro-Engineering, Coordination.
+  - **Tactical Role:** Designing bases, identifying structural weaknesses, overseeing construction.
 
-### 
+---
 
-## **THE CRYPTOGRAPHER**
+## **12. THE CRYPTOGRAPHER**
 
 An expert in deciphering codes, languages, and hidden messages.
 
@@ -262,18 +304,18 @@ An expert in deciphering codes, languages, and hidden messages.
 
 *"Everything is a pattern. I just need to find the key."*
 
-* **Core Concept:** Intel / Support / Puzzle Solver  
-* **Recommended Occupations:** Agent, Scholar.  
-* **Recommended Origins:** Research, Militaristic, Urban.  
-* **Recommended Factions:** Syndicate (Encryption), Mekan (Logic), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Investigation), Knowledge (Language), Knowledge (Technology).  
-* **Signature Traits (1 CP):** Codebreaker, Analytical Mind.  
-* **Tactical Role:** Decrypting comms, translating alien languages, solving logic puzzles.
+  - **Core Concept:** Intel / Support / Puzzle Solver
+  - **Recommended Occupations:** Agent, Scholar.
+  - **Recommended Origins:** Research, Militaristic, Urban.
+  - **Recommended Factions:** Syndicate (Encryption), Mekan (Logic), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Knowledge (Language), Knowledge (Technology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Codebreaker, Analytical Mind.
+  - **Tactical Role:** Decrypting comms, translating alien languages, solving logic puzzles.
 
-### 
+---
 
-## **THE CYBERNETICIST**
+## **13. THE CYBERNETICIST**
 
 Specialist in creating, repairing, and modifying cybernetic enhancements.
 
@@ -281,18 +323,18 @@ Specialist in creating, repairing, and modifying cybernetic enhancements.
 
 *"Flesh is weak. Steel is strong. I provide the upgrade."*
 
-* **Core Concept:** Healer / Crafter / Buffer  
-* **Recommended Occupations:** Doctor, Engineer.  
-* **Recommended Origins:** Research, Industrial, Urban.  
-* **Recommended Factions:** Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Medicine), Knowledge (Technology), Knowledge (Science), Vocation (Engineer).  
-* **Signature Traits (1 CP):** Cybernetic Enhancement, Biomechanical Integration.  
-* **Tactical Role:** Installing/repairing cybernetics, hacking enemy augments, buffing allies.
+  - **Core Concept:** Healer / Crafter / Buffer
+  - **Recommended Occupations:** Specialist (*Doctor*), Builder (*Engineer*).
+  - **Recommended Origins:** Research, Industrial, Urban.
+  - **Recommended Factions:** Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Medicine), Knowledge (Technology), Knowledge (Biology), Vocation (Engineer).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cybernetic Enhancement, Biomechanical Integration.
+  - **Tactical Role:** Installing/repairing cybernetics, hacking enemy augments, buffing allies.
 
-### 
+---
 
-## **THE FORENSIC PATHOLOGIST**
+## **14. THE FORENSIC PATHOLOGIST**
 
 An expert in determining cause of death and analyzing biological evidence.
 
@@ -300,18 +342,18 @@ An expert in determining cause of death and analyzing biological evidence.
 
 *"The body never lies."*
 
-* **Core Concept:** Investigation / Science / Intel  
-* **Recommended Occupations:** Doctor, Agent.  
-* **Recommended Origins:** Research, Urban, Colony.  
-* **Recommended Factions:** Entari Combine (Justice), Syndicate (Internal Affairs), Coalition.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Medicine), Knowledge (Investigation), Knowledge (Science \- Biology).  
-* **Signature Traits (1 CP):** Forensic Analysis, Medical Expertise.  
-* **Tactical Role:** Solving murders, identifying toxins/diseases, analyzing biological threats.
+  - **Core Concept:** Investigation / Science / Intel
+  - **Recommended Occupations:** Specialist (*Doctor*), Agent.
+  - **Recommended Origins:** Research, Urban, Colony.
+  - **Recommended Factions:** Entari Combine (Justice), Syndicate (Internal Affairs), Coalition.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Medicine), Knowledge (Investigation), Knowledge (Science - Biology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Forensic Analysis, Medical Expertise.
+  - **Tactical Role:** Solving murders, identifying toxins/diseases, analyzing biological threats.
 
-### 
+---
 
-## **THE NAVIGATOR**
+## **15. THE NAVIGATOR**
 
 A skilled pilot and navigator who charts the course for ships.
 
@@ -319,18 +361,18 @@ A skilled pilot and navigator who charts the course for ships.
 
 *"Trust my headings. I've never lost a ship yet."*
 
-* **Core Concept:** Transport / Support / Explorer  
-* **Recommended Occupations:** Spacer, Specialist.  
-* **Recommended Origins:** Spacer, Research, Colony.  
-* **Recommended Factions:** Ascendancy (Reach Explorers), Impyrium (Navigators Guild), Outworlds.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Navigation), Pilot, Knowledge (Technology).  
-* **Signature Traits (1 CP):** Cartographer, Ace Pilot.  
-* **Tactical Role:** Plotting FTL jumps, navigating hazards, mapping sectors.
+  - **Core Concept:** Transport / Support / Explorer
+  - **Recommended Occupations:** Spacer, Specialist.
+  - **Recommended Origins:** Spacer, Research, Colony.
+  - **Recommended Factions:** Ascendancy (Reach Explorers), Impyrium (Navigators Guild), Outworlds.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Navigation), Pilot, Knowledge (Technology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cartographer, Ace Pilot.
+  - **Tactical Role:** Plotting FTL jumps, navigating hazards, mapping sectors.
 
-### 
+---
 
-## **THE PLANETOLOGIST**
+## **16. THE PLANETOLOGIST**
 
 A scholar who studies the geology, climate, and ecosystems of planets.
 
@@ -338,18 +380,18 @@ A scholar who studies the geology, climate, and ecosystems of planets.
 
 *"This planet is alive, and right now, it's angry."*
 
-* **Core Concept:** Science / Survival / Explorer  
-* **Recommended Occupations:** Scholar, Explorer.  
-* **Recommended Origins:** Research, Colony, Hostile.  
-* **Recommended Factions:** Auluran (Terraformers), Ascendancy, Entari Combine.  
-* **Key Attributes:** Intellect (Primary), Stamina (Secondary).  
-* **Essential Skills:** Academics, Knowledge (Survival), Knowledge (Science \- Geology), Knowledge (Science \- Biology).  
-* **Signature Traits (1 CP):** Planetary Savant, Field Researcher.  
-* **Tactical Role:** Identifying environmental hazards, finding resources, surviving planetary conditions.
+  - **Core Concept:** Science / Survival / Explorer
+  - **Recommended Occupations:** Scholar, Scout (*Explorer*).
+  - **Recommended Origins:** Research, Colony, Hostile.
+  - **Recommended Factions:** Auluran (Terraformers), Ascendancy, Entari Combine.
+  - **Key Attributes:** Intellect (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Survival), Knowledge (Science - Geology), Knowledge (Science - Biology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Planetary Savant, Field Researcher.
+  - **Tactical Role:** Identifying environmental hazards, finding resources, surviving planetary conditions.
 
-### 
+---
 
-## **THE ROBOTICIST**
+## **17. THE ROBOTICIST**
 
 A scholar who specializes in the study, design, and development of robots.
 
@@ -357,18 +399,18 @@ A scholar who specializes in the study, design, and development of robots.
 
 *"It's not just a machine. It's a masterpiece."*
 
-* **Core Concept:** Crafter / Minion Master / Tech  
-* **Recommended Occupations:** Engineer, Scholar.  
-* **Recommended Origins:** Research, Industrial, Urban.  
-* **Recommended Factions:** Mekan (Self-Study), Syndicate (Drone Works), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Knowledge (Computers).  
-* **Signature Traits (1 CP):** Robotic Affinity, Automation Expert.  
-* **Tactical Role:** Building/repairing drones, commanding robot minions, hacking enemy bots.
+  - **Core Concept:** Crafter / Minion Master / Tech
+  - **Recommended Occupations:** Builder (*Engineer*), Scholar.
+  - **Recommended Origins:** Research, Industrial, Urban.
+  - **Recommended Factions:** Mekan (Self-Study), Syndicate (Drone Works), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Engineer), Knowledge (Computers).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Robotic Affinity, Automation Expert.
+  - **Tactical Role:** Building/repairing drones, commanding robot minions, hacking enemy bots.
 
-### 
+---
 
-## **THE TACTICIAN**
+## **18. THE TACTICIAN**
 
 A strategic mastermind who analyzes the battlefield and coordinates actions.
 
@@ -376,18 +418,18 @@ A strategic mastermind who analyzes the battlefield and coordinates actions.
 
 *"They are moving to flank. Suppress the left and advance on my signal."*
 
-* **Core Concept:** Leader / Support / Buffer  
-* **Recommended Occupations:** Soldier, Officer.  
-* **Recommended Origins:** Militaristic, Urban, Spacer.  
-* **Recommended Factions:** Impyrium (High Command), Dracon Dynasty, Mekan (War Minds).  
-* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
-* **Essential Skills:** Knowledge (Tactics), Leadership, Combat (Any), Insight.  
-* **Signature Traits (1 CP):** Battlefield Awareness, Tactical Genius.  
-* **Tactical Role:** Boosting ally initiative/attacks, countering enemy tactics, controlling the battlefield.
+  - **Core Concept:** Leader / Support / Buffer
+  - **Recommended Occupations:** Soldier, Representative (*Officer*).
+  - **Recommended Origins:** Militaristic, Urban, Spacer.
+  - **Recommended Factions:** Impyrium (High Command), Dracon Dynasty, Mekan (War Minds).
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Tactics), Leadership, Combat (Any), Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Battlefield Alertness, Tactical Genius.
+  - **Tactical Role:** Boosting ally initiative/attacks, countering enemy tactics, controlling the battlefield.
 
-### 
+---
 
-## **THE TECHNICIAN**
+## **19. THE TECHNICIAN**
 
 A skilled worker who maintains and repairs complex machinery.
 
@@ -395,18 +437,18 @@ A skilled worker who maintains and repairs complex machinery.
 
 *"It's a bypass of the bypass. It'll hold... probably."*
 
-* **Core Concept:** Support / Utility / Repair  
-* **Recommended Occupations:** Builder, Spacer.  
-* **Recommended Origins:** Industrial, Spacer, Colony.  
-* **Recommended Factions:** Outworlds (Mechanics), Coalition (Techs), Syndicate.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Vocation (Mechanic), Vocation (Electrician), Investigation.  
-* **Signature Traits (1 CP):** Technical Expertise, Problem Solver.  
-* **Tactical Role:** Rapid repair of gear/vehicles, bypassing locks/panels, technical support.
+  - **Core Concept:** Support / Utility / Repair
+  - **Recommended Occupations:** Builder, Spacer.
+  - **Recommended Origins:** Industrial, Spacer, Colony.
+  - **Recommended Factions:** Outworlds (Mechanics), Coalition (Techs), Syndicate.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Mechanic), Vocation (Electrician), Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Technical Expertise, Problem Solver.
+  - **Tactical Role:** Rapid repair of gear/vehicles, bypassing locks/panels, technical support.
 
-### 
+---
 
-## **THE XENOLOGIST**
+## **20. THE XENOLOGIST**
 
 An expert in alien cultures, biology, and languages.
 
@@ -414,18 +456,18 @@ An expert in alien cultures, biology, and languages.
 
 *"They aren't monsters. They're just... different."*
 
-* **Core Concept:** Face / Knowledge / Science  
-* **Recommended Occupations:** Scholar, Diplomat.  
-* **Recommended Origins:** Research, Spacer, Enlightened.  
-* **Recommended Factions:** Entari Combine (First Contact), Alterian Enclave, Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
-* **Essential Skills:** Knowledge (Culture), Diplomacy, Insight, Linguistics.  
-* **Signature Traits (1 CP):** Cultural Sensitivity, Xeno-Linguist.  
-* **Tactical Role:** Communicating with aliens, identifying xeno-threats, cultural navigation.
+  - **Core Concept:** Face / Knowledge / Science
+  - **Recommended Occupations:** Scholar, Representative (*Diplomat*).
+  - **Recommended Origins:** Research, Spacer, Enlightened.
+  - **Recommended Factions:** Entari Combine (First Contact), Alterian Enclave, Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Xenology), Diplomacy, Insight, Knowledge (Language).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cultural Sensitivity, Xeno-Linguist.
+  - **Tactical Role:** Communicating with aliens, identifying xeno-threats, cultural navigation.
 
-### 
+---
 
-## **THE THEORETICIAN**
+## **21. THE THEORETICIAN**
 
 THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse.
 
@@ -433,18 +475,18 @@ THE visionary scientist who pushes the boundaries of standard physics to unlock 
 
 *"The math doesn't lie. It just tells truths we aren't ready to hear."*
 
-* **Core Concept:** Research / Utility / Lore  
-* **Recommended Occupations:** Scholar, Specialist.  
-* **Recommended Origins:** Research, Enlightened, Spacer.  
-* **Recommended Factions:** Mekan (Code Researchers), Ascendancy (Theorists), Alterian Enclave.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Academics, Knowledge (Science \- Physics), Knowledge (Technology), Knowledge (Science \- Mathematics).  
-* **Signature Traits (1 CP):** Logical Deduction, Innovative Thinking.  
-* **Tactical Role:** Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis.
+  - **Core Concept:** Research / Utility / Lore
+  - **Recommended Occupations:** Scholar, Specialist.
+  - **Recommended Origins:** Research, Enlightened, Spacer.
+  - **Recommended Factions:** Mekan (Code Researchers), Ascendancy (Theorists), Alterian Enclave.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Science - Physics), Knowledge (Technology), Knowledge (Science - Mathematics).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Logical Deduction, Innovative Thinking.
+  - **Tactical Role:** Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis.
 
-### 
+---
 
-## **THE BIOLOGIST**
+## **22. THE BIOLOGIST**
 
 The expert on living systems who studies the interaction between species and their environments.
 
@@ -452,18 +494,18 @@ The expert on living systems who studies the interaction between species and the
 
 *"Life always finds a way. I'm just here to watch it happen."*
 
-* **Core Concept:** Science / Utility / Support  
-* **Recommended Occupations:** Scholar, Specialist.  
-* **Recommended Origins:** Agricultural, Research, Aquatic.  
-* **Recommended Factions:** Auluran (Life-Shapers), Entari Combine (Botanists), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Medicine, Knowledge (Science \- Biology),  Knowledge (Nature), Investigation.  
-* **Signature Traits (1 CP):** Scientific Method, Ecological Expertise.  
-* **Tactical Role:** Identifying alien fauna/flora, treating organic toxins, analyzing biological samples.
+  - **Core Concept:** Science / Utility / Support
+  - **Recommended Occupations:** Scholar, Specialist.
+  - **Recommended Origins:** Agricultural, Research, Aquatic.
+  - **Recommended Factions:** Auluran (Life-Shapers), Entari Combine (Botanists), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Medicine, Knowledge (Science - Biology),  Knowledge (Nature), Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Scientific Method, Ecological Expertise.
+  - **Tactical Role:** Identifying alien fauna/flora, treating organic toxins, analyzing biological samples.
 
-### 
+---
 
-## **THE NET-ARCHITECT**
+## **23. THE NET-ARCHITECT**
 
 The high-level systems engineer who designs and manages the data infrastructures that link civilizations.
 
@@ -471,18 +513,18 @@ The high-level systems engineer who designs and manages the data infrastructures
 
 *"The Grid is my masterpiece. Every packet of data is where I intended it to be."*
 
-* **Core Concept:** Tech / Logistics / Support  
-* **Recommended Occupations:** Specialist, Builder.  
-* **Recommended Origins:** Urban, Industrial, Research.  
-* **Recommended Factions:** Syndicate (Mesh Architects), Mekan (Grid Weavers), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Computers), Vocation (Engineer), Knowledge (Technology).  
-* **Signature Traits (1 CP):** Automation Expert, Master Builder.  
-* **Tactical Role:** Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses.
+  - **Core Concept:** Tech / Logistics / Support
+  - **Recommended Occupations:** Specialist, Builder.
+  - **Recommended Origins:** Urban, Industrial, Research.
+  - **Recommended Factions:** Syndicate (Mesh Architects), Mekan (Grid Weavers), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Computers), Vocation (Engineer), Knowledge (Technology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Automation Expert, Master Builder.
+  - **Tactical Role:** Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses.
 
-### 
+---
 
-## **THE LINGUIST**
+## **24. THE LINGUIST**
 
 The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation.
 
@@ -490,18 +532,18 @@ The master of communication who deciphers the languages of the galaxy to enable 
 
 *"Language is the first weapon. And the first shield."*
 
-* **Core Concept:** Intel / Face / Support  
-* **Recommended Occupations:** Scholar, Representative.  
-* **Recommended Origins:** Urban, Research, Spacer.  
-* **Recommended Factions:** Entari Combine (Translators), Alterian Enclave, Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
-* **Essential Skills:** Knowledge (Language), Diplomacy, Insight, Knowledge (History).  
-* **Signature Traits (1 CP):** Polyglot, Cultural Interpreter.  
-* **Tactical Role:** Translating alien documents/comms, mediating first contact, deciphering codes.
+  - **Core Concept:** Intel / Face / Support
+  - **Recommended Occupations:** Scholar, Representative.
+  - **Recommended Origins:** Urban, Research, Spacer.
+  - **Recommended Factions:** Entari Combine (Translators), Alterian Enclave, Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Languages), Diplomacy, Insight, Knowledge (History).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Polyglot, Cultural Interpreter.
+  - **Tactical Role:** Translating alien documents/comms, mediating first contact, deciphering codes.
 
-### 
+---
 
-## **THE XENO-SURVEYOR**
+## **25. THE XENO-SURVEYOR**
 
 The meticulous researcher who maps the biological and geological variables of alien worlds to assess their value and danger.
 
@@ -509,14 +551,22 @@ The meticulous researcher who maps the biological and geological variables of al
 
 *"This world has potential. And at least three ways to kill you by sunset."*
 
-* **Core Concept:** Exploration / Science / Survival  
-* **Recommended Occupations:** Scout, Scholar.  
-* **Recommended Origins:** Colony, Spacer, Research.  
-* **Recommended Factions:** Ascendancy (Reach Surveyors), Outworlds, Auluran.  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Survival), Navigation, Knowledge (Nature), Alertness.  
-* **Signature Traits (1 CP):** Cartographer, Planetary Savant.  
-* **Tactical Role:** Identifying environmental resources, plotting safe paths, planetary analysis.
+  - **Core Concept:** Exploration / Science / Survival
+  - **Recommended Occupations:** Scout, Scholar.
+  - **Recommended Origins:** Colony, Spacer, Research.
+  - **Recommended Factions:** Ascendancy (Reach Surveyors), Outworlds, Auluran.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Navigation, Knowledge (Geology), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cartographer, Planetary Savant.
+  - **Tactical Role:** Identifying environmental resources, plotting safe paths, planetary analysis.
 
-&nbsp;
+  
+**  
+**
+
+---
+
+## **III. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-305 (1.02.Savants.md Full Narrative & Quote Restoration):** Restored 100% of the omitted narrative descriptions, second-person roleplay paragraphs, and iconic quotes for all 25 `_NT_` Archetypes from `/_ _ TANGENT RP CODEX _ _/1.02 ARCHETYPES` and `/game rules/operator/archetypes/1.02.Savants.md`, integrated the `Savant Archetype Alignment Matrix` from `TANGENT RP Signature Features Alignment`, and applied all canonical Attribute (`Stamina`, `Agility`, `Wisdom`), Skill (`Alertness`, `Insight`, `Vocation [Handler]`, `Knowledge [Language]`), and `80-CP Chassis` normalizations.
 

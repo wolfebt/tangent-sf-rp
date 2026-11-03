@@ -79,8 +79,8 @@ export const parseUWP = (uwpString) => {
     population: Number(parts[4]) || 0,
     government: Number(parts[5]) || 0,
     lawLevel: Number(parts[6]) || 0,
-    techLevel: parts[7] !== undefined ? Number(parts[7]) : 3,
-    metaLevel: parts[8] !== undefined ? Number(parts[8]) : 0
+    techLevel: parts[7] !== undefined ? clamp(Number(parts[7]), 0, 5) : 3,
+    metaLevel: parts[8] !== undefined ? clamp(Number(parts[8]), 0, 5) : 0
   };
 };
 
@@ -96,7 +96,7 @@ export const formatUWP = (data) => {
   const g = clamp(Number(data.government ?? 4), 0, 15);
   const l = clamp(Number(data.lawLevel ?? data.law_level ?? 4), 0, 15);
   const tl = clamp(Number(data.techLevel ?? data.tl ?? data.tech_level ?? 3), 0, 5);
-  const ml = clamp(Number(data.metaLevel ?? data.ml ?? data.meta_level ?? 0), 0, 6);
+  const ml = clamp(Number(data.metaLevel ?? data.ml ?? data.meta_level ?? 0), 0, 5);
 
   return `${sp}:${s}:${a}:${h}:${p}:${g}:${l}:${tl}:${ml}`;
 };
@@ -357,6 +357,8 @@ export const generateProceduralPlanet = (options = {}) => {
     if (law > 6) law = clamp(rollDice(2, 6) - 5, 1, 6);
   } else if (faction === 'The Outworlds') {
     law = Math.min(3, law);
+  } else if (faction === 'Kovian Tribunal') {
+    law = Math.max(7, law);
   }
 
   // Step 5: Tech Level Assessment
@@ -379,11 +381,12 @@ export const generateProceduralPlanet = (options = {}) => {
   if (faction === 'The Outworlds') tl = Math.min(2, tl);
   if (faction === 'Ascendancy' || faction === 'Mekan') tl = Math.max(4, tl);
 
-  // Step 6: Meta Level Assessment
-  let ml = clamp(rollDice(1, 6) - 1, 0, 6);
-  if (faction === 'Alterian Enclave' || faction === 'Ascendancy') ml = clamp(ml + 2, 2, 6);
+  // Step 6: Meta Level Assessment (Canonical 0..5 Scale — 6.01 PLANETARY DESIGN.md)
+  let ml = clamp(rollDice(1, 6) - 1, 0, 5);
+  if (faction === 'Alterian Enclave' || faction === 'Ascendancy') ml = clamp(ml + 2, 2, 5);
   if (faction === 'Mekan') ml = clamp(ml + 1, 1, 5);
-  if (faction === 'The Syndicate' || faction === 'Impyrium') ml = clamp(ml - 1, 0, 4);
+  if (faction === 'The Syndicate' || faction === 'Impyrium' || faction === 'Radiant Impyrium') ml = clamp(ml - 1, 0, 4);
+  if (faction === 'Kovian Tribunal') ml = clamp(ml, 0, 3);
   if (tl === 0) ml = clamp(ml + 1, 1, 5);
 
   // Generate 16 Domain Ratings centered on base TL
@@ -515,8 +518,8 @@ export const computePlanetaryStats = (formData = {}) => {
     population: Number(formData.population ?? formData.pop_code ?? 7),
     government: Number(formData.government ?? formData.gov_code ?? 4),
     lawLevel: Number(formData.lawLevel ?? formData.law_level ?? 4),
-    techLevel: Number(formData.techLevel ?? formData.tl ?? formData.tech_level ?? 3),
-    metaLevel: Number(formData.metaLevel ?? formData.ml ?? formData.meta_level ?? 0)
+    techLevel: clamp(Number(formData.techLevel ?? formData.tl ?? formData.tech_level ?? 3), 0, 5),
+    metaLevel: clamp(Number(formData.metaLevel ?? formData.ml ?? formData.meta_level ?? 0), 0, 5)
   };
 
   const uwpString = formatUWP(uwpData);
@@ -530,7 +533,7 @@ export const computePlanetaryStats = (formData = {}) => {
   const domains = formData.domainRatings || formData.domains || {};
   const archetype = evaluateCivilizationArchetype(domains);
 
-  const craftDC = Number(formData.craft_dc ?? 20);
+  const craftDC = Number(formData.craft_cr ?? formData.craft_dc ?? 20);
   const surveyCreditValue = calculateCreditValue(craftDC);
 
   const derivedDirectives = derivePlanetaryKeywords(uwpData, tradeCodes, formData.dominant_faction);
@@ -558,7 +561,10 @@ export const computePlanetaryStats = (formData = {}) => {
       hazard_profile: atmosphereDetails.hazard
     },
     market_availability_cap: marketCap,
+    hazard_cr: hazardDC,
     hazard_dc: hazardDC,
+    craft_cr: craftDC,
+    craft_dc: craftDC,
     civilization_archetype: archetype.name,
     civilization_archetype_desc: archetype.description,
     survey_credit_value: surveyCreditValue,

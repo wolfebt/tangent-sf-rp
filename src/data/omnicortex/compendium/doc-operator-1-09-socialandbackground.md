@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "doc-operator-1-09-hindrances"
-order: 220
+order: 218
 perspective: "operator"
 entry_type: "Hindrance Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.socialandbackground","mechanics"]
-updatedAt: "2026-10-31T10:56:34.190Z"
+updatedAt: "2026-11-02T22:49:25.602Z"
 costs:
   bp: 0
   credits: 0
@@ -37,102 +37,101 @@ sockets:
   allocated: []
 ---
 
-# **SOCIAL, BACKGROUND & RESOURCE HINDRANCES**
+# **1.09.03 SOCIAL, BACKGROUND & RESOURCE HINDRANCES**
 
-## **Adversary**
+* **Personal Hindrance Cap (`1.09 HINDRANCES.md`):** Personal/typical Hindrances grant up to a maximum of **+10 Character Points (CP)** during character creation. Innate species-level hindrances, biological disadvantages, and Xeno Stigmas (`1.03 SPECIES.md`) do **not** count toward the 10 CP limit for typical hindrances. Innate species-level stigmas do not count toward this personal limit.
 
-CP Value: 1 to 10 (Variable)  
-Category: Social / Background  
-Someone, or something, is out to get the character. The CP value depends on the power of the enemy and the frequency of their interference.  
-**Individual (1-5 CP):** A rival, a jilted lover, or a singular bounty hunter.  
-*1-2 CP:* A nuisance or rival of equal power.  
-*3-5 CP:* A superior foe who actively hunts the character.  
-**Organization (5-10 CP):** A guild, a mega-corporation (Syndicate), a government (Impyrium), or a cult.  
-*5-7 CP:* A local branch or gang.  
-*8-10 CP:* A galaxy-spanning entity with nearly unlimited resources.
+---
 
-### 
+## **1. Adversary**
 
-## **Clown**
+* **CP Value:** `1 to 10 CP` (Variable) | **Category:** Social / Background
+* **Description:** Someone—or an entire organization—is actively hunting, opposing, or sabotaging the character. The CP value depends on the adversary's power and frequency of interference:
+  * **Individual (`1 to 5 CP`):** A recurring rival, jilted partner, or lone bounty hunter.
+    * *`1–2 CP`:* A nuisance or rival of equal Threat Tier.
+    * *`3–5 CP`:* A superior nemesis who actively hunts the character across sectors.
+  * **Organization (`5 to 10 CP`):** A guild, megacorporation (*The Syndicate*), imperial ministry (*Impyrium*), or apocalyptic cult.
+    * *`5–7 CP`:* A local planetary branch, precinct, or criminal gang.
+    * *`8–10 CP`:* A galaxy-spanning superpower with nearly unlimited intelligence resources.
 
-CP Value: 2  
-Category: Social  
-The character is a known jokester, prankster, or simply cannot be serious.  
-**Effect:** **\-2 Penalty** on all checks to be taken seriously (Intimidation, Persuasion in serious contexts, Command). NPCs will naturally assume the character is lying or joking.
+---
 
-### 
+## **2. Clown**
 
-## **Dependent**
+* **CP Value:** `2 CP` | **Category:** Social
+* **Description:** The character is a compulsive jokester, prankster, or smart-mouth who cannot project serious gravitas.
+* **Mechanic:** Suffers a **`-2` penalty** on all checks to be taken seriously (*Intimidate, Leadership/Command, and serious Diplomacy*). NPCs naturally default to assuming the character is bluffing or joking.
 
-CP Value: 3 (Capable) / 6 (Needy) / 9 (Dependent)  
-Category: Social  
-The character is responsible for the safety and well-being of another person (NPC) who travels with them or requires constant support.  
-**Capable (3 CP):** The ward can mostly feed and dress themselves but needs protection in combat (e.g., a spouse, a young apprentice).  
-**Needy (6 CP):** The ward requires daily assistance and supervision (e.g., a young child, an elderly relative).  
-**Dependent (9 CP):** The ward is helpless or requires expensive medical upkeep/protection (e.g., an infant, someone in a medical stasis pod).
+---
 
-### 
+## **3. Dependent**
 
-## **Humorless**
+* **CP Value:** `3 CP` (Capable) / `6 CP` (Needy) / `9 CP` (Dependent) | **Category:** Social
+* **Description:** The character is responsible for the safety, upkeep, and well-being of a non-combatant ward (NPC) who travels with them or requires regular intervention:
+  * **Capable (`3 CP`):** The ward can handle basic daily needs (feeding and dressing themselves) but requires protection in danger (e.g., a civilian spouse, younger sibling, or novice apprentice).
+  * **Needy (`6 CP`):** The ward requires daily supervision and assistance (e.g., a young child or frail elderly relative).
+  * **Dependent / Helpless (`9 CP`):** The ward is completely helpless or requires costly medical upkeep/protection (e.g., an infant or a loved one in a cryo/medical stasis pod).
 
-CP Value: 2  
-Category: Social  
-The character takes everything literally.  
-**Effect:** **\-2 Penalty** to Insight or Social checks involving nuance, sarcasm, innuendo, or metaphors. They are often the butt of jokes they don't understand.
+---
 
-### 
+## **4. Humorless**
 
-## **Minority**
+* **CP Value:** `2 CP` | **Category:** Social
+* **Description:** The character takes everything completely literally.
+* **Mechanic:** Suffers a **`-2` penalty** to **Insight** and Social checks involving nuance, sarcasm, innuendo, or metaphors. They are frequently the butt of jokes they do not understand.
 
-CP Value: 2+  
-Category: Social  
-The character belongs to a demographic (Species, Creed, Ethnicity, Gender Identity, or Sexual Orientation) that is marginalized or oppressed in the campaign setting. This marginalization can manifest as systemic oppression, social prejudice, or a combination of both.  
-**Effect:** Gains the **Xeno / Social Stigma** modifier. Prices for goods and services are typically higher, law enforcement is generally stricter and more suspicious, and initial NPC reactions are typically "Unfriendly" or "Suspicious," potentially leading to overt discrimination, refusal of service, or unwarranted challenges. In addition, the character may face difficulty in securing certain types of employment or access to specific community areas.
+---
 
-### 
+## **5. Minority**
 
-## **Obligation**
+* **CP Value:** `2+ CP` | **Category:** Social
+* **Description:** The character belongs to a demographic (*Species, Creed, Ethnicity, Offshoot, or Cultural Sect*) that is marginalized or oppressed within the campaign's dominant society.
+* **Mechanic:** Applies the **Xeno / Social Stigma** modifier (`-2` to `-4` on Social checks with biased officials/populations). Prices for goods and services are often elevated, law enforcement scrutiny is stricter, and initial NPC attitudes shift one step lower (*Unfriendly* or *Suspicious*).
 
-CP Value: 3 / 6 / 9  
-Category: Social  
-The character owes a duty, service, or debt to an organization or individual.  
-**Minor (3 CP):** Weekly report-ins or small dues.  
-**Moderate (6 CP):** Must perform missions on command or pay 25% of all earnings.  
-**Major (9 CP):** Total servitude. The character is a thrall, slave, or sworn avatar. They own nothing; everything belongs to their patron.
+---
 
-### 
+## **6. Obligation**
 
-## **Poor**
+* **CP Value:** `3 / 6 / 9 CP` | **Category:** Social / Background
+* **Description:** The character owes binding duty, service, fealty, or tithes to an organization, house, or patron:
+  * **Minor (`3 CP`):** Weekly intelligence report-ins or minor guild/fraternity dues.
+  * **Moderate (`6 CP`):** Must execute assigned missions on command or remit **25 percent of all liquid earnings**.
+  * **Major (`9 CP`):** Total indentured servitude, thralldom, or sworn avatar status; the character owns no major assets of their own—everything belongs to their patron.
 
-CP Value: 3 / 6 / 9  
-Category: Resource  
-The character starts with significantly less wealth and carries financial baggage.  
-**3 CP:** **\-4 to Wealth Score.** Starts with basic, second-hand gear only.  
-**6 CP:** **\-8 to Wealth Score.** Starts with practically nothing.  
-**9 CP:** **\-12 to Wealth Score.** The score becomes negative, denoting **Debt**. The character owes money to dangerous people, and any income earned is immediately garnished.
+---
 
-### 
+## **7. Poor**
 
-## **Secret**
+* **CP Value:** `3 / 6 / 9 CP` | **Category:** Resource
+* **Description:** The character begins play with significantly reduced financial leverage or crippling debt (`02 ECONOMY AND WEALTH.md` & `2.00 ECONOMATRIX.md`):
+  * **Minor (`3 CP`):** **`-4` to Starting Wealth Score (`WS`)**. Starts with basic, second-hand gear only.
+  * **Moderate (`6 CP`):** **`-8` to Starting Wealth Score (`WS`)**. Impoverished; starts with minimal personal possessions.
+  * **Major (`9 CP`):** **`-12` to Starting Wealth Score (`WS`)**. A negative total Wealth Score denotes active **Indebted** status to dangerous creditors, syndicates, or loan sharks, automatically garnishing incoming payouts.
 
-CP Value: 3 / 6 / 9  
-Category: Background / Social  
-The character hides a truth that, if revealed, would cause ruin.  
-**Minor (3 CP):** Reputation damage (e.g., "I cheated on my exams").  
-**Moderate (6 CP):** Harm or Exile (e.g., "I am actually a spy for the enemy," "I have a criminal record").  
-**Major (9 CP):** Death (e.g., "I am the heir to the throne hiding from assassins," "I am a wanted serial killer").
+---
 
-### 
+## **8. Secret**
 
-## **Social Issues**
+* **CP Value:** `3 / 6 / 9 CP` | **Category:** Background / Social
+* **Description:** The character conceals a dangerous truth that would cause ruin if exposed:
+  * **Minor (`3 CP` — Reputation Damage):** Exposure causes public scandal or professional disgrace (e.g., *"I falsified my academy exams"* or dishonorable discharge).
+  * **Moderate (`6 CP` — Harm or Exile):** Exposure results in imprisonment, asset seizure, or planetary exile (e.g., *"I am a covert agent for a rival faction"* or active felony warrant).
+  * **Major (`9 CP` — Death):** Exposure triggers summary execution or assassination squads (e.g., *"I am the hunted heir to a deposed dynasty"* or *"I am an escaped Silverglass specimen"*).
 
-CP Value: 3 / 6 / 9 / 12  
-Category: Social  
-The character is awkward, shy, abrasive, or simply bad with people. This can manifest as an inability to read social cues, an off-putting demeanor, or a genuine disdain for human interaction.  
-**Minor (3 CP):** Shy/Introverted. The character avoids social interaction but is not actively offensive. \-2 to Persuasion checks.  
-**Moderate (6 CP):** Abrasive/Rude OR Inept/Clueless. The character either actively offends people or constantly misreads social situations, leading to frequent misunderstandings. \-4 to Diplomacy checks. NPCs start one step lower in attitude (Hostile instead of Unfriendly, Unfriendly instead of Neutral, etc.).  
-**Major (9 CP):** Antisocial/Sociopathic OR Repellent Personality. The character either fundamentally cannot empathize or is so outwardly unpleasant that most people immediately dislike them. Cannot naturally improve NPC attitudes through normal interaction; requires significant roleplaying or exceptional circumstances. All social checks (Persuasion, Diplomacy, Intimidation, Deception) are made at Hindrance.  
-**Severe (12 CP):** Social Pariah/Ostracized. The character has a notorious reputation or an unavoidable quality that makes social interaction extremely difficult. Most NPCs will refuse to interact with the character unless absolutely necessary, and those who do are immediately suspicious or hostile. All social checks are made at Hindrance, AND the character suffers a flat \-2 penalty on *all* Charisma-based skills, even when used on non-social tasks (e.g., commanding an animal, casting a spell).
+---
 
-###
+## **9. Social Issues**
+
+* **CP Value:** `3 / 6 / 9 / 12 CP` | **Category:** Social
+* **Description:** The character is socially awkward, shy, abrasive, or infamous—manifesting as an inability to read social cues, an off-putting demeanor, or a notorious reputation:
+  * **Minor (`3 CP` — Shy / Introverted):** Avoids social spotlight; **`-2` penalty** to Diplomacy (Persuasion) checks.
+  * **Moderate (`6 CP` — Abrasive / Clueless):** Frequently offends others or misreads social situations; **`-4` penalty** to Diplomacy checks, and initial NPC attitudes start **one step lower** (*Hostile* instead of *Unfriendly*, *Unfriendly* instead of *Indifferent*).
+  * **Major (`9 CP` — Antisocial / Repellent Personality):** Cannot naturally improve NPC attitudes through casual interaction; **all Social checks (*Diplomacy, Bluff, Intimidate, Barter*) are rolled with Disadvantage**.
+  * **Severe (`12 CP` — Social Pariah / Ostracized):** Most NPCs refuse to interact with the character unless forced, and **all Social checks are rolled with Disadvantage**, AND the character suffers a flat **`-2` penalty on all Charisma-based skills**, even on non-social tasks (such as *Vocation [Handler]* or Charisma-based *Attune*). *(Capped at `+10 CP` toward the personal Hindrance creation limit).*
+
+---
+
+## **10. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-310 (1.09.SocialAndBackground Unredacted Prose & Normalization):** Restored 100% of the narrative descriptions from `/game rules/operator/hindrances/1.09.SocialAndBackground.md` and normalized `made at Hindrance` -> `rolled with Disadvantage` and `BP` -> `CP`.
 

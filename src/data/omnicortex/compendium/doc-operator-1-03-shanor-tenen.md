@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-shanor"
-order: 96
+order: 94
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.shanor.tenen","mechanics"]
-updatedAt: "2026-10-14T08:27:02.791Z"
+updatedAt: "2026-11-02T22:49:36.091Z"
 costs:
   bp: 0
   credits: 0
@@ -39,15 +39,15 @@ sockets:
 
 ## Tenen
 
-# 
+  
 
-**CP Cost:** 38 CP
+**CP Cost:** 
 
-**Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.&nbsp;
+**Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction. 
 
-Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned \- but again speculations.
+Origins are actually unknown and completely theorized at this point as only brief encounters have occurred, some speculate a grand connection to the Ila progenitors who have been rumored to have returned - but again speculations.
 
-&nbsp;
+  
 
 **Classification:** Spectral Aberration
 
@@ -55,41 +55,41 @@ Origins are actually unknown and completely theorized at this point as only brie
 
 **Movement:** 30 ft Groundspeed, 30 ft Flightspeed
 
-&nbsp;
+  
 
 **Tech Level:** 5
 
 **Meta Level:** 5
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:**&nbsp;
+**Stigma:** 
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Wis
++1 Wis
 
-\+1 Ability
++1 Ability
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Ageless
 
 Alter Form, Advanced (assumes corporeal form, no flight)
 
-Awakened (Cosmic \- Wisdom (Dimension or Entropy \- Order))
+Awakened (Cosmic - Wisdom (Dimension or Entropy - Order))
 
 Bodyform Adaptation
 
@@ -107,19 +107,17 @@ Semi-Corporeal (“humanoid specter of solid black smoke”)
 
 Telepathic
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 # Discipline Features
 
 Special Abilities
 
-&nbsp;
+  
+  
+  
 
-&nbsp;
-
-&nbsp;
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+___________________________
 

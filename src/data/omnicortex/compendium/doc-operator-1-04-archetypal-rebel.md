@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "doc-operator-1-04-factions"
-order: 150
+order: 148
 perspective: "operator"
 entry_type: "Generic Faction Template"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.archetypal.rebel","mechanics"]
-updatedAt: "2026-10-14T05:32:05.204Z"
+updatedAt: "2026-11-02T22:49:22.627Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,100 @@ sockets:
   allocated: []
 ---
 
-## **17\. REBEL**
+# 1.04.Archetypal.Rebel — 17. REBEL INSURGENCY (+0 WS)
 
-### **I. Detailed Faction Description**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 17. Rebel Insurgency
+* **Tech / Meta Level:** TL 3 / ML 1
+* **EUFT Starting Wealth Score Modifier:** **+0 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Stealth (+5), Vocation: Demolitionist (+5), Streetwise (+4), Ballistic (+3), Bluff (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Ambush, Blind-Fight, Camouflage, Connected, Contacts, Deceitful, Guerilla Tactics, Mobility, Sneak Attack, Stealthy
+* **CRISP Visual Semiotics Key:** Hidden canyon bases, holo-disguise cloaks, improvised plasma charges.
 
-* **Overview:** Insurgents and freedom fighters locked in an asymmetrical war against an occupying force or oppressive government. They rely on hidden cells, sabotage, and the support of the local populace to bleed their technically superior enemies.  
-* **Key Themes:** Insurgents, Asymmetrical Warfare, Sabotage, Freedom Fighters.  
-* **Relationship to Others:** Hunted by the ruling faction; desperately seeking funding and weapons from rival powers.
+---
 
-### **II. Core Identity**
+REBEL
+I. Detailed Faction Description
+* Overview: Factions characterized by their violent or subversive opposition to a dominant power. They are passionate and resourceful, fighting a grueling asymmetric war to overthrow oppressive regimes and establish a new order.
+* Key Themes: Insurgency, Guerrilla Warfare, Defiance, Freedom Fighters.
+* Relationship to Others: Hunted by the ruling class; often secretly funded by rival major powers.
+II. Core Identity
+* Official Designation: The Free [World] Movement / The Resistance
+* Colloquialisms: Insurgents / Terrorists (by the state) / Rebels
+* Archetype: Insurgents
+* Capital/Key World: Variable (Hidden bases, sympathetic civilian centers)
+* Driving Mandate: Overthrow oppressive regimes, fight for freedom, protect the oppressed.
+* Motto: "Resistance is our right."
+III. Sociological Profile
+* Ideology & Culture: Idealistic, passionate, determined, independent, resourceful, defiant.
+* Social Structure: Decentralized cells to prevent total compromise.
+* View on Outsiders: Potential recruits or state spies.
+* Law & Order: Strict internal discipline to prevent infiltration.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Resourceful, adaptable, highly skilled at guerrilla warfare, strong sense of purpose, ability to inspire civilian populaces.
+* Weaknesses: Lack of resources, internal divisions over tactics (extremists vs. moderates), vulnerable to infiltration.
+* Military Doctrine: Hit-and-run, sabotage, asymmetric warfare, and blending in with the civilian populace.
+V. Mechanics (Game Data)
+* Prominent Species: Variable (Oppressed populaces).
+* Faction Skill Package (20 Points):
+   * Stealth (+5)
+   * Sabotage (+4)
+   * Streetwise (+4)
+   * Combat (+4)
+   * Survival (+3)
+* Typical Archetypes:
+   * The Revolutionary: The charismatic leader inspiring the oppressed to rise up.
+   * The Guerrilla Fighter: A seasoned soldier specializing in hit-and-run tactics.
+   * The Saboteur: Destroying state infrastructure, bridges, and supply lines.
+   * The Agitator: Stirring up riots and providing a distraction for the cell.
+   * The Smuggler: Bringing black-market weapons to the hidden rebel bases.
+   * The Freedom Fighter: A dedicated idealist willing to die for the cause.
+   * The Cell Leader: Organizing covert strikes while remaining hidden from the state.
+   * The Hacker: Broadcasting pirate radio signals and stealing state secrets.
+   * The Martyr: Committing the ultimate sacrifice to inspire the rebellion.
+   * The Propagandist: Painting the graffiti and printing the leaflets that fuel the war.
+* Recommended Features (1 CP Discount):
+   * Sneak Attack: Striking vulnerable state enforcers from the shadows.
+   * Inspiring Personality: Rallying terrified civilians to pick up a rifle and fight.
+   * Diehard: Continuing to fight the state even while bleeding out.
+   * Danger Sense: Sensing a state raid before the doors are kicked in.
+   * Connected (Underground): Knowing exactly which safehouses are secure.
+   * Evasiveness: Dodging heavy state artillery and explosive shrapnel.
+   * Weapon Improvisation: Fighting with whatever tools are available when ammo runs dry.
+   * Stealthy: Slipping past checkpoints and border patrols unseen.
+   * Saboteur's Touch: Knowing exactly where to place explosives for maximum structural damage.
+   * Uncanny Dodge: Avoiding ambushes set by counter-insurgency forces.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Defiant, chaotic, and mismatched.
+* Atmosphere Tokens: Hidden bases, mismatched gear, graffiti, smoke grenades, barricades.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Insurgency, Guerrilla Warfare, Defiant.
+   * CONTEXT: Hidden bases, mismatched gear, graffiti, smoke grenades, barricades.
+   * ATMOSPHERE: Chaotic, passionate, dangerous, defiant, tense.
 
-* **Official Designation:** The \[System\] Liberation Front / The Resistance  
-* **Colloquialisms:** The Rebels / Terrorists (by the state) / Freedom Fighters  
-* **Archetype:** Insurgents  
-* **Capital/Key World:** Hidden bases in remote terrain or deep within urban slums.  
-* **Driving Mandate:** Overthrow the oppressor and liberate the people.  
-* **Motto:** "Live free or die fighting."
+________________
 
-### **III. Sociological Profile**
-
-* **Ideology & Culture:** Passionate, desperate, unified by a charismatic leader or powerful ideology.  
-* **Social Structure:** Decentralized cell networks to prevent total compromise.  
-* **View on Outsiders:** Potential allies to be courted or imperialist sympathizers to be executed.  
-* **Law & Order:** Revolutionary justice; traitors to the cause are dealt with swiftly and brutally.
-
-### **IV. Strategic Assets**
-
-* **Tech Level (TL):** 3  
-* **Strengths:** Resourceful, excellent guerrilla tactics, strong morale, blend in with the civilian populace.  
-* **Weaknesses:** Underfunded, outgunned, vulnerable to infiltration and devastating reprisals.  
-* **Military Doctrine:** Hit-and-run, sabotage, assassinations, and avoiding pitched battles against superior forces.
-
-### **V. Mechanics (Game Data)**
-
-* **Prominent Species:** Variable (Usually locals of the occupied world).  
-* **Faction Skill Package (20 Points):**  
-  * Stealth (+5)  
-  * Mechanics (Sabotage/Explosives) (+4)  
-  * Combat (Guerrilla) (+4)  
-  * Bluff (+4)  
-  * Streetwise (+3)  
-* **Typical Archetypes:** The Saboteur, The Guerrilla Fighter, The Charismatic Agitator, The Smuggler, The Rebel Medic.  
-* **Recommended Features (1 CP Discount):** Sneak Attack, Evasiveness, Weapon Improvisation, Deceitful, Inspiring Personality, Danger Sense, Runner, Nimble Fingers, Street-Smart, Blind-Fight.
-
-### **VI. Visual Semiotics (Aesthetics)**
-
-* **Design Directive:** Clandestine, tactical, and civilian-integrated.  
-* **Atmosphere Tokens:** Hidden bases, civilian clothing mixed with tactical web-gear, improvised explosives, spray-painted logos.  
-* **HI-FI INK Guidance:** Rebel Insurgency, Gritty Tactical. Shadowed alleyways, hidden bunkers, mismatched military gear worn over civilian clothes, spray-painted revolutionary symbols. Desperate, defiant.
+REBEL ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Rebel prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., passionate Revolutionary waving a torn flag, stealthy Guerrilla Fighter planting an explosive, determined Saboteur hacking a terminal, fiery Agitator rallying the oppressed]
+* NARRATIVE: [e.g., ambushing a corporate supply convoy, spray-painting a symbol of defiance on a propaganda poster, broadcasting an illegal pirate radio signal, making a final stand]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Insurrection, underground resistance, makeshift barricades, urban warfare, graffiti, hidden safehouses, asymmetrical tactics.
+* CONTEXT: A ruined city street blocked by burning debris, a damp basement filled with illegal comms equipment, a shadowed alleyway ambush, a secret rebel command center.
+* ATMOSPHERE: Defiant, passionate, desperate, resourceful, inspiring, gritty, anti-authoritarian.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: defiant blood red marker splash (e.g., on a bandana or flag), distinct spray-painted graffiti neon ink colors, thick black smoke shading.
+3. READY-TO-USE TEMPLATES
+MASTER SHOT: The Barricade
+A passionate Rebel Revolutionary standing atop a makeshift barricade of burning cars and scrap metal, holding a torn flag and a kinetic rifle, leading a charge against unseen oppressors. Urban warfare setting, thick smoke. Standard 50mm lens, eye-level camera angle, balanced cinematic framing, mid-shot composition, seamless environmental integration. Defiant and inspiring atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, mostly monochrome, black ink on clean paper, dramatic defiant blood red marker accent on the flag and bandana. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+CLOSE-UP: The Agitator
+Rebel Agitator face close up, dirt-smudged cheeks, intense and fiery eyes, shouting into a retro-fitted pirate radio microphone. Extreme macro ink details, highly visible pen strokes, intricate facial cross-hatching, dense stippling for core shadows, sharp ink contours, distinct fine-liner weights, detailed eye shading using only lines, subtle single-color spray-paint neon pink marker accent reflecting from a nearby rebel symbol. Passionate and anti-authoritarian expression. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading.
 

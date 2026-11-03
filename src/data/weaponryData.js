@@ -53,6 +53,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Slashing",
     "description": "Broad-bladed martial axe delivering concentrated cleaving momentum.",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: - | Ammo: - | Special: Slashing | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Broad-bladed martial axe delivering concentrated cleaving momentum.\n\n**Special:** Slashing\n\nCategory: MELEE"
   },
   {
@@ -103,6 +105,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d6 (Kinetic) | Range: - | Ammo: - | Special: Piercing, Unarmed | Craft DC: 0 (10 Cr)",
     "keywords": "bite, weapon, melee, kinetic, tl-0",
     "negative_keywords": "extreme-range, sniper, orbital",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Natural or augmented jaws and teeth delivering a puncturing close-combat bite attack.\n\n**Special:** Piercing, Unarmed\n\nCategory: MELEE"
   },
   {
@@ -153,6 +157,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 92,
     "special": "Armored Fist with Blades",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: - | Ammo: - | Special: Armored Fist with Blades | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Reinforced gauntlet fitted with forearm-mounted slashing blades.\n\n**Special:** Armored Fist with Blades\n\nCategory: MELEE"
   },
   {
@@ -203,6 +209,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Silent",
     "description": "Traditional stave bow firing fletched arrows silently.",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: 50ft | Ammo: 1 | Special: Silent | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Traditional stave bow firing fletched arrows silently.\n\n**Special:** Silent\n\nCategory: ARCHAIC RANGED"
   },
   {
@@ -253,6 +261,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 92,
     "special": "Reach, Entangle",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: 10ft Reach | Ammo: - | Special: Reach, Entangle | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Weighted steel fighting chain with 10ft reach capable of entangling limbs and weapons.\n\n**Special:** Reach, Entangle\n\nCategory: MELEE"
   },
   {
@@ -303,6 +313,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d6 (Kinetic) | Range: - | Ammo: - | Special: Slashing, Unarmed | Craft DC: 0 (10 Cr)",
     "keywords": "claws, weapon, melee, kinetic, tl-0",
     "negative_keywords": "extreme-range, sniper, orbital",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Sharp natural or retractable talons capable of raking targets in unarmed close combat.\n\n**Special:** Slashing, Unarmed\n\nCategory: MELEE"
   },
   {
@@ -353,6 +365,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Thrown (10ft)",
     "description": "Simple weighted bludgeon crafted from hardwood, bone, or scrap metal.",
     "mechanic": "Damage: 1d6 (Kinetic) | Range: - / 10ft | Ammo: - | Special: Thrown (10ft) | Craft DC: 0 (10 Cr)",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Simple weighted bludgeon crafted from hardwood, bone, or scrap metal.\n\n**Special:** Thrown (10ft)\n\nCategory: MELEE"
   },
   {
@@ -403,6 +417,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Silent",
     "description": "Mechanical stock-mounted bow firing heavy bolts.",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: 75ft | Ammo: 1 | Special: Silent | Craft DC: 12 (279 Cr)",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Mechanical stock-mounted bow firing heavy bolts.\n\n**Special:** Silent\n\nCategory: ARCHAIC RANGED"
   },
   {
@@ -453,6 +469,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Conceal, Thrown (10ft)",
     "description": "Double-edged fighting blade balanced for close-quarters thrusting and throwing.",
     "mechanic": "Damage: 1d6 (Kinetic) | Range: - / 10ft | Ammo: - | Special: Conceal, Thrown (10ft) | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Double-edged fighting blade balanced for close-quarters thrusting and throwing.\n\n**Special:** Conceal, Thrown (10ft)\n\nCategory: MELEE"
   },
   {
@@ -503,6 +521,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40960,
     "special": "5ft Blast, Dissolve, TL5",
     "mechanic": "Damage: 4d6 Corrosive (Corrosive (Acid)) | Range: 250ft | Ammo: 20 | Special: 5ft Blast, Dissolve, TL5 | Craft DC: 30 (40,960 Cr)",
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "Capital-grade infantry disintegrator cannon dissolving matter in a 5ft blast.\n\n**Special:** 5ft Blast, Dissolve, TL5\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -553,6 +573,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d6 Corrosive (Corrosive (Acid)) | Range: 25ft | Ammo: 10 | Special: Dissolve, TL5 | Craft DC: 25 (10,240 Cr)",
     "keywords": "disintegrator (pistol), weapon, energy pistol, corrosive (acid), tl-5",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "TL5 subatomic sidearm that dissolves molecular bonds on impact.\n\n**Special:** Dissolve, TL5\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -603,6 +625,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 3d6 Corrosive (Corrosive (Acid)) | Range: 50ft | Ammo: 10 | Special: Dissolve, TL5 | Craft DC: 28 (23,525 Cr)",
     "keywords": "disintegrator (rifle), weapon, energy rifle, corrosive (acid), tl-5",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "TL5 subatomic rifle that unbinds target matter into elemental dust.\n\n**Special:** Dissolve, TL5\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -653,6 +677,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d6+4 Force (Force) | Range: 50ft | Ammo: 20 | Special: Penetrating 10, TL4 | Craft DC: 22 (4,457 Cr)",
     "keywords": "disrupter (pistol), weapon, energy pistol, force, tl-4",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "Harmonic molecular disruptor pistol delivering Penetrating 10 force blasts.\n\n**Special:** Penetrating 10, TL4\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -703,6 +729,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "Penetrating 10, TL4",
     "mechanic": "Damage: 4d6+8 Force (Force) | Range: 100ft | Ammo: 20 | Special: Penetrating 10, TL4 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Long-range molecular disruptor rifle firing phase-shearing force beams.\n\n**Special:** Penetrating 10, TL4\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -753,6 +781,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 23525,
     "special": "Penetrating 20, TL4",
     "mechanic": "Damage: 6d6+12 Force (Force) | Range: 200ft | Ammo: 40 | Special: Penetrating 20, TL4 | Craft DC: 28 (23,525 Cr)",
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "Heavy harmonic disruptor cannon with Penetrating 20 phase-force output.\n\n**Special:** Penetrating 20, TL4\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -803,6 +833,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 640,
     "special": "Lethal/Non-Lethal, Stun",
     "mechanic": "Damage: 1d10 Voltic (Voltic (Electrical)) | Range: 25ft | Ammo: 20 | Special: Lethal/Non-Lethal, Stun | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Directed electrical sidearm discharging high-voltage arcs with selectable stun mode.\n\n**Special:** Lethal/Non-Lethal, Stun\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -853,6 +885,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d8 (Kinetic) | Range: - | Ammo: - | Special: Blunt, Non-Lethal, Unarmed | Craft DC: 0 (10 Cr)",
     "keywords": "feet (kick), weapon, melee, kinetic, tl-0",
     "negative_keywords": "extreme-range, sniper, orbital",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Heavy unarmed kick attack delivering concussive non-lethal blunt trauma.\n\n**Special:** Blunt, Non-Lethal, Unarmed\n\nCategory: MELEE"
   },
   {
@@ -903,6 +937,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d6 (Kinetic) | Range: - | Ammo: - | Special: Blunt, Non-Lethal, Unarmed | Craft DC: 0 (10 Cr)",
     "keywords": "fists (punch), weapon, melee, kinetic, tl-0",
     "negative_keywords": "extreme-range, sniper, orbital",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Standard unarmed punch strike dealing non-lethal blunt impact damage.\n\n**Special:** Blunt, Non-Lethal, Unarmed\n\nCategory: MELEE"
   },
   {
@@ -953,6 +989,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 1470,
     "special": "Burn, Ignites Flammables",
     "mechanic": "Damage: 2d6 Pyro (Thermal (Pyro/Cryo)) | Range: 30ft | Ammo: 4/8 | Special: Burn, Ignites Flammables | Craft DC: 18 (1,470 Cr)",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Pressurized chemical projector saturating targets in sticky napalm.\n\n**Special:** Burn, Ignites Flammables\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -1003,6 +1041,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40,
     "special": "Armored Gloves",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: - | Ammo: - | Special: Armored Gloves | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Weighted metal or composite armored gloves that turn punches into lethal bludgeoning strikes.\n\n**Special:** Armored Gloves\n\nCategory: MELEE"
   },
   {
@@ -1053,6 +1093,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40960,
     "special": "5ft Blast, Impact, TL5",
     "mechanic": "Damage: 6d10 (Force) | Range: 100ft | Ammo: 20 | Special: 5ft Blast, Impact, TL5 | Craft DC: 30 (40,960 Cr)",
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "Heavy gravitic siege projector creating localized 5ft-blast gravity-shear explosions.\n\n**Special:** 5ft Blast, Impact, TL5\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -1103,6 +1145,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d10 (Force) | Range: 25ft | Ammo: 10 | Special: Impact Force, TL5 | Craft DC: 25 (10,240 Cr)",
     "keywords": "grav pulse (pistol), weapon, energy pistol, force, tl-5",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Compact TL5 gravitic projector unleashing localized kinetic-gravity concussions.\n\n**Special:** Impact Force, TL5\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -1153,6 +1197,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 4d10 (Force) | Range: 50ft | Ammo: 10 | Special: Impact Force, TL5 | Craft DC: 28 (23,525 Cr)",
     "keywords": "grav pulse (rifle), weapon, energy rifle, force, tl-5",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "TL5 gravitic wave rifle that slams targets with crushing g-force shockwaves.\n\n**Special:** Impact Force, TL5\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -1203,6 +1249,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 279,
     "special": "Str 2",
     "mechanic": "Damage: 2d8 (Kinetic) | Range: - | Ammo: - | Special: Str 2 | Craft DC: 12 (279 Cr)",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Heavy two-handed executioner or berserker axe requiring Strength 2.\n\n**Special:** Str 2\n\nCategory: MELEE"
   },
   {
@@ -1253,6 +1301,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 279,
     "special": "Str 2",
     "mechanic": "Damage: 2d8 (Kinetic) | Range: - | Ammo: - | Special: Str 2 | Craft DC: 12 (279 Cr)",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Massive two-handed war blade requiring Strength 2.\n\n**Special:** Str 2\n\nCategory: MELEE"
   },
   {
@@ -1303,6 +1353,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Launches Grenade Payloads",
     "description": "40mm launcher firing fragmentation, smoke, high-explosive, or specialty grenades.",
     "mechanic": "Damage: By Grenade (*) (Kinetic) | Range: 100ft | Ammo: 1/10 | Special: Launches Grenade Payloads | Craft DC: 18 (1,470 Cr)",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "40mm launcher firing fragmentation, smoke, high-explosive, or specialty grenades.\n\n**Special:** Launches Grenade Payloads\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -1353,6 +1405,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 5d6 Force (Force) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: Penetration 10 | Craft DC: 12 (279 Cr)",
     "keywords": "grenade, armor piercing, weapon, grenade, force, tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Shaped-charge warhead or thrown grenade engineered to punch through heavy armor (Penetration 10).\n\n**Special:** Penetration 10\n\nCategory: GRENADE"
   },
   {
@@ -1403,6 +1457,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: Drug dosage (Corrosive (Acid)) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 20ft Blast, fills cube | Craft DC: 10 (160 Cr)",
     "keywords": "grenade, chemical, weapon, grenade, corrosive (acid), tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Aerosol dispersal canister saturating a 20ft blast zone with a chemical or drug payload.\n\n**Special:** 20ft Blast, fills cube\n\nCategory: GRENADE"
   },
   {
@@ -1453,6 +1509,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: Stun (2d10) (Sonic) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 20ft Blast, Non-Lethal | Craft DC: 10 (160 Cr)",
     "keywords": "grenade, concussion, weapon, grenade, sonic, tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Non-lethal flash-concussion grenade dealing 2d10 Stun across a 20ft blast.\n\n**Special:** 20ft Blast, Non-Lethal\n\nCategory: GRENADE"
   },
   {
@@ -1503,6 +1561,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: Foam (Thermal (Pyro/Cryo)) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 20ft Blast, 30pt Protection | Craft DC: 8 (92 Cr)",
     "keywords": "grenade, fire suppression, weapon, grenade, thermal (pyro/cryo), tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Rapid-expanding endothermic foam canister that extinguishes fires and grants 30pt thermal protection.\n\n**Special:** 20ft Blast, 30pt Protection\n\nCategory: GRENADE"
   },
   {
@@ -1553,6 +1613,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 5d6 Shrapnel (Kinetic) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 10ft Blast, Penetration 10 | Craft DC: 10 (160 Cr)",
     "keywords": "grenade, fragmentation, weapon, grenade, kinetic, tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Pre-notched antipersonnel fragmentation grenade unleashing shrapnel across a 10ft blast.\n\n**Special:** 10ft Blast, Penetration 10\n\nCategory: GRENADE"
   },
   {
@@ -1603,6 +1665,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 5d8 Force (Force) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 10ft Blast, Impact Damage | Craft DC: 12 (279 Cr)",
     "keywords": "grenade, high explosive, weapon, grenade, force, tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "High-explosive demolition charge dealing 5d8 Force impact damage in a 10ft blast.\n\n**Special:** 10ft Blast, Impact Damage\n\nCategory: GRENADE"
   },
   {
@@ -1653,6 +1717,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d6 Pyro (Thermal (Pyro/Cryo)) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 20ft Blast, Burn | Craft DC: 10 (160 Cr)",
     "keywords": "grenade, incendiary, weapon, grenade, thermal (pyro/cryo), tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Thermite-gel incendiary grenade that ignites targets within a 20ft blast.\n\n**Special:** 20ft Blast, Burn\n\nCategory: GRENADE"
   },
   {
@@ -1703,6 +1769,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: Snare (Kinetic) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 10ft Blast, Reflex/Might save | Craft DC: 10 (160 Cr)",
     "keywords": "grenade, restraint, weapon, grenade, kinetic, tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Tangle-foam or adhesive web grenade that snares targets in a 10ft blast.\n\n**Special:** 10ft Blast, Reflex/Might save\n\nCategory: GRENADE"
   },
   {
@@ -1753,6 +1821,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: Frictionless oil (Kinetic) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 20ft Blast, Reflex CR 20 | Craft DC: 10 (160 Cr)",
     "keywords": "grenade, slick, weapon, grenade, kinetic, tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Coats a 20ft area in frictionless polymer lubricant requiring a CR 20 Reflex save to remain standing.\n\n**Special:** 20ft Blast, Reflex CR 20\n\nCategory: GRENADE"
   },
   {
@@ -1803,6 +1873,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: Smoke (Kinetic) | Range: 20ft (Thrown) / 100ft (Launched) | Ammo: 1 | Special: 20ft initial Blast, fills cubes | Craft DC: 5 (40 Cr)",
     "keywords": "grenade, smoke, weapon, grenade, kinetic, tl-2",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Aerosol canister deploying a dense thermal-and-optical smoke screen across a 20ft area.\n\n**Special:** 20ft initial Blast, fills cubes\n\nCategory: GRENADE"
   },
   {
@@ -1853,6 +1925,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Thrown (10ft)",
     "description": "Heavy-headed one-handed hammer designed to dent armor and crush bone.",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: - / 10ft | Ammo: - | Special: Thrown (10ft) | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Heavy-headed one-handed hammer designed to dent armor and crush bone.\n\n**Special:** Thrown (10ft)\n\nCategory: MELEE"
   },
   {
@@ -1903,6 +1977,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Thrown (10ft)",
     "description": "Short-hafted chopping axe balanced for close combat, utility, and throwing.",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: - / 10ft | Ammo: - | Special: Thrown (10ft) | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Short-hafted chopping axe balanced for close combat, utility, and throwing.\n\n**Special:** Thrown (10ft)\n\nCategory: MELEE"
   },
   {
@@ -1953,6 +2029,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Heavy Anti-Armor Cannon",
     "description": "Direct-fire anti-armor siege cannon delivering devastating 7d8 shells.",
     "mechanic": "Damage: 7d8 (Kinetic) | Range: 500ft | Ammo: 10 | Special: Heavy Anti-Armor Cannon | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Direct-fire anti-armor siege cannon delivering devastating 7d8 shells.\n\n**Special:** Heavy Anti-Armor Cannon\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -2003,6 +2081,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 2560,
     "special": "Non-Lethal, Stun, TL3",
     "mechanic": "Damage: 2d10 Voltic (Voltic (Electrical)) | Range: 50ft | Ammo: 20 | Special: Non-Lethal, Stun, TL3 | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "High-amperage electrolaser rifle built for non-lethal suppression and stun.\n\n**Special:** Non-Lethal, Stun, TL3\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -2053,6 +2133,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 2560,
     "special": "Burn, Ignites Flammables",
     "mechanic": "Damage: 4d6 Pyro (Thermal (Pyro/Cryo)) | Range: 60ft | Ammo: 6/12 | Special: Burn, Ignites Flammables | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Backpack-fed military incinerator projecting a 60ft torrent of liquid fire.\n\n**Special:** Burn, Ignites Flammables\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -2103,6 +2185,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 2560,
     "special": "Freeze, TL3",
     "mechanic": "Damage: 2d8 Cryo (Thermal (Pyro/Cryo)) | Range: 50ft | Ammo: 10 | Special: Freeze, TL3 | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Cryogenic beam rifle that encases targets in brittle rime ice.\n\n**Special:** Freeze, TL3\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -2153,6 +2237,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 23525,
     "special": "Penetrating 10, TL3",
     "mechanic": "Damage: 6d8 (Thermal (Pyro/Cryo)) | Range: 750ft | Ammo: 50 | Special: Penetrating 10, TL3 | Craft DC: 28 (23,525 Cr)",
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "High-energy support laser cannon that slices through armored bulkheads at 750ft.\n\n**Special:** Penetrating 10, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -2203,6 +2289,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d6 (Thermal (Pyro/Cryo)) | Range: 75ft | Ammo: 25 | Special: Penetrating 5, TL3 | Craft DC: 18 (1,470 Cr)",
     "keywords": "heavy laser (pistol), weapon, energy pistol, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Overcharged heavy laser sidearm capable of burning through tactical vests.\n\n**Special:** Penetrating 5, TL3\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -2253,6 +2341,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 3d6 (Thermal (Pyro/Cryo)) | Range: 150ft | Ammo: 25 | Special: Penetrating 5, TL3 | Craft DC: 22 (4,457 Cr)",
     "keywords": "heavy laser (rifle), weapon, energy rifle, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "High-output infantry laser battle rifle with reinforced cooling shrouds.\n\n**Special:** Penetrating 5, TL3\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -2303,6 +2393,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 4457,
     "special": "Autofire",
     "mechanic": "Damage: 4d8 (Kinetic) | Range: 200ft | Ammo: 100 | Special: Autofire | Craft DC: 22 (4,457 Cr)",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "Heavy-caliber support weapon capable of shredding cover and light vehicles.\n\n**Special:** Autofire\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -2353,6 +2445,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40960,
     "special": "Ballistic Emulator, TL5",
     "mechanic": "Damage: 8d8 (Thermal (Pyro/Cryo)) | Range: 750ft | Ammo: 15 | Special: Ballistic Emulator, TL5 | Craft DC: 30 (40,960 Cr)",
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "Heavy hard-light photonic cannon projecting massive 8d8 solid-light impacts at 750ft.\n\n**Special:** Ballistic Emulator, TL5\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -2403,6 +2497,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 3d8 (Thermal (Pyro/Cryo)) | Range: 90ft | Ammo: 15 | Special: Ballistic Emulator, TL5 | Craft DC: 25 (10,240 Cr)",
     "keywords": "holophotonic (pistol), weapon, energy pistol, thermal (pyro/cryo), tl-5",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Hard-light photonic pistol firing solid-light rounds that emulate ballistic impact.\n\n**Special:** Ballistic Emulator, TL5\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -2453,6 +2549,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 4d8 (Thermal (Pyro/Cryo)) | Range: 150ft | Ammo: 30 | Special: Ballistic Emulator, TL5 | Craft DC: 28 (23,525 Cr)",
     "keywords": "holophotonic (rifle), weapon, energy rifle, thermal (pyro/cryo), tl-5",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "TL5 hard-light photonic rifle firing solid-light ballistic-emulating lances.\n\n**Special:** Ballistic Emulator, TL5\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -2503,6 +2601,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "10ft Blast, Freeze, TL3",
     "mechanic": "Damage: 3d8 Cryo (Thermal (Pyro/Cryo)) | Range: 250ft | Ammo: 20 | Special: 10ft Blast, Freeze, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Heavy endothermic projector that flash-freezes a 10ft blast zone.\n\n**Special:** 10ft Blast, Freeze, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -2553,6 +2653,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d8 Cryo (Thermal (Pyro/Cryo)) | Range: 25ft | Ammo: 10 | Special: Freeze, TL3 | Craft DC: 15 (640 Cr)",
     "keywords": "icer (pistol), weapon, energy pistol, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Endothermic beam pistol that flash-freezes targets on impact.\n\n**Special:** Freeze, TL3\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -2603,6 +2705,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Conceal, Thrown (10ft)",
     "description": "Standard utility and close-combat survival blade.",
     "mechanic": "Damage: 1d6 (Kinetic) | Range: - / 10ft | Ammo: - | Special: Conceal, Thrown (10ft) | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Standard utility and close-combat survival blade.\n\n**Special:** Conceal, Thrown (10ft)\n\nCategory: MELEE"
   },
   {
@@ -2653,6 +2757,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Direct Fire Cannon",
     "description": "Man-portable 20mm autocannon firing armor-piercing shells up to 500ft.",
     "mechanic": "Damage: 3d8 (Kinetic) | Range: 500ft | Ammo: 10 | Special: Direct Fire Cannon | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Man-portable 20mm autocannon firing armor-piercing shells up to 500ft.\n\n**Special:** Direct Fire Cannon\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -2703,6 +2809,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "Penetrating 10, TL3",
     "mechanic": "Damage: 2d8 (Thermal (Pyro/Cryo)) | Range: 750ft | Ammo: 100 | Special: Penetrating 10, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Squad support pulse-laser cannon with 750ft range and Penetrating 10.\n\n**Special:** Penetrating 10, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -2753,6 +2861,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d6 (Thermal (Pyro/Cryo)) | Range: 75ft | Ammo: 50 | Special: Penetrating 5, TL3 | Craft DC: 15 (640 Cr)",
     "keywords": "light laser (pistol), weapon, energy pistol, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Standard civilian and officer sidearm emitting coherent thermal laser beams.\n\n**Special:** Penetrating 5, TL3\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -2803,6 +2913,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d6 (Thermal (Pyro/Cryo)) | Range: 150ft | Ammo: 50 | Special: Penetrating 5, TL3 | Craft DC: 20 (2,560 Cr)",
     "keywords": "light laser (rifle), weapon, energy rifle, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Recoilless infantry laser carbine with 50-shot cell capacity and Penetrating 5.\n\n**Special:** Penetrating 5, TL3\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -2853,6 +2965,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 1470,
     "special": "Autofire",
     "mechanic": "Damage: 2d8 (Kinetic) | Range: 200ft | Ammo: 100 | Special: Autofire | Craft DC: 18 (1,470 Cr)",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Squad automatic weapon providing sustained suppressive autofire.\n\n**Special:** Autofire\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -2903,6 +3017,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "10ft Blast, Stun, TL3",
     "mechanic": "Damage: 3d10 Voltic (Voltic (Electrical)) | Range: 250ft | Ammo: 40 | Special: 10ft Blast, Stun, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Tesla-coil arc projector discharging 10ft-blast bolts of stunning lightning.\n\n**Special:** 10ft Blast, Stun, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -2953,6 +3069,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 160,
     "special": "Reach, Trip",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: 10ft Reach | Ammo: - | Special: Reach, Trip | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Long-shafted infantry pike with 10ft reach and tripping capability.\n\n**Special:** Reach, Trip\n\nCategory: MELEE"
   },
   {
@@ -3003,6 +3121,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 160,
     "special": "Str 1, Reach, Trip",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: 10ft Reach | Ammo: - | Special: Str 1, Reach, Trip | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Long martial pole-staff granting 10ft reach and trip leverage.\n\n**Special:** Str 1, Reach, Trip\n\nCategory: MELEE"
   },
   {
@@ -3053,6 +3173,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Blunt",
     "description": "Flanged or spiked bludgeon engineered to transfer shockwaves through rigid armor.",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: - | Ammo: - | Special: Blunt | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Flanged or spiked bludgeon engineered to transfer shockwaves through rigid armor.\n\n**Special:** Blunt\n\nCategory: MELEE"
   },
   {
@@ -3103,6 +3225,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Slashing",
     "description": "Heavy cleaving blade used for frontier bushcraft and brutal close combat.",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: - | Ammo: - | Special: Slashing | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Heavy cleaving blade used for frontier bushcraft and brutal close combat.\n\n**Special:** Slashing\n\nCategory: MELEE"
   },
   {
@@ -3153,6 +3277,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 279,
     "special": "Str 2",
     "mechanic": "Damage: 2d8 (Kinetic) | Range: - | Ammo: - | Special: Str 2 | Craft DC: 12 (279 Cr)",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Massive two-handed war hammer requiring Strength 2.\n\n**Special:** Str 2\n\nCategory: MELEE"
   },
   {
@@ -3203,6 +3329,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Direct Fire Cannon",
     "description": "High-velocity 30mm cannon firing high-explosive armor-piercing rounds.",
     "mechanic": "Damage: 5d8 (Kinetic) | Range: 500ft | Ammo: 10 | Special: Direct Fire Cannon | Craft DC: 22 (4,457 Cr)",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "High-velocity 30mm cannon firing high-explosive armor-piercing rounds.\n\n**Special:** Direct Fire Cannon\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -3253,6 +3381,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "Penetrating 10, TL3",
     "mechanic": "Damage: 4d8 (Thermal (Pyro/Cryo)) | Range: 750ft | Ammo: 60 | Special: Penetrating 10, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Heavy infantry laser cannon designed for sustained anti-armor fire at 750ft.\n\n**Special:** Penetrating 10, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -3303,6 +3433,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 1d10 (Thermal (Pyro/Cryo)) | Range: 75ft | Ammo: 30 | Special: Penetrating 5, TL3 | Craft DC: 15 (640 Cr)",
     "keywords": "medium laser (pistol), weapon, energy pistol, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Military-spec pulse laser pistol with Penetrating 5 and high energy efficiency.\n\n**Special:** Penetrating 5, TL3\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -3353,6 +3485,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d6 (Thermal (Pyro/Cryo)) | Range: 150ft | Ammo: 30 | Special: Penetrating 5, TL3 | Craft DC: 20 (2,560 Cr)",
     "keywords": "medium laser (rifle), weapon, energy rifle, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Standard TL3 military service laser rifle with Penetrating 5.\n\n**Special:** Penetrating 5, TL3\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -3403,6 +3537,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 2560,
     "special": "Autofire",
     "mechanic": "Damage: 3d8 (Kinetic) | Range: 200ft | Ammo: 100 | Special: Autofire | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Belt-fed general-purpose machinegun for infantry fire support.\n\n**Special:** Autofire\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -3453,6 +3589,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 2560,
     "special": "Rocket or Smart",
     "mechanic": "Damage: By Warhead (*) (Force) | Range: 500ft | Ammo: 1/2/6 | Special: Rocket or Smart | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Multi-tube launcher firing unguided rockets or target-locking smart micro-missiles.\n\n**Special:** Rocket or Smart\n\nCategory: HEAVY WEAPON"
   },
   {
@@ -3503,6 +3641,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 92,
     "special": "Non-Lethal, Entangle",
     "mechanic": "Damage: 1d6 (Kinetic) | Range: 20ft | Ammo: 1 | Special: Non-Lethal, Entangle | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Weighted mesh net thrown to entangle and immobilize targets.\n\n**Special:** Non-Lethal, Entangle\n\nCategory: ARCHAIC RANGED"
   },
   {
@@ -3553,6 +3693,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 160,
     "special": "Entangle, Hooked",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: 20ft | Ammo: 1 | Special: Entangle, Hooked | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Weighted combat net woven with flesh-tearing steel barbs.\n\n**Special:** Entangle, Hooked\n\nCategory: ARCHAIC RANGED"
   },
   {
@@ -3603,6 +3745,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "5ft Line, Ra-D, TL3",
     "mechanic": "Damage: 2d10 (Force) | Range: 100ft | Ammo: 10 | Special: 5ft Line, Ra-D, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Linear accelerator cannon firing a relativistic 5ft line of ionizing particles.\n\n**Special:** 5ft Line, Ra-D, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -3653,6 +3797,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Armor-Piercing Spike",
     "description": "Tapered steel war pick engineered to punch through heavy armor plate.",
     "mechanic": "Damage: 3d4 (Kinetic) | Range: - | Ammo: - | Special: Armor-Piercing Spike | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Tapered steel war pick engineered to punch through heavy armor plate.\n\n**Special:** Armor-Piercing Spike\n\nCategory: MELEE"
   },
   {
@@ -3703,6 +3849,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Heavy Caliber",
     "description": "Large-caliber magnum handgun delivering massive stopping power.",
     "mechanic": "Damage: 2d8 (Kinetic) | Range: 60ft | Ammo: 10 | Special: Heavy Caliber | Craft DC: 12 (279 Cr)",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Large-caliber magnum handgun delivering massive stopping power.\n\n**Special:** Heavy Caliber\n\nCategory: BALLISTIC PISTOL"
   },
   {
@@ -3753,6 +3901,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 160,
     "special": "Pocket Sized",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: 20ft | Ammo: 2 | Special: Pocket Sized | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Palm-sized derringer or backup pistol built for deep concealment.\n\n**Special:** Pocket Sized\n\nCategory: BALLISTIC PISTOL"
   },
   {
@@ -3803,6 +3953,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "High Capacity",
     "description": "High-capacity semi-automatic sidearm firing low-recoil small-caliber rounds.",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: 40ft | Ammo: 30 | Special: High Capacity | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "High-capacity semi-automatic sidearm firing low-recoil small-caliber rounds.\n\n**Special:** High Capacity\n\nCategory: BALLISTIC PISTOL"
   },
   {
@@ -3853,6 +4005,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Standard Sidearm",
     "description": "Standard military and law-enforcement service sidearm.",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: 50ft | Ammo: 20 | Special: Standard Sidearm | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Standard military and law-enforcement service sidearm.\n\n**Special:** Standard Sidearm\n\nCategory: BALLISTIC PISTOL"
   },
   {
@@ -3903,6 +4057,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "10ft Blast, Burn, TL3",
     "mechanic": "Damage: 4d6 Pyro (Thermal (Pyro/Cryo)) | Range: 250ft | Ammo: 40 | Special: 10ft Blast, Burn, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Heavy magnetic-toroid cannon launching explosive 10ft-blast spheres of solar plasma.\n\n**Special:** 10ft Blast, Burn, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -3953,6 +4109,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d6 Pyro (Thermal (Pyro/Cryo)) | Range: 25ft | Ammo: 20 | Special: Burn, TL3 | Craft DC: 18 (1,470 Cr)",
     "keywords": "plasma (pistol), weapon, energy pistol, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Magnetic-bottle handgun firing superheated bolts of ionized plasma.\n\n**Special:** Burn, TL3\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -4003,6 +4161,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 3d6 Pyro (Thermal (Pyro/Cryo)) | Range: 50ft | Ammo: 20 | Special: Burn, TL3 | Craft DC: 20 (2,560 Cr)",
     "keywords": "plasma (rifle), weapon, energy rifle, thermal (pyro/cryo), tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Magnetic-accelerator rifle firing superheated bolts of solar-hot plasma.\n\n**Special:** Burn, TL3\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -4053,6 +4213,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 160,
     "special": "Reach, Trip",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: 10ft Reach | Ammo: - | Special: Reach, Trip | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Heavy axe-and-spike head mounted on a long haft for sweeping reach and trip attacks.\n\n**Special:** Reach, Trip\n\nCategory: MELEE"
   },
   {
@@ -4103,6 +4265,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Finesse, Piercing",
     "description": "Slender, sharply pointed dueling sword designed for agile precision thrusts.",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: - | Ammo: - | Special: Finesse, Piercing | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Slender, sharply pointed dueling sword designed for agile precision thrusts.\n\n**Special:** Finesse, Piercing\n\nCategory: MELEE"
   },
   {
@@ -4153,6 +4317,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 10240,
     "special": "10ft Blast, Stun, TL3",
     "mechanic": "Damage: 3d8 Sonic (Sonic) | Range: 250ft | Ammo: 60 | Special: 10ft Blast, Stun, TL3 | Craft DC: 25 (10,240 Cr)",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Wide-aperture acoustic cannon unleashing 10ft-blast sonic shockwaves.\n\n**Special:** 10ft Blast, Stun, TL3\n\nCategory: HEAVY ENERGY"
   },
   {
@@ -4203,6 +4369,8 @@ export const DEFAULT_WEAPONRY = [
     "mechanic": "Damage: 2d8 Sonic (Sonic) | Range: 50ft | Ammo: 30 | Special: Lethal/Non-Lethal, Stun | Craft DC: 20 (2,560 Cr)",
     "keywords": "resonator (rifle), weapon, energy rifle, sonic, tl-3",
     "negative_keywords": "unarmed, grapple",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Focused acoustic rifle delivering lethal or non-lethal harmonic shockwaves.\n\n**Special:** Lethal/Non-Lethal, Stun\n\nCategory: ENERGY RIFLE"
   },
   {
@@ -4253,6 +4421,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Heavy Bore",
     "description": "Full-bore heavy battle rifle chambered in high-powered cartridges.",
     "mechanic": "Damage: 3d8 (Kinetic) | Range: 100ft | Ammo: 20 | Special: Heavy Bore | Craft DC: 18 (1,470 Cr)",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Full-bore heavy battle rifle chambered in high-powered cartridges.\n\n**Special:** Heavy Bore\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4303,6 +4473,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "High Capacity",
     "description": "Lightweight high-capacity carbine or assault rifle.",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: 200ft | Ammo: 60 | Special: High Capacity | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Lightweight high-capacity carbine or assault rifle.\n\n**Special:** High Capacity\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4353,6 +4525,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Standard Infantry Rifle",
     "description": "Standard infantry battle rifle combining range, accuracy, and stopping power.",
     "mechanic": "Damage: 2d8 (Kinetic) | Range: 150ft | Ammo: 40 | Special: Standard Infantry Rifle | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Standard infantry battle rifle combining range, accuracy, and stopping power.\n\n**Special:** Standard Infantry Rifle\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4403,6 +4577,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Improvised / Primitive, Thrown (20ft)",
     "description": "Heavy stone usable as a primitive bludgeon or thrown projectile.",
     "mechanic": "Damage: 1d4 (Kinetic) | Range: - / 20ft | Ammo: - | Special: Improvised / Primitive, Thrown (20ft) | Craft DC: 0 (10 Cr)",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Heavy stone usable as a primitive bludgeon or thrown projectile.\n\n**Special:** Improvised / Primitive, Thrown (20ft)\n\nCategory: MELEE"
   },
   {
@@ -4453,6 +4629,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40,
     "special": "Armored Boots",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: - | Ammo: - | Special: Armored Boots | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Heavy plated combat boots reinforcing kick attacks.\n\n**Special:** Armored Boots\n\nCategory: MELEE"
   },
   {
@@ -4503,6 +4681,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 640,
     "special": "+10ft spread, -1d damage (Point Blank 10ft: +5 Strike, Advantage Dmg)",
     "mechanic": "Damage: 6d8 (Kinetic) | Range: 25ft cone | Ammo: 10 | Special: +10ft spread, -1d damage (Point Blank 10ft: +5 Strike, Advantage Dmg) | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Wide-mouth room-clearing scattergun unleashing a broad 25ft shrapnel cone.\n\n**Special:** +10ft spread, -1d damage (Point Blank 10ft: +5 Strike, Advantage Dmg)\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4553,6 +4733,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 640,
     "special": "+5ft spread, -1d damage (Point Blank 10ft: +5 Strike, Advantage Dmg)",
     "mechanic": "Damage: 6d8 (Kinetic) | Range: 50ft cone | Ammo: 10 | Special: +5ft spread, -1d damage (Point Blank 10ft: +5 Strike, Advantage Dmg) | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Combat shotgun firing dense buckshot or flechette cones.\n\n**Special:** +5ft spread, -1d damage (Point Blank 10ft: +5 Strike, Advantage Dmg)\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4603,6 +4785,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Solid Slug (Point Blank 10ft: +5 Strike, Advantage Dmg)",
     "description": "Combat shotgun chambered for heavy solid sabot slugs.",
     "mechanic": "Damage: 5d8 (Kinetic) | Range: 50ft | Ammo: 10 | Special: Solid Slug (Point Blank 10ft: +5 Strike, Advantage Dmg) | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Combat shotgun chambered for heavy solid sabot slugs.\n\n**Special:** Solid Slug (Point Blank 10ft: +5 Strike, Advantage Dmg)\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4653,6 +4837,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Improvised / Primitive, Thrown (20ft)",
     "description": "Fractured flint or stone shard used as a primitive cutting or thrown weapon.",
     "mechanic": "Damage: 1d4 (Kinetic) | Range: - / 20ft | Ammo: - | Special: Improvised / Primitive, Thrown (20ft) | Craft DC: 0 (10 Cr)",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Fractured flint or stone shard used as a primitive cutting or thrown weapon.\n\n**Special:** Improvised / Primitive, Thrown (20ft)\n\nCategory: MELEE"
   },
   {
@@ -4703,6 +4889,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Improvised / Primitive",
     "description": "Fire-hardened wooden stake or sharpened branch.",
     "mechanic": "Damage: 1d4 (Kinetic) | Range: - | Ammo: - | Special: Improvised / Primitive | Craft DC: 0 (10 Cr)",
+    "craft_cr": 0,
+    "design_cr": 0,
     "body": "Fire-hardened wooden stake or sharpened branch.\n\n**Special:** Improvised / Primitive\n\nCategory: MELEE"
   },
   {
@@ -4753,6 +4941,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Slashing or Piercing",
     "description": "Compact one-handed blade favored by boarding parties and close-quarters skirmishers.",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: - | Ammo: - | Special: Slashing or Piercing | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Compact one-handed blade favored by boarding parties and close-quarters skirmishers.\n\n**Special:** Slashing or Piercing\n\nCategory: MELEE"
   },
   {
@@ -4803,6 +4993,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Long Range Marksman",
     "description": "Precision marksman rifle fitted with long-range optics and match-grade barrel.",
     "mechanic": "Damage: 3d8 (Kinetic) | Range: 300ft | Ammo: 10 | Special: Long Range Marksman | Craft DC: 18 (1,470 Cr)",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Precision marksman rifle fitted with long-range optics and match-grade barrel.\n\n**Special:** Long Range Marksman\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4853,6 +5045,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Anti-Materiel",
     "description": "Heavy anti-materiel sniper rifle capable of punching through light vehicle armor.",
     "mechanic": "Damage: 5d8 (Kinetic) | Range: 200ft | Ammo: 10 | Special: Anti-Materiel | Craft DC: 20 (2,560 Cr)",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Heavy anti-materiel sniper rifle capable of punching through light vehicle armor.\n\n**Special:** Anti-Materiel\n\nCategory: BALLISTIC RIFLE"
   },
   {
@@ -4903,6 +5097,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 640,
     "special": "Lethal/Non-Lethal, Stun",
     "mechanic": "Damage: 1d8 Sonic (Sonic) | Range: 25ft | Ammo: 30 | Special: Lethal/Non-Lethal, Stun | Craft DC: 15 (640 Cr)",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Acoustic wave pistol with selectable lethal/non-lethal harmonic stun output.\n\n**Special:** Lethal/Non-Lethal, Stun\n\nCategory: ENERGY PISTOL"
   },
   {
@@ -4953,6 +5149,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Thrown (20ft)",
     "description": "Shafted thrusting weapon balanced for both melee combat and ranged throwing.",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: - / 20ft | Ammo: - | Special: Thrown (20ft) | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Shafted thrusting weapon balanced for both melee combat and ranged throwing.\n\n**Special:** Thrown (20ft)\n\nCategory: MELEE"
   },
   {
@@ -5003,6 +5201,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 92,
     "special": "Armored Gloves with Spikes",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: - | Ammo: - | Special: Armored Gloves with Spikes | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Reinforced combat gauntlets studded with armor-piercing knuckle spikes.\n\n**Special:** Armored Gloves with Spikes\n\nCategory: MELEE"
   },
   {
@@ -5053,6 +5253,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 92,
     "special": "Armored Boots with Spikes",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: - | Ammo: - | Special: Armored Boots with Spikes | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Armored greaves and boots fitted with toe and heel spikes.\n\n**Special:** Armored Boots with Spikes\n\nCategory: MELEE"
   },
   {
@@ -5103,6 +5305,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Blunt",
     "description": "Balanced two-handed fighting stave crafted from seasoned hardwood or metal tube.",
     "mechanic": "Damage: 1d8 (Kinetic) | Range: - | Ammo: - | Special: Blunt | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Balanced two-handed fighting stave crafted from seasoned hardwood or metal tube.\n\n**Special:** Blunt\n\nCategory: MELEE"
   },
   {
@@ -5153,6 +5357,8 @@ export const DEFAULT_WEAPONRY = [
     "special": "Slashing",
     "description": "Classic cruciform or curved martial blade forged from high-carbon or alloy steel.",
     "mechanic": "Damage: 2d6 (Kinetic) | Range: - | Ammo: - | Special: Slashing | Craft DC: 10 (160 Cr)",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Classic cruciform or curved martial blade forged from high-carbon or alloy steel.\n\n**Special:** Slashing\n\nCategory: MELEE"
   },
   {
@@ -5203,6 +5409,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40,
     "special": "(Piercing), Conceal, Thrown",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: 20ft | Ammo: 1 | Special: (Piercing), Conceal, Thrown | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Aerodynamically balanced blade weighted for silent ranged throws.\n\n**Special:** (Piercing), Conceal, Thrown\n\nCategory: ARCHAIC RANGED"
   },
   {
@@ -5253,6 +5461,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 40,
     "special": "(Blunt), Returning option",
     "mechanic": "Damage: 2d4 (Kinetic) | Range: 30ft | Ammo: 1 | Special: (Blunt), Returning option | Craft DC: 5 (40 Cr)",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Curved hardwood hunting stick shaped for stable spinning flight.\n\n**Special:** (Blunt), Returning option\n\nCategory: ARCHAIC RANGED"
   },
   {
@@ -5303,6 +5513,8 @@ export const DEFAULT_WEAPONRY = [
     "cost": 92,
     "special": "Reach, Entangle, Non-Lethal",
     "mechanic": "Damage: 1d6 (Kinetic) | Range: 10ft Reach | Ammo: - | Special: Reach, Entangle, Non-Lethal | Craft DC: 8 (92 Cr)",
+    "craft_cr": 8,
+    "design_cr": 8,
     "body": "Flexible braided lash capable of disarming or entangling targets at 10ft reach.\n\n**Special:** Reach, Entangle, Non-Lethal\n\nCategory: MELEE"
   }
 ];

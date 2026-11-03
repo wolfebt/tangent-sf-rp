@@ -187,10 +187,10 @@ describe('Tangent SF RP — Phase 5 Economatrix & Technology Dashboards Engine (
       assert.equal(gap.liquidGapCost, 2400);
       assert.equal(gap.tierAutoBuyLimit, 600);
 
-      // Intra-bracket gap: DC 18 (1470 Cr) vs WS 15 (Value(15) = 640 Cr, Affluent ceiling 2500 Cr) -> gap = 830 Cr
+      // Intra-bracket gap: CR 18 (1472 Cr via x2.30 micro-modifier) vs WS 15 (Value(15) = 640 Cr, Affluent ceiling 2500 Cr) -> gap = 832 Cr
       const intraBracketGap = calculateLiquidityGap(18, 15);
       assert.equal(intraBracketGap.isAutoBuy, false);
-      assert.equal(intraBracketGap.liquidGapCost, 830);
+      assert.equal(intraBracketGap.liquidGapCost, 832);
     });
 
     it('applies liquidity drag fence rates for legal, black market, and scrap', () => {

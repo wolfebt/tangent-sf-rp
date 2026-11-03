@@ -499,7 +499,7 @@ export const createAttackFromInvocation = (invocation, characterData = {}, getAt
     metaInfo = resolveMetaSkillForInvocation(inv);
     const baseSkillId = inv.baseSkillId || metaInfo?.baseSkillId || 'meta-elemental';
     const skillBonus = getEffectiveSkillBonus(baseSkillId, characterData, computedModifiers);
-    const invRank = Math.min(10, Math.max(0, parseInt(inv.rank ?? inv.level ?? 0, 10) || 0));
+    const invRank = Math.min(30, Math.max(0, parseInt(inv.rank ?? inv.level ?? 0, 10) || 0));
     const invMod = parseInt(inv.mod ?? inv.attack_mod ?? 0, 10) || 0;
 
     // Governing Primary Attribute: Intellect or Wisdom depending on discipline or sheet configuration (never Sub-Attributes Logic/Will!)
@@ -520,7 +520,8 @@ export const createAttackFromInvocation = (invocation, characterData = {}, getAt
     subSkillName = inv.subSkill || metaInfo?.subSkill || '';
   }
 
-  const baseDC = parseInt(inv.baseDC || 14, 10);
+  const baseCR = parseInt(inv.baseCR ?? inv.baseDC ?? 14, 10);
+  const baseDC = baseCR;
   const damage = inv.damage || '2d8 Energy';
   const range = inv.range || '60 ft';
   const damageType = inv.damage_type || (damage.includes(' ') ? damage.split(' ').slice(1).join(' ') : disc) || disc;
@@ -541,6 +542,7 @@ export const createAttackFromInvocation = (invocation, characterData = {}, getAt
     score: attackMod >= 0 ? `+${attackMod}` : `${attackMod}`,
     attackMod,
     mod: attackMod,
+    baseCR,
     baseDC,
     damage,
     type: damageType,

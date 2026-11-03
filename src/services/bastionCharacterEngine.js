@@ -22,7 +22,7 @@ import { DEFAULT_SPECIES } from '../data/speciesData.js';
 import { DEFAULT_FACTIONS } from '../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
-import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
+import { ALL_CANONICAL_SKILLS, resolveCanonicalSkillAlias } from '../data/skillsData.js';
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
 import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
 import { DEFAULT_WEAPONRY } from '../data/weaponryData.js';
@@ -1348,9 +1348,22 @@ export const derivePillarSkills = ({
   // Helper to find canonical skill by name or substring
   const findCanonicalSkill = (rawName) => {
     if (!rawName) return null;
-    const clean = String(rawName).trim();
+    const rawStr = String(rawName).trim();
+    const aliasObj = resolveCanonicalSkillAlias(rawStr);
+    if (aliasObj) {
+      const directMatch = skillsList.find(
+        s => s.id === aliasObj.id || (s.name || '').toLowerCase() === (aliasObj.name || '').toLowerCase()
+      );
+      if (directMatch) return directMatch;
+    }
+    const clean = aliasObj?.name || rawStr;
     const cleanLower = clean.toLowerCase();
-    const innerClean = clean.replace(/^(knowledge|vocation|discipline|metafocus)\s*[-:]?\s*/i, '').replace(/[()]/g, '').trim().toLowerCase();
+    const stripped = rawStr
+      .replace(/^(knowledge|vocation|discipline|metafocus)\s*[-:]?\s*/i, '')
+      .replace(/[()]/g, '')
+      .trim();
+    const innerAliasObj = resolveCanonicalSkillAlias(stripped);
+    const innerClean = (innerAliasObj?.name || stripped).toLowerCase();
 
     return skillsList.find(s => {
       const sName = (s.name || '').toLowerCase();
@@ -2596,6 +2609,9 @@ export const calculateRulesLedger = ({
   });
 
   return {
+    startingCP: 150,
+    cpSpent: totalSpent,
+    cpRemaining: bpRemaining,
     startingBP: 150,
     bpSpent: totalSpent,
     bpRemaining,

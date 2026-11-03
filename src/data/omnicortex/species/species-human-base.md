@@ -87,7 +87,7 @@ cp_cost: 13
 
 # **BASE HUMANS**&nbsp;
 
-**CP Cost:** 10 CP  
+**CP Cost:** 13 CP  
 
 **Description:** People found in Dynasty, Syndicate, Imperium, etc.&nbsp;
 

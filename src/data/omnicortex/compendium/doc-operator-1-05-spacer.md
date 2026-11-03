@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 169
+order: 167
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.spacer","mechanics"]
-updatedAt: "2026-10-14T05:38:13.239Z"
+updatedAt: "2026-11-02T22:49:28.463Z"
 costs:
   bp: 0
   credits: 0
@@ -37,35 +37,36 @@ sockets:
   allocated: []
 ---
 
-# **SPACER**
+# 1.05.10 ORIGIN: SPACER (+1 WS)
+
+* **Executive Summary:** Born and raised aboard deep-space freighters, orbital stations, generation ships, or asteroid habitats (The Scrapyard).
+* **EUFT Starting Wealth Modifier:** **+1 WS**
+* **Canonical Society Skills (20 SP Allocation):** Acrobatics (Zero-G), Piloting (Space), Alertness, Knowledge (Navigation, Technology), Vocation (Mechanic) [or ANY 20 SP]
+* **Typical Archetypes:** Void-Born, Freighter Crew, Astrogator, Zero-G Rigger, Belt Miner, Freighter Captain, Explorer, Mercenary, Smuggler, Technician, Merchant
+
+---
 
 # **SPACER**
 
 Some people do not have a home planet, instead choosing to travel the stars. They spend most of their time on ships and stations in space, and some have never set foot on a planet.
 
-&nbsp;
-
 ## **Society Skills**
 
 ANY
 
-&nbsp;
-
 ## **Archetypes**
 
-Freighter Captain&nbsp;
+Freighter Captain
 
-Explorer&nbsp;
+Explorer
 
-Mercenary&nbsp;
+Mercenary
 
-Smuggler&nbsp;
+Smuggler
 
-Technician&nbsp;
+Technician
 
-Merchant&nbsp;
-
-&nbsp;
+Merchant
 
 ## **Traits**
 
@@ -75,15 +76,11 @@ Skill in combat, whether it's hand-to-hand combat or using weapons in zero gravi
 
 *\+2 to a Combat Skill of choice*
 
-&nbsp;
-
 ### *Independence*
 
 Self-sufficiency and ability to make decisions on their own.
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Leadership Skills*
 
@@ -91,15 +88,11 @@ Ability to manage a crew and make strategic decisions.
 
 *\+2 Leadership Checks*
 
-&nbsp;
-
 ### *Pilot Skills*
 
 Experience piloting spacecraft, skills related to navigation, maneuvering, and combat in space.
 
 *\+2 Piloting*
-
-&nbsp;
 
 ### *Resourcefulness*
 
@@ -107,15 +100,11 @@ Ability to adapt to unexpected situations and make the most of limited resources
 
 *Once per Day make a Skill Check of choice at Advantage*
 
-&nbsp;
-
 ### *Smooth Talking*
 
 Ability to negotiate and persuade others.
 
 *\+2 Bluff*
-
-&nbsp;
 
 ### *Technical Skills*
 
@@ -123,21 +112,29 @@ Skills related to spacecraft maintenance and repair.
 
 *\+1 to Mechanical, Electrical and Engineering Skill Checks*
 
-&nbsp;
-
 ### *Toughness*
 
 Ability to withstand the physical and mental challenges that come with living in space.
 
 *\+1 Fortitude and Willpower Checks*
 
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Astrogator's Instinct:** +2 to Knowledge (Navigation) and Piloting (Space) checks.
+* **Damage Control:** +2 to Vocation (Mechanic / Engineer) checks to patch hull breaches or ship systems under fire.
+* **Shipboard Comradeship:** +1 additional bonus when aiding crewmates aboard a vessel.
+* **Vacuum Reflexes:** Advantage on Reflex Saves to seal breaches or grab handholds during decompression.
+* **Zero-G Adaptation:** Ignores the standard -4 Zero-G combat and skill penalty (`99.Planetary.AstrophysicsAndGeophysics.md`).
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **10\. SPACER**
 
@@ -212,4 +209,11 @@ Ability to withstand the physical and mental challenges that come with living in
 * **STYLE:** Dyson Node, Solar Grid.  
 * **PALETTE:** Solar Panel Black/Blue, Sun White, Metal.  
 * **TOKENS:** Solar panels, infinite horizon, sun, grid.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** The interior of a living Ichor-Barge or Void-Terror orbital bio-vessel. Peristaltic corridors lined with green vein-piping and zero-G resin web-lines surround a central Syndess Synaptic Cocoon piloting the ship through the void.
+* **STYLE:** Living Void-Leviathan, Organic Starship Interior.
+* **PALETTE:** Carapace Black, Hemocyanin Emerald, Synaptic Cyan, Bio-Luminescent Amber.
+* **TOKENS:** Peristaltic bulkheads, Syndess navigation cocoon, resin web-tethers, living airlocks, bio-thermal core.
 

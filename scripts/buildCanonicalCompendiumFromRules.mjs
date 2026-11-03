@@ -6,8 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const OP_DIR = path.join(projectRoot, 'docs', 'game rules', 'operator');
-const ARCH_DIR = path.join(projectRoot, 'docs', 'game rules', 'architect');
+const OP_DIR = path.join(projectRoot, 'docs', 'game_rules', 'operator');
+const ARCH_DIR = path.join(projectRoot, 'docs', 'game_rules', 'architect');
 const SEED_OUTPUT = path.join(projectRoot, 'src', 'data', 'compendiumSeed.json');
 const MD_OUTPUT_DIR = path.join(projectRoot, 'src', 'data', 'omnicortex', 'compendium');
 
@@ -101,7 +101,7 @@ addArticle({
   description: introRaw,
   mechanic: 'UDU Hierarchy: 1 Module = 10 Mounts = 100 Sockets = 1,000 Nodes.\nStandard 150 BP starting pool, 1-for-1 AP progression.\nEconomic Curve: Value = 10 * 4^(CR / 5).\nSurvival: Base 30 Vitality, Base 30 Health, Structure = Vitality + Health.',
   guide: 'Read this first to understand the core physics, capacity metrics, and mathematical philosophy of Tangent.',
-  note: 'Source of Truth: docs/game rules/operator/1.00 INTRODUCTION.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.00 INTRODUCTION.md'
 });
 
 // 1.01 CHARACTER CREATION
@@ -116,7 +116,7 @@ addArticle({
   description: charCreationRaw,
   mechanic: 'Starting Build Points: 150 BP.\nAttributes: STR, AGI, STA, INT, WIS, CHA. Starting max +4 (paragon +5).\nAttribute Check Formula: Base = 2 + (Attribute * 2).\nPerception: INT + WIS (default Alertness; Attune for Meta; Insight for Social; Tech for Technical).\nVitality & Health: Base 30 each, +5 per 1 BP, max 60 each.\nKarma: Base 3, reset per session.',
   guide: 'Follow step-by-step pipeline: Concept -> Ability Scores -> Species -> Faction -> Origin -> Occupation -> Technology -> Hindrances -> Features -> Skills -> Augmentations -> Property -> Derived Stats.',
-  note: 'Source of Truth: docs/game rules/operator/1.01 CHARACTER CREATION.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.01 CHARACTER CREATION.md'
 });
 
 // Splitting 1.01 sub-articles for direct granular access
@@ -224,7 +224,7 @@ addArticle({
   description: archRaw,
   mechanic: '80-BP Chassis Allocation Formula:\n+3 Primary Attribute (15 BP)\n+2 Secondary Attribute (10 BP)\n4 Skills @ Trained Tier (Rank 6 = 24 BP) & 6 Skills @ Novice Tier (Rank 3 = 18 BP) [Total 42 BP]\n2 Recommended Signature Features (2 BP each = 4 BP) + 3 Relative Features (3 BP each = 9 BP) [Total 13 BP]\nRemaining 70 BP spent on Species, Saves, Vitality/Health, Faction/Origin/Occupation, and fine-tuning skills.',
   guide: 'Select an Archetype chassis to establish immediate mechanical viability and narrative momentum, then customize the remaining 70 BP.',
-  note: 'Source of Truth: docs/game rules/operator/1.02 ARCHETYPES.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.02 ARCHETYPES.md'
 });
 
 // 1.03 SPECIES
@@ -239,7 +239,7 @@ addArticle({
   description: speciesRaw,
   mechanic: 'Positive Ability Scores cost 5 BP per +1.\nSkill Points cost 5 BP per 5 ranks (1 BP/rank).\nTraits: Basic [1 BP], Advanced [2 BP], Elite [4 BP].\nSpecies Recommended Features receive 1 BP discount (min 1 BP).\nMaster Breakdown covers Aeld, Asi, Aulurans, Humans, Kitin, Synthetics, Progenitors, and rare lineages with exact stigmas and stat adjustments.',
   guide: 'Consult the master table to calculate species package costs before spending remaining BP.',
-  note: 'Source of Truth: docs/game rules/operator/1.03 SPECIES (work).md'
+  note: 'Source of Truth: docs/game_rules/operator/1.03 SPECIES (work).md'
 });
 
 // 1.04 FACTIONS
@@ -254,7 +254,7 @@ addArticle({
   description: factionsRaw,
   mechanic: 'Faction Stage grants 20 Faction Skill Points and 2 Bonus Features (with 1 BP discount).\nSpecifies Tech Level (TL), Meta Level (ML), social structure, ideological mandates, military doctrine, and diplomatic relationships for all galactic factions.',
   guide: 'Aligning with a faction grants resources and training but introduces political rivals and obligations.',
-  note: 'Source of Truth: docs/game rules/operator/1.04 FACTIONS.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.04 FACTIONS.md'
 });
 
 // 1.05 ORIGINS
@@ -269,7 +269,7 @@ addArticle({
   description: originsRaw,
   mechanic: 'Origin Stage grants 20 Origin Skill Points and 2 Origin Traits.\nAdditional traits cost 1 BP each.\nSecondary Origin may be selected to expand available trait/skill choices without granting extra points.\nHabitats include Agri-Worlds, Arcologies/Megacities, Asteroid Belts, Death Worlds, High/Low-G, Toxic Wastelands, Colony, Spacer, Enlightened, Leisure, Militant.',
   guide: 'Origins reflect environmental upbringing and early life survival skills.',
-  note: 'Source of Truth: docs/game rules/operator/1.05 ORIGINS.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.05 ORIGINS.md'
 });
 
 // 1.06 OCCUPATIONS
@@ -284,7 +284,7 @@ addArticle({
   description: occupationsRaw,
   mechanic: 'Occupation Stage grants 20 Professional Skill Points (Rank 6 recommended, Rank 11 creation cap).\nRecommended Features receive 1 BP discount (cost 2 BP instead of 3 BP).\nPlayers choose 2 Occupational Traits (additional traits cost 2 BP each).\nCommon Traits: Background (access secondary occupation trait), Trade Tools (+2 Equipment), High Pay (+2 Wealth), Professionalism (+2 Reputation).',
   guide: 'Choose an occupation to reflect your formal training, trade, or role in galactic society.',
-  note: 'Source of Truth: docs/game rules/operator/1.06 OCCUPATIONS.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.06 OCCUPATIONS.md'
 });
 
 // 1.07 SKILLS
@@ -299,7 +299,7 @@ addArticle({
   description: skillsRaw,
   mechanic: 'All skills cost 1 BP per rank.\nSkill Tiers: 0 Untrained, 1-5 Novice, 6-10 Professional/Trained, 11-15 Expert, 16-20 Master, 21-25 Grand Master, 26-30 Pinnacle.\nCategories: Physical, Mental (Knowledges & Vocations), Social (Manipulation & Expression), Metafocus (Attune & Disciplines), Combat (Archaic, Modern, Advanced).\nFull CR benchmarks, synergistic bonuses, and specialization rules.',
   guide: 'Consult specific skill entries for Challenge Ratings, roll mechanics, and required tools.',
-  note: 'Source of Truth: docs/game rules/operator/1.07 SKILLS.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.07 SKILLS.md'
 });
 
 // 1.08 FEATURES
@@ -314,7 +314,7 @@ addArticle({
   description: featuresRaw,
   mechanic: 'Base Cost: 3 BP. Recommended Features cost 2 BP (1 BP discount, minimum 1 BP).\nRanked Features: Effects stack (limited by Ability Score or Skill Tier: Novice 1+, Trained 6+, Expert 11+, Master 16+, Pinnacle 20).\nMultiple Features: Can be purchased multiple times for different options/skills.\nSpecial Features: Require GM approval and storyline justification.\nMaster tables for Ability, Combat, Meta/Psionic, Social/General/Karma, and Technologist Features.',
   guide: 'Select features that synergize with your archetype chassis and occupational specialties.',
-  note: 'Source of Truth: docs/game rules/operator/1.08 FEATURES.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.08 FEATURES.md'
 });
 
 // 1.09 HINDRANCES
@@ -329,7 +329,7 @@ addArticle({
   description: hindrancesRaw,
   mechanic: 'Hindrances grant bonus BP during character creation (Minor 3 BP, Moderate 6 BP, Major 9 BP; Disability 3/6/9/18 BP; Age 5/10 BP; Tech Impairment 10/20/30 BP).\nRecommended Cap: 15 BP maximum from Hindrances.\nDistinction: Hindrances (Character Flaws) grant BP; Rolling with Hindrance is the situational mechanic (roll 2d10 with Disadvantage, taking lowest).',
   guide: 'Use hindrances to add narrative depth and character flaws while funding advanced skills and features.',
-  note: 'Source of Truth: docs/game rules/operator/1.09 HINDRANCES.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.09 HINDRANCES.md'
 });
 
 // 1.10 SCALING
@@ -344,7 +344,7 @@ addArticle({
   description: scalingRaw,
   mechanic: 'Size Categories: Miniscule, Fine, Diminutive, Tiny, Small, Medium (Base), Large, Huge, Gargantuan, Colossal, Enormous, Titanic, Super Gargantuan, Mega Colossal.\nScaling Multipliers apply to Weapon Dice, SP, Speed, Area, Ranges, and Carrying Capacity.\nCombat Modifiers adjust Defense and Agility relative to opponent size.\nAttacker vs Defender: If target is smaller than medium, subtract target combat mod from attacker combat mod; if larger than medium, divide or subtract per formula.\nStarship Proximity Damage: Overwhelming capital blast vaporizes small targets and deals 1/10 indirect damage to splash radius (half Strength mod in feet).\nMeta-Tech Scaling: (Base Damage Dice) * (Chassis Scale Multiplier) = Final Damage Dice.',
   guide: 'Essential for resolving vehicular combat, mecha engagements, giant alien xenofauna, and starship orbital strikes.',
-  note: 'Source of Truth: docs/game rules/operator/1.10 SCALING.md'
+  note: 'Source of Truth: docs/game_rules/operator/1.10 SCALING.md'
 });
 
 // 2.00 ECONOMATRIX
@@ -359,7 +359,7 @@ addArticle({
   description: economatrixRaw,
   mechanic: 'Tangent Standard Curve (TSC): Value (Credits) = 10 * 4^(CR / 5).\nGolden Rule of Tangent Wealth: A character may automatically purchase any item with a Crafting CR <= Wealth Score without depleting liquid Credits or reducing Wealth Score (Purchase CR = Crafting CR).\nLiquid Credits for transactions exceeding Wealth limits.\n1 MCr (Mega-Credit) = 1,000,000 Credits.\nCrafting CR is the Prime Mover of value, time, and fabrication tiers.',
   guide: 'Use the TSC curve to value any item, weapon, augmentation, or starship in credits based on crafting difficulty.',
-  note: 'Source of Truth: docs/game rules/operator/2.00 ECONOMATRIX.md'
+  note: 'Source of Truth: docs/game_rules/operator/2.00 ECONOMATRIX.md'
 });
 
 // 3.00 COMBAT
@@ -374,7 +374,7 @@ addArticle({
   description: combatRaw,
   mechanic: 'Core Resolution: 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs Target Defense.\nAction Economy by Skill Tier:\n- Rank 0: Full Round action\n- Rank 1-5: 1st action at base score (+2 focus bonus)\n- Rank 6-10: 2nd action at base score -5 (+3 focus bonus)\n- Rank 11-15: 3rd action at base score -10 (+4 focus bonus)\n- Rank 16-20: 4th action at base score -15 (+5 focus bonus)\n- Rank 21-25: 5th action at base score -20 (+6 focus bonus)\n- Rank 26-30: 6th action at base score -25 (+7 focus bonus)\nInitiative: Reflex Check (2d10 + Reflex Save + AGI mod).\nOpposed Roll: Defender wins all ties.\nUnopposed Roll: Base CR 15 (Average medium target at short range).\nRange Brackets: Point Blank (+5 Strike, Advantage on damage dice), Short (0), Medium (-5), Long (-10), Extreme (-15).\nMovement Defenses: Moving 20+ ft = +2 DEF; 40+ ft = +4 DEF; Total Defense/Dodge = +4 DEF.\nAutomatic Weapons: Burst (+1 Strike); Full Auto (-1 recoil/10 rounds; hits = points over DEF; +1d damage per extra hit); Suppression blasting.\nDamage: (Weapon Dice + Ability + Precision) - (Armor DR + CON/STA Mod).\nCritical: Nat 20 (Double 10s) = x2 Damage Dice; Critical Failure = Double 1s.',
   guide: 'Consult this master combat reference for initiative, range penalties, multi-actions, called shots, and burst fire.',
-  note: 'Source of Truth: docs/game rules/operator/3.00 COMBAT.md'
+  note: 'Source of Truth: docs/game_rules/operator/3.00 COMBAT.md'
 });
 
 // 4.00 METAPHYSICS
@@ -389,7 +389,7 @@ addArticle({
   description: metaphysicsRaw,
   mechanic: 'Triad: Attune (Accuracy/Resistance CR), Discipline (Severity/Damage), Invocation (Specialization technique).\nMetafocus Levels: ML 0 (Null), ML 1 (Rare), ML 2 (Selective), ML 3 (Cultured), ML 4 (Standardized), ML 5 (Advanced), ML 6 (Deific).\nKey Ability Sources: INT (Psychic, Arcane, Akashic); WIS (Divine, Nature, Cosmic); CHA (Bardic, Hereditary, Granted).\nPotency Calculation: [Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10)].\nFree-Casting (Spontaneous roll) vs Codified Invocations (Takes 10 by default).\nEssence Pool Formula: Sum of ALL Attributes (STR+AGI+STA+INT+WIS+CHA) + Attune Rank.\n6 Disciplines: Dimension, Energy, Entropy, Illusion, Matter, Mental.',
   guide: 'Requires Awakened feature. Invocations scale across Novice, Trained, Expert, Master, and Pinnacle stages.',
-  note: 'Source of Truth: docs/game rules/operator/4.00 METAPHYSICS.md'
+  note: 'Source of Truth: docs/game_rules/operator/4.00 METAPHYSICS.md'
 });
 
 console.log('--- Ingesting Canonical Architect Matrices (16 Documents) ---');
@@ -425,7 +425,7 @@ for (const arch of architectFiles) {
     description: raw,
     mechanic: arch.desc,
     guide: 'Consult this Architect matrix when designing game assets, calculating build budgets, adjudicating scale, or world-building.',
-    note: `Source of Truth: docs/game rules/architect/${arch.file}`
+    note: `Source of Truth: docs/game_rules/architect/${arch.file}`
   });
 }
 

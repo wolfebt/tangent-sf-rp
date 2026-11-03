@@ -104,7 +104,7 @@ test('Auto Combat Resolver: Defender Wins All Ties, Force 1/2 DR penetration, Ca
     assert.equal(tieResult.defenseDc, 15);
     assert.equal(tieResult.isHit, false, 'Canonical Rule: Defender MUST win all ties (15 vs 15 is a MISS)');
 
-    // 2. Critical Triumph (Double 10s -> +30 & double weapon dice) + Force damage (halves DR) + Called Shot Head + Mortality State
+    // 2. Critical Triumph (Double 10s -> +10 to roll [30] & double weapon dice) + Force damage (halves DR) + Called Shot Head + Mortality State
     Math.random = () => 0.99; // floor(0.99 * 10) + 1 = 10; floor(0.99 * 8) + 1 = 8
     const critResult = resolveAutonomousAttack(
       { id: 'atk-1', attackBonus: 5, attributeMod: 3, weaponDamage: 14, strMod: 2 },
@@ -112,6 +112,7 @@ test('Auto Combat Resolver: Defender Wins All Ties, Force 1/2 DR penetration, Ca
       { isCalledShot: true, hitLocation: 'head', damageType: 'force' }
     );
     assert.equal(critResult.isTriumph, true);
+    assert.equal(critResult.totalAttack, 36); // (20 + 10) + 5 + 3 - 2 (head called shot) = 36
     assert.equal(critResult.isHit, true);
     assert.equal(critResult.location, 'head');
     assert.match(critResult.statusInflicted, /KO/);

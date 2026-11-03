@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","introduction","1.00.glossary","mechanics"]
-updatedAt: "2026-10-31T10:56:34.077Z"
+updatedAt: "2026-11-03T10:29:24.889Z"
 costs:
   bp: 0
   credits: 0
@@ -37,84 +37,96 @@ sockets:
   allocated: []
 ---
 
-# **GLOSSARY**
+# **1.00.01 CORE SYSTEM GLOSSARY**
 
-## 
+---
 
-## ***I. CORE METRICS (The Math)***
+## **I. CORE METRICS (The Math)**
 
-These terms define the fundamental mathematics of the system.
+These terms define the fundamental mathematics of the Tangent Sci-Fi Fantasy Role-Playing System.
 
-| Term | Domain | Definition | Range / Limit |
-| :---- | :---- | :---- | :---- |
-| Rank | Skills | The numerical value assigned to a Skill, representing training. | 0 (Untrained) to 30 (Pinnacle+) |
-| Score | Attributes | The raw modifier of an Attribute (e.g., Strength \+2). | \-5 to \+10 (Caps vary by Species/Tier) |
-| CP | Creation | **Character Points**. The currency used for Character Creation. | Standard: 150 CP |
-| AP | Progression | **Award Points**. Experience points spent 1-for-1 like CP. | 1 to ∞ |
-| CR | Mechanics | **Challenge Rating**. The target number a check must meet or exceed. | 0 (Simple) to 40+ (Godlike) |
-| Karma | Resources | A meta-currency pool used to reroll dice or activate special feats. | Base 3\. Refreshes per Session. |
-| Tier | Scale | Broad category of power for Items, Enemies, or Scale. | Tier 0 (Civilian) to Tier 5 (Cosmic) |
+| Term | Domain | Definition | Canonical Range / Formula |
+| :--- | :--- | :--- | :--- |
+| **Core Roll** | Resolution | The universal resolution roll for skill checks, attacks, and active saves. | `2d10 + Skill Rank + Attribute Mod + Modifiers vs. CR` |
+| **Advantage** | Resolution | Roll an extra `d10` per stack of Advantage and keep the **highest 2 dice**. | Cancels 1-for-1 with Disadvantage |
+| **Disadvantage** | Resolution | Roll an extra `d10` per stack of Disadvantage and keep the **lowest 2 dice**. | Cancels 1-for-1 with Advantage |
+| **Critical Hit** | Resolution | **Natural 20** (double-10s on `2d10`, or expanded threat range `19, 18...`). | `Rolled Dice + 10 (e.g., 20 -> 30, 19 -> 29) + 2x Base Weapon Damage Dice + Critical Effect` |
+| **Fumble** | Resolution | **Natural 2** (double-1s on `2d10`, or expanded fumble range `3, 4...`). | `Rolled Dice becomes flat -10 (Base Score - 10) + Situational Complication` |
+| **Rank** | Skills | The numerical value assigned to a Skill, representing formal training and practice. | `0` (Untrained) to `30+` (Pinnacle) |
+| **Score** | Attributes | The raw modifier of one of the 6 Primary Attributes (`STR, AGI, STA, INT, WIS, CHA`). | `-5` to `+10` (Caps vary by Species/Tier) |
+| **CP** | Creation | **Character Points**. The universal currency used for Character Creation. | Standard Starting Budget: **150 CP** (`80 CP` Chassis + `70 CP` Custom) |
+| **AP / XP** | Progression | **Award Points / Experience Points**. Post-creation advancement points spent 1-for-1 like CP. | `1` to `∞` (Tier 1: 150–199, Tier 2: 200–299, Tier 3: 300–449, Tier 4: 450+) |
+| **CR** | Mechanics | **Challenge Rating**. The target difficulty number a `2d10` check must meet or exceed. | `0` (Simple) to `35+` (Miraculous) |
+| **Active Save** | Defense | Dynamic saving throw rolled against hazards, toxins, or invocations. | `2d10 + 2 + (2 * Attribute) + Feature Bonus` |
+| **Passive Save CR** | Defense | Static threshold an attacker's check must meet when targeting a character passively. | `12 + (2 * Attribute) + Feature Bonus` |
+| **Karma (KP)** | Resources | Meta-currency pool used to roll with Advantage, seize initiative, or trigger Karma Features. | Base `3 KP` (Refreshes per Session; `1 CP = +1 Max KP`) |
+| **Tier** | Scale | Broad category of power or complexity for Characters, Threat Templates, and Infrastructure. | Tier 0 (Civilian) to Tier 5 (Cosmic / Post-Scarcity) |
 
-## 
+---
 
-## ***II. PHYSICS & CAPACITY (The UDU System)***
+## **II. PHYSICS & CAPACITY (The UDU System)**
 
-Standard: 1 Module \= 100 Mounts \= 10,000 Sockets
+**Canonical UDU Ratio:** `1 Module (10 Tons) = 10 Mounts (1,000 kg) = 100 Sockets (100 kg) = 1,000 Usable Nodes (10 kg)`
 
-| Term | Domain | Definition | Range / Limit |
-| :---- | :---- | :---- | :---- |
-| UDU | Physics | Universal Displacement Unit. The master hierarchy of Capacity. 1 Module \= 10 Mounts \= 100 Sockets \= 1,000 Nodes |  |
-| Node | Augmentations | The slots for Augmentation options (Microscale). | 1 Node (10g) \= .1 Socket |
-| Socket | Equipment | A customization slot for Personal/Drone gear. | 1 Socket (1kg) \= 1 Mod |
-| Mount | Mecha | A system slot for Mecha/Vehicles (Upscale). | 1 Mount (100kg) \= 10 Sockets |
-| Module | Architecture | A pre-fab room or section for Base Building. | 1 Module (10 tons) \= 1 Room/10 Mounts |
+| Term | Domain | Definition | Mass & Capacity Equivalence |
+| :--- | :--- | :--- | :--- |
+| **UDU** | Physics | **Universal Displacement Unit**. The master logarithmic hierarchy governing mass, volume, and slot capacity across augmentations, personal gear, mecha, and architecture. | `10 Nodes = 1 Socket \| 10 Sockets = 1 Mount \| 10 Mounts = 1 Module` |
+| **Node (Tier 0)** | Augmentations | Microscale installation slot for biological, cybernetic, and nanofiber augmentations. | `1 Usable Node (10 g) = 0.1 Socket` (`10 Nodes = 1 Socket`) |
+| **Socket (Tier 1)** | Equipment | Personal-scale customization slot for weapons, armor suits, and portable drones. | `1 Socket (1 kg) = 10 Usable Nodes` |
+| **Mount (Tier 2)** | Mecha & Vehicles | Vehicular/Mecha hardpoint slot for heavy weapons, engines, and tactical subsystems. | `1 Mount (100 kg) = 10 Sockets` *(Garaging: `1 Mount = 1 Scale Multiplier`)* |
+| **Module (Tier 3)** | Architecture | Macroscale pre-fabricated room, starship bay, or facility block. | `1 Module (10 Tons) = 10 Mounts = 100 Sockets` |
 
-&nbsp;
+---
 
-## ***III. SURVIVAL & COMBAT***
+## **III. SURVIVAL & COMBAT INTEGRITY**
 
-Defining the states of life and death.
+Defining the states of life, structural resilience, and damage mitigation.
 
-| Term | Domain | Definition | Range / Limit |
-| :---- | :---- | :---- | :---- |
-| Vitality | Integrity | Physical resilience, luck, and stamina. Absorbs non-lethal/initial damage. | Base 30 \+ (5 per CP/Sta). Recovers fast. |
-| Health | Integrity | Structural integrity and life force. Damage here is lethal/traumatic. | Base 30 \+ (5 per CP). Recovers slow. |
-| Structure | Integrity | The "Health" equivalent for inanimate objects and Synthetics. | Varies by Size/Chassis. |
-| DR | Defense | Damage Resistance. A flat value subtracted from incoming damage before it hits Vitality. | 0 (Clothing) to 60+ (Capital Ship) |
-| Defense | Combat | The Target Number to hit a character (Passive). | 10 \+ Agility \+ Skill \+ Mods |
-| Stigma | Social | Social views and relative skill penalty resulting from discrimination. | Variable Penalty to Social Skills. |
+| Term | Domain | Definition | Canonical Formula / Limit |
+| :--- | :--- | :--- | :--- |
+| **Vitality** | Integrity | Physical stamina, luck, and glancing-blow avoidance. Absorbs initial/non-lethal damage before Health. | **Base 30**; increased strictly by **+5 per 1 CP** (Suggested Max: `60`). **Never scaled by Stamina.** |
+| **Health** | Integrity | Biological structural integrity and life force. Damage here represents physical wounds and trauma. | **Base 30**; increased strictly by **+5 per 1 CP** (Suggested Max: `60`). **Never scaled by Stamina.** |
+| **Structure (SP)** | Integrity | Combined integrity pool (`Vitality + Health`) for Synthetics, Constructs, Vehicles, Mecha, and Buildings. | **Base 60 SP** for Synthetics (`+5 SP per 1 CP`; Suggested Max: `120 SP`). |
+| **Base Toughness** | Mitigation | Point-for-point damage reduction granted by a character's **Stamina (STA) Modifier**. | Subtracts `STA Mod` from incoming damage *after* Armor DR (minimum 1 damage if attack breached DR). |
+| **DR** | Mitigation | **Damage Resistance / Reduction**. Flat value subtracted from incoming damage before Base Toughness and Vitality. | `0` (Clothing) to `60+` (Capital Ship). **Armor Layering Cap:** Only the single highest DR across bio, cyber, and worn armor applies. |
+| **Defense** | Combat | Static target number an attacker's `2d10` Strike roll must meet or exceed to hit. | `10 + Agility + Defense Skill Rank + Shield/Size/Cover Modifiers` |
+| **Mortality State** | Survival | Triggered at `0 Health`. Character gains **Stability Points = `Stamina Score + 5`** and loses `1` per turn until stabilized (`CR 15` Medicine or `CR 15` Fortitude Save). | Death occurs at `0 Stability Points` or when negative Health reaches `-Stamina Score`. |
+| **Stigma** | Social | Social prejudice and Alien Mind Factor penalty resulting from species, synthetic, or cultural bias. | `-1` (Minor), `-2` (Typical), `-4` to `-8` (Severe/Monstrous) to Social checks with biased groups. |
 
-## 
+---
 
-## ***IV. METAPHYSICS & TECHNOLOGY***
+## **IV. METAPHYSICS & TECHNOLOGY**
 
-The intersection of Magic and Science.
+The intersection of Resonance Manipulation (Magic/Psionics) and Scientific Engineering.
 
-| Term | Domain | Definition | Range / Limit |
-| :---- | :---- | :---- | :---- |
-| TL | Tech | Tech Level. The sophistication of technology/engineering. | TL 0 (Stone) to TL 5 (Post-Scarcity) |
-| ML | Meta | Metafocus Level. The sophistication of supernatural manipulation. | ML 0 (Null) to ML 6 (Deific) |
-| Attune | Meta | The governing Attribute/Skill for channeling Meta power. Acts as "Accuracy" for spells. | Rank 1 to 30 |
-| Discipline | Meta | A broad school of magic/psionics (e.g., Entropy, Dimension). | 6 Primary Disciplines |
-| Invocation | Meta | A specific "spell" or technique within a Discipline. | Scaled by Stages (Novice to Pinnacle) |
-| Essence | Meta | Internal energy used to empower high-difficulty meta effects or power Meta-Tech. | Formula: Sum of ALL Attributes (Str+Agi+Sta+Int+Wis+Cha) \+ Attune Rank. |
+| Term | Domain | Definition | Canonical Range / Formula |
+| :--- | :--- | :--- | :--- |
+| **TL** | Technology | **Technology Level**. The sophistication of scientific engineering and manufacturing. | `TL 0` (Stone/Primitive) to `TL 5` (Polymatter / Post-Scarcity) |
+| **ML** | Metaphysics | **Metafocus Level**. The societal integration and sophistication of Resonance manipulation. | `ML 0` (Unawakened/Null) to `ML 6` (Deific / Progenitor) |
+| **Attune** | Metaphysics | The universal conduit skill for channeling Resonance energy. Sets target Save CRs and attack accuracy. | Active Save CR = `2d10 + Attune Rank + Key Attribute Mod` (Passive = `10 + Attune + Key Mod`) |
+| **Discipline** | Metaphysics | One of the **6 Primary Metaphysic Schools** (`Dimension, Energy, Entropy, Illusion, Matter, Mental`), each split into **2 Focus Skills** (12 Foci total). | Determines Range, Area, Duration, and Base Stage Dice (`+1d6` to `+4d6`). |
+| **Invocation** | Metaphysics | A specific spell, psionic power, or technique learned within a Discipline (`1 CP` per Rank). | Adds `+1 Effect Die` per Invocation Rank to Base Discipline Stage Dice. |
+| **Essence** | Metaphysics | Internal bio-spiritual energy reserve used to empower high-strain invocations or Meta-Tech. | `Essence Pool = Sum of All 6 Attribute Scores (STR+AGI+STA+INT+WIS+CHA) + Attune Rank` |
 
-## 
+---
 
-## ***V. ECONOMY & WEALTH***
+## **V. ECONOMY & WEALTH (EUFT)**
 
-Bridging abstract Wealth Scores and liquid Credits.
+Bridging abstract Wealth Scores (`WS`), Crafting Challenge Ratings (`CR`), and liquid Credits (`Cr`).
 
-| Term | Domain | Definition | Range / Limit |
-| :---- | :---- | :---- | :---- |
-| Wealth | Economy | Wealth Score (WS). An abstract rating of lifestyle and purchasing power. | 0 (Indebted) to 80+ (Emperor) |
-| Credits | Economy | Liquid Credits (Cr). Physical/Digital currency for transactions beyond WS limits. | 1 Cr to Billions. |
-| MCr | Economy | Mega-Credit. Used for Starship/Station economics. | 1 MCr \= 1,000,000 Credits |
-| CR | Crafting | Crafting CR. The "Prime Mover" of value. Determining the cost/time to build. | Value \= $10 \\times 4^{(CR/5)}$ |
+| Term | Domain | Definition | Canonical Formula / Ratio |
+| :--- | :--- | :--- | :--- |
+| **Wealth (WS)** | Economy | **Wealth Score**. Abstract rating of financial leverage, credit access, and auto-buy threshold. | **Golden Rule:** Auto-buy any personal item where `Item CR <= Character WS`. |
+| **Credits (Cr)** | Economy | Liquid currency used to pay the **Liquidity Gap** when purchasing items where `Item CR > WS`. | `Liquidity Gap = Value(Item CR) - Value(Character WS)` |
+| **MCr** | Economy | **Mega-Credit**. Macro-economic unit used for starships, orbital stations, and planetary trade. | `1 MCr = 1,000,000 Credits` |
+| **Crafting CR** | Economy | The "Prime Mover" of item valuation (`Purchase CR = Crafting CR`). | Base intervals of 5: `Value (Cr) = 10 * 4 ^ (CR / 5)` |
+| **Micro-Modifiers** | Economy | Linear multipliers applied to the nearest base interval of 5 for intermediate CRs (`+1` to `+4`). | `+1 CR = x1.3 \| +2 CR = x1.75 \| +3 CR = x2.3 \| +4 CR = x3.0 \| -1 CR Flaw = x0.75` |
+| **Material Ratio** | Crafting | Raw material cost required to initiate fabrication via the Productivity Engine. | **Pristine Materials:** `50%` of Credit Value \| **Scavenged Scrap:** `10%` value (requires `5x` Item Credit Value in raw scrap mass) |
 
-## 
+---
 
-# 
+## **VI. DISCREPANCY & RESTORATION LEDGER**
 
-# ---
+* **DISC-302 (Glossary Vitality Stamina Bug Purge):** Replaced the legacy `Base 30 + (5 per CP/Sta)` entry in `1.00.Glossary.md` with the canonical Zero-Stamina-Scaling rule (`Base 30 + 5 per 1 CP; NEVER scaled by Stamina`) and added **Base Toughness** (`Stamina Modifier subtracts point-for-point from incoming damage after Armor DR`).
+* **DISC-303 (UDU Header & EUFT Micro-Modifiers):** Fixed the legacy `1 Module = 100 Mounts = 10,000 Sockets` header typo to match the canonical `1 Module = 10 Mounts = 100 Sockets = 1,000 Usable Nodes` table row, and added the 2d10 Core Metrics and EUFT Linear Micro-Modifier definitions.
 

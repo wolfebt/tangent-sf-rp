@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 222
+order: 220
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","2.00 economatrix","mechanics"]
-updatedAt: "2026-10-31T11:30:42.650Z"
+updatedAt: "2026-11-02T22:49:16.676Z"
 costs:
   bp: 0
   credits: 0
@@ -39,84 +39,905 @@ sockets:
 
 # **2.00 ECONOMATRIX: TANGENT ECONOMIC UNIFIED FIELD THEORY (EUFT)**
 
-**A Design Protocol and Operational Guide for the Tangent SciFi Fantasy RPG**
+# **A Design Protocol for the Tangent SciFi Fantasy RPG**
 
----
+  
 
 ## **1. The Economic Dissonance in Roleplaying Games**
 
-The design of economic systems within tabletop roleplaying games (RPGs) has historically suffered from a fundamental fracture between narrative ambition and mechanical execution. In the context of the Tangent SciFi Fantasy RPG, the objective is to synthesize a coherent economic engine that unifies character creation resources (Character Points or CP), abstract purchasing power (Wealth Score), liquid currency (Credits), and the mechanics of creation (Crafting DC). This unification is not merely an aesthetic choice but a structural necessity to prevent the "economic dissonance" that plagues legacy systems.
+The design of economic systems within tabletop roleplaying games (RPGs) has historically suffered from a fundamental fracture between narrative ambition and mechanical execution. In the context of the Tangent SciFi Fantasy RPG, the objective is to synthesize a coherent economic engine that unifies character creation resources (Character Points or CP), abstract purchasing power (Wealth Score), liquid currency (Credits), and the mechanics of creation (Crafting CR). This unification is not merely an aesthetic choice but a structural necessity to prevent the "economic dissonance" that plagues legacy systems.
 
-Economic dissonance arises when the different currencies of a game—time, experience, gold, and crafting effort—fail to exchange at consistent rates. In legacy fantasy systems, for example, the cost to craft an item is derived from its market price, often assigned arbitrarily by designers based on utility rather than complexity. This leads to ludonarrative failures where a high-level adventurer can slay a dragon in six seconds but requires years to forge a suit of armor that is statistically necessary for their survival. Conversely, systems that utilize abstract Wealth Scores to streamline bookkeeping often struggle to integrate the tactile rewards of "loot" that drive player motivation in exploratory and dungeon-crawling scenarios.
+Economic dissonance arises when the different currencies of a game—time, experience, gold, and crafting effort—fail to exchange at consistent rates. In Dungeons & Dragons 3.5 and Pathfinder, for example, the cost to craft an item is derived from its market price, which is often assigned arbitrarily by designers based on utility rather than complexity. This leads to ludonarrative failures where a high-level adventurer can slay a dragon in six seconds but requires years to forge a suit of armor that is statistically necessary for their survival. Conversely, systems like 2d10 Modern or Mutants & Masterminds utilize abstract Wealth Scores to streamline bookkeeping, yet often struggle to integrate the granular rewards of "loot" that drive player motivation in dungeon-crawling scenarios.
 
-This framework establishes a singular, mathematically rigorous solution: **The Tangent Economic Matrix**. By establishing the Crafting Difficulty Class (DC) as the "Prime Mover" of the economy, we ensure that the value of an object is a direct, non-arbitrary derivative of the complexity required to create it. This approach aligns the simulationist desire for a logical world (harder things cost more) with the gamist need for balanced progression (investment in CP yields proportional economic power).
+This report proposes a singular, mathematically rigorous solution: **The Tangent Economic Matrix**. By establishing the Crafting Challenge Rating (CR) as the "Prime Mover" of the economy, we ensure that the value of an object is a direct, non-arbitrary derivative of the complexity required to create it. This approach aligns the simulationist desire for a logical world (harder things cost more) with the gamist need for balanced progression (investment in CP yields proportional economic power).
 
----
+The following analysis draws upon a broad spectrum of RPG mechanics—from the granular accounting of Traveller starship economics to the abstract point-buy of GURPS—to construct a robust system capable of handling the immense scale variance inherent in a SciFi Fantasy setting, where players may trade both iron daggers and faster-than-light dreadnoughts.
+
+  
+  
 
 ## **2. Theoretical Framework: The Valuation Vector**
 
-To ensure Crafting DC directly correlates to item value, Tangent posits that **Complexity Determines Value**. The market price of an item is simply the societal aggregate of the skill (DC) and infrastructure required to produce it.
+To ensure Crafting CR directly correlates to item value, we must abandon the traditional design paradigm where price is determined by utility balance and crafting is a secondary derivation. Instead, Tangent posits that **Complexity Determines Value**. The market price of an item is simply the societal aggregate of the skill (CR) and time required to produce it.
 
-### **2.1 The Failure of Linear Scaling**
-In legacy systems, a recurring failure point is linear or shallow geometric scaling. In heroic fantasy, a +1 sword costs 2,000 gp and a +2 sword costs 8,000 gp ($Bonus^2 \times 1,000$). While functional for narrow fantasy, this curve breaks down in SciFi environments. The difference in complexity between a handgun and a starship is not quadratic; it is logarithmic. A starship is not just a larger firearm; it represents orders-of-magnitude leaps in engineering difficulty, life-support metallurgy, and power generation.
+  
 
-If linear or shallow curves are applied to a SciFi setting, players accumulate personal wealth that trivializes planetary economies, or starship prices become so astronomical that personal gear becomes mathematically irrelevant.
+### **2. The Failure of Linear Scaling**
 
-### **2.2 The Tangent Standard Curve (TSC)**
-To encompass the breadth of the Tangent setting—ranging from basic survival gear to orbital megastructures—the relationship between Crafting DC and Value must be exponential. We define the Tangent Standard Curve (TSC) via the function:
+In analyzing legacy systems, a recurring failure point is linear or shallow geometric scaling. In Pathfinder, a +1 sword costs 2,000 gp, and a +2 sword costs 8,000 gp. The progression is quadratic (Bonus^2 \\times 1,000). While functional for heroic fantasy, this curve breaks down in SciFi environments. The difference in complexity between a handgun and a starship is not quadratic; it is logarithmic. A starship is not just "a very big gun"; it represents an order-of-magnitude leap in engineering difficulty.
 
-$$V = V_{\text{base}} \times \beta^{\frac{\text{DC} - \text{DC}_{\text{base}}}{S}}$$
+If we apply linear or shallow curves to a SciFi setting, we encounter the Traveller dilemma: players accumulate personal wealth that trivializes planetary economies, or starship prices become so astronomical that personal gear becomes mathematically irrelevant.
+
+  
+
+### **2. The Tangent Standard Curve (TSC)**
+
+To encompass the breadth of the Tangent setting—ranging from survival gear to orbital megastructures—the relationship between Crafting CR and Value must be exponential. We define the Tangent Standard Curve (TSC) via the following function:
+
+V = V_{base} \\times \\beta^{\\frac{CR - CR_{base}}{S}}
 
 Where:
-* $V$ is the Market Value in Credits.
-* $V_{\text{base}}$ is the baseline value of the simplest manufactured good or scrap metal (DC 0) = **10 Credits**.
-* $\beta$ is the Growth Factor = **4** (value quadruples across every tier).
-* $S$ is the Scale Interval = **5 DC** (every +5 DC increment).
 
-The simplified canonical formula is:
+  - V is the Market Value in Credits.
+  - V_{base} is the baseline value of the simplest manufactured good (CR 0).
+  - \\beta is the Growth Factor.
+  - S is the Scale Interval (the CR step required to trigger the growth factor).
 
-$$\mathbf{\text{Value (Credits)}} = 10 \times 4^{(\text{DC} / 5)}$$
+Through stress-testing various RPG economies, specifically looking at the "Wealth by Level" expectations in 2d10 systems versus the exponential costs of Traveller hulls, we derive optimal constants for Tangent:
 
-This curve ensures that small increases in difficulty (representing technological breakthroughs or magical tiers) result in predictable, exponential increases in value.
+  - V_{base} = 10 Credits (The cost of a meal or scrap metal).
+  - \\beta = 4 (Value quadruples).
+  - S = 5 (Every +5 CR increment).
 
-```
-DC  0 (Scrap)        : 10 Credits
-DC  5 (Simple)       : 40 Credits
-DC 10 (Standard)     : 160 Credits
-DC 15 (Advanced)     : 640 Credits
-DC 20 (Expert)       : 2,560 Credits
-DC 25 (Master)       : 10,240 Credits
-DC 30 (Grandmaster)  : 40,960 Credits
-DC 35 (Heroic)       : 163,840 Credits
-DC 40 (Legendary)    : 655,360 Credits
-DC 45 (Mythic)       : 2,621,440 Credits
-DC 50 (Transcendent) : 10,485,760 Credits (~10.5 MCr)
-```
+  
 
-### **2.3 The Coherence of DC-Derived Pricing**
-By strictly adhering to this calculation, all pricing debates are eliminated. An Architect values any new, homebrew, or precursor artifact instantly simply by assigning it a Crafting DC based on its operational complexity:
-* **Ballistic Rifle (DC 15):** Standard machining. $\text{Value} = 10 \times 4^{(15/5)} = 640\text{ Credits}$.
-* **Plasma Rifle (DC 20):** Advanced energy physics, containment magnetic coil. $\text{Value} = 10 \times 4^{(20/5)} = 2,560\text{ Credits}$.
+The simplified formula becomes:
 
-The Plasma Rifle is inherently 4 times more valuable because it is one distinct tier (+5 DC) harder to manufacture.
+**Value = 10 \\times 4^{(CR / 5)}**
+
+This curve ensures that small increases in difficulty (representing technological breakthroughs or magical tiers) result in massive increases in value, accurately simulating the gap between mundane and advanced technology.
+
+  
+
+### **2. The Coherence of CR-Derived Pricing**
+
+By strictly adhering to this formula, we eliminate pricing debates. If a designer introduces a "Plasma Rifle," they do not guess its price. They determine its complexity relative to a "Ballistic Rifle."
+
+  - **Ballistic Rifle:** Standard machining. CR 15.
+      
+      - V = 10 \\times 4^{(15/5)} = 10 \\times 64 = 640 Credits.
+  - **Plasma Rifle:** Advanced energy physics, rare materials. CR 20.
+      
+      - V = 10 \\times 4^{(20/5)} = 10 \\times 256 = 2,560 Credits.
+
+The Plasma Rifle is inherently 4 times more valuable because it is one distinct tier (+5 CR) harder to manufacture. This creates a predictable, logical economy where Crafting CR is the DNA of the market.
+
+  
+  
+
+## **3. The Wealth Matrix: Integrating Character Points and Status**
+
+The Wealth Matrix serves as the translation layer between the character’s intrinsic potential (Character Points) and their extrinsic economic power (Wealth Score). In many point-buy systems like GURPS or Mutants & Masterminds, wealth is a distinct advantage purchased separately from skills. Tangent integrates this by treating Wealth Score (WS) as a status attribute that dictates purchasing thresholds.
+
+  
+
+### **3. Wealth Score as Purchasing Power**
+
+The Wealth Score in Tangent is not a pool of points to be depleted, but a static rating of economic leverage. It represents credit rating, salary, investments, and social capital. Its function is tethered directly to the Crafting CR of items.
+
+**The Golden Rule of Tangent Wealth:**
+
+A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting their liquid Credits or reducing their Wealth Score.
+
+This unifies the system: **Purchase CR = Crafting CR.**
+
+This elegant alignment resolves the disconnect found in 2d10 Modern, where Purchase CR is a separate derived stat often disjointed from the item's creation rules. In Tangent, if you are rich enough to buy a thing (WS), you are theoretically rich enough to fund its creation.
+
+  
+
+### **3. The Expanded Financial Status Hierarchy**
+
+This table defines the social and economic power of a character based on their Wealth Score. It scales from the destitute to the rulers of interstellar empires.
+
+**Column Definitions:**
+
+  - **Wealth Score (WS):** The Target CR the character can "Take 10" on for purchasing. It is the primary attribute derived from CP investment.
+  - **Financial Status:** The socio-economic label applied to the character in the game world.
+  - **CP Cost:** The cost in Character Character Points to acquire this status at creation. Costs scale non-linearly to represent the exponential utility of wealth.
+  - **Purchasing Limit (Liquid Cap):** The maximum Credit value of a single item the character can purchase automatically without rolling or dipping into savings. This aligns with the item's Crafting CR.
+  - **Net Worth (Est):** The theoretical total value of the character's assets (land, stocks, ships, favor). This is usually 100x–1000x their liquid purchasing limit and is used for collateral on loans.
+  - **Lifestyle Description:** What the character's daily life looks like and what assets they likely maintain.
+
+  
+
+#### **Table 3.2: Extended Financial Status Hierarchy**
+
+|  |  |  |  |  |  |
+| :-: | :-: | :-: | :-: | :-: | :-: |
+| **Wealth Score (WS)** | **Financial Status** | **CP Cost** | **Purchasing Limit (Auto-Buy)** | **Estimated Net Worth** | **Lifestyle Description** |
+| **0** | Indebted | \-5 (Flaw) | 0 Cr | Negative | Debt slavery or prison. Zero assets. Survival depends on others. |
+| **1 - 4** | Impoverished | 0 | 10 - 30 Cr | \\\< 500 Cr | Homeless or squatter. Scavenges for food/scrap. Possessions are improvised. |
+| **5 - 9** | Struggling | 2 | 40 - 150 Cr | \\\~2,000 Cr | Shared room in a slum. Public transit only. Eating processed rations. |
+| **10 - 14** | Middle Class | 5 | 160 - 600 Cr | \\\~25,000 Cr | Private apartment, steady wage. Consumer vehicle. Can afford occasional luxuries. |
+| **15 - 19** | Affluent | 10 | 640 - 2,500 Cr | \\\~200,000 Cr | High-end condo or small house. Quality personal vehicle. Access to professional services. |
+| **20 - 29** | Wealthy | 20 | 2,500 - 40,000 Cr | \\\~5 Million Cr | Large estate, multiple vehicles. Staff of servants. Minor corporate investor or local celebrity. |
+| **30 - 39** | Hegemon | 35 | 41K - 650K Cr | \\\~100 Million Cr | Skyscraper penthouse. Owns a small corporation. Personal security detail. Travels via private shuttle. |
+| **40 - 49** | Industrialist | 50 | 650K - 10M Cr | \\\~2 Billion Cr | Megacorp executive. Owns starships (Corvettes). Can influence planetary law. |
+| **50 - 59** | Dynastic | 70 | 10M - 167M Cr | \\\~50 Billion Cr | Minor nobility or Megacorp CEO. Owns space stations or orbital habitats. Commands private fleets. |
+| **60 - 69** | System Lord | 95 | 167M - 2.6B Cr | \\\~500 Billion Cr | Rules a solar system. Can fund planetary colonization. Owns capital ships (Cruisers) personally. |
+| **70 - 79** | Sector Ruler | 125 | 2.6B - 42B Cr | \\\~10 Trillion Cr | Rules a cluster of stars. Can terraform planets. Personal flagship is a Dreadnought. |
+| **80+** | Faction Ruler | 160 | 42B - 600B+ Cr | \\\~1 Quadrillion Cr | Emperor/god-king. Economy is post-scarcity. Builds megastructures (Dyson Spheres, Ringworlds). |
+
+**Note on Scaling:**
+
+  - The jump from Wealthy (WS 20) to Hegemon (WS 30) represents the transition from "Person with Money" to "Person with Assets."
+  - The jump from Dynastic (WS 50) to System Lord (WS 60) represents the transition from "Personal Wealth" to "State Power." At WS 60+, the character's wealth is effectively the GDP of a nation-state.
+
+  
+
+### **3. Dynamic Wealth Adjustment**
+
+Wealth Score is not static. It can be damaged or improved.
+
+  - **Wealth Damage:** Major failures, legal sanctions, or "burning assets" can lower WS.
+  - **Wealth Growth:** Investing large sums of liquid Credits (Loot) can raise WS.
+
+Growth Formula: To raise WS from X to X+1, one must invest Credits equal to the difference in value between the two tiers.
+
+This provides a "Gold Sink" for players, allowing them to retire from adventuring by slowly building their passive Wealth Score.
+
+  
+  
+
+## **4. The Liquid Interface: Credits and Transaction Mechanics**
+
+While Wealth Score handles the macro-economy (lifestyle, upkeep, standard gear), Credits handle the micro-economy (loot, bribes, rare artifacts, gap purchasing). A purely abstract system (like 2d10 Modern) often feels unsatisfying because players enjoy the tactile reward of finding "money". Tangent hybridizes the two.
+
+  
+
+### **4. The Liquidity Gap**
+
+A common issue in point-buy wealth systems is the "infinite money" loop. If I have Wealth Score 20, and I can buy CR 20 items for free, can I buy 10,000 Plasma Rifles and sell them?
+
+Tangent prevents this via **The Liquidity Constraint**.
+
+  
+
+Rule 1: The Personal Use Limit
+
+Wealth Score covers items for personal use or reasonable team support. Bulk acquisition triggers a "Strain Check" or requires a specialized "Logistics" skill check.
+
+  
+
+Rule 2: Purchasing Above Wealth (The Gap Rule)
+
+When a character wants an item with a CR higher than their Wealth Score, they cannot simply buy it. They must bridge the gap with liquid Credits.
+
+Cost_{Liquid} = Value(Item_{CR}) - Value(WealthScore)
+
+  
+
+**Scenario:**
+
+  - Character: Wealth Score 15 (Purchasing Power: 640 Cr).
+  - Target: Stealth Suit (Craft CR 18).
+  - Valuation:
+      
+      - CR 15 Value = 640 Cr.
+      - CR 20 Value = 2,560 Cr.
+      - To find CR 18, we interpolate: 10 \\times 4^{(18/5)} \\approx 1,470 Cr.
+  - The Cost: 1,470 - 640 = 830 Credits.
+
+The character uses their WS to cover the "base" lifestyle cost but must dip into their liquid savings (Loot) to cover the 830 Credit difference. This keeps Loot relevant at all levels of play.
+
+  
+
+### **4. Liquidity Drag (Selling Items)**
+
+To further prevent the "buy free / sell for cash" loop, we introduce Liquidity Drag.
+
+In real-world economics and RPG simulations like Recettear or EVE Online, the "Buy" price and "Sell" price are never identical due to friction (fencing effort, market saturation, legality).
+
+Rule 3: The Fence Rate
+
+Items sold by players yield only a fraction of their theoretical Value, typically 20-50%, depending on the legality and the buyer’s Interest.
+
+  - Legal Goods: Sold at 50%.
+  - Black Market / Stolen: Sold at 20-25%.
+  - Scrap: Sold at 10%.
+
+Since materials to craft an item typically cost 50% of the item's value (standard RPG balance), a character who buys materials and crafts an item to sell it at 50% value makes zero profit. Profit is only possible if:
+
+1.  They Scavenge materials (Time cost, 0 Credit cost).
+2.  They have a "Merchant" ability raising the sell percentage to 60%+.
+
+This effectively creates a functioning economy where crafting is for utility, not infinite wealth generation.
+
+  
+  
+
+## **5. The Crafting Engine: Complexity as Gameplay**
+
+The Tangent crafting system must solve the "Time vs. Cost" paradox. In Pathfinder, high-value items take so long to craft that the campaign often ends before the item is finished. In Tangent, because Value scales exponentially, Crafting Speed must also scale exponentially to keep pace.
+
+  
+
+### **5. The Productivity Formula**
+
+We introduce Productivity Points (PP).
+
+  - **Item Complexity (Target PP):** Equal to the Item's Credit Value. (e.g., CR 20 item requires 2,560 PP).
+  - **Crafter Output:** determined by Skill Check and Tier Multiplier.
+
+Daily\\ Progress (PP) = (Craft\\ Check\\ Result - 10) \\times Tier\\ Multiplier
+
+  
+
+#### **Table 5.1: The Production Tiers**
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **TECH TIER** | **TOOLS REQUIRED** | **MULTIPLIER** | **NARRATIVE EQUIVALENT** |
+| **0** | **Improvised** | x1 | Stone tools, bare hands, cave. |
+| **1** | **Basic** | x10 | Garage kit, basic smithy, handheld tools. |
+| **2** | **Advanced** | x50 | Professional workshop, machine shop, alchemist lab. |
+| **3** | **Industrial** | x200 | Automated factory line, major magical circle. |
+| **4** | **Nanoforge** | x1,000 | Molecular assemblers, Wish-level fabrication. |
+| **5** |  **Genesis** | x5,000 | Polymatter loom, Holophotonics or metaphysical fabrication. |
+| **Bio**  | **Cultivation** | x1,000 | Hyper-Growth Vats where items are grown. |
+
+  
+
+### **5. Solving the "Decades" Problem**
+
+Let us test the math on a high-level item: The Titan Mech Suit (Craft CR 30).
+
+  - **Value:** 10 \\times 4^{(30/5)} = 10 \\times 4096 = 40,960 Credits.
+  - **Target PP:** 40,960.
+
+**Scenario A: The Hobbyist (Pathfinder Style)**
+
+  - Skill Check: 20.
+  - Tools: Basic (x10).
+  - Daily Progress: (20-10) \\times 10 = 100 PP.
+  - Time: 40,960 / 100 = 409.6 Days.
+  - *Result: Realistic for a hobbyist in a garage.*
+
+**Scenario B: The Master Engineer (Tangent Style)**
+
+  - Skill Check: 35 (High level, buffs).
+  - Tools: Advanced Workshop (x50).
+  - Daily Progress: (35-10) \\times 50 = 1,250 PP.
+  - Time: 40,960 / 1,250 \\approx 33 Days.
+  - *Result: A month of downtime. Reasonable for a major campaign upgrade.*
+
+**Scenario C: The Nanoforge (Endgame)**
+
+  - Skill Check: 40.
+  - Tools: Nanoforge (x1,000).
+  - Daily Progress: (40-10) \\times 1,000 = 30,000 PP.
+  - Time: 40,960 / 30,000 \\approx 1. Days.
+  - *Result: High-level characters with high-level infrastructure can print mechs over a weekend.*
+
+This exponential scaling of "Tier Multipliers" counters the exponential growth of "Item Value," ensuring that crafting remains a viable gameplay option from level 1 to level 20.
+
+  
+  
+
+## **6. Comprehensive Reference Tables**
+
+The following tables serve as the GM's primary interface for the Tangent Economic Matrix.
+
+  
+
+#### **Table 6.1: The Master Valuation Table (CR to Credits)**
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **Craft CR** | **COMPLEXITY** | **VALUE (CREDITS)** | **EXAMPLES (SCIFI / FANTASY)** |
+| **0** | Scrap | 10 | Raw ore, ration bar, wooden club. |
+| **5** | Simple | 40 | Knife, backpack, basic clothing, bandages. |
+| **10** | Standard | 160 | Pistol, sword, light armor, commlink. |
+| **15** | Expert | 640 | Rifle, plate mail, medkit, hacking tool. |
+| **20** | Advanced | 2,560 | Plasma weapon, full environmental suit, masterwork gear. |
+| **25** | Master | 10,240 | Cybernetic limb, hoverbike, magic ring, heavy weapon. |
+| **30** | Grandmaster | 40,960 | Power armor, golem, personal shuttle, rare artifact. |
+| **35** | Heroic | 163,840 | AI Core, fighter jet, small starship hull. |
+| **40** | Legendary | 655,360 | Corvette-class ship, legendary artifact, fortress. |
+| **45** | Mythic | 2,621,440 | Frigate, resurrection chamber, moon base module. |
+| **50** | Transcendent | 10,485,760 | Dreadnought, planetary shield generator. |
+
+*Note: Values are derived from* 10 \\times 4^{(CR / 5)}*. Intermediate values can be interpolated or rounded for ease of play.*
+
+  
+
+#### **Table 6.2: Wealth Score Purchasing Guidelines**
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **WEALTH SCORE** | **LIFESTYLE** | **CAN AUTO-PURCHASE (CR)** | **NEEDS LIQUIDITY FOR (CR)** |
+| **5 (Struggling)** | Rations, Hostels | CR 5 (Simple) | CR 10 (Standard) |
+| **10 (Middle)** | Apts, Consumer goods | CR 10 (Standard) | CR 15 (Advanced) |
+| **15 (Affluent)** | High-end tech, luxury | CR 15 (Advanced) | CR 20 (Expert) |
+| **20 (Wealthy)** | Military gear, security | CR 20 (Expert) | CR 25 (Master) |
+| **25 (Tycoon)** | Vehicles, Cybernetics | CR 25 (Master) | CR 30 (Grandmaster) |
+| **30 (Hegemon)** | Heavy Mechs, Property | CR 30 (Grandmaster) | CR 35 (Heroic) |
+
+  
+
+#### **6. Universal Displacement Unit (UDU) Hierarchy**
+
+To ensure compatibility between the microscopic (Cybernetics) and the macroscopic (Capital Ships), Tangent utilizes a strict three-tier capacity system.
+
+|  |  |  |
+| :-: | :-: | :-: |
+| **TIER** | **UNIT NAME** | **SCALE CONTEXT** |
+| **Tier 0** | **Node** | Augmentations/Micro Unit (Cybernetic options). \\\<10g. 10 Nodes usable per Socket. |
+| **Tier 1** | **Socket** | Personal Base Unit (Guns, Computers). \\\<1kg |
+| **Tier 2** | **Mount** | Mecha / Vehicle. \\\<100k. 10 Sockets usable. |
+| **Tier 3** | **Module** | Architectural / Capital. \\\<10tons. 10 Mounts usable. |
+
+  
+  
+
+## **7. Macro-Economics: Factions and Starships**
+
+A robust SciFi RPG must handle economics beyond the personal scale. How does a faction build a fleet?
+
+  
+
+### **7. The "Resource Unit" Abstraction**
+
+When dealing with items of CR 40+ (Starships, Stations), tracking individual Credits becomes cumbersome. Following the Traveller model of "Resource Units" (RU) or "Megacredits", we can simplify the math.
+
+  - 1 MegaCredit (MCr) = 1,000,000 Credits.
+  - A CR 50 Dreadnought costs \~10.5 MCr.
+
+  
+
+### **7. Cooperative Crafting (Industrial Scale)**
+
+An individual cannot craft a Dreadnought. The "Time" required would be centuries.
+
+**Faction Crafting Rule:**
+
+  - Factions utilize Labor Pools.
+  - A Shipyard employs 1,000 workers.
+  - Each worker contributes to the "Daily Progress" (PP).
+  - Total Daily PP = \\sum (Individual\\ PP).
+
+**Example:** Building the Dreadnought (Value 10,485,760).
+
+  - **Shipyard:** 1,000 Workers (Skill check avg 15).
+  - **Tools:** Industrial (x200).
+  - **Per Worker Output:** (15-10) \\times 200 = 1,000 PP/Day.
+  - **Total Shipyard Output:** 1,000 \\times 1,000 = 1,000,000 PP/Day.
+  - **Construction Time:** 10.5 Days.
+
+This confirms that the Tangent math holds up at the macro scale. A major shipyard can churn out a capital ship every two weeks, provided they have the 5.25 Million Credits (50% material cost) to fund it. This creates strategic gameplay: Factions fight not just for territory, but for the Credits (resources) to keep their shipyards fed.
+
+  
+  
+
+## **8. Stress Testing and Edge Cases**
+
+  
+
+### **8. The "Infinite Wealth" Exploit**
+
+**Scenario:** A high-level party pools their money to buy a Nanoforge (x1,000 multiplier) and tries to flood the market with Plasma Rifles (CR 20).
+
+**The Check:** The economy is not a bottomless pit. Selling items requires a Buyer.
+
+**Market Saturation:** Each settlement has a "Wealth Limit" (similar to Skyrim shopkeepers or D\&D settlement caps). A village cannot buy 100 Plasma Rifles. A metropolis can, but prices will crash (Supply/Demand).
+
+**GM Tool:** The GM imposes a "Mercantile CR" to find buyers for bulk goods. The CR increases with the quantity sold.
+
+  - Sell 1 Rifle: CR 10 (Easy).
+  - Sell 10 Rifles: CR 20 (Hard).
+  - Sell 100 Rifles: CR 40 (Impossible without contacts).
+
+  
+
+### **8. The "Artifact" Problem**
+
+Scenario: Players find a Precursor Artifact. What is it worth?
+
+Resolution: The GM assigns a Craft CR based on its function.
+
+  - Does it kill gods? CR 60.
+  - Value: 10 \\times 4^{(60/5)} = 10 \\times 4^{12} \\approx 167 Million Credits.
+
+The players now have an asset worth a planetary GDP. They cannot sell it at a pawn shop (no buyer has that Wealth Score). They must find a Hegemon tier buyer, turning the "sale" into a campaign arc involving diplomacy, intrigue, and heist defense.
+
+  
+
+### **8. Party Pooling**
+
+Can a party of 4 "Middle Class" (WS 10) characters combine funds to buy a "Wealthy" (WS 20) item?
+
+  - **Liquid Credits:** Yes. They can pool loot.
+  - **Wealth Score:** No. Wealth Score is personal status. Four middle managers do not equal one CEO. They cannot combine their WS to auto-purchase a tank. They must use the Gap Rule and pay cash.
+
+  
+  
+
+## **9. Conclusion**
+
+The Tangent Economic Matrix succeeds by establishing a rigid, mathematical backbone (Value = f(CR)) while allowing for flexible gameplay interfaces (Wealth Score for lifestyle, Credits for loot).
+
+  - **Crafting CR** is the absolute truth of the universe. It dictates **Value**.
+  - **Value** dictates the **Time** required to build and the **Wealth** required to buy.
+  - **Character Points** allow players to invest in this system, gaining exponential returns on Purchasing Power, paralleling the exponential returns of Combat Power in a leveling RPG.
+
+This system avoids the pitfalls of linear crafting times, resolves the abstraction issues of wealth scores, and scales effortlessly from the street level to the starship level. It provides the Tangent SciFi Fantasy RPG with an economy that is consistent, exploitable only through gameplay effort, and robust enough to support years of campaign escalation.
+
+  
+  
+
+## **10. Action: Retrofit Directive for Item Entries**
+
+**Critical Rule:** Every item Stat Block MUST include both a Wealth Score (WS) and a Credit Value (Cr).
+
+  
+  
+
+### **The Base Value Formula**
+
+All items lacking a specific credit value must be recalculated using this Framework formula based on Crafting CR:
+
+Value (Credits) = 10 \\times 4^{(CR / 5)}
+
+**Logic:** Players with a Wealth Score lower than the Item's WS must pay the difference in Cash or secure other credit.
+
+**Formula:**
+
+Cash\\ Cost = (Item\\ Value) - (Value\\ of\\ Player's\\ Wealth\\ Score\\ Tier)
+
+  
+
+## **Addendum: Quick Reference Formulas**
+
+  - **Value (Cr):** 10 \\times 4^{(CR / 5)}
+  - **Material Cost:** 50% of Value.
+  - **Crafting Time (Days):** Value / ((Skill - 10) \\times ToolMultiplier)
+  - **Liquidity Gap:** Cost = Value_{Item} - Value_{WS}
+  - **WS Increase Cost:** Value(TargetWS) - Value(CurrentWS)
+
+  
+  
+
+-----
+
+  
+
+# **The Liquidity Gap and Friction Mechanics**
+
+A common failure point in abstract wealth systems is the "infinite money loop," where players attempt to use their passive Wealth Score to acquire high-value items for free and immediately sell them for infinite cash. Tangent mitigates this via strict friction mechanics, ensuring "Loot" (liquid Credits) remains a vital gameplay reward at all tiers.
+
+**The Liquidity Constraint (The Gap Rule):** When a character seeks an item with a CR exceeding their Wealth Score, their passive income cannot cover the transaction. They must bridge the gap with liquid Credits. The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's CR.
+
+For example, if an Affluent character (WS 15, Auto-Buy Limit \~640 Cr) wishes to purchase an advanced Stealth Suit (CR 18, Value \~1,470 Cr), the character applies their WS 15 leverage to cover the base lifestyle cost, leaving a remainder of 830 Credits that must be paid in liquid cash from their adventuring savings.
+
+**Liquidity Drag (The Fence Rate):** To further prevent market abuse, the economy imposes Liquidity Drag. In real-world economics and RPG simulations, the "Buy" price and "Sell" price are never identical due to fencing effort, market saturation, and legality. The Sell Price of an item is heavily reduced:
+
+  - Legal goods sell at 50% of Total Value.
+  - Black market or stolen goods sell at 20-25%.
+  - Scrap sells at 10%.
+
+Because the raw materials required to craft an item also cost 50% of the item's Total Value, a character who buys materials and crafts an item for immediate resale operates at a 0% profit margin. Profit is only possible through adventuring, scavenging materials for free, or utilizing specialized merchant skills.
+
+  
+  
+
+## -----
+
+# **The Productivity Engine and Macro-Economics**
+
+Because the Tangent Standard Curve dictates that value scales exponentially, a linear crafting system (e.g., generating 50 credits of value per day) would require literal centuries to build high-end assets, ending campaigns before items are finished. Tangent solves the "Time vs. Cost" paradox through the Productivity Engine, converting effort into Productivity Points (PP).
+
+  
+
+### **The Productivity Formula**
+
+To craft an item, the creator must accumulate a Target PP equal exactly to the item's Credit Value. Daily progress is generated based on the crafter's skill variance and the tier of their infrastructure. A creator's Daily Progress in Productivity Points is calculated by taking their Craft Check Result, subtracting 10, and multiplying that number by the tool's Tier Multiplier.
+
+The Tool Tier Multiplier is the critical variable that allows the timeline to scale exponentially alongside the item's value 4:
+
+  - **Tier 0 (Improvised):** x1 Multiplier. Bare hands, stone tools.
+  - **Tier 1 (Basic):** x10 Multiplier. Handheld power tools, garage kit.
+  - **Tier 2 (Advanced):** x50 Multiplier. Professional machine shop.
+  - **Tier 3 (Industrial):** x200 Multiplier. Automated factory lines.
+  - **Tier 4 (Nanoforge):** x1,000 Multiplier. Molecular assembly swarms.
+  - **Bio (Cultivation):** x1,000 Multiplier. Hyper-Growth Vats (Auluran/Kitin) where items are grown in accelerated nutrient tanks. Requires Medicine/Nature and Engineering checks.
+  - **Tier 5 (Genesis):** x5,000 Multiplier. Thought-responsive Polymatter loom, Holophotonics or Wish-level metaphysical fabrication.
+
+Under this engine, a Mastercraft Titan Mech Suit (CR 30, Target PP = 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build. However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.
+
+  
+
+### **Macro-Scale Construction and Faction Labor Pools**
+
+For astronomical projects like a Dreadnought (CR 50, Value \~10.5 Million Cr) or a Titanic Arcology (CR 60+, Value \~167 Million Cr), individual crafting is physically impossible. Factions utilize **Labor Pools** to execute macro-scale construction. The Daily PP output is simply the sum of individual workers.
+
+A shipyard employing 1,000 engineers operating Industrial (x200) tools can generate 1,000,000 PP per day, completing a capital ship in roughly 10.5 days. This macro-economic logic drives factional warfare; maintaining these shipyards requires an uninterrupted flow of massive liquid capital (5.25 Million Cr in raw materials per ship), forcing factions to fight for territorial resources to keep their production engines fed.
+
+  
+  
+
+-----
+
+# **Economy and Trade**
+
+## **1. Economic Framework: Resources and Trade**
+
+In the Tangent universe, economics is warfare by other means. Trade routes are the arteries of civilization, and commodities are the blood that fuels the expansion of empires. Whether moving legitimate freight for the Syndicate or smuggling Aether-dust through a Coalition blockade, the flow of goods defines the rise and fall of planetary powers.
+
+This section provides the mechanics for commodity exchange, cargo speculation, and the dangerous allure of the black market, underpinned by the **Tangent Economic Unified Field Theory**.
+
+### **1.1. Trade Classifications and Codes**
+
+Worlds are assigned tags that influence supply and demand, creating a web of interdependence between systems. A savvy trader knows that a world's classification is a roadmap to profit.
+
+#### **1.1.1. World Codes & Market Modifiers**
+
+|  |  |  |  |  |
+| :-: | :-: | :-: | :-: | :-: |
+| **Code** | **Classification** | **Requirements (TWP Logic)** | **Primary Exports** | **Market Modifiers & Opportunities** |
+| **Ag** | Agricultural | Atmos 4-9, Hydro 4-8, Pop 5-7 | Foodstuffs, Textiles, Bio-matter, Timber | **Food:** -50% Cost. **Ind:** +20% Cost. High demand for Machinery and Tech to maintain automated harvesters. |
+| **As** | Asteroid | Size 0, Atmos 0, Hydro 0 | Ores, Crystals, Zero-G Tech | **Minerals:** -40% Cost. **Food:** +50% Cost. Desperate for organics and luxury entertainment to combat isolation. |
+| **Ba** | Barren | Pop 0, Gov 0, Law 0 | Salvage, Artifacts | **All Goods:** Unavailable. Scavenge only. High demand for Survival Gear among xeno-archaeologists. |
+| **De** | Desert | Hydro 0 | Silica, Solar Energy, Artifacts, Salt | **Water:** +100% Cost. **Survival Gear:** Premium. Prime market for water-reclamation tech and cooling units. |
+| **Fl** | Fluid Oceans | Atmos 10+ (Exotic), Hydro 1+ | Chemical Compounds, Fuel | **Chems:** -30% Cost. **Machinery:** +20% Cost. Corrosive atmosphere creates constant demand for replacement parts and alloys. |
+| **Ga** | Garden | Size 5+, Atmos 4-9, Hydro 4-8 | Luxuries, Art, Biologicals | **Luxuries:** -20% Cost. **High Tech:** Standard. Often a hub for tourism; high demand for exotic foods and high-status items. |
+| **Hi** | High Pop | Pop 9+ | Manufactured Goods, Information | **Manuf:** -10% Cost. **Food:** +20% Cost. Voracious appetite for raw materials and food; produces cheap consumer electronics. |
+| **Ht** | High Tech | TL 12+ (standard) or TL 4+ (Tangent) | Computers, Medical, Cybernetics, Ships | **High Tech:** -10% Cost. **Raw Mats:** +30% Cost. Exports advanced weaponry and medical pods; imports rare minerals for manufacturing. |
+| **Ic** | Ice-Capped | Atmos 0-1, Hydro 1+ | Water (Ice), Superconductors, Cryo-Tech | **Water:** Cheap. **Heat Gear:** Premium. Exports coolant and pure water; desperate for fusion cells and thermal insulation. |
+| **In** | Industrial | Atmos 0-2/4/7/9, Pop 9+ | Weapons, Vehicles, Modules, Electronics | **Ind Goods:** -20% Cost. **Food:** +30% Cost. The forge of the sector. Imports vast quantities of metal and workforce sustenance. |
+| **Lo** | Low Pop | Pop 1-3 | Raw Materials | **All Manufactured:** +50% Cost (Scarcity). Dependent on trade for advanced tools; exports raw, unprocessed resources. |
+| **Lt** | Low Tech | Pre-industrial (TL2 or less) | Handmade Goods, Raw Resources | **High Tech:** Unavailable or +200% Cost. High value placed on off-world "magic" (tech); exports exotic, hand-crafted curios. |
+| **Na** | Non-Ag | Too dry/barren for farming | Textiles (Synthetic), Processed Ore | **Textiles:** Standard. **Food:** +10% Cost. Often factory worlds or prison colonies; relies on imported synthetic foodstuffs. |
+| **Ni** | Non-Ind | Pop 4-6 | Raw Materials | **Manuf:** +10% Cost. Service economies or developing worlds; high demand for off-world entertainment and luxury. |
+| **Po** | Poor | Lacking resources/viable land | Scrap, Labor | **Labor:** Cheap. **All Goods:** +10% Cost. Exports cheap workforce contracts; desperate for basic medical supplies. |
+| **Ri** | Rich / Mining | Economic powerhouse / Rare minerals | Luxuries, Advanced Tech, Ores, Crystals | **Luxuries:** Standard. **Raw Mats:** -30% Cost. High disposable income; prime market for exotic art, pets, and illegal vices. |
+| **Va** | Vacuum | Atmos 0 | Salvage, Zero-G Goods, Ores | **Air/Water:** +100% Cost. **Zero-G Gear:** Cheap. Dependent on life-support imports; exports refined isotopes and vacuum-welded hulls. |
+| **Wa** | Water World | Hydro 10 (A) | Seafood, Hydrogen, Algae, Deuterium | **Food:** -20% Cost. **Land Goods:** +50% Cost. Exports protein paste base; imports metals and wood, which are luxury items here. |
+
+#### **1.1.2. Trade Route Dynamics: The Cluster Theory**
+
+Planetary economies rarely exist in a vacuum. They form **Trade Clusters**—symbiotic relationships between neighboring systems. Identifying these loops is the first step to building a mercantile empire.
+
+  - **The Survival Loop (Ag ↔ In):** The most common route. Industrial worlds (In) produce the tractors and harvesters that Agricultural worlds (Ag) need, while Ag worlds provide the gigatons of grain required to feed the Industrial workforce.
+      
+      - *Route Risk:* Low piracy (heavily patrolled), low profit margins, high volume.
+  - **The Extraction Chain (As/Ri ↔ Ht):** Asteroid belts (As) and Mining worlds (Ri) strip-mine raw materials to feed High Tech (Ht) foundries. In return, Ht worlds supply the advanced mining lasers, gravity plating, and cybernetics needed to survive the mines.
+      
+      - *Route Risk:* High piracy (valuable cargo), moderate margins.
+  - **The Life Support Run (Ic/Wa ↔ De/Va):** Moving water and oxygen from Ice (Ic) or Water (Wa) worlds to Desert (De) or Vacuum (Va) colonies. This is often a lifeline route; disruption here causes immediate humanitarian crises.
+      
+      - *Route Risk:* Variable. Often subsidized by government contracts.
+
+### **1.2. Commodities & Exchange Matrix**
+
+While the Wealth Matrix handles personal gear, bulk trade goods (Commodities) form the backbone of the speculative market. Prices listed below are the **Base Galactic Average**.
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **Category** | **Trade Good** | **Base Cost/Ton** | **Description & Tangent Flavor** |
+| **Essential** | Foodstuffs | 500 cr | Bulk grain, algae paste, or dehydrated rations. Essential for station survival. *Example: Karkinos Grains.* |
+| **Essential** | Water (Ice) | 250 cr | Pure glacial ice or cometary fragments. Vital for desert/barren worlds. *Example: Krias Glacial Bricks.* |
+| **Essential** | Textiles | 1,000 cr | Synthetic polymers, spider-silk from Rakne farms, or standard cotton. *Example: Rakne Silk.* |
+| **Industrial** | Polymers | 4,000 cr | Raw plastics, rapid-print resin, and synthetic rubber. Used in 3D printing and construction. |
+| **Industrial** | Chemicals | 5,000 cr | Fertilizers, industrial acids, and refined starship fuel (Hydrogen). *Example: Volatile Acids.* |
+| **Industrial** | Metals (Common) | 7,000 cr | Steel, Aluminum, Copper. Used for construction and basic hulls. *Example: Durasteel beams.* |
+| **Industrial** | Metals (Rare) | 25,000 cr | Titanium, Tungsten, Platinum. Used for high-end components. *Example: Iridium ore.* |
+| **Tech** | Machinery | 15,000 cr | Heavy mining drills, atmospheric scrubbers, vehicle parts. *Example: Mekan Drill-Heads.* |
+| **Tech** | Electronics | 30,000 cr | Sensor arrays, comms relays, consumer devices. *Example: Syndicate Data-Pads.* |
+| **Tech** | High Tech | 50,000 cr | Grav-plates, fusion cores, medical pods. High value, low mass. *Example: Ascendancy Psi-Nodes.* |
+| **Luxury** | Luxuries | 100,000 cr | Artwork, vintage wines, rare spices, actual paper books. *Example: Alterian Sun-Wine.* |
+| **Luxury** | Biologics | 75,000 cr | Gene-seed, cloned organs, exotic pets (or their DNA). *Example: Auluran Graft-Seeds.* |
+| **Restricted** | Weaponry | 40,000 cr | Small arms crates, vehicle turrets, explosives. (Law Level restrictions apply). *Example: Mag-Rail Rifles.* |
+| **Restricted** | Armor | 35,000 cr | Plasteel plating, powered suit servos. *Example: Legionnaire Plate.* |
+
+### **1.4. Exchange Mechanics: Speculative Cargo**
+
+Players acting as "Free Traders" or Corporate Agents generate profit by exploiting the price gap between Supply (Source) and Demand (Destination) worlds. The core loop involves risk assessment, negotiation, and logistics.
+
+#### **The Speculation Loop: An Example**
+
+*Captain Vance wants to run a cargo of Rare Metals from the Asteroid Belt (As) to a High Tech (Ht) world.*
+
+  - **Assessment:** Vance rolls **Appraisal (CR 15)**. Success\! He knows the Asteroid miners are flooding the market, dropping prices to 60% of base.
+  - **Purchase:** He buys 10 tons of Rare Metals. Base cost is 25,000 cr/ton. With the -40% Asteroid modifier and current fluctuation, he pays only 15,000 cr/ton. Total investment: 150,000 cr.
+  - **Transport:** He dodges a pirate patrol in the Belt (Risk).
+  - **Liquidation:** Arriving at the Ht world, he rolls **Broker**. A critical success\! The High Tech world usually pays +30% for raw mats, but Vance triggers a bidding war. He sells at 200% of base value (50,000 cr/ton). Total Sale: 500,000 cr. Profit: 350,000 cr.
+
+#### **Step-by-Step Procedure:**
+
+1.  **Market Assessment (Appraisal):** The character must identify a profitable route. A successful **Appraisal (Int)** check (CR 15) reveals the current market variance of a system.
+      
+      - *Success:* Reveal accurate prices and any temporary modifiers.
+      - *Failure:* Prices are obscured or outdated (1d6 days old).
+2.  **Acquisition (Purchase):** Cargo is purchased at the **Source World**.
+      
+      - *Base Price:* Modified by the World Trade Codes (e.g., -50% for Food on Ag worlds).
+      - *Negotiation:* A successful **Diplomacy** or **Bluff** check can lower the purchase price by an additional 5-10%.
+3.  **Transport (Logistics):** The journey to the **Destination World**.
+      
+      - *Expenses:* Fuel, docking fees, and crew wages must be factored in (approx. 10% of cargo value per jump).
+      - *Risk:* Random encounters (Pirates, Customs) increase with the value of the cargo. High-value cargo attracts high-level threats.
+4.  **Liquidation (Brokerage):** Selling the goods at the destination.
+      
+      - *Broker Check:* Roll Intellect + Broker vs. Market CR (Base 15).
+      - *Success:* Sell at **Market Price** + 10-20% profit margin.
+      - *Critical Success:* Bidding war ensues. Sell at +50% profit.
+      - *Failure:* Market saturation. Sell at **Market Price** (break even or minor loss after expenses).
+      - *Critical Failure:* Market crash, tariff hike, or embargo. Sell at -20% loss.
+
+#### **Market Volatility & Trade Events**
+
+The economy is not static. GMs may introduce events that drastically alter scarcity.
+
+|  |  |  |
+| :-: | :-: | :-: |
+| **d6** | **Event** | **Effect on Market** |
+| **1** | Blockade / Embargo | Import/Export Halt. Prices for **Essential** and **Weapons** triple (x3). Black Market flourishes. |
+| **2** | Famine / Blight | Agri-Collapse. **Foodstuffs** cost x5. **Biologics** demand increases. |
+| **3** | Tech Boom | Innovation Spike. **High Tech** and **Electronics** prices drop by 50% (Surplus). |
+| **4** | War Declaration | Military Buildup. **Metals**, **Weaponry**, and **Armor** demand spikes (x2 cost). |
+| **5** | Resource Discovery | Mining Rush. **Raw Materials** prices crash locally (-50%). **Machinery** demand rises. |
+| **6** | Trade Festival | Free Trade Zone. Tariffs suspended. +2 Bonus to all Negotiation/Broker checks this week. |
+
+### **1.5. The Gray and Black Markets**
+
+Not all trade is legal. The **Black Market** operates in the shadows of high-Law worlds (Law 6+), offering immense profit at the risk of imprisonment or seizure. While the Grey Market deals in legal goods sold without tax (avoiding tariffs), the Black Market deals in goods that are explicitly banned.
+
+#### **Contraband Categories:**
+
+  - **Combat Drugs:** Stimulants, pain-suppressors. (Value: 20k/kg). *High demand on Industrial and War-torn worlds.*
+  - **Sentient AI Cores:** Unshackled artificial intelligence. (Value: 500k/unit). *Strictly banned by the Dynasty and Coalition; highly prized by the Syndicate.*
+  - **Xeno-Artifacts:** Progenitor tech or non-sanctioned alien relics. (Value: Variable/High). *Illegal in Impyrium space; coveted by researchers and collectors.*
+  - **Restricted Weaponry:** Mil-spec WMDs or disruptors. (Value: 2x Legal Weapons).
+
+#### **Smuggling Mechanics:**
+
+  - **The Run:** Moving goods requires a Pilot + Deception check vs. System Authority scans. The CR is determined by the Starport Law Level.
+  - **Concealment:** Ships can install "Shielded Cargo Holds" (TL4) to impose Disadvantage on scan checks. False manifests (Forgery) can also grant bonuses.
+  - **The Fence:** Selling contraband requires a Streetwise check to find a buyer without alerting the authorities.
+  - **Consequences:** Getting caught in a Law 8+ system results in immediate ship impoundment and imprisonment. In Law 5-7, bribes (10-20% cargo value) may work to smooth things over.
+
+### **1.6. Logistics and Cargo Capacity**
+
+Understanding capacity is vital for any hauler. Tangent uses the **Universal Displacement Unit (UDU)** system, where cargo space is measured in **Slots** or **Tons**.
+
+#### **Cargo Scaling:**
+
+  - **1 Slot (Personal):** Can hold \~1kg of small goods (Drugs, Gems, Data).
+  - **1 Mount (Vehicle):** Can hold \~100kg (Crates of weapons, spare parts). 100 Sockets
+  - **1 Module (Starship/Structure):** Can hold \~10 Tons (Bulk ore, vehicles, containers). 100 Mounts
+  - *Note:* Most freighter capacities are listed in **Modules**. A "Cargo Bay" system usually provides 10-50 Modules of space depending on ship size.
+
+#### **Freight Contracts:**
+
+Unlike speculation, Freight involves carrying someone else's goods for a flat fee. It is lower risk but lower reward (Standard: 1,000 cr per ton / per parsec). Failure to deliver results in reputation loss and penalties.
+
+  - **Mail/Courier:** High-priority data or small packages. Requires high speed and high security. (Standard: 5,000 cr per delivery). Often targeted by pirates looking for intel.
+
+#### **Passenger Liners:**
+
+Transporting people is a steady income source but requires Life Support modules.
+
+  - **Low Passage:** Cryo-berth (frozen). Cheap (1,000 cr). Risk of "thaw sickness." Minimum space required.
+  - **Mid Passage:** Standard cabin. (5,000 cr). Requires food and basic comfort.
+  - **High Passage:** Luxury suite. (10,000 cr). Demands high-quality service and entertainment.
+
+  
+  
+  
+  
+**  
+**
+
+# **The Tangent Standard Curve (TSC)**  
+**
+
+# **ECONOMATRIX**
+
+### **The Tangent Standard Curve (TSC)**
+
+Because the gap between a simple survival tool and a dimensional jump-gate is logarithmic, the cost scaling must be exponential. The market price of every physical asset within the Tangent galaxy is generated using the Tangent Standard Curve (TSC) formula. This formula dictates that an item's value in Credits equals a baseline value of 10 Credits (representing the simplest manufactured good or scrap metal at CR 0) multiplied by a growth factor of 4, raised to the power of the item's Crafting CR divided by 5. The growth factor of 4 ensures that value inherently quadruples across every tier interval of 5 CR.
+
+By strictly adhering to this calculation, all pricing debates are eliminated. This mathematical rigidity allows Game Masters to value any new, homebrew, or precursor artifact instantly simply by assigning it a Crafting CR based on its operational complexity.
+
+  
+
+**The Master Valuation Table:**
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **CR** | **COMPLEXITY** | **VALUE (CREDITS)** | **EXAMPLES (SCIFI / FANTASY)** |
+| **0** | **Scrap** | 10 | Raw ore, ration bar, wooden club. |
+| **5** | **Simple** | 40 | Knife, backpack, basic clothing, bandages. |
+| **10** | **Standard** | 160 | Pistol, sword, light armor, commlink. |
+| **15** | **Advanced** | 640 | Rifle, plate mail, medkit, hacking tool. |
+| **20** | **Expert** | 2,560 | Plasma weapon, full environmental suit, masterwork gear. |
+| **25** | **Master** | 10,240 | Cybernetic limb, hoverbike, magic ring, heavy weapon. |
+| **30** | **Grandmaster** | 40,960 | Power armor, golem, personal shuttle, rare artifact. |
+| **35** | **Heroic** | 163,840 | AI Core, fighter jet, small starship hull. |
+| **40** | **Legendary** | 655,360 | Corvette-class ship, legendary artifact, fortress. |
+| **45** | **Mythic** | 2,621,440 | Frigate, resurrection chamber, moon base module. |
+| **50** | **Transcendent** | 10.5 MCr | Dreadnought, planetary shield generator. |
+
+  
+  
+
+### -----
+
+### **Wealth Score and Purchasing Power**
+
+Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital. The '99 - AUGMENTATIONS FRAMEWORK' utilizes Character Points (CP) for biological tolerance; the Equipment Framework utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (CP invested at character creation) into extrinsic economic power.
+
+The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score. This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase CR = Crafting CR.
+
+  
+
+Composite score summing a characters income, prestige, endebtments, credit, savings, etc
+
+  
+
+Starting Wealth determined by adding the following categories 
+
+(One choice from each category from character design)
+
+  
+
+|  |  |
+| :-: | :-: |
+| **OCCUPATIONS** | **Wealth Base** |
+| Adept | 4 |
+| Agent  | 2 |
+| Builder | 3 |
+| Citizen  | 2 |
+| Criminal  | 4 |
+| Drifter  | 1 |
+| Entertainer  | 5 |
+| Merchant  | 5 |
+| Representative | 6 |
+| Scholar  | 3 |
+| Scout  | 1 |
+| Soldier  | 1 |
+| Specialist | 3 |
+
+  
+
+|  |  |
+| :-: | :-: |
+| **ORIGINS** | **Modifier** |
+| Agricultural | 0 |
+| Aquatic | 1 |
+| Colony | 0 |
+| Enlightened | 2 |
+| Industrial | 2 |
+| Leisure | 3 |
+| Militaristic | 0 |
+| Research | 2 |
+| Spacer | 1 |
+| Urban | 1 |
+| OTHERS | 0 to 3 |
+
+  
+
+|  |  |
+| :-: | :-: |
+| **FACTIONS** | **Modifier** |
+| Alterian | 3 |
+| Auluran | 2 |
+| Ascendancy | 4 |
+| Coalition | 0 |
+| Dynasty | 2 |
+| Entari | 3 |
+| Impyrium | 3 |
+| Mekan | 6 (Special) |
+| Syndicate | 4 |
+| Outworlds | 0 |
+| OTHERS | 0 to +3 |
+
+  
+
+|  |  |
+| :-: | :-: |
+| **T L** | **Modifier** |
+| 0 | \-4 |
+| 1 | \-2 |
+| 2 |  0 |
+| 3 | \+2 |
+| 4 | \+4 |
+| 5 | \+8 |
+
+  
+
+**SKILL RANKS**
+
+Bonus of +1 per each stage of the primary **Vocation** skill which is being practiced to earn money.
+
+An additional Skill of level 6+ may be accounted to aid in Trade per each of the Primary Skill’s Ranking stage, with a bonus of +1 Wealth per associated skill
+
+  
+
+|  |  |
+| :-: | :-: |
+| **Skill Ranking** | **Bonus** |
+| Novice (1-5) | \+1 |
+| Trained (6-10) | \+2 |
+| Expert (11-15) | \+3 |
+| Master (16-19) | \+4 |
+| Pinnacle (20) | \+5 |
+
+  
+
+**Performance Skills** when professionally done will have double listed bonuses
+
+  
+
+**Medicine Skill** used as a Practicing Physician will be double the typical bonus (likely triple or more in some areas).
+
+  
+
+**Piloting, Combat Skills and others** may also be used like Vocation skills if regular employment using them is available - paying typical to double depending on trade
+
+  
+
+**Discipline Skills** is generally high commodity paying double listed bonuses
+
+  
+
+*Adjustments to Wealth Bonus should be made for any skills the character may be paid for that requires training.* 
+
+  
+
+*Menial or untrained workers will receive the base pay of their societies' Middle Class for practicing a trade, with less pay to the lower castes and impoverished classes of society.*
+
+  
+
+**Expanded Financial Status Hierarchy:**
+
+|  |  |  |
+| :-: | :-: | :-: |
+| **WEALTH STATUS** | **AUTO-BUY LIMIT** | **LIFESTYLE DESCRIPTION** |
+| **0 (Indebted)** | 0 Cr | Debt slavery or prison. |
+| **1 - 4 (Impoverished)** | 10 - 30 Cr | Homeless/Squatter. Scavenges for food. |
+| **5 - 9 (Struggling)** | 40 - 150 Cr | Shared room in slum. Processed rations. |
+| **10 - 14 (Middle Class)** | 160 - 600 Cr | Private apt, steady wage. Consumer vehicle. |
+| **15 - 19 (Affluent)** | 640 - 2,500 Cr | High-end condo. Quality personal vehicle. |
+| **20 - 29 (Wealthy)** | 2,500 - 40,000 Cr | Large estate, servants. Minor corporate investor. |
+| **30 - 39 (Hegemon)** | 41K - 650K Cr | Skyscraper penthouse. Owns small corporation. |
+| **40 - 49 (Industrialist)** | 650K - 10M Cr | Megacorp exec. Owns starships (Corvettes). |
+| **50 - 59 (Dynastic)** | 10M - 167M Cr | Minor nobility. Owns space stations. |
+| **60 - 69 (System Lord)** | 167M - 2.6B Cr | Rules a solar system. Owns capital ships. |
+| **70 - 79 (Sector Ruler)** | 2.6B - 42B Cr | Rules a cluster. Personal flagship is a Dreadnought. |
+| **80+ (Faction Ruler)** | 42B+ Cr | Emperor. Economy is post-scarcity. |
+
+  
+  
+**  
+**
 
 ---
 
----
+## **11. Canonical EUFT Micro-Modifiers, Material Ratios & Layering Retrofits**
 
-## **9. Action Directive & Quick Reference Formulas**
-
-* **Item Credit Value (Cr):** $10 \times 4^{(\text{DC} / 5)}$
-* **Raw Material Cost:** $50\%$ of Market Credit Value
-* **Daily Crafting Progress (PP):** $(\text{Skill Check} - 10) \times \text{Tool Multiplier}$
-* **Crafting Duration (Days):** $\text{Target PP} / \text{Daily PP}$
-* **Liquidity Gap (Cash Cost):** $\text{Item Value} - \text{Auto-Buy Limit}(\text{WS})$
-* **Fence Rates:** Legal $50\%$, Black Market $20\%\text{--}25\%$, Scrap $10\%$
-* **Wealth Advancement Cost:** $\text{Value}(WS_{\text{target}}) - \text{Value}(WS_{\text{current}})$
-
-&nbsp;
-
----
+* **Base CR Intervals of 5:** Follow the exponential Tangent Standard Curve: `Value (Credits) = 10 * 4 ^ (CR / 5)`.
+* **Minor CR Modifiers (+1 to +4 CR Linear Multipliers):** Intermediate Crafting CRs between multiples of 5 apply linear multipliers to the Base Tier Value:
+  * **+1 CR:** `x1.3` (+30% Base Value)
+  * **+2 CR:** `x1.75` (+75% Base Value)
+  * **+3 CR:** `x2.3` (+130% Base Value)
+  * **+4 CR:** `x3.0` (+200% Base Value)
+  * **-1 CR Minor Flaw:** `x0.75` (-25% Base Value)
+* **Crafting Material Ratio (Pristine vs. Scavenged Scrap):**
+  * **Pristine Raw Materials:** Cost **50% of the item's Market Credit Value**.
+  * **Scavenged Scrap:** Holds **10% salvage value**, meaning a crafter must harvest **5x the item's Credit Value in unrefined scrap mass** (`5 * 10% = 50%`) to meet the 50% material requirement without spending liquid Credits.
+* **Canonical Armor Layering Cap:** Damage Resistance (DR) **does not stack across biological, cybernetic, and wearable armor domains**; only the single highest DR source applies against a given hit (except for Ablative Force Fields, which act as a separate outer buffer before Armor DR, and Stamina Base Toughness, which subtracts point-for-point after Armor DR).
+* **Mecha Scale Multiplier & Garaging Rule:** Structure Points (SP) in vehicle and mecha size tables are **pre-calculated**; apply the active Scale Multiplier (`x2` Large, `x5` Huge, `x10` Gargantuan, `x20` Colossal, `x40` Enormous, `x80` Titanic) **only to weapon damage, speed, and range** during play. For Hangar/Garaging capacity: **1 Mount = 1 Scale Multiplier** (e.g., Huge `x5` = 5 Mounts; Colossal `x20` = 20 Mounts = 2 Modules).
 
 ---
 
@@ -124,14 +945,18 @@ The Plasma Rifle is inherently 4 times more valuable because it is one distinct 
 
 Detailed equipment, architecture, augmentation, armor, vehicle, and weapon modification catalogs are organized into modular documents in the `./economatrix/` directory:
 
-* **[Architecture & Facilities](./economatrix/2.00.Architecture.md)** — *Residential, commercial, industrial, military, scientific, and exotic megastructures + Specialized Module Catalog*
-* **[Armor & Protective Systems](./economatrix/2.00.Armor.md)** — *Light, Medium, Heavy, Superheavy, Powered Armor, Magi-Tech, Psi-Tech, and Polymatter/Holophotonic suits*
-* **[Augmentations & Cybernetics](./economatrix/2.00.Augmentations.md)** — *Chassis node limits, fashionware, synth limbs, body/sensory/brain mods, TL4-TL5 enhancements, Full Body Conversion (FBC), and Pseudo-Cybernetics*
-* **[General Equipment & Systems](./economatrix/2.00.Equipment.md)** — *Biotech/holographic gear, Computer Framework, Medical Framework, Surveillance & Communications, Survival Gear, and Vocation Tools*
-* **[Mecha & Vehicles](./economatrix/2.00.Mecha.md)** — *Personal mobility, light/heavy vehicles, starfighters, and mechanized walkers/suits*
+* **[Architecture & Facilities](./economatrix/2.00.Architecture.md)** — *Residential, commercial, industrial, military, scientific, infrastructure, and exotic megastructures + Specialized Module Catalog*
+* **[Armor & Protective Systems](./economatrix/2.00.Armor.md)** — *Armor Design Protocol, Light/Medium/Heavy/Superheavy/Powered Armor, Magi-Tech, Psi-Tech, Polymatter/Holophotonic suits, Field Generators, and Carried Shields*
+* **[Augmentations & Cybernetics I: Core, Limbs & Body Mods](./economatrix/2.00.Augmentations.md)** & **[Part II: Sensory, Neural, TL 4–5, FBC & Expanded Catalog](./economatrix/2.00.Augmentations.AdvancedAndFBC.md)** — *200-Node Chassis limits, Overclocking, Surgery & Complication Tables, Fashionware, Synth Limbs, Body/Sensory/Brain mods, TL 4–5 Enhancements, FBC, Pseudo-Cybernetics, and 42 Expanded Cyber/Bio/Arcane/Psionic Augmentations*
+* **[General Equipment & Systems](./economatrix/2.00.Equipment.md)** — *Biotech/holographic gear, Computer Framework (PR 0–4), Medical Framework, Surveillance & Communications, Survival Gear, and Vocation Tools*
+* **[Mecha & Vehicles I: Personal, Civilian & Utility](./economatrix/2.00.Mecha.md)**, **[Part II: Military Ground, Aircraft & Spacecraft](./economatrix/2.00.Mecha.MilitaryAndAerospace.md)**, & **[Part III: Watercraft, Power Armor & Walkers](./economatrix/2.00.Mecha.NauticalAndWalkers.md)** — *84 standardized vehicular, starfighter, submersible, and walker platforms*
 * **[Weapon Modifications](./economatrix/2.00.WeaponModifications.md)** — *Weapon upgrades, capacity enhancements, and tactical downgrades*
-
-* **[The Wealth Matrix & Liquid Interface](./economatrix/2.00.WealthAndLiquidity.md)** — *Starting Wealth Score, Financial Status Hierarchy, The Gap Rule, and Fence Rates*
-* **[Crafting Engine & Master Valuation Tables](./economatrix/2.00.CraftingAndValuation.md)** — *Productivity Formula, Macro-Construction, DC-to-Credits Valuation Table, and UDU Hierarchy*
+* **[The Wealth Matrix & Liquid Interface](./economatrix/2.00.WealthAndLiquidity.md)** — *Starting Wealth Score, Financial Status Hierarchy, The Gap Rule, Cycle Debt Financing, and Fence Rates*
+* **[Crafting Engine & Master Valuation Tables](./economatrix/2.00.CraftingAndValuation.md)** — *Productivity Formula, Macro-Construction, CR-to-Credits Valuation Table, Linear Micro-Modifiers, and UDU Hierarchy*
 * **[Interstellar Trade & Mercantile Engine](./economatrix/2.00.InterstellarTrade.md)** — *World Trade Classifications, Commodities Matrix, Speculative Cargo Loop, and Macro-Economic Safeguards*
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER**
+* **DISC-401 (2.00 Economatrix Full Prose & EUFT Retrofits):** Restored 100% of Sections 1–10, the Liquidity Gap, Productivity Engine, and Economy & Trade overview from `/_ _ TANGENT RP CODEX _ _/2.00 ECONOMATRIX`, integrated the Linear Micro-Modifier multipliers (+1 to +4 CR), 10% Scrap / 5x Scrap Mass crafting rule, Armor Layering Cap, and Mecha Scale Multiplier rules, and normalized all BP -> CP and DC -> CR formulas.
 

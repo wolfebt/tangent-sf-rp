@@ -1,10 +1,10 @@
 /**
  * TANGENT SFF RP: Automated Combat Turn & Action Resolver
- * Canonical implementation strictly conforming to docs/game rules/operator/3.00 COMBAT.md:
+ * Canonical implementation strictly conforming to docs/game_rules/operator/3.00 COMBAT.md:
  * - 2d10 Attack Roll vs Target Defense (Opposed or Unopposed CR 15 base)
  * - Defender wins all ties!
- * - Critical Triumph (Double 10s): +30 to Attack score & Doubles weapon damage dice
- * - Fumble (Double 1s): -10 to Attack score
+ * - Critical Triumph (Double 10s): +10 added to rolled dice value (20 -> 30) & Doubles weapon damage dice
+ * - Fumble (Double 1s): Rolled dice value becomes flat -10 (Base Score - 10)
  * - Damage = (Weapon Dice + Ability + Bonuses) - (Armor DR + Target STA Mod)
  * - Called Shot location saving throws (Head KO, Torso Winded, Arm Disarmed, Leg Hobbled)
  * - The Mortality State at 0 HP (Unconscious, Incapacitated, Bleeding Out, Stability = STA + 5)
@@ -19,10 +19,9 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
   const isTriumph = d1 === 10 && d2 === 10;
   const isFumble = d1 === 1 && d2 === 1;
 
-  let baseRoll = d1 + d2;
-  // Per 3.00 COMBAT.md: Natural 20 adds +30 to attack score. Natural 2 subtracts 10.
-  if (isTriumph) baseRoll += 30;
-  if (isFumble) baseRoll = Math.max(0, baseRoll - 10);
+  const rawRoll = d1 + d2;
+  // Per 3.00 COMBAT.md: Critical adds +10 to rolled dice value (20 -> 30). Fumble replaces rolled dice value with flat -10.
+  let baseRoll = isTriumph ? (rawRoll + 10) : isFumble ? -10 : rawRoll;
 
   const attackBonus = parseInt(attackerToken.attackBonus || attackerToken.atkBonus || attackerToken.skillRank || 4, 10);
   const attributeMod = parseInt(attackerToken.attributeMod || attackerToken.abilityMod || 2, 10);
@@ -77,14 +76,22 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     rawDamage = baseWpnDmg + variableDmg + burstDmg + attackerAbilityDmg;
 
     // Armor DR & Target Stamina Natural DR Soak
-    let targetDr = parseInt(targetToken.armorDr || targetToken.dr || 2, 10);
-    if (actionPlan.damageType === 'force') {
+    let targetDr = Array.isArray(targetToken.armorLayers) && targetToken.armorLayers.length > 0
+      ? Math.max(0, ...targetToken.armorLayers)
+      : parseInt(targetToken.armorDr || targetToken.dr || 2, 10);
+    const dmgType = String(actionPlan.damageType || 'kinetic').toLowerCase();
+    const bypassesAll = dmgType === 'bleed' || Boolean(actionPlan.isOverchannelBurn);
+    if (bypassesAll || dmgType === 'sonic' || dmgType === 'spectral' || dmgType === 'phase' || dmgType === 'mental' || dmgType === 'psyche') {
+      targetDr = 0;
+    } else if (dmgType === 'force') {
       targetDr = Math.floor(targetDr / 2); // Force damage ignores 1/2 of Armor DR
     }
     const damageAfterDefenses = Math.max(0, rawDamage - targetDr);
-    const targetStaDR = parseInt(targetToken.stamina || targetToken.toughness || targetToken.staMod || targetToken.conMod || 1, 10);
+    const targetStaDR = bypassesAll
+      ? 0
+      : parseInt(targetToken.stamina ?? targetToken.toughness ?? targetToken.staMod ?? targetToken.conMod ?? 1, 10);
     if (damageAfterDefenses > 0) {
-      effectiveDamage = Math.max(1, damageAfterDefenses - Math.max(0, targetStaDR));
+      effectiveDamage = Math.max(0, damageAfterDefenses - Math.max(0, targetStaDR));
     } else {
       effectiveDamage = 0;
     }
@@ -103,13 +110,33 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     }
   }
 
-  // 4. Update Target Vitals & Mortality State
+  // 4. Update Target Vitals & Mortality State (Vitality-First Routing unless Critical Hit / Bleed)
+  const hasVitalityPool = targetToken.vitality !== undefined && targetToken.vitality !== null;
+  const targetVit = hasVitalityPool
+    ? parseInt(targetToken.vitality?.current ?? targetToken.vitality ?? 0, 10)
+    : 0;
   const targetHp = parseInt(targetToken.health?.current ?? targetToken.hp?.current ?? 20, 10);
   const targetMaxHp = parseInt(targetToken.health?.max ?? targetToken.hp?.max ?? 20, 10);
-  const targetConScore = parseInt(targetToken.constitution || targetToken.conScore || 10, 10);
-  const maxStabilityPoints = targetConScore + 5;
+  const targetStaScore = parseInt(
+    targetToken.staminaScore ?? targetToken.stamina ?? targetToken.constitution ?? targetToken.conScore ?? 0,
+    10
+  );
+  const maxStabilityPoints = Math.max(1, targetStaScore + 5);
 
-  let newHp = targetHp - effectiveDamage;
+  let newVit = targetVit;
+  let healthDamage = effectiveDamage;
+  const bypassesVit = Boolean(isTriumph || String(actionPlan.damageType || '').toLowerCase() === 'bleed' || actionPlan.isOverchannelBurn);
+  if (hasVitalityPool && !bypassesVit && effectiveDamage > 0) {
+    if (effectiveDamage <= targetVit) {
+      newVit = targetVit - effectiveDamage;
+      healthDamage = 0;
+    } else {
+      newVit = 0;
+      healthDamage = effectiveDamage - targetVit;
+    }
+  }
+
+  let newHp = targetHp - healthDamage;
   let remainingStability = targetToken.stabilityPoints !== undefined ? targetToken.stabilityPoints : maxStabilityPoints;
 
   if (newHp <= 0) {
@@ -159,6 +186,8 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     rawDamage,
     effectiveDamage,
     statusInflicted,
+    targetPreviousVitality: targetVit,
+    targetNewVitality: newVit,
     targetPreviousHp: targetHp,
     targetNewHp: newHp,
     targetMaxHp,

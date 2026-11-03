@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 163
+order: 161
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.enlightened","mechanics"]
-updatedAt: "2026-10-31T10:38:11.413Z"
+updatedAt: "2026-11-02T22:49:27.961Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,14 @@ sockets:
   allocated: []
 ---
 
-# **ENLIGHTENED**
+# 1.05.04 ORIGIN: ENLIGHTENED (+2 WS)
+
+* **Executive Summary:** Worlds saturated with strong ley lines, Aetherium crystal formations, or monastic academies where Metaphysics is woven into daily life (Altheria, New Aurelia).
+* **EUFT Starting Wealth Modifier:** **+2 WS**
+* **Canonical Society Skills (20 SP Allocation):** Alertness, Academics, Knowledge (Culture, History, Language, Metaphysics, Physics, Religion), Vocation (Any)
+* **Typical Archetypes:** Arcanist, Psionic, Seer, Scholar, Spiritual Guide, Envoy
+
+---
 
 # **ENLIGHTENED**
 
@@ -45,29 +52,23 @@ Certain worlds have particularly strong ley lines, special crystal formations, a
 Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs.  
 Adept Occupations (and Metafocus Disciplines) are more common in these worlds.
 
-&nbsp;
-
 ## **Society Skills**
 
 Alertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)
 
-&nbsp;
+## **Archetypes**
 
-## **Archetypes**&nbsp;
+Arcanist
 
-Arcanist&nbsp;
+Psionic
 
-Psionic&nbsp;
+Seer
 
-Seer&nbsp;
+Scholar
 
-Scholar&nbsp;
+Spiritual Guide
 
-Spiritual Guide&nbsp;
-
-Envoy&nbsp;
-
-&nbsp;
+Envoy
 
 ## **Traits**
 
@@ -77,15 +78,11 @@ Has a deep sense of empathy and compassion for others
 
 *\+2 Insight and \+2 Handler Checks while being Friendly*
 
-&nbsp;
-
 ### *Curiosity*
 
 The character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.
 
 *Regain a Karma Point on the first encounter when dealing with something new during the session \- creature, area, technology, etc.*
-
-&nbsp;
 
 ### *Mentorship*
 
@@ -93,15 +90,11 @@ May take on the role of a mentor or guide, sharing their knowledge and wisdom wi
 
 *Those under the Enlightened character’s tutelage may make Study Checks at Advantage*
 
-&nbsp;
-
 ### *Open-Mindedness*
 
 Open to new ideas, perspectives, and experiences
 
 *Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties*
-
-&nbsp;
 
 ### *Peaceful Nature*
 
@@ -109,15 +102,11 @@ Seeks peace and harmony in all aspects of life
 
 *\+2 to Diplomacy for peaceful meditations*
 
-&nbsp;
-
 ### *Problem-Solving Skills*
 
 Excels at problem-solving and critical thinking
 
 *Once per Day may reroll a Mental Skill Check*
-
-&nbsp;
 
 ### *Shared Wisdom*
 
@@ -125,23 +114,32 @@ Possesses wisdom beyond their years
 
 *Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage*
 
-&nbsp;
-
 ### *Spiritual Awareness*
 
 May have a strong connection to spirituality or metaphysical concepts
 
 *\+1 to Attune and one Metafocus Skill*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Curiosity:** Regain 1 spent Karma Point on the first encounter with a novel metaphysical phenomenon, creature, or relic each session.
+* **Empathy:** +2 to Insight and Vocation (Handler) checks while Friendly.
+* **Mentorship:** Students under the character's tutelage roll Learning / Study Checks at Advantage.
+* **Open-Mindedness:** Reduces all Social / Xeno Stigma penalties by the Enlightened character's Wisdom score (minimum 0) for both parties.
+* **Peaceful Nature:** +2 to Diplomacy checks when mediating peace or de-escalating conflict.
+* **Problem-Solving Skills:** Once per day, reroll a failed Mental Skill Check.
+* **Shared Wisdom:** Roll any check to Aid, Guide, or Instruct an ally at Advantage.
+* **Spiritual Awareness:** +1 to Attune and +1 to one Metafocus Discipline Focus Skill.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **04\. ENLIGHTENED**
 
@@ -216,4 +214,11 @@ May have a strong connection to spirituality or metaphysical concepts
 * **STYLE:** The Equation, Digital Sorcery.  
 * **PALETTE:** Neon Purple, Grid Black, Fractal White.  
 * **TOKENS:** Floating shapes, numbers, grids, hard light, logic.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** The Cerebral Spire-Apex where Manelli Brood-Masters commune in unbroken 24/7 Chorus synchronization. Pulsating cyan synaptic filaments weave through chambers of resonant obsidian crystal and emerald hemolymph conduits.
+* **STYLE:** Psionic Biocracy, Chorus Resonance Sanctum.
+* **PALETTE:** Pulsating Cyan, Glossy Obsidian, Emerald Green, Neural Silver.
+* **TOKENS:** Synaptic webs, Manelli antennae, harmonic resin chambers, conscious Torpor alcoves, psychic resonance.
 

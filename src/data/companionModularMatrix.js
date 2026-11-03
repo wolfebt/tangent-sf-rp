@@ -1,7 +1,7 @@
 /**
  * @file companionModularMatrix.js
  * @description Canonical Tangent Modular Companion Matrix
- * Strictly grounded in: docs/game rules/architect/99. MODULAR COMPANION MATRIX.md
+ * Strictly grounded in: docs/game_rules/architect/99. MODULAR COMPANION MATRIX.md
  * Formula: Form Package (15 CP) + Function Package (25 CP) = 40 CP Companion
  * Ranked Feature: Rank 1 = 40 CP, Rank 2+ = +10 CP per rank (or 2nd 40 CP unit)
  */

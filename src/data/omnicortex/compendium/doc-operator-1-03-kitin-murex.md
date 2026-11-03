@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 73
+order: 71
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.kitin.murex","mechanics"]
-updatedAt: "2026-10-14T05:24:25.062Z"
+updatedAt: "2026-11-03T11:09:10.608Z"
 costs:
   bp: 0
   credits: 0
@@ -37,56 +37,54 @@ sockets:
   allocated: []
 ---
 
-### **MUREX**
-**Foundation Expression**  
-**Classification:** Insectoid Aberration (Humanoid)  
-**CP Cost:** 39 CP  
+# **MUREX**
+**Foundation Expression**
+**Classification:** Insectoid Aberration (Humanoid)
+**CP Cost:** 41 CP
 
-**Description:**  
-The Murex are the "General Purpose" expression. They are the builders and infantry that form the backbone of the Hive’s infrastructure. They possess a standard dual-skeletal structure: an internal endoskeleton encased in smooth, matte-black glossy obsidian chitin.  
+**Description:**
+The Murex are the "General Purpose" expression. They are the builders and infantry that form the backbone of the Hive’s infrastructure. They possess a standard dual-skeletal structure: an internal endoskeleton encased in smooth, matte-black glossy obsidian chitin.
 Murex are the primary audience for the psionic Chorus, moving in perfect synchronization. During their 4-hour Torpor, they remain alert in rigid formations.
 
-**Technical Profile:**  
+**Technical Profile:**
 * **Size:** Medium
-* **Movement:** 40ft Groundspeed (Crawling & Climbing)
+* **Movement:** 40 ft Groundspeed (Crawling & Climbing)
 * **Tech Level:** 3 (Industrial)
 * **Meta Level:** 2 (Resonant)
-* **Stigma:** Severe Xeno
+* **Stigma:** Severe Xeno (-5 CP)
 
-**Ability Modifiers:**  
-* +2 Strength (8 CP)
-* +2 Stamina (8 CP)
-* -1 Wisdom (-4 CP)
-* -1 Charisma (-4 CP)
+**Attribute Modifiers:**
+* +2 Strength [10 CP]
+* +2 Stamina [10 CP]
+* -1 Wisdom [-5 CP]
+* -1 Charisma [-5 CP]
 
-**Skills:**  
-* +10 Skill Ranks to ANY skills (8 CP)
+**Skills:**
+* +10 Skill Ranks to ANY skills [10 CP]
 
-**Species Features:**  
-* **Multidextrous (4 Arms):** Full manipulation capability ending with dextrous 4 digit hands. (4 CP)
-* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 CP)
-* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 CP)
-* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 CP)
-* **Fatigue Resistance:** All Fatigue checks are made at Advantage and at twice the interval time. (2 CP)
-* **Pheromonal Synthesis:** Biological scent-marking for hive coordination. (2 CP)
-* **Quick:** Naturally efficient movement and reaction times. (2 CP)
-* **Climber:** Traverse vertical or inverted surfaces at full speed. (2 CP)
-* **Hive-Link (Minor):** Basic telepathic receptivity to follow Collective commands. (2 CP)
-* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. (2 CP)
-* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 CP)
+**Species Features:**
+* **Multidextrous (4 Arms):** Full manipulation capability ending with dextrous 4-digit hands. [4 CP]
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (+5 DR). [2 CP]
+* **Armor:** Chitinous shell resistant to physical trauma, energy, and chemicals [base DR 10; combined DR 15]. [2 CP]
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. [2 CP]
+* **Fatigue Resistance:** All Fatigue checks are made at Advantage and at twice the interval time. [2 CP]
+* **Pheromonal Synthesis:** Biological scent-marking for hive coordination. [2 CP]
+* **Quick:** Naturally efficient movement and reaction times (+10 ft Speed, +1 Initiative). [2 CP]
+* **Climber:** Traverse vertical or inverted surfaces at full speed. [2 CP]
+* **Hive-Link (Minor):** Basic telepathic receptivity to follow Collective commands. [2 CP]
+* **Resin Secretion:** Creation of Hive-Resin for patching mecha and structures. [2 CP]
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of Alertness. [2 CP]
 
-**Recommended Features:**  
+**Recommended Features (-1 CP Discount):**
 * **Acute Senses:** (Hearing, Scent)
 * **Fearless**
 * **Poison Immunity**
 * **Runner**
 * **Self-Sufficient**
 
-**Aesthetics (CRISP):**  
+**Aesthetics (CRISP):**
 * **Context:** Marching in disciplined columns through industrial hive galleries or constructing colossal resin scaffolding along spire flanks.
 * **Style:** Industrial Unity, Symmetrical Design, Slick Obsidian.
 * **Palette:** Dominant: Glossy Obsidian (Matte-Black Finish). Accent: Emerald Green (Hemolymph Gaskets), Cyan dots (Sensory Pheromone Pores).
 * **Visuals:** A towering bipedal insectoid humanoid with four articulated arms ending in sturdy 4-digit manipulation hands, crowned with low-profile sensory ridges and smooth matte-black carapace plates.
-
-&nbsp;
 

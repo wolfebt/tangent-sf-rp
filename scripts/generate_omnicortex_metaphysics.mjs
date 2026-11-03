@@ -158,8 +158,8 @@ id: rule-metaphysics-casting-checks
 name: 'Metaphysic Checks, Difficulty & Critical Outcomes'
 category: rules
 description: >-
-  Base DCs (5–35), Free-Casting vs Codified Invocations, Take 10 operational safety,
-  Critical Success (+30), Critical Mistake (-10), Energy Surge, Fizzle, and Strain.
+  Base CRs (5–35), Free-Casting vs Codified Invocations, Take 10 operational safety,
+  Critical Success (Rolled Dice + 10), Critical Mistake (Rolled Dice = flat -10), Energy Surge, Fizzle, and Strain.
 ${standardCostsAndSockets}
 ---
 
@@ -206,8 +206,8 @@ Base CR for activating a Metafocus Discipline or Invocation:
 
 | Outcome | Trigger / Condition | Mechanical Effect |
 | :--- | :--- | :--- |
-| **Critical Success** | Natural 20 / Double 10s | **+30 bonus to the check** and a dramatic, transcendent improvement of the effect. |
-| **Critical Mistake** | Natural 1 / Double 1s | **-10 penalty to the check** and a disastrous metaphysical backfire (GM's call). |
+| **Critical Success** | Natural 20 / Double 10s (or expanded threat) | **+10 bonus added to the rolled dice value** (e.g., 20 -> 30, 19 -> 29) and a dramatic, transcendent improvement of the effect. |
+| **Critical Mistake** | Natural 2 / Double 1s (or expanded fumble) | **Rolled dice value becomes a flat -10** (subtracting 10 from the base check score) and a disastrous metaphysical backfire (GM's call). |
 | **Energy Surge** | Attune Check $\\le 0$ | Uncontrolled energy surge (wrong target, collateral area, unintended consequence); **Essence cost is doubled**. |
 | **Fizzle / Transposition** | Discipline Check $\\le 0$ | Effect produces unintended results, ranging from a dramatic fizzle to transposed energy states. |
 | **Internalized Strain** | Check Failure | Inflicts **1 point of Non-Lethal Damage per 5 points of failure** (1d6 per 5 in free-casting). Cannot be soaked by Armor DR or Stamina. |

@@ -132,8 +132,15 @@ export const getEnrichedFeatureData = (rawInput) => {
   const rawId = !isGenId(feature.id) ? (feature.id || '').toString().trim() : '';
   const cleanId = rawId.replace(/^(feature|trait)-/i, '').toLowerCase();
   const rawName = !isGenId(feature.name || feature.title) ? (feature.name || feature.title || '').toString().trim() : '';
-  const normId = normKey(rawId);
-  const normName = normKey(rawName);
+  const LEGACY_VITAL_STRIKE_MAP = {
+    'vital strike': 'precision strike',
+    'improved vital strike': 'improved precision strike',
+    'greater vital strike': 'greater precision strike'
+  };
+  const normIdBase = normKey(rawId);
+  const normNameBase = normKey(rawName);
+  const normId = LEGACY_VITAL_STRIKE_MAP[normIdBase] || normIdBase;
+  const normName = LEGACY_VITAL_STRIKE_MAP[normNameBase] || normNameBase;
 
   const canonical = DEFAULT_FEATURES.find(f => {
     const fId = (f.id || '').toString().trim().toLowerCase();

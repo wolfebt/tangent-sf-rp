@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 182
+order: 180
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.scout","mechanics"]
-updatedAt: "2026-10-14T05:39:35.568Z"
+updatedAt: "2026-11-02T22:49:27.336Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **SCOUT**
+# 1.06.11 OCCUPATION: SCOUT (Base WS 1)
+
+* **Operational Focus:** Reconnaissance, Pathfinding, Surveying, Survival, and Sniper Overwatch.
+* **EUFT Base Wealth Score:** **Base WS 1**
+* **Canonical Professional Skills (20 SP Allocation):** Alertness, Piloting, Stealth, Knowledge (Survival), and 1 Knowledge or Vocation Skill
+* **Recommended Feature Category (-1 CP Discount):** General Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **SCOUT**
 
 A Scout focuses on exploration, survival, and gathering information in various environments. Scouts are often skilled in piloting, navigation, and engineering, and being adept at handling out-of-the-way locations and recognizing potential dangers. Scouts are trained to survey and survive in unknown territories, gathering information while keeping themselves safe. They are skilled in traversing different environments and are knowledgeable enough to make the most of their situation. Scouts are often proficient in finding food, shelter, and navigating through unfamiliar terrain.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Alertness, Pilot, Stealth, Survival and one Knowledge or Vocation Skill
 
-&nbsp;
-
 ## **Recommended Features**
 
 General
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -69,8 +71,6 @@ Urban Scout
 
 Wilderness Scout
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -79,15 +79,11 @@ Scouts are adaptable and can quickly adjust to changing circumstances. They can 
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Camouflage*
 
 Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.
 
 *May use Stealth at normal movement speed*
-
-&nbsp;
 
 ### *Combat Training*
 
@@ -95,15 +91,11 @@ Scouts are proficient in combat, making them skilled with various types of weapo
 
 *\+2 to a Combat Skill of choice*
 
-&nbsp;
-
 ### *Curiosity*
 
 Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.
 
 *Regain a Karma Point on the first encounter when dealing with something new \- creature, area, technology, etc.*
-
-&nbsp;
 
 ### *Independence*
 
@@ -111,15 +103,11 @@ Scouts are self-reliant and comfortable with solitude. They are capable of worki
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Keen Observation*
 
 Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.
 
 *Take 10 on Alertness Checks*
-
-&nbsp;
 
 ### *Navigation*
 
@@ -127,15 +115,11 @@ Scouts have excellent navigational skills, both in space and on planetary surfac
 
 *\+2 Navigation (Knowledge)*
 
-&nbsp;
-
 ### *Physical Fitness*
 
 Scouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.
 
 *\+1 Might and Reflex Checks*
-
-&nbsp;
 
 ### *Pilot*
 
@@ -143,15 +127,11 @@ Most field scouts are pilots, as they need to navigate and operate spacecraft or
 
 *\+2 Pilot and Navigation*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 Scouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Stalker*
 
@@ -159,15 +139,11 @@ The scout is able to stay out of sight with ease.
 
 *May take 10 on Stealth Checks*
 
-&nbsp;
-
 ### *Survival Skills*
 
 The ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.
 
 *\+2 Survival*
-
-&nbsp;
 
 ### *Terrain Expert*
 
@@ -176,8 +152,6 @@ Scouts have knacks that allow them to improve their efficiency in specific terra
 *\+2 to Stealth, Survival and Defense in chosen Terrain*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -237,4 +211,10 @@ Scouts have knacks that allow them to improve their efficiency in specific terra
   * **Style:** Spy Bot.  
   * **Palette:** Spider Black, Sensor Red.  
   * **Tokens:** Legs, camera, wall, climbing.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Maantene Recon Vanguard** crouched on a jagged ridge, wet chitin actively shifting color to match the rock while compound sensory pits scan the horizon across all electromagnetic spectra.  
+  * **Style:** Quadrupedal Mantis Pathfinder, Active Chitin Camouflage.  
+  * **Palette:** Adaptive Camo Chitin, Cyan Sensory Pits, Emerald Hemolymph, Dust Grey.  
+  * **Tokens:** Quadrupedal stance, active camouflage, compound sensors, bio-rifle.
 

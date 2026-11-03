@@ -135,7 +135,7 @@ Further enhancing their capabilities as hunters and warriors, Caprians are bless
 
 ## **General Species Features & Mechanics**
 
-**CP Cost:** 13 CP  
+**CP Cost:** 14 CP  
 
 **Classification:** Humanoid
 

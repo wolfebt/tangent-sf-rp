@@ -95,7 +95,7 @@ cp_cost: 17
 
 # 
 
-**CP Cost:** 16 CP  
+**CP Cost:** 17 CP  
 
 **Description:** The Qeric (Pronounced Ker-Ik) are a species of small, six-limbed arboreal humanoids that bear a superficial resemblance to Rodentia, characterized by their friendly, inherently cute, and exceptionally quick nature. Qeric are generally diminutive, perfectly sized for navigating their arboreal homes.&nbsp;
 

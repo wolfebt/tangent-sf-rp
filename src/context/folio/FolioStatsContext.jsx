@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { useDBM } from '../DBMContext';
 import { useFolioIdentity, DEFAULT_CHARACTER } from './FolioIdentityContext';
-import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import { ALL_CANONICAL_SKILLS, resolveCanonicalSkillAlias } from '../../data/skillsData';
 import { 
   enrichItemWithModifiers, 
   parseModifiersFromText,
@@ -1276,26 +1276,48 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
+    const strength = getAttrTotal('attr-strength');
+    const might = getAttrTotal('attr-might');
+    const agility = getAttrTotal('attr-agility');
+    const reflex = getAttrTotal('attr-reflex');
     const stamina = getAttrTotal('attr-stamina');
 
     // In Tangent, Stamina directly determines base Toughness to reduce wound damage point-for-point
     const toughness = stamina;
 
     const fortitude = getAttrTotal('attr-fortitude');
+    const intellect = getAttrTotal('attr-intellect');
+    const logic = getAttrTotal('attr-logic');
 
     const wisdom = getAttrTotal('attr-wisdom');
 
     const will = getAttrTotal('attr-will');
 
     const charisma = getAttrTotal('attr-charisma');
+    const etiquette = getAttrTotal('attr-etiquette');
     // Debt limit in Tangent RPG is Charisma score + 1
     const maxKarmaDebt = Math.max(1, charisma + 1);
 
+    // Canonical Passive Saves (1.03 SAVES / 00.02): CR = 10 + Sub-Attribute Total = 12 + (2 * Primary) + Save Mods
+    const passiveSaves = {
+      Might: 10 + might,
+      Reflex: 10 + reflex,
+      Fortitude: 10 + fortitude,
+      Reason: 10 + logic,
+      Logic: 10 + logic,
+      Willpower: 10 + will,
+      Will: 10 + will,
+      Etiquette: 10 + etiquette
+    };
+
     // Canonical Tangent starting base values: Base 30 for Health, Base 30 for Vitality, Base 60 for Structure
+    // ZERO STAMINA SCALING (1.00 CHARACTER CREATION.md): Stamina never caps or scales Vitality/Health pools.
     const baseHealth = 30;
     const baseVitality = 30;
     const baseStructure = 60;
-    const maxStatIncrease = Math.max(0, stamina * 5);
+    const maxStatIncrease = null;
+    const suggestedStartingMax = 60;
+    const suggestedStartingStructureMax = 120;
     
     // Canonical Tangent starting Karma: 3 points by default
     const baseKarma = 3;
@@ -1335,18 +1357,69 @@ export const FolioStatsSliceProvider = ({ children }) => {
 
     let purchasedHealth = 0;
     if (!isNaN(currentHealth) && currentHealth > baseHealth) {
-      purchasedHealth = Math.min(currentHealth - baseHealth, maxStatIncrease);
+      purchasedHealth = currentHealth - baseHealth;
     }
 
     let purchasedVitality = 0;
     if (!isNaN(currentVitality) && currentVitality > baseVitality) {
-      purchasedVitality = Math.min(currentVitality - baseVitality, maxStatIncrease);
+      purchasedVitality = currentVitality - baseVitality;
     }
 
     let purchasedStructure = 0;
     if (!isNaN(currentStructure) && currentStructure > baseStructure) {
       purchasedStructure = currentStructure - baseStructure;
     }
+
+    // Canonical Max Essence (4.00 METAPHYSICS.md): (Sum of All 6 Primary Attributes) + Attune Rank + Sum of All Metafocus Discipline Ranks
+    const attuneRank = Math.max(
+      0,
+      parseInt(characterData['skill-meta-attune-rank'] ?? characterData['skill-attune-rank'] ?? 0, 10) || 0
+    );
+    let totalDisciplineRanks = 0;
+    const seenMetaSkills = new Set();
+    Object.keys(characterData || {}).forEach((k) => {
+      if (!k.startsWith('skill-') || !k.endsWith('-rank')) return;
+      const rawId = k.slice(6, -5);
+      const resolvedId = resolveCanonicalSkillAlias(rawId)?.id || rawId;
+      if (resolvedId === 'meta-attune' || resolvedId === 'attune') return;
+      const groupVal = String(characterData[`skill-${rawId}-group`] || '').toLowerCase();
+      if (resolvedId.startsWith('meta-') || groupVal === 'meta') {
+        if (!seenMetaSkills.has(resolvedId)) {
+          seenMetaSkills.add(resolvedId);
+          totalDisciplineRanks += Math.min(30, Math.max(0, parseInt(characterData[k], 10) || 0));
+        }
+      }
+    });
+    const sixPrimaryAttrSum = strength + agility + stamina + intellect + wisdom + charisma;
+    const calculatedMaxEssence = Math.max(0, sixPrimaryAttrSum + attuneRank + totalDisciplineRanks);
+    const explicitMaxEssence = parseInt(characterData.max_essence ?? characterData.essence, 10);
+    const maxEssence = !isNaN(explicitMaxEssence) && explicitMaxEssence > 0 ? explicitMaxEssence : calculatedMaxEssence;
+
+    // Canonical Armor Layering Cap (3.00 COMBAT.md): Bio, Cybernetic, and Wearable Armor DO NOT STACK — apply ONLY highest single domain DR
+    const parseItemDR = (entry) => {
+      if (!entry || typeof entry !== 'object') return 0;
+      if (entry.equipped === false) return 0;
+      const direct = entry.dr ?? entry.armor_dr ?? entry.av ?? entry.damage_reduction;
+      if (direct !== undefined && direct !== null && !isNaN(Number(direct))) return Math.max(0, Number(direct));
+      const text = String(entry.armor ?? entry.defense ?? entry.mechanic ?? entry.description ?? '');
+      const m = text.match(/\b(?:DR|AV|Armor(?:\s+DR)?)\s*[:+-]?\s*(\d+)/i);
+      return m ? Math.max(0, parseInt(m[1], 10) || 0) : 0;
+    };
+    const wearableItems = [
+      ...(Array.isArray(characterData.armor) ? characterData.armor : []),
+      ...(Array.isArray(characterData.armoring) ? characterData.armoring : [])
+    ];
+    const wearableDR = wearableItems.reduce((mx, it) => Math.max(mx, parseItemDR(it)), 0);
+    const cyberItems = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
+    const cyberDR = cyberItems.reduce((mx, it) => Math.max(mx, parseItemDR(it)), 0);
+    const bioItems = [
+      ...(Array.isArray(characterData.traits) ? characterData.traits : []),
+      ...featuresList
+    ];
+    const bioDR = bioItems.reduce((mx, it) => Math.max(mx, parseItemDR(it)), 0);
+    const explicitArmorDR = Math.max(0, parseInt(characterData.armor_dr ?? characterData['armor-rating'] ?? 0, 10) || 0);
+    const effectiveArmorRating = Math.max(bioDR, cyberDR, wearableDR, explicitArmorDR);
+    const armorDomains = { bioDR, cyberDR, wearableDR };
 
     // Structure is calculated by combining Vitality and Health for non-typical anatomies
     const speciesStr = String(characterData?.['char-species'] || '').toLowerCase();
@@ -1381,12 +1454,27 @@ export const FolioStatsSliceProvider = ({ children }) => {
       vitality: isSynthetic ? 0 : baseVitality,
       stamina: Math.max(0, stamina),
       staminaDR: Math.max(0, stamina),
+      zeroStaminaScaling: true,
       maxStatIncrease,
+      suggestedStartingMax,
+      suggestedStartingStructureMax,
+      might,
+      reflex,
       fortitude,
+      logic,
       will,
+      etiquette,
+      passiveSaves,
       saveMods: computedModifiers.saveMods,
       maxHealth: effectiveHealth,
       maxVitality: effectiveVitality,
+      maxEssence,
+      calculatedMaxEssence,
+      attuneRank,
+      totalDisciplineRanks,
+      armorRating: effectiveArmorRating,
+      effectiveArmorRating,
+      armorDomains,
       karma: maxKarma,
       maxKarma,
       maxKarmaDebt,
@@ -1574,11 +1662,14 @@ export const FolioStatsSliceProvider = ({ children }) => {
     const cleanId = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     const innerNameLower = innerName.toLowerCase();
+    const aliasResolvedObj = resolveCanonicalSkillAlias(cleanId) || resolveCanonicalSkillAlias(innerCleanId);
+    const aliasResolvedId = aliasResolvedObj?.id || null;
     
     const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
       const n = (s.name || '').toLowerCase();
       const idWithoutPrefix = (s.id || '').replace(/^[a-z]+-/, '');
-      return n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId ||
+      return (aliasResolvedId && s.id === aliasResolvedId) ||
+             n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId ||
              n === innerNameLower || s.id === innerCleanId || idWithoutPrefix === innerCleanId;
     });
 
@@ -1606,7 +1697,7 @@ export const FolioStatsSliceProvider = ({ children }) => {
       }
 
       const currentGlobalRank = parseInt(prev[canonRankKey] ?? prev[legacyRankKey] ?? 0, 10);
-      const newGlobalRank = Math.min(20, Math.max(0, currentGlobalRank + actualDelta));
+      const newGlobalRank = Math.min(30, Math.max(0, currentGlobalRank + actualDelta));
 
       const updates = {
         ...prev,
@@ -1997,9 +2088,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
     });
   }, [setCharacterData, triggerSave]);
 
-  // Add Custom Skill Handler (max level 20)
+  // Add Custom Skill Handler (max level 30 Stage 6 Pinnacle)
   const handleAddSkill = useCallback((skill) => {
-    const rankVal = Math.min(20, Math.max(0, parseInt(skill.rank ?? 1, 10)));
+    const rankVal = Math.min(30, Math.max(0, parseInt(skill.rank ?? 1, 10)));
     setCharacterData((prev) => ({
       ...prev,
       [`skill-${skill.id}-name`]: skill.name,

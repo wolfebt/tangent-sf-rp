@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.attributes","mechanics"]
-updatedAt: "2026-10-31T11:30:42.664Z"
+updatedAt: "2026-11-03T10:58:45.077Z"
 costs:
   bp: 0
   credits: 0
@@ -37,224 +37,205 @@ sockets:
   allocated: []
 ---
 
-# **ATTRIBUTES**
+# **1.01.04 ATTRIBUTES & SAVING THROWS**
 
-# **ATTRIBUTES**
-
-Attributes are a crucial aspect of character creation and gameplay. They represent a character's natural aptitudes and talents, influencing their success in various tasks and challenges. The six core attributes are Strength, Agility, Stamina, Intellect, Wisdom, and Charisma. Each score modifies skill checks that use the associated attribute, providing bonuses or penalties based on the character's strengths or weaknesses. Additionally, attribute checks are used as a fallback for actions not covered by specific skills and as saving throws against harmful effects.&nbsp;
-
-&nbsp;
-
-# **COST AND STARTING MAXIMUM**
-
-For every \+1 point increase in an attribute, the cost is 5 CP. This cost reflects the significant impact that even a small improvement in an attribute can have on a character's capabilities. For example, a character with a Strength of \+2 can carry more weight and deal more damage in melee combat than a character with a Strength of \+1. Similarly, a character with a Charisma of \+3 is more likely to persuade others and negotiate favorable outcomes than a character with a Charisma of \+2.
-
-&nbsp;
-
-The suggested maximum starting attributes of \+4, adjusted by Species modifiers, provides a balanced approach to character creation. This ensures that characters are not overly powerful at the start of the game, while still allowing players to create characters with unique strengths and weaknesses.
-
-&nbsp;
-
-By carefully allocating their CP, players can create characters that excel in specific areas while having room for growth and development as the game progresses. Whether they choose to focus on physical prowess, mental acuity, or social influence, the investment in attributes is a crucial step in bringing a character to life.
-
-&nbsp;
-
-> During Character Creation, no Attribute may start higher than \+4, without Species modifiers or purchased Augmentations. The upper tier of any Attribute is 5 plus the species modifier, indicating a paragon of their people.
-
-&nbsp;
-
-# **ATTRIBUTES MODIFY SKILL CHECKS**
-
-Each point in a character's attributes provides a bonus (or penalty) to Skill Checks that use the associated attribute. For example, a character with an Agility score of \+2 would have a \+2 bonus to Skill Checks that use Agility, such as Attack rolls for ranged weapons.
-
-&nbsp;
-
-## Average Score
-
-The average score for each attribute is zero, representing an average human with no particular strengths or weaknesses. This means that the individual possesses a balanced set of skills and abilities, without any significant advantages or disadvantages in any specific area. They are neither exceptionally gifted nor noticeably lacking in any particular domain.
-
-&nbsp;
-
-This average human has a moderate level of physical strength, agility, and endurance, allowing them to perform everyday tasks and activities without difficulty. However, they may not excel in physically demanding or athletic endeavors compared to individuals with higher scores in these Abilities.
-
-&nbsp;
-
-Regarding mental capabilities, the average human has a reasonable level of intelligence, memory, and problem-solving skills. They can effectively learn new information, analyze situations, and make informed decisions. Yet, they might not possess the exceptional intellectual brilliance or creative genius of individuals with higher scores in these Abilities.
-
-&nbsp;
-
-In terms of social skills, the average human has a decent level of empathy, communication, and interpersonal relationships. They can interact with others effectively, build relationships, and work collaboratively. However, they may not be as charismatic or influential as individuals with higher scores in these Abilities.
-
-&nbsp;
-
-It's important to note that being average does not imply mediocrity or lack of potential. The average human is capable of achieving great things through hard work, dedication, and continuous self-improvement. They can develop their skills and abilities over time, potentially surpassing those with initially higher scores through consistent effort and practice.
-
-&nbsp;
-
-# **EXCEPTIONAL SCORE**
-
-This exceptional attribute grants significant bonuses to related skills and checks, empowering the individual to excel in their chosen endeavors.
-
-&nbsp;
-
-With a score of \+5, an individual gains a profound understanding and mastery of their attribute. They can effortlessly perform complex tasks and overcome challenging obstacles that would prove daunting to others. Their enhanced perception and coordination allow them to make split-second decisions and execute intricate maneuvers with precision and grace.
-
-&nbsp;
-
-Furthermore, individuals with an exceptional attribute often inspire awe and admiration in others. Their prowess and skill captivate onlookers, leaving them in awe of the seemingly impossible feats they can accomplish. This recognition can open doors to opportunities and collaborations, enabling the individual to make an impact on the world at large.
-
-&nbsp;
-
-# **NON-ATTRIBUTE**
-
-A character with a Non-attributes score in a particular attributes is severely limited in their capabilities. They cannot perform actions that rely on that attributes, and they automatically fail all checks associated with it. This is represented as a 25-point flaw in character creation.
-
-&nbsp;
-
-Examples of Non-attributes characters would be a stationary Intellect Construct lacking both Strength and Agility or a Simple Automata Mecha running on basic programming but lacking any actual Intellect, Wisdom or Charisma (not a PC but an example).
-
-&nbsp;
-
-# ---
-
-# **ATTRIBUTE CHECKS**
-
-Attribute checks are a fallback for actions not covered by specific skills. They measure a character's raw capabilities and are used in general checks, saving throws, and optionally as default skill rolls. Attribute checks act as a backup mechanism for actions not covered by specific skills. Attributes checks encompass a wide range of situations and can be categorized into two types: general checks and saving throws.&nbsp;
-
-&nbsp;
-
-THE ATTRIBUTE CHECKS ARE NOT TO REPLACE ACTUAL SKILL CHECKS AND ARE TO BE USED AS SAVES NOT A WORK AROUND FOR NOT HAVING A SKILL. IF THE ROLL WOULD BE COVERED BY A SKILL CHECK THE DEFAULT ROLL IS THE ATTRIBUTE AND ANY MODIFIERS \- NOT A SAVE CHECK, IT CAN REQUIRE ANY SKILL IT IS NOT A SAVE OF GENERAL CHECK.
-
-## 
-
-## **General Checks**
-
-General attributes checks are employed when a character attempts an action not directly associated with a specific skill. These checks assess a character's natural abilities and proficiency in a particular area. For instance, a character may make a Strength attribute check to break down a wooden door or a Agility attribute check to catch a falling object.
-
-&nbsp;
-
-## **Saving Throws**
-
-Saving throws represent a character's ability to resist harmful effects, such as spells, traps, or environmental hazards. Each saving throw is associated with a specific attribute score, and the outcome determines whether the character succeeds in negating or mitigating the effect. For example, a character might make a Stamina saving throw to resist poison or a Wisdom saving throw to avoid being charmed.
-
-&nbsp;
-
-The difficulty of the check is determined by the Architect based on factors such as the task's complexity and the character's level. The result of the check determines whether the character succeeds, fails, or critically succeeds or fails in the action.
-
-&nbsp;
-
-Attribute checks add depth and versatility to the Tangent gameplay, allowing characters to navigate a wide range of challenges and situations using their innate capabilities. They encourage players to think creatively and consider their characters' strengths and weaknesses when approaching obstacles.
-
-&nbsp;
-
-## How Attribute Checks are Made
-
-1. Determine the Relevant Attribute: Identify which Attribute Score corresponds to the action being attempted.  
-2. Calculate the Base Score: The base score for an Attribute Check is 2 \+ (Attribute Score x 2).  
-3. Apply Modifiers:  The Architect may apply modifiers based on the difficulty of the task, environmental factors, or other relevant circumstances.  
-4. Roll the Dice: Roll 2d10 and add the result to the modified base score.  
-5. Compare to the Challenge Rating (CR): If the total equals or exceeds the CR set by the Architect, the check is successful.
-
-&nbsp;
-
-## **Types of Challenges**
-
-### **Targeted Challenge**
-
-This is a type of Attribute Check where success or failure is determined by comparing the character's roll to a target number set by the Architect, called the Challenge Rating (CR). The CR represents the difficulty of the task, and it can be modified based on various factors like the character's abilities, environmental conditions, and the complexity of the action being attempted.
-
-&nbsp;
-
-In a Targeted Challenge used as a saving throw, the character is trying to resist or overcome a harmful effect, such as poison, a spell, or a hazardous environmental condition. The CR represents the intensity or potency of the effect. If the character's roll meets or exceeds the CR, they successfully resist the effect (either partially or completely). If the roll falls below the CR, they succumb to the effect and suffer its consequences.
-
-&nbsp;
-
-**Example**
-
-A character is exposed to a cloud of poisonous gas. The Architect calls for a Fortitude saving throw to resist the poison's effects. The Architect sets the CR at 15, considering the potency of the poison. The character rolls 2d10, adds their Stamina modifier and any other applicable bonuses, and compares the total to the CR. If the total is 15 or higher, the character successfully resists the poison and avoids its harmful effects. If the total is below 15, the character fails the Check and suffers the consequences of the poison, such as taking damage or becoming poisoned.
-
-&nbsp;
-
-### **Opposed Challenge**
-
-This type of Attribute Check involves a direct contest between two characters. Instead of comparing a character's roll to a set target number, their roll is compared to the opposing character's roll. The highest scoring character wins the challenge. This mechanic is often used in situations where two characters are directly competing or struggling against each other, such as arm wrestling, grappling, or a battle of wills.
-
-&nbsp;
-
-**Example**
-
-Two characters engage in a heated debate, each trying to persuade the other to their point of view. The Architect calls for an Opposed Challenge using Charisma based Persuasion checks. Both characters roll 2d10 and add their Etiquette. The character with the higher total wins the debate, swaying the other to their side.
-
-&nbsp;
-
-## **Skill Synergy**
-
-Skill Synergy can also come into play during attribute checks, offering characters a chance to utilize their skills to enhance their capability in certain situations.
-
-&nbsp;
-
-When a character is subjected to a harmful effect that requires a saving throw, they can use a skill that is relevant to resisting or mitigating that effect. For example, a character with a high Medicine skill could use it to aid their Fortitude saving throw against a disease, or a character with a high Acrobatics skill could use it to aid their Reflex saving throw against a trap. Another example is using the Reason attribute synergizing with Linguistics to gain a bonus when deciphering ancient inscriptions. The player rolls for Linguistics (Intellect) for every 5 points scored over a CR 10 on the Linguistics check, a \+1 bonus is added to the Reason check. The final Linguistics result is then compared to the Architect's CR to determine if the character successfully deciphers the inscription.&nbsp;
-
-The Architect decides which skills are relevant and the bonus amount based on the situation. The skill chosen for synergy must have a clear and logical connection to the saving throw being attempted. This connection should be apparent and justifiable within the context of the situation.
-
-&nbsp;
-
-**Examples**
-
-Perception and Willpower
-
-When faced with an illusion or deception that attempts to manipulate the character's mind, their keen Perception might help them see through the trickery, granting a bonus to their Willpower Check to resist the illusion's effects.
-
-&nbsp;
-
-Technology and Fortitude
-
-If a character is exposed to a technological hazard, such as a malfunctioning machine or a radiation leak, their knowledge of Technology could help them understand the nature of the threat and take appropriate precautions, granting a bonus to their Fortitude Check to resist the hazard's effects.
-
-&nbsp;
-
-Medicine and Fortitude
-
-When battling a disease or poison, a character's medical knowledge might allow them to better understand the ailment and its effects, giving them a bonus to their Fortitude Check to fight off long term effects of the illness.
-
-&nbsp;
-
-Athletics and Reflex
-
-A character's athleticism and physical coordination could help them react more quickly and effectively to a sudden danger, granting a bonus to their Reflex Check to avoid a particular attack or hazard.
-
-&nbsp;
-
-&nbsp;
-
-### **Relevant Skills**
-
-The skill used for Synergy should be logically connected to the saving throw. For example, using Perception to aid a Willpower Check against an illusion or using Technology to aid a Fortitude Check against a technological hazard.
-
-## 
-
-&nbsp;
-
-## **Additional Notes**
-
-### **Attribute Score Improvements**
-
-As a character's attributes increase, their Attribute Checks become more effective, gaining a 2 point increase from the re-calculation.
-
-&nbsp;
-
-### **Cost**
-
-Increasing the score of an Attribute Check separately costs 1 Character Point (CP) per \+1 point, without need to improve associated Attribute Score.
-
-# 
-
-# ---
+Attributes are a foundational pillar of character creation and gameplay in the Tangent SF RP system. They represent a character's natural physical, mental, and social aptitudes, influencing their success across every task and challenge. The six core attributes are **Strength (STR)**, **Agility (AGI)**, **Stamina (STA)**, **Intellect (INT)**, **Wisdom (WIS)**, and **Charisma (CHA)**. Each score modifies skill checks governed by that attribute, providing bonuses or penalties based on the character's strengths or weaknesses. Additionally, attribute checks serve as a fallback for general actions not covered by specific skills and as **Saving Throws** against harmful effects.
 
 ---
 
-## **ATTRIBUTE PROFILES DIRECTORY**
+## **1. COST, STARTING MAXIMUM & TIER BENCHMARKS**
 
-* **[Physical Attributes (Strength, Agility, Stamina)](./1.01.Attributes.Physical.md)** — *Might, Reflex, and Fortitude sub-attributes, lifting/carrying, dodging, and endurance*
-* **[Mental & Social Attributes (Intellect, Wisdom, Charisma)](./1.01.Attributes.MentalSocial.md)** — *Reason, Willpower, and Etiquette sub-attributes, deduction, resisting fear, and leadership*
+* **Universal Straight Cost (`5 CP` per `+1` / `-5 CP` per `-1`):** Both inside a **Species Package** (`1.03 SPECIES.md`) and during character customization, every `+1` increase in an attribute costs **5 Character Points (CP)** and every `-1` penalty refunds **-5 CP** (straight values with zero package discount). This cost reflects the broad impact that even a single point in an attribute has across skills, combat, and saving throws. For example, a character with Strength `+2` carries greater loads and deals more melee damage than a character with Strength `+1`, while a character with Charisma `+3` is significantly more persuasive than one with Charisma `+2`.
+* **Starting Creation Cap (`+4` Raw):** During character creation, no raw attribute may start higher than **+4** before applying Species modifiers or purchased Augmentations. This ensures balanced starting operators while preserving room for growth and specialization.
+* **Paragon Ceiling (`5 + Species Modifier`):** The natural upper tier of any attribute is **5 plus the Species Modifier**, indicating a biological paragon of that lineage.
+
+### **Average Score (`+0`)**
+
+The average score for each attribute is **0 (`+0`)**, representing an average human with a balanced baseline of physical, mental, and social capabilities and no pronounced advantages or deficiencies:
+
+* **Physical Baseline:** Moderate strength, agility, and endurance sufficient to perform everyday activities and labor without difficulty, though not excelling in extreme athletic feats compared to trained specialists.
+* **Mental Baseline:** Reasonable intelligence, memory, and problem-solving skill to learn new information, analyze situations, and make informed decisions.
+* **Social Baseline:** A functional level of empathy, communication, and interpersonal poise to build relationships and collaborate effectively.
+
+Being average (`+0`) does not imply mediocrity or a lack of potential; through dedicated skill training, teamwork, and experience advancement, an operator starting at `+0` in an attribute can still achieve mastery.
+
+### **Exceptional Score (`+5` and Above)**
+
+An attribute score of **+5** (or `5 + Species Modifier`) represents extraordinary mastery and natural genius within that domain. Individuals with an exceptional attribute effortlessly execute complex feats, make split-second tactical adjustments with precision, and inspire awe in onlookers, often opening doors to high-level factional recognition and elite assignments.
+
+### **Non-Attribute (`-25 CP` Structural Flaw)**
+
+A construct, drone, or entity with a **Non-Attribute (`—`)** in a particular attribute completely lacks that faculty. They cannot perform any actions relying on that attribute and **automatically fail** all checks associated with it. In chassis design, a Non-Attribute is valued as a **-25 CP flaw**.
+* *Examples:* A stationary Intellect Construct core lacking both **Strength** and **Agility**, or a simple unshackled Automata drone running on basic deterministic programming that lacks true **Intellect, Wisdom, or Charisma**.
+
+---
+
+## **2. ATTRIBUTE CHECKS & SAVING THROWS**
+
+Attribute checks measure a character's raw, untrained capabilities and are divided into two categories: **General Checks** and **Saving Throws**.
+
+> **CRITICAL ADJUDICATION RULE:** Attribute Checks (and their `2 + 2 * Attribute` Save bonuses) do **not** replace trained Skill Checks and must never be used as a workaround to gain a free `+2 + 2x` bonus when a character lacks a skill. If a roll is governed by a Skill which the character does not possess, the default untrained roll is simply `2d10 + Raw Attribute Score + Situational Modifiers` (often with a `-2` Untrained penalty), **not** an Attribute Save Check.
+
+### **A. General Checks vs. Saving Throws**
+
+* **General Checks:** Employed when a character attempts a raw test of capability not governed by any specific skill—such as rolling a **Might (Strength)** check to break down a jammed bulkhead door or a **Reflex (Agility)** check to catch a falling object.
+* **Saving Throws:** Represent a character's ability to resist or mitigate harmful external effects—such as toxins, radiation, explosions, traps, or metaphysical invocations. Each saving throw is paired with one of the six primary attributes:
+
+| Attribute | Associated Check / Save | Core Mechanical Governance |
+| :--- | :--- | :--- |
+| **Strength (STR)** | **Might Check / Save** | Lifting/carrying capacity, breaking barriers, melee/unarmed damage, grappling, physical stability. |
+| **Agility (AGI)** | **Reflex Save** | Ranged accuracy, passive Defense (`10 + AGI + Defense + Armor`), Initiative, balance, dodging AoEs. |
+| **Stamina (STA)** | **Fortitude Save** | **Base Toughness** (point-for-point wound damage reduction after Armor DR), toxin/disease/radiation resistance, Mortality threshold (`Stability = STA + 5` / `-STA`). *(Never increases Vitality or Health pools).* |
+| **Intellect (INT)** | **Reason Check / Save** | Logic, problem-solving, codebreaking, engineering, science, Arcane/Psychic Metafocus, Perception (`INT + WIS`). |
+| **Wisdom (WIS)** | **Willpower Save** | Intuition, `Insight` (deception detection), mental/psionic resistance, fear resistance, Divine/Primal Metafocus, Perception (`INT + WIS`). |
+| **Charisma (CHA)** | **Etiquette Check / Save** | Leadership, `Diplomacy`, `Bluff`, social presence, first impressions, Karma debt limit (`CHA + 1`), Hereditary/Bardic Metafocus. |
+
+### **B. How Attribute Checks & Saving Throws Are Made**
+
+1. **Determine the Relevant Attribute:** Identify which of the six Attribute Scores governs the test or resistance roll.
+2. **Calculate the Base Save Score:**
+   ```text
+   Active Save Roll = 2d10 + 2 + (2 * Attribute Score) + Feature Bonus + Situational Modifiers vs. CR
+   Passive Save CR  = 12 + (2 * Attribute Score) + Feature Bonus
+   ```
+3. **Apply Modifiers:** The Architect applies situational, environmental, or equipment modifiers based on task conditions.
+4. **Roll the Dice:** Roll **2d10** and add the modified Attribute Save score.
+5. **Compare to Challenge Rating (CR):** If the total equals or exceeds the **Challenge Rating (CR)** set by the Architect, the check succeeds.
+
+* **Attribute Score Improvements & Independent Save Purchases:** Whenever an Attribute Score increases by `+1`, its associated Attribute Check/Save automatically increases by **+2** (`2 * Attribute`). A character may also purchase an independent bonus to a specific Attribute Check/Save for **1 CP per +1** without raising the underlying Attribute Score.
+
+### **C. Types of Challenges**
+
+#### **1. Targeted Challenge (vs. Static CR)**
+
+Success or failure is determined by comparing the character's `2d10` roll against a static **Challenge Rating (CR)** set by the Architect representing the intensity of the hazard or obstacle.
+* *Example (Poison Gas):* A character is exposed to a cloud of poisonous gas (`CR 15`). The Architect calls for a **Fortitude Saving Throw**. The character rolls `2d10 + 2 + (2 * Stamina Score)` plus any applicable gear or feature bonuses. If the total is **15 or higher**, the character resists the poison; if below 15, they suffer the poison's damage or condition.
+
+#### **2. Opposed Challenge (Contest vs. Opponent)**
+
+Involves a direct contest between two characters where both roll `2d10` plus their relevant Attribute Check/Save modifier, and the higher total wins (defender wins ties).
+* *Example (Heated Debate):* Two diplomats engage in a public philosophical clash. The Architect calls for an **Opposed Etiquette (Charisma) Challenge**. Both roll `2d10 + Etiquette Score`; the higher total sways the audience.
+
+---
+
+## **3. SKILL SYNERGY ON ATTRIBUTE CHECKS & SAVES (`+1` per `5` Over `CR 10`)**
+
+When a character is subjected to a hazard or challenge requiring an Attribute Check or Saving Throw, they may invoke **Skill Synergy** if they possess training in a logically connected skill. The player rolls an auxiliary check using the relevant Skill; **for every 5 full points scored over CR 10 on the auxiliary skill check, a +1 synergy bonus is added to the primary Attribute Check or Saving Throw**:
+
+1. **Knowledge (Language) & Reason (Intellect):** When deciphering ancient precursor inscriptions, the player rolls a **Knowledge (Language)** check first; for every **5 points scored over CR 10**, a **+1 bonus** is added to their **Reason (Intellect)** check to comprehend the inscription's hidden logic.
+2. **Alertness (Perception) & Willpower (Wisdom):** When confronted with a sensory illusion or subtle deception attempting to manipulate their mind, a character's keen **Alertness** check grants **+1 per 5 points over CR 10** to their **Willpower Save** to see through and disbelieve the illusion.
+3. **Knowledge (Technology) & Fortitude (Stamina):** When exposed to a technological hazard—such as a malfunctioning reactor core or ionizing radiation leak—a character's **Knowledge (Technology)** check helps them recognize the emission profile and take immediate shielding precautions, granting **+1 per 5 points over CR 10** to their **Fortitude Save**.
+4. **Knowledge (Medicine) & Fortitude (Stamina):** When battling an alien pathogen, biological weapon, or neurotoxin, a character's **Knowledge (Medicine)** check allows them to regulate their metabolism and apply counter-measures, granting **+1 per 5 points over CR 10** to their **Fortitude Save** against the illness's effects.
+5. **Athletics & Reflex (Agility):** When reacting to a sudden physical trap or collapsing structure, a character's **Athletics** check leverages their physical coordination to grant **+1 per 5 points over CR 10** to their **Reflex Save** to dive clear of the hazard.
+
+---
+
+## **4. DETAILED PROFILES OF THE SIX PRIMARY ATTRIBUTES**
+
+### **I. STRENGTH (`STR`) — MIGHT**
+
+**Strength** measures a character's physical power, muscular force, and bodily stability. It is essential for lifting heavy loads, breaking barriers, wielding heavy melee weapons, grappling opponents, and resisting attempts to push, trip, or bull rush the character.
+
+* **Lifting and Carrying:** Determines how much weight a character can lift, carry, and drag without encumbrance penalties.
+* **Breaking Objects:** Used to force jammed airlocks, snap restraints, bend bars, or sunder obstacles.
+* **Melee Combat:** Added to **Melee** and **Unarmed** attack and damage rolls, as well as close-quarters grapple and shove maneuvers.
+
+#### **Might Check (`2d10 + 2 + [2 * STR]`)**
+
+Resolves tests of raw physical power against a Challenge Rating (CR) based on object weight and material durability:
+* **Lifting Heavy Objects:** Raising blast gates, shifting fallen girders, or carrying incapacitated comrades.
+* **Bending Bars:** Prying open unpowered bulkhead hatches or bending security grates.
+* **Breaking Things:** Snapping chains, smashing through walls, or breaking restraints.
+* *Example:* A character with **Strength `+3`** attempts to bend a reinforced metal bar (`CR 15`). Their Might Check base score is **+8** (`2 + [2 * 3]`). With no other modifiers, they need to roll a **7 or higher on `2d10`** to succeed.
+
+---
+
+### **II. AGILITY (`AGI`) — REFLEX**
+
+**Agility** measures balance, hand-eye coordination, spatial nimbleness, and reaction speed. A character with high Agility moves swiftly, reacts instantaneously to danger, dodges incoming fire, and aims ranged weapons with pinpoint accuracy.
+
+* **Dodging & Defense:** Added directly to the character's static and active **Defense Score** (`10 + AGI + Defense Skill + Armor/Size Mods`).
+* **Acrobatics & Mobility:** Governs jumping, balancing, tumbling, stealth, and zero-G maneuvering.
+* **Ranged Combat & Initiative:** Added to all **Ranged, Ballistic, Energy, Heavy Weapons, and Heavy Energy** attack rolls, as well as **Initiative** rolls.
+
+#### **Reflex Save (`2d10 + 2 + [2 * AGI]`)**
+
+Measures the ability to react swiftly and precisely to sudden hazards or area-of-effect attacks:
+* **Avoiding Area Attacks:** Diving clear of grenade explosions, flamethrower cones, or dragon breath weapons (halving damage on a success, or negating it with *Evasiveness*).
+* **Catching Objects:** Catching a thrown item, grabbing a ledge while falling, or intercepting a moving target.
+* **Performing Agility Feats:** Retaining balance across narrow beams, seismic tremors, or sudden hull breaches.
+* *Example:* A character with **Agility `+3`** attempts to dive clear of a fiery explosion (`CR 15`). Their Reflex Save base score is **+8** (`2 + [2 * 3]`). With no other modifiers, they need to roll a **7 or higher on `2d10`** to evade the blast.
+
+---
+
+### **III. STAMINA (`STA`) — FORTITUDE**
+
+**Stamina** measures metabolic endurance, systemic resistance, and physical toughness. A character with high Stamina endures prolonged exertion, shrugs off wound trauma, and resists fatigue, poison, radiation, and disease.
+
+* **Enduring Physical Hardship:** Governs how long a character can sprint, swim, climb, or force-march without exhaustion, as well as surviving extreme temperatures, hunger, thirst, and sleep deprivation.
+* **Biological Resistances:** Fights off pathogens, infections, venoms, cybernetic rejection, and ionizing radiation.
+* **Base Toughness (Point-for-Point Damage Reduction):** A character's Stamina Modifier serves as their **Base Toughness**, subtracting **point-for-point** from incoming wound damage after Armor DR. *(Stamina **never** increases Vitality or Health pools; those start at Base 30 each and scale strictly at +5 per 1 CP).*
+* **Mortality & Stability Threshold:** Sets the character's **Stability Points (`Stamina Score + 5`)** and negative Health **Threshold of Death (`-Stamina Score`)**.
+
+#### **Fortitude Save (`2d10 + 2 + [2 * STA]`)**
+
+Measures the ability to withstand physiological trauma, metabolic hazards, and mortal shock:
+* **Resisting Poison, Disease & Radiation:** Overcoming biological phages, neurotoxins, chemical weapons, and radiation sickness.
+* **Enduring Extreme Environments:** Surviving thin atmospheres, abyssal crush depths, or extreme thermal exposure.
+* **Pushing Through Exhaustion & Pain:** Resisting stun effects, forced marches, and mortal stabilization checks.
+* *Example:* A character with **Stamina `+4`** is exposed to a potent neurotoxin (`CR 18`). Their Fortitude Save base score is **+10** (`2 + [2 * 4]`). With no other modifiers, they need to roll an **8 or higher on `2d10`** to resist the toxin's effects.
+
+---
+
+### **IV. INTELLECT (`INT`) — REASON**
+
+**Intellect** measures deductive reason, analytical logic, memory, and technical comprehension. A character with high Intellect analyzes complex problems rapidly, synthesizes clues, and excels in science, engineering, computers, and Arcane/Psychic metaphysics.
+
+* **Problem-Solving:** Analyzing tactical bottlenecks, identifying patterns, and devising lateral solutions.
+* **Deduction:** Drawing logical conclusions from forensic evidence and predicting enemy operations.
+* **Understanding Complex Information:** Comprehending technical schematics, scientific proofs, computer code, and ancient texts, and contributing to **Perception Base (`INT + WIS`)**.
+
+#### **Reason Check / Save (`2d10 + 2 + [2 * INT]`)**
+
+Assesses logical thinking, rapid calculation, and mental clarity against puzzles, ciphers, or cranial trauma:
+* **Puzzles and Riddles:** Solving algorithmic locks, logic gates, and structural riddles under time pressure.
+* **Deciphering Codes and Languages:** Cracking encrypted transmissions or translating unfamiliar syntax.
+* **Understanding Complex Schematics:** Assimilating dense technical manuals, precursor blueprints, or theoretical formulas.
+* *Example:* A character with **Intellect `+4`** attempts to solve a complex security riddle (`CR 20`). Their Reason Check base score is **+10** (`2 + [2 * 4]`). With no other modifiers, they need to roll a **10 or higher on `2d10`** to solve the riddle.
+
+---
+
+### **V. WISDOM (`WIS`) — WILLPOWER**
+
+**Wisdom** measures insight, intuition, situational awareness, and mental determination. A character with high Wisdom perceives hidden agendas, remains calm in the face of terror, and anchors their mind against psychic or supernatural domination.
+
+* **Sensing Deception:** Governs **Insight** checks to detect lies, inconsistencies, and hidden motives in negotiations and interrogations.
+* **Resisting Fear:** Maintains composure and rational judgment under suppressive fire or eldritch horror.
+* **Understanding Motivations & Metafocus:** Reads emotional undercurrents, contributes to **Perception Base (`INT + WIS`)**, and serves as the Key Attribute for Divine and Primal metaphysical traditions.
+
+#### **Willpower Save (`2d10 + 2 + [2 * WIS]`)**
+
+Represents mental fortitude, resolve, and psychic shielding against internal or external pressures:
+* **Resisting Fear:** Overcoming panic, terror auras, or morale breaks against overwhelming odds.
+* **Overcoming Mental Manipulation:** Resisting telepathic intrusion, mind control, *Command*, *Dominate*, and emotional manipulation.
+* **Maintaining Focus Under Pressure:** Sustaining concentration during chaotic battles, interrogations, or psychic static.
+* *Example:* A character with **Wisdom `+5`** is targeted by a psychic enemy attempting to implant a mental suggestion (`CR 15`). Their Willpower Save base score is **+12** (`2 + [2 * 5]`). With no other modifiers, they need to roll a **3 or higher on `2d10`** to resist the psychic intrusion.
+
+---
+
+### **VI. CHARISMA (`CHA`) — ETIQUETTE**
+
+**Charisma** measures confidence, assertiveness, poise, and personal magnetism. A character with high Charisma persuades skeptics, commands loyalty, and navigates high-stakes diplomatic or underworld circles with finesse.
+
+* **Persuasion:** Governs **Diplomacy**, **Bluff**, and **Barter** to convince, negotiate, and influence others.
+* **Leadership:** Inspires allies, rallies troops, and governs the **Companion** and **Natural Leader** features.
+* **Social Interaction & Metafocus:** Builds rapport, sets the Negative Karma debt limit (`CHA + 1`), and serves as the Key Attribute for Hereditary and Bardic metaphysical traditions.
+
+#### **Etiquette Check / Save (`2d10 + 2 + [2 * CHA]`)**
+
+Assesses social grace, cultural adaptability, and raw presence across diverse social environments:
+* **Bartering and Negotiating:** Striking business deals, haggling in frontier markets, or brokering ceasefires.
+* **Navigating Social Gatherings:** Fitting seamlessly into Imperial Senate receptions, corporate boardrooms, or syndicate dens without committing a social faux pas.
+* **Resolving Social Conflicts:** De-escalating volatile standoffs and establishing common ground without bloodshed.
+* *Example:* A character with **Charisma `+5`** attends a formal diplomatic reception (`CR 15`). Their Etiquette Check base score is **+12** (`2 + [2 * 5]`). Even if their humble upbringing provides no cultural bonus, they need only roll a **3 or higher on `2d10`** to project poise and avoid offending the dignitaries.
 

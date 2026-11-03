@@ -93,7 +93,7 @@ const SocialDispositionModal = ({
     const leverageBonus = hasLeverage ? 2 : 0;
     const totalMod = attrMod + skillRank + situationalMod + leverageBonus;
 
-    const baseDiceSum = isCritTriumph ? 30 : isCritFumble ? -10 : (d1 + d2);
+    const baseDiceSum = isCritTriumph ? (d1 + d2 + 10) : isCritFumble ? -10 : (d1 + d2);
     const rollTotal = baseDiceSum + totalMod;
 
     const targetDc = currentDef.baseDc;

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 79
+order: 77
 perspective: "operator"
 entry_type: "Standalone Species"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.kannid","mechanics"]
-updatedAt: "2026-10-14T05:24:25.058Z"
+updatedAt: "2026-11-02T22:49:30.691Z"
 costs:
   bp: 0
   credits: 0
@@ -37,21 +37,22 @@ sockets:
   allocated: []
 ---
 
-# **KANNID**
+# **KANNID**  
+**
 
 # **KANNID**
 
-&nbsp;
+  
 
-**CP Cost:** 12 CP  
+**CP Cost:** 
 
-**Description:** The Kannid are humanoids of canine-like ancestry, immediately recognizable by their digitigrade legs which grant them a natural Quickness and agile gait. Culturally, they are highly social, generally operating in tight-knit groups known as ‘Packs,’ a structure that emphasizes collective strength and efficiency, boosting their natural Agility and Stamina.&nbsp;
+**Description:** The Kannid are humanoids of canine-like ancestry, immediately recognizable by their digitigrade legs which grant them a natural Quickness and agile gait. Culturally, they are highly social, generally operating in tight-knit groups known as ‘Packs,’ a structure that emphasizes collective strength and efficiency, boosting their natural Agility and Stamina. 
 
-Beyond their physical and social traits, they are widely known for being extremely fashion forward, often setting trends with bold, cutting-edge styles.&nbsp;
+Beyond their physical and social traits, they are widely known for being extremely fashion forward, often setting trends with bold, cutting-edge styles. 
 
 This species is equipped with highly developed sensory organs, possessing Uncanny Sense (Scent) and Uncanny Sense (Hearing), which make them difficult to surprise. However, their distinct xeno-heritage means they often carry a Stigma (Xeno) in wider society.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -59,33 +60,33 @@ This species is equipped with highly developed sensory organs, possessing Uncann
 
 **Movement:** 40ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 3
 
 **Meta Level:** 2
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Agility
++1 Agility
 
-\+1 Stamina
++1 Stamina
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Digitigrade Legs
 
@@ -95,9 +96,9 @@ Uncanny Sense (Scent)
 
 Uncanny Sense (Hearing)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Acute Sense line (any)
 
@@ -115,9 +116,9 @@ Self Sufficient
 
 Tracker
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+**  
+**
 

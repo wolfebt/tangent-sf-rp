@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 45
+order: 43
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans","mechanics"]
-updatedAt: "2026-10-14T08:26:04.139Z"
+updatedAt: "2026-11-03T11:09:02.341Z"
 costs:
   bp: 0
   credits: 0
@@ -41,40 +41,40 @@ sockets:
 
 Humans and their numerous environmental, cybernetic, and genetically engineered offshoots represent one of the most widespread and adaptable humanoid lineages across the known territories—populating the Dracon Dynasty, Incorporated Planetary Syndication, Impyrium, Coalition of Independent Worlds, and Outworlds.
 
-While baseline Humans possess no innate biological species traits, they receive **+10 Skill Points [8 CP]** and **+1 Feature of choice [2 CP]** (typically a Karma Feature), allowing exceptional versatility across all archetypes and occupations. Across many non-human territories, Humans carry varying degrees of diplomatic or social stigma due to the historical legacy of the Impyrium's aggressive expansion and colonization campaigns.
+While baseline Humans possess no innate biological species traits, they receive **+10 Skill Ranks [10 CP]** and **+1 Feature of Choice [2–3 CP]** (typically a Karma Feature), allowing exceptional versatility across all archetypes and occupations. Across many non-human territories, Humans carry varying degrees of diplomatic or social stigma due to the historical legacy of the Impyrium's aggressive expansion and colonization campaigns.
 
 ---
 
 ## **Human Lineage & Offshoot Index**
 
 ### **Baseline Humanity**
-* **Humans (Base) [10 CP]:** Humanoid (0) | Skills: +10 [8] | Features: +1 Feature of choice [2] | Stigma: —
+* **Humans (Base) [12–13 CP]:** Humanoid (0) | Skills: +10 [10 CP] | Features: +1 Feature of Choice [2–3 CP] | Stigma: —
 
 ### **Environmental, Cultural & Hybrid Offshoots**
-* **Aquarian [7 CP]:** Humanoid (0) | +1 Ability [4] | Adapted (Aquatic) [1], Amphibious [1], Aquatic Strength [2], Specialized Senses [2], Swimming [2], +1 Feature [3] | Stigma: Aquatic Xeno (-3)
-* **Argynt [13 CP]:** Humanoid (0) | +1 Int [4] | +5 Skills [4] | Improved Great Fortitude [2] | Stigma: Blue Skin (-1)
-* **B’Dren [9 CP]:** Humanoid (0) | +1 Agi [4], +1 Ability [4] | Low Light Vision [1], Quick [2]
-* **Brae [20 CP]:** Humanoid (0) | +1 Agi [4], +1 Ability [4] | +10 Skills [8] | Small Size [2], Climber [2]
-* **Changeling [8 CP]:** Humanoid (0) | +1 Cha [4] | +5 Skills [4] | Alter Form (Minor) [1] | Stigma: Shifter (-2)
-* **Cyberform [17 CP]:** Humanoid (0) | +2 Int [8] | +10 Skills [8] | Augmented (Body Comp, PicoSurgeons, Smart Link) [6], Bodyform Acclimation [2], Companion (AI) [3] | Stigma: Xeno (-2), Augmented (-4)
-* **Danai [11 CP]:** Humanoid (0) | +1 Int [4] | Awakened (Mental) [2], Biotechnology [2], Hive Connection [2], +1 Feature [3] | Stigma: Minor Xeno (-1)
-* **Draconic [7 CP]:** Humanoid (0) | +1 Ability [4] | Dragonkin Traits [6], Status (Dynasty) [3], +1 Feature [3] | Stigma: Draconic (-2)
-* **Dwerg [19 CP]:** Humanoid (0) | +1 Str [4], +1 Sta [4] | +10 Vocation Skills [8] | Mighty Surge [2] | Stigma: Minor Xeno (-1)
-* **Kheen [10 CP]:** Humanoid (0) | +2 Ability [8] | +5 Skills [4] | Low Light Vision [1]
-* **Lin [37 CP]:** Humanoid (0) | +1 Int [4] | +10 Skills [8] | Adapted (Arboreal) [1], Awakened (Nature/Psychic) [2], Biotech [2], Climber [2], Prehensile Tail [1] | Stigma: Xeno (-2)
-* **Nian [19 CP]:** Humanoid (0) | +1 Str [4], +1 Sta [4], -1 Cha [-5] | Brutal [2], Exoskeleton (Partial) [1]
-* **Premian [13 CP]:** Humanoid (0) | +1 Ability [4] | +10 Skills [8]
-* **Rautha [30 CP]:** Humanoid (0) | +2 Agi [8], +2 Sta [8] | +10 Skills [8] | Fast [2], Jumper [1], Low Light [1], Prehensile Tail [1], Scent [1] | Stigma: Xeno (-2)
-* **Risakin [25 CP]:** Humanoid (0) | +2 Str [8], +2 Sta [8] | +10 Skills [8] | Large [2], +2 Features [6] | Stigma: Xeno (-2), Giant (-2)
-* **Varen (Gatekeepers) [18 CP]:** Humanoid (0) | +1 Int [4], +1 Ability [4] | +10 Skills [8] | Awakened (Dimension/Psychic) [2], Indomitable Will [2], Teleportal (Special Ability) [3], Homing (Special Ability) [3]
+* **Aquarian [8 CP *(13 CP w/o Taboo)*]:** Humanoid (0) | +1 Any Attribute [5 CP] | *Adapted (Aquatic)* [1 CP], *Amphibious* [1 CP], *Aquatic Strength* [2 CP], *Specialized Senses* [2 CP], *Swimming* [2 CP], +1 Feature [3 CP] | Stigma: Aquatic Xeno (-3 CP), *Tiburon Syndrome Taboo* (-5 CP)
+* **Argynt [16 CP]:** Humanoid (0) | +1 INT [5 CP], +1 STA [5 CP] | +5 Skills [5 CP] | *Improved Great Fortitude* [2 CP] | Stigma: Blue Skin (-1 CP)
+* **B’Dren [11 CP]:** Humanoid (0) | +1 AGI [5 CP], +1 Any Attribute [5 CP] | *Low-Light Vision* [1 CP], *Quick* [2 CP] | Stigma: Minor Xeno (-2 CP)
+* **Brae [24 CP]:** Humanoid (0) | +1 AGI [5 CP], +1 Any Attribute [5 CP] | +10 Skills [10 CP] | *Small Size* [2 CP], *Climber* [2 CP]
+* **Changeling [10 CP *(9 CP Base)*]:** Humanoid (0) | +1 CHA [5 CP] | +5 Skills [5 CP] | *Alter Form (Minor)* [2 CP] | Stigma: Shifter (-2 CP)
+* **Cyberform [21 CP *(25 CP w/o Maintenance)*]:** Humanoid (0) | +2 INT [10 CP] | +10 Skills [10 CP] | *Augmented (Body Comp, PicoSurgeons, Smart Link)* [6 CP], *Bodyform Acclimation* [2 CP], *Companion (AI)* [3 CP] | Stigma: Xeno (-2 CP), Augmented (-4 CP), Maintenance (-4 CP)
+* **Danai [12 CP]:** Humanoid (0) | +1 INT [5 CP] | *Awakened (Mental)* [2 CP], *Biotechnology* [2 CP], *Hive Connection* [1 CP], +1 Feature [3 CP] | Stigma: Minor Xeno (-1 CP)
+* **Draconic [15 CP *(9 CP Base)*]:** Humanoid (0) | +1 Any Attribute [5 CP] | *Dragonkin Traits* [6 CP], *Status (Dynasty)* [3 CP], +1 Feature [3 CP] | Stigma: Draconic (-2 CP)
+* **Dwerg [23 CP]:** Humanoid (0) | +1 STR [5 CP], +1 STA [5 CP] | +10 Vocation Skills [10 CP] | *Mighty Surge* [2 CP], *Low-Light Vision* [1 CP], *Stability* [1 CP] | Stigma: Minor Xeno (-1 CP)
+* **Kheen [16 CP *(13 CP Base)*]:** Humanoid (0) | +2 Any Attributes [10 CP] | +5 Skills [5 CP] | *Low-Light Vision* [1 CP]
+* **Lin [21 CP]:** Humanoid (0) | +1 INT [5 CP] | +10 Skills [10 CP] | *Adapted (Arboreal)* [1 CP], *Awakened (Nature/Psychic)* [2 CP], *Biotechnology* [2 CP], *Climber* [2 CP], *Prehensile Tail* [1 CP] | Stigma: Xeno (-2 CP)
+* **Nian [8 CP *(21 CP w/ Heavy Traits)*]:** Humanoid (0) | +1 STR [5 CP], +1 STA [5 CP], -1 CHA [-5 CP] | *Brutal* [2 CP], *Exoskeleton (Partial)* [1 CP]
+* **Premian [15–16 CP]:** Humanoid (0) | +1 Any Attribute [5 CP] | +10 Skills [10 CP] | +1 Recommended Feature Discount [1 CP]
+* **Rautha [34–36 CP]:** Humanoid (0) | +2 AGI [10 CP], +2 STA [10 CP] | +10 Skills [10 CP] | *Fast* [2 CP], *Jumper* [1 CP], *Low-Light Vision* [1 CP], *Prehensile Tail* [1 CP], *Scent* [1 CP] | Stigma: Xeno (-2 CP)
+* **Risakin [31–34 CP]:** Humanoid (0) | +2 STR [10 CP], +2 STA [10 CP] | +10 Skills [10 CP] | *Large* [2 CP], +2 Features [4 CP] | Stigma: Xeno (-2 CP), Giant (-3 CP)
+* **Varen (Gatekeepers) [28–30 CP]:** Humanoid (0) | +1 INT [5 CP], +1 Any Attribute [5 CP] | +10 Skills [10 CP] | *Awakened (Dimension/Psychic)* [2 CP], *Indomitable Will* [2 CP], *Teleportal (Special Ability)* [3 CP], *Homing (Special Ability)* [3 CP]
 
 ### **Engineered Humans (Gen-E Strains)**
-* **Gen-E (Base Engineered) [9 CP]:** Humanoid (0) | +2 Ability [8] | +5 Skills [4] | +1 Feature [3]
-* **Aquatican [7 CP]:** Humanoid (0) | +1 Ability [4] | +5 Skills [4] | Adapted (Aquatic) [1], Amphibious [1], Natural Swim Speed [2], Swimmer [2] | Stigma: Aquatic Xeno (-3)
-* **Chimera [4 CP]:** Humanoid (0) | +2 Ability [8] | +5 Skills [4] | +2 Species/Special Features [4], Mutation [3] | Stigma: Genetic (-2), Bestial (-2)
-* **Davae [17 CP]:** Humanoid (0) | +1 Int [4], +1 Ability [4] | +5 Focus Skills [4] | Awakened (Psychic) [2], Telepathy [4], Biotechnology [2], Hive Connection [2], +2 Features [6] | Stigma: Xeno (-2)
-* **Digon [8 CP]:** Humanoid (0) | +1 Str, +1 Agi, +1 Sta [12], -1 Int, -1 Cha [-10] | +5 Skills [4] | Brutal [2], Exoskeleton (Partial) [1], Rage [3] | Stigma: Xeno (-2), Savage (-4)
-* **Impyrium Psion [19 CP]:** Humanoid (0) | +1 Wis [4], +1 Ability [4] | +10 Skills [8] | Awakened (Psychic) [2], Status (Impyrium) [3]
-* **Impyrium Regi [29 CP]:** Humanoid (0) | +2 Int [8] | +20 Skills [16] | Adaptive Aspects [2], Awakened (Psychic) [2], Status (Nobility) [3]
-* **Janissary [16 CP]:** Humanoid (0) | +2 Ability [8], -1 Cha [-5] | +20 Combat Skills [16] | Augmented [3], +1 Combat Feature [2] | Stigma: Xeno (-2)
+* **Gen-E (Base Engineered) [12 CP *(18 CP un-stigmatized)*]:** Humanoid (0) | +2 Any Attributes [10 CP] | +5 Skills [5 CP] | +1 Feature [3 CP] | Stigma: Engineered (-6 CP)
+* **Aquatican [11–13 CP]:** Humanoid (0) | +1 Any Attribute [5 CP] | +5 Skills [5 CP] | *Adapted (Aquatic)* [1 CP], *Amphibious* [1 CP], *Natural Swim Speed* [2 CP], *Swimmer* [2 CP] | Stigma: Aquatic Xeno (-3 CP)
+* **Chimera [7 CP *(18–19 CP stable)*]:** Humanoid (0) | +2 Any Attributes [10 CP] | +5 Skills [5 CP] | +2 Species/Special Features [4 CP], *Mutation* [3 CP] | Stigma: Genetic (-2 CP), Bestial (-2 CP), Unstable (-11 CP)
+* **Davae [20 CP]:** Humanoid (0) | +1 INT [5 CP], +1 Any Attribute [5 CP] | +5 Focus Skills [5 CP] | *Awakened (Psychic)* [2 CP], *Telepathy* [2 CP], *Biotechnology* [2 CP], *Hive Connection* [1 CP] | Stigma: Xeno (-2 CP)
+* **Digon [12 CP *(8 CP w/ Severe Savage)*]:** Humanoid (0) | +1 STR, +1 AGI, +1 STA [15 CP], -1 INT, -1 CHA [-10 CP] | +5 Skills [5 CP] | *Brutal* [2 CP], *Exoskeleton (Partial)* [1 CP], *Rage* [3 CP] | Stigma: Xeno (-2 CP), Savage (-2 CP)
+* **Impyrium Psion [25 CP]:** Humanoid (0) | +1 WIS [5 CP], +1 Any Attribute [5 CP] | +10 Skills [10 CP] | *Awakened (Psychic)* [2 CP], *Status (Impyrium)* [3 CP]
+* **Impyrium Regi [37 CP]:** Humanoid (0) | +2 INT [10 CP] | +20 Skills [20 CP] | *Adaptive Aspects* [2 CP], *Awakened (Psychic)* [2 CP], *Status (Nobility)* [3 CP]
+* **Janissary [22 CP]:** Humanoid (0) | +2 Any Attributes [10 CP], -1 CHA [-5 CP] | +20 Combat Skills [20 CP] | *Combat Conditioning* [2 CP] | Stigma: Clone Servitude (-5 CP)
 

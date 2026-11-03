@@ -7,7 +7,8 @@ import {
   stabilizeEntity, 
   advanceDeathClock, 
   revivifyEntity, 
-  calculateDeathClock 
+  calculateDeathClock,
+  calculateStabilityPoints
 } from '../../engines/tangentEntityEngines';
 
 /**
@@ -80,15 +81,24 @@ export const useFolioDeathDying = ({
     const currentHealth = target.current_health !== undefined ? parseInt(target.current_health, 10) : parseInt(target.health || 30, 10);
     const currentVitality = target.current_vitality !== undefined ? parseInt(target.current_vitality, 10) : parseInt(target.vitality || 30, 10);
     const currentStructure = target.current_structure !== undefined ? parseInt(target.current_structure, 10) : (currentHealth + currentVitality);
-    const isAtDeathsDoor = Boolean(target.is_at_deaths_door || (currentHealth <= 0 && currentVitality <= 0));
-    const deathClockCurrent = target.death_clock !== undefined ? target.death_clock : undefined;
+    const inMortalityState = Boolean(target.in_mortality_state || target.is_at_deaths_door || currentHealth <= 0);
+    const stabilityCurrent = target.stability_points !== undefined && target.stability_points !== null
+      ? target.stability_points
+      : (target.death_clock !== undefined ? target.death_clock : undefined);
 
     let result;
     if (isDirectHealth && !isSynthetic) {
       const netDamage = Math.max(0, Number(incomingDamage) || 0);
-      const newHealth = Math.max(0, currentHealth - netDamage);
-      const atDeathsDoor = newHealth <= 0 && currentVitality <= 0;
-      const dead = atDeathsDoor && (target.death_clock !== undefined && target.death_clock !== null && Number(target.death_clock) <= 0);
+      const remHealth = currentHealth - netDamage;
+      const newHealth = Math.max(0, remHealth);
+      const excessToStability = remHealth < 0 ? Math.abs(remHealth) : 0;
+      const entersMortality = newHealth <= 0;
+      const stabilityMax = calculateStabilityPoints(staTotal);
+      const startingStability = stabilityCurrent !== undefined && stabilityCurrent !== null
+        ? Math.min(Number(stabilityCurrent), stabilityMax)
+        : stabilityMax;
+      const stabilityPoints = entersMortality ? Math.max(0, startingStability - excessToStability) : null;
+      const dead = entersMortality && ((inMortalityState && netDamage >= stabilityMax) || (stabilityPoints !== null && stabilityPoints <= 0));
       result = {
         newVitality: currentVitality,
         newHealth,
@@ -98,15 +108,20 @@ export const useFolioDeathDying = ({
         vitalityDamage: 0,
         healthDamage: currentHealth - newHealth,
         damageAbsorbed: 0,
-        atDeathsDoor,
+        inMortalityState: entersMortality,
+        atDeathsDoor: entersMortality,
         dead,
-        comatose: atDeathsDoor,
-        deathClock: atDeathsDoor ? (target.death_clock || Math.max(1, staTotal || 1)) : null
+        comatose: entersMortality,
+        stabilityPoints: dead ? 0 : stabilityPoints,
+        stabilityMax,
+        deathClock: dead ? 0 : stabilityPoints
       };
     } else if (isDirectVitality && !isSynthetic) {
       const netDamage = Math.max(0, Number(incomingDamage) || 0);
       const newVitality = Math.max(0, currentVitality - netDamage);
-      const atDeathsDoor = currentHealth <= 0 && newVitality <= 0;
+      const entersMortality = currentHealth <= 0;
+      const stabilityMax = calculateStabilityPoints(staTotal);
+      const activeStability = entersMortality ? (stabilityCurrent ?? stabilityMax) : null;
       result = {
         newVitality,
         newHealth: currentHealth,
@@ -116,10 +131,13 @@ export const useFolioDeathDying = ({
         vitalityDamage: currentVitality - newVitality,
         healthDamage: 0,
         damageAbsorbed: 0,
-        atDeathsDoor,
+        inMortalityState: entersMortality,
+        atDeathsDoor: entersMortality,
         dead: false,
-        comatose: atDeathsDoor,
-        deathClock: atDeathsDoor ? (target.death_clock || Math.max(1, staTotal || 1)) : null
+        comatose: entersMortality,
+        stabilityPoints: activeStability,
+        stabilityMax,
+        deathClock: activeStability
       };
     } else {
       result = applyDamageToEntity({
@@ -133,15 +151,19 @@ export const useFolioDeathDying = ({
         isConcussive,
         attemptedReduction,
         toughness: attemptedReduction ? toughness : 0,
-        armorDR: attemptedReduction ? armorDR : 0,
+        armorDR: attemptedReduction ? (armorDR || derivedStats?.effectiveArmorRating || 0) : 0,
         staminaScore: staTotal,
-        isAtDeathsDoor,
-        deathClockCurrent
+        isAtDeathsDoor: inMortalityState,
+        inMortalityState,
+        deathClockCurrent: stabilityCurrent,
+        stabilityCurrent
       });
     }
 
     const updates = {
-      is_at_deaths_door: result.atDeathsDoor,
+      in_mortality_state: Boolean(result.inMortalityState ?? result.atDeathsDoor),
+      is_at_deaths_door: Boolean(result.atDeathsDoor),
+      stability_points: result.stabilityPoints ?? result.deathClock,
       death_clock: result.deathClock,
       is_comatose: result.comatose,
       is_dead: result.dead,
@@ -219,8 +241,10 @@ export const useFolioDeathDying = ({
     if (result.stabilized) {
       const updates = {
         is_stabilized: true,
+        in_mortality_state: false,
         is_at_deaths_door: false,
         is_comatose: false,
+        stability_points: null,
         death_clock: null
       };
 
@@ -262,15 +286,26 @@ export const useFolioDeathDying = ({
     const staBase = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;
     const staMod = target['attr-stamina-mod'] ? parseInt(target['attr-stamina-mod'], 10) : 0;
     const staScore = Math.max(0, staBase + staMod);
-    const currentClock = target.death_clock !== undefined && target.death_clock !== null
-      ? Number(target.death_clock)
-      : calculateDeathClock(staScore);
+    const currentClock = target.stability_points !== undefined && target.stability_points !== null
+      ? Number(target.stability_points)
+      : (target.death_clock !== undefined && target.death_clock !== null
+        ? Number(target.death_clock)
+        : calculateDeathClock(staScore));
 
-    const result = advanceDeathClock({ currentClock, isStabilized: Boolean(target.is_stabilized) });
+    const result = advanceDeathClock({
+      currentClock,
+      stabilityPoints: currentClock,
+      isStabilized: Boolean(target.is_stabilized),
+      fortitudeSaveRoll: options?.fortitudeSaveRoll,
+      roundsDowned: options?.roundsDowned ?? 0
+    });
 
     const updates = {
+      stability_points: result.stabilityPoints ?? result.currentClock,
       death_clock: result.currentClock,
       is_dead: result.dead,
+      is_stabilized: Boolean(result.isStabilized),
+      in_mortality_state: !result.dead && !result.isStabilized,
       is_at_deaths_door: !result.dead && !result.isStabilized
     };
 
@@ -318,12 +353,16 @@ export const useFolioDeathDying = ({
       current_health: isSynthetic ? 0 : Math.max(1, Number(revivedHealth) || 1),
       current_structure: isSynthetic ? Math.max(1, Number(revivedHealth) || 1) : target.current_structure,
       is_dead: false,
+      in_mortality_state: false,
       is_at_deaths_door: false,
+      stability_points: null,
       death_clock: null,
       is_stabilized: true,
       is_comatose: false,
+      active_conditions: result.updatedData?.active_conditions || ['Exhausted'],
+      conditions: result.updatedData?.conditions || ['Exhausted'],
       karma: 0,
-      experience_debt: (target.experience_debt || 0) + (result.penalties?.totalExperienceDebt || 5)
+      experience_debt: result.updatedData?.experience_debt ?? ((Number(target.experience_debt) || 0) + 5)
     };
 
     if (isSynthetic && updateCharacterStructure) {

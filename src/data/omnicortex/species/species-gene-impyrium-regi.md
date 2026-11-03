@@ -140,7 +140,7 @@ cp_cost: 37
 
 # **IMPYRIUM REGI \* \*\* \*\*\***
 
-**CP Cost:** 29 CP  
+**CP Cost:** 37 CP  
 
 **Description:** The Regi are not a naturally occurring human variant but a sophisticated human subspecies, the product of deliberate, centuries-long bio-engineering by the technologically and psychically advanced Mondi civilization. Millennia ago, the Mondi intervened directly in the evolutionary path of a subset of humanity, meticulously engineering their development to achieve a state of exceptionalism. This profound genetic and psychic manipulation resulted in a population characterized by extraordinary intellectual capacity, potent inherent psychic abilities, and a suite of unique adaptive features.&nbsp;
 

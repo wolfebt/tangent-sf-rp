@@ -11,6 +11,7 @@ import {
 } from '../engines/tangentComplexEngines.js';
 import {
   calculateCreditValue,
+  calculateCRFromCredits,
   calculateLiquidityGap,
   calculateCharacterWealth,
   getFinancialStatus
@@ -216,26 +217,29 @@ export const isDisciplineAwakened = (characterData, disciplineName) => {
  */
 export function resolveItemCostDC(item) {
   if (!item || typeof item !== 'object') return 10;
-  if (item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== '') {
-    return Math.max(0, parseInt(item.craft_dc, 10) || 0);
-  }
-  if (item.design_dc !== undefined && item.design_dc !== null && item.design_dc !== '') {
-    return Math.max(0, parseInt(item.design_dc, 10) || 0);
-  }
-  if (item.base_dc !== undefined && item.base_dc !== null && item.base_dc !== '') {
-    return Math.max(0, parseInt(item.base_dc, 10) || 0);
-  }
-  if (item.craftDc !== undefined && item.craftDc !== null && item.craftDc !== '') {
-    return Math.max(0, parseInt(item.craftDc, 10) || 0);
-  }
-  if (item.cost_dc !== undefined && item.cost_dc !== null && item.cost_dc !== '') {
-    return Math.max(0, parseInt(item.cost_dc, 10) || 0);
-  }
-  if (item.purchase_dc !== undefined && item.purchase_dc !== null && item.purchase_dc !== '') {
-    return Math.max(0, parseInt(item.purchase_dc, 10) || 0);
-  }
-  if (item.dc !== undefined && item.dc !== null && item.dc !== '') {
-    return Math.max(0, parseInt(item.dc, 10) || 0);
+  const explicitFields = [
+    item.craft_cr,
+    item.final_crafting_cr,
+    item.final_cr,
+    item.design_cr,
+    item.base_cr,
+    item.craftCr,
+    item.cost_cr,
+    item.purchase_cr,
+    item.cr,
+    item.craft_dc,
+    item.final_dc,
+    item.design_dc,
+    item.base_dc,
+    item.craftDc,
+    item.cost_dc,
+    item.purchase_dc,
+    item.dc
+  ];
+  for (const val of explicitFields) {
+    if (val !== undefined && val !== null && val !== '') {
+      return Math.max(0, parseInt(val, 10) || 0);
+    }
   }
   const crCandidates = [
     item.costs?.credits,
@@ -248,8 +252,7 @@ export function resolveItemCostDC(item) {
   ];
   const validCr = crCandidates.find(c => c !== undefined && c !== null && c !== '' && Number(c) > 0);
   if (validCr !== undefined) {
-    const numCr = Math.max(10, Number(validCr) || 10);
-    return Math.max(0, Math.round(2.5 * Math.log2(numCr / 10)));
+    return calculateCRFromCredits(validCr);
   }
   if (item.cp !== undefined && item.cp !== null && item.cp !== '' && Number(item.cp) > 0) {
     return Math.max(0, Math.round((Number(item.cp) || 0) * 2));
@@ -257,8 +260,10 @@ export function resolveItemCostDC(item) {
   if (item.tech_level !== undefined && item.tech_level !== null && Number(item.tech_level) > 0) {
     return Math.max(5, Number(item.tech_level) * 5);
   }
-  return 10; // Default baseline DC 10 (160 Cr) for standard equipment
+  return 10; // Default baseline CR 10 (160 Cr) for standard equipment
 }
+
+export const resolveItemCostCR = resolveItemCostDC;
 
 /**
  * Resolves a character's Wealth Score (WS) from live Folio character data or derived stats.

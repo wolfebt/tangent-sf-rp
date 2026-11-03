@@ -4,7 +4,7 @@ name: "Enhancement"
 type: meta
 subtype: "matter"
 category: skills
-governing_attribute: ""
+governing_attribute: "Wisdom"
 description: "Matter: Strengthening material bonds, hardening objects, and physical reinforcement."
 specialties:
   []
@@ -16,17 +16,19 @@ negative_keywords: "mundane, anti-magic-field, unattuned"
 
 Improving the structural integrity or properties of an object or creature.
 
-* **Mechanic:** Buffs and physical upgrades.
+  - **Mechanic:** Buffs and physical upgrades.
 
 **Invocations:**
 
-* **Hardening/Barkskin:** Toughens skin or armor.  
-  * *Effect:* Adds \+1 DR per 3 Ranks to armor or natural skin.  
-* **Keen Edge:** Sharpens a weapon.  
-  * *Effect:* Increases Critical Threat range by 1\.  
-* **Physical Boost:** Enhances physical attributes.  
-  * *Effect:* Grants \+2 to Str, Agi, or Sta for 1 min/Rank.  
-* **Repair:** Fixes structural damage.  
-  * *Effect:* Restores 1d10 Structure Points per Rank to objects/constructs.
-
-###
+  - **Hardening/Barkskin:** Toughens skin or armor.
+      
+      - *Effect:* Adds +1 DR per 3 Ranks to armor or natural skin.
+  - **Keen Edge:** Sharpens a weapon.
+      
+      - *Effect:* Increases Critical Threat range by 1.
+  - **Physical Boost:** Enhances physical attributes.
+      
+      - *Effect:* Grants +2 to Str, Agi, or Sta for 1 min/Rank.
+  - **Repair:** Fixes structural damage.
+      
+      - *Effect:* Restores 1d10 Structure Points per Rank to objects/constructs.

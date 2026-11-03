@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 109
+order: 107
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.sentientmachine","mechanics"]
-updatedAt: "2026-10-14T05:24:25.072Z"
+updatedAt: "2026-11-02T22:49:36.794Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **SENTIENT MACHINE \***
+# **SENTIENT MACHINE **  
+**
 
-## **SENTIENT MACHINE \***
+## **SENTIENT MACHINE ***
 
-# 
+  
 
-**CP Cost:** 45 CP  
+**CP Cost:** 
 
 **Description:** Intelligent Robot, designs from near humanoid form to industrial or military mecha. The typical unit is built on a medium frame for use of human sized portals, although larger and smaller designs are also used.
 
-&nbsp;
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -55,43 +56,45 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 0
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Synthetic
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+4 to divide among Physical Abilities (Str, Agi or Sta)
++4 to divide among Physical Abilities (Str, Agi or Sta)
 
-\-2 Cha
+-2 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Size (Large)
 
 Size (Small)
 
-&nbsp;
+  
+**  
+**
 

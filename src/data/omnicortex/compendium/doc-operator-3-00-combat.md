@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 235
+order: 233
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","3.00 combat","mechanics"]
-updatedAt: "2026-10-31T11:30:42.652Z"
+updatedAt: "2026-11-03T10:30:30.479Z"
 costs:
   bp: 0
   credits: 0
@@ -37,285 +37,228 @@ sockets:
   allocated: []
 ---
 
-# **COMBAT**
+# **3.00 COMBAT**
 
-# **COMBAT**
+The Tangent combat system employs a **2d10 resolution engine** that factors in character skills, attributes, and tactical modifiers. The outcome of every action is determined by rolling **two ten-sided dice (`2d10`)** and adding relevant modifiers. Combat actions are governed by **Skill Stage**, with higher Skill Ranks unlocking additional iterative actions per turn.
 
-**The combat system uses a 2d10 dice system that factors in character skills, abilities, and other modifiers. Combat actions are determined by skill level, with higher skill levels unlocking additional actions per turn.**
-
-**In the game, combat employs a 2d10 dice system, which adds an element of randomness and uncertainty to each encounter. The outcome of actions is determined by rolling a twenty-sided die (2d10) and adding relevant modifiers. These modifiers take into account character skills, abilities, and various situational factors.**
-
-&nbsp;
-
-**Character skills play a significant role in combat. Each character has a unique set of skills that determine their combat capabilities. These skills include weapon proficiency, combat techniques, and special abilities. The skill level of a character influences the combat actions they can perform during their turn. For example, a character with high swordsmanship skill may be able to perform a flurry of attacks, while a character with high stealth skill may be able to hide from their opponents.**
-
-&nbsp;
-
-**As characters progress and their skill levels increase, they unlock additional actions, enhancing their combat capabilities. This allows for more strategic and dynamic combat encounters. For instance, a character with a higher level of swordsmanship skill may be able to execute more powerful attacks or counter enemy attacks more effectively.**
-
-&nbsp;
-
-**The 2d10 dice system introduces an element of chance into combat, ensuring that no two encounters are exactly the same. This can lead to exciting and unexpected outcomes, adding tension and excitement to every battle. The combination of character skills, abilities, modifiers, and random dice rolls creates a rich and engaging combat experience that keeps players engaged and on the edge of their seats.**
-
-&nbsp;
-
-# **COMBAT SYSTEM**
-
-## 
-
-## **CORE MECHANICS**
-
-The combat system uses a 2d10 dice system that factors in character skills, abilities, and other modifiers. Combat actions are determined by Skill Rank, with higher Ranks unlocking additional actions per turn.
-
-**The Attack Roll:** 2d10 \+ Skill Rank \+ Attribute Mod \+ Situational Modifiers vs. Target Defense (CR).
-
-## 
-
-## 
-
-## **SKILL FOCUS & ACTIONS**
-
-Combat capability is defined by the Skill Tier. As a character gains Ranks, they gain additional actions and bonuses.
-
-| Rank Range | Actions | Benchmark / Title | Focus Bonus |
-| :---- | :---- | :---- | :---- |
-| **0** | Full Round | Untrained | \- |
-| **1 \- 5** | 1st action at base score | Novice / Studied | \+2 |
-| **6 \- 10** | 2nd action at base score \-5 | Professional / Trained | \+3 |
-| **11 \- 15** | 3rd action at base score \-10 | Expert | \+4 |
-| **16 \- 20** | 4th action at base score \-15 | Master | \+5 |
-| **21 \- 25** | 5th action at base score \-20 | Grand Master | \+6 |
-| **26 \- 30** | 6th action at base score \-25 | Pinnacle | \+7 |
-
-## 
-
-## 
-
-## **INITIATIVE**
-
-Determined by a **Reflex Check** (2d10 \+ Reflex Save \+ Agility Mod). High roll goes first. Modifiers may apply based on the situation (e.g., Ambush).
-
-## 
-
-## **ATTACK & DEFENSE**
-
-### **Opposed Roll**
-
-Defender’s Agility \+ Defense Skill (or relevant melee skill if applicable) and other modifiers vs. Attacker’s Ability \+ Combat Skill and possibly other bonuses
-
-Attacker wins: a strike or success
-
-Defender wins: the Attacker misses or an unsuccessful action
-
-(DEFENDER WINS ALL TIES)
-
-&nbsp;
-
-### **Unopposed Roll**
-
-Target is not defending, surprised or just still
-
-Attacker’s Ability \+ Combat Skill and possibly other bonuses
-
-vs. CR15 (Average) for a typical medium size target within short range (Modified for target’s Size, Range and Movement)
-
-&nbsp;
-
-| Size | Modifier |
-| ----- | :---: |
-| **Miniscule** | **\-32** |
-| **Fine** | **\-16** |
-| **Diminutive** | **\-8** |
-| **Tiny** | **\-4** |
-| **Small** | **\-2** |
-| ***Medium*** | ***0*** |
-| **Large** | **\+2** |
-| **Huge** | **\+4** |
-| **Gargantuan** | **\+8** |
-| **Colossal** | **\+16** |
-
-&nbsp;
-
-| CATEGORY | Modifier | Range |
-| ----- | ----- | ----- |
-| Melee \* | 0 (15) | WITHIN REACH |
-| Point Blank \*\* | \+5 (10) | WITHIN REACH |
-| Short | 0 (15) | Base Range Listed |
-| Medium | \-5 (20) | 2x Base Range |
-| Long | \-10 (25) | Up to 5x Base Range |
-| Extreme | \-15 (30) | Up to 10x Base Range |
-
-&nbsp;
-
-\* Melee Ranged is modified by Size \- Tiny and Smaller 2ft, Small and Medium 5ft, Large and Huge 10ft
-
-\*\* Point Blank is Special Category for Ballistic and Energy Weapons \- a shot striking a target at this range will inflict its Damage with Advantage (rolling damage dice twice and taking the highest result) in addition to the listed \+5 Strike bonus and any other damage modifiers.
-
-&nbsp;
-
-&nbsp;
-
-| CATEGORY | RULE | DEFENDER | ATTACKER | NOTES |
-| ----- | ----- | ----- | ----- | ----- |
-| **MOVING TARGETS** | **Running Penalty** | \- | \-2 Attack | Applies to ranged attacks. |
-|  | **Distance-Based  (20+ ft)** | \+2 Defense | \- | For movement 20+ feet in a round. |
-|  | **Distance-Based  (40+ ft)** | \+4 Defense | \- | For movement 40+ feet in a round. |
-|  | **Total Defense/Dodge** | \+4 Defense | \- | Requires an action to focus on evasion (moving at base speed). |
-|  | **Opportunity Attacks** | Provoke AoO | Attack of Opportunity | Defender's movement triggers the attack. |
-| **MOVING ATTACKERS** | **Ranged Attack Penalty  (Running)** | \- | \-2 | For attackers moving quickly (running). |
-|  | **Mounted Movement  (Double Move)** | \- | \-4 | Firing a ranged weapon from a mount moving double speed. |
-|  | **Mounted Movement  (Running/Quadruple)** | \- | \-8 | Firing a ranged weapon from a mount moving quadruple speed. |
-|  | **Aiming Bonus** | \- | \+2 per round up to Agilityx2 \+2 | Requires "Aim" move action; attacker cannot move before shooting. |
-|  | **Charging** | \-2 Defense | \-2 Attack | Must move at least 10 feet in a straight line toward an enemy. |
-| **MOVEMENT & ACTION**&nbsp; | **Iterative Attacks** | \- | 1 Attack Action | If moving more than a 5-foot step. |
-|  | **Difficult Terrain** | x1/2  Movement | x1/2  Movement Speed and \-2 Attacks while in motion (-4 to Attacks if Movement reduced to 1/4) | Affects total distance covered and penalty for jarring motion. |
-|  | **Range Increments** | \- | \-2 cumulative per category | Not strictly about movement, but a common ranged combat modifier. |
-
-&nbsp;
-
-&nbsp;
-
-## **COMBAT ACTIONS**
-
-A character may attack with as many actions as the used skill allows. They may also make as many **Active Defense** checks as allowed based on their Defense Skill Rank (all with a \-5 subsequent penalty after the first reaction).
-
-### 
-
-### **Standard Actions**
-
-* **Attack:** Make a melee or ranged attack against a target.  
-* **Active Defense:** Roll a Defense check to replace static Defense or negate specific maneuvers (Reaction).  
-* **Aiming:** Spend an action to steady a shot. Gain **\+2 Strike** per round of Aiming (Max bonus \= 1/2 Skill Rank).  
-* **Called Shot:** Attack a specific location (Limb/Head/Component). **\-5 Strike Penalty**. If successful, damage is applied directly to that location for the purpose of Disabling/Destroying it.  
-* **Feint:** Make a **Bluff** check vs. **Insight**. Success leads target into a False Defense, allowing a Sneak Attack at \-5 Strike (Target has NO Defense).
-
-### 
-
-### **Movement Actions**
-
-* **Evasive Movement:** Moving quickly while defensive. Gain **\+1 Defense** base, plus **\+1 Defense per 10ft** of Movement Speed used.  
-* **Subtle:** Moving quietly to avoid attention. Required for stealth-based Skill Actions.  
-* **Braced:** Set to receive a charge or fire heavy weapons. Negates penalties for heavy recoil or grants Advantage against being tripped/shoved.
-
-## 
-
-## 
-
-## ---
-
-## **AUTOMATIC WEAPONS**
-
-Automatic weaponry functions similarly to other weapons but with special considerations for volume of fire. All Range Penalties are&nbsp;
-
-**Doubled** during automatic fire.
-
-* **Burst Fire (Short):** 3-round burst. Expends more ammo but grants **\+1 Strike**.  
-* **Full Auto (Long):** 10+ rounds. **\-1 Recoil Penalty** per 10 rounds fired.  
-  * *Effect:* For every point the Attack Roll exceeds the Defense CR, an **additional bullet hits** (up to total fired).  
-  * *Damage:* Initial hit deals normal damage. Each extra hit deals **\+1d Damage** (only if the initial hit penetrated DR).  
-* **Area Suppression (Blasting):**  
-  * **General Area:** Targets take **\+2 Damage Dice** for every 5 points over CR 10\.  
-  * **Focused Blast Zone:** Targets take **\+100% Damage Dice** for every 10 points over CR 15\.
-
-## 
-
-## 
-
-## ---
-
-## **DAMAGE & HEALTH**
-
-### **Calculating Damage**
-
-**Formula:** (Weapon Dice \+ Ability Mod \+ Precision/Skill Bonuses) \- (Target Armor DR \+ Target STA Mod) \= Total Damage
-
-* **Precision Damage:** Bonuses from Skill Rank, Sneak Attacks, or Vital Strikes.  
-* **Armor DR:** The value of the target's protective gear.  
-* **Stamina (STA) Mod:** The target's natural physical resilience reduces damage taken.
-
-### 
-
-### **Damage Types**
-
-Different weapons deal different damage types, which interact with armor and physiology differently.
-
-* **Kinetic:** Physical impact. Subtypes include Blunt (Crushing), Slashing (Cutting), and Piercing (Puncturing).  
-* **Force:** Kinetic subtype that **ignores 1/2 of Target's Armor DR**.  
-* **Energy:**  
-  * **Fire/Heat:** Burns organic matter.  
-  * **Cold/Cryo:** Slows targets or shatters armor.  
-  * **Sonic:** Ignores most physical armor.  
-  * **Voltic (Electrical):** Stuns and damages electronics.  
-  * **Corrosive (Acid):** Ongoing damage to armor and flesh.  
-  * **Disruptor:** Breaks molecular bonds.  
-* **Radiation (Ra-D):** Damages cellular structure. Effective against unshielded targets. Can cause sickness/mutation.  
-* **Mental:** Direct trauma to the mind/nervous system. Often ignores Physical Armor entirely.
-
-### 
+Character skills play a central role in combat. Each operator possesses a distinct set of proficiencies—ranging from unarmed martial arts, vibro-blade fencing, and ballistic marksmanship to heavy vehicular gunnery and metaphysical invocations—that determine the actions they can execute during their turn. As characters advance and their Skill Ranks increase, they unlock additional actions per round, creating a dynamic, tactical combat experience where skill mastery, positioning, and resource management decide the outcome of every battle.
 
 ---
 
-**Body Locations**
+## **1. CORE MECHANICS**
 
-* **Head**: Critical hits to the Cranium/Face, often resulting in double damage or instant death condition. Called Shot \-2  
-  * **Neck/Throat:** Often a highly vulnerable area. Called Shot \-4  
-    * **Specific:** eyes, ears or nose. Called Shot \-5  
-* **Torso**: The most common hit area, containing vital organs. Called Shot \-1  
-  * **Chest:** Upper torso, often associated with lungs or heart. Called Shot \-2  
-  * **Abdomen:** Lower torso, associated with stomach, intestines, or bladder. Called Shot \-2  
-    * **Groin/Pelvis:** Another low weak point location. Called Shot \-4  
-* **Arms** (Left and Right): Hits can disable the use of weapons, shields, or other items held in that hand. Called Shot \-2  
-  * **Upper Arm**  Called Shot \-3  
-  * **Forearm**  Called Shot \-3  
-    * **Hand**  Called Shot \-4  
-      * **Digits** Called Shot \-5  
-* **Legs** (Left and Right): Hits can reduce movement speed, cause the target to fall prone.  Called Shot \-2  
-  * **Thigh**  Called Shot \-3  
-  * **Shin**  Called Shot \-3  
-    * **Foot**  Called Shot \-4  
-      * **Digits** Called Shot \-5
+* **The Attack Roll (Strike):**
+  ```text
+  Attack Roll = 2d10 + Combat Skill Rank + Attribute Modifier + Situational Modifiers vs. Target Defense (CR)
+  ```
+* **Critical Hit (`Natural 20` — Double-10s on `2d10`, or expanded threat range `19, 18...`):** Adds **`+10` in addition to the rolled dice value** (e.g., `20 -> 30`, `19 -> 29`, `18 -> 28`) + doubles (`2x`) Base Weapon Damage Dice + triggers the weapon's Elemental/Critical Effect and bypasses Vitality to strike **Health** directly.
+* **Fumble (`Natural 2` — Double-1s on `2d10`, or expanded fumble range `3, 4...`):** Replaces the rolled dice value with a **flat `-10`** (subtracting `10` from the character's base Attack/Check Score regardless of whether the fumble rolled on `2, 3, 4...`) + triggers a Situational Complication (weapon jam, dropped item, or tactical opening).
 
-Specialized Locations
+### **Skill Stages, Focus Bonuses & Action Economy**
 
-* **Tentacles / Wings / Fins**  Called Shot \-2 (full limb size), \-3 (Half-Limb size or thin) or \-4 (hand size or fibrous)
+Combat capability is defined by Skill Stage. As a character gains Ranks in a combat or metafocus skill, they unlock additional actions per round (with a cumulative `-5` multi-action penalty on each subsequent action):
 
-&nbsp;
-
-### **Limb Damage & Critical Injuries**
-
-Specific body locations have their own damage thresholds.
-
-* **Disabled:** If a limb takes significant damage (Architect Discretion or Called Shot), it is useless until healed.  
-* **Destroyed:** Massive damage to a limb may sever or mangle it beyond repair.  
-* **Synth vs. Bio:** Synthetic limbs can take **50% more damage** before being Disabled/Destroyed than biological ones, but they may not get a Stamina check to remain functional at Disabled status.
-
-## 
-
-  **The Mortality State (0 Hit Points)**
-
-  When a character's Health Points reach 0, they enter the Mortality State, which involves the following conditions:
-
-* **Unconscious and Incapacitated:** The character immediately falls **Prone** and is **Incapacitated**.  
-* **Bleeding Out:** At the beginning of the character's turn, they suffer 1 point of **Stability Damage**.  
-* **Stability Threshold:** A character has a **Stability Points** total equal to their **Stamina Score \+ 5**.  
-* **Death:** If a character's Stability Points are reduced to 0, they are considered **dead**.  
-* **Stabilization and Recovery:** The character stops **Bleeding Out** and is stabilized if they receive any magical healing or a successful **Medicine Check** (CR 15\) is made to aid them.
-
-&nbsp;
-
-## 
-
-&nbsp;
+| Skill Rank Range | Actions per Round | Benchmark / Title | Skill Focus Bonus |
+| :---: | :--- | :--- | :---: |
+| **0** | 1 Full-Round Action (`-2` Unskilled) | **Untrained** | — |
+| **1 – 5** | 1st Action at Base Score | **Novice / Studied (Stage 1)** | **+2** |
+| **6 – 10** | 2nd Action at Base Score `- 5` | **Professional / Trained (Stage 2)** | **+3** |
+| **11 – 15** | 3rd Action at Base Score `- 10` | **Expert (Stage 3)** | **+4** |
+| **16 – 20** | 4th Action at Base Score `- 15` | **Master (Stage 4)** | **+5** |
+| **21 – 25** | 5th Action at Base Score `- 20` | **Grand Master (Stage 5)** | **+6** |
+| **26 – 30** | 6th Action at Base Score `- 25` | **Pinnacle (Stage 6)** | **+7** |
 
 ---
 
-### **How Scaling Works in Combat**
+## **2. INITIATIVE**
 
-* **Attack Rolls:** Size doesn't directly affect attack rolls, but larger creatures might have reach advantages or penalties depending on their target's size.  
-* **Damage:** Weapon dice are multiplied by the **Scaling Modifier**. No damage is reduced due to the target’s size as the target's structure is adjusted by the scaling.  
-  * *Example:* A Huge creature (x5 Scaling) deals 5 times the base damage dice and its structure is 5x the baseline of a medium construct.  
-* **Defense:** The **Combat Modifier** adjusts a creature's Defense score based on its size relative to its target.  
-* **Distance:** Speed and ranges are also multiplied by the **Scaling Modifier**, allowing larger creatures to cover more ground.
+Initiative is determined at the start of combat by rolling a **Reflex / Alertness Initiative Check**:
+
+```text
+Initiative = 2d10 + Agility Modifier + Alertness Skill Rank (or 2d10 + Reflex Save [2 + 2*AGI]) + Situational Modifiers
+```
+
+The highest total acts first each round. Ties are resolved in favor of the combatant with the higher **Agility** score (or act simultaneously if Agility is tied). Modifiers apply for tactical surprise or ambush.
+
+---
+
+## **3. ATTACK & DEFENSE**
+
+### **A. Opposed Roll (Active / Aware Defender)**
+
+* **Attacker:** `2d10 + Combat Skill Rank + Attribute Modifier + Situational Modifiers`
+* **Defender:**
+  * **Static Defense (CR):** `10 + Agility Modifier + Defense Skill Rank (or relevant Melee Skill Rank) + Armor/Shield/Size Modifiers`
+  * **Active Defense (Reaction Roll):** `2d10 + Agility Modifier + Defense Skill Rank + Modifiers` (replaces Static Defense at the cost of a Reaction).
+* **Resolution:**
+  * **Attacker Wins (`Attack > Defense`):** A successful strike.
+  * **Defender Wins (`Defense >= Attack`):** The attack misses (**Defender wins all ties**).
+
+### **B. Unopposed Roll (Unaware, Surprised, or Stationary Target)**
+
+When a target is not defending, surprised, or stationary, the Attacker rolls `2d10 + Combat Skill Rank + Attribute Modifier + Modifiers` against a baseline **CR 15 (Average)** for a typical Medium-sized target within Short Range, modified by the target's **Size**, **Range**, and **Movement**:
+
+#### **Target Size Modifiers**
+
+| Target Size | Unopposed Strike Modifier (Target Defense Mod) | Typical Melee Reach |
+| :--- | :---: | :---: |
+| **Miniscule** | **-32 Strike** (`+32` Defense) | 1 in (2 ft Tiny & smaller) |
+| **Fine** | **-16 Strike** (`+16` Defense) | 6 in (2 ft Tiny & smaller) |
+| **Diminutive** | **-8 Strike** (`+8` Defense) | 1 ft (2 ft Tiny & smaller) |
+| **Tiny** | **-4 Strike** (`+4` Defense) | 2 ft |
+| **Small** | **-2 Strike** (`+2` Defense) | 5 ft |
+| **Medium** | **0 (Base CR 15)** | 5 ft |
+| **Large** | **+2 Strike** (`-2` Defense) | 10 ft |
+| **Huge** | **+4 Strike** (`-4` Defense) | 10–15 ft |
+| **Gargantuan** | **+8 Strike** (`-8` Defense) | 20 ft |
+| **Colossal** | **+16 Strike** (`-16` Defense) | 25 ft |
+
+#### **Range Category Modifiers**
+
+| Range Category | Strike Modifier (Unopposed CR) | Distance |
+| :--- | :---: | :--- |
+| **Melee \*** | **0 (CR 15)** | Within Natural / Weapon Reach |
+| **Point Blank \*\*** | **+5 (CR 10)** | Within Reach *(or 10 ft for scatter/blunderbuss)* |
+| **Short** | **0 (CR 15)** | Up to Base Range Listed |
+| **Medium** | **-5 (CR 20)** | Up to `2x` Base Range |
+| **Long** | **-10 (CR 25)** | Up to `5x` Base Range |
+| **Extreme** | **-15 (CR 30)** | Up to `10x` Base Range |
+
+* **\* Melee Reach:** Modified by Size—Tiny and smaller `2 ft`, Small and Medium `5 ft`, Large and Huge `10–15 ft`.
+* **\*\* Point Blank Range (Ballistic & Energy Weapons):** A shot striking a target at Point Blank range inflicts its **Weapon Damage with Advantage** (rolling damage dice twice and taking the higher result) in addition to the listed **+5 Strike bonus** and any other damage modifiers.
+
+#### **Movement & Tactical Combat Modifiers**
+
+| Category | Rule | Defender Effect | Attacker Effect | Notes |
+| :--- | :--- | :---: | :---: | :--- |
+| **Moving Targets** | **Running Penalty** | — | `-2` Ranged Attack | Applies to ranged attacks against running targets. |
+| **Moving Targets** | **Distance-Based (`20+ ft`)** | `+2` Defense | — | For movement of 20+ feet in a round. |
+| **Moving Targets** | **Distance-Based (`40+ ft`)** | `+4` Defense | — | For movement of 40+ feet in a round. |
+| **Moving Targets** | **Total Defense / Dodge** | `+4` Defense | — | Requires a Standard Action to focus on evasion (moving at base speed). |
+| **Moving Targets** | **Opportunity Attacks** | Provokes AoO | Free Reaction Strike | Defender's unguarded movement out of reach triggers the attack. |
+| **Moving Attackers** | **Ranged Attack Penalty (Running)** | — | `-2` Ranged Attack | For attackers firing while moving quickly (Running). |
+| **Moving Attackers** | **Mounted Movement (Double Move)** | — | `-4` Ranged Attack | Firing a ranged weapon from a mount/vehicle moving at double speed. |
+| **Moving Attackers** | **Mounted Movement (Quadruple)** | — | `-8` Ranged Attack | Firing a ranged weapon from a mount/vehicle moving at quadruple speed. |
+| **Moving Attackers** | **Aiming Bonus** | — | `+2` per round *(up to `1/2 Skill` or `[AGI * 2] + 2`)* | Requires "Aim" action; attacker cannot move before shooting. |
+| **Moving Attackers** | **Charging** | `-2` Defense | `+2` Melee / `-2` Ranged *(or `-1` per speed stage)* | Must move at least 10 ft in a straight line toward an enemy (`+1d` damage + `+1`/10 ft). |
+| **Movement & Action** | **Iterative Attacks** | — | 1 Attack Action | If moving more than a 5-foot step without *Shot on the Run* / *Spring Attack*. |
+| **Movement & Action** | **Difficult Terrain** | `x1/2` Movement | `x1/2` Speed & `-2` Attacks in motion (`-4` if reduced to `1/4` speed) | Affects total distance covered and imposes penalties for jarring motion. |
+| **Movement & Action** | **Range Increments** | — | `-5` per Range Category *(or `-2` per increment)* | Standard ranged distance degradation. |
+
+---
+
+## **4. COMBAT ACTIONS**
+
+A character may attack with as many actions as their used Combat or Metafocus Skill Stage allows. They may also make as many **Active Defense** reaction checks per round as allowed by their **Defense Skill Stage** (all subsequent reactions after the first incur a cumulative `-5` penalty).
+
+### **A. Standard Actions**
+
+* **Attack (Strike):** Make a melee, unarmed, ranged, or metaphysical attack against a target. *(Consolidating an action into a single multiplied-dice strike is not a baseline combat maneuver; it requires possessing the **Precision Strike**, **Improved Precision Strike**, or **Greater Precision Strike** Combat Features in `1.08 FEATURES.md`).*
+* **Active Defense (Reaction):** Roll a Defense check (`2d10 + AGI + Defense Skill`) to replace static Defense or negate specific combat maneuvers.
+* **Aiming:** Spend an action to steady a shot, gaining **+2 Strike per action of Aiming** (maximum bonus = `1/2 Skill Rank` or `[AGI * 2] + 2`).
+* **Called Shot:** Attack a specific anatomical location (`-1` to `-5` Strike penalty; see Section 6). If successful, damage is applied directly to that location for the purpose of triggering impediments or Disabling/Destroying it.
+* **Feint:** Roll an opposed **Bluff vs. Insight** check. Success leads the target into a **False Defense**, allowing a follow-up **Sneak Attack** at `-5` Strike against which the target gets **NO Active/Agility Defense**.
+
+### **B. Movement Actions**
+
+* **Evasive Movement:** Moving quickly while weaving defensively. Gain **+1 Defense base, plus +1 Defense per 10 ft of Movement Speed used**.
+* **Subtle Movement:** Moving quietly to avoid attention; required for stealth-based skill actions in combat.
+* **Braced:** Planting oneself to receive a charge or fire heavy weapons. Negates heavy weapon recoil penalties and grants **Advantage** against being tripped, shoved, or overrun.
+
+---
+
+## **5. AUTOMATIC WEAPONS & SUPPRESSION**
+
+Automatic weaponry functions similarly to standard ranged weapons, with special rules governing volume of fire. **All Range Penalties beyond Short Range are DOUBLED during automatic fire.**
+
+* **Burst Fire (Short — `3 Rounds`):** Expends 3 rounds of ammunition to grant **+1 to Strike**.
+* **Full Auto (Long — `10+ Rounds`):** Imposes a **-1 Recoil Penalty per 10 rounds fired**:
+  * **Additional Hits:** For every **1 point** by which the Attack Roll exceeds the target's Defense CR, **1 additional bullet hits** the target (up to the total number of rounds fired).
+  * **Damage:** The initial hit deals normal full weapon damage. Each extra hit deals **+1d weapon damage** (*applied only if the initial hit penetrated the target's Armor DR*).
+* **Area Suppression (Blasting):**
+  * **General Area Suppression:** Targets within the beaten zone take **+2 Damage Dice for every 5 points** the suppression roll scores over **CR 10**.
+  * **Focused Blast Zone:** Targets in a concentrated kill-zone take **+100% Damage Dice for every 10 points** scored over **CR 15**.
+
+---
+
+## **6. DAMAGE, BODY LOCATIONS & MORTALITY**
+
+### **A. Calculating Net Damage**
+
+```text
+Total Net Damage = (Weapon Dice + Attribute Mod + Precision/Skill Bonuses) - (Effective Armor DR + Target Stamina [STA] Mod)
+```
+
+* **Precision Damage:** Bonus damage from Combat Skill Stage, Sneak Attacks, or Precision Strikes (reduced if the defender uses an *Active Defense* reaction).
+* **Armor DR & Penetration:** The protective value of the target's highest armor layer (`Armor Layering Cap`: DR does not stack across biological, cybernetic, and wearable domains), reduced by the weapon's **Penetration** value (minimum 0 DR).
+* **Target Stamina (`STA`) Mod (Base Toughness):** The target's natural physical resilience reduces incoming wound damage **point-for-point** after Armor DR. *(Stamina never increases Vitality or Health pools).*
+
+### **B. Damage Types Summary**
+
+Different weapons inflict distinct damage types (`3.00.DamageTypes.md`), which interact uniquely with armor and physiology:
+
+* **Kinetic:** Physical impact—subtypes include **Blunt** (Crushing), **Slashing** (Cutting), **Piercing** (Puncturing), **Concussive** (50/50 Vitality/Health split), and **Bleed** (bypasses Armor DR and Stamina Toughness).
+* **Force (Force Pulse):** Kinetic/Energy field subtype that **ignores 1/2 of the Target's Armor DR**.
+* **Energy:**
+  * **Pyro (Fire/Heat):** Burns organic matter and ignites targets.
+  * **Cryo (Cold):** Slows targets and makes armor brittle.
+  * **Spectral (Phase):** Bypasses physical cover and armor DR.
+  * **Sonic:** Ignores most physical armor and deafens/stuns.
+  * **Voltic (Electrical):** Stuns nervous systems and overloads electronics/shields.
+  * **Corrosive (Acid / Disintegrator):** Ongoing molecular dissolution to armor and flesh.
+  * **Ra-D (Radiation):** Damages cellular structure and drains Stamina in unshielded targets.
+* **Variative (Elemental, Planar & Mental):** Includes **Radiant**, **Umbral**, **Air/Fire/Earth/Water Elemental**, **Celestial**, **Infernal**, **Dimensional**, and **Psyche / Mental** (direct trauma to the mind/nervous system, ignoring physical Armor DR).
+
+### **C. Body Locations (Called Shots)**
+
+Attackers may target specific anatomical locations to bypass unarmored gaps or disable limbs:
+
+* **Head (`-2` Called Shot):** Critical hits to the Cranium/Face force a **Reason Save** or inflict Stunned/Unconscious (or double damage).
+  * **Neck / Throat:** Highly vulnerable vital conduit (`Called Shot -4`).
+  * **Specific Sensory Organs (Eyes, Ears, Nose):** `Called Shot -5`.
+* **Torso (`-1` Called Shot):** The largest target area, containing vital organs; critical hits force a **Fortitude Save** or inflict **Winded (`-2` on actions)**.
+  * **Chest (Upper Torso — Lungs/Heart):** `Called Shot -2`.
+  * **Abdomen (Lower Torso — Viscera):** `Called Shot -2`.
+  * **Groin / Pelvis (Low Weak Point):** `Called Shot -4`.
+* **Arms — Left or Right (`-2` Called Shot):** Hits can disarm or disable held weapons, shields, or tools (`Reflex Save`).
+  * **Upper Arm:** `Called Shot -3`.
+  * **Forearm:** `Called Shot -3`.
+  * **Hand:** `Called Shot -4`.
+  * **Digits (Fingers):** `Called Shot -5`.
+* **Legs — Left or Right (`-2` Called Shot):** Hits reduce movement speed (`1/2` speed) or knock the target Prone (`Might Save`).
+  * **Thigh:** `Called Shot -3`.
+  * **Shin:** `Called Shot -3`.
+  * **Foot:** `Called Shot -4`.
+  * **Digits (Toes/Talons):** `Called Shot -5`.
+* **Specialized Non-Humanoid Locations:**
+  * **Tentacles / Wings / Fins:** `Called Shot -2` (Full-limb size), `Called Shot -3` (Half-limb size or thin membrane), or `Called Shot -4` (Hand-sized or fibrous).
+
+### **D. Limb Damage & Critical Injuries**
+
+Specific body locations have dedicated structural damage thresholds (`3.00.DamageAndLocations.md`):
+
+* **Disabled (`1/3` of Max Health):** If a limb takes damage equal to at least **one-third (`1/3`) of the character's Maximum Health**, it is useless until medically or metaphysically healed (requires a **Fortitude Check `CR = 10 + Damage Taken`** to force a single action through the pain at `-4`).
+* **Destroyed (`2/3` of Max Health):** Taking damage equal to at least **two-thirds (`2/3`) of Maximum Health** in a single location severs or mangles the limb beyond natural repair (**no save**).
+* **Synthetic vs. Biological Limbs:** Synthetic cyber-limbs absorb **50% more damage** before becoming Disabled or Destroyed than biological limbs, but they **do not** receive a Stamina/Fortitude check to remain temporarily functional once Disabled.
+
+### **E. The Mortality State (`0 Health`)**
+
+When a character's **Vitality** is depleted (`0`) and lethal or overflow damage reduces their **Health Points to `0`**, they enter the **Mortality State** (`1.01.RestAndDying.md`):
+
+* **Unconscious and Incapacitated:** The character immediately falls **Prone** and is **Incapacitated**.
+* **Stability Threshold (`Stamina Score + 5`):** A character has a **Stability Points** total equal to their **`Stamina Score + 5`**.
+* **Bleeding Out:** At the beginning of each of the character's turns at 0 Health, they must roll a **Fortitude Stabilization Save (`CR 10 + 1 per round`)**; on a failure, they suffer **1 point of Stability Damage** (self-stabilizing on a success by 5+).
+* **Death:** If a character's **Stability Points** are reduced to **`0`**, they are **dead**.
+* **Stabilization and Recovery:** The character stops Bleeding Out and is stabilized if they receive any metaphysical healing (*Entropy: Order*) or if an ally succeeds on a **Knowledge (Medicine) Check (`CR 15`)** to aid them.
+
+---
+
+## **7. HOW SCALING WORKS IN COMBAT (`1.10 SCALING.md`)**
+
+* **Attack Rolls & Relative Defense:** Size does not alter a creature's raw base skill, but the **Relative Combat Modifier** adjusts Attack and Defense scores based on the size difference between attacker and defender (smaller targets gain a bonus to hit larger targets and to evade larger attackers). Larger creatures also enjoy extended melee reach.
+* **Damage (`Base Dice * Scaling Modifier`):** Weapon damage dice are multiplied by the attacker's **Scaling Modifier**. No damage is arbitrarily reduced due to a target's size, because the target's Structure Points (SP) are already scaled to match its size category.
+  * *Example:* A **Huge** creature (`x5` Scaling) deals **5 times (`5x`)** the base weapon damage dice, and its chassis Structure is `5x` the baseline of a Medium construct. *(Per the Mecha Scale Multiplier Rule, SP listed in vehicle/mecha size tables is already pre-calculated for that scale—never multiply pre-calculated table SP a second time).*
+* **Distance (Speed & Range):** Movement speeds and weapon range increments are multiplied by the **Scaling Modifier**, allowing larger combatants and vehicles to project force across vast battlefields.
 
 ---
 
@@ -324,8 +267,16 @@ Specific body locations have their own damage thresholds.
 Detailed tactical maneuvers, status conditions, hit locations, damage classifications, and vehicular warfare rules are organized in the `./combat/` directory:
 
 * **[Edge & Tactical Maneuvers](./combat/3.00.Edge.md)** — *Aiming, Flanking, High Ground, Prone, Braced, Charge, Evasive Movement, Feint, and Surprise/Sneak Attack*
-* **[Status Effects](./combat/3.00.StatusEffects.md)** — *Combat status conditions, impairments, and tactical debuffs*
-* **[Damage & Hit Locations](./combat/3.00.DamageAndLocations.md)** — *Damage resolution, anatomical hit locations, disabled/destroyed limbs, and TL3+ cybernetic limb replacements*
-* **[Damage Types](./combat/3.00.DamageTypes.md)** — *Energy (Pyro, Cryo, Spectral, Sonic, Voltic, Corrosive, Ra-D, Force Pulse), Kinetic (Blunt, Slashing, Piercing, Concussive, Bleed), and Variative (Radiant, Umbral, Elemental, Celestial, Infernal, Dimensional, Psyche)*
-* **[Vehicular Combat](./combat/3.00.VehicularCombat.md)** — *Tactical rounds, crew roles, scale modifiers, Land/Nautical/Atmospheric/Interstellar domains, siege warfare, and system failure tables*
+* **[Status Effects](./combat/3.00.StatusEffects.md)** — *Combat status conditions, impairments, and tactical removal protocols*
+* **[Damage & Hit Locations](./combat/3.00.DamageAndLocations.md)** — *4-Step Damage Resolution Engine, Metafocus damage, d10 Critical Hit Location table, Disabled/Destroyed limbs, and TL 3+ cybernetic limb replacements*
+* **[Damage Types](./combat/3.00.DamageTypes.md)** — *Complete compendium of all 23 Damage Types across Energy (Pyro, Cryo, Spectral, Sonic, Voltic, Corrosive, Ra-D, Force Pulse), Kinetic (Blunt, Slashing, Piercing, Concussive, Bleed), and Variative (Radiant, Umbral, Air/Fire/Earth/Water Elemental, Celestial, Infernal, Dimensional, Psyche)*
+* **[Vehicular Combat](./combat/3.00.VehicularCombat.md)** — *Tactical rounds, crew roles, scale modifiers, Land/Nautical/Atmospheric/Interstellar domains, Gunner vs. Mecha/Structure siege warfare, and d6/d10 system failure tables*
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER (3.00 COMBAT)**
+
+* **DISC-104 (Second-Half Combat Restoration):** Restored the truncated second half of `3.00 COMBAT.md` from `/game rules` (`1y0z4kn-n8b8tyH9o38qwQVv2maW2cZAT`) and `3.00 COMBAT` (`1ldlRqh6rX2p4_928VMxEQfPzd5eDUQxUNLhj-OWp9Ig`), including the full Damage Types summary, granular Body Locations (`-1` to `-5` Called Shots + Specialized Tentacles/Wings/Fins), Limb Damage thresholds, Unified Mortality State (`Stability = STA + 5`), Section 7 (`How Scaling Works in Combat`), and the `COMBAT DIRECTORY INDEX`.
+* **DISC-105 (Authorial Errata Alignment):** Corrected 2d10 Criticals (`Rolled Dice + 10`) and Fumbles (`Rolled Dice = flat -10`), removed baseline Consolidation & Grazing Protocols and `AP` penetration shorthands, and confirmed single-strike dice multiplication is strictly gated behind the **Precision Strike** Combat Feature chain (`1.08 FEATURES.md`).
+* **DISC-106 (Full 23-Type Damage Compendium Restoration):** Merged the 4 split damage-type files (`Energy`, `Kinetic`, `Elemental`, `PlanarAndMind`) into `3.00.DamageTypes.md` alongside the 23-row Master Table so `book_and_page/combat/` contains the exact 5 canonical child files with zero omitted prose.
 

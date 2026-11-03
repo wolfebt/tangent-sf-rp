@@ -132,7 +132,7 @@ cp_cost: 15
 
 &nbsp;
 
-**CP Cost:** 12 CP  
+**CP Cost:** 15 CP  
 
 **Description:** The Kannid are humanoids of canine-like ancestry, immediately recognizable by their digitigrade legs which grant them a natural Quickness and agile gait. Culturally, they are highly social, generally operating in tight-knit groups known as ‘Packs,’ a structure that emphasizes collective strength and efficiency, boosting their natural Agility and Stamina.&nbsp;
 

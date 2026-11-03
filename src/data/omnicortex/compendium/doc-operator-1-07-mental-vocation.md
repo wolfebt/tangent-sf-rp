@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 190
+order: 188
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.vocation","mechanics"]
-updatedAt: "2026-10-31T10:56:34.160Z"
+updatedAt: "2026-11-02T22:49:29.798Z"
 costs:
   bp: 0
   credits: 0
@@ -37,46 +37,76 @@ sockets:
   allocated: []
 ---
 
-# **MENTAL SKILLS: VOCATION**
+# **1.07.05 MENTAL SKILLS: VOCATION (OVERVIEW & EUFT CRAFTING ENGINE)**
 
-## **VOCATION (Category)**
+## **1. VOCATION (Skill Category)**
 
-* **Ability:** Varies (Usually Int, Wis, or Agi depending on the job)  
-* **Description:** Professional skills used to earn a living, operate commercial enterprises, or perform complex manufacturing and technical fabrication.  
-* **Starting Wealth Integration:**  
-  Characters with dedicated vocational, commercial, trade, or specialized professional training receive a permanent bonus to their starting **Wealth Score (WS)**. The character applies the bonus from their single highest qualifying skill (e.g., Vocation, Trade, Performance, Medicine, or Discipline):
-  * **Novice (Ranks 1–2):** +1 Wealth Score (Apprentice / Journeyman wages)
-  * **Practiced (Ranks 3–5):** +2 Wealth Score (Certified tradesperson, steady income)
-  * **Expert (Ranks 6–8):** +3 Wealth Score (Senior specialist, consulting rates)
-  * **Master (Ranks 9–10):** +4 Wealth Score (Renowned authority, master artisan)
-  * **Grandmaster (Ranks 11–12):** +5 Wealth Score (Guildmaster, sector-wide fame)
-
-* **Economic Unified Field Theory (EUFT) & Productivity Engine:**
-  * **The Golden Rule:** $\text{Crafting DC} = \text{Purchase DC}$. An item's intrinsic value, market price, and fabrication difficulty exist in absolute parity: $\text{Credit Value (Cr)} = 10 \times 4^{(\text{DC}/5)}$.
-  * **Raw Material Cost:** Crafting an item requires raw materials equal to **50% of the finished market value** in credits or salvaged components.
-  * **Daily Production Points (PP):** Progress per standard 8-hour workday is calculated as:
-    $$\text{Daily PP} = (\text{Crafting / Vocation Check} - 10) \times \text{Tool Multiplier}$$
-  * **Completion Target:** An item is completed when accumulated Productivity Points equal or exceed its market credit value ($\text{Target PP} = \text{Credit Value}$).
-  * **Tool Multipliers:**
-    * *Tier 0 (Improvised / Primitive):* $\times 1$
-    * *Tier 1 (Basic / Hand Tools):* $\times 10$
-    * *Tier 2 (Advanced / Professional Shop):* $\times 50$
-    * *Tier 3 (Industrial Facility / Automated Line):* $\times 200$
-    * *Tier 4 (Nanoforge / Molecular Assembly):* $\times 1,000$
-    * *Bio Cultivation (Vats / Tissue Culture):* $\times 1,000$
-    * *Tier 5 (Genesis Facility / Macro Orbital Fabricator):* $\times 5,000$
-  * **Downtime Income Generation:** For salaried work or client commissions where materials are provided by employers, a character generates daily wealth output equal to $(\text{Check} - 10) \times \text{Tool Multiplier}$ Credits, or maintains their standard lifestyle tier under their Wealth Score auto-buy limit without expenditure checks.
-
-* **Skill List & Specialties (Examples):**
-
-### 
-
+* **Primary Attribute:** Varies (*Intellect, Wisdom, Agility, Stamina, or Charisma* depending on the trade)
+* **Description:** Professional skills used to earn a living, operate commercial enterprises, or perform technical fabrication, maintenance, and craftsmanship.
 
 ---
 
-## **VOCATION CATALOG CHUNKS**
+## **2. Starting Wealth Score Integration (`02 ECONOMY AND WEALTH.md`)**
 
-* **[Vocations A – C (Administrator to Celebrity)](./1.07.Mental.Vocation.A_C.md)**
-* **[Vocations C – G (Constable to Groundskeeper)](./1.07.Mental.Vocation.C_G.md)**
-* **[Vocations H – W (Handler to Weaponsmith)](./1.07.Mental.Vocation.H_W.md)**
+Characters practicing a primary Vocation skill earn a permanent bonus to their starting **Wealth Score (WS)** based on their **Skill Stage**:
+
+* **Stage 1 — Novice (`Ranks 1–5`):** **`+1 Wealth Score`** *(Apprentice / Journeyman wages)*
+* **Stage 2 — Trained (`Ranks 6–10`):** **`+2 Wealth Score`** *(Certified professional, steady income)*
+* **Stage 3 — Expert (`Ranks 11–15`):** **`+3 Wealth Score`** *(Senior specialist, consulting rates)*
+* **Stage 4 — Master (`Ranks 16–20`):** **`+4 Wealth Score`** *(Renowned authority, master artisan)*
+* **Stage 5 — Grand Master / Pinnacle (`Rank 21+`):** **`+5 Wealth Score`** *(Guildmaster, sector-wide renown)*
+* **Secondary Trade Synergy:** One additional supporting skill at **Rank 6+ (Trained)** may be counted per Stage of the primary Vocation skill, granting **`+1 WS` per associated skill**.
+* **High-Demand Multipliers:** Professional *Expression (Performance)*, *Knowledge (Medicine — Practicing Physician)*, and *Metafocus Discipline* skills grant **double (`x2`)** the listed stage bonus (`+2` to `+10 WS`).
+
+---
+
+## **3. Economic Unified Field Theory (EUFT) & Productivity Engine**
+
+* **The Golden Rule (`Crafting CR = Purchase CR`):** An item's intrinsic value, market price, and fabrication difficulty exist in exact parity at base intervals of 5:
+
+```text
+Credit Value (Cr) = 10 * 4 ^ (CR / 5)
+```
+
+* **Linear Micro-Modifier Multipliers (`+1` to `+4 CR`):** When an item or modification adjusts a base CR by `+1` to `+4` (or `-1 CR` Flaw), apply these exact linear multipliers to the base interval's Credit Value:
+  * **`+1 CR`:** `x1.3` (`+30%`)
+  * **`+2 CR`:** `x1.75` (`+75%`)
+  * **`+3 CR`:** `x2.3` (`+130%`)
+  * **`+4 CR`:** `x3.0` (`+200%`)
+  * **`-1 CR Flaw`:** `x0.75` (`-25%`)
+* **Crafting Material Ratio (`50% Pristine` vs. `10% Scrap`):**
+  * **Pristine Raw Materials:** Require **50 percent (`50%`) of the finished Item Credit Value** in refined components or liquid Credits.
+  * **Scavenged Scrap Mass:** Unrefined scrap holds only **10 percent (`10%`) value**—meaning an engineer salvaging battlefield debris requires **5x the Item Credit Value in unrefined scrap mass** (`5 * 10% = 50%`) to meet the 50% material requirement without spending liquid Credits.
+* **Daily Productivity Points (`PP`):** Progress per standard 8-hour shift is calculated as:
+
+```text
+Daily Progress (PP) = (Craft / Vocation Check Result - 10) * Tool Tier Multiplier * Crew Size
+```
+
+* **Completion Target:** An item is finished when accumulated Productivity Points equal or exceed its Market Credit Value (`Target PP = Credit Value`).
+* **Production Tool Tier Multipliers:**
+  * *Tier 0 (Improvised / Primitive):* `x1`
+  * *Tier 1 (Basic / Handheld Tools):* `x10`
+  * *Tier 2 (Advanced / Professional Shop):* `x50`
+  * *Tier 3 (Industrial Facility / Automated Line):* `x200`
+  * *Tier 4 (Nanoforge / Molecular Assembly):* `x1,000`
+  * *Bio Cultivation (Hyper-Growth Vats):* `x1,000`
+  * *Tier 5 (Genesis Loom / Polymatter Fabricator):* `x5,000`
+* **Downtime Income Generation:** For salaried work or client commissions where materials are supplied by an employer, a character generates daily value equal to `(Check Result - 10) * Tool Tier Multiplier` in Credits, or maintains their standard lifestyle tier under their Wealth Score auto-buy limit.
+
+---
+
+## **4. VOCATION CATALOG CHUNKS (27 VOCATIONS)**
+
+All 27 canonical Vocation Skills (each with 10 specialized sub-disciplines) are detailed in the following three files:
+
+* **[Vocations A – C (Administrator to Celebrity)](./1.07.Mental.Vocation.A_C.md)** — *Administrator, Alchemist, Ambassador, Architect, Archivist, Armorer, Artist, Artificer, Broker, Celebrity*
+* **[Vocations C – G (Constable to Groundskeeper)](./1.07.Mental.Vocation.C_G.md)** — *Constable, Courtesan, Culinarian, Demolitionist, Electrician, Engineer, Farmer, Groundskeeper*
+* **[Vocations H – W (Handler to Weaponsmith)](./1.07.Mental.Vocation.H_W.md)** — *Handler, Laborer, Mechanic, Researcher, Salvager, Soldier, Tailor, Transporter, Weaponsmith*
+
+---
+
+## **5. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-314 (1.07.Mental.Vocation EUFT & Scrap Retrofit):** Normalized the Starting Wealth Score Stage thresholds (`Novice 1–5`, `Trained 6–10`, `Expert 11–15`, `Master 16–20`, `Grand Master/Pinnacle 21+`) and integrated the Matrix Audit Linear Micro-Modifier Multipliers (`x1.3 / x1.75 / x2.3 / x3.0 / x0.75`) and Crafting Material Ratio (`50% Pristine` vs. `10% Scrap`).
 

@@ -88,7 +88,7 @@ $$\\text{Final Invocation Parameter} = \\text{Base Value} \\times \\text{Chassis
 Proximity Splash: Capital Ship blast deals 1/10 damage in radius of (Strength Mod / 2) feet.
 Relative Combat Mod: Fluid opposed modifier based on relative Attacker and Defender size tiers.
 Meta-Tech Scaling: Final Damage Dice = Base Damage Dice * Chassis Scale Multiplier.`,
-    guide: `Refer to 1.10 SCALING.md in docs/game rules/operator/ for complete sizing tables and starship proximity parameters.`,
+    guide: `Refer to 1.10 SCALING.md in docs/game_rules/operator/ for complete sizing tables and starship proximity parameters.`,
     note: `Canonical Tangent SF RP 14-Tier Size Scaling System verbatim from 1.10 SCALING.md.`
   },
   {

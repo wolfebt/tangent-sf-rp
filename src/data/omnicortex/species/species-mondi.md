@@ -139,7 +139,7 @@ cp_cost: 27
 
 # 
 
-**CP Cost:** 34 CP  
+**CP Cost:** 27 CP  
 
 **Description:** Ancient and enigmatic, there are various ancient historical accounts of beings which would fit the Mondi’s description and style throughout most human cultures and many other Species as well, there are speculations that they account for many ‘Angelic’ encounters in various societies' histories \- using the locals’ beliefs to their advantage in manipulating them.
 

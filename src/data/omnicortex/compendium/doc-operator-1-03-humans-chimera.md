@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 58
+order: 56
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.chimera","mechanics"]
-updatedAt: "2026-10-14T05:24:25.055Z"
+updatedAt: "2026-11-02T22:49:33.790Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,16 @@ sockets:
   allocated: []
 ---
 
-# **CHIMERA \***
+# **CHIMERA **  
+**
 
-# **CHIMERA \***
+# **CHIMERA ***
 
-**CP Cost:** 4 CP  
+**CP Cost:** 
 
-**Description:** The Chimera represent the pinnacle of genetic splicing, deliberately engineered from a human \*Gen-E\* template integrated with non-human genetic material, which can be of humanoid, animal, or other exotic origins. This process results in a being with a potent, yet often unsettling, blend of traits. While possessing the core human form and intellect, the Chimera invariably exhibits overt, non-human physical and/or biological features, such as vestigial tails, specialized sensory organs, dense fur, claws, or bio-luminescent skin. They are intentionally designed for highly specialized, often brutal roles that require abilities far outside the human norm. However, this profound genetic alteration leads to a severe social and genetic stigma, and they are typically viewed with fear and prejudice by baseline human populations and most other species, often being cast as 'Beastial' or 'Xeno' by society at large.
+**Description:** The Chimera represent the pinnacle of genetic splicing, deliberately engineered from a human *Gen-E* template integrated with non-human genetic material, which can be of humanoid, animal, or other exotic origins. This process results in a being with a potent, yet often unsettling, blend of traits. While possessing the core human form and intellect, the Chimera invariably exhibits overt, non-human physical and/or biological features, such as vestigial tails, specialized sensory organs, dense fur, claws, or bio-luminescent skin. They are intentionally designed for highly specialized, often brutal roles that require abilities far outside the human norm. However, this profound genetic alteration leads to a severe social and genetic stigma, and they are typically viewed with fear and prejudice by baseline human populations and most other species, often being cast as 'Beastial' or 'Xeno' by society at large.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -53,39 +54,39 @@ sockets:
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 3+
 
 **Meta Level:** 2+
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Genetic and/or possibly Beastial or Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+2 Abilities
++2 Abilities
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+5 Skills
++5 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-\+2 ANY Species or Special Features
++2 ANY Species or Special Features
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Ability Check Features
 
@@ -105,7 +106,9 @@ Regeneration
 
 Scent
 
-Toxin Resist (+4 vs Diseases, \+2 vs Poisons)
+Toxin Resist (+4 vs Diseases, +2 vs Poisons)
 
-&nbsp;
+  
+**  
+**
 

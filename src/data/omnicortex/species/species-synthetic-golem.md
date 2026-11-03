@@ -101,7 +101,7 @@ cp_cost: 45
 
 # 
 
-**CP Cost:** 53 CP  
+**CP Cost:** 45 CP  
 
 **Description:** Construct of Metaphysical origin
 

@@ -125,7 +125,7 @@ cp_cost: 28
 
 # **VAREN (Gatekeepers)**
 
-**CP Cost:** 18 CP  
+**CP Cost:** 28 CP  
 
 **Description:** A highly specialized and inherently rare lineage of Awakened Humans, the Gatekeepers are defined by their singular, potent specialty: Psychoportation and the intricate art of psychic navigation.
 

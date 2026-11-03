@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 13
+order: 11
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.movement","mechanics"]
-updatedAt: "2026-10-14T05:54:39.327Z"
+updatedAt: "2026-11-02T22:49:17.852Z"
 costs:
   bp: 0
   credits: 0
@@ -37,246 +37,113 @@ sockets:
   allocated: []
 ---
 
-# **MOVEMENT**
+# **1.01.08 MOVEMENT MODES**
 
-# **MOVEMENT**
+A character's typical movement mode (usually **Ground**) and base speed are determined by their **Species** (`1.03 SPECIES.md`) and **Size Scaling Modifier** (`1.10 SCALING.md`), and can be further modified by features, traits, terrain, and armor encumbrance. **Flying**, **Swimming**, **Climbing**, **Burrowing**, and **Flicker** (short-range teleportation) are the specialized movement modes available across the species and disciplines of Tangent.
 
-The Character’s typical movement type (usually ground) and how fast they move is determined by species, modifiers such as features, traits and other abilities can further alter speed as well as the terrain itself and any armor that may be worn. Flying, Swimming, Climbing and Burrowing are the other modes of movement available for the various species of Tangent.
+* **Universal Movement Fatigue Check Mechanics:** Across all movement modes where high-exertion paces require an **Athletics** or **Acrobatics** check to ward off fatigue and muscle strain, failing the check inflicts **1 point of non-lethal Vitality damage per 5 points (or fraction thereof) by which the check missed the CR**, and requires a **Willpower Save** at the same CR to continue maintaining that pace. Checks are rolled **once per minute** of sustained exertion (or more frequently in extreme conditions) with a **cumulative `-1` penalty per consecutive check**.
+* **Subtlety Penalties:** Listed pace penalties (`-2`, `-4`, `-8`) apply to any action requiring subtlety, stealth, fine manipulation, or ranged precision while in motion.
 
-&nbsp;
+---
 
-# ---
+## **1. GROUND MOVEMENT**
 
-# **GROUND**
+Ground movement is based on a character's **Walk Speed**—defaulting to **30 ft per 6-second combat round** (`3.72 mph / 6 kph`) for a Medium bipedal humanoid:
 
-Ground movement in Tangent is based on a character's base speed, typically represented by walking speed. Characters can move at different paces, each with its own speed and effects:
+| Ground Pace | Speed Multiplier | Medium Speed (`30 ft` Base) | Subtlety / Action Penalty | Fatigue Check & Tactical Notes |
+| :--- | :---: | :---: | :---: | :--- |
+| **Slow Crawl** | `1/4x` Walk Speed | **7.5 ft** *(5 ft)* | **+4 bonus** to Stealth | Character is **Prone** (`3.00.Edge.md`). |
+| **Crawl** | `1/2x` Walk Speed | **15 ft** | **+2 bonus** to Stealth | Character is **Prone** (`+2` Defense vs. Ranged per Range Category beyond Point Blank; melee attackers gain High Ground `+2` Strike/Crit). |
+| **Walk (Base)** | `1x` Walk Speed | **30 ft** | **+0** *(No Penalty)* | Default tactical pace for all movement types. |
+| **Jog (Hustle)** | `2x` Walk Speed | **60 ft** | **-2** to subtle/precision actions | Moving 20+ ft grants `+2` Defense vs. Ranged; `-1` Strike on Charges. |
+| **Running** | `4x` Walk Speed *(5x w/ Runner)* | **120 ft** *(150 ft)* | **-4** to subtle/precision actions | Requires **Athletics Check (`CR 10+`)** per minute to avoid fatigue; moving 40+ ft grants `+4` Defense vs. Ranged. |
+| **Sprinting** | `6x` Walk Speed *(7x w/ Runner)* | **180 ft** *(210 ft)* | **-8** to subtle/precision actions | Requires **Athletics Check (`CR 15+`)** to avoid fatigue; Full-Round straight-line movement. |
 
-## **Walk**
+* **Runner Feature:** Increases the multiplier of **Running** and **Sprinting** by `+1` (to **5x** and **7x** Walk Speed) without increasing the subtlety penalty.
 
-The base speed, default for all movement types, and often modified by factors like size and terrain.&nbsp;
+---
 
-*Medium biped humanoid moving at 30 ft per 6 second round \[3.72mph/6kph\]*
+## **2. FLYING MOVEMENT**
 
-&nbsp;
+Flying movement offers winged, grav-assisted, and levitating characters a wide envelope of speeds and three-dimensional maneuvers. A creature's standard **Flight Speed** is typically **double (`2x`) its base Walk Speed** (`60 ft` for a Medium creature):
 
-## **Jog**
+| Flying Pace | Speed Multiplier | Subtlety / Action Modifier | Acrobatics Fatigue / Control CR | Tactical & Maneuver Notes |
+| :--- | :---: | :---: | :---: | :--- |
+| **Hover / Controlled Descent** | `<= 1/2x` Flight Speed | **+0** | **Acrobatics `CR 15+`** | Enables stationary positioning, observation, or safe vertical landing. |
+| **Gliding** | `1x` Flight Speed *(Descending)* | **+2 bonus** to actions | **Acrobatics `CR 10+`** | Controlled descent while conserving energy or making precise approaches. |
+| **Flight (Standard)** | `1x` Flight Speed *(`2x` Walk)* | **+0** *(No Penalty)* | — | Default cruising pace for winged or flight-enabled characters. |
+| **Sail** | `2x` Flight Speed *(`4x` Walk)* | **-2** to subtle/precision actions | — | Hurried aerial pace for rapidly closing distance or evading fire. |
+| **Surge (Soar)** | `4x` Flight Speed *(`8x` Walk)* | **-4** to subtle/precision actions | **Acrobatics `CR 10+`** | High-speed aerial pursuit or escape *(5x Flight Speed with Soar Feature)*. |
+| **Diving** | `2x` Current Flight Speed | **-4** to actions | **Acrobatics `CR 15+`** | Steep high-velocity descent *(up to `8x` Flight Speed, or `9x` with Soar Feature)*. |
 
-A hurried pace, twice the walk speed, but with a \-2 penalty to actions requiring subtlety, stealth, or precision.
+* **Plummeting & Controlled Descent:** If a flyer fails their Acrobatics fatigue check and subsequent Willpower Save, they must immediately transition to **Controlled Descent (`CR 15`)** or begin plummeting from their current altitude.
+* **Soar Feature:** Increases the speed multiplier of **Surge (Soar)** and **Diving** by `+1` (to **5x** and **9x** Flight Speed) without increasing action penalties.
+* **Aerial High Ground:** Any flying combatant attacking a target below them gains the **High Ground bonus (`+2` to Strike and `+2` to Critical Range)**.
+* **Aerial Ramming Velocity:** Ram attacks executed by a flying creature deal **+1d bonus damage per Flight Stage** (*Flight +1d, Sail +2d, Surge/Soar +3d, Dive +4d*) **plus `+1` Impact/Concussive Damage per 10 ft of current speed** to **ALL involved** (both the flying attacker and the struck target[s]; crash/concussive rules apply).
 
-&nbsp;
+### **Aerial Maneuverability Tiers**
 
-## **Running**
+* **Clumsy (`-8` Acrobatics/Flight):** Minimum forward speed = 1/2 Flight Speed; cannot hover; 45-degree turn costs 10 ft.
+* **Poor (`-4` Acrobatics/Flight):** Minimum forward speed = 1/2 Flight Speed; cannot hover; 45-degree turn costs 5 ft.
+* **Average (`+0` Acrobatics/Flight):** Can hover with a **CR 15 Acrobatics** check; 45-degree turn costs 5 ft.
+* **Good (`+4` Acrobatics/Flight):** Can hover freely and fly backward at 1/2 speed; 90-degree turn costs 5 ft.
+* **Perfect (`+8` Acrobatics/Flight):** Can hover, fly backward, and reverse direction instantaneously at no movement cost.
 
-A fast pace, four times the walk speed, with a \-4 penalty to subtle actions and requiring a successful Athletics check (CR 10+) to avoid fatigue.
+---
 
-&nbsp;
+## **3. SWIMMING MOVEMENT**
 
-## **Sprinting**
+Standard **Swimming Speed** is **half (`1/2x`) a character's base Walk Speed** (`15 ft` per round [`1.83 mph / 3 kph`] for a Medium humanoid):
 
-The fastest pace, six times the walk speed, with a \-8 penalty to subtle actions and a higher Athletics check (CR 15+) to avoid fatigue.
+| Swimming Pace | Speed Multiplier | Medium Speed (`15 ft` Swim Base) | Subtlety / Action Modifier | Athletics (Swimming) CR |
+| :--- | :---: | :---: | :---: | :--- |
+| **Treading** | `<= 1/2x` Swim Speed | **7.5 ft or stationary** | **+2 bonus** to actions | **Athletics `CR 5+`** |
+| **Swimming (Base)** | `1x` Swim Speed *(`1/2x` Walk)* | **15 ft** | **+0** *(No Penalty)* | Calm water (`CR 10` rough / `CR 15+` stormy) |
+| **Glide** | `2x` Swim Speed *(`1x` Walk)* | **30 ft** | **-2** to subtle/precision actions | **Athletics `CR 10+`** |
+| **Stroke** | `4x` Swim Speed *(`2x` Walk)* | **60 ft** | **-4** to subtle/precision actions | **Athletics `CR 15+`** |
 
-&nbsp;
+* **Submerging & Drowning:** If a character cannot maintain their swimming pace, they must transition to **Treading (`CR 5+`)** or begin to submerge and risk drowning. A character can hold their breath for `10 + (2 * Stamina Score)` rounds during strenuous activity.
+* **Swimmer Feature / Innate Swim Speed:** Increases all Swimming speeds without increasing penalties (**Swimming** at full `1x` Base Walk Speed, **Glide** at `2x` Walk Speed, and **Stroke** at `3x` Walk Speed).
 
-## **Crawl**
+---
 
-On the ground and low profile moving at 1/2 walk speed, but with a \+2 bonus to stealth and gaining the Prone Condition (see Edge)
+## **4. CLIMBING MOVEMENT**
 
-&nbsp;
+Climbing vertical or inclined surfaces is governed by **Athletics (Climbing)** checks against a CR set by surface conditions:
 
-## **Slow Crawl**
+| Climbing Pace | Speed Multiplier | Subtlety / Action Modifier | Athletics (Climbing) Check Requirement |
+| :--- | :---: | :---: | :--- |
+| **Climbing (Standard)** | `1/2x` Walk *(Easy `CR 10+`)*<br>`1/4x` Walk *(Moderate `CR 15+`)*<br>`1/10x` Walk *(Difficult `CR 20+`)* | **+0** | Base Surface **CR 10 / 15 / 20+** *(modified by gear & weather)*. |
+| **Scaling** | `1x` Full Walk Speed | **-2** to subtle/precision actions | Surface **Athletics (Climbing) Check at `-5` penalty**. |
+| **Fast Ascent** | `2x` Walk Speed | **-4** to subtle/precision actions | Surface **Athletics (Climbing) Check at `-10` penalty**. |
+| **Fast Descent (Rappel/Slide)** | `4x` Walk Speed | **-4** to subtle/precision actions | **Athletics (Climbing) `CR 20`** *(or Surface Check at `-10`)* to descend without injury. |
 
-On the ground and low profile and moving very slow, 1/4 walk speed, with a \+4 bonus to stealth and gaining the Prone Condition (see Edge)
+* **Holding On:** Failing a climbing check requires an immediate recovery check to **Hold On** or begin falling (or a controlled slide if angled).
+* **Climber Feature / Innate Climb Speed:** Increases all Climbing speeds without increasing penalties (**Climbing** at full `1x` Base Walk Speed, **Scaling** at `2x`, **Fast Ascent** at `3x`, and **Fast Descent** at `6x` Walk Speed).
 
-&nbsp;
+---
 
-*Athletics checks are to ward off fatigue and muscle strain, on a Failure take 1 point of non-lethal damage per miss of 5 \- may continue on a Will check of the same difficulty. Checks are made each minute (or less depending) with a cumulative \-1 penalty per check*
+## **5. BURROWING MOVEMENT**
 
-*\* Modifiers are for anything involving subtly, stealth, precision or any similar actions*
+**Burrowing** allows adapted subterranean species, constructs, or earth-channelers to move through solid matter such as soil, sand, ice, or rock:
 
-*\*\* Running Feature increases the multiple of Running and Sprinting by 1 (to 5x/7x) without affecting the penalty*
+* **Burrowing (Standard — `1/4x` Walk Speed):** Default pace through loose earth or soil (`7.5 ft` for a Medium creature), reflecting the effort required to displace surrounding material.
+* **Tunneling (`1/2x` Walk Speed — `2x` Burrowing Speed):** A hurried subterranean pace at double Burrowing speed, imposing a **`-2` penalty** to actions requiring subtlety, stealth, or precision. Useful for rapid escape or intercepting targets from below.
+* **Excavation (`1/8x` Walk Speed — `1/2x` Burrowing Speed):** A deliberate, focused effort to shore up walls and carve out a permanent, stable tunnel, pit trap, or subterranean chamber that allies can traverse safely. Requires **Athletics** or **Vocation (Miner / Engineer)** checks to prevent cave-ins in unstable strata.
 
-&nbsp;
+---
 
-# ---
+## **6. FLICKER (SHORT-RANGE TELEPORTATION MOVEMENT)**
 
-# **FLYING**
+**Flicker** is a specialized short-range dimensional/phase movement mode (granted by species traits such as *Shadow-Step*, high-tech phase harnesses, or *Dimension: Teleport* invocations). It shares the same base distance as Ground Walk Speed, replacing running paces with instantaneous spatial jumps:
 
-Flying movement in Tangent offers characters a variety of speeds and maneuvers, each with its own benefits and drawbacks:
+* **Flicker (Standard — `1x` Walk Speed Distance):** Instantaneous repositioning up to the character's Base Walk Speed distance (`30 ft` for Medium) without traversing the intervening physical space or provoking Opportunity Attacks along the path.
+* **Rush (`2x` Walk Speed Distance):** A hurried double-distance phase jump covering **twice (`2x`) the Base Walk Speed distance** (`60 ft`). Requires an immediate **Athletics / Fortitude Endurance Check (`CR 10+`)** to ward off dimensional disorientation and physical strain. On a failure, the character takes **1 point of non-lethal Vitality damage per 5 points missed**, followed by a **Willpower Save** of the same CR to maintain spatial focus.
 
-&nbsp;
+---
 
-## **Flight**&nbsp;
+## **7. MOVEMENT FATIGUE RULES**
 
-The standard flying speed, typically double a character's base walking speed. This is the default pace for most flying creatures and characters with flight-enabling abilities or technology.
-
-&nbsp;
-
-## **Sail**
-
-A slightly faster pace, double the Flight speed, but with a \-2 penalty to actions requiring subtlety, stealth, or precision. This is useful for quickly closing distances or evading attacks.
-
-&nbsp;
-
-## **Surge**
-
-A rapid pace, four times the Flight speed, but with a \-4 penalty to subtle actions and requiring a successful Acrobatics check (CR 10+) to avoid fatigue. This is ideal for chasing fleeing enemies or making quick escapes.
-
-&nbsp;
-
-## **Diving**
-
-A high-speed descent, double the current flying speed, with a \-4 penalty to actions and a more challenging Acrobatics check (CR 15+). This maneuver is perfect for initiating surprise attacks or evading ranged attacks from above.
-
-&nbsp;
-
-## **Gliding**
-
-Controlled descent, maintaining speed while slowly losing altitude. This maneuver offers a \+2 bonus to actions and requires a less demanding Acrobatics check (CR 10+). It's useful for conserving energy or making precise landings.
-
-&nbsp;
-
-## **Hover/Controlled Descent**
-
-The slowest flying pace, half of the typical Flight speed or less, with a challenging Acrobatics check (CR 15+). This enables precise positioning and observation.
-
-&nbsp;
-
-*Acrobatics checks are to ward off fatigue and muscle strain, on a Failure take 1 point of non-lethal damage per miss of 5 \- then will need a Will check of the same difficulty. Controlled Descent will be required if Flight can’t be maintained or begin a plummet from the current height.*&nbsp;
-
-*Checks are made each minute (more or less depending on situation) with a cumulative \-1 penalty per check*
-
-*\* Modifiers are for anything involving subtly, stealth, precision or any similar actions*
-
-*\*\* Soar Feature increases the multiple of Soar and Diving by 1 (to 5x/9x) without affecting the penalty*
-
-*\*\*\* ANY Flying will likely grant the High Ground bonus (+2 Strike/+2 Crit)*
-
-*\*\*\*\* Rams made from Flyers will cause and additional 1d of damage per each flight stage (Flight, Sail, Soar, Dive) and \+1 Impact Damage per 10 ft of Speed to ALL involved (Attacker and Target(s), Crash rules also apply)*
-
-&nbsp;
-
-# ---
-
-# **SWIMMING**
-
-Swimming movement in Tangent is determined by a character's base speed, typically half their walking speed. It features different paces with varying speeds and effects:
-
-&nbsp;
-
-## **Swimming**
-
-Standard pace, half the base walking speed. No modifiers apply.
-
-*Medium biped humanoid swimming at 15 ft \[1.83 mph/3 kph\] per round.*
-
-&nbsp;
-
-## **Glide**
-
-A hurried pace, twice the swimming speed, but with a \-2 penalty to actions requiring subtlety, stealth, or precision. Requires an Athletics (Swimming) check (CR 10+).
-
-&nbsp;
-
-## **Stroke**
-
-A fast pace, four times the swimming speed, but with a \-4 penalty to subtle actions. Requires an Athletics (Swimming) check (CR 15+).
-
-&nbsp;
-
-## **Treading**
-
-The slowest pace, half the swimming speed or less, with a possible \+2 bonus to actions. Requires an Athletics (Swimming) check (CR 5+).
-
-&nbsp;
-
-*Athletics checks are to ward off fatigue and muscle strain, on a Failure take 1 point of non-lethal damage per miss of 5  \- then will need a Will check of the same difficulty. Treading water will be required if Swimming can’t be maintained or begin to submerge and risk drowning.*
-
-*Checks are made each minute (or less depending) with a cumulative \-1 penalty per check*
-
-*\* Modifiers are for anything involving subtly, stealth, precision or any similar actions*
-
-*\*\* Swimming Feature increases all Swimming Speeds without affecting the penalty (Swimming at full Base Speed, Glide at 2x and Stroke at 3x)*
-
-&nbsp;
-
-# ---
-
-# **CLIMBING**
-
-Climbing movement in Tangent involves ascending or descending vertical surfaces, and is influenced by a character's base speed which in turn is affected by the difficulty of the climb. Different climbing speeds are available, each with its own mechanics and effects:
-
-&nbsp;
-
-## **Climbing**
-
-Standard pace on an Easy Climb (CR 10+), half the base walking speed, a Moderate Climb (CR 15+) would be a quarter and a Difficult Climb (CR 20+) could be a tenth. These difficulties may be modified by gear used and possible environmental conditions.
-
-Requires Athletics (Climbing) checks to avoid falling with the CR based on the surface of what is being scaled (plus any modifiers).
-
-&nbsp;
-
-## **Scaling**
-
-Ascending at full base speed, with a \-2 penalty to actions requiring subtlety, stealth, or precision. Requires an Athletics (Climbing) check at \-5.
-
-&nbsp;
-
-## **Fast Ascent**
-
-Climbing at double speed, with a \-4 penalty to subtle actions. Requires an Athletics (Climbing) check at \-10.
-
-&nbsp;
-
-## **Fast Descent**
-
-Descending at quadruple speed without injury, but with a \-4 penalty to subtle actions. Requires a CR 20 Athletics (Climbing) check or a \-10 to Climbing Checks (Athletics)
-
-&nbsp;
-
-*Athletics checks are to ward off fatigue and muscle strain, on a Failure take 1 point of non-lethal damage per miss of 5  \- then will need a Will check of the same difficulty.*&nbsp;
-
-*Holding On will require an additional check or begin a descent, hopefully controlled. Checks are made each minute (or less depending) with a cumulative \-1 penalty per check*
-
-*\* Modifiers are for anything involving subtly, stealth, precision or any similar actions*
-
-*\*\* Climbing Feature increases all Climbing Speeds without affecting the penalty (Climbing at full Base Speed, Scaling at 2x, Fast Ascent at 3x and Fast Descent at 6x)*
-
-# 
-
-# ---
-
-# **BURROWING**
-
-Burrowing movement allows characters to move through solid matter like soil, sand, or even rock. It's a slower and more specialized form of movement with unique mechanics:
-
-&nbsp;
-
-## **Burrowing**
-
-The standard pace for movement through the ground, typically a fourth of the character's base walking speed. This slow pace reflects the effort required to displace the surrounding material.
-
-&nbsp;
-
-## **Tunneling**
-
-A slightly faster pace, double the Burrowing speed, but with a \-2 penalty to actions requiring subtlety, stealth, or precision. This is useful for quickly creating tunnels or escaping pursuers.
-
-&nbsp;
-
-## **Excavation**
-
-A focused effort to create a larger space within the ground, such as a chamber or tunnel. This doesn't involve significant movement but requires time and effort, typically an eight of the character's base walking speed halving the typical Burrow Speed from shoring up walls and other reinforcements. This will be used for any pit traps made or possible subterranean constructions.
-
-&nbsp;
-
-*Burrowing movement often requires specific adaptations, such as claws, powerful limbs, or even metaphysical abilities. Characters might also need to make skill checks (like Athletics or Mining) to navigate through different types of materials or avoid cave-ins.*
-
-&nbsp;
-
-&nbsp;
-
-MOVEMENT FATIGUE RULES  
-Trigger: A character must make a Stamina-based Fortitude Check (CR 15\) after sprinting for 5 consecutive rounds in combat, or after 10 minutes of hurried travel.
-
-Penalty for Failure: On a failure, the character takes 5 points of non-lethal Vitality damage. If their Vitality is depleted, they take 2 points of physical Health damage and gain the Exhausted condition (-2 to all active checks and half movement speed) until they take a Light Rest (Nap).
+* **Trigger:** A character must make a Stamina-based **Fortitude Save (`CR 15`)** after **sprinting for 5 consecutive rounds in combat**, or after **10 minutes of hurried travel** (Jogging/Running overland).
+* **Penalty for Failure:** On a failed save, the character suffers **5 points of non-lethal Vitality damage**. If their Vitality is depleted (`0`), they take **2 points of physical Health damage** and gain the **Exhausted** condition (`-2` penalty to all active checks and **50% movement speed**; cannot Run, Sprint, or Charge) until they complete a **Light Rest (Nap)**.
 

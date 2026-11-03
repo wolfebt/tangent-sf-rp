@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 15
+order: 13
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.experience","mechanics"]
-updatedAt: "2026-10-31T11:30:42.669Z"
+updatedAt: "2026-11-02T22:49:17.634Z"
 costs:
   bp: 0
   credits: 0
@@ -37,85 +37,73 @@ sockets:
   allocated: []
 ---
 
-# **EXPERIENCE**
+# **1.01.10 EXPERIENCE & ADVANCEMENT**
 
-# **EXPERIENCE**
+**Award Points (AP)** are granted for the outstanding actions, tactical problem-solving, and roleplaying achievements of characters and their players during a campaign. They recognize and reward immersive gameplay while driving long-term character progression.
 
-Award Points (AP) are awarded for the outstanding actions and achievements of characters and their players during the game. These points serve as a way to recognize and reward exceptional gameplay, encouraging players to engage in creative and immersive role-playing experiences.
+---
 
-&nbsp;
+## **1. EXCHANGE RATE & THE INCREMENT RULE**
 
-These points are spent in the same manner as Character Points in character creation, on a 1-for-1 basis, except that abilities, skills or other traits may ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD.
+* **Standard Pacing:** Characters typically earn **1 to 3 Award Points (AP) per game session**, plus Story Awards at chapter milestones.
+* **Exchange Rate (`1 AP = 1 CP`):** Award Points are spent in the exact same manner as **Character Points (CP)** during character creation on a **1-for-1 basis**:
+  * **Attribute Increase (`+1`):** `5 AP`
+  * **Vitality or Health Pool Increase (`+5` points):** `1 AP`
+  * **Feature:** `3 AP` Standard / `2 AP` Recommended (`1 AP` minimum)
+  * **Skill Rank (`+1`):** `1 AP`
+  * **Additional Origin / Occupation Trait:** `1 AP`
+  * **Attribute Save Bonus (`+1`):** `1 AP`
+* **The `+1` Increment Rule (CRITICAL):** While AP are spent at the same rate as CP, **any single Attribute, Skill, or Trait may only be increased by a maximum of `+1` point/rank per Experience Award** (and Vitality/Health by a single `+5` increment per award). A player cannot hoard and dump 10 AP into a single skill instantaneously; advancement must occur organically across sessions and downtime study periods (`1.07.Mechanics.Learning.md`).
 
-&nbsp;
+---
 
-# **STORY AWARDS**
+## **2. STORY AWARDS (CHAPTER & ARC MILESTONES)**
 
-## **Chapter Completion**
+### **A. Chapter Completion (`5 to 10 AP`)**
 
-(5 to 10 AP \- based on the steps and the level of complexity involved, longer and complex chapters awarding more points)
+* **Award:** **5 to 10 AP** (scaled by the length, steps, and complexity of the story arc).
+* **Context:** Granted when a chapter or major story arc is completed. Chapter completion marks a major narrative transition and typically coincides with campaign **downtime**, giving characters time to reflect, complete training/crafting projects, and spend accumulated AP.
 
-This award is given when a chapter or major story arc is completed. It acknowledges the players' progress in the narrative and provides an opportunity for character development and reflection during downtime. This is usually a STORY transition and likely down-time for the characters.
+### **B. Overcoming Each Worthy Goal, Villain, or Plot (`1, 2, or 3 AP`)**
 
-&nbsp;
+* **Award:** **1, 2, or 3 AP** depending on the threat tier and complexity of the obstacle (`1 AP` for minor sub-goals/lieutenants, `2 AP` for major chapter villains, `3 AP` for arc-defining masterminds or conspiracies).
+* **Context:** Recognizes players' achievements in overcoming significant obstacles, defeating powerful antagonists, or unraveling complex plots. May be awarded at the end of a session or bundled with Chapter Completion.
+* *Example:* The Architect awards **5 AP** at the end of a short chapter for its completion, plus **2 AP** for neutralizing the Syndicate Enforcer who served as the chapter's primary villain (totaling **7 AP**).
 
-## **Overcoming Each Worthy GOAL, VILLAIN, or PLOT**
+---
 
-(1, 2 or 3 AP \- depending on level of difficulty, these are storyline elements but may be awarded by session)
+## **3. SESSION AWARDS (POST-SESSION PERFORMANCE)**
 
-This award recognizes players' achievements in overcoming significant obstacles, defeating powerful villains, or unraveling complex plots. It highlights the importance of character growth and the resolution of conflicts.
+Awarded at the conclusion of each individual game session regardless of overall chapter progression:
 
-&nbsp;
+### **A. Proper Game Session & Focused on Game (`0, 1, or 2 AP`)**
 
-*For example, the Architect might award 5 AP at the end of a short chapter for its completion and 2 AP for defeating a major villain which could be awarded at the chapters end and at the end of sessions depending on the number of villains the Architect sends.*
+Recognizes players who engage constructively with gameplay mechanics, tactical teamwork, puzzle-solving, and mission objectives during the session.
 
-&nbsp;
+### **B. Roleplaying in Character (`0, 1, or 2 AP`)**
 
-&nbsp;
+Recognizes players who immerse themselves in their character's personality, cultural worldview, hindrances, and motivations, embodying their operator during interpersonal scenes and moral dilemmas.
 
-# **SESSION AWARDS**
+* *Example:* A player receives **2 AP** for strategically coordinating the squad's ambush in battle and **1 AP** for a memorable diplomatic roleplaying scene with an Alterian envoy (totaling **3 AP** for the session).
 
-## **Proper Game Session & Focused on GAME**
+---
 
-(0, 1 or 2 AP)
+## **4. EPIC ACTIONS, GOOD IDEAS & STUMPING THE ARCHITECT (`1 to 5 AP`)**
 
-This award recognizes players who approach the game with a focus on gameplay mechanics and strategy. It encourages players to engage in combat encounters, puzzles, or other game-related challenges.
+* **Award:** **1 to 5 AP** (Ad-hoc award determined by the Architect based on the magnitude of the moment; granted immediately after the scene or at session's end).
+* **Context:** Awarded for extraordinary moments during play—such as a heroic action that turns the tide of a seemingly lost battle, an ingenious lateral solution to a complex problem, or an unexpected tactical twist that genuinely surprises the Architect.
+* *Example:* A player devises an audacious, multi-step engineering plan that saves the city, rescues the party, and resolves the plot while forcing the Architect to improvise new rolls on the fly. The Architect grants the character **5 AP** as soon as the dust settles.
 
-&nbsp;
+---
 
-## **Roleplaying in CHARACTER**
+## **5. THE POWER SCALE TABLE (OPERATOR TIERS BY TOTAL CP)**
 
-(0, 1 or 2 AP)
+As characters accumulate Award Points (`1 AP = 1 CP`) over the course of a campaign, their total Character Point value advances across four operational tiers:
 
-This award is given to players who immerse themselves in their characters' personalities and motivations, actively embodying them during roleplaying interactions. It encourages players to develop their characters' backstories and explore their relationships with other characters.
-
-&nbsp;
-
-*For instance, a player might receive 2 AP for strategically leading the party in battle and 1 AP for a memorable roleplaying interaction. These points are awarded once each post session regardless of story progression.*
-
-&nbsp;
-
-&nbsp;
-
-# **EPIC ACTIONS, GOOD IDEAS & STUMPING THE ARCHITECT**
-
-(1 to 5 AP \- Ad Hoc with an award determined by the Architect based on each situation. Session Award or possibly Scenario awarded.)
-
-These awards are given for exceptional moments during gameplay, such as epic actions that turn the tide of battle, creative solutions to problems, or surprising the Architect with unexpected twists. They encourage players to think outside the box and bring their imaginations to life.
-
-&nbsp;
-
-*Such as, the player comes up with a complicated idea that saves the city, the party and the plot while making the Architect figure out how to make the rolls. Consider granting the character 5 AP right after the dust settles. It happens.*
-
-&nbsp;
-
-The number of Award Points awarded may vary depending on the game and the desired pace of character progression.
-
-* Standard Award: 1-3 Award Points (AP) per Session based on pacing/achievements.  
-* Exchange Rate: 1 AP \= 1 Character Point (CP).  
-* The Increment Rule (CRITICAL): AP can be spent exactly like CP during creation, but Abilities, Skills, or Traits may only be increased by 1 point per Experience Award. A player cannot dump 10 AP into a single skill instantly.
-
-&nbsp;
-
-The experience system is designed to enhance the gaming experience by incentivizing players to engage in meaningful and engaging gameplay. By rewarding players for their efforts, the system fosters a sense of accomplishment and encourages players to continue exploring the world of the game.
+| Power Tier | Tier Designation | Total Character Points (CP) | Operational Scope & Narrative Benchmark |
+| :---: | :--- | :---: | :--- |
+| **Tier 1** | **Operative** | **150 – 199 CP** | **Starting Competence (`Trained / Rank 6–10`):** Proven specialists, frontier mercenaries, covert agents, and starship crews handling localized planetary or station crises. |
+| **Tier 2** | **Tactical** | **200 – 299 CP** | **Veteran Mastery (`Expert / Rank 11–15`):** Elite strike teams, syndicate fixers, and knight-errants whose actions shape planetary politics and system-wide conflicts. |
+| **Tier 3** | **Strategic** | **300 – 449 CP** | **Sector Champions (`Master / Rank 16–20`):** Legendary commanders, arch-savants, and high inquisitors capable of altering the balance of power across entire star clusters. |
+| **Tier 4** | **Mythic** | **450+ CP** | **Galactic Paragons (`Grand Master to Pinnacle / Rank 21–30`):** Reality-shaping exemplars, sovereign rulers, and cosmic avatars confronting existential threats to the galaxy. |
 

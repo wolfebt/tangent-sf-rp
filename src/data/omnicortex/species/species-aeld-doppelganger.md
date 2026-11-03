@@ -144,7 +144,7 @@ This profound magical alteration was performed with a singular and critical purp
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 14 CP  
+**CP Cost:** 15 CP  
 
 **Classification:** Humanoid (Shifter)
 

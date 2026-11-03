@@ -119,7 +119,7 @@ cp_cost: 39
 
 # 
 
-**CP Cost:** 30 CP  
+**CP Cost:** 39 CP  
 
 **Description:** The Thorn are a Verdant Humanoid species, a living testament to a planet's desperate defense mechanism. Their accelerated, directed evolution was not a natural occurrence but a radical consequence of a planetary ecosystem's psychic retaliation against a large-scale, intrusive terraforming operation. The planet's entire biosphere possesses a singular, distributed psychic presence—a collective consciousness woven into the fabric of all life. This unified, yet diffuse, mind, under existential threat, executed a deliberate and rapid speciation event. This critical branch in its consciousness led to the awakening of individual flora humanoids, giving rise to the Thorn. Their genesis began when the planet's flora, directed by the overarching psychic-active biosphere, underwent a process of rapid, highly-controlled evolution specifically designed to neutralize and shut down the invasion.
 

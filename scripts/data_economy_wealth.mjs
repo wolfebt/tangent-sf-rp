@@ -99,7 +99,7 @@ AutoBuy Condition: ItemCraftingDC <= WealthScore (Zero liquid credit spend).`,
 2. Cross-reference an item's Crafting DC with your Wealth Score.
 3. If DC <= WS, auto-acquire the item for your inventory.
 4. If DC > WS, calculate liquid credit shortfall via the Liquidity Gap Rule.`,
-    note: `Verbatim from docs/game rules/architect/02 ECONOMY AND WEALTH.md.`
+    note: `Verbatim from docs/game_rules/architect/02 ECONOMY AND WEALTH.md.`
   },
   {
     id: "2-05-tangent-standard-curve-tsc",
@@ -146,7 +146,7 @@ $$\text{Value in Credits} = 10 \times 4^{\left(\frac{\text{DC}}{5}\right)}$$
 | **50** | **Transcendent**| **10.5 MCr** | Dreadnought, planetary shield generator |`,
     mechanic: `ItemValue = 10 * Math.pow(4, CraftingDC / 5)`,
     guide: `Use Crafting DC to directly compute base purchase price and material cost (50% of value).`,
-    note: `Verbatim from docs/game rules/architect/02 ECONOMY AND WEALTH.md.`
+    note: `Verbatim from docs/game_rules/architect/02 ECONOMY AND WEALTH.md.`
   },
   {
     id: "2-06-financial-status-hierarchy",
@@ -185,7 +185,7 @@ The financial position of any individual, operative, or faction in Tangent is ma
     mechanic: `FinancialTier = getFinancialTier(WealthScore)
 AutoBuyLimit = 10 * Math.pow(4, WealthScore / 5)`,
     guide: `Cross-reference operative Wealth Score against the hierarchy to describe accommodations, social leverage, and default accommodations during downtime.`,
-    note: `Verbatim from docs/game rules/architect/02 ECONOMY AND WEALTH.md.`
+    note: `Verbatim from docs/game_rules/architect/02 ECONOMY AND WEALTH.md.`
   },
   {
     id: "2-07-liquidity-gap-and-friction-mechanics",
@@ -233,6 +233,6 @@ Because raw materials required to craft an item cost **50% of the item's Total V
     mechanic: `CashShortfall = Math.max(0, Value(ItemDC) - Value(WealthScore))
 ResaleValue = TotalValue * (isLegal ? 0.50 : (isBlackMarket ? 0.25 : 0.10))`,
     guide: `Apply the Liquidity Gap whenever an item's Crafting DC exceeds player Wealth Score.`,
-    note: `Verbatim from docs/game rules/architect/02 ECONOMY AND WEALTH.md.`
+    note: `Verbatim from docs/game_rules/architect/02 ECONOMY AND WEALTH.md.`
   }
 ];

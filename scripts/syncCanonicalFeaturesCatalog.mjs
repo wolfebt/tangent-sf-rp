@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const operatorDir = path.join(projectRoot, 'docs', 'game rules', 'operator');
+const operatorDir = path.join(projectRoot, 'docs', 'game_rules', 'operator');
 const subFeaturesDir = path.join(operatorDir, 'features');
 const mainFeaturesFile = path.join(operatorDir, '1.08 FEATURES.md');
 const omniFeaturesDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'features');

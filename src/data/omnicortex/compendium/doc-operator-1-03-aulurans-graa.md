@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aulurans"
-order: 40
+order: 38
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aulurans.graa","mechanics"]
-updatedAt: "2026-10-31T10:38:11.481Z"
+updatedAt: "2026-11-02T22:49:33.011Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **GRAA**
+# **GRAA**  
+**
 
 ## **GRAA**
 
@@ -53,7 +54,7 @@ sockets:
 
 **Movement:** 50ft Groundspeed
 
-**Ability Modifiers:** \+1 Agility, \+2 Abilities (Choice)
+**Ability Modifiers:** +1 Agility, +2 Abilities (Choice)
 
 **Species Features:**
 
@@ -69,11 +70,12 @@ sockets:
 
 **Quick:** Explosive speed.
 
-**\+1 Featureure of Choice:** Versatility slot.
+**+1 Feature of Choice:** Versatility slot.
 
 **Stigma:** Animal / Xeno.
 
-## 
-
-&nbsp;
+  
+  
+**  
+**
 

@@ -145,7 +145,7 @@ cp_cost: 41
 ### **MUREX**
 **Foundation Expression**  
 **Classification:** Insectoid Aberration (Humanoid)  
-**CP Cost:** 39 CP  
+**CP Cost:** 41 CP  
 
 **Description:**  
 The Murex are the "General Purpose" expression. They are the builders and infantry that form the backbone of the Hive’s infrastructure. They possess a standard dual-skeletal structure: an internal endoskeleton encased in smooth, matte-black glossy obsidian chitin.  
@@ -159,13 +159,13 @@ Murex are the primary audience for the psionic Chorus, moving in perfect synchro
 * **Stigma:** Severe Xeno
 
 **Ability Modifiers:**  
-* +2 Strength (8 CP)
-* +2 Stamina (8 CP)
-* -1 Wisdom (-4 CP)
-* -1 Charisma (-4 CP)
+* +2 Strength (10 CP)
+* +2 Stamina (10 CP)
+* -1 Wisdom (-5 CP)
+* -1 Charisma (-5 CP)
 
 **Skills:**  
-* +10 Skill Ranks to ANY skills (8 CP)
+* +10 Skill Ranks to ANY skills (10 CP)
 
 **Species Features:**  
 * **Multidextrous (4 Arms):** Full manipulation capability ending with dextrous 4 digit hands. (4 CP)

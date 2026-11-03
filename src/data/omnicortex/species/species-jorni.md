@@ -162,7 +162,7 @@ cp_cost: 21
 
 &nbsp;
 
-**CP Cost:** 25 CP  
+**CP Cost:** 21 CP  
 
 **Description:** The Jorni are a formidable and imposing reptilian species, standing at an average height of seven feet. These powerful beings, commonly referred to as Lizardfolk, possess a distinctive physical makeup characterized by their thick, scaly skin, which serves as a natural defense. Their powerful, semi-aquatic builds allow them to navigate and thrive in challenging, waterlogged environments, such as vast swamps and dense, humid jungles.
 

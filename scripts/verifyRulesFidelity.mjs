@@ -6,9 +6,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const RULES_DIR = path.resolve(projectRoot, 'docs/game rules');
+const RULES_DIR = path.resolve(projectRoot, 'docs/game_rules');
 const SEED_PATH = path.resolve(projectRoot, 'src/data/compendiumSeed.json');
 const MD_DIR = path.resolve(projectRoot, 'src/data/omnicortex/compendium');
+
+const OMNIBUS_SPECIES_BATCH_FILES = new Set([
+  '1.03.aeldandasi.md',
+  '1.03.humansauluranskitin.md',
+  '1.03.syntheticsandxeno.md'
+]);
 
 const seedData = JSON.parse(fs.readFileSync(SEED_PATH, 'utf-8'));
 console.log(`Loaded ${seedData.length} articles from compendiumSeed.json`);
@@ -21,7 +27,8 @@ function scanAllRuleFiles(dir) {
       const fullPath = path.join(currentDir, entry.name);
       if (entry.isDirectory()) {
         const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
-        if (subRel.replace(/\\/g, '/').toLowerCase() === 'architect/archetypes') {
+        const normSubRel = subRel.replace(/\\/g, '/').toLowerCase();
+        if (normSubRel === 'architect/archetypes' || normSubRel === 'architect/schemas') {
           continue;
         }
         traverse(fullPath, subRel);
@@ -32,16 +39,21 @@ function scanAllRuleFiles(dir) {
         !entry.name.startsWith('.')
       ) {
         const normalizedRelBranch = relBranch.replace(/\\/g, '/');
-        if (
-          normalizedRelBranch.toLowerCase() === 'architect' &&
-          entry.name.toLowerCase().includes('archetypes')
-        ) {
+        const lowerBranch = normalizedRelBranch.toLowerCase();
+        const lowerName = entry.name.toLowerCase();
+        if (!lowerBranch) {
+          continue;
+        }
+        if (lowerBranch === 'architect' && lowerName.includes('archetypes')) {
+          continue;
+        }
+        if (lowerBranch === 'operator/species' && OMNIBUS_SPECIES_BATCH_FILES.has(lowerName)) {
           continue;
         }
         discovered.push({
           fullPath,
           fileName: entry.name,
-          relBranch: relBranch.toLowerCase()
+          relBranch: lowerBranch
         });
       }
     }

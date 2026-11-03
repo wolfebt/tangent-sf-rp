@@ -209,8 +209,8 @@ The Base CR for activating an Invocation or Discipline depends on the local oper
 
 ## Criticals, Surges & Failure Table
 
-- **Critical Success (Natural 20 / Double 10s)**: **+30 bonus to the check** and a dramatic, miraculous improvement of the effect.
-- **Critical Mistake (Natural 1 / Double 1s)**: **-10 penalty to the check** and a disastrous backfire (Architect's call).
+- **Critical Success (Natural 20 / Double 10s, or expanded threat)**: **+10 bonus added to the rolled dice value** (e.g., 20 -> 30, 19 -> 29) and a dramatic, miraculous improvement of the effect.
+- **Critical Mistake (Natural 2 / Double 1s, or expanded fumble)**: **Rolled dice value becomes a flat -10** (subtracting 10 from the base check score) and a disastrous backfire (Architect's call).
 - **Energy Surge (Attune Check $\\le 0$)**: An Attune check resulting in 0 or less becomes an uncontrolled energy surge (wrong target, area effect, collateral damage); **Essence cost for that increment is doubled**.
 - **Fizzle / Transposition (Discipline Check $\\le 0$)**: Causes an unintended effect, from a dramatic fizzle to transposed elemental energy.
 - **Internalized Strain (Failure)**: Failing a check deals **1 point of Non-Lethal Damage per 5 points of failure** (1d6 per 5 in free-casting). This is painful strain from Channeling and cannot be absorbed by Stamina or Armor.

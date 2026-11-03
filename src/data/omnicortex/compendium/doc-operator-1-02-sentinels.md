@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 17
+order: 15
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.sentinels","mechanics"]
-updatedAt: "2026-11-01T12:53:15.261Z"
+updatedAt: "2026-11-02T22:49:17.212Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,57 @@ sockets:
   allocated: []
 ---
 
-# **SENTINELS (The Stabilizers)**
+# **1.02.01 SENTINELS (THE STABILIZERS)**
 
 Focus: Logistics, Protection, Tradition, and Economy.
 
 Sentinels are the foundation. They ensure the group survives, supplies are managed, and the line is held. They are the defenders, the providers, and the heavy infantry.
 
-### 
+* **80-CP Archetype Chassis Allocation:** Every Archetype below is a pre-calculated **80 Character Point (CP) Chassis**:
+  * **Primary Attribute at `+3`:** `15 CP` (`5 CP` per `+1`)
+  * **Secondary Attribute at `+2`:** `10 CP` (`5 CP` per `+1`)
+  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
+  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
+  * **2 Signature Traits (`1 CP` each) & 3 Recommended Core Features (`9 CP`):** `13 CP`
+* **Customization Budget (`70 CP`):** Operators spend their remaining **70 CP** (from the **150 CP** starting budget) on their Species Package (`1.03 SPECIES.md`), Saving Throws, Vitality and Health pools (`Base 30` each, scaled strictly at `+5 points per 1 CP`; **never scaled by Stamina**), and free customization, alongside their **60 Background Skill Ranks** (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation).
 
-## **THE BUREAUCRAT**
+---
+
+## **I. SENTINEL ARCHETYPE ALIGNMENT MATRIX (`_S_J`)**
+
+| **Archetype** | **Attributes (Pri/Sec)** | **Recommended Skills** | **Core Signature Features** |
+| :-: | :-: | :-: | :-: |
+| **The Bureaucrat** | Intellect / Charisma | Vocation (Admin), Diplomacy, Culture, Gather Info, Computers | Bureaucratic Efficiency, Master Negotiator |
+| **The Warden** | Wisdom / Agi or Str | Survival, Alertness, Athletics, Medicine, Vocation (Handler) | Guardian's Ward, Nature's Wrath |
+| **The Munitions Magnate** | Charisma / Intellect | Vocation (Armorer), Diplomacy, Bluff, Knowledge (Tech), Appraise | Weapons Expert, Black Market Connections |
+| **The Protector** | Stamina / Perception | Alertness, Athletics, Intimidate, Medicine, Insight | Protective Stance, Situational Alertness |
+| **The Field Medic** | Wisdom / Agility | Medicine, Science, Alertness, Survival, Athletics | Field Triage, Combat Medic |
+| **The Company Man** | Charisma / Intellect | Vocation (Admin), Diplomacy, Computers, Culture, Insight | Corporate Backing, Business Acumen |
+| **The Demolisher** | Strength / Agility | Engineering, Athletics, Knowledge (Tech), Intimidate, Survival | Heavy Weapon Mastery, Explosive Expertise |
+| **The Shock Trooper** | Agility / Strength | Athletics, Acrobatics, Intimidate, Survival, Alertness | Zero-G Combat, Boarding Party |
+| **The Broker** | Charisma / Intellect | Diplomacy, Bluff, Vocation (Admin), Insight, Culture | Market Savvy, Resourceful |
+| **The Veteran** | Str or Agi / Sta | Athletics, Survival, Alertness, Medicine, Intimidate | Combat Expertise, Unflinching |
+| **The Foreman** | Charisma / Stamina | Vocation (Engineering), Diplomacy, Intimidate, Athletics, Culture | Commanding Presence, Efficient Manager |
+| **The Homesteader** | Stamina / Wisdom | Survival, Vocation (Farming), Vocation (Handler), Athletics, Medicine | Self-Sufficiency, Resourceful |
+| **The Legionnaire** | Stamina / Strength | Athletics, Intimidate, Survival, Alertness, Vocation (Soldier) | Iron Will, Legionary Training |
+| **The Marshal** | Charisma / Wisdom | Gather Info, Intimidate, Survival, Insight, Alertness | Frontier Justice, Wildstalker |
+| **The Quartermaster** | Intellect / Wisdom | Vocation (Admin), Knowledge (Logistics), Computers, Diplomacy | Resourceful, Master of Logistics |
+| **The Security Officer** | Wisdom / Perception | Alertness, Insight, Gather Info, Athletics, Intimidate | Keen Eye, Guardian |
+| **The Settler** | Stamina / Strength | Survival, Athletics, Vocation (Construction), Engineering, Medicine | Construction, Frontier Resilience |
+| **The Shipmaster** | Intellect / Charisma | Piloting, Diplomacy, Vocation (Admin), Intimidate, Knowledge (Astrogation) | Naval Expertise, Commanding Presence |
+| **The Muscle** | Strength / Stamina | Athletics, Intimidate, Vocation (Laborer), Survival, Alertness | Strong Back, Skilled Worker |
+| **The High Commander** | Intellect / Charisma | Knowledge (Tactics), Diplomacy, Intimidate, Culture, Vocation (Admin) | Tactical Mastery, Inspiring Strategist |
+| **The Armorer** | Intellect / Strength | Vocation (Armorer), Engineering, Knowledge (Tech), Athletics, Appraise | Master Craftsman, Crafter's Insight |
+| **The Culinarian** | Wisdom / Charisma | Vocation (Chef), Diplomacy, Culture, Medicine, Survival | Self-Sufficiency, Resourceful |
+| **The Bailiff** | Strength / Wisdom | Intimidate, Insight, Athletics, Gather Info, Alertness | Law Enforcement Training, Authority Figure |
+| **The Maintenance Chief** | Intellect / Agility | Engineering, Computers, Vocation (Mechanic), Athletics, Knowledge (Tech) | Efficient Manager, Technical Aptitude |
+| **The Beast-Handler** | Charisma / Wisdom | Vocation (Handler), Survival, Alertness, Medicine, Athletics | Animal Affinity, Spirit Walker |
+
+---
+
+## **II. COMPLETE ARCHETYPE PROFILES (1–25)**
+
+## **1. THE BUREAUCRAT**
 
 The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.
 
@@ -53,18 +95,18 @@ The skilled administrator who ensures the smooth operation of departments or ter
 
 *"Amateurs talk strategy. Professionals talk logistics. Now sign here."*
 
-* **Core Concept:** Logistics / Support / Social Tank  
-* **Recommended Occupations:** Citizen (Corporate), Representative.  
-* **Recommended Origins:** Urban, Colony, Industrial.  
-* **Recommended Factions:** Syndicate (Middle Management), Impyrium (Administration), Entari Combine.  
-* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
-* **Essential Skills:** Diplomacy, Knowledge (History), Insight, Vocation (Administration).  
-* **Signature Traits (1 CP):** Bureaucratic Efficiency, Master Negotiator.  
-* **Tactical Role:** Secure resources, bypass legal hurdles, manage team logistics.
+  - **Core Concept:** Logistics / Support / Social Tank
+  - **Recommended Occupations:** Citizen (Corporate), Representative.
+  - **Recommended Origins:** Urban, Colony, Industrial.
+  - **Recommended Factions:** Syndicate (Middle Management), Impyrium (Administration), Entari Combine.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Knowledge (History), Insight, Vocation (Administrator).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Bureaucratic Efficiency, Master Negotiator.
+  - **Tactical Role:** Secure resources, bypass legal hurdles, manage team logistics.
 
-### 
+---
 
-## **THE WARDEN**
+## **2. THE WARDEN**
 
 A protector of forests and natural habitats, skilled in both magic and combat to defend the wild.
 
@@ -72,18 +114,18 @@ A protector of forests and natural habitats, skilled in both magic and combat to
 
 *"The forest is not empty. It is merely holding its breath."*
 
-* **Core Concept:** Hybrid (Magic/Melee) / Defender  
-* **Recommended Occupations:** Adept, Scout (Fey/Auluran origins).  
-* **Recommended Origins:** Agricultural, Enlightened, Hostile.  
-* **Recommended Factions:** Auluran (Protector Caste), Alterian Enclave (Rangers), Entari Combine (Gardeners).  
-* **Key Attributes:** Wisdom (Primary), Strength (Secondary).  
-* **Essential Skills:** Athletics, Stealth, Knowledge (Survival), Discipline (Entropy \- Nature/Life focus).  
-* **Signature Traits (1 CP):** Guardian's Ward, Nature's Wrath.  
-* **Tactical Role:** Off-tank, terrain manipulation, healing support.
+  - **Core Concept:** Hybrid (Magic/Melee) / Defender
+  - **Recommended Occupations:** Adept, Scout (Fey/Auluran origins).
+  - **Recommended Origins:** Agricultural, Enlightened, Hostile.
+  - **Recommended Factions:** Auluran (Protector Caste), Alterian Enclave (Rangers), Entari Combine (Gardeners).
+  - **Key Attributes:** Wisdom (+3 Primary), Strength or Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Stealth, Knowledge (Survival), Discipline (Entropy - Nature/Life focus).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Guardian's Ward, Nature's Wrath.
+  - **Tactical Role:** Off-tank, terrain manipulation, healing support.
 
-### 
+---
 
-## **THE MUNITIONS MAGNATE**
+## **3. THE MUNITIONS MAGNATE**
 
 Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.
 
@@ -91,18 +133,18 @@ Focuses on the trade of weapons and military equipment. They have access to cutt
 
 *"I don't pull the trigger. I just ensure it works when you do."*
 
-* **Core Concept:** Merchant / Tech / Heavy Support  
-* **Recommended Occupations:** Merchant, Criminal.  
-* **Recommended Origins:** Industrial, Urban, Militaristic.  
-* **Recommended Factions:** Syndicate (Arms Division), Coalition (Gun-Runners), Impyrium (Heirloom Brokers).  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Knowledge (Technology), Streetwise.  
-* **Signature Traits (1 CP):** Weapons Expert, Black Market Connections.  
-* **Tactical Role:** Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords.
+  - **Core Concept:** Merchant / Tech / Heavy Support
+  - **Recommended Occupations:** Merchant, Criminal.
+  - **Recommended Origins:** Industrial, Urban, Militaristic.
+  - **Recommended Factions:** Syndicate (Arms Division), Coalition (Gun-Runners), Impyrium (Heirloom Brokers).
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (Technology), Streetwise.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Weapons Expert, Black Market Connections.
+  - **Tactical Role:** Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords.
 
-### 
+---
 
-## **THE PROTECTOR**
+## **4. THE PROTECTOR**
 
 Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat.
 
@@ -110,18 +152,18 @@ Protects high-profile individuals or cargo. Experienced in personal security and
 
 *"Get behind me."*
 
-* **Core Concept:** Tank / Defender / Interceptor  
-* **Recommended Occupations:** Soldier, Drifter.  
-* **Recommended Origins:** Urban, Militaristic, Leisure.  
-* **Recommended Factions:** Impyrium (Praetorians), Dynasty (House Guard), Syndicate (Asset Protection).  
-* **Key Attributes:** Stamina (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Athletics, Alertness, Intimidation, Combat (Melee/Pistol).  
-* **Signature Traits (1 CP):** Protective Stance, Situational Awareness.  
-* **Tactical Role:** Take damage for the team, control melee engagement zones.
+  - **Core Concept:** Tank / Defender / Interceptor
+  - **Recommended Occupations:** Soldier, Drifter.
+  - **Recommended Origins:** Urban, Militaristic, Leisure.
+  - **Recommended Factions:** Impyrium (Praetorians), Dynasty (House Guard), Syndicate (Asset Protection).
+  - **Key Attributes:** Stamina (+3 Primary), Wisdom / Alertness (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Alertness, Intimidation, Combat (Melee/Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Protective Stance, Situational Alertness.
+  - **Tactical Role:** Take damage for the team, control melee engagement zones.
 
-### 
+---
 
-## **THE FIELD MEDIC**
+## **5. THE FIELD MEDIC**
 
 Provides emergency medical care under fire. Proficient in both combat and medicine.
 
@@ -129,18 +171,18 @@ Provides emergency medical care under fire. Proficient in both combat and medici
 
 *"I decide who walks away from this. Don't make me regret choosing you."*
 
-* **Core Concept:** Healer / Light Infantry  
-* **Recommended Occupations:** Soldier, Specialist.  
-* **Recommended Origins:** Militaristic, Colony, Spacer.  
-* **Recommended Factions:** Coalition (Combat Medics), Auluran (Healer Caste), Outworlds (Sawbones).  
-* **Key Attributes:** Wisdom (Primary), Agility (Secondary).  
-* **Essential Skills:** Medicine, Athletics, Combat (Rifle/Pistol).  
-* **Signature Traits (1 CP):** Field Triage, Combat Medic.  
-* **Tactical Role:** Keep the tank alive, revive downed allies, provide light fire support.
+  - **Core Concept:** Healer / Light Infantry
+  - **Recommended Occupations:** Soldier, Specialist.
+  - **Recommended Origins:** Militaristic, Colony, Spacer.
+  - **Recommended Factions:** Coalition (Combat Medics), Auluran (Healer Caste), Outworlds (Sawbones).
+  - **Key Attributes:** Wisdom (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Medicine, Athletics, Combat (Rifle/Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Field Triage, Combat Medic.
+  - **Tactical Role:** Keep the tank alive, revive downed allies, provide light fire support.
 
-### 
+---
 
-## **THE COMPANY MAN**
+## **6. THE COMPANY MAN**
 
 Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.
 
@@ -148,18 +190,18 @@ Represents the company's interests, securing deals and resolving disputes. Backe
 
 *"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you."*
 
-* **Core Concept:** Resource Access / Face / Fixer  
-* **Recommended Occupations:** Agent, Citizen (Corporate).  
-* **Recommended Origins:** Urban, Industrial, Leisure.  
-* **Recommended Factions:** Syndicate (Executives), Entari Combine (Trade Reps), Ascendancy.  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Bluff, Knowledge (Business).  
-* **Signature Traits (1 CP):** Corporate Backing, Business Acumen.  
-* **Tactical Role:** Funding the mission, legal defense, accessing corporate restricted zones.
+  - **Core Concept:** Resource Access / Face / Fixer
+  - **Recommended Occupations:** Agent, Citizen (Corporate).
+  - **Recommended Origins:** Urban, Industrial, Leisure.
+  - **Recommended Factions:** Syndicate (Executives), Entari Combine (Trade Reps), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Bluff, Knowledge (Business).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Corporate Backing, Business Acumen.
+  - **Tactical Role:** Funding the mission, legal defense, accessing corporate restricted zones.
 
-### 
+---
 
-## **THE DEMOLISHER**
+## **7. THE DEMOLISHER**
 
 Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.
 
@@ -167,18 +209,18 @@ Expert in operating heavy weaponry like machine guns and rocket launchers. Provi
 
 *"Suppressive fire? No, I'm just clearing the room."*
 
-* **Core Concept:** DPS / Area Denial  
-* **Recommended Occupations:** Soldier, Mercenary.  
-* **Recommended Origins:** Militaristic, Hostile, Industrial.  
-* **Recommended Factions:** Coalition (Heavy Support), Impyrium (Legionnaires), Mekan (Siege Units).  
-* **Key Attributes:** Strength (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Athletics, Combat (Heavy).  
-* **Signature Traits (1 CP):** Heavy Weapon Mastery, Explosive Expertise.  
-* **Tactical Role:** Suppressive fire, destroying vehicles, crowd control.
+  - **Core Concept:** DPS / Area Denial
+  - **Recommended Occupations:** Soldier, Mercenary.
+  - **Recommended Origins:** Militaristic, Hostile, Industrial.
+  - **Recommended Factions:** Coalition (Heavy Support), Impyrium (Legionnaires), Mekan (Siege Units).
+  - **Key Attributes:** Strength (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Athletics, Combat (Heavy).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Heavy Weapon Mastery, Explosive Expertise.
+  - **Tactical Role:** Suppressive fire, destroying vehicles, crowd control.
 
-### 
+---
 
-## **THE SHOCK TROOPER**
+## **8. THE SHOCK TROOPER**
 
 Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.
 
@@ -186,18 +228,18 @@ Disciplined soldier serving on navy vessels. Expert in boarding actions and zero
 
 *"Gravity is a crutch. Mag-lock and load."*
 
-* **Core Concept:** Combat / Environmental Specialist  
-* **Recommended Occupations:** Soldier, Spacer.  
-* **Recommended Origins:** Spacer, Militaristic, Aquatic.  
-* **Recommended Factions:** Impyrium (Void Marines), Syndicate (Drop Troops), Dynasty (Knights).  
-* **Key Attributes:** Agility (Primary), Strength (Secondary).  
-* **Essential Skills:** Athletics, Acrobatics, Knowledge (Tactics), Combat.  
-* **Signature Traits (1 CP):** Zero-G Combat, Boarding Party.  
-* **Tactical Role:** Fighting in hazardous environments/vacuum, breaching ships.
+  - **Core Concept:** Combat / Environmental Specialist
+  - **Recommended Occupations:** Soldier, Spacer.
+  - **Recommended Origins:** Spacer, Militaristic, Aquatic.
+  - **Recommended Factions:** Impyrium (Void Marines), Syndicate (Drop Troops), Dynasty (Knights).
+  - **Key Attributes:** Agility (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Acrobatics, Knowledge (Tactics), Combat.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Zero-G Combat, Boarding Party.
+  - **Tactical Role:** Fighting in hazardous environments/vacuum, breaching ships.
 
-### 
+---
 
-## **THE BROKER**
+## **9. THE BROKER**
 
 Travels space lanes buying and selling. Keen eye for value and negotiation.
 
@@ -205,18 +247,18 @@ Travels space lanes buying and selling. Keen eye for value and negotiation.
 
 *"Everything is negotiable. Even loyalty."*
 
-* **Core Concept:** Economy / Logistics / Face  
-* **Recommended Occupations:** Merchant, Spacer.  
-* **Recommended Origins:** Urban, Spacer, Colony.  
-* **Recommended Factions:** Entari Combine (Merchants), Syndicate (Traders), Alterian Enclave.  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Insight, Vocation (Broker).  
-* **Signature Traits (1 CP):** Market Savvy, Resourceful.  
-* **Tactical Role:** Funding the party, acquiring rare gear, transport logistics.
+  - **Core Concept:** Economy / Logistics / Face
+  - **Recommended Occupations:** Merchant, Spacer.
+  - **Recommended Origins:** Urban, Spacer, Colony.
+  - **Recommended Factions:** Entari Combine (Merchants), Syndicate (Traders), Alterian Enclave.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Vocation (Broker).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Market Savvy, Resourceful.
+  - **Tactical Role:** Funding the party, acquiring rare gear, transport logistics.
 
-### 
+---
 
-## **THE VETERAN**
+## **10. THE VETERAN**
 
 Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.
 
@@ -224,18 +266,18 @@ Brave and disciplined, skilled in combat and tactics. The backbone of any fighti
 
 *"Check your corners. Stay sharp. We move on my mark."*
 
-* **Core Concept:** DPS / Tank / Reliable  
-* **Recommended Occupations:** Soldier, Mercenary.  
-* **Recommended Origins:** Militaristic, Hostile, Colony.  
-* **Recommended Factions:** Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors).  
-* **Key Attributes:** Strength (Primary), Stamina (Secondary).  
-* **Essential Skills:** Acrobatics, Alertness, Athletics, Combat (Any).  
-* **Signature Traits (1 CP):** Combat Expertise, Unflinching.  
-* **Tactical Role:** Frontline combat, holding ground, reliable damage output.
+  - **Core Concept:** DPS / Tank / Reliable
+  - **Recommended Occupations:** Soldier, Mercenary.
+  - **Recommended Origins:** Militaristic, Hostile, Colony.
+  - **Recommended Factions:** Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors).
+  - **Key Attributes:** Strength or Agility (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Alertness, Athletics, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Combat Expertise, Unflinching.
+  - **Tactical Role:** Frontline combat, holding ground, reliable damage output.
 
-### 
+---
 
-## **THE FOREMAN**
+## **11. THE FOREMAN**
 
 A stern and authoritative leader who oversees the workforce and ensures that production targets are met.
 
@@ -243,18 +285,18 @@ A stern and authoritative leader who oversees the workforce and ensures that pro
 
 *"The schedule is not a suggestion. Get back to work."*
 
-* **Core Concept:** Leadership / Logistics / Intimidation  
-* **Recommended Occupations:** Citizen (Worker), Builder.  
-* **Recommended Origins:** Industrial, Colony, Urban.  
-* **Recommended Factions:** Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium.  
-* **Key Attributes:** Charisma (Primary), Stamina (Secondary).  
-* **Essential Skills:** Intimidation, Leadership, Diplomacy, Vocation (Administrator).  
-* **Signature Traits (1 CP):** Commanding Presence, Efficient Manager.  
-* **Tactical Role:** Organizing NPC labor, intimidating local workers, managing base construction.
+  - **Core Concept:** Leadership / Logistics / Intimidation
+  - **Recommended Occupations:** Citizen (Worker), Builder.
+  - **Recommended Origins:** Industrial, Colony, Urban.
+  - **Recommended Factions:** Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium.
+  - **Key Attributes:** Charisma (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Leadership, Diplomacy, Vocation (Administrator).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Commanding Presence, Efficient Manager.
+  - **Tactical Role:** Organizing NPC labor, intimidating local workers, managing base construction.
 
-### 
+---
 
-## **THE HOMESTEADER**
+## **12. THE HOMESTEADER**
 
 A hardworking and resourceful individual determined to build a life on the frontier.
 
@@ -262,18 +304,18 @@ A hardworking and resourceful individual determined to build a life on the front
 
 *"This land is hard, but I am harder."*
 
-* **Core Concept:** Survival / Crafter / Base Builder  
-* **Recommended Occupations:** Citizen (Colonist), Scout.  
-* **Recommended Origins:** Agricultural, Colony, Hostile.  
-* **Recommended Factions:** Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry).  
-* **Key Attributes:** Stamina (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Survival), Vocation (Farming/Laborer), Vocation (Handler), Knowledge (Nature).  
-* **Signature Traits (1 CP):** Self-Sufficiency, Resourceful.  
-* **Tactical Role:** Generating food/water, building fortifications, animal taming.
+  - **Core Concept:** Survival / Crafter / Base Builder
+  - **Recommended Occupations:** Citizen (Colonist), Scout.
+  - **Recommended Origins:** Agricultural, Colony, Hostile.
+  - **Recommended Factions:** Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry).
+  - **Key Attributes:** Stamina (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Vocation (Farming/Laborer), Vocation (Handler), Knowledge (Nature).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Self-Sufficiency, Resourceful.
+  - **Tactical Role:** Generating food/water, building fortifications, animal taming.
 
-### 
+---
 
-## **THE LEGIONNAIRE**
+## **13. THE LEGIONNAIRE**
 
 A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.
 
@@ -281,18 +323,18 @@ A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in 
 
 *"Strength in unity. Victory in discipline."*
 
-* **Core Concept:** Tank / Formation Fighter / Discipline  
-* **Recommended Occupations:** Soldier (Impyrium), Representative.  
-* **Recommended Origins:** Militaristic, Urban (Capital).  
-* **Recommended Factions:** Impyrium (Imperial Legion), Dynasty (Dragoons).  
-* **Key Attributes:** Stamina (Primary), Strength (Secondary).  
-* **Essential Skills:** Athletics, Intimidation, Knowledge (Tactics), Combat (Melee/Heavy).  
-* **Signature Traits (1 CP):** Iron Will, Legionary Training.  
-* **Tactical Role:** Holding choke points, soaking damage, providing cover bonuses to allies.
+  - **Core Concept:** Tank / Formation Fighter / Discipline
+  - **Recommended Occupations:** Soldier (Impyrium), Representative.
+  - **Recommended Origins:** Militaristic, Urban (Capital).
+  - **Recommended Factions:** Impyrium (Imperial Legion), Dynasty (Dragoons).
+  - **Key Attributes:** Stamina (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Intimidation, Knowledge (Tactics), Combat (Melee/Heavy).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Iron Will, Legionary Training.
+  - **Tactical Role:** Holding choke points, soaking damage, providing cover bonuses to allies.
 
-### 
+---
 
-## **THE MARSHAL**
+## **14. THE MARSHAL**
 
 A law enforcement officer who maintains order and protects settlements in the lawless territories.
 
@@ -300,18 +342,18 @@ A law enforcement officer who maintains order and protects settlements in the la
 
 *"The law doesn't stop at the city limits. It stops where I say it stops."*
 
-* **Core Concept:** Social / Combat / Crowd Control  
-* **Recommended Occupations:** Soldier, Agent.  
-* **Recommended Origins:** Colony, Hostile, Militaristic.  
-* **Recommended Factions:** Coalition (Rangers), Outworlds (Sheriffs).  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Intimidation, Diplomacy, Athletics, Combat (Pistol).  
-* **Signature Traits (1 CP):** Frontier Justice, Wildstalker.  
-* **Tactical Role:** De-escalating conflicts, arresting targets, tracking fugitives.
+  - **Core Concept:** Social / Combat / Crowd Control
+  - **Recommended Occupations:** Soldier, Agent.
+  - **Recommended Origins:** Colony, Hostile, Militaristic.
+  - **Recommended Factions:** Coalition (Rangers), Outworlds (Sheriffs).
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Diplomacy, Athletics, Combat (Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Frontier Justice, Wildstalker.
+  - **Tactical Role:** De-escalating conflicts, arresting targets, tracking fugitives.
 
-### 
+---
 
-## **THE QUARTERMASTER**
+## **15. THE QUARTERMASTER**
 
 A resourceful individual who manages supplies, equipment, and finances.
 
@@ -319,18 +361,18 @@ A resourceful individual who manages supplies, equipment, and finances.
 
 *"A soldier without bullets is just a target. I make sure you aren't targets."*
 
-* **Core Concept:** Economy / Support / Logistics  
-* **Recommended Occupations:** Merchant, Soldier.  
-* **Recommended Origins:** Militaristic, Spacer, Industrial.  
-* **Recommended Factions:** Outworlds (Scavengers), Impyrium (Logistics), Syndicate (Supply).  
-* **Key Attributes:** Intellect (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Knowledge (Appraisal), Knowledge (Logistics), Barter.  
-* **Signature Traits (1 CP):** Resourceful, Master of Logistics.  
-* **Tactical Role:** Managing party inventory, sourcing specific gear, identifying loot value.
+  - **Core Concept:** Economy / Support / Logistics
+  - **Recommended Occupations:** Merchant, Soldier.
+  - **Recommended Origins:** Militaristic, Spacer, Industrial.
+  - **Recommended Factions:** Outworlds (Scavengers), Impyrium (Logistics), Syndicate (Supply).
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Appraisal), Knowledge (Logistics), Barter.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Resourceful, Master of Logistics.
+  - **Tactical Role:** Managing party inventory, sourcing specific gear, identifying loot value.
 
-### 
+---
 
-## **THE SECURITY OFFICER**
+## **16. THE SECURITY OFFICER**
 
 A vigilant and disciplined individual who ensures the safety and security of their post.
 
@@ -338,18 +380,18 @@ A vigilant and disciplined individual who ensures the safety and security of the
 
 *"Secure. For now."*
 
-* **Core Concept:** Perception / Defense / Area Denial  
-* **Recommended Occupations:** Soldier, Agent.  
-* **Recommended Origins:** Urban, Industrial, Leisure.  
-* **Recommended Factions:** Syndicate (Asset Protection), Entari Combine (Constables).  
-* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
-* **Essential Skills:** Alertness, Insight, Intimidation, Combat (Any).  
-* **Signature Traits (1 CP):** Keen Eye, Guardian.  
-* **Tactical Role:** Preventing ambushes, spotting hidden enemies, locking down areas.
+  - **Core Concept:** Perception / Defense / Area Denial
+  - **Recommended Occupations:** Soldier, Agent.
+  - **Recommended Origins:** Urban, Industrial, Leisure.
+  - **Recommended Factions:** Syndicate (Asset Protection), Entari Combine (Constables).
+  - **Key Attributes:** Wisdom (+3 Primary), Wisdom / Alertness (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Alertness, Insight, Intimidation, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Keen Eye, Guardian.
+  - **Tactical Role:** Preventing ambushes, spotting hidden enemies, locking down areas.
 
-### 
+---
 
-## **THE SETTLER**
+## **17. THE SETTLER**
 
 A hardy individual who builds and maintains settlements in untamed worlds.
 
@@ -357,18 +399,18 @@ A hardy individual who builds and maintains settlements in untamed worlds.
 
 *"We built this town with our own hands. We'll defend it the same way."*
 
-* **Core Concept:** Builder / Defender / Survivor  
-* **Recommended Occupations:** Citizen, Builder.  
-* **Recommended Origins:** Colony, Agricultural, Hostile.  
-* **Recommended Factions:** Outworlds, Coalition.  
-* **Key Attributes:** Stamina (Primary), Strength (Secondary).  
-* **Essential Skills:** Vocation (Laborer), Knowledge (Survival), Athletics, Combat (Rifle).  
-* **Signature Traits (1 CP):** Construction, Frontier Resilience.  
-* **Tactical Role:** Building cover, repairing structures, environmental survival.
+  - **Core Concept:** Builder / Defender / Survivor
+  - **Recommended Occupations:** Citizen, Builder.
+  - **Recommended Origins:** Colony, Agricultural, Hostile.
+  - **Recommended Factions:** Outworlds, Coalition.
+  - **Key Attributes:** Stamina (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Laborer), Knowledge (Survival), Athletics, Combat (Rifle).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Construction, Frontier Resilience.
+  - **Tactical Role:** Building cover, repairing structures, environmental survival.
 
-### 
+---
 
-## **THE SHIPMASTER**
+## **18. THE SHIPMASTER**
 
 A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.
 
@@ -376,18 +418,18 @@ A seasoned starship captain who commands a vessel and crew with expertise in tra
 
 *"Time is money, and we are ahead of schedule."*
 
-* **Core Concept:** Logistics / Transport / Leadership  
-* **Recommended Occupations:** Merchant, Spacer.  
-* **Recommended Origins:** Spacer, Urban, Industrial.  
-* **Recommended Factions:** Outworlds (Freighters), Entari Combine (Trade Fleet), Syndicate.  
-* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Leadership, Diplomacy, Knowledge (Trade).  
-* **Signature Traits (1 CP):** Naval Expertise, Commanding Presence.  
-* **Tactical Role:** Managing ship operations, negotiating docking fees, avoiding piracy.
+  - **Core Concept:** Logistics / Transport / Leadership
+  - **Recommended Occupations:** Merchant, Spacer.
+  - **Recommended Origins:** Spacer, Urban, Industrial.
+  - **Recommended Factions:** Outworlds (Freighters), Entari Combine (Trade Fleet), Syndicate.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Leadership, Diplomacy, Knowledge (Trade).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Naval Expertise, Commanding Presence.
+  - **Tactical Role:** Managing ship operations, negotiating docking fees, avoiding piracy.
 
-### 
+---
 
-## **THE MUSCLE**
+## **19. THE MUSCLE**
 
 A hardworking individual contributing through physical labor and endurance.
 
@@ -395,18 +437,18 @@ A hardworking individual contributing through physical labor and endurance.
 
 *"Heavy lifting? That's just a warm-up."*
 
-* **Core Concept:** Utility / Strength / Endurance  
-* **Recommended Occupations:** Citizen, Builder.  
-* **Recommended Origins:** Industrial, Colony, Urban.  
-* **Recommended Factions:** Syndicate (Worker Caste), Outworlds, Mekan (Drones).  
-* **Key Attributes:** Strength (Primary), Stamina (Secondary).  
-* **Essential Skills:** Athletics, Vocation (Laborer), Endurance, Knowledge (Trade).  
-* **Signature Traits (1 CP):** Strong Back, Skilled Worker.  
-* **Tactical Role:** Clearing debris, carrying heavy gear, grappling enemies.
+  - **Core Concept:** Utility / Strength / Endurance
+  - **Recommended Occupations:** Citizen, Builder.
+  - **Recommended Origins:** Industrial, Colony, Urban.
+  - **Recommended Factions:** Syndicate (Worker Caste), Outworlds, Mekan (Drones).
+  - **Key Attributes:** Strength (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Vocation (Laborer), Unarmed (*Endurance Feature recommended*), Knowledge (Trade).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Strong Back, Skilled Worker.
+  - **Tactical Role:** Clearing debris, carrying heavy gear, grappling enemies.
 
-### 
+---
 
-## **THE HIGH COMMANDER**
+## **20. THE HIGH COMMANDER**
 
 A high-ranking military commander who leads legions into battle.
 
@@ -414,18 +456,18 @@ A high-ranking military commander who leads legions into battle.
 
 *"Victory is not an accident. It is engineered."*
 
-* **Core Concept:** Leadership / Strategy / Buff  
-* **Recommended Occupations:** Soldier (Officer), Noble.  
-* **Recommended Origins:** Militaristic, Urban (Capital).  
-* **Recommended Factions:** Impyrium (High Command), Dynasty (High Lord).  
-* **Key Attributes:** Intellect (Primary), Charisma (Secondary).  
-* **Essential Skills:** Leadership, Knowledge (Tactics), Athletics, Combat (Any).  
-* **Signature Traits (1 CP):** Tactical Mastery, Inspiring Strategist.  
-* **Tactical Role:** Mass buffing allies, coordinating large-scale battles, strategic planning.
+  - **Core Concept:** Leadership / Strategy / Buff
+  - **Recommended Occupations:** Soldier (Officer), Representative (*Noble*).
+  - **Recommended Origins:** Militaristic, Urban (Capital).
+  - **Recommended Factions:** Impyrium (High Command), Dynasty (High Lord).
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Knowledge (Tactics), Athletics, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Tactical Mastery, Inspiring Strategist.
+  - **Tactical Role:** Mass buffing allies, coordinating large-scale battles, strategic planning.
 
-### 
+---
 
-## **THE ARMORER**
+## **21. THE ARMORER**
 
 The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.
 
@@ -433,18 +475,18 @@ The specialist who crafts and maintains the protective shells that preserve life
 
 *"Flesh is soft. Let me give you something harder."*
 
-* **Core Concept:** Crafter / Support / Defense  
-* **Recommended Occupations:** Builder, Soldier.  
-* **Recommended Origins:** Industrial, Urban, Militaristic.  
-* **Recommended Factions:** Impyrium (Forge Masters), Dynasty (Smiths), Syndicate.  
-* **Key Attributes:** Intellect (Primary), Strength (Secondary).  
-* **Essential Skills:** Vocation (Armorer), Vocation (Engineer), Knowledge (Technology), Knowledge (Appraisal).  
-* **Signature Traits (1 CP):** Master Vocation skillsman, Crafters Insight.  
-* **Tactical Role:** Repairing armor in the field, identifying equipment vulnerabilities, maximizing party DR.
+  - **Core Concept:** Crafter / Support / Defense
+  - **Recommended Occupations:** Builder, Soldier.
+  - **Recommended Origins:** Industrial, Urban, Militaristic.
+  - **Recommended Factions:** Impyrium (Forge Masters), Dynasty (Smiths), Syndicate.
+  - **Key Attributes:** Intellect (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Armorer), Vocation (Engineer), Knowledge (Technology), Knowledge (Appraisal).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Master Craftsman, Crafter's Insight.
+  - **Tactical Role:** Repairing armor in the field, identifying equipment vulnerabilities, maximizing party DR.
 
-### 
+---
 
-## **THE CULINARIAN**
+## **22. THE CULINARIAN**
 
 The essential provider of nutrition and morale, transforming scarce resources into sustaining banquets.
 
@@ -452,18 +494,18 @@ The essential provider of nutrition and morale, transforming scarce resources in
 
 *"A good meal can stop a war. A bad one can start it."*
 
-* **Core Concept:** Support / Morale / Survival  
-* **Recommended Occupations:** Citizen, Drifter.  
-* **Recommended Origins:** Agricultural, Leisure, Colony.  
-* **Recommended Factions:** Entari Combine (Hospitality), Auluran (Nurturers), Outworlds.  
-* **Key Attributes:** Wisdom (Primary), Charisma (Secondary).  
-* **Essential Skills:** Vocation (Culinarian), Nature, Medicine, Insight.  
-* **Signature Traits (1 CP):** Self-Sufficiency, Resourceful.  
-* **Tactical Role:** Buffing party recovery during rest, identifying safe/toxic flora, boosting team morale.
+  - **Core Concept:** Support / Morale / Survival
+  - **Recommended Occupations:** Citizen, Drifter.
+  - **Recommended Origins:** Agricultural, Leisure, Colony.
+  - **Recommended Factions:** Entari Combine (Hospitality), Auluran (Nurturers), Outworlds.
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Culinarian), Nature, Medicine, Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Self-Sufficiency, Resourceful.
+  - **Tactical Role:** Buffing party recovery during rest, identifying safe/toxic flora, boosting team morale.
 
-### 
+---
 
-## **THE BAILIFF**
+## **23. THE BAILIFF**
 
 The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.
 
@@ -471,18 +513,18 @@ The officer of the court and enforcer of civil law, ensuring that order is maint
 
 *"The Court will have order. One way or another."*
 
-* **Core Concept:** Law Enforcement / Control / Tank  
-* **Recommended Occupations:** Agent, Citizen.  
-* **Recommended Origins:** Urban, Militaristic, Colony.  
-* **Recommended Factions:** Ascendancy (Judiciaries), Impyrium (Legalists), Entari Combine.  
-* **Key Attributes:** Strength (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Investigation), Knowledge (Law), Intimidation, Melee.  
-* **Signature Traits (1 CP):** Law Enforcement Training, Authority Figure.  
-* **Tactical Role:** Grappling and subduing targets, protecting VIPs, enforcing social order.
+  - **Core Concept:** Law Enforcement / Control / Tank
+  - **Recommended Occupations:** Agent, Citizen.
+  - **Recommended Origins:** Urban, Militaristic, Colony.
+  - **Recommended Factions:** Ascendancy (Judiciaries), Impyrium (Legalists), Entari Combine.
+  - **Key Attributes:** Strength (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Knowledge (Law), Intimidation, Melee.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Law Enforcement Training, Authority Figure.
+  - **Tactical Role:** Grappling and subduing targets, protecting VIPs, enforcing social order.
 
-### 
+---
 
-## **THE MAINTENANCE CHIEF**
+## **24. THE MAINTENANCE CHIEF**
 
 The veteran technician who keeps massive infrastructure systems online under impossible conditions.
 
@@ -490,18 +532,18 @@ The veteran technician who keeps massive infrastructure systems online under imp
 
 *"She's a bit cranky today, but I've got her settled."*
 
-* **Core Concept:** Support / Repair / Logistics  
-* **Recommended Occupations:** Builder, Spacer.  
-* **Recommended Origins:** Industrial, Spacer, Urban.  
-* **Recommended Factions:** Mekan (Maintenance Hubs), Syndicate (Grid Techs), Impyrium.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Vocation (Engineer), Alertness, Vocation (Management).  
-* **Signature Traits (1 CP):** Efficient Manager, Technical Aptitude.  
-* **Tactical Role:** Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks.
+  - **Core Concept:** Support / Repair / Logistics
+  - **Recommended Occupations:** Builder, Spacer.
+  - **Recommended Origins:** Industrial, Spacer, Urban.
+  - **Recommended Factions:** Mekan (Maintenance Hubs), Syndicate (Grid Techs), Impyrium.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Engineer), Alertness, Vocation (Administrator).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Efficient Manager, Technical Aptitude.
+  - **Tactical Role:** Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks.
 
-### 
+---
 
-## **THE BEAST-HANDLER**
+## **25. THE BEAST-HANDLER**
 
 The rugged specialist who trains and directs animals and xeno-fauna for work and war.
 
@@ -509,16 +551,18 @@ The rugged specialist who trains and directs animals and xeno-fauna for work and
 
 *"They aren't pets. They're partners."*
 
-* **Core Concept:** Pet Master / Utility / Scout  
-* **Recommended Occupations:** Scout, Drifter.  
-* **Recommended Origins:** Agricultural, Hostile, Colony.  
-* **Recommended Factions:** Auluran (Graa Handlers), Outworlds (Wranglers), Coalition.  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Vocation (Handler), Knowledge (Survival), Athletics, Insight.  
-* **Signature Traits (1 CP):** Animal Affinity, Spirit Walker.  
-* **Tactical Role:** Directing animal allies in combat, tracking with biological aids, navigating wilderness.
+  - **Core Concept:** Pet Master / Utility / Scout
+  - **Recommended Occupations:** Scout, Drifter.
+  - **Recommended Origins:** Agricultural, Hostile, Colony.
+  - **Recommended Factions:** Auluran (Graa Handlers), Outworlds (Wranglers), Coalition.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Handler), Knowledge (Survival), Athletics, Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Animal Affinity, Spirit Walker.
+  - **Tactical Role:** Directing animal allies in combat, tracking with biological aids, navigating wilderness.
 
-## 
+---
 
-##
+## **III. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-305 (1.02.Sentinels.md Full Narrative & Quote Restoration):** Restored 100% of the omitted narrative descriptions, second-person roleplay paragraphs, and iconic quotes for all 25 `_S_J` Archetypes from `/_ _ TANGENT RP CODEX _ _/1.02 ARCHETYPES` and `/game rules/operator/archetypes/1.02.Sentinels.md`, integrated the `Sentinel Archetype Alignment Matrix` from `TANGENT RP Signature Features Alignment`, and applied all canonical Attribute (`Stamina`, `Agility`, `Wisdom`), Skill (`Alertness`, `Insight`, `Vocation [Handler]`, `Knowledge [Language]`), and `80-CP Chassis` normalizations.
 

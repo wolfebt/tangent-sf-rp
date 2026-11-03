@@ -118,7 +118,7 @@ cp_cost: 47
 
 # 
 
-**CP Cost:** 42 CP  
+**CP Cost:** 47 CP  
 
 **Description:** Humanlike in general form and function, and often looking synthetic with bright or metallic skin and hair colors as well as adjustable illuminations and circuitry patterns. Began in the Syndicate as a labor caste, originally designed by unknowingly using the Impyrium’s knowledge of the Mekan neural network and advanced technology.
 

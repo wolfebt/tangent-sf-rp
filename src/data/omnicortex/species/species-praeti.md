@@ -112,7 +112,7 @@ cp_cost: 25
 
 # 
 
-**CP Cost:** 19 CP  
+**CP Cost:** 25 CP  
 
 **Description:** The Praeti (pronounced ‘Ray-Tie’) are a distinct species of Winged Avian-evolved humanoids, formally classified as Saura-Raptric. This designation reflects their evolutionary lineage, which traces back to a raptor-like ancestor. Their biology represents a unique synthesis, combining the robust, aerodynamic skeletal structures and membranous wing features reminiscent of the ancient pterodactyl with the lightweight bones, complex feather structures, and keen sensory acuity of modern avians.
 

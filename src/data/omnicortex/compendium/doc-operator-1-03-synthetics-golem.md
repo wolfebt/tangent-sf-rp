@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-synthetics"
-order: 105
+order: 103
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.synthetics.golem","mechanics"]
-updatedAt: "2026-10-14T05:24:25.072Z"
+updatedAt: "2026-11-02T22:49:36.482Z"
 costs:
   bp: 0
   credits: 0
@@ -37,17 +37,18 @@ sockets:
   allocated: []
 ---
 
-# **GOLEM**
+# **GOLEM**  
+**
 
 ## **GOLEM**
 
-# 
+  
 
-**CP Cost:** 53 CP  
+**CP Cost:** 
 
 **Description:** Construct of Metaphysical origin
 
-&nbsp;
+  
 
 **Classification:** Synthetic Humanoid
 
@@ -55,41 +56,41 @@ sockets:
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 1
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Severe Synthetic
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+6 to divide among Physical Abilities (Str, Agi or Sta)
++6 to divide among Physical Abilities (Str, Agi or Sta)
 
-\-2 Int
+-2 Int
 
-\-2 Cha
+-2 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Metafocus Special Abilities
 
@@ -97,5 +98,7 @@ Size (Large)
 
 Size (Small)
 
-&nbsp;
+  
+**  
+**
 

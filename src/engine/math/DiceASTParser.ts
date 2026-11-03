@@ -14,7 +14,91 @@ export type ASTNode =
   | { type: 'DICE'; count: ASTNode; sides: ASTNode; modifier?: string; modValue?: number; flavor?: string }
   | { type: 'BINARY_OP'; operator: string; left: ASTNode; right: ASTNode };
 
+export interface TangentCheckOptions {
+  advantageStacks?: number;
+  disadvantageStacks?: number;
+  modifier?: number;
+  critRangeSize?: number;
+  fumbleRangeSize?: number;
+  targetCR?: number | null;
+  targetDC?: number | null;
+  /** Deterministic override of raw d10 values (1..10) for unit testing */
+  _testRolls?: number[];
+}
+
+export interface TangentCheckResult {
+  dicePool: number[];
+  keptDice: [number, number];
+  netAdvantage: number;
+  rawNaturalTotal: number;
+  naturalTotal: number;
+  modifier: number;
+  finalTotal: number;
+  isCrit: boolean;
+  isFumble: boolean;
+  targetCR: number | null;
+  margin: number | null;
+  isSuccess: boolean | null;
+}
+
 export class DiceASTParser {
+  /**
+   * Evaluates a canonical Tangent 2d10 check with 1-for-1 Advantage/Disadvantage stack cancellation
+   * (+1d10kh2 per Advantage stack, +1d10kl2 per Disadvantage stack), Critical (rolled dice + 10, e.g., 20 -> 30, 19 -> 29),
+   * and Fumble (rolled dice becomes flat -10, subtracting 10 from base score).
+   */
+  public evaluateTangentCheck(options: TangentCheckOptions = {}): TangentCheckResult {
+    const adv = Math.max(0, Math.floor(options.advantageStacks || 0));
+    const dis = Math.max(0, Math.floor(options.disadvantageStacks || 0));
+    const netAdvantage = Math.max(-5, Math.min(5, adv - dis));
+    const modifier = Number(options.modifier) || 0;
+    const clampedCritSize = Math.max(1, Math.min(5, Math.floor(options.critRangeSize || 1)));
+    const clampedFumbleSize = Math.max(1, Math.min(5, Math.floor(options.fumbleRangeSize || 1)));
+
+    const poolSize = 2 + Math.abs(netAdvantage);
+    const dicePool: number[] = [];
+    for (let i = 0; i < poolSize; i++) {
+      const injected = Array.isArray(options._testRolls) ? options._testRolls[i] : undefined;
+      dicePool.push(injected !== undefined ? injected : Math.floor(Math.random() * 10) + 1);
+    }
+
+    const sorted = [...dicePool].sort((a, b) => (netAdvantage >= 0 ? b - a : a - b));
+    const keptDice: [number, number] = [sorted[0], sorted[1]];
+    const rawNaturalTotal = keptDice[0] + keptDice[1];
+
+    const critThreshold = 21 - clampedCritSize;
+    const fumbleThreshold = 1 + clampedFumbleSize;
+    const isCrit = rawNaturalTotal >= critThreshold;
+    const isFumble = !isCrit && rawNaturalTotal <= fumbleThreshold;
+    const naturalTotal = isCrit
+      ? rawNaturalTotal + 10
+      : isFumble
+        ? -10
+        : rawNaturalTotal;
+
+    const finalTotal = naturalTotal + modifier;
+    const resolvedTarget = options.targetCR ?? options.targetDC ?? null;
+    const margin = resolvedTarget !== null ? finalTotal - resolvedTarget : null;
+    const isSuccess = resolvedTarget !== null
+      ? (isCrit ? true : isFumble ? false : (margin as number) >= 0)
+      : null;
+
+    return {
+      dicePool,
+      keptDice,
+      netAdvantage,
+      rawNaturalTotal,
+      naturalTotal,
+      modifier,
+      finalTotal,
+      isCrit,
+      isFumble,
+      targetCR: resolvedTarget,
+      margin,
+      isSuccess
+    };
+  }
+
   /**
    * Evaluates an expression string or AST node directly.
    */

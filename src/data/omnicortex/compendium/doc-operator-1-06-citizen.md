@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 175
+order: 173
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.citizen","mechanics"]
-updatedAt: "2026-10-14T05:39:35.565Z"
+updatedAt: "2026-11-02T22:49:26.727Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,15 @@ sockets:
   allocated: []
 ---
 
-# **CITIZEN**
+# 1.06.04 OCCUPATION: CITIZEN (Base WS 2)
+
+* **Operational Focus:** Everyday Societal Backbone — Corporate Track (White-Collar Management/Finance) or Worker Track (Blue-Collar Labor/Tech).
+* **EUFT Base Wealth Score:** **Base WS 2**
+* **Canonical Professional Skills (20 SP Allocation):** Any Non-Combat Skills (Corporate or Worker tracks)
+* **Recommended Feature Category (-1 CP Discount):** General Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **CITIZEN**
 
@@ -47,19 +55,13 @@ Some work directly for the numerous corporations, governments or similar levels 
 
 As a Citizen can be from any background the Background Trait is often used to flesh them out and to assist in their trade, though the training will not be as dedicated as a true professional in the Occupation.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any Non-Combat Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 General
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -83,13 +85,9 @@ Technician
 
 Bureaucrat
 
-&nbsp;
-
 # **\- Corporate**
 
 Your character may have a background in the corporate world, giving them skills in negotiation, finance, and management. They will be used to working within a hierarchy and following orders from superiors.
-
-&nbsp;
 
 ## **Traits**
 
@@ -99,15 +97,11 @@ Can adapt to changing circumstances and environments.
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Communication*
 
 Effective communicators, able to convey complex ideas and information clearly and persuasively.
 
 *\+2 Diplomacy*
-
-&nbsp;
 
 ### *Ethical awareness*
 
@@ -115,15 +109,11 @@ May have a strong sense of ethics and corporate responsibility.
 
 *\+2 to any Manipulation checks when taking an Ethical side*
 
-&nbsp;
-
 ### *Financial expertise*
 
 Strong understanding of financial management, budgeting, and investment strategies.
 
 *\+2 Wealth*
-
-&nbsp;
 
 ### *High social standing*
 
@@ -131,15 +121,11 @@ Often have a high social standing, which grants them access to better resources,
 
 *\+2 Manipulation Checks when dealing with the Upper Class*
 
-&nbsp;
-
 ### *Management*
 
 Experienced in managing teams, projects, and resources.
 
 *\+2 Administration*
-
-&nbsp;
 
 ### *Negotiation*
 
@@ -147,15 +133,11 @@ Adept at negotiating deals, contracts, and agreements.
 
 *\+1 all Manipulation Skills*
 
-&nbsp;
-
 ### *Networking*
 
 Wide network of contacts and connections within their industry and beyond.
 
 *Gather Information checks at Advantage*
-
-&nbsp;
 
 ### *Problem-solving*
 
@@ -163,23 +145,15 @@ Skilled at identifying problems, analyzing their root causes, and developing cre
 
 *Once per Day may reroll a Mental Skill Check*
 
-&nbsp;
-
 ### *Strategic thinking*
 
 Skilled at developing long-term plans and strategies to achieve their goals.
 
 *\+1 Karma Point*
 
-&nbsp;
-
-&nbsp;
-
 # **\- Worker**
 
 Alternatively, your character may be a blue-collar worker, with skills in manual labor, repair work, and maintenance. They will be used to working long hours and facing physical challenges.
-
-&nbsp;
 
 ## **Traits**
 
@@ -189,15 +163,11 @@ Practical, hands-on experience in their field
 
 *\+2 to a Vocation Skill of choice*
 
-&nbsp;
-
 ### *Low Social Standing*
 
 Lower social standing compared to other professions
 
 *\+2 Manipulation Checks when dealing with the Lower Class*
-
-&nbsp;
 
 ### *Loyalty*
 
@@ -205,23 +175,17 @@ Strong sense of loyalty to their employer, coworkers, or community
 
 *Domination and Mind-Control Resistance Checks are made at Advantage*
 
-&nbsp;
-
 ### *Physical Strength*
 
 Above-average strength and endurance
 
 *\+1 Might and Fortitude*
 
-&nbsp;
-
 ### *Practical*
 
 Pragmatic and focused on getting the job done
 
-*\+2 Logic Checks*
-
-&nbsp;
+*\+2 Reason (Intellect) Checks*
 
 ### *Resilience*
 
@@ -229,15 +193,11 @@ Accustomed to working long hours and dealing with physically demanding tasks
 
 *\+1 Fortitude and Willpower*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 Skilled at making the most of limited resources
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Safety-conscious*
 
@@ -245,25 +205,17 @@ Well-versed in safety protocols and procedures
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Teamwork*
 
 Used to working in teams and has strong collaboration and communication skills
 
 *additional \+1 to Aid bonuses*
 
-&nbsp;
-
 ### *Technical*
 
 Expertise in specific technical areas
 
 *\+2 to a Specialized Vocation skill*
-
-&nbsp;
-
-&nbsp;
 
 ---
 
@@ -323,4 +275,10 @@ Expertise in specific technical areas
   * **Style:** Robot Storage, Idle Mode.  
   * **Palette:** Grey, Black, No Light.  
   * **Tokens:** Cables, silence, stillness, uniformity.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Murex Foundation Drone** (Worker) hauling nutrient canisters in rhythmic lockstep, or a **Manelli Brood-Coordinator** (Corporate/Admin) regulating Hive-Spire resource flows via the 24/7 Chorus.  
+  * **Style:** Synchronized Hive-State, Pragmatic Biocracy.  
+  * **Palette:** Obsidian Black, Emerald Green, Hive-Amber, Cyan.  
+  * **Tokens:** Carapace plating, nutrient pods, sensory arrays, harmonious efficiency.
 

@@ -121,7 +121,7 @@ cp_cost: 14
 
 # 
 
-**CP Cost:** 12 CP  
+**CP Cost:** 14 CP  
 
 **Description:** The Vassoth are a serpentauric race, characterized by a powerful, scaled serpentine lower body and tail that can reach between 12 and 18 feet in length, supporting a medium-sized humanoid torso and arms. Their heads often blend human and serpent features, possessing sharp, keen eyes and fine scales. As a very old race, the Vassoth possess a long and intertwined history, notably with dragons—a lineage confirmed by their protected Sa-Sa-Si colony on Entari—as well as with the Mondi and various other progenitors. Universally, all Vassoth possess some type of innate attunement to the supernatural, manifesting in diverse ways across their society. This inherent connection to the arcane, coupled with their formidable physical nature, has cemented their historical role as fierce and vigilant guardians.
 

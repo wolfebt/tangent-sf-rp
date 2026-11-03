@@ -137,8 +137,8 @@ Tech Level: TL${techLevel}
 Rules:
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma.
 - Baseline attributes start at 0 (soft cap +4 at creation). Each +1 costs 5 CP.
-- Skills cost 1 CP per rank (max rank 5 for starting characters).
-- Base Vitals: 30 Vitality, 30 Health (60 Structure for Synthetics/Mecha). Stamina provides Toughness DR, not flat VP/HP.
+- Skills cost 1 CP per rank (max rank 11 Expert Stage 3 at creation; absolute max rank 30 Pinnacle Stage 6).
+- Base Vitals: 30 Vitality, 30 Health (60 Structure for Synthetics/Mecha; 1 CP = +5 points). Stamina provides Toughness DR (min 0 damage floor), never flat VP/HP.
 - Total CP spent must be exactly 150.
 `;
 
@@ -227,10 +227,10 @@ Rules:
         skills: Object.keys(pillarSkillsMap).length > 0 ? pillarSkillsMap : {
           Firearms: 5,
           Athletics: 5,
-          Perception: 4,
+          Alertness: 4,
           Electronics: 4,
           Stealth: 4,
-          FirstAid: 4,
+          Computers: 4,
           Demolitions: 4,
           Piloting: 4,
           Survival: 4,
@@ -305,7 +305,7 @@ Rules:
 
       if (correctedDraft) {
         if (!correctedDraft.skills || Object.keys(correctedDraft.skills).length === 0) {
-          correctedDraft.skills = { Perception: 0 };
+          correctedDraft.skills = { Alertness: 0 };
         }
         const skillKeys = Object.keys(correctedDraft.skills);
         if (remainingDelta > 0) {
@@ -451,7 +451,8 @@ Rules:
     const isCriticalFumble = d1 === 1 && d2 === 1;
 
     const baseAttackBonus = (adversary.tech_level || 3) * 2 + (tactic.attackBonusDelta || 0);
-    const totalAttack = d1 + d2 + baseAttackBonus + (isCriticalTriumph ? 10 : isCriticalFumble ? -10 : 0);
+    const effectiveDiceScore = isCriticalTriumph ? (d1 + d2 + 10) : isCriticalFumble ? -10 : (d1 + d2);
+    const totalAttack = effectiveDiceScore + baseAttackBonus;
     const targetDefenseBonus = targetToken
       ? ((targetToken.active_conditions || []).includes('Cover') ? 2 : 0) +
         ((targetToken.active_conditions || []).includes('Total Defense') ? 4 : 0)

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aulurans"
-order: 39
+order: 37
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aulurans.dar","mechanics"]
-updatedAt: "2026-10-14T05:24:25.041Z"
+updatedAt: "2026-11-02T22:49:32.948Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **DAR**
+# **DAR**  
+**
 
 ## **DAR**
 
@@ -53,7 +54,7 @@ sockets:
 
 **Movement:** 40ft Groundspeed
 
-**Ability Modifiers:** \+1 Agility, \+1 Ability (Choice)
+**Ability Modifiers:** +1 Agility, +1 Ability (Choice)
 
 **Species Features:**
 
@@ -67,7 +68,8 @@ sockets:
 
 **Quick:** Naturally fast reflexes.
 
-### 
-
-&nbsp;
+  
+  
+**  
+**
 

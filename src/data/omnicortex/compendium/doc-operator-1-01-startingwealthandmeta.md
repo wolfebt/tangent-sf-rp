@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.startingwealthandmeta","mechanics"]
-updatedAt: "2026-10-31T11:30:42.679Z"
+updatedAt: "2026-11-02T22:49:18.368Z"
 costs:
   bp: 0
   credits: 0
@@ -37,52 +37,39 @@ sockets:
   allocated: []
 ---
 
-# **CHARACTER CREATION PIPELINE III: STARTING WEALTH, PROPERTY & META**
+# **1.01.03 CHARACTER CREATION PIPELINE III: PROPERTY, STARTING WEALTH & META**
 
-# **PROPERTY**
+## **1. PROPERTY**
 
-The **Property** stage of character creation in Tangent involves equipping your character with the necessary tools and belongings for their adventures. This includes:
+The **Property** stage of character creation in Tangent involves equipping your character with the tools, armaments, and belongings required for their adventures (`2.00 ECONOMATRIX.md`):
 
-* ## **Weapons**
+* **Weapons:** Choose melee, ranged, ballistic, or energy weapons that suit your character's combat style, skill proficiencies, Wealth Score, and the Technology Level of their background.
+* **Armor:** Select protective clothing, tactical vests, environmental suits, or field generators that provide adequate Damage Resistance (DR) without overly restricting mobility. *(Per the Armor Layering Cap, DR does not stack across biological, cybernetic, and wearable domains; only the single highest DR applies).*
+* **Gear & Vocation Tools:** Acquire multi-devices, medkits, comms, sensor suites, and professional kits that support your character's occupation and lifestyle.
+* **Mecha, Vehicles & Mounts:** Depending on background, Wealth Score, or the *Benefit* Feature, characters may have access to personal vehicles, walkers, mounts, or starships.
 
-  Choose weapons that suit your character's combat style and preferences, considering factors such as their skill proficiencies, available funds, and the technology level of the setting.
+Characters automatically begin with basic personal necessities, clothing, and standard tools appropriate for their skills, background, and Tech Level. If a character wants additional or specialized equipment, weapons, armor, mecha, or mounts, they acquire them via four pathways:
 
-* ## **Armor**
+1. **Wealth Score (Auto-Buy Leverage):** Automatically acquire any personal-use item whose Crafting CR is equal to or less than the character's **Wealth Score (`Crafting CR <= WS`)**.
+2. **Liquid Credits & Wealth Check Financing (The Liquidity Gap):** Pay the difference (`Value[Item CR] - Value[WS]`) in liquid Credits, or roll a **Wealth Check (`2d10 + WS vs. Item Cost CR`)** to finance the Liquidity Gap as cycle debt.
+3. **Crafting & Conjuration:** Craft items using personal or ally skills and materials (`50% Pristine` or `10% Scrap` requiring 5x item value in unrefined scrap mass), or use Metaphysic **Conjuration** (temporary conjured items cost 0 CP and fade at scene's end; permanent conjured items kept on the character folio require CP purchase).
+4. **Acquire the Benefit Feature (`1–3 CP`):** Grants institutional or hereditary access to replaceable high-tier equipment, ranging from masterwork ancestral gear to a scout starship.
 
-  Select armor that provides adequate protection without hindering your character's movement or abilities. Consider the character's occupation and the types of threats they are likely to face.
+### **Walkthrough Example: Xy'larra (Property & Loadout)**
 
-* ## **Gear**
+*As a diplomat and explorer, Xy'larra carries equipment tailored to her professional needs and nomadic lifestyle. Using her personal **Wealth Score (WS 14)**, she auto-buys a secure, long-range **Diplomatic Comm-Link (`CR 10`)**, a stylish **Light-Weave Armored Garment (`CR 10`)** that provides subtle protection, and a versatile **Morphic Multi-Device (`CR 14`)** used for data analysis and field repairs. Additionally, she has been granted access to a sleek, **Scout-Class Star Yacht** for her diplomatic missions and explorations via the **Benefit** Feature.*
 
-  Acquire gear that supports your character's occupation and lifestyle. This could include tools, supplies, communication devices, or other equipment that aids them in their endeavors.
+---
 
-* ## **Mecha or Mounts**
+## **2. DETERMINING STARTING WEALTH SCORE**
 
-  Depending on the setting and your character's background, they may have access to vehicles or mounts that facilitate travel and exploration.
+A character's economic leverage is quantified by their **Wealth Score (WS)**—a composite rating summing income, prestige, credit standing, active investments, and social capital:
 
-&nbsp;
+```text
+Starting Wealth Score (WS) = Occupation Base + Origin Modifier + Faction Modifier + Tech Level Modifier + Vocation Skill Bonus
+```
 
-Characters begin with simple possessions appropriate for their skills, abilities, background, and tech level. This includes basic personal items and tools needed for any applicable skills. A character's access to and the quality of their possessions is affected by their technology level. For example, a character from a low-tech background may only have access to simple tools and weapons, while a character from a high-tech faction could have advanced weaponry and equipment.
-
-&nbsp;
-
-If a character wants additional or special equipment, weapons, armor, mecha, or mounts, there are several pathways:
-
-* **Wealth Score (Auto-Buy Leverage):** Acquire gear automatically using the character's baseline Wealth Score.
-* **Liquid Credits (Loot & Cash):** Purchase items by spending liquid currency, especially when bridging the Liquidity Gap for gear above their Wealth Score.
-* **Crafting & Productivity:** Fabricate equipment using personal or party engineering skills and tools via the Productivity Engine.
-* **Benefit Feature:** Acquire the Benefit Feature to gain institutional access to high-tier or replaceable equipment (from enhanced masterwork gear to a scout starship).
-
-&nbsp;
-
-### **DETERMINING STARTING WEALTH SCORE**
-
-A character's economic leverage is quantified by their **Wealth Score (WS)**, a composite rating reflecting credit history, social standing, salary, active investments, and extrinsic purchasing power. 
-
-$$\text{Starting Wealth Score (WS)} = \text{Occupation Base} + \text{Origin Modifier} + \text{Faction Modifier} + \text{Tech Level Modifier} + \text{Skill Ranks Bonus}$$
-
-Select the appropriate value from each category determined during character creation:
-
-#### **1. Occupation Wealth Base**
+### **A. Occupation Wealth Base**
 
 | Occupation | Base WS | Occupation | Base WS |
 | :--- | :---: | :--- | :---: |
@@ -94,143 +81,94 @@ Select the appropriate value from each category determined during character crea
 | **Drifter** | 1 | **Specialist** | 3 |
 | **Entertainer** | 5 | | |
 
-#### **2. Origin Modifiers**
+### **B. Origin Wealth Modifiers**
 
 | Origin | WS Modifier | Origin | WS Modifier |
 | :--- | :---: | :--- | :---: |
-| **Agricultural** | +0 | **Leisure** | +3 |
-| **Aquatic** | +1 | **Militaristic** | +0 |
-| **Colony** | +0 | **Research** | +2 |
-| **Enlightened** | +2 | **Spacer** | +1 |
-| **Industrial** | +2 | **Urban** | +1 |
-| **Others / Custom** | +0 to +3 | | |
+| **Agricultural** | +0 | **Industrial** | +2 |
+| **Aquatic** | +1 | **Leisure** | +3 |
+| **Colony** | +0 | **Militaristic** | +0 |
+| **Enlightened** | +2 | **Research** | +2 |
+| **Hostile** | +0 | **Spacer** | +1 |
+| **Urban** | +1 | **Others / Custom** | +0 to +3 |
 
-#### **3. Faction Modifiers**
+### **C. Faction Wealth Modifiers**
 
 | Faction | WS Modifier | Faction | WS Modifier |
 | :--- | :---: | :--- | :---: |
-| **Alterian Combine** | +3 | **Entari Sovereignty** | +3 |
-| **Auluran / Kitin** | +2 | **Impyrium** | +3 |
-| **Ascendancy** | +4 | **Mekan Assembly** | +6 (Specialized) |
-| **Coalition** | +0 | **Syndicate Compact** | +4 |
-| **Dynasty** | +2 | **Outworlds / Independent** | +0 |
-| **Others / Custom** | +0 to +3 | | |
+| **Alterian Enclave** | +3 | **Impyrium Dominion** | +3 |
+| **Auluran / Kitin** | +2 | **Radiant Impyrium** | +5 |
+| **Ascendancy** | +4 | **Mekan Collective** | +6 *(Special)* |
+| **Coalition** | +0 | **Syndicate** | +4 |
+| **Dracon Dynasty** | +2 | **Outworlds / Independent** | +0 |
+| **Entari Combine** | +3 | **Others / Custom** | +0 to +3 |
 
-#### **4. Tech Level (TL) Modifiers**
+### **D. Tech Level (TL) Wealth Modifiers**
 
 | Tech Level | Era | WS Modifier |
-| :---: | :--- | :---: |
+| :--- | :--- | :---: |
 | **TL 0** | Stone Age (Primitive) | -4 |
 | **TL 1** | Metal Age (Industrial) | -2 |
 | **TL 2** | Data Age (Digital) | +0 |
 | **TL 3** | Space Age (Stellar Baseline) | +2 |
-| **TL 4** | Stellar Age (Galactic / Warp) | +4 |
-| **TL 5** | Cosmic Age (Singularity / Genesis) | +8 |
+| **TL 4** | Stellar Age (Enhanced) | +4 |
+| **TL 5** | Galactic Age (Advanced) | +8 |
 
-#### **5. Skill Ranks in Trade & Vocations**
+### **E. Skill Ranks in Trade & Vocations**
 
-Characters practicing a trade, profession, or commercial enterprise earn bonuses to their Wealth Score based on their skill ranks:
-* **Primary Vocation Skill:** +1 WS per skill stage:
-  * *Novice (Rank 1–5):* +1 WS
-  * *Trained (Rank 6–10):* +2 WS
-  * *Expert (Rank 11–15):* +3 WS
-  * *Master (Rank 16–19):* +4 WS
-  * *Pinnacle (Rank 20):* +5 WS
-* **Trade Synergy:** One secondary skill at Rank 6+ aiding in commerce/trade may be counted per stage of the primary skill, granting an additional +1 WS per associated skill.
-* **Specialized Profession Multipliers:**
-  * **Performance Skills:** Double listed bonus when practiced professionally (+2 to +10 WS).
-  * **Medicine (Practicing Physician):** Double listed bonus (+2 to +10 WS; triple in medical scarcity zones).
-  * **Discipline Skills:** Metaphysical services command high demand, doubling listed bonuses (+2 to +10 WS).
-  * **Piloting & Combat Skills:** Standard to double bonus when regular commercial or mercenary employment is maintained.
-* *Untrained / Menial Workers:* Receive the baseline Middle Class pay of their society, adjusted downward for lower castes or impoverished regions.
+* **Primary Vocation Skill:** Grants **+1 WS per Skill Stage** actively practiced to earn income:
+  * **Novice (Ranks 1–5):** `+1 WS`
+  * **Trained (Ranks 6–10):** `+2 WS`
+  * **Expert (Ranks 11–15):** `+3 WS`
+  * **Master (Ranks 16–19):** `+4 WS`
+  * **Pinnacle (Rank 20+):** `+5 WS`
+* **Associated Trade Skills:** One additional supporting skill at **Rank 6+ (Trained)** may be counted per Stage of the Primary Vocation skill, granting **+1 WS per associated skill**.
+* **High-Value Profession Multipliers:**
+  * **Expression (Performance) Skills:** Double (`x2`) the listed stage bonus when practiced professionally.
+  * **Knowledge (Medicine — Practicing Physician):** Double (`x2`) the listed stage bonus (triple [`x3`] in high-demand scarcity sectors).
+  * **Metafocus Discipline Skills:** Commercial metaphysical services pay double (`x2`) the listed stage bonus.
+  * **Piloting & Combat Skills:** Standard (`x1`) to double (`x2`) bonus when regular mercenary, security, or transport employment is maintained.
 
-&nbsp;
+---
 
-### **THE GOLDEN RULE OF TANGENT WEALTH**
+## **3. THE GOLDEN RULE, LIQUIDITY GAP & FINANCIAL STATUS HIERARCHY**
 
-> **A character may automatically acquire any item with a Crafting DC equal to or less than their Wealth Score without depleting liquid Credits or reducing their Wealth Score.**
+* **The Golden Rule of Tangent Wealth:** A character may automatically purchase any personal-use item with a Crafting CR equal to or less than their Wealth Score (`Purchase CR <= WS`) without depleting liquid Credits or reducing their baseline Wealth Score.
+* **The Liquidity Gap (`Crafting CR > WS`):** When an item's Crafting CR exceeds the character's Wealth Score, the difference is `Liquidity Gap = Value(Item CR) - Value(Character WS)`. The character may either pay the Liquidity Gap in liquid Credits or roll a **Wealth Check (`2d10 + WS vs. Item Cost CR`)** to finance the gap as cycle debt (suffering a `-2 WS` delinquent debt penalty if unpaid at rollover).
 
-Because an item's market value is derived directly from its operational Crafting DC via the Tangent Standard Curve ($\text{Value} = 10 \times 4^{(\text{DC}/5)}$), this aligns lifestyle abstraction with mathematical precision: **Purchase DC = Crafting DC**.
+| Wealth Score (WS) | Financial Status | CP Cost | Auto-Buy Limit | Est. Net Worth | Lifestyle Description |
+| :---: | :--- | :---: | :--- | :--- | :--- |
+| **0** | **Indebted** | -5 *(Flaw)* | 0 Cr | Negative | Debt slavery or prison. Zero assets; survival depends on others. |
+| **1 – 4** | **Impoverished** | 0 CP | 10 – 30 Cr | < 500 Cr | Homeless or squatter. Scavenges for food and scrap. |
+| **5 – 9** | **Struggling** | 2 CP | 40 – 150 Cr | ~2,000 Cr | Shared room in a slum. Public transit; processed rations. |
+| **10 – 14** | **Middle Class** | 5 CP | 160 – 600 Cr | ~25,000 Cr | Private apartment, steady wage, consumer vehicle. |
+| **15 – 19** | **Affluent** | 10 CP | 640 – 2,500 Cr | ~200,000 Cr | High-end condo, quality personal vehicle, professional services. |
+| **20 – 29** | **Wealthy** | 20 CP | 2,500 – 40,000 Cr | ~5 Million Cr | Large estate, servants, minor corporate investor. |
+| **30 – 39** | **Hegemon** | 35 CP | 41K – 650K Cr | ~100 Million Cr | Skyscraper penthouse, owns small corporation, private shuttle. |
+| **40 – 49** | **Industrialist** | 50 CP | 650K – 10M Cr | ~2 Billion Cr | Megacorp executive, owns Corvettes, influences planetary law. |
+| **50 – 59** | **Dynastic** | 70 CP | 10M – 167M Cr | ~50 Billion Cr | Minor nobility or Megacorp CEO; owns stations and private fleets. |
+| **60 – 69** | **System Lord** | 95 CP | 167M – 2.6B Cr | ~500 Billion Cr | Rules a solar system; funds colonization; owns Cruisers. |
+| **70 – 79** | **Sector Ruler** | 125 CP | 2.6B – 42B Cr | ~10 Trillion Cr | Rules a star cluster; personal flagship is a Dreadnought. |
+| **80+** | **Faction Ruler** | 160 CP | 42B – 600B+ Cr | ~1 Quadrillion Cr | Sovereign Emperor; post-scarcity; builds Dyson-scale megastructures. |
 
-### **THE LIQUIDITY GAP (THE GAP RULE)**
+---
 
-When an operator seeks an item whose Crafting DC exceeds their Wealth Score, passive financial leverage cannot cover the full price. The operative must bridge the gap with liquid Credits (Loot/Savings):
+## **4. META (METAPHYSICAL CAPABILITIES)**
 
-$$\text{Liquid Cash Cost} = \text{Market Value}(\text{Item DC}) - \text{Auto-Buy Limit}(\text{Character WS})$$
+The **Meta** stage (`4.00 METAPHYSICS.md`) focuses on developing the metaphysical capabilities of characters who channel arcane, psionic, divine, or primal forces through the Resonance Field:
 
-*Example:* An Affluent operator (WS 15, Auto-Buy Limit ~640 Cr) purchasing an Advanced Stealth Suit (DC 18, Value ~1,470 Cr) applies their WS 15 leverage, requiring only $1,470 - 640 = 830\text{ Credits}$ in liquid cash.
+* **Awakened Feature (`3 CP` Standard / `2 CP` Recommended):** Prerequisite for accessing Discipline skills. The first purchase unlocks **Attune** (the activation skill for Meta Disciplines) plus **one chosen Discipline** and its two Focus Skills. Each additional purchase of *Awakened* unlocks an additional Discipline.
+* **Discipline Focus Skills (`1 CP` per Rank):** Represent specific areas of expertise within the six Metaphysic Disciplines:
+  1. **Dimension:** *Summoning* and *Teleport*
+  2. **Energy:** *Elemental* and *Force*
+  3. **Entropy:** *Chaos* and *Order*
+  4. **Illusion:** *Phantasm* and *Shadow*
+  5. **Matter:** *Enhancement* and *Transmutation*
+  6. **Mental:** *Projection* and *Sense*
+* **Invocations (`1 CP` per Rank):** Specific codified spells, psychic techniques, or supernatural manifestations within a chosen Discipline. Invocations can be learned either as a **Specialization** within a Discipline Focus skill (allowing the caster to **Take 10** and adding the Invocation Rank to the check) or independently via the **Special Ability** Feature (`1 CP` per rank).
+* **Essence Pool:** `Essence Pool = (Sum of all 6 Attribute Scores) + Attune Skill Rank + Total Ranks in all known Discipline Focus Skills`.
 
-### **FINANCIAL STATUS HIERARCHY**
+### **Walkthrough Example: Xy'larra (Meta Summary)**
 
-| Wealth Score (WS) | Financial Status | Auto-Buy Limit | Est. Net Worth | Lifestyle Description |
-| :---: | :--- | :--- | :--- | :--- |
-| **0** | **Indebted** | 0 Cr | Negative | Debt slavery or prison. Survival depends on others. |
-| **1 – 4** | **Impoverished** | 10 – 30 Cr | < 500 Cr | Homeless / squatter. Scavenges for food; improvised gear. |
-| **5 – 9** | **Struggling** | 40 – 150 Cr | ~2,000 Cr | Shared room in slum. Public transit. Processed rations. |
-| **10 – 14** | **Middle Class** | 160 – 600 Cr | ~25,000 Cr | Private apartment, steady wage. Consumer vehicle. |
-| **15 – 19** | **Affluent** | 640 – 2,500 Cr | ~200,000 Cr | High-end condo. Quality personal vehicle. Professional services. |
-| **20 – 29** | **Wealthy** | 2.5K – 40K Cr | ~5 Million Cr | Large estate, servants. Minor corporate investor. |
-| **30 – 39** | **Hegemon** | 41K – 650K Cr | ~100 Million Cr | Penthouse suite. Owns small corp. Private shuttle. |
-| **40 – 49** | **Industrialist** | 650K – 10M Cr | ~2 Billion Cr | Megacorp executive. Owns starships (Corvettes). |
-| **50 – 59** | **Dynastic** | 10M – 167M Cr | ~50 Billion Cr | Nobility or megacorp CEO. Owns orbital habitats/fleets. |
-| **60 – 69** | **System Lord** | 167M – 2.6B Cr | ~500 Billion Cr | Rules a solar system. Can fund planetary colonization. |
-| **70 – 79** | **Sector Ruler** | 2.6B – 42B Cr | ~10 Trillion Cr | Rules a star cluster. Flagship is a Dreadnought. |
-| **80+** | **Faction Ruler** | 42B – 600B+ Cr | ~1 Quadrillion Cr | Galactic ruler / emperor. Post-scarcity megastructures. |
-
-&nbsp;
-
-*Example:*
-
-*Xy'larra calculates her starting Wealth Score:*
-* *Occupation (Representative): Base WS 6*
-* *Origin (Spacer): Modifier +1*
-* *Faction (Alterian Enclave): Modifier +3*
-* *Technology Level (TL 3 Space Age): Modifier +2*
-* *Skills: Ambassador Vocation Rank 5 (Novice Stage +1) and Culture Rank 5 synergy (+1) = +2*
-* *Total Starting Wealth Score: $6 + 1 + 3 + 2 + 2 = \mathbf{14}$ (**Middle Class / Apex**, Auto-Buy Limit ~600 Cr).*
-
-*As a diplomat and explorer, Xy'larra carries equipment tailored to her professional needs and nomadic lifestyle. She utilizes a secure, long-range Diplomatic Comm-Link (DC 10, Auto-Buy), wears a stylish, light-weave armored garment that provides subtle protection (DC 10, Auto-Buy), and carries a versatile morphic multi-device used for data analysis and field repairs (DC 14, Auto-Buy). Additionally, she has been granted access to a sleek, scout-class star yacht for her diplomatic missions and explorations through her faction affiliation (Benefit Feature).*
-
-# 
-
-# ---
-
-# **META**
-
-The **Meta** stage of character creation in Tangent focuses on developing the metaphysical capabilities of characters who have access to magic, psychic powers, or other supernatural abilities.
-
-* ## **Awakened Feature**
-
-  This feature is a prerequisite for accessing Discipline skills, which govern the use of metaphysical abilities.
-
-* ## **Discipline Skills**
-
-  These skills represent specific areas of expertise within the metaphysical realm, such as Alteration, Conjuration, or Divination.
-
-* ## **Invocations**
-
-  These are specific skills or abilities within a chosen Discipline, representing spells, psychic techniques, or other supernatural manifestations. Invocations are treated as separate skills and can be improved independently.
-
-* ## **Specialization or Special Ability**
-
-  Invocations can be learned either as a Specialization within a Discipline skill or separate as a Special Ability Feature, with each rank costing 1 Character Point (CP).
-
-&nbsp;
-
-*Example:*
-
-- *Meta Features and Discipline Skills already known as listed above:*  
-  *Discipline Feature of Awakened taken 3 times (for the Mental, Entropy and Dimensional Disciplines)*  
-  *Has access to the Discipline skills of Summoning, Teleport (Dimensional); Projection, Sense (Mental); Chaos, Order (Entropy) and Attune (the activation skill for Meta Disciplines).*  
-  *Current skills of Attune 5 and Sensory 10 (Mental Discipline)*
-
-&nbsp;
-
-Remember, character creation in Tangent is designed to be highly flexible, and these steps can be adapted to fit your preferences and the Architect's guidelines.
-
-&nbsp;
-
-# ---
-
-# ---
+*Xy'larra has taken the **Awakened** Feature 3 times (for the **Mental**, **Entropy**, and **Dimension** Disciplines), unlocking access to **Attune** plus the six Focus Skills of **Summoning** and **Teleport** (Dimension), **Projection** and **Sense** (Mental), and **Chaos** and **Order** (Entropy), with starting ranks of **Attune 5** and **Mental (Sense) 10**.*
 

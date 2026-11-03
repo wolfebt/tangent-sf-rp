@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 184
+order: 182
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.specialist","mechanics"]
-updatedAt: "2026-10-14T05:39:35.569Z"
+updatedAt: "2026-11-02T22:49:27.618Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **SPECIALIST**
+# 1.06.13 OCCUPATION: SPECIALIST (Base WS 3)
+
+* **Operational Focus:** Elite Niche Mastery — Trauma Surgeons, Cyber-Deckers, Test Pilots, Roboticists, and Forensics.
+* **EUFT Base Wealth Score:** **Base WS 3**
+* **Canonical Professional Skills (20 SP Allocation):** Any 5 Physical, Knowledge, or Vocation Skills within specialized field
+* **Recommended Feature Category (-1 CP Discount):** Skill Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **SPECIALIST**
 
 A Specialist focuses on a specific area of expertise, providing unique skills and abilities that make them valuable to their team in various situations. A specialist's expertise can range from technology and engineering to psychic powers and artistic expression. These characters often excel in their chosen field, allowing them to tackle challenges and solve problems that other characters might struggle with. Their specialized knowledge and skills can be crucial in overcoming obstacles, gathering information, or supporting the team in combat and non-combat situations.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any five Physical, Knowledge or Vocation Skills within specialized training
 
-&nbsp;
-
 ## **Recommended Features**
 
 Skill
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -85,8 +87,6 @@ Gamer
 
 Artist
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -95,15 +95,11 @@ Ability to quickly learn and adapt to new technologies, environments, or situati
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Expertise*
 
 In-depth knowledge and experience in a particular area
 
 *\+2 to a Skill Specialization of choice*
-
-&nbsp;
 
 ### *Leadership*
 
@@ -111,15 +107,11 @@ Ability to lead a team or make critical decisions
 
 *\+2 Leadership*
 
-&nbsp;
-
 ### *Physical and mental resilience*
 
 Ability to endure harsh conditions or high-stress situations
 
 *\+1 Willpower and Fortitude*
-
-&nbsp;
 
 ### *Problem-Solving*
 
@@ -127,15 +119,11 @@ Ability to solve complex problems and overcome obstacles
 
 *Once per Day may reroll a Mental Skill Check*
 
-&nbsp;
-
 ### *Resourcefulness*
 
 Ability to make the most out of limited resources
 
 *Once per Day make a Skill Check of choice at Advantage*
-
-&nbsp;
 
 ### *Team Player*
 
@@ -143,25 +131,17 @@ Ability to communicate effectively and collaborate with others
 
 *additional \+1 to Aid bonuses*
 
-&nbsp;
-
 ### *Technological proficiency*
 
 Proficiency in advanced technology
 
 *Additional \+1 from Equipment Bonus and \+2 Technology (Knowledge)*
 
-&nbsp;
-
 ### *Versatility*
 
 Ability to fulfill multiple roles within a team
 
 *\+1 to Karma Pool maximum*
-
-&nbsp;
-
-&nbsp;
 
 ---
 
@@ -222,7 +202,11 @@ Ability to fulfill multiple roles within a team
   * **Palette:** Welder Blue, Metal, Spark.  
   * **Tokens:** Welder, patch, space, work.
 
-&nbsp;
 
-&nbsp;
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Syndess-Linked Bio-Surgeon / Apex Pilot** interfaced directly into a living medical cradle or Vespid-Razorwing cockpit via glistening green synaptic filaments.  
+  * **Style:** Synaptic Integration Specialist, Wetware Master.  
+  * **Palette:** Emerald Dermis, Obsidian Chitin Rings, Pulsating Cyan Filaments, Amber.  
+  * **Tokens:** Synaptic interface cords, living surgical tendrils, neural pod, zero latency.
 

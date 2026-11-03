@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 181
+order: 179
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.scholar","mechanics"]
-updatedAt: "2026-10-14T05:39:35.567Z"
+updatedAt: "2026-11-02T22:49:27.258Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **SCHOLAR**
+# 1.06.10 OCCUPATION: SCHOLAR (Base WS 3)
+
+* **Operational Focus:** Academic Research, Xenology, Astrophysics, History, and Theoretical Science.
+* **EUFT Base Wealth Score:** **Base WS 3**
+* **Canonical Professional Skills (20 SP Allocation):** Academics and any Knowledge Skills
+* **Recommended Feature Category (-1 CP Discount):** Skill Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **SCHOLAR**
 
 A Scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills.A scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills. They are often well-read and have a deep understanding of various subjects. Scholars are typically curious and inquisitive, and they enjoy learning new things. They are also often creative and innovative, and they are able to think outside the box. Scholars can be found in a variety of settings, including universities, libraries, and research labs. Overall, scholars are intelligent, curious, and dedicated individuals who play an important role in society by advancing knowledge and understanding.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any Knowledge Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 Skill
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -63,7 +65,7 @@ Xenology Expert
 
 Geneticist
 
-Linguistics Specialist
+Knowledge (Language) Specialist
 
 Historian
 
@@ -83,8 +85,6 @@ Archaeologist
 
 Cosmologist
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -93,15 +93,11 @@ Open to new ideas, willing to learn and adapt.
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Attention to detail*
 
 Meticulous in observations, measurements, and data analysis.
 
 *\+2 Alertness*
-
-&nbsp;
 
 ### *Collaboration*
 
@@ -109,15 +105,11 @@ Able to effectively communicate and work with colleagues.
 
 *additional \+1 to Aid bonuses*
 
-&nbsp;
-
 ### *Continuous Learning*
 
 Has a thirst for knowledge and is committed to lifelong learning.
 
 *All Learning Checks are made at Advantage*
-
-&nbsp;
 
 ### *Critical thinking*
 
@@ -125,23 +117,17 @@ Possess strong critical thinking skills.
 
 *\+1 Karma Point*
 
-&nbsp;
-
 ### *Ethical conduct*
 
 Adheres to ethical standards in research and work.
 
 *\+2 to any Manipulation checks when taking an Ethical side*
 
-&nbsp;
-
 ### *Metacognition*
 
 Aware of own cognitive abilities and strategies.
 
-*\+1 to Logic and Willpower Checks*
-
-&nbsp;
+*\+1 to Reason (Intellect) and Willpower (Wisdom) Checks*
 
 ### *Patience*
 
@@ -149,25 +135,17 @@ Understands that scientific research and discovery often require patience.
 
 *Additional \+1 bonus per stage of time for Meticulous Skill Checks*
 
-&nbsp;
-
 ### *Problem-solving*
 
 Adept at identifying and solving problems.
 
 *Once per Day may reroll a Mental Skill Check*
 
-&nbsp;
-
 ### *Technological innovation*
 
 Able to create, adapt, and improve technology in novel ways.
 
-*Knowledge (Technology) checks made at Advantage.*&nbsp;
-
-&nbsp;
-
-&nbsp;
+*Knowledge (Technology) checks made at Advantage.*
 
 ---
 
@@ -227,4 +205,10 @@ Able to create, adapt, and improve technology in novel ways.
   * **Style:** Librarian Bot.  
   * **Palette:** Server Black, Tape Reel Brown.  
   * **Tokens:** Tapes, arm, shelving, order.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Manelli Genetic Archivist**communing with a floating sphere of emerald Proto-Flux, decoding ancestral genetic memories and xeno-biological sequences in real time.  
+  * **Style:** Genomatrix Xenobiologist, Genetic Memory Savant.  
+  * **Palette:** Proto-Flux Emerald, Synaptic Cyan, Glossy Obsidian, Amber.  
+  * **Tokens:** Floating bio-holos, genetic memory strands, wetware data-scrolls, sensory pits.
 

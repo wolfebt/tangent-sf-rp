@@ -34,7 +34,7 @@ export const STARSHIP_ARCHETYPES = [
     hullDr: 4,
     powerCore: { current: 10, max: 10 },
     pace: '30m / Hexes',
-    weapons: 'Twin Plasma Pontoons (2d10+4 AP 3), Light Flak Turret (1d10+2)'
+    weapons: 'Twin Plasma Pontoons (2d10+4 Penetration 3), Light Flak Turret (1d10+2)'
   },
   {
     id: 'destroyer',
@@ -46,7 +46,7 @@ export const STARSHIP_ARCHETYPES = [
     hullDr: 8,
     powerCore: { current: 20, max: 20 },
     pace: '20m / Hexes',
-    weapons: 'Spinal Heavy Mag-Rail (4d10+12 AP 8), Broadside Torpedo Tubes (3d10+6)'
+    weapons: 'Spinal Heavy Mag-Rail (4d10+12 Penetration 8), Broadside Torpedo Tubes (3d10+6)'
   },
   {
     id: 'combat_mecha',
@@ -58,7 +58,7 @@ export const STARSHIP_ARCHETYPES = [
     hullDr: 5,
     powerCore: { current: 8, max: 8 },
     pace: '15m / Hexes',
-    weapons: 'Arm-Mounted Rotary Cannon (3d8+4 AP 2), Shoulder Rocket Pod (2d10+4)'
+    weapons: 'Arm-Mounted Rotary Cannon (3d8+4 Penetration 2), Shoulder Rocket Pod (2d10+4)'
   }
 ];
 

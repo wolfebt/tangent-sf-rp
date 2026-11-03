@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-kitin"
-order: 74
+order: 72
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.kitin.maantene","mechanics"]
-updatedAt: "2026-10-14T05:24:25.060Z"
+updatedAt: "2026-11-03T11:18:00.948Z"
 costs:
   bp: 0
   credits: 0
@@ -37,61 +37,59 @@ sockets:
   allocated: []
 ---
 
-### **MAANTENE**
-**Recon Expression**  
-**Classification:** Insectoid Aberration (Quadruped)  
-**CP Cost:** 37 CP  
+# **MAANTENE**
+**Recon Expression**
+**Classification:** Insectoid Aberration (Quadruped)
+**CP Cost:** 41 CP
 
-**Description:**  
-The Manteene are quadrupedal insectoids that stand roughly the same height as humans but appear much larger due to their length and limb span. They are covered in a tough, chitinous armor, typically sandy-yellow or golden-brown to blend with desert environments. This carapace can often shift in color and texture (similar to a chameleon) to match their surroundings. They are quadruped with legs designed for leaping. Above these, they have four arms: a smaller upper pair for fine manipulation and a larger lower pair for heavy lifting and combat. Their heads are distinctly mantis-like, featuring large, multi-faceted black compound eyes, twitching antennae used for sensing vibrations and communication, and complex mandible mechanism.
+**Description:**
+The Maantene are quadrupedal insectoids that stand roughly the same height as humans but appear much larger due to their length and limb span. They are covered in a tough, chitinous armor, typically sandy-yellow or golden-brown to blend with desert environments. This carapace can often shift in color and texture (similar to a chameleon) to match their surroundings. They are quadrupeds with legs designed for leaping. Above these, they have four arms: a smaller upper pair for fine manipulation and a larger lower pair for heavy lifting and combat. Their heads are distinctly mantis-like, featuring large, multi-faceted black compound eyes, twitching antennae used for sensing vibrations and communication, and complex mandible mechanisms.
 
-Mantene biology is radically different from mammals, leading to a psychology that many other races find difficult to understand. Mantene do not sleep. Instead, they enter a fully conscious but inactive state called torpor for about 4 hours a day to rest their bodies. Because they are always awake, they have no concept of dreams and often view sleep as a waste of time or a dangerous vulnerability. They are strict carnivores. While they can survive on little water, they require fresh meat.
+Maantene biology is radically different from mammals, leading to a psychology that many other races find difficult to understand. Maantene do not sleep. Instead, they enter a fully conscious but inactive state called torpor for about 4 hours a day to rest their bodies. Because they are always awake, they have no concept of dreams and often view sleep as a waste of time or a dangerous vulnerability. They are strict carnivores. While they can survive on little water, they require fresh meat.
 
 The Maantene represent the "Recon Expression," specialized for survival in hostile frontiers. They are quadrupedal with mantis-like heads and a sandy-black glossy obsidian shell. Their active camouflage allows their wet chitin to vanish into shadows.
 
-**Technical Profile:**  
-* **Size:** Medium  
-* **Movement:** 40ft Groundspeed (Leaping)  
-* **Tech Level:** 3 (Environmental)  
-* **Meta Level:** 3 (Awakened)  
-* **Stigma:** Severe Xeno  
+**Technical Profile:**
+* **Size:** Medium
+* **Movement:** 40 ft Groundspeed (Leaping)
+* **Tech Level:** 3 (Environmental)
+* **Meta Level:** 3 (Awakened)
+* **Stigma:** Severe Xeno (-7 CP)
 
-**Ability Modifiers:**  
-* +2 Agility (4 CP)  
-* +1 Stamina (4 CP)  
-* -1 Charisma (-4 CP)  
+**Attribute Modifiers:**
+* +2 Agility [10 CP]
+* +1 Stamina [5 CP]
+* -1 Charisma [-5 CP]
 
-**Skills:**  
-* +10 Skill Ranks to ANY skills (8 CP)  
+**Skills:**
+* +10 Skill Ranks to ANY skills [10 CP]
 
-**Species Features:**  
-* **Awakened (Psychic, Int or Wis):** Conductor of the Hive’s psionic Chorus. (2 CP)  
-* **Leaper:** Always counts as a running start, all checks for jumping, leaping and dropping at advantage. (2 CP)  
-* **Dual Skeletal Structure:** Combined endo/exo-skeleton (DR +5). (2 CP)  
-* **Armor:** Chitinous shell resistant to physical trauma, energy and chemicals [base DR 10] (2 CP)  
-* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. (2 CP)  
-* **Camouflage (Active):** Chitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired - including light absorbing vanta-black and can visually camo so well they seem to fade away into transparency. (4 CP)  
-* **Quadruped (Leaping):** Specialized legs for high-impact jumping. (2 CP)  
-* **Multidextrous (4 Arms):** Two combat arms, two manipulation arms. (4 CP)  
-* **Torpor (Universal):** 4 hours of conscious rest; no loss of awareness. (2 CP)  
-* **Uncanny Senses (Vibration):** Sensitive to atmospheric and ground ripples. (2 CP)  
+**Species Features:**
+* **Awakened (Psychic — Intellect or Wisdom):** Conductor of the Hive’s psionic Chorus. [2 CP]
+* **Leaper:** Always counts as a running start; all checks for jumping, leaping, and dropping are made at Advantage. [2 CP]
+* **Dual Skeletal Structure:** Combined endo/exo-skeleton (+5 DR). [2 CP]
+* **Armor:** Chitinous shell resistant to physical trauma, energy, and chemicals [base DR 10; combined DR 15]. [2 CP]
+* **Enhanced Strength:** Count as 1 size larger for lifting and carrying. [2 CP]
+* **Camouflage (Active):** Chitin can shift texture and hue to blend into their environment, shifting to a variety of colors as desired — including light-absorbing vanta-black — and can visually camouflage so well they seem to fade away into transparency (+4 to Stealth). [4 CP]
+* **Quadruped (Leaping):** Specialized legs for high-impact jumping. [2 CP]
+* **Multidextrous (4 Arms):** Two combat arms, two manipulation arms. [4 CP]
+* **Torpor (Universal):** 4 hours of conscious rest; no loss of Alertness. [2 CP]
+* **Uncanny Senses (Vibration):** Sensitive to atmospheric and ground ripples. [2 CP]
 
-**Recommended Features:**  
-* Ability Check Feature  
-* Alertness  
-* Awakened (Psychic)  
-* Bodyform Features  
-* Camouflage  
-* Climbing  
-* Headstrong  
-* Limited Flight (2x Land Speed for 1 round of movement, 2x Jump distance and Slow Fall)  
-* Mutation  
-* Social  
+**Recommended Features (-1 CP Discount):**
+* Ability Check Feature
+* Alertness
+* Awakened (Psychic)
+* Bodyform Features
+* Camouflage
+* Climbing
+* Headstrong
+* Limited Flight (2x Land Speed for 1 round of movement, 2x Jump distance, and Slow Fall)
+* Mutation
+* Social
 
-**Aesthetics (CRISP):**  
-* **Style:** Painterly Realism, Segmented Armor, Arid Predator.  
-* **Palette:** Dominant: Glossy Obsidian / Gunmetal. Accent: Cyan.  
+**Aesthetics (CRISP):**
+* **Style:** Painterly Realism, Segmented Armor, Arid Predator.
+* **Palette:** Dominant: Glossy Obsidian / Gunmetal. Accent: Cyan.
 * **Visuals:** Quadrupedal silhouette with segmented chitin plates, four articulated humanoid arms, a distinct mantis-like head with faceted compound eyes, and twitching vibrational antennae.
-
----
 

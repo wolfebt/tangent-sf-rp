@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 173
+order: 171
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.agent","mechanics"]
-updatedAt: "2026-10-14T05:39:35.563Z"
+updatedAt: "2026-11-02T22:49:26.539Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **AGENT**
+# 1.06.02 OCCUPATION: AGENT (Base WS 2)
+
+* **Operational Focus:** Espionage, Intelligence Gathering, Law Enforcement, and Covert Operations.
+* **EUFT Base Wealth Score:** **Base WS 2**
+* **Canonical Professional Skills (20 SP Allocation):** Insight, Alertness, Bluff, Stealth, and 1 Social or Vocation Skill
+* **Recommended Feature Category (-1 CP Discount):** General Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **AGENT**
 
 An agent is a skilled operative who specializes in espionage, intelligence gathering, and covert missions. They often work for governments, corporations, or other powerful organizations. Agents are typically highly trained in a variety of skills, including infiltration, surveillance, and interrogation. They may also be experts in foreign languages, cultures, and technologies. Agents often work in dangerous and high-pressure environments, and they must be able to think quickly and make sound decisions under pressure. They must also be able to maintain their cover identities and blend in with their surroundings. Agents play a vital role in gathering intelligence and carrying out covert operations. They can help to prevent terrorist attacks, protect national security, and advance the interests of their employers. Overall, agents are versatile and adaptable, making them valuable assets in any organization or team.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Insight, Alertness, Bluff, Stealth and one Social or Vocation Skill
 
-&nbsp;
-
 ## **Recommended Features**
 
 General
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -71,8 +73,6 @@ Psionic Operative
 
 Bounty Hunter
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -81,15 +81,11 @@ Improvisation, problem-solving, and quick thinking
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Combat Skills*
 
 Combat and proficiency with firearms and weapons
 
 *\+2 to a Combat Skill of Choice*
-
-&nbsp;
 
 ### *Deception*
 
@@ -97,15 +93,11 @@ Disguise, impersonation, and deception
 
 *\+2 Disguise and Cover Checks*
 
-&nbsp;
-
 ### *Guile*
 
 Good at devising clever solutions
 
 *\+1 Karma Point*
-
-&nbsp;
 
 ### *Investigation*
 
@@ -113,15 +105,11 @@ Gathering information, analyzing data, and conducting surveillance
 
 *\+2 Investigation and Gather Information*
 
-&nbsp;
-
 ### *Languages*
 
 Fluency in multiple languages
 
-*\+2 Linguistic Knowledge*
-
-&nbsp;
+*\+2 Knowledge (Language)*
 
 ### *Mental Resilience*
 
@@ -129,15 +117,11 @@ Withstand psychological challenges
 
 *\+2 Willpower Checks*
 
-&nbsp;
-
 ### *Networking*
 
 Gathering information, acquiring resources, and gaining assistance
 
 *Gather Information checks at Advantage*
-
-&nbsp;
 
 ### *Persuasion*
 
@@ -145,15 +129,11 @@ Convincing others to cooperate, negotiation, deception, and diplomacy
 
 *\+1 Manipulation Skills and Etiquette Checks*
 
-&nbsp;
-
 ### *Physical Fitness*
 
 Endurance and strength
 
 *\+1 Might and Fortitude Checks*
-
-&nbsp;
 
 ### *Quick Thinking*
 
@@ -161,15 +141,11 @@ Think on their feet, make split-second decisions, and adapt to rapidly changing 
 
 *\+2 Initiative*
 
-&nbsp;
-
 ### *Stealth*
 
 Operating covertly, sneaking, hiding, and remaining undetected
 
 *\+2 Stealth*
-
-&nbsp;
 
 ### *Survival Skills*
 
@@ -177,25 +153,19 @@ Scavenging for resources, navigating dangerous environments, and adapting to har
 
 *\+2 Survival*
 
-&nbsp;
-
 ### *Technology*
 
 Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons
 
 *\+2 Technology Knowledge*
 
-&nbsp;
-
 ### *Travel*
 
 Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain
 
-*\+2 Piloting and Navigation*&nbsp;
+*\+2 Piloting and Navigation*
 
 # 
-
-&nbsp;
 
 ---
 
@@ -255,4 +225,10 @@ Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar 
   * **Style:** Terminator, Machine Hunter.  
   * **Palette:** Matte Black, Sensor Red, Chrome.  
   * **Tokens:** Sniper rifle integration, scanning lasers, cold.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Manelli Deep-Cover Mimic** or **Rakne Infiltrator** blending seamlessly into shadows, using active chitin camouflage and pheromonal emitters to extract intelligence without a sound.  
+  * **Style:** Mimetic Espionage, Biomorphic Stealth.  
+  * **Palette:** Shadow Obsidian, Chameleon Iridescence, Emerald Vein Glow, Cyan Sensor Pits.  
+  * **Tokens:** Active camouflage, sensory pits, needle-fangs, organic suppressor.
 

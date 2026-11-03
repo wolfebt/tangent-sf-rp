@@ -130,7 +130,7 @@ Although Medium-sized Humanoids, Draconian Aeld typically reach heights of about
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 19 CP  
+**CP Cost:** 28 CP  
 
 **Classification:** Humanoid
 

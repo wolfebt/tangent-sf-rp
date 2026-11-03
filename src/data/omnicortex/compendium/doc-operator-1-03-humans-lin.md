@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 65
+order: 63
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.lin","mechanics"]
-updatedAt: "2026-10-14T05:24:25.052Z"
+updatedAt: "2026-11-02T22:49:34.615Z"
 costs:
   bp: 0
   credits: 0
@@ -37,23 +37,24 @@ sockets:
   allocated: []
 ---
 
-# **LIN**
+# **LIN**  
+**
 
 # **LIN**
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
 **Description:** These human variants are a distinctive offshoot, presenting as nature-centered intellectuals with a strong physical deviation from baseline human norms. They possess lean, slightly simian features and are notably tall, typically standing around 7 feet. Key physiological traits include elongated digits, specific patterns of fine fur growth across their bodies, and solid, unpigmented black eyes, giving them a striking and somewhat alien appearance.
 
-&nbsp;
+  
 
 A most prominent and defining characteristic is their prehensile tail. This appendage is a highly evolved extension of the caudal vertebrae, covered in fine fur, and serves as a powerful and dexterous fifth limb. The tail is often impressive in length, frequently matching the entire length of the body, and its fur color is generally congruent with the individual's hair and overall body fur coloration. This tail is integral to their movement, balance, and fine manipulation within their arboreal or nature-integrated environments.
 
-&nbsp;
+  
 
 Societally, this group is highly advanced, but their technology is anchored in principles of environmental harmony and deep biological understanding. Their civilization is characterized by the widespread implementation of advanced Green Bio-Technology. A cornerstone of their societal infrastructure is the prominent and sophisticated use of Programmed Botany—the deliberate, technical manipulation and cultivation of plant life for architectural, industrial, and functional purposes. This is coupled with a mastery of other Nature-Based Technologies, resulting in a culture where technology and the natural world are seamlessly interwoven, with minimal ecological footprint and maximum symbiotic efficiency.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -61,33 +62,33 @@ Societally, this group is highly advanced, but their technology is anchored in p
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Xeno
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Int
++1 Int
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+10 Skills
++10 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Adapted (Arboreal)
 
@@ -99,9 +100,9 @@ Climber
 
 Prehensile Tail (finely segmented and hairless with the length proportionate to the Lin’s height)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Awakened (Psychic)
 
@@ -115,7 +116,9 @@ Low Light
 
 Regeneration
 
-\+4 Skill Features of choice
++4 Skill Features of choice
 
-&nbsp;
+  
+**  
+**
 

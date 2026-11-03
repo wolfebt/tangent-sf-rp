@@ -143,7 +143,7 @@ cp_cost: 25
 
 # **IMPYRIUM PSION (I) \* \*\* \*\*\***
 
-**CP Cost:** 19 CP  
+**CP Cost:** 25 CP  
 
 **Description:** The Impyrium Psion is a highly specialized human subspecies 'Evolved' through eugenics and make prominent use of Psitech. Following the Dragon's purge and the catastrophic loss of the Impyrium Regi bloodline with the Grand Fleet's disappearance, the remaining Impyrium innovators developed the Psions as an emergency measure. They were engineered to act as advanced psychic guides and navigators across the Reach, utilizing their innate Psitech and Awakened abilities to maintain cohesion and direction for the scattered Impyrium remnants in the absence of the Regi leadership.
 

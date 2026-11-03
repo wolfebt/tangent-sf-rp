@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "doc-architect-99-metaphysics"
-order: 41
+order: 48
 perspective: "architect"
 entry_type: "Metaphysics Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","metaphysics","99.metaphysics.invocationmatrix","matrix"]
-updatedAt: "2026-10-14T06:04:05.748Z"
+updatedAt: "2026-11-02T22:49:11.242Z"
 costs:
   bp: 0
   credits: 0
@@ -37,353 +37,262 @@ sockets:
   allocated: []
 ---
 
-# **INVOCATIONS FRAMEWORK**
+# **99. METAPHYSICS: INVOCATIONS FRAMEWORK**
 
-## 
+## **1. ARCHITECTURAL PHILOSOPHY**
 
-## **1\. ARCHITECTURAL PHILOSOPHY**
+An **Invocation** in the Tangent system is a defined, codified application of a Metaphysic Discipline. It is not a Vancian spell memorized and forgotten, but a **specialized technique** developed through the mastery of a specific Discipline Focus skill.
 
-An **Invocation** in the Tangent system is a defined application of a Metaphysic Discipline. It is not a spell to be memorized, but a **specialized technique** developed through the mastery of a specific skill.
-
-This framework defines the **Invocation Stat Block**—the rigid data structure that governs what an invocation *is*, its requirements, and its output. It separates the **Design** (the fixed parameters of the power) from the **Execution** (the variable die rolls of the player).
-
-### 
+This framework defines the **Invocation Stat Block**—the standardized data structure governing what an invocation *is*, its complexity threshold, and its scaled output. It separates the **Design** (the fixed parameters of the power) from the **Execution** (the variable `2d10` checks of the Operator).
 
 ### **The Core Design Pattern**
 
 Every Invocation is built upon four pillars:
 
-1. **The Root:** The Parent Discipline and Skill (e.g., Energy \> Elemental).  
-2. **The Threshold:** The base complexity required to manifest the effect (Base Difficulty/CR).  
-3. **The Parameters:** The physical limits of the effect (Range, Duration, Area).  
-4. **The Scaling Function:** How the effect evolves based on the user's Skill Rank (Stages).
-
-## 
-
-## 
-
-## **2\. THE INVOCATION DATA BLOCK**
-
-When designing an Invocation, the following fields must be defined.
-
-&nbsp;
-
-INVOCATION NAME
-
-*A concise, evocative title (e.g., "Thermal Lance," "Neural Shred").*
-
-&nbsp;
-
-| CLASSIFICATION |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **PARENT SKILL** | Discipline Name | **SPECIALIZATION** | Sub-Skill/Focus |
-| **TYPE** | Attack/Defense/Utility/Sensory | **TAGS** | Keywords: e.g., Fire, Instant, Compulsion |
-
-&nbsp;
-
-| PARAMETERS |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **BASE DIFFICULTY** | Static CR or Opposed Attribute | **TIME** | Action Cost |
-| **RANGE** | Distance Metric | **AREA** | Shape & Size |
-| **DURATION** | Time Metric | **RESISTANCE** | Save Type or None |
-
-&nbsp;
-
-Effect Description:
-
-A definitive statement of the Invocation's narrative manifestation and mechanical result.
-
-&nbsp;
-
-Scaling Algorithm:
-
-The formula used to calculate the effect's magnitude based on the caster's Invocation Stage (Skill Rank).
-
-## 
-
-## 
-
-## **3\. PARAMETER STANDARDS**
-
-### 
-
-### **3.1 Base Difficulty (The Check)**
-
-This defines the complexity of the "shape" the caster must form. It sets the target number for the **Invocation Skill Check**.
-
-&nbsp;
-
-* **Static CR:** Used for environmental or self-targeted effects.  
-  * **Simple (CR 10):** Minor sensory effects, cleaning, lighting a candle.  
-  * **Standard (CR 15):** Most Tier 1 combat effects, basic defenses.  
-  * **Difficult (CR 20):** Complex illusions, transmutation, teleportation.  
-  * **Extreme (CR 25+):** Reality tearing, resurrection, massive structures.
-
-&nbsp;
-
-* **Opposed Check:** Used for effects that directly manipulate a resisting entity.  
-  * **vs. Fortitude (Stamina):** Bodily transformation, necrosis, life drain.  
-  * **vs. Reflex (Agility):** Entanglement, physical grasping (Telekinesis).  
-  * **vs. Will (Wisdom):** Mind control, telepathy, illusions.
-
-### 
-
-### **3.2 CR Adjustments (Time, Range, Area, Duration)**
-
-Designing an Invocation involves balancing power against difficulty. The **Base CR** is modified by the specific parameters of the effect. Use the following tables to adjust the CR required to cast the Invocation.
-
-&nbsp;
-
-#### **Activation Time (Action Economy)**
-
-Faster invocations require sharper mental reflexes, increasing the CR. Slower invocations allow for more stability, decreasing the CR.
-
-&nbsp;
-
-| Casting Time | CR Modifier | Description |
-| :---- | :---- | :---- |
-| **Reaction** | \+10 CR | Instantaneous defense or trigger. Extremely taxing. |
-| **Free Action** | \+5 CR | Part of movement or speech. |
-| **Move Action** | \+2 CR | Faster than standard, allows an attack in the same turn. |
-| **Standard Action** | \+0 CR | The baseline for most combat invocations. |
-| **Full Round** | \-2 CR | Takes the entire turn; no movement allowed. |
-| **Ritual (1 Min+)** | \-5 CR | Complex casting time; usually non-combat utility. |
-
-&nbsp;
-
-#### **Range Parameters**
-
-Projecting power over distance destabilizes the pattern, requiring greater skill.
-
-| Range | CR Modifier | Metric |
-| :---- | :---- | :---- |
-| **Self / Touch** | \-2 CR | Contact required or internal effect. |
-| **Close** | \+0 CR | 25 ft \+ (5 ft per 2 Ranks). |
-| **Medium** | \+2 CR | 100 ft \+ (10 ft per Rank). |
-| **Long** | \+5 CR | 400 ft \+ (40 ft per Rank). |
-| **Sight** | \+10 CR | Line of sight required (Extreme Range). |
-| **Unlimited** | \+15 CR | Anywhere on the same plane (Scrying/Teleport). |
-
-&nbsp;
-
-#### **Area of Effect (AoE)**
-
-Expanding a pattern from a single point to a massive volume increases complexity significantly.
-
-| Area Shape | CR Modifier | Description |
-| :---- | :---- | :---- |
-| **Single Target** | \+0 CR | One creature or object. |
-| **Line / Ray** | \+0 CR | Narrow projection (5ft wide). |
-| **Small Burst** | \+2 CR | 10ft Radius (Room). |
-| **Medium Burst** | \+5 CR | 20ft Radius (Hall). |
-| **Cone** | \+5 CR | Emanation from caster (Length \= Range). |
-| **Large Burst** | \+10 CR | 50ft+ Radius (Battlefield). |
-| **Selective** | \+5 CR | Excludes allies from the AoE (Shape Control). |
-
-&nbsp;
-
-#### **Duration & Sustainability**
-
-Holding a pattern in existence fights against entropy.
-
-| Duration | CR Modifier | Description |
-| :---- | :---- | :---- |
-| **Instant** | \+0 CR | Effect happens and ends immediately (Damage). |
-| **Concentration** | \+0 CR | Lasts as long as caster spends Standard Actions. |
-| **Rounds/Level** | \+2 CR | Persists without focus for a short combat duration. |
-| **Minutes/Level** | \+5 CR | Persists for an entire scene/encounter. |
-| **Hours/Level** | \+10 CR | Long-term buffs or environmental changes. |
-| **Permanent** | \+20 CR | Until dispelled. Usually requires Ritual time. |
-
-&nbsp;
-
-#### **Other Modifiers**
-
-Additional factors that influence the difficulty of the Invocation.
-
-| Factor | CR Modifier | Description |
-| :---- | :---- | :---- |
-| **Subtle/Silent** | \+5 CR | Cast without visual or auditory displays. |
-| **Material Comp** | \-2 CR | Requires a consumed physical reagent (Catalyst). |
-| **Backlash** | \-5 CR | Failure causes direct Health damage (Dangerous). |
-| **Tech Integration** | \-2 CR | Requires a specific technological focus tool. |
-
-## 
-
-## 
-
-## **4\. THE SCALING ALGORITHM**
-
-Invocations in Tangent are not replaced by "higher level spells." They evolve. The design must include a **Scaling Function** tied to the **Skill Stage** of the caster.
-
-&nbsp;
-
-**Skill Stages:**
-
-* **Stage 1 (Novice):** Ranks 1-5  
-* **Stage 2 (Trained):** Ranks 6-10  
-* **Stage 3 (Expert):** Ranks 11-15  
-* **Stage 4 (Master):** Ranks 16-20  
-* **Stage 5 (Pinnacle):** Ranks 21+
-
-&nbsp;
-
-Standard Scaling Formulas:
-
-When designing effects, apply these formulas to maintain balance.
-
-| Effect Type | Base (Stage 1\) | Scaling Formula |
-| :---- | :---- | :---- |
-| **Damage (Energy)** | 1d6 | \+1d6 per Stage |
-| **Damage (Force)** | 1d8 | \+1d8 per Stage |
-| **Healing** | 1d8 | \+1d8 per Stage |
-| **Static Bonus** | \+1 | \+1 per Stage |
-| **Damage Reduction** | 2 DR | \+2 DR per Stage |
-| **Multi-Target** | 1 Target | \+1 Target per Stage |
-| **Area Size** | Base Area | \+50% or \+5ft per Stage |
-
-## 
-
-## 
-
-## **5\. DESIGN EXAMPLES**
-
-### 
-
-### **Design A: Projectile Attack**
-
-**THERMAL LANCE**
-
-A concentrated beam of superheated plasma.
-
-| Classification |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **Parent Skill** | Energy | **Specialization** | Elemental (Fire) |
-| **Type** | Attack | **Tags** | Fire, Beam |
-
-&nbsp;
-
-| Parameters |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **Base Difficulty** | CR 15 (Static) | **Time** | Standard Action |
-| **Range** | Medium | **Area** | Single Target |
-| **Duration** | Instant | **Resistance** | (Defense check vs Attune CR) |
-
-Effect:
-
-Projects a beam of fire. On a successful hit, deals Fire Damage.
-
-Scaling:
-
-* **Damage:** 1d6 per Stage.  
-* **Critical Effect:** Target catches fire (Burn 1d4/round).
-
-### 
-
-&nbsp;
-
-### **Design B: Area Control**
-
-**GRAVITY WELL**
-
-A localized distortion of gravity that crushes and slows.
-
-| Classification |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **Parent Skill** | Dimension | **Specialization** | Space/Gravity |
-| **Type** | Utility / Control | **Tags** | Force, Area Denial |
-
-&nbsp;
-
-| Parameters |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **Base Difficulty** | CR 20 (Static) | **Time** | Standard Action |
-| **Range** | Medium | **Area** | 20ft Radius Sphere |
-| **Duration** | Sustained | **Resistance** | Fortitude (vs Attune CR) |
-
-Effect:
-
-Creates a zone of high gravity. The area is now a Difficult Terrain. Creatures inside take Crushing Damage at the start of turn.
-
-Scaling:
-
-* **Damage:** 1d4 Crushing per Stage.  
-* **Slow:** At Stage 3 (Expert), area becomes **Impassable** for creatures with Strength \< Caster's Rank.
-
-### 
-
-&nbsp;
-
-### **Design C: Mental Compulsion**
-
-**COMMAND**
-
-A single word imbued with psychic authority.
-
-| Classification |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **Parent Skill** | Mental | **Specialization** | Telepathy |
-| **Type** | Attack / Utility | **Tags** | Mind-Affecting , Language-Dependent |
-
-&nbsp;
-
-| Parameters |  |  |  |
-| :---- | :---- | :---- | :---- |
-| **Base Difficulty** | Opposed (Will) | **Time** | Standard Action |
-| **Range** | Close | **Area** | One Creature |
-| **Duration** | 1 Round | **Resistance** | Will Check (Opposes Attune) |
-
-Effect:
-
-The caster pits their Skill Check against the target's Willpower. If successful, the target obeys a one-word command ("Halt", "Drop", "Flee") for the duration.
-
-Scaling:
-
-* **Duration:** \+1 Round per Stage.  
-* **Complexity:** At Stage 3 (Expert), can issue simple sentences. At Stage 5 (Pinnacle), can rewrite memories (Permanent duration).
-
-&nbsp;
+1. **The Root:** The Parent Discipline and Focus Skill (e.g., `Energy -> Elemental`).
+2. **The Threshold:** The base complexity required to manifest the effect (**Base Difficulty / CR**).
+3. **The Parameters:** The physical and temporal limits of the effect (**Time, Range, Area, Duration, Resistance**).
+4. **The Scaling Function:** How the effect evolves across the caster's **Skill Stages** (Novice through Pinnacle).
 
 ---
 
-## **META-TECH**
+## **2. THE INVOCATION DATA BLOCK**
 
-### **1\. Capacity Cost (The 1:10 Rule)**
+When designing a new Invocation, define the following fields:
 
-Meta-tech devices are miniaturized and efficient. The "Socket" represents the complexity of the metaphysical pattern, not the volume of the power source.
+### **[INVOCATION NAME]**
 
-* **Rule:** 1 Socket holds 10 Ranks of Effect.  
-* **Design Note:** This allows for powerful handheld items (e.g., a Rank 20 "Master" Rod requires only 2 Sockets/\<2kg), but they remain restricted to Personal Scale (x1) output unless installed in a larger chassis.
+*A concise, evocative title (e.g., "Thermal Lance," "Gravity Well").*
 
-### 
+| CLASSIFICATION | | | |
+| :--- | :--- | :--- | :--- |
+| **PARENT SKILL** | Discipline Name | **SPECIALIZATION** | Sub-Skill / Focus |
+| **TYPE** | Attack / Defense / Utility / Sensory | **TAGS** | Keywords (e.g., `[Pyro]`, `[Instant]`, `[Compulsion]`) |
 
-### **2\. The "Chassis Scale" Amplification Rule**
+| PARAMETERS | | | |
+| :--- | :--- | :--- | :--- |
+| **BASE DIFFICULTY** | Static CR or Opposed Save | **TIME** | Action Cost |
+| **RANGE** | Distance Metric | **AREA** | Shape & Dimensions |
+| **DURATION** | Time Metric | **RESISTANCE** | Save Type (Fortitude, Reflex, Willpower) or None |
 
-When a Meta-Tech device is installed into a Mount or Module, it utilizes the massive power core and emitters of the host vehicle.
+- **Effect Description:** A clear statement of the Invocation's narrative manifestation and baseline mechanical result.
+- **Scaling Algorithm:** The formula used to calculate the effect's magnitude based on the caster's **Skill Stage** (and Invocation Rank).
 
-* **The Rule:** The device applies the Scaling Multiplier of the Host Chassis (as per 01.01.09 Scaling) to ALL numerical parameters of the Invocation, including Damage Dice, Range, and Area.
+---
 
-**The Formula:**
+## **3. PARAMETER STANDARDS**
 
-({Base Rank Dice}) times ({Chassis Scale Multiplier}) \= {Final Damage}
+### **3.1 Base Difficulty (The Check)**
 
-### 
+This defines the complexity of the pattern the caster must form, setting the target Challenge Rating (CR) for the **Attune / Discipline Skill Check** (`2d10 + Skill Rank + Attribute Modifier + Modifiers vs. CR`):
 
-### **3\. The Revised Scaling Table**
+- **Static CR:** Used for environmental, utility, or self-targeted effects:
+  - **Simple (CR 10):** Minor sensory effects, cantrips, lighting a candle/torch.
+  - **Standard (CR 15):** Baseline Tier 1 combat effects, standard barriers and buffs.
+  - **Difficult (CR 20):** Complex illusions, molecular transmutation, tactical teleportation.
+  - **Extreme (CR 25+):** Reality shearing, revivification, massive structures or pocket dimensions.
+- **Opposed Check / Saving Throw:** Used for effects that directly alter or harm a resisting entity (Target rolls their Active Save `2d10 + 2 + [2 * Attribute] + Feature Bonus` against the caster's **Attune Check Result**):
+  - **vs. Fortitude (Stamina):** Bodily transmutation, cellular necrosis, poison, life drain, petrification.
+  - **vs. Reflex (Agility):** Area blasts, entanglement, physical telekinetic grasping.
+  - **vs. Willpower (Wisdom):** Mind control, telepathic intrusion, fear, phantasmal disbelief.
 
-This table demonstrates how a standard Rank 10 Fire Invocation (Base: 5d6 Damage, 20ft Radius) scales when installed in different chassis slots.
+---
 
-| Slots | Chassis Size | Scale&nbsp; | Damage Output \* | Range / Area |
-| :---: | :---: | :---: | :---: | :---: |
-| **Socket** | Medium (Human) | x1 | 5d6 (Avg 17\) | 20ft Radius |
-| **Mount** | Large (Vehicle) | x2 | 10d6 (Avg 35\) | 40ft Radius |
-| **Mount** | Huge (Mech) | x5 | 25d6 (Avg 87\) | 100ft Radius |
-| **Mount** | Gargantuan | x10 | 50d6 (Avg 175\) | 200ft Radius |
-| **Module** | Titanic (Capital) | x80 | 400d6 (Avg 1,400) | 1,600ft Radius |
+### **3.2 CR Adjustments (Time, Range, Area, Duration & Modifiers)**
 
-**\* When the damage becomes too large to feasibly roll with dice then feel free to adjust with multipliers bringing a 50d6 roll to 5d6x10. If you are using a RNG application you can use whichever method you prefer.**
+When engineering a custom Invocation (or adjudicating a spontaneous **Free-Casting** effect), modify the Base CR using the parameter tables below:
 
-&nbsp;
+#### **Activation Time (Action Economy)**
 
-* **Math Check:** A Titanic Ship (6,000 Structure Points) would take \~4-5 hits from a Titanic Scale Meta-Weapon to be destroyed. This feels tactically appropriate for capital ship combat.
+Faster invocations demand razor-sharp mental reflexes (increasing CR), while slower rituals allow gradual stabilization (decreasing CR):
+
+| Casting Time | CR Modifier | Description |
+| :--- | :---: | :--- |
+| **Reaction** | **+10 CR** | Instantaneous defensive shield or counter-trigger. Extremely taxing. |
+| **Free / Swift Action** | **+5 CR** | Woven seamlessly into movement or speech. |
+| **Move Action** | **+2 CR** | Faster than standard; leaves the Standard Action open for a weapon strike. |
+| **Standard Action** | **+0 CR** | Baseline action cost for most combat invocations. |
+| **Full Round Action** | **-2 CR** | Consumes the entire turn; no movement allowed. |
+| **Ritual (1 Min+)** | **-5 CR** | Extended non-combat casting time; ideal for complex utility or sanctum work. |
+
+#### **Range Parameters**
+
+Projecting a coherent pattern across distance increases signal attenuation:
+
+| Range Category | CR Modifier | Distance Metric |
+| :--- | :---: | :--- |
+| **Self / Touch** | **-2 CR** | Physical contact required or internal personal effect. |
+| **Close** | **+0 CR** | `25 ft + (5 ft per 2 Ranks)` (or up to 100 ft in tactical combat). |
+| **Medium** | **+2 CR** | `100 ft + (10 ft per Rank)` (or up to 500 ft). |
+| **Long** | **+5 CR** | `400 ft + (40 ft per Rank)` (or up to 2,500 ft). |
+| **Sight / Extended** | **+10 CR** | Line of sight or sensor lock required (Miles+). |
+| **Unlimited / Planar** | **+15 CR** | Anywhere on the same plane (Scrying / Long-Range Teleport). |
+
+#### **Area of Effect (AoE)**
+
+Expanding a pattern from a single focal point to a wide volume increases complexity:
+
+| Area Shape | CR Modifier | Description |
+| :--- | :---: | :--- |
+| **Single Target** | **+0 CR** | Affects one creature or object. |
+| **Line / Ray** | **+0 CR** | Narrow coherent beam (5 ft wide). |
+| **Small Burst** | **+2 CR** | 10 ft Radius sphere (single room). |
+| **Medium Burst** | **+5 CR** | 20 ft Radius sphere (large hall). |
+| **Cone** | **+5 CR** | Directional fan emanating from the caster (Length = Range). |
+| **Large Burst** | **+10 CR** | 50 ft+ Radius sphere (battlefield scale). |
+| **Selective Shaping** | **+5 CR** | Sculpting the AoE to exclude allies within the blast zone. |
+
+#### **Duration & Sustainability**
+
+Maintaining an active pattern against universal entropy requires ongoing energy:
+
+| Duration Category | CR Modifier | Description |
+| :--- | :---: | :--- |
+| **Instantaneous** | **+0 CR** | Effect resolves immediately (e.g., elemental blast), though consequences remain. |
+| **Concentration** | **+0 CR** | Lasts as long as the caster spends a Standard (or Move) Action each round to sustain it. |
+| **1 Round per Stage** | **+2 CR** | Persists autonomously for a brief tactical window (1 Round per Stage). |
+| **1 Minute per Stage** | **+5 CR** | Persists for an entire scene or combat encounter (1 Minute per Stage). |
+| **1 Hour per Stage** | **+10 CR** | Long-term buff, environmental ward, or overland duration (1 Hour per Stage). |
+| **Permanent** | **+20 CR** | Endures indefinitely until dispelled (usually requires Ritual casting time). |
+
+#### **Other Casting Modifiers**
+
+| Factor | CR Modifier | Description |
+| :--- | :---: | :--- |
+| **Subtle / Silent** | **+5 CR** | Manifested without visible somatic gestures, runes, or audible incantations. |
+| **Material Catalyst** | **-2 CR** | Consumes a physical reagent or refined Aetherite dust during casting. |
+| **Volatile Backlash** | **-5 CR** | Failure inflicts direct **Health** damage instead of non-lethal Vitality strain. |
+| **Tech / Focus Integration** | **-2 CR** | Requires a dedicated technological or arcane focus implement in hand. |
+
+---
+
+## **4. THE SCALING ALGORITHM**
+
+Invocations in Tangent are never rendered obsolete by "higher-level spells"; instead, every Invocation scales automatically with the caster's **Skill Stage**:
+
+- **Stage 1 (Novice):** Ranks 1 – 5
+- **Stage 2 (Trained / Professional):** Ranks 6 – 10
+- **Stage 3 (Expert):** Ranks 11 – 15
+- **Stage 4 (Master):** Ranks 16 – 20
+- **Stage 5 (Pinnacle):** Ranks 21+ *(Grand Master 21–25 / Pinnacle 26–30)*
+
+### **Standard Scaling Formulas**
+
+| Effect Type | Base Output (Stage 1) | Progression per Stage |
+| :--- | :---: | :--- |
+| **Damage (Elemental / Energy)** | `1d6` | `+1d6` per Stage (plus `+1d6` per Invocation Rank) |
+| **Damage (Force)** | `1d8` | `+1d8` per Stage |
+| **Healing / Damage (Entropy)** | `1d8` or `2d6` | `+1d8` or `+2d6` per Stage |
+| **Static Attribute / Check Bonus** | `+1` | `+1` per Stage (Max +5) |
+| **Damage Resistance (DR)** | `DR 2` to `DR 5` | `+2 DR` to `+5 DR` per Stage |
+| **Multi-Target Capacity** | `1 Target` | `+1 Target` per Stage |
+| **Area Dimensions** | `Base Area` | `+50%` (or `+5 ft` to `+20 ft`) per Stage |
+
+---
+
+## **5. DESIGN EXAMPLES**
+
+### **Design A: Projectile Attack — THERMAL LANCE**
+
+*A concentrated beam of superheated plasma.*
+
+| Classification | | | |
+| :--- | :--- | :--- | :--- |
+| **Parent Skill** | Energy | **Specialization** | Elemental (Pyro) |
+| **Type** | Attack | **Tags** | `[Pyro]`, `[Beam]`, `[Single Target]` |
+
+| Parameters | | | |
+| :--- | :--- | :--- | :--- |
+| **Base Difficulty** | CR 15 (Static) | **Time** | Standard Action |
+| **Range** | Medium | **Area** | Single Target |
+| **Duration** | Instantaneous | **Resistance** | Defense Check vs. Attune Strike Roll |
+
+- **Effect:** Projects a coherent lance of fire. On a successful hit, deals Pyro/Fire damage.
+- **Scaling:**
+  - **Damage:** `1d6` Pyro damage per Stage.
+  - **Critical Effect:** Target ignites (**Burning** `1d4` damage per round, or 1/2 damage for 2 rounds).
+
+---
+
+### **Design B: Area Control — GRAVITY WELL**
+
+*A localized distortion of gravimetric tension that crushes and immobilizes.*
+
+| Classification | | | |
+| :--- | :--- | :--- | :--- |
+| **Parent Skill** | Dimension | **Specialization** | Summoning (Spatial / Gravity) |
+| **Type** | Utility / Crowd Control | **Tags** | `[Force]`, `[Gravity]`, `[Area Denial]` |
+
+| Parameters | | | |
+| :--- | :--- | :--- | :--- |
+| **Base Difficulty** | CR 20 (Static) | **Time** | Standard Action |
+| **Range** | Medium | **Area** | 20 ft Radius Sphere |
+| **Duration** | Concentration / Sustained | **Resistance** | Fortitude Save (vs. Attune CR) |
+
+- **Effect:** Creates a high-gravity anomaly. The sphere becomes **Difficult Terrain**, and creatures inside take Crushing/Blunt damage at the start of their turn.
+- **Scaling:**
+  - **Damage:** `1d4` Blunt/Crushing damage per Stage.
+  - **Lockdown:** At Stage 3 (Expert), the zone becomes **Impassable** for creatures whose Strength Score is lower than the caster's Discipline Stage.
+
+---
+
+### **Design C: Mental Compulsion — COMMAND**
+
+*A single word imbued with overwhelming telepathic authority.*
+
+| Classification | | | |
+| :--- | :--- | :--- | :--- |
+| **Parent Skill** | Mental | **Specialization** | Projection (Telepathy) |
+| **Type** | Attack / Control | **Tags** | `[Mind-Affecting]`, `[Compulsion]`, `[Language-Dependent]` |
+
+| Parameters | | | |
+| :--- | :--- | :--- | :--- |
+| **Base Difficulty** | CR 10 / Opposed (Willpower) | **Time** | Standard Action |
+| **Range** | Close / Extended | **Area** | Single Creature |
+| **Duration** | 1 Round | **Resistance** | Willpower Save (Opposes Attune) |
+
+- **Effect:** The caster pits their Attune check against the target's Willpower Save. On a failure, the target must obey a single-word imperative (*"Halt," "Drop," "Fall," "Flee"*) for the duration.
+- **Scaling:**
+  - **Duration / Targets:** `+1 Round` (or `+1 Target`) per Stage.
+  - **Complexity:** At Stage 3 (Expert), can issue simple sentences. At Stage 5 (Pinnacle), can rewrite memories (Permanent duration).
+
+---
+
+## **6. META-TECH SCALING & CHASSIS AMPLIFICATION**
+
+### **1. Capacity Cost (The 1:10 Socket Rule)**
+
+Meta-Tech devices are miniaturized pattern-housings where the **Socket** represents the complexity of the metaphysical lattice rather than bulk battery volume:
+
+- **Rule:** **1 Socket holds up to 10 Ranks of an Invocation Effect** (e.g., a Rank 20 Master-tier rod requires 2 Sockets \[up to 2 kg\]), operating at Personal Scale (`x1`) unless mounted in a larger vehicular or architectural frame.
+
+### **2. The "Chassis Scale" Amplification Rule**
+
+When a Meta-Tech emitter or amplifier is installed into a vehicular **Mount** or architectural **Module**, it draws upon the host's main reactor to multiply all numerical parameters of the Invocation (Damage Dice, Range, and Area) by the host's **Chassis Scale Multiplier** (`operator/1.10 SCALING.md`):
+
+> **Final Output (Damage Dice / Range / Area) = Base Invocation Output * Chassis Scale Multiplier**
+
+### **3. Chassis Scale Amplification Table (Example: Rank 10 Pyro Burst — Base `5d6` Damage, `20 ft` Radius)**
+
+| UDU Slot Type | Host Chassis Size | Scale Multiplier | Amplified Damage Output* | Amplified Area Radius |
+| :--- | :--- | :---: | :---: | :---: |
+| **Socket** | Medium (Personal) | `x1` | `5d6` (Avg 17.5) | 20 ft Radius |
+| **Mount** | Large (Light Vehicle) | `x2` | `10d6` or `5d6 * 2` (Avg 35) | 40 ft Radius |
+| **Mount** | Huge (Battle Walker / Mech) | `x5` | `25d6` or `5d6 * 5` (Avg 87.5) | 100 ft Radius |
+| **Mount** | Gargantuan (Dropship / Tank) | `x10` | `50d6` or `5d6 * 10` (Avg 175) | 200 ft Radius |
+| **Module** | Titanic (Capital Ship / Citadel) | `x80` | `400d6` or `5d6 * 80` (Avg 1,400) | 1,600 ft Radius |
+
+- * **High-Multiplier Dice Rolling:** When amplified dice pools become too large to roll physically at the table, roll the base Invocation dice (`5d6`) and multiply the result by the **Scale Multiplier** (`* 10`, `* 80`, etc.).
+- **Tactical Math Check:** A Titanic Capital Ship (6,000 Structure Points) requires 4 to 5 direct hits from a Titanic-scale Meta-Weapon (Avg 1,400 damage) to be destroyed, maintaining tactical parity with conventional capital ship artillery.
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER (DISC-523)**
+
+- **File Target:** `architect/metaphysics/99.Metaphysics.InvocationMatrix.md`
+- **Restoration Pass (Three-Way Merge):**
+  - Restored 100% of the Invocations Framework (Architectural Philosophy, Data Block, Parameter Standards, Scaling Algorithm, 3 Design Examples, and Meta-Tech Chassis Scale Amplification).
+- **Mechanical Normalization Pass (12 Global Rules):**
+  - Normalized all saving throw and check references to `2d10` and `CR`.
+
 

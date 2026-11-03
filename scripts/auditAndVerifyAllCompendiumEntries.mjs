@@ -6,9 +6,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const projectRoot = path.resolve(__dirname, '..');
-const rulesDir = path.join(projectRoot, 'docs', 'game rules');
+const rulesDir = path.join(projectRoot, 'docs', 'game_rules');
 const seedPath = path.join(projectRoot, 'src', 'data', 'compendiumSeed.json');
 const compendiumMdDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'compendium');
+
+const OMNIBUS_SPECIES_BATCH_FILES = new Set([
+  '1.03.aeldandasi.md',
+  '1.03.humansauluranskitin.md',
+  '1.03.syntheticsandxeno.md'
+]);
 
 const articles = JSON.parse(fs.readFileSync(seedPath, 'utf-8'));
 
@@ -46,7 +52,7 @@ assert(
 // 2. Check Combat Attack Engine (3.00 COMBAT)
 const combatDoc = articles.find(a => a.id === 'doc-operator-3-00-combat');
 assert(Boolean(combatDoc && combatDoc.description.includes('2d10')), '3.00 COMBAT uses 2d10 core engine');
-assert(Boolean(combatDoc && combatDoc.description.includes('DEFENDER WINS ALL TIES')), '3.00 COMBAT enforces DEFENDER WINS ALL TIES');
+assert(Boolean(combatDoc && /defender wins all ties/i.test(combatDoc.description)), '3.00 COMBAT enforces Defender wins all ties');
 
 // 3. Check Economatrix & EUFT (2.00 ECONOMATRIX & 02 ECONOMY AND WEALTH)
 const econDoc = articles.find(a => a.id === 'doc-operator-2-00-economatrix');
@@ -54,7 +60,7 @@ const archEconDoc = articles.find(a => a.id === 'doc-architect-02-economy-and-we
 assert(Boolean(econDoc && archEconDoc), '2.00 ECONOMATRIX and 02 ECONOMY AND WEALTH exist in compendium');
 assert(Boolean(archEconDoc && archEconDoc.description.includes('Tangent Standard Curve')), '02 ECONOMY AND WEALTH adheres to Tangent Standard Curve');
 
-// 4. Check All 265 Canonical Source Files (224 Operator + 41 Architect)
+// 4. Check All 295 Canonical Source Files (246 Operator + 49 Architect)
 function scanRuleFiles(dir) {
   const discovered = [];
   function traverse(currentDir, relBranch = '') {
@@ -62,16 +68,22 @@ function scanRuleFiles(dir) {
       const fullPath = path.join(currentDir, entry.name);
       if (entry.isDirectory()) {
         const subRel = relBranch ? `${relBranch}/${entry.name}` : entry.name;
-        if (subRel.replace(/\\/g, '/').toLowerCase() === 'architect/archetypes') {
+        const normSubRel = subRel.replace(/\\/g, '/').toLowerCase();
+        if (normSubRel === 'architect/archetypes' || normSubRel === 'architect/schemas') {
           continue;
         }
         traverse(fullPath, subRel);
       } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md') && !entry.name.startsWith('.')) {
         const normalizedRelBranch = relBranch.replace(/\\/g, '/');
-        if (
-          normalizedRelBranch.toLowerCase() === 'architect' &&
-          entry.name.toLowerCase().includes('archetypes')
-        ) {
+        const lowerBranch = normalizedRelBranch.toLowerCase();
+        const lowerName = entry.name.toLowerCase();
+        if (!lowerBranch) {
+          continue;
+        }
+        if (lowerBranch === 'architect' && lowerName.includes('archetypes')) {
+          continue;
+        }
+        if (lowerBranch === 'operator/species' && OMNIBUS_SPECIES_BATCH_FILES.has(lowerName)) {
           continue;
         }
         discovered.push({
@@ -87,14 +99,14 @@ function scanRuleFiles(dir) {
 }
 
 const diskRuleFiles = scanRuleFiles(rulesDir);
-assert(articles.length === diskRuleFiles.length, `1-to-1 file parity between docs/game rules and compendiumSeed.json (${articles.length}/${diskRuleFiles.length})`);
+assert(articles.length === diskRuleFiles.length, `1-to-1 file parity between docs/game_rules and compendiumSeed.json (${articles.length}/${diskRuleFiles.length})`);
 
 const opArticles = articles.filter(a => a.id.startsWith('doc-operator-'));
 const archArticles = articles.filter(a => a.id.startsWith('doc-architect-'));
-assert(opArticles.length === 224, `All 224 Operator rulebook & modular articles registered (got ${opArticles.length}/224)`);
-assert(archArticles.length === 41, `All 41 Architect matrix & modular articles registered (got ${archArticles.length}/41)`);
+assert(opArticles.length === 246, `All 246 Operator rulebook & modular articles registered (got ${opArticles.length}/246)`);
+assert(archArticles.length === 49, `All 49 Architect matrix & modular articles registered (got ${archArticles.length}/49)`);
 
-// 5. Verify 100% Exact Content Fidelity against docs/game rules/*.md
+// 5. Verify 100% Exact Content Fidelity against docs/game_rules/*.md
 const byRelPath = new Map(articles.map(a => [a.relPath.toLowerCase(), a]));
 let contentMismatches = 0;
 for (const rf of diskRuleFiles) {

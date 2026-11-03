@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aeld"
-order: 25
+order: 23
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld.doppelganger","mechanics"]
-updatedAt: "2026-10-31T11:30:42.895Z"
+updatedAt: "2026-11-02T22:49:31.838Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **DOPPELGANGER (Shifters)**
+# **DOPPELGANGER (Shifters)**  
+**
 
 # **DOPPELGANGER (Shifters)**
 
@@ -45,11 +46,11 @@ The Doppelgangers are a unique and ancient shape-changing species, originating f
 
 This profound magical alteration was performed with a singular and critical purpose: to better equip them for the demanding and often perilous task of hunting out and eradicating evil. The transformation granted them the ability to flawlessly mimic the form, voice, and even mannerisms of any sentient creature, making them peerless agents of infiltration, surveillance, and justice. This evolution fundamentally changed them from noble Alterian warriors into the specialized, highly effective beings now known as Doppelgangers, cementing their place as a vital, though often shadowy, force against the darkness that plagues the multiverse.
 
-&nbsp;
+  
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 14 CP  
+**CP Cost:** [TBD]
 
 **Classification:** Humanoid (Shifter)
 
@@ -61,37 +62,37 @@ This profound magical alteration was performed with a singular and critical purp
 
 **Meta Level:** 4
 
-**Homeworld:** \[TBD\]
+**Homeworld:** [TBD]
 
 **Stigma:** Shifter & Xeno
 
-&nbsp;
+  
 
 **Ability Modifiers:**
 
-\+1 Cha
++1 Cha
 
-&nbsp;
+  
 
 **Skills:**
 
-\+5 Skills
++5 Skills
 
-&nbsp;
+  
 
 **Species Features:**
 
 Alter Form (Humanoid)
 
-Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming \- something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The Architect may allow detection of minor presentations of evil or vile planning.)*
+Sense Evil *(60 ft radius, Uncontrolled. Intrusive in other senses but not overwhelming - something about them doesn’t look right, their scent will smell wrong, their voice will sound ‘off’, etc. Primarily works on targets with Evil descriptor such as from the Extreme Morality disadvantage. The GM may allow detection of minor presentations of evil or vile planning.)*
 
-&nbsp;
+  
 
 **Recommended Features:**
 
 Adaptive Aspect, Adaptive Skill Set, Ageless, Alter Form (Advanced), Awakened, Bodyform Features, Darksight, Deceitful, Fast Heal, Immortality, Obfuscate, Persuasive, Regeneration, Trustworthy.
 
-### 
+  
 
 ### **Aesthetic Profile: The Fluid Noir**
 
@@ -111,7 +112,7 @@ Adaptive Aspect, Adaptive Skill Set, Ageless, Alter Form (Advanced), Awakened, B
 
 **Palette:** Matte Greys, Midnight Blues, Chromatic Silvers, and deep Purples.
 
-&nbsp;
+  
 
 **Guidance & Atmosphere Tokens:**
 
@@ -123,7 +124,7 @@ Adaptive Aspect, Adaptive Skill Set, Ageless, Alter Form (Advanced), Awakened, B
 
 **Fashion:** "Liquid" armor—form-fitting suits like flowing mercury/oil, shifting texture/color instantly. Featureless mirror masks until activated.
 
-### 
+  
 
 ### **Common Personas**
 
@@ -135,5 +136,7 @@ Adaptive Aspect, Adaptive Skill Set, Ageless, Alter Form (Advanced), Awakened, B
 
 **The Fluid-Striker:** A tactical combat specialist who morphs their physical form for an advantage in battle. Wears minimal, highly reflective armor that stretches and flows dynamically with their biological shifting.
 
-&nbsp;
+  
+**  
+**
 

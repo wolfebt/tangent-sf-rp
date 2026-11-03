@@ -4,24 +4,26 @@
  */
 
 export const RANGE_BRACKETS = [
-  { id: 'point_blank', label: 'Point Blank (Within Reach)', icon: '🎯', attackMod: 5, unopposedDC: 10, description: '+5 Strike bonus, damage dice rolled with Advantage (Ballistic/Energy), CR 10 unopposed.' },
-  { id: 'short', label: 'Short Range (Base Range)', icon: '📏', attackMod: 0, unopposedDC: 15, description: 'Standard effective range for the weapon. CR 15 unopposed.' },
-  { id: 'medium', label: 'Medium Range (Up to 2x Base)', icon: '📐', attackMod: -5, unopposedDC: 20, description: '-5 Attack penalty. CR 20 unopposed.' },
-  { id: 'long', label: 'Long Range (Up to 5x Base)', icon: '🔭', attackMod: -10, unopposedDC: 25, description: '-10 Attack penalty. CR 25 unopposed.' },
-  { id: 'extreme', label: 'Extreme Range (Up to 10x Base)', icon: '🌌', attackMod: -15, unopposedDC: 30, description: '-15 Attack penalty. CR 30 unopposed.' }
+  { id: 'point_blank', label: 'Point Blank (Within Reach)', icon: '🎯', attackMod: 5, unopposedCR: 10, unopposedDC: 10, description: '+5 Strike bonus, damage dice rolled with Advantage (Ballistic/Energy), CR 10 unopposed.' },
+  { id: 'short', label: 'Short Range (Base Range)', icon: '📏', attackMod: 0, unopposedCR: 15, unopposedDC: 15, description: 'Standard effective range for the weapon. CR 15 unopposed.' },
+  { id: 'medium', label: 'Medium Range (Up to 2x Base)', icon: '📐', attackMod: -5, unopposedCR: 20, unopposedDC: 20, description: '-5 Attack penalty. CR 20 unopposed.' },
+  { id: 'long', label: 'Long Range (Up to 5x Base)', icon: '🔭', attackMod: -10, unopposedCR: 25, unopposedDC: 25, description: '-10 Attack penalty. CR 25 unopposed.' },
+  { id: 'extreme', label: 'Extreme Range (Up to 10x Base)', icon: '🌌', attackMod: -15, unopposedCR: 30, unopposedDC: 30, description: '-15 Attack penalty. CR 30 unopposed.' }
 ];
 
 export const SIZE_MODIFIERS = [
-  { id: 'miniscule', label: 'Miniscule (< 1in)', modifier: -32 },
-  { id: 'fine', label: 'Fine (< 6in)', modifier: -16 },
-  { id: 'diminutive', label: 'Diminutive (< 1ft)', modifier: -8 },
-  { id: 'tiny', label: 'Tiny (< 2ft)', modifier: -4 },
-  { id: 'small', label: 'Small (< 4ft)', modifier: -2 },
-  { id: 'medium', label: 'Medium (Base < 8ft)', modifier: 0 },
-  { id: 'large', label: 'Large (< 16ft)', modifier: 2 },
-  { id: 'huge', label: 'Huge (< 32ft)', modifier: 4 },
-  { id: 'gargantuan', label: 'Gargantuan (< 64ft)', modifier: 8 },
-  { id: 'colossal', label: 'Colossal (< 128ft)', modifier: 16 }
+  { id: 'miniscule', label: 'Miniscule (< 1in)', modifier: -32, baseCR: 47 },
+  { id: 'fine', label: 'Fine (< 6in)', modifier: -16, baseCR: 31 },
+  { id: 'diminutive', label: 'Diminutive (< 1ft)', modifier: -8, baseCR: 23 },
+  { id: 'tiny', label: 'Tiny (< 2ft)', modifier: -4, baseCR: 19 },
+  { id: 'small', label: 'Small (< 4ft)', modifier: -2, baseCR: 17 },
+  { id: 'medium', label: 'Medium (Base < 8ft)', modifier: 0, baseCR: 15 },
+  { id: 'large', label: 'Large (< 16ft)', modifier: 2, baseCR: 20 },
+  { id: 'huge', label: 'Huge (< 32ft)', modifier: 4, baseCR: 25 },
+  { id: 'gargantuan', label: 'Gargantuan (< 64ft)', modifier: 8, baseCR: 30 },
+  { id: 'colossal', label: 'Colossal (< 128ft)', modifier: 16, baseCR: 40 },
+  { id: 'super_gargantuan', label: 'SuperGargantuan (Behemoth)', modifier: 128, baseCR: 60 },
+  { id: 'mega_colossal', label: 'MegaColossal (Titan)', modifier: 256, baseCR: 80 }
 ];
 
 export const COVER_TYPES = [

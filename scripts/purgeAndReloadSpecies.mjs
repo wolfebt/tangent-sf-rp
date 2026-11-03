@@ -7,8 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const rulesDocPath = path.join(projectRoot, 'docs', 'game rules', 'operator', '1.03 SPECIES (work).md');
-const matrixDocPath = path.join(projectRoot, 'docs', 'game rules', 'architect', '99. SPECIES MATRIX.md');
+const rulesDocPath = path.join(projectRoot, 'docs', 'game_rules', 'operator', '1.03 SPECIES (work).md');
+const matrixDocPath = path.join(projectRoot, 'docs', 'game_rules', 'architect', '99. SPECIES MATRIX.md');
 
 const omniSpeciesDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'species');
 const omniTypesDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'species_type');
@@ -423,14 +423,14 @@ function calculateFinalSpeciesData(spec) {
     else speedsList.push('30 ft');
   });
 
-  // 4. Attributes & Skills BP
+  // 4. Attributes & Skills BP (Universal Straight Cost: +5/-5 per Attr, 1 per Skill Rank)
   let attrBP = 0;
   (spec.inherent_attribute_modifiers || []).forEach(a => {
-    attrBP += (a.bonus || 0) * (a.bonus > 0 ? 4 : -5);
+    attrBP += (a.bonus || 0) * 5;
   });
-  if (spec.bonus_attribute_points) attrBP += spec.bonus_attribute_points * 4;
+  if (spec.bonus_attribute_points) attrBP += spec.bonus_attribute_points * 5;
 
-  const skillBP = (spec.bonus_skills || 0) * (16 / 20); // 4 BP per 5 ranks
+  const skillBP = (spec.bonus_skills || 0) * 1; // 5 BP per 5 ranks (1 BP/rank)
 
   // 5. Inherent Features & Traits BP
   let traitsBP = 0;

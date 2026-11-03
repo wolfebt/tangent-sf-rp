@@ -107,7 +107,7 @@ cp_cost: 18
 
 # 
 
-**CP Cost:** 19 CP  
+**CP Cost:** 18 CP  
 
 **Description:** The Mobula are a remarkable lineage of Aquatic Shifters, a people uniquely adapted to thrive both on land and within the vast ocean depths. Their defining characteristic is the ability to assume two distinct forms. The first is an aquatic-adapted humanoid shape, which allows them to interact with land-dwelling societies while retaining physical traits beneficial for the water, such as subtle webbing between digits, enhanced lung capacity, and smooth, pressure-resistant skin. The second form, which they shift into for rapid or prolonged immersion, is that of a magnificent 'manta ray.' This ray form is not merely a common sea creature but a larger, highly intelligent manifestation that grants them unparalleled maneuverability, speed, and silence beneath the waves, making them formidable inhabitants of the marine world. The Mobula have learned to be xenophobic from Impyrium incursions for their world’s resources.
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 18
+order: 16
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.operatives","mechanics"]
-updatedAt: "2026-11-01T12:53:43.165Z"
+updatedAt: "2026-11-02T22:49:16.993Z"
 costs:
   bp: 0
   credits: 0
@@ -37,15 +37,57 @@ sockets:
   allocated: []
 ---
 
-# **OPERATIVES (The Artisans)**
+# **1.02.02 OPERATIVES (THE ARTISANS)**
 
 Focus: Action, Adaptability, Performance, and Risk.
 
 Operatives are the doers. They thrive on adrenaline, skill mastery, and manipulating the physical world. They are the rogues, pilots, and entertainers.
 
-### 
+* **80-CP Archetype Chassis Allocation:** Every Archetype below is a pre-calculated **80 Character Point (CP) Chassis**:
+  * **Primary Attribute at `+3`:** `15 CP` (`5 CP` per `+1`)
+  * **Secondary Attribute at `+2`:** `10 CP` (`5 CP` per `+1`)
+  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
+  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
+  * **2 Signature Traits (`1 CP` each) & 3 Recommended Core Features (`9 CP`):** `13 CP`
+* **Customization Budget (`70 CP`):** Operators spend their remaining **70 CP** (from the **150 CP** starting budget) on their Species Package (`1.03 SPECIES.md`), Saving Throws, Vitality and Health pools (`Base 30` each, scaled strictly at `+5 points per 1 CP`; **never scaled by Stamina**), and free customization, alongside their **60 Background Skill Ranks** (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation).
 
-## **THE THESPIAN**
+---
+
+## **I. OPERATIVE ARCHETYPE ALIGNMENT MATRIX (`_SP`)**
+
+| **Archetype** | **Attributes (Pri/Sec)** | **Recommended Skills** | **Core Signature Features** |
+| :-: | :-: | :-: | :-: |
+| **The Thespian** | Charisma / Wisdom | Disguise, Bluff, Culture, Gather Info, Insight | Stage Presence, Emotional Range |
+| **The Silent Blade** | Agility / Perception | Stealth, Acrobatics, Alertness, Athletics, Disguise | Silent Killer, Master of Disguise |
+| **The Manhunter** | Wisdom / Agility | Survival, Alertness, Stealth, Gather Info, Athletics | Hunter's Intuition, Relentless Pursuit |
+| **The Grifter** | Charisma / Intellect | Bluff, Legerdemain, Insight, Disguise, Diplomacy | Silver Tongue, Master of Disguise |
+| **The Ghost** | Agility / Intellect | Stealth, Computers, Knowledge (Tech), Acrobatics, Engineering | Technological Prowess, Adaptive Camouflage |
+| **The Vagabond** | Stamina / Wisdom | Survival, Stealth, Athletics, Gather Info, Alertness | Adaptability, Mobility |
+| **The Virtuoso** | Charisma / Agility | Acrobatics, Bluff, Culture, Diplomacy, Legerdemain | Showmanship, Star Power |
+| **The Pioneer** | Wisdom / Stamina | Survival, Alertness, Athletics, Medicine, Knowledge (Nature) | Pathfinder, Cartographer |
+| **The Ace** | Agility / Intellect | Piloting, Computers, Engineering, Alertness, Acrobatics | Evasive Maneuvers, Quick Reflexes |
+| **The Pathfinder** | Agility / Wisdom | Survival, Stealth, Alertness, Acrobatics, Athletics | Pathfinder, Keen Observer |
+| **The Acrobat** | Agility / Strength | Acrobatics, Athletics, Acrobatics (Escapology), Stealth, Legerdemain | Daredevil, Showmanship |
+| **The Daredevil** | Agility / Stamina | Acrobatics, Athletics, Piloting, Survival, Intimidate | Peak Physical Condition, Fearless |
+| **The Operative** | Agility / Intellect | Stealth, Computers, Gather Info, Disguise, Insight | Undercover Operations, Security Expertise |
+| **The Privateer** | Agility / Charisma | Piloting, Intimidate, Bluff, Athletics, Knowledge (Astrogation) | Practiced Pilot, Evasive Maneuvers |
+| **The Racer** | Agility / Intellect | Piloting, Engineering, Acrobatics, Computers, Alertness | Speed Demon, Adrenaline Rush |
+| **The Raider** | Strength / Stamina | Intimidate, Athletics, Survival, Stealth, Piloting | Wasteland Warrior, Ruthless |
+| **The Saboteur** | Intellect / Agility | Engineering, Stealth, Knowledge (Tech), Computers, Legerdemain | Demolitionist, Infiltrator |
+| **The Slicer** | Intellect / Agility | Computers, Knowledge (Tech), Engineering, Stealth, Gather Info | Digital Ghost, Cyber Intrusion |
+| **The Smuggler** | Agility / Charisma | Bluff, Piloting, Legerdemain, Gather Info, Disguise | Evasive Maneuvers, Hidden Compartments |
+| **The Swashbuckler** | Agility / Charisma | Acrobatics, Bluff, Athletics, Intimidate, Piloting | Boarding Party, Weapon Master |
+| **The Quick-Draw** | Agility / Perception | Alertness, Legerdemain, Intimidate, Acrobatics, Insight | Quick Reflexes, Seize Initiative |
+| **The Salvage-Spec.** | Strength / Intellect | Engineering, Knowledge (Tech), Athletics, Appraise, Vocation (Scrapper) | Junk Whisperer, Technical Expertise |
+| **The Shadow-Stepper** | Agility / Intellect | Stealth, Computers, Acrobatics, Disguise, Acrobatics (Escapology) | Master of Disguise, Digital Ghost |
+| **The Escapologist** | Agility / Wisdom | Acrobatics (Escapology), Acrobatics, Legerdemain, Stealth, Insight | Daredevil, Evasive Maneuvers |
+| **The Combat-Saboteur** | Strength / Intellect | Engineering, Athletics, Stealth, Knowledge (Tech), Survival | Demolitionist, Heavy Weapon Mastery |
+
+---
+
+## **II. COMPLETE ARCHETYPE PROFILES (1–25)**
+
+## **1. THE THESPIAN**
 
 The master of the dramatic arts, captivating audiences with powerful performances.
 
@@ -53,18 +95,18 @@ The master of the dramatic arts, captivating audiences with powerful performance
 
 *"All the world's a stage, and I am the only one who knows the script."*
 
-* **Core Concept:** Face / Infiltrator / Distraction  
-* **Recommended Occupations:** Entertainer, Spy.  
-* **Recommended Origins:** Urban, Leisure, Enlightened.  
-* **Recommended Factions:** Entari Combine (Culture), Alterian Enclave (High Art), Syndicate (Media).  
-* **Key Attributes:** Charisma (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Expression (any), Diplomacy, Bluff, Insight.  
-* **Signature Traits (1 CP):** Stage Presence, Emotional Range.  
-* **Tactical Role:** Create diversions, infiltrate social circles, impersonate key personnel.
+  - **Core Concept:** Face / Infiltrator / Distraction
+  - **Recommended Occupations:** Entertainer, Agent (*Spy*).
+  - **Recommended Origins:** Urban, Leisure, Enlightened.
+  - **Recommended Factions:** Entari Combine (Culture), Alterian Enclave (High Art), Syndicate (Media).
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Expression (any), Diplomacy, Bluff, Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Stage Presence, Emotional Range.
+  - **Tactical Role:** Create diversions, infiltrate social circles, impersonate key personnel.
 
-### 
+---
 
-## **THE SILENT BLADE**
+## **2. THE SILENT BLADE**
 
 A professional killer taking contracts to eliminate specific targets via long-range sniping or close-quarters execution.
 
@@ -72,18 +114,18 @@ A professional killer taking contracts to eliminate specific targets via long-ra
 
 *"One shot. One clean timeline."*
 
-* **Core Concept:** Stealth / Burst Damage  
-* **Recommended Occupations:** Criminal, Agent.  
-* **Recommended Origins:** Urban, Militaristic, Hostile.  
-* **Recommended Factions:** Syndicate (Liquidators), Dynasty (Royal Assassins), Outworlds.  
-* **Key Attributes:** Agility (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Stealth, Acrobatics, Athletics, Combat (Sniper or Blades).  
-* **Signature Traits (1 CP):** Silent Killer, Master of Disguise.  
-* **Tactical Role:** Elimination of High Value Targets, scouting, alpha strikes.
+  - **Core Concept:** Stealth / Burst Damage
+  - **Recommended Occupations:** Criminal, Agent.
+  - **Recommended Origins:** Urban, Militaristic, Hostile.
+  - **Recommended Factions:** Syndicate (Liquidators), Dynasty (Royal Assassins), Outworlds.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom / Alertness (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Acrobatics, Athletics, Combat (Sniper or Blades).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Silent Killer, Master of Disguise.
+  - **Tactical Role:** Elimination of High Value Targets, scouting, alpha strikes.
 
-### 
+---
 
-## **THE MANHUNTER**
+## **3. THE MANHUNTER**
 
 Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension.
 
@@ -91,18 +133,18 @@ Uses tracking and combat skills to pursue criminals for a reward. Skilled in inv
 
 *"I can bring you in warm, or I can bring you in cold."*
 
-* **Core Concept:** Hybrid (Combat/Skill) / Tracker  
-* **Recommended Occupations:** Drifter, Agent.  
-* **Recommended Origins:** Hostile, Spacer, Colony.  
-* **Recommended Factions:** Coalition (Bounty Hunters), Syndicate (Recovery), Outworlds.  
-* **Key Attributes:** Wisdom (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Survival), Alertness, Knowledge (Investigation), Combat (Any).  
-* **Signature Traits (1 CP):** Hunter's Intuition, Relentless Pursuit.  
-* **Tactical Role:** Tracking enemies, capturing targets alive, wilderness survival.
+  - **Core Concept:** Hybrid (Combat/Skill) / Tracker
+  - **Recommended Occupations:** Drifter, Agent.
+  - **Recommended Origins:** Hostile, Spacer, Colony.
+  - **Recommended Factions:** Coalition (Bounty Hunters), Syndicate (Recovery), Outworlds.
+  - **Key Attributes:** Wisdom (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Alertness, Knowledge (Investigation), Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Hunter's Intuition, Relentless Pursuit.
+  - **Tactical Role:** Tracking enemies, capturing targets alive, wilderness survival.
 
-### 
+---
 
-## **THE GRIFTER**
+## **4. THE GRIFTER**
 
 Uses charm and bluff to swindle and exploit others for personal gain.
 
@@ -110,18 +152,18 @@ Uses charm and bluff to swindle and exploit others for personal gain.
 
 *"Trust me. I'm exactly who you want me to be."*
 
-* **Core Concept:** Social Stealth / Deceiver  
-* **Recommended Occupations:** Criminal, Citizen.  
-* **Recommended Origins:** Urban, Leisure, Spacer.  
-* **Recommended Factions:** Outworlds (Con Artists), Syndicate (Espionage), Entari.  
-* **Key Attributes:** Charisma (Primary), Intellect (Secondary).  
-* **Essential Skills:** Diplomacy, Bluff, Insight, Streetwise.  
-* **Signature Traits (1 CP):** Silver Tongue, Master of Disguise.  
-* **Tactical Role:** Talk the way into secure areas, trick enemies, gather intel via deception.
+  - **Core Concept:** Social Stealth / Deceiver
+  - **Recommended Occupations:** Criminal, Citizen.
+  - **Recommended Origins:** Urban, Leisure, Spacer.
+  - **Recommended Factions:** Outworlds (Sta Artists), Syndicate (Espionage), Entari.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Bluff, Insight, Streetwise.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Silver Tongue, Master of Disguise.
+  - **Tactical Role:** Talk the way into secure areas, trick enemies, gather intel via deception.
 
-### 
+---
 
-## **THE GHOST**
+## **5. THE GHOST**
 
 Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.
 
@@ -129,18 +171,18 @@ Equipped with advanced enhancements to blend in and infiltrate high-security are
 
 *"Security offline. Target acquired. Exfiltrating now."*
 
-* **Core Concept:** Stealth / Tech / Combat  
-* **Recommended Occupations:** Agent, Soldier.  
-* **Recommended Origins:** Industrial, Urban, Militaristic.  
-* **Recommended Factions:** Syndicate (Infiltrators), Mekan (Stealth Units), Ascendancy.  
-* **Key Attributes:** Agility (Primary), Intellect (Secondary).  
-* **Essential Skills:** Stealth, Knowledge (Technology), Acrobatics, Combat.  
-* **Signature Traits (1 CP):** Technological Prowess, Adaptive Camouflage.  
-* **Tactical Role:** Bypassing laser grids, hacking turrets, stealth takedowns.
+  - **Core Concept:** Stealth / Tech / Combat
+  - **Recommended Occupations:** Agent, Soldier.
+  - **Recommended Origins:** Industrial, Urban, Militaristic.
+  - **Recommended Factions:** Syndicate (Infiltrators), Mekan (Stealth Units), Ascendancy.
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Knowledge (Technology), Acrobatics, Combat.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Technological Prowess, Adaptive Camouflage.
+  - **Tactical Role:** Bypassing laser grids, hacking turrets, stealth takedowns.
 
-### 
+---
 
-## **THE VAGABOND**
+## **6. THE VAGABOND**
 
 Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure.
 
@@ -148,18 +190,18 @@ Travels from place to place without a fixed home. Characterized by freedom, adap
 
 *"I've been everywhere, man. And I know the quickest way out of here."*
 
-* **Core Concept:** Jack-of-All-Trades / Survivor  
-* **Recommended Occupations:** Drifter, Scout.  
-* **Recommended Origins:** Spacer, Colony, Hostile.  
-* **Recommended Factions:** Outworlds (Drifters), Coalition (Wanderers), Ascendancy.  
-* **Key Attributes:** Stamina (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Pilot, Knowledge (Survival), Streetwise, Vocation (General).  
-* **Signature Traits (1 CP):** Adaptability, Mobility.  
-* **Tactical Role:** Fills gaps in the party, transport, urban survival.
+  - **Core Concept:** Jack-of-All-Trades / Survivor
+  - **Recommended Occupations:** Drifter, Scout.
+  - **Recommended Origins:** Spacer, Colony, Hostile.
+  - **Recommended Factions:** Outworlds (Drifters), Coalition (Wanderers), Ascendancy.
+  - **Key Attributes:** Stamina (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Pilot, Knowledge (Survival), Streetwise, Vocation (General).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Adaptability, Mobility.
+  - **Tactical Role:** Fills gaps in the party, transport, urban survival.
 
-### 
+---
 
-## **THE VIRTUOSO**
+## **7. THE VIRTUOSO**
 
 Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight.
 
@@ -167,18 +209,18 @@ Captivates audiences with skills in music, dance, or acting. Thrives in the spot
 
 *"Eyes on me, everyone. You won't want to miss this."*
 
-* **Core Concept:** Social / Distraction / Buffer  
-* **Recommended Occupations:** Entertainer, Citizen.  
-* **Recommended Origins:** Leisure, Urban, Enlightened.  
-* **Recommended Factions:** Entari Combine (Culture), Alterian Enclave, Syndicate (Media).  
-* **Key Attributes:** Charisma (Primary), Agility (Secondary).  
-* **Essential Skills:** Acrobatics, Expression (any), Diplomacy, Social.  
-* **Signature Traits (1 CP):** Showmanship, Star Power.  
-* **Tactical Role:** Distracting guards, earning money, gaining access to exclusive events.
+  - **Core Concept:** Social / Distraction / Buffer
+  - **Recommended Occupations:** Entertainer, Citizen.
+  - **Recommended Origins:** Leisure, Urban, Enlightened.
+  - **Recommended Factions:** Entari Combine (Culture), Alterian Enclave, Syndicate (Media).
+  - **Key Attributes:** Charisma (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Expression (any), Diplomacy, Social.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Showmanship, Star Power.
+  - **Tactical Role:** Distracting guards, earning money, gaining access to exclusive events.
 
-### 
+---
 
-## **THE PIONEER**
+## **8. THE PIONEER**
 
 Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.
 
@@ -186,18 +228,18 @@ Charts new territories and uncovers the mysteries of the universe. Thirsts for d
 
 *"Second star to the right, and straight on 'til morning."*
 
-* **Core Concept:** Scout / Knowledge / Survival  
-* **Recommended Occupations:** Scout, Drifter.  
-* **Recommended Origins:** Colony, Spacer, Research.  
-* **Recommended Factions:** Ascendancy (Explorers), Outworlds, Coalition.  
-* **Key Attributes:** Wisdom (Primary), Stamina (Secondary).  
-* **Essential Skills:** Knowledge (Survival), Knowledge (Navigation), Knowledge (History), Alertness.  
-* **Signature Traits (1 CP):** Pathfinder, Cartographer.  
-* **Tactical Role:** Leading the party through wilderness, spotting hazards, mapping.
+  - **Core Concept:** Scout / Knowledge / Survival
+  - **Recommended Occupations:** Scout, Drifter.
+  - **Recommended Origins:** Colony, Spacer, Research.
+  - **Recommended Factions:** Ascendancy (Explorers), Outworlds, Coalition.
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Knowledge (Navigation), Knowledge (History), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Pathfinder, Cartographer.
+  - **Tactical Role:** Leading the party through wilderness, spotting hazards, mapping.
 
-### 
+---
 
-## **THE ACE**
+## **9. THE ACE**
 
 Navigates starships through asteroids and blockades. Master of the stick.
 
@@ -205,18 +247,18 @@ Navigates starships through asteroids and blockades. Master of the stick.
 
 *"Hold on back there. I'm gonna try something stupid."*
 
-* **Core Concept:** Vehicle Specialist / Transport  
-* **Recommended Occupations:** Spacer, Specialist.  
-* **Recommended Origins:** Spacer, Militaristic, Industrial.  
-* **Recommended Factions:** Coalition (Smugglers), Ascendancy (Test Pilots), Syndicate (Interceptors).  
-* **Key Attributes:** Agility (Primary), Intellect (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Pilot, Alertness, Combat (Gunnery).  
-* **Signature Traits (1 CP):** Evasive Maneuvers, Quick Reflexes.  
-* **Tactical Role:** Ship combat, extraction, high-speed chases.
+  - **Core Concept:** Vehicle Specialist / Transport
+  - **Recommended Occupations:** Spacer, Specialist.
+  - **Recommended Origins:** Spacer, Militaristic, Industrial.
+  - **Recommended Factions:** Coalition (Smugglers), Ascendancy (Test Pilots), Syndicate (Interceptors).
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Pilot, Alertness, Combat (Gunnery).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Evasive Maneuvers, Quick Reflexes.
+  - **Tactical Role:** Ship combat, extraction, high-speed chases.
 
-### 
+---
 
-## **THE PATHFINDER**
+## **10. THE PATHFINDER**
 
 Ventures into the unknown, charting territories and assessing threats.
 
@@ -224,18 +266,18 @@ Ventures into the unknown, charting territories and assessing threats.
 
 *"Three guards, two turrets, and a back door they forgot to lock. Easy."*
 
-* **Core Concept:** Stealth / Recon / Survival  
-* **Recommended Occupations:** Scout, Soldier.  
-* **Recommended Origins:** Colony, Hostile, Militaristic.  
-* **Recommended Factions:** Outworlds, Auluran (Scouts), Coalition.  
-* **Key Attributes:** Agility (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Knowledge (Survival), Acrobatics, Alertness, Knowledge (Nature).  
-* **Signature Traits (1 CP):** Pathfinder, Keen Observer.  
-* **Tactical Role:** Reconnaissance, initiating ambushes, guiding the party.
+  - **Core Concept:** Stealth / Recon / Survival
+  - **Recommended Occupations:** Scout, Soldier.
+  - **Recommended Origins:** Colony, Hostile, Militaristic.
+  - **Recommended Factions:** Outworlds, Auluran (Scouts), Coalition.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Acrobatics, Alertness, Knowledge (Geography).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Pathfinder, Keen Observer.
+  - **Tactical Role:** Reconnaissance, initiating ambushes, guiding the party.
 
-### 
+---
 
-## **THE ACROBAT**
+## **11. THE ACROBAT**
 
 A performer specializing in agility and stunts, often in zero-gravity.
 
@@ -243,18 +285,18 @@ A performer specializing in agility and stunts, often in zero-gravity.
 
 *"Catch me if you can."*
 
-* **Core Concept:** Mobility / Evasion / Performance  
-* **Recommended Occupations:** Entertainer, Specialist.  
-* **Recommended Origins:** Leisure, Spacer, Urban.  
-* **Recommended Factions:** Entari Combine (Performers), Outworlds (Traveling Shows).  
-* **Key Attributes:** Agility (Primary), Strength (Secondary).  
-* **Essential Skills:** Acrobatics, Athletics, Expression (any), Animal Handling.  
-* **Signature Traits (1 CP):** Daredevil, Showmanship.  
-* **Tactical Role:** Traversing difficult terrain, dodging attacks, distracting enemies.
+  - **Core Concept:** Mobility / Evasion / Performance
+  - **Recommended Occupations:** Entertainer, Specialist.
+  - **Recommended Origins:** Leisure, Spacer, Urban.
+  - **Recommended Factions:** Entari Combine (Performers), Outworlds (Traveling Shows).
+  - **Key Attributes:** Agility (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Athletics, Expression (any), Vocation (Handler).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Daredevil, Showmanship.
+  - **Tactical Role:** Traversing difficult terrain, dodging attacks, distracting enemies.
 
-### 
+---
 
-## **THE DAREDEVIL**
+## **12. THE DAREDEVIL**
 
 Excels in extreme sports and high-risk maneuvers.
 
@@ -262,18 +304,18 @@ Excels in extreme sports and high-risk maneuvers.
 
 *"It's not a fall; it's a very fast descent with style."*
 
-* **Core Concept:** Mobility / Risk / Action  
-* **Recommended Occupations:** Specialist, Entertainer.  
-* **Recommended Origins:** Leisure, Spacer, Urban.  
-* **Recommended Factions:** Syndicate (Media Stunts), Outworlds, Ascendancy.  
-* **Key Attributes:** Agility (Primary), Stamina (Secondary).  
-* **Essential Skills:** Athletics, Acrobatics, Knowledge (Survival), Alertness.  
-* **Signature Traits (1 CP):** Peak Physical Condition, Fearless.  
-* **Tactical Role:** Reaching inaccessible areas, performing stunts, surviving falls.
+  - **Core Concept:** Mobility / Risk / Action
+  - **Recommended Occupations:** Specialist, Entertainer.
+  - **Recommended Origins:** Leisure, Spacer, Urban.
+  - **Recommended Factions:** Syndicate (Media Stunts), Outworlds, Ascendancy.
+  - **Key Attributes:** Agility (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Acrobatics, Knowledge (Survival), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Peak Physical Condition, Fearless.
+  - **Tactical Role:** Reaching inaccessible areas, performing stunts, surviving falls.
 
-### 
+---
 
-## **THE OPERATIVE**
+## **13. THE OPERATIVE**
 
 A skilled agent who carries out dirty work. Expert in infiltration and sabotage.
 
@@ -281,18 +323,18 @@ A skilled agent who carries out dirty work. Expert in infiltration and sabotage.
 
 *"I was never here."*
 
-* **Core Concept:** Stealth / Sabotage / Utility  
-* **Recommended Occupations:** Agent, Criminal.  
-* **Recommended Origins:** Urban, Militaristic, Industrial.  
-* **Recommended Factions:** Syndicate (Agents), Impyrium (Spies), Ascendancy (Intelligence).  
-* **Key Attributes:** Agility (Primary), Intellect (Secondary).  
-* **Essential Skills:** Stealth, Bluff, Knowledge (Technology), Combat (Pistol).  
-* **Signature Traits (1 CP):** Undercover Operations, Security Expertise.  
-* **Tactical Role:** Infiltration, sabotage, covert surveillance.
+  - **Core Concept:** Stealth / Sabotage / Utility
+  - **Recommended Occupations:** Agent, Criminal.
+  - **Recommended Origins:** Urban, Militaristic, Industrial.
+  - **Recommended Factions:** Syndicate (Agents), Impyrium (Spies), Ascendancy (Intelligence).
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Bluff, Knowledge (Technology), Combat (Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Undercover Operations, Security Expertise.
+  - **Tactical Role:** Infiltration, sabotage, covert surveillance.
 
-### 
+---
 
-## **THE PRIVATEER**
+## **14. THE PRIVATEER**
 
 A skilled starship captain who operates independently on behalf of a faction.
 
@@ -300,18 +342,18 @@ A skilled starship captain who operates independently on behalf of a faction.
 
 *"It's not piracy if you have a permit."*
 
-* **Core Concept:** Combat Pilot / Skirmisher / Face  
-* **Recommended Occupations:** Spacer, Soldier.  
-* **Recommended Origins:** Spacer, Colony, Militaristic.  
-* **Recommended Factions:** Coalition (Licensed), Entari Combine (Security), Outworlds.  
-* **Key Attributes:** Agility (Primary), Charisma (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Knowledge (Tactics), Acrobatics, Combat (any).  
-* **Signature Traits (1 CP):** Practiced Pilot, Evasive Maneuvers.  
-* **Tactical Role:** Space combat, boarding actions, high-speed interdiction.
+  - **Core Concept:** Combat Pilot / Skirmisher / Face
+  - **Recommended Occupations:** Spacer, Soldier.
+  - **Recommended Origins:** Spacer, Colony, Militaristic.
+  - **Recommended Factions:** Coalition (Licensed), Entari Combine (Security), Outworlds.
+  - **Key Attributes:** Agility (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Tactics), Acrobatics, Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Practiced Pilot, Evasive Maneuvers.
+  - **Tactical Role:** Space combat, boarding actions, high-speed interdiction.
 
-### 
+---
 
-## **THE RACER**
+## **15. THE RACER**
 
 Skilled in piloting high-speed vehicles in competitive or dangerous environments.
 
@@ -319,18 +361,18 @@ Skilled in piloting high-speed vehicles in competitive or dangerous environments
 
 *"If you aren't first, you're last."*
 
-* **Core Concept:** Speed / Transport / Evasion  
-* **Recommended Occupations:** Specialist, Entertainer.  
-* **Recommended Origins:** Leisure, Urban, Spacer.  
-* **Recommended Factions:** Syndicate (Leisure), Outworlds.  
-* **Key Attributes:** Agility (Primary), Intellect (Secondary).  
-* **Essential Skills:** Pilot, Acrobatics, Knowledge (Technology), Alertness.  
-* **Signature Traits (1 CP):** Speed Demon, Adrenaline Rush.  
-* **Tactical Role:** Chase scenes, extraction, outrunning threats.
+  - **Core Concept:** Speed / Transport / Evasion
+  - **Recommended Occupations:** Specialist, Entertainer.
+  - **Recommended Origins:** Leisure, Urban, Spacer.
+  - **Recommended Factions:** Syndicate (Leisure), Outworlds.
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Pilot, Acrobatics, Knowledge (Technology), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Speed Demon, Adrenaline Rush.
+  - **Tactical Role:** Chase scenes, extraction, outrunning threats.
 
-### 
+---
 
-## **THE RAIDER**
+## **16. THE RAIDER**
 
 A hardened survivor who uses force to secure resources.
 
@@ -338,18 +380,18 @@ A hardened survivor who uses force to secure resources.
 
 *"Weakness is a choice. I chose strength."*
 
-* **Core Concept:** Aggression / Survival / Intimidation  
-* **Recommended Occupations:** Criminal, Drifter.  
-* **Recommended Origins:** Hostile, Colony, Militaristic.  
-* **Recommended Factions:** Outworlds (Pirates), Coalition (Rebels).  
-* **Key Attributes:** Strength (Primary), Stamina (Secondary).  
-* **Essential Skills:** Intimidation, Athletics, Combat (Melee/Ranged), Knowledge (Survival).  
-* **Signature Traits (1 CP):** Wasteland Warrior, Ruthless.  
-* **Tactical Role:** Shock assault, intimidation, scavenging.
+  - **Core Concept:** Aggression / Survival / Intimidation
+  - **Recommended Occupations:** Criminal, Drifter.
+  - **Recommended Origins:** Hostile, Colony, Militaristic.
+  - **Recommended Factions:** Outworlds (Pirates), Coalition (Rebels).
+  - **Key Attributes:** Strength (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Athletics, Combat (Melee/Ranged), Knowledge (Survival).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Wasteland Warrior, Ruthless.
+  - **Tactical Role:** Shock assault, intimidation, scavenging.
 
-### 
+---
 
-## **THE SABOTEUR**
+## **17. THE SABOTEUR**
 
 A skilled operative who infiltrates to destroy or disrupt.
 
@@ -357,18 +399,18 @@ A skilled operative who infiltrates to destroy or disrupt.
 
 *"A little chaos goes a long way."*
 
-* **Core Concept:** Stealth / Tech / Debuff  
-* **Recommended Occupations:** Agent, Specialist.  
-* **Recommended Origins:** Militaristic, Urban, Industrial.  
-* **Recommended Factions:** Coalition (Resistance), Syndicate (Corporate Sabotage).  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Stealth, Acrobatics, Knowledge (Technology), Vocation (Demolitionist).  
-* **Signature Traits (1 CP):** Demolitionist, Infiltrator.  
-* **Tactical Role:** Disabling enemy infrastructure, setting traps, causing distractions.
+  - **Core Concept:** Stealth / Tech / Debuff
+  - **Recommended Occupations:** Agent, Specialist.
+  - **Recommended Origins:** Militaristic, Urban, Industrial.
+  - **Recommended Factions:** Coalition (Resistance), Syndicate (Corporate Sabotage).
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Acrobatics, Knowledge (Technology), Vocation (Demolitionist).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Demolitionist, Infiltrator.
+  - **Tactical Role:** Disabling enemy infrastructure, setting traps, causing distractions.
 
-### 
+---
 
-## **THE SLICER**
+## **18. THE SLICER**
 
 A master of cyberspace, skilled in infiltrating networks and stealing data.
 
@@ -376,18 +418,18 @@ A master of cyberspace, skilled in infiltrating networks and stealing data.
 
 *"Information wants to be free. I'm just the liberator."*
 
-* **Core Concept:** Hacking / Intel / Support  
-* **Recommended Occupations:** Specialist, Criminal.  
-* **Recommended Origins:** Urban, Industrial, Research.  
-* **Recommended Factions:** Syndicate (Deckers), Mekan (Code-Weavers), Ascendancy.  
-* **Key Attributes:** Intellect (Primary), Agility (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Knowledge (Computers), Knowledge (Investigation), Social.  
-* **Signature Traits (1 CP):** Digital Ghost, Cyber Intrusion.  
-* **Tactical Role:** Electronic warfare, data theft, bypassing security.
+  - **Core Concept:** Hacking / Intel / Support
+  - **Recommended Occupations:** Specialist, Criminal.
+  - **Recommended Origins:** Urban, Industrial, Research.
+  - **Recommended Factions:** Syndicate (Deckers), Mekan (Code-Weavers), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Computers), Knowledge (Investigation), Social.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Digital Ghost, Cyber Intrusion.
+  - **Tactical Role:** Electronic warfare, data theft, bypassing security.
 
-### 
+---
 
-## **THE SMUGGLER**
+## **19. THE SMUGGLER**
 
 Specializes in transporting illegal goods across borders.
 
@@ -395,18 +437,18 @@ Specializes in transporting illegal goods across borders.
 
 *"I run a clean ship. Mostly."*
 
-* **Core Concept:** Transport / Stealth / Face  
-* **Recommended Occupations:** Merchant, Criminal.  
-* **Recommended Origins:** Spacer, Urban, Colony.  
-* **Recommended Factions:** Outworlds, Coalition, Syndicate (Black Market).  
-* **Key Attributes:** Agility (Primary), Charisma (Secondary).  
-* **Essential Skills:** Piloting, Stealth, Acrobatics, Diplomacy.  
-* **Signature Traits (1 CP):** Evasive Maneuvers, Hidden Compartments.  
-* **Tactical Role:** Transporting illicit cargo, bypassing blockades, fast talk.
+  - **Core Concept:** Transport / Stealth / Face
+  - **Recommended Occupations:** Merchant, Criminal.
+  - **Recommended Origins:** Spacer, Urban, Colony.
+  - **Recommended Factions:** Outworlds, Coalition, Syndicate (Black Market).
+  - **Key Attributes:** Agility (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Piloting, Stealth, Acrobatics, Diplomacy.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Evasive Maneuvers, Hidden Compartments.
+  - **Tactical Role:** Transporting illicit cargo, bypassing blockades, fast talk.
 
-### 
+---
 
-## **THE SWASHBUCKLER**
+## **20. THE SWASHBUCKLER**
 
 A skilled combatant who excels in boarding actions and close-quarters flair.
 
@@ -414,18 +456,18 @@ A skilled combatant who excels in boarding actions and close-quarters flair.
 
 *"En garde\! Try not to bore me."*
 
-* **Core Concept:** Melee DPS / Mobility / Face  
-* **Recommended Occupations:** Soldier, Entertainer.  
-* **Recommended Origins:** Leisure, Spacer, Urban.  
-* **Recommended Factions:** Dynasty (Duelists), Outworlds (Pirates), Entari.  
-* **Key Attributes:** Agility (Primary), Charisma (Secondary).  
-* **Essential Skills:** Acrobatics, Athletics, Combat (Melee), Bluff.  
-* **Signature Traits (1 CP):** Boarding Party, Weapon Master.  
-* **Tactical Role:** Engaging enemy leaders, mobile melee damage, flamboyant distraction.
+  - **Core Concept:** Melee DPS / Mobility / Face
+  - **Recommended Occupations:** Soldier, Entertainer.
+  - **Recommended Origins:** Leisure, Spacer, Urban.
+  - **Recommended Factions:** Dynasty (Duelists), Outworlds (Pirates), Entari.
+  - **Key Attributes:** Agility (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Athletics, Combat (Melee), Bluff.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Boarding Party, Weapon Master.
+  - **Tactical Role:** Engaging enemy leaders, mobile melee damage, flamboyant distraction.
 
-### 
+---
 
-## **THE QUICK-DRAW**
+## **21. THE QUICK-DRAW**
 
 The gunslinger of the future, whose survival depends on being the first to fire in any confrontation.
 
@@ -433,18 +475,18 @@ The gunslinger of the future, whose survival depends on being the first to fire 
 
 *"I already pulled the trigger. You just haven't fallen yet."*
 
-* **Core Concept:** Burst DPS / Initiative / Reflex  
-* **Recommended Occupations:** Drifter, Soldier.  
-* **Recommended Origins:** Hostile, Colony, Militaristic.  
-* **Recommended Factions:** Outworlds (Gunfighters), Coalition (Marshals), Syndicate.  
-* **Key Attributes:** Agility (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Combat (Pistols), Alertness, Acrobatics, Stealth.  
-* **Signature Traits (1 CP):** Quick Reflexes, Seize Initiative.  
-* **Tactical Role:** Winning initiative, eliminating high-threat targets first, high-mobility combat.
+  - **Core Concept:** Burst DPS / Initiative / Reflex
+  - **Recommended Occupations:** Drifter, Soldier.
+  - **Recommended Origins:** Hostile, Colony, Militaristic.
+  - **Recommended Factions:** Outworlds (Gunfighters), Coalition (Marshals), Syndicate.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom / Alertness (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Combat (Pistols), Alertness, Acrobatics, Stealth.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Quick Reflexes, Seize Initiative.
+  - **Tactical Role:** Winning initiative, eliminating high-threat targets first, high-mobility combat.
 
-### 
+---
 
-## **THE SALVAGE-SPECIALIST**
+## **22. THE SALVAGE-SPECIALIST**
 
 The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage.
 
@@ -452,18 +494,18 @@ The high-risk recovery expert who ventures into derelict hulls and unstable ruin
 
 *"One man's debris is my next month's salary."*
 
-* **Core Concept:** Scavenging / Utility / Tech  
-* **Recommended Occupations:** Spacer, Specialist.  
-* **Recommended Origins:** Spacer, Industrial, Colony.  
-* **Recommended Factions:** Outworlds (Wreckers), Mekan (Resource Converters), Coalition.  
-* **Key Attributes:** Strength (Primary), Intellect (Secondary).  
-* **Essential Skills:** Vocation (Salvager), Knowledge (Technology), Vocation (Engineer), Investigation.  
-* **Signature Traits (1 CP):** Junk Whisperer, Technical Expertise.  
-* **Tactical Role:** Extracting materials from environment, bypassing mechanical hurdles, locating hidden loot.
+  - **Core Concept:** Scavenging / Utility / Tech
+  - **Recommended Occupations:** Spacer, Specialist.
+  - **Recommended Origins:** Spacer, Industrial, Colony.
+  - **Recommended Factions:** Outworlds (Wreckers), Mekan (Resource Converters), Coalition.
+  - **Key Attributes:** Strength (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Salvager), Knowledge (Technology), Vocation (Engineer), Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Junk Whisperer, Technical Expertise.
+  - **Tactical Role:** Extracting materials from environment, bypassing mechanical hurdles, locating hidden loot.
 
-### 
+---
 
-## **THE SHADOW-STEPPER**
+## **23. THE SHADOW-STEPPER**
 
 A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed.
 
@@ -471,18 +513,18 @@ A master of optical camouflage and tactical misdirection who treats reality as a
 
 *"Did you hear that? Probably just the wind."*
 
-* **Core Concept:** Stealth / Infiltration / Sabotage  
-* **Recommended Occupations:** Spy, Criminal.  
-* **Recommended Origins:** Urban, Research, Industrial.  
-* **Recommended Factions:** Syndicate (Infiltrators), Alterian Enclave (Shadows), Mekan.  
-* **Key Attributes:** Agility (Primary), Intellect (Secondary).  
-* **Essential Skills:** Stealth, Disguise, Knowledge (Computers), Acrobatics.  
-* **Signature Traits (1 CP):** Master of Disguise, Digital Ghost.  
-* **Tactical Role:** Stealth scouting, planting explosives, silent elimination.
+  - **Core Concept:** Stealth / Infiltration / Sabotage
+  - **Recommended Occupations:** Agent (*Spy*), Criminal.
+  - **Recommended Origins:** Urban, Research, Industrial.
+  - **Recommended Factions:** Syndicate (Infiltrators), Alterian Enclave (Shadows), Mekan.
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Disguise, Knowledge (Computers), Acrobatics.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Master of Disguise, Digital Ghost.
+  - **Tactical Role:** Stealth scouting, planting explosives, silent elimination.
 
-### 
+---
 
-## **THE ESCAPOLOGIST**
+## **24. THE ESCAPOLOGIST**
 
 The master of extraction and evasion who specializes in getting out of "impossible" situations.
 
@@ -490,18 +532,18 @@ The master of extraction and evasion who specializes in getting out of "impossib
 
 *"I'm not trapped in here with you. I'm already halfway to the hangar."*
 
-* **Core Concept:** Evasion / Utility / Mobility  
-* **Recommended Occupations:** Criminal, Entertainer.  
-* **Recommended Origins:** Urban, Leisure, Spacer.  
-* **Recommended Factions:** Outworlds (Fugitives), Syndicate (Extractors), Coalition.  
-* **Key Attributes:** Agility (Primary), Wisdom (Secondary).  
-* **Essential Skills:** Acrobatics, Legerdemain, Stealth, Investigation.  
-* **Signature Traits (1 CP):** Daredevil, Evasive Maneuvers.  
-* **Tactical Role:** Extraction specialist, bypassing traps, navigating high-security exits.
+  - **Core Concept:** Evasion / Utility / Mobility
+  - **Recommended Occupations:** Criminal, Entertainer.
+  - **Recommended Origins:** Urban, Leisure, Spacer.
+  - **Recommended Factions:** Outworlds (Fugitives), Syndicate (Extractors), Coalition.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Legerdemain, Stealth, Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Daredevil, Evasive Maneuvers.
+  - **Tactical Role:** Extraction specialist, bypassing traps, navigating high-security exits.
 
-### 
+---
 
-## **THE COMBAT-SABOTEUR**
+## **25. THE COMBAT-SABOTEUR**
 
 The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time.
 
@@ -509,16 +551,18 @@ The frontline demolitionist who uses chaos and high explosives to restructure th
 
 *"Plan A involves explosives. Plan B is more explosives."*
 
-* **Core Concept:** Area Damage / Demolition / Utility  
-* **Recommended Occupations:** Soldier, Builder.  
-* **Recommended Origins:** Industrial, Militaristic, Colony.  
-* **Recommended Factions:** Coalition (Rebels), Syndicate (Demolitions), Impyrium.  
-* **Key Attributes:** Strength (Primary), Intellect (Secondary).  
-* **Essential Skills:** Knowledge (Technology), Knowledge (Tactics), Athletics, Heavy Weapons.  
-* **Signature Traits (1 CP):** Demolitionist, Heavy Weapon Mastery.  
-* **Tactical Role:** Breaching structures, area denial, destroying heavy enemy units.
+  - **Core Concept:** Area Damage / Demolition / Utility
+  - **Recommended Occupations:** Soldier, Builder.
+  - **Recommended Origins:** Industrial, Militaristic, Colony.
+  - **Recommended Factions:** Coalition (Rebels), Syndicate (Demolitions), Impyrium.
+  - **Key Attributes:** Strength (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Tactics), Athletics, Heavy Weapons.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Demolitionist, Heavy Weapon Mastery.
+  - **Tactical Role:** Breaching structures, area denial, destroying heavy enemy units.
 
-## 
+---
 
-##
+## **III. DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-305 (1.02.Operatives.md Full Narrative & Quote Restoration):** Restored 100% of the omitted narrative descriptions, second-person roleplay paragraphs, and iconic quotes for all 25 `_SP` Archetypes from `/_ _ TANGENT RP CODEX _ _/1.02 ARCHETYPES` and `/game rules/operator/archetypes/1.02.Operatives.md`, integrated the `Operative Archetype Alignment Matrix` from `TANGENT RP Signature Features Alignment`, and applied all canonical Attribute (`Stamina`, `Agility`, `Wisdom`), Skill (`Alertness`, `Insight`, `Vocation [Handler]`, `Knowledge [Language]`), and `80-CP Chassis` normalizations.
 

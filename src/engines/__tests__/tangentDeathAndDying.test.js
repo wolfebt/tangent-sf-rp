@@ -28,60 +28,80 @@ describe('Tangent Death & Dying Canonical Mechanics', () => {
     assert.equal(result.incapacitated, false);
   });
 
-  it('2. Lethal damage hits Health directly; excess beyond 0 is applied to remaining Vitality', () => {
-    const result = applyDamageToEntity({
+  it('2. Vitality-first routing & Bleed/Overchannel direct-to-Health bypass', () => {
+    // Standard damage depletes Vitality first before Health
+    const standardResult = applyDamageToEntity({
       currentHealth: 10,
       currentVitality: 25,
-      incomingDamage: 16,
+      incomingDamage: 30,
       isNonLethal: false,
       toughness: 0
     });
 
-    assert.equal(result.newHealth, 0, 'Health should be reduced to 0');
-    assert.equal(result.newVitality, 19, 'Excess 6 damage should be applied to remaining Vitality');
-    assert.equal(result.excessToVitality, 6);
-    assert.equal(result.incapacitated, true, 'Character at 0 Health must be Incapacitated');
-    assert.equal(result.unconscious, true, 'Character at 0 Health must be Unconscious');
-    assert.equal(result.prone, true, 'Character at 0 Health must fall Prone');
-    assert.equal(result.droppedHeldItems, true, 'Character at 0 Health must drop held items');
-    assert.equal(result.isAtDeathsDoor, false, 'Should NOT enter Death Door while Vitality remains');
+    assert.equal(standardResult.newVitality, 0, 'Vitality should be depleted first');
+    assert.equal(standardResult.newHealth, 5, 'Remaining 5 damage spills into Health');
+    assert.equal(standardResult.incapacitated, false);
+
+    // Bleed / Overchannel Burn bypasses Vitality directly to Health
+    const bleedResult = applyDamageToEntity({
+      currentHealth: 10,
+      currentVitality: 25,
+      incomingDamage: 16,
+      bypassVitality: true,
+      damageType: 'bleed',
+      toughness: 4,
+      armorDR: 5
+    });
+
+    assert.equal(bleedResult.newHealth, 0, 'Direct Health damage reduces Health to 0');
+    assert.equal(bleedResult.newVitality, 25, 'Bleed bypasses Vitality completely');
+    assert.equal(bleedResult.excessToStability, 6, 'Excess 6 damage beyond 0 Health tracks overflow past 0 Health');
+    assert.equal(bleedResult.incapacitated, true, 'Character at 0 Health must be Incapacitated');
+    assert.equal(bleedResult.unconscious, true, 'Character at 0 Health must be Unconscious');
+    assert.equal(bleedResult.prone, true, 'Character at 0 Health must fall Prone');
+    assert.equal(bleedResult.droppedHeldItems, true, 'Character at 0 Health must drop held items');
   });
 
-  it('3. 0 Health Incapacitated sequence: Unconscious, Prone, Drops items, but safe from Death Clock while Vitality > 0', () => {
+  it('3. 0 Health Unified Mortality State: Unconscious, Prone, Bleeding Out, Stability = STA + 5', () => {
     const result = applyDamageToEntity({
       currentHealth: 5,
-      currentVitality: 15,
+      currentVitality: 0,
+      staminaScore: 3,
       incomingDamage: 5,
       isNonLethal: false,
       toughness: 0
     });
 
     assert.equal(result.newHealth, 0);
-    assert.equal(result.newVitality, 15);
+    assert.equal(result.newVitality, 0);
     assert.equal(result.incapacitated, true);
     assert.equal(result.unconscious, true);
     assert.equal(result.prone, true);
     assert.equal(result.droppedHeldItems, true);
-    assert.equal(result.isAtDeathsDoor, false);
-    assert.equal(result.isComatose, false);
+    assert.equal(result.inMortalityState, true);
+    assert.equal(result.stabilityMax, 8, 'Stability Points = STA (3) + 5 = 8');
+    assert.ok(result.conditions.includes('Bleeding Out'));
   });
 
-  it('4. Death\'s Door trigger: Occurs only when Health is 0 AND Vitality is 0', () => {
+  it('4. Unified Mortality & Death\'s Door trigger: Stability Points = STA + 5', () => {
     const result = applyDamageToEntity({
       currentHealth: 5,
       currentVitality: 5,
       staminaScore: 4,
-      incomingDamage: 20,
+      incomingDamage: 15,
       isNonLethal: false,
       toughness: 0
     });
 
     assert.equal(result.newHealth, 0);
     assert.equal(result.newVitality, 0);
-    assert.equal(result.isAtDeathsDoor, true, 'Must enter Death\'s Door state');
+    assert.equal(result.isAtDeathsDoor, true, 'Must enter Mortality / Death\'s Door state');
+    assert.equal(result.inMortalityState, true);
     assert.equal(result.isComatose, true, 'Condition: Comatose and severely wounded');
-    assert.equal(result.deathClockMax, 4, 'Clock must equal Stamina score');
-    assert.equal(result.deathClockRemaining, 4);
+    assert.equal(result.stabilityMax, 9, 'Stability Points must equal STA (4) + 5 = 9');
+    assert.equal(result.deathClockMax, 9);
+    assert.equal(result.deathClockRemaining, 9);
+    assert.ok(result.conditions.includes('Bleeding Out'));
     assert.ok(result.conditions.includes("Death's Door"));
     assert.ok(result.conditions.includes('Comatose'));
     assert.ok(result.conditions.includes('Incapacitated'));
@@ -103,15 +123,15 @@ describe('Tangent Death & Dying Canonical Mechanics', () => {
     assert.equal(result.concussiveSplit.wasSplit, true);
   });
 
-  it('6. Massive Damage instant kill: Hit >= STA score while at Death\'s Door kills instantly', () => {
-    const isInstantKill = checkMassiveDamage(3, 3);
-    assert.equal(isInstantKill, true, 'Damage equal to STA (3) must trigger instant death');
+  it('6. Massive Damage instant kill: Overflow or hit >= STA + 5 while at 0 HP kills instantly', () => {
+    const isInstantKill = checkMassiveDamage(8, 3);
+    assert.equal(isInstantKill, true, 'Damage >= STA + 5 (8) must trigger instant death');
 
     const damageResult = applyDamageToEntity({
       currentHealth: 0,
       currentVitality: 0,
       staminaScore: 3,
-      incomingDamage: 3,
+      incomingDamage: 8,
       isAtDeathsDoor: true,
       toughness: 0
     });
@@ -121,15 +141,15 @@ describe('Tangent Death & Dying Canonical Mechanics', () => {
     assert.ok(!damageResult.conditions.includes("Death's Door"));
   });
 
-  it('7. Non-massive damage while at Death\'s Door does not trigger instant kill if < STA', () => {
-    const isInstantKill = checkMassiveDamage(3, 4);
-    assert.equal(isInstantKill, false, 'Damage 3 < STA (4) should not instantly kill');
+  it('7. Non-massive damage while at 0 HP does not trigger instant kill if < STA + 5', () => {
+    const isInstantKill = checkMassiveDamage(7, 4);
+    assert.equal(isInstantKill, false, 'Damage 7 < STA + 5 (9) should not instantly kill');
 
     const damageResult = applyDamageToEntity({
       currentHealth: 0,
       currentVitality: 0,
       staminaScore: 4,
-      incomingDamage: 3,
+      incomingDamage: 7,
       isAtDeathsDoor: true,
       toughness: 0
     });
@@ -185,7 +205,8 @@ describe('Tangent Death & Dying Canonical Mechanics', () => {
     assert.equal(revived.updatedData.is_dead, false);
     assert.equal(revived.updatedData.is_at_deaths_door, false);
     assert.equal(revived.updatedData.karma, 0, 'Loses ALL remaining Karma Points');
-    assert.equal(revived.updatedData.experience_debt, 7, 'Suffers -5 Experience Debt (2 + 5 = 7)');
+    assert.equal(revived.updatedData.experience_debt, 7, 'Suffers +5 Experience Debt (2 + 5 = 7)');
+    assert.ok(revived.updatedData.conditions.includes('Exhausted'), 'Revivification applies Exhausted condition');
     assert.equal(revived.penalties.karmaLost, 4);
     assert.equal(revived.penalties.experienceDebtAdded, 5);
   });
@@ -203,18 +224,18 @@ describe('Tangent Death & Dying Canonical Mechanics', () => {
     assert.ok(result.conditions.includes('Dead'));
   });
 
-  it('12. calculateDeathClock enforces minimum 1 round', () => {
-    assert.equal(calculateDeathClock(0), 1);
-    assert.equal(calculateDeathClock(-2), 1);
-    assert.equal(calculateDeathClock(5), 5);
+  it('12. calculateDeathClock (Stability = STA + 5) enforces minimum 1 point', () => {
+    assert.equal(calculateDeathClock(0), 5);
+    assert.equal(calculateDeathClock(-6), 1);
+    assert.equal(calculateDeathClock(5), 10);
   });
 
-  it('13. DEATH_AND_DYING_RULES constants match canonical design specification', () => {
+  it('13. DEATH_AND_DYING_RULES constants match canonical Unified Mortality specification', () => {
     assert.ok(DEATH_AND_DYING_RULES);
-    assert.equal(DEATH_AND_DYING_RULES.THRESHOLD_OF_DEATH.zeroHealth.name, '0 Health (Incapacitated)');
+    assert.equal(DEATH_AND_DYING_RULES.THRESHOLD_OF_DEATH.deathsDoor.stabilization.medicineCR, 15);
     assert.equal(DEATH_AND_DYING_RULES.THRESHOLD_OF_DEATH.deathsDoor.stabilization.medicineDC, 15);
     assert.equal(DEATH_AND_DYING_RULES.REVIVIFICATION.subtitle, 'The High Cost of Dying');
     assert.equal(DEATH_AND_DYING_RULES.REVIVIFICATION.penalties.experienceDebt, 5);
-    assert.ok(DEATH_AND_DYING_RULES.REVIVIFICATION.penalties.debtDescription.includes('-5 Experience Debt'));
+    assert.equal(DEATH_AND_DYING_RULES.REVIVIFICATION.penalties.appliesExhausted, true);
   });
 });

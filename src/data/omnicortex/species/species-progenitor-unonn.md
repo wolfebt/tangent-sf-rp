@@ -102,7 +102,7 @@ cp_cost: 115
 
 # **U’NONN**
 
-**CP Cost:** 79 CP
+**CP Cost:** 115 CP
 
 **Description:** U’Nonn are ancient primordial progenitors who command matter and energy directly through pure thought and deific metaphysical matrices.
 
@@ -121,11 +121,11 @@ cp_cost: 115
 **Stigma:** Deific (-6), Xeno (-2)
 
 **Ability Modifiers:**
-* +4 Int [16 CP]
-* +6 Ability [24 CP]
+* +4 Int [20 CP]
+* +6 Ability [30 CP]
 
 **Skills:**
-* +40 Skills [32 CP]
+* +40 Skills [40 CP]
 
 **Species Features:**
 * Progenitor Heritage [26 CP]

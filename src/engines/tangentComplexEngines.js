@@ -65,6 +65,7 @@ import {
  * @returns {number} Final Crafting/Surgical DC
  */
 export function calculateAugmentationDC({
+  baseCR,
   baseDC,
   category = 'body_mod',
   location = 'Torso',
@@ -76,12 +77,13 @@ export function calculateAugmentationDC({
   isPseudo = false,
   subMods = []
 } = {}) {
+  const resolvedBase = baseCR !== undefined && baseCR !== null ? baseCR : baseDC;
   let dc = 15;
 
   if (isFBC && FBC_PACKAGES[fbcPackage]) {
-    dc = FBC_PACKAGES[fbcPackage].baseDC;
-  } else if (baseDC !== undefined && baseDC !== null && !isNaN(baseDC)) {
-    dc = Number(baseDC);
+    dc = FBC_PACKAGES[fbcPackage].baseCR ?? FBC_PACKAGES[fbcPackage].baseDC;
+  } else if (resolvedBase !== undefined && resolvedBase !== null && !isNaN(resolvedBase)) {
+    dc = Number(resolvedBase);
   } else if (AUGMENTATION_CATEGORIES[category]) {
     if (category === 'fashionware') dc = 10;
     else if (category === 'synth_limb') dc = 20;
@@ -97,8 +99,8 @@ export function calculateAugmentationDC({
   // Sub-modifications
   if (Array.isArray(subMods)) {
     for (const mod of subMods) {
-      if (typeof mod === 'object' && mod.dcMod) {
-        dc += Number(mod.dcMod);
+      if (typeof mod === 'object' && (mod.crMod !== undefined || mod.dcMod !== undefined)) {
+        dc += Number(mod.crMod ?? mod.dcMod);
       }
     }
   }
@@ -110,6 +112,8 @@ export function calculateAugmentationDC({
 
   return Math.max(0, Math.round(dc));
 }
+
+export const calculateAugmentationCR = calculateAugmentationDC;
 
 /**
  * Calculates node displacement and checks body slot capacity.
@@ -240,7 +244,7 @@ export function computeAugmentationStats(formData) {
   const isPseudo = !!(formData.is_pseudo || formData.category === 'pseudo');
 
   const finalDC = calculateAugmentationDC({
-    baseDC: formData.base_dc ?? formData.craft_dc,
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
     category: formData.category || 'body_mod',
     location: formData.location || 'Torso',
     tl: formData.tech_level ?? formData.tl ?? 3,
@@ -262,7 +266,8 @@ export function computeAugmentationStats(formData) {
 
   const bpCost = calculateAugmentationBP({
     category: formData.category || 'body_mod',
-    customBP: formData.bp_cost ?? formData.cp,
+    customCP: formData.cp_cost ?? formData.cp,
+    customBP: formData.bp_cost ?? formData.bp,
     tl: formData.tech_level ?? formData.tl ?? 3,
     isFBC,
     fbcPackage
@@ -276,18 +281,22 @@ export function computeAugmentationStats(formData) {
     fbcPackage
   });
 
-  const creditValue = isFBC && FBC_PACKAGES[fbcPackage] ? FBC_PACKAGES[fbcPackage].credits : calculateCreditValue(finalDC);
+  const creditValue = isFBC && FBC_PACKAGES[fbcPackage] ? FBC_PACKAGES[fbcPackage].credits : calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
   const materialCost = calculateMaterialCost(creditValue);
   const stigma = calculateStigmaLevel(formData.installed_mods_count || 1, isFBC);
 
   return {
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
+    craft_dc: finalDC,
     credit_value: creditValue,
     material_cost: materialCost,
     ws_threshold: finalDC,
     complexity_tier: getComplexityTier(finalDC),
     crafting_days: calculateAllCraftingTiers(creditValue),
     node_stats: nodeStats,
+    cp_cost: bpCost,
     bp_cost: bpCost,
     sp_total: sp,
     stigma_level: stigma.level,
@@ -832,10 +841,13 @@ export function calculateMechaDefenseDC({
   return 10 + Number(pilotAgility || 0) + (sizeDef.defMod ?? 0) + (frameDef.handlingMod ?? 0);
 }
 
+export const calculateMechaDefenseCR = calculateMechaDefenseDC;
+
 /**
- * Calculates the comprehensive Crafting DC for Mecha chassis.
+ * Calculates the comprehensive Crafting CR/DC for Mecha chassis.
  */
 export function calculateMechaDC({
+  baseCR,
   baseDC,
   size = 'Medium',
   frame = 'Humanoid',
@@ -849,8 +861,9 @@ export function calculateMechaDC({
 } = {}) {
   const sizeDef = MECHA_SIZES[size] || MECHA_SIZES.Medium;
   const frameDef = MECHA_FRAMES[frame] || MECHA_FRAMES.Humanoid;
+  const resolvedBase = baseCR !== undefined && baseCR !== null ? baseCR : baseDC;
 
-  let dc = Number(baseDC !== undefined && baseDC !== null && !isNaN(baseDC) ? baseDC : sizeDef.baseDC);
+  let dc = Number(resolvedBase !== undefined && resolvedBase !== null && !isNaN(resolvedBase) ? resolvedBase : (sizeDef.baseCR ?? sizeDef.baseDC));
 
   // Add Frame complexity DC
   dc += frameDef.complexityDC;
@@ -899,6 +912,30 @@ export function calculateMechaDC({
   }
 
   return Math.max(0, Math.round(dc));
+}
+
+export const calculateMechaCR = calculateMechaDC;
+
+/**
+ * Calculates Automata Skill Ranks and Maximum Skill Cap from Processing Rating (PR) (5.05 AUTOMATA.md).
+ * - PR 1: 10 Skill Ranks, Max Skill Cap 5
+ * - PR 2: 15 Skill Ranks, Max Skill Cap 6
+ * - PR 3: 20 Skill Ranks, Max Skill Cap 9
+ * - PR 4: 25 Skill Ranks, Max Skill Cap 12
+ * - PR 5: 30 Skill Ranks, Max Skill Cap 15
+ *
+ * @param {number} [pr=1] - Processing Rating (1..5+)
+ * @returns {{ pr: number, skillRanks: number, maxSkillCap: number }}
+ */
+export function calculateAutomataStatsFromPR(pr = 1) {
+  const prNum = Math.max(1, Math.round(Number(pr) || 1));
+  const skillRanks = (prNum + 1) * 5;
+  const maxSkillCap = Math.max(5, prNum * 3);
+  return {
+    pr: prNum,
+    skillRanks,
+    maxSkillCap
+  };
 }
 
 /**
@@ -1007,7 +1044,7 @@ export function computeMechaStats(formData) {
   const frameDef = MECHA_FRAMES[frame] || MECHA_FRAMES.Humanoid;
 
   const finalDC = calculateMechaDC({
-    baseDC: formData.base_dc ?? formData.craft_dc,
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
     size,
     frame,
     propulsion: formData.propulsion,
@@ -1036,7 +1073,7 @@ export function computeMechaStats(formData) {
   const hasAi = (formData.installed_modules || []).some(m => (typeof m === 'string' ? m : m.id) === 'targeting_ai');
   const crewRequired = calculateCrewRequired(size, hasAi);
 
-  const creditValue = calculateCreditValue(finalDC);
+  const creditValue = calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
   const materialCost = calculateMaterialCost(creditValue);
 
   let tacticalSpeed = '40 ft/rnd';
@@ -1046,7 +1083,10 @@ export function computeMechaStats(formData) {
   }
 
   return {
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
+    craft_dc: finalDC,
     credit_value: creditValue,
     is_megacredit: creditValue >= 1000000,
     megacredit_value: creditValue >= 1000000 ? (creditValue / 1000000).toFixed(2) + ' MCr' : null,
@@ -1055,6 +1095,7 @@ export function computeMechaStats(formData) {
     complexity_tier: getComplexityTier(finalDC),
     crafting_days: calculateAllCraftingTiers(creditValue),
     total_sp: sizeDef.structure,
+    defense_cr: defenseDC,
     defense_dc: defenseDC,
     handling_mod: frameDef.handlingMod,
     tactical_speed: tacticalSpeed,
@@ -1340,12 +1381,16 @@ export function calculateArchitectureDC({
   const finalDC = Math.max(0, Math.round(runningDC));
 
   return {
+    finalCR: finalDC,
     finalDC,
     highestRuleApplied,
+    highestComponentCR: highestComponentDC,
     highestComponentDC,
     highestComponentSource
   };
 }
+
+export const calculateArchitectureCR = calculateArchitectureDC;
 
 /**
  * Calculates workforce cooperative construction timeline based on Workforce Productivity Points (PP).
@@ -1605,7 +1650,7 @@ export function computeArchitectureStats(formData) {
     generators,
     uduCompression: formData.udu_compression,
     isRare: !!formData.is_rare,
-    baseDC: formData.base_dc ?? formData.craft_dc
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc
   });
 
   const finalDC = dcResult.finalDC;
@@ -1616,7 +1661,7 @@ export function computeArchitectureStats(formData) {
     costMult = 1.0; // Free at TL3+
   }
 
-  const baseCreditValue = calculateCreditValue(finalDC);
+  const baseCreditValue = calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
   const adjustedCreditValue = Math.round(baseCreditValue * costMult);
   const materialCost = calculateMaterialCost(adjustedCreditValue);
 
@@ -1649,7 +1694,10 @@ export function computeArchitectureStats(formData) {
   }
 
   return {
+    final_cr: finalDC,
     final_dc: finalDC,
+    craft_cr: finalDC,
+    craft_dc: finalDC,
     highest_rule_applied: dcResult.highestRuleApplied,
     highest_component_source: dcResult.highestComponentSource,
     credit_value: adjustedCreditValue,
@@ -1803,10 +1851,12 @@ export function calculateAerialRamDamage({
  */
 export function evaluateMovementFatigue({
   checkTotal,
+  targetCR,
   targetDC = 15
 } = {}) {
-  const success = checkTotal >= targetDC;
-  const missMargin = success ? 0 : targetDC - checkTotal;
+  const resolvedTarget = Number(targetCR ?? targetDC ?? 15);
+  const success = checkTotal >= resolvedTarget;
+  const missMargin = success ? 0 : resolvedTarget - checkTotal;
   const damagePerMiss = Math.floor(missMargin / 5) * MOVEMENT_FATIGUE_SYSTEM.vitalityDamagePerMissOf5;
   const baseVitalityDamage = success ? 0 : MOVEMENT_FATIGUE_SYSTEM.vitalityDamageFail;
   const totalVitalityLoss = success ? 0 : Math.max(baseVitalityDamage, 1 + damagePerMiss);
@@ -1814,7 +1864,8 @@ export function evaluateMovementFatigue({
   return {
     success,
     check_total: checkTotal,
-    target_dc: targetDC,
+    target_cr: resolvedTarget,
+    target_dc: resolvedTarget,
     miss_margin: missMargin,
     vitality_damage: totalVitalityLoss,
     exhaustion_risk: !success,

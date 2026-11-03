@@ -1705,14 +1705,14 @@ export const TacticalPlayView = ({
             maxWidth={380}
             formula="Check / Attack = 2d10 + Ability Mod + Skill vs Target Defense Score"
             rules={[
-              "Critical Hit: Dual 10s on 2d10 is treated as 30 (+10 bonus over max 20).",
-              "Critical Failure (Fumble): Dual 1s on 2d10 is treated as -10.",
+              "Critical Hit: Adds +10 to the rolled 2d10 value (e.g., 20 becomes 30, 19 becomes 29 on expanded threat).",
+              "Critical Failure (Fumble): Replaces the rolled 2d10 value with a flat -10 (regardless of fumble threshold).",
               "Advantage / Disadvantage: Roll two pairs of 2d10, take higher (Adv) or lower (Disadv). Cancels if both apply.",
               "Defender Wins Ties: In all active opposed defense checks, defender wins all ties!",
               "Biological Vitals: Damage depletes Vitality (stamina/shields) first, then Health (fatal flesh wounds).",
               "Synthetic Vitals: Synthetic chassis uses Structure Points (SP) exclusively. Immune to non-lethal damage."
             ]}
-            tags={['2d10 Base', 'Crits = 30', 'Fumbles = -10', 'Defender Wins Ties', 'Dynamic Triage']}
+            tags={['2d10 Base', 'Crits = Roll + 10', 'Fumbles = -10', 'Defender Wins Ties', 'Dynamic Triage']}
             notes="Base Defense Score = 10 + Agility + Defense Rank + Modifiers. Reaction slots include Dodge (Evasion), Parry (Weapon Block), and Block (Shield). Physical Armor and Energy Shields mitigate damage before vitals attrition."
           >
             <button

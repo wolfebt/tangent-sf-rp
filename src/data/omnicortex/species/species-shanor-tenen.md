@@ -119,7 +119,7 @@ cp_cost: 50
 
 # 
 
-**CP Cost:** 38 CP
+**CP Cost:** 50 CP
 
 **Description:** The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from their predatory nature and Vampiric needs. Theory of this is primarily due to a transition to a demi-dimension they have been dwelling in. This seems to have accompanied their use of different energies more amiable to creation than destruction.&nbsp;
 

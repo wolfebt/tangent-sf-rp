@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aulurans"
-order: 42
+order: 40
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aulurans.prokos","mechanics"]
-updatedAt: "2026-10-31T10:38:11.488Z"
+updatedAt: "2026-11-02T22:49:33.151Z"
 costs:
   bp: 0
   credits: 0
@@ -37,81 +37,82 @@ sockets:
   allocated: []
 ---
 
-# **PROKOS \*\***
+# **PROKOS **  
+**
 
-# **PROKOS \*\***
+# **PROKOS **
 
-# 
+  
 
-**CP Cost:** 20 CP  
+**CP Cost:** 
 
-**Description:** The Prokos stand as a unique and fascinating sub-species within the broader spectrum of feline humanoids. Their lineage traces a distant connection to the graceful Aulurans, simultaneously exhibiting a blend of physical and behavioral traits shared with both the Koda and the Graa.&nbsp;
+**Description:** The Prokos stand as a unique and fascinating sub-species within the broader spectrum of feline humanoids. Their lineage traces a distant connection to the graceful Aulurans, simultaneously exhibiting a blend of physical and behavioral traits shared with both the Koda and the Graa. 
 
-&nbsp;
+  
 
 A central element of Prokos biology is their profound adaptation to an extreme Arctic environment. Over generations, they have evolved a dense, multi-layered fur that provides exceptional insulation against the harshest cold. A particularly defining feature is their extra-thick, long tails used primarily for balance and agility on rough and icy terrain, thermal insulation, and fat storage for emergency energy reserves. These multifunctional tails can be as long as 6.5 feet (2 meters) and are used to wrap around the body for warmth and protect the face during blizzards. Their paws are broad and padded, acting like natural snowshoes.
 
-&nbsp;
+  
 
 However, the most remarkable characteristic of the Prokos is their inherent transformation ability. They possess the capacity to fluidly shift between two distinct forms:
 
-&nbsp;
+  
 
 **Adapted Feline Humanoid Form:** This is their bipedal, intelligent form, designed for tool use, complex social interaction, and survival in their structured communities. In this state, they retain their dense fur, distinctive facial features, and the long, powerful tail.
 
-&nbsp;
+  
 
 **Full Quadruped Feline Form:** In this shape, they resemble a large, powerfully built Arctic feline, optimized for speed, tracking, and hunting across the snowy tundra. This shift allows them to leverage the instinctive predatory strengths of their lineage and is a vital survival mechanism for hunting or rapid travel across unforgiving terrain.
 
-&nbsp;
+  
 
 This shapeshifting capacity underscores their adaptability, making them master survivors of their frozen homelands, capable of seamlessly integrating intelligence and instinct.
 
-&nbsp;
+  
 
 **Classification:** Humanoid-Beast Biform (Feline)
 
 **Size:** Medium
 
-**Movement:** 30ft Groundspeed&nbsp;
+**Movement:** 30ft Groundspeed 
 
-&nbsp;
+  
 
 **Tech Level:** 2
 
 **Meta Level:** 3
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:**&nbsp;
+**Stigma:** 
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Int
++1 Int
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Adapted (Cold)
 
-Alternate Form&nbsp;
+Alternate Form 
 
-Improved Great Fortitude (Feature)
+Improved Great Fortitude (Feat)
 
 Stigma (Xeno)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Acrobatic
 
@@ -143,9 +144,9 @@ Tracker
 
 Quick line
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+**  
+**
 

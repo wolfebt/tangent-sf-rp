@@ -120,7 +120,7 @@ cp_cost: 47
 
 # 
 
-**CP Cost:** 22 CP  
+**CP Cost:** 47 CP  
 
 **Description:** Conscious Algorithm housed within a structure or a mech. (the ‘Shell’).&nbsp;
 

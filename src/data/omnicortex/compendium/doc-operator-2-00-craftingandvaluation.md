@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 224
+order: 222
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","economatrix","2.00.craftingandvaluation","mechanics"]
-updatedAt: "2026-10-31T11:30:42.698Z"
+updatedAt: "2026-11-02T22:49:19.505Z"
 costs:
   bp: 0
   credits: 0
@@ -37,80 +37,220 @@ sockets:
   allocated: []
 ---
 
-# **THE CRAFTING ENGINE & MASTER VALUATION TABLES**
+# **2.00.08 THE CRAFTING ENGINE & MASTER VALUATION TABLES**
 
 ## **5. The Crafting Engine: Complexity as Gameplay**
 
-Because the Tangent Standard Curve dictates that value scales exponentially, a linear crafting system (e.g., generating 50 credits of value per day) would require centuries to build high-end assets. Tangent solves the "Time vs. Cost" paradox through the **Productivity Engine**, converting effort into **Productivity Points (PP)**.
+The Tangent crafting system must solve the "Time vs. Cost" paradox. In Pathfinder, high-value items take so long to craft that the campaign often ends before the item is finished. In Tangent, because Value scales exponentially, Crafting Speed must also scale exponentially to keep pace.
 
-### **5.1 The Productivity Formula**
-* **Item Complexity (Target PP):** Equal to the item's Credit Value ($\text{Target PP} = \text{Value in Credits}$).
-* **Crafter Daily Progress (PP):** Calculated from the crafter's Skill Check Result and the Tool Tier Multiplier:
+  
 
-$$\mathbf{\text{Daily Progress (PP)}} = (\text{Craft Check Result} - 10) \times \text{Tier Multiplier}$$
+### **5. The Productivity Formula**
 
-$$\mathbf{\text{Crafting Duration (Days)}} = \frac{\text{Target PP}}{\text{Daily Progress (PP)}}$$
+We introduce Productivity Points (PP).
 
-#### **Table 5.1: Production Tool Tiers**
-| Tier | Tools Required | Multiplier | Narrative Equivalent |
-| :---: | :--- | :---: | :--- |
-| **0** | **Improvised** | **x1** | Bare hands, stone tools, cave workshop. |
-| **1** | **Basic** | **x10** | Garage kit, basic smithy, handheld power tools. |
-| **2** | **Advanced** | **x50** | Professional machine shop, alchemist laboratory. |
-| **3** | **Industrial** | **x200** | Automated factory line, major metaphysical circle. |
-| **4** | **Nanoforge** | **x1,000** | Molecular assemblers, swarm fabrication vats. |
-| **Bio** | **Cultivation** | **x1,000** | Hyper-Growth Vats (accelerated nutrient cloning). |
-| **5** | **Genesis** | **x5,000** | Polymatter loom, holophotonics, wish-level fabrication. |
+  - **Item Complexity (Target PP):** Equal to the Item's Credit Value. (e.g., CR 20 item requires 2,560 PP).
+  - **Crafter Output:** determined by Skill Check and Tier Multiplier.
 
-### **5.2 Solving the "Decades" Problem: Titan Mech Suit Example**
-Target: Titan Mech Suit (Craft DC 30, Value = 40,960 Credits, Target PP = 40,960).
-* **Scenario A (Hobbyist with Basic Tools):** Check Result 20, Tools Basic (x10).
-  $$\text{Daily PP} = (20 - 10) \times 10 = 100\text{ PP/Day} \implies 40,960 / 100 = \mathbf{409.6\text{ Days}}$$
-* **Scenario B (Master Engineer in Advanced Shop):** Check Result 35, Tools Advanced (x50).
-  $$\text{Daily PP} = (35 - 10) \times 50 = 1,250\text{ PP/Day} \implies 40,960 / 1,250 \approx \mathbf{32.8\text{ Days}}$$
-* **Scenario C (Apex Operator with Nanoforge):** Check Result 40, Tools Nanoforge (x1,000).
-  $$\text{Daily PP} = (40 - 10) \times 1,000 = 30,000\text{ PP/Day} \implies 40,960 / 30,000 \approx \mathbf{1.36\text{ Days}}$$
+Daily\\ Progress (PP) = (Craft\\ Check\\ Result - 10) \\times Tier\\ Multiplier
 
-### **5.3 Macro-Scale Construction and Faction Labor Pools**
-For astronomical projects like a Dreadnought (DC 50, Value ~10.5 MCr) or a Titanic Arcology (DC 60, Value ~167 MCr), individual crafting is physically impossible. Factions utilize **Labor Pools**:
-* A shipyard employs 1,000 engineers operating Industrial (x200) tools.
-* Average engineering check: 15.
-* Output per worker: $(15 - 10) \times 200 = 1,000\text{ PP/Day}$.
-* Total Shipyard Output: $1,000 \times 1,000 = \mathbf{1,000,000\text{ PP/Day}}$.
-* Construction Time for Dreadnought ($10,485,760\text{ PP}$): $10,485,760 / 1,000,000 \approx \mathbf{10.5\text{ Days}}$.
+  
 
-This macro-economic logic drives factional warfare: maintaining continuous shipyard production requires 5.25 Million Credits in raw materials every 10 days, forcing empires to secure territorial mining claims and trade conduits.
+#### **Table 5.1: The Production Tiers**
 
----
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **TECH TIER** | **TOOLS REQUIRED** | **MULTIPLIER** | **NARRATIVE EQUIVALENT** |
+| **0** | **Improvised** | x1 | Stone tools, bare hands, cave. |
+| **1** | **Basic** | x10 | Garage kit, basic smithy, handheld tools. |
+| **2** | **Advanced** | x50 | Professional workshop, machine shop, alchemist lab. |
+| **3** | **Industrial** | x200 | Automated factory line, major magical circle. |
+| **4** | **Nanoforge** | x1,000 | Molecular assemblers, Wish-level fabrication. |
+| **5** |  **Genesis** | x5,000 | Polymatter loom, Holophotonics or metaphysical fabrication. |
+| **Bio**  | **Cultivation** | x1,000 | Hyper-Growth Vats where items are grown. |
+
+  
+
+### **5. Solving the "Decades" Problem**
+
+Let us test the math on a high-level item: The Titan Mech Suit (Craft CR 30).
+
+  - **Value:** 10 \\times 4^{(30/5)} = 10 \\times 4096 = 40,960 Credits.
+  - **Target PP:** 40,960.
+
+**Scenario A: The Hobbyist (Pathfinder Style)**
+
+  - Skill Check: 20.
+  - Tools: Basic (x10).
+  - Daily Progress: (20-10) \\times 10 = 100 PP.
+  - Time: 40,960 / 100 = 409.6 Days.
+  - *Result: Realistic for a hobbyist in a garage.*
+
+**Scenario B: The Master Engineer (Tangent Style)**
+
+  - Skill Check: 35 (High level, buffs).
+  - Tools: Advanced Workshop (x50).
+  - Daily Progress: (35-10) \\times 50 = 1,250 PP.
+  - Time: 40,960 / 1,250 \\approx 33 Days.
+  - *Result: A month of downtime. Reasonable for a major campaign upgrade.*
+
+**Scenario C: The Nanoforge (Endgame)**
+
+  - Skill Check: 40.
+  - Tools: Nanoforge (x1,000).
+  - Daily Progress: (40-10) \\times 1,000 = 30,000 PP.
+  - Time: 40,960 / 30,000 \\approx 1. Days.
+  - *Result: High-level characters with high-level infrastructure can print mechs over a weekend.*
+
+This exponential scaling of "Tier Multipliers" counters the exponential growth of "Item Value," ensuring that crafting remains a viable gameplay option from level 1 to level 20.
+
+  
+  
 
 ## **6. Comprehensive Reference Tables**
 
-### **Table 6.1: The Master Valuation Table (DC to Credits)**
+The following tables serve as the GM's primary interface for the Tangent Economic Matrix.
 
-| Craft DC | Complexity | Value (Credits) | Examples (SciFi / Fantasy) |
-| :---: | :--- | :---: | :--- |
-| **0** | **Scrap** | 10 | Raw ore, ration bar, wooden club. |
-| **5** | **Simple** | 40 | Combat knife, backpack, basic clothing, trauma bandage. |
-| **10** | **Standard** | 160 | Ballistic pistol, vibro-sword, light armor, commlink. |
-| **15** | **Advanced** | 640 | Assault rifle, plasteel armor, medkit, hacking deck. |
-| **20** | **Expert** | 2,560 | Plasma rifle, sealed environmental suit, masterwork focus. |
-| **25** | **Master** | 10,240 | Cybernetic limb, repulsor hoverbike, railgun, psi-amp. |
-| **30** | **Grandmaster** | 40,960 | Titan power armor, tactical combat golem, personal shuttle. |
-| **35** | **Heroic** | 163,840 | Sentient AI Core, aerospace fighter jet, starship hull module. |
-| **40** | **Legendary** | 655,360 | Corvette-class starship, precursor artifact, fortress redoubt. |
-| **45** | **Mythic** | 2,621,440 | Frigate-class warship, resurrection chamber, orbital drydock. |
-| **50** | **Transcendent** | 10,485,760 | Dreadnought flagship, planetary shield generator grid. |
-| **60** | **Precursor** | 167.7 MCr | Planetary terraformer, dark-matter stellar siphon. |
-| **80** | **Megastructure**| 42.9 BCr | Dyson swarm cluster, orbital ringworld anchor. |
+  
 
-### **Table 6.2: Universal Displacement Unit (UDU) Hierarchy**
+#### **Table 6.1: The Master Valuation Table (CR to Credits)**
 
-| Tier | Unit Name | Scale Context | Max Mass | Ratio / Capacity |
-| :---: | :--- | :--- | :---: | :--- |
-| **Tier 0** | **Node** | Augmentation / Micro Option | < 10 g | 10 Nodes = 1 Socket |
-| **Tier 1** | **Socket** | Personal Base Unit (Guns, Decks) | < 1 kg | 10 Sockets = 1 Mount |
-| **Tier 2** | **Mount** | Mecha / Heavy Vehicle Hardpoint | < 100 kg | 10 Mounts = 1 Module |
-| **Tier 3** | **Module** | Capital Ship / Architecture Facility | < 10 Tons | Bulk installation / hangar |
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **Craft CR** | **COMPLEXITY** | **VALUE (CREDITS)** | **EXAMPLES (SCIFI / FANTASY)** |
+| **0** | Scrap | 10 | Raw ore, ration bar, wooden club. |
+| **5** | Simple | 40 | Knife, backpack, basic clothing, bandages. |
+| **10** | Standard | 160 | Pistol, sword, light armor, commlink. |
+| **15** | Expert | 640 | Rifle, plate mail, medkit, hacking tool. |
+| **20** | Advanced | 2,560 | Plasma weapon, full environmental suit, masterwork gear. |
+| **25** | Master | 10,240 | Cybernetic limb, hoverbike, magic ring, heavy weapon. |
+| **30** | Grandmaster | 40,960 | Power armor, golem, personal shuttle, rare artifact. |
+| **35** | Heroic | 163,840 | AI Core, fighter jet, small starship hull. |
+| **40** | Legendary | 655,360 | Corvette-class ship, legendary artifact, fortress. |
+| **45** | Mythic | 2,621,440 | Frigate, resurrection chamber, moon base module. |
+| **50** | Transcendent | 10,485,760 | Dreadnought, planetary shield generator. |
+
+*Note: Values are derived from* 10 \\times 4^{(CR / 5)}*. Intermediate values can be interpolated or rounded for ease of play.*
+
+  
+
+#### **Table 6.2: Wealth Score Purchasing Guidelines**
+
+|  |  |  |  |
+| :-: | :-: | :-: | :-: |
+| **WEALTH SCORE** | **LIFESTYLE** | **CAN AUTO-PURCHASE (CR)** | **NEEDS LIQUIDITY FOR (CR)** |
+| **5 (Struggling)** | Rations, Hostels | CR 5 (Simple) | CR 10 (Standard) |
+| **10 (Middle)** | Apts, Consumer goods | CR 10 (Standard) | CR 15 (Advanced) |
+| **15 (Affluent)** | High-end tech, luxury | CR 15 (Advanced) | CR 20 (Expert) |
+| **20 (Wealthy)** | Military gear, security | CR 20 (Expert) | CR 25 (Master) |
+| **25 (Tycoon)** | Vehicles, Cybernetics | CR 25 (Master) | CR 30 (Grandmaster) |
+| **30 (Hegemon)** | Heavy Mechs, Property | CR 30 (Grandmaster) | CR 35 (Heroic) |
+
+  
+
+#### **6. Universal Displacement Unit (UDU) Hierarchy**
+
+To ensure compatibility between the microscopic (Cybernetics) and the macroscopic (Capital Ships), Tangent utilizes a strict three-tier capacity system.
+
+|  |  |  |
+| :-: | :-: | :-: |
+| **TIER** | **UNIT NAME** | **SCALE CONTEXT** |
+| **Tier 0** | **Node** | Augmentations/Micro Unit (Cybernetic options). \\\<10g. 10 Nodes usable per Socket. |
+| **Tier 1** | **Socket** | Personal Base Unit (Guns, Computers). \\\<1kg |
+| **Tier 2** | **Mount** | Mecha / Vehicle. \\\<100k. 10 Sockets usable. |
+| **Tier 3** | **Module** | Architectural / Capital. \\\<10tons. 10 Mounts usable. |
+
+  
+  
+
+## **7. Macro-Economics: Factions and Starships**
+
+A robust SciFi RPG must handle economics beyond the personal scale. How does a faction build a fleet?
+
+  
+
+### **7. The "Resource Unit" Abstraction**
+
+When dealing with items of CR 40+ (Starships, Stations), tracking individual Credits becomes cumbersome. Following the Traveller model of "Resource Units" (RU) or "Megacredits", we can simplify the math.
+
+  - 1 MegaCredit (MCr) = 1,000,000 Credits.
+  - A CR 50 Dreadnought costs \~10.5 MCr.
+
+  
+
+### **7. Cooperative Crafting (Industrial Scale)**
+
+An individual cannot craft a Dreadnought. The "Time" required would be centuries.
+
+**Faction Crafting Rule:**
+
+  - Factions utilize Labor Pools.
+  - A Shipyard employs 1,000 workers.
+  - Each worker contributes to the "Daily Progress" (PP).
+  - Total Daily PP = \\sum (Individual\\ PP).
+
+**Example:** Building the Dreadnought (Value 10,485,760).
+
+  - **Shipyard:** 1,000 Workers (Skill check avg 15).
+  - **Tools:** Industrial (x200).
+  - **Per Worker Output:** (15-10) \\times 200 = 1,000 PP/Day.
+  - **Total Shipyard Output:** 1,000 \\times 1,000 = 1,000,000 PP/Day.
+  - **Construction Time:** 10.5 Days.
+
+This confirms that the Tangent math holds up at the macro scale. A major shipyard can churn out a capital ship every two weeks, provided they have the 5.25 Million Credits (50% material cost) to fund it. This creates strategic gameplay: Factions fight not just for territory, but for the Credits (resources) to keep their shipyards fed.
 
 ---
+
+# **The Productivity Engine and Macro-Economics**
+
+Because the Tangent Standard Curve dictates that value scales exponentially, a linear crafting system (e.g., generating 50 credits of value per day) would require literal centuries to build high-end assets, ending campaigns before items are finished. Tangent solves the "Time vs. Cost" paradox through the Productivity Engine, converting effort into Productivity Points (PP).
+
+  
+
+### **The Productivity Formula**
+
+To craft an item, the creator must accumulate a Target PP equal exactly to the item's Credit Value. Daily progress is generated based on the crafter's skill variance and the tier of their infrastructure. A creator's Daily Progress in Productivity Points is calculated by taking their Craft Check Result, subtracting 10, and multiplying that number by the tool's Tier Multiplier.
+
+The Tool Tier Multiplier is the critical variable that allows the timeline to scale exponentially alongside the item's value 4:
+
+  - **Tier 0 (Improvised):** x1 Multiplier. Bare hands, stone tools.
+  - **Tier 1 (Basic):** x10 Multiplier. Handheld power tools, garage kit.
+  - **Tier 2 (Advanced):** x50 Multiplier. Professional machine shop.
+  - **Tier 3 (Industrial):** x200 Multiplier. Automated factory lines.
+  - **Tier 4 (Nanoforge):** x1,000 Multiplier. Molecular assembly swarms.
+  - **Bio (Cultivation):** x1,000 Multiplier. Hyper-Growth Vats (Auluran/Kitin) where items are grown in accelerated nutrient tanks. Requires Medicine/Nature and Engineering checks.
+  - **Tier 5 (Genesis):** x5,000 Multiplier. Thought-responsive Polymatter loom, Holophotonics or Wish-level metaphysical fabrication.
+
+Under this engine, a Mastercraft Titan Mech Suit (CR 30, Target PP = 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build. However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.
+
+  
+
+### **Macro-Scale Construction and Faction Labor Pools**
+
+For astronomical projects like a Dreadnought (CR 50, Value \~10.5 Million Cr) or a Titanic Arcology (CR 60+, Value \~167 Million Cr), individual crafting is physically impossible. Factions utilize **Labor Pools** to execute macro-scale construction. The Daily PP output is simply the sum of individual workers.
+
+A shipyard employing 1,000 engineers operating Industrial (x200) tools can generate 1,000,000 PP per day, completing a capital ship in roughly 10.5 days. This macro-economic logic drives factional warfare; maintaining these shipyards requires an uninterrupted flow of massive liquid capital (5.25 Million Cr in raw materials per ship), forcing factions to fight for territorial resources to keep their production engines fed.
+
+  
+  
+
+-----
+
+---
+
+## **Canonical Linear Micro-Modifiers & Scavenged Scrap Ratios (Rule #12)**
+
+* **Base CR Intervals of 5:** `Value (Credits) = 10 * 4 ^ (CR / 5)`.
+* **Minor CR Modifiers (+1 to +4 CR Linear Multipliers):**
+  * **+1 CR:** `x1.3` (+30% Base Tier Value)
+  * **+2 CR:** `x1.75` (+75% Base Tier Value)
+  * **+3 CR:** `x2.3` (+130% Base Tier Value)
+  * **+4 CR:** `x3.0` (+200% Base Tier Value)
+  * **-1 CR Flaw:** `x0.75` (-25% Base Tier Value)
+* **Crafting Material Ratio (50% Pristine vs. 10% Scrap):** Pristine raw materials cost **50% of Market Credit Value**; unrefined Scavenged Scrap holds **10% value** (requiring **5x the item's Credit Value in unrefined scrap mass** to satisfy the 50% material requirement).
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER**
+* **DISC-412 (Crafting Engine & Master Valuation Tables Full Restoration):** Restored 100% of Sections 5, 6, and 7 and The Productivity Engine and Macro-Economics from `/_ _ TANGENT RP CODEX _ _/2.00 ECONOMATRIX` (Lines 222–384 and 498–532) plus the Linear Micro-Modifiers and 5x Scavenged Scrap mass rule.
 

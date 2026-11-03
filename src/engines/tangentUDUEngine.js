@@ -7,7 +7,8 @@ import {
   UDU_TIERS,
   BODY_SLOT_NODES,
   TOTAL_BODY_NODES,
-  STIGMA_THRESHOLDS
+  STIGMA_THRESHOLDS,
+  MECHA_GARAGING_RULES
 } from './tangentConstants.js';
 
 /**
@@ -162,4 +163,80 @@ export function getStigmaLevel(totalVisibleMods) {
   const count = Math.max(0, Number(totalVisibleMods) || 0);
   const found = STIGMA_THRESHOLDS.find(s => count >= s.minMods && count <= s.maxMods);
   return found || STIGMA_THRESHOLDS[STIGMA_THRESHOLDS.length - 1];
+}
+
+/**
+ * Calculate canonical Mecha Garaging UDU requirements (5.04 MECHA.md / 5.07 ARCHITECTURE.md).
+ * 1 Module = 10 Mounts:
+ * - Medium: 1 Mount (0.1 Mod)
+ * - Large: 2 Mounts (0.2 Mod)
+ * - Huge: 5 Mounts (0.5 Mod)
+ * - Gargantuan: 10 Mounts (1.0 Mod)
+ * - Colossal: 20 Mounts (2.0 Mod)
+ *
+ * @param {'Medium'|'Large'|'Huge'|'Gargantuan'|'Colossal'} size
+ * @param {number} count
+ * @returns {{ size: string, count: number, mountsRequired: number, modulesRequired: number, unitsPerModule: number, description: string }}
+ */
+export function calculateMechaGaragingUDU(size = 'Medium', count = 1) {
+  const rule = MECHA_GARAGING_RULES[size] || MECHA_GARAGING_RULES.Medium;
+  const qty = Math.max(0, Number(count) || 0);
+  const mountsRequired = Number((rule.mountsPerUnit * qty).toFixed(2));
+  const modulesRequired = Number((rule.modulesPerUnit * qty).toFixed(2));
+
+  return {
+    size: rule.size,
+    count: qty,
+    mountsRequired,
+    modulesRequired,
+    unitsPerModule: rule.unitsPerModule,
+    description: rule.description
+  };
+}
+
+/**
+ * Validate Meta-Tech Socket-to-Invocation Rank capacity (5.06 META-TECH.md).
+ * - 10 Nodes / 1 Socket: Max Invocation Rank 10 (Novice/Trained)
+ * - 2 Sockets (20 Nodes): Max Invocation Rank 20 (Expert/Master)
+ * - 3+ Sockets / 1 Mount / 1 Module: Max Invocation Rank 30 (Grand Master/Pinnacle)
+ *
+ * @param {object} params
+ * @param {number} [params.nodesAllocated=0]
+ * @param {number} [params.socketsAllocated=0]
+ * @param {number} [params.mountsAllocated=0]
+ * @param {number} [params.modulesAllocated=0]
+ * @param {number} [params.invocationRank=1]
+ */
+export function validateMetaTechSocketInvocationCapacity({
+  nodesAllocated = 0,
+  socketsAllocated = 0,
+  mountsAllocated = 0,
+  modulesAllocated = 0,
+  invocationRank = 1
+} = {}) {
+  const socketEquivalents =
+    (Number(nodesAllocated || 0) / 10) +
+    Number(socketsAllocated || 0) +
+    (Number(mountsAllocated || 0) * 10) +
+    (Number(modulesAllocated || 0) * 100);
+
+  let maxInvocationRank = 0;
+  if (socketEquivalents >= 3) {
+    maxInvocationRank = 30;
+  } else if (socketEquivalents >= 2) {
+    maxInvocationRank = 20;
+  } else if (socketEquivalents >= 1) {
+    maxInvocationRank = 10;
+  }
+
+  const reqRank = Math.max(0, Math.round(Number(invocationRank) || 0));
+  const requiredSockets = reqRank <= 0 ? 0 : (reqRank <= 10 ? 1 : (reqRank <= 20 ? 2 : 3));
+
+  return {
+    valid: reqRank <= maxInvocationRank,
+    invocationRank: reqRank,
+    socketEquivalents: Number(socketEquivalents.toFixed(2)),
+    maxInvocationRank,
+    requiredSockets
+  };
 }

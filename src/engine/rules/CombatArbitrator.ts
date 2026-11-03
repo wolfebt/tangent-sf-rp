@@ -1,15 +1,16 @@
 /**
  * @file CombatArbitrator.ts
  * @description Canonical Tangent SF RP Combat Engine Arbitrator.
- * Strictly adheres to docs/game rules/operator/3.00 COMBAT.md:
+ * Strictly adheres to docs/game_rules/operator/3.00 COMBAT.md:
  * - 2d10 core dice resolution
  * - Skill Rank action unlocking & focus bonuses (Rank 0 Full Round, Rank 1-5 1 action, Rank 6-10 2 actions, etc.)
  * - Subsequent action penalties (-5, -10, -15, -20, -25)
- * - Canonical 10-tier Size Scale (-32 Miniscule to +16 Colossal)
+ * - Canonical Size Scale (-32 Miniscule to +256 MegaColossal) with relative tier scaling
  * - Opposed roll resolution with DEFENDER WINS ALL TIES
  * - Unopposed roll resolution with CR 15 baseline
- * - Range categories with Point Blank (+5 Strike & Damage Advantage)
- * - Automatic fire & suppression mechanics
+ * - Range categories with Point Blank (+5 Strike & Damage Advantage) and doubled automatic-fire range penalties
+ * - Precision Strike Feature Chain (feature-gated single-strike consolidation: 2x/3x/4x Base Weapon Dice; zero AP mode, zero Grazing Protocol)
+ * - Granular Anatomical Called Shot penalties (-1 Torso to -5 Eye/Digit)
  */
 
 export const SkillRank = {
@@ -57,10 +58,14 @@ export const SizeCategory = {
   Large: 2,
   Huge: 4,
   Gargantuan: 8,
-  Colossal: 16
+  Colossal: 16,
+  SuperGargantuan: 128,
+  MegaColossal: 256
 } as const;
 
 export type SizeCategory = typeof SizeCategory[keyof typeof SizeCategory];
+
+const CANONICAL_SIZE_STEP_LADDER: number[] = [-32, -16, -8, -4, -2, 0, 2, 4, 8, 16, 32, 64, 128, 256];
 
 export const RangeCategory = {
   Melee: 'melee',
@@ -76,18 +81,64 @@ export type RangeCategory = typeof RangeCategory[keyof typeof RangeCategory];
 export interface RangeConfig {
   modifier: number;
   baseDC: number;
+  baseCR: number;
   advantageOnDamage: boolean;
   desc: string;
 }
 
 export const RANGE_CONFIGS: Record<RangeCategory, RangeConfig> = {
-  [RangeCategory.Melee]: { modifier: 0, baseDC: 15, advantageOnDamage: false, desc: 'Within Reach (Tiny 2ft, Med 5ft, Large 10ft)' },
-  [RangeCategory.PointBlank]: { modifier: 5, baseDC: 10, advantageOnDamage: true, desc: 'Within Reach (+5 Strike, Ballistic/Energy Damage rolled with Advantage)' },
-  [RangeCategory.Short]: { modifier: 0, baseDC: 15, advantageOnDamage: false, desc: 'Base Listed Range' },
-  [RangeCategory.Medium]: { modifier: -5, baseDC: 20, advantageOnDamage: false, desc: 'Up to 2x Base Range' },
-  [RangeCategory.Long]: { modifier: -10, baseDC: 25, advantageOnDamage: false, desc: 'Up to 5x Base Range' },
-  [RangeCategory.Extreme]: { modifier: -15, baseDC: 30, advantageOnDamage: false, desc: 'Up to 10x Base Range' }
+  [RangeCategory.Melee]: { modifier: 0, baseDC: 15, baseCR: 15, advantageOnDamage: false, desc: 'Within Reach (Tiny 2ft, Med 5ft, Large 10ft)' },
+  [RangeCategory.PointBlank]: { modifier: 5, baseDC: 10, baseCR: 10, advantageOnDamage: true, desc: 'Within Reach (+5 Strike, Ballistic/Energy Damage rolled with Advantage)' },
+  [RangeCategory.Short]: { modifier: 0, baseDC: 15, baseCR: 15, advantageOnDamage: false, desc: 'Base Listed Range' },
+  [RangeCategory.Medium]: { modifier: -5, baseDC: 20, baseCR: 20, advantageOnDamage: false, desc: 'Up to 2x Base Range' },
+  [RangeCategory.Long]: { modifier: -10, baseDC: 25, baseCR: 25, advantageOnDamage: false, desc: 'Up to 5x Base Range' },
+  [RangeCategory.Extreme]: { modifier: -15, baseDC: 30, baseCR: 30, advantageOnDamage: false, desc: 'Up to 10x Base Range' }
 };
+
+export const ANATOMICAL_CALLED_SHOT_PENALTIES: Record<string, number> = {
+  torso: -1,
+  chest: -2,
+  abdomen: -2,
+  vitals: -2,
+  head: -2,
+  arm: -2,
+  arm_left: -2,
+  arm_right: -2,
+  leg: -2,
+  leg_left: -2,
+  leg_right: -2,
+  wing: -2,
+  tentacle: -2,
+  fin: -2,
+  upper_arm: -3,
+  forearm: -3,
+  thigh: -3,
+  shin: -3,
+  joint: -3,
+  sub_limb: -3,
+  neck: -4,
+  throat: -4,
+  groin: -4,
+  pelvis: -4,
+  hand: -4,
+  foot: -4,
+  eye: -5,
+  eyes: -5,
+  ear: -5,
+  nose: -5,
+  digit: -5,
+  digits: -5,
+  fingers: -5,
+  toes: -5,
+  micro: -5
+};
+
+export interface PrecisionStrikeResult {
+  canConsolidate: boolean;
+  isConsolidated: boolean;
+  featureUsed: 'Precision Strike' | 'Improved Precision Strike' | 'Greater Precision Strike' | null;
+  baseDiceMultiplier: 1 | 2 | 3 | 4;
+}
 
 export class CombatArbitrator {
   /**
@@ -117,10 +168,6 @@ export class CombatArbitrator {
   /**
    * Calculates penalty for consecutive Active Defenses (Dodge/Parry/Block) in the same combat round.
    * Per 3.00 COMBAT.md: Active defenses can be performed up to Defense Skill Rank actions per round.
-   * Reaction 0: 0 penalty
-   * Reaction 1: -5 penalty
-   * Reaction 2: -10 penalty
-   * Reaction 3: -15 penalty, etc.
    */
   public calculateDefensePenalty(reactionIndex: number): number {
     if (reactionIndex <= 0) return 0;
@@ -129,11 +176,10 @@ export class CombatArbitrator {
 
   /**
    * Resolves an Opposed Combat Roll.
-   * Rule: Attacker ability + combat skill vs Defender agility + defense skill.
    * CRITICAL CANONICAL RULE: "DEFENDER WINS ALL TIES".
    */
   public resolveOpposedRoll(
-    attackerTotal: number, 
+    attackerTotal: number,
     defenderTotal: number,
     options: { isTargetDefenseless?: boolean } = {}
   ): {
@@ -143,7 +189,6 @@ export class CombatArbitrator {
     defenselessBonusDamage: number;
   } {
     const margin = attackerTotal - defenderTotal;
-    // Defender wins all ties!
     const isHit = margin > 0;
     const defenselessBonusDamage = (options.isTargetDefenseless && isHit) ? Math.floor(margin / 2) : 0;
     return {
@@ -156,11 +201,11 @@ export class CombatArbitrator {
 
   /**
    * Resolves an Unopposed Combat Roll (target surprised, still, or not defending).
-   * Base DC is CR 15 (Average for typical Medium target at Short range).
+   * Base CR is 15 (Average for typical Medium target at Short range).
    */
   public resolveUnopposedRoll(
     attackerTotal: number,
-    dc: number,
+    cr: number,
     options: { isTargetDefenseless?: boolean } = {}
   ): {
     isHit: boolean;
@@ -168,7 +213,7 @@ export class CombatArbitrator {
     winner: 'attacker' | 'target';
     defenselessBonusDamage: number;
   } {
-    const margin = attackerTotal - dc;
+    const margin = attackerTotal - cr;
     const isHit = margin > 0;
     const defenselessBonusDamage = (options.isTargetDefenseless && isHit) ? Math.floor(margin / 2) : 0;
     return {
@@ -189,8 +234,8 @@ export class CombatArbitrator {
   }
 
   /**
-   * Calculates Unopposed DC for a target.
-   * Base DC is CR 15 (Average for typical Medium target at Short range).
+   * Calculates Unopposed CR/DC for a target.
+   * Base CR is 15 (Average for typical Medium target at Short range).
    */
   public calculateUnopposedDC(
     targetSize: number = SizeCategory.Medium,
@@ -200,28 +245,131 @@ export class CombatArbitrator {
     isTargetTotalDefense: boolean = false
   ): number {
     const rangeConfig = RANGE_CONFIGS[range] || RANGE_CONFIGS[RangeCategory.Short];
-    let dc = rangeConfig.baseDC;
+    let cr = rangeConfig.baseCR;
 
-    // Size modifier: target size adds to DC (larger targets are easier to hit, so size bonus reduces DC; smaller targets increase DC)
-    dc -= targetSize;
+    // Size modifier: larger targets reduce Defense CR; smaller targets increase Defense CR
+    cr -= targetSize;
 
     // Target Movement modifiers
-    if (isTargetRunning) dc += 2;
+    if (isTargetRunning) cr += 2;
     if (targetMovementFt >= 40) {
-      dc += 4;
+      cr += 4;
     } else if (targetMovementFt >= 20) {
-      dc += 2;
+      cr += 2;
     }
-    if (isTargetTotalDefense) dc += 4;
+    if (isTargetTotalDefense) cr += 4;
 
-    return Math.max(5, dc);
+    return Math.max(5, cr);
+  }
+
+  public calculateUnopposedCR(
+    targetSize: number = SizeCategory.Medium,
+    range: RangeCategory = RangeCategory.Short,
+    targetMovementFt: number = 0,
+    isTargetRunning: boolean = false,
+    isTargetTotalDefense: boolean = false
+  ): number {
+    return this.calculateUnopposedDC(targetSize, range, targetMovementFt, isTargetRunning, isTargetTotalDefense);
   }
 
   /**
-   * Calculates Target Size Mod vs Attacker Size Mod curve.
+   * Calculates Relative Size Modifier between Attacker and Target per 1.10 SCALING.md & 3.00 COMBAT.md.
+   * Steps along the exponential size ladder so two combatants of equal scale get 0,
+   * one size step apart gets +/-2, two steps +/-4, three steps +/-8, four steps +/-16, etc.
    */
   public calculateSizeModifier(attackerSize: number, targetSize: number): number {
+    if (attackerSize === targetSize) return 0;
+    const atkIdx = CANONICAL_SIZE_STEP_LADDER.indexOf(attackerSize);
+    const tgtIdx = CANONICAL_SIZE_STEP_LADDER.indexOf(targetSize);
+    if (atkIdx !== -1 && tgtIdx !== -1) {
+      const stepDiff = tgtIdx - atkIdx;
+      if (stepDiff === 0) return 0;
+      const magnitude = Math.pow(2, Math.abs(stepDiff));
+      return stepDiff > 0 ? magnitude : -magnitude;
+    }
     return targetSize - attackerSize;
+  }
+
+  /**
+   * Resolves granular anatomical Called Shot strike penalty per 3.00 COMBAT.md Section 6.C.
+   */
+  public getCalledShotPenalty(location?: string): number {
+    if (!location) return -5;
+    const normalized = String(location).trim().toLowerCase().replace(/[\s-]+/g, '_');
+    return ANATOMICAL_CALLED_SHOT_PENALTIES[normalized] ?? -5;
+  }
+
+  /**
+   * Resolves Feature-Gated Strike Consolidation per 1.08.CombatFeatures.D_W.md & 00.02 BASTION CORE FORMULAS:
+   * Strike consolidation is NOT a baseline combat option open to all combatants, and Tangent does not use AP or Grazing Protocol.
+   * Multiplying base weapon damage dice on a single Standard Action strike requires possessing:
+   * - Precision Strike (Combat Skill 6+): 2x Base Weapon Damage Dice
+   * - Improved Precision Strike (Precision Strike, Combat Skill 11+): 3x Base Weapon Damage Dice
+   * - Greater Precision Strike (Improved Precision Strike, Combat Skill 16+): 4x Base Weapon Damage Dice
+   */
+  public resolvePrecisionStrike(
+    combatSkillRank: number,
+    features: Array<string | { id?: string; name?: string; title?: string }> = []
+  ): PrecisionStrikeResult {
+    const normalized = new Set<string>();
+    for (const raw of features || []) {
+      const idOrName = typeof raw === 'string'
+        ? raw
+        : String(raw?.id || raw?.name || raw?.title || '');
+      const clean = idOrName
+        .trim()
+        .toLowerCase()
+        .replace(/^(?:feature|combat)[-_]/, '')
+        .replace(/[^a-z0-9]+/g, ' ')
+        .trim();
+      if (clean) normalized.add(clean);
+      if (typeof raw === 'object' && raw !== null && raw.name) {
+        const cleanName = String(raw.name)
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim();
+        if (cleanName) normalized.add(cleanName);
+      }
+    }
+
+    const hasBase = normalized.has('precision strike') || normalized.has('vital strike');
+    const hasImproved = normalized.has('improved precision strike') || normalized.has('improved vital strike');
+    const hasGreater = normalized.has('greater precision strike') || normalized.has('greater vital strike');
+
+    if (hasGreater && hasImproved && hasBase && combatSkillRank >= 16) {
+      return {
+        canConsolidate: true,
+        isConsolidated: true,
+        featureUsed: 'Greater Precision Strike',
+        baseDiceMultiplier: 4
+      };
+    }
+
+    if (hasImproved && hasBase && combatSkillRank >= 11) {
+      return {
+        canConsolidate: true,
+        isConsolidated: true,
+        featureUsed: 'Improved Precision Strike',
+        baseDiceMultiplier: 3
+      };
+    }
+
+    if (hasBase && combatSkillRank >= 6) {
+      return {
+        canConsolidate: true,
+        isConsolidated: true,
+        featureUsed: 'Precision Strike',
+        baseDiceMultiplier: 2
+      };
+    }
+
+    return {
+      canConsolidate: false,
+      isConsolidated: false,
+      featureUsed: null,
+      baseDiceMultiplier: 1
+    };
   }
 
   /**
@@ -296,6 +444,8 @@ export class CombatArbitrator {
       hasHighGround?: boolean;
       isSneakAttack?: boolean;
       isCalledShot?: boolean;
+      calledShotLocation?: string;
+      fireMode?: 'single' | 'burst' | 'full_auto';
       specializationBonus?: number;
       invocationBonus?: number;
       isTargetDefenseless?: boolean;
@@ -323,7 +473,11 @@ export class CombatArbitrator {
     const sizeMod = this.calculateSizeModifier(attackerSize, targetSize);
     const coverMod = this.calculateCoverModifier(visibilityRatio);
     const rangeConfig = RANGE_CONFIGS[range] || RANGE_CONFIGS[RangeCategory.Short];
-    const rangeMod = rangeConfig.modifier;
+    let rangeMod = rangeConfig.modifier;
+    if ((options.fireMode === 'burst' || options.fireMode === 'full_auto') && rangeMod < 0) {
+      // Per 3.00 COMBAT.md Section 5: All Range Penalties beyond Short Range are DOUBLED during automatic fire
+      rangeMod *= 2;
+    }
 
     // Aiming bonus: up to half the effective attack skill (including specialization & invocation)
     const effectiveAttackSkill = baseSkill + (options.specializationBonus || 0) + (options.invocationBonus || 0);
@@ -334,7 +488,9 @@ export class CombatArbitrator {
     const highGroundBonus = options.hasHighGround ? 2 : 0;
     const flankingBonus = options.isFlanking ? 2 : 0;
     const sneakAttackPenalty = options.isSneakAttack ? -5 : 0;
-    const calledShotPenalty = options.isCalledShot ? -5 : 0;
+    const calledShotPenalty = options.isCalledShot
+      ? (options.calledShotLocation ? this.getCalledShotPenalty(options.calledShotLocation) : -5)
+      : 0;
 
     const finalTarget = effectiveAttackSkill + mapPenalty + focusBonus + sizeMod + coverMod + rangeMod + aimBonus + chargeMod + highGroundBonus + flankingBonus + sneakAttackPenalty + calledShotPenalty;
 

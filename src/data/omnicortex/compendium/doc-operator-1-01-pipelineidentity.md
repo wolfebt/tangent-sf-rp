@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.pipelineidentity","mechanics"]
-updatedAt: "2026-10-31T10:56:34.080Z"
+updatedAt: "2026-11-03T10:58:48.791Z"
 costs:
   bp: 0
   credits: 0
@@ -37,168 +37,98 @@ sockets:
   allocated: []
 ---
 
-# **CHARACTER CREATION PIPELINE I: IDENTITY & BACKGROUND**
+# **1.01.01 CHARACTER CREATION PIPELINE I: IDENTITY & BACKGROUND**
 
-# **ABILITY SCORES**
+## **1. ABILITY SCORES**
 
-&nbsp;
+Every character is defined by six fundamental attributes. The standard baseline for an ordinary human is **+0**. Both inside a **Species Package** (`1.03 SPECIES.md`) and during post-species character creation customization, each **+1** increase costs **5 Character Points (CP)** and each **-1** reduction refunds **-5 CP** (straight values with no package discount). During character creation, no raw attribute score may exceed **+4** before species adjustments or mechanical augmentations are applied (up to a racial paragon ceiling of `5 + Species Modifier`).
 
-Every character is defined by six fundamental attributes. The standard baseline for an ordinary human is \+0. During character creation, no raw attribute score may exceed **\+4** before species adjustments or mechanical augmentations are applied.
+| Attribute | Attribute Check / Save | Core Areas of Mechanical Influence |
+| :--- | :--- | :--- |
+| **Strength (STR)** | **Might Check** | Carrying/Lifting Capacity, Melee Damage, Raw Physical Force |
+| **Agility (AGI)** | **Reflex Save** | Ranged Weapon Accuracy, Evasion/Defense, Balance, Initiative |
+| **Stamina (STA)** | **Fortitude Save** | Toxic/Disease/Radiation Resistance, Base Toughness (Point-for-Point Damage Reduction), Mortality Threshold (`Stability = STA + 5` / `-STA`) |
+| **Intellect (INT)** | **Reason Check** | Pure Logic, Technical Crafting, Scientific & Academic Knowledge, Arcane/Psychic Metafocus |
+| **Wisdom (WIS)** | **Willpower Save** | Deception Detection (`Insight`), Focus, Fear Resistance, Intuition, Divine/Primal Metafocus |
+| **Charisma (CHA)** | **Etiquette Check** | Leadership, Complex Negotiation, Social Magnetism, Karma Bounds, Hereditary/Bardic Metafocus |
 
-### 
+**Critical Rule — Vitality & Health Independence (Zero Stamina Scaling):** The **Stamina (STA)** score does **not** increase a character's Vitality or Health pools in any way. All biological characters begin with a flat base of **30 Vitality** and **30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), which are increased strictly by spending Character Points at a rate of **+5 points per 1 CP** (Suggested Max: 60 each / 120 SP). Stamina instead provides **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
 
-| Attribute | Attribute Check | Core Areas of Mechanical Influence |
-| :---- | :---- | :---- |
-| **Strength (STR)** | Might Check | Carrying/Lifting Capacity, Melee Damage, Raw Physical Force |
-| **Agility (AGI)** | Reflex Check | Ranged Weapon Accuracy, Evasion, Balance, Initiative |
-| **Stamina (STA)** | Fortitude Check | Toxic/Disease Resistance, Base Toughness, Vitality Buffer |
-| **Intellect (INT)** | Reason Check | Pure Logic, Technical Crafting, Scientific / Academic Knowledge |
-| **Wisdom (WIS)** | Willpower Check | Deception Detection, Focus, Fear Resistance, Intuition |
-| **Charisma (CHA)** | Etiquette Check | Leadership, Complex Negotiation, Social Magnetism, Karma Bounds |
+---
 
-&nbsp;
+## **2. SPECIES**
 
-# ---
+The first step in character identity for the Tangent SF RP system is to choose a **Species** (`1.03 SPECIES.md`):
 
-# **SPECIES**
+* **CP Cost:** Each species package has a defined Character Point (CP) cost deducted from the starting pool of **150 CP**.
+* **Ability Modifiers (`5 CP` per `+1` / `-5 CP` per `-1`):** Each species has specific innate ability modifiers (positive or negative) that adjust a character's base attributes at straight CP value.
+* **Species Skill Ranks (`5 CP` per `5 Ranks` / `1 CP` per `1 Rank`):** A species may be granted ranks in specific skills or skills chosen from a category at straight CP value (no package discount), indicating the lineage's biological instincts or foundational cultural training.
+* **Species Traits & Special Features:** Biological or cultural capabilities such as *Low-Light Vision*, *Darksight*, *Natural Armor*, *Flight*, or *Awakened*. *(Note: Any species-level disadvantages or Xeno Stigmas are baked into the Species Package CP calculation and are **exempt** from the character's 10 CP personal Hindrance limit).*
+* **Recommended Features (`-1 CP` Discount):** Players can select from the species' curated list of Recommended Features with a **1 CP reduction** in cost (2 CP instead of 3 CP; minimum cost of 1 CP for any feature).
 
-The first step in character creation for the Tangent SFF RPG is to choose a **Species**.&nbsp;
+### **Walkthrough Example: Xy'larra (Species Selection)**
 
-* ## **CP Cost**
+*Xy'larra is an **Alterian (Celestine Elf)** (**24 CP** Species Package with +10 Discipline Skills; or **34 CP** with the +20 Skill Rank variant — covering all innate traits of the species), and she receives the following modifiers:*
+* *Gains **+1 Agility** and **+1 Intellect** (Elven lineages are naturally quick and analytical).*
+* *Gains **Low-Light Vision** and **Awakened** (her species studies the Arcane with an Intellect basis, unlocking **Attune** plus one Metaphysic Discipline and its two focus skills), and also gains **+10 Species Skill Points** for discipline-related skills.*
+* *Alterians are Humanoid with a **Minor Xeno Stigma** (insular human populations hold a different cultural view, imposing a `-2` penalty on certain social interactions; as a species-level stigma, this does not count toward her 10 CP personal Hindrance cap).*
+* ***Allocation:** She selects the **Mental Discipline** for her innate Awakening and allocates her 10 Species Skill Points into **Attune 5** and **Mental (Sense) 5** (for meta-enhanced perception and awareness).*
 
-  Each species has a CP cost deducted from the starting pool of 150 CP.
+---
 
-* ## **Ability Modifiers**
+## **3. FACTION**
 
-  Each species has specific ability modifiers (positive or negative) that affect a character's base stats.
+The **Faction** stage (`1.04 FACTIONS.md`) involves choosing a political, cultural, or ideological polity with which your character is affiliated. Each faction represents a distinct organization within the galaxy, with its own culture, goals, aesthetic, and resources:
 
-* ## **Skill Ranks**
+* **Faction Skill Points (`20 Skill Ranks` at `0 CP`):** Each faction provides **20 Faction Skill Ranks** that can be allocated to specific skills relevant to that faction, allowing players to specialize their character's training.
+* **Faction Features (`2 Free Features` & `-1 CP` Recommended Discounts):** Together with Origin and Occupation, background packages grant **60 Skill Ranks, 4 Features, and 4 Traits at 0 CP**. Each faction also offers a curated list of Recommended Features representing training or privileges prominent within that society (purchased at a 1 CP discount).
+* **Faction Affiliation Benefits & Wealth Modifier:** Aligning with a faction provides access to exclusive resources, social standing, and opportunities for advancement, and modifies the character's starting **Wealth Score (WS)** (`+0` Coalition/Outworlds, `+2` Dynasty/Auluran/Kitin, `+3` Alterian/Entari/Impyrium, `+4` Syndicate/Ascendancy, `+5` Radiant Impyrium, `+6` Mekan).
+* **Faction Affiliation Drawbacks:** Faction membership also brings political rivals, obligations to leadership, and ideological expectations.
 
-  A species may be granted ranks in certain specific skills or skills chosen from a category. Indicating the species focus in certain training.
+### **Walkthrough Example: Xy'larra (Faction Selection)**
 
-* ## **Racial Traits & Special Features**
+*The **Alterian Enclave**, typical for most Alterians, is focused on diplomacy, arcane scholarship, and exploration. Xy'larra gains the following options:*
+* *Technology is Spacefaring (**Tech Level 3**) with a **Meta Level of 4** (Focus of Arcane Enhancements) and a **+3 Faction Wealth Modifier**.*
+* *Her recommended skills (**20 Skill Points** allotment) are drawn from **Academics** and the categories of **Knowledges**, **Vocations**, and **Disciplines**. She also gains **2 Foundational Features** from the Discipline category.*
+* ***Allocation:** She allocates her 20 Faction Skill Points to **Academics 5**, **Knowledge (Culture) 5**, **Vocation (Ambassador) 5**, and another **+5 to Mental (Sense)** (raising her Mental [Sense] Focus skill to Rank 10).*
+* *With the **2 Features** gained in the Discipline category, she selects **Awakened** twice more (unlocking both the **Dimension** and **Entropy** Disciplines alongside her innate Mental Discipline).*
 
-  Certain species may have access to unique racial traits or special features.
+---
 
-* ## **Recommended Features**
+## **4. ORIGIN**
 
-  Players can select from this list of features with a 1 CP reduction in cost (minimum of 1 CP for any feature).
+The **Origin** stage (`1.05 ORIGINS.md`) involves selecting the planetary environment or habitat that reflects the character's upbringing and background, influencing their skills, traits, and worldview:
 
-&nbsp;
+* **Planetary & Habitat Options:** Players choose from 11 canonical origins (*Agricultural, Aquatic, Colony, Enlightened, Hostile, Industrial, Leisure, Militaristic, Research, Spacer,* or *Urban*), each with its own Wealth Modifier and cultural profile.
+* **Origin Skill Points (`20 Skill Ranks` at `0 CP`):** Each origin grants **20 Origin Skill Ranks** to distribute among the skills associated with that environment.
+* **Origin Traits (`2 Free Traits` at `0 CP`):** Players choose **2 Origin Traits** from the options associated with their selected origin, representing formative characteristics or habits gained from their upbringing. *(Traits from Origin and Occupation are interchangeable if befitting the character concept).*
+* **Secondary Origin (Optional):** A character may designate a secondary Origin when supported by their backstory; this does not grant extra free skill points or traits, but expands the combined list of eligible skills and traits they may choose from.
+* **Additional Traits (`1 CP` Each):** Players may select additional traits beyond the initial two free Origin Traits at a cost of **1 Character Point (CP) each**.
 
-*Example:*
+### **Walkthrough Example: Xy'larra (Origin Selection)**
 
-*Xy'larra is an Alterian (17 CP package \- covering all traits of the species) and she will have the following modifiers:*&nbsp;
+*Xy'larra comes from a family of merchants and has traveled the stars since childhood. **Spacer** (`+1 WS`) is her primary Origin, and because she was raised within an Alterian Clan with traditional philosophical teachings, she designates **Enlightened** as a secondary Origin (granting no extra points, but unlocking the combined skill and trait lists of both).*
+* *She receives **20 Origin Skill Points** and **2 Free Origin Traits** from her combined Spacer/Enlightened options (Combat Training, Independence, Leadership Skills, Pilot Skills, Resourcefulness, Smooth Talking, Technical Skills, Toughness, Empathy, Intellectual Curiosity, Mentorship, Open-Mindedness, Peaceful Nature, Problem-Solving Skills, Shared Wisdom, and Spiritual Awareness).*
+* ***Allocation:** Wanting mobility and self-defense, she invests her 20 Origin Skill Points into **Piloting 5**, **Knowledge (Navigation) 5**, **Defense 5**, and **Melee 5**.*
+* ***Traits:** She chooses **Open-Mindedness** and **Empathy** as her 2 free Origin Traits. Any additional Origin Traits desired cost 1 CP each.*
 
-*Gain \+1 Agility and \+1 Intellect (Elven types are typically quite quick and intelligent). She is Awakened (her species specifically studies the Arcane with an Intellect basis and will gain a discipline and its skills) and also gains \+10 Skill points for discipline related skills. Alterians are Humanoid with a Minor Xeno Stigma (humans will comparatively have a slightly different cultural view, \-2 penalty on certain social interactions)*
+---
 
-- *Awakened in Mental with 5 points to Focus and 5 points to the Sensory Discipline (for meta enhanced perception and awareness).*
+## **5. OCCUPATION**
 
-# 
+The **Occupation** stage (`1.06 OCCUPATIONS.md`) defines your character's profession and operational role, granting career skills, traits, foundational features, and base wealth:
 
-# ---
+* **Occupational Skill Points (`20 Skill Ranks` at `0 CP`):** Each occupation provides **20 Occupational Skill Ranks** to allocate across the skills relevant to that career (*Adept, Agent, Builder, Citizen, Criminal, Drifter, Entertainer, Merchant, Representative, Scholar, Scout, Soldier,* or *Specialist*).
+* **Occupational Traits (`2 Free Traits` at `0 CP`):** Players choose **2 Occupational Traits** from their profession's trait list. *(Traits from Origin and Occupation are interchangeable if befitting the character).*
+* **Foundational & Recommended Features (`2 Free Features` & `-1 CP` Discount):** Completes the foundational background allocation (**60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** across Faction, Origin, and Occupation) and designates a Recommended Feature category (`-1 CP` discount, minimum 1 CP).
+* **Additional Traits (`1 CP` Each):** Extra Occupational Traits beyond the two free selections may be purchased for **1 CP each**.
+* **Occupation Wealth Base:** Establishes the base value (`1` to `6`) for the character's starting **Wealth Score (WS)**.
 
-# **FACTION**
+### **Walkthrough Example: Xy'larra (Occupation Selection)**
 
-The **Faction stage** of character creation in Tangent involves choosing a faction with which your character is affiliated. Each faction represents a distinct group or organization within the game world, with its own unique culture, goals, and resources.
-
-* ## **Faction Skill Points**
-
-  Each faction provides 20 Faction Skill Ranks that can be allocated to specific skills relevant to that faction. This allows players to further specialize their character's abilities and tailor them to the faction's focus.
-
-* ## **Faction Features**
-
-  Factions can also offer a selection of 2 Recommended Features that characters can choose from. These features represent special abilities, training, or equipment that are prominent to that faction.
-
-* ## **Faction Affiliation Benefits**
-
-  Aligning with a particular faction can provide various benefits, such as access to exclusive resources, support from other faction members, and opportunities for advancement within the faction's hierarchy.
-
-* ## **Faction Affiliation Drawbacks**
-
-  However, faction affiliation can also have drawbacks, such as conflicts with rival factions, obligations to the faction's leadership, and restrictions on certain actions or choices.
-
-&nbsp;
-
-*Example:*
-
-*The Alterian Enclave, typical for most Alterians, is focused on diplomacy and exploration. Xy'larra will gain the following options:*&nbsp;
-
-*Technology is Spacefaring (Tech Level 3\) with a Meta Level of 4 (focus of Arcane Enhancements). Her recommended skills (20 points allotment) are from Academics and the categories of Knowledges, Vocations and Disciplines. She will also gain 2 Features from the Discipline Category*
-
-- *She gains the skills of Academics 5, Culture 5 (Know), Ambassador 5 (Voc) and another 5 to her Sensory Discipline skill raising it to 10*  
-- *She will also gain Awakened (for Both Dimensional and Entropy) with the 2 features gained in the Discipline category.*
-
-# 
-
-# ---
-
-# **ORIGIN**
-
-The **Origin stage** of character creation in Tangent involves selecting an origin that reflects the character's upbringing and background. This choice will influence their skills, traits, and overall worldview.
-
-* Players can choose from a variety of origins, such as Colony, Leisure, or Militant, each with its own unique set of benefits and drawbacks.
-
-* ## **Skill Points**
-
-  Each origin comes with 20 Origin Skill Ranks that can be distributed among a specific set of skills relevant to that origin. This allows players to tailor their character's abilities to their chosen background.
-
-* ## **Origin Traits:**
-
-  Additionally, players can choose 2 Origin Traits from a list of options associated with their selected origin. These traits represent specific characteristics or abilities that reflect the character's upbringing and experiences. (Traits from Origin and Occupation are interchangeable if befitting the character.)
-
-* ## **Additional Traits**
-
-  Players have the option to select additional traits beyond the initial two, but these come at a cost of 1 Character Point (CP) each. This allows for further customization but requires careful consideration of the character's overall build and CP budget.
-
-&nbsp;
-
-*Example:*
-
-*Xy'larra is from a family of merchants and has been travelling the stars since she was young. Spacer origins fitting but due to the fact that she was raised in an Alterian Clan with traditional teachings she will gain Enlightened as a secondary origin (she will not gain any extra points but will gain access to the secondary list of suggested skills and traits to choose from).*
-
-*She will gain 20 Skill Points to spend on any skills (with her Spacer origin having a better selection of skills than her Enlightened origin)*
-
-*She will also gain 2 Traits total to choose from either origin (with her combined list of options being Combat Training, Independence, Leadership Skills, Pilot Skills, Resourcefulness, Smooth Talking, Technical Skills, Toughness, Empathy, Intellectual Curiosity, Mentorship, Open-Mindedness, Peaceful Nature, Problem-Solving Skills, Shared Wisdom and Spiritual Awareness)*
-
-- *Wanting to be mobile she takes skills in Piloting 5, Navigation 5 (Know) and wanting to take care of herself she learns Defense 5 and Melee 5\.*  
-- *The Traits of Open-Mindedness and Empathy are fitting traits from her compiled list. Any additional Origin traits desired will cost 1 CP each.*
-
-# 
-
-# ---
-
-# **OCCUPATION**
-
-The **Occupation stage** of character creation in Tangent involves selecting an occupation that reflects your character's profession and area of expertise. This choice not only adds flavor and depth to their identity but also grants them specific skills and abilities that reflect their training and experience.
-
-* ## **Skill Points**
-
-  Each occupation comes with 20 Occupational Skill Ranks that can be allocated to a specific set of skills relevant to that occupation. This allows players to further customize their character's capabilities and specialize in their chosen profession.
-
-* ## **Occupational Traits:**
-
-  Players can choose 2 Occupational Traits from a list of options associated with their selected occupation. These traits represent specific characteristics or abilities that are common among members of that profession. (Traits from Origin and Occupation are interchangeable if befitting the character.)
-
-* ## **Recommended Features**
-
-  Occupations may also suggest certain features that complement the character's skills and abilities. These features can provide additional benefits or open up new opportunities for roleplaying and advancement.
-
-* ## **Additional Traits**
-
-  Players have the option to select additional traits and features beyond the free ones provided by their occupation, but these come at a cost of 1 Character Point (CP) each. This allows for further customization but requires careful consideration of the character's overall build and CP budget.
-
-&nbsp;
-
-*Example:*
-
-*Xy'larra will fit well in the Representative Occupation, focusing on her diplomatic endeavors. Again gaining 20 Skill ranks and 2 features, now chosen from the Representative Occupation \- May choose from any Manipulation Skills and traits available are Analytical, Conflict Resolution, Creativity, Emotional Intelligence, Flexibility, Integrity, Languages, Negotiation, Networking, and Time Management. The Skill Feature category is recommended for Representatives (reducing the cost of such Features by 1 CP, to 1 CP minimum cost of any feature).*
-
-- *Her skills gained will be Insight 10 (near expert at reading other people), Bluff 5 and Diplomacy 5*  
-- *Traits chosen are Conflict Resolution (+2 training bonus to Diplomacy) and Emotional Empathy (+2 training bonus to Insight). Any additional occupational traits she would like will have a cost 1 CP each.*  
-- *During her training for her occupation she developed the Attractive (+2 appearance bonus to certain social checks) and Educated features (+2 trained bonus to Academics skill and \+1 trained bonus to all Knowledge checks). Any additional features chosen from the Skill category will cost her 1 CP less.*
-
-# 
-
-# ---
+*Xy'larra fits naturally into the **Representative** Occupation (**Wealth Base 6**), focusing on her diplomatic endeavors. She receives **20 Occupational Skill Ranks**, **2 Free Occupational Traits**, and **2 Foundational Features**.*
+* *Representatives may choose from any **Manipulation** skills, and their available traits include Analytical, Conflict Resolution, Creativity, Emotional Empathy/Intelligence, Flexibility, Integrity, Languages, Negotiation, Networking, and Time Management. The **Skill Feature** category is recommended for Representatives (reducing the cost of all Skill Features by 1 CP, to 2 CP).*
+* ***Skills:** She allocates her 20 Occupational Skill Points into **Insight 10** (making her near-expert at reading people), **Bluff 5**, and **Diplomacy 5**.*
+* ***Traits:** She selects **Conflict Resolution** (`+2` training bonus to Diplomacy) and **Emotional Empathy** (`+2` training bonus to Insight). Any additional occupational traits cost 1 CP each.*
+* ***Features:** From her occupational training, she acquires the **Attractive** (`+2` appearance bonus to social checks) and **Educated** (`+2` trained bonus to Academics and `+1` trained bonus to all Knowledge checks) features. Any additional features chosen from the Skill Feature category cost her 1 CP less.*
 

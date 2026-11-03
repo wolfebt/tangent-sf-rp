@@ -1,8 +1,8 @@
 /**
  * @file mechanicsData.js
  * @description 100% CANONICAL Tangent SF RP BASTION Mechanics Rules Dataset
- * Strictly grounded in: docs/game rules/operator/ (3.00 COMBAT.md, 1.00, 1.01, 1.10, 2.00, 4.00)
- * and docs/game rules/architect/
+ * Strictly grounded in: docs/game_rules/operator/ (3.00 COMBAT.md, 1.00, 1.01, 1.10, 2.00, 4.00)
+ * and docs/game_rules/architect/
  * Total Rules: 17
  */
 
@@ -11,7 +11,7 @@ export const BASTION_MECHANICS_DATASET = [
     "id": "mech-combat-core-resolution",
     "title": "2d10 Dual Resolution & Target Defense",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Core Mechanics",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Core Mechanics",
     "summary": "The Attack Roll is 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs. Target Defense (DC).",
     "mechanic_formula": "Attack Roll = 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs Target Defense (DC)",
     "rules_text": "TANGENT uses a 2d10 dice system for all tactical combat:\n- Opposed Roll: Defender's Agility + Defense Skill (or relevant melee skill) vs. Attacker's Ability + Combat Skill.\n  * Attacker wins: Strike / hit.\n  * Defender wins: Attacker misses or unsuccessful action.\n  * DEFENDER WINS ALL TIES.\n- Unopposed Roll (Target unaware, surprised, or stationary):\n  * Attacker rolls Ability + Combat Skill vs. CR 15 (Average baseline for medium target within short range).\n  * CR 15 is modified by target Size, Range, and Movement.",
@@ -34,13 +34,13 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.531Z"
+    "updatedAt": "2026-11-03T11:21:33.654Z"
   },
   {
     "id": "mech-combat-actions-by-skill-tier",
     "title": "Combat Actions & Iterative Penalty by Skill Tier",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Skill Focus & Actions",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Skill Focus & Actions",
     "summary": "Combat actions per turn are unlocked by Skill Rank. Iterative attacks suffer sequential -5 penalties.",
     "mechanic_formula": "Rank 1-5: 1 action | Rank 6-10: 2nd action (-5) | Rank 11-15: 3rd action (-10) | Rank 16-20: 4th (-15) | Rank 21-25: 5th (-20) | Rank 26-30: 6th (-25)",
     "rules_text": "Combat capability is defined by Skill Tier. As a character gains Ranks, they unlock additional actions:\n- Rank 0 (Untrained): Full Round action required for a single strike.\n- Rank 1–5 (Novice / Studied): 1st action at base score (Focus Bonus +2).\n- Rank 6–10 (Professional / Trained): 2nd action at base score -5 (Focus Bonus +3).\n- Rank 11–15 (Expert): 3rd action at base score -10 (Focus Bonus +4).\n- Rank 16–20 (Master): 4th action at base score -15 (Focus Bonus +5).\n- Rank 21–25 (Grand Master): 5th action at base score -20 (Focus Bonus +6).\n- Rank 26–30 (Pinnacle): 6th action at base score -25 (Focus Bonus +7).\n- Active Defense: Characters may make as many Active Defense checks as allowed by their Defense Skill Rank, with a cumulative -5 penalty after the first reaction.",
@@ -62,18 +62,18 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-combat-initiative",
     "title": "Initiative Reflex Check",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Initiative",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Initiative",
     "summary": "Initiative is determined by rolling 2d10 + Reflex Save + Agility Mod. High roll goes first.",
     "mechanic_formula": "Initiative = 2d10 + Reflex Save + Agility Mod",
     "rules_text": "Initiative determines the turn order in tactical encounters:\n- Each combatant rolls 2d10 + Reflex Save + Agility Modifier.\n- Highest roll acts first. Ties broken by raw Agility score.\n- Situational modifiers apply for Ambush, Surprised status, or advancing/retreating targets.",
     "examples": [
-      "Operator with Agility +3 and Reflex Save +4 rolls 2d10 (13) + 7 = 20 Initiative."
+      "Operative with Agility +3 and Reflex Save +4 rolls 2d10 (13) + 7 = 20 Initiative."
     ],
     "tags": [
       "initiative",
@@ -86,18 +86,18 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-combat-edge-system",
     "title": "EDGE Tactical Advantage System",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Edge",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Edge",
     "summary": "Edge represents situational and tactical advantages gained through movement, positioning, and environment.",
     "mechanic_formula": "Edge Modifiers: Aiming (+2/rnd), Flanking (+2), High Ground (+2 Strike, +2 Crit), Evasive (+1 Def + 1/10ft)",
     "rules_text": "Edge modifiers govern tactical positioning in Tangent:\n- Aiming: Sights locked onto target. Gain +2 Strike per round of Aiming (up to 1/2 attacker Skill Level or AGIx2 + 2). Attacker cannot move before shooting.\n- Flanking: Allies positioned on multiple sides of a target grant +2 bonus to hit.\n- Advancing Target: Target approaching without Cover or Evasion grants an Extra Attack at -5 Strike and rerolls Initiative if moved into Melee.\n- Retreating Target: Target fleeing at Jog/Run/Sprint speed forgoing evasion grants an Extra Attack at -5 Strike and rerolls Initiative.\n- High Ground: +2 to Strike and +2 to Critical Damage Range.\n- Prone: vs Melee/Point Blank grants High Ground bonus to attacker; vs Ranged receives +2 Defense bonus for each Range category after Point Blank.\n- Braced: Set to receive a Charge or stay in place. Block usable as counter-attack; negates heavy weapon recoil.\n- Charge: Move straight at least 10ft. Add +1d to Attack Damage and -1 to strike per stage of speed, plus +1 Point of Impact Damage per 10ft of speed (up to max +100% damage).\n- Close In: Guarded approach at base speed. No modifiers; not an Advancing Target.\n- Withdraw: Defensive retreat at base speed. No modifiers; not a Retreating Target.\n- Evasive Movement: Fully defensive while moving quickly. Gain +1 Defense base, plus +1 Defense per 10ft of movement speed used.\n- Subtle: Quiet, sneaky movement required for stealth skill actions.\n- Feint: Bluff check vs Insight -> Sneak Attack at -5 Strike with Target having NO Defense.\n- Surprise / Sneak Attack: Caught unaware with NO Defense allowed from target. Attack made at -5 to hit, and Damage is rolled with Advantage (roll twice, take highest).",
     "examples": [
-      "Operator snipes from a catwalk (+2 High Ground strike and crit). Target is advancing in the open: operator gets an extra shot at -5.",
+      "Operative snipes from a catwalk (+2 High Ground strike and crit). Target is advancing in the open: operative gets an extra shot at -5.",
       "Point-blank sneak attack: target has no defense, damage is rolled with Advantage."
     ],
     "tags": [
@@ -119,16 +119,16 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-combat-damage-calculation",
     "title": "Combat Damage & Armor DR Absorption",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Damage & Health",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Damage & Health",
     "summary": "Total Damage = (Weapon Dice + Ability Mod + Precision/Skill) - (Target Armor DR + Target STA Mod). Force damage ignores half DR.",
     "mechanic_formula": "Total Damage = (Weapon Dice + Ability Mod + Precision/Skill Bonuses) - (Target Armor DR + Target STA Mod)",
-    "rules_text": "Damage calculation in Tangent sums weapon impact, ability, and skill, mitigated by armor and constitution:\n- Components:\n  * Weapon Dice: Inherent damage capability of weapon.\n  * Relevant Ability: STR for melee/heavy thrown; AGI for light/ranged weapons; INT/WIS/CHA for metaphysical invocations.\n  * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Vital Strikes.\n  * Target Armor DR: Flat Damage Resistance of worn protective gear.\n  * Target STA Mod: Target natural physical constitution reduces damage taken.\n- Force Damage Subtype: Kinetic force energy that completely ignores 1/2 of Target Armor DR.\n- Critical Hit (Natural 20): Doubles weapon damage dice and adds +30 to base attack score.\n- Fumble (Natural 1): Subtracts 10 from base attack score; potential fumble consequences.",
+    "rules_text": "Damage calculation in Tangent sums weapon impact, ability, and skill, mitigated by armor and constitution:\n- Components:\n  * Weapon Dice: Inherent damage capability of weapon.\n  * Relevant Ability: STR for melee/heavy thrown; AGI for light/ranged weapons; INT/WIS/CHA for metaphysical invocations.\n  * Precision Damage: Direct bonus from Combat or Focus Skill Rank, Sneak Attacks, or Precision Strikes (strike consolidation into 2x/3x/4x base weapon dice is strictly gated behind the Precision Strike / Improved Precision Strike / Greater Precision Strike Combat Features).\n  * Target Armor DR & Penetration: Highest single domain Damage Resistance reduced by weapon Penetration (minimum 0 DR).\n  * Target STA Mod: Target natural physical constitution reduces damage taken point-for-point after Armor DR.\n- Force Damage Subtype: Kinetic force energy that completely ignores 1/2 of Target Armor DR.\n- Critical Hit (Natural 20 or expanded threat): Adds +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29), doubles weapon damage dice, and bypasses Vitality to strike Health directly.\n- Fumble (Natural 2 or expanded fumble): Replaces the rolled dice value with a flat -10 (subtracting 10 from the base attack score); potential fumble consequences.",
     "examples": [
       "Attacker with STR +3 and Heavy Blades Rank 4 hits with a 2d8 sword. Raw damage = 2d8 (11) + 3 + 4 = 18. Target has DR 4 armor and STA +2. Total damage = 18 - (4 + 2) = 12."
     ],
@@ -147,13 +147,13 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-combat-called-shots-locations",
     "title": "Called Shots & Hit Location Saving Throws",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Locations & Called Shots",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Locations & Called Shots",
     "summary": "Called shots target body anatomy at attack penalties. Hits force location-specific saving throws with impediment durations.",
     "mechanic_formula": "Called Shots: Torso -1, Head/Arm/Leg -2, Neck/Groin/Hand/Foot -4, Digits/Eyes -5",
     "rules_text": "Called shots allow deliberate targeting of vulnerable anatomy (or roll 1d10 on critical hit):\n- Head: Called Shot -2 (Neck -4, Specific eyes/ears/nose -5).\n  * Location Effect: KO -> Reason Save vs Damage done. Failure = Stunned for 1+ rounds; failure by 10+ = Unconscious.\n- Torso: Called Shot -1 (Chest -2, Abdomen -2, Groin/Pelvis -4).\n  * Location Effect: Winded -> Fortitude Save vs Damage done. Failure = cumulative -2 on actions for 1+ rounds; failure by 10+ = Gasping / Incapacitated.\n- Arms: Called Shot -2 (Upper Arm -3, Forearm -3, Hand -4, Digits -5).\n  * Location Effect: Disarmed -> Reflex Save vs Damage done. Failure = drop held item; failure by 10+ = Arm Crippled / Non-Functional.\n- Legs: Called Shot -2 (Thigh -3, Shin -3, Foot -4, Digits -5).\n  * Location Effect: Hobbled -> Might Save vs Damage done. Failure = 1/2 speed for 1+ rounds; failure by 10+ = Leg Crippled / Non-Functional.\n- Specialized (Tentacles / Wings / Fins): Called Shot -2 (full size), -3 (half size), -4 (hand size).\n- Duration of Impediment: Exactly 1 round per point under the save CR (based directly on the damage done).",
@@ -181,13 +181,13 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-combat-disabled-destroyed-thresholds",
     "title": "Limb Damage: Disabled (1/3 Health) & Destroyed (2/3 Health)",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § Limb Damage & Critical Injuries",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § Limb Damage & Critical Injuries",
     "summary": "Taking 1/3 of Health in damage disables a limb (or causes unconsciousness if Head). Taking 2/3 of Health destroys it.",
     "mechanic_formula": "Disabled = Damage >= 1/3 Health (Sta Check CR 10 + damage to use) | Destroyed = Damage >= 2/3 Health",
     "rules_text": "Specific body locations have distinct structural thresholds:\n- Disabled (1/3rd Health):\n  * Taking 1/3rd of the Health score in damage to a limb disables it (or Unconsciousness if Head).\n  * Stamina Check with CR of 10 + damage taken to keep using it.\n  * Penalties: -4 on all actions for Head, -4 STR and Agility for Arm, Half Ground Speed and no Rush maneuver for Leg.\n  * Medical attention or metaphysics required to heal properly.\n- Destroyed (2/3rds Health):\n  * Taking 2/3rds of Health to an area mangles or severs it beyond ANY further use (Brain Death if Head).\n- Synthetic Limbs:\n  * Synthetic limbs take 50% more damage before being Disabled or Destroyed compared to biological limbs, but do not receive a Stamina check to stay functional once Disabled.",
@@ -209,18 +209,18 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-combat-mortality-state",
     "title": "The Mortality State (0 HP) & Stability Points",
     "category": "combat",
-    "citation": "docs/game rules/operator/3.00 COMBAT.md § The Mortality State",
+    "citation": "docs/game_rules/operator/3.00 COMBAT.md § The Mortality State",
     "summary": "At 0 HP, characters become Incapacitated and suffer 1 Stability Damage per turn (Bleeding Out). Death occurs when Stability Points (STA + 5) reach 0.",
     "mechanic_formula": "Stability Points = STA Score + 5 | Bleedout Rate = 1 Stability Damage/turn | Stabilization = Medicine CR 15",
     "rules_text": "When Health Points reach 0, characters enter the Mortality State:\n- Unconscious and Incapacitated: Character falls Prone and is Incapacitated immediately.\n- Bleeding Out: At the beginning of their turn, the character suffers 1 point of Stability Damage.\n- Stability Threshold: Character has Stability Points equal to Stamina Score + 5.\n- Death: When Stability Points reach 0, the character is clinically dead.\n- Stabilization: Character stops Bleeding Out if they receive metaphysical healing or a successful Medicine Check (CR 15).",
     "examples": [
-      "An operator with STA +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs."
+      "An operative with STA +3 drops to 0 HP. They have 8 Stability Points (3 + 5). Each round they lose 1 point. After 8 rounds without medical aid (CR 15), death occurs."
     ],
     "tags": [
       "mortality state",
@@ -237,13 +237,13 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-scaling-14-tiers",
     "title": "14 Size Categories & Scaling Multipliers",
     "category": "scaling",
-    "citation": "docs/game rules/operator/1.10 SCALING.md § Size Categories",
+    "citation": "docs/game_rules/operator/1.10 SCALING.md § Size Categories",
     "summary": "Objects and creatures scale across 14 size tiers (Miniscule to Mega Colossal) multiplying weapon dice, SP, speed, range, and starship blast radius.",
     "mechanic_formula": "Multiplier applies to Weapon Dice, Structure Points, Speed, and Ranges (Miniscule -5ds to Mega Colossal x320)",
     "rules_text": "Size categories dramatically alter physical impact, damage capacity, and dimensional ranges:\n- Size Hierarchy:\n  1. Miniscule (< 1 in, < 1 oz): Scaling -5ds (1/12), STR -32, Combat +32, Stealth +20, Reach 1 in.\n  2. Fine (< 6 in, < 1/8 lb): Scaling -4ds (1/6), STR -16, Combat +16, Stealth +16, Reach 6 in.\n  3. Diminutive (< 1 ft, < 1 lb): Scaling -3ds (1/3), STR -8, Combat +8, Stealth +12, Reach 1 ft.\n  4. Tiny (< 2 ft, < 8 lbs): Scaling -2ds (1/2), STR -4, Combat +4, Stealth +8, Reach 2 ft.\n  5. Small (< 4 ft, < 60 lbs): Scaling -1ds (2/3), STR -2, Combat +2, Stealth +4, Reach 3 ft.\n  6. Medium (< 8 ft, < 500 lbs): Scaling Base (x1), STR +/-0, Combat +/-0, Stealth +/-0, Reach 5 ft.\n  7. Large (< 16 ft, < 2 tons): Scaling x2, STR +2, Combat -2, Stealth -4, Reach 10 ft.\n  8. Huge (< 32 ft, < 16 tons): Scaling x5, STR +4, Combat -4, Stealth -8, Reach 15 ft.\n  9. Gargantuan (< 64 ft, < 125 tons): Scaling x10, STR +8, Combat -8, Stealth -16, Reach 20 ft.\n  10. Colossal (< 128 ft, < 1K tons): Scaling x20, STR +16, Combat -16, Stealth -32, Reach 25 ft.\n  11. Enormous (< 512 ft, < 16K tons): Scaling x40, STR +32, Combat -32, Stealth NO.\n  12. Titanic (< 1,024 ft, < 144K tons): Scaling x80, STR +64, Combat -64, Stealth NO.\n  13. Super Gargantuan (< 5,280 ft, < 50M tons): Scaling x160, STR +128, Combat -128, Stealth NO.\n  14. Mega Colossal (1 Mile+, 50M+ tons): Scaling x320, STR +256, Combat -256, Stealth NO.\n- Multiplier Scope: Multipliers apply to Weapon Dice, Structure Points (SP), Movement Speed, and Ranges.\n- Starship Proximity Damage (Enormous+): Overwhelming attacks vaporize direct targets and deal 1/10 Indirect Damage to targets within half the attacker STR Modifier in feet.\n- Meta-Tech Chassis Multiplier: Final Invocation Dice = Base Damage Dice * Chassis Scale Multiplier.",
@@ -264,18 +264,18 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-economatrix-standard-curve",
     "title": "Tangent Standard Curve (TSC) & Wealth Score",
     "category": "economatrix",
-    "citation": "docs/game rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework",
+    "citation": "docs/game_rules/operator/2.00 ECONOMATRIX.md § Theoretical Framework",
     "summary": "Item value quadruples every +5 DC increment: Value = 10 * 4^(CR / 5). Purchase CR equals Crafting CR.",
     "mechanic_formula": "Value = 10 * 4^(CR / 5) | Purchase CR = Crafting CR <= Wealth Score",
     "rules_text": "The Tangent Economic Matrix establishes that Complexity Determines Value:\n- Tangent Standard Curve (TSC): Value = 10 * 4^(CR / 5).\n  * Base good at CR 0 costs 10 Credits.\n  * CR 5: 40 Credits.\n  * CR 10: 160 Credits.\n  * CR 15 (Standard Ballistic Rifle): 640 Credits.\n  * CR 20 (Plasma Rifle): 2,560 Credits.\n  * CR 25: 10,240 Credits.\n- The Golden Rule of Tangent Wealth: Purchase CR = Crafting CR.\n  * A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid credits or reducing their Wealth Score.\n- 7 Crafting Timetable Tiers: Tier 1 (1 hr), Tier 2 (8 hrs), Tier 3 (1-3 days), Tier 4 (1-2 wks), Tier 5 (1 mo), Tier 6 (6 mos), Tier 7 (Years/Megastructure).",
     "examples": [
-      "An operator with Wealth Score 16 can automatically requisition any standard gear with Crafting CR 16 or below without spending cash."
+      "An operative with Wealth Score 16 can automatically requisition any standard gear with Crafting CR 16 or below without spending cash."
     ],
     "tags": [
       "economatrix",
@@ -290,13 +290,13 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-metaphysics-triad-casting",
     "title": "Metaphysics Triad & Take-10 Invocation Casting",
     "category": "metaphysics",
-    "citation": "docs/game rules/operator/4.00 METAPHYSICS.md § Core Mechanics",
+    "citation": "docs/game_rules/operator/4.00 METAPHYSICS.md § Core Mechanics",
     "summary": "Metaphysics operates on Attune, Discipline, and Invocation. Potency = Key Ability + Discipline Skill + Invocation Level + 10 (or 2d10).",
     "mechanic_formula": "Potency = Key Ability + Discipline Skill Level + Invocation Level + 10 (or 2d10) | Strain = 1 Non-Lethal / 5 pts under CR",
     "rules_text": "Reality manipulation operates on a distinct mechanical triad:\n- Attune Skill: General energy channeling skill. Sets the Challenge Rating of Resistance or Attack check.\n- Discipline Skill: Manipulates patterns; sets Severity and Damage.\n- Invocations: Codified muscle memory. Users \"Take 10\" by default on Discipline checks for operational safety.\n- Source Key Ability:\n  * Intellect: Psychic, Arcane, Akashic.\n  * Wisdom: Divine, Nature, Cosmic.\n  * Charisma: Bardic, Hereditary, Granted.\n- Metafocus Levels (ML): ML 0 Null to ML 6 Deific (ML 6 NPC only). Starting character max Discipline skill = 2 * ML.\n- Internalized Strain: Failing a casting check deals 1 point of Non-Lethal Damage per 5 points of failure (bypasses Stamina and Armor).",
@@ -317,18 +317,18 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-character-150cp-creation",
     "title": "150 Character Points & Foundational Backgrounds",
     "category": "character_creation",
-    "citation": "docs/game rules/operator/1.01 CHARACTER CREATION.md § Character Points",
+    "citation": "docs/game_rules/operator/1.01 CHARACTER CREATION.md § Character Points",
     "summary": "Characters start with 150 CP (Character Points). Faction, Origin, and Occupation grant 60 skill ranks, 4 features, and 4 traits for free.",
-    "mechanic_formula": "Total Budget = 150 CP | Attributes: 5 CP per +1 (Soft cap +4) | Skills: 1 CP/rank | Features: 3 CP base",
-    "rules_text": "Operator creation is governed by strict mathematical allocation:\n- 150 Character Points (CP) starting budget.\n- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1, soft cap +4 at creation.\n- Skills: Cost 1 CP per rank at creation.\n- Features: Base cost 3 CP (minimum 1 CP).\n- Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.\n- Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.",
+    "mechanic_formula": "Total Budget = 150 CP | Attributes: 5 CP per +1 (-5 CP per -1; no package discount) | Skills: 1 CP/rank (5 CP per 5 ranks; no package discount) | Features: 3 CP base",
+    "rules_text": "Operative creation is governed by strict mathematical allocation:\n- 150 Character Points (CP) starting budget.\n- Universal Straight Build Cost (Zero Package Discount): Across Character Creation, Species Packages, Companion Packages, and Bestiary Point-Buy, +1 Attribute = 5 CP (-1 Attribute Penalty = -5 CP refund) and 1 Skill Rank = 1 CP (5 Skill Ranks = 5 CP).\n- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1 (-5 CP refund per -1), soft cap +4 at creation.\n- Skills: Cost 1 CP per rank (5 CP per 5 ranks) universally.\n- Features: Base cost 3 CP (Recommended Feature: 2 CP, minimum 1 CP). Species Traits: Basic 1 CP, Advanced 2 CP, Elite 4 CP.\n- Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.\n- Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.",
     "examples": [
-      "Operator invests 45 CP into attributes (+3 STR, +3 AGI, +3 STA), 20 CP into extra skills, 12 CP into 4 features, and spends 60 background skill ranks from Faction, Origin, and Career."
+      "Operative invests 45 CP into attributes (+3 STR, +3 AGI, +3 STA), 20 CP into extra skills, 12 CP into 4 features, and spends 60 background skill ranks from Faction, Origin, and Career."
     ],
     "tags": [
       "150 cp",
@@ -345,19 +345,19 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-companion-40cp-formula",
     "title": "Companion Feature Unlock & Modular 40 CP Architecture",
     "category": "companions",
-    "citation": "docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition & Construction",
+    "citation": "docs/game_rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition & Construction",
     "summary": "Companions must be unlocked by purchasing the COMPANION feature (3 CP, Cha 1). May purchase multiple times for additional cohorts or +10 CP build budget.",
     "mechanic_formula": "Companion Feature = 3 CP (Cha 1) | Cohort Budget = Form (15 CP) + Function (25 CP) = 40 CP Base | +10 CP per Rank above Rank 1",
     "rules_text": "Access and construction of loyal cohorts follow strict modular rules:\n- Unlocking the Companion Feature:\n  * Just as Metaphysics requires the Awakened feature and Augmentations require the Augmented feature, access to Companions must be unlocked by purchasing the Companion feature (3 CP, Prerequisite: Charisma 1).\n  * Ranked & Multiple: Taking this feature again allows either purchasing an additional 40 CP companion OR granting +10 CP to an existing companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).\n- Modular Construction Matrix:\n  * Form Package: 15 CP (Anatomy, size, speed, base vitals).\n  * Function Package: 25 CP (Role, attribute bonuses, skills, protocols).\n  * Base Companion: 40 CP total at Rank 1.\n- Chassis Typologies:\n  * Biological: Uses Vitality + Health. Recovers via natural sleep and Medicine.\n  * Synthetic: Uses Structure Points (SP = VP + HP). Zero Vitality. Immune to non-lethal damage, poison, disease, fatigue. Requires Engineering repair.\n  * Metaphysical: Uses Essence as health. Grappling immunity if incorporeal. Attunement recovery.",
     "examples": [
-      "Operator purchases Companion feature (3 CP), assembling a 40 CP Biological War Hound: Predator Form (15 CP) + Guardian Function (25 CP).",
-      "Operator purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget)."
+      "Operative purchases Companion feature (3 CP), assembling a 40 CP Biological War Hound: Predator Form (15 CP) + Guardian Function (25 CP).",
+      "Operative purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget)."
     ],
     "tags": [
       "companions",
@@ -375,18 +375,18 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-vitals-30-30-60",
     "title": "Vitals & Structure: 30 VP / 30 HP / 60 SP Base (No Stamina Bonus)",
     "category": "vitals",
-    "citation": "docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals & Derivations",
+    "citation": "docs/game_rules/operator/1.01 CHARACTER CREATION.md § Vitals & Derivations",
     "summary": "Characters start with Base Vitality 30, Base Health 30, and Base Structure 60 (for Medium synthetics). Stamina does NOT add to VP or HP, but provides natural DR (Toughness).",
     "mechanic_formula": "Vitality Base = 30 | Health Base = 30 | Structure Base = 60 * Size Scaling Multiplier | Stamina = Natural DR (Toughness)",
-    "rules_text": "Vitals and physical resilience are strictly decoupled from flat stamina additions:\n- Biological Entities:\n  * Base Vitality = 30 points.\n  * Base Health = 30 points.\n  * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.\n  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).\n- Synthetics, Constructs & Mecha:\n  * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.\n  * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.",
+    "rules_text": "Vitals and physical resilience are strictly decoupled from flat stamina additions:\n- Biological Entities:\n  * Base Vitality = 30 points.\n  * Base Health = 30 points.\n  * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.\n  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +5 points).\n- Synthetics, Constructs & Mecha:\n  * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.\n  * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.",
     "examples": [
-      "Standard human operator starts with 30 VP and 30 HP. Stamina +3 provides DR 3 natural Toughness against penetrating damage.",
+      "Standard human operative starts with 30 VP and 30 HP. Stamina +3 provides DR 3 natural Toughness against penetrating damage.",
       "Medium synthetic android starts with 60 SP, 0 VP. A Large synthetic frame (x2 scale) starts with 120 SP."
     ],
     "tags": [
@@ -404,19 +404,19 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-karma-spending-actions",
     "title": "Karma Points Economy & The 6 Canonical Spending Actions",
     "category": "core_resolution",
-    "citation": "docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md",
+    "citation": "docs/game_rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md",
     "summary": "Characters have a default pool of 3 Karma Points (resets per session, no rest recovery). 6 canonical spending actions (1 KP each) provide narrative and tactical agency.",
     "mechanic_formula": "Starting Pool = 3 KP | 6 Actions @ 1 KP each | Karmic Debt Limit = Charisma + 1",
-    "rules_text": "Karma represents tactical luck and narrative control:\n- Pool Management:\n  * Starting baseline is 3 Karma Points.\n  * Resets to full at the start of each session; does NOT recover through short or long rest.\n  * Maximum pool increased by the Karmic Blessing feature (+1 per rank) or Architect story milestones.\n- The 6 Canonical Karma Spending Actions (1 KP each):\n  1. \"I Got This\": Declared BEFORE rolling. Grants Advantage on any single roll (attacks, saves, checks, damage).\n  2. \"Not What I Meant\": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).\n  3. \"Shake it Off\": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).\n  4. \"Second Wind\": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.\n  5. \"So Mote it Be\": Declared simultaneously with a metaphysical skill/feature. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feature.\n  6. \"By Will Alone\": Declared with Architect approval. Push past normal limits or emulate a feature for a scene.\n- Negative Karma (Karmic Debt):\n  * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.",
+    "rules_text": "Karma represents tactical luck and narrative control:\n- Pool Management:\n  * Starting baseline is 3 Karma Points.\n  * Resets to full at the start of each session; does NOT recover through short or long rest.\n  * Maximum pool increased by the Karmic Blessing feature (+1 per rank) or GM story milestones.\n- The 6 Canonical Karma Spending Actions (1 KP each):\n  1. \"I Got This\": Declared BEFORE rolling. Grants Advantage on any single roll (attacks, saves, checks, damage).\n  2. \"Not What I Meant\": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).\n  3. \"Shake it Off\": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).\n  4. \"Second Wind\": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.\n  5. \"So Mote it Be\": Declared simultaneously with a metaphysical skill/feature. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feature.\n  6. \"By Will Alone\": Declared with GM approval. Push past normal limits or emulate a feature for a scene.\n- Negative Karma (Karmic Debt):\n  * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.",
     "examples": [
-      "Operator declares 'I Got This' before firing a plasma sniper shot: rolls 2d10 attack twice with Advantage.",
-      "Operator afflicted by Stunned spends 1 KP on 'Shake it Off' to reduce condition severity to dazed."
+      "Operative declares 'I Got This' before firing a plasma sniper shot: rolls 2d10 attack twice with Advantage.",
+      "Operative afflicted by Stunned spends 1 KP on 'Shake it Off' to reduce condition severity to dazed."
     ],
     "tags": [
       "karma",
@@ -434,19 +434,19 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-augmentations-body-alteration-tiers",
     "title": "Augmentation System: Body Alteration Tiers (No Max Strain)",
     "category": "technology",
-    "citation": "docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md",
+    "citation": "docs/game_rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md",
     "summary": "The Augmentation system has NO max strain. Tiers are defined by physical body alteration percentages: Augmentation (<20%), Heavy Augmentation (<50%), and Severe Augmentation (>50% up to FBC).",
     "mechanic_formula": "Tier 1: Augmentation (<20% alteration) | Tier 2: Heavy Augmentation (<50% alteration) | Tier 3: Severe Augmentation (>50% up to FBC)",
     "rules_text": "Cybernetic and biological modifications are categorized without strain ceilings:\n- Strain Ceilings Removed: There is NO maximum strain score limiting cyberware installation.\n- The 3 Body Alteration Tiers:\n  1. Augmentation (Tier 1): < 20% body alterations. Minor prosthetics, sensory upgrades, standard subdermal armor, and utility cyberware.\n  2. Heavy Augmentation (Tier 2): < 50% body alterations. Extensive industrial/military hardware, structural skeletal reinforcement, and bulky limbs.\n  3. Severe Augmentation (Tier 3): > 50% body alterations up to Full Body Conversion (FBC). More machine or bio-construct than original being; allows radical physiological and size alterations.\n- Negligible Fashionware (< 5%): Basic subdermal ID chips, cosmetic bioware, and skinwatches require no feature.",
     "examples": [
-      "Operator replaces a cybernetic forearm (<20% body alteration): classified as Tier 1 Augmentation.",
-      "Operator undergoes Full Body Conversion (>50% body alteration): classified as Tier 3 Severe Augmentation."
+      "Operative replaces a cybernetic forearm (<20% body alteration): classified as Tier 1 Augmentation.",
+      "Operative undergoes Full Body Conversion (>50% body alteration): classified as Tier 3 Severe Augmentation."
     ],
     "tags": [
       "augmentations",
@@ -463,13 +463,13 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   },
   {
     "id": "mech-mecha-vehicles-all-sorts",
     "title": "Mecha Taxonomy: Vehicles Across All Form Factors",
     "category": "technology",
-    "citation": "docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md",
+    "citation": "docs/game_rules/architect/99. TECHNOLOGY, MECHA MATRIX.md",
     "summary": "Mecha encompasses vehicles of all sorts across the entire technological spectrum — from hoverboards, motorcycles, and cars to power armor, walkers, fighter jets, and starships.",
     "mechanic_formula": "Mecha Classification: Personal/Mount -> Ground Vehicle -> Power Armor -> Walker -> Atmospheric Aircraft -> Starship",
     "rules_text": "Mecha is the universal vehicle and vehicular chassis classification in Tangent:\n- Universal Scope: Mecha is not limited to giant humanoid robots. It spans:\n  * Personal Conveyances: Hoverboards, mag-skiffs, jump-harnesses.\n  * Wheeled & Ground Vehicles: Motorcycles, technicals, armored cars, tanks.\n  * Exoskeletons & Power Armor: Powered battle suits, heavy environmental rigs.\n  * Walkers: Bipedal, tripedal, and quad-legged tactical combat walkers.\n  * Atmospheric Aircraft: Fighter jets, VTOL gunships, planetary shuttles.\n  * Spacecraft & Starships: System corvettes, frigates, cruisers, dreadnoughts.\n- Vitals & Scale: All mecha operate on Structure Points (60 SP base for Medium size), scaled by the 14 volumetric size categories.\n- Modular Sockets: Mecha feature modular socket allocations for weapon hardpoints, sensor suites, shield capacitors, and meta-tech invocation modules.",
@@ -493,7 +493,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-09-14T20:01:48.532Z"
+    "updatedAt": "2026-11-03T11:21:33.655Z"
   }
 ];
 

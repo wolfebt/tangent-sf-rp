@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-asi"
-order: 33
+order: 31
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.asi.koban","mechanics"]
-updatedAt: "2026-10-14T05:24:25.038Z"
+updatedAt: "2026-11-02T22:49:32.447Z"
 costs:
   bp: 0
   credits: 0
@@ -37,55 +37,56 @@ sockets:
   allocated: []
 ---
 
-# **KOBAN \***
+# **KOBAN **  
+**
 
-# **KOBAN \***
+# **KOBAN ***
 
-&nbsp;
+  
 
-**CP Cost:**&nbsp;
+**CP Cost:** 
 
 **Description:** In their true form, the Koban are diminutive, leporid (rabbit-like) fey creatures standing approximately 0.7 meters tall. They possess soft, dense fur—typically in white with black accents—large, expressive eyes that shimmer with innate magic, and long, sensitive ears capable of independent rotation. They have a long, prehensile tail that aids in balance and manipulation.
 
-&nbsp;
+  
 
 Unlike the chaotic nature of some Fey, Koban are often calm and observant. However, they possess a powerful, innate defense mechanism: the ability to assume the form of a specific Medium-sized humanoid. This "Guise" is unique to each Koban and acts as their interface with the larger galaxy, allowing them to travel, trade, and negotiate without being dismissed as mere animals.
 
-&nbsp;
+  
 
 Society & Psychology: Koban culture is deeply spiritual and inextricably linked to the Meta (the Force/Magic). They view technology with skepticism, relying instead on their connection to the energies of the universe. To a Koban, a blaster is a crude tool compared to the elegance of a telekinetic push or a mind trick.
 
-&nbsp;
+  
 
 They are often underestimated. In their fey form, they appear harmless and cute; in their humanoid form, they appear unassuming. They use this to their advantage, acting as spies, diplomats, or guardians who reveal their true nature only when necessary.
 
-&nbsp;
+  
 
-**Classification:** Fey (Shapechanger)&nbsp;
+**Classification:** Fey (Shapechanger) 
 
 **Size:** Small / Medium
 
 **Movement:** 30 ft Groundspeed
 
-&nbsp;
+  
 
-**Tech Level:** 0 (Primitive/Tribal)&nbsp;
+**Tech Level:** 0 (Primitive/Tribal) 
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
 **Homeworld:** Deep forests or Moon-touched wilds (Often live in seclusion from the "Iron" races).
 
 **Stigma:** Stigma (Animal or Xeno)
 
-&nbsp;
+  
 
 **Ability Modifiers:**
 
-\+1 Any
++1 Any
 
-&nbsp;
+  
 
 **Species Features:**
 
@@ -95,7 +96,7 @@ Alter Form (Humanoid)
 
 Awakened (Nature, Wis)
 
-&nbsp;
+  
 
 **Recommended Features:**
 
@@ -125,7 +126,7 @@ Run
 
 Quick
 
-&nbsp;
+  
 
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+___________________________
 

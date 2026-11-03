@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 60
+order: 58
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.digon","mechanics"]
-updatedAt: "2026-10-14T05:24:25.056Z"
+updatedAt: "2026-11-02T22:49:34.069Z"
 costs:
   bp: 0
   credits: 0
@@ -37,27 +37,28 @@ sockets:
   allocated: []
 ---
 
-# **DIGON (I) \* \*\***
+# **DIGON (I) * **  
+**
 
-# **DIGON (I) \* \*\***
+# **DIGON (I) * **
 
-**CP Cost:** 8 CP  
+**CP Cost:** 
 
 **Description:** Genetically engineered as a warrior species for the Impyrium, The Digon are physically imposing: tall (averaging 7 ft), stocky, and distinguished by their gray skin.
 
-&nbsp;
+  
 
 Their genetics are a fusion of B'Dren and Nian traits. They are products of a harsh, Spartan upbringing that included relentless training and rigorous obedience conditioning, shaping them into brutal fighters renowned for their absolute servitude to the Impyrium.
 
-&nbsp;
+  
 
 These warriors were originally created at the behest of the Red Prince, who distributed the first cohorts among his family's loyal Houses and utilized them as his personal shock troops. The Prince's specific imprinting method ensured a loyalty unto death; however, this level of complete devotion was lost following his disappearance.
 
-&nbsp;
+  
 
 Since the Impyrium's collapse, many Digon maintain loyalty to their original House. Yet, a significant number have broken ranks, leading to the recent emergence of several vengeful rogue factions.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -65,39 +66,39 @@ Since the Impyrium's collapse, many Digon maintain loyalty to their original Hou
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 4
 
 **Meta Level:** 4
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
-**Stigma:** Xeno & Savage with an ingrained Rage Response \[more controllable if Int and Cha ability scores are positive\]
+**Stigma:** Xeno & Savage with an ingrained Rage Response [more controllable if Int and Cha ability scores are positive]
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Str
++1 Str
 
-\+1 Agi
++1 Agi
 
-\+1 Sta
++1 Sta
 
-\-1 Int
+-1 Int
 
-\-1 Cha
+-1 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Brutal
 
@@ -105,9 +106,9 @@ Exoskeleton (Partial)
 
 Rage
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Bodyform (Any)
 
@@ -133,5 +134,7 @@ Swimmer
 
 Quick
 
-&nbsp;
+  
+**  
+**
 

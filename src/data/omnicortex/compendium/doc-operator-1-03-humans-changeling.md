@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-humans"
-order: 51
+order: 49
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.humans.changeling","mechanics"]
-updatedAt: "2026-10-14T05:24:25.047Z"
+updatedAt: "2026-11-02T22:49:33.712Z"
 costs:
   bp: 0
   credits: 0
@@ -37,19 +37,20 @@ sockets:
   allocated: []
 ---
 
-# **CHANGELING (Doppleganger Hybrid)**
+# **CHANGELING (Doppleganger Hybrid)**  
+**
 
 # **CHANGELING (Doppleganger Hybrid)**
 
-**CP Cost:** 8 CP  
+**CP Cost:** 
 
-**Description:**&nbsp;
+**Description:** 
 
 The Changeling is the result of a cross between a baseline Human and a Doppelganger, inheriting the Doppelganger's unique shape-shifting lineage. They are a distinct subspecies often characterized by an innate adaptability and a subtle, unsettling air of 'otherness' that hints at their dual nature.
 
 While their Doppelganger ancestors were magically engineered to flawlessly mimic any sentient creature for the purpose of hunting evil, the Changeling's ability is a more limited, *Minor Alter Form* power, allowing for subtle but significant shifts in their physical appearance. They are often predisposed toward becoming proficient social operators, adept at blending in and manipulating social situations.
 
-&nbsp;
+  
 
 **Classification:** Humanoid
 
@@ -57,39 +58,39 @@ While their Doppelganger ancestors were magically engineered to flawlessly mimic
 
 **Movement:** 30ft Groundspeed
 
-&nbsp;
+  
 
 **Tech Level:** 3
 
 **Meta Level:** 3
 
-&nbsp;
+  
 
-**Homeworld:**&nbsp;
+**Homeworld:** 
 
 **Stigma:** Shifter
 
-&nbsp;
+  
 
-**Ability Modifiers:**&nbsp;
+**Ability Modifiers:** 
 
-\+1 Cha
++1 Cha
 
-&nbsp;
+  
 
-**Skills:**&nbsp;
+**Skills:** 
 
-\+5 Skills
++5 Skills
 
-&nbsp;
+  
 
-**Species Features:**&nbsp;
+**Species Features:** 
 
 Alter Form (Minor)
 
-&nbsp;
+  
 
-**Recommended Features:**&nbsp;
+**Recommended Features:** 
 
 Attractive
 
@@ -109,5 +110,7 @@ Social
 
 Trustworthy
 
-&nbsp;
+  
+**  
+**
 

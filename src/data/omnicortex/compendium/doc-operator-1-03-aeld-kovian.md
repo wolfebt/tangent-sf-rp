@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aeld"
-order: 27
+order: 25
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld.kovian","mechanics"]
-updatedAt: "2026-10-14T05:24:25.034Z"
+updatedAt: "2026-11-02T22:49:31.994Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **NOCTURNE (Kovians)**
+# **NOCTURNE (Kovians)**  
+**
 
 # **NOCTURNE (Kovians)**
 
@@ -47,11 +48,11 @@ The Tribunal's negative assessment of other species is meticulously cataloged an
 
 Consequently, the Elven who are drawn to the Nocturne ideology are often those of a deeply anti-social variety. Their isolationism is rarely a simple preference; it is a doctrine. They cultivate a profound and often militant detachment, especially with respect to any non-Elven. This deliberate segregation is enforced by the Tribunal's teachings, which warn that contact with the Lesser Species leads to corruption, dilution of Elven purity, and a dangerous sympathy for the inferior. Their communities are structured to minimize or eliminate all forms of interaction, ensuring that the ancient, unforgiving judgments of the Kovian Tribunal remain absolute and uncompromised by the messy realities of the outside world.
 
-&nbsp;
+  
 
 ### **General Species Features & Mechanics**
 
-**CP Cost:** 13 CP  
+**CP Cost:** [TBD]
 
 **Classification:** Humanoid
 
@@ -63,25 +64,25 @@ Consequently, the Elven who are drawn to the Nocturne ideology are often those o
 
 **Meta Level:** 4
 
-**Homeworld:** \[TBD\]
+**Homeworld:** [TBD]
 
 **Stigma:** Xeno and Supremacists
 
-&nbsp;
+  
 
 **Ability Modifiers:**
 
-\+1 Int
++1 Int
 
-\+1 Ability
++1 Ability
 
-&nbsp;
+  
 
 **Skills:**
 
-\+10 Discipline Skills
++10 Discipline Skills
 
-&nbsp;
+  
 
 **Species Features:**
 
@@ -89,15 +90,17 @@ Awakened (Arcane, Intellect)
 
 Sleepless (and Immune to Sleep Effects)
 
-&nbsp;
+  
 
 **Recommended Features:**
 
-Ability Check Feature, Acute Senses, Alter Self line\*, Awakened (Arcane), Bodyform Features\*, Darksight, Eidetic Memory, Longevity (to 1,200+ year lifespan), Low Light Vision, Mutations\*, Mystical Ability, Reduced Sustenance, Sense Magic (30ft Radius).
+Ability Check Feature, Acute Senses, Alter Self line*, Awakened (Arcane), Bodyform Features*, Darksight, Eidetic Memory, Longevity (to 1,200+ year lifespan), Low Light Vision, Mutations*, Mystical Ability, Reduced Sustenance, Sense Magic (30ft Radius).
 
-*\* Darkwalkers (Sha’Nor Influenced): Driven by a desire for knowledge and power, certain extremists have aligned themselves with the Sha'Nor, a pursuit that has inevitably led to madness. This association has granted some of them the traits of the Eakren, including abilities like Alter Self and Bodyform, along with the possibility of other mutations.*
+  
 
-### 
+** Darkwalkers (Sha’Nor Influenced): Driven by a desire for knowledge and power, certain extremists have aligned themselves with the Sha'Nor, a pursuit that has inevitably led to madness. This association has granted some of them the traits of the Eakren, including abilities like Alter Self and Bodyform, along with the possibility of other mutations.*
+
+  
 
 ### **Aesthetic Profile: The Militant Isolationists**
 
@@ -107,11 +110,11 @@ Ability Check Feature, Acute Senses, Alter Self line\*, Awakened (Arcane), Bodyf
 
 **The Motif:** Elven Supremacist, Ancient Doctrine, Militant Isolationism.
 
-&nbsp;
+  
 
 **Setting Style Description (Crisp):**
 
-**Context:** Stark Citadels, Isolation Complexes. A Nocturne elf \- standing vigil.
+**Context:** Stark Citadels, Isolation Complexes. A Nocturne elf - standing vigil.
 
 **Intent:** To portray a supreme, isolated, and judgmental species; cold detachment.
 
@@ -121,7 +124,7 @@ Ability Check Feature, Acute Senses, Alter Self line\*, Awakened (Arcane), Bodyf
 
 **Philosophy:** "Magic is a weapon." Emphasizes stealth, control, and supremacy.
 
-&nbsp;
+  
 
 **Guidance & Atmosphere Tokens:**
 
@@ -131,7 +134,7 @@ Ability Check Feature, Acute Senses, Alter Self line\*, Awakened (Arcane), Bodyf
 
 **Architecture/Tech:** Ancient, imposing megalithic architecture, rigid armor plating, arcane ritualistic devices.
 
-### 
+  
 
 ### **Common Personas**
 
@@ -143,7 +146,8 @@ Ability Check Feature, Acute Senses, Alter Self line\*, Awakened (Arcane), Bodyf
 
 **The Doctrine Scholar:** A fanatical cataloger of the flaws of non-Aeld. Wears cool, stark gray robes; their eyes hold a cold, judgmental detachment as they review ancient, megalithic data-slates.
 
-&nbsp;
-
-&nbsp;
+  
+  
+**  
+**
 

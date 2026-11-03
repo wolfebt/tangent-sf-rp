@@ -120,7 +120,7 @@ Conversely, some awakened animals embrace their unique dual nature. They find wa
 
 ## **General Species Features & Mechanics**
 
-**CP Cost:** 2 CP  
+**CP Cost:** 3 CP  
 
 **Classification:** Beast
 

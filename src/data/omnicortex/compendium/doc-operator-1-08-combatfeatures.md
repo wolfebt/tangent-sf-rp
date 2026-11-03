@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 210
+order: 208
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.combatfeatures","mechanics"]
-updatedAt: "2026-10-31T10:56:34.179Z"
+updatedAt: "2026-11-03T10:29:27.644Z"
 costs:
   bp: 0
   credits: 0
@@ -37,277 +37,290 @@ sockets:
   allocated: []
 ---
 
+# **1.08.02 COMBAT FEATURES (PART I: A – S)**
+
 # **COMBAT FEATURES**
 
 Tactical maneuvers and weapon mastery.
 
-| FEATURE NAME | PREREQUISITE | BENEFIT / EFFECT | SPECIAL / NOTES |
-| :---- | :---- | :---- | :---- |
-| **Agile Wrestling** | \- | Use your Agi and Str for Grappling |  |
-| **Ambidextrous** | Agi 2 | Use both hands equally well. Eliminates off-hand penalty. |  |
-| **Multidextrous** | Ambidextrous or Agi 4 | No Off-Handed Penalty with Multiple Limbs. |  |
-| **Blind-Fight** | \- | Roll with an advantage to counter the miss chance of a concealed target. |  |
-| **Blockade** | \- | Stop enemies from moving past you. |  |
-| **Burst Attack** | Combat Skill 2 | Reduces penalties with Auto-Fire. | Ballistic, Energy, or Heavy Weapon |
-| **Channel Smite** | Channel Energy | Channel energy through your attack. |  |
-| **Combat Casting** | \- | \+4 bonus on Defense vs AoO and to concentration checks. |  |
-| **Combat Expertise** | Int 2 | Trade attack bonus for defense bonus. |  |
-| **Improved Disarm** | Combat Expertise | \+2 bonus on disarm attempts, no attack of opportunity. |  |
-| **Greater Disarm** | Improved Disarm | Disarmed weapons are knocked away from your enemy. |  |
-| **Improved Feint** | Combat Expertise | Feint as a move action. |  |
-| **Greater Feint** | Improved Feint | Enemies you feint lose their Agi bonus for 1 round. |  |
-| **Improved Trip** | Combat Expertise | \+2 bonus on trip attempts, no attack of opportunity. |  |
-| **Greater Trip** | Improved Trip | Enemies you trip provoke attacks of opportunity. |  |
-| **Whirlwind Attack** | Agi 2, Combat Expertise, Blitz Attack | Make one melee attack against all foes within reach. |  |
-| **Combat Reflexes** | \- | Not Flanked from side attacks. |  |
-| **Combat Specialist** | Chosen Skill 6 | Increase die damage of attack with one Combat Skill. | Multiple |
-| **Crushing Blow** | \- | Reduce opponent's Defense. |  |
-| **Dead Aim** | Wis 3, Ranged 6 | Trade movement for attack bonus (+2 Strike). |  |
-| **Defensive Combat Training** | \- | Use your Hit Dice as your Base Attack Bonus for CMD. |  |
-| **Deflect Arrows** | Agi 2, Unarmed 1 | Avoid one ranged attack per round. |  |
-| **Snatch Arrows** | Agi 4, Deflect Arrows | Catch a ranged attack. |  |
-| **Dodge** | Agi 1 | \+1 dodge bonus to Defense. |  |
-| **Mobility** | Agi 2, Dodge | \+4 defense against attacks of opportunity from movement. |  |
-| **Double Slice** | Two-Weapon Fighting | Add your Str bonus to off-hand damage rolls. |  |
-| **Two-Weapon Fighting** | Agi 2, Combat Skill 2 | Reduces off-hand penalties |  |
-| **Improved Two-Weapon Fighting** | Agi 3, Skill 6 | Gain second off-hand attack. |  |
-| **Greater Two-Weapon Fighting** | Agi 4, Skill 11 | Gain a third off-hand attack. |  |
-| **Perfect Two-Weapon Fighting** | Agi 5, Skill 16 | Gain a fourth off-hand attack. |  |
-| **Power Attack** | Str 2, Unarmed or Melee 6 | Trade melee attack bonus for damage |  |
-| **Two-Weapon Defense** | Two-Weapon Fighting | \+1 shield bonus to defense when fighting with two weapons. |  |
-| **Improved Two-Weapon Defense** | Imp. Two-Weapon Fighting | \+2 shield bonus to defense when fighting with two weapons. |  |
-| **Greater Two-Weapon Defense** | Grtr. Two-Weapon Fighting | \+3 shield bonus to defense when fighting with two weapons. |  |
-| **Perfect Two-Weapon Defense** | Perfect Two-Weapon Fighting | \+4 shield bonus to defense when fighting with two weapons. |  |
-| **Uncanny Dodge** | Agi 4 | Immune to Flat Footed condition. |  |
-| **Vital Strike** | Skill 6 | Deal twice the normal damage on a single attack. |  |
-| **Improved Vital Strike** | Vital Strike, Skill 11 | Deal three times the normal damage on a single attack. |  |
-| **Greater Vital Strike** | Improved Vital Strike, Skill 16 | Deal four times the normal damage on a single attack. |  |
-| **Weapon Focus** | Combat Skill 1 | Adds Effect based on Weapon Type. | Multiple (Piercing=Penetration, Slash=Bleed, etc.) |
-| **Weapon Improvisation** | \- | No penalties for improvised Archaic weapons. |  |
-| **Weapon Specialization** | Weapon Focus, Skill 6 | \+1d damage with one weapon type. | Multiple |
-| **Imp. Weapon Specialization** | Weapon Spec, Skill 11 | \+2d damage with one weapon type. |  |
-| **Grtr. Weapon Specialization** | Imp. Weapon Spec, Skill 16 | \+3d damage with one weapon type. |  |
+| **FEATURE NAME** | **PREREQUISITE** | **BENEFIT / EFFECT** | **SPECIAL / NOTES** |
+| :-: | :-: | :-: | :-: |
+| **Agile Wrestling** | \- | Use your Agi and Str for Grappling |   |
+| **Ambidextrous** | Agi | Use both hands equally well. Eliminates off-hand penalty. |   |
+| **Multidextrous** | Ambidextrous or Agi | No Off-Handed Penalty with Multiple Limbs. |   |
+| **Blind-Fight** | \- | Roll with an advantage to counter the miss chance of a concealed target. |   |
+| **Blockade** | \- | Stop enemies from moving past you. |   |
+| **Burst Attack** | Combat Skill | Reduces penalties with Auto-Fire. | Ballistic, Energy, or Heavy Weapon |
+| **Channel Smite** | Channel Energy | Channel energy through your attack. | |
+| **Combat Casting** | \- | \+4 bonus on Defense vs AoO and to concentration checks. | |
+| **Combat Expertise** | Int | Trade attack bonus for defense bonus. | |
+| **Improved Disarm** | Combat Expertise | \+2 bonus on disarm attempts, no attack of opportunity. | |
+| **Greater Disarm** | Improved Disarm | Disarmed weapons are knocked away from your enemy. | |
+| **Improved Feint** | Combat Expertise | Feint as a move action. | |
+| **Greater Feint** | Improved Feint | Enemies you feint lose their Agi bonus for 1 round. | |
+| **Improved Trip** | Combat Expertise | \+2 bonus on trip attempts, no attack of opportunity. | |
+| **Greater Trip** | Improved Trip | Enemies you trip provoke attacks of opportunity. | |
+| **Whirlwind Attack** | Agi 2, Combat Expertise, Blitz Attack | Make one melee attack against all foes within reach. | |
+| **Combat Reflexes** | \- | Not Flanked from side attacks. | |
+| **Combat Specialist** | Chosen Skill | Increase die damage of attack with one Combat Skill. | Multiple |
+| **Crushing Blow** | \- | Reduce opponent's Defense. | |
+| **Dead Aim** | Wis 3, Ranged | Trade movement for attack bonus (+2 Strike). | |
+| **Defensive Combat Training** | \- | Use your Hit Dice as your Base Attack Bonus for CMD. | |
+| **Deflect Arrows** | Agi 2, Unarmed | Avoid one ranged attack per round. | |
+| **Snatch Arrows** | Agi 4, Deflect Arrows | Catch a ranged attack. | |
+| **Dodge** | Agi | \+1 dodge bonus to Defense. | |
+| **Mobility** | Agi 2, Dodge | \+4 defense against attacks of opportunity from movement. | |
+| **Double Slice** | Two-Weapon Fighting | Add your Str bonus to off-hand damage rolls. | |
+| **Two-Weapon Fighting**  | Agi 2, Combat Skill | Reduces off-hand penalties  |   |
+| **Improved Two-Weapon Fighting** | Agi 3, Skill | Gain second off-hand attack. | |
+| **Greater Two-Weapon Fighting** | Agi 4, Skill | Gain a third off-hand attack. | |
+| **Perfect Two-Weapon Fighting** | Agi 5, Skill | Gain a fourth off-hand attack. | |
+| **Power Attack**  | Str 2, Unarmed or Melee | Trade melee attack bonus for damage |   |
+| **Two-Weapon Defense** | Two-Weapon Fighting | \+1 shield bonus to defense when fighting with two weapons. | |
+| **Improved Two-Weapon Defense** | Imp. Two-Weapon Fighting | \+2 shield bonus to defense when fighting with two weapons. | |
+| **Greater Two-Weapon Defense** | Grtr. Two-Weapon Fighting | \+3 shield bonus to defense when fighting with two weapons. | |
+| **Perfect Two-Weapon Defense** | Perfect Two-Weapon Fighting | \+4 shield bonus to defense when fighting with two weapons. | |
+| **Uncanny Dodge** | Agi | Immune to Flat Footed condition. | |
+| **Precision Strike** | Combat Skill 6 | Consolidate a single attack to deal twice (`2x`) base weapon damage dice. | |
+| **Improved Precision Strike** | Precision Strike, Combat Skill 11 | Consolidate a single attack to deal three times (`3x`) base weapon damage dice. | |
+| **Greater Precision Strike** | Improved Precision Strike, Combat Skill 16 | Consolidate a single attack to deal four times (`4x`) base weapon damage dice. | |
+| **Weapon Focus** | Combat Skill | Adds Effect based on Weapon Type. | Multiple (Piercing=Penetration, Slash=Bleed, etc.) |
+| **Weapon Improvisation** | \- | No penalties for improvised Archaic weapons. | |
+| **Weapon Specialization** | Weapon Focus, Skill | \+1d damage with one weapon type. | Multiple |
+| **Imp. Weapon Specialization** | Weapon Spec, Skill | \+2d damage with one weapon type. | |
+| **Grtr. Weapon Specialization** | Imp. Weapon Spec, Skill | \+3d damage with one weapon type. | |
 
-&nbsp;
+
+  
 
 Combat Features represent specialized martial training, tactical awareness, and mastery of weaponry. They directly modify the **Strike vs. Defense** dynamic and the **Action Economy**.
 
----
+  
 
 ## **Agile Wrestling**
 
 **Description:** The character utilizes leverage, flexibility, and technique rather than brute force to control opponents in close quarters.
 
-* **Prerequisite:** Agility 1, Unarmed Combat 1  
-* **Benefit:** You may use your **Agility** modifier instead of your Strength modifier when making Grapple Checks (both to initiate and maintain a grapple).  
-* **Special:** This applies to the grapple check only; damage dealt while grappling is still calculated using Strength unless another feature modifies it.
+  - **Prerequisite:** Agility 1, Unarmed Combat 1
+  - **Benefit:** You may use your **Agility** modifier instead of your Strength modifier when making Grapple Checks (both to initiate and maintain a grapple).
+  - **Special:** This applies to the grapple check only; damage dealt while grappling is still calculated using Strength unless another feature modifies it.
 
----
+  
 
 ## **Ambidextrous**
 
 **Description:** The character is naturally gifted or intensely trained to use both hands with equal proficiency.
 
-* **Prerequisite:** Agility 2  
-* **Benefit:** You suffer no penalties for using your off-hand. This eliminates the standard penalty for using a weapon in the secondary hand.  
-* **Purpose:** Essential for characters wishing to dual-wield effectively without suffering severe accuracy penalties.
+  - **Prerequisite:** Agility 2
+  - **Benefit:** You suffer no penalties for using your off-hand. This eliminates the standard penalty for using a weapon in the secondary hand.
+  - **Purpose:** Essential for characters wishing to dual-wield effectively without suffering severe accuracy penalties.
 
----
+  
 
 ## **Multidextrous**
 
 **Description:** Applicable to species with more than two arms, this feature allows the coordination of multiple limbs in concert.
 
-* **Prerequisite:** Ambidextrous or Agility 4; Species with 3+ arms.  
-* **Benefit:** You suffer no penalties for using any of your off-hands. You may wield weapons in all available hands without the standard "off-hand" penalties to Strike.
+  - **Prerequisite:** Ambidextrous or Agility 4; Species with 3+ arms.
+  - **Benefit:** You suffer no penalties for using any of your off-hands. You may wield weapons in all available hands without the standard "off-hand" penalties to Strike.
 
----
+  
 
 ## **Blind-Fight**
 
 **Description:** The character has learned to fight using auditory cues, air pressure, and instinct, allowing them to engage unseen enemies.
 
-* **Prerequisite:** Awareness 1  
-* **Benefit:** When fighting a target that is concealed, invisible, or obscured (darkness/fog), you may roll your Strike check with **Advantage** to counter the miss chance or penalty usually imposed by the concealment.  
-* **Special:** You do not lose your Agility bonus to Defense when attacked by an invisible attacker in melee.
+  - **Prerequisite:** Alertness 1
+  - **Benefit:** When fighting a target that is concealed, invisible, or obscured (darkness/fog), you may roll your Strike check with **Advantage** to counter the miss chance or penalty usually imposed by the concealment.
+  - **Special:** You do not lose your Agility bonus to Defense when attacked by an invisible attacker in melee.
 
----
+  
 
 ## **Blockade**
 
 **Description:** The character dominates the space around them, making it impossible for enemies to slip by without engaging.
 
-* **Prerequisite:** Strength 2  
-* **Benefit:** Enemies cannot move through your threatened area or move past you without engaging in a contest of Strength (Opposed Might Check). If they fail, their movement ends immediately in the square adjacent to you.
+  - **Prerequisite:** Strength 2
+  - **Benefit:** Enemies cannot move through your threatened area or move past you without engaging in a contest of Strength (Opposed Might Check). If they fail, their movement ends immediately in the square adjacent to you.
 
----
+  
 
 ## **Burst Attack**
 
 **Description:** The character is trained in controlling the recoil and spray of automatic weaponry to maximize accuracy or saturation.
 
-* **Prerequisite:** Ballistic, Energy, or Heavy Weapon Skill Rank 2  
-* **Benefit:** Reduces the penalty for Auto-Fire modes by 2\.  
-  * **Short Burst:** When firing a Short Burst (3 rounds), you gain **\+2 Strike** (normally \+1).  
-  * **Spray:** You reduce the penalty for wide-angle spraying.
+  - **Prerequisite:** Ballistic, Energy, or Heavy Weapon Skill Rank 2
+  - **Benefit:** Reduces the penalty for Auto-Fire modes by 2.
 
----
+<!-- end list -->
+
+  - **Short Burst:** When firing a Short Burst (3 rounds), you gain **+2 Strike** (normally +1).
+  - **Spray:** You reduce the penalty for wide-angle spraying.
+
+  
 
 ## **Channel Smite**
 
 **Description:** A technique often used by battle-mages or paladins, channeling raw metaphysical energy through a physical vessel.
 
-* **Prerequisite:** Awakened (Energy), Attune 1  
-* **Benefit:** As a Standard Action, you may cast a touch-range Invocation and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.  
-* **Special:** If the attack misses, the Invocation energy is dissipated and lost.
+  - **Prerequisite:** Awakened (Energy), Attune 1
+  - **Benefit:** As a Standard Action, you may cast a touch-range Invocation (Spell) and deliver it through a melee weapon attack. If the melee attack hits, the target suffers the weapon damage *plus* the effect of the Invocation.
+  - **Special:** If the attack misses, the Invocation energy is dissipated and lost.
 
----
+  
 
 ## **Combat Casting**
 
 **Description:** The character is trained to focus on metaphysical weaving even in the chaos of melee.
 
-* **Prerequisite:** Attune 1  
-* **Benefit:** You gain a **\+4 bonus** to Defense against Attacks of Opportunity caused by casting or using Invocations in a threatened square. You also gain a \+4 bonus to Concentration checks to maintain powers when taking damage.
+  - **Prerequisite:** Attune 1
+  - **Benefit:** You gain a **+4 bonus** to Defense against Attacks of Opportunity caused by casting or using Invocations in a threatened square. You also gain a +4 bonus to Concentration checks to maintain powers when taking damage.
 
----
+  
 
 ## **Combat Expertise**
 
 **Description:** The character fights with superior tactical caution, sacrificing aggression for protection.
 
-* **Prerequisite:** Intellect 2  
-* **Benefit:** When you declare an attack action, you may choose a number up to your Combat Skill Rank. Subtract that number from your **Strike** (Attack) and add it to your **Defense** until the start of your next turn.
+  - **Prerequisite:** Intellect 2
+  - **Benefit:** When you declare an attack action, you may choose a number up to your Combat Skill Rank. Subtract that number from your **Strike** (Attack) and add it to your **Defense** until the start of your next turn.
 
----
+  
 
 ## **Improved Disarm**
 
 **Description:** The character knows how to twist a weapon out of an opponent's grip safely.
 
-* **Prerequisite:** Combat Expertise  
-* **Benefit:** You gain a **\+2 bonus** on Disarm attempts. Attempting to Disarm an opponent does not provoke an Attack of Opportunity.
+  - **Prerequisite:** Combat Expertise
+  - **Benefit:** You gain a **+2 bonus** on Disarm attempts. Attempting to Disarm an opponent does not provoke an Attack of Opportunity.
 
----
+  
 
 ## **Greater Disarm**
 
-**Description:** The character disarms with such force that the weapon is sent flying.  
-* **Prerequisite:** Improved Disarm  
-* **Benefit:** When you successfully Disarm an opponent, the weapon is knocked **15 feet** away in a random direction (or one of your choice on a critical success), rather than falling at the opponent's feet.
+**Description:** The character disarms with such force that the weapon is sent flying.
 
----
+  - **Prerequisite:** Improved Disarm
+  - **Benefit:** When you successfully Disarm an opponent, the weapon is knocked **15 feet** away in a random direction (or one of your choice on a critical success), rather than falling at the opponent's feet.
+
+  
 
 ## **Improved Feint**
 
-**Description:** The character is a master of misdirection, capable of faking an attack faster than the eye can follow.  
-* **Prerequisite:** Combat Expertise, Bluff 1  
-* **Benefit:** You may make a Bluff check to Feint in combat as a **Move Action** (normally a Standard Action).  
-* **Purpose:** Allows you to Feint and Attack in the same round.
+**Description:** The character is a master of misdirection, capable of faking an attack faster than the eye can follow.
 
----
+  - **Prerequisite:** Combat Expertise, Bluff 1
+  - **Benefit:** You may make a Bluff check to Feint in combat as a **Move Action** (normally a Standard Action).
+  - **Purpose:** Allows you to Feint and Attack in the same round.
+
+  
 
 ## **Greater Feint**
 
-**Description:** The character's feints leave opponents completely off-balance.  
-* **Prerequisite:** Improved Feint  
-* **Benefit:** Enemies you successfully Feint lose their Agility bonus to Defense for **1 full round** (until the start of your next turn), allowing allies to also benefit from the opening.
+**Description:** The character's feints leave opponents completely off-balance.
 
----
+  - **Prerequisite:** Improved Feint
+  - **Benefit:** Enemies you successfully Feint lose their Agility bonus to Defense for **1 full round** (until the start of your next turn), allowing allies to also benefit from the opening.
+
+  
 
 ## **Improved Trip**
 
-**Description:** The character knows how to unbalance opponents safely.  
-* **Prerequisite:** Combat Expertise  
-* **Benefit:** You gain a **\+2 bonus** on Trip attempts. Attempting to Trip an opponent does not provoke an Attack of Opportunity.
+**Description:** The character knows how to unbalance opponents safely.
 
----
+  - **Prerequisite:** Combat Expertise
+  - **Benefit:** You gain a **+2 bonus** on Trip attempts. Attempting to Trip an opponent does not provoke an Attack of Opportunity.
+
+  
 
 ## **Greater Trip**
 
-**Description:** The character follows up a takedown with immediate punishment.  
-* **Prerequisite:** Improved Trip  
-* **Benefit:** Enemies you successfully Trip provoke an immediate **Attack of Opportunity** from you as they fall.
+**Description:** The character follows up a takedown with immediate punishment.
 
----
+  - **Prerequisite:** Improved Trip
+  - **Benefit:** Enemies you successfully Trip provoke an immediate **Attack of Opportunity** from you as they fall.
+
+  
 
 ## **Whirlwind Attack**
 
-**Description:** A spinning dance of death that strikes everyone nearby.  
-* **Prerequisite:** Agility 2, Combat Expertise, Blitz Attack (Spring Attack)  
-* **Benefit:** As a **Full Round Action**, you may make one melee attack against **every** foe within your reach.  
-* **Special:** You forfeit any bonus attacks from high skill or other features when using this action; you make one strike per target.
+**Description:** A spinning dance of death that strikes everyone nearby.
 
----
+  - **Prerequisite:** Agility 2, Combat Expertise, Blitz Attack (Spring Attack)
+  - **Benefit:** As a **Full Round Action**, you may make one melee attack against **every** foe within your reach.
+  - **Special:** You forfeit any bonus attacks from high skill or other features when using this action; you make one strike per target.
+
+  
 
 ## **Combat Reflexes**
 
 **Description:** The character has exceptional peripheral awareness and reaction time, preventing enemies from exploiting blind spots.
 
-* **Prerequisite:** Agility 1  
-* **Benefit:** You cannot be **Flanked**. Enemies gain no bonus to Strike for positioning on opposite sides of you, and Sneak Attacks that rely on Flanking (but not Flat-Footed) fail to trigger.  
-* **Note:** This differs from standard d20 systems (where it grants extra AoOs); in Tangent, this is a defensive situational awareness feature.
+  - **Prerequisite:** Agility 1
+  - **Benefit:** You cannot be **Flanked**. Enemies gain no bonus to Strike for positioning on opposite sides of you, and Sneak Attacks that rely on Flanking (but not Flat-Footed) fail to trigger.
+  - **Note:** This differs from standard 2d10 systems (where it grants extra AoOs); in Tangent, this is a defensive situational awareness feature.
 
----
+  
 
 ## **Combat Skill Focus**
 
 **Description:** The character has dedicated extensive training and conditioning to a specific combat discipline, achieving superior accuracy and consistency with that fighting style.
 
-* **Prerequisite:** Chosen Combat Skill 1  
-* **Benefit:** Gain a **\+2 bonus** to a chosen Combat Skill (such as Marksmanship, Melee Weapons, Unarmed Combat, Heavy Weapons, or Gunnery).  
-* **Special:** \[Ranked / Multiple\] This feature may be purchased once per Skill Stage in the chosen Combat Skill: Novice (1+), Trained (6+), Expert (11+), Master (16+), and Pinnacle (20), up to a maximum \+10 bonus. It may also be purchased separately for different Combat Skills.
-
----
+* **Prerequisite:** Chosen Combat Skill 1
+* **Benefit:** Gain a **+2 bonus** to a chosen Combat Skill (such as *Ballistic, Energy, Melee, Ranged, Unarmed, Heavy Weapons, or Heavy Energy*).
+* **Special:** `[Ranked / Multiple]` This feature may be purchased once per Skill Stage in the chosen Combat Skill: Novice (`1+`), Trained (`6+`), Expert (`11+`), Master (`16+`), and Pinnacle (`20+`), up to a maximum `+10` bonus. It may also be purchased separately for different Combat Skills.
 
 ## **Combat Specialist**
 
 **Description:** The character knows how to inflict maximum trauma with a specific class of weaponry.
 
-* **Prerequisite:** Combat Skill 6 (Trained)  
-* **Benefit:** Increase the **Damage Die type** of one specific weapon group by one step (e.g., d6 becomes d8, d8 becomes d10).  
-* **Special:** \[Multiple\] May be taken for different weapon groups.
+  - **Prerequisite:** Combat Skill 6 (Trained)
+  - **Benefit:** Increase the **Damage Die type** of one specific weapon group by one step (e.g., d6 becomes d8, d8 becomes d10).
+  - **Special:** \[Multiple\] May be taken for different weapon groups.
 
----
+  
 
 ## **Dead Aim**
 
 **Description:** The character trades mobility for extreme precision.
 
-* **Prerequisite:** Wisdom 3, Ranged 6  
-* **Benefit:** If you do not move during your turn, you gain a **\+2 bonus to Strike** with Ranged Weapons. This stacks with Aiming actions.
+  - **Prerequisite:** Wisdom 3, Ranged 6
+  - **Benefit:** If you do not move during your turn, you gain a **+2 bonus to Strike** with Ranged Weapons. This stacks with Aiming actions.
 
----
+  
 
 ## **Defensive Combat Training**
 
 **Description:** The character has trained to resist grappling and takedowns, using overall combat experience rather than just raw agility.
 
-* **Prerequisite:** Combat Skill 1  
-* **Benefit:** You gain a **\+4 Bonus to Defense** specifically against Combat Maneuvers (Trip, Disarm, Grapple, Bull Rush).
+  - **Prerequisite:** Combat Skill 1
+  - **Benefit:** You gain a **+4 Bonus to Defense** specifically against Combat Maneuvers (Trip, Disarm, Grapple, Bull Rush).
 
----
+  
 
 ## **Deflect Arrows**
 
 **Description:** The character can knock aside projectiles with a weapon or free hand.
 
-* **Prerequisite:** Agility 2, Unarmed 1  
-* **Benefit:** Once per round, when you would normally be hit by a ranged weapon attack, you may make a Reflex Save (CR equal to the Attack Roll). If successful, you deflect the projectile and take **no damage**. You must be aware of the attack and not flat-footed.
+  - **Prerequisite:** Agility 2, Unarmed 1
+  - **Benefit:** Once per round, when you would normally be hit by a ranged weapon attack, you may make a Reflex Save (CR equal to the Attack Roll). If successful, you deflect the projectile and take **no damage**. You must be aware of the attack and not flat-footed.
 
----
+  
 
 ## **Snatch Arrows**
 
 **Description:** The character can catch arrows, bolts, or thrown weapons out of the air.
 
-* **Prerequisite:** Agility 4, Deflect Arrows  
-* **Benefit:** When using Deflect Arrows, if you have a free hand, you may catch the projectile instead of just deflecting it. You may immediately throw it back as a free attack (if it is a thrown weapon) or drop it.
+  - **Prerequisite:** Agility 4, Deflect Arrows
+  - **Benefit:** When using Deflect Arrows, if you have a free hand, you may catch the projectile instead of just deflecting it. You may immediately throw it back as a free attack (if it is a thrown weapon) or drop it.
 
 ---
 
+*Continued in **[Combat Features (Part II: D – W: Dodge to Weapon Improvisation)](./1.08.CombatFeatures.D_W.md)**.*
 
 ---
 
-*Continued in **[Combat Features (D – W: Dodge to Weapon Improvisation)](./1.08.CombatFeatures.D_W.md)**.*
+## **DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-317 (1.08.CombatFeatures):** Restored all 23 Part I Combat Features (Agile Wrestling through Snatch Arrows, including `Combat Skill Focus`) and normalized `AC` -> `Defense` and `DC` -> `CR`.
 

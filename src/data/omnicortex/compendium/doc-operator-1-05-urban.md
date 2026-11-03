@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-05-origins"
 category: "operator_rule"
 parent: "doc-operator-1-05-origins"
-order: 170
+order: 168
 perspective: "operator"
 entry_type: "Origin Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","origins","1.05.urban","mechanics"]
-updatedAt: "2026-10-14T05:38:13.240Z"
+updatedAt: "2026-11-02T22:49:28.549Z"
 costs:
   bp: 0
   credits: 0
@@ -37,35 +37,36 @@ sockets:
   allocated: []
 ---
 
-# **URBAN**
+# 1.05.11 ORIGIN: URBAN (+1 WS)
+
+* **Executive Summary:** Planet-spanning ecumenopolises, 500-story mega-arcologies, and dense metropolitan hives (Premius, Copia, Aurelia).
+* **EUFT Starting Wealth Modifier:** **+1 WS**
+* **Canonical Society Skills (20 SP Allocation):** Bluff, Diplomacy, Insight, Stealth, Streetwise, Knowledge (Business, Culture), Vocation (Any) [or ANY 20 SP]
+* **Typical Archetypes:** Street Runner, Corporate Citizen, Fixer, Detective, Metro Constable, Freighter Captain, Explorer, Mercenary, Smuggler, Technician, Merchant
+
+---
 
 # **URBAN**
 
 People who live in cities, from large metropolises to smaller but highly developed areas, will experience the benefits and drawbacks of "civilized society," which includes a high population density. Large high-rises will be the norm, and communities will be close together. Ground and air vehicles, including GEVs and hovercraft, will be commonplace.
 
-&nbsp;
-
 ## **Society Skills**
 
 ANY
 
-&nbsp;
-
 ## **Archetypes**
 
-Freighter Captain&nbsp;
+Freighter Captain
 
-Explorer&nbsp;
+Explorer
 
-Mercenary&nbsp;
+Mercenary
 
-Smuggler&nbsp;
+Smuggler
 
-Technician&nbsp;
+Technician
 
-Merchant&nbsp;
-
-&nbsp;
+Merchant
 
 ## **Traits**
 
@@ -75,15 +76,11 @@ Urban environments are constantly changing and unpredictable. Urban characters a
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Contacts*
 
 Building a network of contacts is essential for urban characters. They have connections to informants, fixers, and other individuals who can provide valuable information or assistance.
 
 *Gather Information checks at Advantage*
-
-&nbsp;
 
 ### *Resourceful*
 
@@ -91,15 +88,11 @@ Surviving in a bustling city requires resourcefulness. Urban characters are adep
 
 *Once per Day make a Skill Check of choice at Advantage*
 
-&nbsp;
-
 ### *Social Skills*
 
 Interacting with diverse populations and navigating complex social dynamics is crucial for urban characters. They may possess charisma, negotiation skills, or the ability to blend into different social circles.
 
 *\+1 all Social Manipulation Skills and Culture Knowledge*
-
-&nbsp;
 
 ### *Street Fighting*
 
@@ -107,15 +100,11 @@ Urban characters may have combat skills tailored to close-quarters combat and na
 
 *\+1 Unarmed Combat and Defense*
 
-&nbsp;
-
 ### *Streetwise*
 
 Urban characters are often well-versed in the ways of the city streets. They have knowledge of the local neighborhoods, underground networks, and criminal elements.
 
 *\+2 Streetwise (additional \+1 in Home City)*
-
-&nbsp;
 
 ### *Tech-Savvy*
 
@@ -123,23 +112,30 @@ In a futuristic urban environment, technology plays a significant role. Urban ch
 
 *\+2 to Knowledges of Computer and Technology*
 
-&nbsp;
-
 ### *Urban Survival Skills*
 
 Urban characters may possess skills that help them survive in a harsh urban environment, such as parkour and being unnoticed.
 
 *\+2 Athletics and Stealth Skills (in Urban and developed areas)*
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+---
 
 ---
 
-## **Origin Scenery & Visual Synthesis**
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Crowd Runner:** Ignores Difficult Terrain penalties caused by dense crowds or urban clutter.
+* **Digital Native:** +2 to Computers checks when querying public networks or the Syndicate MESH.
+* **Fast Talker:** +2 to Bluff checks when dealing with bureaucracy, customs, or city security.
+* **Networked:** Roll Streetwise (Gather Information) checks in urban centers at Advantage.
+* **Street Smart:** +2 to Streetwise and urban navigation checks.
+* **Underbelly Awareness:** +2 to Alertness and Insight checks to spot pickpockets, tailing operatives, or urban ambushes.
+
+---
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
 
 ## **11\. URBAN**
 
@@ -215,7 +211,10 @@ Urban characters may possess skills that help them survive in a harsh urban envi
 * **PALETTE:** Circuitry Black, Neon Line Blue/Orange.  
 * **TOKENS:** Lines, light, traffic, geometry, speed.
 
-&nbsp;
+### **KITIN COLLECTIVE (THE STAR HIVE)**
 
-&nbsp;
+* **CONTEXT:** The dense interior of a Primary Hive-Spire—miles of interlocking obsidian resin tunnels, vertical Rakne web-shafts, and multi-tiered arterial thoroughfares where millions of Expressions move in silent, collision-free Chorus harmony.
+* **STYLE:** Monogenetic Hive-Spire Metropolis, Biomorphic Arcology.
+* **PALETTE:** Glossy Obsidian, Arterial Emerald, Chorus Cyan, Resin Amber.
+* **TOKENS:** Vertical web-shafts, multi-tiered chitin tunnels, silent synchronized crowds, sensory pit streetlights.
 

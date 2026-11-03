@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-06-occupations"
 category: "operator_rule"
 parent: "doc-operator-1-06-occupations"
-order: 174
+order: 172
 perspective: "operator"
 entry_type: "Occupation Profile"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","occupations","1.06.builder","mechanics"]
-updatedAt: "2026-10-14T05:39:35.564Z"
+updatedAt: "2026-11-02T22:49:26.649Z"
 costs:
   bp: 0
   credits: 0
@@ -37,25 +37,27 @@ sockets:
   allocated: []
 ---
 
-# **BUILDER**
+# 1.06.03 OCCUPATION: BUILDER (Base WS 3)
+
+* **Operational Focus:** Engineering, Fabrication, Architecture, Cybernetics, and Repair.
+* **EUFT Base Wealth Score:** **Base WS 3**
+* **Canonical Professional Skills (20 SP Allocation):** Any Vocation Skills (and Engineering/Technology Knowledge)
+* **Recommended Feature Category (-1 CP Discount):** Skill Features
+* **Universal Occupational Traits Available:** *Background* (1 Trait from Secondary Occupation), *Trade Tools* (+2 Equipment), *High Pay* (+2 Wealth), *Professionalism* (+2 Reputation).
+
+---
 
 # **BUILDER**
 
 A builder character would be responsible for creating, repairing, and modifying various items, equipment, and structures. This character would have a diverse set of skills and knowledge in various fields, such as engineering, materials science, and technology. They would need to be able to understand and work with a variety of materials, and be able to design and build structures that are both functional and aesthetically pleasing. They would also need to be able to troubleshoot problems and make repairs when necessary. Builder characters are often essential to the success of any group or community. They can provide the tools and structures that are necessary for survival, and they can help to improve the quality of life for everyone.
 
-&nbsp;
-
 ## **Professional Skills**
 
 Any Vocation Skills
 
-&nbsp;
-
 ## **Recommended Features**
 
 Skill
-
-&nbsp;
 
 ## **Archetypes**
 
@@ -73,8 +75,6 @@ Robotics Engineer
 
 Matter Manipulator
 
-&nbsp;
-
 ## **Traits**
 
 ### *Adaptability*
@@ -83,15 +83,11 @@ Ability to adjust their approach based on the specific needs of each project
 
 *\+2 to a specific Skill Check, may change assigned Skill daily*
 
-&nbsp;
-
 ### *Attention to Detail*
 
 Meticulous and detail-oriented
 
 *Mastercrafting Checks made at Advantage*
-
-&nbsp;
 
 ### *Attention to Safety*
 
@@ -99,15 +95,11 @@ Awareness of safety protocols and ensuring that their creations are safe to use
 
 *Prototyping Checks gain a \+4 bonus*
 
-&nbsp;
-
 ### *Business Acumen*
 
 Ability to handle financial and administrative aspects of their profession
 
 *\+2 Administration Knowledge*
-
-&nbsp;
 
 ### *Creativity*
 
@@ -115,15 +107,11 @@ Creative mindset and ability to think outside the box
 
 *\+1 Karma*
 
-&nbsp;
-
 ### *Environmental Awareness*
 
 Awareness of environmental factors that could impact construction
 
 *\+2 Alertness*
-
-&nbsp;
 
 ### *Mecha-Physics*
 
@@ -131,15 +119,11 @@ Comprehensive understanding of physics
 
 *\+2 to Engineering*
 
-&nbsp;
-
 ### *Machine Affinity*
 
 Natural aptitude for working with machinery and tools
 
 *Additional \+1 from Equipment Bonus and \+2 Technology (Knowledge)*
-
-&nbsp;
 
 ### *Patience*
 
@@ -147,23 +131,17 @@ Patience and willingness to put in the necessary time and effort
 
 *Meticulous skill check bonus is increased by 1 per stage*
 
-&nbsp;
-
 ### *Persistence*
 
 Ability to persevere through challenges
 
 *\+1 Willpower Checks*
 
-&nbsp;
-
 ### *Problem-Solving Skills*
 
 Strong analytical and problem-solving skills
 
-*\+2 Logic Checks*
-
-&nbsp;
+*\+2 Reason (Intellect) Checks*
 
 ### *Teamwork*
 
@@ -171,15 +149,11 @@ Ability to work well with others
 
 *\+1 to Aid*
 
-&nbsp;
-
 ### *Technical Knowledge*
 
 Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques
 
 *\+2 Vocation Skill*
-
-&nbsp;
 
 ### *Technological Aptitude*
 
@@ -187,17 +161,11 @@ Natural aptitude for understanding and operating advanced technology
 
 *\+2 Technology Knowledge*
 
-&nbsp;
-
 ### *Time Management*
 
 Excellent time management skills
 
 *Reduce Rush modifiers to Skill checks by 2*
-
-&nbsp;
-
-&nbsp;
 
 ---
 
@@ -257,4 +225,10 @@ Excellent time management skills
   * **Style:** Automated Industry, Drone Builder.  
   * **Palette:** Construction Yellow, Steel, Laser Blue.  
   * **Tokens:** Sparks, floating, geometry, efficiency.
+
+* **KITIN COLLECTIVE (THE STAR HIVE):**  
+  * **Context:** A **Murex Resin-Shaper** secreting and sculpting high-tensile obsidian Hive-Resin with specialized mandible tools and green vein-piping grafts to grow living structures.  
+  * **Style:** Biomorphic Fabrication, Accelerated Cultivation.  
+  * **Palette:** Glossy Obsidian, Hive-Amber Resin, Proto-Flux Emerald, Cyan Nodes.  
+  * **Tokens:** Resin glands, living structural ribs, vein-piping conduits, mandible welders.
 

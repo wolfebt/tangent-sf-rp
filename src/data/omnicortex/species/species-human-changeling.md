@@ -120,7 +120,7 @@ cp_cost: 9
 
 # **CHANGELING (Doppleganger Hybrid)**
 
-**CP Cost:** 8 CP  
+**CP Cost:** 9 CP  
 
 **Description:**&nbsp;
 

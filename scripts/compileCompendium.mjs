@@ -13,7 +13,7 @@ import { additionalArchitectMatrices } from './data_matrices_volume0_2_4.mjs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DOCS_DIR = path.resolve(__dirname, '../docs/game rules/operator');
+const DOCS_DIR = path.resolve(__dirname, '../docs/game_rules/operator');
 const SEED_OUTPUT_PATH = path.resolve(__dirname, '../src/data/compendiumSeed.json');
 const MD_OUTPUT_DIR = path.resolve(__dirname, '../src/data/omnicortex/compendium');
 
@@ -4219,8 +4219,8 @@ modularVolumeArticles.forEach(art => {
 // COMPREHENSIVE FULL RULESET INGESTION FROM GAME RULES FOLDER
 // (Operator 1.00-4.00 and Architect 99.xx Matrices + 02 Economy and Wealth)
 // ─────────────────────────────────────────────────────────────────────────────
-const ARCHITECT_DOCS_DIR = path.resolve(__dirname, '../docs/game rules/architect');
-const OPERATOR_DOCS_DIR = path.resolve(__dirname, '../docs/game rules/operator');
+const ARCHITECT_DOCS_DIR = path.resolve(__dirname, '../docs/game_rules/architect');
+const OPERATOR_DOCS_DIR = path.resolve(__dirname, '../docs/game_rules/operator');
 
 function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
   if (!fs.existsSync(dirPath)) return;

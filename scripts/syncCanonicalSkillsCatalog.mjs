@@ -7,11 +7,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
-const skillsDocPath = path.join(projectRoot, 'docs', 'game rules', 'operator', '1.07 SKILLS.md');
+const skillsDocPath = path.join(projectRoot, 'docs', 'game_rules', 'operator', '1.07 SKILLS.md');
+const skillsSubdirPath = path.join(projectRoot, 'docs', 'game_rules', 'operator', 'skills');
 const skillsDataPath = path.join(projectRoot, 'src', 'data', 'skillsData.js');
 const omnicortexSkillsDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'skills');
 
-const fullMarkdown = fs.readFileSync(skillsDocPath, 'utf8');
+const subFilesMarkdown = fs.existsSync(skillsSubdirPath)
+  ? fs.readdirSync(skillsSubdirPath)
+      .filter(f => f.endsWith('.md'))
+      .sort()
+      .map(f => fs.readFileSync(path.join(skillsSubdirPath, f), 'utf8'))
+      .join('\n\n')
+  : '';
+const fullMarkdown = subFilesMarkdown
+  ? `${subFilesMarkdown}\n\n${fs.readFileSync(skillsDocPath, 'utf8')}`
+  : fs.readFileSync(skillsDocPath, 'utf8');
 
 /**
  * Extracts the markdown section for a given skill from 1.07 SKILLS.md
@@ -31,9 +41,8 @@ function findSkillSection(skill) {
     new RegExp(`^\\s*#{2,4}\\s+${escapedName}\\s*$`, 'im')
   ];
 
-  // Start searching after "# **PHYSICAL SKILLS**" so we don't match summary tables
-  const bodyStartIdx = fullMarkdown.indexOf('# **PHYSICAL SKILLS**');
-  const searchRegion = bodyStartIdx !== -1 ? fullMarkdown.slice(bodyStartIdx) : fullMarkdown;
+  // Search across all modular 1.07.*.md subfiles (without summary-table truncation)
+  const searchRegion = subFilesMarkdown || fullMarkdown;
 
   let match = null;
   for (const re of headingCandidates) {
@@ -85,37 +94,37 @@ function parseSkillSection(rawSection, fallbackSkill) {
   for (let i = 1; i < lines.length; i++) {
     const rawLine = lines[i];
     const line = rawLine.trim();
-    if (!line || /^#{1,4}\s*$/.test(line) || line === '---') continue;
+    if (!line || /^#{1,4}\s*$/.test(line) || line === '---' || line.startsWith('<!--')) continue;
 
-    const abilityMatch = line.match(/^\*\s*\*\*(?:Ability|Primary Attribute):\*\*\s*(.+)$/i);
+    const abilityMatch = line.match(/^[-*]\s*\*\*(?:Ability|Primary Attribute):\*\*\s*(.+)$/i);
     if (abilityMatch) {
       ability = abilityMatch[1].replace(/\\([+-])/g, '$1').trim();
       mode = 'ability';
       continue;
     }
 
-    const focusMatch = line.match(/^\*\s*\*\*Focus:\*\*\s*(.+)$/i);
+    const focusMatch = line.match(/^[-*]\s*\*\*Focus:\*\*\s*(.+)$/i);
     if (focusMatch && !descriptionParts.length) {
       descriptionParts.push(`Focus: ${focusMatch[1].trim()}`);
       mode = 'description';
       continue;
     }
 
-    const descMatch = line.match(/^\*\s*\*\*Description:\*\*\s*(.+)$/i);
+    const descMatch = line.match(/^[-*]\s*\*\*Description:\*\*\s*(.+)$/i);
     if (descMatch) {
       descriptionParts.push(descMatch[1].replace(/\\([+-])/g, '$1').trim());
       mode = 'description';
       continue;
     }
 
-    const roleMatch = line.match(/^\*\s*\*\*Role:\*\*\s*(.+)$/i);
+    const roleMatch = line.match(/^[-*]\s*\*\*Role:\*\*\s*(.+)$/i);
     if (roleMatch) {
       descriptionParts.push(roleMatch[1].replace(/\\([+-])/g, '$1').trim());
       mode = 'description';
       continue;
     }
 
-    const mechMatch = line.match(/^\*\s*\*\*Mechanics:\*\*\s*(.*)$/i);
+    const mechMatch = line.match(/^[-*]\s*\*\*Mechanics:\*\*\s*(.*)$/i);
     if (mechMatch) {
       if (mechMatch[1].trim()) {
         mechanicsLines.push(mechMatch[1].replace(/\\([+-])/g, '$1').trim());
@@ -124,28 +133,28 @@ function parseSkillSection(rawSection, fallbackSkill) {
       continue;
     }
 
-    const funcMatch = line.match(/^\*\s*\*\*Function:\*\*\s*(.+)$/i);
+    const funcMatch = line.match(/^[-*]\s*\*\*Function:\*\*\s*(.+)$/i);
     if (funcMatch) {
       mechanicsLines.push(`Function: ${funcMatch[1].replace(/\\([+-])/g, '$1').trim()}`);
       mode = 'mechanics';
       continue;
     }
 
-    const checkMatch = line.match(/^\*\s*\*\*Check:\*\*\s*(.+)$/i);
+    const checkMatch = line.match(/^[-*]\s*\*\*Check:\*\*\s*(.+)$/i);
     if (checkMatch) {
       mechanicsLines.push(`Check: ${checkMatch[1].replace(/\\([+-])/g, '$1').trim()}`);
       mode = 'mechanics';
       continue;
     }
 
-    const overloadMatch = line.match(/^\*\s*\*\*Overload:\*\*\s*(.+)$/i);
+    const overloadMatch = line.match(/^[-*]\s*\*\*Overload:\*\*\s*(.+)$/i);
     if (overloadMatch) {
       mechanicsLines.push(`Overload: ${overloadMatch[1].replace(/\\([+-])/g, '$1').trim()}`);
       mode = 'mechanics';
       continue;
     }
 
-    const specMatch = line.match(/^\*\s*\*\*Specialties:\*\*\s*(.*)$/i);
+    const specMatch = line.match(/^[-*]\s*\*\*Specialties:\*\*\s*(.*)$/i);
     if (specMatch) {
       if (specMatch[1].trim()) {
         specialtyLines.push(specMatch[1].replace(/\\([+-])/g, '$1').trim());
@@ -157,9 +166,9 @@ function parseSkillSection(rawSection, fallbackSkill) {
     if (mode === 'description') {
       descriptionParts.push(line.replace(/\\([+-])/g, '$1'));
     } else if (mode === 'mechanics') {
-      mechanicsLines.push(line.replace(/^\*\s*/, '• ').replace(/\\([+-])/g, '$1'));
+      mechanicsLines.push(line.replace(/^[-*]\s*/, '• ').replace(/\\([+-])/g, '$1'));
     } else if (mode === 'specialties') {
-      specialtyLines.push(line.replace(/^\*\s*/, '').replace(/\\([+-])/g, '$1'));
+      specialtyLines.push(line.replace(/^[-*]\s*/, '').replace(/\\([+-])/g, '$1'));
     }
   }
 
@@ -202,11 +211,21 @@ function parseSkillSection(rawSection, fallbackSkill) {
   };
 }
 
+const DEPRECATED_SKILL_IDS = new Set(['physical-endurance', 'mental-arcane']);
+
+for (const groupKey of Object.keys(DEFAULT_SKILLS)) {
+  for (const subgroup of DEFAULT_SKILLS[groupKey]) {
+    subgroup.skills = subgroup.skills.filter(s => !DEPRECATED_SKILL_IDS.has(s.id));
+  }
+}
+
 let matchedCount = 0;
+let totalCanonicalCount = 0;
 
 for (const groupKey of Object.keys(DEFAULT_SKILLS)) {
   for (const subgroup of DEFAULT_SKILLS[groupKey]) {
     for (const skill of subgroup.skills) {
+      totalCanonicalCount++;
       const rawSection = findSkillSection(skill);
       if (rawSection) {
         matchedCount++;
@@ -218,7 +237,6 @@ for (const groupKey of Object.keys(DEFAULT_SKILLS)) {
         skill.specialty_details = parsed.specialty_details;
         skill.full_text = parsed.full_text;
       } else {
-        // Fallback for skills like Endurance or Arcane if not a dedicated heading in 1.07 SKILLS.md
         const attrLabel = (skill.baseAttr || 'attr-intellect').replace('attr-', '');
         const capAttr = attrLabel.charAt(0).toUpperCase() + attrLabel.slice(1);
         skill.governing_attribute = skill.governing_attribute || capAttr;
@@ -229,7 +247,7 @@ for (const groupKey of Object.keys(DEFAULT_SKILLS)) {
   }
 }
 
-console.log(`Matched and enriched ${matchedCount} / ${ALL_CANONICAL_SKILLS.length} skills from 1.07 SKILLS.md.`);
+console.log(`Matched and enriched ${matchedCount} / ${totalCanonicalCount} skills from 1.07 SKILLS.md.`);
 
 // Rewrite src/data/skillsData.js preserving all exports and helper functions
 const currentSkillsFile = fs.readFileSync(skillsDataPath, 'utf8');
@@ -259,7 +277,15 @@ updatedSkillsFile = updatedSkillsFile.replace(
 fs.writeFileSync(skillsDataPath, updatedSkillsFile, 'utf8');
 console.log(`Updated ${skillsDataPath} (${(fs.statSync(skillsDataPath).size / 1024).toFixed(1)} KB)`);
 
-// Also update all 95 markdown files in src/data/omnicortex/skills/*.md
+// Remove deprecated skill markdown files if present
+for (const depId of DEPRECATED_SKILL_IDS) {
+  const depPath = path.join(omnicortexSkillsDir, `${depId}.md`);
+  if (fs.existsSync(depPath)) {
+    fs.unlinkSync(depPath);
+  }
+}
+
+// Update all canonical markdown files in src/data/omnicortex/skills/*.md
 for (const groupKey of Object.keys(DEFAULT_SKILLS)) {
   for (const subgroup of DEFAULT_SKILLS[groupKey]) {
     for (const skill of subgroup.skills) {

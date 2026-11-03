@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-species"
-order: 23
+order: 21
 perspective: "operator"
 entry_type: "Species Lineage"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld","mechanics"]
-updatedAt: "2026-10-14T05:24:25.029Z"
+updatedAt: "2026-11-02T22:49:32.150Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **AELD**
+# **AELD**  
+**
 
 # **AELD**
 
@@ -45,7 +46,7 @@ The Aeld are a humanoid species characterized by their grace, agility, and innat
 
 These modern Aeld have evolved far beyond their traditional roots, becoming a technologically advanced race with capabilities their ancestors could not have imagined. They are masters of interstellar travel, navigating the cosmos with sophisticated spacefaring technology.
 
-&nbsp;
+  
 
 With lifespans exceeding 600 years, their extended existence grants them the necessary time to attain profound expertise in various fields. Their relentless pursuit of knowledge and perfection drives them to become renowned specialists, achieving unparalleled levels of skill and understanding. This longevity also provides them with an unmatched wisdom and cosmic perspective, having observed the cyclical nature of civilizations and the flow of cosmic energies. This vast knowledge informs their decision-making, allowing for a holistic, long-term approach to challenges.
 
@@ -53,7 +54,7 @@ Their ingenuity is evident in their magical-technological advancements. They hav
 
 These advanced beings possess a steadfast dedication to preserving and nurturing the natural world. They have pioneered sustainable technologies and ecological methods to maintain the delicate balance of their environments. Their deep connection to nature fundamentally influences their culture, shaping their art, music, and literature into a rich tapestry celebrating life's beauty and diversity.
 
-&nbsp;
+  
 
 ### **Linguistic and Social Context**
 
@@ -61,27 +62,25 @@ These advanced beings possess a steadfast dedication to preserving and nurturing
 
 "Elf" remains the most fundamental term, referring to any single member of the species.
 
-&nbsp;
+  
 
 #### **Sub-Races**
 
 While the Alterians emphasize diplomacy, other elven sub-species are known for arcane studies, martial proficiency, or prioritizing isolation.
 
-&nbsp;
+  
 
 #### **Derogatory Context**
 
 Certain factions, notably the Alterians, consider the inflection of the ancient term "elf" to be derogatory or demeaning, contrasting it with their high-minded intellectualism.
 
----
+-----
 
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
-
-&nbsp;
+  
+  
+  
+  
+  
+**  
+**
 

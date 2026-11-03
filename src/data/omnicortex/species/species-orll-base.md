@@ -126,7 +126,7 @@ cp_cost: 12
 
 # 
 
-**CP Cost:** 13 CP  
+**CP Cost:** 12 CP  
 
 **Description:** The Orll are a powerful and incredibly stocky humanoid species, immediately recognizable across the known territories by their imposing, often barrel-chested build, which belies a surprising agility. Their most distinct physical features include a pair of prominent, upward-curving tusks that jut from their lower jaw, and a thick, dense coat of coarse body fur, typically in shades of earthy brown, gray, or black. This formidable coat is not merely an aesthetic trait; it provides exceptional natural insulation, allowing the Orll to thrive and maintain their hardiness against the constant, biting cold of their wooded mountain homelands.
 

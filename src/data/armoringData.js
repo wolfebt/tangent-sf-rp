@@ -55,6 +55,8 @@ export const DEFAULT_ARMORING = [
     "cost": 640,
     "component_slots": 4,
     "mechanic": "DR 15, SP 25. Penalty: -1 Agility. Locations: Torso, Arms. Base Sockets: 4.",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Heavy-duty combat jacket reinforced with overlapping ceramic-titanium trauma plates.\n\n**Mechanics:** DR 15, SP 25. Penalty: -1 Agility. Locations: Torso, Arms. Base Sockets: 4."
   },
   {
@@ -107,6 +109,8 @@ export const DEFAULT_ARMORING = [
     "cost": 279,
     "component_slots": 4,
     "mechanic": "DR 10, SP 20. Penalty: None. Locations: Torso, Arms. Base Sockets: 4.",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Mercenary-grade armored jacket with plasteel shoulder and chest inserts.\n\n**Mechanics:** DR 10, SP 20. Penalty: None. Locations: Torso, Arms. Base Sockets: 4."
   },
   {
@@ -160,6 +164,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "DR 10, SP 25. Penalty: -1 Agility. Locations: Torso, Arms, Legs. Base Sockets: 5.",
     "keywords": "armored long coat (heavy), armor, defense, dr-10, mediumweight, tl-3",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Heavy ballistic greatcoat plated with high-density armor inserts across torso, arms, and legs.\n\n**Mechanics:** DR 10, SP 25. Penalty: -1 Agility. Locations: Torso, Arms, Legs. Base Sockets: 5."
   },
   {
@@ -213,6 +219,8 @@ export const DEFAULT_ARMORING = [
     "cost": 279,
     "component_slots": 3,
     "mechanic": "DR 5, SP 15. Penalty: None. Locations: Torso, Arms, Legs. Base Sockets: 3.",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Full-length duster or trench coat interwoven with flexible impact-absorbing panels.\n\n**Mechanics:** DR 5, SP 15. Penalty: None. Locations: Torso, Arms, Legs. Base Sockets: 3."
   },
   {
@@ -264,6 +272,8 @@ export const DEFAULT_ARMORING = [
     "cost": 640,
     "component_slots": 4,
     "mechanic": "DR 10, SP 20. Penalty: -1 Agility. Locations: Legs. Base Sockets: 4.",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Heavy tactical greaves and plated combat trousers built for frontline firefights.\n\n**Mechanics:** DR 10, SP 20. Penalty: -1 Agility. Locations: Legs. Base Sockets: 4."
   },
   {
@@ -315,6 +325,8 @@ export const DEFAULT_ARMORING = [
     "cost": 279,
     "component_slots": 3,
     "mechanic": "DR 5, SP 10. Penalty: None. Locations: Legs. Base Sockets: 3.",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Tactical cargo trousers reinforced with articulated knee and thigh trauma plates.\n\n**Mechanics:** DR 5, SP 10. Penalty: None. Locations: Legs. Base Sockets: 3."
   },
   {
@@ -366,6 +378,8 @@ export const DEFAULT_ARMORING = [
     "cost": 160,
     "component_slots": 2,
     "mechanic": "DR 5, SP 10. Penalty: None. Locations: Torso. Base Sockets: 2.",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Concealable ballistic vest protecting vital chest and abdominal organs.\n\n**Mechanics:** DR 5, SP 10. Penalty: None. Locations: Torso. Base Sockets: 2."
   },
   {
@@ -418,6 +432,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Lightweight",
     "armor_type": "Lightweight",
     "mobility_penalty": 0,
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Standard street-wear lined with a flexible network of plastic or metal alloys. Stops small arms fire while appearing as normal clothing.\n\n**Mechanics:** Concealable (Detectable only with physical inspection). DR 5, SP 10."
   },
   {
@@ -472,6 +488,8 @@ export const DEFAULT_ARMORING = [
     "cost": 40960,
     "component_slots": 12,
     "mechanic": "DR 30, SP 60. Penalty: -3 Agility, -10ft Speed. Locations: Head, Torso, Arms, Legs. Base Sockets: 12.",
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "Maximum-density unpowered fortress armor turning the wearer into a walking bunker.\n\n**Mechanics:** DR 30, SP 60. Penalty: -3 Agility, -10ft Speed. Locations: Head, Torso, Arms, Legs. Base Sockets: 12."
   },
   {
@@ -526,6 +544,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "DR 25, SP 50. Penalty: -2 Agility, -10ft Speed. Locations: Head, Torso, Arms, Legs. Base Sockets: 10.",
     "keywords": "battle suit (heavy assault), armor, defense, dr-25, heavyweight, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Heavy assault battle armor built for breach teams and high-intensity siege warfare.\n\n**Mechanics:** DR 25, SP 50. Penalty: -2 Agility, -10ft Speed. Locations: Head, Torso, Arms, Legs. Base Sockets: 10."
   },
   {
@@ -580,6 +600,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Powered Armor",
     "mobility_penalty": 0,
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "A sealed, armored suit with myomer-muscle underlay. The apex of personal protection.\n\n**Mechanics:** DR 40, SP 120. Powered (+4 Strength), Full Life Support, HUD Link. Locations: All. Base Sockets: 15."
   },
   {
@@ -632,6 +654,8 @@ export const DEFAULT_ARMORING = [
     "keywords": "buckler / small shield, armor, defense, dr-5, lightweight, tl-1",
     "negative_keywords": "unarmored, fragile, naked",
     "carried_shield": "+1 Defense",
+    "craft_cr": 6,
+    "design_cr": 6,
     "body": "Compact forearm-strapped parrying shield leaving the hand free to hold light items.\n\n**Mechanics:** +1 Shield Bonus to Defense. DR 5, SP 15. Base Sockets: 1."
   },
   {
@@ -686,6 +710,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Full Body Armor (Biotech)",
     "mobility_penalty": -1,
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Heavy, interlocking plates of bio-ceramic bone and insectoid chitin grown over a muscular underlay. Offers superior environmental adaptation.\n\n**Mechanics:** DR 20 (Hardened Bone), SP 60 (Dense Chitin). Penalty: -1 Mobility. Sealed (4hr Water/Vacuum breathing); Camouflage (+2 Stealth). Base Sockets: 6."
   },
   {
@@ -738,6 +764,8 @@ export const DEFAULT_ARMORING = [
     "cost": 40,
     "component_slots": 1,
     "mechanic": "DR 0, SP 5. Penalty: None. Locations: Torso, Legs. Base Sockets: 1.",
+    "craft_cr": 5,
+    "design_cr": 5,
     "body": "Minimalist or lightweight civilian attire offering basic pocket utility without ballistic protection.\n\n**Mechanics:** DR 0, SP 5. Penalty: None. Locations: Torso, Legs. Base Sockets: 1."
   },
   {
@@ -791,6 +819,8 @@ export const DEFAULT_ARMORING = [
     "cost": 160,
     "component_slots": 2,
     "mechanic": "DR 2, SP 10. Penalty: None. Locations: Torso, Arms, Legs. Base Sockets: 2.",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Everyday street or frontier garments lined with tear-resistant ballistic weave.\n\n**Mechanics:** DR 2, SP 10. Penalty: None. Locations: Torso, Arms, Legs. Base Sockets: 2."
   },
   {
@@ -845,6 +875,8 @@ export const DEFAULT_ARMORING = [
     "collection": "armoring",
     "armor_class": "Heavyweight",
     "armor_type": "Heavy Armor",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "Advanced molded ceramics that offer superior deflection. Sleek, sealed, and expensive.\n\n**Mechanics:** DR 20, SP 50. Penalty: -1 Mobility, -5ft Movement. Refractive Coating (+2 Defense vs Lasers/Beams). Locations: All. Base Sockets: 8."
   },
   {
@@ -899,6 +931,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Lightweight",
     "armor_type": "Light Armor (Psionic)",
     "mobility_penalty": 0,
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "A tight, shimmering suit made of flexible psycho-reactive crystals. Nearly weightless, turning rigid instantly upon impact.\n\n**Mechanics:** DR 10 (Reactive Crystal), SP 30 (Shatter-Resistant). Mental Hardening (+2 Willpower saves); Psi-Link (Hands-free operation via thought). Base Sockets: 4."
   },
   {
@@ -953,6 +987,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "Field DR 10, Field SP 30. Grants 20% Concealment miss chance against ranged attacks.",
     "keywords": "distortion field (displacement), armor, defense, dr-10, device, tl-5",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "Refractive spatial-phase emitter that blurs the wearer’s position and bends incoming trajectories.\n\n**Mechanics:** Field DR 10, Field SP 30. Grants 20% Concealment miss chance against ranged attacks."
   },
   {
@@ -1007,6 +1043,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "DR 5, SP 20. Penalty: None. Locations: Head, Torso, Arms, Legs (Sealed). Base Sockets: 5.",
     "keywords": "enviro suit (sealed), armor, defense, dr-5, mediumweight, tl-3",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Hermetically sealed hazard and vacuum suit with integrated life support and radiation shielding.\n\n**Mechanics:** DR 5, SP 20. Penalty: None. Locations: Head, Torso, Arms, Legs (Sealed). Base Sockets: 5."
   },
   {
@@ -1061,6 +1099,8 @@ export const DEFAULT_ARMORING = [
     "collection": "armoring",
     "armor_class": "Heavyweight",
     "armor_type": "Heavy Armor",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Extremely bulky armor designed for bomb disposal or plasma leaks.\n\n**Mechanics:** DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Blast Shielding (Explosive/Area damage reduced by 50%). Locations: All. Base Sockets: 10."
   },
   {
@@ -1115,6 +1155,8 @@ export const DEFAULT_ARMORING = [
     "cost": 40960,
     "component_slots": 10,
     "mechanic": "DR 25, SP 50. Penalty: None (Powered), +2 Strength. Locations: Head, Torso, Arms, Legs. Base Sockets: 10.",
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "Servo-assisted powered battlesuit that negates armor weight and augments physical strength.\n\n**Mechanics:** DR 25, SP 50. Penalty: None (Powered), +2 Strength. Locations: Head, Torso, Arms, Legs. Base Sockets: 10."
   },
   {
@@ -1169,6 +1211,8 @@ export const DEFAULT_ARMORING = [
     "cost": 4457,
     "component_slots": 8,
     "mechanic": "DR 20, SP 40. Penalty: -2 Agility, -5ft Speed. Locations: Head, Torso, Arms, Legs. Base Sockets: 8.",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "Reinforced shock-trooper carapace plating covering the entire body in high-density composite.\n\n**Mechanics:** DR 20, SP 40. Penalty: -2 Agility, -5ft Speed. Locations: Head, Torso, Arms, Legs. Base Sockets: 8."
   },
   {
@@ -1223,6 +1267,8 @@ export const DEFAULT_ARMORING = [
     "cost": 1470,
     "component_slots": 6,
     "mechanic": "DR 15, SP 30. Penalty: -1 Agility. Locations: Head, Torso, Arms, Legs (Sealed). Base Sockets: 6.",
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Standard military full-body hard-suit sealed against vacuum and battlefield contaminants.\n\n**Mechanics:** DR 15, SP 30. Penalty: -1 Agility. Locations: Head, Torso, Arms, Legs (Sealed). Base Sockets: 6."
   },
   {
@@ -1277,6 +1323,8 @@ export const DEFAULT_ARMORING = [
     "collection": "armoring",
     "armor_class": "Heavyweight",
     "armor_type": "Heavy Armor",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Thick slabs of ablative armor and plasteel. Turns the wearer into a walking tank.\n\n**Mechanics:** DR 30, SP 80. Penalty: -2 Mobility, -10ft Movement. Anchor (Advantage on checks to resist knockdown). Locations: All. Base Sockets: 10."
   },
   {
@@ -1331,6 +1379,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "Field DR 20, Field SP 50 (Regen 10/round). Overloads for 1 minute if reduced to 0 SP.",
     "keywords": "heavy force field (backpack), armor, defense, dr-20, device, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 25,
+    "design_cr": 25,
     "body": "Heavy backpack-mounted capacitor array projecting a high-output personal fortress barrier.\n\n**Mechanics:** Field DR 20, Field SP 50 (Regen 10/round). Overloads for 1 minute if reduced to 0 SP."
   },
   {
@@ -1382,6 +1432,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Mediumweight",
     "armor_type": "Mediumweight",
     "mobility_penalty": 0,
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Full-face protection with integrated comms and sensor housing.\n\n**Mechanics:** Sensor Suite (Can house HUD/Comms). -2 Sight/Hearing without sensor link. DR 15, SP 15."
   },
   {
@@ -1433,6 +1485,8 @@ export const DEFAULT_ARMORING = [
     "cost": 279,
     "component_slots": 2,
     "mechanic": "DR 15, SP 15. Penalty: -1 Perception. Locations: Head. Base Sockets: 2.",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Fully enclosed heavy tactical helmet with reinforced faceplate and ballistic visor.\n\n**Mechanics:** DR 15, SP 15. Penalty: -1 Perception. Locations: Head. Base Sockets: 2."
   },
   {
@@ -1484,6 +1538,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "DR 10, SP 10. Penalty: None. Locations: Head. Base Sockets: 1.",
     "keywords": "helmet (standard), armor, defense, dr-10, lightweight, tl-2",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Open-faced or visored composite combat helmet protecting the cranium from shrapnel and impacts.\n\n**Mechanics:** DR 10, SP 10. Penalty: None. Locations: Head. Base Sockets: 1."
   },
   {
@@ -1538,6 +1594,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "Field DR 25, Field SP 60 (Regen 10/round). Weightless hard-light full-body barrier.",
     "keywords": "holo-armor field (hard-light), armor, defense, dr-25, device, tl-5",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 35,
+    "design_cr": 35,
     "body": "Instantly manifests a weightless geometric shell of solid hard-light around the user.\n\n**Mechanics:** Field DR 25, Field SP 60 (Regen 10/round). Weightless hard-light full-body barrier."
   },
   {
@@ -1592,6 +1650,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Device",
     "armor_type": "Light Armor (Projected)",
     "mobility_penalty": 0,
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "A lightweight harness that projects a suit of \"Hard Light\" armor only when combat begins. When inactive, the wearer appears unarmored.\n\n**Mechanics:** DR 20 (Force Field), SP 50 (Battery Life). Weightless (0 Penalty). Instant Don/Doff; Glow (Stealth impossible while active unless Dark Light upgrade installed). Base Sockets: 2."
   },
   {
@@ -1646,6 +1706,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Heavyweight",
     "mobility_penalty": 0,
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Rigid composite plating covering the entire body, mounted on a sealed bodysuit. Standard military armor for Coalition and Dynasty forces.\n\n**Mechanics:** Environmental Seal (6 hours air). DR 15, SP 40. No mobility penalties."
   },
   {
@@ -1700,6 +1762,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Full Body Armor (Heavy)",
     "mobility_penalty": -1,
+    "craft_cr": 28,
+    "design_cr": 28,
     "body": "Heavy composite armor laced with psychic dampeners and sensory boosters. Designed to hunt rogue psychics and entities.\n\n**Mechanics:** DR 22 (Psycho-Conductive Alloy), SP 55. Penalty: -1 Mobility. Null-Field (DR 10 vs Psionic Damage); Terror (+2 Intimidate). Base Sockets: 6."
   },
   {
@@ -1751,6 +1815,8 @@ export const DEFAULT_ARMORING = [
     "cost": 160,
     "component_slots": 0,
     "mechanic": "DR 0, SP 2. Fine jewelry or metaphysical focus item.",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Precious metal rings, amulets, or torcs suitable for high-society display or metaphysical attunement.\n\n**Mechanics:** DR 0, SP 2. Fine jewelry or metaphysical focus item."
   },
   {
@@ -1806,6 +1872,8 @@ export const DEFAULT_ARMORING = [
     "keywords": "large / tower shield, armor, defense, dr-15, heavyweight, tl-2",
     "negative_keywords": "unarmored, fragile, naked",
     "carried_shield": "+4 Defense (Half Cover)",
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "Full-height ballistic breach shield capable of providing mobile half-cover.\n\n**Mechanics:** +4 Shield Bonus to Defense (can brace for Half Cover). -2 Attack Penalty. DR 15, SP 40. Base Sockets: 4."
   },
   {
@@ -1860,6 +1928,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "Field DR 10, Field SP 20 (Regen 2/round). Overloads for 1 minute if reduced to 0 SP.",
     "keywords": "light force field (belt / gauntlet), armor, defense, dr-10, device, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 15,
+    "design_cr": 15,
     "body": "Personal belt or bracer emitter projecting a shimmering kinetic-thermal deflection screen.\n\n**Mechanics:** Field DR 10, Field SP 20 (Regen 2/round). Overloads for 1 minute if reduced to 0 SP."
   },
   {
@@ -1913,6 +1983,8 @@ export const DEFAULT_ARMORING = [
     "keywords": "medium / riot shield, armor, defense, dr-10, mediumweight, tl-2",
     "negative_keywords": "unarmored, fragile, naked",
     "carried_shield": "+2 Defense",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Transparent polycarbonate or alloy tactical shield used by security and breach teams.\n\n**Mechanics:** +2 Shield Bonus to Defense. DR 10, SP 25. Base Sockets: 2."
   },
   {
@@ -1967,6 +2039,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "Field DR 15, Field SP 30 (Regen 5/round). Overloads for 1 minute if reduced to 0 SP.",
     "keywords": "medium force field (harness), armor, defense, dr-15, device, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Chest-mounted military field generator providing full-body energy and ballistic dampening.\n\n**Mechanics:** Field DR 15, Field SP 30 (Regen 5/round). Overloads for 1 minute if reduced to 0 SP."
   },
   {
@@ -2020,6 +2094,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Lightweight",
     "armor_type": "Lightweight",
     "mobility_penalty": 0,
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Tailored from advanced ballistic cloth (TL 4). Absorbs kinetic energy and spreads impact. Indistinguishable from high-end business wear.\n\n**Mechanics:** High Fashion (+1 to Etiquette/Style checks); Concealable. DR 5, SP 10."
   },
   {
@@ -2074,6 +2150,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Mediumweight",
     "armor_type": "Variable (Light to Medium)",
     "mobility_penalty": 0,
+    "craft_cr": 35,
+    "design_cr": 35,
     "body": "A suit composed of millions of nanites suspended in a silver fluid. It flows over the wearer like water and can reshape itself on command.\n\n**Mechanics:** DR 15 (Fluid Impact Absorption), SP 40 (Self-Repairing Cloud). Morph (Change appearance/color as Standard Action); Concealment (+4 to Hide items inside). Base Sockets: 4."
   },
   {
@@ -2126,6 +2204,8 @@ export const DEFAULT_ARMORING = [
     "keywords": "projected energy shield (gauntlet), armor, defense, dr-15, device, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
     "carried_shield": "+2 Defense",
+    "craft_cr": 16,
+    "design_cr": 16,
     "body": "Wrist-mounted emitter projecting a disc of coherent plasma-magnetic force on demand.\n\n**Mechanics:** +2 Shield Bonus to Defense. DR 15, SP 20. Ignites/deactivates as a Free Action."
   },
   {
@@ -2179,6 +2259,8 @@ export const DEFAULT_ARMORING = [
     "keywords": "projected riot shield (hard-light), armor, defense, dr-20, device, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
     "carried_shield": "+4 Defense",
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "Heavy gauntlet projector forming an interlocking hard-light barrier wall.\n\n**Mechanics:** +4 Shield Bonus to Defense, -1 Attack Penalty. DR 20, SP 40."
   },
   {
@@ -2233,6 +2315,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Battle Suit (Heavy)",
     "mobility_penalty": -2,
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "Ancient ceramic or stone-composite armor etched with glowing defensive sigils. It is heavy but resonates with the wearer's aura.\n\n**Mechanics:** DR 25 (Runed Stone), SP 70 (Reinforced). Penalty: -2 Mobility, -5ft Movement. Aegis (Spend 1 Karma to double DR against a single attack). Base Sockets: 6."
   },
   {
@@ -2284,6 +2368,8 @@ export const DEFAULT_ARMORING = [
     ],
     "component_slots": 2,
     "mechanic": "DR 10, SP 10. Locations: Legs. Unarmed Kick deals 2d4 Blunt damage. Base Sockets: 2.",
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "Reinforced combat boots and lower-leg greaves providing kick protection and foot armor.\n\n**Mechanics:** DR 10, SP 10. Locations: Legs. Unarmed Kick deals 2d4 Blunt damage. Base Sockets: 2."
   },
   {
@@ -2337,6 +2423,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Mediumweight",
     "armor_type": "Mediumweight",
     "mobility_penalty": 0,
+    "craft_cr": 12,
+    "design_cr": 12,
     "body": "A matte-black armored long coat or bodysuit using sound-dampening polymers. Covers vital areas while allowing free movement.\n\n**Mechanics:** Stealthy (+2 to Stealth checks). DR 10, SP 20."
   },
   {
@@ -2388,6 +2476,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Mediumweight",
     "armor_type": "Mediumweight",
     "mobility_penalty": 0,
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "A semi-rigid vest made of ceramic plates over a kevlar weave. Standard issue for police and private security.\n\n**Mechanics:** Hardened (Immune to Critical Hits from small arms). DR 10, SP 20."
   },
   {
@@ -2442,6 +2532,8 @@ export const DEFAULT_ARMORING = [
     "mechanic": "DR 10, SP 25. Penalty: None. Locations: Head, Torso, Arms, Legs (Sealed). Base Sockets: 6.",
     "keywords": "smart suit (active camo / telemetry), armor, defense, dr-10, mediumweight, tl-4",
     "negative_keywords": "unarmored, fragile, naked",
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "Advanced TL4 sealed Skinsuit with integrated biometric telemetry, micro-servos, and adaptive weave.\n\n**Mechanics:** DR 10, SP 25. Penalty: None. Locations: Head, Torso, Arms, Legs (Sealed). Base Sockets: 6."
   },
   {
@@ -2496,6 +2588,8 @@ export const DEFAULT_ARMORING = [
     "cost": 485,
     "component_slots": 3,
     "mechanic": "DR 5, SP 15. Penalty: None. Locations: Head, Torso, Arms, Legs. Base Sockets: 3.",
+    "craft_cr": 14,
+    "design_cr": 14,
     "body": "Form-fitting thermal-baffled infiltration bodysuit with sound-dampening soles and chameleon weave.\n\n**Mechanics:** DR 5, SP 15. Penalty: None. Locations: Head, Torso, Arms, Legs. Base Sockets: 3."
   },
   {
@@ -2550,6 +2644,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Heavyweight",
     "mobility_penalty": 0,
+    "craft_cr": 18,
+    "design_cr": 18,
     "body": "Ruggedized plating over a pressurized under-suit, designed for hostile environments (vacuum, radiation, toxic atmosphere).\n\n**Mechanics:** Full Environmental (Immune to gas/vacuum, 24hr Life Support). DR 15, SP 40."
   },
   {
@@ -2604,6 +2700,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Lightweight",
     "armor_type": "Light Armor (Biotech)",
     "mobility_penalty": 0,
+    "craft_cr": 20,
+    "design_cr": 20,
     "body": "A semi-translucent, living membrane that bonds to the wearer's epidermis. It regulates temperature, filters toxins, and seals wounds instantly.\n\n**Mechanics:** DR 8 (Adaptive Flesh), SP 25 (Living Tissue). Regeneration (Restores 1 SP/min); Diagnosis (+2 to Fortitude saves vs Disease/Poison). Base Sockets: 2."
   },
   {
@@ -2656,6 +2754,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Lightweight",
     "armor_type": "Lightweight",
     "mobility_penalty": 0,
+    "craft_cr": 10,
+    "design_cr": 10,
     "body": "A textured bodysuit or jacket made from chemically treated synthetic leather. Common among spacers and urban youth.\n\n**Mechanics:** Civilian Grade (Legal in all jurisdictions). DR 5, SP 10. No mobility penalties."
   },
   {
@@ -2710,6 +2810,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Heavyweight",
     "armor_type": "Heavyweight",
     "mobility_penalty": 0,
+    "craft_cr": 30,
+    "design_cr": 30,
     "body": "An open-frame hydraulic skeleton used for heavy cargo loading and industrial assembly, amplifying physical strength.\n\n**Mechanics:** Hydraulic Strength (Set Strength to 18/+4, Lifting Capacity x2). DR 40, SP 120."
   },
   {
@@ -2763,6 +2865,8 @@ export const DEFAULT_ARMORING = [
     "armor_class": "Lightweight",
     "armor_type": "Reinforced Clothing (Arcane)",
     "mobility_penalty": 0,
+    "craft_cr": 22,
+    "design_cr": 22,
     "body": "High-quality ballistic cloth embroidered with threads of conductive gold and Aetherium. The runes flare with light when struck, dispersing energy.\n\n**Mechanics:** DR 5 (Physical) / 10 (Energy/Magic), SP 15. Spell Resistance (+2 Defense vs Metaphysic Attacks); Focus (Masterwork Tool for Spellcasting). Base Sockets: 3."
   }
 ];

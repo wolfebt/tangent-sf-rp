@@ -151,10 +151,13 @@ export const FolioVitalsSliceProvider = ({ children }) => {
       'current_structure',
       'current_essence',
       'is_dead',
+      'in_mortality_state',
       'is_at_deaths_door',
+      'stability_points',
       'death_clock',
       'death_rounds_remaining',
       'notes',
+      'active_conditions',
       'conditions',
       'wounds',
       'injuries'

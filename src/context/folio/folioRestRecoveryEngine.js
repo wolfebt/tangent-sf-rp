@@ -14,7 +14,7 @@ export const useFolioRestRecovery = ({
   characterData,
   setCharacterData
 }) => {
-  const takeCharacterRest = useCallback(async (heroId, { restType = 'light', activityTier = 'nap', interruptions = 0, isSecondWind = false } = {}) => {
+  const takeCharacterRest = useCallback(async (heroId, { restType = 'light', activityTier = 'nap', interruptions = 0, isSecondWind = false, hasMedicalCare = false, hasFastHeal = false } = {}) => {
     const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
     const target = (personaRoster || []).find(c => c['character-doc-id'] === targetId || c.id === targetId) || 
       (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' ? characterData : null);
@@ -29,15 +29,30 @@ export const useFolioRestRecovery = ({
       activityTier,
       interruptions,
       currentLightRestsToday: currentRestsToday,
-      isSecondWind
+      isSecondWind,
+      hasMedicalCare,
+      hasFastHeal
     });
 
     if (!result.success) {
       return result;
     }
 
+    const clearedSet = new Set((result.clearedConditions || []).map(s => String(s).toLowerCase()));
+    const nextConditions = Array.isArray(target.active_conditions)
+      ? target.active_conditions.filter(c => {
+          const name = typeof c === 'object' ? (c.name || c.id || '') : String(c || '');
+          return !clearedSet.has(name.toLowerCase());
+        })
+      : undefined;
+
     const updates = {
       current_vitality: result.newVitality,
+      current_health: result.newHealth,
+      ...(result.newEssence !== undefined && (target.current_essence !== undefined || target.max_essence !== undefined || target.essence !== undefined)
+        ? { current_essence: result.newEssence }
+        : {}),
+      ...(nextConditions !== undefined ? { active_conditions: nextConditions } : {}),
       light_rests_today: result.newLightRestsToday,
       last_rest_type: result.restType,
       last_rest_timestamp: new Date().toISOString(),

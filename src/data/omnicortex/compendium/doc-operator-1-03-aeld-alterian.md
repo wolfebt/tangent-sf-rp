@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "doc-operator-1-03-aeld"
-order: 24
+order: 22
 perspective: "operator"
 entry_type: "Species Variant"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","species","1.03.aeld.alterian","mechanics"]
-updatedAt: "2026-10-14T05:24:25.030Z"
+updatedAt: "2026-11-02T22:49:31.759Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,8 @@ sockets:
   allocated: []
 ---
 
-# **CELESTINE (Alterians)**
+# **CELESTINE (Alterians)**  
+**
 
 # **CELESTINE (Alterians)**
 
@@ -49,7 +50,7 @@ While other factions stagnate in tradition or pursue ruthless efficiency, the Al
 
 Culturally, the Enclave operates on "**The Long View**." A "hasty decision" to an Alterian takes a decade to deliberate. This perspective grants them a reputation for being slow to act, but decisively impactful when they finally do move. They are the archivists of history, remembering the mistakes the younger races have already forgotten.
 
-### 
+  
 
 ## **Core Identity**
 
@@ -65,7 +66,7 @@ Culturally, the Enclave operates on "**The Long View**." A "hasty decision" to a
 
 **Capital/Key World:** Altheria (The Gilded World).
 
-### 
+  
 
 ## **Sociological Profile**
 
@@ -77,7 +78,7 @@ Culturally, the Enclave operates on "**The Long View**." A "hasty decision" to a
 
 **Magic/Psionics:** Ubiquitous. Magic is used for everything from construction to tea-making. It is regulated by the **Arcane Circles** (Guilds).
 
-### 
+  
 
 ## **Clan Appearance Variations**
 
@@ -91,11 +92,11 @@ Significant differences in physical traits exist among the major clans:
 
 **Minor Clans:** These clans display the full range of Alterian features. Skin tones vary from stark white to jet black, and hair colors span from "natural" tones to highly unnatural hues. Eye pigmentation similarly covers the entire visible spectrum.
 
-&nbsp;
+  
 
 ## **General Species Features & Mechanics**
 
-**CP Cost:** 28 CP  
+**CP Cost:** [TBD]
 
 **Classification:** Humanoid
 
@@ -107,43 +108,43 @@ Significant differences in physical traits exist among the major clans:
 
 **Meta Level:** 4 (High Magic focus: The Flow)
 
-**Homeworld:** \[TBD\] (Altheria context)
+**Homeworld:** [TBD] (Altheria context)
 
 **Stigma:** Minor Xeno
 
-&nbsp;
+  
 
 ### **Ability Modifiers:**
 
-\+1 Agi
++1 Agi
 
-\+1 Int
++1 Int
 
-&nbsp;
+  
 
 ### **Skills & Advancements:**
 
-\+20 Skills (usually with 1 or more expert level skill)
++20 Skills (usually with 1 or more expert level skill)
 
-&nbsp;
+  
 
 ### **Species Features:**
 
 Awakened (Arcane, Intellect)
 
-Lifespan of typically 600+ years
+  
 
 Sleepless (and Immune to Sleep Effects)
 
-Long-Lived (Resistance to aging and disease)
+Long-Lived (Resistance to aging and disease - Lifespan of typically 600+ years)
 
-&nbsp;
+  
 
 ### **Recommended Features:**
 
 Acute Senses, Adapted (Aquatic, Arboreal, possibly Aerial), Ageless, Agile Maneuvers, Amphibious, Awakened (Arcane), Combat Expertise, Combat Specialization, Darksight, Eidetic Memory, Flight (Winged): Aerial Adapted (very rare), Longevity, Low Light Vision, Martial Arts, Mystical Ability, Reduced Sustenance, Sense Magic (30ft Radius), Skill Expertise, Skill Specialization, Charm Immunity.
 
-### 
+  
 
 ## **Visual Semiotics (Aesthetics) & Setting Profile**
 
@@ -151,37 +152,37 @@ Acute Senses, Adapted (Aquatic, Arboreal, possibly Aerial), Ageless, Agile Maneu
 
 The Alterian aesthetic is defined by the seamless synthesis of advanced metallurgy, crystalline technology, and high-ritual magic. Unlike human utilitarianism, Alterian technology is Artisan-Grade.
 
-&nbsp;
+  
 
 #### **The Curve over the Angle**
 
 Rejection of hard 90-degree angles. Continuous, flowing lines, parabolic curves, and ovoid structures mimicking energy flow and aerodynamics.
 
-&nbsp;
+  
 
 #### **Materiality**
 
 Psychoreactive Materials (Aetherium composites) that shimmer with pearlescent or holographic sheens. "Glass" is transparent aluminum or force-hardened crystal.
 
-&nbsp;
+  
 
 #### **The "Grown" Look**
 
 Non-biological tech looks cultivated. Cities feature spires twisting like vines, integrated with gravity-defying ring structures.
 
-&nbsp;
+  
 
 #### **The Structure**
 
 Tall, elegant, graceful humanoid (6+ ft). The dominant aesthetic of the space-faring aristocracy (Lanaran and Silvermoon clans).
 
-&nbsp;
+  
 
 #### **The Motif**
 
 Celestial Architects. "Grace, Immense Age, Lethal Precision."
 
-&nbsp;
+  
 
 ### **Setting Style Description (Crisp):**
 
@@ -193,7 +194,7 @@ Celestial Architects. "Grace, Immense Age, Lethal Precision."
 
 **Palette:** Stark Whites, Pearl White, Celestial Blues, Void Black, Polished Silver, and accentuations of Gold and Platinum. Accent: Violet (Arcane Energy), Crystalline Blue.
 
-&nbsp;
+  
 
 ### **Guidance & Atmosphere Tokens:**
 
@@ -205,7 +206,7 @@ Celestial Architects. "Grace, Immense Age, Lethal Precision."
 
 **Fashion/Gear:** High-collared bodysuits of smart-fabric woven with micro-circuitry, draped with ceremonial robes (energy shields). Sleek, fully enclosing helmets with sensor fins mimicking ear shape. "Sunglass Laminates" (capacitors acting as crystalline solar rechargers). Everything is curved, ergonomic, and elegant.
 
-&nbsp;
+  
 
 ### **Rendering & Visual Direction (Hi-Fi Ink):**
 
@@ -217,7 +218,7 @@ Celestial Architects. "Grace, Immense Age, Lethal Precision."
 
 **Subject-Specific Negative Tokens (Alterian Lore Guardrails):** Rust, dirt, grime, industrial smoke, steampunk gears, clunky machinery, exposed wires, gothic horror, primitive furs, zombie-like, disheveled, low resolution, pixelated.
 
-### 
+  
 
 ## **Scenes & Environments**
 
@@ -225,13 +226,13 @@ Celestial Architects. "Grace, Immense Age, Lethal Precision."
 
 A public space in the capital. Floating islands of white stone connected by bridges of solid light. Bio-luminescent plants sing in the wind. Peaceful, ancient, magical.
 
-&nbsp;
+  
 
 ### **The Grand Observatory**
 
 A research facility for mapping metaphysical currents. A massive, open-air dome of rotating gold rings and floating lenses. Screens are 3D illusions projected into the air, vibrating with latent power.
 
-### 
+  
 
 ## **Common Personas**
 
@@ -239,21 +240,22 @@ A research facility for mapping metaphysical currents. A massive, open-air dome 
 
 A timeless diplomat trading artifacts/favors. Wears shimmering "Ballistic Silk" and gold filigree tech-jewelry.
 
-&nbsp;
+  
 
 ### **The Arcane-Engineer**
 
 Treats magic as code. Manipulates floating runic displays with a conductor's baton.
 
-&nbsp;
+  
 
 ### **The Ranger**
 
 Patrols Enclave borders in "Smart-Silk" bodysuits with segmented pearlescent plating and Mag-Rail bows.
 
-&nbsp;
+  
 
 ### **The Aether-Weaver**
 
-Crafts crystalline technology wearing multi-filtered magnifying lenses. Their hands glow violet, fusing crystal and gold without heat.
+Crafts crystalline technology wearing multi-filtered magnifying lenses. Their hands glow violet, fusing crystal and gold without heat.**  
+**
 

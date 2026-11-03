@@ -20,66 +20,110 @@ import {
 } from './tangentConstants.js';
 
 /**
- * Tangent Standard Curve (TSC): Calculate credit value from Crafting/Item DC.
- * Formula: Value (V) = 10 * 4^(DC / 5)
- * @param {number} dc - Crafting or item complexity DC (0-80)
+ * Canonical EUFT Linear Micro-Modifiers for intra-bracket CR offsets (+0 to +4) per 4.00 ECONOMICS.md:
+ * Base_5 = floor(CR / 5) * 5; Base Credits = 10 * 4^(Base_5 / 5)
+ * +0 = 1.00x, +1 = 1.30x, +2 = 1.75x, +3 = 2.30x, +4 = 3.00x; Flaw = 0.75x
+ */
+export const EUFT_MICRO_MODIFIERS = Object.freeze({
+  0: 1.00,
+  1: 1.30,
+  2: 1.75,
+  3: 2.30,
+  4: 3.00
+});
+
+export const EUFT_FLAW_MODIFIER = 0.75;
+
+/**
+ * Unified Financial Theory (EUFT / TSC): Calculate credit value from Crafting/Purchase CR.
+ * Formula: Base_5 = floor(CR / 5) * 5; Value = round((10 * 4^(Base_5 / 5)) * MicroModifier[CR - Base_5])
+ * @param {number} cr - Crafting or item Challenge Rating / DC (0-80)
+ * @param {{ hasFlaw?: boolean }} [options] - Optional flaw flag (0.75x multiplier)
  * @returns {number} Market value in credits (rounded to nearest integer)
  */
-export function calculateCreditValue(dc) {
-  const numDc = Number(dc) || 0;
-  if (numDc < 0) return 10;
-  return Math.round(10 * Math.pow(4, numDc / 5));
+export function calculateCreditValue(cr, options = {}) {
+  const numCr = Number(cr) || 0;
+  if (numCr < 0) return 10;
+  const intCr = Math.round(numCr);
+  const base5 = Math.floor(intCr / 5) * 5;
+  const offset = intCr - base5;
+  const baseCredits = 10 * Math.pow(4, base5 / 5);
+  const microMult = options?.hasFlaw
+    ? EUFT_FLAW_MODIFIER
+    : (EUFT_MICRO_MODIFIERS[offset] ?? Math.pow(4, offset / 5));
+  return Math.round(baseCredits * microMult);
 }
 
 /**
- * Alias for calculateCreditValue for consistency with TSC terminology
+ * Alias for calculateCreditValue for consistency with TSC / EUFT terminology
  */
 export const calculateTSCValue = calculateCreditValue;
+export const calculateEUFTValue = calculateCreditValue;
 
 /**
- * Calculate Crafting / Purchase DC from Credit Value via the Tangent Standard Curve (TSC) inverse formula.
- * The Golden Rule of Tangent Wealth: Crafting DC = Purchase DC = Cost DC.
- * Formula: DC = round(2.5 * log2(max(10, credits) / 10))
+ * Calculate Crafting / Purchase CR from Credit Value via inverse EUFT discrete step lookup.
+ * The Golden Rule of Tangent Wealth: Crafting CR = Purchase CR = Cost CR.
  * @param {number} credits - Market credit value
- * @returns {number} Crafting / Purchase DC (integer >= 0)
+ * @returns {number} Crafting / Purchase CR (integer >= 0)
  */
-export function calculateDCFromCredits(credits) {
+export function calculateCRFromCredits(credits) {
   const numCr = Math.max(10, Number(credits) || 0);
-  return Math.max(0, Math.round(2.5 * Math.log2(numCr / 10)));
+  if (numCr <= 10) return 0;
+  const est = Math.max(0, Math.round(2.5 * Math.log2(numCr / 10)));
+  let bestCr = est;
+  let bestLogDist = Infinity;
+
+  for (let cand = Math.max(0, est - 2); cand <= est + 2; cand++) {
+    const candVal = calculateCreditValue(cand);
+    const logDist = Math.abs(Math.log2(numCr / candVal));
+    if (logDist < bestLogDist - 1e-9) {
+      bestLogDist = logDist;
+      bestCr = cand;
+    }
+  }
+  return bestCr;
 }
 
-export const calculateItemDC = calculateDCFromCredits;
-export const calculatePurchaseDC = calculateDCFromCredits;
-export const calculateCraftingDC = calculateDCFromCredits;
+export const calculateDCFromCredits = calculateCRFromCredits;
+export const calculateItemCR = calculateCRFromCredits;
+export const calculatePurchaseCR = calculateCRFromCredits;
+export const calculateCraftingCR = calculateCRFromCredits;
+export const calculateItemDC = calculateCRFromCredits;
+export const calculatePurchaseDC = calculateCRFromCredits;
+export const calculateCraftingDC = calculateCRFromCredits;
 
 /**
- * Resolves the operational/complexity Cost DC (Crafting DC / Purchase DC) for any catalog or inventory item.
- * Follows the Golden Rule of Tangent Wealth: Purchase DC = Crafting DC = Cost DC.
+ * Resolves the operational/complexity Cost CR (Crafting CR / Purchase CR) for any catalog or inventory item.
+ * Follows the Golden Rule of Tangent Wealth: Purchase CR = Crafting CR = Cost CR.
+ * Supports both canonical *_cr fields and legacy *_dc fields.
  * @param {object} item - Item object
- * @returns {number} Crafting / Purchase DC
+ * @returns {number} Crafting / Purchase CR
  */
-export function resolveItemCostDC(item) {
+export function resolveItemCostCR(item) {
   if (!item || typeof item !== 'object') return 10;
-  if (item.craft_dc !== undefined && item.craft_dc !== null && item.craft_dc !== '') {
-    return Math.max(0, parseInt(item.craft_dc, 10) || 0);
-  }
-  if (item.design_dc !== undefined && item.design_dc !== null && item.design_dc !== '') {
-    return Math.max(0, parseInt(item.design_dc, 10) || 0);
-  }
-  if (item.base_dc !== undefined && item.base_dc !== null && item.base_dc !== '') {
-    return Math.max(0, parseInt(item.base_dc, 10) || 0);
-  }
-  if (item.purchase_dc !== undefined && item.purchase_dc !== null && item.purchase_dc !== '') {
-    return Math.max(0, parseInt(item.purchase_dc, 10) || 0);
-  }
-  if (item.craftDc !== undefined && item.craftDc !== null && item.craftDc !== '') {
-    return Math.max(0, parseInt(item.craftDc, 10) || 0);
-  }
-  if (item.cost_dc !== undefined && item.cost_dc !== null && item.cost_dc !== '') {
-    return Math.max(0, parseInt(item.cost_dc, 10) || 0);
-  }
-  if (item.dc !== undefined && item.dc !== null && item.dc !== '') {
-    return Math.max(0, parseInt(item.dc, 10) || 0);
+  const explicitCrFields = [
+    item.craft_cr,
+    item.final_crafting_cr,
+    item.final_cr,
+    item.design_cr,
+    item.base_cr,
+    item.purchase_cr,
+    item.craftCr,
+    item.cost_cr,
+    item.cr,
+    item.craft_dc,
+    item.final_dc,
+    item.design_dc,
+    item.base_dc,
+    item.purchase_dc,
+    item.craftDc,
+    item.cost_dc,
+    item.dc
+  ];
+  for (const fieldVal of explicitCrFields) {
+    if (fieldVal !== undefined && fieldVal !== null && fieldVal !== '') {
+      return Math.max(0, parseInt(fieldVal, 10) || 0);
+    }
   }
   const crCandidates = [
     item.costs?.credits,
@@ -92,40 +136,60 @@ export function resolveItemCostDC(item) {
   ];
   const validCr = crCandidates.find(c => c !== undefined && c !== null && c !== '' && Number(c) > 0);
   if (validCr !== undefined) {
-    return calculateDCFromCredits(validCr);
+    return calculateCRFromCredits(validCr);
+  }
+  if (item.cp !== undefined && item.cp !== null && item.cp !== '' && Number(item.cp) > 0) {
+    return Math.max(0, Math.round((Number(item.cp) || 0) * 2));
   }
   if (item.tech_level !== undefined && item.tech_level !== null && Number(item.tech_level) > 0) {
     return Math.max(5, Number(item.tech_level) * 5);
   }
-  return 10; // Default baseline DC 10 (160 Cr) for standard equipment
+  return 10; // Default baseline CR 10 (160 Cr) for standard equipment
 }
+
+export const resolveItemCostDC = resolveItemCostCR;
 
 
 /**
- * Calculate raw material cost required to fabricate an item (50% of market value).
+ * Calculate raw pristine material cost required to fabricate an item (50% of market value).
  * @param {number} creditValue - Total market credit value
  * @returns {number} Material cost in credits
  */
 export function calculateMaterialCost(creditValue) {
-  const val = Number(creditValue) || 0;
-  return Math.round(val * 0.5);
+  const val = Math.max(0, Number(creditValue) || 0);
+  const fraction = FENCE_RATES?.pristineMaterialFraction ?? 0.5;
+  return Math.round(val * fraction);
 }
 
 /**
- * Calculate crafting duration in days given an item's credit value, crafter's skill check, and tool tier.
- * Daily Production Points (PP) = max(1, (Skill Check - 10) * Tier Multiplier)
+ * Calculate unrefined scrap mass equivalent required to fabricate an item without pristine parts (5x Item Value).
+ * Per 4.00 ECONOMICS.md: Unrefined scrap yields 10% resale and requires 5x credit value in raw scrap mass.
+ * @param {number} creditValue - Total market credit value
+ * @returns {number} Unrefined scrap mass credit equivalent
+ */
+export function calculateScrapMassRequired(creditValue) {
+  const val = Math.max(0, Number(creditValue) || 0);
+  const mult = FENCE_RATES?.unrefinedScrapMassMultiplier ?? 5;
+  return Math.round(val * mult);
+}
+
+/**
+ * Calculate crafting duration in days given an item's credit value, crafter's skill check, tool tier, and crew size.
+ * Daily Production Points (PP) = max(1, (Skill Check - 10) * Tier Multiplier * Crew Size)
  * Crafting Days = Credit Value / Daily PP
  * @param {number} creditValue - Total market credit value (= Target PP)
  * @param {number} [skillCheck=20] - Skill check total (defaults to 20)
  * @param {number} [tierMultiplier=10] - Tool tier multiplier (default 10 for Basic)
+ * @param {number} [crewSize=1] - Concurrent skilled crew count
  * @returns {number} Crafting duration in days (floating point)
  */
-export function calculateCraftingDays(creditValue, skillCheck = 20, tierMultiplier = 10) {
+export function calculateCraftingDays(creditValue, skillCheck = 20, tierMultiplier = 10, crewSize = 1) {
   const val = Math.max(0, Number(creditValue) || 0);
   const check = Number(skillCheck) || 20;
   const mult = Math.max(1, Number(tierMultiplier) || 1);
+  const crew = Math.max(1, Number(crewSize) || 1);
 
-  const effectiveBonus = Math.max(1, (check - 10) * mult);
+  const effectiveBonus = Math.max(1, (check - 10) * mult * crew);
   const days = val / effectiveBonus;
   return Math.round(days * 100) / 100;
 }
@@ -163,12 +227,13 @@ export function formatCraftingDuration(days) {
  * @param {number} [skillCheck=20] - Skill check total
  * @returns {Array<{ id: string, name: string, multiplier: number, dailyPP: number, days: number, formatted: string }>}
  */
-export function calculateAllCraftingTiers(creditValue, skillCheck = 20) {
+export function calculateAllCraftingTiers(creditValue, skillCheck = 20, crewSize = 1) {
   const val = Math.max(0, Number(creditValue) || 0);
   const check = Number(skillCheck) || 20;
+  const crew = Math.max(1, Number(crewSize) || 1);
 
   return TOOL_TIERS.map(tier => {
-    const dailyPP = Math.max(1, (check - 10) * tier.multiplier);
+    const dailyPP = Math.max(1, (check - 10) * tier.multiplier * crew);
     const days = val > 0 ? Math.round((val / dailyPP) * 100) / 100 : 0;
     return {
       id: tier.id,
@@ -182,16 +247,16 @@ export function calculateAllCraftingTiers(creditValue, skillCheck = 20) {
 }
 
 /**
- * Calculate the liquidity gap between an item's DC and a character's Wealth Score.
+ * Calculate the liquidity gap between an item's CR and a character's Wealth Score.
  * Follows the canonical EUFT Gap Rule:
- * - Auto-Buy when Item DC <= Player WS (Gap = 0 Cr).
- * - Otherwise, Liquid Cost = Value(Item DC) - Value(Character WS).
- * @param {number} itemDC - Item complexity DC
+ * - Auto-Buy when Item CR <= Player WS (Gap = 0 Cr).
+ * - Otherwise, Liquid Cost = Value(Item CR) - Value(Character WS).
+ * @param {number} itemCR - Item complexity CR / DC
  * @param {number} playerWS - Player character's Wealth Score
- * @returns {{ itemDC: number, playerWS: number, itemValue: number, playerWSValue: number, tierAutoBuyLimit: number, liquidGapCost: number, liquidCost: number, autoBuy: boolean, isAutoBuy: boolean }}
+ * @returns {{ itemCR: number, itemDC: number, playerWS: number, itemValue: number, playerWSValue: number, tierAutoBuyLimit: number, liquidGapCost: number, liquidCost: number, autoBuy: boolean, isAutoBuy: boolean }}
  */
-export function calculateLiquidityGap(itemDC, playerWS) {
-  const dc = Number(itemDC) || 0;
+export function calculateLiquidityGap(itemCR, playerWS) {
+  const dc = Number(itemCR) || 0;
   const ws = Number(playerWS) || 0;
   const itemVal = calculateCreditValue(dc);
   const wsStatus = getFinancialStatus(ws);
@@ -201,6 +266,7 @@ export function calculateLiquidityGap(itemDC, playerWS) {
   const gap = isAutoBuy ? 0 : Math.max(0, itemVal - exactWSValue);
   const surplus = isAutoBuy ? Math.max(0, exactWSValue - itemVal) : 0;
   return {
+    itemCR: dc,
     itemDC: dc,
     playerWS: ws,
     itemValue: itemVal,

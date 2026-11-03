@@ -33,12 +33,12 @@ export const CANONICAL_FOUNDATIONAL_CHUNKS: RuleChunk[] = [
     citation: 'Omnicortex 3.00 Combat Matrix',
     tags: ['combat', 'dice', 'target number', '2d10', 'resolution', 'margin of success', 'attack', 'defense', 'cr 15'],
     text: `TANGENT uses a 2d10 Dual-Resolution mechanic:
-- Core Action Checks: 2d10 + Attribute Modifier + Skill Rank vs. Target Defense or Challenge Rating (CR).
+- Core Action Checks: 2d10 + Attribute Modifier + Skill Rank vs. Target Defense or Challenge Rating (CR). Advantage/Disadvantage adds +1d10 keeping highest/lowest 2 (3d10kh2 / 3d10kl2), cancelling 1-for-1.
 - Opposed Combat Rolls: Attacker rolls 2d10 + Combat Skill + Attribute Mod vs. Defender's Defense Check (2d10 + Defense Skill + Agility Mod). DEFENDER WINS ALL TIES.
 - Unopposed Baseline: Static difficulty baseline is CR 15 (Average difficulty for a Medium target at Short range, modified by Size, Range, and Movement).
 - Margin of Success: Net result above Target Defense / CR determines effectiveness (+5 = Superior, +10 = Masterful).
-- Critical Success: Rolling Double 10s (natural 20) triggers maximum strike damage + automatic bonus tactical action.
-- Critical Fumble: Rolling Double 1s (natural 2) triggers weapon jam, stance break, or environmental hazard check.`
+- Critical Success: Rolling Double 10s (natural 20, or expanded threat range 19, 18...) adds +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29) and doubles weapon damage dice.
+- Critical Fumble: Rolling Double 1s (natural 2, or expanded fumble range 3, 4...) replaces the rolled dice value with a flat -10 (subtracting 10 from the base score regardless of whether rolled on 2, 3, 4...) and triggers a tactical complication.`
   },
   {
     id: 'rule-combat-called-shots',
@@ -70,12 +70,13 @@ export const CANONICAL_FOUNDATIONAL_CHUNKS: RuleChunk[] = [
     title: 'Economatrix Tangent Standard Curve (TSC) & Golden Rule of Wealth',
     citation: 'Codex 2.00 Economatrix Matrix',
     tags: ['economatrix', 'pricing', 'cost', 'tech level', 'meta level', 'crafting', 'credits', 'value', 'wealth score', 'liquidity gap'],
-    text: `The Tangent Economic Unified Field Theory (EUFT) determines item value using the Tangent Standard Curve (TSC):
-Value (Credits) = 10 * 4^(DC / 5)
-- The Golden Rule of Tangent Wealth: Purchase DC = Crafting DC = Cost DC.
-- Auto-Buy Threshold: Any item with Cost DC <= Character Wealth Score (WS) is acquired automatically without depleting liquid Credits.
-- Liquidity Gap: When Item Cost DC > Character WS, Liquid Cost = Value(Item DC) - Value(Character WS).
-- 7-Tier Crafting Productivity Engine: Daily PP = (Craft Check - 10) * Tool Tier Multiplier (x1 Improvised to x5,000 Genesis).`
+    text: `The Tangent Economic Unified Field Theory (EUFT) determines item value using the Tangent Standard Curve (TSC) and Linear Micro-Modifiers:
+Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +1 = x1.30, +2 = x1.75, +3 = x2.30, +4 = x3.00; -1 Flaw = x0.75; e.g., CR 18 = 1,472 Cr, CR 32 = 71,680 Cr).
+- The Golden Rule of Tangent Wealth: Purchase CR = Crafting CR = Cost CR (legacy alias DC).
+- Auto-Buy Threshold: Any item with Cost CR <= Character Wealth Score (WS) is acquired automatically without depleting liquid Credits.
+- Liquidity Gap: When Item Cost CR > Character WS, Liquid Cost = Value(Item CR) - Value(Character WS).
+- Materials & Scrap: Pristine materials cost 50% of final Market Value; Fence liquidation yields 10% base; salvaging requires 5x Credit Value in Unrefined Scrap Mass.
+- 7-Tier Crafting Productivity Engine: Daily PP = (Craft Check - 10) * Tool Tier Multiplier (x1 Improvised to x5,000 Genesis) * Crew Size.`
   },
   {
     id: 'rule-tech-levels-spectrum',
@@ -108,13 +109,14 @@ Value (Credits) = 10 * 4^(DC / 5)
   {
     id: 'rule-udu-engine',
     category: 'udu',
-    title: 'Unified Difficulty Units (UDU) & Volumetric Scaling',
-    citation: 'Codex 5.00 UDU Matrix',
-    tags: ['udu', 'difficulty units', 'scaling', 'size tier', 'volumetric', 'hardness', 'threshold'],
-    text: `Unified Difficulty Units (UDU) standardize physical tasks and craft complexity:
-- Size Tiers: Fine (1), Diminutive (2), Tiny (3), Small (4), Medium (5), Large (6), Huge (7), Gargantuan (8), Colossal (9).
-- Structural Integrity = Volume * Material Density Multiplier.
-- Hardness & Damage Threshold: Attacks dealing less than target Hardness are completely deflected (0 net damage).`
+    title: 'Universal Displacement Units (UDU) & 10:1 Socket Hierarchy',
+    citation: 'Codex 5.00 UDU Matrix & 5.04 Mecha',
+    tags: ['udu', 'displacement units', 'sockets', 'nodes', 'mounts', 'modules', 'garaging', 'meta-tech'],
+    text: `Universal Displacement Units (UDU) standardize physical chassis volume and modular engineering across a strict 10:1 hierarchy:
+- 10 Nodes = 1 Socket | 10 Sockets = 1 Mount | 10 Mounts = 1 Module.
+- Biological & Cybernetic Anatomy: Medium humanoid chassis contains 200 total Body Nodes across Head, Torso, and Limbs.
+- Mecha Garaging (Hangar Modules): Medium = 0.1 Mod, Large = 0.2 Mod, Huge = 0.5 Mod, Gargantuan = 1.0 Mod, Colossal = 2.0 Mod.
+- Meta-Tech Invocation Capacity: 1 Socket supports max Rank 10 Invocations; 2 Sockets support max Rank 20; 3+ Sockets, 1 Mount, or 1 Module support max Rank 30.`
   },
   {
     id: 'rule-character-creation-150cp',
@@ -122,14 +124,12 @@ Value (Credits) = 10 * 4^(DC / 5)
     title: '150 Character Point (CP) Operator Creation Economy',
     citation: 'Operator Guide 1.01 Character Creation',
     tags: ['150 cp', 'character points', '150 bp', 'build points', 'character creation', 'skill pools', 'attributes'],
-    text: `Operators in Tangent SFF RP are created using a strict 150 Character Point (CP) budget:
-- Attributes: 5 CP per +1 attribute rank above base 0.
+    text: `Operators in Tangent SFF RP are created using a strict 150 Character Point (CP) budget (80 CP Archetype package + 70 CP Customization):
+- Attributes: 5 CP per +1 attribute rank above base 0 (soft cap +4 at creation).
 - Check Bonuses: 1 CP per +1 sub-attribute check score.
-- Three 20-Point Background Skill Pools:
-  1. Faction Skill Pool (20 SP)
-  2. Origin Skill Pool (20 SP)
-  3. Occupation Skill Pool (20 SP)
-- Hindrances & Flaws: Grant point rebates up to -20 CP back into the character pool.
+- Skills: 1 CP per rank (Creation Skill Rank cap is 11 [Expert Stage 3]; absolute maximum is Rank 30 [Pinnacle Stage 6]).
+- Three 20-Point Background Skill Pools (0 CP): Faction (20 SP), Origin (20 SP), and Occupation (20 SP) = 60 free skill ranks.
+- Personal Hindrances & Flaws: Grant up to +10 CP maximum rebate at creation (Social Stigmas and innate Species flaws are exempt from this cap).
 - Increment Rule: Advancement is restricted to +1 point per attribute or skill rank per milestone award.`
   },
   {
@@ -150,10 +150,10 @@ Value (Credits) = 10 * 4^(DC / 5)
     citation: 'Operator Guide 1.01 Character Creation & 3.00 Combat',
     tags: ['vitals', 'vitality', 'health', 'structure', '30 base', '60 base', 'stamina', 'toughness', 'synthetics'],
     text: `Canonical Vitals and Structure Architecture:
-- Biological Entities: 30 pt base Vitality (VP) and 30 pt base Health (HP).
-- No Stamina-based bonus on Vitality or Health directly. Stamina functions as natural Damage Reduction (Toughness), absorbing penetrating damage point-for-point (minimum 1 damage taken).
-- Pools increase strictly through Size categories, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).
-- Synthetics, Constructs & Mecha: 60 pt base Structure Points (SP) for Medium size (adjusted by size tier multiplier). Zero Vitality, complete immunity to non-lethal damage, fatigue, and biological hazards.`
+- Biological Entities: 30 pt base Vitality (VP) and 30 pt base Health (HP). Standard physical/energy damage depletes Vitality FIRST, spilling excess into Health (Bleed and Overchannel Burn bypass directly to Health).
+- Zero Stamina Pool Scaling: No Stamina-based bonus on Vitality or Health directly. Stamina functions as natural Damage Reduction (Toughness), absorbing penetrating damage point-for-point down to a minimum of 0 damage taken. Armor Layering Cap: only the highest single Armor DR domain applies (never summed).
+- Pools increase strictly through Size categories, Traits, Features, or Character Point (CP) purchases (1 CP = +5 points, no Stamina cap).
+- Synthetics, Constructs & Mecha: 60 pt base Structure Points (SP) for Medium size (adjusted by size tier multiplier; pre-calculated Mecha table SP 200-3,200 is not double-multiplied). Zero Vitality, complete immunity to non-lethal damage, fatigue, and biological hazards.`
   },
   {
     id: 'rule-karma-spending-actions',
@@ -573,13 +573,16 @@ export function detectIntentCategories(query: string): string[] {
   if (q.match(/\b(faction|polity|enclave|syndicate|diplomacy|politic|treaty|war|alliance|empire)\b/)) {
     categories.push('factions');
   }
-  if (q.match(/\b(cost|price|craft|economatrix|credit|market|buy|sell|tech level|eut)\b/)) {
+  if (q.match(/\b(cost|price|craft|economatrix|credit|market|buy|sell|tech level|eut|euft|tsc|cr)\b/)) {
     categories.push('economatrix');
+  }
+  if (q.match(/\b(udu|socket|sockets|node|nodes|mount|mounts|module|modules|garaging)\b/)) {
+    categories.push('udu');
   }
   if (q.match(/\b(species|alien|synthetic|lineage|heritage|trait|stigma)\b/)) {
     categories.push('species');
   }
-  if (q.match(/\b(attribute|sub-attribute|strength|agility|stamina|intellect|wisdom|charisma|toughness|reflexes|fortitude|150 bp|bp|creation)\b/)) {
+  if (q.match(/\b(attribute|sub-attribute|strength|agility|stamina|intellect|wisdom|charisma|toughness|reflexes|fortitude|150 cp|cp|150 bp|bp|creation)\b/)) {
     categories.push('character_creation');
   }
   if (q.match(/\b(directive|directives|positive keyword|positive keywords|pos keyword|pos keywords|thematic weight|thematic weights|guidance)\b/)) {

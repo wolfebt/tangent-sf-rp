@@ -103,7 +103,7 @@ cp_cost: 23
 
 # 
 
-**CP Cost:** 22 CP  
+**CP Cost:** 23 CP  
 
 **Description:** Truldan will stand fully upright at 7 to 71/2 ft tall with a regal, aristocratic bearing. They possess a wiry, acrobatic build with minimal body fat and dense, corded muscle. Their limbs are disproportionately long compared to humans, giving them extended reach in combat. Due to their evolution from swamp-dwelling ancestors, Truldan also retain amphibious features, making them equally adept in water as on land.
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 188
+order: 186
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.knowledge","mechanics"]
-updatedAt: "2026-10-31T10:56:34.164Z"
+updatedAt: "2026-11-02T22:49:29.474Z"
 costs:
   bp: 0
   credits: 0
@@ -37,244 +37,339 @@ sockets:
   allocated: []
 ---
 
-# **MENTAL SKILLS: KNOWLEDGE**
+# **1.07.03 MENTAL SKILLS: KNOWLEDGE (A – M)**
 
 ## **KNOWLEDGE (Category)**
 
-* **Ability:** Intellect  
-* **Mechanics:**  
-  * *Common Knowledge:* CR 10\.  
-  * *Obscure Fact:* CR 20\.  
-  * *Lost/Forbidden Knowledge:* CR 30+.  
-* **Skill Lists:**
+  - **Ability:** Intellect
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - *Common Knowledge:* CR 10.
+  - *Obscure Fact:* CR 20.
+  - *Lost/Forbidden Knowledge:* CR 30+.
+
+<!-- end list -->
+
+  - **Skill Lists:**
+
+  
 
 ### **APPRAISAL**
 
-* **Ability:** Intellect  
-* **Description:** The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.  
-* **Mechanics:**  
-  * **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).  
-  * **Detect Forgery:** Opposed check vs. Forgery (Bluff/Craft).  
-  * **Identify Properties:** CR 15+ to determine what a specific device or artifact does.  
-* **Specialties:**   
-  * **Antiquities & Relics:** Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics.  
-    * **Gems & Exotic Minerals:** Assessing crystalline purity, carats, cut, and value of rare planetary ores.  
-    * **High-Tech Hardware:** Evaluating internal wear, chip fabrication specs, and market value of modern computing cores.  
-    * **Xenotech Artifacts:** Identifying the rarity, function, and black-market pricing of unknown alien devices.  
-    * **Fine Art & Holography:** Spotting stylistic authenticity, provenance, and valuations in visual art and media.  
-    * **Weapons & Armor Valuation:** Pricing arms, determining custom modifications, and grading combat durability.  
-    * **Counterfeit & Forgery Detection:** Spotting faux stamps, reproduction alloys, doctored serials, and artificial aging.  
-    * **Raw Industrial Commodities:** Estimating bulk container loads of refined fuels, hyper-alloys, and construction composites.  
-    * **Metaphysical Artifacts:** Valuing enchanted talismans, psi-receptive matrices, and mana-infused items.  
-    * **Salvage Bulk Valuation:** Estimating the scrap yield and recovery profit of derelict ship hulls and shattered stations.
+  - **Ability:** Intellect
+  - **Description:** The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).
+  - **Detect Forgery:** Opposed check vs. Forgery (Bluff/Craft).
+  - **Identify Properties:** CR 15+ to determine what a specific device or artifact does.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Antiquities & Relics:** Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics.
+      - **Gems & Exotic Minerals:** Assessing crystalline purity, carats, cut, and value of rare planetary ores.
+      - **High-Tech Hardware:** Evaluating internal wear, chip fabrication specs, and market value of modern computing cores.
+      - **Xenotech Artifacts:** Identifying the rarity, function, and black-market pricing of unknown alien devices.
+      - **Fine Art & Holography:** Spotting stylistic authenticity, provenance, and valuations in visual art and media.
+      - **Weapons & Armor Valuation:** Pricing arms, determining custom modifications, and grading combat durability.
+      - **Counterfeit & Forgery Detection:** Spotting faux stamps, reproduction alloys, doctored serials, and artificial aging.
+      - **Raw Industrial Commodities:** Estimating bulk container loads of refined fuels, hyper-alloys, and construction composites.
+      - **Metaphysical Artifacts:** Valuing enchanted talismans, psi-receptive matrices, and mana-infused items.
+      - **Salvage Bulk Valuation:** Estimating the scrap yield and recovery profit of derelict ship hulls and shattered stations.
+
+  
 
 ### **BUSINESS**
 
-* **Ability:** Intellect  
-* **Description:** The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures.  
-* **Mechanics:**  
-  * *Analyze Market:* CR 15 to predict trends or find investment opportunities.  
-  * *Corporate Insight:* CR 20 to understand internal company politics or organizational structures.  
-  * *Negotiation:* CR 15+ to facilitate business deals.  
-* **Specialties:**   
-  * **Corporate Law & Governance:** Understanding regulatory filings, compliance liabilities, and corporate charters.  
-    * **Market Trend Analysis:** Forecasting supply, demand, and economic fluctuations across star sectors.  
-    * **Investment & Portfolio Management:** Allocating financial capital across ventures, equities, and resource bonds.  
-    * **Mergers & Acquisitions:** Conducting corporate takeovers, buyout evaluations, and shell company absorptions.  
-    * **Venture Capitalism:** Spotting promising tech startups and high-yield frontier resource ventures.  
-    * **Fiscal Auditing:** Tracing hidden accounting ledgers, corporate embezzlements, and balance sheet discrepancies.  
-    * **Contract Architecture:** Drafting binding corporate NDAs, licensing agreements, and commercial partnerships.  
-    * **Marketing & Public Relations:** Designing campaign rollouts and brand identity to maximize sector-wide sales.  
-    * **Risk Management:** Mitigating operational losses due to sector wars, market crashes, and supply disruptions.  
-    * **Corporate Shell Networks:** Establishing holding syndicates to protect personal assets from tax levies and seizures.
+  - **Ability:** Intellect
+  - **Description:** The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures.
+  - **Mechanics:**
+
+<!-- end list -->
+
+  - *Analyze Market:* CR 15 to predict trends or find investment opportunities.
+  - *Corporate Insight:* CR 20 to understand internal company politics or organizational structures.
+  - *Negotiation:* CR 15+ to facilitate business deals.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Corporate Law & Governance:** Understanding regulatory filings, compliance liabilities, and corporate charters.
+      - **Market Trend Analysis:** Forecasting supply, demand, and economic fluctuations across star sectors.
+      - **Investment & Portfolio Management:** Allocating financial capital across ventures, equities, and resource bonds.
+      - **Mergers & Acquisitions:** Conducting corporate takeovers, buyout evaluations, and shell company absorptions.
+      - **Venture Capitalism:** Spotting promising tech startups and high-yield frontier resource ventures.
+      - **Fiscal Auditing:** Tracing hidden accounting ledgers, corporate embezzlements, and balance sheet discrepancies.
+      - **Contract Architecture:** Drafting binding corporate NDAs, licensing agreements, and commercial partnerships.
+      - **Marketing & Public Relations:** Designing campaign rollouts and brand identity to maximize sector-wide sales.
+      - **Risk Management:** Mitigating operational losses due to sector wars, market crashes, and supply disruptions.
+      - **Corporate Shell Networks:** Establishing holding syndicates to protect personal assets from tax levies and seizures.
+
+  
 
 ### **COMPUTERS**
 
-* **Ability:** Intellect  
-* **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.  
-* **Mechanics:**  
-  * **Operate Remote System:** CR 10 to CR 25 depending on security.  
-  * **Hacking:** CR is determined by the target system's firewall/security rating (Security Level \+ 10).  
-  * **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).  
-* **Specialties:**   
-  * **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.  
-    * **Cyber-Defense & Hardening:** Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers.  
-    * **Scripting & Process Automation:** Writing rapid macros and terminal scripts to automate complex digital procedures.  
-    * **AI Architecture & Training:** Developing, modifying, and debugging synthetic neural networks and heuristic models.  
-    * **Data Mining & Parsing:** Sifting petabytes of corporate and planetary databases to extract target information.  
-    * **Firmware & Low-Level Code:** Interfacing with raw machine code, BIOS chips, and low-level kernel drivers.  
-    * **Cryptographic Decryption:** Brute-forcing and mathematically unraveling complex data encryption keys.  
-    * **Neural Interface Protocols:** Configuring direct cybernetic brain-machine links and wetware jacks.  
-    * **Distributed Cloud Systems:** Managing planetary data farms, decentralized storage hubs, and quantum cloud relays.  
-    * **Counter-Forensic Scrubbing:** Erasing digital fingerprints, bounce-routing terminal traces, and wiping system logs.
+  - **Ability:** Intellect
+  - **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - **Operate Remote System:** CR 10 to CR 25 depending on security.
+  - **Hacking:** CR is determined by the target system's firewall/security rating (Security Level + 10).
+  - **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.
+      - **Cyber-Defense & Hardening:** Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers.
+      - **Scripting & Process Automation:** Writing rapid macros and terminal scripts to automate complex digital procedures.
+      - **AI Architecture & Training:** Developing, modifying, and debugging synthetic neural networks and heuristic models.
+      - **Data Mining & Parsing:** Sifting petabytes of corporate and planetary databases to extract target information.
+      - **Firmware & Low-Level Code:** Interfacing with raw machine code, BIOS chips, and low-level kernel drivers.
+      - **Cryptographic Decryption:** Brute-forcing and mathematically unraveling complex data encryption keys.
+      - **Neural Interface Protocols:** Configuring direct cybernetic brain-machine links and wetware jacks.
+      - **Distributed Cloud Systems:** Managing planetary data farms, decentralized storage hubs, and quantum cloud relays.
+      - **Counter-Forensic Scrubbing:** Erasing digital fingerprints, bounce-routing terminal traces, and wiping system logs.
+
+  
 
 ### **CULTURE**
 
-* **Ability:** Intellect  
-* **Description:** Culture is the skill of understanding and appreciating different cultures. It reflects a character's ability to understand the customs, beliefs, and practices of different groups of people. Culture is used whenever a character needs to interact with people from different cultures, whether it's to negotiate a deal or to avoid offending someone. This can include things like understanding social norms, speaking different languages, and recognizing cultural symbols.   
-* **Mechanics:**  
-  * **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).  
-  * **Identify Origin:** CR 15 to identify a person's origin based on dress or behavior.  
-* **Specialties:**   
-  * **Impyrium High Society:** Navigating the subtle etiquette, titles, and ancestral hierarchies of the imperial core.  
-    * **Dynasty Lineages:** Understanding the honor codes, draconic influences, and clan hierarchies of the Dynasty.  
-    * **Underworld Subcultures:** Knowing street cant, gang boundary markers, and honor-among-thieves traditions.  
-    * **Alien Xenology (Auluran/Kizin/Dwerg):** Understanding the behavioral norms, biology, and taboos of major species.  
-    * **Frontier & Nomad Customs:** Grasping the survival rituals, barter courtesies, and rites of deep-space void-clans.  
-    * **Corporate Megacorp Culture:** Knowing executive ranks, intra-office politics, and corporate loyalty dogma.  
-    * **Planetary Folkways:** Adapting quickly to localized, isolated religious and traditional practices of frontier worlds.  
-    * **Diplomatic Hospitality Protocols:** Understanding the sacred guest rites, banquet behaviors, and host responsibilities.  
-    * **Taboos & Insults:** Recognizing subtle physical gestures, eye contact rules, or color choices that spark lethal offense.  
-    * **Galactic Pop Trends:** Tracking the fads, underground music scenes, and holistic lifestyle shifts of urban youths.
+  - **Ability:** Intellect
+  - **Description:** Culture is the skill of understanding and appreciating different cultures. It reflects a character's ability to understand the customs, beliefs, and practices of different groups of people. Culture is used whenever a character needs to interact with people from different cultures, whether it's to negotiate a deal or to avoid offending someone. This can include things like understanding social norms, speaking different languages, and recognizing cultural symbols. 
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).
+  - **Identify Origin:** CR 15 to identify a person's origin based on dress or behavior.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Impyrium High Society:** Navigating the subtle etiquette, titles, and ancestral hierarchies of the imperial core.
+      - **Dynasty Lineages:** Understanding the honor codes, draconic influences, and clan hierarchies of the Dynasty.
+      - **Underworld Subcultures:** Knowing street cant, gang boundary markers, and honor-among-thieves traditions.
+      - **Alien Xenology (Auluran/Kizin/Dwerg):** Understanding the behavioral norms, biology, and taboos of major species.
+      - **Frontier & Nomad Customs:** Grasping the survival rituals, barter courtesies, and rites of deep-space void-clans.
+      - **Corporate Megacorp Culture:** Knowing executive ranks, intra-office politics, and corporate loyalty dogma.
+      - **Planetary Folkways:** Adapting quickly to localized, isolated religious and traditional practices of frontier worlds.
+      - **Diplomatic Hospitality Protocols:** Understanding the sacred guest rites, banquet behaviors, and host responsibilities.
+      - **Taboos & Insults:** Recognizing subtle physical gestures, eye contact rules, or color choices that spark lethal offense.
+      - **Galactic Pop Trends:** Tracking the fads, underground music scenes, and holistic lifestyle shifts of urban youths.
+
+  
 
 ### **HISTORY**
 
-* **Ability:** Intellect  
-* **Description:** History is the skill of understanding and interpreting historical events. It reflects a character's ability to understand the past and how it has shaped the present. History is used whenever a character needs to understand the context of a situation, whether it's to solve a mystery or to plan a strategy. This can include things like researching historical events, analyzing historical documents, and interpreting historical artifacts.   
-* **Mechanics:**  
-  * **Recall Event:** CR 10 (Recent/Famous) to CR 30 (Pre-history/Lost).  
-  * **Legend Lore:** CR 20 to know rumors or legends about a specific place or item.  
-* **Specialties:**   
-  * **Ancient Civilizations:** Studying the structures, fall, and artifacts of long-dead interstellar empires.  
-    * **Galactic Wars & Campaigns:** Recalling operational movements, treaties, and turning points of sector-wide conflicts.  
-    * **Planetary Colonization:** Knowing the initial settlement waves, generational ships, and terraforming histories of worlds.  
-    * **Technological Evolution:** Understanding the timeline of hyperdrive breakthroughs, laser discoveries, and AI bans.  
-    * **Political Revolutions:** Analyzing past civil uprisings, overthrow of despots, and governmental transitions.  
-    * **House & Dynasty Lineages:** Tracing historical royal successions, usurpations, and aristocratic marriages.  
-    * **Archaeological Context:** Dating architectural ruins, stratigraphy, and pre-collapse relic sites.  
-    * **Religious Schisms:** Knowing the theological splits, crusades, and doctrinal disputes that formed current faiths.  
-    * **Pre-Void Collapse Lore:** Recalling historical records and legends preceding the great cosmological cataclysms.  
-    * **Economic Booms & Panics:** Studying historical trade collapses, embargo famines, and planetary bankruptcies.
+  - **Ability:** Intellect
+  - **Description:** History is the skill of understanding and interpreting historical events. It reflects a character's ability to understand the past and how it has shaped the present. History is used whenever a character needs to understand the context of a situation, whether it's to solve a mystery or to plan a strategy. This can include things like researching historical events, analyzing historical documents, and interpreting historical artifacts. 
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - **Recall Event:** CR 10 (Recent/Famous) to CR 30 (Pre-history/Lost).
+  - **Legend Lore:** CR 20 to know rumors or legends about a specific place or item.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Ancient Civilizations:** Studying the structures, fall, and artifacts of long-dead interstellar empires.
+      - **Galactic Wars & Campaigns:** Recalling operational movements, treaties, and turning points of sector-wide conflicts.
+      - **Planetary Colonization:** Knowing the initial settlement waves, generational ships, and terraforming histories of worlds.
+      - **Technological Evolution:** Understanding the timeline of hyperdrive breakthroughs, laser discoveries, and AI bans.
+      - **Political Revolutions:** Analyzing past civil uprisings, overthrow of despots, and governmental transitions.
+      - **House & Dynasty Lineages:** Tracing historical royal successions, usurpations, and aristocratic marriages.
+      - **Archaeological Context:** Dating architectural ruins, stratigraphy, and pre-collapse relic sites.
+      - **Religious Schisms:** Knowing the theological splits, crusades, and doctrinal disputes that formed current faiths.
+      - **Pre-Void Collapse Lore:** Recalling historical records and legends preceding the great cosmological cataclysms.
+      - **Economic Booms & Panics:** Studying historical trade collapses, embargo famines, and planetary bankruptcies.
+
+  
 
 ### **INVESTIGATION**
 
-* **Ability:** Intellect (sometimes Perception)  
-* **Description:** The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found.  
-* **Mechanics:**  
-  * **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.  
-  * **Search/Forensics:** CR 15+ to find microscopic evidence or wiped data.  
-* **Specialties:**   
-  * **Crime Scene Reconstruction:** Determining angles of fire, point of entry, sequence of events, and struggles.  
-    * **Forensic Ballistics & Trauma:** Matching projectile deformation, burn marks, and wound tracks to weapons.  
-    * **Digital Profiling & Tracing:** Piecing together target routines, communication meta-logs, and travel manifests.  
-    * **Evidence Preservation:** Collecting, bagging, and securing micro-traces, hairs, fibers, and chemical residue cleanly.  
-    * **Interrogation Deduction:** Spotting factual contradictions, nervous tics, and narrative inconsistencies during questioning.  
-    * **Financial Paper Trails:** Unraveling money laundering webs, hidden ledger transfers, and payment drops.  
-    * **Physical Pattern Tracking:** Connecting serial crimes, matching operational signatures across star systems.  
-    * **Cryptanalysis:** Solving handwritten ciphers, hidden dead-drop marks, and coded personal journals.  
-    * **Surveillance Audio/Video Analysis:** Cleaning up audio feeds, enhancing reflection data, and mapping blind spots.  
-    * **Cold Case Deduction:** Evaluating historical evidence files to surface overlooked facts or corrupt cover-ups.
+  - **Ability:** Intellect (sometimes Perception)
+  - **Description:** The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found.
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.
+  - **Search/Forensics:** CR 15+ to find microscopic evidence or wiped data.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Crime Scene Reconstruction:** Determining angles of fire, point of entry, sequence of events, and struggles.
+      - **Forensic Ballistics & Trauma:** Matching projectile deformation, burn marks, and wound tracks to weapons.
+      - **Digital Profiling & Tracing:** Piecing together target routines, communication meta-logs, and travel manifests.
+      - **Evidence Preservation:** Collecting, bagging, and securing micro-traces, hairs, fibers, and chemical residue cleanly.
+      - **Interrogation Deduction:** Spotting factual contradictions, nervous tics, and narrative inconsistencies during questioning.
+      - **Financial Paper Trails:** Unraveling money laundering webs, hidden ledger transfers, and payment drops.
+      - **Physical Pattern Tracking:** Connecting serial crimes, matching operational signatures across star systems.
+      - **Cryptanalysis:** Solving handwritten ciphers, hidden dead-drop marks, and coded personal journals.
+      - **Surveillance Audio/Video Analysis:** Cleaning up audio feeds, enhancing reflection data, and mapping blind spots.
+      - **Cold Case Deduction:** Evaluating historical evidence files to surface overlooked facts or corrupt cover-ups.
+
+  
 
 ### **LANGUAGE**
 
-* **Ability:** Intellect  
-* **Description:** Language is the skill of understanding and speaking different languages. It reflects a character's ability to communicate with people from different cultures and backgrounds. Language is used whenever a character needs to communicate with someone who speaks a different language, whether it's to negotiate a deal or to gather information. This can include things like speaking, reading, and writing different languages.   
-    
-* Specializations for this skill can include specific languages.  
-  **Notable Languages:**  
-  Common or Trade \- Known by most, mix of various languages and dialects  
-  Draconic \- Tongue of Dragons, Draconic and Draconians, common in the Dynasty  
-  Premian \- Spoken by Native Premians and common in the Syndicate  
-  Tech \- Pidgin and Jargon common to scientist and technicians  
-  Fae \- A shared semi-mystical tongue of beings and spirits of nature  
-  High Tongue \- Impyrium, Ascendancy and some old Dynasty worlds  
-  Sign \- Hand gesture communication  
-  ***Note** \- Regional and World variants are very common but are usually based on a listed language (for most communication a check is generally not needed, indicating fluency in chosen language \- whether spoken, written or any other context of that dialect. Rare dialects and old forms of the language will require checks to understand and communicate).*  
-* **Mechanics:**  
-  * **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).  
-  * **Fluency:** Ranks determine fluency (1-2: Broken, 3-5: Fluent, 6+: Native/Technical).  
-* **Specialties:**   
-  * **Trade Common Fluency:** Reading, writing, and speaking the primary universal interstellar commerce tongue.  
-    * **Draconic Dialects:** Fluency in the guttural, complex structural syntax of the Dynasty worlds.  
-    * **Premian Tongue:** Conversational and formal mastery of the native Premian languages of the Syndicate.  
-    * **Tech-Jargon & Machine Cant:** Interpreting compressed technical codes, system shorthand, and technician argot.  
-    * **Ancient & Dead Scripts:** Translating petroglyphs, ancestral tablets, and forgotten pre-space scripts.  
-    * **Fae & Metamystic Dialects:** Deciphering the symbolic, layered semantics of mystical and natural entities.  
-    * **Imperial High Tongue:** Conversing in the formal, flowery, and strictly regimented language of the Impyrium court.  
-    * **Tactical Sign Language:** Communicating complex tactical orders silently via standard military hand signals.  
-    * **Xeno-Linguistic Decryption:** Mapping unknown alien phonetic frameworks using mathematical syntax models.  
-    * **Lip Reading:** Discerning spoken words visually across silent rooms, surveillance video, or soundproof glass.
+  - **Ability:** Intellect
+  - **Description:** Language is the skill of understanding and speaking different languages. It reflects a character's ability to communicate with people from different cultures and backgrounds. Language is used whenever a character needs to communicate with someone who speaks a different language, whether it's to negotiate a deal or to gather information. This can include things like speaking, reading, and writing different languages. 
 
-### 
+  
+
+  - Specializations for this skill can include specific languages.
+
+**Notable Languages:**
+
+Common or Trade - Known by most, mix of various languages and dialects
+
+Draconic - Tongue of Dragons, Draconic and Draconians, common in the Dynasty
+
+Premian - Spoken by Native Premians and common in the Syndicate
+
+Tech - Pidgin and Jargon common to scientist and technicians
+
+Fae - A shared semi-mystical tongue of beings and spirits of nature
+
+High Tongue - Impyrium, Ascendancy and some old Dynasty worlds
+
+Sign - Hand gesture communication
+
+***Note*** *- Regional and World variants are very common but are usually based on a listed language (for most communication a check is generally not needed, indicating fluency in chosen language - whether spoken, written or any other context of that dialect. Rare dialects and old forms of the language will require checks to understand and communicate).*
+
+  - **Mechanics:**
+
+<!-- end list -->
+
+  - **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).
+  - **Fluency:** Ranks determine fluency (1-2: Broken, 3-5: Fluent, 6+: Native/Technical).
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Trade Common Fluency:** Reading, writing, and speaking the primary universal interstellar commerce tongue.
+      - **Draconic Dialects:** Fluency in the guttural, complex structural syntax of the Dynasty worlds.
+      - **Premian Tongue:** Conversational and formal mastery of the native Premian languages of the Syndicate.
+      - **Tech-Jargon & Machine Cant:** Interpreting compressed technical codes, system shorthand, and technician argot.
+      - **Ancient & Dead Scripts:** Translating petroglyphs, ancestral tablets, and forgotten pre-space scripts.
+      - **Fae & Metamystic Dialects:** Deciphering the symbolic, layered semantics of mystical and natural entities.
+      - **Imperial High Tongue:** Conversing in the formal, flowery, and strictly regimented language of the Impyrium court.
+      - **Tactical Sign Language:** Communicating complex tactical orders silently via standard military hand signals.
+      - **Xeno-Linguistic Decryption:** Mapping unknown alien phonetic frameworks using mathematical syntax models.
+      - **Lip Reading:** Discerning spoken words visually across silent rooms, surveillance video, or soundproof glass.
+
+  
 
 ### **LOGISTICS**
 
-* **Ability:** Intellect  
-* **Description:** The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes.  
-* **Mechanics:**  
-  * *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.  
-  * *Resource Allocation:* CR 20 to optimize resource distribution during high-demand or crisis scenarios.  
-  * *Transport Planning:* CR 15+ to coordinate complex multi-modal shipments or fleet movements.  
-* **Specialties:**   
-  * **Interstellar Supply Chains:** Organizing transport schedules across jump gates and hyperspace lanes.  
-    * **Fleet Fuel & Resource Management:** Calculating propellant reserves, reactor fuel burn, and life support replenishment.  
-    * **Warehouse & Depot Operations:** Optimizing cargo space, autonomous pallet storage, and loading bay throughput.  
-    * **Wartime Requisitioning:** Sourcing, prioritizing, and deploying arms, ammunition, and rations to active frontlines.  
-    * **Hazardous Cargo Transport:** Managing temperature, shielding, and containment protocols for volatile shipments.  
-    * **Just-In-Time Distribution:** Ensuring critical materials arrive exactly when required to minimize storage overhead.  
-    * **Cargo Manifest Auditing:** Detecting missing crates, manifest skimming, unauthorized stowaways, and smuggled tonnage.  
-    * **Emergency Relief Staging:** Rapidly deploying modular hospitals, rations, and water purification to disaster worlds.  
-    * **Multi-Modal Route Optimization:** Seamlessly integrating orbital drop, rail, atmospheric shuttle, and ground hauling.  
-    * **Disassembly & Staging:** Breaking down massive industrial machinery into shippable container modules.
+  - **Ability:** Intellect
+  - **Description:** The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes.
+  - **Mechanics:**
 
-### 
+<!-- end list -->
+
+  - *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.
+  - *Resource Allocation:* CR 20 to optimize resource distribution during high-demand or crisis scenarios.
+  - *Transport Planning:* CR 15+ to coordinate complex multi-modal shipments or fleet movements.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Interstellar Supply Chains:** Organizing transport schedules across jump gates and hyperspace lanes.
+      - **Fleet Fuel & Resource Management:** Calculating propellant reserves, reactor fuel burn, and life support replenishment.
+      - **Warehouse & Depot Operations:** Optimizing cargo space, autonomous pallet storage, and loading bay throughput.
+      - **Wartime Requisitioning:** Sourcing, prioritizing, and deploying arms, ammunition, and rations to active frontlines.
+      - **Hazardous Cargo Transport:** Managing temperature, shielding, and containment protocols for volatile shipments.
+      - **Just-In-Time Distribution:** Ensuring critical materials arrive exactly when required to minimize storage overhead.
+      - **Cargo Manifest Auditing:** Detecting missing crates, manifest skimming, unauthorized stowaways, and smuggled tonnage.
+      - **Emergency Relief Staging:** Rapidly deploying modular hospitals, rations, and water purification to disaster worlds.
+      - **Multi-Modal Route Optimization:** Seamlessly integrating orbital drop, rail, atmospheric shuttle, and ground hauling.
+      - **Disassembly & Staging:** Breaking down massive industrial machinery into shippable container modules.
+
+  
 
 ### **MEDICINE**
 
-* **Ability:** Wisdom (Intellect for surgery/diagnosis)  
-* **Description:** Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication.   
-* **Mechanics:**  
-  * **First Aid:** CR 15 to stabilize a dying character.  
-  * **Long-term Care:** CR 15 to double natural healing rates for a patient.  
-  * **Surgery/Treat Disease:** CR varies by severity (CR 15 to CR 30).  
-* **Specialties:**   
-  * **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.  
-    * **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.  
-    * **Xenobiology Treatment:** Diagnosing and treating disparate alien biologies, organs, and foreign blood chemistries.  
-    * **Pharmacology & Toxicology:** Synthesizing antidotes, administering pain management drugs, and treating poisons.  
-    * **Cybernetic Implantation:** Surgical installation, calibration, and rejection management of bionic limbs and organs.  
-    * **Infectious Diseases & Pathology:** Identifying bio-warfare vectors, alien spores, viruses, and designing quarantines.  
-    * **Intensive Care Life-Support:** Managing coma patients, critical stasis preservation, and multi-system organ failure.  
-    * **Gene Therapy:** Repairing radiation-induced DNA breaks and treating genetic degenerative diseases.  
-    * **Psychiatry & Neural Trauma:** Treating combat shock, chemical psychosis, and neural interface feedback loops.  
-    * **Forensic Autopsy:** Determining precise cause, timeline, and physical weapon signatures on deceased bodies.
+  - **Ability:** Wisdom (Intellect for surgery/diagnosis)
+  - **Description:** Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication. 
+  - **Mechanics:**
+
+<!-- end list -->
+
+  - **First Aid:** CR 15 to stabilize a dying character.
+  - **Long-term Care:** CR 15 to double natural healing rates for a patient.
+  - **Surgery/Treat Disease:** CR varies by severity (CR 15 to CR 30).
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.
+      - **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.
+      - **Xenobiology Treatment:** Diagnosing and treating disparate alien biologies, organs, and foreign blood chemistries.
+      - **Pharmacology & Toxicology:** Synthesizing antidotes, administering pain management drugs, and treating poisons.
+      - **Cybernetic Implantation:** Surgical installation, calibration, and rejection management of bionic limbs and organs.
+      - **Infectious Diseases & Pathology:** Identifying bio-warfare vectors, alien spores, viruses, and designing quarantines.
+      - **Intensive Care Life-Support:** Managing coma patients, critical stasis preservation, and multi-system organ failure.
+      - **Gene Therapy:** Repairing radiation-induced DNA breaks and treating genetic degenerative diseases.
+      - **Psychiatry & Neural Trauma:** Treating combat shock, chemical psychosis, and neural interface feedback loops.
+      - **Forensic Autopsy:** Determining precise cause, timeline, and physical weapon signatures on deceased bodies.
+
+  
 
 ### **METAPHYSICS**
 
-* **Ability:** Intellect  
-* **Description:** Metaphysics is the skill of understanding the fundamental nature of reality, existence, and the underlying principles of the universe. It reflects a character's ability to grasp abstract concepts, perceive patterns in the fabric of existence, and understand the limits of physical laws. Metaphysics is used whenever a character needs to comprehend anomalies, navigate realities, or understand the nature of psionic or magical energy.  
-* **Mechanics:**  
-  * *Identify Pattern:* CR 15 to recognize repeating cosmological or mystical patterns.  
-  * *Analyze Reality:* CR 20 to determine if a location is subject to unusual physical or planar laws.  
-  * *Theorize:* CR 25 to formulate a hypothesis about a high-level cosmic event.  
-* **Specialties:**   
-  * **Planar Mechanics:** Charting the geometry, boundaries, and bleed-through zones of alternate dimensions.  
-    * **Cosmological Anomaly Analysis:** Diagnosing spatial rifts, localized reality tears, and planar convergence points.  
-    * **Psionic Field Theory:** Mapping neural energy waves, ESP transmission conduits, and psi-receptive matter.  
-    * **Magitech Integration Theory:** Designing circuit schematics that marry micro-electronics with arcane Ley matrices.  
-    * **Reality Anchoring:** Calculating stabilization thresholds to prevent reality dissolution by chaotic forces.  
-    * **Entropy & Void Dynamics:** Modeling decay radiation, Void incursions, and vacuum energy extractions.  
-    * **Ley Line & Node Cartography:** Locating and calculating the energetic output of planetary meta-currents.  
-    * **Temporal Disruption Theory:** Modeling localized chrono-stasis fields, causality loops, and paradox vectors.  
-    * **Aura Diagnostics:** Analyzing the metaphysical luminescence and spiritual health of awakened entities.  
-    * **Metascience Epistemology:** Formulating repeatable, scientific test standards for otherwise mystical occurrences.
+  - **Ability:** Intellect
+  - **Description:** Metaphysics is the skill of understanding the fundamental nature of reality, existence, and the underlying principles of the universe. It reflects a character's ability to grasp abstract concepts, perceive patterns in the fabric of existence, and understand the limits of physical laws. Metaphysics is used whenever a character needs to comprehend anomalies, navigate realities, or understand the nature of psionic or magical energy.
+  - **Mechanics:**
 
-### 
+<!-- end list -->
 
+  - *Identify Pattern:* CR 15 to recognize repeating cosmological or mystical patterns.
+  - *Analyze Reality:* CR 20 to determine if a location is subject to unusual physical or planar laws.
+  - *Theorize:* CR 25 to formulate a hypothesis about a high-level cosmic event.
+
+<!-- end list -->
+
+  - **Specialties:** 
+      
+      - **Planar Mechanics:** Charting the geometry, boundaries, and bleed-through zones of alternate dimensions.
+      - **Cosmological Anomaly Analysis:** Diagnosing spatial rifts, localized reality tears, and planar convergence points.
+      - **Psionic Field Theory:** Mapping neural energy waves, ESP transmission conduits, and psi-receptive matter.
+      - **Magitech Integration Theory:** Designing circuit schematics that marry micro-electronics with arcane Ley matrices.
+      - **Reality Anchoring:** Calculating stabilization thresholds to prevent reality dissolution by chaotic forces.
+      - **Entropy & Void Dynamics:** Modeling decay radiation, Void incursions, and vacuum energy extractions.
+      - **Ley Line & Node Cartography:** Locating and calculating the energetic output of planetary meta-currents.
+      - **Temporal Disruption Theory:** Modeling localized chrono-stasis fields, causality loops, and paradox vectors.
+      - **Aura Diagnostics:** Analyzing the metaphysical luminescence and spiritual health of awakened entities.
+      - **Metascience Epistemology:** Formulating repeatable, scientific test standards for otherwise mystical occurrences.
 
 ---
 
 *Continued in **[Knowledge Skills (N – T: Nature to Trade)](./1.07.Mental.Knowledge.N_T.md)**.*
+
+---
+
+## **DISCREPANCY & RESTORATION LEDGER**
+
+* **DISC-313 (1.07.Mental.Knowledge.md):** Restored Knowledge Skills A–M (Appraisal through Metaphysics) with all 100 Specialties and normalized CR mechanics.
 

@@ -105,7 +105,7 @@ cp_cost: 111
 
 # **ILA**
 
-**CP Cost:** 118 CP
+**CP Cost:** 111 CP
 
 **Description:** The Ila are god-like precursor architects of transcendent intelligence and luminous presence, founders of ancient megastructures and stargates.
 
@@ -124,10 +124,10 @@ cp_cost: 111
 **Stigma:** Deific (-6), Xeno (-2)
 
 **Ability Modifiers:**
-* +4 Int [16 CP]
+* +4 Int [20 CP]
 
 **Skills:**
-* +40 Skills [32 CP]
+* +40 Skills [40 CP]
 
 **Species Features:**
 * Progenitor Heritage [26 CP]
