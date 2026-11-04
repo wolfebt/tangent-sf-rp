@@ -38,20 +38,23 @@ negative_keywords: 'ethereal spirit, fragile illusion, mental only, pure light, 
 
 # EMPOWERMENT Invocation
 
-**Category**: Invocations  
-**Discipline**: Matter
-
 ## Description & Ritual Details
-Classification: Matter (Enhancement) | Buff | \[Feature\] \[Grant\]  
+
+Classification: Matter (Enhancement) | Buff | [Feature] [Grant]
+
 Parameters:
-* **Base Difficulty:** 20  
-* **Time:** Standard Action  
-* **Range:** Touch  
-* **Area:** Single Creature  
-* **Duration:** 1 Minute per Stage  
-* **Resistance:** None
-Effect Description:  
-Temporarily grants a special ability, feature, or trait (e.g., Darkvision, Ambidextrous).  
+
+  - **Base Difficulty:** 20
+  - **Time:** Standard Action
+  - **Range:** Touch
+  - **Area:** Single Creature
+  - **Duration:** 1 Minute per Stage
+  - **Resistance:** None
+
+Effect Description:
+
+Temporarily grants a special ability, feature, or trait (e.g., Darkvision, Ambidextrous).
+
 **Scaling Function:**
-* **Complexity:** Can grant 5 CP worth of Features per Stage.
-###
+
+  - **Complexity:** Can grant 5 CP worth of Features per Stage.

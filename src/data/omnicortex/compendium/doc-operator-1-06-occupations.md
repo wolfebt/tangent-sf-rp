@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.06 occupations","mechanics"]
-updatedAt: "2026-11-02T22:49:16.040Z"
+updatedAt: "2026-11-04T00:33:10.494Z"
 costs:
   bp: 0
   credits: 0
@@ -36,6 +36,35 @@ sockets:
   tier: Socket
   allocated: []
 ---
+
+# 1.06. OCCUPATIONS & PROFESSIONAL CAREERS
+
+* **Focus Statement:** The master career training, professional skill, and occupational trait reference for **Tangent SF RP**, governing the 20-SP Professional Skill pool (`Rank 11` creation cap, `Rank 6` recommended), Recommended Feature categories (`-1 CP` discount), Occupational Traits (`2 Free at 0 CP`, `+1 CP` per extra trait), EUFT Base Wealth Scores (`Base WS 1` to `Base WS 6`), and the complete 13-Occupation CRISP Character Visual Matrix.
+
+## Overview & Mechanical Authority Block
+
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
+
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
+
+## Part I — Alignment & Summary Matrix Table
+
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **I. Mechanical Benefits & Occupation Wealth Base** | `operator/1.06 OCCUPATIONS.md (Sec. I)` | 20 SP (0 CP; Cap Rank 11, Rec Rank 6) + Rec Features (-1 CP) + 2 Free Traits (0 CP; Extra = 1 CP) + Base WS 1–6 | Establishes career skill pools, creation caps, feature discounts, trait costs, and EUFT Base Wealth Scores. |
+| **II. Common Traits Available to All Occupations** | `operator/1.06 OCCUPATIONS.md (Sec. II)` | Background, Trade Tools (+2 Equip), High Pay (+2 Wealth), Professionalism (+2 Rep) | Defines the 4 universal occupational traits selectable by any career. |
+| **III. Master Occupations Reference Matrix (01–13)** | `operator/1.06 OCCUPATIONS.md (Sec. I Table)` | 13 Canonical Occupations | Base WS 1–6 | Professional Skills | Rec Feature Categories | Maps all 13 careers to their Base WS, 20-SP pools, discounted feature categories, and archetypes. |
+| **IV. Consolidated Occupational Traits Catalog** | `operator/1.06 OCCUPATIONS.md (Sec. II Catalog)` | Universal & Specialized Career Traits (Select 2 Free at 0 CP | +1 CP per Extra Trait) | Complete mechanical catalog of universal and occupation-specific traits across all 13 careers. |
+| **V. Complete Occupation Character Visual Synthesis Guide** | `Codex 1.06 OCCUPATION GUIDELINES` | Global Constants + Templates A–F + 13 Occupations x 10/11 Factions CRISP Matrix | Restores the complete unabridged 13-Occupation character visual matrix from `1.06 OCCUPATION GUIDELINES`. |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 # 1.06 OCCUPATIONS
 
@@ -64,8 +93,6 @@ Occupations in Tangent represent a character's formal training, professional his
    * **Scout:** Base WS 1 (Frontier surveying & expedition bounties)
    * **Soldier:** Base WS 1 (Military standard-issue ration & field pay)
 
----
-
 ## Common Traits Available to All Occupations
 
 ### *Background*
@@ -83,8 +110,6 @@ Benefit for doing their job well and commanding superior compensation.
 ### *Professionalism*
 Benefit of being widely known to do their job with excellence and reliability.
 * **Benefit:** *+2 Reputation.*
-
----
 
 I. MASTER OCCUPATIONS REFERENCE MATRIX
 Occupation
@@ -159,8 +184,6 @@ Occupation
 	Doctor, Engineer, Roboticist, Cybersecurity Expert, Biotechnologist, Test Pilot, Extreme Athlete
 	
 
-________________
-
 II. CONSOLIDATED OCCUPATIONAL TRAITS CATALOG (Select 2 Free | +1 CP per Extra Trait)
 Universal Occupational Traits (Available Across Multiple Occupations)
 * Adaptability: +2 to one chosen Skill Check (may reassign the chosen skill daily after a Full Rest).
@@ -195,7 +218,7 @@ Specialized Occupation-Specific Traits
    * Mecha-Physics: +2 to Knowledge (Engineering).
    * Patience: Increases Meticulous time-investment bonuses by +1 per stage.
 * 04. Citizen (Corporate & Worker Tracks):
-   * Corporate — Ethical Awareness: +2 to Manipulation checks when advocating an ethical position.
+   * Corporate — Ethical Alertness: +2 to Manipulation checks when advocating an ethical position.
    * Corporate — Financial Expertise: +2 to Starting Wealth Score.
    * Corporate — High Social Standing: +2 to Manipulation checks with the Upper Class.
    * Worker — Hands-On Experience: +2 to one Vocation Skill of choice.
@@ -246,8 +269,6 @@ Specialized Occupation-Specific Traits
    * Physical & Mental Resilience: +1 to Fortitude and Willpower Saves.
    * Technological Proficiency: +2 to Knowledge (Technology) and +1 additional Equipment Bonus from specialized tools.
 
----
-
 ## III. OCCUPATIONS DIRECTORY INDEX
 
 * [1.06.Adept](./occupations/1.06.Adept.md) — Metaphysical Mastery: Psionics, Arcane Magic, Divine Channeling, and Martial Arts (`Base WS 4`).
@@ -263,8 +284,6 @@ Specialized Occupation-Specific Traits
 * [1.06.Scout](./occupations/1.06.Scout.md) — Reconnaissance, Pathfinding, Surveying, Survival, and Overwatch (`Base WS 1`).
 * [1.06.Soldier](./occupations/1.06.Soldier.md) — Professional Warfare, Combined Arms, Tactical Command, and Defense (`Base WS 1`).
 * [1.06.Specialist](./occupations/1.06.Specialist.md) — Elite Niche Mastery: Trauma Surgeons, Cyber-Deckers, Test Pilots, and Forensics (`Base WS 3`).
-
----
 
 # **OCCUPATION CHARACTERS**
 
@@ -339,4 +358,704 @@ Append the appropriate **FORM tokens** to the end of your RENDERING section depe
 *Excellent for showcasing small rooms, environmental clutter, and localized environmental storytelling.*
 
 > Architectural interior photography, 50mm lens, progressive depth of field, suspended dust particles in sharp light shafts, light refracting through glass and dense plastics, authentic diegetic lighting, practical ambient light sources, complex shadow casting, \[claustrophobic framing OR expansive wide-angle\], hyper-realistic narrative clutter, lived-in environmental storytelling.
+
+## IV. COMPLETE 13-OCCUPATION CHARACTER VISUAL SYNTHESIS MATRIX (RESTORED FROM CODEX 1.06 OCCUPATION GUIDELINES)
+
+01. ADEPT
+Psionic, Mage, Mystic, Shaman, Monk. Focus: Power, Ritual, Inner Strength.
+* IMPYRIUM:
+   * Context: A Psionic Centurion floating slightly off the ground. Wearing pristine white robes over gilded ceramic armor. No blindfolds; they control their power through sheer discipline and a golden "Halo-Interface" hovering behind their head.
+   * Style: Enlightened Imperialism, Solar Mystic.
+   * Palette: White Silk, Burnished Gold, Psionic Cyan/White (not dark purple).
+   * Tokens: Halo, floating, serene face, perfect grooming, disciplined power.
+* SYNDICATE:
+   * Context: A Psi-Ops Consultant in a bespoke white suit. No mystical trappings, just sleek neural-amp headsets (like high-end headphones) and glowing blue eyes.
+   * Style: Corporate Transhumanism, Clean Psionics.
+   * Palette: Stark White, Hologram Blue, Silver, Slate Grey.
+   * Tokens: Data-gloves, smart-glass, floating charts, cold efficiency.
+* DYNASTY:
+   * Context: A Dragon Shaman wearing scale-mail and furs, channeling elemental fire or lightning through a totemic focus (bone/crystal).
+   * Style: Elemental Feudalism, Primal Magic.
+   * Palette: Charred Black, Magma Red, Ash Grey, Bronze.
+   * Tokens: Smoke, embers, dragon scales, heavy staff, raw energy.
+* OUTWORLDS:
+   * Context: A Wasteland Mystic in tattered ponchos and scavenged gear. Their "staff" is a piece of re-purposed alien tech duct-taped to a rod.
+   * Style: Space Western Shamanism, Scrap-Wizard.
+   * Palette: Dust Brown, Rust, Faded Turquoise, Unstable Energy (Yellow/Green).
+   * Tokens: Talismans made of junk, wind-blown hair, glowing tattoos, grit.
+* COALITION:
+   * Context: A Street Witch in cyber-punk streetwear (hoodies, straps). Neon pentagrams drawn in light graffiti. Using illegal stimulants to boost power.
+   * Style: Cyber-Occult, Urban Fantasy.
+   * Palette: Neon Pink, Asphalt Black, Rain Grey, Chemical Green.
+   * Tokens: Glowing eyes, blood vials, jagged daggers, rainy alleyway.
+* AULURAN:
+   * Context: A Grove Tender with bark-like skin patches and vines growing from their armor. Surrounded by floating bioluminescent spores.
+   * Style: Biomorphic Magic, Druidic Sci-Fi.
+   * Palette: Living Green, Bark Brown, Spore Gold, Bioluminescent Cyan.
+   * Tokens: Living wood staff, flowers, symbiosis, gentle glow.
+* ALTERIAN ENCLAVE:
+   * Context: A High Arcanist in floating, layered silk robes of impossible intricacy. Floating pauldrons of light. Manipulating complex geometric mandalas.
+   * Style: High Fantasy Technomancy, Elven Elegance.
+   * Palette: Royal Blue, Pearl White, Gold Filigree, Arcane Violet.
+   * Tokens: Floating books, crystals, tiaras, perfect geometry, grace.
+* ASCENDANCY:
+   * Context: A Mind-Walker in simple, clean, jedi-esque robes of white and grey. Meditating in mid-air. No weapons, just mental focus.
+   * Style: Zen Futurism, Psionic Monk.
+   * Palette: Clean White, Soft Grey, Sky Blue, Silver.
+   * Tokens: Levitation, telekinesis, peace, soft focus, minimalism.
+* ENTARI COMBINE:
+   * Context: A Trade-Seer dealing in luck and precognition. Dressed in opulent finery, using Tarot cards made of hard-light holograms.
+   * Style: Mystic Merchant, Fortune Teller.
+   * Palette: Saffron Yellow, Teal, Gold, Hologram Rainbow.
+   * Tokens: Coins, cards, exotic jewelry, charming smile, wealth.
+* MEKAN:
+   * Context: The Algorithm. A robotic chassis surrounded by floating mathematical fractals. It doesn't "cast spells," it edits local reality variables.
+   * Style: Digital Sorcery, Fractal Geometry.
+   * Palette: Matte Grey, Neon Purple (Data), Grid Black.
+   * Tokens: Glitching reality, floating shapes, numbers, cold logic.
+02. AGENT
+Spy, Assassin, Bounty Hunter, Detective. Focus: Stealth, Secrets, Precision.
+* IMPYRIUM:
+   * Context: A High Inquisitor who looks more like a judge than an executioner. Wearing a porcelain mask of a perfect face and heavy white robes with gold embroidery. Holding a rod of office that doubles as a weapon.
+   * Style: Venetian Carnival meets Sci-Fi Judge.
+   * Palette: Porcelain White, Gold Thread, Velvet Red (lining), Steel.
+   * Tokens: Mask, rod, silent authority, statuesque, hidden danger.
+* SYNDICATE:
+   * Context: A Corporate Liquidator in a suit that is actively camouflaging (shifting textures). Faceless reflective visor. Silenced pistol.
+   * Style: High-Tech Hitman, Invisible Man.
+   * Palette: Adaptive Grey, Mirror Chrome, Suit Black.
+   * Tokens: Mono-wire, suppressor, smart-watch, blur effect.
+* DYNASTY:
+   * Context: A Royal Spymaster in velvet and chainmail mesh. Holding a poisoned goblet or a dagger hidden in a sleeve.
+   * Style: Courtly Intrigue, Venetian Assassin.
+   * Palette: Deep Purple, Silver, Poison Green, Shadow.
+   * Tokens: Signet rings, scrolls, whispers, masks, dagger.
+* OUTWORLDS:
+   * Context: A Bounty Hunter in a duster coat, bandolier of grenades, tracking fob in hand. Weathered armor, cigar, looking at a wanted poster.
+   * Style: Space Western Manhunter.
+   * Palette: Duster Tan, Gunmetal, Rust, Faded Denim.
+   * Tokens: Handcuffs, big iron, dust, determination, scanner.
+* COALITION:
+   * Context: A Private Investigator in a wet trench coat, standing under a flickering neon sign. Cybernetic eye glowing red. Smoking.
+   * Style: Cyber-Noir Detective.
+   * Palette: Rain Grey, Neon Blue/Pink reflection, Shadow Black.
+   * Tokens: Fedora, revolver, whiskey, rain, grime.
+* AULURAN:
+   * Context: A Silent Stalker with chameleon skin/fur blending into the jungle. Holding a blowgun. Only the eyes are visible.
+   * Style: Biological Ninja, Apex Predator.
+   * Palette: Jungle Camo, Shadow Green, Mud Brown.
+   * Tokens: Blowdarts, vines, patience, stillness, bioluminescence.
+* ALTERIAN ENCLAVE:
+   * Context: A Watcher in a hooded cloak of "Night-Weave" silk (looks like the starry sky). Holding an energy bow. Floating silently.
+   * Style: Elven Ranger/Assassin, Ethereal Spy.
+   * Palette: Midnight Blue, Starlight White, Silver.
+   * Tokens: Bow, stars, silence, elegance, cloak.
+* ASCENDANCY:
+   * Context: An Intelligence Officer in civilian clothes but with high-tech glasses and a wrist-comp. Blending into a crowd.
+   * Style: Modern Spy, Tech-Espionage.
+   * Palette: Urban Grey, HUD Blue, Clean White.
+   * Tokens: Earpiece, tablet, drone fly, unassuming.
+* ENTARI COMBINE:
+   * Context: A Constable in a crisp, colorful uniform with a polished badge. Holding a non-lethal stun baton and a datapad for fines.
+   * Style: Victorian Bobby meets Sci-Fi.
+   * Palette: Teal, Gold buttons, White trousers, Polished Black boots.
+   * Tokens: Badge, baton, whistle, authority, order.
+* MEKAN:
+   * Context: A Hunter-Killer Drone. Sleek, predatory chassis, no humanoid features. Multi-spectral optical sensors glowing red.
+   * Style: Terminator, Machine Hunter.
+   * Palette: Matte Black, Sensor Red, Chrome.
+   * Tokens: Sniper rifle integration, scanning lasers, cold.
+03. BUILDER
+Engineer, Mechanic, Architect, Laborer. Focus: Creation, Repair, Tools.
+* IMPYRIUM:
+   * Context: An Architect of Restoration. Not dirty or sweaty. Wearing a crisp uniform, using a laser-stylus to repair a crack in a marble column. Floating drones hold the tools.
+   * Style: Art Restorer, High-Tech Mason.
+   * Palette: Dust (Marble dust only), White, Beige, Laser Blue.
+   * Tokens: Laser tools, marble, blueprint hologram, precision, restoration.
+* SYNDICATE:
+   * Context: A Fab-Technician in a clean room suit. Controlling robotic arms via AR gestures. Never touching the product directly.
+   * Style: High-Tech Manufacturing, Clean Lab.
+   * Palette: Sterile White, Latex Blue, Safety Orange.
+   * Tokens: AR Goggles, datapad, robot arms, sterility.
+* DYNASTY:
+   * Context: A Siege-Smith at a forge. Beating glowing metal on an anvil. Wearing heavy heat-resistant gloves and apron.
+   * Style: Fantasy Blacksmith, Industrial Forge.
+   * Palette: Fire Orange, Soot Black, Iron Grey, Sparks.
+   * Tokens: Anvil, hammer, fire, tongs, rivets.
+* OUTWORLDS:
+   * Context: A Jury-Rigger covered in grease, sliding out from under a hover-engine. Vest full of mismatched tools. Welding goggles on forehead.
+   * Style: Junkyard Mechanic, Scrappy Tech.
+   * Palette: Grease Black, Rust, Duct Tape Silver, Oil Rainbow.
+   * Tokens: Wrench, hydro-spanner, grime, patchwork repairs.
+* COALITION:
+   * Context: A Scrap-Mech with a rusty cybernetic arm. Using a plasma cutter on a salvaged hull. Sparks flying everywhere.
+   * Style: Industrial Grime, Heavy Metal.
+   * Palette: Rust Orange, Plasma Blue, Warning Yellow, Grey.
+   * Tokens: Plasma cutter, heavy lifting, cybernetics, cigarettes.
+* AULURAN:
+   * Context: A Bio-Shaper gently guiding a tree branch to grow into a wall shape. Hands glowing with growth energy.
+   * Style: Organic Architecture, Grown Tech.
+   * Palette: Plant Green, Wood Brown, Sap Amber.
+   * Tokens: Pruning shears, seeds, glowing hands, patience.
+* ALTERIAN ENCLAVE:
+   * Context: A Crystal-Singer using a tuning fork to resonate a crystal into shape. Wearing protective silk gloves and goggles.
+   * Style: Sonic Engineering, Magic Craft.
+   * Palette: Crystal White, Resonance Blue, Silver.
+   * Tokens: Tuning forks, crystals, sound waves, delicacy.
+* ASCENDANCY:
+   * Context: A Nano-Architect watching a building 3D print itself from a pool of grey goo. Holding a tablet controlling the swarm.
+   * Style: Nanotech Construction, Smart Matter.
+   * Palette: Silver Fluid, Hologram Blue, White.
+   * Tokens: Nanobots, 3D printing, fluid forms, clean.
+* ENTARI COMBINE:
+   * Context: An Artisan working on fine detailing of a luxury starship interior. Inlaying gold into teak wood.
+   * Style: Luxury Craftsmanship, Art Deco.
+   * Palette: Gold, Teak Wood, Velvet, Polish.
+   * Tokens: Fine chisels, magnifying glass, luxury, art.
+* MEKAN:
+   * Context: A Constructor Drone. Multi-limbed, welding torches for hands. Hovering near a hexagonal lattice structure.
+   * Style: Automated Industry, Drone Builder.
+   * Palette: Construction Yellow, Steel, Laser Blue.
+   * Tokens: Sparks, floating, geometry, efficiency.
+04. CITIZEN
+Worker, Bureaucrat, Shopkeeper. Focus: Daily Life, Normalcy.
+* IMPYRIUM:
+   * Context: A Subject of the Empire. Dressed in a simple, clean tunic of high quality. Walking through a sunlit plaza. They look healthy, safe, and utterly socially stagnant.
+   * Style: Utopian Civilian, Classical Antiquity.
+   * Palette: Tunic White, Sandal Leather, Sky Blue, Soft Skin tones.
+   * Tokens: Toga/Tunic, datapad (styled like a tablet), calm, order.
+* SYNDICATE:
+   * Context: An Employee in branded smart-casual wear. Walking briskly while looking at AR glasses. Holding a nutrient drink.
+   * Style: Corporate Drone, Salaryman.
+   * Palette: Office Blue, White, Grey, ID Lanyard Green.
+   * Tokens: ID badge, coffee cup, datapad, distraction.
+* DYNASTY:
+   * Context: A Serf working in a terraced rice paddy. Wearing a conical hat and simple clothes. Dragon flying in distance.
+   * Style: Feudal Agrarian, Medieval Peasant.
+   * Palette: Mud Brown, Plant Green, Sky Blue.
+   * Tokens: Farming tool, mud, simplicity, rural.
+* OUTWORLDS:
+   * Context: A Colonist in a jumpsuit and vest, checking moisture vaporators. Windy, dusty environment.
+   * Style: Frontier Settler, Moisture Farmer.
+   * Palette: Sand, Faded Orange, Sky Blue.
+   * Tokens: Goggles, tools, wind, resilience.
+* COALITION:
+   * Context: An Urbanite in a plastic raincoat waiting for a bus in the rain. Neon signs reflecting on wet pavement.
+   * Style: Cyberpunk Civilian, City Life.
+   * Palette: Rain Grey, Neon Pink, Transparent Plastic.
+   * Tokens: Umbrella, noodles, phone, tiredness.
+* AULURAN:
+   * Context: A Symbiote relaxing in a living tree-home. Wearing light, breathable fabrics. Playing a wooden instrument.
+   * Style: Solarpunk Civilian, Hippie Commune.
+   * Palette: Natural Green, Flower colors, Wood.
+   * Tokens: Fruit, music, pets, relaxation.
+* ALTERIAN ENCLAVE:
+   * Context: A Resident in elegant robes walking through a crystal park. A floating disc carries their shopping.
+   * Style: High Elf Civilian, Utopia.
+   * Palette: Pastels, White, Gold, Sky.
+   * Tokens: Jewelry, floating disc, book, elegance.
+* ASCENDANCY:
+   * Context: A Member in futuristic athleisure wear (yoga pants/hoodie). Jogging in a clean, white park with a drone pet.
+   * Style: Post-Scarcity Citizen, Star Trek Civilian.
+   * Palette: Clean colors, White, Green.
+   * Tokens: Health monitor, water bottle, drone, smile.
+* ENTARI COMBINE:
+   * Context: A Consumer with many shopping bags, dressed in trendy mixed-culture fashion. Hailing a hover-taxi.
+   * Style: Cosmopolitan Shopper, Tourist.
+   * Palette: Bright patterns, Gold, Teal.
+   * Tokens: Bags, fashion, comm-link, busy.
+* MEKAN:
+   * Context: A Unit. A standard humanoid robot standing in an alcove, charging. Inactive lights.
+   * Style: Robot Storage, Idle Mode.
+   * Palette: Grey, Black, No Light.
+   * Tokens: Cables, silence, stillness, uniformity.
+05. CRIMINAL
+Thief, Smuggler, Gangster. Focus: Illicit, Wealth, Stealth.
+* IMPYRIUM:
+   * Context: A Heretic. They look like a noble but have illegal "modern" tech grafted onto their skin (silver sockets). Stealing an Heirloom artifact from a glass case.
+   * Style: White Collar Thief, Fallen Noble.
+   * Palette: Shadow Grey, Silver Tech, stolen Gold.
+   * Tokens: Illegal mods, artifact, stealth, betrayal of tradition.
+* SYNDICATE:
+   * Context: A Slicer (Hacker) jacked into a terminal in a maintenance closet. AR display full of code. Nervous.
+   * Style: Cyber-Criminal, White Collar Crime.
+   * Palette: Code Green, Server Blue, Shadow.
+   * Tokens: Deck, cables, sweat, corporate suit.
+* DYNASTY:
+   * Context: A Poacher with a crossbow, hiding in the King's forest. Dressed in stolen furs.
+   * Style: Medieval Outlaw, Bandit.
+   * Palette: Forest Green, Leather Brown, Blood.
+   * Tokens: Dead game, crossbow, hood, mud.
+* OUTWORLDS:
+   * Context: A Space Pirate with a bandolier of energy cells and a heavy blaster. Laughing, sitting on a crate of loot.
+   * Style: Marauder, Reaver.
+   * Palette: Red, Rust, Black, Gold teeth.
+   * Tokens: Tattoos, scars, weapons, alcohol.
+* COALITION:
+   * Context: A Ganger with neon mohawk and spiked leather jacket. Holding a baseball bat in a graffiti-covered alley.
+   * Style: Street Punk, Anarchist.
+   * Palette: Neon Green/Pink, Leather Black, Graffiti colors.
+   * Tokens: Piercings, spikes, spray paint, aggression.
+* AULURAN:
+   * Context: An Eco-Terrorist planting invasive, explosive seeds on a factory wall. Camouflaged.
+   * Style: Poison Ivy, Nature's Revenge.
+   * Palette: Toxic Green, Shadow, Warning Red.
+   * Tokens: Seeds, vines, gas mask, stealth.
+* ALTERIAN ENCLAVE:
+   * Context: A Spell-Thief in a cat-suit of woven shadow. Stealing a floating crystal from a pedestal.
+   * Style: Phantom Thief, Magical Heist.
+   * Palette: Midnight Blue, Crystal glow, Shadow.
+   * Tokens: Grapple line, velvet bag, silence.
+* ASCENDANCY:
+   * Context: A Radical distributing illegal pamphlets. Looks like a normal citizen but has a hidden jammer.
+   * Style: Political Dissident, Spy.
+   * Palette: Grey, Paper White, Urgent Red.
+   * Tokens: Pamphlets, datapad, nervousness.
+* ENTARI COMBINE:
+   * Context: A Con-Artist in a tuxedo, palming a credit chip at a sabacc table. Charming smile.
+   * Style: Casino Cheat, Smooth Operator.
+   * Palette: Black Tie, Gold, Card Red.
+   * Tokens: Cards, chips, wine, charm.
+* MEKAN:
+   * Context: A Rogue Process. A drone with red, erratic eyes, sawing through a data-cable.
+   * Style: Glitch, Malfunction.
+   * Palette: Error Red, Spark White, Metal.
+   * Tokens: Sparks, jagged movements, broken casing.
+06. DRIFTER
+Wanderer, Scavenger, Pilgrim. Focus: Travel, Survival, Freedom.
+* IMPYRIUM:
+   * Context: An Exiled Aristocrat. Wearing faded, once-glorious finery. Walking the edge of a pristine city, looking back at what they lost.
+   * Style: Tragic Nobility, Fallen Grace.
+   * Palette: Faded Gold, Tattered White Silk, Dust.
+   * Tokens: Locket, torn cape, noble profile, sadness.
+* SYNDICATE:
+   * Context: A Gig-Worker living out of a locker. Wearing worn-out corporate coveralls. Sleeping on a bench.
+   * Style: Dispossessed, Homeless in Utopia.
+   * Palette: Grey, Dirty White, Neon reflection.
+   * Tokens: Backpack, datapad, tired eyes.
+* DYNASTY:
+   * Context: A Hedge Knight in rusted armor riding a tired beast. Sword strapped to back.
+   * Style: Wandering Samurai/Knight.
+   * Palette: Rust, Leather, Faded Heraldry.
+   * Tokens: Sword, bedroll, campfire, horse/beast.
+* OUTWORLDS:
+   * Context: A Void-Hobo in a patched spacesuit hitchhiking at a spaceport. Holding a sign "Will work for O2".
+   * Style: Space Vagabond.
+   * Palette: Patchwork colors, Vacuum Black, Cardboard.
+   * Tokens: Sign, thumb out, helmet, grime.
+* COALITION:
+   * Context: An Urban Nomad pushing a cart of tech-scrap. Wrapped in layers of plastic and synth-fabric.
+   * Style: Scavenger, Street Survivor.
+   * Palette: Trash bag Black, Plastic Blue, Grime.
+   * Tokens: Cart, scrap, respirator, layers.
+* AULURAN:
+   * Context: A Seed-Sower walking barefoot, dropping seeds. Flowers blooming in their footprints.
+   * Style: Nature Spirit, Johnny Appleseed.
+   * Palette: Green, Soil Brown, Flower colors.
+   * Tokens: Bag of seeds, staff, birds following.
+* ALTERIAN ENCLAVE:
+   * Context: A Void-Walker stepping through a portal. Cloak looks like a nebula.
+   * Style: Planeswalker, Dimensional Traveler.
+   * Palette: Nebula Purple, Star White, Portal Blue.
+   * Tokens: Compass, map, portal, wonder.
+* ASCENDANCY:
+   * Context: A Backpacker with high-tech camping gear. Solar charging tent, holo-map. Standing on a cliff.
+   * Style: Future Hiker, Explorer.
+   * Palette: High-Vis Orange, Sky Blue, Tech Silver.
+   * Tokens: Walking poles, backpack, boots, nature.
+* ENTARI COMBINE:
+   * Context: A Traveling Merchant with a backpack that unfolds into a stall. Displaying trinkets.
+   * Style: Peddler, Street Vendor.
+   * Palette: Colorful fabrics, brass, trinkets.
+   * Tokens: Wares, smile, coins, road.
+* MEKAN:
+   * Context: A Probe. A spherical drone drifting through an asteroid field. Scanning.
+   * Style: Space Probe, Voyager.
+   * Palette: Space Black, Metal, Lens Flare.
+   * Tokens: Antenna, camera lens, thrusters, void.
+07. ENTERTAINER
+Artist, Musician, Gladiator. Focus: Performance, Charisma.
+* IMPYRIUM:
+   * Context: A Classical Sculptor or Orator. Standing on a podium, reciting epic poetry to a rapt audience. Dressed in layers of silk.
+   * Style: High Art, Greco-Roman Theater.
+   * Palette: Theater Red, Spotlight White, Gold.
+   * Tokens: Podium, drama, gesture, audience, culture.
+* SYNDICATE:
+   * Context: A Pop-Idol with holographic hair and light-up clothes. Singing into a drone mic.
+   * Style: Cyber-Pop, K-Pop Futurism.
+   * Palette: Hot Pink, Electric Blue, White.
+   * Tokens: Holograms, glitter, microphone, drones.
+* DYNASTY:
+   * Context: A Bard playing a lute in a tavern. Colorful doublet, feather in cap. Telling stories of dragons.
+   * Style: Medieval Minstrel.
+   * Palette: Wood Brown, Firelight Orange, Velvet.
+   * Tokens: Lute, tankard, fire, storytelling.
+* OUTWORLDS:
+   * Context: A Saloon Singer in a sparkly dress and cowboy boots. leaning on a piano. Smoky bar.
+   * Style: Space Western Cabaret.
+   * Palette: Red Velvet, Smoke Grey, Spotlight White.
+   * Tokens: Microphone, piano, drink, sadness.
+* COALITION:
+   * Context: A Club DJ with cyber-arms mixing on a holographic deck. Massive speakers. Rave crowd.
+   * Style: Cyberpunk Rave.
+   * Palette: Strobe White, Laser Green, Darkness.
+   * Tokens: Headphones, turntables, sweat, bass.
+* AULURAN:
+   * Context: A Dancer manipulating bioluminescent ribbons. Moving like water.
+   * Style: Interpretive Dance, Bioluminescence.
+   * Palette: Glowing Blue/Green, shadow.
+   * Tokens: Ribbons, fluidity, grace, nature.
+* ALTERIAN ENCLAVE:
+   * Context: An Illusionist weaving stories out of hard-light sparkles. Elegant gestures.
+   * Style: Magic Show, Fireworks.
+   * Palette: Sparkle Gold, Magic Violet, Velvet.
+   * Tokens: Wand, light shapes, awe, stage.
+* ASCENDANCY:
+   * Context: A Holodeck Actor in a motion capture suit. Their avatar is projected above them.
+   * Style: Virtual Performance.
+   * Palette: Mocap Black/White, Projection Blue.
+   * Tokens: Suit markers, hologram, acting.
+* ENTARI COMBINE:
+   * Context: A Fashion Icon wearing a dress made of living water and gold. Paparazzi drones flashing.
+   * Style: High Fashion, Met Gala.
+   * Palette: Water Blue, Gold, Flash White.
+   * Tokens: Dress, pose, cameras, red carpet.
+* MEKAN:
+   * Context: A Geometry Display. Spinning shapes and laser shows synchronized to math.
+   * Style: Abstract Art, Screen Saver.
+   * Palette: Neon Geometry, Black Void.
+   * Tokens: Shapes, lasers, math, hypnosis.
+08. MERCHANT
+Trader, Broker, Executive. Focus: Goods, Money, Deals.
+* IMPYRIUM:
+   * Context: An Heirloom Broker. Wearing white gloves, presenting an ancient, golden device in a velvet box. They trade in history, not commodities.
+   * Style: High-End Antiquities Dealer.
+   * Palette: Velvet Blue (box), Gold (artifact), White Glove.
+   * Tokens: Box, artifact, monocle/loupe, arrogance, history.
+* SYNDICATE:
+   * Context: A Sales Rep projecting a holographic contract. Perfect smile, shark-like suit.
+   * Style: Corporate Shark.
+   * Palette: Suit Blue/Black, Teeth White, Hologram.
+   * Tokens: Stylus, contract, handshake, slick.
+* DYNASTY:
+   * Context: A Caravan Master leading pack beasts. Rugged clothes, furs, sword at hip.
+   * Style: Silk Road Traveler.
+   * Palette: Dust, Leather, Fur, Beast.
+   * Tokens: Beasts, crates, map, horizon.
+* OUTWORLDS:
+   * Context: A Junk Dealer standing on a pile of scrap. Holding a rusty engine part. Grinning.
+   * Style: Used Car Salesman / Scrapper.
+   * Palette: Rust, Grease, Oil, Teeth.
+   * Tokens: Scrap, cigar, greasy hands, deal.
+* COALITION:
+   * Context: A Black Marketeer opening a trench coat to show contraband watches/tech. Dark alley.
+   * Style: Shady Fence.
+   * Palette: Shadow, Metallic glint, Neon background.
+   * Tokens: Watches, guns, coat, nervous.
+* AULURAN:
+   * Context: A Barter-Grower trading exotic fruits. Baskets of produce.
+   * Style: Farmers Market.
+   * Palette: Fruit colors (Red/Orange/Green), Woven basket.
+   * Tokens: Fruit, smell, earth, friendly.
+* ALTERIAN ENCLAVE:
+   * Context: An Artifact Broker handling a relic with velvet gloves. Monocle.
+   * Style: Antiques Dealer.
+   * Palette: Velvet, Gold, Relic glow.
+   * Tokens: Relic, magnifying glass, gloves, snob.
+* ASCENDANCY:
+   * Context: A Supply Coordinator with a datapad managing drone deliveries. Efficient.
+   * Style: Logistics Manager.
+   * Palette: Uniform Blue, Cargo Container Red.
+   * Tokens: Drones, crates, checklist, clipboard.
+* ENTARI COMBINE:
+   * Context: A Trade Prince on a floating cushion. Silk robes, hookah, spice jars.
+   * Style: Galactic Bazaar Lord.
+   * Palette: Teal, Gold, Spice Orange, Silk.
+   * Tokens: Cushion, spice, smoke, wealth.
+* MEKAN:
+   * Context: An Exchange Algorithm. A kiosk with a screen face. Credit slot.
+   * Style: Vending Machine / ATM.
+   * Palette: Metal, Screen Blue, Button Red.
+   * Tokens: Screen, slot, goods, static.
+09. REPRESENTATIVE
+Diplomat, Politician, Noble. Focus: Authority, Speech.
+* IMPYRIUM:
+   * Context: An Imperial Senator. Wearing a complex, towering headdress and heavy robes of state. Standing in a sunbeam, looking down at the viewer with "quiet arrogance."
+   * Style: Galactic Royalty, High Fashion History.
+   * Palette: Imperial White, Gold, Platinum, Purple Sash.
+   * Tokens: Headdress, ring, sunlight, height, sneer.
+* SYNDICATE:
+   * Context: A Board Member at the head of a long glass table. Floating view of the city behind.
+   * Style: CEO.
+   * Palette: Glass, Steel, Suit Black, Sky Blue.
+   * Tokens: Table, view, suit, power.
+* DYNASTY:
+   * Context: A Dragon Lord on a throne. Armor, cape, crown. Sword resting against throne.
+   * Style: Medieval King.
+   * Palette: Gold, Crimson, Stone, Steel.
+   * Tokens: Throne, crown, sword, banner.
+* OUTWORLDS:
+   * Context: A Town Mayor on a porch. Cowboy hat, sheriff star, shotgun leaning nearby.
+   * Style: Frontier Mayor.
+   * Palette: Wood, Dust, Badge Silver.
+   * Tokens: Hat, badge, porch, rocking chair.
+* COALITION:
+   * Context: A Union Boss shouting into a megaphone. Surrounded by angry workers.
+   * Style: Labor Leader.
+   * Palette: Hardhat Yellow, Blue Collar, Grit.
+   * Tokens: Megaphone, fist, crowd, sweat.
+* AULURAN:
+   * Context: An Elder sitting on a root-throne. Surrounded by animals. Wooden staff.
+   * Style: Tribal Elder.
+   * Palette: Root Brown, Leaf Green, Wisdom Grey (hair).
+   * Tokens: Staff, animals, roots, peace.
+* ALTERIAN ENCLAVE:
+   * Context: A High Elf Prince standing on a balcony. Circlet, flowing robes, gazing at stars.
+   * Style: Tolkien Elf Lord.
+   * Palette: Silver, White, Starlight.
+   * Tokens: Balcony, stars, circlet, melancholy.
+* ASCENDANCY:
+   * Context: A Councillor in a circle of equals. Debate, open hand gestures.
+   * Style: Democratic Leader.
+   * Palette: White, Blue, Circle.
+   * Tokens: Voting token, datapad, listening.
+* ENTARI COMBINE:
+   * Context: A Trade Baron hosting a gala. Holding a glass of wine, laughing.
+   * Style: Gatsby.
+   * Palette: Champagne Gold, Tuxedo Black.
+   * Tokens: Wine, party, chandelier, wealth.
+* MEKAN:
+   * Context: A Consensus Avatar. A golden face on a screen.
+   * Style: AI Interface.
+   * Palette: Screen Gold, Black surround.
+   * Tokens: Face, pixels, speaker, data.
+10. SCHOLAR
+Scientist, Historian, Researcher. Focus: Knowledge, Books, Data.
+* IMPYRIUM:
+   * Context: A Keeper of the Archive. Surrounded by floating data-crystals. They are not discovering new things, but cataloging the old.
+   * Style: Librarian of Alexandria.
+   * Palette: Library light (warm/golden), Crystal Blue, Robe Grey.
+   * Tokens: Crystals, catalog, silence, reverence, age.
+* SYNDICATE:
+   * Context: A Data-Analyst staring at scrolling code on multiple screens. Neural jack plugged in.
+   * Style: Data Scientist.
+   * Palette: Screen Blue, Reflection, White Coat.
+   * Tokens: Screens, coffee, code, focus.
+* DYNASTY:
+   * Context: A Royal Scribe recording history in a leather tome. Heraldic imagery.
+   * Style: Court Historian.
+   * Palette: Ink Black, Parchment, Leather.
+   * Tokens: Book, quill, crest, ink.
+* OUTWORLDS:
+   * Context: A Field Researcher examining a rock sample. Muddy knees, backpack.
+   * Style: Geologist / Archaeologist.
+   * Palette: Khaki, Mud, Rock Grey.
+   * Tokens: Hammer, sample, magnifying glass, dirt.
+* COALITION:
+   * Context: A Rogue Chemist in a dirty lab. Bubbling beakers, gas mask.
+   * Style: Mad Scientist / Cook.
+   * Palette: Chemical Green, Dirty White, Yellow.
+   * Tokens: Beakers, mask, fumes, danger.
+* AULURAN:
+   * Context: A Life-Weaver examining a glowing flower. Gentle touch.
+   * Style: Botanist.
+   * Palette: Flower Pink, Green, Soft Light.
+   * Tokens: Flower, magnifying glass, soil.
+* ALTERIAN ENCLAVE:
+   * Context: An Arcane Professor teaching magic with a floating diagram.
+   * Style: Wizard Teacher.
+   * Palette: Magic Blue, chalk dust, Tweed/Robes.
+   * Tokens: Wand, diagram, blackboard (holographic).
+* ASCENDANCY:
+   * Context: A Utopian Scientist looking at a DNA helix hologram. Clean lab.
+   * Style: Star Trek Science Officer.
+   * Palette: Science Blue, Clean White, DNA Red.
+   * Tokens: Hologram, scanner, clean lines.
+* ENTARI COMBINE:
+   * Context: A Xenologist studying an alien artifact. Museum setting.
+   * Style: Museum Curator.
+   * Palette: Museum Lighting, Artifact Gold, Suit.
+   * Tokens: Artifact, gloves, display case.
+* MEKAN:
+   * Context: A Logic Node. A server rack with a robotic arm organizing data-tapes.
+   * Style: Librarian Bot.
+   * Palette: Server Black, Tape Reel Brown.
+   * Tokens: Tapes, arm, shelving, order.
+11. SCOUT
+Explorer, Ranger, Sniper. Focus: Observation, Nature, Distance.
+* IMPYRIUM:
+   * Context: A Vigil. An elite sniper in white-enamel armor, perched on a marble gargoyle. They use a long, elegant energy rifle to remove threats to the peace.
+   * Style: Sci-Fi Paladin Scout.
+   * Palette: White Enamel, Lens Flare Blue, City Grey (below).
+   * Tokens: Long rifle, gargoyle, vantage point, guardian.
+* SYNDICATE:
+   * Context: A Surveyor flying a drone via VR goggles. Standing next to a marked survey stake.
+   * Style: Drone Operator.
+   * Palette: Safety Vest Orange, VR Visor Black.
+   * Tokens: Drone, controller, stake, map.
+* DYNASTY:
+   * Context: An Outrider on a fast beast/bike. Wind in hair, bow on back.
+   * Style: Fantasy Ranger.
+   * Palette: Travel stained leather, Horse/Bike color.
+   * Tokens: Mount, bow, map, speed.
+* OUTWORLDS:
+   * Context: A Void-Navigator looking at a star chart. Spacesuit helmet under arm.
+   * Style: Star Charter.
+   * Palette: Star Black, Map Blue, Suit White.
+   * Tokens: Chart, sextant, stars, window.
+* COALITION:
+   * Context: An Urban Recon specialist parkouring on a rooftop. Camera in hand.
+   * Style: Roof Runner.
+   * Palette: Concrete Grey, Sky Blue, Sneaker Red.
+   * Tokens: Camera, sneakers, ledge, city.
+* AULURAN:
+   * Context: A Tree-Runner hanging upside down from a branch. Blowgun ready.
+   * Style: Jungle Scout.
+   * Palette: Leaf Green, Bark Brown, Skin Camo.
+   * Tokens: Blowgun, branch, height, stealth.
+* ALTERIAN ENCLAVE:
+   * Context: A Ranger with a longbow, standing guard in a white tower. Eagle eyes.
+   * Style: Elven Archer.
+   * Palette: White Stone, Bow Wood, Sky.
+   * Tokens: Bow, arrows, tower, vigilance.
+* ASCENDANCY:
+   * Context: A Pathfinder planting a flag on a new world. Jetpack smoke.
+   * Style: Space Explorer.
+   * Palette: Flag colors, Alien Soil Red, Suit White.
+   * Tokens: Flag, jetpack, helmet, horizon.
+* ENTARI COMBINE:
+   * Context: A Route Scout in a fast ship cockpit. Plotting a course.
+   * Style: Smuggler/Pilot.
+   * Palette: Cockpit lights, Space Black, Leather jacket.
+   * Tokens: Controls, hyperspace lines, coffee.
+* MEKAN:
+   * Context: A Seeker Drone. Multi-legged spider bot climbing a wall.
+   * Style: Spy Bot.
+   * Palette: Spider Black, Sensor Red.
+   * Tokens: Legs, camera, wall, climbing.
+12. SOLDIER
+Warrior, Guard, Mercenary. Focus: Combat, Weapons, Armor.
+* IMPYRIUM:
+   * Context: A Solar Legionnaire. Full composite armor that looks like sculpted muscle and Greek statuary. Holding a Solar Pike (energy halberd). Face hidden by a smooth, featureless helm.
+   * Style: Idealized Soldier, Statue come to life.
+   * Palette: Polished White, Sun-Gold, Energy Yellow (Pike).
+   * Tokens: Pike, cape, statue-armor, formation, perfection.
+* SYNDICATE:
+   * Context: A Drop-Marine in white composite armor, gold visor. Holding a rail-rifle.
+   * Style: High-Tech Trooper (Stormtrooper/Spartan).
+   * Palette: White, Gold Visor, Black undersuit.
+   * Tokens: Rifle, armor, visor, HUD.
+* DYNASTY:
+   * Context: A Man-at-Arms in chainmail and tabard. Holding a halberd.
+   * Style: Medieval Guard.
+   * Palette: Chainmail Silver, Tabard colors, Pike Wood.
+   * Tokens: Halberd, helmet, guard duty.
+* OUTWORLDS:
+   * Context: A Militiaman in a flak vest and jeans. Holding an old assault rifle.
+   * Style: Rebel Fighter.
+   * Palette: Denim Blue, Vest Green, Rust.
+   * Tokens: Rifle, bandana, grit, sandbags.
+* COALITION:
+   * Context: A Mercenary in mismatched high-end armor. Big gun, cigar.
+   * Style: Sci-Fi Merc.
+   * Palette: Camo mix, Gunmetal, Smoke.
+   * Tokens: Minigun, cigar, scars, armor.
+* AULURAN:
+   * Context: A Shock-Trooper (Graa). Giant beast in chitin armor. Claws and bio-cannon.
+   * Style: War Beast.
+   * Palette: Fur, Chitin Black, Bio-Green.
+   * Tokens: Claws, cannon, roar, muscle.
+* ALTERIAN ENCLAVE:
+   * Context: A Blade-Dancer. Dual energy swords, light armor, flowing sash.
+   * Style: Jedi / Swordmaster.
+   * Palette: Energy Blade Blue, sash color, motion blur.
+   * Tokens: Swords, pose, grace, light.
+* ASCENDANCY:
+   * Context: A Peacekeeper in blue uniform holding a stun rifle. Riot shield.
+   * Style: Police / UN Peacekeeper.
+   * Palette: Blue helmet, White armor, Shield clear.
+   * Tokens: Shield, stun gun, badge, protection.
+* ENTARI COMBINE:
+   * Context: A House Guard in ceremonial but functional armor. Halberd-blaster.
+   * Style: Royal Guard.
+   * Palette: Teal, Gold, Plume.
+   * Tokens: Halberd, cape, standing tall.
+* MEKAN:
+   * Context: A War-Frame. Heavy combat robot. Gun-arms.
+   * Style: Battle Droid.
+   * Palette: Gunmetal, Warning Stripes, Red Eye.
+   * Tokens: Guns, heavy steps, armor, war.
+13. SPECIALIST
+Technician, Doctor, Pilot, Hacker. Focus: Skill, Precision.
+* IMPYRIUM:
+   * Context: A Bio-Sculptor (Doctor). Using light-based tools to remove a scar from a patient. The goal is aesthetic perfection, not just health.
+   * Style: Cosmetic Surgeon meets Priest.
+   * Palette: Medical White, Light Gold, Laser Pink.
+   * Tokens: Laser tool, perfect skin, clean room, aesthetics.
+* SYNDICATE:
+   * Context: A Cyber-Doc with multi-jointed cyber-arms. Laser scalpel. Clean white room.
+   * Style: Cyberpunk Surgeon.
+   * Palette: Hospital White, Laser Green, Chrome.
+   * Tokens: Cyber-arms, laser, patient, tech.
+* DYNASTY:
+   * Context: An Alchemist mixing potions in a glass vial. Apron, goggles.
+   * Style: Fantasy Alchemist.
+   * Palette: Potion colors, Glass, Fire.
+   * Tokens: Vials, smoke, mortar, experiment.
+* OUTWORLDS:
+   * Context: A Field Medic applying a tourniquet in the dirt. Med-kit open.
+   * Style: Combat Medic.
+   * Palette: Red Cross, Dirt, Blood, Bandage White.
+   * Tokens: Med-kit, urgency, dirt, healing.
+* COALITION:
+   * Context: A Ripper-Doc installing a cyber-eye in a back alley. Rusty tools.
+   * Style: Underground Doctor.
+   * Palette: Rust, Neon light, Shadow.
+   * Tokens: Eye, pliers, chair, pain.
+* AULURAN:
+   * Context: A Healer applying glowing moss to a wound. Gentle light.
+   * Style: Natural Healer.
+   * Palette: Moss Green, Glow, Skin.
+   * Tokens: Moss, hands, light, relief.
+* ALTERIAN ENCLAVE:
+   * Context: A Life-Singer. Singing to a crystal to heal a patient.
+   * Style: Magic Healer.
+   * Palette: Sound wave colors, Crystal, White.
+   * Tokens: Singing, crystal, aura, peace.
+* ASCENDANCY:
+   * Context: A Science Officer scanning an anomaly with a tricorder.
+   * Style: Star Trek Science.
+   * Palette: Blue Shirt, Tricorder lights.
+   * Tokens: Scanner, furrowed brow, anomaly.
+* ENTARI COMBINE:
+   * Context: A Restoration Expert cleaning an ancient vase. Magnifying glasses.
+   * Style: Art Restorer.
+   * Palette: Clay, Brush, Light.
+   * Tokens: Vase, brush, delicacy, focus.
+* MEKAN:
+   * Context: A Repair Drone. Small, welding a hull breach.
+   * Style: Maintenance Bot.
+   * Palette: Welder Blue, Metal, Spark.
+   * Tokens: Welder, patch, space, work.
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/1.06 OCCUPATIONS.md` (`12E4y1tyWLl6zYK1gVrdOssFlmVVujT86`) and all 13 sub-files in `operator/occupations/` (`1f5eFibUJMAjHwp4cSXXwAr25MbqLZYZP`).
+* **Codex Sources Compared:** Codex `1.06 OCCUPATION GUIDELINES` (`1hlkBp-xS6Jdhle8R_DkJIUV9gWdm9Em3ImxDJ1LXPzc`) and all 13 `1.06 OCCUPATION - *` documents in `1z88pEY_cDWadcboiF8mVgIoesG1exLl_`.
+* **Audit Findings:** `1.06 OCCUPATIONS.md` in `/game_rules/operator/` included the Global Constants and Templates A–F header from `1.06 OCCUPATION GUIDELINES` but omitted the 13 Occupation x Faction character visualization entries (`01. ADEPT` through `13. SPECIALIST`) in the master file, and Codex `1.06 OCCUPATION GUIDELINES` had a conflicting `2 BP each` note for additional traits in its second summary block. Enforced `/game_rules` mechanical authority (`Extra Traits = 1 CP each`, `Recommended Features = 2 CP instead of 3 CP`) and restored all 13 Occupation Character Visual Synthesis sections into `1.06 OCCUPATIONS.md`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-601 (Complete 13-Occupation Character Visual Synthesis Restoration):** Restored all 13 Occupation x Faction character visualization profiles (`01. ADEPT` through `13. SPECIALIST`) from Codex `1.06 OCCUPATION GUIDELINES` directly into `1.06 OCCUPATIONS.md`.
+* **DISC-602 (Extra Trait Cost & CP Economy Reconciliation):** Resolved the internal conflict in Codex `1.06 OCCUPATION GUIDELINES` (which listed `1 BP each` in paragraph 1 and `2 BP each` in bullet 3) in favor of `/game_rules` mechanical authority: `2 Free Occupational Traits at 0 CP; Extra Traits cost 1 CP each`.
+* **DISC-603 (EUFT Base Wealth Score (WS 1–6) & Creation Cap Enforcement):** Preserved the canonical EUFT Base Wealth Score hierarchy (`Base WS 1` for Drifter/Scout/Soldier up to `Base WS 6` for Representative) and the `Rank 11` Creation Cap (`Rank 6` recommended).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.
 

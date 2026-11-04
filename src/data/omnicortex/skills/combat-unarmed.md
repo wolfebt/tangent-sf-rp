@@ -27,16 +27,12 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
   - **Description:** The ability to fight without artificial weapons, using only the body. This includes brawling, martial arts, wrestling, and the use of natural weaponry for non-human species.
   - **Game Mechanics:**
 
-<!-- end list -->
-
-  - **Attack Roll:** 2d10 + Unarmed Rank + Str/Agi Mod vs. Target Defense.
+- **Attack Roll:** 2d10 + Unarmed Rank + Str/Agi Mod vs. Target Defense.
   - **Damage:** Typically lower than weapons (1d4 or varies by size/species) + Strength Mod.
   - **Non-Lethal:** Unarmed attacks can often be chosen to deal Stun/Non-Lethal damage without penalty.
   - **Grapple:** Unarmed skill is used to initiate and maintain holds (Grapple checks).
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Boxing & Power Punches:** Throwing crisp jabs, hooks, crosses, and uppercuts with weighted hand wraps or bare fists.
       - **Kicks & Leg Sweeps:** Snapping roundhouse kicks, front teep kicks, low shin strikes, and sweeping enemy legs.

@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Privateer
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Combat Pilot / Skirmisher / Face  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A skilled starship captain who operates independently on behalf of a faction.
 
-> *You are a pirate with a badge. You hunt the enemies of the state for profit, blending the freedom of the outlaw with the legitimacy of the law.*
+*You are a pirate with a badge. You hunt the enemies of the state for profit, blending the freedom of the outlaw with the legitimacy of the law.*
 
-> _"It's not piracy if you have a permit."_
-
-## Tactical Role
-Space combat, boarding actions, high-speed interdiction.
-
-## Essential Skills
-- Knowledge (Technology)
-- Knowledge (Tactics)
-- Acrobatics
-- Combat (any)
-
-## Signature Features
-- Practiced Pilot
-- Evasive Maneuvers
-
-## Recommendations
-- **Occupations**: Spacer, Soldier
-- **Origins**: Spacer, Colony, Militaristic
-- **Factions**: Coalition (Licensed), Entari Combine (Security), Outworlds
-
-
-## Extended Lore & Background
-
-A skilled starship captain who operates independently on behalf of a faction.  
-*You are a pirate with a badge. You hunt the enemies of the state for profit, blending the freedom of the outlaw with the legitimacy of the law.*  
 *"It's not piracy if you have a permit."*
 
+  - **Core Concept:** Combat Pilot / Skirmisher / Face
+  - **Recommended Occupations:** Spacer, Soldier.
+  - **Recommended Origins:** Spacer, Colony, Militaristic.
+  - **Recommended Factions:** Coalition (Licensed), Entari Combine (Security), Outworlds.
+  - **Key Attributes:** Agility (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Tactics), Acrobatics, Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Practiced Pilot, Evasive Maneuvers.
+  - **Tactical Role:** Space combat, boarding actions, high-speed interdiction.

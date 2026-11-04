@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Manhunter
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Hybrid (Combat/Skill) / Tracker  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Agility  
 
-## Overview
 Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension.
 
-> *You always get your mark. No moon is distant enough, no hole deep enough. You combine the skills of a detective with the grit of a soldier, pursuing targets that others fear to name.*
+*You always get your mark. No moon is distant enough, no hole deep enough. You combine the skills of a detective with the grit of a soldier, pursuing targets that others fear to name.*
 
-> _"I can bring you in warm, or I can bring you in cold."_
-
-## Tactical Role
-Tracking enemies, capturing targets alive, wilderness survival.
-
-## Essential Skills
-- Knowledge (Survival)
-- Alertness
-- Knowledge (Investigation)
-- Combat (Any)
-
-## Signature Features
-- Hunter's Intuition
-- Relentless Pursuit
-
-## Recommendations
-- **Occupations**: Drifter, Agent
-- **Origins**: Hostile, Spacer, Colony
-- **Factions**: Coalition (Bounty Hunters), Syndicate (Recovery), Outworlds
-
-
-## Extended Lore & Background
-
-Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension.  
-*You always get your mark. No moon is distant enough, no hole deep enough. You combine the skills of a detective with the grit of a soldier, pursuing targets that others fear to name.*  
 *"I can bring you in warm, or I can bring you in cold."*
 
+  - **Core Concept:** Hybrid (Combat/Skill) / Tracker
+  - **Recommended Occupations:** Drifter, Agent.
+  - **Recommended Origins:** Hostile, Spacer, Colony.
+  - **Recommended Factions:** Coalition (Bounty Hunters), Syndicate (Recovery), Outworlds.
+  - **Key Attributes:** Wisdom (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Alertness, Knowledge (Investigation), Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Hunter's Intuition, Relentless Pursuit.
+  - **Tactical Role:** Tracking enemies, capturing targets alive, wilderness survival.

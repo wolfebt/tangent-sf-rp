@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Mechanic is the skill of repairing and maintaining components of machines and vehicles. It reflects a character's ability to diagnose and fix mechanical problems, and to perform routine maintenance tasks. Mechanics are responsible for ensuring machines and vehicles are safe and functional. This can include things like repairing engines, replacing parts, and performing oil changes. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Repair:* CR 15 (Simple part) to CR 30 (Rebuild engine).
+- *Repair:* CR 15 (Simple part) to CR 30 (Rebuild engine).
   - *Jury-Rig:* CR 20 to make a temporary fix with inadequate tools (lasts 1d6 hours).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Internal Combustion Engines:** Rebuilding piston engines, tuning carburetors, timing camshafts, and replacing spark plugs.
       - **Turbines & Jet Propulsion:** Balancing compressor blades, repairing fuel injectors, and rebuilding jet burner cans.

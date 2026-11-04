@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.core","mechanics"]
-updatedAt: "2026-11-02T22:49:29.302Z"
+updatedAt: "2026-11-04T00:33:10.738Z"
 costs:
   bp: 0
   credits: 0
@@ -39,6 +39,31 @@ sockets:
 
 # **1.07.02 MENTAL SKILLS (CORE)**
 
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Core.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Core.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (CORE MENTAL SKILLS SUMMARY MATRIX)**
+
+| Skill Name | Governing Attribute | Core Task CRs | Canonical Specialties |
+| :--- | :--- | :--- | :---: |
+| **Alertness** | Perception (`INT + WIS`) | Spot/Listen (Opposed by `Stealth`), Search (`CR 10–30`) | 10 Specialties |
+| **Academics** | Intellect (`INT`) | Library/Database Research (`CR 15+`) | 10 Specialties |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
+
 # **MENTAL SKILLS**
 
 These skills utilize the character's mind, education, and sensory acuity.
@@ -51,14 +76,10 @@ These skills utilize the character's mind, education, and sensory acuity.
   - **Description:** Alertness is the skill of being aware of one's surroundings and noticing changes or potential threats in the environment. It reflects a character's ability to pay attention to details and react quickly to unexpected situations. Alertness is used whenever a character needs to be aware of their surroundings, whether it's to avoid danger or to gather information. This can include things like noticing a hidden door, detecting a trap, or identifying a potential ambush.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Spot/Listen:* Opposed by Stealth.
+- *Spot/Listen:* Opposed by Stealth.
   - *Search:* CR 10 (easy) to CR 30 (microscopic detail).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Visual Spotting:** Identifying hidden snipers, optical glints, camouflaged personnel, and concealed traps.
       - **Auditory Listening:** Eavesdropping through bulkheads, picking out hushed footsteps, and identifying weapon charging hums.
@@ -79,13 +100,9 @@ These skills utilize the character's mind, education, and sensory acuity.
   - **Description:** Academics is the skill of knowledge acquisition and analysis. It reflects a character's ability to research and understand complex topics. Academics is used whenever a character needs to research a topic, analyze data, or draw conclusions based on evidence. This can include things like researching a new technology, analyzing an artwork or deciphering old texts. 
   - **Mechanics:**
 
-<!-- end list -->
+- *Research:* CR 15 to find obscure information in a library/database.
 
-  - *Research:* CR 15 to find obscure information in a library/database.
-
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Research Methodology:** Efficiently querying galactic libraries, university databases, and scholarly compendiums.
       - **Critical Epistemology:** Evaluating the validity, systemic bias, and objective truth of complex source materials.
@@ -100,7 +117,9 @@ These skills utilize the character's mind, education, and sensory acuity.
 
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-313 (1.07.Mental.Core.md):** Restored Core Mental Skills (Alertness and Academics) with all 20 Specialties and normalized CR mechanics.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Mental.Core.md):** Restored Core Mental Skills (`Alertness` and `Academics`) and all 20 Specialties from Codex `1.07 SKILLS`, normalizing `Awareness` to `Alertness` and `DC` to `CR`.
 

@@ -38,21 +38,24 @@ negative_keywords: 'ethereal spirit, fragile illusion, mental only, pure light, 
 
 # STONESKIN Invocation
 
-**Category**: Invocations  
-**Discipline**: Matter
-
 ## Description & Ritual Details
-Classification: Matter (Enhancement) | Defense | \[Buff\] \[Physical\]  
+
+Classification: Matter (Enhancement) | Defense | [Buff] [Physical]
+
 Parameters:
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Touch  
-* **Area:** Single Creature  
-* **Duration:** 1 Minute per Stage  
-* **Resistance:** None
-Effect Description:  
-Toughens the skin of the target, granting it the texture and durability of stone or metal.  
+
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Touch
+  - **Area:** Single Creature
+  - **Duration:** 1 Minute per Stage
+  - **Resistance:** None
+
+Effect Description:
+
+Toughens the skin of the target, granting it the texture and durability of stone or metal.
+
 **Scaling Function:**
-* **Integrity:** Grants DR 5 \+ (2 per Stage).  
-* **CP Value:** Roughly equivalent to 5 CP of Armor/DR traits per Stage.
-###
+
+  - **Integrity:** Grants DR 5 + (2 per Stage).
+  - **CP Value:** Roughly equivalent to 5 CP of Armor/DR traits per Stage.

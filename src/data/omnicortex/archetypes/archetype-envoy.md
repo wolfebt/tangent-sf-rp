@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Envoy
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Face / Shield / Connection Hub  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace.
 
-> *You hold the weight of nations. You navigate the complex web of galactic politics, turning potential wars into alliances with a handshake. You ensure your team has friends in high places.*
+*You hold the weight of nations. You navigate the complex web of galactic politics, turning potential wars into alliances with a handshake. You ensure your team has friends in high places.*
 
-> _"A treaty is just a pause between wars. Let's make it a long one."_
-
-## Tactical Role
-Prevent combat before it starts, call in faction favors, secure safe houses.
-
-## Essential Skills
-- Diplomacy
-- Insight
-- Knowledge (History)
-- Knowledge (Culture)
-
-## Signature Features
-- Diplomatic Immunity
-- Master Negotiator
-
-## Recommendations
-- **Occupations**: Representative, Noble
-- **Origins**: Urban, Enlightened, Leisure
-- **Factions**: Entari Combine (Diplomats), Alterian Enclave (Ambassadors), Ascendancy
-
-
-## Extended Lore & Background
-
-An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace.  
-*You hold the weight of nations. You navigate the complex web of galactic politics, turning potential wars into alliances with a handshake. You ensure your team has friends in high places.*  
 *"A treaty is just a pause between wars. Let's make it a long one."*
 
+  - **Core Concept:** Face / Shield / Connection Hub
+  - **Recommended Occupations:** Representative, Citizen (Elite / *Noble*).
+  - **Recommended Origins:** Urban, Enlightened, Leisure.
+  - **Recommended Factions:** Entari Combine (Diplomats), Alterian Enclave (Ambassadors), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (History), Knowledge (Culture).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Diplomatic Immunity, Master Negotiator.
+  - **Tactical Role:** Prevent combat before it starts, call in faction favors, secure safe houses.

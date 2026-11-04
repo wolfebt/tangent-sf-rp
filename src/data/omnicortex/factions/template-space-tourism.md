@@ -77,51 +77,142 @@ keywords: >-
 negative_keywords: 'austere-survival, grime, battlefield-horrors, toxic-hazards, poverty'
 ---
 
-## **23\. SPACE TOURISM**
+# 1.04. ARCHETYPAL FACTION: 23. SPACE TOURISM GUILD (+3 WS)
 
-### **I. Detailed Faction Description**
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 4 / ML 2 | +3 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Archetypal.SpaceTourism.md` in **Tangent SF RP**.
 
-* **Overview:** Mega-corporations focused entirely on high-end luxury travel, catering to the galaxy's ultra-rich. They operate massive, opulent cruise liners and exotic planetary resorts. They prioritize profit and experience above all, often ignoring the safety of the locals or the stability of the regions they visit.  
-* **Key Themes:** Luxury Fleet Providers, Opulence, Class Divide, Hubris.  
-* **Relationship to Others:** Welcomed for their immense wealth, but despised by the working classes and Outworlders they treat as scenery.
+## Overview & Mechanical Authority Block
 
-### **II. Core Identity**
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-* **Official Designation:** \[Name\] Stellar Cruises / The Opulence Fleet  
-* **Colloquialisms:** The Cruisers / The Tourists / Credit-Spenders  
-* **Archetype:** Luxury Fleet Providers  
-* **Capital/Key World:** Massive, city-sized luxury starliners.  
-* **Driving Mandate:** Provide unparalleled luxury and extract maximum credits from the elite.  
-* **Motto:** "The universe is your playground."
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-### **III. Sociological Profile**
+## Part I — Alignment & Summary Matrix Table
 
-* **Ideology & Culture:** Hedonistic, classist, obsessed with status and novelty.  
-* **Social Structure:** Extreme divide between the ultra-wealthy guests and the invisible, highly-trained service staff.  
-* **View on Outsiders:** Scenery, exotic novelties, or annoying hazards.  
-* **Law & Order:** Private security ensures guests are never inconvenienced; crimes by the rich are covered up with money.
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Archetypal.SpaceTourism.md (Sec. I)` | TL 4 / ML 2 | +3 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Archetypal.SpaceTourism.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Archetypal.SpaceTourism.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
 
-### **IV. Strategic Assets**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-* **Tech Level (TL):** 3+ (Cutting edge non-combat tech).  
-* **Strengths:** Immense capital, cutting-edge comfort and shielding technology, political immunity via wealthy clients.  
-* **Weaknesses:** High liability, terrible in actual combat, prioritizing profit over basic safety protocols.  
-* **Military Doctrine:** Run away behind massive deflector shields while private security handles boarders.
+### I. Canonical Faction Profile, Lore & Unabridged Codex Entry (`operator/factions/1.04.Archetypal.SpaceTourism.md`)
 
-### **V. Mechanics (Game Data)**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 23. Space Tourism Guild
+* **Tech / Meta Level:** TL 4 / ML 2
+* **EUFT Starting Wealth Score Modifier:** **+3 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Diplomacy (+5), Expression: Any (+5), Piloting (+4), Vocation: Courtesan/Hospitality (+3), Barter (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Attractive, Benefit (Wealth), Charming, Connected, Contacts, Entertaining, Golden Smile, Graceful, Linguist, Social
+* **CRISP Visual Semiotics Key:** Orbital casino rings, panoramic zero-G luxury yachts, holo-entertainment suites.
 
-* **Prominent Species:** Cosmopolitan Elite.  
-* **Faction Skill Package (20 Points):**  
-  * Vocation (Hospitality/Entertainment) (+5)  
-  * Diplomacy (+4)  
-  * Bluff (+4)  
-  * Pilot (+4)  
-  * Insight (+3)  
-* **Typical Archetypes:** The Galactic Guide, The Thrill-Seeker, The Cruise Director, The VIP Security, The Socialite.  
-* **Recommended Features (1 CP Discount):** Benefit (Wealth), Golden Smile, Trustworthy, Silver Tongue, Platinum Personality, Connected, Versatile Curator, Graceful, Evasiveness, Educated.
+SPACE TOURISM
+I. Detailed Faction Description
+* Overview: Corporate or independent factions strictly focused on promoting and facilitating space tourism for the ultra-rich. They provide unique, highly curated experiences, operating massive luxury cruise liners and exclusive planetary resorts.
+* Key Themes: Luxury Space Travel, Extreme Wealth, Curated Experiences, High Liability.
+* Relationship to Others: They bribe pirates to stay away and pay military factions for protection, existing in a bubble of purchased safety.
+II. Core Identity
+* Official Designation: [Name] Galactic Tours / Leisure Corp
+* Colloquialisms: The Cruisers / The Tourists
+* Archetype: Luxury Fleet Providers
+* Capital/Key World: Variable (Massive resort worlds or flagship cruise liners)
+* Driving Mandate: Provide unique experiences, cater to high-end clientele, generate immense profit.
+* Motto: "The universe, curated for you."
+III. Sociological Profile
+* Ideology & Culture: Adventurous (safely), customer-focused, profit-driven, entrepreneurial, innovative.
+* Social Structure: Two-tiered: The ultra-wealthy guests and the highly trained hospitality/security staff.
+* View on Outsiders: Either paying customers or threats to the guest experience.
+* Law & Order: Private security focused on discretion and minimizing bad PR.
+IV. Strategic Assets
+* Tech Level (TL): 3+
+* Strengths: Access to cutting-edge (non-combat) technology, skilled pilots/guides, massive financial capital, ability to cater to elites.
+* Weaknesses: Tendency to prioritize profit over safety, high maintenance costs, completely reliant on external factions for heavy military defense.
+* Military Doctrine: Flee immediately. Use deflector shields and fast engines to escape while private security handles boarding parties.
+V. Mechanics (Game Data)
+* Prominent Species: Cosmopolitan (Wealthy Elites).
+* Faction Skill Package (20 Points):
+   * Vocation (Hospitality) (+5)
+   * Diplomacy (+5)
+   * Culture (+4)
+   * Insight (+3)
+   * Pilot (+3)
+* Typical Archetypes:
+   * The Thrill-Seeker: A wealthy aristocrat paying to experience "safe" danger.
+   * The Galactic Guide: An expert escort ensuring the VIPs see the best sights.
+   * The Hospitality Specialist: Managing the extravagant needs of the ultra-rich guests.
+   * The Event Planner: Orchestrating massive, opulent parties on cruise liners.
+   * The Cruise Captain: Navigating the massive, vulnerable luxury ships safely.
+   * The Security Detail: Highly paid PMCs ensuring the guests are never bothered.
+   * The VIP: A high-status individual whose presence brings immense wealth (and risk).
+   * The Entertainer: A famous artist or performer employed to dazzle the guests.
+   * The High-Roller: A gambler making millions in the ship's zero-G casinos.
+   * The Smuggler (Contraband): Providing illegal, exotic goods to wealthy clients discreetly.
+* Recommended Features (1 CP Discount):
+   * Benefit (Wealth): Possessing an astronomical bank account and black-card access.
+   * Silver Tongue: Smoothly de-escalating angry VIPs or tense security situations.
+   * Golden Smile: Charmed charisma that ensures big tips and good reviews.
+   * Connected: A vast network of high-society elites and exclusive vendors.
+   * Platinum Personality: Dominating any social event with sheer expensive presence.
+   * Educated: Highly trained in high-society etiquette and galactic history.
+   * Versatile Curator: A font of trivial knowledge perfect for entertaining guests.
+   * Cosmopolitan: Fitting in perfectly at any high-class gala across the galaxy.
+   * Linguist: Speaking multiple languages to cater to diverse wealthy clients.
+   * De-escalation: The professional ability to calm down panicked or angry crowds.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Opulent, relaxing, and hyper-clean.
+* Atmosphere Tokens: Massive cruise liners, observation decks overlooking supernovas, champagne, high fashion.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Luxury Space Travel, Opulent, High-End.
+   * CONTEXT: Massive cruise liners, observation decks overlooking supernovas, champagne, high fashion, clean polished interiors.
+   * ATMOSPHERE: Relaxing, vibrant, expensive, indulgent, safe.
 
-### **VI. Visual Semiotics (Aesthetics)**
+SPACE TOURISM ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Space Tourism prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., wealthy Thrill-Seeker in a designer spacesuit, impeccably dressed Galactic Guide, Hospitality Specialist serving synthetic cocktails, opulent Event Planner]
+* NARRATIVE: [e.g., lounging on an orbital observation deck, leading a guided tour of a safe alien ruin, toasting champagne during a warp jump, relaxing by a zero-G pool]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Leisure Futurism, high-end commercial luxury, safe thrills, pristine resort ships, panoramic viewing glass, branded hospitality.
+* CONTEXT: The observation lounge of a luxury starliner, an exotic but manicured planetary resort, a high-end zero-gravity casino, a first-class boarding terminal.
+* ATMOSPHERE: Luxurious, customer-focused, relaxing, vibrant, wealthy, pristine, secure, opulent.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: subtle luxury magenta or vacation teal marker wash, precise champagne gold accents, pristine resort white negative space highlighting.
+3. READY-TO-USE TEMPLATES
+MASTER SHOT: The Orbital Lounge
+Wealthy Space Tourism thrill-seekers lounging in luxury zero-gravity chairs on the observation deck of a resort starliner, holding floating champagne flutes, looking out a massive panoramic window at a vibrant nebula. Leisure futurism aesthetic. Standard 50mm lens, eye-level camera angle, balanced cinematic framing, mid-shot composition, seamless environmental integration. Luxurious and relaxing atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, mostly monochrome, black ink on clean paper, subtle champagne gold and vacation teal marker accents. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+VEHICLE DESIGN: The Luxury Starliner
+High-end Space Tourism luxury starliner, sleek aerodynamic curves, massive observation domes, opulent recreational rings, pristine hull. Industrial design sketch, technical pen illustration, dynamic perspective, wireframe construction lines, high-contrast mechanical hatching, metallic reflections rendered purely in ink lines, exploded view accents, subtle design marker accent colors (e.g., Copic marker splash of luxury magenta and bright white). Commercial luxury aesthetic, pristine and opulent atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading.
 
-* **Design Directive:** Opulent, excessive, and insulated.  
-* **Atmosphere Tokens:** Red velvet, gold trim, massive cruise liners, glass observation decks, zero-g pools, formal wear.  
-* **HI-FI INK Guidance:** Luxury Sci-Fi, High Status. Massive, brightly lit cruise ship interiors, panoramic windows looking at supernovas, opulent formal wear, gold and white decor. Wealthy, insulated, excessive.
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Archetypal.SpaceTourism.md`
+* **Codex Sources Compared:** Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Archetypal.SpaceTourism.md` and Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 4 / ML 2 | +3 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-SPAC-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Archetypal.SpaceTourism.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc.
+* **DISC-104-SPAC-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 4 / ML 2 | +3 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

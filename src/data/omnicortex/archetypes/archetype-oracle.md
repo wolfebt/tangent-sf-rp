@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Oracle
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Caster / Sensor / Controller  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Stamina  
 
-## Overview
 Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.
 
-> *You see the strings of the universe. While others rely on their eyes, you sense the thoughts, the futures, and the connections that bind all things. You are the guide to the unseen.*
+*You see the strings of the universe. While others rely on their eyes, you sense the thoughts, the futures, and the connections that bind all things. You are the guide to the unseen.*
 
-> _"Your thoughts are so... loud."_
+*"Your thoughts are so— loud."*
 
-## Tactical Role
-Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.
-
-## Essential Skills
-- Insight
-- Diplomacy
-- Two Disciplines (Mental/Divination)
-
-## Signature Features
-- Prophetic Visions
-- Spiritual Advisor
-
-## Recommendations
-- **Occupations**: Adept, Enlightened
-- **Origins**: Enlightened, Research, Leisure
-- **Factions**: Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers)
-
-
-## Extended Lore & Background
-
-Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.  
-*You see the strings of the universe. While others rely on their eyes, you sense the thoughts, the futures, and the connections that bind all things. You are the guide to the unseen.*  
-*"Your thoughts are so... loud."*
-
+  - **Core Concept:** Caster / Sensor / Controller
+  - **Recommended Occupations:** Adept, Enlightened.
+  - **Recommended Origins:** Enlightened, Research, Leisure.
+  - **Recommended Factions:** Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers).
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Diplomacy, Attune, Discipline: Mental (Sense & Projection).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Prophetic Visions, Spiritual Advisor.
+  - **Tactical Role:** Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.

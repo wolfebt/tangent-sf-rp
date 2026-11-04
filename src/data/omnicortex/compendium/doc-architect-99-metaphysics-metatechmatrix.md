@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-metaphysics"
 category: "architect_matrix"
 parent: "doc-architect-99-metaphysics"
-order: 49
+order: 50
 perspective: "architect"
 entry_type: "Metaphysics Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","metaphysics","99.metaphysics.metatechmatrix","matrix"]
-updatedAt: "2026-11-02T22:49:11.352Z"
+updatedAt: "2026-11-04T00:33:10.413Z"
 costs:
   bp: 0
   credits: 0
@@ -39,9 +39,16 @@ sockets:
 
 # **99. METAPHYSICS: META-TECH MATRIX**
 
-## **Integration of Metaphysics and Technology**
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
 
----
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
+## **Integration of Metaphysics and Technology**
 
 ## **1. OPERATIONAL PHILOSOPHY**
 
@@ -52,8 +59,6 @@ This framework governs three distinct engineering applications:
 1. **Enhancement (Passive):** Using *Matter* or *Energy* disciplines to permanently improve the physical properties of a device (e.g., Unbreakable/Self-Mending Armor, Mono-edge/Ghost-Strike Blades).
 2. **Imbuement (Active):** Installing a specific **Invocation** into a device so it can be "cast" via a physical trigger rather than a ritual by any operator, Awakened or mundane (e.g., a gun that fires *Thermal Lance*, a belt that triggers *Long Step / Force Field*).
 3. **Interface & Amplification (Symbiotic / Chassis-Scaled):** Hardware that amplifies an Awakened user's natural Metaphysical Skills and scales them to vehicular or architectural magnitudes (e.g., Psi-Amps, Elemental Focus Cannons, Ley-Line Spires).
-
----
 
 ## **2. THE CAPACITY SYSTEM: META-CONVERSION**
 
@@ -76,8 +81,6 @@ The UDU tier used (**Socket, Mount, or Module**) dictates the **Operational Scal
 - **The Principle of Scale:** An Invocation installed in a **Mount** or **Module** is fundamentally more potent than one in a **Socket**, scaling its mass, area, and range by the host chassis multiplier:
   - *Personal Example:* A **Rank 10** *Teleport* in a Suit (**1 Socket**) translocates a single person up to 5 miles.
   - *Vehicular Example:* A **Rank 10** *Teleport* in a Huge Mech (**1 Meta-Mount**, `x5` Scale) translocates the entire 10-ton vehicle and its crew up to 25 miles.
-
----
 
 ## **3. ENHANCEMENT: PASSIVE INTEGRATION**
 
@@ -108,8 +111,6 @@ These effects are "Always On" or trigger reactively on impact; they do not requi
 | **Hardened Logic** | Mental (Shield) | 1 Socket | Wearer rolls Saving Throws against hacking, neural disruption, and psionic intrusion at **Advantage**. |
 | **Auto-Mend** | Matter (Repair) | 1 Socket | Armor autonomously regenerates **`1d4` Structure Points (SP) per hour**. |
 
----
-
 ## **4. IMBUEMENT: ACTIVE INVOCATION DEVICES**
 
 *Hard-coding a specific Invocation into a machine so any operator (even non-Awakened) can trigger it.*
@@ -125,8 +126,6 @@ When an Invocation is built into an item, its variable stats become **Fixed Cons
 - **Power Source:**
   - **Internal Charges (Aether Cells):** Powered by internal Aetherite energy cells (limited shots before reload/recharge).
   - **User Focus (Essence / Karma):** Draws directly from the wielder's personal **Essence Pool** (`1 Essence = 1 Charge`) or **Karma**.
-
----
 
 ### **4.2 Examples of Invocation Devices**
 
@@ -160,8 +159,6 @@ When an Invocation is built into an item, its variable stats become **Fixed Cons
 - **Market Value:** **2,560 Credits**
 - **Mechanical Effect:** 30 ft Radius psychic burst. Targets in the blast must succeed on a **Willpower Save (CR 18)** or become **Frightened** for 3 rounds.
 
----
-
 ## **5. VEHICLE & ARCHITECTURE INTEGRATION**
 
 *Scaling the system to Mecha (Tier 2) and Structures (Tier 3).*
@@ -194,8 +191,6 @@ At this scale, builders utilize **Meta-Mounts** and **Meta-Modules** to apply me
   - *Installs:* *Energy: Elemental (Pyro/Cryo/Voltic)*.
   - *Scale Effect:* Wreathes the vehicle's hull in a destructive energy field. Any Ramming attack deals massive additional Energy damage and applies critical effects (*Burn/Freeze/Stun*) to the target.
 
----
-
 ### **5.2 Architectural System Examples (Meta-Modules)**
 
 *`1 Meta-Module = Strategic / City-Scale Effect` (Supports up to Rank 30).*
@@ -225,8 +220,6 @@ At this scale, builders utilize **Meta-Mounts** and **Meta-Modules** to apply me
   - *Installs:* *Dimension: Phase*.
   - *Scale Effect:* Shifts the entire structure slightly out of sync with baseline reality, rendering it invisible and intangible to normal matter and accessible only via specific harmonic frequencies.
 
----
-
 ### **5.3 Amplification Systems (Meta-Scaling)**
 
 *Hardware that allows an Awakened user to channel their own Invocations through the device's scale.*
@@ -250,8 +243,6 @@ Unlike Imbuement (which has a fixed hard-coded Invocation), an **Amplifier** act
   - **Elemental Focus Cannon (1 Meta-Mount):** The pilot casts *Energy: Pyro* into the cannon's breech, amplifying it into a plasma beam equivalent to a Heavy Turbo-Laser (`Damage * x5` for Huge Mecha).
   - **Ley-Line Spire (1 Meta-Module):** An architectural focus. A mage standing in the Spire can cast *Dimension: Portal* to open a gate large enough for an army, or *Weather Control* to alter the climate of an entire region.
 
----
-
 ## **6. INTERFACE & ATTUNEMENT PROTOCOLS**
 
 Characters interact with Meta-Tech through one of three operational modes:
@@ -268,8 +259,6 @@ Characters interact with Meta-Tech through one of three operational modes:
    - *Requirement:* **Augmented** or **Biotech** integration (`1 Socket = 10 Nodes`).
    - *Mechanic:* The item is physically grafted to the user.
    - *Benefit:* Activation is a **Free Action** (Mental Trigger), and the item regenerates charges using the user's **Essence Pool** (`1 Essence = 1 Charge`).
-
----
 
 ## **7. FABRICATION & ECONOMICS**
 
@@ -300,8 +289,6 @@ Meta-Tech cannot be forged from scrap steel; it requires **Conductive Exotic Mat
   - **Resonance Crystals / Psycholith:** Required for **Passive Enhancements** and **Psionic Amplifiers**.
   - **Biotech Amniotic Paste:** Required for **Symbiotic (Bio-Linked)** interfaces.
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-524)**
 
 - **File Target:** `architect/metaphysics/99.Metaphysics.MetaTechMatrix.md`
@@ -309,5 +296,4 @@ Meta-Tech cannot be forged from scrap steel; it requires **Conductive Exotic Mat
   - Restored 100% of the Meta-Tech Framework (Operational Philosophy, UDU Capacity Conversion, Passive Enhancements, Active Imbuement Devices, Vehicle Meta-Mounts, Architectural Meta-Modules, Amplification Systems, Attunement Modes, and EUFT Fabrication Formulas).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Verified all EUFT valuation formulas (`Value = 10 * 4 ^ (CR / 5)` + linear micro-modifiers) and 50% exotic material cost ratio.
-
 

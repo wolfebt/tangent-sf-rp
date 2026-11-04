@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 32
+order: 33
 perspective: "architect"
 entry_type: "Tech Matrix (armor)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.armor.designandcatalog","matrix"]
-updatedAt: "2026-11-02T22:49:13.383Z"
+updatedAt: "2026-11-04T00:33:10.445Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,7 @@ sockets:
   allocated: []
 ---
 
-# **99 \- ARMOR MATRIX**  
+# **99 - ARMOR MATRIX**  
   
 # **THE MATERIAL MITIGATION OF TRAUMA**  
   
@@ -70,17 +70,17 @@ All standard armor entries, stat blocks, and catalog baselines are engineered fo
   
 ##### **1\. Creature Size Scaling**  
   
-* **Diminutive / Tiny:** Mass is 0.25x standard; Craft CR \-2; Sockets and DR/SP baseline remain identical.   
-* **Small:** Mass is 0.5x standard; Craft CR \-1; Sockets and DR/SP baseline remain identical.   
-* **Medium:** Standard baseline (1.0x Mass, \+0 Craft CR, standard stats).   
-* **Large:** Mass is 2.0x standard; Craft CR \+2; Base SP increases by \+25% due to expanded physical volume.   
-* **Huge:** Mass is 4.0x standard; Craft CR \+4; Base SP increases by \+50%.   
-* **Gargantuan / Colossal:** Mass is 8.0x+ standard; Craft CR \+6 to \+10; Base SP increases by \+100%.  
+* **Diminutive / Tiny:** Mass is 0.25x standard; Craft CR -2; Sockets and DR/SP baseline remain identical.   
+* **Small:** Mass is 0.5x standard; Craft CR -1; Sockets and DR/SP baseline remain identical.   
+* **Medium:** Standard baseline (1.0x Mass, +0 Craft CR, standard stats).   
+* **Large:** Mass is 2.0x standard; Craft CR +2; Base SP increases by +25% due to expanded physical volume.   
+* **Huge:** Mass is 4.0x standard; Craft CR +4; Base SP increases by +50%.   
+* **Gargantuan / Colossal:** Mass is 8.0x+ standard; Craft CR +6 to +10; Base SP increases by +100%.  
   
 ##### **2\. Morphological & Limb Variations**  
   
-* **Additional Limbs (Quadrupeds, Centauroids, Hexapods, Extra Arms):** Armor must protect extra biological surface area. Each additional pair of functional limbs or major appendage (e.g., armored tail, wings) increases armor mass by \+20% and adds \+1 to Craft CR.   
-* **Non-Humanoid Forms (Serpentine, Avian, Radial, Amorphous):** Adapting armor patterns to exotic anatomies increases design complexity (+2 Craft CR for custom native fabrication, or \+4 Craft CR when modifying existing humanoid plate).   
+* **Additional Limbs (Quadrupeds, Centauroids, Hexapods, Extra Arms):** Armor must protect extra biological surface area. Each additional pair of functional limbs or major appendage (e.g., armored tail, wings) increases armor mass by +20% and adds +1 to Craft CR.   
+* **Non-Humanoid Forms (Serpentine, Avian, Radial, Amorphous):** Adapting armor patterns to exotic anatomies increases design complexity (+2 Craft CR for custom native fabrication, or +4 Craft CR when modifying existing humanoid plate).   
 * **Natural Armor Integration:** If a species possesses natural armor (such as scales or chitin), worn armor DR layers over natural DR according to standard Layering Protocols, unless the species trait specifies free stacking.  
   
 #### **Physical Restraints & Strength Mitigation**  
@@ -90,7 +90,7 @@ Heavy armoring inevitably encumbers the operative. Tangent quantifies this encum
 1. **Mobility Penalty:** Applies directly to Acrobatics, Athletics, Stealth, and fine physical manipulation checks. It does *not* apply to Combat Attack rolls or Defense checks.   
 * *Strength Counter:* If the wearer's Strength modifier is at least **double** the Mobility Penalty, the penalty is completely ignored.   
 2. **Movement Penalty:** Applies directly as a flat deduction to all forms of movement speed (Walk, Run, Sprint, Fly).   
-* *Strength Counter:* Exceptional physical power counters this drag: **Strength 2** negates a \-5 Movement Penalty, and **Strength 4** negates up to a \-10 Movement Penalty.  
+* *Strength Counter:* Exceptional physical power counters this drag: **Strength 2** negates a -5 Movement Penalty, and **Strength 4** negates up to a -10 Movement Penalty.  
   
 #### **Armor Layering & Secondary Stacking Protocols**  
   
@@ -98,9 +98,9 @@ Operating in extreme environments or hot combat zones frequently tempts operator
   
 * **Stacking Benefit:** Wearing a secondary set of armor combines its flat DR with the primary armor for overlapping locations.   
 * **Compounding Penalties:** All baseline penalties of both suits combine, plus severe layering friction penalties based on the secondary armor's DR and coverage:   
-* **Secondary DR:** Imposes **\-1 Mobility** (if Upper Body/Torso) and **\-5 Movement** (if Lower Body/Legs).   
-* **Secondary DR:** Imposes **\-2 Mobility** (if Upper Body/Torso) and **\-10 Movement** (if Lower Body/Legs).   
-* **Secondary DR 20+:** Imposes **\-4 Mobility** (if Upper Body/Torso) and **\-20 Movement** (if Lower Body/Legs).   
+* **Secondary DR 10:** Imposes **-1 Mobility** (if Upper Body/Torso) and **-5 Movement** (if Lower Body/Legs).   
+* **Secondary DR 15:** Imposes **-2 Mobility** (if Upper Body/Torso) and **-10 Movement** (if Lower Body/Legs).   
+* **Secondary DR 20+:** Imposes **-4 Mobility** (if Upper Body/Torso) and **-20 Movement** (if Lower Body/Legs).   
 * **Exemptions:** Armor DR granted by internal Cybernetic Augmentations, Subdermal Plating, or Metaphysical Wards stacks freely and does *not* trigger layering penalties unless explicitly stated.   
 * **Option Invalidation:** Certain installed option modules (e.g., Reactive Camouflage, Holo-Distortion, or External Sensors) become completely non-functional if covered by a secondary outer garment.  
   
@@ -108,64 +108,64 @@ Operating in extreme environments or hot combat zones frequently tempts operator
   
 To construct a piece of custom armor, follow these six steps. This ensures the equipment is mathematically sound and fits within the galactic economy.  
   
-#### **Step: Establish the Agnostic Chassis (Mass & Capacity Class)**  
+#### **Step 1: Establish the Agnostic Chassis (Mass & Capacity Class)**  
   
 Every discrete piece of protective equipment is assigned a Weight Class Chassis, dictating its default capacity in Sockets, its base Structure Points (SP), and its baseline Crafting Challenge Rating (CR) for a standard Medium humanoid.  
   
 | CHASSIS CLASS | COMMON EXAMPLES | MASS | CAPACITY | BASE SP | MAX AGI | BASE Craft CR |  
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |  
-| **Accessory** | Jewelry, Data-chip, Piercing | \\< 0. kg | (2 Nodes) | 2 SP | \+6 | CR 5 |  
-| **Light Device** | Datapad, Sensor Fob, Bracer | \\< 1 kg | 1 Socket | 5 SP | \+6 | CR 5 |  
-| **Lightweight** | Vests, Padded Liners, Stealth Mesh | \\< 5 kg | 2 Sockets | 10 SP | \+5 | CR 10 |  
-| **Mediumweight** | Tactical Jackets, Long Coats, Combat Rigs | \\< 10 kg | 4 Sockets | 20 SP | \+4 | CR 15 |  
-| **Heavyweight** | Full Body Plate, Heavy Enclosed Armor | \\< 25 kg | 8 Sockets | 40 SP | \+2 | CR 20 |  
-| **Superheavy / Mecha** | Powered Battlesuits, Exoskeletons | \\< 100 kg | 1 Mount (10 Sockets) | 100 SP | \+0 | CR 30 |  
+| **Accessory** | Jewelry, Data-chip, Piercing | \< 0.01 kg | (2 Nodes) | 2 SP | +6 | CR 5 |  
+| **Light Device** | Datapad, Sensor Fob, Bracer | \< 1 kg | 1 Socket | 5 SP | +6 | CR 5 |  
+| **Lightweight** | Vests, Padded Liners, Stealth Mesh | \< 5 kg | 2 Sockets | 10 SP | +5 | CR 10 |  
+| **Mediumweight** | Tactical Jackets, Long Coats, Combat Rigs | \< 10 kg | 4 Sockets | 20 SP | +4 | CR 15 |  
+| **Heavyweight** | Full Body Plate, Heavy Enclosed Armor | \< 25 kg | 8 Sockets | 40 SP | +2 | CR 20 |  
+| **Superheavy / Mecha** | Powered Battlesuits, Exoskeletons | \< 100 kg | 1 Mount (10 Sockets) | 100 SP | +0 | CR 30 |  
   
 *Items classified as Accessories possess a mass so negligible they do not consume standard Socket capacity for inventory management, though they remain subject to standard durability constraints.*  
   
-#### **Step: Define Coverage (Layer Scaling)**  
+#### **Step 2: Define Coverage (Layer Scaling)**  
   
 Apply a Coverage Modifier to the Chassis Class to represent the form factor:  
   
-* **Total Sockets** \= Base Sockets \\* Socket Multiplier (Round down, minimum 1\)   
-* **Total SP** \= Base SP \\* SP Multiplier   
-* **Total Craft CR** \= Base Craft CR \+ CR Modifier  
+* **Total Sockets** = Base Sockets \\* Socket Multiplier (Round down, minimum 1\)   
+* **Total SP** = Base SP \\* SP Multiplier   
+* **Total Craft CR** = Base Craft CR + CR Modifier  
   
 | COVERAGE | DESCRIPTION | SOCKET MULT | SP MULT | MOBILITY MOD | CR MOD |  
 | :---- | :---- | :---- | :---- | :---- | :---- |  
-| **Partial** | Vest or Greaves only. Protects vital organs. | x0. | x0. | None | \-2 |  
-| **Standard** | Full suit. Complete limb and torso coverage. | x1. | x1. | \+0 | \+0 |  
-| **Sealed** | Hermetic seal with helmet and environmental gaskets. | x1. | x1. | None | \+4 |  
-| **Reinforced** | Up-armored plates and ablative over-layers. | x1. | x1. | \-1 Mobility / \-5 Move | \+6 |  
-| **Bulwark** | Excessive layering sacrificing mobility for defense. | x0. | x2. | \-2 Mobility / \-10 Move | \+10 |  
+| **Partial** | Vest or Greaves only. Protects vital organs. | x0.5 | x0.5 | None | -2 |  
+| **Standard** | Full suit. Complete limb and torso coverage. | x1.0 | x1.0 | +0 | +0 |  
+| **Sealed** | Hermetic seal with helmet and environmental gaskets. | x1.0 | x1.0 | None | +4 |  
+| **Reinforced** | Up-armored plates and ablative over-layers. | x1.0 | x1.5 | -1 Mobility / -5 Move | +6 |  
+| **Bulwark** | Excessive layering sacrificing mobility for defense. | x0.8 | x2.0 | -2 Mobility / -10 Move | +10 |  
   
-#### **Step: Select Materials & Tech Level (TL)**  
+#### **Step 3: Select Materials & Tech Level (TL)**  
   
 Technology Level (TL) dictates the Damage Resistance (DR), inherent passive traits, and applies a final multiplier to the armor's overall durability (SP).  
   
-* **Final SP** \= (Base SP \\* Coverage SP Mult) \\* Material SP Mult  
+* **Final SP** = (Base SP \\* Coverage SP Mult) \\* Material SP Mult  
   
 | TL | ERA | COMMON MATERIAL | DR BASE | SP MULT | PASSIVE TRAIT / MECHANICS |  
 | :---- | :---- | :---- | :---- | :---- | :---- |  
-| **0** | **Stone Age** | Hide, Bone, Wood | 25% (DR 0-5) | x0. | **Degrading:** Breaks easily under sustained stress. |  
-| **1** | **Metal Age** | Iron, Steel, Plate | 50% (DR 5-10) | x0. | **Heavy:** Imposes significant physical check (-1) penalties. |  
-| **2** | **Data Age** | Kevlar, Ceramic, Alloy | 75% (DR 10-15) | x1. | **Ballistic Weave:** Highly resists piercing kinetic trauma. |  
-| **3** | **Space Age** | Plasteel, Impact Gel | 100% (DR 15-20) | x1. | **Modular:** Universal ports; vacuum-ready hermetic seals. |  
-| **4** | **Stellar Age** | Nanocarbon, Phase-Shift | 125% (DR 20-25) | x2. | **Self-Repairing:** Regenerates 1 SP/hour. |  
-| **5** | **Galactic Age** | Polymatter, Hard-Light | 150% (DR 30+) | x2. | **Morphic / Weightless:** Instant reconfiguration. |  
+| **0** | **Stone Age** | Hide, Bone, Wood | 25% (DR 0-5) | x0.25 | **Degrading:** Breaks easily under sustained stress. |  
+| **1** | **Metal Age** | Iron, Steel, Plate | 50% (DR 5-10) | x0.5 | **Heavy:** Imposes significant physical check (-1) penalties. |  
+| **2** | **Data Age** | Kevlar, Ceramic, Alloy | 75% (DR 10-15) | x1.0 | **Ballistic Weave:** Highly resists piercing kinetic trauma. |  
+| **3** | **Space Age** | Plasteel, Impact Gel | 100% (DR 15-20) | x1.5 | **Modular:** Universal ports; vacuum-ready hermetic seals. |  
+| **4** | **Stellar Age** | Nanocarbon, Phase-Shift | 125% (DR 20-25) | x2.0 | **Self-Repairing:** Regenerates 1 SP/hour. |  
+| **5** | **Galactic Age** | Polymatter, Hard-Light | 150% (DR 30+) | x2.5 | **Morphic / Weightless:** Instant reconfiguration. |  
   
-#### **Step: Integrate Systems & Sockets**  
+#### **Step 4: Integrate Systems & Sockets**  
   
 Equipment in Tangent is modular, capable of evolving alongside the character through Sockets. Armor provides a baseline number of Sockets derived from its Weight Class and Coverage (typically averaging 1 Socket per 5 base DR). Installing upgrades consumes these sockets and increases the Crafting CR.  
   
 ##### **1\. Equipment Modification & Mastercrafting**  
   
-* **Standard Upgrades:** Each mundane module costs its listed Socket amount and increases the Crafting CR by \+5 (or \+10 for TL 4 / TL 5 items).   
-* **Mastercrafting (Bonus Sockets):** High-quality manufacturing allows armor to exceed standard Socket limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus Socket (up to a maximum of 1 per TL of the item, twice the base sockets for standard armor, or a maximum of 2 bonus sockets for Clothing). Each bonus slot adds \+5 to the base Craft CR.   
+* **Standard Upgrades:** Each mundane module costs its listed Socket amount and increases the Crafting CR by +5 (or +10 for TL 4 / TL 5 items).   
+* **Mastercrafting (Bonus Sockets):** High-quality manufacturing allows armor to exceed standard Socket limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus Socket (up to a maximum of 1 per TL of the item, twice the base sockets for standard armor, or a maximum of 2 bonus sockets for Clothing). Each bonus slot adds +5 to the base Craft CR.   
 * **Socket Compression:** If a build requires more capacity, advanced engineering can compress hardware at a severe premium:   
-* *Efficient Design:* \-25% Socket cost (round up). Adds \+5 CR.   
-* *Miniaturized:* \-50% Socket cost (round up). Requires Tech Level \+1 over item base. Adds \+10 CR.   
-* *Integrated:* 0 Sockets (fused directly into chassis). Cannot be removed. Adds \+5 CR.  
+* *Efficient Design:* -25% Socket cost (round up). Adds +5 CR.   
+* *Miniaturized:* -50% Socket cost (round up). Requires Tech Level +1 over item base. Adds +10 CR.   
+* *Integrated:* 0 Sockets (fused directly into chassis). Cannot be removed. Adds +5 CR.  
   
 ##### **2\. Meta-Tech Integration (Synthesizing Science and Sorcery)**  
   
@@ -177,9 +177,9 @@ Meta-Tech represents the engineering necessary to accommodate reality-warping pa
   
 Meta-Tech fabrication requires rare conductive materials (e.g., Aetherium or Resonance Crystals) that constitute 50% of the item's final material cost.  
   
-* **Enhancement (Passive):** Permanently improves the physical properties of the armor (e.g., *Ghost-Strike* phasing, *Featherweight* gravity alteration). Always On. Each Socket allocated increases Crafting CR by \+5.   
+* **Enhancement (Passive):** Permanently improves the physical properties of the armor (e.g., *Ghost-Strike* phasing, *Featherweight* gravity alteration). Always On. Each Socket allocated increases Crafting CR by +5.   
 * **Imbuement (Active):** Hard-codes an Invocation into the armor, allowing a non-Awakened user to trigger the effect.   
-* **Craft CR** \= 15 \+ Invocation Rank \+ TL Modifier (TL: \+0, TL: \+2, TL: \+5)   
+* **Craft CR** = 15 + Invocation Rank + TL Modifier (TL 3: +0, TL 4: +2, TL 5: +5)   
 * **Consumable Modifier:** If designed for single use (e.g., emergency burnout planar shift), reduce the final Meta-Tech CR by 10\.   
 * **Interface (Symbiotic):** Amplifies an Awakened user's natural casting pool or focus.  
   
@@ -187,40 +187,40 @@ Meta-Tech fabrication requires rare conductive materials (e.g., Aetherium or Res
   
 | MODULE NAME | EFFECT & MECHANICS | SOCKETS | CR / TL |  
 | :---- | :---- | :---- | :---- |  
-| **Ablative Foam** | Emergency deployment. Restores 10 SP or seals a vacuum breach. Single use. | 1 | CR \+5 TL 3 |  
-| **Auto-Injector** | Stabilizes wearer if Health \\< 0\. Holds 2 doses. Auto or manual trigger. | 1 | CR \+5 TL 3 |  
-| **Biometric Lock** | Armor locks rigid if worn by unauthorized user. CR 25 Hacking to bypass. | 0 | CR \+5 TL 4 |  
-| **Cloaking** | Visual Invisibility. \+10 Stealth (Moving) / \+20 (Still). Combat hide at \-10. | 2 | CR \+10 TL 4 |  
-| **Collapsible** | Fully retracts into fist-sized bracer/pack. Standard Action to equip/stow. | 1 (DR \\<= 10\) 2 (DR 15-20) 3 (Battlesuit) | CR \+10 TL 4 |  
-| **Comm Suite / HUD** | Audio/Visual radio (TL 2), Holo transceivers (TL 3), or Telepathic link (TL 4/5). | 0 | CR \+5 TL 3 |  
-| **Energy Shielding** | Grants Energy Resistance 10 (or 20 for Heavy, CR \+10). Purchased per type. | 1 | CR \+5 TL 3 |  
-| **Enviro-Field** | Projects a 20 ft radius environmental shield protecting from weather/elements. | 2 | CR \+10 TL 3 |  
-| **Enviro-Seal (Basic)** | Hermetic suit seal. 2-day O2 supply, air scrubbers, water recycling. | 2 | CR \+5 TL 3 |  
-| **Enviro-Seal (Indefinite)** | Closed-cycle life support; indefinite atmospheric and pressure immunity. | 2 | CR \+10 TL 4 |  
-| **Exo Servos** | Kinetic enhancement actuators. Increases wearer Strength by \+2 / \+4 / \+6. | 1 / 2 / 3 | CR \+5 / 10 / 15 TL 3 |  
-| **Expert Software** | Dedicated AI coprocessor. Grants \+1 to \+5 bonus to designated Skill checks. | 1 | CR \+10 TL 3 |  
-| **Flexible Weave** | Joint counter-balancing. Negates \-1 Mobility or \-5 Movement per installation. | 1 | CR \+5 TL 2 |  
-| **Flight Pack** | True Flight at Speed \= Base Speed \\* 2\. Vectored (TL 3), Force (TL 4), Grav (TL 5). | 2 | CR \+10 TL 3+ |  
-| **Flight System Extension** | Dedicated power reservoir granting 2 full hours continuous flight time. | 1 | CR \+5 TL 3 |  
-| **Grav Attenuator** | Advantage on traversal/climbing checks by dampening local gravity field. | 1 | CR \+10 TL 5 |  
-| **Grav-Chute** | Inertial dampener. Completely negates falling damage via slow descent. | 1 | CR \+5 TL 4 |  
-| **Hardened Circuits** | EMP shielding. Full immunity to EMP, Ion disruption, and low-tier scans. | 1 | CR \+5 TL 3 |  
-| **Hidden Weapon** | Concealed, retractable weapon housing (Archaic, Modern, or Advanced weapon). | 1 | CR \+5 TL 3 |  
-| **Holo-Distortion** | Visual blur field. Ranged attacks against wearer suffer 20% miss chance. | 1 | CR \+10 TL 4 |  
-| **Improved Toughness** | Increases base DR up to \+50% (\+2 CR per \+1 DR). Each \+10 DR adds \-1 Mob or \-5 Move. | 1 | Variable TL 2 |  
-| **Kinetic Damper** | Accelerator suit cushioning. Doubles DR vs Crashes/Falling; full DR vs Explosives. | 1 | CR \+5 TL 3 |  
-| **Picotech Canister** | Programmable matter. Reshapes into any Simple tool (CR 25). | 1 | CR \+15 TL 4 |  
-| **Portable Nurse** | Automated medical sub-routine. Grants \+2 to Medicine checks. | 1 | CR \+5 TL 3 |  
-| **Reactive Camouflage** | Chameleon surface blending. \+10 Stealth (+20 Still). No Jog/Run/Sprint at TL 3 (TL 4 upgrade). | 1 | CR \+10 TL 3\ |  
-| **Reflective Shell** | Ablative mirror coating. Counters up to 10 Laser Penetration (15 at TL 4). | 1 | CR \+5 TL 3 |  
-| **Resilient Alloy** | High-density shock weave. Reduces incoming Ballistic Penetration by 50%. | 1 | CR \+5 TL 3 |  
-| **Self-Repairing** | Nanite reservoir. Regenerates 1 Structure Point (SP) per hour. | 1 | CR \+10 TL 4 |  
-| **Sensor Stealth** | Sensor baffle netting. Imposes \-20 penalty to locate wearer with mundane sensors. | 1 | CR \+10 TL 3 |  
-| **Shield Generator** | Integrates personal force field unit directly into armor chassis (see Section IV). | 2 | CR \+10 TL 4 |  
-| **Tactical Computer** | Threat analyzer. Grants \+2 Initiative, \+2 Perception, \+1 Combat Actions (Atk/Def/Man). | 1 | CR \+10 TL 3 |  
-| **Variable Form** | Dynamic chromatic mesh. Changes appearance, style, and color (+5 Static Camo). | 1 | CR \+10 TL 4 |  
+| **Ablative Foam** | Emergency deployment. Restores 10 SP or seals a vacuum breach. Single use. | 1 | CR +5 TL 3 |  
+| **Auto-Injector** | Stabilizes wearer if Health \< 0\. Holds 2 doses. Auto or manual trigger. | 1 | CR +5 TL 3 |  
+| **Biometric Lock** | Armor locks rigid if worn by unauthorized user. CR 25 Hacking to bypass. | 0 | CR +5 TL 4 |  
+| **Cloaking** | Visual Invisibility. +10 Stealth (Moving) / +20 (Still). Combat hide at -10. | 2 | CR +10 TL 4 |  
+| **Collapsible** | Fully retracts into fist-sized bracer/pack. Standard Action to equip/stow. | 1 (DR \<= 10\) 2 (DR 15-20) 3 (Battlesuit) | CR +10 TL 4 |  
+| **Comm Suite / HUD** | Audio/Visual radio (TL 2), Holo transceivers (TL 3), or Telepathic link (TL 4/5). | 0 | CR +5 TL 3 |  
+| **Energy Shielding** | Grants Energy Resistance 10 (or 20 for Heavy, CR +10). Purchased per type. | 1 | CR +5 TL 3 |  
+| **Enviro-Field** | Projects a 20 ft radius environmental shield protecting from weather/elements. | 2 | CR +10 TL 3 |  
+| **Enviro-Seal (Basic)** | Hermetic suit seal. 2-day O2 supply, air scrubbers, water recycling. | 2 | CR +5 TL 3 |  
+| **Enviro-Seal (Indefinite)** | Closed-cycle life support; indefinite atmospheric and pressure immunity. | 2 | CR +10 TL 4 |  
+| **Exo Servos** | Kinetic enhancement actuators. Increases wearer Strength by +2 / +4 / +6. | 1 / 2 / 3 | CR +5 / 10 / 15 TL 3 |  
+| **Expert Software** | Dedicated AI coprocessor. Grants +1 to +5 bonus to designated Skill checks. | 1 | CR +10 TL 3 |  
+| **Flexible Weave** | Joint counter-balancing. Negates -1 Mobility or -5 Movement per installation. | 1 | CR +5 TL 2 |  
+| **Flight Pack** | True Flight at Speed = Base Speed \\* 2\. Vectored (TL 3), Force (TL 4), Grav (TL 5). | 2 | CR +10 TL 3+ |  
+| **Flight System Extension** | Dedicated power reservoir granting 2 full hours continuous flight time. | 1 | CR +5 TL 3 |  
+| **Grav Attenuator** | Advantage on traversal/climbing checks by dampening local gravity field. | 1 | CR +10 TL 5 |  
+| **Grav-Chute** | Inertial dampener. Completely negates falling damage via slow descent. | 1 | CR +5 TL 4 |  
+| **Hardened Circuits** | EMP shielding. Full immunity to EMP, Ion disruption, and low-tier scans. | 1 | CR +5 TL 3 |  
+| **Hidden Weapon** | Concealed, retractable weapon housing (Archaic, Modern, or Advanced weapon). | 1 | CR +5 TL 3 |  
+| **Holo-Distortion** | Visual blur field. Ranged attacks against wearer suffer 20% miss chance. | 1 | CR +10 TL 4 |  
+| **Improved Toughness** | Increases base DR up to +50% (+2 CR per +1 DR). Each +10 DR adds -1 Mob or -5 Move. | 1 | Variable TL 2 |  
+| **Kinetic Damper** | Accelerator suit cushioning. Doubles DR vs Crashes/Falling; full DR vs Explosives. | 1 | CR +5 TL 3 |  
+| **Picotech Canister** | Programmable matter. Reshapes into any Simple tool (CR 25). | 1 | CR +15 TL 4 |  
+| **Portable Nurse** | Automated medical sub-routine. Grants +2 to Medicine checks. | 1 | CR +5 TL 3 |  
+| **Reactive Camouflage** | Chameleon surface blending. +10 Stealth (+20 Still). No Jog/Run/Sprint at TL 3 (TL 4 upgrade). | 1 | CR +10 TL 3\ |  
+| **Reflective Shell** | Ablative mirror coating. Counters up to 10 Laser Penetration (15 at TL 4). | 1 | CR +5 TL 3 |  
+| **Resilient Alloy** | High-density shock weave. Reduces incoming Ballistic Penetration by 50%. | 1 | CR +5 TL 3 |  
+| **Self-Repairing** | Nanite reservoir. Regenerates 1 Structure Point (SP) per hour. | 1 | CR +10 TL 4 |  
+| **Sensor Stealth** | Sensor baffle netting. Imposes -20 penalty to locate wearer with mundane sensors. | 1 | CR +10 TL 3 |  
+| **Shield Generator** | Integrates personal force field unit directly into armor chassis (see Section IV). | 2 | CR +10 TL 4 |  
+| **Tactical Computer** | Threat analyzer. Grants +2 Initiative, +2 Alertness, +1 Combat Actions (Atk/Def/Man). | 1 | CR +10 TL 3 |  
+| **Variable Form** | Dynamic chromatic mesh. Changes appearance, style, and color (+5 Static Camo). | 1 | CR +10 TL 4 |  
   
-#### **Step: The Cultural Skin & Flaws**  
+#### **Step 5: The Cultural Skin & Flaws**  
   
 Apply the narrative and aesthetic flavor of the manufacturing faction.  
   
@@ -228,18 +228,18 @@ Apply the narrative and aesthetic flavor of the manufacturing faction.
   
 Factions utilizing grown biotechnology (Auluran, Thorn) subvert traditional power systems:  
   
-* **Symbiosis (Bonding):** Living armor must genetically and bio-electrically bond with a host over 24 hours. Failure to attune results in a persistent \-2 operational penalty to all checks while worn.   
+* **Symbiosis (Bonding):** Living armor must genetically and bio-electrically bond with a host over 24 hours. Failure to attune results in a persistent -2 operational penalty to all checks while worn.   
 * **Sustenance (Feeding):** Grown armor feeds on user waste heat for minor suits, but heavy suits require submersion in Nutrient Solution (10 Cr/dose) weekly, or they gain the **Broken (Starving)** condition.   
 * **Bio-Repair:** Healed via Medicine or Xenobiology checks rather than Engineering. A healthy host facilitates automatic regeneration of 1 SP/hour for bonded suits.  
   
 ##### **Faction-Specific Armor Traits**  
   
-* **Alterian Enclave (The Resonant):** Sunglass Laminates. Solar crystalline capacitors. *Bonus:* \+1 Focus/Meta checks while worn.   
-* **Auluran (The Husk):** Empathic Carapace. Adapts when struck by energy (Fire/Cold/Electricity), granting DR \+5 against that specific damage type for the remainder of the Scene.   
+* **Alterian Enclave (The Resonant):** Sunglass Laminates. Solar crystalline capacitors. *Bonus:* +1 Focus/Meta checks while worn.   
+* **Auluran (The Husk):** Empathic Carapace. Adapts when struck by energy (Fire/Cold/Electricity), granting DR +5 against that specific damage type for the remainder of the Scene.   
 * **Coalition (The Rig):** Riveted ballistic dusters. *Bonus:* Rugged (+1 SP multiplier), but Cumbersome (-1 Max Agi).   
 * **Entari Combine (The Operator):** Seamless nanoweave. *Bonus:* Modular. Swap Sockets in 1 hour instead of days.   
 * **Impyrium (The Relic):** Baroque blast-plate. *Bonus:* Ancient Engineering (+2 DR, gains an Archeotech socket that cannot accept modern modules).   
-* **Kitin (Hive-Resin):** Acoustically absorbent secreted resin. *Bonus:* \+2 to Stealth checks.   
+* **Kitin (Hive-Resin):** Acoustically absorbent secreted resin. *Bonus:* +2 to Stealth checks.   
 * **Outworlds (The Scavenger):** Welded scrap and custom tags. *Bonus/Flaw:* Cheap (-5 Craft CR), but Unreliable (a Natural 1 on defense disables an installed socket).   
 * **Syndicate (The Ghost):** Mirror-chrome corporate ergonomics. *Bonus:* Integrated System (+2 to Computer and Tech Vocation checks).  
   
@@ -251,14 +251,14 @@ Players may accept functional flaws to reduce Crafting CR by 5 (reducing cost ex
 * **Tethered:** Requires an external, heavy power umbilical cable.   
 * **Limited Usage:** Imposes a strict depletion die or short battery lifespan.  
   
-#### **Step: Economic Finalization**  
+#### **Step 6: Economic Finalization**  
   
 Calculate the final Crafting CR and Market Value:  
   
-1. **Lock the final CR:** Sum Base Chassis CR \+ Coverage Mod \+ Sockets Used Modifiers \- Downgrades.   
+1. **Lock the final CR:** Sum Base Chassis CR + Coverage Mod + Sockets Used Modifiers - Downgrades.   
 2. **Determine Market Value:** Run the final Crafting CR through the Tangent Standard Curve formula:   
-* **Value (Credits) \= 10 \\* 4^(CR / 5\)**   
-3. **Fabrication Phase:** Crafting requires a Vocation (Armorsmith) or Knowledge (Engineering) check against the final CR. Manufacturing time is tracked by the **Productivity Engine** (Target PP \= Credit Value).  
+* **Value (Credits) = 10 \\* 4^(CR / 5\)**   
+3. **Fabrication Phase:** Crafting requires a Vocation (Armorsmith) or Knowledge (Engineering) check against the final CR. Manufacturing time is tracked by the **Productivity Engine** (Target PP = Credit Value).  
   
 ### ***III. STANDARD ARMOR CATALOG***  
   
@@ -279,28 +279,28 @@ Baseline military, industrial, and civilian armor configurations found across th
   
 | ARMOR TYPE | DR | SP | PENALTY | LOCATIONS | Craft CR | BASE SOCKETS |  
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |  
-| **Helmet, Heavy** | 15 | 10 | \-2 Sight/Hearing Perception | Head | 12 | 2 |  
+| **Helmet, Heavy** | 15 | 10 | -2 Sight/Hearing Alertness | Head | 12 | 2 |  
 | **Armored Vest (Partial)** | 10 | 10 | None | Torso | 10 | 2 |  
 | **Armored Pants (Partial)** | 10 | 10 | None | Legs | 12 | 2 |  
 | **Armored Jacket (Standard)** | 10 | 20 | None | Torso, Arms | 12 | 4 |  
 | **Armored Long Coat** | 10 | 25 | None | Torso, Arms, Legs | 12 | 4 |  
-| **Armored Jacket, Heavy** | 15 | 40 | \-1 Mobility | Torso, Arms | 15 | 4 |  
-| **Armored Long Coat, Heavy** | 15 | 40 | \-1 Mobility | Torso, Arms, Legs | 15 | 4 |  
-| **Armored Pants, Heavy** | 15 | 20 | \-5 Movement | Legs | 15 | 4 |  
+| **Armored Jacket, Heavy** | 15 | 40 | -1 Mobility | Torso, Arms | 15 | 4 |  
+| **Armored Long Coat, Heavy** | 15 | 40 | -1 Mobility | Torso, Arms, Legs | 15 | 4 |  
+| **Armored Pants, Heavy** | 15 | 20 | -5 Movement | Legs | 15 | 4 |  
   
 #### **HEAVY ARMOR**  
   
 | ARMOR TYPE | DR | SP | PENALTY | LOCATIONS | Craft CR | BASE SOCKETS |  
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |  
 | **Full Body Armor (Sealed)** | 15 | 40 | None | All (H, T, A, L) | 18 | 8 |  
-| **Full Body Armor, Heavy** | 20 | 60 | \-1 Mobility \-5 Movement | All (H, T, A, L) | 22 | 8 |  
+| **Full Body Armor, Heavy** | 20 | 60 | -1 Mobility -5 Movement | All (H, T, A, L) | 22 | 8 |  
   
 #### **SUPERHEAVY & POWERED ARMOR**  
   
 | ARMOR TYPE | DR | SP | PENALTY | LOCATIONS | Craft CR | BASE SOCKETS |  
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |  
-| **Battle Suit (Heavy Assault)** | 25 | 80 | \-2 Mobility \-10 Movement | All (H, T, A, L) | 25 | 6 |  
-| **Battle Suit (Bulwark)** | 30 | 80 | \-2 Mobility \-10 Movement | All (H, T, A, L) | 30 | 6 |  
+| **Battle Suit (Heavy Assault)** | 25 | 80 | -2 Mobility -10 Movement | All (H, T, A, L) | 25 | 6 |  
+| **Battle Suit (Bulwark)** | 30 | 80 | -2 Mobility -10 Movement | All (H, T, A, L) | 30 | 6 |  
 | **Exoskeleton Battlesuit** | 40 | 100 | Varies (Powered/Exo) | All (H, T, A, L) | 30 | 1 Mount (10) |  
   
 ### ***IV. FIELD GENERATORS & CARRIED SHIELDS***  
@@ -333,8 +333,8 @@ These eight core military, industrial, and personal protection systems form the 
 | **Energy Screen (Standard / Civilian)** | TL 3 | Energy / Fire | 10 | 20 | 10 | Disperses lasers and plasma. Completely bypassed by physical projectiles and melee strikes. |  
 | **Energy Screen (Heavy)** | TL 4 | Energy / Fire | 15 | 30 | 15 | Reinforced plasma refraction field. Absorbs heavy directed energy and particle beams. |  
 | **Force Field, Light** | TL 4 | All Sources | 10 | 20 | 15 | Standard personal belt generator providing complete omni-directional tactical protection. |  
-| **Force Field, Medium** | TL 5 | All Sources | 15 | 30 | 20 | Tactical combat rig. Faint hum and visual shimmer impose a \-1 penalty to Stealth checks. |  
-| **Force Field, Heavy** | TL 5 | All Sources | 20 | 40 | 25 | Heavy assault generator. Imposes \-2 to Stealth checks; requires Heavy or Powered Armor chassis to mount. |  
+| **Force Field, Medium** | TL 5 | All Sources | 15 | 30 | 20 | Tactical combat rig. Faint hum and visual shimmer impose a -1 penalty to Stealth checks. |  
+| **Force Field, Heavy** | TL 5 | All Sources | 20 | 40 | 25 | Heavy assault generator. Imposes -2 to Stealth checks; requires Heavy or Powered Armor chassis to mount. |  
   
 ##### **2\. Advanced & Specialized Field Systems (Additions to the Matrix)**  
   
@@ -344,22 +344,22 @@ Engineered for specialized combat doctrines, high-threat environments, or spec-o
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |  
 | **Repulsion Harness** | TL 3 | Kinetic | 5 | 30 | 18 | Missed melee attacks against user force the attacker to make a CR 12 Strength Save or be pushed 5 ft back. |  
 | **Riot Shield (Projected)** | TL 4 | 180° Frontal Arc | 15 | 40 | 22 | Directional force plane. Wielder can spend a Reaction to intercept and protect an adjacent ally. |  
-| **Distortion Field** | TL 4 | All Sources | 5 | 10 | 28 | Imposes a 20% Miss Chance (Concealment). Grants \+5 Stealth when stationary or moving slowly. |  
+| **Distortion Field** | TL 4 | All Sources | 5 | 10 | 28 | Imposes a 20% Miss Chance (Concealment). Grants +5 Stealth when stationary or moving slowly. |  
 | **Holo-Armor Field** | TL 5 | All Sources | 15 | 30 | 35 | Skin-tight solid light lattice. Melee attackers suffer 1d6 Energy damage upon contact. No Stealth penalty. |  
 | **Gravitic Dampener** | TL 5 | Split Spectrum | 20 Kin 10 Ene | 50 | 40 | Stops ballistic projectiles dead in flight. Grants complete immunity to knockback and forced movement. |  
 | **Adaptive Matrix** | TL 5 | Dynamic Spectrum | 10 (Base) 25 (Adapted) | 40 | 40 | Analyzing heuristic. Field DR increases to 25 against the last specific damage type sustained. |  
-| **Phase Shift Generator** | TL 5 | Phase Evasion | 0 | 15 | 45 | Reaction Phase Dodge (2d10 \+ Agility vs attack roll); negates hit entirely. Costs 5 AP per dodge attempt. |  
+| **Phase Shift Generator** | TL 5 | Phase Evasion | 0 | 15 | 45 | Reaction Phase Dodge (2d10 + Agility vs attack roll); negates hit entirely. Costs 5 AP per dodge attempt. |  
   
 ##### **Field Mastercrafting Protocols**  
   
 Precision tuning allows a skilled armorer to reinforce field harmonics during fabrication:  
   
-* **DR Improvement:** For every 2 points a Crafting check exceeds the Field's Base CR, the field gains **\+1 DR**.   
-* **AP Scaling:** Any increase to the field's DR automatically increases its Ablative Points by **\+2 AP per 1 point of DR gained**.   
+* **DR Improvement:** For every 2 points a Crafting check exceeds the Field's Base CR, the field gains **+1 DR**.   
+* **AP Scaling:** Any increase to the field's DR automatically increases its Ablative Points by **+2 AP per 1 point of DR gained**.   
 * **Tech Level Caps:** The maximum DR increase is bounded by material science:   
-* **TL:** Maximum \+5 DR (+10 AP)   
-* **TL:** Maximum \+10 DR (+20 AP)   
-* **TL:** Maximum \+15 DR (+30 AP)  
+* **TL 3:** Maximum +5 DR (+10 AP)   
+* **TL 4:** Maximum +10 DR (+20 AP)   
+* **TL 5:** Maximum +15 DR (+30 AP)  
   
 ##### **Disruptor Weapon Vulnerability**  
   
@@ -375,13 +375,13 @@ Carried shields provide an active **Block Bonus** added to the user's Defense Sc
   
 | SHIELD TYPE | BLOCK BONUS | WEIGHT | Craft CR | SOCKET CAPACITY | NOTES & TACTICAL PROPERTIES |  
 | :---- | :---- | :---- | :---- | :---- | :---- |  
-| **Impromptu Shield** | \+1 | Varies | CR 0-5 | 0 Sockets | Makeshift barrier (table, hatch, door). Low durability. |  
-| **Buckler** | \+1 | 4 lb. (1. kg) | CR 6 | 1 Socket | Straps to forearm; leaves hand partially free for items. |  
-| **Shield, Small** | \+1 | 6 lb. (2. kg) | CR 5 | 1 Socket | Light melee skirmishing shield. |  
-| **Shield, Medium** | \+2 | 9 lb. (4. kg) | CR 6 | 2 Sockets | Standard balance of coverage and handling. |  
-| **Shield, Large** | \+2 | 12 lb. (5. kg) | CR 7 | 3 Sockets | Heavy infantry battle shield. High coverage. |  
-| **Shield, Riot** | \+3 | 10 lb. (4. kg) | CR 10 | 4 Sockets | Provides **Full Cover** when planted (Standard Action). |  
-| **Projected Energy Shield** | \+2 | 2 lb. (0. kg) | CR 16 (TL 4\) | 1 Socket | Wrist bracer emitter. Energy blade/shield is weightless. |  
+| **Impromptu Shield** | +1 | Varies | CR 0-5 | 0 Sockets | Makeshift barrier (table, hatch, door). Low durability. |  
+| **Buckler** | +1 | 4 lb. (1.8 kg) | CR 6 | 1 Socket | Straps to forearm; leaves hand partially free for items. |  
+| **Shield, Small** | +1 | 6 lb. (2.7 kg) | CR 5 | 1 Socket | Light melee skirmishing shield. |  
+| **Shield, Medium** | +2 | 9 lb. (4.0 kg) | CR 6 | 2 Sockets | Standard balance of coverage and handling. |  
+| **Shield, Large** | +2 | 12 lb. (5.5 kg) | CR 7 | 3 Sockets | Heavy infantry battle shield. High coverage. |  
+| **Shield, Riot** | +3 | 10 lb. (4.5 kg) | CR 10 | 4 Sockets | Provides **Full Cover** when planted (Standard Action). |  
+| **Projected Energy Shield** | +2 | 2 lb. (0.9 kg) | CR 16 (TL 4\) | 1 Socket | Wrist bracer emitter. Energy blade/shield is weightless. |  
   
 *Notes on Shield Systems:*  
   
@@ -401,13 +401,12 @@ Carried shields provide an active **Block Bonus** added to the user's Defense Sc
 * **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
 * **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
 
-
 ---
 
 ## DISCREPANCY & RESTORATION LEDGER (DISC-548)
 
 * **Target Path:** `architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - PROTECTIVE EQUIPMENT` & `/game rules/architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md`
+* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - PROTECTIVE EQUIPMENT` & `/game_rules/architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md`
 * **Restoration & Normalization Log:**
   * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
   * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).

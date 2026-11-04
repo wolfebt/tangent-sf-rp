@@ -40,20 +40,26 @@ negative_keywords: >-
 
 # SUPER-SENSE Invocation
 
-**Category**: Invocations  
-**Discipline**: Mental
-
 ## Description & Ritual Details
-Classification: Mental (Sense) | Sensory | \[Extra-Sensory\] \[Mode\]  
+
+Classification: Mental (Sense) | Sensory | [Extra-Sensory] [Mode]
+
 Parameters:
-* **Base Difficulty:** 18  
-* **Time:** Standard Action  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Minutes/Level  
-* **Resistance:** None
-Effect Description:  
-Grants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).  
+
+  - **Base Difficulty:** 18
+  - **Time:** Standard Action
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Minutes/Level
+  - **Resistance:** None
+
+Effect Description:
+
+Grants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).
+
 **Scaling Function:**
-* **Range:** Sense Range \= 30ft \+ (10ft per Stage).  
-* **Duration:** 10 Minutes per Stage.
+
+  - **Range:** Sense Range = 30ft + (10ft per Stage).
+  - **Duration:** 10 Minutes per Stage.
+
+---

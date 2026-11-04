@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Training and controlling animals or beasts.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Train:* Long-term check to teach a creature a trick (CR 15-25).
+- *Train:* Long-term check to teach a creature a trick (CR 15-25).
   - *Control:* CR 15 to calm a spooked animal; CR 20 to command an attacking beast.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Riding Mount Training:** Breaking, saddling, and training equines, alien lizards, and quadrupeds for riding.
       - **Combat Attack Training:** Teaching canines and alien predators to bite on command, hold targets, and ignore gunfire.

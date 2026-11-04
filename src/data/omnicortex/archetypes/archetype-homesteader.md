@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Homesteader
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Survival / Crafter / Base Builder  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Stamina  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A hardworking and resourceful individual determined to build a life on the frontier.
 
-> *You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*
+*You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*
 
-> _"This land is hard, but I am harder."_
-
-## Tactical Role
-Generating food/water, building fortifications, animal taming.
-
-## Essential Skills
-- Knowledge (Survival)
-- Vocation (Farming/Laborer)
-- Vocation (Handler)
-- Knowledge (Nature)
-
-## Signature Features
-- Self-Sufficiency
-- Resourceful
-
-## Recommendations
-- **Occupations**: Citizen (Colonist), Scout
-- **Origins**: Agricultural, Colony, Hostile
-- **Factions**: Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry)
-
-
-## Extended Lore & Background
-
-A hardworking and resourceful individual determined to build a life on the frontier.  
-*You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*  
 *"This land is hard, but I am harder."*
 
+  - **Core Concept:** Survival / Crafter / Base Builder
+  - **Recommended Occupations:** Citizen (Colonist), Scout.
+  - **Recommended Origins:** Agricultural, Colony, Hostile.
+  - **Recommended Factions:** Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry).
+  - **Key Attributes:** Stamina (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Vocation (Farming/Laborer), Vocation (Handler), Knowledge (Nature).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Self-Sufficiency, Resourceful.
+  - **Tactical Role:** Generating food/water, building fortifications, animal taming.

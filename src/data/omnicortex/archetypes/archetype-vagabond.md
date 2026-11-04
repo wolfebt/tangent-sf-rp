@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Vagabond
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Jack-of-All-Trades / Survivor  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Stamina  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure.
 
-> *You are the ultimate survivor. You have no home, but you have a skill for every situation. You fix what's broken, find what's lost, and disappear before the trouble starts.*
+*You are the ultimate survivor. You have no home, but you have a skill for every situation. You fix what's broken, find what's lost, and disappear before the trouble starts.*
 
-> _"I've been everywhere, man. And I know the quickest way out of here."_
-
-## Tactical Role
-Fills gaps in the party, transport, urban survival.
-
-## Essential Skills
-- Pilot
-- Knowledge (Survival)
-- Streetwise
-- Vocation (General)
-
-## Signature Features
-- Adaptability
-- Mobility
-
-## Recommendations
-- **Occupations**: Drifter, Scout
-- **Origins**: Spacer, Colony, Hostile
-- **Factions**: Outworlds (Drifters), Coalition (Wanderers), Ascendancy
-
-
-## Extended Lore & Background
-
-Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure.  
-*You are the ultimate survivor. You have no home, but you have a skill for every situation. You fix what's broken, find what's lost, and disappear before the trouble starts.*  
 *"I've been everywhere, man. And I know the quickest way out of here."*
 
+  - **Core Concept:** Jack-of-All-Trades / Survivor
+  - **Recommended Occupations:** Drifter, Scout.
+  - **Recommended Origins:** Spacer, Colony, Hostile.
+  - **Recommended Factions:** Outworlds (Drifters), Coalition (Wanderers), Ascendancy.
+  - **Key Attributes:** Stamina (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Pilot, Knowledge (Survival), Streetwise, Vocation (General).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Adaptability, Mobility.
+  - **Tactical Role:** Fills gaps in the party, transport, urban survival.

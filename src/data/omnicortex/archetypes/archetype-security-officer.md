@@ -47,41 +47,18 @@ cp_chassis: 80
 
 # The Security Officer
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Perception / Defense / Area Denial  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A vigilant and disciplined individual who ensures the safety and security of their post.
 
-> *You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*
+*You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*
 
-> _"Secure. For now."_
-
-## Tactical Role
-Preventing ambushes, spotting hidden enemies, locking down areas.
-
-## Essential Skills
-- Alertness
-- Insight
-- Intimidation
-- Combat (Any)
-
-## Signature Features
-- Keen Eye
-- Guardian
-
-## Recommendations
-- **Occupations**: Soldier, Agent
-- **Origins**: Urban, Industrial, Leisure
-- **Factions**: Syndicate (Asset Protection), Entari Combine (Constables)
-
-
-## Extended Lore & Background
-
-A vigilant and disciplined individual who ensures the safety and security of their post.  
-*You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*  
 *"Secure. For now."*
 
+  - **Core Concept:** Perception / Defense / Area Denial
+  - **Recommended Occupations:** Soldier, Agent.
+  - **Recommended Origins:** Urban, Industrial, Leisure.
+  - **Recommended Factions:** Syndicate (Asset Protection), Entari Combine (Constables).
+  - **Key Attributes:** Wisdom (+3 Primary), Wisdom / Alertness (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Alertness, Insight, Intimidation, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Keen Eye, Guardian.
+  - **Tactical Role:** Preventing ambushes, spotting hidden enemies, locking down areas.

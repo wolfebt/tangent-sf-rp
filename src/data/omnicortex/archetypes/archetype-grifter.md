@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Grifter
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Social Stealth / Deceiver  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Uses charm and bluff to swindle and exploit others for personal gain.
 
-> *You exploit the bugs in human nature. You see greed, pride, and fear as levers to be pulled. You can walk into a fortress with nothing but a smile and walk out with the keys.*
+*You exploit the bugs in human nature. You see greed, pride, and fear as levers to be pulled. You can walk into a fortress with nothing but a smile and walk out with the keys.*
 
-> _"Trust me. I'm exactly who you want me to be."_
-
-## Tactical Role
-Talk the way into secure areas, trick enemies, gather intel via deception.
-
-## Essential Skills
-- Diplomacy
-- Bluff
-- Insight
-- Streetwise
-
-## Signature Features
-- Silver Tongue
-- Master of Disguise
-
-## Recommendations
-- **Occupations**: Criminal, Citizen
-- **Origins**: Urban, Leisure, Spacer
-- **Factions**: Outworlds (Con Artists), Syndicate (Espionage), Entari
-
-
-## Extended Lore & Background
-
-Uses charm and bluff to swindle and exploit others for personal gain.  
-*You exploit the bugs in human nature. You see greed, pride, and fear as levers to be pulled. You can walk into a fortress with nothing but a smile and walk out with the keys.*  
 *"Trust me. I'm exactly who you want me to be."*
 
+  - **Core Concept:** Social Stealth / Deceiver
+  - **Recommended Occupations:** Criminal, Citizen.
+  - **Recommended Origins:** Urban, Leisure, Spacer.
+  - **Recommended Factions:** Outworlds (Sta Artists), Syndicate (Espionage), Entari.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Bluff, Insight, Streetwise.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Silver Tongue, Master of Disguise.
+  - **Tactical Role:** Talk the way into secure areas, trick enemies, gather intel via deception.

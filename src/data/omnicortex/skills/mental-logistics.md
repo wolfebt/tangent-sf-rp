@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.
+- *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.
   - *Resource Allocation:* CR 20 to optimize resource distribution during high-demand or crisis scenarios.
   - *Transport Planning:* CR 15+ to coordinate complex multi-modal shipments or fleet movements.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Interstellar Supply Chains:** Organizing transport schedules across jump gates and hyperspace lanes.
       - **Fleet Fuel & Resource Management:** Calculating propellant reserves, reactor fuel burn, and life support replenishment.

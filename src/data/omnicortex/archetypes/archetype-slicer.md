@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Slicer
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Hacking / Intel / Support  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 A master of cyberspace, skilled in infiltrating networks and stealing data.
 
-> *You are the knife in the digital dark. You carve through firewalls and dissect data streams, extracting the secrets that power empires.*
+*You are the knife in the digital dark. You carve through firewalls and dissect data streams, extracting the secrets that power empires.*
 
-> _"Information wants to be free. I'm just the liberator."_
-
-## Tactical Role
-Electronic warfare, data theft, bypassing security.
-
-## Essential Skills
-- Knowledge (Technology)
-- Knowledge (Computers)
-- Knowledge (Investigation)
-- Social
-
-## Signature Features
-- Digital Ghost
-- Cyber Intrusion
-
-## Recommendations
-- **Occupations**: Specialist, Criminal
-- **Origins**: Urban, Industrial, Research
-- **Factions**: Syndicate (Deckers), Mekan (Code-Weavers), Ascendancy
-
-
-## Extended Lore & Background
-
-A master of cyberspace, skilled in infiltrating networks and stealing data.  
-*You are the knife in the digital dark. You carve through firewalls and dissect data streams, extracting the secrets that power empires.*  
 *"Information wants to be free. I'm just the liberator."*
 
+  - **Core Concept:** Hacking / Intel / Support
+  - **Recommended Occupations:** Specialist, Criminal.
+  - **Recommended Origins:** Urban, Industrial, Research.
+  - **Recommended Factions:** Syndicate (Deckers), Mekan (Code-Weavers), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Computers), Knowledge (Investigation), Social.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Digital Ghost, Cyber Intrusion.
+  - **Tactical Role:** Electronic warfare, data theft, bypassing security.

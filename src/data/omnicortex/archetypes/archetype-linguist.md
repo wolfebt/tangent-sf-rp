@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Linguist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Intel / Face / Support  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Charisma  
 
-## Overview
 The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation.
 
-> *You are the key to understanding. You translate the inscrutable and find the meaning hidden in alien noise. You know that the right word is often more powerful than the largest railgun.*
+*You are the key to understanding. You translate the inscrutable and find the meaning hidden in alien noise. You know that the right word is often more powerful than the largest railgun.*
 
-> _"Language is the first weapon. And the first shield."_
-
-## Tactical Role
-Translating alien documents/comms, mediating first contact, deciphering codes.
-
-## Essential Skills
-- Knowledge (Language)
-- Diplomacy
-- Insight
-- Knowledge (History)
-
-## Signature Features
-- Polyglot
-- Cultural Interpreter
-
-## Recommendations
-- **Occupations**: Scholar, Representative
-- **Origins**: Urban, Research, Spacer
-- **Factions**: Entari Combine (Translators), Alterian Enclave, Ascendancy
-
-
-## Extended Lore & Background
-
-The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation.  
-*You are the key to understanding. You translate the inscrutable and find the meaning hidden in alien noise. You know that the right word is often more powerful than the largest railgun.*  
 *"Language is the first weapon. And the first shield."*
 
+  - **Core Concept:** Intel / Face / Support
+  - **Recommended Occupations:** Scholar, Representative.
+  - **Recommended Origins:** Urban, Research, Spacer.
+  - **Recommended Factions:** Entari Combine (Translators), Alterian Enclave, Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Languages), Diplomacy, Insight, Knowledge (History).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Polyglot, Cultural Interpreter.
+  - **Tactical Role:** Translating alien documents/comms, mediating first contact, deciphering codes.

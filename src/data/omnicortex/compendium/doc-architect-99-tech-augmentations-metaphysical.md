@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 38
+order: 39
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.metaphysical","matrix"]
-updatedAt: "2026-11-02T22:49:13.852Z"
+updatedAt: "2026-11-04T00:33:10.461Z"
 costs:
   bp: 0
   credits: 0
@@ -39,7 +39,7 @@ sockets:
 
 # **Metaphysical**
 
-# **01.09. Metaphysical Augmentations**
+# **01.09.02 Metaphysical Augmentations**
 
 # **Enchantments, Psi-Crystals, Imbued Tattoos, and Magi-Tech Implants**
 
@@ -84,20 +84,20 @@ Meta-Augs cannot be built from standard materials. They adhere to the Economic U
 
 ## **4. CATEGORIES OF METAPHYSICAL AUGMENTATION**
 
-### **4. Imbued Tattoos & Runification (Metaphysical Scarring)**
+### **4.1 Imbued Tattoos & Runification (Metaphysical Scarring)**
 
 The practice of injecting Aetherium-dust or Resonance-laced ink directly into the dermis. The body itself becomes the spell scroll.
 
 * **Mechanic:** Primarily used for Passive Enhancements (Stat boosts, Damage Resistance, Unarmed attack upgrades).
 * **Limitation:** Tattoos consume Nodes on the specific body part they are inked upon. If the limb is destroyed or replaced with a mechanical prosthetic, the magic is lost entirely.
 
-### **4. Psi-Crystals and Focal Implants**
+### **4.2 Psi-Crystals and Focal Implants**
 
 Surgically embedding psycho-reactive crystal matrices into the skeletal structure, nervous system, or directly into the brain (pineal gland).
 
 * **Mechanic:** Primarily used for Active Imbuements or Symbiotic Interfaces. The crystal acts as a hard drive for a specific Invocation or as an amplifier (Amp) for the user's innate Metafocus disciplines.
 
-### **4. Cyber-Occult Neural Sockets**
+### **4.3 Cyber-Occult Neural Sockets**
 
 The Syndicate and Impyrium method of mass-producing magic. Installing physical, TL4/TL5 metallic computer sockets that interface with the brain, allowing the user to "slot" metaphysical software.
 
@@ -125,19 +125,19 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 * **Mechanic:** Allows the user to run up to 4 simultaneous "Feature Circuits." The user can swap out Aether-chips (requiring 1 minute) to temporarily gain access to high-tier metaphysical Talents, Skill Features, or Invocations that they do not permanently own.
 
 **Temporal Stutter Drive**
-* **Location:** Head (Cerebral Cortex) | **Nodes:** 15 (1. Sockets) | **TL/ML:** 5/5 | **CR:** 35 | **Value:** 163,840 Cr
+* **Location:** Head (Cerebral Cortex) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 5/5 | **CR:** 35 | **Value:** 163,840 Cr
 * **Description:** A localized reality disruption module. It uses immense Aetherium reserves to fracture the time stream directly around the user's localized consciousness.
 * **Mechanic:** Once per day, as a Swift Action, the user triggers a *Time Stop*. The user takes one complete extra turn while the rest of the universe is frozen. The user can move, use items, or cast buff/utility invocations, but cannot deal direct damage or move other creatures during this frozen turn.
 
-### **Sensory & Perception Implants**
+### **Sensory & Alertness Implants**
 
 **Ocular Resonance Matrix (Ethersight Lenses)**
-* **Location:** Head (Eyes) | **Nodes:** 5 (0. Sockets) | **TL/ML:** 4/4 | **CR:** 20 | **Value:** 2,560 Cr
+* **Location:** Head (Eyes) | **Nodes:** 5 (0.5 Sockets) | **TL/ML:** 4/4 | **CR:** 20 | **Value:** 2,560 Cr
 * **Description:** Synthetic or faceted crystal lenses that replace the biological eyes, hardwired to perceive the flow of Conscious Light.
 * **Mechanic:** Grants the *Ethersight* and *Acute Sense (Vision)* features. The user can clearly see invisible or phased creatures, magical auras, and the lingering residue of recently cast Invocations within 60 feet.
 
 **Echo-Chamber Tympanum**
-* **Location:** Head (Ears) | **Nodes:** 5 (0. Sockets) | **TL/ML:** 3/4 | **CR:** 15 | **Value:** 640 Cr
+* **Location:** Head (Ears) | **Nodes:** 5 (0.5 Sockets) | **TL/ML:** 3/4 | **CR:** 15 | **Value:** 640 Cr
 * **Description:** An intricate gold-and-bone filigree replacement for the inner ear structure, enchanted with Mental and Dimensional properties.
 * **Mechanic:** Grants *Uncanny Sense (Hearing)*. Additionally, the user can spend 1 Essence to actively "listen" to the psychic residue of a room, gaining impressions of strong emotions or telepathic conversations that occurred within the last 24 hours.
 
@@ -154,7 +154,7 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 * **Mechanic:** Acts as a Symbiotic Interface. Grants a +2 Bonus to Attune checks for a specific Energy Discipline (e.g., Fire, Lightning). Furthermore, the user's Unarmed strikes deal an additional 1d6 damage of that specific energy type.
 
 **Null-Void Sigils (Anti-Magic Tattoos)**
-* **Location:** Full Body | **Nodes:** 15 (1. Sockets) | **TL/ML:** 2/5 | **CR:** 25 | **Value:** 10,240 Cr
+* **Location:** Full Body | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 2/5 | **CR:** 25 | **Value:** 10,240 Cr
 * **Description:** Sweeping, jagged tattoos made with void-touched ink sourced from the Shadow Plane. They act as a grounding rod against the Universal Resonance.
 * **Mechanic:** Grants Advantage on all Saving Throws against Invocations and Meta-Tech effects. However, due to the nullifying nature of the ink, the user cannot be targeted by beneficial Invocations (Healing, Buffs) unless they take a Standard Action to mentally suppress the tattoos' effect for one round.
 
@@ -188,9 +188,9 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 * **Mechanic:** A Passive Enhancement utilizing the Dimension/Force disciplines. The user gains a +10 bonus to Stability checks against being knocked prone, tripped, or forcibly moved. The user takes half damage from falling, as the crystals automatically assert telekinetic drag upon high-velocity descent.
 
 **Aether-Pump Heart**
-* **Location:** Torso (Heart) | **Nodes:** 15 (1. Sockets) | **TL/ML:** 4/5 | **CR:** 35 | **Value:** 163,840 Cr
+* **Location:** Torso (Heart) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 4/5 | **CR:** 35 | **Value:** 163,840 Cr
 * **Description:** The ultimate biological replacement. The host's biological heart is removed and replaced with a spinning, frictionless Aetherium crystal turbine that pumps liquid resonance through the veins instead of blood.
-* **Mechanic:** The user no longer ages and gains the *Ageless* and *Regeneration* (1 HP per minute) features. The user's Vitality maximum is permanently increased by +20 (equivalent to 4 CP of Vitality investment). However, the user becomes critically vulnerable to anti-magic: entering an established Null-Void field or being struck by a targeted Metaphysical EMP forces a CR 20 Fortitude save, or the user drops immediately to 0 Health.
+* **Mechanic:** The user no longer ages and gains the *Ageless* and *Regeneration* (1 Health per minute) features. The user's Vitality maximum is permanently increased by +20 (equivalent to 4 CP of Vitality investment). However, the user becomes critically vulnerable to anti-magic: entering an established Null-Void field or being struck by a targeted Metaphysical EMP forces a CR 20 Fortitude save, or the user drops immediately to 0 Health.
 
 ### EUFT & Matrix Systems Audit Retrofits (Canonical Reference)
 
@@ -205,13 +205,12 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 * **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
 * **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
 
-
 ---
 
 ## DISCREPANCY & RESTORATION LEDGER (DISC-547)
 
 * **Target Path:** `architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - AUGMENTATIONS MATRIX` & `/game rules/architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md` (`1xYpIT7ZPlxgqrIc4AZL5mz8edDTo455X`)
+* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - AUGMENTATIONS MATRIX` & `/game_rules/architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md` (`1xYpIT7ZPlxgqrIc4AZL5mz8edDTo455X`)
 * **Restoration & Normalization Log:**
   * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
   * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 37
+order: 38
 perspective: "architect"
 entry_type: "Tech Matrix (augmentations)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.biological","matrix"]
-updatedAt: "2026-11-02T22:49:13.611Z"
+updatedAt: "2026-11-04T00:33:10.453Z"
 costs:
   bp: 0
   credits: 0
@@ -39,7 +39,7 @@ sockets:
 
 # **Biological**
 
-# **01.09. Biological Augmentations**
+# **01.09.01 Biological Augmentations**
 
 # **Symbiotes, Grafts, and Genetic Modifications**
 
@@ -69,7 +69,7 @@ Biological augmentations follow the core rules established in the *99 - AUGMENTA
 True bioware natively operates at TL4.
 
 * **Mechanic:** Bioware is immune to disablement from Massive Damage (unlike TL3 mechanical limbs, which can be rendered useless by heavy trauma).
-* **Repair:** Bioware possesses the *Regeneration* trait. It recovers 1 HP/Structure Point per hour naturally. It cannot be repaired with an Engineering check; it requires a Medicine or Xenobiology check. Alternatively, the host can "feed" the bioware raw organic matter to instantly restore 1d4 HP.
+* **Repair:** Bioware possesses the *Regeneration* trait. It recovers 1 Health / Structure Point (SP) per hour naturally. It cannot be repaired with an Engineering check; it requires a Medicine or Xenobiology check. Alternatively, the host can "feed" the bioware raw organic matter to instantly restore 1d4 Health / Structure Points (SP).
 
 **Node Capacity & Rejection:**
 
@@ -77,7 +77,7 @@ Biological augments consume Node Capacity exactly like mechanical ones. Exceedin
 
 ## **4. CATEGORIES OF BIOLOGICAL AUGMENTATION**
 
-### **4. Symbiotes (Bio-Linked Entities)**
+### **4.1 Symbiotes (Bio-Linked Entities)**
 
 Symbiotes are independent or semi-independent living organisms engineered to bond with a host chassis.
 
@@ -85,14 +85,14 @@ Symbiotes are independent or semi-independent living organisms engineered to bon
 * **Mechanic (Symbiotic Meta-Tech):** Symbiotes function as Meta-Tech interfaces. Activation is a Free Action via mental/chemical trigger. The symbiote regenerates its charges by directly siphoning the host's life force (1 Essence = 1 Charge).
 * **Vulnerability:** Symbiotes are susceptible to poisons, diseases, and biological toxins that target the host.
 
-### **4. Grafts (Cloned and Spliced Additions)**
+### **4.2 Grafts (Cloned and Spliced Additions)**
 
 Grafts are vat-grown limbs, organs, or carapaces surgically attached to the host.
 
 * **Integration:** Grafting can be performed via TL4 Medical Surgery (Requires 1d4+1 weeks of recovery) or instantly via the **Grafting Invocation** (Matter: Transmutation CR 20).
 * **Mechanic:** Grafts replace biological baseline parts. They are seamless and often indistinguishable from the host's natural body unless specifically engineered for a visibly alien aesthetic (e.g., grafting a Draconic arm onto a Human).
 
-### **4. Genetic Modifications (Retroviruses & Mutations)**
+### **4.3 Genetic Modifications (Retroviruses & Mutations)**
 
 Unlike physical additions, genetic mods alter the host's DNA to naturally develop new traits.
 
@@ -206,13 +206,12 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 * **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
 * **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
 
-
 ---
 
 ## DISCREPANCY & RESTORATION LEDGER (DISC-546)
 
 * **Target Path:** `architect/technology/augmentations/99.Tech.Augmentations.Biological.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - AUGMENTATIONS MATRIX` & `/game rules/architect/technology/augmentations/99.Tech.Augmentations.Biological.md` (`14h05Yuknwq-snG6jiP5Byt5ZCqokrsmB`)
+* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - AUGMENTATIONS MATRIX` & `/game_rules/architect/technology/augmentations/99.Tech.Augmentations.Biological.md` (`14h05Yuknwq-snG6jiP5Byt5ZCqokrsmB`)
 * **Restoration & Normalization Log:**
   * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
   * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).

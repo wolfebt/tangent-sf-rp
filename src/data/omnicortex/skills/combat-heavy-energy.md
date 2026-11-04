@@ -17,8 +17,6 @@ specialties:
   - "Point-Defense Energy Arrays (PDC): Tracking and vaporizing incoming torpedoes and starfighters with automated pulse lasers."
   - "Macro-Ion Cannons: Firing massive EMP and ion charges that disable starship power grids, engines, and shields without hull breach."
   - "Coaxial Plasma Bombardment Cannons: Directing planetary bombardment salvos from orbit to obliterate coastal cities."
-  - "*"
-  - "*"
 keywords: "heavy energy, combat, strength, tactical, offensive, defense"
 negative_keywords: "pacifist, unarmed-civilian, helpless"
 ---
@@ -30,15 +28,11 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
       
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Attack Roll:** Standard ranged attack roll, often with range penalties reduced by targeting computers (Smart Links).
+- **Attack Roll:** Standard ranged attack roll, often with range penalties reduced by targeting computers (Smart Links).
   - **Area of Effect:** Many heavy energy weapons (like Particle Beams) strike in a line or an area blast rather than a single point.
   - **Penetration:** Heavy energy weapons typically possess high Penetration values, ignoring significant amounts of Damage Resistance (DR).
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Ship-to-Ship Laser Batteries:** Firing megawatt turrets to slice through starship hull plating and sensor domes.
       - **Orbital Particle Lances:** Aligning spine-mounted spinal cannons to fire devastating lance strikes through the atmosphere.
@@ -50,12 +44,5 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
       - **Point-Defense Energy Arrays (PDC):** Tracking and vaporizing incoming torpedoes and starfighters with automated pulse lasers.
       - **Macro-Ion Cannons:** Firing massive EMP and ion charges that disable starship power grids, engines, and shields without hull breach.
       - **Coaxial Plasma Bombardment Cannons:** Directing planetary bombardment salvos from orbit to obliterate coastal cities.
-
-  
-  
-  
-  
-**  
-**
 
 ---

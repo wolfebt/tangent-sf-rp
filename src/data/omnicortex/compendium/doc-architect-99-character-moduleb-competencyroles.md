@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 7
+order: 8
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.moduleb.competencyroles","matrix"]
-updatedAt: "2026-11-03T10:28:21.345Z"
+updatedAt: "2026-11-04T00:33:10.395Z"
 costs:
   bp: 0
   credits: 0
@@ -39,11 +39,18 @@ sockets:
 
 # **99.Character.ModuleB.CompetencyRoles.md**
 
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
 ## **MCM REFERENCE MODULE B: COMPETENCY ROLES & MATRICES**
 
 During Step 3 of NPC construction (`99. MODULAR CHARACTER MATRIX.md`), Game Masters and Operators utilize this matrix to assign specific skill suites, attributes, and combat behaviors based on the character's designated job on the battlefield. Rather than generating exhaustive, unfocused lists, skills are strictly categorized by **Narrative Function**. Apply the Tier Chassis's **Primary Skill Rank** to the first listed Key Skill and the **Secondary Skill Rank** to all remaining Key Skills.
-
----
 
 ## **A. COMBAT ROLES**
 
@@ -66,8 +73,6 @@ Functioning as the overwhelming physical hammer of a squad, the Brute utilizes r
 - **Primary Attributes:** Strength (STR), Stamina (STA).
 - **Key Skills:** **Melee / Unarmed Combat** *(Primary)*, Athletics, Intimidate.
 - **Role Feature:** **Rage / Power Attack** *(Take damage to deal +2 damage; or `+2 STR, +2 STA [Toughness/Fortitude], +2 Willpower, -2 Defense`; or trade Strike for Melee Damage)*.
-
----
 
 ### **2. Striker (Precision / Damage Dealers)**
 
@@ -97,8 +102,6 @@ Functioning as the unseen executioner, the Sniper is deployed to surgically elim
 - **Key Skills:** **Ballistic / Energy / Ranged Combat** *(Primary)*, Stealth, Alertness.
 - **Role Feature:** **Sniper / Dead Aim & Aiming Mastery** *(+2 Strike when stationary, stacking with +2/action Aiming; ignores light cover penalties)*.
 
----
-
 ### **3. Skirmisher (Mobility / Asymmetric Warfare)**
 
 Skirmishers are masters of asymmetric warfare and battlefield traversal, engineered to exploit gaps in enemy formations and cause absolute chaos behind the front lines.
@@ -119,8 +122,6 @@ Operating as the tactical positioning expert, the Flank / Infiltrator is enginee
 - **Key Skills:** **Stealth** *(Primary)*, Melee/Ranged Combat, Defense (Evasion), Vocation *(Demolitionist / Mechanic)*, Bluff.
 - **Role Feature:** **Hit & Run / Silent Killer** *(Move after attacking without provoking reactions; attacks from complete concealment score automatic Critical Hits and bypass Armor DR)*.
 
----
-
 ### **4. Caster (Metaphysics / Reality Warping)**
 
 Harnessing the fundamental metaphysical forces of the Tangent universe, Casters bend reality to serve their tactical needs.
@@ -132,8 +133,6 @@ Operating as esoteric artillery and a reality-warping specialist, the Combative 
 - **Primary Attributes:** Key Mental Attribute (INT, WIS, or CHA), Stamina (STA).
 - **Key Skills:** **Attune** *(Primary)*, **2 Metaphysic Discipline Focus Skills** *(Primary/Secondary)*, Alertness.
 - **Role Feature:** **Awakened, Centering & Discipline Focus** *(Access to Metaphysical Invocations; +2 to +6 to Attune Save CRs and Discipline Potency)*.
-
----
 
 ## **B. SUPPORT & UTILITY ROLES**
 
@@ -157,8 +156,6 @@ Functioning as the tactical brain of an operation, the Leader dictates the flow 
 - **Key Skills:** **Leadership** *(Primary)*, Knowledge *(Tactics)*, Insight, Combat *(Any)*.
 - **Role Feature:** **Coordinated Assist & Master Plan** *(Create bonus pools through pre-planning and grant +2 to +4 Aid Another bonuses to squadmates)*.
 
----
-
 ### **6. Controller (Sabotage / Environmental Manipulation)**
 
 Controllers manipulate the operational environment, neutralizing enemy advantages through technological or metaphysical suppression.
@@ -178,8 +175,6 @@ Serving as the environmental manipulator and electronic warfare expert, the Tech
 - **Primary Attributes:** Intellect (INT), Agility (AGI).
 - **Key Skills:** **Knowledge (Computers)** or **Vocation (Engineer / Mechanic)** *(Primary)*, Knowledge *(Technology)*, Knowledge *(Investigation)*, Piloting.
 - **Role Feature:** **Jamming / Cyber Warfare & Gearhead** *(Disable enemy tech; slice networks)*.
-
----
 
 ### **7. Face (Social / Subterfuge)**
 
@@ -201,8 +196,6 @@ Functioning as the covert infiltrator and intelligence gatherer, the Spy exists 
 - **Key Skills:** **Stealth** *(Primary)*, Insight, Disguise / Acting *(Expression)*, Streetwise.
 - **Role Feature:** **Veiled Threat** or **Assessment**.
 
----
-
 ### **8. Medic & Scholar (Restoration, Triage & Field Science)**
 
 Dedicated restorative and analytical anchors engineered or trained specifically to keep their allies alive and solve environmental mysteries under extreme duress.
@@ -223,8 +216,6 @@ Operating as the conventional medical expert and tactical anatomist, the Biochem
 - **Key Skills:** **Knowledge (Medicine)** *(Primary — Medic)*, **Academics** *(Primary — Scholar)*, or **Knowledge (Survival)** *(Primary — Pathfinder)*, Knowledge *(Biology / Science / Nature)*, Alertness.
 - **Role Feature:** **Medic & Field Surgeon** *(First Aid as a Standard Action without provoking reactions; restores `5 * WIS` Vitality and stabilizes at CR 15)*.
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-515)**
 
 - **File Target:** `architect/characters/99.Character.ModuleB.CompetencyRoles.md`
@@ -233,5 +224,4 @@ Operating as the conventional medical expert and tactical anatomist, the Biochem
   - Merged with the 16 canonical role mechanics and Primary/Secondary skill mappings from the Nov 2 revision.
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized all skill references (`Knowledge (Computers)`, `Knowledge (Medicine)`, `Knowledge (Survival)`, `Alertness`, `Insight`) and `CR 15` stabilization target.
-
 

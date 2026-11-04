@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Chronicler
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Bard / Historian / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms.
 
-> *You keep the history alive. You know that a story can inspire a revolution or calm a beast. You carry the memory of your people, ensuring that their deeds—and your team's deeds—are never forgotten.*
+*You keep the history alive. You know that a story can inspire a revolution or calm a beast. You carry the memory of your people, ensuring that their deeds—and your team's deeds—are never forgotten.*
 
-> _"Let me tell you how this ends."_
-
-## Tactical Role
-Buffing allies with inspiration, gathering local lore, engaging social encounters.
-
-## Essential Skills
-- Expression (Oratory)
-- Knowledge (History)
-- Diplomacy
-- Bluff
-
-## Signature Features
-- Masterful Narrator
-- World Builder
-
-## Recommendations
-- **Occupations**: Entertainer, Scholar
-- **Origins**: Enlightened, Urban, Leisure
-- **Factions**: Alterian Enclave (Historians), Impyrium (Archivists), Entari Combine
-
-
-## Extended Lore & Background
-
-Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms.  
-*You keep the history alive. You know that a story can inspire a revolution or calm a beast. You carry the memory of your people, ensuring that their deeds—and your team's deeds—are never forgotten.*  
 *"Let me tell you how this ends."*
 
+  - **Core Concept:** Bard / Historian / Buffer
+  - **Recommended Occupations:** Entertainer, Scholar.
+  - **Recommended Origins:** Enlightened, Urban, Leisure.
+  - **Recommended Factions:** Alterian Enclave (Historians), Impyrium (Archivists), Entari Combine.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Expression (Oratory), Knowledge (History), Diplomacy, Bluff.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Masterful Narrator, World Builder.
+  - **Tactical Role:** Buffing allies with inspiration, gathering local lore, engaging social encounters.

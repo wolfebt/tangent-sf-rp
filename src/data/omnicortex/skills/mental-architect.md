@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Architect is the skill of designing and building structures. It reflects a character's ability to create and design buildings and other structures, design blueprints, create models, and oversee construction. Architect is used whenever a character needs to create a structure, whether it's a house, a castle, or a city. This can include things like designing layouts, creating blueprints, and managing construction crews. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Design:* Create blueprints for a structure (CR 15 for a house, CR 30 for a space elevator).
+- *Design:* Create blueprints for a structure (CR 15 for a house, CR 30 for a space elevator).
   - *Assess Weakness:* CR 20 to find a structural weak point in a building (grants bonus to Demolitionist).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Arcology Design:** Engineering self-contained mega-structures housing millions with integrated air and waste loops.
       - **Starship Naval Architecture:** Designing structural bulkheads, internal frame load paths, and compartmental layouts.

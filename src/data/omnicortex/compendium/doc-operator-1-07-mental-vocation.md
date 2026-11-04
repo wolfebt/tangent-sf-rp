@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.vocation","mechanics"]
-updatedAt: "2026-11-02T22:49:29.798Z"
+updatedAt: "2026-11-04T00:33:10.745Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,41 @@ sockets:
 ---
 
 # **1.07.05 MENTAL SKILLS: VOCATION (OVERVIEW & EUFT CRAFTING ENGINE)**
+
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Vocation.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Vocation.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (VOCATION STAGES & EUFT CRAFTING MATRIX)**
+
+| Skill Stage | Rank Range | Starting Wealth Score Bonus | High-Demand Multiplier (`x2`) | EUFT Crafting & Tool Multipliers |
+| :--- | :---: | :---: | :---: | :--- |
+| **Stage 1: Novice** | `1 – 5` | `+1 WS` | `+2 WS` | `Value = 10 * 4^(CR / 5)`; Tier 0 (`x1`), Tier 1 (`x10`) |
+| **Stage 2: Trained** | `6 – 10` | `+2 WS` | `+4 WS` | Linear Micro-Mods: `+1 CR = x1.3`, `+2 = x1.75`, Tier 2 (`x50`) |
+| **Stage 3: Expert** | `11 – 15` | `+3 WS` | `+6 WS` | Linear Micro-Mods: `+3 CR = x2.3`, `+4 = x3.0`, Tier 3 (`x200`) |
+| **Stage 4: Master** | `16 – 20` | `+4 WS` | `+8 WS` | `-1 CR Flaw = x0.75`; Tier 4 Nanoforge/Bio (`x1,000`) |
+| **Stage 5–6: Grand Master / Pinnacle** | `21+` | `+5 WS` | `+10 WS` | `50%` Pristine Materials / `10%` Scrap (`5x` mass); Tier 5 (`x5,000`) |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
+
+### **Codex Vocation Category Baseline**
+
+* **Ability:** Varies (Usually Intellect, Wisdom, or Agility depending on the job; Stamina or Charisma for physical/social trades).
+* **Mechanics:** Checks determine the quality of work created or the success of a professional task:
+  * **Earn Income:** Check result determines weekly/daily wealth generation and lifestyle maintenance.
+  * **Craft / Repair:** Challenge Rating (`CR`) determines the complexity and market value of the item.
 
 ## **1. VOCATION (Skill Category)**
 
@@ -106,7 +141,9 @@ All 27 canonical Vocation Skills (each with 10 specialized sub-disciplines) are 
 
 ---
 
-## **5. DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-314 (1.07.Mental.Vocation EUFT & Scrap Retrofit):** Normalized the Starting Wealth Score Stage thresholds (`Novice 1–5`, `Trained 6–10`, `Expert 11–15`, `Master 16–20`, `Grand Master/Pinnacle 21+`) and integrated the Matrix Audit Linear Micro-Modifier Multipliers (`x1.3 / x1.75 / x2.3 / x3.0 / x0.75`) and Crafting Material Ratio (`50% Pristine` vs. `10% Scrap`).
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Mental.Vocation.md):** Restored Codex `VOCATION (Category)` overview rules (`Ability`, `Mechanics`, `Earn Income`, `Craft/Repair`) and integrated canonical Starting Wealth Score stage progression and the EUFT Productivity Engine (`10 * 4^(CR/5)`, Linear Micro-Modifiers, `50%` Pristine / `10%` Scrap).
 

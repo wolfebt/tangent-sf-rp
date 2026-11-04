@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Arbitrator
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Mediator / Social / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Charisma  
 
-## Overview
 The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice.
 
-> *You are the middle ground. In a galaxy of competing interests and violent factions, you provide the calm center where words replace weapons. You don't take sides; you find the truth.*
+*You are the middle ground. In a galaxy of competing interests and violent factions, you provide the calm center where words replace weapons. You don't take sides; you find the truth.*
 
-> _"Justice is a scale. It must be balanced, not broken."_
-
-## Tactical Role
-Preventing conflict escalation, identifying lies, securing diplomatic safety.
-
-## Essential Skills
-- Insight
-- Knowledge (Law)
-- Diplomacy
-- Investigation
-
-## Signature Features
-- Conflict resolution
-- Master Negotiator
-
-## Recommendations
-- **Occupations**: Agent, Scholar
-- **Origins**: Research, Urban, Colony
-- **Factions**: Ascendancy (Judges), Entari Combine (Ethicists), Syndicate
-
-
-## Extended Lore & Background
-
-The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice.  
-*You are the middle ground. In a galaxy of competing interests and violent factions, you provide the calm center where words replace weapons. You don't take sides; you find the truth.*  
 *"Justice is a scale. It must be balanced, not broken."*
 
+  - **Core Concept:** Mediator / Social / Buffer
+  - **Recommended Occupations:** Agent, Scholar.
+  - **Recommended Origins:** Research, Urban, Colony.
+  - **Recommended Factions:** Ascendancy (Judges), Entari Combine (Ethicists), Syndicate.
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Knowledge (Law), Diplomacy, Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Conflict resolution, Master Negotiator.
+  - **Tactical Role:** Preventing conflict escalation, identifying lies, securing diplomatic safety.

@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Kingpin
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Leader / Minion Master / Intimidator  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Strength  
 
-## Overview
 Leader of a criminal organization, overseeing illegal activities and managing a network of underlings.
 
-> *You built an empire from the gutter. You command loyalty through fear and respect, leveraging a network of criminals to get things done. You don't ask for permission; you take what is yours.*
+*You built an empire from the gutter. You command loyalty through fear and respect, leveraging a network of criminals to get things done. You don't ask for permission; you take what is yours.*
 
-> _"It's just business. But for you, it's personal."_
-
-## Tactical Role
-Controlling NPC minions, sourcing illegal gear, intimidation.
-
-## Essential Skills
-- Intimidation
-- Leadership
-- Diplomacy
-- Streetwise
-
-## Signature Features
-- Commanding Presence
-- Network of Power
-
-## Recommendations
-- **Occupations**: Criminal, Representative
-- **Origins**: Urban, Industrial, Colony
-- **Factions**: Syndicate (Shadow Boards), Coalition (Crime Lords), Outworlds
-
-
-## Extended Lore & Background
-
-Leader of a criminal organization, overseeing illegal activities and managing a network of underlings.  
-*You built an empire from the gutter. You command loyalty through fear and respect, leveraging a network of criminals to get things done. You don't ask for permission; you take what is yours.*  
 *"It's just business. But for you, it's personal."*
 
+  - **Core Concept:** Leader / Minion Master / Intimidator
+  - **Recommended Occupations:** Criminal, Representative.
+  - **Recommended Origins:** Urban, Industrial, Colony.
+  - **Recommended Factions:** Syndicate (Shadow Boards), Coalition (Crime Lords), Outworlds.
+  - **Key Attributes:** Charisma (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Leadership, Diplomacy, Streetwise.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Commanding Presence, Network of Power.
+  - **Tactical Role:** Controlling NPC minions, sourcing illegal gear, intimidation.

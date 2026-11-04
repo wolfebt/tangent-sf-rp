@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 6
+order: 7
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.modulea.tierchassis","matrix"]
-updatedAt: "2026-11-02T22:49:09.914Z"
+updatedAt: "2026-11-04T00:33:10.395Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,15 @@ sockets:
 ---
 
 # **99.Character.ModuleA.TierChassis.md**
+
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **MCM REFERENCE MODULE A: THE TIER CHASSIS (TIERS 0 – 20)**
 
@@ -67,8 +76,6 @@ The Architect references this matrix to establish the mathematical ceiling and f
 | **19** | **Demigod** | +9 / +8 | Rank 28 (Pinnacle) / Rank 23 | 6 | +95 (125 / 125) | 48 | 500 CP |
 | **20** | **Cosmic / Mythic** | +10 / +8 | Rank 30+ (Pinnacle) / Rank 26 | 6 | +100 (130 / 130) | 50+ | 525+ CP |
 
----
-
 ## **EXPANDED TIER DESCRIPTIONS**
 
 - **Tiers 0–2 (Civilian / Adept / Militia):** Everyday populace, unaugmented wildlife, or standard grunt-level security. They possess rudimentary to basic professional training in their daily vocation but are largely ineffective in a sustained firefight against true professionals. Dangerous in groups, manageable alone.
@@ -78,8 +85,6 @@ The Architect references this matrix to establish the mathematical ceiling and f
 - **Tiers 14–16 (Paragon / High Lord / Heroic):** Characters that can subjugate entire cities alone. Grand Masters of metaphysical disciplines, apex Dragons, or highly advanced Synthesis constructs. Beings that require an entire coordinated strike team and extensive, multi-stage planning to successfully engage.
 - **Tiers 17–19 (Legend / Ascendant / Demigod):** Myths made manifest and beings of immense, localized power. Avatars of the U'Nonn, rogue AI that have consumed planetary computing networks, or ancient figures whose very presence warps the local environment.
 - **Tier 20 (Cosmic / Mythic):** Reality-warping beings. The sleeping Ila, Cosmic horrors, or literal gods. They possess Pinnacle skills (Rank 30+) and operate completely beyond the standard laws of physics, mortality, and the battlefield.
-
----
 
 ## **DERIVING CANONICAL STATS FROM THE BASE CHASSIS**
 
@@ -108,8 +113,6 @@ The Architect references this matrix to establish the mathematical ceiling and f
   - **Stage 6 (Pinnacle):** Ranks 26–30+
 - **Essence Economy:** Manifesting an Invocation at its base learned Stage costs 0 Essence (it is powered by ambient resonance). Pushing an Invocation to cast at a *higher* Stage than the character's current Skill Rank (any Invocation check over CR 10 difficulty), or maintaining multiple sustained effects simultaneously, costs 1 Essence per additional Stage/Effect per round.
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-514)**
 
 - **File Target:** `architect/characters/99.Character.ModuleA.TierChassis.md`
@@ -119,5 +122,4 @@ The Architect references this matrix to establish the mathematical ceiling and f
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Replaced legacy `10 + Attribute Mod + Feature Bonus` saves with `Active Save = 2d10 + 2 + (2 * Attribute) + Feature Bonus` and `Passive Save CR = 12 + (2 * Attribute) + Feature Bonus`.
   - Enforced Zero Stamina Scaling on Vitality/Health pools and Stamina Base Toughness damage reduction.
-
 

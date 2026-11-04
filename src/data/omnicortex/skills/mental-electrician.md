@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Electrician is the skill of understanding and working with electrical systems. It reflects a character's ability to install and repair electrical systems, such as wiring, circuits, outlets, switches, and lighting fixtures. Electrician is used whenever a character needs to ensure that electrical systems are safe and functional. This can include things like installing and repairing electrical systems, such as wiring, circuits, outlets, switches, and lighting fixtures. Wiring, circuitry, and power systems. Distinct from Computers (software) and Mechanic (moving parts).
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Bypass Security:* CR 20 to hotwire an electronic lock.
+- *Bypass Security:* CR 20 to hotwire an electronic lock.
   - *Repair Circuit:* CR 15 to fix a fried panel.
   - *Restore Power:* CR 20 to reroute power in a damaged ship.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **High-Voltage Distribution:** Laying heavy-duty power lines, substations, and industrial 10,000-volt transformers.
       - **Micro-Electronics & PCBs:** Soldering surface-mount resistors, micro-chips, and delicate data bus relays.

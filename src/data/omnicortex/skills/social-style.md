@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Style is the skill of creating a unique and distinctive appearance. It reflects a character's ability to use clothing, accessories, and other techniques to create a unique and memorable look. Style is used whenever a character needs to make a good impression or to stand out from the crowd. The knowledge of fashion, grooming, and personal aesthetics. It is the ability to make an impression before speaking a word. It involves dressing appropriately for high society or looking intimidating in street armor.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *First Impression:* CR 15 to grant a +2 bonus to the first **Diplomacy** or **Intimidate** check made in an encounter.
+- *First Impression:* CR 15 to grant a +2 bonus to the first **Diplomacy** or **Intimidate** check made in an encounter.
   - *Blend In:* Dress to match a specific social caste or group (opposed by Culture/Streetwise).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **High-Society Elegance:** Selecting tailored suits, noble sashes, and jewelry that radiate immense wealth and status.
       - **Streetwear & Cyberpunk Chic:** Styling leather jackets, neon hair, combat boots, and decals for maximum street cred.

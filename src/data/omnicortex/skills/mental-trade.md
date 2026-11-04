@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** The skill of understanding and navigating the complexities of commercial exchange. It reflects a character"s ability to identify market needs, navigate trade routes, understand commercial laws, and manage mercantile relationships. Trade is used whenever a character needs to buy, sell, or transport goods. This can include things like negotiating contracts, assessing commodity values, and understanding trade regulations.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Analyze Market:* CR 15 to identify trade opportunities, demand, or supply shortages.
+- *Analyze Market:* CR 15 to identify trade opportunities, demand, or supply shortages.
   - *Trade Law:* CR 20 to understand tariffs, trade agreements, or restricted goods in a sector.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Commodity Arbitrage:** Buying low in resource-rich frontier sectors and selling high in industrialized core worlds.
       - **Tariff & Customs Evasion:** Structuring cargo routing to legally minimize planetary import taxes and duties.

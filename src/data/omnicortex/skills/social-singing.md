@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Singing is the skill of using one's voice to create music. It reflects a character's ability to use pitch, tone, and rhythm to convey emotions and communicate effectively. Singing is used whenever a character needs to entertain others or perform in a musical production. The use of the voice as an instrument. This creates a powerful connection with audiences without the need for equipment.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Performance:* Standard performance mechanics.
+- *Performance:* Standard performance mechanics.
   - *Project Voice:* CR 15 to be heard clearly over loud noise/combat.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Classical Opera:** Projecting high, unamplified vibrato vocals across full orchestras with crystalline resonance.
       - **Rock & Metal Belting:** Singing powerful, gritty, overdriven lead vocals with intentional rasp and chest-drive.

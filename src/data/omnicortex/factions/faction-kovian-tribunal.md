@@ -74,70 +74,313 @@ negative_keywords: >-
   egalitarian, mercy
 ---
 
-## **KOVIAN TRIBUNAL (NOCTURNE)**
+# 1.04. AELD PROVIDENCE: KOVIAN TRIBUNAL — NOCTURNE (+3 WS)
 
-*(Elven Sub-Faction)*
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 3 / ML 4 | +3 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.AeldProvidence.KovianTribunal.md` in **Tangent SF RP**.
 
-### **I. Detailed Faction Description**
+## Overview & Mechanical Authority Block
 
-* **Overview:** The "shadow self" of Elven civilization, they seceded from the Enclave millennia ago. Inhabiting the Umbra Sector (rogue planets in dark nebulae), they have evolved a culture of Supremacy and Obfuscation. To a Kovian, darkness is armor. They believe the Elven genome is divine but diluted by Alterian tolerance. They do not trade; they take. Their technology is sleek, silent, and predatory.  
-* **Key Themes:** Supremacy, Obfuscation, Entropy, Xenophobia, Dark Magic.  
-* **Relationship to Others:** Hostile. Interactions are limited to raiding, enslavement, or political destabilization.
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-### **II. Core Identity**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-* **Official Designation:** The Kovian Tribunal  
-* **Colloquialisms:** The Nocturne / Shadow-Kin / The Silenced  
-* **Archetype:** Supremacist / Isolationist / Magocracy  
-* **Capital/Key World:** Umbra Sector Rogue Planets  
-* **Symbol/Sigil:** Obsidian Dagger piercing a Silver Crescent Moon  
-* **Driving Mandate:** Purity through Shadow.  
-* **Motto:** "Silence is the loudest verdict."
+## Part I — Alignment & Summary Matrix Table
 
-### **III. Sociological Profile**
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.AeldProvidence.KovianTribunal.md (Sec. I)` | TL 3 / ML 4 | +3 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.AeldProvidence.KovianTribunal.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.AeldProvidence.KovianTribunal.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
 
-#### **Ideology & Culture**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-* **Core Beliefs:** Control over Harmony. The Resonance must be dampened by the Void (Entropy).  
-* **Social Structure:** The Tribunal \> The Silencers (Military/Assassins) \> The Unseen (Citizens) \> The Thralls (Slaves).  
-* **View on Outsiders:** Xenophobic and supremacist. Other species are disposable resources.  
-* **Law & Order:** Totalitarian (Law Level 8). Dissent punished by "Hollowing" (Psychic lobotomy).
+### I. Canonical Faction Profile, Lore & Expansion Archive (`operator/factions/1.04.AeldProvidence.KovianTribunal.md`)
 
-#### **Governance**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetype:** Militant Isolationists & Magocratic Oligarchy | **Capital:** Umbra Sector Rogue Planets / Isolation Citadels
+* **Sub-Species Base:** Nocturne Aeld
+* **Tech / Meta Level:** TL 3 / ML 4 (Entropy/Shadow) | **EUFT Starting Wealth Modifier:** **+3 WS** *(Canonical Nov 2 Matrix; legacy +2 WS)*
+* **Core Mandate:** *'Maintain Aeld purity; sever the rot of the Lesser Races.'*
+* **Canonical Faction Skill Package (20 SP):** Stealth (+4), Discipline: Entropy/Illusion (+4), Intimidate (+3), Academics (+3), Melee Weapons (+3), Alertness (+3). *(Also supports Insight and Knowledge: Law/Metaphysics).*
+* **Canonical Recommended Features (-1 CP Discount):** Awakened, Bleed, Blind-Fight, Centering, Darksight, Discipline Focus (Entropy), Evasiveness, Fearless, Iron Will, Quick, Sense, Sneak Attack, Stealthy, Uncanny Dodge, Veiled Threat.
+* **CRISP Visual Semiotics:** Spires of black Shadow-Glass, floating geometric obsidian pyramids, Vanta-Black Shroud-Cruisers, form-fitting kinetic Smart-Leather, and deep violet/indigo entropy bioluminescence.
 
-* **Government Type:** Magocratic Oligarchy.  
-* **Leadership:** Grand Arbiter Vex (and the 13 Arcanists).  
-* **Succession:** Unproven assassination and political maneuvering.
+KOVIAN TRIBUNAL (Nocturne)
+The Militant Isolationists and Elven Supremacists
+                                    * Sub-Race Base: Nocturne Elves.
+                                    * Political Structure: Authoritarian Theocracy (Dictated by the Tribunal).
+                                    * Capital Entity: Stark, heavily fortified Isolation Citadels.
+                                    * Core Mandate: "Maintain Elven purity; sever the rot of the Lesser Species."
+Faction Overview
+The Kovian Tribunal governs the Nocturne, representing the darkest, most xenophobic extreme of Elven philosophy. They view the Alterian Enclave's diplomacy as pathetic fraternization with "Lesser Species," believing that contact with short-lived, chaotic races actively corrupts Elven spiritual and biological purity. The Tribunal enforces a doctrine of absolute, militant isolationism, backed by "Obsidian Futurism"—a dark, lethal approach to magi-tech focused entirely on stealth, defense, and control.
+Political Posture
+The Kovian Tribunal has no diplomatic ties and engages in zero trade. Their borders are closed, heavily monitored, and violently enforced. Any non-Nocturne ship entering their space is destroyed on sight. Their political ideology is deeply supremacist; they document the failures, wars, and ecological disasters of other species as religious proof of their own superiority. Recently, extremist splinters within the faction (Darkwalkers) have begun making pacts with entities like the Sha'Nor, believing that acquiring supreme power—regardless of the cost—is the only way to eventually cleanse the galaxy of inferior life.
 
-### **IV. Strategic Assets**
+KOVIAN TRIBUNAL
+DETAILED FACTION DESCRIPTION
+The Kovian Tribunal (also known as the Nocturne) represents the "shadow self" of Elven civilization. While the Alterian Enclave looked outward to the galaxy with benevolence and diplomacy, the ancestors of the Kovian looked inward and saw only weakness in cooperation. They are a radical, supremacist sub-faction of the Elves who seceded from the Enclave millennia ago during the "Schism of Light."
+They inhabit the Umbra Sector, a region of space choked by dark nebulae and rogue planets that do not orbit stars. In this eternal night, they have evolved a culture defined by Supremacy and Obfuscation. To a Kovian, light is not a symbol of hope; it is a tactical vulnerability that reveals one's position. Darkness is armor.
+Culturally, the Tribunal operates on a rigid Magocratic Oligarchy. They believe that the Elven genome is divine, but that it has been diluted by the Alterians' tolerance of "lesser races." The Kovian seek to purify their lineage and master the Metaphysics of Entropy and Shadow. They do not trade; they take. They do not negotiate; they dominate. Their technology is sleek, silent, and predatory, designed to strike from the void without warning.
 
-#### **Economy & Tech**
+Overview
+The Kovian Tribunal is a darker, xenophobic reflection of the Alterian Enclave. Ruled by a council of powerful Shadow-Casters, they value stealth, magical supremacy, and racial purity. They operate from the shadows of the Umbra Sector, utilizing advanced stealth technology and terrifying Entropy magic to excise "imperfections" from the galaxy.
 
-* **Tech Level (TL):** 3 (Refined)  
-* **Meta Level (ML):** 4 (High Meta \- Entropy/Shadow)  
-* **Wealth Modifier:** \+2 (Hoarded ancient relics/stolen resources).  
-* **Primary Exports:** None (Illicit: Poisons, Assassinations).  
-* **Economic Model:** Predatory Command Economy (Slave labor).
+CORE IDENTITY
+                                    * Official Designation: The Kovian Tribunal
+                                    * Colloquialisms: The Nocturne, Shadow-Kin, The Silenced, The Dagger in the Dark.
+                                    * Archetype: Supremacist / Isolationist / Magocracy.
+                                    * Driving Mandate: "Purity through Shadow." To preserve the Elven bloodline and dominate "lesser" species through fear and force.
+                                    * Symbol/Sigil: A jagged Obsidian Dagger piercing a Silver Crescent Moon.
+                                    * Motto: "Silence is the loudest verdict."
 
-#### **Military Profile**
+SOCIOLOGICAL PROFILE
+Ideology & Culture
+                                    * Core Beliefs (The Dark Mirror): Where Alterians believe in Harmony, Kovians believe in Control. They view the Resonance (The Light) as a chaotic force that must be dampened and controlled by the Void (Entropy).
+                                    * Social Structure:
+                                    * The Tribunal: The ruling council of the 13 most powerful Arcanists (Entropy/Shadow focus).
+                                    * The Silencers: The military and assassin caste.
+                                    * The Unseen: The common citizenry (Artisans, Laborers).
+                                    * The Thralls: Non-Kovian slaves used for menial labor, viewed as disposable distinct resources.
+                                    * View on Outsiders: Hostile / Xenophobic. Interactions are limited to raiding, enslavement, or calculated political destabilization of rivals.
+                                    * Law & Order: Law Level 8 (Totalitarian). Dissent is punished by "Hollowing" (Psychic lobotomy). Privacy exists only in one's own mind, and even that is not guaranteed against the Tribunal.
+Governance
+                                    * Government Type: Magocratic Oligarchy (Rule by Wizards).
+                                    * Leadership: Grand Arbiter Vex, a centuries-old master of Entropy magic.
+                                    * Succession: Assassination and political maneuvering are accepted methods of promotion, provided the act remains unproven (or "Unseen") by the public.
 
-* **Doctrine:** Asymmetric Warfare, stealth, assassination, terror.  
-* **Key Units:** Shadowblades, Draconian Vanguards (war-bred), Void-Walkers.  
-* **Naval Assets:** Shroud-Cruisers (Vanta-Black, sensor absorbing), Siphon-Drones.  
-* **Unique Tech/Materials:** Shadow-Glass (Void-infused obsidian), Phase-Shift tech.
+STRATEGIC ASSETS
+Economy & Tech
+                                    * Tech Level: TL 3 (Refined) / ML 4 (High Meta).
+                                    * Wealth Modifier: +3 (Hoarded). They do not generate wealth through trade but possess immense stockpiles of ancient relics and stolen resources.
+                                    * Primary Exports: None (Closed Borders). Illicit Exports: Poisons, Assassination Contracts, Cursed Artifacts.
+                                    * Economic Model: Predatory Command Economy. Resources are allocated by the Tribunal based on utility to the state.
+Military Profile (The Night Host)
+                                    * Doctrine: Asymmetric Warfare. They avoid pitched battles. They rely on stealth, sabotage, assassination, and terror tactics. "Strike the head, and the body dies."
+                                    * Key Units:
+                                    * Shadowblades: Elite assassins utilizing Invisibility and Phase-Shift tech.
+                                    * Draconian Vanguards: The "heavy" troops. Unlike the peaceful Alterian Draconians, these are bred for war, utilizing heavy breath-weapon artillery.
+                                    * Void-Walkers: Combat mages specializing in Entropy (Necrotic/Decay) damage.
+                                    * Naval Assets:
+                                    * The Shroud-Cruiser: A warship hull coated in Vanta-Black meta-materials that absorb sensor pings.
+                                    * Siphon-Drones: Small fighters that drain the energy shields of enemy vessels.
 
-### **V. Mechanics (Game Data)**
+MECHANICS (GAME DATA)
+Faction Skill Package (20 Points)
+Players originating from the Kovian Tribunal receive the following skill ranks:
+                                    * Stealth (Agility): +4
+                                    * Intimidate (Charisma): +3
+                                    * Metaphysics (Entropy or Illusion): +4
+                                    * Academics (History/Arcane): +3
+                                    * Melee Weapons (Agility): +3
+                                    * Alertness (Wisdom): +3
+* **Typical Archetypes:** The Silent Blade, The Ghost, The Operative, The Saboteur, The Slicer, The Shadow-Stepper, The Zealot, The Doomsayer, The Magus, The Aristocrat, The Cryptographer, The Astromancer.
+* **Recommended Features (1 CP Discount):** Darksight, Sneak Attack, Bleed, Blind-Fight, Stealthy, Evasiveness, Discipline Focus (Entropy), Veiled Threat, Iron Will, Uncanny Dodge, Sense, Quick (plus Obfuscate, Shadow-Step, and Assassin).
+Characters from this faction pay 1 less CP for the following features:
+                                    1. Obfuscate: (Species Feature) Enhanced natural ability to hide.
+                                    2. Darksight: (Sense) Ability to see perfectly in total darkness.
+                                    3. Shadow-Step: (Meta-Feature) Ability to teleport between shadows (Requires Attune).
+                                    4. Assassin: (Trait) Bonus damage against surprised targets.
+Faction Specific Gear (The "Skin")
+Kovian Engineering (Entropy & Shadow):
+                                    * Aesthetic: Sharp, jagged geometries. Materials are matte-black obsidian, dark chrome, and violet energy veins.
+                                    * Primary Material: Shadow-Glass (Obsidian infused with Void energy).
+                                    * Design Philosophy: Supremacy. "It does not need to be durable if the enemy never sees me to hit me."
+                                    * Unique Trait (Void-Forged): Kovian weapons often deal Necrotic or Cold damage instead of physical damage. Kovian Armor grants +2 to Stealth checks in dim light but -2 to Social checks with non-Kovians (Terrifying appearance).
 
-* **Prominent Species:** Nocturne Elves.  
-* **Faction Skill Package (20 Points):** Stealth (+4), Intimidate (+3), Metaphysics (Entropy/Illusion) (+4), Academics (+3), Melee Weapons (+3), Alertness (+3).  
-* **Typical Archetypes:** The Silent Blade, The Ghost, The Operative, The Saboteur, The Slicer, The Shadow-Stepper, The Zealot, The Doomsayer, The Magus, The Aristocrat, The Cryptographer, The Astromancer.  
-* **Recommended Features (1 CP Discount):**  
-  * Darksight, Sneak Attack, Bleed, Blind-Fight, Stealthy, Evasiveness, Discipline Focus (Entropy), Veiled Threat, Iron Will, Uncanny Dodge, Sense, Quick.
+VISUAL SEMIOTICS (AESTHETICS)
+Use the CRISP Methodology for Image Generation
+                                    * Context: Deep Space, Rogue Planets, Obsidian Citadels, Bioluminescent Caverns.
+                                    * Resolution: 8k, High Fidelity, Raw Photography.
+                                    * Intent: Cinematic, Intimidating, Gothic, High-Contrast.
+                                    * Style: Gothic Sci-Fi / Dark Fantasy Futurism. H.R. Giger meets Art Deco, but cleaner.
+                                    * Palette:
+                                    * Primary: Vanta Black, Obsidian, Matte Charcoal.
+                                    * Secondary: Violet, Indigo, Deep Crimson (Bioluminescence).
+                                    * Accent: Cold Silver (Blades/Trim).
+Guidance Tokens (Prompting)
+                                    * Architecture: Spires of black glass, floating geometric pyramids, cavernous underground halls lit by purple moss, jagged silhouettes, silent corridors.
+                                    * Fashion: Form-fitting "Smart-Leather" (Kinetic weave), full-face masks (The Faceless), jagged pauldrons, flowing capes of shadow-weave.
+                                    * Atmosphere: Oppressive, Silent, Cold, Regal, Terrifying, Magical, "The Void Stares Back."
+Visual Exemplar: The Kovian Arbiter
+                                    * Visual: Tall, pale-skinned Elf with jet-black sclera (eyes). Wearing robes of shifting shadow-matter that trail into smoke. Holding a staff made of a single spinal column of an unknown beast, topped with a black hole singularity.
+                                    * Lighting: Backlit by a dying, purple star. Rim-lighting in violet. Deep shadows obscuring the face.
 
-### **VI. Visual Synthesis Protocols (Aesthetics)**
+## **KOVIAN TRIBUNAL (NOCTURNE) — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
 
-#### **HI-FI INK Prompt Framework**
+### **1. HI-FI INK MODULAR PROMPT STRUCTURE**
+* **CONTENT PROMPT — SUBJECT:** [e.g., Shadowblade Assassin in phase-shift stealth gear, Void-Walker combat mage wielding entropy magic, Nocturne Grand Arbiter with jet-black eyes, Shroud-Cruiser warship]
+* **NARRATIVE:** [e.g., emerging silently from a shadow portal, casting a necrotic decay spell, standing in silent judgment before a captive, draining energy shields in the dark void]
+* **GUIDANCE PROMPT — SETTING STYLE:** Gothic Sci-Fi, Dark Fantasy Futurism, sharp jagged geometries, Vanta-Black meta-materials, Obsidian Futurism, pure supremacy.
+* **CONTEXT:** Deep space rogue planets, obsidian citadels, cavernous underground halls lit by purple moss, floating geometric pyramids.
+* **ATMOSPHERE:** Oppressive, silent, cold, regal, terrifying, absolute darkness, 'The Void Stares Back.'
+* **RENDERING PROMPT — RENDERING:** High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* **NEGATIVE PROMPT:** photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
 
-* **SETTING STYLE:** Gothic Sci-Fi, Dark Fantasy Futurism, Intimidating, Supremacy.  
-* **CONTEXT:** Spires of black glass, floating geometric pyramids, cavernous halls. Form-fitting Smart-Leather (kinetic weave), flowing shadow-weave capes, jagged geometries. Palette: Vanta Black, Obsidian, Matte Charcoal, Violet, Indigo.  
-* **ATMOSPHERE:** Oppressive, silent, cold, regal, terrifying. Deep shadows, backlit rim-lighting, bioluminescence. "The Void Stares Back".
+### **2. HI-FI SKETCH MODULAR PROMPT STRUCTURE & FACTION-SPECIFIC INK ACCENTS**
+* **RENDERING:** Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* **Accent Tokens:** intense deep violet/indigo marker glow, selective crimson red bioluminescence, sharp cold silver blade highlights against pure black ink, extremely dense black stippling for void effects.
+
+### **3. READY-TO-USE TEMPLATES**
+* **CHARACTER CONCEPT SHEET: The Void-Walker:** Kovian Tribunal Void-Walker Nocturne Aeld mage, jet-black eyes, wearing robes of shifting shadow-matter and form-fitting kinetic weave leather, holding an obsidian staff crackling with entropy magic. Character design sketchbook page, turnaround views, subtle violet energy marker accents.
+* **ARCHITECTURAL ESTABLISHING SHOT: Obsidian Citadel:** Imposing Kovian Tribunal Obsidian Citadel on a sunless rogue planet, spires of black glass, sharp jagged geometries, floating geometric pyramids. Architectural ink rendering, subtle indigo glowing moss marker accents in the crevices.
+
+### II. Complete Unabridged Codex Unified Faction Document (`1.04_NOCTURNE`)
+
+KOVIAN TRIBUNAL (NOCTURNE)
+I. Detailed Faction Description
+* Overview: The "shadow self" of Elven civilization, they seceded from the Alterian Enclave millennia ago during the "Schism of Light." Inhabiting the Umbra Sector (rogue planets in dark nebulae), they have evolved a culture of Supremacy and Obfuscation. To a Kovian, light is a tactical vulnerability; darkness is armor. They believe the Elven genome is divine but diluted by Alterian tolerance. They do not trade; they take. Their technology is sleek, silent, and predatory.
+* Key Themes: Supremacy, Obfuscation, Entropy, Xenophobia, Dark Magic.
+* Relationship to Others: Hostile. Interactions are limited to raiding, enslavement, or political destabilization. They view the Enclave as pathetic and other species as disposable resources.
+II. Core Identity
+* Official Designation: The Kovian Tribunal
+* Colloquialisms: The Nocturne / Shadow-Kin / The Silenced / The Dagger in the Dark
+* Archetype: Supremacist / Isolationist / Magocracy
+* Capital/Key World: Umbra Sector Rogue Planets
+* Symbol/Sigil: Obsidian Dagger piercing a Silver Crescent Moon
+* Driving Mandate: Purity through Shadow. Preserve the bloodline and dominate through fear.
+* Motto: "Silence is the loudest verdict."
+III. Sociological Profile
+Ideology & Culture
+* Core Beliefs: Control over Harmony. The Resonance must be dampened by the Void (Entropy).
+* Social Structure: The Tribunal (Arcanists) > The Silencers (Military/Assassins) > The Unseen (Citizens) > The Thralls (Slaves).
+* View on Outsiders: Xenophobic and supremacist. Borders are violently closed.
+* Law & Order: Totalitarian (Law Level 8). Dissent punished by "Hollowing" (Psychic lobotomy).
+Governance
+* Government Type: Magocratic Oligarchy (Rule by Wizards).
+* Leadership: Grand Arbiter Vex (and the 13 Arcanists).
+* Succession: Unproven assassination and political maneuvering (provided the act remains "Unseen").
+IV. Strategic Assets
+Economy & Tech
+* Tech Level (TL): 3 (Refined)
+* Meta Level (ML): 4 (High Meta - Entropy/Shadow)
+* Wealth Modifier: +2 (Hoarded ancient relics/stolen resources).
+* Primary Exports: None (Illicit: Poisons, Assassinations, Cursed Artifacts).
+* Economic Model: Predatory Command Economy (Slave labor).
+Military Profile
+* Doctrine: Asymmetric Warfare, stealth, assassination, terror. "Strike the head."
+* Key Units: Shadowblades (Phase-shift assassins), Draconian Vanguards (war-bred artillery), Void-Walkers (Entropy mages).
+* Naval Assets: Shroud-Cruisers (Vanta-Black, sensor absorbing), Siphon-Drones.
+* Unique Tech/Materials: Shadow-Glass (Void-infused obsidian), Phase-Shift tech.
+V. Mechanics (Game Data)
+* Prominent Species: Nocturne Elves.
+* Faction Skill Package (20 Points):
+   * Stealth (+4)
+   * Intimidate (+3)
+   * Metaphysics (Entropy/Illusion) (+4)
+   * Academics (+3)
+   * Melee Weapons (+3)
+   * Alertness (+3)
+* Typical Archetypes:
+   * The Silent Blade: A professional killer eliminating specific targets.
+   * The Ghost: Infiltrates high-security areas using stealth and tech.
+   * The Operative: A skilled agent carrying out sabotage.
+   * The Saboteur: Infiltrates to destroy or disrupt infrastructure.
+   * The Slicer: Master of cyberspace and data theft.
+   * The Shadow-Stepper: Master of optical camouflage and misdirection.
+   * The Zealot: Enforces dogma and roots out heresy (Inquisitors).
+   * The Doomsayer: A nihilistic prophet focused on entropy (Cults).
+   * The Magus: A master of arcane magic and subtle energies (Arcanists).
+   * The Aristocrat: Born into privilege, wielding status as a weapon.
+   * The Cryptographer: Expert in deciphering hidden messages.
+   * The Astromancer: Specializes in celestial objects and void phenomena.
+* Recommended Features (1 CP Discount):
+   * Darksight: Seeing perfectly in the total darkness of the Umbra Sector.
+   * Sneak Attack: Striking vulnerable spots from the shadows.
+   * Bleed: Leaving victims with fatal, untreatable wounds.
+   * Blind-Fight: Fighting effectively even when submerged in magical darkness.
+   * Stealthy: Becoming entirely unseen and unheard.
+   * Evasiveness: Slipping away from direct magical or explosive trauma.
+   * Discipline Focus (Entropy): Mastering the decay and shadow magics of the Void.
+   * Veiled Threat: Terrifying subjects without drawing public attention.
+   * Iron Will: An unyielding supremacist mindset immune to manipulation.
+   * Uncanny Dodge: Never being caught off guard, even by other assassins.
+   * Sense: Detecting the living so they can be hunted.
+   * Quick: Moving with terrifying, supernatural speed.
+VI. Visual Semiotics (Aesthetics)
+Design Directive: "Gothic Sci-Fi Supremacy"
+The Kovian aesthetic is deeply intimidating, fusing Dark Fantasy Futurism with high-tech supremacy. They dwell in the Umbra Sector, where light is a tactical flaw. Their cities consist of spires of black glass and floating geometric pyramids set within cavernous, unlit halls. It is the visual embodiment of "The Void Stares Back"—sleek, terrifying, and impeccably sharp.
+Palette
+* Primary: Vanta Black, Obsidian, Matte Charcoal.
+* Secondary: Cool Silver (Blades/Trim).
+* Accent: Violet, Indigo, Deep Crimson (Bioluminescence/Entropy Magic).
+Lighting
+* Key Style: The Void. Dominant deep shadows, intense backlit rim-lighting, and eerie bioluminescence.
+* Mood: Oppressive, silent, cold, regal, terrifying.
+Shape Language
+* [Motif 1] Jagged Geometries: Architecture and armor favor sharp, dangerous angles over flowing curves.
+* [Motif 2] Floating Monoliths: Spires and pyramids held aloft by dark magic rather than repulsors.
+* [Motif 3] Faceless: Helmets and masks often obscure the face entirely, dehumanizing their operatives into pure tools of the Tribunal.
+Gear Aesthetic
+* [Gear Style 1] Shadow-Glass: Weapons and tools forged from void-infused obsidian.
+* [Gear Style 2] Smart-Leather: Form-fitting kinetic weave armor paired with flowing shadow-weave capes that actively absorb ambient light.
+Atmosphere Tokens
+Gothic sci-fi, dark fantasy futurism, intimidating, supremacy, spires of black glass, floating geometric pyramids, cavernous halls, smart-leather, shadow-weave capes, jagged geometries, vanta black, obsidian, violet, indigo, oppressive, silent, cold, regal, terrifying, backlit rim-lighting.
+HI-FI INK Prompt Framework
+[CONTENT PROMPT]
+* SUBJECT: [Insert main subject, e.g., Shadowblade, Void-Walker, Kovian Arbiter]
+* NARRATIVE: [Insert action or story elements]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Gothic Sci-Fi, Dark Fantasy Futurism, Intimidating, Supremacy.
+* CONTEXT: Spires of black glass, floating geometric pyramids, cavernous halls. Form-fitting Smart-Leather (kinetic weave), flowing shadow-weave capes, jagged geometries. Palette: Vanta Black, Obsidian, Matte Charcoal, Violet, Indigo.
+* ATMOSPHERE: Oppressive, silent, cold, regal, terrifying. Deep shadows, backlit rim-lighting, bioluminescence. "The Void Stares Back".
+[RENDERING PROMPT]
+* RENDERING: High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* FORM: [Append the appropriate Template Modifier below based on shot type]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
+Template Variations (Form Modifiers)
+Append the appropriate FORM tokens to your RENDERING section depending on the specific camera angle and framing of the shot required:
+* MASTER: (No specific form modifiers needed; rely on the base rendering tokens.)
+* CLOSE-UP: Extreme close-up comic panel, stark facial shadows, intense chiaroscuro, pure black recessed areas, detailed iris color blocking, sharp planar facial structure, heavy fabric folds, graphic texture rendering, deep ink washes, striking eye catchlight, dramatic graphic rim light.
+* CHARACTER CONCEPT SHEET: Graphic novel character turnaround sheet showing five distinct views: (full body front view:1.5), (full body back view:1.5), (full body profile side view:1.5), and a detailed (face close-up profile:1.8). The five images should be presented as a clean, highly detailed array on a single sheet, with a minimal flat or graphic gradient background for clarity.
+* ARCHITECTURAL ESTABLISHING SHOT: Dynamic wide establishing panel, extreme 3-point perspective, atmospheric color blocking, deep shadow recesses, graphic silhouette framing, stark architectural geometry, monumental scale, intricate graphic facade details, painted texture mapping, hyper-detailed environment illustration.
+* VEHICLE / MECH DESIGN: Dynamic action panel or static concept angle (select one), extreme foreshortening, stylized speed/motion effects (if moving), hard-edged metallic reflections, high-contrast surface rendering, graphic grime and oil stains, heavy solid black shadows in mechanical recesses, functional design realism, striking comic book angle.
+* INTERIOR SPACE: Dramatic interior panel setting, stark light shafts, graphic dust motes, heavy cast shadows sweeping across room, complex planar occlusion, ambient color blocking, narrative clutter rendered in high contrast, deep ink recesses in corners, expansive framing (select one).
+KOVIAN TRIBUNAL (NOCTURNE) - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Kovian Tribunal prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Shadowblade Assassin in phase-shift stealth gear, Void-Walker combat mage wielding entropy magic, Elven Grand Arbiter with jet-black eyes, Shroud-Cruiser warship]
+* NARRATIVE: [e.g., emerging silently from a shadow portal, casting a necrotic decay spell, standing in silent judgment before a captive, draining energy shields in the dark void]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Gothic Sci-Fi, Dark Fantasy Futurism, sharp jagged geometries, Vanta-Black meta-materials, Obsidian Futurism, pure supremacy.
+* CONTEXT: Deep space rogue planets, obsidian citadels, cavernous underground halls lit by purple moss, floating geometric pyramids.
+* ATMOSPHERE: Oppressive, silent, cold, regal, terrifying, absolute darkness, "The Void Stares Back."
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in Kovian lore, use these subtle color splash tokens:
+* Accent Tokens: intense deep violet/indigo marker glow, selective crimson red bioluminescence, sharp cold silver blade highlights against pure black ink, extremely dense black stippling for void effects.
+3. READY-TO-USE TEMPLATES
+CHARACTER CONCEPT SHEET: The Void-Walker
+Kovian Tribunal Void-Walker Elven mage, jet-black eyes, wearing robes of shifting shadow-matter and form-fitting kinetic weave leather, holding an obsidian staff crackling with entropy magic. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Gothic Sci-Fi aesthetic, cold and terrifying expression, subtle violet energy marker accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+ARCHITECTURAL ESTABLISHING SHOT: Obsidian Citadel
+Imposing Kovian Tribunal Obsidian Citadel on a sunless rogue planet, spires of black glass, sharp jagged geometries, floating geometric pyramids. Architectural ink rendering, traditional multi-point perspective drafting, precise vanishing points, technical drawing style, dense structural cross-hatching, faint wireframe accents, intricate masonry line art, monumental scale conveyed through line density, pure white background. Oppressive and silent atmosphere, subtle indigo glowing moss marker accents in the crevices. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome, black ink. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.AeldProvidence.KovianTribunal.md`
+* **Codex Sources Compared:** Codex `1.04 NOCTURNE` and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.AeldProvidence.KovianTribunal.md` and Codex `1.04 NOCTURNE` and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 3 / ML 4 | +3 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-KOVI-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.AeldProvidence.KovianTribunal.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04 NOCTURNE` and `1.04 FACTIONS` Master Doc.
+* **DISC-104-KOVI-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 3 / ML 4 | +3 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

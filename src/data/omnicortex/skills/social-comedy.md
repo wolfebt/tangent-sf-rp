@@ -27,15 +27,11 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Comedy is the skill of making people laugh or feel amused. It reflects a character's ability to use humor and wit to entertain others. Comedy is used whenever a character needs to lighten the mood or entertain others, or to perform in a comedy show or other comedic production. The art of humor, satire, and timing. Used to entertain, defuse tense situations, or provoke an enemy into making a mistake (Taunt).
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Entertain:* Standard performance mechanics.
+- *Entertain:* Standard performance mechanics.
   - *Defuse Hostility:* CR 20 to turn a Hostile NPC to Indifferent (if they have a sense of humor).
   - *Taunt:* Opposed check vs. **Willpower**. Success causes the target to focus on you or suffer a penalty to Logic/Discipline due to anger.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Stand-Up Routines:** Delivering written comedic material, setups, and punchlines to pack cantinas and clubs.
       - **Combat Taunts & Jeering:** Enraging an enemy soldier with sharp, humiliating barbs so they break cover and attack wildly.

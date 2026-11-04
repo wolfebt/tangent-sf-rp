@@ -72,83 +72,275 @@ costs:
 modifiers: []
 ---
 
-# Aquatic Origin
+# 1.05.02. ORIGIN: AQUATIC (+1 WS)
 
-**Category**: Origins  
-**Habitat**: Aquatic & Oceanic  
-**EUFT Wealth Score Modifier**: +1 (Specialized oceanic biosphere; pharmaceutical & hydrogen export dividends.)  
-**Starting Skill Points**: 20 SP (allocated to Society Skills)  
-**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
+* **Focus Statement:** The complete unabridged planetary upbringing, Society Skill (`20 SP`), Origin Trait (`2 Free at 0 CP`), EUFT Wealth (`+1 WS`), and 11-Faction CRISP Scenery module for `1.05.Aquatic.md` in **Tangent SF RP**.
 
-## Description
-This world is mostly covered in water, with over 85% of its surface being water of various depths. Habitats include anchored land installations, submerged pressurized domes, floating flotilla cities, and marine research platforms.
+## Overview & Mechanical Authority Block
 
-## Society Skills (20 SP Pool)
-- Athletics
-- Piloting
-- Alertness
-- Knowledge (Navigation)
-- Knowledge (Survival)
-- Vocation (Any)
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-## Typical Archetypes / Native Vocations
-- Mariner
-- Deep Sea Explorer
-- Marine Biologist
-- Shipwright
-- Underwater Salvage Expert
-- Diver
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-## Origin Traits (2 Free Selections, Additional 1 CP Each)
-### Adaptability
-The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.  
-*Bonus*: **+2 to a specific Skill Check, may change assigned Skill daily**
+## Part I — Alignment & Summary Matrix Table
 
-### Aquatic Construction
-Skilled in manufacturing buildings, flotillas, submerged domes, and other water-based habitats and structures.  
-*Bonus*: **+2 to all Construction Checks**
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Origin Overview & Society Skills** | `operator/origins/1.05.Aquatic.md (Sec. I)` | 20 SP Pool (Athletics (Swim), Piloting (Seacraft/Sub), Alertness, Knowledge (Navigation, Survival), Vocation (Any)) | +1 WS | Establishes habitat upbringing, Society Skill eligibility, and EUFT starting Wealth Score modifier. |
+| **Narrative & Consolidated Origin Traits** | `operator/origins/1.05.Aquatic.md (Sec. II)` | Select 2 Free Traits (0 CP) | +1 CP per Extra Trait | Provides both full Codex narrative trait descriptions and modernized `/game_rules` mechanical trait bonuses. |
+| **11-Faction CRISP Scenery Matrix** | `Codex 1.05 ORIGIN GUIDELINES` | 10 Major Factions + Kitin Collective Scenery Profiles | Complete environmental Context, Style, Palette, and Tokens across all 11 galactic polities. |
 
-### Curiosity
-Natural curiosity about oceanic depths and alien ecologies, driving exploration of underwater anomalies.  
-*Bonus*: **Regain a Karma Point on the first encounter when dealing with something new during the session - creature, area, technology, etc.**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-### Empathy
-Strong sense of empathy and connection with aquatic and sentient creatures, sensing basic needs and emotions.  
-*Bonus*: **+2 Insight and +2 Handler Checks while being Friendly to other creature**
+### I. Canonical Origin Profile & Modernized Game Data (`operator/origins/1.05.Aquatic.md`)
 
-### Environmental Awareness
-Highly attuned to ocean currents, pressure gradients, thermal vents, and atmospheric shifts affecting survival.  
-*Bonus*: **+2 Alertness**
+* **Executive Summary:** Pelagic ocean worlds with over 85 percent surface water coverage, inhabited via floating flotillas, sea-stacks, and abyssal domes (Aquatica).
+* **EUFT Starting Wealth Modifier:** **+1 WS**
+* **Canonical Society Skills (20 SP Allocation):** Athletics (Swim), Piloting (Seacraft/Sub), Alertness, Knowledge (Navigation, Survival), Vocation (Any)
+* **Typical Archetypes:** Mariner, Deep-Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver
 
-### Sea Piloting
-Operation of submersibles, high-speed hydrofoils, personal jets, and colossal floating platforms.  
-*Bonus*: **+2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft**
+# **AQUATIC**
 
-### Resourcefulness
-Creative solutions with limited supplies aboard remote vessels and isolated marine domes.  
-*Bonus*: **Once per Day make a Skill Check of choice at Advantage**
-
-### Survival Skills
-Navigating underwater terrain, avoiding pelagic predators, and finding fresh water and shelter.  
-*Bonus*: **+2 Survival Skill Checks**
-
-
-## Extended Lore & Background
-### Origin Overview
 This world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.
 
-### Society Skills (20 SP Pool)
+## **Society Skills**
+
 Athletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)
 
-### Typical Archetypes
-Mariner, Deep Sea Explorer, Marine Biologist, Shipwright, Underwater Salvage Expert, Diver
+## **Archetypes**
 
-### Origin Traits (Select 2 Free; Additional 1 CP each)
-- **Adaptability**: Rapid adaptation to marine conditions. (+2 to a specific Skill Check, may change assigned Skill daily)
-- **Aquatic Construction**: Building flotillas and submerged platforms. (+2 to all Construction Checks)
-- **Curiosity**: Investigative drive into pelagic depths. (Regain a Karma Point on the first encounter when dealing with something new)
-- **Empathy**: Deep connection with marine life and sentients. (+2 Insight and +2 Handler Checks while being Friendly)
-- **Environmental Awareness**: Sensing water pressure, temperature, and currents. (+2 Alertness)
-- **Sea Piloting**: Master navigation of submersibles, boats, hovercraft, and aircraft. (+2 to all Seacraft Operation)
-- **Resourcefulness**: Creative problem-solving at sea. (Once per Day make a Skill Check of choice at Advantage)
-- **Survival Skills**: Underwater survival and predator evasion. (+2 Survival Skill Checks)
+Mariner
+
+Deep Sea Explorer
+
+Marine Biologist
+
+Shipwright
+
+Underwater Salvage Expert
+
+Diver
+
+## **Traits**
+
+### *Adaptability*
+
+The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.
+
+*\+2 to a specific Skill Check, may change assigned Skill daily*
+
+### *Aquatic Construction*
+
+Skilled in manufacturing buildings, flotillas and other water based habitats and structures.
+
+*\+2 to all Construction Checks*
+
+### *Curiosity*
+
+The character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.
+
+*Regain a Karma Point on the first encounter when dealing with something new during the session \- creature, area, technology, etc.*
+
+### *Empathy*
+
+The character has a strong sense of empathy and is able to understand and connect with other creatures. Sensing basic needs, drives and emotions of a creature.
+
+*\+2 Insight and \+2 Handler Checks while being Friendly to other creature*
+
+### *Environmental Alertness*
+
+The character is highly attuned to their environment and is able to sense changes in water temperature, pressure, and other factors that may affect their survival.
+
+*\+2 Alertness*
+
+### *Sea Piloting*
+
+To move at high speeds or to operate the bigger craft, from personal jets to colossal platforms.
+
+*\+2 to all Seacraft Operation \- Submersibles, Boats, Hovercraft, and Aircraft*
+
+### *Resourcefulness*
+
+The character is able to make the most of limited resources and find creative solutions to problems, which is especially important in an environment where resources may be scarce.
+
+*Once per Day make a Skill Check of choice at Advantage*
+
+### *Survival Skills*
+
+The character has a range of survival skills that are specific to life in the aquatic world, such as the ability to find food and shelter, navigate underwater terrain, and avoid predators.
+
+*\+2 Survival Skill Checks*
+
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Adaptability:** +2 to one chosen Skill Check (may reassign the chosen skill daily after a Full Rest).
+* **Aquatic Construction:** +2 to Vocation (Architect / Builder / Engineering) checks for water-based or pressurized structures.
+* **Curiosity:** Regain 1 spent Karma Point on the first encounter with a novel creature, location, or technology each session.
+* **Empathy:** +2 to Insight and Vocation (Handler) checks while acting Friendly toward another creature.
+* **Environmental Alertness:** +2 to Alertness checks.
+* **Sea Piloting:** +2 to Piloting checks with submersibles, watercraft, hovercraft, and seaplanes.
+* **Resourcefulness:** Once per day, roll any one Skill Check of choice at Advantage.
+* **Survival Skills:** +2 to Knowledge (Survival) checks (+3 in aquatic or coastal environments).
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
+
+## **02\. AQUATIC**
+
+*Ocean worlds, submerged cities, hydro-engineering.*
+
+### **IMPYRIUM**
+
+* **CONTEXT:** Colossal white stone oil-rig fortresses rising from turbulent waves. Gold statues weathering the salt spray. Submerged dungeons with thick glass viewports.  
+* **STYLE:** Marble-at-Sea, Monumental Hydro.  
+* **PALETTE:** Storm Grey, Marble White, Gold, Ocean Blue.  
+* **TOKENS:** Crashing waves, brutalist pillars, wet stone, chains.
+
+### **SYNDICATE**
+
+* **CONTEXT:** Sleek, floating white spheres connected by transparent tubes. Underwater luxury suites with panoramic glass. Deep-sea mining drills hidden beneath the surface.  
+* **STYLE:** Luxury Resort & Extraction, Corporate Clean.  
+* **PALETTE:** Arctic White, Clear Aqua, Chrome, Deep Sea Black.  
+* **TOKENS:** Glass tunnels, bubbles, clean lines, minimalist furniture.
+
+### **DYNASTY**
+
+* **CONTEXT:** Black basalt castles carved directly into sea-stacks. Dragon-prowed ironclads patrol the mists. Bioluminescent sea-dragons are kept in pens.  
+* **STYLE:** Sea-Fortress, Naval Feudalism.  
+* **PALETTE:** Basalt Black, Sea Foam White, Torch Orange, Iron Grey.  
+* **TOKENS:** Fog, wet rock, iron ships, gothic arches, braziers.
+
+### **OUTWORLDS**
+
+* **CONTEXT:** A "Flotilla" city of lashed-together rusty barges, old tankers, and pontoons. Nets hang everywhere. The smell of diesel and fish.  
+* **STYLE:** Waterworld Scavenger, The Flotilla.  
+* **PALETTE:** Rust Orange, Tar Black, Ocean Green, Tarp Blue.  
+* **TOKENS:** Cranes, rust, welding sparks, patchwork boats, chaotic layout.
+
+### **COALITION**
+
+* **CONTEXT:** High-pressure underwater mining domes, leaking hydraulic fluid. Claustrophobic corridors, flickering yellow warning lights, murky water outside thick glass.  
+* **STYLE:** Deep-Sea Industrial, Abyss Mining.  
+* **PALETTE:** Murky Green, Warning Yellow, Industrial Grey, Darkness.  
+* **TOKENS:** Rivets, condensation, pressure gauges, dark water, heavy blast doors.
+
+### **AULURAN**
+
+* **CONTEXT:** Structures grown from massive, spiral corals and giant shells. Bio-luminescent membranes act as windows. The city breathes and filters the water.  
+* **STYLE:** Coral Cities, Organic Hydro-Hab.  
+* **PALETTE:** Coral Pink, Cyan Glow, Seaweed Green, Pearlescent White.  
+* **TOKENS:** Shells, organic curves, fish swimming through structures, soft light.
+
+### **ALTERIAN ENCLAVE**
+
+* **CONTEXT:** Tall, delicate spires of transparent aluminum and crystal rising from the sea floor. Magical force fields hold back the water. Glowing pearls light the streets.  
+* **STYLE:** Crystal Spires of the Deep, Atlantis Reborn.  
+* **PALETTE:** Deep Royal Blue, Bioluminescent Silver, Crystal Clear, Magic Violet.  
+* **TOKENS:** Light shafts, delicate bridges, magic bubbles, elegance.
+
+### **ASCENDANCY**
+
+* **CONTEXT:** Graceful, silver wave-riders that harness tidal energy. Floating universities with glass-bottom floors. Clean, renewable tech integration.  
+* **STYLE:** Wave-Energy Utopia, Scientific Ocean.  
+* **PALETTE:** Silver, Ocean Blue, White, Clean Glass.  
+* **TOKENS:** Tidal turbines, research labs, clean water, bright sun.
+
+### **ENTARI COMBINE**
+
+* **CONTEXT:** A Venice-like city of platforms and canals. Solar-sail junks, floating markets with colorful awnings, intricate water-filtration gardens.  
+* **STYLE:** Canal Trade Hub, Cosmo-Port.  
+* **PALETTE:** Turquoise Water, Warm Wood, Sail White, Market Colors.  
+* **TOKENS:** Canals, boats, bridges, trade goods, reflections.
+
+### **MEKAN**
+
+* **CONTEXT:** The ocean is used as a heat sink for massive submerged server farms. Hexagonal islands of chrome. The water is perfectly still, possibly artificial coolant fluid.  
+* **STYLE:** Liquid Cooling Ocean, Digital Sea.  
+* **PALETTE:** Electric Blue, Chrome, Coolant Green, Mirror Black.  
+* **TOKENS:** Server racks, cooling pipes, geometric islands, still water.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** Abyssal Hive-Resin reefs anchored to deep oceanic thermal vents. Biomorphic Mako-Seeker submersibles and Eurypterid-Strike predators glide silently between glowing cyan sensory nodes and pressurized gestation cysts.
+* **STYLE:** Abyssal Biomorphic Reef, Deep-Trench Hive-State.
+* **PALETTE:** Abyssal Obsidian, Bioluminescent Cyan, Hemocyanin Emerald, Thermal Vent Amber.
+* **TOKENS:** Living submarine husks, hydrothermal proto-flux vents, chitin pressure domes, aquatic swarm patrols.
+
+### II. Complete Unabridged Codex Origin Entry (`1.05_AQUATIC`)
+
+AQUATIC
+This world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.
+
+Society Skills 
+(Select 20 skill levels from listed options)
+Athletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)
+
+Archetypes
+Mariner
+Deep Sea Explorer
+Marine Biologist
+Shipwright
+Underwater Salvage Expert
+Diver
+
+Traits
+(Select 2 and may purchase others for 1 cp each)
+Adaptability
+The character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.
++2 to a specific Skill Check, may change assigned Skill daily
+
+Aquatic Construction
+Skilled in manufacturing buildings, flotillas and other water based habitats and structures.
++2 to all Construction Checks
+
+Curiosity
+The character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.
+Regain a Karma Point on the first encounter when dealing with something new during the session - creature, area, technology, etc.
+
+Empathy
+The character has a strong sense of empathy and is able to understand and connect with other creatures. Sensing basic needs, drives and emotions of a creature.
++2 Insight and +2 Vocation (Handler) Checks while being Friendly to other creature
+
+Environmental Alertness
+The character is highly attuned to their environment and is able to sense changes in water temperature, pressure, and other factors that may affect their survival.
++2 Alertness
+
+Sea Piloting
+To move at high speeds or to operate the bigger craft, from personal jets to colossal platforms.
++2 to all Seacraft Operation - Submersibles, Boats, Hovercraft, and Aircraft
+
+Resourcefulness
+The character is able to make the most of limited resources and find creative solutions to problems, which is especially important in an environment where resources may be scarce.
+Once per Day make a Skill Check of choice at Advantage
+
+Survival Skills
+The character has a range of survival skills that are specific to life in the aquatic world, such as the ability to find food and shelter, navigate underwater terrain, and avoid predators.
++2 Survival Skill Checks
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/origins/1.05.Aquatic.md`
+* **Codex Sources Compared:** Codex `1.05 AQUATIC` and `1.05 ORIGIN GUIDELINES` (`1-aZpG0g9b0RuFfBbQiE8hz27YgiRmbGBMh54zZlhIZ4`).
+* **Audit Findings:** Verified 100% preservation of all narrative trait paragraphs, archetypes, Society Skills (`20 SP` at `0 CP`), and 11-Faction CRISP environmental scenery profiles, while enforcing `/game_rules` mechanical authority (`+1 WS`, canonical skill names, and `1 CP` per extra trait).
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-105-AQU-1 (Unabridged Codex Narrative & Trait Preservation):** Preserved both the full narrative Codex trait entries and the consolidated `/game_rules` trait catalog for `1.05.Aquatic.md` with zero redactions or ellipses.
+* **DISC-105-AQU-2 (Mechanical Authority & Skill Normalization):** Enforced `+1 WS` EUFT Wealth Score modifier, `20 SP` Society Skill allocation at `0 CP`, `2 Free Traits` at `0 CP` (`+1 CP` per extra trait), and canonical skill nomenclature (`Vocation (Handler)`, `Alertness`, `Knowledge (Language)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

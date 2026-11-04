@@ -48,62 +48,18 @@ cp_chassis: 80
 
 # The Academic
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Intelligence / Utility / Crafter  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses.
 
-> *You question everything. You are driven by the need to understand the fundamental laws of reality. You bring the light of reason to the darkest corners of the galaxy.*
+*You question everything. You are driven by the need to understand the fundamental laws of reality. You bring the light of reason to the darkest corners of the galaxy.*
 
-> _"Hypothesis: This might explode. Experiment: Let's find out."_
-
-## Tactical Role
-Analyzing anomalies, solving environmental puzzles, crafting items.
-
-## Essential Skills
-- Academics
-- Knowledge (Investigation)
-- Knowledge (Technology)
-- Knowledge (Science)
-
-## Signature Features
-- Scientific Method
-- Inquisitive Mind
-
-## Recommendations
-- **Occupations**: Scholar, Specialist
-- **Origins**: Research, Enlightened, Urban
-- **Factions**: Ascendancy (Universities), Entari Combine (Colleges), Alterian Enclave
-
-
-## Extended Lore & Background
-
-Focus: Action, Adaptability, Performance, and Risk.  
-Operatives are the doers. They thrive on adrenaline, skill mastery, and manipulating the physical world. They are the rogues, pilots, and entertainers.
-
-
-
-## Extended Lore & Background
-
-Focus: Identity, Meaning, Connection, and Influence.  
-Visionaries are the soul of the party. They focus on the big picture, social harmony, and the metaphysical connection between beings. They are the leaders, the diplomats, and the mystics.
-
-
-
-## Extended Lore & Background
-
-Focus: Competence, Knowledge, Systems, and Strategy.  
-Savants are the brains of the operation. They solve puzzles, build tech, plan heists, and wield magic as a science.
-
-
-
-## Extended Lore & Background
-
-Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses.  
-*You question everything. You are driven by the need to understand the fundamental laws of reality. You bring the light of reason to the darkest corners of the galaxy.*  
 *"Hypothesis: This might explode. Experiment: Let's find out."*
 
+  - **Core Concept:** Intelligence / Utility / Crafter
+  - **Recommended Occupations:** Scholar, Specialist.
+  - **Recommended Origins:** Research, Enlightened, Urban.
+  - **Recommended Factions:** Ascendancy (Universities), Entari Combine (Colleges), Alterian Enclave.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Investigation), Knowledge (Technology), Knowledge (Science).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Scientific Method, Inquisitive Mind.
+  - **Tactical Role:** Analyzing anomalies, solving environmental puzzles, crafting items.

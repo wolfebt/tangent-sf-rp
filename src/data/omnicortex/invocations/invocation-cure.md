@@ -36,23 +36,27 @@ negative_keywords: >-
   necrosis, acid corrosion, flesh rotting, biological weapon, mechanical
   overhaul
 ---
+
 # CURE Invocation
 
-**Category**: Invocations  
-**Discipline**: Entropy
-
 ## Description & Ritual Details
-Classification: Entropy (Order) | Healing | \[Restoration\] \[Positive Energy\]  
+
+Classification: Entropy (Order) | Healing | [Restoration] [Positive Energy]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Short  
-* **Area:** Single Creature  
-* **Duration:** Instantaneous  
-* **Resistance:** Will (Harmless) / Fortitude (if Undead)
-Effect Description:  
-Channels positive energy to knit flesh and heal physical damage.  
+
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Short
+  - **Area:** Single Creature
+  - **Duration:** Instantaneous
+  - **Resistance:** Will (Harmless) / Fortitude (if Undead)
+
+Effect Description:
+
+Channels positive energy to knit flesh and heal physical damage.
+
 **Scaling Function:**
-* **Healing:** 2d6 Health recovered per Stage.  
-* **Bonus:** Adds \+1 healing per die at Stage 3+.
-###
+
+  - **Healing:** 2d6 Health recovered per Stage.
+  - **Bonus:** Adds +1 healing per die at Stage 3+.

@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { DEFAULT_SPECIES } from '../src/data/speciesData.js';
 import { DEFAULT_ARCHETYPES } from '../src/data/archetypesData.js';
 import { DEFAULT_FEATURES } from '../src/data/featuresData.js';
@@ -14,12 +17,17 @@ import { DEFAULT_ARCHITECTURE } from '../src/data/architectureData.js';
 import { DEFAULT_OTHER_PROPERTY } from '../src/data/otherPropertyData.js';
 import { DEFAULT_AUGMENTATIONS } from '../src/data/augmentationsData.js';
 import { DEFAULT_INVOCATIONS } from '../src/data/invocationsData.js';
+import { DEFAULT_SYNTHESIS } from '../src/data/synthesisData.js';
 import { ALL_CANONICAL_SKILLS } from '../src/data/skillsData.js';
 import { DEFAULT_SPECIES_TYPES } from '../src/data/speciesTypesData.js';
 import { DEFAULT_ORIGINS } from '../src/data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../src/data/occupationsData.js';
 import compendiumSeedData from '../src/data/compendiumSeed.json' with { type: 'json' };
 import { BASTION_MECHANICS_DATASET } from '../src/data/mechanicsData.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '..');
 
 console.log('================================================================');
 console.log('  TANGENT SF RP — DATA INTEGRITY & INTERCONNECTIVITY TEST SUITE');
@@ -408,6 +416,36 @@ assert(Boolean(limbRule && limbRule.mechanic_formula.includes('1/3 Health')), 'D
 
 const scalingRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-scaling-14-tiers');
 assert(Boolean(scalingRule && scalingRule.rules_text.includes('Mega Colossal')), '14-Tier Scaling rule verified');
+
+// 6. Markdown SSOT Parity & 100% Body Hydration
+console.log('\n[6/6] Testing Markdown SSOT Parity & 100% Body Hydration...');
+const ssotPairs = [
+  ['species', DEFAULT_SPECIES],
+  ['factions', DEFAULT_FACTIONS],
+  ['origins', DEFAULT_ORIGINS],
+  ['occupations', DEFAULT_OCCUPATIONS],
+  ['archetypes', DEFAULT_ARCHETYPES],
+  ['features', DEFAULT_FEATURES],
+  ['weaponry', DEFAULT_WEAPONRY],
+  ['armoring', DEFAULT_ARMORING],
+  ['gear', DEFAULT_GEAR],
+  ['mecha', DEFAULT_MECHA],
+  ['architecture', DEFAULT_ARCHITECTURE],
+  ['other_property', DEFAULT_OTHER_PROPERTY],
+  ['augmentations', DEFAULT_AUGMENTATIONS],
+  ['invocations', DEFAULT_INVOCATIONS],
+  ['synthesis', DEFAULT_SYNTHESIS]
+];
+
+for (const [folder, dataset] of ssotPairs) {
+  const dirPath = path.join(projectRoot, 'src', 'data', 'omnicortex', folder);
+  const mdCount = fs.existsSync(dirPath) ? fs.readdirSync(dirPath).filter(f => f.endsWith('.md')).length : 0;
+  const withBodyCount = dataset.filter(item => typeof (item.body || item.full_text) === 'string' && String(item.body || item.full_text).trim().length > 0).length;
+  assert(
+    dataset.length === mdCount && withBodyCount === dataset.length,
+    `SSOT .md <-> Data.js parity & body hydration [${folder}]: ${dataset.length}/${mdCount} records, ${withBodyCount}/${dataset.length} hydrated`
+  );
+}
 
 
 console.log('\n================================================================');

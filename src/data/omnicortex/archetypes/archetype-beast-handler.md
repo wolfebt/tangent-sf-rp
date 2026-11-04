@@ -48,43 +48,20 @@ negative_keywords: 'chaotic-anarchist, unreliable, reckless-gambler'
 cp_chassis: 80
 ---
 
-# The Beast-handler
+# The Beast-Handler
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Pet Master / Utility / Scout  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The rugged specialist who trains and directs animals and xeno-fauna for work and war.
 
-> *You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*
+*You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*
 
-> _"They aren't pets. They're partners."_
-
-## Tactical Role
-Directing animal allies in combat, tracking with biological aids, navigating wilderness.
-
-## Essential Skills
-- Vocation (Handler)
-- Knowledge (Survival)
-- Athletics
-- Insight
-
-## Signature Features
-- Animal Affinity
-- Spirit Walker
-
-## Recommendations
-- **Occupations**: Scout, Drifter
-- **Origins**: Agricultural, Hostile, Colony
-- **Factions**: Auluran (Graa Handlers), Outworlds (Wranglers), Coalition
-
-
-## Extended Lore & Background
-
-The rugged specialist who trains and directs animals and xeno-fauna for work and war.  
-*You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*  
 *"They aren't pets. They're partners."*
 
+  - **Core Concept:** Pet Master / Utility / Scout
+  - **Recommended Occupations:** Scout, Drifter.
+  - **Recommended Origins:** Agricultural, Hostile, Colony.
+  - **Recommended Factions:** Auluran (Graa Handlers), Outworlds (Wranglers), Coalition.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Handler), Knowledge (Survival), Athletics, Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Animal Affinity, Spirit Walker.
+  - **Tactical Role:** Directing animal allies in combat, tracking with biological aids, navigating wilderness.

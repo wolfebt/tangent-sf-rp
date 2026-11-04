@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Bureaucrat
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Logistics / Support / Social Tank  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Charisma  
 
-## Overview
 The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.
 
-> *You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*
+*You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*
 
-> _"Amateurs talk strategy. Professionals talk logistics. Now sign here."_
-
-## Tactical Role
-Secure resources, bypass legal hurdles, manage team logistics.
-
-## Essential Skills
-- Diplomacy
-- Knowledge (History)
-- Insight
-- Vocation (Administration)
-
-## Signature Features
-- Bureaucratic Efficiency
-- Master Negotiator
-
-## Recommendations
-- **Occupations**: Citizen (Corporate), Representative
-- **Origins**: Urban, Colony, Industrial
-- **Factions**: Syndicate (Middle Management), Impyrium (Administration), Entari Combine
-
-
-## Extended Lore & Background
-
-The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.  
-*You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*  
 *"Amateurs talk strategy. Professionals talk logistics. Now sign here."*
 
+  - **Core Concept:** Logistics / Support / Social Tank
+  - **Recommended Occupations:** Citizen (Corporate), Representative.
+  - **Recommended Origins:** Urban, Colony, Industrial.
+  - **Recommended Factions:** Syndicate (Middle Management), Impyrium (Administration), Entari Combine.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Knowledge (History), Insight, Vocation (Administrator).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Bureaucratic Efficiency, Master Negotiator.
+  - **Tactical Role:** Secure resources, bypass legal hurdles, manage team logistics.

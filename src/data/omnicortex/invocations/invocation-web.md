@@ -39,21 +39,24 @@ negative_keywords: >-
 
 # WEB Invocation
 
-**Category**: Invocations  
-**Discipline**: Dimension
-
 ## Description & Ritual Details
-Classification: Dimension (Summoning) | Crowd Control | \[Restraint\] \[Hazard\]  
+
+Classification: Dimension (Summoning) | Crowd Control | [Restraint] [Hazard]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Medium  
-* **Area:** 20ft Radius  
-* **Duration:** Scene  
-* **Resistance:** Reflex (Negates) / Strength (Break)
-Effect Description:  
-Fills an area with sticky, dimensionally-anchored strands.  
+
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Medium
+  - **Area:** 20ft Radius
+  - **Duration:** Scene
+  - **Resistance:** Reflex (Negates) / Strength (Break)
+
+Effect Description:
+
+Fills an area with sticky, dimensionally-anchored strands.
+
 **Scaling Function:**
-* **Severity:** Escape/Break DC \= Base DC \+ (1 per Stage).  
-* **Integrity:** Strands have 5 HP per Stage.
-###
+
+  - **Severity:** Escape/Break CR = Base CR + (1 per Stage).
+  - **Integrity:** Strands have 5 HP per Stage.

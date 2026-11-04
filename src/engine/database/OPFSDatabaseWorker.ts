@@ -93,6 +93,7 @@ class DatabaseEngine {
     this.initializeFts();
     this.db.exec('BEGIN TRANSACTION;');
     try {
+      this.db.exec('DELETE FROM rules_fts;');
       const stmt = this.db.prepare(`
         INSERT INTO rules_fts (id, title, category, content) 
         VALUES (?, ?, ?, ?)

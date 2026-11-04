@@ -27,14 +27,10 @@ negative_keywords: "sedentary, paralyzed, clumsy"
   - **Description:** Piloting is the skill of operating mecha, vehicles of various types, such as aircraft, spacecraft, or boats. It reflects a character's ability to navigate, steer, and control various vehicles. Piloting is used whenever a character attempts to pilot a vehicle, whether in combat or during a peaceful journey. This can include things like flying a spaceship through an asteroid field, navigating a boat through a storm, or driving a car through a high-speed chase. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Normal Operation:* No roll required for standard travel.
+- *Normal Operation:* No roll required for standard travel.
   - *Stunts/Combat:* CR depends on maneuver difficulty (CR 15 for sharp turns at speed, CR 25 for "threading the needle").
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Wheeled & Tracked Vehicles:** Driving rovers, combat buggies, tanks, and mobile command platforms.
       - **Hovercraft & Grav-Speeders:** Operating repulsorlift bikes, grav-skimmers, and low-altitude platforms.

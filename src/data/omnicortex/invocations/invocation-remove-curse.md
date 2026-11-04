@@ -35,20 +35,23 @@ negative_keywords: 'curse weaving, malevolent retribution, dark pact, necrotic i
 
 # REMOVE CURSE Invocation
 
-**Category**: Invocations  
-**Discipline**: Entropy
-
 ## Description & Ritual Details
-Classification: Entropy (Order) | Utility | \[Cleanse\] \[Break Enchantment\]  
+
+Classification: Entropy (Order) | Utility | [Cleanse] [Break Enchantment]
+
 Parameters:
-* **Base Difficulty:** 20  
-* **Time:** Standard Action  
-* **Range:** Short  
-* **Area:** Single Creature/Object  
-* **Duration:** Instantaneous  
-* **Resistance:** Opposed Check (vs Curse DC)
-Effect Description:  
-Ends curses, hexes, and permanent negative metaphysical bonds.  
+
+  - **Base Difficulty:** 20
+  - **Time:** Standard Action
+  - **Range:** Short
+  - **Area:** Single Creature/Object
+  - **Duration:** Instantaneous
+  - **Resistance:** Opposed Check (vs Curse CR)
+
+Effect Description:
+
+Ends curses, hexes, and permanent negative metaphysical bonds.
+
 **Scaling Function:**
-* **Power:** Bonus to Check \= \+2 per Stage.
-###
+
+  - **Power:** Bonus to Check = +2 per Stage.

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
-import { DEFAULT_OCCUPATIONS } from '../src/data/occupationsData.js';
+import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../src/data/occupationsData.js';
 import { OCCUPATION_WEALTH_BASE } from '../src/constants/equipment.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +20,7 @@ function syncOccupations() {
   const files = fs.readdirSync(occupationsDir).filter(f => f.endsWith('.md')).sort();
   console.log(`Found ${files.length} occupation markdown files in ${occupationsDir}`);
 
-  // Create lookup for existing occupations in occupationsData.js to preserve extra properties
+  // Preserve enriched properties (such as traits_detail) from existing occupationsData.js
   const existingMap = new Map();
   for (const occ of (DEFAULT_OCCUPATIONS || [])) {
     if (occ && occ.id) {
@@ -35,35 +35,48 @@ function syncOccupations() {
     const content = fs.readFileSync(fullPath, 'utf8');
     const parsed = matter(content);
     const data = parsed.data || {};
+    const body = (parsed.content || '').trim();
 
     const id = data.id || file.replace(/\.md$/, '');
     const existing = existingMap.get(id) || {};
 
-    const recSpecies = Array.isArray(data.recommended_species) ? data.recommended_species : [];
-    const recFactions = Array.isArray(data.recommended_factions) ? data.recommended_factions : [];
-    const recOrigins = Array.isArray(data.recommended_origins) ? data.recommended_origins : [];
-    const keywords = typeof data.keywords === 'string' ? data.keywords.trim() : (Array.isArray(data.keywords) ? data.keywords.join(', ') : '');
-    const negativeKeywords = typeof data.negative_keywords === 'string' ? data.negative_keywords.trim() : (Array.isArray(data.negative_keywords) ? data.negative_keywords.join(', ') : '');
+    const recSpecies = Array.isArray(data.recommended_species) ? data.recommended_species : (existing.recommended_species || []);
+    const recFactions = Array.isArray(data.recommended_factions) ? data.recommended_factions : (existing.recommended_factions || []);
+    const recOrigins = Array.isArray(data.recommended_origins) ? data.recommended_origins : (existing.recommended_origins || []);
+    const keywords = typeof data.keywords === 'string'
+      ? data.keywords.trim()
+      : (Array.isArray(data.keywords) ? data.keywords.join(', ') : (existing.keywords || ''));
+    const negativeKeywords = typeof data.negative_keywords === 'string'
+      ? data.negative_keywords.trim()
+      : (Array.isArray(data.negative_keywords) ? data.negative_keywords.join(', ') : (existing.negative_keywords || ''));
 
+    const resolvedName = data.name || existing.name || id;
     const occObj = {
+      ...existing,
+      ...data,
       id,
-      name: data.name || existing.name || id,
+      name: resolvedName,
       category: 'occupations',
-      base_ws: data.base_ws !== undefined ? data.base_ws : (existing.base_ws !== undefined ? existing.base_ws : (OCCUPATION_WEALTH_BASE[data.name || existing.name] || 2)),
+      base_ws: data.base_ws !== undefined
+        ? data.base_ws
+        : (existing.base_ws !== undefined ? existing.base_ws : (OCCUPATION_WEALTH_BASE[resolvedName] || 2)),
       economic_context: data.economic_context || existing.economic_context || '',
       skill_points: data.skill_points !== undefined ? data.skill_points : (existing.skill_points !== undefined ? existing.skill_points : 20),
       professional_skills: Array.isArray(data.professional_skills) ? data.professional_skills : (existing.professional_skills || []),
       archetypes: Array.isArray(data.archetypes) ? data.archetypes : (existing.archetypes || []),
       traits: Array.isArray(data.traits) ? data.traits : (existing.traits || []),
+      traits_detail: Array.isArray(data.traits_detail) ? data.traits_detail : (existing.traits_detail || []),
       description: data.description || existing.description || '',
-      recommended_features: existing.recommended_features || data.recommended_features || [],
-      features: existing.features || data.features || existing.recommended_features || [],
+      body,
+      full_text: data.full_text || body || existing.full_text || '',
+      recommended_features: Array.isArray(data.recommended_features) ? data.recommended_features : (existing.recommended_features || []),
+      features: Array.isArray(data.features) ? data.features : (existing.features || existing.recommended_features || []),
       recommended_species: recSpecies,
       recommended_factions: recFactions,
       recommended_origins: recOrigins,
       keywords,
       negative_keywords: negativeKeywords,
-      costs: existing.costs || {
+      costs: data.costs || existing.costs || {
         cp: 0,
         bp: 0,
         credits: 0,
@@ -73,21 +86,21 @@ function syncOccupations() {
         focus: 0,
         ap: 0
       },
-      modifiers: existing.modifiers || [],
-      modifications: existing.modifications || [],
-      critical_details: existing.critical_details || {
+      modifiers: Array.isArray(data.modifiers) && data.modifiers.length > 0 ? data.modifiers : (existing.modifiers || []),
+      modifications: Array.isArray(data.modifications) && data.modifications.length > 0 ? data.modifications : (existing.modifications || []),
+      critical_details: data.critical_details || existing.critical_details || {
         score: '',
         effect: [],
         success_effect: [],
         failure_effect: []
       },
-      sockets: existing.sockets || {
+      sockets: data.sockets || existing.sockets || {
         max: 0,
         used: 0,
         tier: 'Socket',
         allocated: []
       },
-      field: existing.field || ''
+      field: data.field || existing.field || ''
     };
 
     updatedOccupations.push(occObj);
@@ -98,58 +111,10 @@ function syncOccupations() {
 /**
  * Common Occupational Traits available to all professions in Tangent
  */
-export const COMMON_OCCUPATIONAL_TRAITS = [
-  {
-    id: "trait-background",
-    name: "Background",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Mental",
-    bp: 1,
-    description: "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation. Gain one Trait from a SECONDARY Chosen Occupation.",
-    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
-  },
-  {
-    id: "trait-trade-tools",
-    name: "Trade Tools",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Physical",
-    bp: 1,
-    description: "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession. +2 Equipment",
-    modifiers: [{ target: "equipment", value: 2, type: "other", mode: "inherent" }],
-    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
-  },
-  {
-    id: "trait-high-pay",
-    name: "High Pay",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Social",
-    bp: 1,
-    description: "Benefit for doing their job well. +2 Wealth",
-    modifiers: [{ target: "wealth", value: 2, type: "other", mode: "inherent" }],
-    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
-  },
-  {
-    id: "trait-professionalism",
-    name: "Professionalism",
-    category: "traits",
-    trait_type: "Occupational Trait",
-    trait_tier: "Basic",
-    classification: "Social",
-    bp: 1,
-    description: "Benefit of being known to do their job well. +2 Reputation",
-    modifiers: [{ target: "reputation", value: 2, type: "other", mode: "inherent" }],
-    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
-  }
-];
+export const COMMON_OCCUPATIONAL_TRAITS = ${JSON.stringify(COMMON_OCCUPATIONAL_TRAITS || [], null, 2)};
 `;
   fs.writeFileSync(targetFile, jsContent, 'utf8');
-  console.log(`\nSuccessfully synchronized ${updatedOccupations.length} occupations to ${targetFile}!`);
+  console.log(`\nSuccessfully synchronized ${updatedOccupations.length} occupations (with full Markdown body) to ${targetFile}!`);
 }
 
 syncOccupations();

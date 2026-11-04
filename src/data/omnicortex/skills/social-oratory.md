@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Oratory is the skill of public speaking. It reflects a character's ability to use language and tone of voice to persuade and inspire others. Oratory is used whenever a character needs to convince a group to take a certain course of action, or to deliver a speech or other public address. The art of public speaking. Used to inspire crowds, deliver sermons, debate in court/senate, or give orders on a battlefield.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Inspire:* CR 15 to grant allies a +1 morale bonus to Willpower saves for 1 hour.
+- *Inspire:* CR 15 to grant allies a +1 morale bonus to Willpower saves for 1 hour.
   - *Persuade Crowd:* Shift the attitude of a group (opposed by the group's collective Will or a set CR).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Political Rally Speeches:** Delivering fiery, populist orations that sweep elections and energize masses of voters.
       - **Military Pre-Battle Speeches:** Delivering inspiring addresses that harden resolve and banish fear before bloody assaults.

@@ -27,15 +27,11 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Leadership is the skill of inspiring, organizing, and guiding others toward a common goal. It reflects a character's ability to motivate their allies, maintain morale, and direct the flow of a team or larger group. Leadership is used whenever a character needs to command respect, manage a team, or provide direction in challenging circumstances. It covers leading troops in battle, managing organizational structures, or simply keeping a group focused and cohesive under pressure.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Inspire:* CR 15 to grant allies a +1 morale bonus to specific checks or saves for a duration.
+- *Inspire:* CR 15 to grant allies a +1 morale bonus to specific checks or saves for a duration.
   - *Organize:* CR 20 to coordinate a team's efforts for a complex project, reducing time or increasing efficiency.
   - *Opposed Check:* Used to maintain morale against fear or discord effects.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Battlefield Tactical Command:** Issuing clear, authoritative firing and movement orders in the deafening noise of combat.
       - **Inspiring Speeches:** Delivering electrifying orations that banish fear, rally broken lines, and restore morale.

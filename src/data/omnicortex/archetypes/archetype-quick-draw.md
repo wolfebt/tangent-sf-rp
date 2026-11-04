@@ -48,43 +48,20 @@ negative_keywords: 'incompetent, untrained, undisciplined'
 cp_chassis: 80
 ---
 
-# The Quick-draw
+# The Quick-Draw
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Burst DPS / Initiative / Reflex  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The gunslinger of the future, whose survival depends on being the first to fire in any confrontation.
 
-> *You are the fastest hand in the sector. You live in the split second between intent and action, drawing and firing before the enemy can even process the threat. You don't start the fight, but you always end it.*
+*You are the fastest hand in the sector. You live in the split second between intent and action, drawing and firing before the enemy can even process the threat. You don't start the fight, but you always end it.*
 
-> _"I already pulled the trigger. You just haven't fallen yet."_
-
-## Tactical Role
-Winning initiative, eliminating high-threat targets first, high-mobility combat.
-
-## Essential Skills
-- Combat (Pistols)
-- Alertness
-- Acrobatics
-- Stealth
-
-## Signature Features
-- Quick Reflexes
-- Seize Initiative
-
-## Recommendations
-- **Occupations**: Drifter, Soldier
-- **Origins**: Hostile, Colony, Militaristic
-- **Factions**: Outworlds (Gunfighters), Coalition (Marshals), Syndicate
-
-
-## Extended Lore & Background
-
-The gunslinger of the future, whose survival depends on being the first to fire in any confrontation.  
-*You are the fastest hand in the sector. You live in the split second between intent and action, drawing and firing before the enemy can even process the threat. You don't start the fight, but you always end it.*  
 *"I already pulled the trigger. You just haven't fallen yet."*
 
+  - **Core Concept:** Burst DPS / Initiative / Reflex
+  - **Recommended Occupations:** Drifter, Soldier.
+  - **Recommended Origins:** Hostile, Colony, Militaristic.
+  - **Recommended Factions:** Outworlds (Gunfighters), Coalition (Marshals), Syndicate.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom / Alertness (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Combat (Pistols), Alertness, Acrobatics, Stealth.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Quick Reflexes, Seize Initiative.
+  - **Tactical Role:** Winning initiative, eliminating high-threat targets first, high-mobility combat.

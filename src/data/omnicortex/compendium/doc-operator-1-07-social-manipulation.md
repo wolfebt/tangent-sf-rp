@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.social.manipulation","mechanics"]
-updatedAt: "2026-11-02T22:49:30.222Z"
+updatedAt: "2026-11-04T00:33:10.753Z"
 costs:
   bp: 0
   credits: 0
@@ -39,6 +39,36 @@ sockets:
 
 # **1.07.11 SOCIAL SKILLS: MANIPULATION**
 
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Social.Manipulation.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Social.Manipulation.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MANIPULATION SKILLS SUMMARY MATRIX)**
+
+| Manipulation Skill | Governing Attribute | Core Task CRs | Canonical Specialties |
+| :--- | :--- | :--- | :---: |
+| **Insight** | Wisdom (`WIS`) or Charisma (`CHA`) | Detect Lie (Opposed by `Bluff`), Read Situation (`CR 15`) | 10 Specialties |
+| **Bluff** | Charisma (`CHA`) | Deceive (Opposed by `Insight`), Combat Feint, Create Distraction (`CR 15+`) | 10 Specialties |
+| **Barter** | Charisma (`CHA`) or Wisdom (`WIS`) | Negotiate Trade (Opposed by `Diplomacy`/`Insight`), Appraise (`CR 15+`) | 10 Specialties |
+| **Diplomacy** | Charisma (`CHA`) | Influence Attitude (`CR 15–25+`), Negotiation (Opposed), Gather Info (`CR 15+`) | 10 Specialties |
+| **Intimidate** | Charisma (`CHA`) or Strength (`STR`) | Coerce (Opposed by `Insight`/`Willpower`), Demoralize (`Shaken -2` for 1 rd) | 10 Specialties |
+| **Leadership** | Charisma (`CHA`) | Inspire (`CR 15` grants `+1` morale), Organize (`CR 20`), Maintain Morale | 10 Specialties |
+| **Streetwise** | Charisma (`CHA`) or Wisdom (`WIS`) | Gather Info (`CR 10–20` in `1d4` hrs), Urban Survival (`CR 15`), Locate Fence | 10 Specialties |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
+
 ## **MANIPULATION**
 
 These skills are used to influence others, hide intentions, or read social situations.
@@ -51,14 +81,10 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Insight is the skill of understanding and empathizing with others. It reflects a character's ability to comprehend and appropriately react to both broad problems of society and interpersonal struggles. Insight is used whenever a character needs to understand the emotions and feelings of others, whether it's to avoid conflict or to build relationships. This can include things like identifying social cues, taking others' perspectives, demonstrating empathy and compassion, and showing concern for the feelings of others. The skill of understanding and empathizing with others. It reflects a character's ability to comprehend and appropriately react to both broad societal problems and interpersonal struggles. Insight is used to read emotions, detect lies, and understand hidden motives.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Insight:** Opposed check vs. **Bluff**. Success reveals if the target is lying or hiding something.
+- **Insight:** Opposed check vs. **Bluff**. Success reveals if the target is lying or hiding something.
   - **Read Situation:** CR 15 to pick up on social dynamics or hidden tension in a room.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Lie Detection:** Catching subtle facial tics, vocal pitch spikes, and pupil dilations that expose falsehoods.
       - **Emotional Empathy:** Sensing buried grief, simmering rage, or sheer panic beneath a calm exterior.
@@ -79,15 +105,11 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Bluff is the skill of lying convincingly. It reflects a character's ability to deceive others and manipulate situations to their advantage. Bluff is used whenever a character needs to convince someone of something that isn't true, whether it's to avoid danger or to gain information. This can include things like lying about one's identity, pretending to be someone else, or making up a story to cover up a mistake. The ability to lie convincingly, deceive others, and manipulate situations to one’s advantage. It covers everything from little white lies to elaborate cons and feints in combat.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Deceive:** Opposed check vs. **Insight (Insight)**.
+- **Deceive:** Opposed check vs. **Insight**.
   - **Feint:** Opposed check vs. **Insight** (or Defense) in combat to deny a target their Agility bonus to Defense for the next attack.
   - **Create Distraction:** CR 15+ to momentarily divert attention (often used to Hide).
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Fast-Talking:** Overwhelming security guards and dock officials with rapid jargon and manufactured emergencies.
       - **Tactical Feints:** Misleading an opponent's combat guard with false eye glances, fake lunges, and baiting strikes.
@@ -108,14 +130,10 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Barter is the skill of trading goods and services without relying solely on currency. It reflects a character's ability to negotiate value, haggle for better prices, and reach mutually beneficial agreements in trade. Barter is used whenever a character needs to acquire items, services, or information through direct exchange. This includes assessing the relative value of goods, identifying market trends, and convincing others of the worth of a trade. The art of negotiation and exchange.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Negotiate:** Opposed check vs. the target's **Diplomacy** or **Insight**.
+- **Negotiate:** Opposed check vs. the target's **Diplomacy** or **Insight**.
   - **Appraise:** CR 15+ to determine the true value or rarity of an object or service.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Street Market Haggling:** Whittling down the asking price of street vendors and cantina fences credit by credit.
       - **Bulk Discount Negotiation:** Securing large percentage-off price breaks when buying weapon crates or fuel tons in bulk.
@@ -136,15 +154,11 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Diplomacy is the skill of negotiating and persuading others. It reflects a character's ability to communicate effectively and build relationships with others. Diplomacy is used whenever a character needs to convince someone of something that is true, whether it's to gain support or to resolve a conflict. This can include things like negotiating a peace treaty, convincing a king to support a cause, or persuading a merchant to lower their prices. The art of negotiation, persuasion, and maintaining positive relations. It is used to convince others of the truth, gain support, resolve conflicts peacefully, and navigate complex social hierarchies.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). CR depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).
+- **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). CR depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).
   - **Negotiation:** Opposed check vs. the target's **Diplomacy** or **Insight**.
   - **Gather Information (Formal):** CR 15+ to find information through official channels or high society.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Hostility De-escalation:** Talking down armed, angry standoffs and convincing aggressive groups to lower their weapons.
       - **Formal Treaty Drafting:** Formulating compromise terms, ceasefire articles, and non-aggression treaties between factions.
@@ -165,14 +179,10 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Intimidation is the skill of using fear and threats to control others. It reflects a character's ability to instill fear in others and manipulate situations to their advantage. Intimidate is used whenever a character needs to scare someone into doing something, whether it's to gain information or to avoid danger. This can include things like threatening physical harm, using one's reputation to intimidate others, or using psychological tactics to make someone feel powerless. The skill of coercing others through fear, physical threats, or sheer force of personality. It can be used to interrogate prisoners, demoralize enemies, or force compliance.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Coerce:** Opposed check vs. the target's **Insight** or **Willpower** (Level + Wisdom). Success forces the target to act friendly or compliant temporarily.
+- **Coerce:** Opposed check vs. the target's **Insight** or **Willpower** (Level + Wisdom). Success forces the target to act friendly or compliant temporarily.
   - **Demoralize:** Standard action in combat. Opposed check vs. target's **Insight** or **Willpower**. Success leaves the target **Shaken** (-2 to attacks/checks) for 1 round.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Physical Menace:** Towering over targets, cracking knuckles, and using size and muscle mass to compel obedience.
       - **Interrogation Under Duress:** Breaking the psychological resolve of captured prisoners to extract codes and coordinates.
@@ -193,15 +203,11 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Leadership is the skill of inspiring, organizing, and guiding others toward a common goal. It reflects a character's ability to motivate their allies, maintain morale, and direct the flow of a team or larger group. Leadership is used whenever a character needs to command respect, manage a team, or provide direction in challenging circumstances. It covers leading troops in battle, managing organizational structures, or simply keeping a group focused and cohesive under pressure.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Inspire:* CR 15 to grant allies a +1 morale bonus to specific checks or saves for a duration.
+- *Inspire:* CR 15 to grant allies a +1 morale bonus to specific checks or saves for a duration.
   - *Organize:* CR 20 to coordinate a team's efforts for a complex project, reducing time or increasing efficiency.
   - *Opposed Check:* Used to maintain morale against fear or discord effects.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Battlefield Tactical Command:** Issuing clear, authoritative firing and movement orders in the deafening noise of combat.
       - **Inspiring Speeches:** Delivering electrifying orations that banish fear, rally broken lines, and restore morale.
@@ -222,15 +228,11 @@ These skills are used to influence others, hide intentions, or read social situa
   - **Description:** Streetwise is the skill of navigating the criminal underworld and understanding the social dynamics of the streets. It reflects a character's ability to survive and thrive in dangerous and unpredictable environments. Streetwise is used whenever a character needs to gather information or make connections in the criminal underworld, whether it's to gain access to resources or to avoid danger. This can include things like finding a black market dealer, identifying a gang's territory, or navigating a dangerous neighborhood. Knowledge of the urban environment, criminal underworld, and how to navigate the "streets." It involves gathering information from informal contacts, finding black markets, and avoiding trouble in dangerous neighborhoods.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Gather Information (Informal):** CR 10-20 to pick up rumors, find a specific person, or locate illicit goods. Takes 1d4 hours.
+- **Gather Information (Informal):** CR 10-20 to pick up rumors, find a specific person, or locate illicit goods. Takes 1d4 hours.
   - **Urban Survival:** CR 15 to find a safe house or avoid street gangs.
   - **Network:** locating a fence or fixer.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Black Market Fences:** Locating reliable criminal brokers who buy hot cyberware, stolen weapons, and unmarked bullion.
       - **Underworld Informant Networks:** Knowing which bartenders, street urchins, and cabbies have their ears to the ground.
@@ -243,16 +245,11 @@ These skills are used to influence others, hide intentions, or read social situa
       - **Illicit Contraband Sourcing:** Procuring illegal combat drugs, untracked blasters, and forged transit papers in alleys.
       - **Urban Evasion:** Slipping away through winding back-alleys, fire escapes, and sewer drains when syndicates hunt you.
 
-  
-  
-  
-  
-**  
-**
-
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-313 (1.07.Social.Manipulation.md):** Restored all 7 Manipulation Skills (Insight, Bluff, Barter, Diplomacy, Intimidate, Leadership, Streetwise) with all 70 Specialties.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Social.Manipulation.md):** Restored all 7 Manipulation Skills (`Insight`, `Bluff`, `Barter`, `Diplomacy`, `Intimidate`, `Leadership`, `Streetwise`) and all 70 Specialties from Codex `1.07 SKILLS`, normalizing `Sense Motive` to `Insight`.
 

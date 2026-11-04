@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Knowledge of military life, hierarchy, logistics, and field procedures. Does *not* replace Combat skills (shooting/hitting), but covers the *job* of being a soldier.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Regulations:* CR 10 to know the rules of engagement.
+- *Regulations:* CR 10 to know the rules of engagement.
   - *Field Maintenance:* CR 15 to clean and maintain gear in the field.
   - *Drill:* CR 15 to march or coordinate a squad efficiently.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Field Gear Maintenance:** Stripping, cleaning, and oiling service rifles, boots, and webbing to military inspection code.
       - **Military Regulations & Law:** Knowing the rules of engagement, uniform codes, lawful orders, and court-martial laws.

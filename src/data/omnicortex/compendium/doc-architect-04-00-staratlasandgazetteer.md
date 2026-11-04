@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 24
+order: 25
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","planetary","04.00.staratlasandgazetteer","matrix"]
-updatedAt: "2026-11-02T22:49:11.477Z"
+updatedAt: "2026-11-04T00:33:10.413Z"
 costs:
   bp: 0
   credits: 0
@@ -39,6 +39,15 @@ sockets:
 
 # **04.00 STAR ATLAS & SECTOR GAZETTEER**
 
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
 ## **I. THE ASTROGRAPHIC ARCHITECTURE OF KNOWN SPACE**
 
 Known Space in the Tangent universe is divided into four macro-political regions linked by Precursor **Translux Jump Gates**, **Hyperlux Corridors**, and independent **Tangent Drives**:
@@ -47,8 +56,6 @@ Known Space in the Tangent universe is divided into four macro-political regions
 2. **The Imperial & Aeld Reaches:** Ancient sectors contested by the fractured Houses of the **Impyrium Dominion**, the crystal worlds of the **Alterian Enclave**, and the progressive **Ascendancy of the Seventh Reach** beyond the Reach.
 3. **The Copia Sector & Free Colonies:** Over forty industrial and agricultural frontier systems governed by the **Coalition of Independent Worlds**, bordering the lawless **Outworlds** and the orbital **Scrapyard**.
 4. **The Deep Wilds & Anomaly Zones:** Bio-terraformed expanses held by the **Auluran Clans**, the **Vajar Primalcy**, the **Kitin Star Hive**, the Dyson megastructure of **Mekan Prime**, and quarantined rifts such as **Omin II** and **Sha'Nor** space.
-
----
 
 ## **II. MASTER TWP GAZETTEER OF CANONICAL WORLDS**
 
@@ -80,8 +87,6 @@ Every world is encoded using the 9-digit **Tangent World Profile (TWP)** (`Starp
 | **Vulcanis** | Syndicate / Mekan | `B:6:10:2:7:9:8:4:0` | 0.9G Extreme-Heat Magma Forges; **ML 0 Null Zone** | Fl, Ht, In | CR 30 |
 | **The Scrapyard** | Outworlds (Drift Hub) | `C:0:0:0:6:0:1:3:2` | 0.0G Zero-G Asteroid & Starship Hulks Belt | As, Ni, Va | CR 25 |
 
----
-
 ## **III. DETAILED PLANETARY PROFILES (KEY SECTOR HUBS)**
 
 ### **1. Premius (The Corporate Core)**
@@ -108,8 +113,6 @@ Every world is encoded using the 9-digit **Tangent World Profile (TWP)** (`Starp
 - **TWP String:** `A:8:4:4:10:11:10:3:3` | **Faction:** Impyrium Dominion (Capital)
 - **Geophysical Chassis:** A heavy, world-paved monument planet (1.15G) dominated by Neo-Sumerian brutalist ziggurats, white marble plazas, and miles-high **Zenith Spires**.
 - **Sociological & Economic Profile:** Following the vanishings of the bio-engineered **Regi**, Aurelia is locked in a tense bureaucratic cold war between the **House of the Sun**, the **House of the Iron Gate**, and the **House of the Veiled Star** (Gov 11, Law 10). Its legions wield ancient TL 4 Heirloom Luxtech maintained by rote ritual because the Dominion's current industrial base (TL 3) can no longer replicate its own golden-age relics.
-
----
 
 ## **IV. COMPLETE WORLDS OF TANGENT & FTL PHASE DRIVES COMPENDIUM**
 
@@ -192,7 +195,7 @@ Culturally, they value mental discipline, clarity, and unity. Their cities are n
       - **Stats:** Pop 7 (Psi-Militant), Tech 4 (Mind-Weaponry), Meta 4 (Tactical Link), Law 9 (Unity)
       - **Primary Export:** Psi-Knights, Thought-Shields, Will-Forged Alloys
       - **Atmosphere:** Type 1 (Terran / Charged)
-      - **Planetary Feature:** *The Gestalt.* Military units here operate with a hive-mind efficiency. Initiative rolls for Ascendancy forces are made with Advantage. Enemy attempts to flank or surprise are negated by the collective awareness.
+      - **Planetary Feature:** *The Gestalt.* Military units here operate with a hive-mind efficiency. Initiative rolls for Ascendancy forces are made with Advantage. Enemy attempts to flank or surprise are negated by the collective situational alertness.
       - **Locations:** The Citadel of Will, The Null-Field Training Grounds, The Star-Forge.
 
 ## -----
@@ -362,7 +365,7 @@ Some low key planets were still retained in the region, and forgotten about..
 
 Across the Reach many worlds of the Impyrium are currently in some form of civil unrest.
 
-Six heirs are currently trying to claim the Imperial throne to get what is left…
+Six heirs are currently trying to claim the Imperial throne to get what is left
 
 (1 w/ claims of 2 that left & 1 dead, 1 w/ equal ally and claims to 1 dead and 1 w/2 remaining as allies)
 
@@ -772,8 +775,6 @@ Short-range jumps: Limited to relatively short distances, perhaps within a star 
 
 *In light of these factors, it is likely that FTL technology, if ever developed, would be restricted to governments, militaries, or large corporations. These entities possess the resources, funding, and expertise necessary to undertake the monumental task of developing and deploying such an advanced technology. They would also have a vested interest in controlling access to FTL technology, considering its potential strategic and military applications.*
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-528)**
 
 - **File Target:** `architect/planetary/04.00.StarAtlasAndGazetteer.md`
@@ -781,5 +782,4 @@ Short-range jumps: Limited to relatively short distances, perhaps within a star 
   - Merged the Nov 2 Master TWP Gazetteer of 23 Canonical Worlds and Sector Hub profiles with 100% of the 67,925-byte `05. STAR ATLAS` (`1_k9vvjTIZIWScLpNoMrr486HJq2KIRJ-8HJvEvY7R1Y`), including all Faction World entries (Lumanara, Silvermoon Prime, Veridia, Corastra, Aurelia, Kastel, Leonar, Terminus, Draconis, Batune, Colm, Aquarius, Dolaris, Tavros, Zygos, Almathea, Scorpius, Sentaris, Ofi, Entari, Tytain's Wake, Mekan Prime, Antares IV, Denall, Eliais Prime, Omin II, Xylos, Premius, Spire, Braken, Krios, Vulcanis, Aquatica, Grilious) and the complete FTL Phase Drives (Translux, Hyperlux, Tangent Drive, Phase Shift) engineering codex.
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized all legacy `CR` -> `CR`, `Stamina/Con` -> `Stamina/STA`, `Perception` -> `Alertness`, and `Vocation (Handler)` -> `Vocation (Handler)`.
-
 

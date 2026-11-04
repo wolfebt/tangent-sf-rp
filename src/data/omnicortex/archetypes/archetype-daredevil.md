@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Daredevil
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Mobility / Risk / Action  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Stamina  
 
-## Overview
 Excels in extreme sports and high-risk maneuvers.
 
-> *You live for the rush. The higher the risk, the better the performance. You take leaps of faith that others would call suicide, relying on skill and sheer nerve to survive.*
+*You live for the rush. The higher the risk, the better the performance. You take leaps of faith that others would call suicide, relying on skill and sheer nerve to survive.*
 
-> _"It's not a fall; it's a very fast descent with style."_
-
-## Tactical Role
-Reaching inaccessible areas, performing stunts, surviving falls.
-
-## Essential Skills
-- Athletics
-- Acrobatics
-- Knowledge (Survival)
-- Alertness
-
-## Signature Features
-- Peak Physical Condition
-- Fearless
-
-## Recommendations
-- **Occupations**: Specialist, Entertainer
-- **Origins**: Leisure, Spacer, Urban
-- **Factions**: Syndicate (Media Stunts), Outworlds, Ascendancy
-
-
-## Extended Lore & Background
-
-Excels in extreme sports and high-risk maneuvers.  
-*You live for the rush. The higher the risk, the better the performance. You take leaps of faith that others would call suicide, relying on skill and sheer nerve to survive.*  
 *"It's not a fall; it's a very fast descent with style."*
 
+  - **Core Concept:** Mobility / Risk / Action
+  - **Recommended Occupations:** Specialist, Entertainer.
+  - **Recommended Origins:** Leisure, Spacer, Urban.
+  - **Recommended Factions:** Syndicate (Media Stunts), Outworlds, Ascendancy.
+  - **Key Attributes:** Agility (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Acrobatics, Knowledge (Survival), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Peak Physical Condition, Fearless.
+  - **Tactical Role:** Reaching inaccessible areas, performing stunts, surviving falls.

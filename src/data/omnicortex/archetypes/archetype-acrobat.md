@@ -45,41 +45,18 @@ cp_chassis: 80
 
 # The Acrobat
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Mobility / Evasion / Performance  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Strength  
 
-## Overview
 A performer specializing in agility and stunts, often in zero-gravity.
 
-> *You laugh at gravity. You move in ways that should be impossible, turning the battlefield into your stage. Whether swinging from rigging or dodging laser fire, your grace is your defense.*
+*You laugh at gravity. You move in ways that should be impossible, turning the battlefield into your stage. Whether swinging from rigging or dodging laser fire, your grace is your defense.*
 
-> _"Catch me if you can."_
-
-## Tactical Role
-Traversing difficult terrain, dodging attacks, distracting enemies.
-
-## Essential Skills
-- Acrobatics
-- Athletics
-- Expression (any)
-- Animal Handling
-
-## Signature Features
-- Daredevil
-- Showmanship
-
-## Recommendations
-- **Occupations**: Entertainer, Specialist
-- **Origins**: Leisure, Spacer, Urban
-- **Factions**: Entari Combine (Performers), Outworlds (Traveling Shows)
-
-
-## Extended Lore & Background
-
-A performer specializing in agility and stunts, often in zero-gravity.  
-*You laugh at gravity. You move in ways that should be impossible, turning the battlefield into your stage. Whether swinging from rigging or dodging laser fire, your grace is your defense.*  
 *"Catch me if you can."*
 
+  - **Core Concept:** Mobility / Evasion / Performance
+  - **Recommended Occupations:** Entertainer, Specialist.
+  - **Recommended Origins:** Leisure, Spacer, Urban.
+  - **Recommended Factions:** Entari Combine (Performers), Outworlds (Traveling Shows).
+  - **Key Attributes:** Agility (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Athletics, Expression (any), Vocation (Handler).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Daredevil, Showmanship.
+  - **Tactical Role:** Traversing difficult terrain, dodging attacks, distracting enemies.

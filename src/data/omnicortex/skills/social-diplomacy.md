@@ -27,15 +27,11 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Diplomacy is the skill of negotiating and persuading others. It reflects a character's ability to communicate effectively and build relationships with others. Diplomacy is used whenever a character needs to convince someone of something that is true, whether it's to gain support or to resolve a conflict. This can include things like negotiating a peace treaty, convincing a king to support a cause, or persuading a merchant to lower their prices. The art of negotiation, persuasion, and maintaining positive relations. It is used to convince others of the truth, gain support, resolve conflicts peacefully, and navigate complex social hierarchies.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). CR depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).
+- **Influence Attitude:** Change an NPC's attitude (e.g., from Hostile to Unfriendly, or Indifferent to Friendly). CR depends on the starting attitude (CR 15 for Indifferent, CR 25+ for Hostile).
   - **Negotiation:** Opposed check vs. the target's **Diplomacy** or **Insight**.
   - **Gather Information (Formal):** CR 15+ to find information through official channels or high society.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Hostility De-escalation:** Talking down armed, angry standoffs and convincing aggressive groups to lower their weapons.
       - **Formal Treaty Drafting:** Formulating compromise terms, ceasefire articles, and non-aggression treaties between factions.

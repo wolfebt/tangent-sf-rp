@@ -69,51 +69,142 @@ negative_keywords: >-
   selfish-gain
 ---
 
-## **9\. HIVE MIND**
+# 1.04. ARCHETYPAL FACTION: 09. HIVE MIND COLLECTIVE (+2 WS)
 
-### **I. Detailed Faction Description**
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 3 / ML 4 | +2 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Archetypal.HiveMind.md` in **Tangent SF RP**.
 
-* **Overview:** A civilization composed of billions of biological or synthetic drones controlled by a single, vast synaptic network or Queen. The concept of the "individual" is entirely foreign. They act with absolute, terrifying synchronicity.  
-* **Key Themes:** Collective Swarms, Assimilation, The Loss of Self, Infinite Coordination.  
-* **Relationship to Others:** A persistent, overwhelming threat to independent life. Diplomatic communication is nearly impossible.
+## Overview & Mechanical Authority Block
 
-### **II. Core Identity**
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-* **Official Designation:** The Swarm / The Unified Node  
-* **Colloquialisms:** The Plague / The Horde / Bugs  
-* **Archetype:** Collective Swarms  
-* **Capital/Key World:** The Primary Hive (Often a completely strip-mined husk-world)  
-* **Driving Mandate:** Assimilate resources, expand the hive, ensure the survival of the Queen/Node.  
-* **Motto:** "We are many. We are one."
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-### **III. Sociological Profile**
+## Part I — Alignment & Summary Matrix Table
 
-* **Ideology & Culture:** Single-minded, efficient, relentlessly expansive.  
-* **Social Structure:** A perfect hierarchy where biology dictates purpose.  
-* **View on Outsiders:** Biomass or raw materials to be consumed and repurposed.  
-* **Law & Order:** Irrelevant. Drones do not break the law because they do not have free will.
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Archetypal.HiveMind.md (Sec. I)` | TL 3 / ML 4 | +2 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Archetypal.HiveMind.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Archetypal.HiveMind.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
 
-### **IV. Strategic Assets**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-* **Tech Level (TL):** 3 (Usually heavily biological)  
-* **Strengths:** Infinite coordination, numbers, rapid adaptation, no fear of death.  
-* **Weaknesses:** Highly vulnerable to psychic disruption or the assassination of a command node. Lack of individuality stifles creative problem-solving.  
-* **Military Doctrine:** Swarm tactics, overwhelming attrition, and attacking from every possible angle simultaneously.
+### I. Canonical Faction Profile, Lore & Unabridged Codex Entry (`operator/factions/1.04.Archetypal.HiveMind.md`)
 
-### **V. Mechanics (Game Data)**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 09. Hive Mind Collective
+* **Tech / Meta Level:** TL 3 / ML 4
+* **EUFT Starting Wealth Score Modifier:** **+2 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Attune (+5), Discipline: Mental (+5), Alertness (+4), Athletics (+3), Unarmed (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Awakened (Psychic), Bonded, Coordinated Assist, Combat Reflexes, Danger Sense, Fearless, Mind Link, Shared Senses, Sleepless, Telepathy
+* **CRISP Visual Semiotics Key:** Symmetrical hexagonal resin galleries, synchronized multi-limbed drones, psychic hum.
 
-* **Prominent Species:** Insectoid, Biological horrors, or networked Synthetics.  
-* **Faction Skill Package (20 Points):**  
-  * Awareness (+5)  
-  * Athletics (+4)  
-  * Combat (Melee) (+4)  
-  * Survival (+4)  
-  * Stealth (+3)  
-* **Typical Archetypes:** The Drone, The Synapse Node, The Infiltrator, The Siege-Breaker, The Queen.  
-* **Recommended Features (1 CP Discount):** Mind Link, Fearless, Uncanny Dodge, Wall-Crawler, Swarm Tactics (Coordinated Assist), Echolocation, Endurance, Diehard, Natural Weapons, Scent.
+HIVE MIND
+I. Detailed Faction Description
+* Overview: Characterized by a collective consciousness where individual members are entirely subservient to the group. They possess no concept of "self," operating as a single, relentless organism dedicated to expansion, assimilation, or self-preservation.
+* Key Themes: The Swarm, Loss of Individuality, Relentless Expansion, Assimilation.
+* Relationship to Others: Existential threat to all individualistic societies.
+II. Core Identity
+* Official Designation: The Swarm / The Overmind
+* Colloquialisms: The Bugs / The Collective / The Plague
+* Archetype: Collective Swarms
+* Capital/Key World: Variable (Entirely assimilated worlds)
+* Driving Mandate: Expand the hive, assimilate other species, eliminate threats.
+* Motto: "We are one. You will be too."
+III. Sociological Profile
+* Ideology & Culture: Single-minded, ruthless, efficient, unified, adaptive, relentless.
+* Social Structure: Biological castes (Queens, Drones, Warriors) guided by one mind.
+* View on Outsiders: Biomass or threats to be neutralized.
+* Law & Order: Absolute biological imperative. Crime does not exist.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Huge numbers, highly coordinated, advanced biological technology, rapid adaptation, strong sense of unity.
+* Weaknesses: Vulnerability to psychic attacks, lack of individuality, disruption of hive communication causes chaos.
+* Military Doctrine: Overwhelming numbers, synchronized swarm tactics, and ignoring casualties.
+V. Mechanics (Game Data)
+* Prominent Species: Insectoid or Biologically Assimilated species.
+* Faction Skill Package (20 Points):
+   * Athletics (+5)
+   * Combat (+5)
+   * Survival (+4)
+   * Alertness (+3)
+   * Stealth (+3)
+* Typical Archetypes:
+   * The Drone: The tireless, expendable worker backbone of the hive.
+   * The Warrior: A heavily armored bio-form bred purely for frontline slaughter.
+   * The Architect: Shaping resin and biomass into towering hive structures.
+   * The Queen: The localized command node directing the swarm's actions.
+   * The Bio-Engineer: Mutating the genetic code of the swarm to adapt to threats.
+   * The Scout: Fast, winged units identifying new biomass for consumption.
+   * The Harvester: Specialized units designed to break down organic matter.
+   * The Infiltrator: A specialized bio-form mimicking other species to gather intel.
+   * The Synapse Node: A psychic amplifier ensuring the Overmind's commands reach the front.
+   * The Swarm-Leader: A tactical bio-form coordinating complex ambushes.
+* Recommended Features (1 CP Discount):
+   * Mind Link: Instant, flawless telepathic communication with the swarm.
+   * Fearless: Incapable of individual fear or self-preservation instincts.
+   * Coordinated Assist: Moving in perfect, synchronized tandem with allies.
+   * Uncanny Dodge: Reacting instantly via the collective sensory input.
+   * Swarm Tactics: Gaining massive bonuses when fighting alongside other hive members.
+   * Natural Armor: Thick, hardened chitin deflecting conventional ballistics.
+   * Fast Heal: Rapid cellular regeneration prioritizing the swarm's combat readiness.
+   * Tireless: Ignoring exhaustion, sleep, and physical fatigue.
+   * Evasion: Dodging area-of-effect damage through perfect spatial awareness.
+   * Scent: Tracking prey via chemical trails and pheromones.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Chitinous, organic, and overwhelmingly unified.
+* Atmosphere Tokens: Resin structures, synchronized movement, massive swarms, organic architecture.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Biological Swarm, Chitinous, Unified Collective.
+   * CONTEXT: Organic architecture, resin structures, synchronized movement, massive swarms.
+   * ATMOSPHERE: Overwhelming, terrifying, unified, alien, relentless.
 
-### **VI. Visual Semiotics (Aesthetics)**
+HIVE MIND ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Hive Mind prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Swarm of identical Drones acting in unison, massive biological Queen commanding the collective, terrifying Hive Warrior with chitinous blades, Bio-Engineer caste shaping the hive]
+* NARRATIVE: [e.g., assimilating foreign biomass into the hive, swarming over a defensive wall like a single fluid entity, building an organic spire, defending the Queen]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Organic Swarm, chitinous structures, interconnected webbing, biological architecture, insectoid/fungal motifs, lack of individuality, terrifying symmetry.
+* CONTEXT: The pulsating heart of a hive-city, a battlefield covered in creeping organic webbing, a tunnel system made of hardened resin, an assimilation pool.
+* ATMOSPHERE: Single-minded, relentless, unified, alien, overwhelming, ruthlessly efficient, terrifying.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: unified glowing eye color (e.g., sharp hive red or eerie purple dots) across multiple subjects, subtle chitinous brown ink wash, faint organic slime green marker touches.
+3. READY-TO-USE TEMPLATES
+MASTER SHOT: The Swarm Assault
+A relentless swarm of identical Hive Mind Warriors pouring over a breached concrete wall, acting as a single fluid organism, terrifying biological architecture spreading across the ground behind them. Standard 50mm lens, eye-level camera angle, balanced cinematic framing, mid-shot composition, seamless environmental integration. Single-minded and overwhelming atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, mostly monochrome, black ink on clean paper, identical glowing red marker dots for the eyes of the swarm. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+ARCHITECTURAL ESTABLISHING SHOT: The Hive Spire
+Massive organic Hive Spire made of hardened resin, chitin, and interconnected webbing, pulsating with alien life, surrounded by a swarm of flying drones. Architectural/Biological ink rendering, traditional multi-point perspective drafting, precise vanishing points, technical drawing style, dense structural cross-hatching, intricate organic line art, monumental scale conveyed through line density, pure white background. Terrifying and alien atmosphere, subtle chitinous brown and resin marker accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading.
 
-* **Design Directive:** Swarming, chitinous, and overwhelming.  
-* **Atmosphere Tokens:** Resin hives, swarming masses, organic tunnels, clicking mandibles, alien geometries.  
-* **HI-FI INK Guidance:** Collective Swarm, Xenobiology, Horror. Dripping resin tunnels, massive egg clutches, seas of identical drones. Claustrophobic, terrifying.
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Archetypal.HiveMind.md`
+* **Codex Sources Compared:** Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Archetypal.HiveMind.md` and Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 3 / ML 4 | +2 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-HIVE-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Archetypal.HiveMind.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc.
+* **DISC-104-HIVE-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 3 / ML 4 | +2 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Groundskeeper is the skill of managing and maintaining outdoor spaces, such as parks or gardens. It reflects a character's ability to mow lawns, trim hedges, plant flowers, and maintain other outdoor features. Groundskeepers are responsible for ensuring that outdoor spaces are safe, functional, and aesthetically pleasing. This can include things like mowing lawns, trimming hedges, and planting flowers.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Cultivate:* CR 15 to grow specific plants in a hostile environment.
+- *Cultivate:* CR 15 to grow specific plants in a hostile environment.
   - *Terraform:* CR 25 to operate large scale atmosphere processors.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Landscape Gardening:** Designing flower beds, trimming hedges, laying sod, and styling ornamental gardens.
       - **Arboriculture & Tree Surgery:** Felling dangerous deadwood, pruning high branches, and treating tree infections.

@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Veteran
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: DPS / Tank / Reliable  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Stamina  
 
-## Overview
 Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.
 
-> *You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*
+*You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*
 
-> _"Check your corners. Stay sharp. We move on my mark."_
-
-## Tactical Role
-Frontline combat, holding ground, reliable damage output.
-
-## Essential Skills
-- Acrobatics
-- Alertness
-- Athletics
-- Combat (Any)
-
-## Signature Features
-- Combat Expertise
-- Unflinching
-
-## Recommendations
-- **Occupations**: Soldier, Mercenary
-- **Origins**: Militaristic, Hostile, Colony
-- **Factions**: Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors)
-
-
-## Extended Lore & Background
-
-Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.  
-*You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*  
 *"Check your corners. Stay sharp. We move on my mark."*
 
+  - **Core Concept:** DPS / Tank / Reliable
+  - **Recommended Occupations:** Soldier, Mercenary.
+  - **Recommended Origins:** Militaristic, Hostile, Colony.
+  - **Recommended Factions:** Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors).
+  - **Key Attributes:** Strength or Agility (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Alertness, Athletics, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Combat Expertise, Unflinching.
+  - **Tactical Role:** Frontline combat, holding ground, reliable damage output.

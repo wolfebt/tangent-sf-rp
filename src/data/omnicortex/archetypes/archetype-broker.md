@@ -45,40 +45,18 @@ cp_chassis: 80
 
 # The Broker
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Economy / Logistics / Face  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Travels space lanes buying and selling. Keen eye for value and negotiation.
 
-> *You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*
+*You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*
 
-> _"Everything is negotiable. Even loyalty."_
-
-## Tactical Role
-Funding the party, acquiring rare gear, transport logistics.
-
-## Essential Skills
-- Diplomacy
-- Insight
-- Vocation (Broker)
-
-## Signature Features
-- Market Savvy
-- Resourceful
-
-## Recommendations
-- **Occupations**: Merchant, Spacer
-- **Origins**: Urban, Spacer, Colony
-- **Factions**: Entari Combine (Merchants), Syndicate (Traders), Alterian Enclave
-
-
-## Extended Lore & Background
-
-Travels space lanes buying and selling. Keen eye for value and negotiation.  
-*You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*  
 *"Everything is negotiable. Even loyalty."*
 
+  - **Core Concept:** Economy / Logistics / Face
+  - **Recommended Occupations:** Merchant, Spacer.
+  - **Recommended Origins:** Urban, Spacer, Colony.
+  - **Recommended Factions:** Entari Combine (Merchants), Syndicate (Traders), Alterian Enclave.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Vocation (Broker).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Market Savvy, Resourceful.
+  - **Tactical Role:** Funding the party, acquiring rare gear, transport logistics.

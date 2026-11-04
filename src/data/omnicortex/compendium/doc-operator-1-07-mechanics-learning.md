@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.learning","mechanics"]
-updatedAt: "2026-11-02T22:49:28.727Z"
+updatedAt: "2026-11-04T00:33:10.728Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,35 @@ sockets:
 ---
 
 # **1.07.16 LEARNING & TRAINING**
+
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mechanics.Learning.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mechanics.Learning.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (DOWNTIME LEARNING & STUDY PERIOD MATRIX)**
+
+| Learning Target / Method | Study Period Duration | End-of-Period Check | Gain per Study Period |
+| :--- | :--- | :--- | :--- |
+| **New Skill (Rank 1)** | `1d4 + 1` Days | `CR 10` Intellect Check | `0.5` Ranks (Self-Taught) or `1.0` Rank (Instructor/Group) |
+| **Existing Skill Advancement** | `1 Day` per target Skill Rank | `CR 10` Intellect Check | `0.5` Ranks (Self-Taught) or `1.0` Rank (Instructor/Group) |
+| **Learning from Instructor** | Standard (`Rank 6+` Instructor) | `CR 10` Intellect (`+1` per Instructor Stage) | `1.0` Full Skill Point per Study Period |
+| **Study Aids & Manuals** | Standard | `CR 10` Intellect (`+1` Novice to `+5` Pinnacle aid) | Enhances study check probability |
+| **Study Partners / Groups** | Standard | `CR 10` Intellect (`+1` per successful partner) | Counts as Instructor (`1.0` pt; `0.5` pt if partner fails) |
+| **Learning New Features** | `1 Week` per period (`2x` if Self-Taught) | `CR 10` Intellect Check | Acquires target Feature upon completing required periods |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **LEARNING**
 
@@ -147,15 +176,11 @@ The learning mechanics encourage players to think about how their characters acq
 
 The Architect has the final say on the availability of instructors, study materials, and the specific requirements for learning certain skills or features
 
-  
-  
-  
-**  
-**
-
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-313 (1.07.Mechanics.Learning.md):** Restored Study Period, Self-Taught, Instructor, Study Partners, and Learning Features mechanics with CR 10 Intellect check.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Mechanics.Learning.md):** Restored 100% of the Learning & Training prose, Study Periods, Learning Methods, Study Aids, Study Partners, and Learning New Features from Codex `1.07 SKILLS` with `CR 10` and `Architect` normalization.
 

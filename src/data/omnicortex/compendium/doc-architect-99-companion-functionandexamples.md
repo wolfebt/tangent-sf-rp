@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-companion-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-companion-matrix"
-order: 19
+order: 20
 perspective: "architect"
 entry_type: "Companion Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","companions","99.companion.functionandexamples","matrix"]
-updatedAt: "2026-11-03T10:58:40.671Z"
+updatedAt: "2026-11-04T00:33:10.403Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,15 @@ sockets:
 ---
 
 # **99.Companion.FunctionAndExamples.md**
+
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **PART 2: THE 5 FUNCTION PACKAGES (25 CP JOB)**
 
@@ -80,8 +89,6 @@ Select **one** Function Package (25 CP) to combine with the chosen Form Package 
 - **Skills (6 CP):** *Athletics (Run/Jump)* Rank 4 \[4 CP\], *Acrobatics (Balance)* Rank 2 \[2 CP\].
 - **Features (4 CP):** *Sure-Footed* (Ignore difficult terrain penalties) \[2 CP\], *Endurance* (Advantage on forced march/fatigue saves) \[2 CP\].
 
----
-
 ## **PART 3: COMPLETE 40 CP ASSEMBLY EXAMPLES**
 
 - **Example 1 — The Cyber-Hound (40 CP):** *The Predator* (15 CP — Wolf Stats) + *The Guardian* (25 CP — Defense Stats).
@@ -89,8 +96,6 @@ Select **one** Function Package (25 CP) to combine with the chosen Form Package 
 - **Example 3 — The War-Steed (40 CP):** *The Heavy Beast* (15 CP — Tough, Natural Armor) + *The Mount* (25 CP — Fast, Strong).
 - **Example 4 — The Swamp Thrall (40 CP):** *The Plant* (15 CP — Walking Vine, Camouflage) + *The Guardian* (25 CP — Grapple, Protect).
 - **Example 5 — The Crystal Familiar (40 CP):** *The Elemental* (15 CP — Hardness, Energy Strike) + *The Striker* (25 CP — High Damage).
-
----
 
 ## **PART 4: "THRALLS" — TINY BATTLE COMPANIONS COMPENDIUM**
 
@@ -196,8 +201,6 @@ A tactical catalog of ten **Tiny-sized** biological, synthetic, and metaphysical
 - **Offensive — *Thorn Burst* (10 ft Radius):** Detonates a spray of needles dealing `1d4` Piercing damage to all adjacent enemies.
 - **Utility — *Nutrient Synthesis*:** Grows `1d4` **Restorative Fruits** per day; each fruit restores 1 Health and provides a full day's caloric nourishment.
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-521)**
 
 - **File Target:** `architect/companions/99.Companion.FunctionAndExamples.md`
@@ -205,5 +208,4 @@ A tactical catalog of ten **Tiny-sized** biological, synthetic, and metaphysical
   - Restored all 5 Function Packages (25 CP each), all 5 Complete 40 CP Assembly Examples, and all 10 Tiny Battle Companion ('Thralls') profiles from `99. MODULAR COMPANION MATRIX` (`1Z7FnhphS5B_jGeSgpr7fF8N6Bxkma3843dtjO6Zn1yM`).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized all legacy `CR` -> `CR`, `AC` -> `Defense`, `CP` -> `CP`, `Perception` -> `Alertness`, and `Search` -> `Knowledge (Investigation)`.
-
 

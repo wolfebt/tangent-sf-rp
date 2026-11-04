@@ -48,51 +48,20 @@ negative_keywords: 'mindless-brute, reckless, illiterate'
 cp_chassis: 80
 ---
 
-# The Combat-saboteur
+# The Combat-Saboteur
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Area Damage / Demolition / Utility  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Intellect  
 
-## Overview
 The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time.
 
-> *You are the architect of rubble. You don't just clear rooms; you remove them from the blueprint. You use the environment as a weapon, turning the enemy's cover into their coffin.*
+*You are the architect of rubble. You don't just clear rooms; you remove them from the blueprint. You use the environment as a weapon, turning the enemy's cover into their coffin.*
 
-> _"Plan A involves explosives. Plan B is more explosives."_
-
-## Tactical Role
-Breaching structures, area denial, destroying heavy enemy units.
-
-## Essential Skills
-- Knowledge (Technology)
-- Knowledge (Tactics)
-- Athletics
-- Heavy Weapons
-
-## Signature Features
-- Demolitionist
-- Heavy Weapon Mastery
-
-## Recommendations
-- **Occupations**: Soldier, Builder
-- **Origins**: Industrial, Militaristic, Colony
-- **Factions**: Coalition (Rebels), Syndicate (Demolitions), Impyrium
-
-
-## Extended Lore & Background
-
-A skilled operative who infiltrates to destroy or disrupt.  
-*You break things. Not randomly, but surgically. You know exactly where to place the charge or cut the wire to bring the whole system crashing down.*  
-*"A little chaos goes a long way."*
-
-
-
-## Extended Lore & Background
-
-The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time.  
-*You are the architect of rubble. You don't just clear rooms; you remove them from the blueprint. You use the environment as a weapon, turning the enemy's cover into their coffin.*  
 *"Plan A involves explosives. Plan B is more explosives."*
 
+  - **Core Concept:** Area Damage / Demolition / Utility
+  - **Recommended Occupations:** Soldier, Builder.
+  - **Recommended Origins:** Industrial, Militaristic, Colony.
+  - **Recommended Factions:** Coalition (Rebels), Syndicate (Demolitions), Impyrium.
+  - **Key Attributes:** Strength (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Tactics), Athletics, Heavy Weapons.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Demolitionist, Heavy Weapon Mastery.
+  - **Tactical Role:** Breaching structures, area denial, destroying heavy enemy units.

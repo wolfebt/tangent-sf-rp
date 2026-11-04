@@ -48,43 +48,20 @@ negative_keywords: 'anti-social, mute, solitary-hermit'
 cp_chassis: 80
 ---
 
-# The Spirit-walker
+# The Spirit-Walker
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Medium / Scout / Utility  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Stamina  
 
-## Overview
 The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.
 
-> *You are the bridge. You walk between realities, speaking for the entities that exist in the spaces between the stars. You find balance where others see only chaos or silence.*
+*You are the bridge. You walk between realities, speaking for the entities that exist in the spaces between the stars. You find balance where others see only chaos or silence.*
 
-> _"The veil is thin here. Can you hear the ancestors?"_
-
-## Tactical Role
-Detecting other-dimensional threats, communing with local spirits, planar navigation.
-
-## Essential Skills
-- Discipline (Entropy \- Order (Nature/Life))
-- Insight
-- Alertness
-- Knowledge (Nature)
-
-## Signature Features
-- Spirit Walker
-- Spiritual Attunement
-
-## Recommendations
-- **Occupations**: Adept, Scout
-- **Origins**: Enlightened, Agricultural, Hostile
-- **Factions**: Auluran (Mystics), Sha'Nor, Outworlds (Shamans)
-
-
-## Extended Lore & Background
-
-The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.  
-*You are the bridge. You walk between realities, speaking for the entities that exist in the spaces between the stars. You find balance where others see only chaos or silence.*  
 *"The veil is thin here. Can you hear the ancestors?"*
 
+  - **Core Concept:** Medium / Scout / Utility
+  - **Recommended Occupations:** Adept, Scout.
+  - **Recommended Origins:** Enlightened, Agricultural, Hostile.
+  - **Recommended Factions:** Auluran (Mystics), Sha'Nor, Outworlds (Shamans).
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Discipline (Entropy - Order (Nature/Life)), Insight, Alertness, Knowledge (Nature).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Spirit Walker, Spiritual Attunement.
+  - **Tactical Role:** Detecting other-dimensional threats, communing with local spirits, planar navigation.

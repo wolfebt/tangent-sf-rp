@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Legionnaire
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Tank / Formation Fighter / Discipline  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Stamina  
-**Secondary Attribute**: Strength  
 
-## Overview
 A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.
 
-> *You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*
+*You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*
 
-> _"Strength in unity. Victory in discipline."_
-
-## Tactical Role
-Holding choke points, soaking damage, providing cover bonuses to allies.
-
-## Essential Skills
-- Athletics
-- Intimidation
-- Knowledge (Tactics)
-- Combat (Melee/Heavy)
-
-## Signature Features
-- Iron Will
-- Legionary Training
-
-## Recommendations
-- **Occupations**: Soldier (Impyrium), Representative
-- **Origins**: Militaristic, Urban (Capital)
-- **Factions**: Impyrium (Imperial Legion), Dynasty (Dragoons)
-
-
-## Extended Lore & Background
-
-A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.  
-*You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*  
 *"Strength in unity. Victory in discipline."*
 
+  - **Core Concept:** Tank / Formation Fighter / Discipline
+  - **Recommended Occupations:** Soldier (Impyrium), Representative.
+  - **Recommended Origins:** Militaristic, Urban (Capital).
+  - **Recommended Factions:** Impyrium (Imperial Legion), Dynasty (Dragoons).
+  - **Key Attributes:** Stamina (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Intimidation, Knowledge (Tactics), Combat (Melee/Heavy).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Iron Will, Legionary Training.
+  - **Tactical Role:** Holding choke points, soaking damage, providing cover bonuses to allies.

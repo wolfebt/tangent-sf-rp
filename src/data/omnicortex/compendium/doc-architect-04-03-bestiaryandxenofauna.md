@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 11
+order: 12
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","04.03.bestiaryandxenofauna","matrix"]
-updatedAt: "2026-11-03T11:00:47.370Z"
+updatedAt: "2026-11-04T00:33:10.395Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,15 @@ sockets:
 ---
 
 # **04.03 BESTIARY, XENOFAUNA & PROGENITOR COMPENDIUM**
+
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **I. XENOFAUNA ARCHITECTURE & SCALING RULES**
 
@@ -64,8 +73,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
 - **Boss / Legend (101+ CP):** Major story antagonists, massive distinct entities, or master-tier NPCs.
 - **Custom Point-Buy Pricing:** Attributes cost **5 CP per +1 modifier** (and refund **-5 CP per -1 penalty**; no package discount); Skills cost **1 CP per 1 Rank** (**5 CP per 5 Ranks**); Features apply at their listed CP cost.
 
----
-
 ## **II. CANONICAL XENOFAUNA & APEX ADVERSARY STAT BLOCKS (MCM TIER-SCALED)**
 
 ### **1. Kannid Pack-Hound (Tier 3 Trooper — Predator / Striker)**
@@ -79,8 +86,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Rending Jaws (1 Action):** Strike +11, Reach 5 ft, Damage **1d8 + 3 Piercing/Slashing**. On a hit, if an allied Kannid is adjacent to the target, triggers a free **Trip** attempt (Opposed Might/Athletics vs. Target Stability).
   - **Pack Tactics:** Gains **Advantage** on Melee Strike rolls whenever at least one conscious packmate is within 5 ft of the target.
 
----
-
 ### **2. Rakne Silk-Stalker (Tier 5 Professional — Crawler / Flank)**
 
 - **Classification:** Large Beast / Arachnid (`x2` Scale) | **Origin:** Kitin Frontier / Jungle & Cavern Worlds
@@ -91,8 +96,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
 - **Offensive & Special Abilities:**
   - **Venomous Mandibles (1 Action):** Strike +12, Reach 10 ft, Damage **2d8 + 4 Piercing** plus **Neurotoxin** (**Fortitude Save CR 16** or **Slowed / Stunned** for 1 round).
   - **Pressurized Silk-Spinneret (1 Action, Range 60 ft):** Fires high-tensile Rakne silk. Target must pass a **Reflex Save (CR 16)** or be **Entangled / Restrained** (Break **Might CR 20**, Structure 25 SP).
-
----
 
 ### **3. Karkinos Carapace-Grazer (Tier 6 Veteran — Heavy Beast / Breaker)**
 
@@ -105,8 +108,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Siege Pincer Clamp (1 Action):** Strike +15, Reach 15 ft, Damage **10d6 + 8 (`5 * 2d6 + 8`) Blunt/Slashing** (Penetration 5) and automatic **Grapple** on a hit.
   - **Trampling Charge (2 Actions):** Moves up to its speed and overruns Medium or Large creatures in its path (**Reflex Save CR 18** or take `5d8 + 8` Blunt damage and be knocked **Prone**).
 
----
-
 ### **4. Graa Iron-Hide Behemoth (Tier 8 Elite — Heavy Beast / Mount)**
 
 - **Classification:** Huge Beast (`x5` Scale) | **Origin:** Auluran Clans / High-Gravity Worlds (Tavros)
@@ -116,8 +117,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
 - **Key Skills:** Unarmed (Gore/Stomp) Rank 13 (+19 Strike w/ Size), Athletics Rank 13 (+23), Alertness Rank 8 (+10)
 - **Offensive & Special Abilities:**
   - **Tectonic Gore (1 Action):** Strike +19, Reach 15 ft, Damage **10d8 + 15 Piercing/Blunt** (*Brutal* — doubles Strength damage bonus). Deals **double damage (`x2`) to structures and vehicles**.
-
----
 
 ### **5. Riezen Discordant Bio-Swarm (Tier 7 Specialist — Swarm / Controller)**
 
@@ -130,8 +129,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Devouring Cloud (1 Action):** Automatically inflicts **3d6 Piercing/Corrosive damage** to any creature occupying the Swarm's space at the end of the Swarm's turn (Penetration 5).
   - **Psionic Static Aura (30 ft Radius):** Generates violent telepathic white noise. All **Attune**, **Discipline**, and telepathic communication checks within 30 ft suffer **Disadvantage** and -4 penalty (an existential threat to Kitin and Auluran Chorus links).
 
----
-
 ### **6. Omin II Phage-Stalker (Tier 6 Veteran — Aberration / Brute)**
 
 - **Classification:** Medium Aberration / Undead-Verdant Hybrid (`x1` Scale) | **Origin:** Omin II Quarantine Zone
@@ -141,8 +138,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
 - **Key Skills:** Unarmed (Crystalline Tendrils) Rank 11 (+16 Strike), Athletics Rank 8 (+13), Stealth Rank 6 (+8)
 - **Offensive & Special Abilities:**
   - **Phage-Spore Tendril (1 Action):** Strike +16, Reach 10 ft, Damage **2d8 + 5 Slashing/Corrosive**. Any living creature taking Health damage must succeed on a **Fortitude Save (CR 16)** or contract the **Omin II Virulent Phage** (`1d4` Stamina drain per hour until treated in a TL 4 Med-Lab or with Stage 3 *Cure*).
-
----
 
 ### **7. Jorni Abyssal Leviathan (Tier 14 Paragon Boss — Aquatic Mega-Fauna)**
 
@@ -156,8 +151,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Abyssal Shockwave (2 Actions, 100 ft Cone):** Unleashes a cavitation roar dealing **10d8 Sonic/Force damage** (**Fortitude Save CR 22** for half; failures are **Stunned** for 1 round).
   - **Legendary Resilience (3/Day):** Automatically succeeds on a failed Saving Throw.
 
----
-
 ### **8. U'Nonn Ziggurat Sentinel (Tier 12 Commander — Synthetic Construct)**
 
 - **Classification:** Huge Synthetic Construct (`x5` Scale) | **Origin:** Progenitor (U'Nonn) Ruins
@@ -168,8 +161,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
 - **Offensive & Special Abilities:**
   - **Singularity Grav-Lance (2 Actions):** Strike +20, Range 500 ft, Damage **20d10 (`5 * 4d10`) Impact Force** (ignores 1/2 DR; target must pass a **Fortitude Save CR 22** or be knocked Prone and pinned under 3G gravity for 1 round).
   - **Temporal Stasis Pulse (2 Actions, Recharge 3 rounds):** 30 ft Radius burst; all targets must succeed on a **Willpower Save (CR 22)** or be **Slowed** (lose 1 Action per turn) for `1d4` rounds.
-
----
 
 ## **III. COMPENDIUM OF 20 POINT-BUY BESTIARY & ADVERSARY PROFILES**
 
@@ -303,8 +294,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
     - **Features (60 CP):** *True Sight (10 CP)*, *Automated Defense (10 CP — 4 Reactions/round)*, *Heavy Shielding (20 CP — 100 AP)*, *Legendary Action (20 CP)*.
     - **Attacks:** **Ocular Singularity Beam** (`2d10 + 10` to hit, Range 500 ft, Dmg `4d10` Energy).
 
----
-
 ## **IV. TRANSCENDENT ENTITIES & PROGENITOR SPECIES (TL 5+ / ML 5+)**
 
 ### **1. THE ENTITY (Existential / Non-Corporeal Template)**
@@ -318,8 +307,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Context:** A non-corporeal, extra-planar intelligence temporarily projecting a non-Euclidean geometric or energetic avatar into physical space.
   - **Style & Palette:** Photorealistic Cinematic Art, Conceptual Abstraction, Transcendent Cosmic Horror; Void Black, Cosmic Indigo, Psionic Violet, Transcendent White.
   - **Guidance Tokens:** Non-Euclidean geometry, light-as-substance, zero-mass, spectral aberration, internal glow, volumetric fog, chiaroscuro.
-
----
 
 ### **2. THE ILA — "THE ELOHIM" (Sleeping Progenitors — 112 CP)**
 
@@ -336,8 +323,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Palette:** Alabaster White, Lapis Lazuli Blue, Burnished Gold/Bronze, with glowing Psionic Violet and Cerulean Cyan energy accents.
   - **Subject Visuals:** Floating, hard-light winged form, featureless gilded mask/helm, ancient robes woven with polymatter circuitry, radiant aura.
 
----
-
 ### **3. THE U'NONN — "THE ANUNNAKI" (Architects of the Jump Gates — 111 CP)**
 
 - **Description:** An extremely ancient Progenitor lineage who constructed the original **Translux Jump Gate** network and seeded numerous humanoid species across the galaxy. They originally mentored the **Mondi** to guide younger civilizations in intellectual and spiritual advancement—an initiative that fractured when premature technological uplift destabilized several worlds.
@@ -351,8 +336,6 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - **Setting Style:** **Celestial Neo-Sumerian Supertechnology.** Towering stepped pyramids and citadels of polished lapis lazuli and dark basalt connected by anti-gravity bridges, with glowing cuneiform holographic interfaces.
   - **Materiality & Subject Visuals:** Polished Lapis Blue, Obsidian Basalt, Aurum Gold, Burnished Bronze; towering regal humanoids (or hybrid avatars) with stylized beards, horned neural-amplifier crowns, high-collared force-field vestments, and metallic feathered flight wings.
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-519)**
 
 - **File Target:** `architect/characters/04.03.BestiaryAndXenofauna.md`
@@ -361,5 +344,4 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
   - Restored 100% of the Progenitor and Existential Entity entries (`05. Entity * ****`, `05.02.Progenitor.Ila`, and `05.02.Progenitor.U'Nonn`) including their complete CRISP visual synthesis matrices.
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized all legacy `CP` -> `CP`, `CON` -> `STA`, `CR` -> `CR`, `Alertness` -> `Alertness`, and attack rolls to `2d10 + Strike`.
-
 

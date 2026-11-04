@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Ascetic
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Monk / Buffer / Mental Tank  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A devout individual dedicated to prayer and meditation, seeking enlightenment.
 
-> *You have mastered the self. While others seek power in the world, you find it within. Your mind is a fortress, and your spirit is a weapon honed by discipline and silence.*
+*You have mastered the self. While others seek power in the world, you find it within. Your mind is a fortress, and your spirit is a weapon honed by discipline and silence.*
 
-> _"Peace is not the absence of conflict, but the ability to handle it."_
-
-## Tactical Role
-Resisting mental attacks, calming emotions, spiritual guidance.
-
-## Essential Skills
-- Insight
-- Alertness
-- Knowledge (Religion)
-- Knowledge (Metaphysics)
-
-## Signature Features
-- Inner Peace
-- Spiritual Attunement
-
-## Recommendations
-- **Occupations**: Adept, Scholar
-- **Origins**: Enlightened, Hostile, Agricultural
-- **Factions**: Auluran (Dar Mystics), Mekan (Code Monks), Outworlds
-
-
-## Extended Lore & Background
-
-A devout individual dedicated to prayer and meditation, seeking enlightenment.  
-*You have mastered the self. While others seek power in the world, you find it within. Your mind is a fortress, and your spirit is a weapon honed by discipline and silence.*  
 *"Peace is not the absence of conflict, but the ability to handle it."*
 
+  - **Core Concept:** Monk / Buffer / Mental Tank
+  - **Recommended Occupations:** Adept, Scholar.
+  - **Recommended Origins:** Enlightened, Hostile, Agricultural.
+  - **Recommended Factions:** Auluran (Dar Mystics), Mekan (Code Monks), Outworlds.
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Alertness, Knowledge (Religion), Knowledge (Metaphysics).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Inner Peace, Spiritual Attunement.
+  - **Tactical Role:** Resisting mental attacks, calming emotions, spiritual guidance.

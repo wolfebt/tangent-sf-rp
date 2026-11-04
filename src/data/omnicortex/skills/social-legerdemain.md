@@ -4,7 +4,7 @@ name: "Legerdemain"
 type: social
 subtype: "expression"
 category: skills
-governing_attribute: "Agility (Agility) or Charisma (Misdirection)"
+governing_attribute: "Agility (Manual Precision) or Charisma (Misdirection)"
 description: "Legerdemain is the skill of performing sleight of hand tricks and illusions. It reflects a character's ability to use misdirection and other techniques to deceive others. Legerdemain is used whenever a character needs to deceive or entertain others such as switching items, stealing or performing a stage or table magic show. Sleight of hand, stage magic, and manual agility. While often used for entertainment, it is the primary skill for pickpocketing, palming small objects, and concealing weapons."
 specialties:
   - "Pickpocketing: Slitting purse strings, slipping wallets from coats, and lifting keycards unnoticed."
@@ -24,19 +24,15 @@ negative_keywords: "isolated, anti-social, inarticulate"
 
 ### **Legerdemain**
 
-  - **Ability:** Agility (Agility) or Charisma (Misdirection)
+  - **Ability:** Agility (Manual Precision) or Charisma (Misdirection)
   - **Description:** Legerdemain is the skill of performing sleight of hand tricks and illusions. It reflects a character's ability to use misdirection and other techniques to deceive others. Legerdemain is used whenever a character needs to deceive or entertain others such as switching items, stealing or performing a stage or table magic show. Sleight of hand, stage magic, and manual agility. While often used for entertainment, it is the primary skill for pickpocketing, palming small objects, and concealing weapons.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Pickpocket:* CR 20 to take an item unnoticed (or opposed by Alertness).
+- *Pickpocket:* CR 20 to take an item unnoticed (or opposed by Alertness).
   - *Conceal Item:* CR 15 to hide a small weapon/item on your person (opposed by Search).
   - *Stage Magic:* Perform a trick to entertain or distract.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Pickpocketing:** Slitting purse strings, slipping wallets from coats, and lifting keycards unnoticed.
       - **Palming & Small Item Concealment:** Hiding daggers, datachips, coins, or vials in the palm or sleeve seamlessly.

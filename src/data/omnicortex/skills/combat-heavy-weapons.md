@@ -28,22 +28,16 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
       
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Launched/Thrown Ordinance:** Grenades and missiles use this skill for targeting.  
+- **Launched/Thrown Ordinance:** Grenades and missiles use this skill for targeting.  
       
   - **Area Effect (Blasting):** Attacks target a specific area rather than a single defense score.
 
-<!-- end list -->
-
-  - **General Area:** Targets within the blast radius take base damage. For every **5 points** the attack roll exceeds a **CR of 10**, the damage increases by **+2 Dice**.  
+- **General Area:** Targets within the blast radius take base damage. For every **5 points** the attack roll exceeds a **CR of 10**, the damage increases by **+2 Dice**.  
       
   - **Focused Blast Zone:** Targets in the center of the blast take **+100% Damage Dice** if the attack roll exceeds a **CR of 15** by 10 or more.  
       
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Squad Automatic Weapons (SAWs):** Firing belt-fed light machine guns to lay down suppressing fire on enemy tree lines.
       - **Heavy Mounted Machine Guns:** Operating spade-gripped, tripod-mounted .50-caliber guns against light vehicles and infantry.

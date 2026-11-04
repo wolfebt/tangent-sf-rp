@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Transporter is the skill of transporting people or goods from one place to another, such as by driving, flying, or sailing. Transporters are responsible for ensuring people or goods are transported safely and efficiently. The professional moving of goods or people. Includes piloting commercial vehicles, loading cargo efficiently, and route planning.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Load Cargo:* CR 15 to maximize cargo space or secure dangerous goods.
+- *Load Cargo:* CR 15 to maximize cargo space or secure dangerous goods.
   - *Route Navigation:* CR 15 to find the fastest/safest route.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Long-Haul Space Trucking:** Piloting heavy multi-container cargo freighters across deep-space shipping routes safely.
       - **Armored Cash Transit:** Driving heavy security vaults and defensive bullion trucks through hostile urban zones.

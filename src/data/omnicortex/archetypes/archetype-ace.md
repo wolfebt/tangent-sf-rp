@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Ace
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Vehicle Specialist / Transport  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Navigates starships through asteroids and blockades. Master of the stick.
 
-> *You are the god of velocity. On the ground, you're just another grunt, but behind a yoke, you are untouchable. You weave through debris fields and dogfights with a grin, delivering the team exactly where they need to be.*
+*You are the god of velocity. On the ground, you're just another grunt, but behind a yoke, you are untouchable. You weave through debris fields and dogfights with a grin, delivering the team exactly where they need to be.*
 
-> _"Hold on back there. I'm gonna try something stupid."_
-
-## Tactical Role
-Ship combat, extraction, high-speed chases.
-
-## Essential Skills
-- Knowledge (Technology)
-- Pilot
-- Alertness
-- Combat (Gunnery)
-
-## Signature Features
-- Evasive Maneuvers
-- Quick Reflexes
-
-## Recommendations
-- **Occupations**: Spacer, Specialist
-- **Origins**: Spacer, Militaristic, Industrial
-- **Factions**: Coalition (Smugglers), Ascendancy (Test Pilots), Syndicate (Interceptors)
-
-
-## Extended Lore & Background
-
-Navigates starships through asteroids and blockades. Master of the stick.  
-*You are the god of velocity. On the ground, you're just another grunt, but behind a yoke, you are untouchable. You weave through debris fields and dogfights with a grin, delivering the team exactly where they need to be.*  
 *"Hold on back there. I'm gonna try something stupid."*
 
+  - **Core Concept:** Vehicle Specialist / Transport
+  - **Recommended Occupations:** Spacer, Specialist.
+  - **Recommended Origins:** Spacer, Militaristic, Industrial.
+  - **Recommended Factions:** Coalition (Smugglers), Ascendancy (Test Pilots), Syndicate (Interceptors).
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Pilot, Alertness, Combat (Gunnery).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Evasive Maneuvers, Quick Reflexes.
+  - **Tactical Role:** Ship combat, extraction, high-speed chases.

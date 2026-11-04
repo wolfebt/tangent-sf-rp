@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Geneticist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Healer / Crafter / Pet Master  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Applies genetic engineering and biotechnology to create innovative tools, medicines, and biological constructs.
 
-> *You design life. You see biology not as destiny, but as a canvas. You cure the incurable, enhance the weak, and grow solutions to problems that machines cannot solve.*
+*You design life. You see biology not as destiny, but as a canvas. You cure the incurable, enhance the weak, and grow solutions to problems that machines cannot solve.*
 
-> _"Evolution is too slow. I prefer immediate results."_
-
-## Tactical Role
-Healing, creating buffs/mutations, identifying xeno-threats.
-
-## Essential Skills
-- Knowledge (Technology)
-- Knowledge (Medicine)
-- Knowledge (Science \- Genetics)
-- Knowledge (Science \- Biology)
-
-## Signature Features
-- Biotechnologist
-- Adaptive Engineering
-
-## Recommendations
-- **Occupations**: Specialist, Scholar (Auluran)
-- **Origins**: Research, Agricultural, Enlightened
-- **Factions**: Auluran (Bio-Shapers), Syndicate (Augmenters), Ascendancy
-
-
-## Extended Lore & Background
-
-Applies genetic engineering and biotechnology to create innovative tools, medicines, and biological constructs.  
-*You design life. You see biology not as destiny, but as a canvas. You cure the incurable, enhance the weak, and grow solutions to problems that machines cannot solve.*  
 *"Evolution is too slow. I prefer immediate results."*
 
+  - **Core Concept:** Healer / Crafter / Pet Master
+  - **Recommended Occupations:** Specialist, Scholar (Auluran).
+  - **Recommended Origins:** Research, Agricultural, Enlightened.
+  - **Recommended Factions:** Auluran (Bio-Shapers), Syndicate (Augmenters), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Knowledge (Medicine), Knowledge (Science - Genetics), Knowledge (Science - Biology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Biotechnologist, Adaptive Engineering.
+  - **Tactical Role:** Healing, creating buffs/mutations, identifying xeno-threats.

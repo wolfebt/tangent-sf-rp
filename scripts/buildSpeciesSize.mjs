@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -212,64 +213,92 @@ export const CANONICAL_SIZES = [
 ];
 
 function buildSizes() {
-  console.log(`Generating ${CANONICAL_SIZES.length} Species Size Markdown files in ${sizeDir}...`);
+  const canonicalOrder = new Map(CANONICAL_SIZES.map((s, idx) => [s.id, idx]));
+  const canonicalMap = new Map(CANONICAL_SIZES.map(s => [s.id, s]));
 
+  // Bootstrap missing .md files without overwriting existing customized .md files
   for (const s of CANONICAL_SIZES) {
-    const frontmatter = [
-      '---',
-      `id: ${s.id}`,
-      `name: ${s.name}`,
-      `category: species_size`,
-      `scaling: ${s.scaling}`,
-      `scaling_display: "${s.scaling_display}"`,
-      `strength_mod: ${s.strength_mod}`,
-      `combat_mod: ${s.combat_mod}`,
-      `stealth_mod: ${s.stealth_mod}`,
-      `height_length_range: "${s.height_length_range}"`,
-      `weight_range: "${s.weight_range}"`,
-      `reach: "${s.reach}"`,
-      `description: "${s.description}"`,
-      'costs:',
-      '  bp: 0',
-      'modifiers: []',
-      '---',
-      '',
-      `# Size Category: ${s.name}`,
-      '',
-      `**Scaling Multiplier**: ${s.scaling_display}  `,
-      `**Height / Length**: ${s.height_length_range}  `,
-      `**Weight**: ${s.weight_range}  `,
-      `**Standard Reach**: ${s.reach}  `,
-      '',
-      `## Tactical Modifiers`,
-      `- **Strength Modifier**: ${s.strength_mod >= 0 ? '+' : ''}${s.strength_mod}`,
-      `- **Combat / Defense Modifier**: ${s.combat_mod >= 0 ? '+' : ''}${s.combat_mod}`,
-      `- **Stealth Modifier**: ${s.stealth_mod >= 0 ? '+' : ''}${s.stealth_mod}`,
-      '',
-      `## Description`,
-      s.description,
-      ''
-    ].join('\n');
-
     const filePath = path.join(sizeDir, `${s.id}.md`);
-    fs.writeFileSync(filePath, frontmatter, 'utf8');
+    if (!fs.existsSync(filePath)) {
+      const frontmatter = [
+        '---',
+        `id: ${s.id}`,
+        `name: ${s.name}`,
+        `category: species_size`,
+        `scaling: ${s.scaling}`,
+        `scaling_display: "${s.scaling_display}"`,
+        `strength_mod: ${s.strength_mod}`,
+        `combat_mod: ${s.combat_mod}`,
+        `stealth_mod: ${s.stealth_mod}`,
+        `height_length_range: "${s.height_length_range}"`,
+        `weight_range: "${s.weight_range}"`,
+        `reach: "${s.reach}"`,
+        `description: "${s.description}"`,
+        'costs:',
+        '  bp: 0',
+        'modifiers: []',
+        '---',
+        '',
+        `# Size Category: ${s.name}`,
+        '',
+        `**Scaling Multiplier**: ${s.scaling_display}  `,
+        `**Height / Length**: ${s.height_length_range}  `,
+        `**Weight**: ${s.weight_range}  `,
+        `**Standard Reach**: ${s.reach}  `,
+        '',
+        `## Tactical Modifiers`,
+        `- **Strength Modifier**: ${s.strength_mod >= 0 ? '+' : ''}${s.strength_mod}`,
+        `- **Combat / Defense Modifier**: ${s.combat_mod >= 0 ? '+' : ''}${s.combat_mod}`,
+        `- **Stealth Modifier**: ${s.stealth_mod >= 0 ? '+' : ''}${s.stealth_mod}`,
+        '',
+        `## Description`,
+        s.description,
+        ''
+      ].join('\n');
+      fs.writeFileSync(filePath, frontmatter, 'utf8');
+    }
   }
+
+  const mdFiles = fs.readdirSync(sizeDir).filter(f => f.endsWith('.md')).sort();
+  const compiledSizes = mdFiles.map(file => {
+    const raw = fs.readFileSync(path.join(sizeDir, file), 'utf8');
+    const parsed = matter(raw);
+    const data = parsed.data || {};
+    const body = (parsed.content || '').trim();
+    const id = data.id || file.replace(/\.md$/, '');
+    const fallback = canonicalMap.get(id) || {};
+    return {
+      ...fallback,
+      ...data,
+      id,
+      name: data.name || fallback.name || id,
+      category: 'species_size',
+      body
+    };
+  });
+
+  compiledSizes.sort((a, b) => {
+    const idxA = canonicalOrder.has(a.id) ? canonicalOrder.get(a.id) : 9999;
+    const idxB = canonicalOrder.has(b.id) ? canonicalOrder.get(b.id) : 9999;
+    if (idxA !== idxB) return idxA - idxB;
+    return (a.scaling || 0) - (b.scaling || 0);
+  });
 
   const outputJs = `/**
  * Canonical Species Sizes & Scaling Multipliers Database for Tangent SF RP
- * Sourced from docs/architect/99. SCALING.md
- * Total Sizes: ${CANONICAL_SIZES.length}
+ * Auto-generated from src/data/omnicortex/species_size/
+ * Total Sizes: ${compiledSizes.length}
  */
 
-export const DEFAULT_SPECIES_SIZES = ${JSON.stringify(CANONICAL_SIZES, null, 2)};
+export const DEFAULT_SPECIES_SIZES = ${JSON.stringify(compiledSizes, null, 2)};
 
 export const getSizeById = (id) => DEFAULT_SPECIES_SIZES.find(s => s.id === id);
 
-export { getSizeTierIndex } from '../engines/tangentConstants';
+export { getSizeTierIndex } from '../engines/tangentConstants.js';
 `;
 
   fs.writeFileSync(targetFile, outputJs, 'utf8');
-  console.log(`Generated ${CANONICAL_SIZES.length} sizes in ${targetFile}`);
+  console.log(`Synced ${compiledSizes.length} sizes in ${targetFile}`);
 }
 
 buildSizes();

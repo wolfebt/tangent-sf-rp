@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Cult Leader
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Leader / Buffer / Minion Master  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A charismatic leader who inspires and guides followers, delivering divine pronouncements.
 
-> *You speak the divine truth. Your followers look to you for salvation, and you lead them with absolute conviction. You channel the power of belief to shape the world around you.*
+*You speak the divine truth. Your followers look to you for salvation, and you lead them with absolute conviction. You channel the power of belief to shape the world around you.*
 
-> _"Have faith, for the path is clear."_
-
-## Tactical Role
-Controlling minions, inspiring allies, social manipulation.
-
-## Essential Skills
-- Leadership
-- Diplomacy
-- Insight
-- Knowledge (Religion)
-
-## Signature Features
-- Divine Inspiration
-- Spiritual Leader
-
-## Recommendations
-- **Occupations**: Representative, Adept
-- **Origins**: Urban, Colony, Enlightened
-- **Factions**: Outworlds, Impyrium (Heretics), Syndicate (Corporate Cults)
-
-
-## Extended Lore & Background
-
-A charismatic leader who inspires and guides followers, delivering divine pronouncements.  
-*You speak the divine truth. Your followers look to you for salvation, and you lead them with absolute conviction. You channel the power of belief to shape the world around you.*  
 *"Have faith, for the path is clear."*
 
+  - **Core Concept:** Leader / Buffer / Minion Master
+  - **Recommended Occupations:** Representative, Adept.
+  - **Recommended Origins:** Urban, Colony, Enlightened.
+  - **Recommended Factions:** Outworlds, Impyrium (Heretics), Syndicate (Corporate Cults).
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Diplomacy, Insight, Knowledge (Religion).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Divine Inspiration, Spiritual Leader.
+  - **Tactical Role:** Controlling minions, inspiring allies, social manipulation.

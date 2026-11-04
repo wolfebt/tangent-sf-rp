@@ -34,21 +34,24 @@ negative_keywords: 'blunt club, rusted iron, dull machete, projectile slug'
 
 # FORCE WEAPON Invocation
 
-**Category**: Invocations  
-**Discipline**: Energy
-
 ## Description & Ritual Details
-Classification: Energy (Force) | Attack | \[Creation\] \[Melee/Ranged\]  
+
+Classification: Energy (Force) | Attack | [Creation] [Melee/Ranged]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Swift Action  
-* **Range:** Personal  
-* **Area:** Weapon Item  
-* **Duration:** 1 Minute/Level  
-* **Resistance:** None
-Effect Description:  
-Manifests a melee weapon or ammunition composed of solid force.  
+
+  - **Base Difficulty:** 12
+  - **Time:** Swift Action
+  - **Range:** Personal
+  - **Area:** Weapon Item
+  - **Duration:** 1 Minute/Level
+  - **Resistance:** None
+
+Effect Description:
+
+Manifests a melee weapon or ammunition composed of solid force.
+
 **Scaling Function:**
-* **Damage:** Base Weapon Damage \+ (1d8 Kinetic Force Damage per Stage).  
-* **Enhancement:** Weapon gains \+1 To Hit per Stage.
-###
+
+  - **Damage:** Base Weapon Damage + (1d8 Kinetic Force Damage per Stage).
+  - **Enhancement:** Weapon gains +1 To Hit per Stage.

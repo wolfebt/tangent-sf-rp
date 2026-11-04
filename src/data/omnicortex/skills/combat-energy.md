@@ -28,24 +28,18 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
       
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Attack Roll:** Standard ranged attack roll.
+- **Attack Roll:** Standard ranged attack roll.
   - **Critical Effects:** In addition to increased damage, specific energy types apply status effects on a Critical Hit:  
       
 
-<!-- end list -->
-
-  - *Pyro (Plasma):* Burns target for ½ damage in the following rounds.
+- *Pyro (Plasma):* Burns target for ½ damage in the following rounds.
   - *Cryo (Icer):* Freezes target (Slow/Snare effect).
   - *Voltic (Electricity):* Shocks target (Stun effect).
   - *Sonic:* Concussive force (Stun effect).
   - *Corrosive:* Dissolves armor/structure (½ damage for next 2 rounds).
   - *Grav:* Impact force causing Knockback.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Laser Pistols & Carbines:** Firing instant-hit coherent light beams that burn through flesh and thin sheet metal.
       - **Plasma Rifles:** Hurling bolts of superheated gas that melt through composite plate and ignite secondary fires.

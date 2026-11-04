@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 27
+order: 28
 perspective: "architect"
 entry_type: "Tech Matrix (core)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.civilizationdomains","matrix"]
-updatedAt: "2026-11-02T22:49:14.333Z"
+updatedAt: "2026-11-04T00:33:10.463Z"
 costs:
   bp: 0
   credits: 0
@@ -93,7 +93,7 @@ Detailed progression tracks across the **16 Civilization Domains** from Tech Lev
 ### **6. DEVICES**
 *From simple machines to holophotonic projections.*
 - **TL 0 (Simple Mechanical):** Levers, pulleys, wedges, and wheels.
-- **TL 1 (Steam & Electromechanical):** Clockwork, steam-powered machinery, and early CR/AC electrical devices.
+- **TL 1 (Steam & Electromechanical):** Clockwork, steam-powered machinery, and early direct/alternating-current electrical devices.
 - **TL 2 (Integrated Circuits):** Personal computers, smartphones, and silicon microelectronics.
 - **TL 3 (Robotics & Quantum Computing):** Modular personal gear, autonomous drones, and quantum processors.
 - **TL 4 (Brain-Computer Interfaces & Picotech):** Neural-linked devices, programmable matter canisters, and molecular machines.
@@ -197,5 +197,4 @@ Detailed progression tracks across the **16 Civilization Domains** from Tech Lev
   - Restored 100% of all 16 Civilization Domains (Agriculture through Weaponry) across TL 0–TL 5.
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Integrated canonical Processor Ratings (PR 0 to PR 4+) and Productivity Engine Tool Multipliers (`x1` to `x5,000`).
-
 

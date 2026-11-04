@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Pathfinder
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Stealth / Recon / Survival  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Ventures into the unknown, charting territories and assessing threats.
 
-> *You are the eyes of the operation. You move ahead, unseen and unheard, painting targets and identifying traps. Knowledge is power, and you ensure your team always has the advantage of knowing what's coming.*
+*You are the eyes of the operation. You move ahead, unseen and unheard, painting targets and identifying traps. Knowledge is power, and you ensure your team always has the advantage of knowing what's coming.*
 
-> _"Three guards, two turrets, and a back door they forgot to lock. Easy."_
-
-## Tactical Role
-Reconnaissance, initiating ambushes, guiding the party.
-
-## Essential Skills
-- Knowledge (Survival)
-- Acrobatics
-- Alertness
-- Knowledge (Nature)
-
-## Signature Features
-- Pathfinder
-- Keen Observer
-
-## Recommendations
-- **Occupations**: Scout, Soldier
-- **Origins**: Colony, Hostile, Militaristic
-- **Factions**: Outworlds, Auluran (Scouts), Coalition
-
-
-## Extended Lore & Background
-
-Ventures into the unknown, charting territories and assessing threats.  
-*You are the eyes of the operation. You move ahead, unseen and unheard, painting targets and identifying traps. Knowledge is power, and you ensure your team always has the advantage of knowing what's coming.*  
 *"Three guards, two turrets, and a back door they forgot to lock. Easy."*
 
+  - **Core Concept:** Stealth / Recon / Survival
+  - **Recommended Occupations:** Scout, Soldier.
+  - **Recommended Origins:** Colony, Hostile, Militaristic.
+  - **Recommended Factions:** Outworlds, Auluran (Scouts), Coalition.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Acrobatics, Alertness, Knowledge (Geography).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Pathfinder, Keen Observer.
+  - **Tactical Role:** Reconnaissance, initiating ambushes, guiding the party.

@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Demolisher
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: DPS / Area Denial  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Agility  
 
-## Overview
 Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.
 
-> *You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*
+*You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*
 
-> _"Suppressive fire? No, I'm just clearing the room."_
-
-## Tactical Role
-Suppressive fire, destroying vehicles, crowd control.
-
-## Essential Skills
-- Knowledge (Technology)
-- Athletics
-- Combat (Heavy)
-
-## Signature Features
-- Heavy Weapon Mastery
-- Explosive Expertise
-
-## Recommendations
-- **Occupations**: Soldier, Mercenary
-- **Origins**: Militaristic, Hostile, Industrial
-- **Factions**: Coalition (Heavy Support), Impyrium (Legionnaires), Mekan (Siege Units)
-
-
-## Extended Lore & Background
-
-Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.  
-*You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*  
 *"Suppressive fire? No, I'm just clearing the room."*
 
+  - **Core Concept:** DPS / Area Denial
+  - **Recommended Occupations:** Soldier, Mercenary.
+  - **Recommended Origins:** Militaristic, Hostile, Industrial.
+  - **Recommended Factions:** Coalition (Heavy Support), Impyrium (Legionnaires), Mekan (Siege Units).
+  - **Key Attributes:** Strength (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Athletics, Combat (Heavy).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Heavy Weapon Mastery, Explosive Expertise.
+  - **Tactical Role:** Suppressive fire, destroying vehicles, crowd control.

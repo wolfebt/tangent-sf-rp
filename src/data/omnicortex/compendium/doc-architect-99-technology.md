@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 25
+order: 26
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology","matrix"]
-updatedAt: "2026-11-02T22:49:09.066Z"
+updatedAt: "2026-11-04T00:33:10.378Z"
 costs:
   bp: 0
   credits: 0
@@ -168,8 +168,7 @@ All detailed Tech Level progressions, exotic material codices, civilization doma
 
 - **File Target:** `architect/99. TECHNOLOGY.md`
 - **Restoration Pass (Three-Way Merge):**
-  - Merged 100% of the `/game rules/architect/99. TECHNOLOGY.md` prose (Tech Levels Table, Advancement Levels & Developmental Philosophy, Adaptive/Morphic/Holophotonic Reconfiguration, Schematic Acquisition, and The Technologist Feature) with the Nov 2 Master Tech Level CP/WS table and the complete 19-file `./technology/` directory index.
+  - Merged 100% of the `/game_rules/architect/99. TECHNOLOGY.md` prose (Tech Levels Table, Advancement Levels & Developmental Philosophy, Adaptive/Morphic/Holophotonic Reconfiguration, Schematic Acquisition, and The Technologist Feature) with the Nov 2 Master Tech Level CP/WS table and the complete 19-file `./technology/` directory index.
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Verified all CR formulas (`CR = 5 * TL` for schematic compilation) and skill names.
-
 

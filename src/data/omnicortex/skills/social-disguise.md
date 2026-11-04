@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Disguise is the skill of changing one's appearance to look like someone else. It reflects a character's ability to use makeup, costumes, and other techniques to alter their appearance. Disguise is used whenever a character needs to deceive or impersonate someone else, or to hide their true identity. The application of props, makeup, prosthetics, and costumes to change one's physical appearance. While Acting covers behavior, Disguise covers the visual fabrication.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Create Disguise:* The result of your check becomes the **CR** for anyone trying to see through it using **Alertness** or **Investigation**.
+- *Create Disguise:* The result of your check becomes the **CR** for anyone trying to see through it using **Alertness** or **Investigation**.
   - *Speed Disguise:* Rushing a disguise (-5 penalty) takes 1d4 rounds. Proper application takes 10-30 minutes.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Prosthetic & Latex Application:** Applying false noses, cheekbones, brow ridges, and synthetic skin appliances.
       - **Cosmetic Makeup & Contouring:** Using shading, highlights, and foundation to drastically alter perceived face shapes.

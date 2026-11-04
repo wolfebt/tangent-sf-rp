@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Artist is the skill of creating art in various forms, such as painting, sculpture, or music. It reflects a character's ability to paint, sculpt, or compose music. Artist is used whenever a character needs to create works of art that are aesthetically pleasing and meaningful. This can include things like painting portraits, sculpting statues, or composing music. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Create Work:* Check result determines the value and quality of the piece.
+- *Create Work:* Check result determines the value and quality of the piece.
   - *Forgery:* Opposed by Appraisal.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Canvas & Mural Painting:** Mastering pigments, oil glazes, brushwork, and monumental wall fresco execution.
       - **Digital & Concept Illustration:** Speed-painting character concepts, environments, and schematics via digital pads.

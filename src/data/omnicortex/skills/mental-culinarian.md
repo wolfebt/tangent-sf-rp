@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Culinarian is the skill of cooking and preparing food. It reflects a character's ability to prepare ingredients, cook meals, and present food. Culinarian is used whenever a character needs to create delicious and nutritious meals. This can include things like preparing ingredients, cooking meals, and presenting food. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Prepare Meal:* CR 10 (Standard) to CR 30 (Banquet). High success grants temporary morale bonuses to those who eat.
+- *Prepare Meal:* CR 10 (Standard) to CR 30 (Banquet). High success grants temporary morale bonuses to those who eat.
   - *Identify Ingredients:* CR 15 to taste a poison or strange alien spice.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Xenofood Neutralization:** Processing, cooking, and detoxifying strange alien flora and fauna for human consumption.
       - **Haute Cuisine & Fine Dining:** Preparing multi-course, visually stunning gourmet meals for high nobility and executives.

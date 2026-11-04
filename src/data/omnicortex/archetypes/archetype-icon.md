@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Icon
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Social Influence / Leader / Face  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure.
 
-> *You are more than a person; you are a symbol. Your every action is scrutinized and celebrated, and your voice carries the weight of millions. You use your status to shape the cultural landscape.*
+*You are more than a person; you are a symbol. Your every action is scrutinized and celebrated, and your voice carries the weight of millions. You use your status to shape the cultural landscape.*
 
-> _"I don't just represent the cause. I am the cause."_
-
-## Tactical Role
-Rallying public support, demoralizing opposition through reputation, high-stakes negotiation.
-
-## Essential Skills
-- Expression (any)
-- Diplomacy
-- Bluff
-- Leadership
-
-## Signature Features
-- Star Power
-- Inspiring Personality
-
-## Recommendations
-- **Occupations**: Entertainer, Representative
-- **Origins**: Leisure, Urban, Industrial
-- **Factions**: Syndicate (Brand Identity), Coalition (Rebel Face), Entari
-
-
-## Extended Lore & Background
-
-The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure.  
-*You are more than a person; you are a symbol. Your every action is scrutinized and celebrated, and your voice carries the weight of millions. You use your status to shape the cultural landscape.*  
 *"I don't just represent the cause. I am the cause."*
 
+  - **Core Concept:** Social Influence / Leader / Face
+  - **Recommended Occupations:** Entertainer, Representative.
+  - **Recommended Origins:** Leisure, Urban, Industrial.
+  - **Recommended Factions:** Syndicate (Brand Identity), Coalition (Rebel Face), Entari.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Expression (any), Diplomacy, Bluff, Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Star Power, Inspiring Personality.
+  - **Tactical Role:** Rallying public support, demoralizing opposition through reputation, high-stakes negotiation.

@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Pioneer
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Scout / Knowledge / Survival  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Stamina  
 
-## Overview
 Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.
 
-> *You go where the maps end. You are driven by the need to see the unseen and name the unnamed. You navigate the hazards of alien worlds so that others may follow in your footsteps.*
+*You go where the maps end. You are driven by the need to see the unseen and name the unnamed. You navigate the hazards of alien worlds so that others may follow in your footsteps.*
 
-> _"Second star to the right, and straight on 'til morning."_
-
-## Tactical Role
-Leading the party through wilderness, spotting hazards, mapping.
-
-## Essential Skills
-- Knowledge (Survival)
-- Knowledge (Navigation)
-- Knowledge (History)
-- Alertness
-
-## Signature Features
-- Pathfinder
-- Cartographer
-
-## Recommendations
-- **Occupations**: Scout, Drifter
-- **Origins**: Colony, Spacer, Research
-- **Factions**: Ascendancy (Explorers), Outworlds, Coalition
-
-
-## Extended Lore & Background
-
-Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.  
-*You go where the maps end. You are driven by the need to see the unseen and name the unnamed. You navigate the hazards of alien worlds so that others may follow in your footsteps.*  
 *"Second star to the right, and straight on 'til morning."*
 
+  - **Core Concept:** Scout / Knowledge / Survival
+  - **Recommended Occupations:** Scout, Drifter.
+  - **Recommended Origins:** Colony, Spacer, Research.
+  - **Recommended Factions:** Ascendancy (Explorers), Outworlds, Coalition.
+  - **Key Attributes:** Wisdom (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Survival), Knowledge (Navigation), Knowledge (History), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Pathfinder, Cartographer.
+  - **Tactical Role:** Leading the party through wilderness, spotting hazards, mapping.

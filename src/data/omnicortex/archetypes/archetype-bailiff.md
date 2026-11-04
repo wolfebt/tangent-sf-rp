@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Bailiff
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Law Enforcement / Control / Tank  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.
 
-> *You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*
+*You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*
 
-> _"The Court will have order. One way or another."_
-
-## Tactical Role
-Grappling and subduing targets, protecting VIPs, enforcing social order.
-
-## Essential Skills
-- Knowledge (Investigation)
-- Knowledge (Law)
-- Intimidation
-- Melee
-
-## Signature Features
-- Law Enforcement Training
-- Authority Figure
-
-## Recommendations
-- **Occupations**: Agent, Citizen
-- **Origins**: Urban, Militaristic, Colony
-- **Factions**: Ascendancy (Judiciaries), Impyrium (Legalists), Entari Combine
-
-
-## Extended Lore & Background
-
-The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.  
-*You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*  
 *"The Court will have order. One way or another."*
 
+  - **Core Concept:** Law Enforcement / Control / Tank
+  - **Recommended Occupations:** Agent, Citizen.
+  - **Recommended Origins:** Urban, Militaristic, Colony.
+  - **Recommended Factions:** Ascendancy (Judiciaries), Impyrium (Legalists), Entari Combine.
+  - **Key Attributes:** Strength (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Knowledge (Law), Intimidation, Melee.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Law Enforcement Training, Authority Figure.
+  - **Tactical Role:** Grappling and subduing targets, protecting VIPs, enforcing social order.

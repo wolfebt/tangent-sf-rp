@@ -48,43 +48,20 @@ negative_keywords: 'heavy-plating, blunt-assault, loud, clumsy, mindless-brute'
 cp_chassis: 80
 ---
 
-# The Shadow-stepper
+# The Shadow-Stepper
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Stealth / Infiltration / Sabotage  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Intellect  
 
-## Overview
 A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed.
 
-> *You aren't there. Even when they look right at you, their eyes slide away. You move through fortified lines like a ghost, leaving nothing behind but an empty vault or a neutralized leader.*
+*You aren't there. Even when they look right at you, their eyes slide away. You move through fortified lines like a ghost, leaving nothing behind but an empty vault or a neutralized leader.*
 
-> _"Did you hear that? Probably just the wind."_
-
-## Tactical Role
-Stealth scouting, planting explosives, silent elimination.
-
-## Essential Skills
-- Stealth
-- Disguise
-- Knowledge (Computers)
-- Acrobatics
-
-## Signature Features
-- Master of Disguise
-- Digital Ghost
-
-## Recommendations
-- **Occupations**: Spy, Criminal
-- **Origins**: Urban, Research, Industrial
-- **Factions**: Syndicate (Infiltrators), Alterian Enclave (Shadows), Mekan
-
-
-## Extended Lore & Background
-
-A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed.  
-*You aren't there. Even when they look right at you, their eyes slide away. You move through fortified lines like a ghost, leaving nothing behind but an empty vault or a neutralized leader.*  
 *"Did you hear that? Probably just the wind."*
 
+  - **Core Concept:** Stealth / Infiltration / Sabotage
+  - **Recommended Occupations:** Agent (*Spy*), Criminal.
+  - **Recommended Origins:** Urban, Research, Industrial.
+  - **Recommended Factions:** Syndicate (Infiltrators), Alterian Enclave (Shadows), Mekan.
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Disguise, Knowledge (Computers), Acrobatics.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Master of Disguise, Digital Ghost.
+  - **Tactical Role:** Stealth scouting, planting explosives, silent elimination.

@@ -14,6 +14,7 @@ import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
 import { DEFAULT_INVOCATIONS } from '../../data/invocationsData.js';
+import { DEFAULT_ARCHETYPES } from '../../data/archetypesData.js';
 
 const normalizeSpeciesMatchName = (val) =>
   String(val || '')
@@ -399,6 +400,12 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
       ? item.negative_keywords
       : (seed?.negative_keywords || base.negative_keywords || '');
+    base.body = (typeof item.body === 'string' && item.body.trim())
+      ? item.body
+      : (seed?.body || base.body || '');
+    base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
+      ? item.full_text
+      : (seed?.full_text || base.body || '');
 
     // Dynamically compute and synchronize the authoritative species package CP/BP cost
     const speciesBp = calculateSpeciesBP(base);
@@ -439,6 +446,12 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
       ? item.negative_keywords
       : (seed?.negative_keywords || base.negative_keywords || '');
+    base.body = (typeof item.body === 'string' && item.body.trim())
+      ? item.body
+      : (seed?.body || base.body || '');
+    base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
+      ? item.full_text
+      : (seed?.full_text || base.body || '');
   }
 
   // Harmonize Origins Fields
@@ -468,6 +481,12 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.negative_keywords = (typeof item.negative_keywords === 'string' && item.negative_keywords.trim())
       ? item.negative_keywords
       : (seed?.negative_keywords || base.negative_keywords || '');
+    base.body = (typeof item.body === 'string' && item.body.trim())
+      ? item.body
+      : (seed?.body || base.body || '');
+    base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
+      ? item.full_text
+      : (seed?.full_text || base.body || '');
   }
 
   // Harmonize Occupations Fields
@@ -501,6 +520,12 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.archetypes = item.archetypes || seed?.archetypes || base.archetypes || [];
     base.field = item.field || seed?.field || base.field || 'General / Other';
     base.skill_points = Number(item.skill_points || seed?.skill_points || base.skill_points || 20);
+    base.body = (typeof item.body === 'string' && item.body.trim())
+      ? item.body
+      : (seed?.body || base.body || '');
+    base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
+      ? item.full_text
+      : (seed?.full_text || base.body || '');
   }
 
   // Harmonize Invocations / Magic Fields
@@ -537,6 +562,12 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.discipline = item.discipline || seed?.discipline || base.discipline || 'Universal';
     base.sphere = item.sphere || seed?.sphere || base.sphere || 'General';
     base.subdiscipline = item.subdiscipline || seed?.subdiscipline || base.subdiscipline || '';
+    base.body = (typeof item.body === 'string' && item.body.trim())
+      ? item.body
+      : (seed?.body || base.body || '');
+    base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
+      ? item.full_text
+      : (seed?.full_text || base.body || '');
   }
 
   // Harmonize Skills Fields
@@ -673,22 +704,29 @@ export const adaptItemToCodexFormData = (item, matrix) => {
 
   // Harmonize Archetypes Fields
   if (resolvedMatrix.id === 'archetypes') {
-    base.sphere = item.sphere || base.sphere || 'Sentinels (The Stabilizers)';
-    base.primary_attribute = item.primary_attribute || base.primary_attribute || 'Intellect';
-    base.secondary_attribute = item.secondary_attribute || base.secondary_attribute || 'Charisma';
-    base.essential_skills = item.essential_skills || base.essential_skills || [];
-    const sigTraits = item.signature_traits || item.traits || item.signature_features || base.signature_traits || base.traits || base.signature_features || [];
+    const seed = findCanonicalSeed(item, DEFAULT_ARCHETYPES);
+    base.sphere = item.sphere || seed?.sphere || base.sphere || 'Sentinels (The Stabilizers)';
+    base.primary_attribute = item.primary_attribute || seed?.primary_attribute || base.primary_attribute || 'Intellect';
+    base.secondary_attribute = item.secondary_attribute || seed?.secondary_attribute || base.secondary_attribute || 'Charisma';
+    base.essential_skills = item.essential_skills || seed?.essential_skills || base.essential_skills || [];
+    const sigTraits = item.signature_traits || item.traits || item.signature_features || seed?.signature_traits || seed?.signature_features || base.signature_traits || base.traits || base.signature_features || [];
     base.signature_traits = sigTraits;
     base.traits = sigTraits;
     base.signature_features = sigTraits;
-    base.recommended_occupations = item.recommended_occupations || base.recommended_occupations || [];
-    base.recommended_origins = item.recommended_origins || base.recommended_origins || [];
-    base.recommended_factions = item.recommended_factions || base.recommended_factions || [];
-    base.recommended_species = item.recommended_species || base.recommended_species || [];
-    base.bp_chassis = Number(item.bp_chassis || base.bp_chassis || 80);
-    base.quote = item.quote || base.quote || '';
-    base.core_concept = item.core_concept || base.core_concept || '';
-    base.tactical_role = item.tactical_role || base.tactical_role || '';
+    base.recommended_occupations = item.recommended_occupations || seed?.recommended_occupations || base.recommended_occupations || [];
+    base.recommended_origins = item.recommended_origins || seed?.recommended_origins || base.recommended_origins || [];
+    base.recommended_factions = item.recommended_factions || seed?.recommended_factions || base.recommended_factions || [];
+    base.recommended_species = item.recommended_species || seed?.recommended_species || base.recommended_species || [];
+    base.bp_chassis = Number(item.bp_chassis || seed?.bp_chassis || base.bp_chassis || 80);
+    base.quote = item.quote || seed?.quote || base.quote || '';
+    base.core_concept = item.core_concept || seed?.core_concept || base.core_concept || '';
+    base.tactical_role = item.tactical_role || seed?.tactical_role || base.tactical_role || '';
+    base.body = (typeof item.body === 'string' && item.body.trim())
+      ? item.body
+      : (seed?.body || base.body || '');
+    base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
+      ? item.full_text
+      : (seed?.full_text || base.body || '');
   }
 
   // Harmonize Features Fields

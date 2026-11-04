@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Demagogue
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Debuffer / Chaos Agent / Crowd Control  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media.
 
-> *You are the spark that starts the fire. You know that information is a virus, and you infect the masses with ideas that topple empires. You turn the enemy's own populace against them.*
+*You are the spark that starts the fire. You know that information is a virus, and you infect the masses with ideas that topple empires. You turn the enemy's own populace against them.*
 
-> _"The truth is whatever I say it is loud enough."_
-
-## Tactical Role
-Incite distractions, turn enemy minions against leaders, sow confusion.
-
-## Essential Skills
-- Diplomacy
-- Expression (any)
-- Bluff
-- Knowledge (Computers)
-
-## Signature Features
-- Voice of Dissent
-- Subversive Tactics
-
-## Recommendations
-- **Occupations**: Criminal, Entertainer
-- **Origins**: Urban, Industrial, Colony
-- **Factions**: Coalition (Rebels), Outworlds (Cults), Syndicate (Hostile Takeover)
-
-
-## Extended Lore & Background
-
-A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media.  
-*You are the spark that starts the fire. You know that information is a virus, and you infect the masses with ideas that topple empires. You turn the enemy's own populace against them.*  
 *"The truth is whatever I say it is loud enough."*
 
+  - **Core Concept:** Debuffer / Chaos Agent / Crowd Control
+  - **Recommended Occupations:** Criminal, Entertainer.
+  - **Recommended Origins:** Urban, Industrial, Colony.
+  - **Recommended Factions:** Coalition (Rebels), Outworlds (Cults), Syndicate (Hostile Takeover).
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Expression (any), Bluff, Knowledge (Computers).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Voice of Dissent, Subversive Tactics.
+  - **Tactical Role:** Incite distractions, turn enemy minions against leaders, sow confusion.

@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Operate Remote System:** CR 10 to CR 25 depending on security.
+- **Operate Remote System:** CR 10 to CR 25 depending on security.
   - **Hacking:** CR is determined by the target system's firewall/security rating (Security Level + 10).
   - **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.
       - **Cyber-Defense & Hardening:** Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers.

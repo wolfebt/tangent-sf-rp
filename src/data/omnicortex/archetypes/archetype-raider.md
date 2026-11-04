@@ -45,41 +45,18 @@ cp_chassis: 80
 
 # The Raider
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Aggression / Survival / Intimidation  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A hardened survivor who uses force to secure resources.
 
-> *You take what you need. In the lawless wastes, strength is the only currency. You strike hard and fast, seizing resources before the dust settles.*
+*You take what you need. In the lawless wastes, strength is the only currency. You strike hard and fast, seizing resources before the dust settles.*
 
-> _"Weakness is a choice. I chose strength."_
-
-## Tactical Role
-Shock assault, intimidation, scavenging.
-
-## Essential Skills
-- Intimidation
-- Athletics
-- Combat (Melee/Ranged)
-- Knowledge (Survival)
-
-## Signature Features
-- Wasteland Warrior
-- Ruthless
-
-## Recommendations
-- **Occupations**: Criminal, Drifter
-- **Origins**: Hostile, Colony, Militaristic
-- **Factions**: Outworlds (Pirates), Coalition (Rebels)
-
-
-## Extended Lore & Background
-
-A hardened survivor who uses force to secure resources.  
-*You take what you need. In the lawless wastes, strength is the only currency. You strike hard and fast, seizing resources before the dust settles.*  
 *"Weakness is a choice. I chose strength."*
 
+  - **Core Concept:** Aggression / Survival / Intimidation
+  - **Recommended Occupations:** Criminal, Drifter.
+  - **Recommended Origins:** Hostile, Colony, Militaristic.
+  - **Recommended Factions:** Outworlds (Pirates), Coalition (Rebels).
+  - **Key Attributes:** Strength (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Athletics, Combat (Melee/Ranged), Knowledge (Survival).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Wasteland Warrior, Ruthless.
+  - **Tactical Role:** Shock assault, intimidation, scavenging.

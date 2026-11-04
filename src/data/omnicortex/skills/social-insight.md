@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Insight is the skill of understanding and empathizing with others. It reflects a character's ability to comprehend and appropriately react to both broad problems of society and interpersonal struggles. Insight is used whenever a character needs to understand the emotions and feelings of others, whether it's to avoid conflict or to build relationships. This can include things like identifying social cues, taking others' perspectives, demonstrating empathy and compassion, and showing concern for the feelings of others. The skill of understanding and empathizing with others. It reflects a character's ability to comprehend and appropriately react to both broad societal problems and interpersonal struggles. Insight is used to read emotions, detect lies, and understand hidden motives.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Insight:** Opposed check vs. **Bluff**. Success reveals if the target is lying or hiding something.
+- **Insight:** Opposed check vs. **Bluff**. Success reveals if the target is lying or hiding something.
   - **Read Situation:** CR 15 to pick up on social dynamics or hidden tension in a room.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Lie Detection:** Catching subtle facial tics, vocal pitch spikes, and pupil dilations that expose falsehoods.
       - **Emotional Empathy:** Sensing buried grief, simmering rage, or sheer panic beneath a calm exterior.

@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Peacekeeper
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Tank / Diplomat / Controller  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A protector of the innocent and champion of peace, using force and words.
 
-> *You fight for peace. You are the shield of the defenseless, using violence only as a last resort. You walk the line between warrior and diplomat, resolving conflicts before they begin.*
+*You fight for peace. You are the shield of the defenseless, using violence only as a last resort. You walk the line between warrior and diplomat, resolving conflicts before they begin.*
 
-> _"Stand down. There is no need for bloodshed today."_
-
-## Tactical Role
-De-escalating combat, protecting allies, subduing enemies non-lethally.
-
-## Essential Skills
-- Athletics
-- Diplomacy
-- Insight
-- Combat (any)
-
-## Signature Features
-- Pacifying Presence
-- Defensive Stance
-
-## Recommendations
-- **Occupations**: Soldier, Representative
-- **Origins**: Urban, Colony, Enlightened
-- **Factions**: Entari Combine (Constables), Ascendancy (Judges), Coalition
-
-
-## Extended Lore & Background
-
-A protector of the innocent and champion of peace, using force and words.  
-*You fight for peace. You are the shield of the defenseless, using violence only as a last resort. You walk the line between warrior and diplomat, resolving conflicts before they begin.*  
 *"Stand down. There is no need for bloodshed today."*
 
+  - **Core Concept:** Tank / Diplomat / Controller
+  - **Recommended Occupations:** Soldier, Representative.
+  - **Recommended Origins:** Urban, Colony, Enlightened.
+  - **Recommended Factions:** Entari Combine (Constables), Ascendancy (Judges), Coalition.
+  - **Key Attributes:** Charisma (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Diplomacy, Insight, Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Pacifying Presence, Defensive Stance.
+  - **Tactical Role:** De-escalating combat, protecting allies, subduing enemies non-lethally.

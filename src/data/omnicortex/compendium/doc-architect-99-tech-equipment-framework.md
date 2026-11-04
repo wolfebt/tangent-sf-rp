@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 34
+order: 35
 perspective: "architect"
 entry_type: "Tech Matrix (equipment)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.equipment.framework","matrix"]
-updatedAt: "2026-11-02T22:49:14.580Z"
+updatedAt: "2026-11-04T00:33:10.468Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,7 @@ sockets:
   allocated: []
 ---
 
-# **99 \- EQUIPMENT MATRIX**  
+# **99 - EQUIPMENT MATRIX**  
   
 # **THE MATERIAL FOUNDATION**  
   
@@ -53,7 +53,7 @@ Historically, the design of economic and material systems within tabletop role-p
   
 The Tangent Equipment Matrix resolves this dissonance by synthesizing a unified mechanical engine that standardizes creation, modification, and valuation across all physical assets. It establishes a definitive source of truth by dividing all material objects into two conceptual layers. The first layer is the "Agnostic Chassis," the fundamental, physics-compliant engineering skeleton governed strictly by mass, scale, and complexity. The second layer is the "Cultural Skin," the aesthetic and functional overlay that aligns the machine with a specific faction’s technological paradigm.  
   
-Crucially, this matrix strictly delineates the externalization of capability from the internalization of the self. While the '99 \- AUGMENTATIONS MATRIX' governs the microscopic, biological realities of physiological modification and cybernetic rejection, the Equipment Matrix governs the macroscopic world. External equipment operates independently of biological capacity, interacting instead with the universal laws of spatial displacement and economic valuation.  
+Crucially, this matrix strictly delineates the externalization of capability from the internalization of the self. While the '99 - AUGMENTATIONS MATRIX' governs the microscopic, biological realities of physiological modification and cybernetic rejection, the Equipment Matrix governs the macroscopic world. External equipment operates independently of biological capacity, interacting instead with the universal laws of spatial displacement and economic valuation.  
   
 ##   
   
@@ -63,54 +63,54 @@ Crucially, this matrix strictly delineates the externalization of capability fro
   
 To ensure absolute mathematical consistency across personal inventory, vehicular engineering, and architectural design, the matrix relies upon the Universal Displacement Unit (UDU) hierarchy. The UDU system is the spatial foundation of the Tangent universe, dictating capacity limits from the microscopic to the cosmic.  
   
-The '99 \- AUGMENTATIONS MATRIX' establishes "Nodes" as Tier 0\. A Node represents less than 10 grams of mass, serving as the granular unit for internal biological strain and cybernetic installation. The Equipment Matrix, however, operates strictly at Tier 1 and above, bypassing biological strain entirely. The absolute floor for external equipment is the Socket.  
+The '99 - AUGMENTATIONS MATRIX' establishes "Nodes" as Tier 0\. A Node represents less than 10 grams of mass, serving as the granular unit for internal biological strain and cybernetic installation. The Equipment Matrix, however, operates strictly at Tier 1 and above, bypassing biological strain entirely. The absolute floor for external equipment is the Socket.  
   
 ###   
   
 ### **The Socket: The Foundation of Tier 1**  
   
-A Socket represents the fundamental unit of personal-scale spatial displacement, equating to less than 1 kilogram (2. lbs) of mass or functional complexity. The Socket dictates a character's carrying capacity, the number of modifications a weapon chassis can support, and the granular integration of external components.  
+A Socket represents the fundamental unit of personal-scale spatial displacement, equating to less than 1 kilogram (2.2 lbs) of mass or functional complexity. The Socket dictates a character's carrying capacity, the number of modifications a weapon chassis can support, and the granular integration of external components.  
   
 A Standard Fit means a Socket accepts 1 standard modification, attachment, or component. However, items may also feature a single **Minor Option** (e.g., a laser sight, cosmetic light, or concealed pocket) which utilizes negligible bulk and does not consume a Socket.  
   
-The UDU hierarchy scales exponentially from this baseline to accommodate larger entities and structures without relying on disjointed conversion tables. While preserving the absolute physical displacement metrics of 10g, 1kg, 100kg, and 10 tons, the matrix introduces a consistent:1 integration bottleneck across all scales. Just as the biological protocol dictates that only 10 Nodes are actively usable per 1 Socket, this bottleneck is replicated at the macro-scales: a Mount allows for exactly 10 Usable Sockets, and a Module allows for exactly 10 Usable Mounts.  
+The UDU hierarchy scales exponentially from this baseline to accommodate larger entities and structures without relying on disjointed conversion tables. While preserving the absolute physical displacement metrics of 10g, 1kg, 100kg, and 10 tons, the matrix introduces a consistent 10:1 integration bottleneck across all scales. Just as the biological protocol dictates that only 10 Nodes are actively usable per 1 Socket, this bottleneck is replicated at the macro-scales: a Mount allows for exactly 10 Usable Sockets, and a Module allows for exactly 10 Usable Mounts.  
   
 | SCALE CATEGORY | DEFINITION AND CAPACITY | INTEGRATION BOTTLENECK |  
 | ----- | ----- | ----- |  
-| **Tier: Nodes (Implant Scale)** | A "Node" represents less than 10 grams of mass.\ | 10 Usable Nodes \= 1 Socket |  
-| **Tier: Socket (Personal)** | The baseline unit for handheld items, weapon modifications, and cybernetic sub-routines. Maximum 1 kg displacement. | — |  
-| **Tier: Mount (Mecha/Vehicle)** | The baseline unit for vehicular weapons, engines, and heavy cargo. Maximum 100 kg displacement. | 1 Mount \= 10 Usable Sockets |  
-| **Tier: Module (Architecture)** | The baseline unit for structural rooms, capital ship hangars, and planetary facilities. Maximum 10 Tons displacement. | 1 Module \= 10 Usable Mounts |  
+| **Tier 0: Nodes (Implant Scale)** | A "Node" represents less than 10 grams of mass. | 10 Usable Nodes = 1 Socket |  
+| **Tier 1: Socket (Personal)** | The baseline unit for handheld items, weapon modifications, and cybernetic sub-routines. Maximum 1 kg displacement. | — |  
+| **Tier 2: Mount (Mecha/Vehicle)** | The baseline unit for vehicular weapons, engines, and heavy cargo. Maximum 100 kg displacement. | 1 Mount = 10 Usable Sockets |  
+| **Tier 3: Module (Architecture)** | The baseline unit for structural rooms, capital ship hangars, and planetary facilities. Maximum 10 Tons displacement. | 1 Module = 10 Usable Mounts |  
   
-This strict hierarchy ensures seamless cross-scale integration. A Mecha (Tier 2\) or a Structure (Tier 3\) can store or equip Personal-scale items (Tier 1\) taking up mathematically accurate space. While a single vehicle Mount designated as a utility bay possesses 100 kilograms of volumetric displacement, its active capacity is capped at precisely 10 Usable Sockets worth of personal equipment. Furthermore, garaging rules remain perfectly consistent: storing a Medium-sized vehicle requires 0. Modules of architectural space, while a Huge Mecha requires exactly 1 full Module.  
+This strict hierarchy ensures seamless cross-scale integration. A Mecha (Tier 2\) or a Structure (Tier 3\) can store or equip Personal-scale items (Tier 1\) taking up mathematically accurate space. While a single vehicle Mount designated as a utility bay possesses 100 kilograms of volumetric displacement, its active capacity is capped at precisely 10 Usable Sockets worth of personal equipment. Furthermore, garaging rules remain perfectly consistent: under the canonical Garaging protocol (`1 Mount = 1 Scale Multiplier`, `10 Mounts = 1 Module`), storing a Medium-sized vehicle (`x1` Scale) requires 1 Mount (`0.1 Modules`) of architectural space, a Large vehicle (`x2` Scale) requires 2 Mounts (`0.2 Modules`), a Huge Mecha (`x5` Scale) requires 5 Mounts (`0.5 Modules`), a Gargantuan Mecha (`x10` Scale) requires 10 Mounts (`1.0 Module`), and a Colossal Mecha (`x20` Scale) requires 20 Mounts (`2.0 Modules`).  
   
 ###   
   
-### **Tier: The Mount (Hardpoints & Sub-Scale Gear)**  
+### **Tier 2: The Mount (Hardpoints & Sub-Scale Gear)**  
   
 The **Mount** is a sub-scale hardpoint (Maximum 100 kg displacement). In architectural and capital-ship design, Mounts are used for functional components that do not require an entire room. This includes exterior structural armor plating, energy shield emitters, defense turrets, sensor dishes, and localized utility nodes.  
   
 ###   
   
-### **Tier: The Module (Rooms & Facilities)**  
+### **Tier 3: The Module (Rooms & Facilities)**  
   
 The **Module** is the baseline unit of macro-scale structural volume (representing roughly 400 square feet of functional space, or a 20x20 ft area, up to a Maximum 10 Tons displacement). In architectural terms, a Module represents a physical room or a massive internal facility—such as a generator room, a barracks, a medical bay, or a vehicle hangar. A building's total Size and Height determine how many Modules it can hold.  
   
-\  
+
   
 ### **Dimensional Footprint and Base Complexity**  
   
-Every discrete piece of equipment is assigned a Size Category, which dictates its default capacity in Sockets, its base Structure Points (HP), and its baseline Crafting Challenge Rating (CR). This establishes the unflavored mechanical reality of the Agnostic Chassis before technological era or cultural skin is applied.  
+Every discrete piece of equipment is assigned a Size Category, which dictates its default capacity in Sockets, its base Structure Points (SP), and its baseline Crafting Challenge Rating (CR). This establishes the unflavored mechanical reality of the Agnostic Chassis before technological era or cultural skin is applied.  
   
 | SIZE\ | COMMON EXAMPLES | MASS | CAPACITY | STRUCTURE\ | Crafting CR |  
 | ----- | ----- | :---: | :---: | :---: | ----- |  
-| **Fine** | Data-chip, Jewelry, Piercing | \\< 0. kg | (2 Nodes) | 2 SP | CR 5 (Simple) |  
-| **Diminutive** | Datapad, Stim-injector, Sensor Fob | \\< 1 kg | 1 Socket | 5 SP | CR 5 (Simple) |  
-| **Tiny** | Pistol, Medkit, Hand Tool | \\< 5 kg | 2 Sockets | 10 SP | CR 10 (Standard) |  
-| **Small** | Rifle, Backpack Unit, Enviro-Suit | \\< 10 kg | 4 Sockets | 20 SP | CR 15 (Advanced) |  
-| **Medium** | Heavy Tool, Portable Generator | \\< 25 kg | 8 Sockets | 40 SP | CR 20 (Expert) |  
-| **Mecha** | Emplacement, Vehicle Weapon | \\< 100 kg | Mounts | 100 SP (Medium) | CR 30 (Grandmaster) |  
-| **Structure** | Building, Campus, Laboratory | \\>10 Tons | Modules | 500+ SP | Variable |  
+| **Fine** | Data-chip, Jewelry, Piercing | \< 0.01 kg | (2 Nodes) | 2 SP | CR 5 (Simple) |  
+| **Diminutive** | Datapad, Stim-injector, Sensor Fob | \< 1 kg | 1 Socket | 5 SP | CR 5 (Simple) |  
+| **Tiny** | Pistol, Medkit, Hand Tool | \< 5 kg | 2 Sockets | 10 SP | CR 10 (Standard) |  
+| **Small** | Rifle, Backpack Unit, Enviro-Suit | \< 10 kg | 4 Sockets | 20 SP | CR 15 (Advanced) |  
+| **Medium** | Heavy Tool, Portable Generator | \< 25 kg | 8 Sockets | 40 SP | CR 20 (Expert) |  
+| **Mecha** | Emplacement, Vehicle Weapon | \< 100 kg | Mounts | 100 SP (Medium) | CR 30 (Grandmaster) |  
+| **Structure** | Building, Campus, Laboratory | \>10 Tons | Modules | 500+ SP | Variable |  
   
 Items classified as "Fine" possess a mass so negligible they do not consume standard Socket capacity for inventory management. They may serve as minor aesthetic additions or highly miniaturized components, though they remain subject to standard durability constraints.  
   
@@ -128,38 +128,38 @@ Technological progress in Tangent is not a rigid ladder, but a fluid spectrum de
 | ----- | ----- | ----- | ----- |  
 | 1-2 | Analog | Stamped Metal, Plastic | None |  
 | 3 | Digital | Aluminum, Composite | **Modular:** Universal ports; share batteries/charge. |  
-| 4 | Enhanced | Smart-Fabric, Nanocarbon | **Self-Repairing:** Regens 1 HP/hour. Mastery of Shields/Hover/Directed Energy. |  
+| 4 | Enhanced | Smart-Fabric, Nanocarbon | **Self-Repairing:** Regens 1 SP/hour. Mastery of Shields/Hover/Directed Energy. |  
 | 5 | Advanced | Polymatter, Hard-Light | **Morphic / Weightless:** Instant reconfiguration and functional mass projection. |  
   
 To accurately represent the nuance of innovation within these eras, each Tech Level is further divided into three distinct sub-strata: Nascent (TL-), representing experimental and bulky prototypes; Standard (TL), representing refined and mass-produced baselines; and Advanced (TL+), representing optimized miniaturization bordering on the capabilities of the next era.  
   
 ###   
   
-### **TL: The Stone Age (Primitive / Pre-Industrial)**  
+### **TL 0: The Stone Age (Primitive / Pre-Industrial)**  
   
 Operating entirely outside of complex mechanical dependence, TL 0 equipment relies on inherent magic, survival strategies, or deep cultural dogma that rejects fragility in favor of organic strength. Materials consist of unworked stone, bone, wood, and animal hides in the Nascent stage, advancing to bronze, iron, and masonry in the Standard stage. Equipment at this tier possesses the "Degrading" trait, breaking easily under sustained stress, and offers minimal Damage Resistance (DR).  
   
 ###   
   
-### **TL: The Metal Age (Industrial / Mechanical)**  
+### **TL 1: The Metal Age (Industrial / Mechanical)**  
   
 Marking the transition from the Iron Age to the Industrial Revolution, TL 1 is characterized by the harnessing of fire for foundries, allowing for mass metallurgy. Power sources shift from muscle and wind to coal, steam, and early fossil fuels. Nascent technologies include intricate clockwork mechanisms akin to the Antikythera mechanism, complex architectural domes, alchemy, plate armor, and crossbows, as well as stationary steam engines and the printing press. Standard innovations introduce internal combustion, early photography, and rudimentary vaccines. Advanced TL 1+ borders on the digital, featuring direct current (CR) electricity, radio, biplanes, early X-Rays, and chemical weapons. Equipment here is heavy, highly durable, but imposes significant check penalties due to its unrefined ergonomics.  
   
 ###   
   
-### **TL: The Data Age (Digital / Information)**  
+### **TL 2: The Data Age (Digital / Information)**  
   
 Comparable to modern Earth, TL 2 spans from early telegraphy to the colonization of the local solar system. Power generation relies on advanced hydrocarbons, fission, and renewable infrastructure. The era is defined by global connectivity, digital networks, and the miniaturization of electronics. Nascent tech includes jet engines, orbital rocketry, and fission bombs. The Standard era perfects GPS, reusable rockets, and genetic sequencing. The Advanced TL 2+ tier borders on cybernetic integration, featuring quantum prototypes, functional virtual reality, nascent artificial intelligence algorithms, and prototype railguns. Protective equipment utilizes kevlar, ceramic plates, and advanced alloys, possessing a "Ballistic Weave" trait that highly resists piercing kinetic trauma.  
   
 ###   
   
-### **TL: The Space Age (Stellar / The Gate Era)**  
+### **TL 3: The Space Age (Stellar / The Gate Era)**  
   
 The dawn of interstellar expansion, breaking the bonds of the home star system. Power is generated via Thorium reactors and Hydrogen fuel cells. A critical limitation of this era is that artificial gravity remains achievable only via spin or thrust; manipulation of gravitons is not yet mastered. TL 3 represents the galactic baseline for common trade, featuring reaction mass space flight (Ionic or Fusion), memory materials with limited shape retention, and molecular nanotechnology. Advanced TL 3+ pushes the limits of thermodynamics with the discovery of Tangent Space for faster-than-light travel, holographic transceivers, and energy shields that impose massive power drains. TL 3 equipment is defined by the "Modular" trait, featuring universal data ports, standard charging protocols, and vacuum-ready hermetic seals.  
   
 ###   
   
-### **TL: The Stellar Age (Galactic / The Warp Era)**  
+### **TL 4: The Stellar Age (Galactic / The Warp Era)**  
   
 The domain of high-tier galactic factions, characterized by a practical mastery over matter and force where standard physics are treated as a mere suggestion. Power generation shifts to antimatter, cold fusion, and Aetherium integration. This era masters gravity with artificial grav-plating, inertial dampeners, and repulsorlift hover technology. Starships feature independent Tangent Drives for FTL travel without relying on fixed gate networks. Biological limitations are bypassed via "Clinical Immortality" cellular treatments and trans-neural interfaces that turn the biological brain into a supercomputer terminal.  
   
@@ -167,7 +167,7 @@ Material science at TL 4 is defined by programmable materials engineered at the 
   
 ###   
   
-### **TL: The Galactic Age (Cosmic / The Singularity)**  
+### **TL 5: The Galactic Age (Cosmic / The Singularity)**  
   
 The realm of "God-Like" power, representing the apex of material science. The pillars of this era are matter-energy conversion (replicators), dimensional compression (folding space), and absolute gravitonic control. The distinction between hardware and software vanishes completely. Equipment at this tier relies heavily on two exotic technologies: Polymatter and Holophotonics.  
   
@@ -185,14 +185,14 @@ A highly advanced piece of equipment is only as effective as the operator manipu
   
 | | CLASSIFICATION | Craft CR | SKILL\ | EFFECT OF OPERATIONAL INCOMPETENCE |  
 | ----- | ----- | ----- | ----- | ----- |  
-| **T1** | **Simple** | CR 0 \- 9 | Untrained (0+) | None. The item is universally intuitive. |  
-| **T2** | **Standard** | CR 10 \- 14 | Trained (6+) | The user suffers Disadvantage on all operational skill checks. |  
-| **T3** | **Advanced** | CR 15 \- 19 | Expert (11+) | Cannot activate secondary or active abilities; passive functions only. |  
+| **T1** | **Simple** | CR 0 - 9 | Untrained (0+) | None. The item is universally intuitive. |  
+| **T2** | **Standard** | CR 10 - 14 | Trained (6+) | The user suffers Disadvantage on all operational skill checks. |  
+| **T3** | **Advanced** | CR 15 - 19 | Expert (11+) | Cannot activate secondary or active abilities; passive functions only. |  
 | **T4** | **Experimental** | CR 20+ | Master (16+) | Cannot operate the item safely, severe risk of catastrophic Glitch. |  
   
 The calculation of saving throws against standard equipment—such as resisting the blast of an explosive round or the voltage of a stun module—is mathematically anchored to this complexity. Unless specifically overridden by the item's stat block, standard Equipment Save CRs are calculated as 10 plus twice the Item Tier, plus the Operator's Key Ability Modifier. This ensures that the efficacy of gear scales logically with both the operator's proficiency and the item's intrinsic sophistication.  
   
-Furthermore, characters possessing the "Technologist" feature may operate equipment ahead of their era's standard TL, requiring intense specialization across multiple fields (e.g., Biotechnology, Energy, Weaponry). Without this feature, attempting to repair or modify a device above the character's native Technology Level incurs a severe \-5 penalty per level of difference.  
+Furthermore, characters possessing the "Technologist" feature may operate equipment ahead of their era's standard TL, requiring intense specialization across multiple fields (e.g., Biotechnology, Energy, Weaponry). Without this feature, attempting to repair or modify a device above the character's native Technology Level incurs a severe -5 penalty per level of difference.  
   
 ##   
   
@@ -208,7 +208,7 @@ While the Agnostic Chassis and its Tech Level dictate the underlying mathematics
   
 Functioning as a corporate utopia, the Syndicate prioritizes "Technical Facilitation" and a highly curated user-first experience. Equipment aesthetics mirror an "Apple Store Cathedral"—hyper-efficient, seamless, sterile, and heavily branded with corporate iconography. Construction utilizes matte white composites, brushed aluminum, and ergonomic contouring with cyan holographic data-streams.  
   
-Syndicate gear possesses the "Integrated System" mechanical trait. The equipment is constantly tethered to the "Mesh" network, granting operators a \+2 bonus to Knowledge checks (Computers, Technology, Language) when interfacing with local networks. However, this interconnectivity comes with significant drawbacks for non-citizens; features are frequently locked behind subscription paywalls, and failure to tithe the corporation results in the gear entering "Penance Mode," severely reducing functionality.  
+Syndicate gear possesses the "Integrated System" mechanical trait. The equipment is constantly tethered to the "Mesh" network, granting operators a +2 bonus to Knowledge checks (Computers, Technology, Language) when interfacing with local networks. However, this interconnectivity comes with significant drawbacks for non-citizens; features are frequently locked behind subscription paywalls, and failure to tithe the corporation results in the gear entering "Penance Mode," severely reducing functionality.  
   
 ###   
   
@@ -216,7 +216,7 @@ Syndicate gear possesses the "Integrated System" mechanical trait. The equipment
   
 The Impyrium operates under a philosophy of "Enduring Dominance," where technology is maintained through rote tradition and religious ritual rather than genuine scientific understanding. Equipment exhibits a "Celestial Neo-Sumerian" aesthetic—massive, brutalist structures clad in gold filigree, polished white marble, and purity seals. Vehicles and armor appear exceptionally heavy, prioritizing slow but unstoppable momentum.  
   
-Impyrium gear possesses the "Archeotech" mechanical trait, granting it \+2 Damage Resistance (DR) and \+2 Hardness due to its ancient, over-engineered reinforcement. However, this gear relies exclusively on "Relic Sockets." An Impyrium item outright rejects modern or alien commercial modifications, accepting only authorized, ancient archeotech components, rendering it highly inflexible in the field.  
+Impyrium gear possesses the "Archeotech" mechanical trait, granting it +2 Damage Resistance (DR) and +2 Hardness due to its ancient, over-engineered reinforcement. However, this gear relies exclusively on "Relic Sockets." An Impyrium item outright rejects modern or alien commercial modifications, accepting only authorized, ancient archeotech components, rendering it highly inflexible in the field.  
   
 ###   
   
@@ -224,7 +224,7 @@ Impyrium gear possesses the "Archeotech" mechanical trait, granting it \+2 Damag
   
 The Dracon Dynasty adheres to a philosophy of "Noblesse Oblige," where equipment is explicitly designed to protect the user and project absolute authority. Their aesthetic is described as "High-Fantasy Industrial," featuring heavy, blocky silhouettes reminiscent of castles or keeps. Interiors prioritize warmth, utilizing orange and gold lighting, tapestries, and heraldic crests, while exteriors feature dragon-inspired motifs such as sculpted scales.  
   
-Dracon Dynasty gear is synonymous with the "Bulwark" trait. Their weapons heavily favor devastating kinetic and thermal output, while their armor and vehicular plating prioritize structural integrity over speed, granting a \+20% bonus to Structure Points (SP) and an inherent \+1 DR. Their starships are constructed as "Void Castles," designed to weather overwhelming sieges.  
+Dracon Dynasty gear is synonymous with the "Bulwark" trait. Their weapons heavily favor devastating kinetic and thermal output, while their armor and vehicular plating prioritize structural integrity over speed, granting a +20% bonus to Structure Points (SP) and an inherent +1 DR. Their starships are constructed as "Void Castles," designed to weather overwhelming sieges.  
   
 ###   
   
@@ -240,7 +240,7 @@ Ascendancy technology is highly user-friendly, heavily shielded, and designed fo
   
 Operating on the fringes of the galaxy, the Coalition embraces "Survival Pragmatism". Their aesthetic is "Space Western Noir," defined by the reality that nothing is new and everything is repurposed. Equipment consists of scavenged parts, asymmetrical hulls, exposed wiring, welded patch-jobs, and ubiquitous hazard stripes. Due to sporadic maintenance capabilities, redundancy is prioritized over elegance.  
   
-Coalition equipment possesses the "Jury-Rigged" mechanical trait. These scavenged items are significantly cheaper to acquire, applying a \-5 CR reduction to all acquisition and crafting checks. However, this affordability brings extreme unreliability: on a Natural 1 skill check, the item breaks (permanently disabling a Socket) or triggers a catastrophic failure, such as inflicting 1d4 Fire damage to the operator. Their weaponry heavily favors cheap, loud ballistics and oversized engines bolted haphazardly onto aging frames.  
+Coalition equipment possesses the "Jury-Rigged" mechanical trait. These scavenged items are significantly cheaper to acquire, applying a -5 CR reduction to all acquisition and crafting checks. However, this affordability brings extreme unreliability: on a Natural 1 skill check, the item breaks (permanently disabling a Socket) or triggers a catastrophic failure, such as inflicting 1d4 Fire damage to the operator. Their weaponry heavily favors cheap, loud ballistics and oversized engines bolted haphazardly onto aging frames.  
   
 ###   
   
@@ -248,7 +248,7 @@ Coalition equipment possesses the "Jury-Rigged" mechanical trait. These scavenge
   
 The Alterians treat magic as a rigorous science seamlessly integrated into their engineering, following a philosophy termed "The Long View," where vehicles and tools are works of art designed to endure for centuries. Their aesthetic is "Interstellar Art Nouveau," combining impossible grace, silent propulsion, solar sails, and white ceramic fused intimately with living wood.  
   
-Alterian gear possesses the "Photosynthesis" and "Naturalist" traits. Equipment acts as a solar capacitor, with energy weapons (such as their signature Sun-Lances) and powered tools automatically regenerating charges and ammunition when exposed to direct sunlight. The organic resonance of the living wood grants the user a \+2 bonus to Nature and Survival checks. Their vehicles eschew traditional armor plating, utilizing open, airy cockpit designs protected entirely by advanced force fields.  
+Alterian gear possesses the "Photosynthesis" and "Naturalist" traits. Equipment acts as a solar capacitor, with energy weapons (such as their signature Sun-Lances) and powered tools automatically regenerating charges and ammunition when exposed to direct sunlight. The organic resonance of the living wood grants the user a +2 bonus to Nature and Survival checks. Their vehicles eschew traditional armor plating, utilizing open, airy cockpit designs protected entirely by advanced force fields.  
   
 ###   
   
@@ -264,7 +264,7 @@ Auluran equipment possesses the "Regeneration" and "Symbiosis" traits. The gear 
   
 Operating entirely on "The Code," the Mekan believe that form must follow function instantaneously. Their aesthetic is one of "Fractal Perfection," utilizing perfect geometric shapes (spheres, tetrahedrons), liquid metal hulls, and components held in suspension by powerful magnetic fields.  
   
-Mekan equipment relies heavily on TL 5 Polymatter. This grants the "Integrated Tools" trait, allowing the equipment to autonomously shift its physical form to aid the user, granting a \+2 bonus to Vocation checks. In combat, a Mekan vehicle might reconfigure its entire shape mid-maneuver to adapt to an incoming threat, and their tactical doctrine relies on "Swarm" operations where many small, polymorphic units coalesce to act as a single massive entity.  
+Mekan equipment relies heavily on TL 5 Polymatter. This grants the "Integrated Tools" trait, allowing the equipment to autonomously shift its physical form to aid the user, granting a +2 bonus to Vocation checks. In combat, a Mekan vehicle might reconfigure its entire shape mid-maneuver to adapt to an incoming threat, and their tactical doctrine relies on "Swarm" operations where many small, polymorphic units coalesce to act as a single massive entity.  
   
 ###   
   
@@ -278,7 +278,7 @@ Entari equipment utilizes silent, seamless nanoweave materials, visually communi
   
 ### **The Thorn (Primal Growth)**  
   
-Emphasizing primal growth, Thorn technology is wrapped in bark-plate, vine-wrapped tech, and glowing chlorophyll veins, making it rough, durable, and naturally camouflaged. Thorn gear grants the "Rooted" trait, providing a \+2 bonus to resist Trip or Bull Rush attempts, along with a "Camouflage" trait granting a \+2 Stealth bonus in wilderness environments.  
+Emphasizing primal growth, Thorn technology is wrapped in bark-plate, vine-wrapped tech, and glowing chlorophyll veins, making it rough, durable, and naturally camouflaged. Thorn gear grants the "Rooted" trait, providing a +2 bonus to resist Trip or Bull Rush attempts, along with a "Camouflage" trait granting a +2 Stealth bonus in wilderness environments.  
   
 ###   
   
@@ -318,31 +318,31 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 | **35** | **Heroic** | 163,840 | AI Core, fighter jet, small starship hull. |  
 | **40** | **Legendary** | 655,360 | Corvette-class ship, legendary artifact, fortress. |  
 | **45** | **Mythic** | 2,621,440 | Frigate, resurrection chamber, moon base module. |  
-| **50** | **Transcendent** | 10. MCr | Dreadnought, planetary shield generator. |  
+| **50** | **Transcendent** | 10,485,760 Cr (~10.49 MCr) | Dreadnought, planetary shield generator. |  
   
 ###   
   
 ### **Wealth Score and Purchasing Power**  
   
-Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital. The '99 \- AUGMENTATIONS MATRIX' utilizes Character Points (CP) for biological tolerance; the Equipment Matrix utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (CP invested at character creation) into extrinsic economic power.  
+Character economic power is quantified by the Wealth Score (WS), a static rating of economic leverage representing credit rating, active investments, salary, and social capital. The '99 - AUGMENTATIONS MATRIX' utilizes Character Points (CP) for biological tolerance; the Equipment Matrix utilizes Wealth Score for material acquisition, translating a character's intrinsic potential (CP invested at character creation) into extrinsic economic power.  
   
-The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score. This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase CR \= Crafting CR.  
+The integration of WS and the TSC operates on **The Golden Rule of Tangent Wealth**: A character may automatically purchase any item with a Crafting CR equal to or less than their Wealth Score without depleting liquid Credits or reducing their baseline Wealth Score. This aligns the abstraction of "lifestyle" with the concrete math of item acquisition: Purchase CR = Crafting CR.  
   
 **Expanded Financial Status Hierarchy:**  
   
 | WEALTH STATUS | AUTO-BUY LIMIT | LIFESTYLE DESCRIPTION |  
 | ----- | ----- | ----- |  
 | **0 (Indebted)** | 0 Cr | Debt slavery or prison. |  
-| **1 \- 4 (Impoverished)** | 10 \- 30 Cr | Homeless/Squatter. Scavenges for food. |  
-| **5 \- 9 (Struggling)** | 40 \- 150 Cr | Shared room in slum. Processed rations. |  
-| **10 \- 14 (Middle Class)** | 160 \- 600 Cr | Private apt, steady wage. Consumer vehicle. |  
-| **15 \- 19 (Affluent)** | 640 \- 2,500 Cr | High-end condo. Quality personal vehicle. |  
-| **20 \- 29 (Wealthy)** | 2,500 \- 40,000 Cr | Large estate, servants. Minor corporate investor. |  
-| **30 \- 39 (Hegemon)** | 41K \- 650K Cr | Skyscraper penthouse. Owns small corporation. |  
-| **40 \- 49 (Industrialist)** | 650K \- 10M Cr | Megacorp exec. Owns starships (Corvettes). |  
-| **50 \- 59 (Dynastic)** | 10M \- 167M Cr | Minor nobility. Owns space stations. |  
-| **60 \- 69 (System Lord)** | 167M \- 2.6B Cr | Rules a solar system. Owns capital ships. |  
-| **70 \- 79 (Sector Ruler)** | 2.6B \- 42B Cr | Rules a cluster. Personal flagship is a Dreadnought. |  
+| **1 - 4 (Impoverished)** | 10 - 30 Cr | Homeless/Squatter. Scavenges for food. |  
+| **5 - 9 (Struggling)** | 40 - 150 Cr | Shared room in slum. Processed rations. |  
+| **10 - 14 (Middle Class)** | 160 - 600 Cr | Private apt, steady wage. Consumer vehicle. |  
+| **15 - 19 (Affluent)** | 640 - 2,500 Cr | High-end condo. Quality personal vehicle. |  
+| **20 - 29 (Wealthy)** | 2,500 - 40,000 Cr | Large estate, servants. Minor corporate investor. |  
+| **30 - 39 (Hegemon)** | 41K - 650K Cr | Skyscraper penthouse. Owns small corporation. |  
+| **40 - 49 (Industrialist)** | 650K - 10M Cr | Megacorp exec. Owns starships (Corvettes). |  
+| **50 - 59 (Dynastic)** | 10M - 167M Cr | Minor nobility. Owns space stations. |  
+| **60 - 69 (System Lord)** | 167M - 2.6B Cr | Rules a solar system. Owns capital ships. |  
+| **70 - 79 (Sector Ruler)** | 2.6B - 42B Cr | Rules a cluster. Personal flagship is a Dreadnought. |  
 | **80+ (Faction Ruler)** | 42B+ Cr | Emperor. Economy is post-scarcity. |  
   
 ###   
@@ -353,7 +353,7 @@ A common failure point in abstract wealth systems is the "infinite money loop," 
   
 **The Liquidity Constraint (The Gap Rule):** When a character seeks an item with a CR exceeding their Wealth Score, their passive income cannot cover the transaction. They must bridge the gap with liquid Credits. The required liquid cost is calculated by subtracting the Credit value of the character's Wealth Score from the Credit value of the desired item's CR.  
   
-For example, if an Affluent character (WS 15, Auto-Buy Limit \\~640 Cr) wishes to purchase an advanced Stealth Suit (CR 18, Value \\~1,470 Cr), the character applies their WS 15 leverage to cover the base lifestyle cost, leaving a remainder of 830 Credits that must be paid in liquid cash from their adventuring savings.  
+For example, if an Affluent character (WS 15, Auto-Buy Limit \~640 Cr) wishes to purchase an advanced Stealth Suit (CR 18, Value \~1,470 Cr), the character applies their WS 15 leverage to cover the base lifestyle cost, leaving a remainder of 830 Credits that must be paid in liquid cash from their adventuring savings.  
   
 **Liquidity Drag (The Fence Rate):** To further prevent market abuse, the economy imposes Liquidity Drag. In real-world economics and RPG simulations, the "Buy" price and "Sell" price are never identical due to fencing effort, market saturation, and legality. The Sell Price of an item is heavily reduced:  
   
@@ -387,15 +387,15 @@ The Tool Tier Multiplier is the critical variable that allows the timeline to sc
 * **Bio (Cultivation):** x1,000 Multiplier. Hyper-Growth Vats (Auluran/Kitin) where items are grown in accelerated nutrient tanks. Requires Medicine/Nature and Engineering checks.   
 * **Tier 5 (Genesis):** x5,000 Multiplier. Thought-responsive Polymatter loom, Holophotonics or Wish-level metaphysical fabrication.  
   
-Under this engine, a Mastercraft Titan Mech Suit (CR 30, Target PP \= 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build. However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.  
+Under this engine, a Mastercraft Titan Mech Suit (CR 30, Target PP = 40,960) would take a hobbyist with Basic Tools (x10) over 409 days to build. However, an advanced engineering character utilizing a Nanoforge (x1,000) with a high check result can materialize the identical Mech Suit in less than two days.  
   
 ###   
   
 ### **Macro-Scale Construction and Faction Labor Pools**  
   
-For astronomical projects like a Dreadnought (CR 50, Value \\~10. Million Cr) or a Titanic Arcology (CR 60+, Value \\~167 Million Cr), individual crafting is physically impossible. Factions utilize **Labor Pools** to execute macro-scale construction. The Daily PP output is simply the sum of individual workers.  
+For astronomical projects like a Dreadnought (CR 50, Value \~10. Million Cr) or a Titanic Arcology (CR 60+, Value \~167 Million Cr), individual crafting is physically impossible. Factions utilize **Labor Pools** to execute macro-scale construction. The Daily PP output is simply the sum of individual workers.  
   
-A shipyard employing 1,000 engineers operating Industrial (x200) tools can generate 1,000,000 PP per day, completing a capital ship in roughly 10. days. This macro-economic logic drives factional warfare; maintaining these shipyards requires an uninterrupted flow of massive liquid capital (5. Million Cr in raw materials per ship), forcing factions to fight for territorial resources to keep their production engines fed.  
+A shipyard employing 1,000 engineers operating Industrial (x200) tools can generate 1,000,000 PP per day, completing a capital ship in roughly 10.5 days. This macro-economic logic drives factional warfare; maintaining these shipyards requires an uninterrupted flow of massive liquid capital (5,242,880 Cr / ~5.24 Million Cr in Pristine Materials at 50% per ship), forcing factions to fight for territorial resources to keep their production engines fed.  
   
 ##   
   
@@ -414,13 +414,12 @@ A shipyard employing 1,000 engineers operating Industrial (x200) tools can gener
 * **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
 * **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
 
-
 ---
 
 ## DISCREPANCY & RESTORATION LEDGER (DISC-550)
 
 * **Target Path:** `architect/technology/equipment/99.Tech.Equipment.Framework.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - EQUIPMENT` & `/game rules/architect/technology/equipment/99.Tech.Equipment.Framework.md`
+* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - EQUIPMENT` & `/game_rules/architect/technology/equipment/99.Tech.Equipment.Framework.md`
 * **Restoration & Normalization Log:**
   * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
   * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).

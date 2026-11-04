@@ -27,15 +27,11 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
   - **Description:** This skill covers proficiency with hand-held weaponry designed for close-quarters combat. It encompasses everything from simple clubs to elegant rapiers. It reflects a character’s ability to strike accurately and forcefully with extended reach or heavy implements.
   - **Game Mechanics:**
 
-<!-- end list -->
-
-  - **Attack Roll:** 2d10 + Melee Rank + Strength Mod vs. Target Defense.
+- **Attack Roll:** 2d10 + Melee Rank + Strength Mod vs. Target Defense.
   - **Damage:** Weapon Damage Dice + Strength Mod.
   - **Reach:** Some melee weapons (Polearms) allow attacks from 10ft away.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Daggers & Combat Knives:** Swift, lethal slashes, throat cuts, and reverse-grip thrusts inside grappling range.
       - **One-Handed Swords:** Fencing with rapiers, sabers, and arming swords utilizing precision point-work and lunges.

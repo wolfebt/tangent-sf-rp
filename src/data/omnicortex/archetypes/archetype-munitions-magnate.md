@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Munitions Magnate
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Merchant / Tech / Heavy Support  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.
 
-> *You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*
+*You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*
 
-> _"I don't pull the trigger. I just ensure it works when you do."_
-
-## Tactical Role
-Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords.
-
-## Essential Skills
-- Diplomacy
-- Insight
-- Knowledge (Technology)
-- Streetwise
-
-## Signature Features
-- Weapons Expert
-- Black Market Connections
-
-## Recommendations
-- **Occupations**: Merchant, Criminal
-- **Origins**: Industrial, Urban, Militaristic
-- **Factions**: Syndicate (Arms Division), Coalition (Gun-Runners), Impyrium (Heirloom Brokers)
-
-
-## Extended Lore & Background
-
-Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.  
-*You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*  
 *"I don't pull the trigger. I just ensure it works when you do."*
 
+  - **Core Concept:** Merchant / Tech / Heavy Support
+  - **Recommended Occupations:** Merchant, Criminal.
+  - **Recommended Origins:** Industrial, Urban, Militaristic.
+  - **Recommended Factions:** Syndicate (Arms Division), Coalition (Gun-Runners), Impyrium (Heirloom Brokers).
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (Technology), Streetwise.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Weapons Expert, Black Market Connections.
+  - **Tactical Role:** Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords.

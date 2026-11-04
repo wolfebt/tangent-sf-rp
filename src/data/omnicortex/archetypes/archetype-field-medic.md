@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Field Medic
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Healer / Light Infantry  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Agility  
 
-## Overview
 Provides emergency medical care under fire. Proficient in both combat and medicine.
 
-> *You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*
+*You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*
 
-> _"I decide who walks away from this. Don't make me regret choosing you."_
-
-## Tactical Role
-Keep the tank alive, revive downed allies, provide light fire support.
-
-## Essential Skills
-- Medicine
-- Athletics
-- Combat (Rifle/Pistol)
-
-## Signature Features
-- Field Triage
-- Combat Medic
-
-## Recommendations
-- **Occupations**: Soldier, Specialist
-- **Origins**: Militaristic, Colony, Spacer
-- **Factions**: Coalition (Combat Medics), Auluran (Healer Caste), Outworlds (Sawbones)
-
-
-## Extended Lore & Background
-
-Provides emergency medical care under fire. Proficient in both combat and medicine.  
-*You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*  
 *"I decide who walks away from this. Don't make me regret choosing you."*
 
+  - **Core Concept:** Healer / Light Infantry
+  - **Recommended Occupations:** Soldier, Specialist.
+  - **Recommended Origins:** Militaristic, Colony, Spacer.
+  - **Recommended Factions:** Coalition (Combat Medics), Auluran (Healer Caste), Outworlds (Sawbones).
+  - **Key Attributes:** Wisdom (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Medicine, Athletics, Combat (Rifle/Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Field Triage, Combat Medic.
+  - **Tactical Role:** Keep the tank alive, revive downed allies, provide light fire support.

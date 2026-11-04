@@ -30,6 +30,7 @@ const PREFERRED_OP_MASTER_ORDER = [
 const PREFERRED_ARCH_MASTER_ORDER = [
   '00.00 GM GUIDELINES.md',
   '02 ECONOMY AND WEALTH.md',
+  '05.00.CosmicEntities.md',
   '99. MODULAR CHARACTER MATRIX.md',
   '99. MODULAR SPECIES MATRIX.md',
   '99. MODULAR FACTION MATRIX.md',
@@ -534,7 +535,8 @@ function formatArticleDisplayName(fileObj) {
       .replace(/\s+/g, ' ')
       .trim();
     if (fileObj.relBranch === 'architect') {
-      return formatted.replace(/^(?:02|99\.?|\d+(?:\.\d+)*\.?)\s*[-—:]?\s*/i, '').trim();
+      const stripped = formatted.replace(/^(?:02|99\.?|\d+(?:\.\d+)*\.?)\s*[-—:.]?\s*/i, '').trim();
+      return stripped.replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase();
     }
     return formatted;
   }

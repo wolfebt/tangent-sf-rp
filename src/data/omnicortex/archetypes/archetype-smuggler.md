@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Smuggler
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Transport / Stealth / Face  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Charisma  
 
-## Overview
 Specializes in transporting illegal goods across borders.
 
-> *You move the unmovable. You know the secret routes and the bribe-friendly guards. You deliver the goods, no questions asked, right under the noses of authority.*
+*You move the unmovable. You know the secret routes and the bribe-friendly guards. You deliver the goods, no questions asked, right under the noses of authority.*
 
-> _"I run a clean ship. Mostly."_
-
-## Tactical Role
-Transporting illicit cargo, bypassing blockades, fast talk.
-
-## Essential Skills
-- Piloting
-- Stealth
-- Acrobatics
-- Diplomacy
-
-## Signature Features
-- Evasive Maneuvers
-- Hidden Compartments
-
-## Recommendations
-- **Occupations**: Merchant, Criminal
-- **Origins**: Spacer, Urban, Colony
-- **Factions**: Outworlds, Coalition, Syndicate (Black Market)
-
-
-## Extended Lore & Background
-
-Specializes in transporting illegal goods across borders.  
-*You move the unmovable. You know the secret routes and the bribe-friendly guards. You deliver the goods, no questions asked, right under the noses of authority.*  
 *"I run a clean ship. Mostly."*
 
+  - **Core Concept:** Transport / Stealth / Face
+  - **Recommended Occupations:** Merchant, Criminal.
+  - **Recommended Origins:** Spacer, Urban, Colony.
+  - **Recommended Factions:** Outworlds, Coalition, Syndicate (Black Market).
+  - **Key Attributes:** Agility (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Piloting, Stealth, Acrobatics, Diplomacy.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Evasive Maneuvers, Hidden Compartments.
+  - **Tactical Role:** Transporting illicit cargo, bypassing blockades, fast talk.

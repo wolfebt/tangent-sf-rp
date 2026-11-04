@@ -45,40 +45,18 @@ cp_chassis: 80
 
 # The Navigator
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Transport / Support / Explorer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A skilled pilot and navigator who charts the course for ships.
 
-> *You know the way. The void is vast and trackless, but you never lose your way. You guide the ship through the dark, avoiding hazards and finding the fastest route to your destination.*
+*You know the way. The void is vast and trackless, but you never lose your way. You guide the ship through the dark, avoiding hazards and finding the fastest route to your destination.*
 
-> _"Trust my headings. I've never lost a ship yet."_
-
-## Tactical Role
-Plotting FTL jumps, navigating hazards, mapping sectors.
-
-## Essential Skills
-- Knowledge (Navigation)
-- Pilot
-- Knowledge (Technology)
-
-## Signature Features
-- Cartographer
-- Ace Pilot
-
-## Recommendations
-- **Occupations**: Spacer, Specialist
-- **Origins**: Spacer, Research, Colony
-- **Factions**: Ascendancy (Reach Explorers), Impyrium (Navigators Guild), Outworlds
-
-
-## Extended Lore & Background
-
-A skilled pilot and navigator who charts the course for ships.  
-*You know the way. The void is vast and trackless, but you never lose your way. You guide the ship through the dark, avoiding hazards and finding the fastest route to your destination.*  
 *"Trust my headings. I've never lost a ship yet."*
 
+  - **Core Concept:** Transport / Support / Explorer
+  - **Recommended Occupations:** Spacer, Specialist.
+  - **Recommended Origins:** Spacer, Research, Colony.
+  - **Recommended Factions:** Ascendancy (Reach Explorers), Impyrium (Navigators Guild), Outworlds.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Navigation), Pilot, Knowledge (Technology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cartographer, Ace Pilot.
+  - **Tactical Role:** Plotting FTL jumps, navigating hazards, mapping sectors.

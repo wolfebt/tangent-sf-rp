@@ -75,87 +75,286 @@ costs:
 modifiers: []
 ---
 
-# Militaristic Origin
+# 1.05.08. ORIGIN: MILITARISTIC (+0 WS)
 
-**Category**: Origins  
-**Habitat**: Military Stronghold  
-**EUFT Wealth Score Modifier**: +0 (Garrison or fortress world; strictly controlled military logistics and stipends.)  
-**Starting Skill Points**: 20 SP (allocated to Society Skills)  
-**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)
+* **Focus Statement:** The complete unabridged planetary upbringing, Society Skill (`20 SP`), Origin Trait (`2 Free at 0 CP`), EUFT Wealth (`+0 WS`), and 11-Faction CRISP Scenery module for `1.05.Militaristic.md` in **Tangent SF RP**.
 
-## Description
-Whether a fortified border fortress, orbital garrison, or dedicated planetary training ground, a pervasive military hierarchy governs every aspect of daily life. Fortified bunkers and security corridors prevail.
+## Overview & Mechanical Authority Block
 
-## Society Skills (20 SP Pool)
-- Combat (Any)
-- Physical (Any)
-- Vocation (Any)
-- Alertness
-- Tactics
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-## Typical Archetypes / Native Vocations
-- Shock Trooper
-- Sharpshooter
-- Combat Medic
-- Tactician
-- Military Engineer
-- Military Intelligence Officer
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-## Origin Traits (2 Free Selections, Additional 1 CP Each)
-### Combat Trained
-Rigorous drills in small-arms tactics, hand-to-hand combat, and tactical room-clearing.  
-*Bonus*: **+2 to a Combat Skill of choice**
+## Part I — Alignment & Summary Matrix Table
 
-### Disciplined
-Iron resolve, strict adherence to chain-of-command, and composure under enemy artillery fire.  
-*Bonus*: **+2 Soldier Vocation**
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Origin Overview & Society Skills** | `operator/origins/1.05.Militaristic.md (Sec. I)` | 20 SP Pool (Athletics, Alertness, Intimidate, Knowledge (History, Tactics), Combat (Any)) | +0 WS | Establishes habitat upbringing, Society Skill eligibility, and EUFT starting Wealth Score modifier. |
+| **Narrative & Consolidated Origin Traits** | `operator/origins/1.05.Militaristic.md (Sec. II)` | Select 2 Free Traits (0 CP) | +1 CP per Extra Trait | Provides both full Codex narrative trait descriptions and modernized `/game_rules` mechanical trait bonuses. |
+| **11-Faction CRISP Scenery Matrix** | `Codex 1.05 ORIGIN GUIDELINES` | 10 Major Factions + Kitin Collective Scenery Profiles | Complete environmental Context, Style, Palette, and Tokens across all 11 galactic polities. |
 
-### Honor-bound
-Unshakable personal code of honor, willing to lay down one’s life to protect comrades.  
-*Bonus*: **Any One check per day at Advantage, but must be for another**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-### Leadership
-Proven battlefield command experience inspiring fireteams to advance against overwhelming odds.  
-*Bonus*: **+2 Leadership Checks**
+### I. Canonical Origin Profile & Modernized Game Data (`operator/origins/1.05.Militaristic.md`)
 
-### Loyal
-Steadfast fidelity to battalion and squadmates, rendering mind control and betrayal abhorrent.  
-*Bonus*: **Domination and Mind-Control Resistance Checks are made at Advantage**
+* **Executive Summary:** Fortress worlds, fleet academies, and martial bastions where every citizen is drilled from youth in the art of war (Aurelia, Draconis).
+* **EUFT Starting Wealth Modifier:** **+0 WS**
+* **Canonical Society Skills (20 SP Allocation):** Athletics, Alertness, Intimidate, Knowledge (History, Tactics), Combat (Any), Physical (Any), Vocation (Any)
+* **Typical Archetypes:** Cadet, Shock Trooper, Legionnaire, Tactical Officer, Quartermaster, Sharpshooter, Combat Medic, Tactician, Military Engineer, Military Intelligence Officer
 
-### Milspec Gear
-Trained to utilize and field-strip military-grade ordinance and tactical armor.  
-*Bonus*: **+2 Equipment**
+# **MILITARISTIC**
 
-### Pilot Skills
-High-speed tactical dropship, attack gunship, and armored personnel carrier operation.  
-*Bonus*: **+2 Piloting**
+Whether an outpost, training facility or some other strategic world, there is a governing military presence
 
-### Strategic
-Deep understanding of tactical staging, supply lines, crossfire corridors, and coordinated assaults.  
-*Bonus*: **Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score + 2**
+Structures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.
 
-### Tough
-Rugged physical resilience and mental endurance forged through harsh bootcamp conditioning.  
-*Bonus*: **+1 Fortitude and Willpower Checks**
+## **Society Skills**
 
-
-## Extended Lore & Background
-### Origin Overview
-Whether an outpost, training facility or some other strategic world, there is a governing military presence. Structures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.
-
-### Society Skills (20 SP Pool)
 Physical (any), Vocation (any), Combat (any)
 
-### Typical Archetypes
-Shock Trooper, Sharpshooter, Combat Medic, Tactician, Military Engineer, Military Intelligence Officer
+## **Archetypes**
 
-### Origin Traits (Select 2 Free; Additional 1 CP each)
-- **Combat Trained**: Specialized weapon drills and tactical combat. (+2 to a Combat Skill of choice)
-- **Disciplined**: Unwavering protocol adherence. (+2 Soldier Vocation)
-- **Honor-bound**: Self-sacrifice for battalion honor. (Any One check per day at Advantage, but must be for another)
-- **Leadership**: Commanding squad formations. (+2 Leadership Checks)
-- **Loyal**: Mental resistance to betrayal and psychic intrusion. (Domination and Mind-Control Resistance made at Advantage)
-- **Milspec Gear**: Familiarity with heavy ordinance. (+2 Equipment)
-- **Pilot Skills**: Military drop-craft and vehicle maneuvers. (+2 Piloting)
-- **Strategic**: Mission planning granting operational bonus pool. (Allies gain bonus pool equal to INT score + 2)
-- **Tough**: Physical and psychological resilience. (+1 Fortitude and Willpower Checks)
+Shock Trooper
+
+Sharpshooter
+
+Combat Medic
+
+Tactician
+
+Military Engineer
+
+Military Intelligence Officer
+
+## **Traits**
+
+### *Combat Trained*
+
+Skilled in combat, with training in various weapons and tactics. Proficient in hand-to-hand combat, firearms, explosives, or other specialized skills.
+
+*\+2 to a Combat Skill of choice*
+
+### *Disciplined*
+
+Highly disciplined, following orders and adhering to strict protocols. Strong sense of duty and loyalty to commanding officers and fellow soldiers.
+
+*\+2 Soldier Vocation*
+
+### *Honor-bound*
+
+Strong sense of honor and duty. Willing to put themselves in harm's way to protect others or giving up personal desires for the greater good.
+
+*Any One check per day at Advantage, but must be for another*
+
+### *Leadership*
+
+Experience in leading troops. Skilled at inspiring and motivating others to follow their lead.
+
+*\+2 Leadership Checks*
+
+### *Loyal*
+
+Strong sense of loyalty to comrades and mission. Willing to sacrifice themselves for the greater good.
+
+*Domination and Mind-Control Resistance Checks are made at Advantage*
+
+### *Milspec Gear*
+
+Access to military grade hardware.
+
+*\+2 Equipment*
+
+### *Pilot Skills*
+
+Experienced piloting various military craft.
+
+*\+2 Piloting*
+
+### *Strategic*
+
+Experience in planning and executing missions. Skilled at analyzing the battlefield and making strategic decisions.
+
+*Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score \+2*
+
+### *Tough*
+
+Physically and mentally tough, able to withstand harsh conditions and endure long periods of stress and danger.
+
+*\+1 Fortitude and Willpower Checks*
+
+## Consolidated & Modernized Origin Traits (Select 2 Free | +1 CP per Extra Trait)
+
+*(Players may select their 2 free Origin Traits from either the narrative traits above or the consolidated mechanical traits below.)*
+
+* **Chain of Command:** +2 to Leadership and Knowledge (Tactics) checks.
+* **Combat Training:** +2 to one Combat Skill of choice (or +1 Attack with a chosen weapon group).
+* **Drill Conditioning:** +1 to Might and Fortitude Saving Throws.
+* **Iron Discipline:** +2 to Willpower Saving Throws against Fear and Intimidation.
+* **Rapid Deployment:** +2 to Initiative checks.
+* **Tactical Coordination:** Grants an additional +1 bonus when aiding an ally in combat.
+
+## **Origin Scenery & Visual Synthesis (CRISP 11-Faction Matrix)**
+
+## **08\. MILITANT**
+
+*War, defense, training, fortification, bunkers.*
+
+### **IMPYRIUM**
+
+* **CONTEXT:** Crenelated walls of plasteel and stone. Rows of tanks. Banners flapping. Parades of soldiers in identical armor.  
+* **STYLE:** Legion Fortress, Fascist Architecture.  
+* **PALETTE:** Stone Grey, Blood Red, Steel, Searchlight White.  
+* **TOKENS:** Walls, tanks, soldiers, flags, discipline.
+
+### **SYNDICATE**
+
+* **CONTEXT:** High-tech situation rooms with holographic globes. Drone hangars. Elite operatives prepping gear. Clean, expensive, lethal.  
+* **STYLE:** PMC Command Hub, Spec Ops.  
+* **PALETTE:** Tactical Black, Screen Blue, Gunmetal, White.  
+* **TOKENS:** Screens, drones, weapons, maps, cool.
+
+### **DYNASTY**
+
+* **CONTEXT:** A castle designed for aerial defense. Anti-air flak cannons on medieval towers. Knights sparring with energy lances.  
+* **STYLE:** Dragon's Keep, Sci-Fi Castle.  
+* **PALETTE:** Stone Grey, Iron, Shield Heraldry Colors, Sky.  
+* **TOKENS:** Towers, cannons, knights, shields, sparring.
+
+### **OUTWORLDS**
+
+* **CONTEXT:** Sandbag walls, technicals (trucks with guns), guerrilla fighters cleaning weapons. Hidden in caves or canyons.  
+* **STYLE:** Militia Compound, Rebel Base.  
+* **PALETTE:** Camo Green/Brown, Sandbags, Rust, Dust.  
+* **TOKENS:** Trucks, guns, sandbags, caves, grit.
+
+### **COALITION**
+
+* **CONTEXT:** Bars full of soldiers for hire. Weapons markets. Dropships loading up. Gritty, scarred veterans.  
+* **STYLE:** Mercenary Port, Blackwater Base.  
+* **PALETTE:** Cargo Container colors, Gunmetal, Cigarette Smoke Grey.  
+* **TOKENS:** Dropships, crates, guns, scars, money.
+
+### **AULURAN**
+
+* **CONTEXT:** Living walls of razor-sharp vines. Bio-acid turrets. Soldiers in chitin armor blending with the foliage.  
+* **STYLE:** Thorn-Wall, Bio-Fortress.  
+* **PALETTE:** Thorn Brown, Poison Green, Chitin Black.  
+* **TOKENS:** Thorns, acid, camouflage, jungle, defense.
+
+### **ALTERIAN ENCLAVE**
+
+* **CONTEXT:** Tall, lonely towers watching the borders. Archers with energy bows. Magical wards glowing in the air.  
+* **STYLE:** Sentinel Spire, Elven Watchtower.  
+* **PALETTE:** White Stone, Magic Blue, Sky, Silver.  
+* **TOKENS:** Towers, bows, magic fields, vigilance.
+
+### **ASCENDANCY**
+
+* **CONTEXT:** Clean training grounds. Simulators. Non-lethal weapon drills. Bright, heroic atmosphere.  
+* **STYLE:** Peacekeeper Academy, Starfleet Ops.  
+* **PALETTE:** Uniform Blue, Clean White, Grass Green, Training Orange.  
+* **TOKENS:** Obstacle course, simulators, uniforms, flags.
+
+### **ENTARI COMBINE**
+
+* **CONTEXT:** High-tech security checkpoints. Scanners, customs officers in crisp uniforms. Defense purely for profit protection.  
+* **STYLE:** Trade Guard Station, Customs.  
+* **PALETTE:** Police Blue, White, Scanner Red, Metal.  
+* **TOKENS:** Gates, scanners, barriers, uniforms, order.
+
+### **MEKAN**
+
+* **CONTEXT:** Automated turret fields. No cover. Mathematical firing lines. Drones on patrol loops.  
+* **STYLE:** Kill-Box, Turret Defense.  
+* **PALETTE:** Laser Red, Concrete Grey, Gunmetal.  
+* **TOKENS:** Turrets, sensors, lasers, walls, no humans.
+
+### **KITIN COLLECTIVE (THE STAR HIVE)**
+
+* **CONTEXT:** A fortified stagingbastionringed by Spire-Sentry bio-plasma batteries and Vibration Anchors. Thousands of Murex infantry and Apex-Cutter walkers stand in absolute, silent telepathic lockstep beneath orbital Void-Terror dreadnoughts.
+* **STYLE:** Swarm Staging Citadel, Total Psionic Lockstep.
+* **PALETTE:** Carapace Obsidian, Bio-Plasma Crimson/Cyan, Vein Emerald, Warning Amber.
+* **TOKENS:** Spire-Sentry batteries, synchronized phalanxes, bio-lances, orbital hive-ships, zero individuality.
+
+### II. Complete Unabridged Codex Origin Entry (`1.05_MILITARISTIC`)
+
+MILITARISTIC
+Whether an outpost, training facility or some other strategic world, there is a governing military presence
+Structures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.
+
+Society Skills
+(Select 20 skill levels from listed options)
+Physical (any), Vocation (any), Combat (any)
+
+Archetypes
+Shock Trooper
+Sharpshooter
+Combat Medic
+Tactician
+Military Engineer
+Military Intelligence Officer
+
+Traits
+(Select 2 and may purchase others for 1 cp each)
+Combat Trained
+Skilled in combat, with training in various weapons and tactics. Proficient in hand-to-hand combat, firearms, explosives, or other specialized skills.
++2 to a Combat Skill of choice
+
+Disciplined
+Highly disciplined, following orders and adhering to strict protocols. Strong sense of duty and loyalty to commanding officers and fellow soldiers.
++2 Soldier Vocation
+
+Honor-bound
+Strong sense of honor and duty. Willing to put themselves in harm's way to protect others or giving up personal desires for the greater good.
+Any One check per day at Advantage, but must be for another
+
+Leadership
+Experience in leading troops. Skilled at inspiring and motivating others to follow their lead.
++2 Leadership Checks
+
+Loyal
+Strong sense of loyalty to comrades and mission. Willing to sacrifice themselves for the greater good.
+Domination and Mind-Control Resistance Checks are made at Advantage
+
+Milspec Gear
+Access to military grade hardware.
++2 Equipment
+
+Pilot Skills
+Experienced piloting various military craft.
++2 Piloting
+
+Strategic
+Experience in planning and executing missions. Skilled at analyzing the battlefield and making strategic decisions.
+Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score +2
+
+Tough
+Physically and mentally tough, able to withstand harsh conditions and endure long periods of stress and danger.
++1 Fortitude and Willpower Checks
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/origins/1.05.Militaristic.md`
+* **Codex Sources Compared:** Codex `1.05 MILITARISTIC` and `1.05 ORIGIN GUIDELINES` (`1-aZpG0g9b0RuFfBbQiE8hz27YgiRmbGBMh54zZlhIZ4`).
+* **Audit Findings:** Verified 100% preservation of all narrative trait paragraphs, archetypes, Society Skills (`20 SP` at `0 CP`), and 11-Faction CRISP environmental scenery profiles, while enforcing `/game_rules` mechanical authority (`+0 WS`, canonical skill names, and `1 CP` per extra trait).
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-105-MIL-1 (Unabridged Codex Narrative & Trait Preservation):** Preserved both the full narrative Codex trait entries and the consolidated `/game_rules` trait catalog for `1.05.Militaristic.md` with zero redactions or ellipses.
+* **DISC-105-MIL-2 (Mechanical Authority & Skill Normalization):** Enforced `+0 WS` EUFT Wealth Score modifier, `20 SP` Society Skill allocation at `0 CP`, `2 Free Traits` at `0 CP` (`+1 CP` per extra trait), and canonical skill nomenclature (`Vocation (Handler)`, `Alertness`, `Knowledge (Language)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

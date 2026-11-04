@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Ambassador is the skill of negotiating and representing one's country or organization. It reflects a character's ability to communicate effectively with people from different cultures and backgrounds, negotiate treaties, and represent one's country or organization in a foreign land. Ambassador is used whenever a character needs to promote their country's interests and maintain good relations with other countries. This can include things like negotiating trade agreements, resolving disputes, and building alliances. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Protocol:* CR 15 to know the correct etiquette for a specific alien court.
+- *Protocol:* CR 15 to know the correct etiquette for a specific alien court.
   - *Negotiate Treaty:* Opposed check vs. rival Ambassador.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **First Contact Protocols:** Establishing non-hostile communications with uncontacted or newly awakened species.
       - **Bilateral Treaty Negotiation:** Drafting peace accords, borders, and non-aggression treaties between factions.

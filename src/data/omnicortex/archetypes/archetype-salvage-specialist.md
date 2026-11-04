@@ -50,43 +50,20 @@ negative_keywords: 'mindless-brute, reckless, illiterate'
 cp_chassis: 80
 ---
 
-# The Salvage-specialist
+# The Salvage-Specialist
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Scavenging / Utility / Tech  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Intellect  
 
-## Overview
 The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage.
 
-> *You find treasure in trash. You know that the most valuable tech is often buried under tons of radioactive scrap or hidden in the heart of a failing starbase. You are the scavenger-king of the void.*
+*You find treasure in trash. You know that the most valuable tech is often buried under tons of radioactive scrap or hidden in the heart of a failing starbase. You are the scavenger-king of the void.*
 
-> _"One man's debris is my next month's salary."_
-
-## Tactical Role
-Extracting materials from environment, bypassing mechanical hurdles, locating hidden loot.
-
-## Essential Skills
-- Vocation (Salvager)
-- Knowledge (Technology)
-- Vocation (Engineer)
-- Investigation
-
-## Signature Features
-- Junk Whisperer
-- Technical Expertise
-
-## Recommendations
-- **Occupations**: Spacer, Specialist
-- **Origins**: Spacer, Industrial, Colony
-- **Factions**: Outworlds (Wreckers), Mekan (Resource Converters), Coalition
-
-
-## Extended Lore & Background
-
-The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage.  
-*You find treasure in trash. You know that the most valuable tech is often buried under tons of radioactive scrap or hidden in the heart of a failing starbase. You are the scavenger-king of the void.*  
 *"One man's debris is my next month's salary."*
 
+  - **Core Concept:** Scavenging / Utility / Tech
+  - **Recommended Occupations:** Spacer, Specialist.
+  - **Recommended Origins:** Spacer, Industrial, Colony.
+  - **Recommended Factions:** Outworlds (Wreckers), Mekan (Resource Converters), Coalition.
+  - **Key Attributes:** Strength (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Salvager), Knowledge (Technology), Vocation (Engineer), Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Junk Whisperer, Technical Expertise.
+  - **Tactical Role:** Extracting materials from environment, bypassing mechanical hurdles, locating hidden loot.

@@ -49,41 +49,18 @@ cp_chassis: 80
 
 # The Strategist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Utility / Investigation / Puzzle Solver  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss.
 
-> *You are the logic engine. You take the chaotic noise of the world and distill it into actionable data. You find the needle in the haystack, the flaw in the plan, and the weakness in the armor.*
+*You are the logic engine. You take the chaotic noise of the world and distill it into actionable data. You find the needle in the haystack, the flaw in the plan, and the weakness in the armor.*
 
-> _"The probability of success increases by 40% if you stop screaming."_
-
-## Tactical Role
-Identify enemy weaknesses, crack codes, reconstruct crime scenes.
-
-## Essential Skills
-- Knowledge (Investigation)
-- Insight
-- Knowledge (Technology)
-- Alertness
-
-## Signature Features
-- Enhanced Processing
-- Logical Deduction
-
-## Recommendations
-- **Occupations**: Scholar, Specialist, Agent
-- **Origins**: Research, Urban, Militaristic
-- **Factions**: Mekan (Logic Engines), Impyrium (Tacticians), Ascendancy
-
-
-## Extended Lore & Background
-
-A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss.  
-*You are the logic engine. You take the chaotic noise of the world and distill it into actionable data. You find the needle in the haystack, the flaw in the plan, and the weakness in the armor.*  
 *"The probability of success increases by 40% if you stop screaming."*
 
+  - **Core Concept:** Utility / Investigation / Puzzle Solver
+  - **Recommended Occupations:** Scholar, Specialist, Agent.
+  - **Recommended Origins:** Research, Urban, Militaristic.
+  - **Recommended Factions:** Mekan (Logic Engines), Impyrium (Tacticians), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Insight, Knowledge (Technology), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Enhanced Processing, Logical Deduction.
+  - **Tactical Role:** Identify enemy weaknesses, crack codes, reconstruct crime scenes.

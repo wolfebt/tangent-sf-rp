@@ -27,13 +27,9 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** String is the skill of playing string instruments like guitar or violin. It reflects a character's ability to create music using strings. String is used whenever a character needs to create music or perform in a musical production.Proficiency with instruments that produce sound via vibrating strings, whether plucked, strummed, or bowed.
   - **Mechanics:**
 
-<!-- end list -->
+- *Performance:* Standard performance mechanics.
 
-  - *Performance:* Standard performance mechanics.
-
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Electric Guitar:** Shredding high-gain lead solos, tapping fretboards, and chugging heavy distorted rhythm riffs.
       - **Acoustic Guitar:** Fingerpicking, flatpicking, and strumming steel-string and nylon acoustic guitars.

@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Laborer is the skill of performing manual tasks, such as digging ditches, carrying heavy objects, or building structures. It reflects a character's ability to perform physical labor and complete tasks that require strength and endurance. Workers are responsible for completing manual tasks safely and efficiently. This can include things like digging ditches, carrying heavy objects, and building structures. Laborers will be knowledgeable of various tools and equipment of the trade.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Endurance Work:* CR 15 to work a double shift without fatigue.
+- *Endurance Work:* CR 15 to work a double shift without fatigue.
   - *Operate Heavy Machinery:* CR 10 to use forklifts, drills, or exosuits for work (not combat).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Dockworking & Stevedoring:** Unloading shipping containers, rigging cranes, and securing cargo nets on docks.
       - **Deep Shaft Mining:** Wielding jackhammers, swinging pickaxes, mucking ore, and timbering mine shafts.

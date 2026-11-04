@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-species-matrix"
-order: 13
+order: 14
 perspective: "architect"
 entry_type: "Species Design Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","species","99.species.chassisandmovement","matrix"]
-updatedAt: "2026-11-03T10:56:24.812Z"
+updatedAt: "2026-11-04T00:33:10.433Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,15 @@ sockets:
 ---
 
 # **99.Species.ChassisAndMovement.md**
+
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **III. The Master Catalog (Source of Truth)**
 
@@ -132,8 +141,6 @@ This type encompasses sapient botanical and fungal creatures.
 - **Physical Immunity:** Immune to paralysis, poison, polymorph, sleep effects, and stunning \[3 CP\].
 - **Physiology:** Verdants breathe and eat (or photosynthesize), but do not sleep (unless for beneficial effects/Essence regain) \[2 CP\].
 
----
-
 ### **2. Species Size Categories**
 
 | Size Category | CP Cost | Attribute, Combat & Scaling Modifiers | Dimensions / Examples |
@@ -144,8 +151,6 @@ This type encompasses sapient botanical and fungal creatures.
 | **Small** | **2 CP** | **Stats:** +2 AGI, -2 STR \| **Combat Mod:** +2 \| **Dmg:** -1 die size \| **Speed:** -5 ft \| **Stability:** -4 | 2 to 4 ft / 8 to 60 lbs *(Koban, Chimpanzee, Lynx, Scooter)* |
 | **Tiny** | **4 CP** | **Stats:** +4 AGI, -4 STR \| **Combat Mod:** +4 \| **Dmg:** -2 die size \| **Speed:** -10 ft \| **Stability:** -8 | 1 to 2 ft / 1 to 8 lbs *(Asi Fey, House Cat, Hawk, Skateboard)* |
 | **Diminutive** | **6 CP** | **Stats:** +8 AGI, -8 STR \| **Combat Mod:** +8 \| **Dmg:** -3 die size \| **Speed:** -10 ft \| **Stability:** -16 | 6 to 12 in / < 1 lb *(Micro-Swarm, Rat, Sparrow, Mini-Drone)* |
-
----
 
 ### **3. Species Movement Modes**
 
@@ -173,8 +178,6 @@ All speeds listed are calibrated for Medium-sized species (apply Size Category m
 | **Hauler** | **1 CP** | Not encumbered by carrying a Heavy Load. |
 | **Marcher** | **1 CP** | Accumulates half fatigue when moving overland at a regular forced-march pace. |
 
----
-
 ### **4. Species Attributes & Skill Packages (Rule 9 Universal Straight Pricing)**
 
 Both inside a **Species Package** (`operator/1.03 SPECIES.md` and `architect/99. MODULAR SPECIES MATRIX.md`) and during **Character Creation Customization** (`operator/1.01 CHARACTER CREATION.md`), biological Attribute adjustments and Skill allocations use straight, undiscounted Character Point values:
@@ -190,8 +193,6 @@ Both inside a **Species Package** (`operator/1.03 SPECIES.md` and `architect/99.
 | **Reduced Attribute (Penalty)** | **-5 CP per -1** | -5 CP per -1 | **-1** species penalty to an Attribute Score (refunds 5 CP). |
 | **Species Skill Package** | **5 CP per 5 Ranks (1 CP/Rank)** | 1 CP per 1 Rank (5 CP for 5) | **+5 Species Skill Ranks** in a specified skill set or group (10 CP for +10 Ranks, 20 CP for +20 Ranks; zero package discount). |
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-529)**
 
 - **File Target:** `architect/species/99.Species.ChassisAndMovement.md`
@@ -199,5 +200,4 @@ Both inside a **Species Package** (`operator/1.03 SPECIES.md` and `architect/99.
   - Restored 100% of Part III.1–4 (13 Species Chassis Types, 6 Size Categories, 19 Movement Modes, and Species Attributes & Skill Packages).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Enforced Rule 9 in Section 4: Universal straight CP pricing everywhere (+1 Attribute = 5 CP, -1 Attribute Penalty = -5 CP refund, 1 Skill Rank = 1 CP / 5 CP per 5 Ranks, with zero package discount).
-
 

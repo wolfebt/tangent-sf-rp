@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.major.coalition","mechanics"]
-updatedAt: "2026-11-02T22:49:23.868Z"
+updatedAt: "2026-11-04T00:33:10.623Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,34 @@ sockets:
   allocated: []
 ---
 
-# 1.04.Major.Coalition — COALITION OF INDEPENDENT WORLDS (+0 WS)
+# 1.04. MAJOR FACTION: COALITION OF INDEPENDENT WORLDS (+0 WS)
+
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 3 / ML 1 | +0 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Major.Coalition.md` in **Tangent SF RP**.
+
+## Overview & Mechanical Authority Block
+
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
+
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
+
+## Part I — Alignment & Summary Matrix Table
+
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Major.Coalition.md (Sec. I)` | TL 3 / ML 1 | +0 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Major.Coalition.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Major.Coalition.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
+
+### I. Canonical Faction Profile, Lore & Expansion Archive (`operator/factions/1.04.Major.Coalition.md`)
 
 ## Executive Summary & Nov 2 Canonical Game Data
 * **Archetype:** Decentralized Frontier Republic & Militia Alliance (Kleptocratic Republic) | **Capital:** Copia (`A:7:4:7:9:4:4:3:1`)
@@ -51,13 +78,10 @@ sockets:
 * **CRISP Visual Semiotics:** Olive-drab and hazard-yellow modular plasteel armor, reliable kinetic mag-rifles, utilitarian dropships, and industrial agri-domes.
 * **Mecha Scale Multiplier Note:** Per the Canonical Matrix Audit, Structure Points (SP) in the Coalition Mecha tables below are pre-calculated; apply the active Scale Multiplier only to weapon damage, speed, and range during play.
 
----
-
 THE COALITION OF INDEPENDENT WORLDS
 DESCRIPTION
 The Coalition of Independent Worlds, often referred to as "The Free Colonies," represents the rugged edge of civilization. Situated on the frontier of known space, they stand in direct opposition to the rigid control and perceived "softness" of the core worlds (the Syndicate and Dynasty). The populace consists of over 40 independent systems populated by hardened survivors—terraformers, miners, and homesteaders who have tamed actively hostile worlds using industrial machinery and sheer stubbornness.
 While the faction claims to be a democratic republic championing the freedom of the fringe, it is functionally a Kleptocracy. Controlled by wealthy interests, crime syndicates, and corporate robber-barons, the Coalition uses the guise of "deregulation" and "freedom" to relentlessly exploit labor and industry. Despite this corruption at the top, the spirit of the people remains defined by grit, self-determination, and a fierce, often violent, protective instinct toward personal independence.
-________________
 
 CORE IDENTITY
                                     * Official Designation: The Coalition of Independent Worlds
@@ -66,14 +90,12 @@ CORE IDENTITY
                                     * Driving Mandate: "Protect the People; Secure the Frontier."
                                     * Symbol/Sigil: The Silver Star (Marshals) / The Cog and Wheat (Copia).
                                     * Capital/Key System: Copia (The Gilded Heart).
-________________
 
 SOCIOLOGICAL PROFILE
 Ideology & Culture
                                     * Core Beliefs: "Everyone owns a gun." Personal freedom is held sacred, though this unfortunately includes the freedom for the powerful to exploit the weak.
                                     * Social Structure: A volatile hierarchy consisting of Corporate Elites/Robber Barons > The Justice Department (Marshals) > Citizens/Working Class > Penal Legions (Rangers).
                                     * Frontier Justice: Law is maintained by a complex dual-enforcement system: the wandering, oathsworn Federal Marshals (the conscience) and the iron-fisted Colonial Rangers (the state fist). This creates a delicate balance between actual justice and corporate enforcement.
-________________
 
 HISTORICAL ORIGINS
 The Pact of Survival (300 Years Ago)
@@ -81,7 +103,6 @@ The Coalition was born from the "Great Neglect"—a 200-year period of intermitt
 The heart of this pact was the Copia System, a deep-fringe survivor of the Radiant Impyrium. While other Impyrium outposts were dismantled during the Dynasty's rise, Copia’s remote location and a deliberate choice to "go dark"—adopting a low-profile, agrarian-focused existence—allowed it to escape notice. With over 1,000 years of continuous habitation, Copia provided the vital trade lines of food and steel that prevented the Coalition from collapsing into anarchy.
 The Birth of Enforcement (100 Years Ago)
 Approximately a century ago, the rise of sophisticated pirate armadas and the instability of fringe politics necessitated a centralized legal body. This led to the formation of the Coalition Justice Department (CJD) and the oath of the Marshals. Simultaneously, to combat threats with overwhelming force, the Penal Legions were established using "The Bit" (Neural Compliance Shunt) technology to weaponize violent offenders into the Colonial Rangers.
-________________
 
 TECHNOLOGICAL ADAPTATION & THE IMPYRIUM CONTRAST
 The Coalition's technological identity is defined by a radical departure from its parent factions, specifically the Impyrium Dominion. While the Dominion remains anchored in the elegance of Psi-Tech (crystalline circuitry and thought-controlled interfaces), the Coalition has evolved through necessity, adapting to the complete lack of psionic infrastructure on the frontier.
@@ -94,8 +115,6 @@ The Coalition’s rapid advancement is driven by an aggressive culture of Revers
 Defined Tech Levels
                                     * The Frontier (Solid TL 3): The majority of the Coalition operates at Tech Level 3 (Standard Spacefaring). Their technology is macro-industrial, reliable, and mass-produced.
 The Copian Standard (TL 3+): As the intellectual heart of the faction, Copia operates at TL 3+ (Enhanced). They are currently leading the Coalition's most ambitious projects: experimenting with TL 4 (Advanced) applications. This involves cross-referencing fragmented records from the Radiant Impyrium with captured Syndicate digital tech. These experiments are currently seen in Copia's orbital weather control and the Helios Array’s nanocarbon structures.
-
-________________
 
 FACTION FORCES: THE HAMMER AND THE SCALES
 A. The Colonial Rangers (The Hammer)
@@ -113,7 +132,6 @@ Funded neutrally by the Compact of Copia, Marshals serve as the wandering consci
                                     * Non-Victim (Ignored): Marshals generally ignore vice, bureaucratic, or "non-victim" laws (smuggling to avoid tariffs, gambling, unlicensed mods).
                                     * Victim (Pursued): Predatory actions like murder, slavery, assault, and extortion are met with immediate, lethal force.
                                     * Circuit Riders: They operate on "The Circuit," traveling alone or in small posses to hold court and hunt fugitives. They stand as a check against the Coalition's worst impulses, often leading to standoffs with corrupt politicians.
-________________
 
 MECHANICS (GAME DATA)
 Faction Statistics
@@ -129,7 +147,6 @@ Origin & Profession Traits
                                     * Drawback: This is to not be abused, any use of Authority should be done with respect and professionalism. Assume superiors WILL know of infractions by the Marshal.
 Faction Conflict Hook: The Standoff
 A common hook involves players (deputized by a Marshal) defending a witness against a squad of Colonial Rangers ordered by a corrupt Governor to "liquidate the evidence."
-________________
 
 VISUAL SEMIOTICS (AESTHETICS)
 Palette & Mood
@@ -138,7 +155,6 @@ Palette & Mood
 Shape Language & Design
                                     * Industrial Utility: Blocky and functional. Vehicles resemble tanks or jeeps with boxy frames, visible bolts, and welded seams.
                                     * Signature Gear: The Marshal's Duster (armored ballistic cloth) and "Heavy Iron" (high-caliber kinetic revolvers/rifles).
-________________
 
 THE COPIA SYSTEM (THE GILDED BREADBASKET)
 System Overview
@@ -182,7 +198,6 @@ Copia maximizes its system's potential by utilizing the void itself as a bustlin
                                     * The Helios Arrays (Orbital Mega-Farms): A network of colossal, rotating cylindrical space habitats made of transparent aluminum and structural nanocarbon. Positioned in sun-facing orbits, they use massive mirror-arrays to filter and direct continuous 24/7 sunlight into layered farming terraces, accelerating crop yields to 400 percent of planetary norms.
                                     * The Tartarus Belt: A dense, mineral-rich asteroid belt separating the sunward Forge world from the outer Agrarian Trinity. It is swarming with "Belter" prospectors, autonomous mining drones, and processing crawlers that latch onto asteroids and digest them from the inside out.
                                     * The Aegis & Brontes Moons: Two heavily cratered moons orbiting Hephaestus-V that house Zero-G Shipyards. The refinement of volatile materials and the construction of massive interstellar freighters are performed here to avoid planetary gravity wells. They perpetually glow with the blue light of plasma torches and welders.
-________________
 
 COALITION ARCHITECTURE
 Buildings are brutalist, prefabricated, and defensive.
@@ -292,7 +307,6 @@ High-Density Micro-Habs (250): Using the "0.1 Module" rule, this allows for 2,50
 Communal Washrooms / Showers (20): Shared hygiene facilities per floor.
 Central Utilities & Elevators (20): Creaking, unreliable power distribution and lift shafts.
 Street-Level Commercial (10): Grimy noodle bars, pawn shops, and Ripper-Doc clinics at the base of the block.
-________________
 
 COALITION MECHA
 Coalition mecha and vehicles are characterized by rugged, over-engineered designs intended for both industrial utility and frontier warfare.
@@ -514,7 +528,6 @@ Engine: Fusion Core Assembly (8 Mounts)
 Defense: Automated Point-Defense Turrets (4 Mounts)
 Life Support: Long-Haul Habitation Quarters for Crew (4 Mounts)
 Utility: Tractor-Link Couplings for pulling massive trailers (10 Mounts)
-________________
 
 COALITION PERSONAS
                                     * The Ripper-Doc
@@ -535,7 +548,6 @@ The pragmatic lifeblood of the Coalition's informal economy. They know every moo
 Corporate governors who run resource colonies like personal fiefdoms. They maintain absolute control through debt-slavery and private Ranger details. To a Robber Baron, a human life is just another line item on a ledger to be extracted, refined, and sold. They spend their days in air-conditioned mansions while their workers bake in the toxic dust of open-pit mines.
                                     * The Naïve Idealist
 Wealthy Copian youths who join the Justice Department with dreams of civilizing the frontier, only to be confronted by the crushing reality of systemic kleptocracy. They are the ones who leak documents to Fixers or try to file charges against Robber Barons, often finding that the star they wear is the only thing protecting them from the system they serve.
-________________
 
 SCENE VIGNETTES
 A. The Standoff at Black Ridge
@@ -550,8 +562,6 @@ The contrast just outside the gates is staggering. Beyond the auto-turrets and t
 D. The Frontier Saloon
 The "Rusty Cog" is a dimly lit pocket of shadow where the air recycling system has been failing for a decade. Neon signs for synthetic whiskey flicker through a haze of cigar smoke and copper-tasting ozone, casting long, blue shadows across the patrons. Men and women in oil-stained work-gear sit in silence, eyeing each other over dented metal cups. In the corner, a Ripper-Doc argues with a Fixer over the price of bootleg neural shunts, their voices barely audible over the low hum of the life support.
 A sudden hush falls as a Frontier Marshal steps through the heavy plasteel door. He doesn't speak. He simply leans against the frame, his wide-brimmed hat casting his face in shadow. His hand hovers habitually over a low-slung holster, his posture marked by the absolute discipline of a master swordsman. He is surveying the room, looking for a face that shouldn't be there, while every patron calculates their distance to the nearest exit. Here, in the belly of the underworld, the badge is the only thing preventing the bar from erupting into a chaotic free-for-all.
-
----
 
 ## **COALITION OF INDEPENDENT WORLDS — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
 
@@ -572,4 +582,187 @@ A sudden hush falls as a Frontier Marshal steps through the heavy plasteel door.
 * **CHARACTER CONCEPT SHEET: The Frontier Marshal:** Coalition Frontier Marshal wearing an armored ballistic duster, holding a heavy kinetic mag-rail revolver, wide-brimmed hat. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), subtle faded denim blue and rust brown marker accents.
 * **VEHICLE / MECH DESIGN: 'Goliath' Siege-Hauler:** Colossal Coalition Goliath Siege-Hauler, super-heavy assault crawler, quad-tracked, massive twin-linked siege howitzers, ablative slag-armor, thick hydraulic cables. Industrial design sketch, technical pen illustration, subtle Copic marker splash of hazard stripes and rust.
 
+### II. Complete Unabridged Codex Unified Faction Document (`1.04_COALITION`)
+
+THE COALITION OF INDEPENDENT WORLDS
+I. Detailed Faction Description
+* Overview: The "Free Colonies" represent the rugged edge of civilization. Consisting of over 40 independent systems populated by hardened survivors, miners, and terraformers, they have tamed hostile worlds using industrial machinery and sheer stubbornness. While claiming to be a democratic republic championing freedom, it is functionally a Kleptocracy controlled by wealthy interests and corporate robber-barons. Despite the corruption at the top (centered in the wealthy Copia system), the frontier spirit is defined by grit, self-determination, and a fierce protective instinct. They rely heavily on reverse-engineered, ruggedized technology.
+* Key Themes: Frontier Industrialists, Kleptocracy, Grid vs. Wealth, Used Future, Penal Legions.
+* Relationship to Others: Distrustful of the Core Worlds (Syndicate/Dynasty) who abandoned them. Highly isolationist and fiercely protective of their borders.
+II. Core Identity
+* Official Designation: Coalition of Independent Worlds
+* Colloquialisms: The Free Colonies / The Frontier
+* Archetype: Frontier Industrialists / Kleptocratic Republic
+* Capital/Key World: Copia (The Gilded Heart)
+* Symbol/Sigil: The Silver Star (Marshals) / The Cog and Wheat (Copia)
+* Driving Mandate: Protect the People; Secure the Frontier.
+* Motto: "Service Guarantees Citizenship. Survival Guarantees Freedom."
+III. Sociological Profile
+Ideology & Culture
+* Core Beliefs: "Everyone owns a gun." Personal freedom is sacred, though it includes the freedom for the powerful to exploit the weak. The elite practice hypocritical "Noble Stewardship."
+* Social Structure: Volatile Hierarchy (Corporate Elites > Justice Dept/Marshals > Citizens > Penal Legions/Rangers).
+* View on Outsiders: Suspicious. Outsiders are viewed as resource thieves or oppressive core-world regulators.
+* Law & Order: Dual-enforcement: The wandering Federal Marshals (the conscience guided by the Code of Harm) vs. the Colonial Rangers (the state fist / Penal Legion).
+Governance
+* Government Type: Kleptocratic Republic / Corporate Oligarchy.
+* Leadership: Clan Councils (Copia) and Corporate Governors.
+* Succession: Wealth acquisition and corporate dominance.
+IV. Strategic Assets
+Economy & Tech
+* Tech Level (TL): 3 (Macro-Industrial / Hard-Industrial Advancement). Copia experiments with TL3+.
+* Meta Level (ML): 1 (Strictly Materialist/Regulated).
+* Wealth Modifier: 0 (Standard baseline, but vastly unequal distribution).
+* Primary Exports: Heavy metals, Aetherite, Food, Industrial machinery.
+* Economic Model: Exploitative Capitalism / Manufactured Post-Scarcity (in Copia).
+Military Profile
+* Doctrine: Attrition and overwhelming kinetic firepower. "Blunt instruments."
+* Key Units: Colonial Rangers (Penal recruits controlled by Neural Shunts), Frontier Marshals.
+* Naval Assets: Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains.
+* Unique Tech/Materials: Reverse-Engineered Tech, Heavy Fission Batteries, Neural Compliance Shunts ("The Bit").
+V. Mechanics (Game Data)
+* Prominent Species: Humans (Hardened Frontier Genotype).
+* Faction Skill Package (20 Points):
+   * Bluff (+4)
+   * Survival (+3)
+   * Streetwise (+3)
+   * Mechanics (+3)
+   * Pilot (Ground/Atmo) (+3)
+   * Remaining 4 points allocated to Combat or Utility.
+* Typical Archetypes:
+   * The Munitions Magnate: Trades weapons and military equipment (Gun-Runners).
+   * The Field Medic: Provides emergency medical care under fire (Combat Medics).
+   * The Demolisher: Expert in operating heavy weaponry (Heavy Support).
+   * The Veteran: The backbone of any fighting force (Rangers).
+   * The Homesteader: Resourceful individual building a life on the frontier (Settlers).
+   * The Marshal: A law enforcement officer protecting settlements (Marshals/Rangers).
+   * The Vagabond: Travels from place to place without a fixed home (Wanderers).
+   * The Raider: A hardened survivor who uses force to secure resources (Rebels).
+   * The Activist: Fights for social justice and equality (Freedom Movement).
+   * The Kingpin: Leader overseeing illegal activities (Crime Lords).
+   * The Revolutionary: A charismatic leader who unites the rebellion (Independence).
+   * The Detective: Relentless investigator uncovering conspiracies (Marshals).
+* Recommended Features (1 CP Discount):
+   * Tough: Shrugging off the bruises of frontier brawls.
+   * Pain Tolerance: Operating through the agony of industrial accidents.
+   * Endurance: Surviving long shifts in the toxic mines of Hephaestus-V.
+   * Burst Attack: Laying down suppressive fire with heavy rotaries.
+   * Weapon Improvisation: Fighting with wrenches, pipes, and mining lasers.
+   * Gearhead: Knowing how to fix analog diesel engines on the fly.
+   * Benefit (Authority): Representing the badge of a Federal Marshal.
+   * Tracker: Hunting bounties across unforgiving badlands.
+   * Fearless: A common trait (or requirement) for those wearing "The Bit."
+   * Diehard: Being too stubborn to die when bleeding out in the dirt.
+   * Crushing Blow: Using heavy kinetic weapons to shatter armor.
+   * Headstrong: Refusing to back down from corporate thugs.
+VI. Visual Semiotics (Aesthetics)
+Design Directive: "Industrial Grit & Used Future"
+The Coalition aesthetic is Dieselpunk meets Frontier pragmatism. Everything is blocky, functional, and over-engineered to survive a hostile universe. Vehicles resemble tanks or jeeps with exposed tubular frames, visible bolts, and welded seams. The architecture features brutalist prefabs, heavy refineries, and dense Tier-4 Hab Blocks. It is a world of heavy industry, toxic smog, and raw kinetic power where aesthetics take a backseat to survival.
+Palette
+* Primary (Frontier): Dust Brown, Faded Denim, Olive Drab.
+* Primary (Urban): Rain Grey, Shadow Black, Rust.
+* Accent: Sodium Yellow (Streetlights/Signs), Hazard Stripes (Black/Yellow), Neon Blue/Orange (Signage).
+Lighting
+* Key Style: Smog-Choked & Industrial. Lighting ranges from the harsh, dusty glare of twin suns on the frontier to perpetual rain lit by flickering neon and sodium vapor in urban sectors.
+* Mood: Oppressive, industrial decay, gritty, stubborn, survivalist.
+Shape Language
+* [Motif 1] Blocky & Functional: Structures and vehicles lack any aerodynamic styling, favoring sloped armor to deflect kinetic impacts.
+* [Motif 2] Industrial Utility: Belching exhaust stacks, thick hydraulic cables, heavy treads, and visible gears.
+* [Motif 3] Mass Production: Identical, stacked micro-habs and prefabricated concrete barricades defining the urban sprawl.
+Gear Aesthetic
+* [Gear Style 1] Heavy Iron: Weapons are large, loud, and kinetic (rotary cannons, heavy revolvers, pump shotguns) relying on analog diesel or early fission engines.
+* [Gear Style 2] Frontier Wear: Armored ballistic cloth dusters, wide-brimmed hats, hazard-striped combat armor, and welding goggles.
+Atmosphere Tokens
+Dieselpunk, used future, frontier industrialists, blocky and functional, brutalist prefabs, heavy refineries, hazard stripes, hydraulic cables, heavy treads, rust, rotary cannons, ballistic cloth dusters, industrial decay, smog-choked.
+HI-FI INK Prompt Framework
+[CONTENT PROMPT]
+* SUBJECT: [Insert main subject, e.g., Frontier Marshal, Colonial Ranger, Goliath Siege-Hauler]
+* NARRATIVE: [Insert action or story elements]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Dieselpunk, Used Future, Frontier Industrialists, Blocky and Functional.
+* CONTEXT: Brutalist prefabs, heavy refineries, hazard stripes, hydraulic cables, heavy treads, rust, rotary cannons, ballistic cloth dusters. Palette: Dust Brown, Faded Denim, Olive Drab (Frontier); Rain Grey, Sodium Yellow (Urban).
+* ATMOSPHERE: Industrial decay, smog-choked, oppressive. Low-key industrial lighting, harsh sun, or perpetual rain with neon glare and sodium vapor.
+[RENDERING PROMPT]
+* RENDERING: High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* FORM: [Append the appropriate Template Modifier below based on shot type]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
+Template Variations (Form Modifiers)
+Append the appropriate FORM tokens to your RENDERING section depending on the specific camera angle and framing of the shot required:
+* MASTER: (No specific form modifiers needed; rely on the base rendering tokens.)
+* CLOSE-UP: Extreme close-up comic panel, stark facial shadows, intense chiaroscuro, pure black recessed areas, detailed iris color blocking, sharp planar facial structure, heavy fabric folds, graphic texture rendering, deep ink washes, striking eye catchlight, dramatic graphic rim light.
+* CHARACTER CONCEPT SHEET: Graphic novel character turnaround sheet showing five distinct views: (full body front view:1.5), (full body back view:1.5), (full body profile side view:1.5), and a detailed (face close-up profile:1.8). The five images should be presented as a clean, highly detailed array on a single sheet, with a minimal flat or graphic gradient background for clarity.
+* ARCHITECTURAL ESTABLISHING SHOT: Dynamic wide establishing panel, extreme 3-point perspective, atmospheric color blocking, deep shadow recesses, graphic silhouette framing, stark architectural geometry, monumental scale, intricate graphic facade details, painted texture mapping, hyper-detailed environment illustration.
+* VEHICLE / MECH DESIGN: Dynamic action panel or static concept angle (select one), extreme foreshortening, stylized speed/motion effects (if moving), hard-edged metallic reflections, high-contrast surface rendering, graphic grime and oil stains, heavy solid black shadows in mechanical recesses, functional design realism, striking comic book angle.
+* INTERIOR SPACE: Dramatic interior panel setting, stark light shafts, graphic dust motes, heavy cast shadows sweeping across room, complex planar occlusion, ambient color blocking, narrative clutter rendered in high contrast, deep ink recesses in corners, expansive framing (select one).
+VII. Expansion Modules (Optional)
+Origin & Profession Traits
+* Penal Recruit (Ranger): Gain Advantage on Willpower saves vs Fear; Disadvantage on Social checks against Coalition Authority (due to "The Bit").
+* Federal Authority (Marshal): Supreme Jurisdiction to commandeer vehicles/access scenes using Status/Intimidate.
+The Copia System (The Gilded Heart)
+* Hephaestus-V (The Forge): A smog-choked, continent-sized factory world close to the sun.
+* The Agrarian Trinity: Demeter (endless plains), Ceres-Alpha (aquatic aquaculture), Sylvanus (the capital garden world of the Oligarchs).
+* Orbital Infrastructure: Helios Arrays (orbital mega-farms accelerating crops to 400% yield) and the Tartarus Belt (heavy mining).
+Architectural Details
+* Marshal Garrison: 2-story, reinforced concrete prefab blockhouses.
+* Hephaestus Refinery: 5-story equivalent industrial spires with attached slum housing.
+* Agri-Spire: 20-story brutalist greenhouses.
+* Hab-Block (Tier 4): 10-story stacks of dense 10x10ft micro-habs.
+Mecha & Vehicular Assets
+* "Ironback" Patrol Walker: Rugged bipedal walker for Marshals (TL3).
+* "Goliath" Siege-Hauler: Super-heavy rolling fortress (TL2/3).
+* "Rust-Devil" Gunship: Brutal, un-aerodynamic CAS aircraft with downward fans.
+* "Dust-Skipper" Buggy: High-suspension fast recon 4x4.
+* "Leviathan" Land-Train: Gargantuan segmented logistics crawler.
+VIII. Historical Origins
+* The Abandonment: Originally settled as resource-extraction outposts, the Free Colonies were abandoned during the Collapse of the Core Worlds, forcing them to adapt and self-govern.
+* Rise of Copia: The discovery and terraforming of the Copia system established a central economic hub, leading to the formation of corporate oligarchies amidst the frontier chaos.
+IX. Technological Adaptation
+* Ruggedized Engineering: Coalition technology prioritizes ease of repair, analog resilience, and kinetic power over sleek aesthetics or complex energy shields.
+* Neural Compliance Shunts ("The Bit"): Direct neural interfaces installed in penal legionnaires to ensure absolute tactical compliance during high-risk military operations.
+X. Faction Forces
+* Federal Marshals: Wandering lawkeepers who uphold the Code of Harm across isolated frontier settlements.
+* Colonial Rangers: Massed penal infantry units equipped with heavy ballistic gear and deployed to suppress uprisings or clear hostile zones.
+XI. Scene Vignettes
+* A lone Federal Marshal stands beneath the neon haze of a dusty frontier outpost, resting a hand on his heavy sidearm as a Goliath Siege-Hauler rumbles in the distance, belching black exhaust into the twilight air.
+COALITION OF INDEPENDENT WORLDS - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Coalition prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Frontier Marshal in an armored duster with a heavy revolver, chipped Colonial Ranger in mismatched plating, underground Ripper-Doc, massive Ironback Patrol Walker]
+* NARRATIVE: [e.g., facing down a riot squad in the pouring rain, operating a heavy mag-rail rifle, welding an armored crawler, surviving a toxic frontier dust storm]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Industrial Grit, Dieselpunk, "Used Future," Industrial Noir, brutalist, over-engineered, boxy frames, exposed hydraulics.
+* CONTEXT: Rusty prefab blockhouses, sprawling subterranean smog-choked refineries, neon-lit decay of Tier 4 hab-blocks, muddy frontier badlands.
+* ATMOSPHERE: Harsh, unforgiving, loud, heavy, oppressive, gritty, blue-collar survivalism, constant smoke and steam.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in Coalition lore, use these subtle color splash tokens:
+* Accent Tokens: subtle hazard orange stripe marker accents, faint rust brown ink wash, precise neon blue or sodium yellow sign glow accents on stark black ink.
+3. READY-TO-USE TEMPLATES
+CHARACTER CONCEPT SHEET: The Frontier Marshal
+Coalition Frontier Marshal wearing an armored ballistic duster, holding a heavy kinetic mag-rail revolver, wide-brimmed hat. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Industrial Noir aesthetic, rugged and vigilant expression, subtle faded denim blue and rust brown marker accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+VEHICLE / MECH DESIGN: "Goliath" Siege-Hauler
+Colossal Coalition Goliath Siege-Hauler, super-heavy assault crawler, quad-tracked, massive twin-linked siege howitzers, ablative slag-armor, thick hydraulic cables. Industrial design sketch, technical pen illustration, dynamic perspective, wireframe construction lines, high-contrast mechanical hatching, metallic reflections rendered purely in ink lines, exploded view accents, subtle design marker accent colors (e.g., Copic marker splash of hazard stripes and rust). Dieselpunk used-future aesthetic, heavy and brutalist atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Major.Coalition.md`
+* **Codex Sources Compared:** Codex `1.04 COALITION` and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Major.Coalition.md` and Codex `1.04 COALITION` and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 3 / ML 1 | +0 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-COAL-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Major.Coalition.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04 COALITION` and `1.04 FACTIONS` Master Doc.
+* **DISC-104-COAL-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 3 / ML 1 | +0 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.
 

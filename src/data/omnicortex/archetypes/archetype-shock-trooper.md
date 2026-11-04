@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Shock Trooper
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Combat / Environmental Specialist  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Strength  
 
-## Overview
 Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.
 
-> *You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*
+*You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*
 
-> _"Gravity is a crutch. Mag-lock and load."_
-
-## Tactical Role
-Fighting in hazardous environments/vacuum, breaching ships.
-
-## Essential Skills
-- Athletics
-- Acrobatics
-- Knowledge (Tactics)
-- Combat
-
-## Signature Features
-- Zero-G Combat
-- Boarding Party
-
-## Recommendations
-- **Occupations**: Soldier, Spacer
-- **Origins**: Spacer, Militaristic, Aquatic
-- **Factions**: Impyrium (Void Marines), Syndicate (Drop Troops), Dynasty (Knights)
-
-
-## Extended Lore & Background
-
-Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.  
-*You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*  
 *"Gravity is a crutch. Mag-lock and load."*
 
+  - **Core Concept:** Combat / Environmental Specialist
+  - **Recommended Occupations:** Soldier, Spacer.
+  - **Recommended Origins:** Spacer, Militaristic, Aquatic.
+  - **Recommended Factions:** Impyrium (Void Marines), Syndicate (Drop Troops), Dynasty (Knights).
+  - **Key Attributes:** Agility (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Acrobatics, Knowledge (Tactics), Combat.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Zero-G Combat, Boarding Party.
+  - **Tactical Role:** Fighting in hazardous environments/vacuum, breaching ships.

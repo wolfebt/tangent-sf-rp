@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Decker
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Tech / Stealth / Intel  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities.
 
-> *You own the network. While they lock the physical doors, you walk through the digital walls. You steal secrets, crash systems, and turn their own security against them without ever drawing a weapon.*
+*You own the network. While they lock the physical doors, you walk through the digital walls. You steal secrets, crash systems, and turn their own security against them without ever drawing a weapon.*
 
-> _"Access granted. Now, let's see what you're hiding."_
-
-## Tactical Role
-Disabling alarms, stealing data, controlling enemy drones/turrets.
-
-## Essential Skills
-- Knowledge (Technology)
-- Investigation
-- Knowledge (Computers)
-
-## Signature Features
-- Cyber Warfare
-- Digital Ghost
-
-## Recommendations
-- **Occupations**: Specialist, Criminal
-- **Origins**: Urban, Industrial, Research
-- **Factions**: Syndicate (The Grid), Mekan (The Code), Ascendancy
-
-
-## Extended Lore & Background
-
-A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities.  
-*You own the network. While they lock the physical doors, you walk through the digital walls. You steal secrets, crash systems, and turn their own security against them without ever drawing a weapon.*  
 *"Access granted. Now, let's see what you're hiding."*
 
+  - **Core Concept:** Tech / Stealth / Intel
+  - **Recommended Occupations:** Specialist, Criminal.
+  - **Recommended Origins:** Urban, Industrial, Research.
+  - **Recommended Factions:** Syndicate (The Grid), Mekan (The Code), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Investigation, Knowledge (Computers).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cyber Warfare, Digital Ghost.
+  - **Tactical Role:** Disabling alarms, stealing data, controlling enemy drones/turrets.

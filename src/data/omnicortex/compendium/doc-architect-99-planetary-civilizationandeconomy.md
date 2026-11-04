@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-planetary-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-planetary-matrix"
-order: 22
+order: 23
 perspective: "architect"
 entry_type: "Planetary Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","planetary","99.planetary.civilizationandeconomy","matrix"]
-updatedAt: "2026-11-02T22:49:11.721Z"
+updatedAt: "2026-11-04T00:33:10.413Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,15 @@ sockets:
 ---
 
 # **99.Planetary.CivilizationAndEconomy.md**
+
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **4. The Civilizational Skin: Demographics, Tech, & Government**
 
@@ -146,8 +155,6 @@ Population is generated using a base-10 logarithmic scale (0–15):
 - **Syndicate Capitals (Premius):** 300–500 story Mega-Cities. Supports populations in the Billions (Pop 9–10).
 - **Agri-Worlds (Karkinos):** Dispersed settlements. Populations in the Millions (Pop 6–7).
 
----
-
 ## **5. Economic Framework: Resources and Trade**
 
 ### **5.1 Trade Classifications and Codes**
@@ -245,8 +252,6 @@ A character's Wealth Score determines purchasing power:
 2. **The Liquidity Constraint (The Gap Rule):** When a character wants an item with a CR higher than their Wealth Score, they bridge the gap with Liquid Credits: `Cost Liquid = Value (Item CR) - Value (Wealth Score)`.
 3. **The Market Availability Cap (TL/CR Cap):** The maximum Crafting CR of items natively available for purchase on a world is equal to `(Planetary TL * 5) + 10`. Items above this CR are Imported or Contraband (liquid cost is doubled).
 
----
-
 ## **6. The Cultural & Aesthetic Texture**
 
 ### **6.1 Architectural Style Guide & Faction Tags**
@@ -291,8 +296,6 @@ A character's Wealth Score determines purchasing power:
 - **The Sound Silence:** A specific, culturally important humming or low-frequency tone must be present in all public spaces; its absence is unsettling.
 - **One-Name Identity:** Individuals only use a single given name; surnames or titles are temporary and granted based on current achievement.
 
----
-
 ## **7. Infrastructure and Vehicles: The Kinetic Landscape**
 
 ### **7.1 Starport Classification**
@@ -313,8 +316,6 @@ A character's Wealth Score determines purchasing power:
 - **Urban/Vertical:** Grav vehicles (TL 4). Often restricted by Law Level.
 - **Chase Mechanics:** Use "Chase Scale" zones (Close, Medium, Long, Extreme). Stunts allowed (Force, Board).
 
----
-
 ## **8. Character Origins: The Interface**
 
 A character's "Origin" (`operator/1.05 ORIGINS.md`) defines their 20 SP skill allocation and worldview based on their homeworld type:
@@ -330,8 +331,6 @@ A character's "Origin" (`operator/1.05 ORIGINS.md`) defines their 20 SP skill al
 - **Research:** Skills: Knowledge (Science, Computers). Trait: Analytical Mind (Reroll Investigation).
 - **Urban:** Skills: Streetwise, Administration. Trait: Street Smart (+2 Streetwise).
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-526)**
 
 - **File Target:** `architect/planetary/99.Planetary.CivilizationAndEconomy.md`
@@ -339,5 +338,4 @@ A character's "Origin" (`operator/1.05 ORIGINS.md`) defines their 20 SP skill al
   - Restored 100% of Sections 4–8 (Tech/Metafocus Levels, Progress Matrix, Government & Law Matrices, Population Density, Trade Classifications, Commodities Exchange, Master Valuation Table, 10 Faction Architectural Style Guides, 26 Cultural Quirks, Starports, and Character Origins).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Added Linear Micro-Modifier multipliers (+1 to +4 CR) and normalized `Vocation (Handler)` -> `Vocation (Handler)`.
-
 

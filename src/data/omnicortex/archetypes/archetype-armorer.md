@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Armorer
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Crafter / Support / Defense  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Strength  
 
-## Overview
 The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.
 
-> *You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*
+*You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*
 
-> _"Flesh is soft. Let me give you something harder."_
-
-## Tactical Role
-Repairing armor in the field, identifying equipment vulnerabilities, maximizing party DR.
-
-## Essential Skills
-- Vocation (Armorer)
-- Vocation (Engineer)
-- Knowledge (Technology)
-- Knowledge (Appraisal)
-
-## Signature Features
-- Master Vocation skillsman
-- Crafters Insight
-
-## Recommendations
-- **Occupations**: Builder, Soldier
-- **Origins**: Industrial, Urban, Militaristic
-- **Factions**: Impyrium (Forge Masters), Dynasty (Smiths), Syndicate
-
-
-## Extended Lore & Background
-
-The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.  
-*You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*  
 *"Flesh is soft. Let me give you something harder."*
 
+  - **Core Concept:** Crafter / Support / Defense
+  - **Recommended Occupations:** Builder, Soldier.
+  - **Recommended Origins:** Industrial, Urban, Militaristic.
+  - **Recommended Factions:** Impyrium (Forge Masters), Dynasty (Smiths), Syndicate.
+  - **Key Attributes:** Intellect (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Armorer), Vocation (Engineer), Knowledge (Technology), Knowledge (Appraisal).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Master Craftsman, Crafter's Insight.
+  - **Tactical Role:** Repairing armor in the field, identifying equipment vulnerabilities, maximizing party DR.

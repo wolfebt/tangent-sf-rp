@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Demolitionist is the skill of creating and using explosives. It reflects a character's ability to create bombs, set charges, and detonate explosives for various purposes. Demolitionist is used whenever a character needs to ensure that explosives are used safely and effectively. This can include things like creating bombs, disarming bombs, setting charges, and detonating explosives for various purposes. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Set Charge:* CR 15 for simple breach, CR 25 to collapse a structure without damaging surroundings.
+- *Set Charge:* CR 15 for simple breach, CR 25 to collapse a structure without damaging surroundings.
   - *Defuse:* CR depends on the bomb's complexity (usually CR 20+). Failure by 5+ triggers the device.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Structural Controlled Implosion:** Calculating load points to drop high-rise buildings and towers within their footprints.
       - **Combat Breaching Charges:** Setting linear shaped charges to blow open reinforced steel doors without killing the stack.

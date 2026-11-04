@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.07 skills","mechanics"]
-updatedAt: "2026-11-02T22:49:16.149Z"
+updatedAt: "2026-11-04T00:33:10.495Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,52 @@ sockets:
 ---
 
 # **1.07 SKILLS**
+
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/1.07 SKILLS.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/1.07 SKILLS.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Straight Customization Pricing:** `1 CP per 1 Skill Rank` across all skill categories during character customization (Species Package rate: `4 CP per 5 Skill Ranks`).
+* **Foundational Background Allocation:** `Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP`.
+* **Canonical Skill Nomenclature:** Uses `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, `Computers`, `Ballistic`, `Diplomacy`, and `Bluff`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MASTER SKILL CATEGORIES & STAGE PROGRESSION)**
+
+### **1. Master Skill Category Summary Matrix (80 Canonical Skills)**
+
+| Category | Sub-Category | Governing Attributes | Canonical Skill Count | Pricing & Stage Cap |
+| :--- | :--- | :--- | :---: | :--- |
+| **I. Physical Skills** | Core Physical | Agility (`AGI`) or Strength (`STR`) | 4 Skills (40 Specialties) | `1 CP` per `1 Rank` (Max Starting Rank `11`) |
+| **II. Mental Skills** | Core Mental | Intellect (`INT`) or Wisdom (`WIS`) | 2 Skills (20 Specialties) | `1 CP` per `1 Rank` (Max Starting Rank `11`) |
+| **II. Mental Skills** | Knowledge (`A–T`) | Intellect (`INT`) or Wisdom (`WIS`) | 20 Skills (200 Specialties) | `1 CP` per `1 Rank` (Max Starting Rank `11`) |
+| **II. Mental Skills** | Vocation (`A–W`) | Intellect, Wisdom, Agility, Stamina, or Charisma | 27 Skills (270 Specialties) | `1 CP` per `1 Rank` (`+1` to `+5 WS` by Stage) |
+| **III. Social Skills** | Manipulation | Charisma (`CHA`) or Wisdom (`WIS`) | 7 Skills (70 Specialties) | `1 CP` per `1 Rank` (Max Starting Rank `11`) |
+| **III. Social Skills** | Expression (`A–W`) | Charisma (`CHA`) or Agility (`AGI`) | 12 Skills (120 Specialties) | `1 CP` per `1 Rank` (`x2 WS` High-Demand) |
+| **IV. Combat Skills** | Archaic, Modern, Advanced | Agility (`AGI`) or Strength (`STR`) | 8 Skills (80 Specialties) | `1 CP` per `1 Rank` (Iterative Actions by Stage) |
+| **V. Metafocus Skills** | Attune & 6 Disciplines | Intellect, Wisdom, or Charisma | 2 Core Categories (10+ Specialties & 12 Foci) | Requires `Awakened` Feature (`1 CP` per Rank) |
+
+### **2. Unified Skill Rank Stages, Combat Actions & Focus Matrix**
+
+| Rank Range | Skill Stage / Title | Combat Actions | Focus Bonus | Stage Benefits & Time Scaling |
+| :---: | :--- | :---: | :---: | :--- |
+| **0** | **Untrained** | 1 Full-Round (`-2`) | `—` | Relies on raw Attribute; Rushed/Meticulous steps are 1 step worse. |
+| **1 – 5** | **Stage 1: Novice** | 1st Action (Base) | `+2` | Apprentice standard; unlocks Trained-Only skill checks; `+1 WS` (Vocation). |
+| **6 – 10** | **Stage 2: Trained** | 2nd Action (`-5`) | `+3` | Professional standard; eligible for **Skill Specialization**, `+2` Synergy, & `+2 WS`. |
+| **11 – 15** | **Stage 3: Expert** | 3rd Action (`-10`) | `+4` | Specialist standard; grants `+4` Synergy & `+3 WS`; Meticulous bonus increases to `+3`/step. |
+| **16 – 20** | **Stage 4: Master** | 4th Action (`-15`) | `+5` | Sector-renowned authority (`+4 WS`); Meticulous bonus increases by `+50%` (`+3/+6/+9/+12`). |
+| **21 – 25** | **Stage 5: Grand Master** | 5th Action (`-20`) | `+6` | Virtuoso (`+5 WS`); Rushed penalties are cut in half (`-1/-2/-4`); may Take 10 under pressure. |
+| **26 – 30+** | **Stage 6: Pinnacle** | 6th Action (`-25`) | `+7` | Legendary perfection; may **Take 10 in any situation** (including combat) & roll with **Advantage**. |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL SYSTEM, TABLES & DIRECTORY)**
 
 Skills represent a character's training and expertise in specific areas. They are categorized into Physical, Mental, Social, Metaphysic, and Combat groups. During character creation, players receive Skill Points from their chosen species, origin, and faction, which they can allocate to improve their skills. Skill Checks determine success in actions related to the corresponding skill, and various modifiers can influence the outcome.
 
@@ -70,7 +116,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | **Piloting** | Operating vehicles, starships, mecha, and mount-riding. |
 | **Stealth** | Hiding, moving silently, and camouflaging oneself. |
 
-
   
 
 ## **II. MENTAL SKILLS**
@@ -81,7 +126,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | :-: | :-: |
 | **Alertness** | Environmental perception. Spotting hidden items, hearing noises, and avoiding surprise. |
 | **Academics** | Research, general education, and the ability to learn new information. |
-
 
   
 
@@ -111,7 +155,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | **Tactics** | Strategy and battlefield command. |
 | **Technology** | Engineering, repair, and mechanics. |
 | **Trade** | Commerce of supply and demand. |
-
 
   
 
@@ -149,7 +192,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | **Transporter** | Logistics and cargo management. |
 | **Weaponsmith** | Crafting and repairing weaponry. |
 
-
   
 
 ## **III. SOCIAL SKILLS**
@@ -164,14 +206,13 @@ Character Points (CP) are the currency used in character creation. All skills co
 
 | **SKILL NAME** | **DESCRIPTION** |
 | :-: | :-: |
-| **Insight** | Social perception. Reading emotions, detecting lies, and empathy (formerly Insight). |
+| **Insight** | Social perception. Reading emotions, detecting lies, and empathy (formerly a separate social perception skill). |
 | **Barter** | Negotiating prices and goods. |
 | **Bluff** | Deception, lying, and disguising intent. |
 | **Diplomacy** | Persuasion, negotiation, and etiquette. |
 | **Intimidate** | Coercion through fear or physical threat. |
 | **Leadership** | Commanding, inspiring, and coordinating group efforts. |
 | **Streetwise** | Gathering info, finding black markets, and urban survival. |
-
 
   
 
@@ -194,7 +235,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | **Style** | Fashion and personal presentation. |
 | **Wind** | Flutes, trumpets, and alien equivalents. |
 
-
   
 
 ## **IV. COMBAT SKILLS**
@@ -214,7 +254,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | **Ranged** | Bows, crossbows, and thrown weapons. |
 | **Unarmed** | Brawling, martial arts, and natural weapons. |
 
-
   
 
 ### **MODERN**
@@ -225,7 +264,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | :-: | :-: |
 | **Ballistic** | Pistols, rifles, SMGs, and kinetic firearms. |
 | **Heavy Weapons** | Rocket launchers, grenades, and vehicle-mounted guns. |
-
 
   
 
@@ -238,7 +276,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | **Energy** | Lasers, plasma rifles, and particle beams. |
 | **Heavy Energy** | Ship cannons, plasma mortars, and singularity projectors. |
 
-
   
 
 ## **V. METAFOCUS SKILLS (Optional)**
@@ -249,7 +286,6 @@ Character Points (CP) are the currency used in character creation. All skills co
 | :-: | :-: |
 | **Attune** | Channeling raw metaphysical energy. Used for casting checks. |
 | **Discipline** | Specific schools of magic/psionics (e.g., Telepathy, Entropy). |
-
 
   
 
@@ -269,7 +305,7 @@ This variability adds another layer of customization to character creation, allo
 
 Faction represents a group or organization they are aligned with. This affiliation not only shapes their worldview and goals but also provides them with certain advantages in the form of Skill Points and Features.
 
-Upon choosing a Faction during character creation, you receive 20 Skill Points that can be allocated towards skills that are suggested or encouraged by that Faction. This allows you to tailor your character's abilities to better fit the Faction's focus and expertise. For example, a character joining a militaristic faction might receive suggested skills like Firearms, Melee Weapons, and Tactics, while a character joining a scientific faction might receive suggested skills like Science, Technology, and Medicine.
+Upon choosing a Faction during character creation, you receive 20 Skill Points that can be allocated towards skills that are suggested or encouraged by that Faction. This allows you to tailor your character's abilities to better fit the Faction's focus and expertise. For example, a character joining a militaristic faction might receive suggested skills like Ballistic, Melee, and Knowledge (Tactics), while a character joining a scientific faction might receive suggested skills like Science, Technology, and Medicine.
 
   
 
@@ -277,7 +313,7 @@ Upon choosing a Faction during character creation, you receive 20 Skill Points t
 
 Origin refers to a character's upbringing and background. It represents the foundation upon which their life experiences and worldview are built. During character creation, players can choose from a variety of Origins, each offering unique benefits in the form of Skill Points and Origin Traits.
 
-Each Origin grants 20 Skill Points that can be allocated towards skills that are relevant to the character's background. For example, a character with a "Nomad" origin might put points into Survival, Vocation (Handler), and Perception, while a character with an "Aristocrat" origin might invest in Etiquette, Persuasion, and History. This allows players to tailor their character's abilities to reflect their upbringing and experiences.
+Each Origin grants 20 Skill Points that can be allocated towards skills that are relevant to the character's background. For example, a character with a "Nomad" origin might put points into Survival, Vocation (Handler), and Perception, while a character with an "Aristocrat" origin might invest in Knowledge (Culture), Diplomacy, and Knowledge (History). This allows players to tailor their character's abilities to reflect their upbringing and experiences.
 
   
 
@@ -285,7 +321,7 @@ Each Origin grants 20 Skill Points that can be allocated towards skills that are
 
 Occupation represents their chosen profession or career. This not only defines their area of expertise but also provides them with specific benefits during character creation.
 
-When you choose an Occupation for your character, you receive **20 Skill Points** (completing the **60 Skill Ranks** foundational background allocation alongside 20 SP from Faction and 20 SP from Origin, plus 4 Features and 4 Traits at 0 CP) that are allocated toward skills directly related to that profession. This ensures your character has a solid foundation in the skills necessary for their chosen career. For example, a character who selects the "Soldier" occupation might allocate their Skill Points towards Firearms, Melee Weapons, Tactics, and Survival. A character who chooses the "Scholar" occupation might focus on Science, History, Research, and Languages.
+When you choose an Occupation for your character, you receive **20 Skill Points** (completing the **60 Skill Ranks** foundational background allocation alongside 20 SP from Faction and 20 SP from Origin, plus 4 Features and 4 Traits at 0 CP) that are allocated toward skills directly related to that profession. This ensures your character has a solid foundation in the skills necessary for their chosen career. For example, a character who selects the "Soldier" occupation might allocate their Skill Points towards Ballistic, Melee, Knowledge (Tactics), and Knowledge (Survival). A character who chooses the "Scholar" occupation might focus on Science, History, Research, and Languages.
 
 This system allows you to tailor your character's abilities to their profession, making them more effective and believable in their chosen field. It also encourages you to think about the specific skills and knowledge that would be required for your character's Occupation, adding depth and realism to their background and capabilities.
 
@@ -420,7 +456,6 @@ Depending on the Skill Rank, characters achieve specific Titles. These titles se
 | **21 - 25** | Grand Master | Legendary. Understanding transcends logic. |
 | **26+** | Pinnacle | Demigod-like perfection. |
 
-
   
 
 ## **TIER DESCRIPTIONS**
@@ -473,16 +508,12 @@ A Grand Master represents an exceptional Rank of skill mastery, surpassing even 
 
   
 
-### **Pinnacle (Skill Rank 26+)**
-
-**Virtuoso.**
+### **Pinnacle (Skill Rank 26+)Virtuoso.**
 
   - **The Golden Rule:** A Pinnacle character may choose to **Take 10** in *any* situation, including combat or high-stress scenarios.
   - **Narrative:** Their mastery is so complete that failure is almost unthinkable. They perform with effortless grace, precision, and creativity, achieving results that others can only dream of.
 
   
-**  
-**
 
 ---
 
@@ -527,7 +558,10 @@ Individual skill definitions, 10-specialty matrices, and advanced resolution mec
 
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-312 (1.07 Skills Full Prose & 60-SP Background Allocation):** Restored 100% of the introductory prose, Skill Sources, Skill Modifiers, and Tier Descriptions from `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS` and `/game rules/operator/1.07 SKILLS.md`, normalized Occupation skill points from legacy `25 SP` to canonical `20 SP` (`20 + 20 + 20 = 60 SP`), integrated the Unified Skill Stage Action & Focus table, and normalized all `BP -> CP` and `DC -> CR` parameters.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-312A (Full Prose & Master Table Restoration):** Restored 100% of the introductory prose, Skill Points, Master Skill Category Tables (Physical, Mental, Knowledge, Vocation, Social Manipulation/Expression, Combat Archaic/Modern/Advanced, Metafocus), Skill Sources, Skill Ranks, Skill Modifiers, Time Modifiers, and Tier Descriptions from Codex `1.07 SKILLS`.
+* **DISC-312B (Mechanical Authority Normalization):** Enforced `2d10 vs. CR` resolution, `1 CP per 1 Skill Rank` customization pricing, `60 SP` background allocation (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation, normalized from legacy `25 SP` Occupation), and canonical skill names (`Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, `Computers`, `Ballistic`, `Diplomacy`, `Bluff`).
 

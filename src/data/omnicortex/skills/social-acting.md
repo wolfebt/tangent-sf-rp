@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Acting is the skill of portraying a character or role in a performance. It reflects a character's ability to use body language, facial expressions, and tone of voice to convey emotions and communicate effectively. Acting is used whenever a character needs to deceive or persuade others, or to perform in a play or other theatrical production. The ability to embody a character, fake emotions, or improvise a persona. Unlike Disguise (which is visual), Acting is behavioral. It allows a character to pass as a soldier, a doctor, or a beggar through mannerisms and speech patterns alone.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Impersonation:* Opposed check vs. **Insight**.
+- *Impersonation:* Opposed check vs. **Insight**.
   - *Distraction:* Create a scene to draw attention away from allies (CR 15).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Voice & Accent Mimicry:** Replicating the specific cadence, regional dialect, and vocal pitch of specific individuals.
       - **Improvisational Roleplay:** Reacting organically in character when an undercover cover story goes completely off the rails.

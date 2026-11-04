@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Courtesan is the skill of entertaining and pleasing others. It reflects a character's ability to dance, sing, or be intimate in a professional manner. Courtesan is used whenever a character needs to provide entertainment and pleasure to their clients. Professional companionship, high-society socialization, and the art of conversation and entertainment. Often overlaps with spying.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Seduction/Charm:* Opposed by Wisdom (Insight).
+- *Seduction/Charm:* Opposed by Wisdom (Insight).
   - *Gather Rumors:* CR 15 to pick up sensitive information during social interactions.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **High-Society Etiquette:** Effortlessly fitting into noble galas, elite banquets, and decadent private revues.
       - **Pillow Talk & Eavesdropping:** Coaxing military secrets, executive passcodes, and hidden plots from wealthy patrons.

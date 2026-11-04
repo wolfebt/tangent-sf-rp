@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","economy","02.economy.unifiedfieldtheory","matrix"]
-updatedAt: "2026-11-02T22:49:11.008Z"
+updatedAt: "2026-11-04T00:33:10.409Z"
 costs:
   bp: 0
   credits: 0
@@ -39,17 +39,24 @@ sockets:
 
 # **02.02 THE TANGENT ECONOMIC UNIFIED FIELD THEORY (EUFT DESIGN PROTOCOL)**
 
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
 ## **1. INTRODUCTION: RESOLVING ECONOMIC DISSONANCE IN RPGS**
 
 The design of economic systems within tabletop role-playing games (RPGs) has historically suffered from a fundamental fracture between narrative ambition and mechanical execution. In the **Tangent Sci-Fi Fantasy Role-Playing System (Tangent SF RP)**, the objective of the **Economic Unified Field Theory (EUFT)** is to synthesize a deterministic economic engine that unifies character creation resources (**Character Points [CP]**), abstract purchasing power (**Wealth Score [WS]**), liquid currency (**Credits [Cr]**), capacity scaling (**Universal Displacement Units [UDU]**), and the mechanics of fabrication (**Crafting Challenge Rating [CR]**).
 
 Economic dissonance arises when the different currencies of a game—time, experience, money, and crafting effort—fail to exchange at consistent mathematical rates:
-* In legacy fantasy d20 systems, crafting costs are derived from market prices assigned arbitrarily by utility rather than engineering complexity, leading to ludonarrative failures where a high-level hero can slay a dragon in six seconds yet requires literal years to forge a suit of armor statistically necessary for their tier.
+* In legacy fantasy legacy twenty-sided die systems, crafting costs are derived from market prices assigned arbitrarily by utility rather than engineering complexity, leading to ludonarrative failures where a high-level hero can slay a dragon in six seconds yet requires literal years to forge a suit of armor statistically necessary for their tier.
 * Conversely, purely abstract Wealth systems streamline bookkeeping at the cost of rendering "loot" and liquid rewards mechanically meaningless.
 
 **The Tangent Economic Matrix** resolves both dilemmas by establishing the **Crafting Challenge Rating (CR)** as the **Prime Mover** of the economy. The market value of any physical object in the universe is a direct, non-arbitrary derivative of the complexity required to create it.
-
----
 
 ## **2. THEORETICAL FRAMEWORK: THE VALUATION VECTOR**
 
@@ -63,9 +70,7 @@ In heroic fantasy systems, item progression is typically quadratic (`Bonus^2 * 1
 
 To encompass everything from a ration bar to an orbital megastructure on a single continuous scale, the relationship between **Crafting CR** and **Market Value** is governed by the **Tangent Standard Curve (TSC)** exponential function:
 
-```text
 V = V_base * Beta ^ [(CR - CR_base) / S]
-```
 
 Where:
 * **`V`** = Market Value in Credits (`Cr`).
@@ -75,9 +80,7 @@ Where:
 
 This yields the canonical **Master Valuation Formula** for all base items and chassis at intervals of `5 CR`:
 
-```text
 Value (Credits) = 10 * 4 ^ (CR / 5)
-```
 
 ### **2.3. The Coherence of CR-Derived Pricing & Linear Micro-Modifiers**
 
@@ -89,7 +92,7 @@ The Plasma Rifle is inherently **4 times** more valuable because it is one full 
 
 #### **The Micro-Modifier Valuation Rule (Resolving Fractional Exponents)**
 
-While `Value = 10 * 4 ^ (CR / 5)` is exact at integer multiples of 5 (`CR 0, 5, 10, 15, 20...`), applying minor frame, socket, or skin modifiers of `+1` to `+4 CR` at the tabletop should never require a scientific calculator to compute fractional exponents. Whenever minor upgrades or flaws adjust a Base Chassis CR by **1 to 4 points**, calculate the Base Value at the nearest multiple of 5 first, then apply the flat **Linear Micro-Modifier Multiplier**:
+While `Value = 10 * 4 ^ (CR / 5)` is exact at integer multiples of 5 (`CR 0, 5, 10, 15, 20`), applying minor frame, socket, or skin modifiers of `+1` to `+4 CR` at the tabletop should never require a scientific calculator to compute fractional exponents. Whenever minor upgrades or flaws adjust a Base Chassis CR by **1 to 4 points**, calculate the Base Value at the nearest multiple of 5 first, then apply the flat **Linear Micro-Modifier Multiplier**:
 
 | Minor CR Adjustment | Linear Multiplier | Percentage Change | Example (`Base CR 15 Rifle = 640 Cr`) |
 | :---: | :---: | :---: | :--- |
@@ -99,8 +102,6 @@ While `Value = 10 * 4 ^ (CR / 5)` is exact at integer multiples of 5 (`CR 0, 5, 
 | **`+2 CR` Upgrade** | **`x1.75`** | `+75%` | `CR 17` = `640 * 1.75` = **1,120 Cr** |
 | **`+3 CR` Upgrade** | **`x2.30`** | `+130%` | `CR 18` = `640 * 2.30` = **1,472 Cr** *(~1,470 Cr)* |
 | **`+4 CR` Upgrade** | **`x3.00`** | `+200%` | `CR 19` = `640 * 3.00` = **1,920 Cr** |
-
----
 
 ## **3. THE WEALTH MATRIX: INTEGRATING CHARACTER POINTS AND STATUS**
 
@@ -146,11 +147,7 @@ This establishes complete mathematical parity across the system: **`Purchase CR 
 Wealth Score can be damaged by catastrophic losses or grown through capital investment:
 * **Wealth Damage:** Legal sanctions, asset seizures, or defaulting on financed debt (`-2 WS` delinquent penalty) lowers WS.
 * **Permanent Wealth Growth Formula:** To raise **Wealth Score** permanently from `Current WS` to `Target WS` using liquid Credits (adventuring loot or trade profits), the character must invest liquid Credits equal to the difference in base value between the two tiers:
-  ```text
   Permanent WS Upgrade Cost (Credits) = Value(Target WS) - Value(Current WS)
-  ```
-
----
 
 ## **4. THE LIQUID INTERFACE: CREDITS, LIQUIDITY GAP & DRAG**
 
@@ -162,9 +159,7 @@ To prevent a `WS 20` character from claiming 10,000 free Plasma Rifles (`CR 20`)
 
 * **Rule 1: The Personal Use Limit:** Wealth Score auto-buy covers equipment for **personal use** or reasonable squad outfitting. Attempting bulk commercial acquisition triggers a **Strain Check** or requires speculative cargo purchasing (`02.Economy.InterstellarTrade.md`).
 * **Rule 2: Purchasing Above Wealth Score (The Liquidity Gap):** When a character seeks an item whose Crafting CR exceeds their Wealth Score, their passive leverage covers only the portion equal to their WS, leaving the **Liquidity Gap**:
-  ```text
   Liquidity Gap (Credits) = Value(Item CR) - Value(Character Wealth Score)
-  ```
   The character bridges this gap either by **paying the Liquidity Gap in liquid Credits** OR by rolling a **Wealth Check (`2d10 + WS vs. Item Cost CR`)** to finance the Liquidity Gap as cycle debt (incurring a `-2 WS` penalty if unpaid on rollover).
   * *Worked Scenario:* An Affluent operator (**WS 15**, Auto-Buy Limit `640 Cr`) wants an advanced Stealth Suit (**CR 18**, Value `~1,470 Cr` via `640 * 2.3`). Their WS 15 covers `640 Cr`, leaving a **Liquidity Gap of `830 Credits`** (`1,470 - 640 = 830 Cr`).
 
@@ -180,8 +175,6 @@ To eliminate "buy/craft and resell" infinite-wealth exploits, the market imposes
   * **Pristine Raw Materials (`50%` Value):** Purchasing pristine raw materials to fabricate an item costs **50% of the item's Total Credit Value**. Because legal goods also sell to a merchant at **50%** of value, buying pristine materials to craft items for standard resale yields **0 Credits profit (`50% - 50% = 0%`)**.
   * **Scavenged Scrap Mass (`10%` Value / `5x` Requirement):** Scavenged battlefield scrap can be refined into crafting feedstock without spending cash, but unrefined scrap holds only **10% of its original Value**. Consequently, crafting an item purely from scrap requires **5 times (`5x`) the item's Total Credit Value in unrefined scrap mass** (`10% of 5x = 50% material requirement`). For example, forging a `1,000 Cr` weapon from salvage requires `5,000 Cr` worth of unrefined scrap mass.
 
----
-
 ## **5. THE CRAFTING ENGINE: COMPLEXITY AS GAMEPLAY**
 
 Because item values scale exponentially along the Tangent Standard Curve, a linear crafting rate would require decades to build high-tier gear. Tangent resolves this through the **Productivity Engine**, where infrastructure scales exponentially via **Tool Tier Multipliers**.
@@ -190,9 +183,7 @@ Because item values scale exponentially along the Tangent Standard Curve, a line
 
 * **Item Complexity (`Target PP`):** Equal to the item's **Total Credit Value** (e.g., a `CR 20` Plasma Rifle requires `2,560 PP`).
 * **Daily Crafter Output (`PP / Day`):**
-  ```text
   Daily Progress (PP) = (Craft Check Result - 10) * Tool Tier Multiplier * Crew Size
-  ```
 
 #### **Table 5.1: The Production Tiers**
 
@@ -225,8 +216,6 @@ Because item values scale exponentially along the Tangent Standard Curve, a line
    * Craft Check: `40` | Tools: **Nanoforge (`x1,000`)**
    * Daily Progress: `(40 - 10) * 1,000 = 30,000 PP / day`
    * Completion Time: `40,960 / 30,000` = **1.36 Days (~Weekend Print)** *(High-tier operators with TL 4–5 infrastructure materialize mechs rapidly).*
-
----
 
 ## **6. COMPREHENSIVE ARCHITECT REFERENCE TABLES**
 
@@ -268,8 +257,6 @@ To maintain strict mathematical compatibility between microscopic cybernetics an
 | **Tier 2** | **Mount** | Mecha, Vehicles & Heavy Weapons (`< 100 kg`) | **10 Mounts = 1 Module** *(Garaging: 1 Mount = 1 Scale Multiplier)* |
 | **Tier 3** | **Module** | Architectural & Capital Ship Hulls (`< 10 Tons`) | **Never compresses to Tier 1 Sockets** |
 
----
-
 ## **7. MACRO-ECONOMICS: FACTIONS, STARSHIPS & SHELL VALUATION**
 
 ### **7.1. The "MegaCredit" (`MCr`) Resource Unit Abstraction**
@@ -290,8 +277,6 @@ When adjudicating **CR 40+ assets** (Starships, Orbital Stations, Planetary Defe
 ### **7.3. The Disconnected Module Rule (Architectural Shell Valuation)**
 
 When pricing multi-story buildings or arcologies (`99.Technology.ArchitecturalMatrix.md`), adding vertical stories increases the structural **Shell CR** (`Shell CR = Base Footprint CR + Height Class Mod`). To prevent vertical height from exponentially multiplying the cost of high-CR internal rooms (such as an Antimatter Core or Holodeck on the ground floor), always calculate the Credit Value of the **Structural Shell CR** first, then add the individual Credit Values of any **Specialized Internal Modules** separately.
-
----
 
 ## **8. STRESS TESTING AND EDGE CASES**
 
@@ -315,10 +300,14 @@ When pricing multi-story buildings or arcologies (`99.Technology.ArchitecturalMa
 * **Liquid Credits (`Loot`):** **Yes.** Four operators can pool their liquid Credits to pay a Liquidity Gap or purchase shared ship modules.
 * **Wealth Score (`WS`):** **No.** Wealth Score is personal credit standing; four Middle Class (`WS 10`) citizens do not equal one Wealthy (`WS 20`) corporate executive. They cannot add their WS numbers together to auto-buy a tank; they must bridge the Liquidity Gap with pooled cash.
 
----
-
 ## **9. CONCLUSION & ITEM RETROFIT SUMMARY**
 
 1. **Every Item Entry Must List `CR` (`WS`) and `Value (Cr)`:** Derived deterministically via `Value = 10 * 4 ^ (Base CR / 5)` and modified by Linear Micro-Modifiers (`+1 CR = x1.3`, `+2 CR = x1.75`, `+3 CR = x2.3`, `+4 CR = x3.0`, `-1 CR = x0.75`).
 2. **Zero-Sum Faction Cultural Skins:** Any Faction Cultural Skin that grants a `-5 CR` discount to acquisition complexity (such as Coalition Jury-Rigged gear) must apply a permanent `-25% Base SP` (or `-1 UDU Socket/Mount`) chassis sidegrade rather than relying solely on fumble RNG.
+
+## **DISCREPANCY & RESTORATION LEDGER (02.Economy.UnifiedFieldTheory.md)**
+
+- **File Target:** `architect/02.Economy.UnifiedFieldTheory.md`
+- **Restoration Pass (Three-Way Merge):** Restored 100% of Codex `06. Tangent - Economic Unified Theory (EUT)` prose, tables, and formulas with zero redactions or ellipses.
+- **Mechanical Normalization Pass (12 Global Rules):** Enforced 2d10 vs. CR, Character Points (CP), Universal Straight CP Pricing, and EUFT Linear Micro-Modifiers.
 

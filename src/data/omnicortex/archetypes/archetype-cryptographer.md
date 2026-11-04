@@ -45,40 +45,18 @@ cp_chassis: 80
 
 # The Cryptographer
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Intel / Support / Puzzle Solver  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 An expert in deciphering codes, languages, and hidden messages.
 
-> *You unlock the secrets. No code is unbreakable, no language untranslatable. You find meaning in the chaos, revealing the hidden messages that others cannot see.*
+*You unlock the secrets. No code is unbreakable, no language untranslatable. You find meaning in the chaos, revealing the hidden messages that others cannot see.*
 
-> _"Everything is a pattern. I just need to find the key."_
-
-## Tactical Role
-Decrypting comms, translating alien languages, solving logic puzzles.
-
-## Essential Skills
-- Knowledge (Investigation)
-- Knowledge (Language)
-- Knowledge (Technology)
-
-## Signature Features
-- Codebreaker
-- Analytical Mind
-
-## Recommendations
-- **Occupations**: Agent, Scholar
-- **Origins**: Research, Militaristic, Urban
-- **Factions**: Syndicate (Encryption), Mekan (Logic), Ascendancy
-
-
-## Extended Lore & Background
-
-An expert in deciphering codes, languages, and hidden messages.  
-*You unlock the secrets. No code is unbreakable, no language untranslatable. You find meaning in the chaos, revealing the hidden messages that others cannot see.*  
 *"Everything is a pattern. I just need to find the key."*
 
+  - **Core Concept:** Intel / Support / Puzzle Solver
+  - **Recommended Occupations:** Agent, Scholar.
+  - **Recommended Origins:** Research, Militaristic, Urban.
+  - **Recommended Factions:** Syndicate (Encryption), Mekan (Logic), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Knowledge (Language), Knowledge (Technology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Codebreaker, Analytical Mind.
+  - **Tactical Role:** Decrypting comms, translating alien languages, solving logic puzzles.

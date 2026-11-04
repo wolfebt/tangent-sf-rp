@@ -45,40 +45,18 @@ cp_chassis: 80
 
 # The Roboticist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Crafter / Minion Master / Tech  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 A scholar who specializes in the study, design, and development of robots.
 
-> *You breathe life into metal. You design and build the machines that serve, fight, and explore. You understand the artificial mind better than the organic one.*
+*You breathe life into metal. You design and build the machines that serve, fight, and explore. You understand the artificial mind better than the organic one.*
 
-> _"It's not just a machine. It's a masterpiece."_
-
-## Tactical Role
-Building/repairing drones, commanding robot minions, hacking enemy bots.
-
-## Essential Skills
-- Knowledge (Technology)
-- Vocation (Engineer)
-- Knowledge (Computers)
-
-## Signature Features
-- Robotic Affinity
-- Automation Expert
-
-## Recommendations
-- **Occupations**: Engineer, Scholar
-- **Origins**: Research, Industrial, Urban
-- **Factions**: Mekan (Self-Study), Syndicate (Drone Works), Ascendancy
-
-
-## Extended Lore & Background
-
-A scholar who specializes in the study, design, and development of robots.  
-*You breathe life into metal. You design and build the machines that serve, fight, and explore. You understand the artificial mind better than the organic one.*  
 *"It's not just a machine. It's a masterpiece."*
 
+  - **Core Concept:** Crafter / Minion Master / Tech
+  - **Recommended Occupations:** Builder (*Engineer*), Scholar.
+  - **Recommended Origins:** Research, Industrial, Urban.
+  - **Recommended Factions:** Mekan (Self-Study), Syndicate (Drone Works), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Engineer), Knowledge (Computers).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Robotic Affinity, Automation Expert.
+  - **Tactical Role:** Building/repairing drones, commanding robot minions, hacking enemy bots.

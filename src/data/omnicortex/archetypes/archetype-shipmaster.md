@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Shipmaster
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Logistics / Transport / Leadership  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.
 
-> *You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*
+*You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*
 
-> _"Time is money, and we are ahead of schedule."_
-
-## Tactical Role
-Managing ship operations, negotiating docking fees, avoiding piracy.
-
-## Essential Skills
-- Knowledge (Technology)
-- Leadership
-- Diplomacy
-- Knowledge (Trade)
-
-## Signature Features
-- Naval Expertise
-- Commanding Presence
-
-## Recommendations
-- **Occupations**: Merchant, Spacer
-- **Origins**: Spacer, Urban, Industrial
-- **Factions**: Outworlds (Freighters), Entari Combine (Trade Fleet), Syndicate
-
-
-## Extended Lore & Background
-
-A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.  
-*You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*  
 *"Time is money, and we are ahead of schedule."*
 
+  - **Core Concept:** Logistics / Transport / Leadership
+  - **Recommended Occupations:** Merchant, Spacer.
+  - **Recommended Origins:** Spacer, Urban, Industrial.
+  - **Recommended Factions:** Outworlds (Freighters), Entari Combine (Trade Fleet), Syndicate.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Leadership, Diplomacy, Knowledge (Trade).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Naval Expertise, Commanding Presence.
+  - **Tactical Role:** Managing ship operations, negotiating docking fees, avoiding piracy.

@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Physics is the skill of understanding and applying the laws of physics. It reflects a character's ability to understand the physical world and use that knowledge to solve problems. Physics is used whenever a character needs to understand the behavior of physical objects, whether it's to design a machine or to solve a puzzle. This can include things like calculating trajectories, designing experiments, and understanding the properties of matter and energy. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Solve Problem:** CR 15 to CR 30 depending on complexity.
+- **Solve Problem:** CR 15 to CR 30 depending on complexity.
   - **Analyze Anomaly:** CR 20+ to understand spatial distortions or energy fields.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Astrophysics:** Modeling stellar life cycles, black hole event horizons, neutron stars, and accretion disks.
       - **Quantum Mechanics:** Calculating particle superposition, quantum entanglement communications, and tunneling.

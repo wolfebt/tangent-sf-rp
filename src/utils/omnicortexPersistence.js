@@ -358,6 +358,11 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
 
       const docName = (doc.name || '').toString().toLowerCase().trim();
       const docTitle = (doc.title || '').toString().toLowerCase().trim();
+      // If doc is a local custom entry or explicitly flagged custom, preserve user's exact customized content without seed backfills
+      if ((docId && customEntryMap.has(docId)) || (docName && customEntryMap.has(docName)) || doc.isCustom || doc.is_custom) {
+        return doc;
+      }
+
       const shortDocName = normalizeShortName(docName || docTitle);
       const matchingSeed = seedMap.get(docId) ||
         (docName ? seedMap.get(docName) : null) ||
@@ -366,6 +371,28 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
       if (!matchingSeed) return doc;
 
       let enriched = { ...doc };
+
+      // Universal SSOT Markdown Refresh: ensure expanded/restored canonical .md prose
+      // automatically supersedes truncated or stale non-custom Firestore/local cache records.
+      const seedBody = typeof matchingSeed.body === 'string' ? matchingSeed.body.trim() : '';
+      const docBody = typeof enriched.body === 'string' ? enriched.body.trim() : '';
+      if (seedBody && (!docBody || seedBody.length >= docBody.length)) {
+        enriched.body = matchingSeed.body;
+      }
+
+      const seedFullText = typeof matchingSeed.full_text === 'string' ? matchingSeed.full_text.trim() : '';
+      const docFullText = typeof enriched.full_text === 'string' ? enriched.full_text.trim() : '';
+      if (seedFullText && (!docFullText || seedFullText.length >= docFullText.length)) {
+        enriched.full_text = matchingSeed.full_text;
+      } else if (!enriched.full_text && enriched.body) {
+        enriched.full_text = enriched.body;
+      }
+
+      const seedDesc = typeof matchingSeed.description === 'string' ? matchingSeed.description.trim() : '';
+      const docDesc = typeof enriched.description === 'string' ? enriched.description.trim() : '';
+      if (seedDesc && (!docDesc || seedDesc.length > docDesc.length)) {
+        enriched.description = matchingSeed.description;
+      }
 
       // Array fields to backfill if empty or missing in the doc
       const arrayFields = [
@@ -383,6 +410,14 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         'inherent_features',
         'bonus_feature_choices',
         'signature_traits',
+        'signature_features',
+        'essential_skills',
+        'professional_skills',
+        'society_skills',
+        'skill_package',
+        'archetypes',
+        'typical_archetypes',
+        'traits_detail',
         'traits',
         'species_traits',
         'movement_modes',

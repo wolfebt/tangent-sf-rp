@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **First Aid:** CR 15 to stabilize a dying character.
+- **First Aid:** CR 15 to stabilize a dying character.
   - **Long-term Care:** CR 15 to double natural healing rates for a patient.
   - **Surgery/Treat Disease:** CR varies by severity (CR 15 to CR 30).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.
       - **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.

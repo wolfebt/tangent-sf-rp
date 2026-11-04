@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Administrator is the skill of managing and organizing people and resources. It reflects a character's ability to lead and coordinate groups of people, and to manage budgets and schedules. Administrator is used whenever a character needs to manage a team, whether it's to complete a project or to run a business. This can include things like delegating tasks, setting goals, and managing finances. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Bureaucracy:* CR 15 to locate specific files or get a permit approved quickly.
+- *Bureaucracy:* CR 15 to locate specific files or get a permit approved quickly.
   - *Logistics:* CR 20 to organize a complex supply chain or fleet movement.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Civil Bureaucracy:** Fast-tracking applications, navigating red tape, and processing government licenses.
       - **Colony Management:** Allocating water, housing, power, and labor to maintain frontier outpost stability.

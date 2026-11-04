@@ -47,42 +47,18 @@ cp_chassis: 80
 
 # The Revolutionary
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Leader / Agitator / Skirmisher  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A charismatic leader who inspires and unites the rebellion.
 
-> *You are the voice of change. You rally the oppressed against the tyrant, turning despair into action. You lead the charge against the established order, fighting for a better tomorrow.*
+*You are the voice of change. You rally the oppressed against the tyrant, turning despair into action. You lead the charge against the established order, fighting for a better tomorrow.*
 
-> _"Break the chains! Rise up!"_
+*"Break the chains! Rise up!"*
 
-## Tactical Role
-Inspiring NPCs to fight, leading riots/raids, boosting ally morale.
-
-## Essential Skills
-- Leadership
-- Diplomacy
-- Insight
-- Knowledge (Tactics)
-- Combat (any)
-
-## Signature Features
-- Inspiring Rhetoric
-- Rebel Leader
-
-## Recommendations
-- **Occupations**: Citizen, Criminal
-- **Origins**: Industrial, Colony, Urban
-- **Factions**: Coalition (Independence), Outworlds, Syndicate (Unionizers)
-
-
-## Extended Lore & Background
-
-A charismatic leader who inspires and unites the rebellion.  
-*You are the voice of change. You rally the oppressed against the tyrant, turning despair into action. You lead the charge against the established order, fighting for a better tomorrow.*  
-*"Break the chains\! Rise up\!"*
-
+  - **Core Concept:** Leader / Agitator / Skirmisher
+  - **Recommended Occupations:** Citizen, Criminal.
+  - **Recommended Origins:** Industrial, Colony, Urban.
+  - **Recommended Factions:** Coalition (Independence), Outworlds, Syndicate (Unionizers).
+  - **Key Attributes:** Charisma (+3 Primary), Spirit (Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Diplomacy, Insight, Knowledge (Tactics), Combat (any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Inspiring Rhetoric, Rebel Leader.
+  - **Tactical Role:** Inspiring NPCs to fight, leading riots/raids, boosting ally morale.

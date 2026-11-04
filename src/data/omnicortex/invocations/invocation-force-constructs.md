@@ -33,21 +33,24 @@ negative_keywords: 'crude timber, brick and mortar, heavy masonry, fragile paper
 
 # FORCE CONSTRUCTS Invocation
 
-**Category**: Invocations  
-**Discipline**: Energy
-
 ## Description & Ritual Details
-Classification: Energy (Force) | Utility | \[Creation\] \[Shapeable\]  
+
+Classification: Energy (Force) | Utility | [Creation] [Shapeable]
+
 Parameters:
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Close  
-* **Area:** Variable  
-* **Duration:** 10 Minutes/Level  
-* **Resistance:** None
-Effect Description:  
-Creates semi-permanent items of utilitarian force: bridges, ladders, cages.  
+
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Close
+  - **Area:** Variable
+  - **Duration:** 10 Minutes/Level
+  - **Resistance:** None
+
+Effect Description:
+
+Creates semi-permanent items of utilitarian force: bridges, ladders, cages.
+
 **Scaling Function:**
-* **Integrity:** Structure Points \= 20 per Stage.  
-* **Complexity:** Detail level increases per Stage (Ramp \-\> Stairs \-\> Working Elevator).
-###
+
+  - **Integrity:** Structure Points = 20 per Stage.
+  - **Complexity:** Detail level increases per Stage (Ramp -> Stairs -> Working Elevator).

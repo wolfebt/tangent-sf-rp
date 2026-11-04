@@ -33,21 +33,24 @@ negative_keywords: 'missed spray, inaccurate scatter, heavy ballistic artillery,
 
 # FORCE MISSILE Invocation
 
-**Category**: Invocations  
-**Discipline**: Energy
-
 ## Description & Ritual Details
-Classification: Energy (Force) | Attack | \[Kinetic\] \[Tracking\]  
+
+Classification: Energy (Force) | Attack | [Kinetic] [Tracking]
+
 Parameters:
-* **Base Difficulty:** 10  
-* **Time:** Standard Action  
-* **Range:** Medium (100ft \+ 10ft/Level)  
-* **Area:** Single Target(s)  
-* **Duration:** Instantaneous  
-* **Resistance:** None (Auto-hit / Shield blocks)
-Effect Description:  
-Projectiles of hardened force that strike unerringly and cannot be dodged but may be blocked with a Defense check vs the Attune DC.  
+
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action
+  - **Range:** Medium (100ft + 10ft/Level)
+  - **Area:** Single Target(s)
+  - **Duration:** Instantaneous
+  - **Resistance:** None (Auto-hit / Shield blocks)
+
+Effect Description:
+
+Projectiles of hardened force that strike unerringly and cannot be dodged but may be blocked with a Defense check vs the Attune CR.
+
 **Scaling Function:**
-* **Damage:** 1d8 Kinetic/Force Damage per Stage.  
-* **Targets:** Can split damage dice among 1 target per Stage.
-###
+
+  - **Damage:** 1d8 Kinetic/Force Damage per Stage.
+  - **Targets:** Can split damage dice among 1 target per Stage.

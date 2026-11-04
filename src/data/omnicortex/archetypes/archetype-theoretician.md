@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Theoretician
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Research / Utility / Lore  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse.
 
-> *You explore the "why" behind the "how." While others use Knowledge (Technology), you define the laws that make it possible. You see the universe as a series of equations waiting to be balanced.*
+*You explore the "why" behind the "how." While others use Knowledge (Technology), you define the laws that make it possible. You see the universe as a series of equations waiting to be balanced.*
 
-> _"The math doesn't lie. It just tells truths we aren't ready to hear."_
-
-## Tactical Role
-Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis.
-
-## Essential Skills
-- Academics
-- Knowledge (Science \- Physics)
-- Knowledge (Technology)
-- Knowledge (Science \- Mathematics)
-
-## Signature Features
-- Logical Deduction
-- Innovative Thinking
-
-## Recommendations
-- **Occupations**: Scholar, Specialist
-- **Origins**: Research, Enlightened, Spacer
-- **Factions**: Mekan (Code Researchers), Ascendancy (Theorists), Alterian Enclave
-
-
-## Extended Lore & Background
-
-THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse.  
-*You explore the "why" behind the "how." While others use Knowledge (Technology), you define the laws that make it possible. You see the universe as a series of equations waiting to be balanced.*  
 *"The math doesn't lie. It just tells truths we aren't ready to hear."*
 
+  - **Core Concept:** Research / Utility / Lore
+  - **Recommended Occupations:** Scholar, Specialist.
+  - **Recommended Origins:** Research, Enlightened, Spacer.
+  - **Recommended Factions:** Mekan (Code Researchers), Ascendancy (Theorists), Alterian Enclave.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Science - Physics), Knowledge (Technology), Knowledge (Science - Mathematics).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Logical Deduction, Innovative Thinking.
+  - **Tactical Role:** Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis.

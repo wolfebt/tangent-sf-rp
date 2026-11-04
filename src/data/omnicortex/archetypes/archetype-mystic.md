@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Mystic
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Diviner / Support / Advisor  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A wise and insightful individual who perceives glimpses of the future and offers guidance.
 
-> *You see what will be. Time is a river, and you stand on the bank, watching the currents. You guide others away from disaster and towards their destiny with cryptic wisdom.*
+*You see what will be. Time is a river, and you stand on the bank, watching the currents. You guide others away from disaster and towards their destiny with cryptic wisdom.*
 
-> _"The future is written, but the ink is not yet dry."_
-
-## Tactical Role
-Gaining initiative bonuses, avoiding traps, gathering info via divination.
-
-## Essential Skills
-- Insight
-- Diplomacy
-- Discipline (Divination)
-
-## Signature Features
-- Prophetic Visions
-- Spiritual Advisor
-
-## Recommendations
-- **Occupations**: Adept, Scholar
-- **Origins**: Enlightened, Research, Leisure
-- **Factions**: Auluran, Alterian Enclave, Ascendancy
-
-
-## Extended Lore & Background
-
-A wise and insightful individual who perceives glimpses of the future and offers guidance.  
-*You see what will be. Time is a river, and you stand on the bank, watching the currents. You guide others away from disaster and towards their destiny with cryptic wisdom.*  
 *"The future is written, but the ink is not yet dry."*
 
+  - **Core Concept:** Diviner / Support / Advisor
+  - **Recommended Occupations:** Adept, Scholar.
+  - **Recommended Origins:** Enlightened, Research, Leisure.
+  - **Recommended Factions:** Auluran, Alterian Enclave, Ascendancy.
+  - **Key Attributes:** Wisdom (+3 Primary), Insight (Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Insight, Diplomacy, Discipline: Mental (Sense).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Prophetic Visions, Spiritual Advisor.
+  - **Tactical Role:** Gaining initiative bonuses, avoiding traps, gathering info via divination.

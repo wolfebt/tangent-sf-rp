@@ -45,33 +45,18 @@ cp_chassis: 80
 
 # The Saboteur
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Stealth / Tech / Debuff  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 A skilled operative who infiltrates to destroy or disrupt.
 
-> *You break things. Not randomly, but surgically. You know exactly where to place the charge or cut the wire to bring the whole system crashing down.*
+*You break things. Not randomly, but surgically. You know exactly where to place the charge or cut the wire to bring the whole system crashing down.*
 
-> _"A little chaos goes a long way."_
+*"A little chaos goes a long way."*
 
-## Tactical Role
-Disabling enemy infrastructure, setting traps, causing distractions.
-
-## Essential Skills
-- Stealth
-- Acrobatics
-- Knowledge (Technology)
-- Vocation (Demolitionist)
-
-## Signature Features
-- Demolitionist
-- Infiltrator
-
-## Recommendations
-- **Occupations**: Agent, Specialist
-- **Origins**: Militaristic, Urban, Industrial
-- **Factions**: Coalition (Resistance), Syndicate (Corporate Sabotage)
+  - **Core Concept:** Stealth / Tech / Debuff
+  - **Recommended Occupations:** Agent, Specialist.
+  - **Recommended Origins:** Militaristic, Urban, Industrial.
+  - **Recommended Factions:** Coalition (Resistance), Syndicate (Corporate Sabotage).
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Acrobatics, Knowledge (Technology), Vocation (Demolitionist).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Demolitionist, Infiltrator.
+  - **Tactical Role:** Disabling enemy infrastructure, setting traps, causing distractions.

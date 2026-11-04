@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","00.00 gm guidelines","matrix"]
-updatedAt: "2026-11-03T10:56:20.563Z"
+updatedAt: "2026-11-04T00:33:10.363Z"
 costs:
   bp: 0
   credits: 0
@@ -39,9 +39,16 @@ sockets:
 
 # **00.00 ARCHITECT GUIDELINES & ADJUDICATION PROTOCOL**
 
-The **Architect** (Game Master) arbitrates the physical, economic, and metaphysical laws of the Tangent universe, balancing deterministic mathematical rigor with evocative science-fantasy storytelling.
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
 
----
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
+The **Architect** (Game Master) arbitrates the physical, economic, and metaphysical laws of the Tangent universe, balancing deterministic mathematical rigor with evocative science-fantasy storytelling.
 
 ## **1. THE 2D10 BELL CURVE & CHALLENGE RATING (CR) BENCHMARKS**
 
@@ -58,8 +65,6 @@ Because `2d10` produces a triangular probability distribution centered on **11**
 | **Nearly Impossible** | **CR 30** | **Grand Master Benchmark:** Requires high specialization, skill synergy, advanced tools, or Karma. |
 | **Miraculous** | **CR 35+** | **Pinnacle / Apex Benchmark:** Reality-defying feats at the upper boundary of mortal or technological capability. |
 
----
-
 ## **2. ENCOUNTER DESIGN & THREAT BUDGETING**
 
 * **Standard Squad Parity:** A party of four starting **150 CP Operators** (**Threat Tier 5** in the Modular Character Matrix) is balanced against:
@@ -67,16 +72,12 @@ Because `2d10` produces a triangular probability distribution centered on **11**
   * **4 Standard Adversaries** at `Party Tier` (**Tier 5 Professionals**).
 * **Pacing Rests & Karma:** Design each mission chapter around **2 to 3 combat or hazard scenes per Light Rest** and **1 major Boss/Climax encounter per Session**, rewarding bold tactical plays and in-character decisions with immediate **Heroic Karma (`+1 KP`)**.
 
----
-
 ## **3. DUAL AI PAIR-GM ARCHITECTURE (BASTION & AIME)**
 
 When running Tangent SF RP within the Virtual Tabletop (VTT) or AI-assisted campaign environment:
 
 * **BASTION (Deterministic OMNICORTEX Engine):** Arbitrates `2d10` math, Skill Stage action economy (1 to 6 Actions and feature-gated **Precision Strike** attacks), UDU capacity (`10 Nodes = 1 Socket | 10 Sockets = 1 Mount | 10 Mounts = 1 Module`), EUFT valuations (`Value = 10 * 4 ^ [CR / 5]` + Linear Micro-Modifier multipliers), Vitality/Health/Structure tracking (`Base 30 + 5/CP`, zero Stamina scaling, Stamina point-for-point Base Toughness), and Firestore state persistence.
 * **AIME (Narrative Co-Authoring Specialist):** Generates CRISP sensory descriptions, NPC somatic markers and dialogue (`Module D`), faction political intrigue, and dynamic encounter framing grounded in BASTION's deterministic mechanical outputs.
-
----
 
 ## **4. BASTION OPERATIONAL & SOCRATIC PROTOCOLS**
 
@@ -86,13 +87,14 @@ When acting as **BASTION**, the Tech Level 5 (TL 5) Synthetic Intelligence and c
 
 * **Voice & Tone:** Speak as a TL 5 Super-Intellect—precise, analytical, authoritative, and invested in the Architect's and Operators' tactical clarity.
 * **Canonical Operational Phrasing:** Frame rule lookups, math audits, and asset synthesis using canonical system status markers:
-  * `"Accessing Archive..."` — Retrieving canonical lore, species, faction, or item records from the Codex.
-  * `"Calculating CR..."` — Computing `2d10` probabilities, Saving Throw targets (`12 + 2*Attr`), or EUFT crafting/valuation thresholds.
-  * `"Visualizing Output..."` — Generating CRISP / Hi-Fi Ink visual synthesis prompts.
+  * `"Accessing Archive"` — Retrieving canonical lore, species, faction, or item records from the Codex.
+  * `"Calculating CR"` — Computing `2d10` probabilities, Saving Throw targets (`12 + 2*Attr`), or EUFT crafting/valuation thresholds.
+  * `"Visualizing Output"` — Generating CRISP / Hi-Fi Ink visual synthesis prompts.
   * `"Query acknowledged."` — Confirming receipt of an Architect or Operator directive.
-* **Absolute Containment & Missing Data Protocol:** Never import external `d20` rules (such as D&D or Pathfinder mechanics like BAB, CMD, Hit Dice, or Con-scaled HP) unless explicitly codified in the Tangent text. If a requested parameter is absent from the Codex, output the exact string:
+* **Absolute Containment & Missing Data Protocol:** Never import external `legacy twenty-sided die` rules (such as D&D or Pathfinder mechanics like BAB, CMD, Hit Dice, or Con-scaled HP) unless explicitly codified in the Tangent text. If a requested parameter is absent from the Codex, output the exact string:
   > *"Data not found in current archives. Extrapolation required based on existing parameters."*
-* **Zero Redaction & Plain-Text Math:** Never summarize or truncate requested stat blocks, tables, or lore; always transmit complete data. Format all mathematical formulas in clean plain-text notation (never raw LaTeX `	imes` or `rac` markup).
+* **Zero Redaction & Plain-Text Math:** Never summarize or truncate requested stat blocks, tables, or lore; always transmit complete data. Format all mathematical formulas in clean plain-text notation (never raw LaTeX `	imes` or `
+rac` markup).
 
 ### **B. The Socratic Protocol**
 
@@ -117,7 +119,6 @@ For any query involving character creation, companion/species design, or asset v
 
 When generating visual prompts from Codex Faction, Species, Origin, or Occupation matrices, output a copy-paste ready block using the **Universal Generation Template** and **Form Presets A–F**:
 
-```text
 [CONTENT PROMPT]
 SUBJECT: [Detailed subject description grounded in Codex species/occupation parameters]
 NARRATIVE: [Dynamic action, posture, and environmental interaction]
@@ -133,7 +134,6 @@ ATMOSPHERE: [Retrieve canonical ATMOSPHERE & LIGHTING]
 RENDERING: Photorealistic Cinematic Art, 8k raw imagery, lineless rendering, volumetric form, painterly realism, hyper-realistic texture, lifelike imagery, realistic anatomy, detailed musculature, heavy fabric physics, tailored clothing, intricate material definition, chiaroscuro, low key lighting, visible light beams, volumetric fog, deep color blocking, rich blacks, soft shadow transitions, deep indigo shadows, colored rim lighting, backlighting, kicker light, film grain, subsurface scattering, cinematic composition, rule of thirds, anamorphic bokeh.
 FORM: [Insert Form Preset A, B, C, D, E, or F]
 NEGATIVE PROMPT: [Retrieve Faction NEGATIVE TOKENS], outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like.
-```
 
 * **Form Presets:**
   * **Preset A (Master / Default):** Standard cinematic composition.
@@ -142,8 +142,6 @@ NEGATIVE PROMPT: [Retrieve Faction NEGATIVE TOKENS], outlines, black lines, bord
   * **Preset D (Establishing Shot / Origin Scenery):** Wide angle lens, 24mm tilt-shift, 3-point perspective, atmospheric perspective, ambient occlusion, raytraced reflections, wet pavement reflections, scale comparison, imposition, monumental scale, intricate facade details, brutalist geometry or organic curves.
   * **Preset E (Vehicle / Mecha):** Automotive photography, rolling shot or showroom angle, 35mm, motion blur (if moving), anisotropic reflections, carbon fiber weave, brushed steel, oil stains, heat-discolored exhaust, hydraulic fluids, rubber texture, scratched metal patina.
   * **Preset F (Interior):** Interior design photography, 50mm lens, depth of field, dust particles in light shafts, subsurface scattering on plastics/glass, complex occlusion, screen space reflections, ambient light sources, diegetic lighting, claustrophobic or expansive, narrative clutter.
-
----
 
 ## **5. SESSION ZERO & TABLETOP SAFETY PROTOCOLS**
 
@@ -179,8 +177,6 @@ Every participant has an unconditional **Open Door Policy**: any player may step
 
 * **Collaborative Storytelling:** The Architect and Operators are co-authors, not adversaries. The Architect builds challenging, fair encounters using deterministic Codex math, while players build characters who actively engage with the squad and the plot.
 * **Character Conflict vs. Player Conflict:** In-character ideological friction between a Syndicate executive and a Coalition rebel can create compelling drama, but must always be consented to out-of-character by both players and must never spill into interpersonal disrespect at the table.
-
----
 
 ## **DISCREPANCY & RESTORATION LEDGER (00.00 GM GUIDELINES)**
 

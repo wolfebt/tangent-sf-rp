@@ -34,23 +34,27 @@ keywords: >-
   cold chill, shadow step, nether shroud, void strike, shadow conjuring
 negative_keywords: 'solar radiance, high noon flare, sterile laboratory, holy temple, open honesty'
 ---
+
 # DARKNESS Invocation
 
-**Category**: Invocations  
-**Discipline**: Illusion
-
 ## Description & Ritual Details
-Classification: Illusion (Shadow) | Environmental | \[Obscurement\] \[Negative Light\]  
+
+Classification: Illusion (Shadow) | Environmental | [Obscurement] [Negative Light]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Close  
-* **Area:** 20ft Radius  
-* **Duration:** 1 Round per Stage  
-* **Resistance:** None
-Effect Description:  
-Fills an area with supernatural shadow that blocks normal and low-light vision.  
+
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Close
+  - **Area:** 20ft Radius
+  - **Duration:** 1 Round per Stage
+  - **Resistance:** None
+
+Effect Description:
+
+Fills an area with supernatural shadow that blocks normal and low-light vision.
+
 **Scaling Function:**
-* **Integrity:** At Stage 3+, blocks Darkvision. At Stage 5, blocks Digital Sensors.  
-* **Area:** Radius \= 20ft per Stage.
-###
+
+  - **Integrity:** At Stage 3+, blocks Darkvision. At Stage 5, blocks Digital Sensors.
+  - **Area:** Radius = 20ft per Stage.

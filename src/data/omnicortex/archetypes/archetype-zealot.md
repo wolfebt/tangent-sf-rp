@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Zealot
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Social Combat / Anti-Meta  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Charisma  
 
-## Overview
 Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma.
 
-> *You are the purity of the cause. You see the corruption that hides in the hearts of men and burn it out. You are feared not for your strength, but for your absolute, terrifying certainty.*
+*You are the purity of the cause. You see the corruption that hides in the hearts of men and burn it out. You are feared not for your strength, but for your absolute, terrifying certainty.*
 
-> _"Innocence proves nothing."_
-
-## Tactical Role
-Breaking enemy morale, uncovering spies, resisting psychic attacks.
-
-## Essential Skills
-- Intimidation
-- Investigation
-- Insight
-- Bluff
-
-## Signature Features
-- Unwavering Conviction
-- Fearsome Reputation
-
-## Recommendations
-- **Occupations**: Agent, Soldier (Impyrium)
-- **Origins**: Militaristic, Urban (Capital), Enlightened
-- **Factions**: Impyrium (Inquisitors), Auluran (Purists), Dracon Dynasty
-
-
-## Extended Lore & Background
-
-Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma.  
-*You are the purity of the cause. You see the corruption that hides in the hearts of men and burn it out. You are feared not for your strength, but for your absolute, terrifying certainty.*  
 *"Innocence proves nothing."*
 
+  - **Core Concept:** Social Combat / Anti-Meta
+  - **Recommended Occupations:** Agent, Soldier (Impyrium).
+  - **Recommended Origins:** Militaristic, Urban (Capital), Enlightened.
+  - **Recommended Factions:** Impyrium (Inquisitors), Auluran (Purists), Dracon Dynasty.
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Investigation, Insight, Bluff.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Unwavering Conviction, Fearsome Reputation.
+  - **Tactical Role:** Breaking enemy morale, uncovering spies, resisting psychic attacks.

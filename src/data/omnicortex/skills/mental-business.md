@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Analyze Market:* CR 15 to predict trends or find investment opportunities.
+- *Analyze Market:* CR 15 to predict trends or find investment opportunities.
   - *Corporate Insight:* CR 20 to understand internal company politics or organizational structures.
   - *Negotiation:* CR 15+ to facilitate business deals.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Corporate Law & Governance:** Understanding regulatory filings, compliance liabilities, and corporate charters.
       - **Market Trend Analysis:** Forecasting supply, demand, and economic fluctuations across star sectors.

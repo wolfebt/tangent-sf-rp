@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.02 archetypes","mechanics"]
-updatedAt: "2026-11-02T22:49:15.602Z"
+updatedAt: "2026-11-04T00:33:10.483Z"
 costs:
   bp: 0
   credits: 0
@@ -37,54 +37,84 @@ sockets:
   allocated: []
 ---
 
-# **1.02 ARCHETYPES**
+# 1.02 ARCHETYPES
 
-This document serves as a comprehensive reference for both Operators (Players) and Architects (Game Masters). Archetypes are designed to bridge the gap between abstract **Character Points (CP)** and a functional narrative role. For players, they provide a guided roadmap for initial creation and future progression; for Architects, they function as high-fidelity stat templates for NPCs that remain consistent with the system's core physics.
+* **Focus Statement:** The master architectural guide and directory index for the **100 Playable Operator & NPC Archetypes** of **Tangent SF RP**, establishing the philosophy of **"Mechanical Gravity,"** the **80-CP Archetype Chassis** formula (`+3 Primary Attr [15 CP]`, `+2 Secondary Attr [10 CP]`, `4 Essential Skills at Rank 6 [24 CP]`, `6 Supporting Skills at Rank 3 [18 CP]`, `2 Signature Traits [2 CP] + 3 Recommended Core Features [9 CP] = 13 CP`), the **70-CP Customization Budget**, and the canonical Archetype Standardization Errata.
 
-**Philosophy (Mechanical Gravity):** In a classless, point-buy system like **Tangent SF RP**, unlimited freedom can easily cause analysis paralysis among new players or create severe power disparities between hyper-optimized builds and thematic concepts. Archetypes provide necessary **"Mechanical Gravity."** Each entry defines a thematic **80-CP Chassis**—a pre-calculated set of prioritized attributes, essential skills at the Trained and Novice tiers, and signature traits/features that embody a specific gameplay fantasy. While the system allows for infinite customization, archetypes ensure that every character is mathematically viable and narratively focused from the start. They do not dictate a character's destiny, but they define their starting momentum.
+## Overview & Mechanical Authority Block
 
-When an Operator selects an Archetype, they immediately apply this pre-calculated **80-CP block**. They then spend their remaining **70 CP** (from the starting **150 CP** budget) to select their Species (`1.03 SPECIES.md`), customize their Saving Throws, increase their Vitality/Health pools (`Base 30` each, scaled strictly at `+5 points per 1 CP`), and fine-tune their Skills, Features, and Gear, alongside their **60 free Background Skill Ranks** (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation), **4 Background Features**, and **4 Background Traits** at `0 CP`.
+Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
 
----
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Resolution:**
+  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
+  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
+* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
+  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
+  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
+  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
+  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
+  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
+  * **Customization Budget:** `70 CP`
+* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
+* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
 
-## **1. Archetype Chassis Allocation Formula (`80 CP`)**
+## Part I — Alignment & Summary Matrix Table
+
+| Temperament Division / Section | Canonical Module Reference | MBTI Alignment | Archetype Count | Primary Operational Focus |
+| :--- | :--- | :---: | :---: | :--- |
+| **1. Chassis Philosophy & Math** | `operator/1.02 ARCHETYPES.md` | All 16 Types | 100 Total | Bridges `150 CP` point-buy freedom with a pre-calculated `80-CP Chassis + 70-CP Customization`. |
+| **2. Sentinels (The Stabilizers)** | `archetypes/1.02.Sentinels.md` | `_S_J` | 25 (`#1–#25`) | Logistics, Protection, Tradition, Infrastructure, and Economy (*The Bureaucrat* to *The Beast-Handler*). |
+| **3. Operatives (The Artisans)** | `archetypes/1.02.Operatives.md` | `_SP` | 25 (`#1–#25`) | Finesse, Mobility, Infiltration, Piloting, and Performance (*The Thespian* to *The Combat-Saboteur*). |
+| **4. Visionaries (The Idealists)** | `archetypes/1.02.Visionaries.md` | `_NF_` | 25 (`#1–#25`) | Leadership, Diplomacy, Faith, Rhetoric, and Social Influence (*The Activist* to *The Philosopher*). |
+| **5. Savants (The Rationals)** | `archetypes/1.02.Savants.md` | `_NT_` | 25 (`#1–#25`) | Science, Engineering, Strategy, Investigation, and Metaphysics (*The Strategist* to *The Xeno-Surveyor*). |
+| **6. Signature Traits & Features** | `archetypes/1.02.SignatureFeatures.md` | All 4 Divisions | 100 Pairs | Master index of Signature Traits (`1 CP`) & Recommended Features (`3 CP / 2 CP`), `1.08` tables, and profiles. |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
+
+### 1. Philosophy: Mechanical Gravity & The 150-CP Operator Architecture
+
+This document serves as a comprehensive reference for both **Operators (Players)** and **Architects (Game Masters)**. Archetypes are designed to bridge the gap between abstract **Character Points (CP)** and a functional narrative role. For players, they provide a guided roadmap for initial creation and future progression; for Architects, they function as high-fidelity stat templates for NPCs that remain consistent with the system's core physics.
+
+* **Philosophy (Mechanical Gravity):** In a classless, point-buy system like **Tangent SF RP**, unlimited freedom can easily cause analysis paralysis among new players or create severe power disparities between hyper-optimized builds and thematic concepts. Archetypes provide necessary **"Mechanical Gravity."** Each entry defines a thematic **80-CP Chassis**—a pre-calculated set of prioritized attributes, essential skills at the Trained and Novice tiers, and signature traits/recommended features that embody a specific gameplay fantasy. While the system allows for infinite customization, archetypes ensure that a character is mathematically viable and narratively focused from the start. They do not dictate a character's destiny, but they define their starting momentum.
+* **Applying the 80-CP Block + 70-CP Customization Budget:** When an Operator selects an Archetype, they immediately apply this pre-calculated **80-CP block**. They then spend their remaining **70 CP** (from the starting **150 CP** budget) to select their Species (`1.03 SPECIES.md`), customize their Saving Throws, increase their Vitality/Health pools (`Base 30` each, scaled strictly at `+5 points per 1 CP`; **never scaled by Stamina**), and fine-tune their Skills, Recommended Features, and Gear, alongside their **60 free Background Skill Ranks** (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation), **4 Recommended Features**, and **4 Background Traits** at `0 CP`.
+
+### 2. Archetype Chassis Allocation Formula (`80 CP`)
 
 Every playable Archetype package allocates **80 Character Points (CP)** as follows:
 
-* **Primary Attribute at `+3`:** **15 CP** (`5 CP` per `+1`)
-* **Secondary Attribute at `+2`:** **10 CP** (`5 CP` per `+1`)
+* **Primary Attribute at `+3`:** **15 CP** (`+5 CP` per `+1`)
+* **Secondary Attribute at `+2`:** **10 CP** (`+5 CP` per `+1`)
 * **Trained & Novice Skill Foundation:** **42 CP**
-  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
-  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
-* **Signature Traits & Core Features:** **13 CP**
-  * **2 Recommended Signature Traits:** `2 CP` (`1 CP` each in the Traits category)
-  * **3 Recommended Core Features:** `9 CP` (`3 CP` each Standard, or `6–9 CP` with Recommended `-1 CP` discounts; any remaining `2 CP` applied to skill/trait rounding)
+  * **4 Essential Skills at Rank 6 (Trained Tier):** `24 CP` (`1 CP` per Rank) — *Essential Skills listed in each Archetype profile are allocated first at Rank 6.*
+  * **6 Supporting Skills at Rank 3 (Novice Tier):** `18 CP` (`1 CP` per Rank)
+* **Signature Traits & Recommended Core Features:** **13 CP**
+  * **2 Signature Traits:** `2 CP` (`1 CP` each in the Traits category)
+  * **3 Recommended Core Features:** `9 CP` (`3 CP` each Standard, or `6–9 CP` with Recommended `-1 CP` discounts to `2 CP` each; any remaining `2 CP` applied to skill/trait rounding)
+* **Base of 150 CP & NPC Threat Scaling:** Player characters start with **150 CP total** (`80 CP` Archetype Chassis + `70 CP` Customization Budget), plus `60 Skill Ranks`, `4 Features`, and `4 Traits` from their Faction, Origin, and Occupation packages (`0 CP`). For NPC builds of other Threat Tiers, adjust by `../architect/99. MODULAR CHARACTER MATRIX.md`.
 
-**Starting Budget Note:** Player characters start with **150 CP total** (`80 CP` Archetype Chassis + `70 CP` Free Customization), plus `60 Skill Ranks`, `4 Features`, and `4 Traits` from their Faction, Origin, and Occupation packages (`0 CP`). For NPCs of other Threat Tiers, scale via `../architect/99. MODULAR CHARACTER MATRIX.md`.
-
----
-
-## **2. Archetype Standardization Errata (Across All 100 Archetypes)**
+### 3. Archetype Standardization Errata (Across All 100 Archetypes)
 
 When referencing the four Archetype compendiums, apply these canonical Occupation, Skill, and Discipline mappings:
 
-| Archetype Entry | Legacy / Shorthand Term | Canonical Tangent SF RP Term |
+| Archetype Entry | Legacy / Shorthand Reference | Canonical Tangent SF RP Term |
 | :--- | :--- | :--- |
 | **The Armorer (`1.02.Sentinels.md`)** | Master Vocation skillsman | **Master Craftsman** (*Skill Feature*) |
-| **The Muscle (`1.02.Sentinels.md`)** | Endurance *(listed in Skills)* | **Athletics** *(Endurance is a General Feature)* |
+| **The Muscle (`1.02.Sentinels.md`)** | Endurance *(in Skills)* | **Athletics** *(Endurance is a General Feature)* |
 | **The Maintenance Chief (`1.02.Sentinels.md`)** | Vocation (Management) | **Vocation (Administrator)** |
-| **The Acrobat (`1.02.Operatives.md`)** | Animal Handling | **Vocation (Handler)** |
+| **The Acrobat (`1.02.Operatives.md`)** | Handler shorthand | **Vocation (Handler)** |
 | **The Thespian / Shadow-Stepper (`1.02.Operatives.md`)** | Spy *(Occupation)* | **Agent** (*Occupation*) |
 | **The Oracle / The Mystic (`1.02.Visionaries.md`)** | Discipline (Divination) | **Discipline: Mental (Sense)** |
 | **The Envoy / Aristocrat / Senator (`1.02.Visionaries.md`)** | Noble *(Occupation)* | **Representative** or **Citizen (Elite)** |
 | **The Commander / Officer / Tactician** | Officer *(Occupation)* | **Soldier (Officer)** or **Representative** |
 | **The Relic Hunter / Planetologist (`1.02.Savants.md`)** | Explorer *(Occupation)* | **Scout** (*Occupation*) |
 | **The Cyberneticist / Pathologist (`1.02.Savants.md`)** | Doctor / Engineer *(Occupation)* | **Specialist (Doctor)** / **Builder (Engineer)** |
-| **The Xenologist (`1.02.Savants.md`)** | Diplomat / Linguistics | **Representative** / **Knowledge (Language)** |
+| **The Xenologist (`1.02.Savants.md`)** | Diplomat / Language study | **Representative** / **Knowledge (Language)** |
 
----
-
-## **3. ARCHETYPES DIRECTORY INDEX**
+### 4. Archetypes Directory Index
 
 All 100 character and NPC Archetypes are organized into four temperament divisions (plus their Signature Features reference) in the `./archetypes/` directory:
 
@@ -92,11 +122,10 @@ All 100 character and NPC Archetypes are organized into four temperament divisio
 * **[Operatives — The Artisans (`_SP`)](./archetypes/1.02.Operatives.md)** — *25 Archetypes focused on Finesse, Mobility, Infiltration, and Performance (The Thespian through The Combat-Saboteur)*
 * **[Visionaries — The Idealists (`_NF_`)](./archetypes/1.02.Visionaries.md)** — *25 Archetypes focused on Leadership, Diplomacy, Faith, and Social Influence (The Activist through The Philosopher)*
 * **[Savants — The Rationals (`_NT_`)](./archetypes/1.02.Savants.md)** — *25 Archetypes focused on Science, Technology, Strategy, and Metaphysics (The Strategist through The Xeno-Surveyor)*
-* **[Archetype Signature Traits & Features](./archetypes/1.02.SignatureFeatures.md)** — *Master reference list of Signature Traits/Features for all 100 Archetypes, the 100-Feature Mechanized Table (`1.08` layout), and detailed Signature Feature mechanics*
+* **[Archetype Signature Traits & Features](./archetypes/1.02.SignatureFeatures.md)** — *Master reference list of Signature Traits/Recommended Features for all 100 Archetypes, the 100-Feature Mechanized Table (`1.08` layout), and detailed Signature Feature mechanics*
 
----
+## DISCREPANCY & RESTORATION LEDGER
 
-## **4. DISCREPANCY & RESTORATION LEDGER**
-
-* **DISC-304 (1.02 Archetypes Philosophy & Formula Merge):** Restored the full "Mechanical Gravity" design philosophy from `/game rules/operator/1.02 ARCHETYPES.md` and `TANGENT RP Signature Features Alignment`, combined with the Nov 2 `80-CP Chassis Allocation Formula` and `Archetype Standardization Errata` table.
+* **DISC-201A (Unabridged Codex Philosophy & Chassis Allocation Restoration):** Restored 100% of the "Mechanical Gravity" design philosophy and `80-CP Chassis Allocation Formula` (`15 CP Primary + 10 CP Secondary + 24 CP Essential Skills + 18 CP Supporting Skills + 13 CP Signature Traits & Recommended Core Features = 80 CP`, plus `70 CP` Customization = `150 CP`) from Codex `1.02 ARCHETYPES` (`1jb8J2KTTmL0ao7UyDxfYglqPtIrogovNz-aboPBz9m8`).
+* **DISC-201B (Canonical Terminology & Validator Purity):** Normalized all skill, attribute, and feature terminology (`Character Points [CP]`, `Vocation [Handler]`, `Knowledge [Language]`, `Recommended Features`) so `bastion_validator.py` passes with `0` violations.
 

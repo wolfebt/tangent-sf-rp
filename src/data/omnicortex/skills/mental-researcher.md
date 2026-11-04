@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Researcher is the skill of conducting research and analyzing data. It reflects a character's ability to gather information, analyze it, and draw conclusions. Researchers are responsible for ensuring that information is accurate and reliable. This can include things like conducting surveys, analyzing data, and writing reports.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Conduct Experiment:* CR 20 to test a hypothesis.
+- *Conduct Experiment:* CR 20 to test a hypothesis.
   - *Synthesize Data:* CR 15 to combine multiple clues into a theory.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Experimental Design:** Structuring double-blind trials, control groups, and repeatable lab procedures.
       - **Empirical Data Modeling:** Plotting statistical regressions, identifying standard deviations, and mapping anomalies.

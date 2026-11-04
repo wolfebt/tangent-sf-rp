@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Celebrity is the skill of managing one's public image and interacting with fans and the media. It reflects a character's ability to manage social interactions, give interviews, and attend public events. Celebrity is used whenever a character needs to maintain a positive public image and promote their brand.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Work the Crowd:* CR 15 to gain access to a VIP area based on recognition.
+- *Work the Crowd:* CR 15 to gain access to a VIP area based on recognition.
   - *Spin:* CR 20 to mitigate a scandal or bad reputation event.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Holonet Streaming & Broadcast:** Presenting engaging video streams, entertaining live feeds, and hosting shows.
       - **Public Relations Spin:** Turning scandalous mistakes, arrests, or failures into sympathetic PR victories.

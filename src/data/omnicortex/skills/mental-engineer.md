@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Engineering is the skill of using scientific principles to design and build mecha, automata (simple robotics) and similar structures and mechanisms. It reflects a character's ability to apply mathematical and scientific concepts to create new products or improve existing ones. Engineers work in various industries, including mechanical, electrical, computer and architectural skills. Engineering is using various components together to craft something larger and more complex, whereas the components themselves are covered by particular skills such as Mechanical or Electrical.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Diagnose Issue:* CR 15 to identify why the Hyperdrive isn't engaging.
+- *Diagnose Issue:* CR 15 to identify why the Hyperdrive isn't engaging.
   - *Boost System:* CR 20 to temporarily increase engine output or shield strength.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Starship FTL Propulsion:** Servicing warp field coils, hyperdrive motivators, and dimensional jump engines.
       - **Sublight Thruster Assemblies:** Maintaining ion drives, fusion torches, and chemical reaction thrusters.

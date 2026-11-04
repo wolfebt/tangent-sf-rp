@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).
+- **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).
   - **Detect Forgery:** Opposed check vs. Forgery (Bluff/Craft).
   - **Identify Properties:** CR 15+ to determine what a specific device or artifact does.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Antiquities & Relics:** Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics.
       - **Gems & Exotic Minerals:** Assessing crystalline purity, carats, cut, and value of rare planetary ores.

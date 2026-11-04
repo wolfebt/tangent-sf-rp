@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Survival is the skill of surviving in extreme environments. It reflects a character's ability to find food, water, and shelter in the wilderness, and to avoid danger. Survival is used whenever a character needs to survive in the wilderness, whether it's to explore a new area or to escape from danger. This can include things like finding food and water, building shelter, and avoiding predators. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Track:** CR varies by surface (Soft ground CR 10, Hard floor CR 20+).
+- **Track:** CR varies by surface (Soft ground CR 10, Hard floor CR 20+).
   - **Survival:** CR 15 to provide food/water for self; +2 CR per additional person.
   - **Endure Elements:** Grants bonuses to Fortitude saves against weather.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Foraging:** Sourcing edible roots, insects, fruits, and clean sustenance in untamed wilderness.
       - **Water Procurement:** Locating hidden springs, building solar condensation stills, and testing water toxicity.

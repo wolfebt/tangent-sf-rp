@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Forensic Pathologist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Investigation / Science / Intel  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 An expert in determining cause of death and analyzing biological evidence.
 
-> *The dead speak to you. You read the story of their final moments in their wounds and chemistry. You find the truth that the living try to hide.*
+*The dead speak to you. You read the story of their final moments in their wounds and chemistry. You find the truth that the living try to hide.*
 
-> _"The body never lies."_
-
-## Tactical Role
-Solving murders, identifying toxins/diseases, analyzing biological threats.
-
-## Essential Skills
-- Knowledge (Medicine)
-- Knowledge (Investigation)
-- Knowledge (Science \- Biology)
-
-## Signature Features
-- Forensic Analysis
-- Medical Expertise
-
-## Recommendations
-- **Occupations**: Doctor, Agent
-- **Origins**: Research, Urban, Colony
-- **Factions**: Entari Combine (Justice), Syndicate (Internal Affairs), Coalition
-
-
-## Extended Lore & Background
-
-An expert in determining cause of death and analyzing biological evidence.  
-*The dead speak to you. You read the story of their final moments in their wounds and chemistry. You find the truth that the living try to hide.*  
 *"The body never lies."*
 
+  - **Core Concept:** Investigation / Science / Intel
+  - **Recommended Occupations:** Specialist (*Doctor*), Agent.
+  - **Recommended Origins:** Research, Urban, Colony.
+  - **Recommended Factions:** Entari Combine (Justice), Syndicate (Internal Affairs), Coalition.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Medicine), Knowledge (Investigation), Knowledge (Science - Biology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Forensic Analysis, Medical Expertise.
+  - **Tactical Role:** Solving murders, identifying toxins/diseases, analyzing biological threats.

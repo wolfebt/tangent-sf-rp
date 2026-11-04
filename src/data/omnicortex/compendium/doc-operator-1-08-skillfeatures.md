@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.skillfeatures","mechanics"]
-updatedAt: "2026-11-02T22:49:25.227Z"
+updatedAt: "2026-11-04T00:33:10.663Z"
 costs:
   bp: 0
   credits: 0
@@ -39,68 +39,83 @@ sockets:
 
 # **1.08.08 SKILL FEATURES (PART I: A – M)**
 
-# **SKILL FEATURES**
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/features/1.08.SkillFeatures.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/features/1.08.SkillFeatures.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.08 FEATURES (File ID: 1sSXybfCpspSaGg1DpaYNoBTEeCGvCyEAuIC-EAPSxiM)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Feature Pricing:** Standard Feature = `3 CP`; Recommended Feature = `2 CP` (`-1 CP` discount for Species, Faction, Origin, or Occupation recommended features; minimum `1 CP`).
+* **Core Resolution & Saves:** `2d10 + Modifiers vs. CR`; Advantage rolls `+1d10` (keep highest 2).
+* **Feature-Gated Consolidation & Zero Stamina Scaling:** `Precision Strike` (`2x`/`3x`/`4x` base weapon dice) gates single-attack consolidation; Stamina provides `Base Toughness` DR and never scales Health/Vitality pools.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (SKILL FEATURES SUMMARY TABLE (49 FEATURES))**
+
+| **FEATURE NAME** | **PREREQUISITE** | **BENEFIT / EFFECT** | **SPECIAL / NOTES** |
+| :--- | :--- | :--- | :--- |
+| **Aeronaut** | Piloting (Unpowered) 1 | Make Unpowered Piloting checks with Advantage (`2d10 + 1d10` keep highest 2) | — |
+| **Animal Affinity** | None | +2 Survival and Vocation (Handler) checks to handle, ride, or tame animals | — |
+| **Artificer** | Attune 11, Discipline 11, Craft 11 | Metacrafting and Prototyping checks made with Advantage | — |
+| **Artistic** | None | +2 bonus to 2 chosen Expression (Performance) or Vocation (Art/Craft) skills | — |
+| **Attractive** | Charisma 2 | +2 bonus to Social checks where physical appeal is a factor | Ranked (Charisma) |
+| **Biotechnologist** | Science/Nature/Medicine 11 | Biotechnology Prototyping and Grafting checks made with Advantage | — |
+| **Computer Specialist** | Computers 1 | +2 bonus to all Computers tasks (Hacking, Programming, Operation) | — |
+| **Digital Expert** | Computer Specialist | Perform all Computers tasks in 1/2 the typical time | — |
+| **Coding Master** | Computer Specialist | Perform all Computers tasks with Advantage (`2d10 + 1d10` keep highest 2) | — |
+| **Deceitful** | None | +2 bonus to Manipulation Skills (Bluff, Disguise) and +1 to Etiquette checks | — |
+| **Educated** | Academics 5, Knowledge 5 | +2 bonus to Academics and +1 to all Knowledge Skills | — |
+| **Entertaining** | Charisma 1 | +1 bonus to any Expression (Performance) check | Ranked (Charisma) |
+| **Gearhead** | Vocation (Engineer/Mechanic) 1 | +2 bonus to all mechanical Knowledge (Technology), Operation, and Repair checks | — |
+| **Gifted Pilot** | Piloting 6 | +2 Piloting checks and +10% to Maximum Vehicle Speed | — |
+| **Crack Pilot** | Gifted Pilot, Piloting 11 | +4 Piloting checks and +20% to Maximum Vehicle Speed | — |
+| **Ace Pilot** | Crack Pilot, Piloting 16 | +6 Piloting checks and +30% to Maximum Vehicle Speed | — |
+| **Graceful** | None | +1 to all Agility-based non-attack skill checks and +1 to Reflex checks | — |
+| **Headstrong** | None | +2 to Bluff and Intimidate checks and +1 to Will checks | — |
+| **Influence** | Charisma 2 | +4 to Reputation and Favor checks (Diplomacy) | — |
+| **Investigator** | None | +2 to Knowledge (Investigation) and Gather Information (Streetwise/Diplomacy) checks | — |
+| **Linguist** | Knowledge (Language) 1 | +2 to Knowledge (Language) checks; may Take 10 on Language checks under stress | — |
+| **Logical** | None | +2 to Logic (Reason) checks; may Take 10 on Logic checks under stress | — |
+| **Magical Aptitude** | None | +2 to Attune checks and +1 to Knowledge (Metaphysics) checks | — |
+| **Master Craftsman** | Vocation (Craft) 6 | +2 to Crafting checks and +2 to Mastercrafting CR limit | — |
+| **Medic** | Knowledge (Medicine) 1 | +2 to Knowledge (Medicine) checks; First Aid is a Standard Action | — |
+| **Meticulous** | None | Meticulous skill time bonuses increase by +1 per stage (+3/+6/+9) | — |
+| **Naturalist** | None | +2 to Knowledge (Nature) and Knowledge (Survival) checks | — |
+| **Nimble Fingers** | None | +2 to Expression (Legerdemain) and Knowledge (Technology — Security) checks | — |
+| **Persuasive** | None | +2 to Diplomacy and Intimidate checks | — |
+| **Perceptive** | None | +2 to Alertness (Perception) checks and +1 to Insight checks | — |
+| **Researcher** | None | +2 to Academics and Academics (Archivist / Research) checks | — |
+| **Scholar** | None | +2 bonus to all Knowledge Skills | — |
+| **Self Sufficient** | None | +2 to Knowledge (Survival) checks and +1 to Fortitude checks | — |
+| **Silver Tongue** | Charisma 1, Diplomacy 1 | Shift NPC attitude by one additional step on successful Diplomacy checks | — |
+| **Golden Smile** | Silver Tongue, Charisma 2, Dip/Bluff 6 | Take 10 or roll `2d10` with Advantage (or +1d10) on Bluff and Diplomacy checks | — |
+| **Platinum Personality** | Golden Smile, Charisma 4, Dip/Bluff 11 | Make all Bluff and Diplomacy checks with Advantage (`2d10 + 1d10` keep highest 2) | — |
+| **Skill Focus** | Chosen Skill 1 | +2 bonus to chosen skill; may be purchased once per Skill Stage | Ranked / Multiple |
+| **Skill Mastery** | Skill Focus (2), Rank 11+ | May Take 10 with all Focused skills at Rank 11+ even under stress/combat | — |
+| **Skill Specialization** | Chosen Skill 6 | Unlock specialized sub-path adding up to +10 Specialization Ranks to base skill | Multiple |
+| **Social** | None | +1 to all Charisma Skills and +1 to Etiquette checks | — |
+| **Spacer** | None | +2 to all Starship Operation and Space Survival checks | — |
+| **Steady** | None | +2 to Acrobatics and Athletics checks and +1 to Reflex checks | — |
+| **Stealthy** | Agility 2 | +2 to Acrobatics (Escapology) and Legerdemain checks, and +4 to Stealth checks | — |
+| **Stout** | None | +1 to all Stamina checks, Stamina-based skills, Might checks, and Fortitude checks | — |
+| **Trustworthy** | None | +2 to Manipulation Skills (Bluff/Diplomacy) and +1 to Knowledge (Culture) checks | — |
+| **Veiled Threat** | Intimidate 6 | Target does not become Hostile after Intimidation; bystanders roll Insight vs. Intimidate | — |
+| **Versatile Curator** | Knowledge 6, Intellect 2 | Gain Virtual Knowledge skills equal to Intellect score above 1 | — |
+| **Versatile Performer** | Expression 6, Intellect 2 | Gain Virtual Expression (Performance) skills equal to Intellect score above 1 | — |
+| **Versatile Professional** | Vocation 6, Intellect 2 | Gain Virtual Vocation skills equal to Intellect score above 1 | — |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED FEATURE PROFILES & MECHANICS)**
 
 Bonuses and specialized uses for skills.
 
-| **FEATURE NAME** | **PREREQUISITE** | **BENEFIT / EFFECT** | **SPECIAL / NOTES** |
-| :-: | :-: | :-: | :-: |
-| **Aeronaut** | Pilot (Unpowered) | Make Unpowered Pilot checks at Advantage. | |
-| **Animal Affinity** | \- | \+2 Handle and Ride animals (Survival). | |
-| **Artificer** | Attune 11, Discipline 11, Craft | Metacraft Prototyping checks made with Advantage. | |
-| **Artistic** | \- | \+2 to 2 Performance or Vocation Subskills. | |
-| **Attractive** | Cha | \+2 Social checks for physical appeal. | Ranked (Cha) |
-| **Biotechnologist** | Bio/Botany/Med | Biotechnology Prototyping with Advantage. | |
-| **Computer Specialist** | \- | \+2 All Computer Tasks. | |
-| **Digital Expert** | Computer Specialist | Perform Computer Tasks in 1/2 time. | |
-| **Coding Master** | Computer Specialist | Perform Computer Tasks at Advantage. | |
-| **Deceitful** | \- | \+2 Manipulation Skills and +1 to Etiquette checks. | |
-| **Educated** | Academics 5, Knowledge | \+2 Academics and +1 to all Knowledge Skills. | |
-| **Entertaining** | Cha | \+1 Any Performance Check. | Ranked (Cha) |
-| **Gearhead** | \- | \+2 All Mechanical based Knowledge, Operation, Repair checks. | |
-| **Gifted Pilot** | Pilot | \+2 Piloting, +10% to Maximum Vehicle Speed. | |
-| **Crack Pilot** | Gifted Pilot, Pilot | \+4 Piloting, +20% to Maximum Vehicle Speed. | |
-| **Ace Pilot** | Crack Pilot, Pilot | \+6 Piloting, +30% to Maximum Vehicle Speed. | |
-| **Graceful** | \- | \+1 All Agi based non-attack skill checks and Reflex checks. | |
-| **Headstrong** | \- | \+2 Bluff, Intimidate checks and +1 to Will checks. | |
-| **Influence** | Cha | \+4 Reputation and Favor checks (Diplomacy). | |
-| **Investigator** | \- | \+2 Investigation and Gather Information checks. | |
-| **Linguist** | \- | \+2 Language, may take 10 on Language checks. | |
-| **Logical** | \- | \+2 Logic Checks and may take 10 on Logic Checks. | |
-| **Magical Aptitude** | \- | \+2 Attune and +1 to Metaphysics Knowledge checks. | |
-| **Master Craftsman** | Crafting | \+2 Crafting Checks and +2 to Mastercrafting. | |
-| **Medic** | \- | \+2 Medicine, First Aid is a Standard Action. | |
-| **Meticulous** | \- | Meticulous Skill bonuses increase by 1 per stage. | |
-| **Naturalist** | \- | \+2 Nature and Survival checks. | |
-| **Nimble Fingers** | \- | \+2 Legerdemain and Knowledge (Technology) (Security) checks. | |
-| **Persuasive** | \- | \+2 Diplomacy and Intimidate checks. | |
-| **Perceptive** | \- | \+2 Perception checks and +1 Insight checks. | |
-| **Researcher** | \- | \+2 Academics and Library Use checks. | |
-| **Scholar** | \- | \+2 All Knowledge Skills. | |
-| **Self Sufficient** | \- | \+2 Survival and +1 Fortitude checks. | |
-| **Silver Tongue** | Cha 1, Diplomacy | Adjust Diplomacy checks by additional step. | |
-| **Golden Smile** | Silver Tongue, Cha 2, Dip/Bluff | Take 10 or roll `2d10` with Advantage on Bluff and Diplomacy checks. | |
-| **Platinum Personality** | Golden Smile, Cha 4, Dip/Bluff | Make Bluff and Diplomacy Checks with Advantage. | |
-| **Skill Focus** | Chosen Skill | Bonus of +2 and may be gained at each skill stage. | Multiple |
-| **Skill Mastery** | Skill Focus (2), Rank 11+ | Take 10 with ALL skills at 11+ with Skill Focus. | |
-| **Skill Specialization** | Chosen Skill | Enable a path of expertise which adds to base skill (up to 10 levels). | Multiple |
-| **Social** | \- | \+1 ALL Cha Skills and Etiquette checks. | |
-| **Spacer** | \- | \+2 All Starship and any Space Survival checks. | |
-| **Steady** | \- | \+2 Acrobatics, Athletics and +1 Ref checks. | |
-| **Stealthy** | \- | \+2 Acrobatics (Escapology), Legerdemain checks and +4 Stealth. | |
-| **Stout** | \- | \+1 ALL Sta & Sta Skills and Might & Fortitude Checks. | |
-| **Trustworthy** | \- | \+2 Manipulation Skills and +1 Culture checks. | |
-| **Veiled Threat** | \- | Target doesn't become hostile after Intimidation. | |
-| **Versatile Curator** | Knowledge 6, Int | Virtual skills as additional Knowledge skills (1 per Int \\> 1). | |
-| **Versatile Performer** | Perform 6, Int | Virtual skills as additional Perform skills (1 per Int \\> 1). | |
-| **Versatile Professional** | Vocation 6, Int | Virtual skills as additional Vocation skills (1 per Int \\> 1). | |
-
-
-  
-
 ## **Aeronaut**
 
-**Description:** The character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.
+* **Description:** The character is a specialist in unpowered or nature-assisted flight. They understand wind shears, thermals, and aerodynamics intuitively, whether using a glider, wingsuit, or natural wings.
 
   - **Prerequisite:** Pilot (Unpowered) 1
   - **Benefit:** You may make all **Pilot (Unpowered)** checks with **Advantage**.
@@ -110,7 +125,7 @@ Bonuses and specialized uses for skills.
 
 ## **Animal Affinity**
 
-**Description:** The character has a natural bond with beasts, understanding their body language and instincts.
+* **Description:** The character has a natural bond with beasts, understanding their body language and instincts.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+2 Bonus** to **Survival** checks regarding Vocation (Handler), Riding, or Taming. You can alter an animal's attitude one step faster than normal.
@@ -119,7 +134,7 @@ Bonuses and specialized uses for skills.
 
 ## **Artificer**
 
-**Description:** The character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.
+* **Description:** The character combines engineering with metaphysics, capable of creating items that blur the line between technology and magic.
 
   - **Prerequisite:** Attune 11, Any Discipline 11, Any Crafting 11
   - **Benefit:** All **Metacrafting** and **Prototyping** checks to create magical or psionic items are made with **Advantage**.
@@ -129,7 +144,7 @@ Bonuses and specialized uses for skills.
 
 ## **Artistic**
 
-**Description:** The character possesses a flare for the creative arts.
+* **Description:** The character possesses a flare for the creative arts.
 
   - **Prerequisite:** None
   - **Benefit:** Choose two **Performance** or **Vocation (Art/Craft)** sub-skills. Gain a **+2 Bonus** to both.
@@ -138,17 +153,17 @@ Bonuses and specialized uses for skills.
 
 ## **Attractive**
 
-**Description:** The character possesses striking physical beauty or magnetic appeal that captures attention.
+* **Description:** The character possesses striking physical beauty or magnetic appeal that captures attention.
 
   - **Prerequisite:** Charisma 2
   - **Benefit:** Gain a **+2 Bonus** to all Social checks where physical appearance is a factor (e.g., Seduction, First Impressions).
-  - **Special:** This feature is **\[Ranked\]** (Limited by Charisma score). Rank 2 grants +4, etc.
+  - **Special:** This feature is **[Ranked]** (Limited by Charisma score). Rank 2 grants +4, etc.
 
   
 
 ## **Biotechnologist**
 
-**Description:** The character is an expert in the manipulation of living tissue and organic technology.
+* **Description:** The character is an expert in the manipulation of living tissue and organic technology.
 
   - **Prerequisite:** Biology, Botany, or Medicine Rank 11
   - **Benefit:** All **Biotechnology Prototyping** and **Grafting** checks are made with **Advantage**.
@@ -158,7 +173,7 @@ Bonuses and specialized uses for skills.
 
 ## **Computer Specialist**
 
-**Description:** The character lives in the digital realm, navigating code as easily as walking down the street.
+* **Description:** The character lives in the digital realm, navigating code as easily as walking down the street.
 
   - **Prerequisite:** Computers 1
   - **Benefit:** Gain a **+2 Bonus** to all **Computer** tasks (Hacking, Programming, Hardware Repair).
@@ -167,7 +182,7 @@ Bonuses and specialized uses for skills.
 
 ## **Digital Expert**
 
-**Description:** The character types at the speed of thought.
+* **Description:** The character types at the speed of thought.
 
   - **Prerequisite:** Computer Specialist
   - **Benefit:** You perform Computer-based tasks in **1/2 the typical time**.
@@ -177,7 +192,7 @@ Bonuses and specialized uses for skills.
 
 ## **Coding Master**
 
-**Description:** The character sees the matrix of the digital world.
+* **Description:** The character sees the matrix of the digital world.
 
   - **Prerequisite:** Computer Specialist
   - **Benefit:** Perform all Computer tasks with **Advantage**.
@@ -186,7 +201,7 @@ Bonuses and specialized uses for skills.
 
 ## **Deceitful**
 
-**Description:** The character is a pathological or professional liar, skilled in misdirection and blending in.
+* **Description:** The character is a pathological or professional liar, skilled in misdirection and blending in.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+2 Bonus** to **Manipulation Skills** (Bluff, Disguise) and a **+1 Bonus** to **Etiquette** checks.
@@ -195,7 +210,7 @@ Bonuses and specialized uses for skills.
 
 ## **Educated**
 
-**Description:** The character has received extensive formal schooling or possesses a voracious appetite for reading.
+* **Description:** The character has received extensive formal schooling or possesses a voracious appetite for reading.
 
   - **Prerequisite:** Academics 5, Any Knowledge 5
   - **Benefit:** Gain a **+2 Bonus** to **Academics** and a **+1 Bonus** to **ALL Knowledge Skills**.
@@ -204,17 +219,17 @@ Bonuses and specialized uses for skills.
 
 ## **Entertaining**
 
-**Description:** The character is a born performer, capable of holding an audience's attention.
+* **Description:** The character is a born performer, capable of holding an audience's attention.
 
   - **Prerequisite:** Charisma 1
   - **Benefit:** Gain a **+1 Bonus** to **Any Performance Check**.
-  - **Special:** This feature is **\[Ranked\]** (Limited by Charisma). Rank 3 would grant a +3 to all Performance types (Singing, Dancing, Acting, etc.).
+  - **Special:** This feature is **[Ranked]** (Limited by Charisma). Rank 3 would grant a +3 to all Performance types (Singing, Dancing, Acting, etc.).
 
   
 
 ## **Gearhead**
 
-**Description:** The character has an intuitive understanding of machinery, engines, and mechanical systems.
+* **Description:** The character has an intuitive understanding of machinery, engines, and mechanical systems.
 
   - **Prerequisite:** Engineering 1 or Mechanics 1
   - **Benefit:** Gain a **+2 Bonus** to all Mechanical-based **Knowledge**, **Operation**, and **Repair** checks.
@@ -223,7 +238,7 @@ Bonuses and specialized uses for skills.
 
 ## **Gifted Pilot**
 
-**Description:** The character feels the vehicle as an extension of their own body.
+* **Description:** The character feels the vehicle as an extension of their own body.
 
   - **Prerequisite:** Pilot 6
   - **Benefit:** Gain a **+2 Bonus** to Piloting checks. Increase the **Maximum Speed** of any vehicle you pilot by **10%**.
@@ -232,7 +247,7 @@ Bonuses and specialized uses for skills.
 
 ## **Crack Pilot**
 
-**Description:** A veteran of many dogfights or races.
+* **Description:** A veteran of many dogfights or races.
 
   - **Prerequisite:** Gifted Pilot, Pilot 11
   - **Benefit:** Gain a **+4 Bonus** to Piloting checks. Increase Maximum Speed by **20%**.
@@ -241,7 +256,7 @@ Bonuses and specialized uses for skills.
 
 ## **Ace Pilot**
 
-**Description:** A legendary flyer whose maneuvers defy physics.
+* **Description:** A legendary flyer whose maneuvers defy physics.
 
   - **Prerequisite:** Crack Pilot, Pilot 16
   - **Benefit:** Gain a **+6 Bonus** to Piloting checks. Increase Maximum Speed by **30%**.
@@ -250,7 +265,7 @@ Bonuses and specialized uses for skills.
 
 ## **Graceful**
 
-**Description:** The character moves with elegance and precision.
+* **Description:** The character moves with elegance and precision.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+1 Bonus** to all **Agility-based Non-Attack Skill checks** (Acrobatics, Stealth, Legerdemain) and **Reflex Checks**.
@@ -259,7 +274,7 @@ Bonuses and specialized uses for skills.
 
 ## **Headstrong**
 
-**Description:** The character is stubborn, loud, and forceful.
+* **Description:** The character is stubborn, loud, and forceful.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+2 Bonus** to **Bluff** and **Intimidate** checks, and a **+1 Bonus** to **Will Checks**.
@@ -268,7 +283,7 @@ Bonuses and specialized uses for skills.
 
 ## **Influence**
 
-**Description:** The character has significant social pull within their faction or community.
+* **Description:** The character has significant social pull within their faction or community.
 
   - **Prerequisite:** Charisma 2
   - **Benefit:** Gain a **+4 Bonus** to **Reputation** and **Favor** checks (a subset of Diplomacy used to acquire resources or assistance).
@@ -277,7 +292,7 @@ Bonuses and specialized uses for skills.
 
 ## **Investigator**
 
-**Description:** The character is trained to notice details and follow leads.
+* **Description:** The character is trained to notice details and follow leads.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+2 Bonus** to **Investigation** and **Gather Information** checks.
@@ -286,7 +301,7 @@ Bonuses and specialized uses for skills.
 
 ## **Linguist**
 
-**Description:** The character has an ear for dialects and syntax.
+* **Description:** The character has an ear for dialects and syntax.
 
   - **Prerequisite:** Knowledge (Language) 1
   - **Benefit:** Gain a **+2 Bonus** to **Language** checks. You may **Take 10** on Language checks to decipher writing even under stress.
@@ -295,7 +310,7 @@ Bonuses and specialized uses for skills.
 
 ## **Logical**
 
-**Description:** The character approaches problems with cold, hard rationality.
+* **Description:** The character approaches problems with cold, hard rationality.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+2 Bonus** to **Logic Checks**. You may **Take 10** on Logic checks even under stress.
@@ -304,7 +319,7 @@ Bonuses and specialized uses for skills.
 
 ## **Magical Aptitude**
 
-**Description:** The character has a knack for the arcane theory, even if they aren't a powerful caster.
+* **Description:** The character has a knack for the arcane theory, even if they aren't a powerful caster.
 
   - **Prerequisite:** None
   - **Benefit:** Gain a **+2 Bonus** to **Attune** checks and a **+1 Bonus** to **Knowledge (Metaphysics)**.
@@ -313,7 +328,7 @@ Bonuses and specialized uses for skills.
 
 ## **Master Craftsman**
 
-**Description:** The character creates items of superior quality and durability.
+* **Description:** The character creates items of superior quality and durability.
 
   - **Prerequisite:** Crafting 6
   - **Benefit:** Gain a **+2 Bonus** to Crafting checks. When creating **Masterwork** items, you add **+2** to the CR limit of what you can create (allowing for more complex modifications).
@@ -322,7 +337,7 @@ Bonuses and specialized uses for skills.
 
 ## **Medic**
 
-**Description:** The character is trained in emergency triage and trauma care.
+* **Description:** The character is trained in emergency triage and trauma care.
 
   - **Prerequisite:** Medicine 1
   - **Benefit:** Gain a **+2 Bonus** to Medicine checks.
@@ -334,7 +349,9 @@ Bonuses and specialized uses for skills.
 
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-323 (1.08.SkillFeatures):** Restored all 25 Part I Skill Features (Aeronaut through Medic) and normalized `Linguistics` -> `Knowledge (Language)`.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-316+ (1.08.SkillFeatures.md):** Restored all 25 Part I Skill Features (`Aeronaut` through `Medic`), restored all prerequisite ranks in the summary table, and normalized `Linguistics` to `Knowledge (Language)` and `Animal Handling` to `Vocation (Handler)`.
 

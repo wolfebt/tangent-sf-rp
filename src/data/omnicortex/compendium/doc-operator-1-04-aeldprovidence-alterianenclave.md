@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.aeldprovidence.alterianenclave","mechanics"]
-updatedAt: "2026-11-02T22:49:20.317Z"
+updatedAt: "2026-11-04T00:33:10.561Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,34 @@ sockets:
   allocated: []
 ---
 
-# 1.04.AeldProvidence.AlterianEnclave — ALTERIAN ENCLAVE (CELESTINE) (+3 WS)
+# 1.04. AELD PROVIDENCE: ALTERIAN ENCLAVE — CELESTINE (+3 WS)
+
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 3 / ML 4 | +3 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.AeldProvidence.AlterianEnclave.md` in **Tangent SF RP**.
+
+## Overview & Mechanical Authority Block
+
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
+
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
+
+## Part I — Alignment & Summary Matrix Table
+
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.AeldProvidence.AlterianEnclave.md (Sec. I)` | TL 3 / ML 4 | +3 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.AeldProvidence.AlterianEnclave.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.AeldProvidence.AlterianEnclave.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
+
+### I. Canonical Faction Profile, Lore & Expansion Archive (`operator/factions/1.04.AeldProvidence.AlterianEnclave.md`)
 
 ## Executive Summary & Nov 2 Canonical Game Data
 * **Archetype:** Galactic Diplomats & Magi-Tech Architects | **Capital:** Altheria (The Gilded World)
@@ -46,8 +73,6 @@ sockets:
 * **Canonical Faction Skill Package (20 SP):** Diplomacy (+5), Academics: History/Arcane (+4), Attune (+3), Discipline: Matter [Transmutation] (+3), Insight (+3), Knowledge: Appraisal (+2). *(Also supports Energy/Dimension Disciplines and Knowledge: Culture/Metaphysics).*
 * **Canonical Recommended Features (-1 CP Discount):** Artificer, Awakened, Benefit (Immunity), Benefit (Wealth), Centering, Connected, Discipline Focus, Educated, Insightful Reason, Magical Aptitude, Platinum Personality, Scholar, Silver Tongue, Versatile Curator.
 * **CRISP Visual Semiotics:** Interstellar High-Fantasy; sprawling gilded architecture, floating crystalline spires, polished wood pathways, libraries of glass, and warm golden/amber harmonic light.
-
----
 
 ALTERIAN ENCLAVE (Celestine)
 The Galactic Diplomats and Magi-Tech Architects
@@ -59,10 +84,6 @@ Faction Overview
 The Alterian Enclave is the most prominent, populous, and outwardly focused of the Elven factions. They act as the self-appointed "Elder Siblings" of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—"The Flow"—which can be mapped, understood, and elegantly manipulated.
 Political Posture
 The Enclave operates on "The Long View." Because their citizens live for centuries, their political and economic strategies are plotted across generations. They are patient to the point of frustrating younger races, taking decades to deliberate on treaties or military actions. However, when the Enclave acts, it does so with overwhelming, heavily coordinated magi-tech superiority. They are frequent mediators in galactic conflicts, leveraging their vast archives of history and profound understanding of other cultures to maintain stability—which ultimately benefits their own trade and research networks.
-
-________________
-
----
 
 ## **I. Detailed Faction Description**
 * **Overview:** The Alterian Enclave is the most prominent, populous, and outwardly focused of the Aeld (Elven) factions. They act as the self-appointed 'Elder Siblings' of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—'The Flow'—which can be mapped, understood, and elegantly manipulated. Because their citizens live for centuries, their political and economic strategies are plotted across generations. They take 'The Long View,' moving slowly but acting with overwhelming magi-tech superiority when necessary.
@@ -104,8 +125,6 @@ ________________
 * **Lighting:** Golden/Amber Tones filtering through leaves and glass.
 * **Shape Language:** Elegant Lattices (Crystal-Molding), Natural Flow, Empathic Interfaces.
 
----
-
 ## **ALTERIAN ENCLAVE — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
 
 ### **1. HI-FI INK MODULAR PROMPT STRUCTURE**
@@ -125,4 +144,147 @@ ________________
 * **CHARACTER CONCEPT SHEET: The Magi-Tech Architect:** Alterian Enclave Crystal-Molding Architect wearing elegant layered robes, utilizing a floating crystal focus to weave matter. Character design sketchbook page, turnaround views, Interstellar High-Fantasy aesthetic, flowing ceramic and wood motifs, subtle golden amber crystal marker accent.
 * **ARCHITECTURAL ESTABLISHING SHOT: The Resonant Archive:** Vast Alterian Enclave library archive, towering shelves of flowing polished wood and white ceramic, glowing crystalline data-nodes floating in the air, immense scale and harmonic geometry. Peaceful and ancient atmosphere, subtle warm golden hour marker light accents.
 
+### II. Complete Unabridged Codex Unified Faction Document (`1.04_ALTERIAN_ENCLAVE`)
+
+ALTERIAN ENCLAVE (CELESTINE)
+I. Detailed Faction Description
+* Overview: The Alterian Enclave is the most prominent, populous, and outwardly focused of the Elven factions. They act as the self-appointed "Elder Siblings" of the galaxy. Rather than hoarding their knowledge or isolating themselves, the Enclave actively engages in galactic trade, diplomacy, and exploration. They believe that the universe functions on harmonic principles—"The Flow"—which can be mapped, understood, and elegantly manipulated. Because their citizens live for centuries, their political and economic strategies are plotted across generations. They take "The Long View," moving slowly but acting with overwhelming magi-tech superiority when necessary.
+* Key Themes: Interstellar High-Fantasy, Galactic Diplomats, The Long View, Harmonic Arcane Tech.
+* Relationship to Others: Frequent mediators in galactic conflicts; they leverage vast archives to maintain stability, which ultimately benefits their own trade networks. Disdained by the Kovian Tribunal and pitied by the Vajar Tribes.
+II. Core Identity
+* Official Designation: The Alterian Enclave
+* Colloquialisms: The Enclave / Celestines / The Elder Siblings
+* Archetype: Galactic Diplomats / Magi-Tech Architects
+* Capital/Key World: Altheria (The Gilded World)
+* Symbol/Sigil: A silver tree blooming with crystal leaves.
+* Driving Mandate: Perfect the Art of Living; Maintain the Galactic Balance.
+* Motto: "Time is a river we have already mapped."
+III. Sociological Profile
+Ideology & Culture
+* Core Beliefs: The universe is an instrument to be tuned. Art, diplomacy, and magic are interchangeable sciences.
+* Social Structure: Gerontocracy (Rule by the Wisest/Eldest) combined with a strict Meritocracy based on artistic and arcane achievement.
+* View on Outsiders: Paternalistic and benevolent, though often perceived as condescending by shorter-lived species due to their long-winded, philosophical nature.
+* Law & Order: Governed by complex, philosophical debates and mediations. Violent crime is exceedingly rare; punishments usually involve exile or psychological rehabilitation.
+Governance
+* Government Type: Gerontocratic Meritocracy.
+* Leadership: The Council of Elders, widely overseen by members of the Lanaran Clan.
+* Succession: Ascension based on centuries of proven wisdom and societal contribution.
+IV. Strategic Assets
+Economy & Tech
+* Tech Level (TL): 3 (Standard) / Functionally higher due to magical integration.
+* Meta Level (ML): 4 (High Magi-Tech).
+* Wealth Modifier: +3 (Vast cultural and magical wealth).
+* Primary Exports: Diplomatic mediation, luxury magi-tech goods, artwork, historical data.
+* Economic Model: Post-Scarcity Cultural Exchange.
+Military Profile
+* Doctrine: "Overwhelming Harmony." Avoid conflict through diplomacy, but when forced, deploy pinpoint arcane artillery and reality-warping magi-tech to end the threat instantly.
+* Key Units: Celestine Rangers, Crystal-Molders (Combat Engineers), Harmonic Arcanists.
+* Naval Assets: Sun-Skiffs and Star-Galleons. Ships grown from crystalline wood and powered by solar/arcane sails.
+* Unique Tech/Materials: Crystal-Molding (shaping crystal and glass with the strength of steel), attuned empathic interfaces.
+V. Mechanics (Game Data)
+* Prominent Species: Alterian Elves.
+* Faction Skill Package (20 Points):
+   * Diplomacy (+5)
+   * Academics (History/Arcane) (+4)
+   * Attune (+3)
+   * Discipline (Matter: Transmutation) (+3)
+   * Insight (+3)
+   * Knowledge (Appraisal) (+2)
+* Typical Archetypes:
+   * The Envoy: An adept negotiator ensuring peace across the stars.
+   * The Virtuoso: Captivates audiences and controls crowds through performance.
+   * The Oracle: Seer possessing innate mental powers and foresight.
+   * The Chronicler: Preserver of history and weaver of profound tales.
+   * The Broker: Navigating trade routes with a keen eye for arcane value.
+   * The Philosopher: Explores the fundamental, harmonic nature of existence.
+   * The Relic Hunter: Unveils the secrets of ancient ruins safely.
+   * The Magus: A master of arcane magic manipulating subtle energies.
+   * The Xenologist: Expert bridging the gap between elven and alien cultures.
+   * The Linguist: Deciphers the languages of the galaxy.
+* Recommended Features (1 CP Discount):
+   * Benefit (Wealth): Access to the vast cultural treasuries of Altheria.
+   * Benefit (Immunity): Operating under Diplomatic Immunity in allied space.
+   * Silver Tongue: Adjusting diplomacy checks by an additional step.
+   * Platinum Personality: Making all Bluff and Diplomacy checks with Advantage.
+   * Magical Aptitude: A profound, natural resonance with the arcane.
+   * Awakened: Fundamental access to Metafocus disciplines.
+   * Connected: A vast web of political and historical contacts.
+   * Educated: Possessing centuries of formal academic study.
+   * Scholar: Mastery over multiple fields of esoteric knowledge.
+   * Centering: A deep philosophical balance making spells harder to resist.
+   * Insightful Reason: Making rapid, highly logical deductions based on "The Flow."
+   * Versatile Curator: A font of historical trivia and data.
+VI. Visual Semiotics (Aesthetics)
+Design Directive: "Interstellar High-Fantasy"
+The Alterian aesthetic embodies perfection and harmony with nature, scaling classic high-fantasy tropes up to an interstellar level. Cities feature sprawling gilded architecture, floating crystalline spires, libraries of glass, and polished wood pathways that weave seamlessly through serene nature. It is a visual representation of a society that views art, diplomacy, and magic as indistinguishable sciences.
+Palette
+* Primary: Crystal (Translucent Whites/Blues), Polished Wood.
+* Secondary: Natural Earth Tones, Gold trim.
+* Accent: Visualized sound wave colors, bright amber.
+Lighting
+* Key Style: Golden/Amber Tones. Warm, welcoming sunlight filtering through leaves and glass.
+* Mood: Serene, ancient, harmonious, bright, culturally superior.
+Shape Language
+* [Motif 1] Elegant Lattices: Crystal shaped with the strength of steel, forming delicate, soaring arches.
+* [Motif 2] Natural Flow: Buildings and ships lack hard industrial edges, utilizing curves that reflect "The Flow" of the universe.
+* [Motif 3] Empathic Interfaces: Consoles and technology lacking physical buttons, guided by musical resonance and touch.
+Gear Aesthetic
+* [Gear Style 1] Harmonic Magi-Tech: Tools and weapons are ornate, looking more like instruments or scepters than weapons of war.
+* [Gear Style 2] Grown Ships: Star-Galleons carved or grown directly from colossal crystalline trees.
+Atmosphere Tokens
+Interstellar high-fantasy, magi-tech, elegant, celestial, sprawling gilded cities, floating crystalline spires, polished wood pathways, libraries of glass, harmony with nature, serene, ancient, golden and amber tones, warm sunlight, soft magical luminescence.
+HI-FI INK Prompt Framework
+[CONTENT PROMPT]
+* SUBJECT: [Insert main subject, e.g., Alterian Envoy, Celestine Ranger, Crystal-Molder]
+* NARRATIVE: [Insert action or story elements]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Interstellar High-Fantasy, Magi-Tech, Elegant, Celestial.
+* CONTEXT: Sprawling gilded cities, floating crystalline spires, polished wood pathways, libraries of glass, harmony with nature.
+* ATMOSPHERE: Serene, ancient, harmonious, bright. Golden and amber tones, warm sunlight, soft magical luminescence.
+[RENDERING PROMPT]
+* RENDERING: High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* FORM: [Append the appropriate Template Modifier based on shot type]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
+ALTERIAN ENCLAVE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Alterian Enclave prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Alterian Diplomat in flowing ceremonial robes, Crystal-Molding Architect, ancient Elven Magi-Tech scholar, sleek Elven starship with sweeping wooden/ceramic sails]
+* NARRATIVE: [e.g., meditating in a resonant archive, mediating a complex trade dispute, weaving a force-barrier with sound-wave magic, observing the cosmos with immense patience]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Interstellar High-Fantasy, seamless integration of polished ceramic and living wood, floating crystals, sweeping elegant curves, harmonic principles.
+* CONTEXT: A golden-hour council chamber, a vast archive lit by amber crystals, an observation deck of a harmonious starship, elegant crystalline spires.
+* ATMOSPHERE: Peaceful, ancient, harmonious, infinitely patient, highly advanced, elegant, radiating deep wisdom.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules, e.g., Character Concept Sheet]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in Alterian lore, use these subtle color splash tokens:
+* Accent Tokens: subtle golden amber marker wash on crystals, selective polished ceramic white negative space, faint visual sound-wave ink ripples in warm gold, precise natural wood-grain texturing.
+3. READY-TO-USE TEMPLATES
+CHARACTER CONCEPT SHEET: The Magi-Tech Architect
+Alterian Enclave Crystal-Molding Architect wearing elegant layered robes, utilizing a floating crystal focus to weave matter. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array, Interstellar High-Fantasy aesthetic, flowing ceramic and wood motifs, subtle golden amber crystal marker accent. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, mostly monochrome, black ink on clean paper. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime, cinematic lighting.
+ARCHITECTURAL ESTABLISHING SHOT: The Resonant Archive
+Vast Alterian Enclave library archive, towering shelves of flowing polished wood and white ceramic, glowing crystalline data-nodes floating in the air, immense scale and harmonic geometry. Architectural ink rendering, traditional multi-point perspective drafting, precise vanishing points, technical drawing style, dense structural cross-hatching, faint wireframe accents, intricate masonry line art, monumental scale conveyed through line density, pure white background. Peaceful and ancient atmosphere, subtle warm golden hour marker light accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome, black ink. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.AeldProvidence.AlterianEnclave.md`
+* **Codex Sources Compared:** Codex `1.04 ALTERIAN ENCLAVE` and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.AeldProvidence.AlterianEnclave.md` and Codex `1.04 ALTERIAN ENCLAVE` and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 3 / ML 4 | +3 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-ALTE-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.AeldProvidence.AlterianEnclave.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04 ALTERIAN ENCLAVE` and `1.04 FACTIONS` Master Doc.
+* **DISC-104-ALTE-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 3 / ML 4 | +3 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.
 

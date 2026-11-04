@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Company Man
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Resource Access / Face / Fixer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.
 
-> *You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*
+*You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*
 
-> _"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you."_
-
-## Tactical Role
-Funding the mission, legal defense, accessing corporate restricted zones.
-
-## Essential Skills
-- Diplomacy
-- Insight
-- Bluff
-- Knowledge (Business)
-
-## Signature Features
-- Corporate Backing
-- Business Acumen
-
-## Recommendations
-- **Occupations**: Agent, Citizen (Corporate)
-- **Origins**: Urban, Industrial, Leisure
-- **Factions**: Syndicate (Executives), Entari Combine (Trade Reps), Ascendancy
-
-
-## Extended Lore & Background
-
-Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.  
-*You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*  
 *"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you."*
 
+  - **Core Concept:** Resource Access / Face / Fixer
+  - **Recommended Occupations:** Agent, Citizen (Corporate).
+  - **Recommended Origins:** Urban, Industrial, Leisure.
+  - **Recommended Factions:** Syndicate (Executives), Entari Combine (Trade Reps), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Bluff, Knowledge (Business).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Corporate Backing, Business Acumen.
+  - **Tactical Role:** Funding the mission, legal defense, accessing corporate restricted zones.

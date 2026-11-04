@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Ghost
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Stealth / Tech / Combat  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.
 
-> *You are the ghost in the machine. Your body is a weapon, upgraded for speed and stealth. You bypass laser grids and hack turrets before the enemy even knows their perimeter is breached.*
+*You are the ghost in the machine. Your body is a weapon, upgraded for speed and stealth. You bypass laser grids and hack turrets before the enemy even knows their perimeter is breached.*
 
-> _"Security offline. Target acquired. Exfiltrating now."_
-
-## Tactical Role
-Bypassing laser grids, hacking turrets, stealth takedowns.
-
-## Essential Skills
-- Stealth
-- Knowledge (Technology)
-- Acrobatics
-- Combat
-
-## Signature Features
-- Technological Prowess
-- Adaptive Camouflage
-
-## Recommendations
-- **Occupations**: Agent, Soldier
-- **Origins**: Industrial, Urban, Militaristic
-- **Factions**: Syndicate (Infiltrators), Mekan (Stealth Units), Ascendancy
-
-
-## Extended Lore & Background
-
-Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.  
-*You are the ghost in the machine. Your body is a weapon, upgraded for speed and stealth. You bypass laser grids and hack turrets before the enemy even knows their perimeter is breached.*  
 *"Security offline. Target acquired. Exfiltrating now."*
 
+  - **Core Concept:** Stealth / Tech / Combat
+  - **Recommended Occupations:** Agent, Soldier.
+  - **Recommended Origins:** Industrial, Urban, Militaristic.
+  - **Recommended Factions:** Syndicate (Infiltrators), Mekan (Stealth Units), Ascendancy.
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Knowledge (Technology), Acrobatics, Combat.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Technological Prowess, Adaptive Camouflage.
+  - **Tactical Role:** Bypassing laser grids, hacking turrets, stealth takedowns.

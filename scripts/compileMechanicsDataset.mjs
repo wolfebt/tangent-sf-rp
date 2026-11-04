@@ -489,6 +489,100 @@ addMechanic({
 });
 
 /* =========================================================================
+   10. EUFT MICRO-MODIFIERS, LIQUIDITY GAP & PRODUCTIVITY ENGINE (00.02)
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-euft-micro-modifiers-productivity',
+  title: 'EUFT Linear Micro-Modifiers, Liquidity Gap & Productivity Engine',
+  category: 'economatrix',
+  citation: 'docs/game_rules/00.02 BASTION CORE FORMULAS & ERRATA ENGINE.md § II. EUFT & Forge Math',
+  summary: 'Non-multiple-of-5 Crafting CRs use flat Linear Micro-Modifiers (+1 CR x1.30, +2 x1.75, +3 x2.30, +4 x3.00, -1 Flaw x0.75). Liquidity Gap pays Value(Item CR) - Value(WS). Daily PP = (Craft Check - 10) * Tool Tier * Crew Size.',
+  mechanic_formula: 'Value = 10 * 4^(Base_5_CR/5) * MicroMod (+1:x1.30, +2:x1.75, +3:x2.30, +4:x3.00, -1:x0.75) | Gap = Value(Item CR) - Value(WS) | Daily PP = (Check - 10) * ToolMult * Crew',
+  rules_text: `Economic Unified Field Theory (EUFT) deterministic valuation, purchasing, salvage, and fabrication rules:
+- Linear Micro-Modifiers (Offset from Base Multiple of 5 CR):
+  * -1 CR Flaw Offset: x0.75 (-25% of Base 5-CR Value)
+  * +0 CR Base Interval: x1.00 (10 * 4^[CR/5]; extends up to CR 50 = 10,485,760 Cr and CR 60 = 167,772,160 Cr; 1 MCr = 1,000,000 Cr)
+  * +1 CR Upgrade Offset: x1.30
+  * +2 CR Upgrade Offset: x1.75
+  * +3 CR Upgrade Offset: x2.30
+  * +4 CR Upgrade Offset: x3.00
+- Wealth Score (WS 0 Indebted [-5 CP] to WS 80+ Faction Ruler [160 CP]) & Liquidity Gap:
+  * Auto-Buy: Item CR <= Character WS costs 0 liquid Credits. Operators may pool liquid Credits, NEVER Wealth Scores.
+  * Liquidity Gap: Liquid Cost = Value(Item CR) - Value(Character WS). Permanent WS Upgrade Cost = Value(Target WS) - Value(Current WS).
+- Liquidity Drag & Fence Rate:
+  * Legal Goods / Real Estate sell at 50% Value; Pristine Materials cost 50% Value; Black Market sells at 20%-25%; Unrefined Scrap retains 10% Value (requires 5x target item Value in scrap mass). Bulk Saturation buyer checks: 1 unit CR 10, 10 units CR 20, 100 units CR 40.
+- Productivity Engine & Architecture Taxes:
+  * Target PP = Credit Value. Tool Tier Multipliers: Tier 0 Improvised (x1), Tier 1 Basic (x10), Tier 2 Advanced (x50), Tier 3 Industrial (x200, min 10 crew), Tier 4 Nanoforge / Bio Cultivation (x1,000), Tier 5 Genesis (x5,000, min 100 crew). Solitary Crafter on Tier 3/5 without crew is capped at Vocation Rank * 100 PP/day.
+  * Disconnected Module Rule: Price Structural Shell CR separately from internal specialized Modules. Mobile Structure Chassis Tax adds +20% to base structural value.`,
+  examples: [
+    'CR 18 Stealth Suit = CR 15 Base (640 Cr) * x2.30 (+3 CR offset) = 1,472 Credits. An Affluent Operator (WS 15 = 640 Cr) pays a Liquidity Gap of 1,472 - 640 = 832 Credits.'
+  ],
+  tags: ['euft', 'micro-modifiers', 'liquidity gap', 'fence rate', 'productivity points', 'tool tier', 'disconnected module', 'mobile chassis tax', 'wealth score']
+});
+
+/* =========================================================================
+   11. UDU 10:1 HIERARCHY, SOCKET COMPRESSION & MECHA GARAGING (00.02)
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-udu-hierarchy-compression-garaging',
+  title: '10:1 UDU Displacement Hierarchy, Socket Compression & Mecha Garaging',
+  category: 'technology',
+  citation: 'docs/game_rules/00.02 BASTION CORE FORMULAS & ERRATA ENGINE.md § III. UDU, Combat & Scaling',
+  summary: 'Universal Displacement Units convert strictly at 10:1 (10 Nodes = 1 Socket, 10 Sockets = 1 Mount, 10 Mounts = 1 Module). Compression adds +5/+10 CR (max 1 tier). Mecha Garaging requires 1 Mount per Scale Multiplier.',
+  mechanic_formula: '10 Nodes (<10g) = 1 Socket (<1kg) | 10 Sockets = 1 Mount (<100kg) | 10 Mounts = 1 Module (<10T) | Garaging: 1 Mount = 1 Scale Mult',
+  rules_text: `Hardware displacement, miniaturization, and vehicular hangar rules:
+- The 10:1 UDU Hierarchy & Meta-Tech Invocation Capacity:
+  * Tier 0 Node (Implant, <10g): 10 Usable Nodes = 1 Socket (Rank 10 capacity).
+  * Tier 1 Socket (Personal, <1kg): 1 Socket = Rank 10; 2 Sockets = Rank 20; 3 Sockets = Rank 30.
+  * Tier 2 Mount (Mecha/Vehicle, <100kg): 1 Mount = 10 Usable Sockets (up to Rank 30 Pinnacle).
+  * Tier 3 Module (Architecture, <10 Tons / 20x20 ft): 1 Module = 10 Usable Mounts (Strategic Scale).
+- Socket Compression & Miniaturization:
+  * -25% Displacement Compression: +5 CR.
+  * -50% Displacement Compression: +10 CR.
+  * Integrated / Concealed Mounting: +5 CR.
+  * Hard Ceiling: Hardware may be miniaturized by at most 1 UDU Tier (Tier 3 Modules can NEVER compress into Tier 1 Personal Sockets).
+- Mecha Scale & Garaging Rule:
+  * Vehicle/Mecha table Structure Points (SP) are already pre-calculated (never multiply table SP a second time). Apply active Scale Multiplier strictly to weapon damage, movement speed, and weapon range.
+  * Garaging Displacement: Small (x0.5) = 0.5 Mounts, Medium (x1) = 1 Mount, Large (x2) = 2 Mounts, Huge (x5) = 5 Mounts, Gargantuan (x10) = 1 Module, Colossal (x20) = 2 Modules, Enormous (x40) = 4 Modules, Titanic (x80) = 8 Modules.`,
+  examples: [
+    'Garaging two Huge Combat Walkers (x5 Scale Multiplier each) requires 10 Mounts = 1.0 Hangar Module.'
+  ],
+  tags: ['udu', 'nodes', 'sockets', 'mounts', 'modules', 'socket compression', 'garaging', 'scale multiplier', 'meta-tech']
+});
+
+/* =========================================================================
+   12. ARCHETYPE 80-CP CHASSIS, HINDRANCE CAP & COSMIC ENTITIES (00.02 & 05.00)
+   ========================================================================= */
+
+addMechanic({
+  id: 'mech-archetype-80cp-chassis-and-cosmic-entities',
+  title: '80-CP Archetype Chassis, Hindrance Cap & Cosmic Entity Template',
+  category: 'character_creation',
+  citation: 'docs/game_rules/architect/05.00.CosmicEntities.md § II. Canonical Species & Entity Template',
+  summary: 'Starting 150 CP splits into an 80-CP Archetype Chassis + 70-CP Customization. Personal Hindrances cap at +10 CP (Species flaws exempt). Non-Corporeal Cosmic Entities operate on WIS/INT, Metaphysical SP (60 base + 5/CP), and Possession/Manifestation.',
+  mechanic_formula: '150 CP = 80 CP Chassis (15 Pri + 10 Sec + 24 Essential + 18 Supporting + 13 Traits/Features) + 70 CP Custom | Personal Hindrance Cap = +10 CP | Revive = -5 XP Debt & 0 KP',
+  rules_text: `Canonical character chassis math, mortality revivification, and non-corporeal entity mechanics:
+- 80-CP Archetype Chassis Breakdown:
+  * Primary Attribute (+3): 15 CP (5 CP per +1)
+  * Secondary Attribute (+2): 10 CP (5 CP per +1)
+  * 4 Essential Skills at Rank 6 (Trained): 24 CP (1 CP/Rank)
+  * 6 Supporting Skills at Rank 3 (Novice): 18 CP (1 CP/Rank)
+  * 2 Signature Traits (1 CP each) + 3 Recommended Core Features (9 CP): 13 CP
+- Personal Hindrance Cap & Revivification:
+  * Standard personal character hindrances grant at most +10 CP; Species-level disadvantages and cybernetic Stigmas are exempt from the 10-CP cap.
+  * Returning from clinical death imposes -5 Experience Debt and drains current Karma Points to 0.
+- Cosmic Entities (Non-Corporeal & Extra-Planar Template):
+  * Native state lacks physical STR, AGI, and STA; Intellect substitutes for AGI (Phase Defense/Initiative), Wisdom substitutes for STA (Metaphysical Toughness DR & Avatar Stability = WIS + 5), and Charisma governs Avatar Presence.
+  * Operates on Base 60 Metaphysical Structure Points (+5 SP per 1 CP), interacting physically via Manifestation (Projected Avatar) or Possession (Mind [Control] Check vs Target Willpower Save: 2d10 + 2 + [2 * WIS] + Feature).`,
+  examples: [
+    'An extra-planar Egregore manifests an avatar with Base 60 Metaphysical SP; when disrupted at 0 SP, its Avatar Stability is WIS + 5 before banishment for 1d10 days.'
+  ],
+  tags: ['80 cp chassis', 'archetype chassis', 'hindrance cap', 'revivification', 'experience debt', 'cosmic entities', 'egregore', 'non-corporeal', 'possession']
+});
+
+/* =========================================================================
    OUTPUT GENERATION
    ========================================================================= */
 

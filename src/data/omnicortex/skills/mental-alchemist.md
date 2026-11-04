@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Alchemist is the skill of understanding and creating potions and other magical substances. It reflects a character's ability to mix and manipulate chemicals and magical ingredients. Alchemist is used whenever a character needs to create a potion or other magical substance, whether it's to heal an injury or to create a powerful spell. This can include things like mixing ingredients, analyzing substances, and creating magical effects. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Identify Substance:* CR 15 to identify a chemical or potion.
+- *Identify Substance:* CR 15 to identify a chemical or potion.
   - *Craft Compound:* CR varies (Acid CR 15, Panacea CR 25). Failure by 5 or more may cause an explosion or exposure.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Combat Stimulants:** Synthesizing adrenal boosters, coagulants, and reflex-accelerating injections.
       - **Panaceas & Antitoxins:** Compounding broad-spectrum antivenoms and toxin-neutralizing serums.

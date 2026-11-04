@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Armorer is the skill of creating and repairing different types of armor. It reflects a character's ability to forge metal, repair damaged armor, and create new designs. Armorer is used whenever a character needs to ensure that armor is functional and effective. This can include things like repairing damaged armor to creating a new suit. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Repair Armor:* Restore armor points (CR 15 + Tech Level).
+- *Repair Armor:* Restore armor points (CR 15 + Tech Level).
   - *Craft Armor:* Create new armor (Time required varies).
   - *Fit Armor:* CR 15 to resize armor for a different species.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Archaic Plate & Mail:** Forging, quenching, and strapping tempered steel and bronze personal armor.
       - **Ballistic Weaves & Flak Suits:** Stitching layered kevlar, carbon-nanotube fabrics, and impact-dispersion vests.

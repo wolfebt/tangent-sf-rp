@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Astromancer
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Expert / Navigator / Science Support  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos.
 
-> *You read the stars like a map. You understand the terrifying scale of the cosmos and how to navigate its dangers. When the nav-computer fails, you are the one who guides the ship home.*
+*You read the stars like a map. You understand the terrifying scale of the cosmos and how to navigate its dangers. When the nav-computer fails, you are the one who guides the ship home.*
 
-> _"We are all just stardust. Some of us are just moving faster than others."_
-
-## Tactical Role
-Navigation through anomalies, identifying cosmic threats, operating ship sensors.
-
-## Essential Skills
-- Academics
-- Knowledge (Technology)
-- Knowledge (Physics)
-- Alertness
-
-## Signature Features
-- Celestial Savant
-- Observational Skills
-
-## Recommendations
-- **Occupations**: Scholar, Spacer
-- **Origins**: Research, Spacer, Enlightened
-- **Factions**: Alterian Enclave, Ascendancy, Void-dwelling species
-
-
-## Extended Lore & Background
-
-Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos.  
-*You read the stars like a map. You understand the terrifying scale of the cosmos and how to navigate its dangers. When the nav-computer fails, you are the one who guides the ship home.*  
 *"We are all just stardust. Some of us are just moving faster than others."*
 
+  - **Core Concept:** Expert / Navigator / Science Support
+  - **Recommended Occupations:** Scholar, Spacer.
+  - **Recommended Origins:** Research, Spacer, Enlightened.
+  - **Recommended Factions:** Alterian Enclave, Ascendancy, Void-dwelling species.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Technology), Knowledge (Astrophysics), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Celestial Savant, Observational Skills.
+  - **Tactical Role:** Navigation through anomalies, identifying cosmic threats, operating ship sensors.

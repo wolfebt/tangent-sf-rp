@@ -47,41 +47,18 @@ cp_chassis: 80
 
 # The Racer
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Speed / Transport / Evasion  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Intellect  
 
-## Overview
 Skilled in piloting high-speed vehicles in competitive or dangerous environments.
 
-> *You are the fastest thing alive. You push machines past their breaking point, threading the needle at supersonic speeds. Victory is measured in milliseconds.*
+*You are the fastest thing alive. You push machines past their breaking point, threading the needle at supersonic speeds. Victory is measured in milliseconds.*
 
-> _"If you aren't first, you're last."_
-
-## Tactical Role
-Chase scenes, extraction, outrunning threats.
-
-## Essential Skills
-- Pilot
-- Acrobatics
-- Knowledge (Technology)
-- Alertness
-
-## Signature Features
-- Speed Demon
-- Adrenaline Rush
-
-## Recommendations
-- **Occupations**: Specialist, Entertainer
-- **Origins**: Leisure, Urban, Spacer
-- **Factions**: Syndicate (Leisure), Outworlds
-
-
-## Extended Lore & Background
-
-Skilled in piloting high-speed vehicles in competitive or dangerous environments.  
-*You are the fastest thing alive. You push machines past their breaking point, threading the needle at supersonic speeds. Victory is measured in milliseconds.*  
 *"If you aren't first, you're last."*
 
+  - **Core Concept:** Speed / Transport / Evasion
+  - **Recommended Occupations:** Specialist, Entertainer.
+  - **Recommended Origins:** Leisure, Urban, Spacer.
+  - **Recommended Factions:** Syndicate (Leisure), Outworlds.
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Pilot, Acrobatics, Knowledge (Technology), Alertness.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Speed Demon, Adrenaline Rush.
+  - **Tactical Role:** Chase scenes, extraction, outrunning threats.

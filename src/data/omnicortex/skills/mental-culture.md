@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Culture is the skill of understanding and appreciating different cultures. It reflects a character's ability to understand the customs, beliefs, and practices of different groups of people. Culture is used whenever a character needs to interact with people from different cultures, whether it's to negotiate a deal or to avoid offending someone. This can include things like understanding social norms, speaking different languages, and recognizing cultural symbols. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).
+- **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).
   - **Identify Origin:** CR 15 to identify a person's origin based on dress or behavior.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Impyrium High Society:** Navigating the subtle etiquette, titles, and ancestral hierarchies of the imperial core.
       - **Dynasty Lineages:** Understanding the honor codes, draconic influences, and clan hierarchies of the Dynasty.

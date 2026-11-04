@@ -84,7 +84,7 @@
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Attack Roll Formula\n\n**Category**: Core Combat Rules & Tables\n\n## The Attack Roll Formula\n\\text{Attack Roll} = 2d10 + \\text{Skill Rank} + \\text{Attribute Mod} + \\text{Situational Modifiers} \\quad \\text{vs.} \\quad \\text{Target Defense (CR)}\n\n- **Critical Hit (Dual 10s / Total 20, or expanded threat)**: Adds **+10 in addition to the rolled dice value** (e.g., 20 -> 30, 19 -> 29).\n- **Critical Fumble (Dual 1s / Total 2, or expanded fumble)**: Replaces the rolled dice value with a **flat -10** (Base Score - 10).\n- **Defender Wins All Ties** on opposed defense checks."
+    "body": "# Attack Roll Formula\n\n**Category**: Core Combat Rules & Tables\n\n## The Attack Roll Formula\n\\text{Attack Roll} = 2d10 + \\text{Skill Rank} + \\text{Attribute Mod} + \\text{Situational Modifiers} \\quad \\text{vs.} \\quad \\text{Target Defense (DC)}\n\n- **Critical Hit (Dual 10s / Natural 20, or expanded threat range 19, 18...)**: Adds **+10 in addition to the rolled dice value** (e.g., 20 -> 30, 19 -> 29) and doubles base weapon damage dice.\n- **Critical Fumble (Dual 1s / Natural 2, or expanded fumble range 3, 4...)**: Replaces the rolled dice value with a **flat -10** (subtracting 10 from the base score regardless of whether rolled on 2, 3, 4...).\n- **Defender Wins All Ties** on opposed defense checks."
   },
   {
     "id": "rule-burst-fire-short",
@@ -1060,5 +1060,912 @@
     "modifiers": [],
     "description": "Rules and guidelines for swapping a skill's governing Ability Score with Architect approval.",
     "body": "# Transposed Skill Base\n\nWhile every skill has a default governing Ability Score, unique character concepts, cybernetic interfaces, or psionic disciplines may justify swapping the base attribute.\n\n## Guidelines & Architect Approval\n- **Permanent Transposition**: Reflects innate biological traits or heavy cybernetic links (e.g., using *Intellect* instead of *Agility* for Piloting via a neural direct-feed).\n- **Situational Transposition**: Reflects specific techniques (e.g., using *Agility* instead of *Strength* for Melee with a rapier via Weapon Finesse).\n- **Game Balance**: Must make narrative sense and cannot be used solely to min-max without corresponding character investment."
+  },
+  {
+    "id": "condition-bleeding-out",
+    "name": "Bleeding Out",
+    "category": "conditions",
+    "description": "At 0 Health, character loses 1 point of Stability Damage at start of turn until stabilized or dead at 0 Stability Points.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Bleeding Out\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nAt the beginning of the character's turn while at 0 Health, they suffer **1 point of Stability Damage**. If Stability Points reach 0, the character suffers **permanent death**.\n\n## Stability Threshold\nA character has a Stability Points total equal to their **Stamina Score + 5**.\n\n## Cure / Removal\nStabilized if the character receives any magical healing or an ally makes a successful **Medicine Check (DC 15)**."
+  },
+  {
+    "id": "condition-bleeding",
+    "name": "Bleeding",
+    "category": "conditions",
+    "description": "Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. Cured by Medicine Check (DC 10) or healing ability/item.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Bleeding\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nTarget takes **1d4 Damage** at start of their turn. **Ignores Armor/DR**.\n\n## Cure / Removal\n**Medicine Check (DC 10)** or any healing ability/item."
+  },
+  {
+    "id": "condition-blinded",
+    "name": "Blinded",
+    "category": "conditions",
+    "description": "-5 Penalty to Attack/Defense. Visual Perception fails automatically. Cured by medical intervention or Time (Temporary: 1d4 rounds).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Blinded\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\n**-5 Penalty to Attack/Defense**. Visual Perception fails automatically.\n\n## Cure / Removal\nMedical intervention or Time (Temporary: **1d4 rounds**)."
+  },
+  {
+    "id": "condition-burning",
+    "name": "Burning",
+    "category": "conditions",
+    "description": "Takes 1d6 Fire Damage per round. Panic Check (Will DC 12) or flail/flee. Full Action to extinguish (Stop, Drop, Roll).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Burning\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nTakes **1d6 Fire Damage** per round. **Panic Check (Will DC 12)** or flail/flee in terror.\n\n## Cure / Removal\n**Full Action** to extinguish (**Stop, Drop, Roll**)."
+  },
+  {
+    "id": "condition-comatose",
+    "name": "Comatose",
+    "category": "conditions",
+    "description": "Completely unresponsive, unaware of surroundings, and cannot take actions, move, or make active defense reactions.",
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "body": "# Comatose\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nA character who is **Comatose** is in a state of profound unconsciousness:\n- They are completely unaware of their surroundings.\n- They cannot speak, take actions, or make active defense reactions.\n- Automatically fails Reflex saves or active evasion checks.\n- Melee attacks against a comatose creature have Advantage.\n- Characters at Death's Door suffer from this condition until stabilized and healed."
+  },
+  {
+    "id": "condition-crippled",
+    "name": "Crippled",
+    "category": "conditions",
+    "description": "Limb mangled/severed; arm cannot hold gear, leg halves movement speed.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Crippled\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nLimb mangled/severed; arm cannot hold gear, leg halves movement speed."
+  },
+  {
+    "id": "condition-dazed",
+    "name": "Dazed",
+    "category": "conditions",
+    "description": "Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions. Ends automatically at end of creature's next turn.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Dazed\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nMentally reeling. Only **1 Action per turn** (Move OR Standard). **No Reactions**.\n\n## Cure / Removal\nEnds automatically at the end of the creature's next turn."
+  },
+  {
+    "id": "condition-dead",
+    "name": "Dead",
+    "category": "conditions",
+    "description": "Permanently deceased. Can only be revived through high-level Metaphysics or TL5 Tech under the High Cost of Dying.",
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "body": "# Dead\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nDeath is reached when the Death's Door clock expires, through massive damage, or catastrophic structural destruction:\n- The character is lifeless and ceases all biological or synthetic life functions.\n- Souls or cognitive matrix detachments may occur depending on setting and cosmology.\n\n## Revivification (\"The High Cost of Dying\")\nReturn from the dead is rare and involves high-level Metaphysics or Tech (TL5). It carries a heavy toll:\n- **Zero Karma:** A revived character loses ALL remaining Karma Points.\n- **-5 Experience Debt:** The character suffers a -5 Experience Debt due to the trauma, taken as a reduction in a trait (or Traits) or as a reduction in accumulated/future experience until the debt is paid."
+  },
+  {
+    "id": "condition-deafened",
+    "name": "Deafened",
+    "category": "conditions",
+    "description": "Cannot hear; acoustic checks auto-fail, -2 on Initiative.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Deafened\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nCannot hear; acoustic checks auto-fail, -2 on Initiative."
+  },
+  {
+    "id": "condition-deaths-door",
+    "name": "Death's Door",
+    "category": "conditions",
+    "description": "Health is 0 and Vitality is 0. Comatose and severely wounded. Has rounds equal to Stamina score to be stabilized.",
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "body": "# Death's Door\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nIf Health is 0 and Vitality is depleted (0), the character enters the **\"Death's Door\"** state.\n\n- **Condition:** The character is **Comatose** and severely wounded.\n- **The Clock:** The character has a number of rounds equal to their **Stamina Score** to receive medical aid (Minimum 1 round).\n- **Stabilization:** A successful **Medicine (DC 15)** check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying.\n- **Death:** If the clock runs out, the character dies permanently.\n- **Massive Damage:** If the character takes damage equal to or greater than their STA score in a single hit while at Death's Door, they die instantly."
+  },
+  {
+    "id": "condition-destroyed-limb",
+    "name": "Destroyed Limb",
+    "category": "conditions",
+    "description": "Limb destroyed by catastrophic trauma (2/3 max HP); irreparable without prosthesis.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Destroyed Limb\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nLimb destroyed by catastrophic trauma (2/3 max HP); irreparable without prosthesis."
+  },
+  {
+    "id": "condition-disabled-limb",
+    "name": "Disabled Limb",
+    "category": "conditions",
+    "description": "Limb incapacitated by trauma (1/3 max HP); requires DC 10+damage Stamina save.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Disabled Limb\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nLimb incapacitated by trauma (1/3 max HP); requires DC 10+damage Stamina save."
+  },
+  {
+    "id": "condition-entangled",
+    "name": "Entangled",
+    "category": "conditions",
+    "description": "Movement = 0. -2 Penalty to Attack/Defense. No Dodge/Evasion. Strength Check (DC 15) or Cutting free (Structure damage).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Entangled\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\n**Movement = 0**. **-2 Penalty to Attack/Defense**. **No Dodge/Evasion**.\n\n## Cure / Removal\n**Strength Check (DC 15)** or cutting free (dealing structure damage to bindings)."
+  },
+  {
+    "id": "condition-exhausted",
+    "name": "Exhausted",
+    "category": "conditions",
+    "description": "-2 Penalty to Physical Checks (Str/Agi/Sta). Speed -50%. No Run/Charge. Requires 8 Hours of Rest with food/water.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Exhausted\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\n**-2 Penalty to Physical Checks** (Str/Agi/Sta). **Speed -50%**. **No Run/Charge**.\n\n## Cure / Removal\nRequires **8 Hours of Rest** with food and water."
+  },
+  {
+    "id": "condition-flat-footed",
+    "name": "Flat-Footed",
+    "category": "conditions",
+    "description": "Caught off guard; loses Agility bonus to Defense, vulnerable to Sneak Attacks.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Flat-Footed\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nCaught off guard; loses Agility bonus to Defense, vulnerable to Sneak Attacks."
+  },
+  {
+    "id": "condition-freeze",
+    "name": "Freeze",
+    "category": "conditions",
+    "description": "Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical & Sonic Dmg. Strength Check (DC 20) to shatter or Fire Dmg to melt.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Freeze\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nTarget is encased/chilled. **Speed = 0**. Target gains **Vulnerability to Physical & Sonic Damage**.\n\n## Cure / Removal\n**Strength Check (DC 20)** to shatter ice or applying **Fire Damage** to melt."
+  },
+  {
+    "id": "condition-hobbled",
+    "name": "Hobbled",
+    "category": "conditions",
+    "description": "Leg injury reducing base movement speed by 50%.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Hobbled\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nLeg injury reducing base movement speed by 50%."
+  },
+  {
+    "id": "condition-incapacitated",
+    "name": "Incapacitated",
+    "category": "conditions",
+    "description": "When reduced to 0 Health: falls unconscious immediately, drops held items, and falls Prone. Cannot take actions or reactions.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Incapacitated\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nWhen a character takes damage that reduces them to 0 Health:\n- The character falls unconscious immediately.\n- They drop anything they are holding and fall **Prone**.\n- Any excess damage is applied to Vitality (if any remains).\n- The character cannot take actions, move, or make active defense reactions.\n- If Vitality is also depleted (0), the character enters the **Death's Door** state."
+  },
+  {
+    "id": "condition-mortality-state",
+    "name": "Mortality State (0 HP)",
+    "category": "conditions",
+    "description": "When Health reaches 0, character falls Prone, is Incapacitated, and enters the Bleeding Out state.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# The Mortality State (0 Hit Points)\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Conditions\nWhen a character's Health Points reach 0, they immediately enter the **Mortality State**:\n- **Unconscious and Incapacitated**: Immediately falls Prone and is Incapacitated.\n- **Bleeding Out**: Suffers 1 point of Stability Damage at the beginning of each turn.\n- **Stability Threshold**: Stability Points equal **Stamina Score + 5**.\n- **Death**: Reaching 0 Stability Points results in permanent death.\n- **Stabilization**: Magical healing or a successful **Medicine Check (DC 15)** stops the Bleeding Out state."
+  },
+  {
+    "id": "condition-panicked",
+    "name": "Panicked",
+    "category": "conditions",
+    "description": "Overwhelmed by fear; must flee from source of terror, dropping held items.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Panicked\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nOverwhelmed by fear; must flee from source of terror, dropping held items."
+  },
+  {
+    "id": "condition-paralyzed",
+    "name": "Paralyzed",
+    "category": "conditions",
+    "description": "Motor functions frozen; treated as helpless, Defense DC drops to CR 15 baseline.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Paralyzed\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nMotor functions frozen; treated as helpless, Defense DC drops to CR 15 baseline."
+  },
+  {
+    "id": "condition-prone",
+    "name": "Prone",
+    "category": "conditions",
+    "description": "Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. Move Action to stand up.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Prone\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nLying on the ground:\n- **Ranged Attacks vs. Target**: Disadvantage (and +2 Defense per range category after Point Blank).\n- **Melee Attacks vs. Target**: Advantage (grants High Ground bonus to melee/point blank foes).\n\n## Cure / Removal\n**Move Action** to stand up."
+  },
+  {
+    "id": "condition-sickened",
+    "name": "Sickened",
+    "category": "conditions",
+    "description": "Nauseated or toxic shock; -2 penalty on all attacks, saves, and skill checks.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Sickened\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nNauseated or toxic shock; -2 penalty on all attacks, saves, and skill checks."
+  },
+  {
+    "id": "condition-stabilized",
+    "name": "Stabilized",
+    "category": "conditions",
+    "description": "Stopped from dying; death clock is halted. Remains unconscious and prone at 0 Health until healed.",
+    "costs": {
+      "cp": 0,
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [],
+    "modifications": [],
+    "critical_details": {
+      "score": "",
+      "effect": [],
+      "success_effect": [],
+      "failure_effect": []
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "body": "# Stabilized\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nA character who has been **Stabilized**:\n- The Death's Door countdown clock is permanently halted.\n- The character is no longer actively dying.\n- The character remains **Unconscious**, **Prone**, and **Incapacitated** at 0 Health until restored by medical attention, rest, or healing effects.\n- If the character takes additional lethal damage while stabilized, they re-enter Death's Door."
+  },
+  {
+    "id": "condition-staggered",
+    "name": "Staggered",
+    "category": "conditions",
+    "description": "Can take only a single Standard or Movement action per turn, not both.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Staggered\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nCan take only a single Standard or Movement action per turn, not both."
+  },
+  {
+    "id": "condition-stunned",
+    "name": "Stunned",
+    "category": "conditions",
+    "description": "Incapacitated. Lose all Actions. Drop items. Defense = Base (No Agi/Skill). Fortitude Save (CR 15) at end of turn to recover.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Stunned\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\n**Incapacitated**. Lose all Actions. **Drop held items**. **Defense = Base** (No Agi/Skill modifiers applied).\n\n## Cure / Removal\n**Fortitude Save (CR 15)** at end of turn to recover."
+  },
+  {
+    "id": "condition-suppressed",
+    "name": "Suppressed",
+    "category": "conditions",
+    "description": "Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. Cleared when enemy stops firing, reloads, or is neutralized.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Suppressed\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanical Effect\nPinned down by volume of fire. **Leaving cover triggers an immediate Attack of Opportunity** from the suppressing combatant.\n\n## Cure / Removal\nEnemy stops firing, reloads, or is neutralized."
+  },
+  {
+    "id": "condition-winded",
+    "name": "Winded",
+    "category": "conditions",
+    "description": "Severe torso trauma; Fortitude save or suffer cumulative -2 penalty on actions.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Winded\n\n**Category**: Tactical Conditions & Status Effects\n\n## Mechanics & Debuffs\nSevere torso trauma; Fortitude save or suffer cumulative -2 penalty on actions."
+  },
+  {
+    "id": "damage-celestial",
+    "name": "Celestial Damage",
+    "category": "damage_types",
+    "description": "Holy light, divine righteousness, and planar radiance. Devastating against fiends, undead, and unholy beings; may heal allies.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Celestial Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nCelestial damage embodies divine light, higher-planar righteousness, and the transcendent energy of sacred domains.\n- **Targeting**: Particularly effective against evil entities, demons, undead, and creatures of corruption.\n- **Special Properties**: Often dispels curses, banishes otherworldly entities, or selectively harms foes while sparing righteous allies.\n\n### Metaphysical\n- **Divine Light Manipulation**: Directing rays of sacred energy that sear evil creatures.\n- **Celestial Evocation**: Summoning angels, archons, and seraphic spirits of light.\n- **Holy Enchantments**: Consecrating blades to smite evil and bypass infernal resistances.\n\n### Archaic Tech\n- **Consecrated Weapons**: Blades blessed in sacred temples and inscribed with sanctified runes.\n- **Holy Water & Reliquaries**: Blessed fluids burning fiendish flesh like acid.\n\n### Advanced Tech\n- **Resonance Harmonics**: Quantum-aligned frequency cannons tuned to higher-dimensional planar vibrations.\n\n### Tactical Notes\nFiends and undead suffer double damage or Disadvantage against Celestial attacks, while holy wards mitigate incoming corruption."
+  },
+  {
+    "id": "damage-dimensional",
+    "name": "Dimensional Damage",
+    "category": "damage_types",
+    "description": "Tears reality itself, causing spatial displacement, banishment, or molecular shearing across dimensional planes.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Dimensional Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nDimensional damage alters, fractures, or rips the fabric of spacetime around a target. It bypasses physical armor by displacing sections of the target into other planes or subjecting matter to dimensional shearing.\n\n### Metaphysical\n- **Dimensional Rift Creation**: Tearing holes in reality that suck targets into the void or slice them between dimensions.\n- **Dimensional Displacement**: Shifting portions of a foe out of phase to inflict devastating spatial shearing.\n- **Reality Warping**: Altering fundamental constants locally to tear atomic bonds apart.\n\n### Archaic Tech\n- **Dimensional Artifacts**: Ancient relic boxes and strange stones causing localized gravitational anomalies.\n\n### Modern & Advanced Tech\n- **Spatial Displacement Cannons**: Weapons teleporting microscopic slices of enemy armor into hyperspace.\n- **Phase Rifles**: Projectiles shifting through dimensions to materialize inside enemy cockpits.\n- **Pocket Dimension Collapse Generators**: Weapons crushing targets by collapsing localized spatial envelopes.\n\n### Tactical Notes\nDimensional damage completely bypasses Armor DR and forces saving throws to avoid being banished or displaced across the battlefield."
+  },
+  {
+    "id": "damage-elemental-air",
+    "name": "Air Elemental Damage",
+    "category": "damage_types",
+    "description": "Harnesses raw wind, pressure differentials, and atmospheric currents. Deals concussive force, knocks targets prone, and suffocates.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Air Elemental Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nAir elemental damage harnesses atmospheric force, pressure waves, and howling gales. It knocks combatants off their feet, throws them against obstacles, and disrupts aerial flight.\n\n### Metaphysical\n- **Aerokinesis**: Generating howling gales, vacuum pockets, and concussive air blasts.\n- **Air Evocation**: Summoning sylphs, storm elementals, and living whirlwinds.\n- **Air Enchantments**: Imbuing weapons with pressurized air bursts that throw targets backwards.\n\n### Archaic Tech\n- **Bellows & Wind Traps**: Channeling natural air currents into defensive chutes and chutes.\n\n### Modern & Advanced Tech\n- **Compressed Air Cannons**: Weapons firing dense slugs of hyper-compressed atmospheric gas.\n- **Vortex Generators**: Technological emitters creating miniature localized tornadoes.\n- **Pressure Wave Projectors**: Shockwave generators causing severe internal trauma via explosive decompression.\n\n### Tactical Notes\nAir attacks force Might saves to resist being knocked **Prone** or pushed 10+ feet backwards."
+  },
+  {
+    "id": "damage-elemental-earth",
+    "name": "Earth Elemental Damage",
+    "category": "damage_types",
+    "description": "Harnesses physical stone, shifting tectonic pressure, and rock projectiles. Bludgeons armor and knocks combatants prone.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Earth Elemental Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nEarth elemental damage channels the weight, density, and crushing mass of stone, soil, and tectonic movement. It delivers massive blunt trauma and destabilizes footing.\n\n### Metaphysical\n- **Geokinesis**: Hurl boulders, create stone barriers, open chasms, and trigger tremors.\n- **Earth Evocation**: Summoning earth golems and lithic elementals to crush enemy lines.\n- **Earth Enchantments**: Imbuing weapons with dense stone weight to smash through shields.\n\n### Archaic Tech\n- **Siege Engines**: Catapults, trebuchets, and ballistae hurling heavy stone projectiles.\n- **Rockfall Traps**: Deadfalls and weighted stone counterweight traps.\n\n### Modern & Advanced Tech\n- **Seismic Explosives**: High-yield subterranean charges triggering localized earthquakes.\n- **Seismic Cannons**: Directed tectonic emitters shattering concrete foundations.\n- **Gravitic Ground-Slammers**: Devices multiplying local gravity to crush targets into the floor.\n\n### Tactical Notes\nEarth attacks force Reflex saves to avoid being knocked **Prone** or buried in difficult terrain."
+  },
+  {
+    "id": "damage-elemental-fire",
+    "name": "Fire Elemental Damage",
+    "category": "damage_types",
+    "description": "Raw elemental flame and superheated thermal energy. Causes immediate fire damage and continuous burning hazards.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Fire Elemental Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nFire Elemental damage embodies the primal fury of flame, heat, and volcanic power. It scorches flesh, melts plastics, and creates hazardous wall-of-fire terrain zones.\n\n### Metaphysical\n- **Pyrokinesis**: Conjuring elemental firestorms and manipulating flame shapes.\n- **Fire Evocation**: Summoning salamanders and fire elementals immune to heat.\n- **Elemental Fire Enchantments**: Adding persistent flame sheaths to weapons.\n\n### Tech Applications\n- Torches, flamethrowers, incendiary munitions, plasma repeaters, and laser ignition arrays.\n\n### Tactical Notes\nShares rules with **Pyro / Fire Damage**, applying the **Burning status effect** to flammable targets."
+  },
+  {
+    "id": "damage-elemental-radiant",
+    "name": "Radiant / Light Damage",
+    "category": "damage_types",
+    "description": "Pure radiant energy and blinding light. Excels against undead, shadow entities, and light-sensitive targets; induces Blinded status.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Radiant / Light Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nRadiant damage channels coherent light, solar flare energy, and luminous photons. It blinds adversaries, dispels darkness, and burns away supernatural shadows.\n\n### Metaphysical\n- **Photokinesis**: Manifesting blinding flashes, solid light shields, and radiant laser beams.\n- **Light Evocation**: Summoning luminous archons and spirits of pure sunlight.\n- **Solar Enchantments**: Imbuing weapons with blinding radiance that sears shadow creatures.\n\n### Archaic Tech\n- **Focused Mirrors & Reflectors**: Directing concentrated solar beams to blind or burn targets.\n\n### Modern & Advanced Tech\n- **Flashbangs & Stun Grenades**: Pyrotechnic devices inducing sensory blindness and shock.\n- **High-Energy Photonic Lasers**: Weapons delivering pinpoint thermal damage via concentrated light.\n- **Particle Beam Grasers**: Relativistic particle streams producing brilliant radiant detonation.\n\n### Tactical Notes\nRadiant damage forces saving throws against the **Blinded status effect** (-5 Attack/Defense, visual perception auto-fails)."
+  },
+  {
+    "id": "damage-elemental-umbral",
+    "name": "Umbral / Shadow Damage",
+    "category": "damage_types",
+    "description": "Negative energy and primal darkness draining vitality, obscuring vision, and instilling existential terror.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Umbral / Shadow Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nUmbral damage taps into the void, drawing strength from the absence of light to drain vitality, freeze blood, and erode psychic morale.\n\n### Metaphysical\n- **Umbrokinesis**: Solidifying shadows into blades, creating darkness fields, and snuffing light.\n- **Shadow Evocation**: Summoning shadow wraiths and shadowy beasts that drain life on touch.\n- **Shadow Enchantments**: Imbuing weapons with vitality-leeching dark energy.\n\n### Archaic & Modern Tech\n- **Darkness Powders**: Chemical smoke absorbing light and plunging areas into darkness.\n- **Disorienting Strobe Emitters**: Rapid-flash devices disrupting dark-adapted sight.\n\n### Advanced Tech\n- **Dark Energy Projectors**: Cannons firing entropy beams that drain battery power and life force.\n- **Shadow Field Generators**: Devices bending light around installations to swallow incoming optics.\n\n### Tactical Notes\nUmbral damage targets biological and mental stamina, frequently applying the **Exhausted** or **Dazed** conditions."
+  },
+  {
+    "id": "damage-elemental-water",
+    "name": "Water Elemental Damage",
+    "category": "damage_types",
+    "description": "High-pressure aqueous streams, crushing tidal waves, and drowning trauma. Knocks targets back and suffocates.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Water Elemental Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nWater elemental damage utilizes the hydraulic impact and drowning lethality of rushing water, ocean pressure, and concentrated fluid streams.\n\n### Metaphysical\n- **Hydrokinesis**: Manipulating fluid pressure, conjuring tidal waves, and creating watery spheres.\n- **Water Evocation**: Summoning water elementals and spirits that envelope and drown foes.\n- **Water Enchantments**: Adding high-pressure aquatic sheaths to weapons.\n\n### Archaic & Modern Tech\n- **Water Wheels & Traps**: Diverting torrential flows into defensive funnels.\n- **High-Pressure Water Cannons**: Riot water cannons and industrial waterjet cutters delivering concussive blasts.\n\n### Advanced Tech\n- **Water Vortex Generators**: Devices forming localized whirlpools that swallow small vehicles.\n- **Hydraulic Pulse Emitters**: Pressurized fluid shockwave generators shattering internal organs.\n\n### Tactical Notes\nWater damage can induce the **Drowning** suffocation condition and extinguishes Burning status automatically."
+  },
+  {
+    "id": "damage-energy-corrosive",
+    "name": "Corrosive / Disintegration Damage",
+    "category": "damage_types",
+    "description": "Acidic chemical dissolution and molecular breakdown. Degrades armor DR, inflicts ongoing damage, and dissolves organic matter.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Corrosive / Disintegration Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nCorrosive damage dissolves matter through chemical reactivity or molecular bonding failure. It melts armor plates, reduces target Armor DR permanently, and burns through biological tissue.\n\n### Metaphysical\n- **Acid Manipulation**: Mentally generating caustic streams, acid pools, and dissolving barriers.\n- **Acid Evocation**: Summoning toxic oozes and corrosive elemental entities.\n- **Corrosive Enchantments**: Imbuing blades with virulent acid coatings.\n\n### Archaic Tech\n- **Alchemical Acids**: Vials of vitriol, aqua regia, and caustic alkalis thrown as splash weapons.\n- **Natural Venoms**: Caustic secretions harvested from alien insects and predatory flora.\n\n### Modern Tech\n- **Acid Grenades & Bombs**: Pressurized canisters dispersing aerosolized hydrochloric or hydrofluoric acid.\n- **Chemical Launchers**: Rifles firing acid-filled ampoules designed to breach armor seams.\n- **Caustic Sprayers**: Continuous chemical sprayers dissolving fortifications and obstacles.\n\n### Advanced Tech\n- **Molecular Acid Projectors**: Synthetic hyper-acids breaking molecular bonds in milliseconds.\n- **Corrosive Energy Blasters**: Plasma-chemical beams that dissolve material targets on contact.\n- **Nanite Acid Swarms**: Microscopic nanite swarms programmed to consume metal armor and structural hulls.\n\n### Tactical Notes\nCorrosive damage permanently degrades target Armor DR by 1 point per 5 points of unsoaked damage taken, rapidly stripping defensive barriers."
+  },
+  {
+    "id": "damage-energy-cryo",
+    "name": "Cryo / Cold Damage",
+    "category": "damage_types",
+    "description": "Freezes and chills targets, slowing movement, causing frostbite, and embrittling metal armor. Triggers the Freeze condition on criticals.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Cryo / Cold Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nCryo and Cold damage drains thermal energy rapidly, slowing neural impulses, chilling muscle fibers, and causing metal armor and biological carapaces to become brittle. Severe exposure inflicts the **Freeze status effect** (Speed = 0, Vulnerable to Physical & Sonic).\n\n### Metaphysical\n- **Cryokinesis**: Mentally generating chilling blasts, ice barriers, and subzero fields.\n- **Ice Evocation**: Summoning glacial elementals unleashing freezing torrents.\n- **Cold Enchantments**: Imbuing weapons with freezing enchantments that frostbite targets on impact.\n\n### Archaic Tech\n- **Alchemical Cold Grenades**: Endothermic chemical mixtures that absorb heat rapidly upon detonation.\n- **Environmental Ice Weapons**: Improvised weapons formed from subzero ice and snow.\n\n### Modern Tech\n- **Cryo-Grenades & Mines**: Canisters releasing expanding clouds of supercooled gas.\n- **Cryo-Guns**: Firearms firing cryogenic dart canisters causing cellular embrittlement.\n- **Cryo-Sprayers**: Continuous liquid nitrogen/helium stream projectors.\n\n### Advanced Tech\n- **Cryo-Lasers**: Photonic beams tuned to endothermic frequencies that instantly extract kinetic heat.\n- **Cryo-Blades**: Melee weapons with supercooled chambers that shatter brittle enemy armor on contact.\n- **Cryo-Mines**: Proximity devices flash-freezing entire choke points.\n\n### Tactical Notes\nCold damage severely hinders enemy mobility and makes targets vulnerable to shattering physical and sonic strikes."
+  },
+  {
+    "id": "damage-energy-disruption",
+    "name": "Force Pulse / Disruption Damage",
+    "category": "damage_types",
+    "description": "Disrupts fundamental molecular bonds, destabilizing and disintegrating matter. Bypasses conventional armor and shatters structures.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Force Pulse / Disruption Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nForce Pulse / Disruption damage directly attacks the molecular and subatomic forces holding matter together. Targets hit by disruption energy weaken, crack, and dissolve into dust upon critical failure.\n- **Armor Bypass**: Bypasses conventional physical armor by destabilizing the atomic cohesion of the plates.\n\n### Metaphysical\n- **Disruption Field**: Projecting an aura that breaks atomic bonds on contact.\n- **Force Manipulation**: Manipulating gravity, inertia, and molecular coherence to tear targets apart.\n- **Disruptive Enchantments**: Imbuing weapons with bond-shattering resonance.\n\n### Modern Tech\n- **Disruptor Pistols & Rifles**: Weapons firing bolts of disruption energy, making targets brittle and crumbling them.\n- **Disruption Grenades**: Munitions creating localized shock-waves that weaken structural walls and vehicles.\n\n### Advanced Tech\n- **Disruptor Cannons**: Heavy ship-mounted beam weapons capable of disintegrating armored hulls.\n- **Molecular Disruptors**: Surgical weapons tuned to specific atomic bonds, disintegrating armor without harming crew.\n- **Reality Anchors**: Devices reversing disruptive fields or tearing localized spatial frameworks apart.\n\n### Tactical Notes\nCritical strikes with Disruption damage disintegrate targets reduced to 0 HP, leaving no remains for biological revival."
+  },
+  {
+    "id": "damage-energy-phase",
+    "name": "Spectral / Phase Damage",
+    "category": "damage_types",
+    "description": "Incorporeal energy bypassing physical armor to disrupt life force directly. Lethal to ethereal entities and armored targets alike.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Spectral / Phase Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nSpectral and Phase damage (also termed ghost or incorporeal damage) bypasses physical armor entirely, directly disrupting the target's life force, neurological matrix, or ethereal essence.\n- **Armor Bypass**: Completely **ignores physical Armor DR**.\n\n### Metaphysical\n- **Phasing**: Shifting between corporeal and incorporeal states to pass through barriers and deliver phase strikes.\n- **Ghostly Touch**: Attacks passing through armor plates to drain vitality, inflict fear, or disrupt concentration.\n- **Spirit Weapons**: Manifesting weapons of pure spiritual energy that strike directly at the soul.\n\n### Archaic Tech\n- **Blessed Weapons**: Consecrated or runic weapons capable of harming ghosts and bypassing physical armor.\n- **Ghost-Banishing Wards**: Artifacts creating sacred geometric zones that repel phased entities.\n\n### Modern Tech\n- **Phase Disruptors**: Wave emitters forcing phased or incorporeal beings back into tangible reality.\n- **Ghost-Detecting Sensors**: EMF and quantum fluctuation detectors tracking spiritual profiles.\n\n### Advanced Tech\n- **Phase Rifles**: Firearms projecting quantum-shifted bolts that phase through cover and armor.\n- **Phase Blades**: Melee weapons passing harmlessly through outer plating to sever internal organs.\n- **Phase Field Emitters**: Devices establishing spatial phasing bubbles for tactical infiltration.\n\n### Tactical Notes\nPhase damage is the ultimate counter against heavily armored tanks and juggernauts, resisted only by Willpower and active energy wards."
+  },
+  {
+    "id": "damage-energy-pyro",
+    "name": "Pyro / Fire Damage",
+    "category": "damage_types",
+    "description": "Burns and incinerates targets, causing ongoing burning damage. Highly effective against flammables, beasts, and cold-vulnerable entities.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Pyro / Fire Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nPyro and Fire damage incinerates targets, causing immediate agony, melting materials, and setting combustible targets ablaze. It frequently applies the ongoing **Burning status effect** (1d6 Fire damage/round + Will DC 12 panic check).\n\n### Metaphysical\n- **Pyrokinesis**: Creating and manipulating fire with the mind (fire walls, localized conflagrations).\n- **Fire Evocation**: Summoning fire spirits or elementals resistant to heat that unleash flame streams.\n- **Fire Enchantments**: Imbuing blades or projectiles with fiery ignition on contact.\n\n### Archaic Tech\n- **Torches, Fire Arrows & Incendiary Pots**: Simple combustion weapons for area denial.\n- **Primitive Flamethrowers**: Liquid fuel siphon projectors producing continuous flame cones.\n- **Fire Traps**: Pitch pits and trigger-ignited incendiary snares.\n\n### Modern Tech\n- **Advanced Flamethrowers**: High-pressure infantry and vehicle-mounted flamethrowers.\n- **Incendiary Ammunition**: Bullets filled with white phosphorus or thermite igniting upon target impact.\n- **Fire Bombs & Napalm**: Area-saturation incendiary munitions.\n\n### Advanced Tech\n- **Laser Weapons**: Focused high-energy coherent photonic beams causing thermal ignition.\n- **Plasma Weapons**: Magnetic containment nozzles firing superheated plasma bolts that melt through vehicle armor.\n- **Energy Pulse Emitters**: Thermal pulse cannons firing bursts or sweeping sprays of intense heat.\n\n### Tactical Notes\nCritical hits with Fire weapons automatically ignite targets, forcing them to spend a full action to Stop, Drop, and Roll."
+  },
+  {
+    "id": "damage-energy-radiation",
+    "name": "Ra-D / Radiation Damage",
+    "category": "damage_types",
+    "description": "Ionizing radiation causing cellular destruction, mutation, and radiation sickness in biologicals while degrading electronics.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Ra-D / Radiation Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nRa-D (Radiation) damage delivers ionizing gamma rays, neutron fluxes, and radioactive isotopes that tear through cellular DNA and cause immediate radiation sickness, nausea, and long-term mutation.\n\n### Metaphysical\n- **Radiokinesis**: Generating radiation fields, transmuting isotopes, and inducing acute radiation sickness.\n- **Radiation Evocation**: Summoning glowing, irradiated entities emanating lethal rad-auras.\n- **Radioactive Wards**: Irradiating objects to poison anyone handling them without shielding.\n\n### Archaic Tech\n- **Radioactive Minerals**: Crude weapons tipped with refined pitchblende or radium ores (*hazardous to users*).\n\n### Modern Tech\n- **Dirty Bombs & Radiological Dispersal**: Devices dispersing radioactive dust over battlefield sectors.\n- **Radiation Guns**: Directed gamma-ray projectors penetrating light structures.\n- **Rad-Mines**: Perimeter mines saturating areas with intense localized beta radiation.\n\n### Advanced Tech\n- **Neutron Cannons**: Particle beams penetrating heavy tank armor to kill organic crews while leaving hardware intact.\n- **Gamma-Ray Lasers (Grasers)**: Relativistic laser weapons inflicting massive cellular necrosis.\n- **Active Radiation Emitters**: Choke-point denial systems bathing corridors in lethal ionizing fields.\n\n### Tactical Notes\nRadiation damage ignores soft biological tissue protection and inflicts the Exhausted and Sickness conditions on failed Fortitude saves."
+  },
+  {
+    "id": "damage-energy-sonic",
+    "name": "Sonic / Sound Damage",
+    "category": "damage_types",
+    "description": "High-frequency acoustic vibrations that bypass physical armor to cause disorientation, ruptured organs, and cellular disintegration.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Sonic / Sound Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nSonic damage utilizes acoustic shockwaves and harmonic resonance to vibrate matter.\n- **Armor Bypass**: **Ignores most physical armor** by transmitting vibrations directly through solid plates into internal organs and systems.\n\n### Metaphysical\n- **Sonokinesis**: Mentally generating sonic shockwaves, directional deafening blasts, and acoustic shields.\n- **Sound Evocation**: Summoning resonance entities made of pure acoustic force.\n- **Sonic Enchantments**: Imbuing melee weapons with high-vibration humming edges.\n\n### Archaic Tech\n- **War Horns and Battle Drums**: Acoustic intimidation and disorientation instruments.\n- **Whistling Projectiles**: Piercing whistle arrows creating auditory distraction and disorientation.\n\n### Modern Tech\n- **Sonic Grenades & Flash-Crackers**: Devices rupturing eardrums and causing concussive inner-ear trauma.\n- **Sonic Cannons & LRADs**: Directional acoustic weapons that incapacitate or disorient targets.\n- **Acoustic Disruptors**: Continuous sound wave generators that disrupt radio comms and induce nausea.\n\n### Advanced Tech\n- **Sonic Lasers & Masers (Sasers)**: Coherent acoustic beams cutting matter at resonant frequencies.\n- **Sonic Barriers**: Deflection shields using acoustic standing waves to deflect kinetic projectiles.\n- **Active Acoustic Cloaking**: Advanced noise-cancellation matrices masking engine and movement signatures.\n\n### Tactical Notes\nSonic damage is especially devastating against creatures with acute hearing or delicate sensory clusters, and bypasses rigid breastplates."
+  },
+  {
+    "id": "damage-energy-voltic",
+    "name": "Voltic / Electrical Damage",
+    "category": "damage_types",
+    "description": "High-voltage electrical arcs that stun biological nervous systems and overload electronic circuitry, cyberware, and robotics.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Voltic / Electrical Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nVoltic damage discharges high-voltage electrical arcs into targets, causing violent muscle spasms, disrupting bio-electric signals, and frying electronic processors. It frequently inflicts the **Stunned** condition.\n\n### Metaphysical\n- **Electrokinesis**: Generating lightning bolts, controlling electrical currents, and storing electrostatic charges.\n- **Electricity Evocation**: Summoning living storm elementals and ball lightning.\n- **Electrical Enchantments**: Imbuing weapons with shock arcs on contact.\n\n### Archaic Tech\n- **Leyden Jars**: Primitive static electrical storage jars discharging non-lethal shocks.\n\n### Modern Tech\n- **Stun Guns & Tasers**: High-voltage, low-amperage neuro-muscular incapacitation devices.\n- **Electrified Projectiles**: Shotgun slugs or darts delivering high-voltage capacitors on impact.\n- **Shock Traps**: Pressure plates releasing high-voltage defensive discharges.\n\n### Advanced Tech\n- **Railguns & Arc Cannons**: Weapons launching lightning-sheathed hypervelocity slugs or directed ionic arcs.\n- **EMP Projectors**: Electromagnetic pulse weapons that instantly shut down cyberware, power grids, and robots.\n- **Lightning Field Barriers**: Perimeter shields vaporizing incoming drones with continuous electrical arcs.\n\n### Tactical Notes\nVoltic weapons deal double system damage to robotic, cybernetic, and vehicle power conduits, with a high chance of inducing temporary shutdown."
+  },
+  {
+    "id": "damage-infernal",
+    "name": "Infernal Damage",
+    "category": "damage_types",
+    "description": "Hellish flames, spiritual corruption, and soul-tainting hellfire. Causes physical and spiritual agony, and memory erosion.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Infernal Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nInfernal damage channels the destructive and corrupting energies of the infernal planes and the Stygian abyss. It combines hellish heat with spiritual corruption, leaving lasting scars upon the victim's mind and soul.\n\n### Metaphysical\n- **Infernal Evocation**: Summoning demons, devils, and hellish fiends to ravage enemy ranks.\n- **Infernal Pacts & Curses**: Channeling dark planar bargains to strike down foes with agonizing soul-fire.\n- **Hellfire Enchantments**: Imbuing weapons with black flames that resist being extinguished.\n\n### Archaic Tech\n- **Infernal Relics**: Ancient cursed daggers and blood-forged talismans carrying planar corruption.\n- **Ritual Implements**: Occult focus daggers used in sacrificial invocations.\n\n### Advanced Tech\n- **Interdimensional Plasma Weavers**: Experimental devices siphoning chaotic planar energy into weapons batteries.\n\n### Tactical Notes\nInfernal damage inflicts persistent Burning and may induce memory loss or spiritual degradation associated with the Stygian influence."
+  },
+  {
+    "id": "damage-kinetic-bleed",
+    "name": "Bleed Damage (Status Effect)",
+    "category": "damage_types",
+    "description": "Ongoing trauma caused by slashing and piercing wounds. Inflicts 1d4 damage at start of turn, ignoring Armor/DR until cured.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Bleed Damage (Status Effect)\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nBleeding is not an independent weapon damage type, but rather a persistent trauma effect inflicted by critical strikes from slashing and piercing weapons, or specialized shrapnel and serrated blades.\n\n### Mechanical Effect\n- Target suffers **1d4 Damage at the start of each turn**.\n- **Armor Bypass**: Bleeding damage **completely ignores Armor DR**.\n- **Cure / Removal**: Successfully stabilized with a **Medicine Check (DC 10)**, medical trauma pack, or any restorative metaphysical healing ability.\n\n### Tactical Notes\nBleeding steadily depletes life force during prolonged tactical skirmishes and synergizes destructively with Exhausted or Dazed conditions."
+  },
+  {
+    "id": "damage-kinetic-blunt",
+    "name": "Kinetic: Blunt (Crushing)",
+    "category": "damage_types",
+    "description": "Crushing and bruising targets, causing widespread trauma, broken bones, and internal injuries. Effective against unarmored or lightly armored foes and machinery.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Kinetic: Blunt (Crushing)\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nBlunt damage focuses on crushing and bruising targets, often causing widespread trauma, broken bones, and internal injuries. It is particularly effective against unarmored or lightly armored opponents, and can also be used to damage structures or disable machinery.\n\n### Metaphysical\n- **Telekinetic Impact**: Hurling dense physical objects with mental force to crush barriers and enemies.\n- **Gravity Compression**: Increasing localized gravitational mass to inflict blunt crushing pressure.\n\n### Archaic Tech\n- **Clubs and Staves**: Simple, yet effective weapons made from wood, bone, or stone. Clubs offer raw power; staves provide reach and versatility.\n- **Maces and Flails**: Metal-headed weapons designed to crush armor and bone.\n- **Hammers and War Picks**: Hammers offer blunt force trauma; war picks feature pointed ends to hook opponents.\n\n### Modern Tech\n- **Shock Batons and Truncheons**: Law enforcement tools delivering blunt strikes and non-lethal electrical shocks.\n- **Telescopic Batons**: Collapsible steel batons providing reach and striking power.\n- **Impact Weapons**: Weighted batons or spring-loaded kinetic impact devices.\n\n### Advanced Tech\n- **Power Fists and Gauntlets**: Mechanically augmented gauntlets amplifying punching force with built-in kinetic or energy projectors.\n- **Force Hammers and Mallets**: Weapons utilizing localized force fields to amplify striking mass, crushing heavy armor.\n- **Gravity Weapons**: Devices manipulating gravitational fields to crush targets.\n\n### Tactical Notes\nBlunt damage frequently inflicts stunning or knockdown effects, and excels at disabling robotic joints or concussing organic anatomy without piercing biological vitals."
+  },
+  {
+    "id": "damage-kinetic-concussive",
+    "name": "Concussive / Impact Damage",
+    "category": "damage_types",
+    "description": "Massive whole-body kinetic energy from crashes, falls, and explosions. Split equally between Vitality and Health; ignores or halves DR.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Concussive / Impact Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nConcussive damage represents physical impact from something generally larger than the target's main body (smashing, crashing, crushing, falls, explosions).\n- **Whole-Body Dispersion**: Traumatic energy is dispersed across the entire target organism or structure.\n- **Vitality / Health Split**: Damage can be **divided equally between Vitality and Health** if the character attempts an active defense or soak, regardless of whether the check succeeds.\n\n### Archaic Tech\n- **Crashing**: High-impact collisions with vehicles or terrain (*Half DR if Hard Armor without Crash Suit; Force Field DR is half effective*).\n- **Falling Damage**: Falling from greater than character height (*Ignores DR of physical protection and force fields*).\n- **Siege Weapons**: Catapults, trebuchets, and battering rams (*Half DR if Hard Armor; Force Field DR is half effective*).\n\n### Modern Tech\n- **Explosives**: Blast waves from grenades, mines, and artillery (*Half DR of Hard Armor without Blast Suit; Force Field DR is half effective*).\n\n### Advanced Tech\n- **Gravity Weapons**: Gravitational crushers and wells (*Ignores solid armor DR; Force Field DR is half effective*).\n- **Weaponized Force Fields**: Crushing or repelling fields (*Ignores DR of solid protection; Force Field DR is fully effective*).\n\n### Tactical Notes\nConcussive damage is uniquely dangerous because it threatens permanent Health loss even while a character still possesses Vitality points."
+  },
+  {
+    "id": "damage-kinetic-force",
+    "name": "Force (Kinetic Subtype)",
+    "category": "damage_types",
+    "description": "Kinetic subtype consisting of focused gravitic, telekinetic, or concussive mass fields that ignores 1/2 of Target Armor DR.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Force (Kinetic Subtype)\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nForce damage is a specialized kinetic subtype consisting of concentrated kinetic fields, telekinetic pressure, and directed gravitic displacement.\n- **Armor Penetration**: **Ignores 1/2 of Target Armor DR** automatically, making it exceptionally effective against fortified armor plates and heavy carapaces.\n\n### Metaphysical\n- **Telekinetic Blast**: Direct concussive projections of pure mental willpower.\n- **Repulsor Wave**: Concentrated force pulses that shatter structures and repel targets.\n\n### Modern & Advanced Tech\n- **Concussive Force Projectors**: Directed acoustic or gravitic shockwaves.\n- **Kinetic Field Emitters**: Devices compressing atmospheric air into high-density kinetic projectiles.\n\n### Tactical Notes\nBecause Force damage bypasses half of Armor DR, it serves as the premier anti-tank and anti-fortification kinetic damage vector."
+  },
+  {
+    "id": "damage-kinetic-piercing",
+    "name": "Kinetic: Piercing (Puncturing)",
+    "category": "damage_types",
+    "description": "Puncturing and penetrating targets with deep, narrow wounds. Ideal for exploiting weak points and delivering payloads.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Kinetic: Piercing (Puncturing)\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nPiercing damage focuses on puncturing and penetrating targets, often causing deep, narrow wounds. It is particularly effective against unarmored or lightly armored opponents, but can also be used to exploit weak points in heavier armor.\n\n### Metaphysical\n- **Kinetic Darts**: Telekinetically propelled needles or shards launched at supersonic velocity.\n- **Spike Evocation**: Projecting crystalline or spiritual spikes that impale target vitals.\n\n### Archaic Tech\n- **Arrows and Bolts**: Projectiles for bows and crossbows penetrating flesh and light armor.\n- **Spears and Lances**: Polearms with sharp thrusting tips; lances deliver devastating mounted momentum.\n- **Daggers and Stilettos**: Concealable blades engineered for close-quarters vital organ penetration.\n\n### Modern Tech\n- **Bayonets**: Rifle-mounted blades providing immediate thrusting lethality.\n- **Flechettes**: Fin-stabilized aerodynamic steel darts fired from shotguns or canisters.\n- **Armor-Piercing (AP) Ammunition**: Hardened steel or tungsten penetrator cores defeating armor plates.\n\n### Advanced Tech\n- **Gauss Rifles and Coilguns**: Electromagnetic acceleration arrays launching hypervelocity kinetic slugs.\n- **Needle Guns**: Weapons firing microscopic, high-velocity darts delivering toxins or nanite payloads.\n- **Railguns**: Electromagnetic sliding armature cannons achieving orbital-grade muzzle velocities.\n\n### Tactical Notes\nPiercing attacks are ideal for called shots against internal components, limb joints, and vital organs, and frequently induce the **Bleeding** condition upon critical trauma."
+  },
+  {
+    "id": "damage-kinetic-slashing",
+    "name": "Kinetic: Slashing (Cutting)",
+    "category": "damage_types",
+    "description": "Cutting and tearing targets, causing wide lacerations, severed limbs, and bleeding. Exploits gaps in heavier armor.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Kinetic: Slashing (Cutting)\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nSlashing damage focuses on cutting and tearing targets, often causing wide, jagged wounds and potentially severing limbs or causing significant bleeding. It is particularly effective against unarmored or lightly armored opponents, and can also exploit vulnerable seams in heavier armor.\n\n### Metaphysical\n- **Blade Evocation**: Manifesting telekinetic or metaphysical cutting arcs that slice through matter.\n- **Wind Blades**: Razor-sharp currents of accelerated atmospheric force.\n\n### Archaic Tech\n- **Axes and Hatchets**: Powerful chopping tools cleaving flesh and bone.\n- **Swords**: Scimitars, katanas, and broadswords excelling at slicing sweeps.\n- **Sickles and Scythes**: Curved blades designed for hooking and wide sweeping cuts.\n\n### Modern Tech\n- **Machetes and Kukris**: Heavy angled blades optimized for hacking and slashing through dense brush or armor weave.\n- **Chain Weapons**: Segmented blades linked by high-tensile chains (chain whips, kusarigama).\n- **Vibroblades**: High-frequency oscillating blades that rapidly shear through organic flesh and composite weave.\n\n### Advanced Tech\n- **Monomolecular Blades**: Single-atom-thick molecular edges that slice through almost any material with surgical ease.\n- **Energy Swords**: Coherent photonic blades cutting through armor and cauterizing wounds.\n- **Plasma Swords**: Superheated plasma arcs that melt armor plates and deal additional thermal damage.\n\n### Tactical Notes\nCritical strikes with slashing weapons trigger the **Bleeding status effect** (1d4 ongoing damage per round, ignoring Armor DR)."
+  },
+  {
+    "id": "damage-mental",
+    "name": "Psyche / Mental Damage",
+    "category": "damage_types",
+    "description": "Direct psychic trauma and neural disruption targeting the mind. Bypasses physical armor completely; resisted by Willpower and Reason.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Psyche / Mental Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nMental damage targets the conscious mind, neural synapses, and psyche rather than the physical flesh.\n- **Armor Bypass**: **Completely ignores Physical Armor DR**. Resisted exclusively by mental discipline, **Willpower Saves**, and psychic wards.\n\n### Metaphysical\n- **Psychic Assault**: Projecting pure telepathic force into an adversary's brain, inflicting agony or unconsciousness.\n- **Emotional Manipulation**: Flooding enemy minds with panic, despair, or uncontrollable frenzy.\n- **Mental Intrusion & Mind Blast**: Shattering conscious thought, inducing amnesia, or seizing motor control.\n\n### Advanced Tech\n- **Psychic Amplifiers**: Neural headgear amplifying the psionic output of trained espers.\n- **Neural Disruptors**: Electromagnetic microwave beams scrambling brain synapses to cause disorientation and blackout.\n- **Mind Control Transceivers**: Cybernetic overrides commanding enemy nervous systems.\n\n### Tactical Notes\nMental attacks induce the **Dazed** (1 action/turn, no reactions) or **Stunned** status on failed saves, making them devastating against heavily armored brutes with low mental defenses."
+  },
+  {
+    "id": "damage-psyche-mental",
+    "name": "Psyche / Mental Damage",
+    "category": "damage_types",
+    "description": "Direct psychic trauma and neural disruption targeting the mind. Bypasses physical armor completely; resisted by Willpower and Reason.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Psyche / Mental Damage\n\n**Category**: Damage Types & Energy Profiles\n\n## Overview\nMental damage targets the conscious mind, neural synapses, and psyche rather than the physical flesh.\n- **Armor Bypass**: **Completely ignores Physical Armor DR**. Resisted exclusively by mental discipline, **Willpower Saves**, and psychic wards.\n\n### Metaphysical\n- **Psychic Assault**: Projecting pure telepathic force into an adversary's brain, inflicting agony or unconsciousness.\n- **Emotional Manipulation**: Flooding enemy minds with panic, despair, or uncontrollable frenzy.\n- **Mental Intrusion & Mind Blast**: Shattering conscious thought, inducing amnesia, or seizing motor control.\n\n### Advanced Tech\n- **Psychic Amplifiers**: Neural headgear amplifying the psionic output of trained espers.\n- **Neural Disruptors**: Electromagnetic microwave beams scrambling brain synapses to cause disorientation and blackout.\n- **Mind Control Transceivers**: Cybernetic overrides commanding enemy nervous systems.\n\n### Tactical Notes\nMental attacks induce the **Dazed** (1 action/turn, no reactions) or **Stunned** status on failed saves, making them devastating against heavily armored brutes with low mental defenses."
+  },
+  {
+    "id": "maneuver-active-defense",
+    "name": "Active Defense",
+    "category": "maneuvers",
+    "action_type": "Reaction Action",
+    "description": "Roll Defense check (Defender wins ties) to replace static Defense or negate maneuvers. Subsequent reactions suffer -5 cumulative penalty.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Active Defense\n\n**Category**: Combat Maneuvers  \n**Action Type**: Reaction Action\n\n## Mechanics\n- **Reaction**: Roll an active Defense check (Agility + Defense Skill) to replace static Defense or negate incoming strikes and maneuvers.\n- **Golden Rule**: **Defender wins all ties**.\n- **Iterative Reactions**: Multiple reactions permitted based on Defense Skill Rank. Each consecutive active defense after the first suffers a **cumulative -5 penalty** (1st: base, 2nd: -5, 3rd: -10, 4th: -15, etc.)."
+  },
+  {
+    "id": "maneuver-aiming",
+    "name": "Aiming",
+    "category": "maneuvers",
+    "action_type": "Standard / Movement Action",
+    "description": "Having target in sights to steady and lead shot; +2 Strike per round of Aiming (up to 1/2 Skill Rank, max AGIx2 + 2). Cannot move before shooting.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Aiming\n\n**Category**: Combat Maneuvers  \n**Action Type**: Standard / Movement Action\n\n## Mechanics & Edge Bonus\n- **Requirement**: Attacker spends an action to steady their aim and lead the shot; attacker **cannot move before shooting**.\n- **Bonus**: Gain **+2 to Strike per round of Aiming**.\n- **Maximum**: Capped at **1/2 the attacker's Skill Level** (up to Agility x 2 + 2 for moving attacker checks)."
+  },
+  {
+    "id": "maneuver-area-suppression",
+    "name": "Area Suppression (Blasting)",
+    "category": "maneuvers",
+    "action_type": "Full Action / Area Control",
+    "description": "Suppress area. General Area (+2 dice / 5 pts over DC 10); Focused Zone (+100% dice / 10 pts over DC 15). Range penalties doubled.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Area Suppression (Blasting)\n\n**Category**: Combat Maneuvers  \n**Action Type**: Full Action / Area Control\n\n## Mechanics\n- All Range Penalties are **Doubled**.\n- **General Area**: Targets take **+2 Damage Dice** for every 5 points the attack roll exceeds DC 10.\n- **Focused Blast Zone**: Targets take **+100% Damage Dice** for every 10 points the attack roll exceeds DC 15."
+  },
+  {
+    "id": "maneuver-braced",
+    "name": "Braced",
+    "category": "maneuvers",
+    "action_type": "Stance Action",
+    "description": "Set stance against charge or heavy recoil. Block usable as counter attack on hit/readied weapon; bonus gained vs Advancing Target.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Braced\n\n**Category**: Combat Maneuvers  \n**Action Type**: Stance Action\n\n## Mechanics & Edge Bonus\n- Set to receive a Charge or to stay in place.\n- **Block Counter**: Block usable as a counter attack on getting hit (or with a readied weapon).\n- **Anti-Advance**: Bonus is gained against an **Advancing Target**.\n- **Recoil & Stability**: Negates penalties for heavy weapon recoil and grants **Advantage against being tripped or shoved**."
+  },
+  {
+    "id": "maneuver-burst-fire",
+    "name": "Burst Fire (Short)",
+    "category": "maneuvers",
+    "action_type": "Standard Ranged Action",
+    "description": "3-round burst granting +1 Strike. All range penalties are doubled during automatic fire.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Burst Fire (Short)\n\n**Category**: Combat Maneuvers  \n**Action Type**: Standard Ranged Action\n\n## Mechanics\n- **Ammunition**: 3 rounds.\n- **Strike Bonus**: **+1 Strike**.\n- **Range Penalties**: All Range Penalties are **Doubled** during automatic fire."
+  },
+  {
+    "id": "maneuver-called-shot",
+    "name": "Called Shot",
+    "category": "maneuvers",
+    "action_type": "Standard Action",
+    "description": "Target specific anatomy/component (-1 to -5 Strike). Successful damage disables or destroys the location.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Called Shot\n\n**Category**: Combat Maneuvers  \n**Action Type**: Standard Action\n\n## Mechanics\n- Attack a specific anatomical location or component at a targeted strike penalty:\n  - Head (-2), Neck/Throat (-4), Eyes/Ears/Nose (-5)\n  - Torso (-1), Chest (-2), Abdomen (-2), Groin (-4)\n  - Arms (-2), Upper Arm (-3), Forearm (-3), Hand (-4), Digits (-5)\n  - Legs (-2), Thigh (-3), Shin (-3), Foot (-4), Digits (-5)\n  - Tentacles/Wings/Fins (-2 to -4)\n- **Trauma**: If successful, damage is applied directly to that location for the purpose of Disabling or Destroying it."
+  },
+  {
+    "id": "maneuver-charge",
+    "name": "Charge",
+    "category": "maneuvers",
+    "action_type": "Full Movement Action",
+    "description": "Move 10+ ft straight toward enemy (-2 Def, -2 Atk); on hit +1d damage, -1 strike/speed stage, +1 impact/10ft speed (up to +100%).",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Charge\n\n**Category**: Combat Maneuvers  \n**Action Type**: Full Movement Action\n\n## Mechanics & Edge Bonus\n- **Requirement**: Must move at least 10 feet in a straight line toward an enemy.\n- **Stance Modifiers**: **-2 Defense** and **-2 Attack** during the charge.\n- **Damage Escalation**: On a successful strike, add **+1d to Attack Damage** and **-1 to strike per stage of speed** (walk, jog, run, sprint).\n- **Impact Damage**: Deals an additional **+1 Point of Impact Damage per 10 ft of Speed** (up to a maximum of **+100% increase** in the attack's damage)."
+  },
+  {
+    "id": "maneuver-close-in",
+    "name": "Close In",
+    "category": "maneuvers",
+    "action_type": "Movement Action",
+    "description": "Guarded approach, defensive advancement at base speed. NO Modifiers and not counted as an Advancing Target.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Close In\n\n**Category**: Combat Maneuvers  \n**Action Type**: Movement Action\n\n## Mechanics & Edge Bonus\n- **Guarded Approach**: Defensive advancement toward an opponent at base speed.\n- **No Penalties**: **NO Modifiers** applied and **not counted as an Advancing Target** (does not provoke the Advancing Target extra attack)."
+  },
+  {
+    "id": "maneuver-evasive-movement",
+    "name": "Evasive Movement",
+    "category": "maneuvers",
+    "action_type": "Movement Action",
+    "description": "Fully defensive while moving quickly; +1 Defense base and another +1 Defense per 10ft Movement Speed used.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Evasive Movement\n\n**Category**: Combat Maneuvers  \n**Action Type**: Movement Action\n\n## Mechanics & Edge Bonus\n- Fully defensive posture while moving rapidly.\n- **Defense Bonus**: Gain **+1 Defense base**, plus an additional **+1 Defense per 10 ft of Movement Speed** used during the turn."
+  },
+  {
+    "id": "maneuver-feint",
+    "name": "Feint",
+    "category": "maneuvers",
+    "action_type": "Standard Action",
+    "description": "Bluff check vs Insight leads target into False Defense, allowing a Sneak Attack at -5 Strike with Target having NO Defense.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Feint\n\n**Category**: Combat Maneuvers  \n**Action Type**: Standard Action\n\n## Mechanics & Edge Bonus\n- **Check**: Attacker makes an opposed **Bluff check vs. Insight**.\n- **Success**: Leads the target into a **False Defense**, forcing an opening for a **Sneak Attack at -5 Strike** with the target having **NO Defense**."
+  },
+  {
+    "id": "maneuver-flanking",
+    "name": "Flanking",
+    "category": "maneuvers",
+    "action_type": "Tactical Positioning",
+    "description": "Allies positioned on multiple sides of target exploit defensive openings, granting +2 bonus to hit.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Flanking\n\n**Category**: Combat Maneuvers  \n**Action Type**: Tactical Positioning\n\n## Mechanics & Edge Bonus\nAdvantage gained when an attacker has allies positioned on multiple sides of the target. This positioning creates an opportunity to exploit openings in the target's defenses, granting a **+2 bonus to hit**."
+  },
+  {
+    "id": "maneuver-full-auto",
+    "name": "Full Auto (Long)",
+    "category": "maneuvers",
+    "action_type": "Full Action",
+    "description": "10+ rounds fired (-1 recoil per 10 rounds). Each point over DC lands an additional hit dealing +1d extra damage if DR penetrated.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Full Auto (Long)\n\n**Category**: Combat Maneuvers  \n**Action Type**: Full Action\n\n## Mechanics\n- **Ammunition**: 10+ rounds.\n- **Recoil**: **-1 Recoil Penalty** per 10 rounds fired.\n- **Range Penalties**: All Range Penalties are **Doubled**.\n- **Iterative Hits**: For every point the Attack Roll exceeds the Defense DC, an **additional bullet hits** (up to total rounds fired).\n- **Damage**: Initial hit deals normal weapon damage; each extra hit deals **+1d Damage** (only if initial hit penetrated armor DR)."
+  },
+  {
+    "id": "maneuver-subtle",
+    "name": "Subtle",
+    "category": "maneuvers",
+    "action_type": "Movement / Stance Condition",
+    "description": "Quiet, sneaky, low-key action avoiding attention. Required for availability of stealth-based Skill Actions.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Subtle\n\n**Category**: Combat Maneuvers  \n**Action Type**: Movement / Stance Condition\n\n## Mechanics & Edge Bonus\n- Moving quietly to avoid attention and conceal presence.\n- **Prerequisite Condition**: Required for the availability and execution of stealth-based Skill Actions and unnoticed ambushes."
+  },
+  {
+    "id": "maneuver-surprise-sneak-attack",
+    "name": "Surprise / Sneak Attack",
+    "category": "maneuvers",
+    "action_type": "Ambush / Tactical Strike",
+    "description": "Catching target unaware; made at -5 to hit but Target has NO Defense, Damage rolled at Advantage. Danger Sense allows awareness check.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Surprise / Sneak Attack\n\n**Category**: Combat Maneuvers  \n**Action Type**: Ambush / Tactical Strike\n\n## Mechanics & Edge Bonus\n- **Context**: The 'Getting the drop on em'' strike (backstab, sniper shot, ambush, concealed pistol, sudden betrayal). The attack went completely unnoticed until impact.\n- **Target Defense**: Target is completely unaware and **has NO Defense** (cannot make any Defense check to evade or reduce damage).\n- **Attack Modifier**: Made at **-5 to hit**.\n- **Damage**: Damage is rolled at **Advantage** in addition to any precision or sneak attack training bonuses.\n- **Danger Sense**: Characters with the Danger Sense Feature gain an Advantageous check to become aware of an impending attack regardless of the source."
+  },
+  {
+    "id": "maneuver-withdraw",
+    "name": "Withdraw",
+    "category": "maneuvers",
+    "action_type": "Movement Action",
+    "description": "Pulling back defensively at base speed. NO Modifiers and not counted as a Retreating Target.",
+    "costs": {
+      "cp": 0,
+      "bp": 0
+    },
+    "modifiers": [],
+    "body": "# Withdraw\n\n**Category**: Combat Maneuvers  \n**Action Type**: Movement Action\n\n## Mechanics & Edge Bonus\n- **Defensive Pullback**: Controlled tactical retreat at base speed.\n- **No Penalties**: **NO Modifiers** applied and **not counted as a Retreating Target** (does not provoke the Retreating Target extra attack)."
   }
 ]

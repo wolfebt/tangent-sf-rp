@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Cyberneticist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Healer / Crafter / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Specialist in creating, repairing, and modifying cybernetic enhancements.
 
-> *You build better humans. You merge flesh and machine to create something greater than the sum of its parts. You understand the interface between the biological and the technological.*
+*You build better humans. You merge flesh and machine to create something greater than the sum of its parts. You understand the interface between the biological and the technological.*
 
-> _"Flesh is weak. Steel is strong. I provide the upgrade."_
-
-## Tactical Role
-Installing/repairing cybernetics, hacking enemy augments, buffing allies.
-
-## Essential Skills
-- Knowledge (Medicine)
-- Knowledge (Technology)
-- Knowledge (Science)
-- Vocation (Engineer)
-
-## Signature Features
-- Cybernetic Enhancement
-- Biomechanical Integration
-
-## Recommendations
-- **Occupations**: Doctor, Engineer
-- **Origins**: Research, Industrial, Urban
-- **Factions**: Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy
-
-
-## Extended Lore & Background
-
-Specialist in creating, repairing, and modifying cybernetic enhancements.  
-*You build better humans. You merge flesh and machine to create something greater than the sum of its parts. You understand the interface between the biological and the technological.*  
 *"Flesh is weak. Steel is strong. I provide the upgrade."*
 
+  - **Core Concept:** Healer / Crafter / Buffer
+  - **Recommended Occupations:** Specialist (*Doctor*), Builder (*Engineer*).
+  - **Recommended Origins:** Research, Industrial, Urban.
+  - **Recommended Factions:** Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Medicine), Knowledge (Technology), Knowledge (Biology), Vocation (Engineer).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cybernetic Enhancement, Biomechanical Integration.
+  - **Tactical Role:** Installing/repairing cybernetics, hacking enemy augments, buffing allies.

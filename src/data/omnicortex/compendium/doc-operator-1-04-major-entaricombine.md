@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","factions","1.04.major.entaricombine","mechanics"]
-updatedAt: "2026-11-02T22:49:24.052Z"
+updatedAt: "2026-11-04T00:33:10.628Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,34 @@ sockets:
   allocated: []
 ---
 
-# 1.04.Major.EntariCombine — THE ENTARI COMBINE (+3 WS)
+# 1.04. MAJOR FACTION: THE ENTARI COMBINE (+3 WS)
+
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 4 / ML 3 | +3 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Major.EntariCombine.md` in **Tangent SF RP**.
+
+## Overview & Mechanical Authority Block
+
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
+
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
+
+## Part I — Alignment & Summary Matrix Table
+
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Major.EntariCombine.md (Sec. I)` | TL 4 / ML 3 | +3 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Major.EntariCombine.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Major.EntariCombine.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
+
+### I. Canonical Faction Profile, Lore & Expansion Archive (`operator/factions/1.04.Major.EntariCombine.md`)
 
 ## Executive Summary & Nov 2 Canonical Game Data
 * **Archetype:** Mercantile & Diplomatic Sanctuary Federation | **Capital:** Entari Prime (`A:7:4:7:9:4:3:4:3`)
@@ -51,8 +78,6 @@ sockets:
 * **CRISP Visual Semiotics:** Eco-luxury white-and-emerald garden towers, silk-lined ballistic coats, polished silver naval hulls, and warm holographic salons.
 * **Mecha Scale Multiplier Note:** Per the Canonical Matrix Audit, Structure Points (SP) in the Entari Mecha tables below are pre-calculated; apply the active Scale Multiplier only to weapon damage, speed, and range during play.
 
----
-
 THE ENTARI COMBINE
 FACTION DESCRIPTION
 The Entari Combine is a fascinating geopolitical anomaly: a thriving, independent power born from multiple hostile takeovers. Formerly an agro world contested by both the Syndicate and Dynasty until falling to independent baronies, the system was reformed by Patron Marcus DeVree into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Research and Education Center managed by Bastion (a TL 5 Synthetic Super-Intellect).
@@ -61,7 +86,7 @@ Overview
 The Entari Combine is a Cosmopolitan Trade Hub and Diplomatic Sanctuary defined by Luxury, Diplomacy, and Eco-Tech. They serve as the galaxy's "Neutral Ground," a stabilizing force where commerce and conversation supersede conflict. They have built a society that proves profitability does not require exploitation. Their economy is driven by high-end tourism, banking, and the export of advanced medical and environmental technologies.
 * Key Themes: Prosperity, Education, Neutrality, Ethical Capitalism, Cosmopolitanism.
 * Relationship to Others: The bank for everyone; strict neutrality ensures safety; hosts scholars from all factions. They maintain open diplomatic channels with all other major powers simultaneously.
-________________
+
 CORE IDENTITY
 * Official Designation: The Entari Combine
 * Colloquialisms: The Combine / The Resort / The Jewel / The Neutral Zone
@@ -69,31 +94,31 @@ CORE IDENTITY
 * Driving Mandate: Profit through Peace and Sustainability.
 * Symbol/Sigil: Interlinked Golden Rings.
 * Capital/Key World: Entari Prime (The Garden World).
-________________
+
 SOCIOLOGICAL PROFILE
 Ideology & Culture
 * Core Beliefs: "War is bad for business." Prosperity is best achieved through cooperation and stability.
 * Social Structure: Republic led by a Benevolent Patron (Constitutional Monarchy). A Parliamentary Merchant Council handles day-to-day legislative and economic hurdles.
 * Philosophy: Ethical Pragmatism. Doing good is profitable in the long run. It creates a premium brand that attracts the galaxy's wealthiest and most influential.
 * Magic/Psionics: Integrated into arts, healing, and leisure (Spas, Performance Art, Diplomatic Empathy). Psionics are viewed as a refined skill to be cultivated for social harmony. It is considered the height of culture to use internal energy to enhance the well-being of others.
-________________
+
 HISTORICAL ORIGINS
 The Golden Transition (20 Years Ago)
 The Combine was born from the "Shattered Harvest," a period where the Entari system was traded back and forth between the Dynasty and Syndicate like a commodity. The local populace, exhausted by centuries of proxy wars, found a leader in Marcus DeVree, a high-level merchant who utilized his immense personal wealth to buy out the remaining planetary debts and mercenary contracts.
 As the system stabilized, DeVree recognized that Entari Prime could only survive if it became indispensable to everyone. He declared the system a Sovereign Sanctuary. By hosting the Synthetic Super-Intellect "Bastion," the Combine became the premier repository of knowledge and scientific research, effectively forcing the larger factions to respect its borders to maintain access to its data and financial markets.
-________________
+
 TECHNOLOGICAL IDENTITY: ECO-TECH & SUSTAINABILITY
 The Combine operates primarily at Tech Level 4 (Stellar Age). Their technology is defined by a departure from the "Industrial Grit" of the Coalition or the "Psionic Elegance" of the Impyrium.
 * Mastery of Force: Entari infrastructure utilizes clean energy and force-field integration. They favor invisible defenses over heavy plating.
 * Self-Repairing (TL 4): All Entari structures and mecha possess the self-repairing trait, regenerating 1 SP/hour (or more with repair drones).
 * Sustainability: Every device is designed for zero-emission operation and extreme longevity, utilizing high-efficiency solar-capturing glass and aether-well generators.
-________________
+
 FACTION FORCES: THE CONCIERGE AND THE SHIELD
 A. The Concierge Corps (The Face)
 A mix of highly trained human diplomats and "L-Series" Automata. They are the first point of contact for any visitor. While they appear to be service staff, they are masters of information gathering and psychological de-escalation.
 B. The Solar Guard (The Shield)
 The standing defensive force. Unlike the Rangers of the Coalition, the Solar Guard uses non-lethal suppression, grav-nets, and high-precision energy weaponry. Their mandate is to "Neutralize with Minimal Disruption."
-________________
+
 MECHANICS (GAME DATA)
 Faction Statistics
 * Wealth Modifier: +3 (Wealthy Baseline).
@@ -110,20 +135,20 @@ Faction Statistics
 Recommended Features  (1 CP Discount)
 * Benefit (Wealth): Start with +3 Wealth Rating.
 * Benefit (Diplomatic Immunity): Access to restricted areas in other factions due to neutral status.
-________________
+
 VISUAL SEMIOTICS (AESTHETICS)
 Palette & Mood
 * Primary: Warm Gold, Sandstone, Cream.
 * Secondary: Polished Wood, Water Blue, Photovoltaic Glass (Translucent Amber).
 * Accent: Plant Green (Living Walls), Soft Amber lighting.
 * Mood: Relaxing, Expensive, Safe, Open, Sustainable.
-________________
+
 THE ENTARI SYSTEM (THE GARDEN OF THE FRONTIER)
 Entari
 * Classification: Terraformed Garden World / Diplomatic Capital.
 * Stats: Pop 7 (Billions), Tech 4 (Stellar), Law 3 (Sovereign Mandate).
 * Summary: A world where technology and nature exist in perfect harmony. Cities are built into the landscape rather than on top of it.
-________________
+
 ENTARI ARCHITECTURE
 Entari buildings utilize Parametric design, seamlessly integrating organic curves with structural efficiency. All listed structures are TL 4 and possess the Self-Repairing (1 SP/hr) trait.
 1. THE HELIX-MED CENTER (THE SANCTUARY)
@@ -219,7 +244,7 @@ MODULE CONFIGURATION
                * Concierge Lounges (800): Passenger greeting and processing.
                * Trade Bazaars (500): High-end artisan and luxury retail.
                * Security Screening (200): Non-intrusive sensor pillars.
-________________
+
 ENTARI MECHA
 Combine vehicles favor anti-gravity, silent operation, and elegance. All Entari Mecha possess the Self-Repairing (1 SP/hr) trait.
 1. "L-SERIES" CONCIERGE HUMANOID AUTOMATA
@@ -326,20 +351,18 @@ SYSTEMS & LOADOUT
                                  * Utility: Fusion-Welder & Nano-Applicator (1 Mount)
                                  * Software: Automated Repair Routine (Speeds up self-repair trait)
                                  * Storage: Internal Cargo Pod (1 Mount)
-________________
+
 COMMON PERSONAS
                                     * The Diplomat: A polyglot master of etiquette. Unarmed but surrounded by bodyguards.
                                     * The Eco-Warden: Guardian of the preserves. Wears earth-toned composites and carries a non-lethal rifle.
                                     * The Information Broker: Trades secrets over expensive drinks in high-end lounges.
                                     * The Android Concierge: A sleek Cerulean Blue ceramic shell with gold trim; possesses impeccable knowledge.
-________________
+
 SCENE VIGNETTES
 A. The Welcoming Hour
 The Starport Concourse filters light through amber glass, bathing the sandstone floors in a permanent "golden hour." Travelers from across the galaxy are greeted by Automata offering chilled nectar. There are no scanners; instead, decorative pillars house non-intrusive sensors that scan for weapons and illness without the traveler ever breaking stride.
 B. The Silent Shield
 Above the resort, a Solar Guard "Amber-Wing" yacht drifts silently. It has no visible weapons, but its targeting arrays are locked onto a Syndicate freighter that has strayed too close to the Bastion data-spires. A message is sent—not a threat, but a polite invitation to correct their course, accompanied by a list of available docking fees.
-
----
 
 ## **ENTARI COMBINE — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
 
@@ -360,4 +383,175 @@ Above the resort, a Solar Guard "Amber-Wing" yacht drifts silently. It has no vi
 * **VEHICLE DESIGN: 'Amber-Wing' Luxury Star-Yacht:** Elegant Entari 'Amber-Wing' luxury star-yacht, flowing parametric organic curves, massive anti-gravity repulsors, translucent canopy. Industrial design sketch, technical pen illustration, dynamic perspective, wireframe construction lines, high-contrast mechanical hatching, subtle Copic marker splash of warm amber and polished wood.
 * **ARCHITECTURAL ESTABLISHING SHOT: The Verdant Arcology:** Massive self-sustaining Entari agricultural habitat, Brutalist Greenhouse mixed with Solar-Punk, towering structural efficiency draped in manicured greenery and internal waterfalls. Architectural ink rendering, traditional multi-point perspective drafting, subtle plant green marker accents.
 
+### II. Complete Unabridged Codex Unified Faction Document (`1.04_ENTARI`)
+
+THE ENTARI COMBINE
+I. Detailed Faction Description
+* Historical Origins: Founded in the wake of the "Shattered Harvest," a series of devastating corporate and territorial conflicts over contested agricultural worlds. Patron Marcus DeVree consolidated local trading guilds and defense leagues to form a unified, sovereign sanctuary. Through strategic economic diplomacy, the Combine secured non-aggression pacts across major galactic factions, establishing Entari Prime as an inviolable neutral zone and technological sanctuary.
+* Overview: Born from the "Shattered Harvest" (multiple hostile takeovers of a contested agro-world), Patron Marcus DeVree transformed the Entari system into the premier sovereign sanctuary of the galaxy. It is a technological powerhouse disguised as a trade hub, hosting the Synthetic Super-Intellect "Bastion." The Combine operates as a Monarch-led Republic based on Ethical Capitalism and Neutrality. It serves as the galaxy's "Neutral Ground," a stabilizing force where commerce and conversation supersede conflict, proving profitability does not require exploitation.
+* Key Themes: Prosperity, Education, Neutrality, Ethical Capitalism, Cosmopolitanism, Eco-Tech.
+* Relationship to Others: The bank for everyone; strict neutrality ensures safety; hosts scholars and displaced species (e.g., Sa-Sa-Si) from all factions. Maintains open diplomatic channels with all major powers simultaneously.
+II. Core Identity
+* Official Designation: The Entari Combine
+* Colloquialisms: The Combine / The Resort / The Jewel / The Neutral Zone
+* Archetype: Eco-Futurist Luxury / Cosmopolitan Hub
+* Capital/Key World: Entari Prime (The Garden World)
+* Symbol/Sigil: Interlinked Golden Rings
+* Driving Mandate: Profit through Peace and Sustainability.
+* Motto: "War is bad for business."
+III. Sociological Profile
+Ideology & Culture
+* Core Beliefs: Prosperity is best achieved through cooperation. Doing good creates a premium brand that attracts the galaxy's wealthiest. Psionics are viewed positively as a refined skill cultivated for social harmony (Diplomatic Empathy).
+* Social Structure: Cosmopolitan; status driven by wealth, intellect, and diplomatic grace.
+* View on Outsiders: Highly welcoming; all are viewed as guests, clients, or scholars, provided they respect the peace.
+* Law & Order: Law 3 (Sovereign Mandate). Enforced silently and non-lethally by the Solar Guard and Concierge Automata.
+Governance
+* Government Type: Constitutional Monarchy / Republic.
+* Leadership: Benevolent Patron & Parliamentary Merchant Council.
+* Succession: Council election / Corporate appointment.
+IV. Strategic Assets
+Economy & Tech
+* Tech Level (TL): 4 (Stellar Age - Eco-Tech / Self-Repairing)
+* Meta Level (ML): Integrated into arts, healing, and leisure.
+* Wealth Modifier: +3 (Wealthy Baseline)
+* Primary Exports: Advanced medical/environmental tech, high-end tourism, banking, education, diplomatic mediation.
+* Economic Model: Ethical Capitalism.
+Military Profile
+* Doctrine: "Neutralize with Minimal Disruption." Non-lethal suppression and invisible defenses.
+* Key Units: The Concierge Corps (Diplomats/Automata), The Solar Guard (Standing defense).
+* Naval Assets: Solar-Vigil Interceptors, Amber-Wing Luxury Yachts.
+* Unique Tech/Materials: Self-Repairing technology (1 SP/hr), Nanocarbon, Force-Glass, Clean Aether-well generators.
+V. Mechanics (Game Data)
+* Prominent Species: Cosmopolitan (All species welcome; notable Sa-Sa-Si population).
+* Faction Skill Package (20 Points):
+   * Diplomacy (+5)
+   * Vocation (Merchant/Artisan) (+4)
+   * History/Xenology (+3)
+   * Insight (+3)
+   * Language (+3)
+   * Finance (+2)
+* Typical Archetypes:
+   * The Bureaucrat: Ensures the smooth operation of departments and sanctuaries.
+   * The Warden: A protector of forests and natural habitats (Gardeners).
+   * The Company Man: Secures deals and resolves disputes (Trade Reps).
+   * The Broker: A keen eye for value and negotiation (Merchants).
+   * The Security Officer: Ensures the safety and security of their post (Constables).
+   * The Thespian: Captivates audiences and manipulates social circles (Culture).
+   * The Virtuoso: Captivates audiences with skills in music, dance, or acting (Culture).
+   * The Envoy: An adept negotiator entrusted with maintaining peace (Diplomats).
+   * The Senator: Navigates the political landscape and builds alliances.
+   * The Peacekeeper: A protector of the innocent and champion of peace (Constables).
+   * The Xenologist: An expert in alien cultures, biology, and languages (First Contact).
+   * The Biologist: Studies the interaction between species and their environments (Botanists).
+* Recommended Features (1 CP Discount):
+   * Benefit (Wealth): Represents the booming ethical economy and high baseline status.
+   * Benefit (Immunity): Operating under Diplomatic Immunity due to their neutral ground status.
+   * Inspiring Personality: Embodying the refined social etiquette of the Combine.
+   * Silver Tongue: Masterful conflict de-escalation.
+   * Trustworthy: Earning the confidence of deeply paranoid galactic powers.
+   * Linguist: Speaking multiple tongues in a cosmopolitan hub.
+   * Scholar: Utilizing the data within the Bastion Research Atheneum.
+   * Medic: Trained in advanced TL4 restorative medicine and rejuvenation.
+   * Golden Smile: Bending negotiations with unparalleled charm.
+   * Connected: Drawing favors from clients who visit Entari Prime.
+   * Educated: A byproduct of the galaxy's best university systems.
+   * Versatile Curator: A deep wealth of trivia and cultural knowledge.
+VI. Visual Semiotics (Aesthetics)
+Design Directive: "Eco-Luxury & Parametric Flow"
+The Entari Combine aesthetic is defined by open sustainability and high-end serenity. Architecture utilizes parametric design, seamlessly integrating organic curves with structural efficiency. Buildings flow into the landscape rather than displacing it. It is a visual representation of a society that has monetized peace—expensive, clean, and perfectly manicured.
+Palette
+* Primary: Warm Gold, Sandstone, Cream.
+* Secondary: Polished Wood, Water Blue, Living Walls (Plant Green).
+* Accent: Photovoltaic Glass (Translucent Amber), Crisp White trim.
+Lighting
+* Key Style: Golden Hour. Lighting is warm, ambient, and relies heavily on naturally captured and refracted sunlight through massive amber canopies.
+* Mood: Relaxing, expensive, safe, open, and endlessly welcoming.
+Shape Language
+* [Motif 1] Parametric Curves: Smooth, sweeping architectural lines that mimic wind and water flow.
+* [Motif 2] Seamless Integration: Trees, nature paths, and waterfalls built directly into the structural framing of sky-scrapers.
+* [Motif 3] Translucent Canopies: Extensive use of force-glass and solar-collecting amber panels to maintain open-air environments while regulating climate perfectly.
+Gear Aesthetic
+* [Gear Style 1] Elegant Concealment: Weapons and armor are rarely carried openly. When they are, they feature smooth ceramic plating in white or teal, with gold inlays.
+* [Gear Style 2] Concierge Automata: Cerulean blue and gold service frames that look more like moving art installations than security hardware.
+Atmosphere Tokens
+Eco-luxury, cosmopolitan hub, parametric design, open, sustainable, organic curves, warm gold, sandstone, polished wood, translucent amber glass, living walls, golden hour illumination, high-status serenity.
+HI-FI INK Prompt Framework
+[CONTENT PROMPT]
+* SUBJECT: [Insert main subject, e.g., Diplomat, Security Officer, Concierge Automata]
+* NARRATIVE: [Insert action or story elements]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Eco-Luxury, Cosmopolitan Hub, Parametric Design, Open and Sustainable.
+* CONTEXT: Seamless integration of nature and tech, organic curves, warm gold, sandstone, cream, polished wood, water blue, photovoltaic glass (translucent amber), living walls (plant green).
+* ATMOSPHERE: Relaxing, expensive, safe. Warm ambient lighting, golden hour illumination, high-status serenity.
+[RENDERING PROMPT]
+* RENDERING: High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* FORM: [Append the appropriate Template Modifier below based on shot type]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
+Template Variations (Form Modifiers)
+Append the appropriate FORM tokens to your RENDERING section depending on the specific camera angle and framing of the shot required:
+* MASTER: (No specific form modifiers needed; rely on the base rendering tokens.)
+* CLOSE-UP: Extreme close-up comic panel, stark facial shadows, intense chiaroscuro, pure black recessed areas, detailed iris color blocking, sharp planar facial structure, heavy fabric folds, graphic texture rendering, deep ink washes, striking eye catchlight, dramatic graphic rim light.
+* CHARACTER CONCEPT SHEET: Graphic novel character turnaround sheet showing five distinct views: (full body front view:1.5), (full body back view:1.5), (full body profile side view:1.5), and a detailed (face close-up profile:1.8). The five images should be presented as a clean, highly detailed array on a single sheet, with a minimal flat or graphic gradient background for clarity.
+* ARCHITECTURAL ESTABLISHING SHOT: Dynamic wide establishing panel, extreme 3-point perspective, atmospheric color blocking, deep shadow recesses, graphic silhouette framing, stark architectural geometry, monumental scale, intricate graphic facade details, painted texture mapping, hyper-detailed environment illustration.
+* VEHICLE / MECH DESIGN: Dynamic action panel or static concept angle (select one), extreme foreshortening, stylized speed/motion effects (if moving), hard-edged metallic reflections, high-contrast surface rendering, graphic grime and oil stains, heavy solid black shadows in mechanical recesses, functional design realism, striking comic book angle.
+* INTERIOR SPACE: Dramatic interior panel setting, stark light shafts, graphic dust motes, heavy cast shadows sweeping across room, complex planar occlusion, ambient color blocking, narrative clutter rendered in high contrast, deep ink recesses in corners, expansive framing (select one).
+VII. Expansion Modules (Optional)
+Architectural Landmarks (TL4 Self-Repairing)
+* The Helix-Med Center: Eco-Luxury hospital rising from a crystal lake. Specialized in genetic rejuvenation.
+* The Verdant Arcology: Massive Brutalist Greenhouse for genetically perfected agriculture.
+* The Amber-Spire Banking Hub: The financial heart housed in refractive force-glass vaults.
+* The Bastion Research Atheneum: A sky-piercing data hub hosting the physical core of the TL5 Super-Intellect "Bastion."
+* Architectural Stats: Structures utilize self-repairing TL4 nanocarbon and force-glass matrices, restoring up to 1 Structural Point (SP) per hour. Primary spires feature dynamic energy-dissipation shielding rated for orbital-grade impacts, integrated eco-filtration systems processing 100% atmospheric recyclables, and zero-emissions clean Aether-well power cores.
+* The Golden-Hour Terminal: The primary starport concourse covered by massive translucent amber canopies.
+Mecha & Vehicular Assets
+* "L-Series" Concierge Automata: Cerulean blue ceramic shells with gold trim. Non-sentient smart machines acting as service/security.
+* "Amber-Wing" Luxury Star-Yacht: Gravitonic flight, opulent habitation.
+* "Aegis-Class" Grav-Bastian: Heavy defensive platform projecting DR30 force-barriers for allies.
+* "Petal-Class" Hover-Skiff: Light scout/luxury transport with stealth coating.
+* "Solar-Vigil" Interceptor: High-precision atmospheric patrol ships armed with Grav-Net harpoons.
+* Mecha Specifications: Features heavy defensive platforms such as the Aegis-Class Grav-Bastion (projecting DR30 force-barriers and localized gravimetric dampeners) alongside agile tactical chassis equipped with non-lethal pulse cannons and neural-disruption nets for swift threat pacification without collateral damage.
+Scene Vignettes
+* The Sanctuary Concourse: Under the sweeping amber canopy of the Golden-Hour Terminal, rival faction envoys debate trade tariffs in calm tones. Nearby, cerulean L-Series automata glide silently past living water walls, maintaining order with subtle grace as filtered sunlight bathes the sandstone plaza in warm gold.
+ENTARI COMBINE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Entari Combine prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Polyglot Diplomat surrounded by bodyguards, sleek L-Series Automata Concierge, Eco-Warden with non-lethal rifle, Amber-Wing Luxury Star-Yacht]
+* NARRATIVE: [e.g., greeting travelers at a golden-hour terminal, mediating a trade dispute, patrolling a manicured garden world preserve, drifting silently above a resort]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Eco-Futurist Luxury, Cosmopolitan Hub, Parametric design, organic curves integrated with structural efficiency, Solar-Punk.
+* CONTEXT: Massive translucent amber canopies, crystal lakes, refractive force-glass vaults, living walls, open-air observation lounges.
+* ATMOSPHERE: Relaxing, expensive, safe, open, sustainable, prosperous, high-status.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in Entari lore, use these subtle color splash tokens:
+* Accent Tokens: subtle warm gold marker accent, faint amber glass shading wash, selective plant green ink touches on living walls, precise cerulean blue trim on automata.
+3. READY-TO-USE TEMPLATES
+VEHICLE DESIGN: "Amber-Wing" Luxury Star-Yacht
+Elegant Entari "Amber-Wing" luxury star-yacht, flowing parametric organic curves, massive anti-gravity repulsors, translucent canopy. Industrial design sketch, technical pen illustration, dynamic perspective, wireframe construction lines, high-contrast mechanical hatching, metallic reflections rendered purely in ink lines, exploded view accents, subtle design marker accent colors (e.g., Copic marker splash of warm amber and polished wood). Eco-futurist luxury aesthetic, weightless and expensive atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome, black ink. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+ARCHITECTURAL ESTABLISHING SHOT: The Verdant Arcology
+Massive self-sustaining Entari agricultural habitat, Brutalist Greenhouse mixed with Solar-Punk, towering structural efficiency draped in manicured greenery and internal waterfalls. Architectural ink rendering, traditional multi-point perspective drafting, precise vanishing points, technical drawing style, dense structural cross-hatching, faint wireframe accents, intricate masonry line art, monumental scale conveyed through line density, pure white background. Relaxing and sustainable atmosphere, subtle plant green marker accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Major.EntariCombine.md`
+* **Codex Sources Compared:** Codex `1.04 ENTARI` and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Major.EntariCombine.md` and Codex `1.04 ENTARI` and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 4 / ML 3 | +3 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-ENTA-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Major.EntariCombine.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04 ENTARI` and `1.04 FACTIONS` Master Doc.
+* **DISC-104-ENTA-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 4 / ML 3 | +3 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.
 

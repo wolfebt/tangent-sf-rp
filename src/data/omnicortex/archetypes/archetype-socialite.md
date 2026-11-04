@@ -49,42 +49,18 @@ cp_chassis: 80
 
 # The Socialite
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Face / Info Gatherer / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A charismatic individual who thrives in social settings and networking.
 
-> *You are the center of attention. You navigate the treacherous waters of high society with a smile and a drink. Information is your currency, and connections are your weapons.*
+*You are the center of attention. You navigate the treacherous waters of high society with a smile and a drink. Information is your currency, and connections are your weapons.*
 
-> _"Oh, darling, you simply must tell me everything."_
-
-## Tactical Role
-Gathering rumors, gaining access to restricted social areas, manipulating NPCs.
-
-## Essential Skills
-- Bluff
-- Insight
-- Leadership
-- Diplomacy
-- Etiquette
-
-## Signature Features
-- Social Butterfly
-- Connections
-
-## Recommendations
-- **Occupations**: Citizen (Elite), Entertainer
-- **Origins**: Leisure, Urban, Enlightened
-- **Factions**: Syndicate (Elites), Entari Combine, Dracon Dynasty
-
-
-## Extended Lore & Background
-
-A charismatic individual who thrives in social settings and networking.  
-*You are the center of attention. You navigate the treacherous waters of high society with a smile and a drink. Information is your currency, and connections are your weapons.*  
 *"Oh, darling, you simply must tell me everything."*
 
+  - **Core Concept:** Face / Info Gatherer / Buffer
+  - **Recommended Occupations:** Citizen (Elite), Entertainer.
+  - **Recommended Origins:** Leisure, Urban, Enlightened.
+  - **Recommended Factions:** Syndicate (Elites), Entari Combine, Dracon Dynasty.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Bluff, Insight, Leadership, Diplomacy, Etiquette.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Social Butterfly, Connections.
+  - **Tactical Role:** Gathering rumors, gaining access to restricted social areas, manipulating NPCs.

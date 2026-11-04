@@ -62,8 +62,8 @@ function findSkillSection(skill) {
   const headingHashes = (headingLine.match(/^#+/) || ['##'])[0].length;
 
   const afterStart = searchRegion.slice(startOffset + match[0].length);
-  // Find next heading of same or higher level (excluding empty "## " spacer lines)
-  const nextHeadingRe = new RegExp(`^\\s*#{1,${headingHashes}}\\s+\\*\\*[^*]+\\*\\*`, 'm');
+  // Find next heading of same or higher level (excluding empty "## " spacer lines) or Part III ledger
+  const nextHeadingRe = new RegExp(`^\\s*#{1,${headingHashes}}\\s+(?:\\*\\*[^*]+\\*\\*|PART\\s+III|DISCREPANCY)`, 'im');
   const nextMatch = nextHeadingRe.exec(afterStart);
 
   const rawSection = nextMatch

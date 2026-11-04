@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Muscle
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Utility / Strength / Endurance  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Strength  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A hardworking individual contributing through physical labor and endurance.
 
-> *You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*
+*You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*
 
-> _"Heavy lifting? That's just a warm-up."_
-
-## Tactical Role
-Clearing debris, carrying heavy gear, grappling enemies.
-
-## Essential Skills
-- Athletics
-- Vocation (Laborer)
-- Endurance
-- Knowledge (Trade)
-
-## Signature Features
-- Strong Back
-- Skilled Worker
-
-## Recommendations
-- **Occupations**: Citizen, Builder
-- **Origins**: Industrial, Colony, Urban
-- **Factions**: Syndicate (Worker Caste), Outworlds, Mekan (Drones)
-
-
-## Extended Lore & Background
-
-A hardworking individual contributing through physical labor and endurance.  
-*You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*  
 *"Heavy lifting? That's just a warm-up."*
 
+  - **Core Concept:** Utility / Strength / Endurance
+  - **Recommended Occupations:** Citizen, Builder.
+  - **Recommended Origins:** Industrial, Colony, Urban.
+  - **Recommended Factions:** Syndicate (Worker Caste), Outworlds, Mekan (Drones).
+  - **Key Attributes:** Strength (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Athletics, Vocation (Laborer), Unarmed (*Endurance Feature recommended*), Knowledge (Trade).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Strong Back, Skilled Worker.
+  - **Tactical Role:** Clearing debris, carrying heavy gear, grappling enemies.

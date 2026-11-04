@@ -27,15 +27,11 @@ negative_keywords: "sedentary, paralyzed, clumsy"
   - **Description:** Athletics is the skill of a character's general physical capabilities – running, jumping, climbing, swimming, and other broadly physical activities. It reflects a character's overall fitness and physical prowess. Athletics is used whenever a character attempts to perform a physical feat that requires strength and endurance. A measure of general physical prowess. It encompasses running, jumping, climbing, swimming, and lifting heavy objects.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Climb:* CR 10 (rope with knots) to CR 25 (sheer surface). Speed is usually half base speed.
+- *Climb:* CR 10 (rope with knots) to CR 25 (sheer surface). Speed is usually half base speed.
   - *Jump:* CR equals the distance in feet (running start).
   - *Swim:* CR 10 (calm water) to CR 20 (stormy water). Failure by 5 or more risks drowning.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Sprinting:** Short-burst explosive acceleration over open terrain.
       - **Endurance Running:** Long-distance marches and prolonged pursuits without fatigue.

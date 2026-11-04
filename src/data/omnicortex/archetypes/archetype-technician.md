@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Technician
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Support / Utility / Repair  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 A skilled worker who maintains and repairs complex machinery.
 
-> *You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*
+*You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*
 
-> _"It's a bypass of the bypass. It'll hold... probably."_
+*"It's a bypass of the bypass. It'll hold— probably."*
 
-## Tactical Role
-Rapid repair of gear/vehicles, bypassing locks/panels, technical support.
-
-## Essential Skills
-- Knowledge (Technology)
-- Vocation (Mechanic)
-- Vocation (Electrician)
-- Investigation
-
-## Signature Features
-- Technical Expertise
-- Problem Solver
-
-## Recommendations
-- **Occupations**: Builder, Spacer
-- **Origins**: Industrial, Spacer, Colony
-- **Factions**: Outworlds (Mechanics), Coalition (Techs), Syndicate
-
-
-## Extended Lore & Background
-
-A skilled worker who maintains and repairs complex machinery.  
-*You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*  
-*"It's a bypass of the bypass. It'll hold... probably."*
-
+  - **Core Concept:** Support / Utility / Repair
+  - **Recommended Occupations:** Builder, Spacer.
+  - **Recommended Origins:** Industrial, Spacer, Colony.
+  - **Recommended Factions:** Outworlds (Mechanics), Coalition (Techs), Syndicate.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Mechanic), Vocation (Electrician), Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Technical Expertise, Problem Solver.
+  - **Tactical Role:** Rapid repair of gear/vehicles, bypassing locks/panels, technical support.

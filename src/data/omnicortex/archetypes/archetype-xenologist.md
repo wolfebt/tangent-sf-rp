@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Xenologist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Face / Knowledge / Science  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Charisma  
 
-## Overview
 An expert in alien cultures, biology, and languages.
 
-> *You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*
+*You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*
 
-> _"They aren't monsters. They're just... different."_
+*"They aren't monsters. They're just— different."*
 
-## Tactical Role
-Communicating with aliens, identifying xeno-threats, cultural navigation.
-
-## Essential Skills
-- Knowledge (Culture)
-- Diplomacy
-- Insight
-- Language
-
-## Signature Features
-- Cultural Sensitivity
-- Xeno-Linguist
-
-## Recommendations
-- **Occupations**: Scholar, Diplomat
-- **Origins**: Research, Spacer, Enlightened
-- **Factions**: Entari Combine (First Contact), Alterian Enclave, Ascendancy
-
-
-## Extended Lore & Background
-
-An expert in alien cultures, biology, and languages.  
-*You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*  
-*"They aren't monsters. They're just... different."*
-
+  - **Core Concept:** Face / Knowledge / Science
+  - **Recommended Occupations:** Scholar, Representative (*Diplomat*).
+  - **Recommended Origins:** Research, Spacer, Enlightened.
+  - **Recommended Factions:** Entari Combine (First Contact), Alterian Enclave, Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Xenology), Diplomacy, Insight, Knowledge (Language).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Cultural Sensitivity, Xeno-Linguist.
+  - **Tactical Role:** Communicating with aliens, identifying xeno-threats, cultural navigation.

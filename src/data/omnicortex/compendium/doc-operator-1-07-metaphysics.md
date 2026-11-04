@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.metaphysics","mechanics"]
-updatedAt: "2026-11-02T22:49:29.873Z"
+updatedAt: "2026-11-04T00:33:10.745Z"
 costs:
   bp: 0
   credits: 0
@@ -39,11 +39,39 @@ sockets:
 
 # **1.07.13 METAPHYSICS & DISCIPLINES**
 
-# **METAPHYSICS & DISCIPLINES**
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Metaphysics.md]`
 
-  
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
 
-**The Tangent System Framework**
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Metaphysics.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (METAPHYSICS & DISCIPLINES SUMMARY MATRIX)**
+
+| Component / Discipline | Focus Pair | Governing Attribute | Potency Scaling & Mechanics |
+| :--- | :--- | :--- | :--- |
+| **Attune (The Channel)** | 10 Channeling Specialties | `INT`, `WIS`, or `CHA` | Active Save `CR = 2d10 + Attune + Attr`; Passive Save `CR = 10 + Attune + Attr` |
+| **Discipline Skills (The Shape)** | 5 Skill Stages | Key Ability | Novice (Short), Trained (`+1d6`), Expert (`+2d6`), Master (`+3d6`), Pinnacle (`+4d6`) |
+| **Invocations (The Effect)** | Specific Spells/Powers | `1 CP` per Rank | Adds `+1 Die` (typically `1d6` or `1d8`) per Invocation Rank to Base Stage Dice |
+| **Dimension** | Summoning & Teleport | Key Ability | Summon CP `= 10 + (Rank * 5)`; Teleport Familiarity `CR 5` to `CR 30` |
+| **Energy** | Elemental & Force | Key Ability | Elemental `1d6`/Stage + `1d6`/Rank; Force `1d8`/Stage + `1d8`/Rank |
+| **Entropy** | Chaos & Order | Key Ability | Chaos Necrotic/Decay `2d6`/Stage + `1d6`/Rank; Order Healing `2d6`/Stage + `1d6`/Rank |
+| **Illusion** | Phantasm & Shadow | Key Ability | Phantasm (Will Save negates); Shadow (`20%` quasi-real even if disbelieved) |
+| **Matter** | Enhancement & Transmutation | Key Ability | Hardening (`+1 DR`/3 Ranks), Physical Boost (`+2`), Repair (`1d10 SP`/Rank), Morph |
+| **Mental** | Projection & Sense | Key Ability | Extended Range (`100 ft * Rank`); Telepathy, Domination, Mind Blast, Precognition |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
+
+# **METAPHYSICS & DISCIPLINESThe Tangent System Framework**
 
 In the Tangent universe, "Meta" refers to any ability that defies the standard laws of physics—whether it be Arcane Magic, Psionics, Divine Intervention, or Super-Science. Regardless of the source (The Void, The Weave, The Quantum Field), the mechanics of harnessing this power remain consistent.
 
@@ -300,7 +328,7 @@ Restoring patterns, healing, and stabilization.
 
 Focuses: Phantasm, Shadow
 
-Key Concept: Deception of the senses and the creation of quasi-real matter.
+Key Concept: Illusionary manipulation of the senses and the creation of quasi-real matter.
 
   
 
@@ -483,14 +511,11 @@ Using a complementary skill to boost the Meta effect.
   - *Example:* Using **Anatomy (Knowledge)** to boost a **Wither (Entropy)** spell.
   - *Mechanic:* Roll Anatomy vs CR 10. For every 5 points over 10, gain +1 to the Attune/Damage roll.
 
-  
-  
-**  
-**
-
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-313 (1.07.Metaphysics.md):** Restored Attune, Discipline Skills, Invocations, and all 6 Disciplines / 12 Foci with normalized 2d10 Attune Save CRs.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Metaphysics.md):** Restored `Attune`, `Discipline Skills`, `Invocations`, all 6 Disciplines / 12 Foci, and Casting Modifiers from Codex `1.07 SKILLS`, normalizing `BP` to `CP`, `DC` to `CR`, `HP` to `Vitality`, and `1d20` to `2d10`.
 

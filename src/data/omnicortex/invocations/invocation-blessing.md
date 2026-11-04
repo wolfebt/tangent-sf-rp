@@ -34,21 +34,24 @@ negative_keywords: 'hex, misfortune curse, dark omen, bio-toxin, ruthless slaugh
 
 # BLESSING Invocation
 
-**Category**: Invocations  
-**Discipline**: Entropy
-
 ## Description & Ritual Details
-Classification: Entropy (Order) | Buff | \[Luck\] \[Morale\]  
+
+Classification: Entropy (Order) | Buff | [Luck] [Morale]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Short  
-* **Area:** Allies in range  
-* **Duration:** Scene  
-* **Resistance:** None
-Effect Description:  
-Grants bonuses to action checks (Attack, Skill, Saves).  
+
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Short
+  - **Area:** Allies in range
+  - **Duration:** Scene
+  - **Resistance:** None
+
+Effect Description:
+
+Grants bonuses to action checks (Attack, Skill, Saves).
+
 **Scaling Function:**
-* **Magnitude:** Bonus \= \+1 per 2 Stages (Max \+3).  
-* **Quantity:** Number of Allies \= 1 per Stage.
-###
+
+  - **Magnitude:** Bonus = +1 per 2 Stages (Max +3).
+  - **Quantity:** Number of Allies = 1 per Stage.

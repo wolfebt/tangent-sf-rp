@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Thespian
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Face / Infiltrator / Distraction  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The master of the dramatic arts, captivating audiences with powerful performances.
 
-> *You can be anyone. To the guard, you are a general; to the noble, a lost heir. You wield identity as a tool, slipping into social circles and extracting secrets before the curtain falls.*
+*You can be anyone. To the guard, you are a general; to the noble, a lost heir. You wield identity as a tool, slipping into social circles and extracting secrets before the curtain falls.*
 
-> _"All the world's a stage, and I am the only one who knows the script."_
-
-## Tactical Role
-Create diversions, infiltrate social circles, impersonate key personnel.
-
-## Essential Skills
-- Expression (any)
-- Diplomacy
-- Bluff
-- Insight
-
-## Signature Features
-- Stage Presence
-- Emotional Range
-
-## Recommendations
-- **Occupations**: Entertainer, Spy
-- **Origins**: Urban, Leisure, Enlightened
-- **Factions**: Entari Combine (Culture), Alterian Enclave (High Art), Syndicate (Media)
-
-
-## Extended Lore & Background
-
-The master of the dramatic arts, captivating audiences with powerful performances.  
-*You can be anyone. To the guard, you are a general; to the noble, a lost heir. You wield identity as a tool, slipping into social circles and extracting secrets before the curtain falls.*  
 *"All the world's a stage, and I am the only one who knows the script."*
 
+  - **Core Concept:** Face / Infiltrator / Distraction
+  - **Recommended Occupations:** Entertainer, Agent (*Spy*).
+  - **Recommended Origins:** Urban, Leisure, Enlightened.
+  - **Recommended Factions:** Entari Combine (Culture), Alterian Enclave (High Art), Syndicate (Media).
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Expression (any), Diplomacy, Bluff, Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Stage Presence, Emotional Range.
+  - **Tactical Role:** Create diversions, infiltrate social circles, impersonate key personnel.

@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Officer
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Leader / Tactician / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 A strategic leader who commands troops and coordinates military operations.
 
-> *You lead from the front. You are the mind of the army, directing the flow of battle with precision. Your orders save lives and win wars.*
+*You lead from the front. You are the mind of the army, directing the flow of battle with precision. Your orders save lives and win wars.*
 
-> _"Form up! Hold the line!"_
+*"Form up! Hold the line!"*
 
-## Tactical Role
-Granting bonuses to allies, organizing attacks, managing NPC troops.
-
-## Essential Skills
-- Leadership
-- Knowledge (Tactics)
-- Diplomacy
-- Combat (Any)
-
-## Signature Features
-- Tactical Expertise
-- Inspiring Leader
-
-## Recommendations
-- **Occupations**: Soldier (Officer), Noble
-- **Origins**: Militaristic, Urban, Colony
-- **Factions**: Impyrium (Legions), Dracon Dynasty, Coalition (Militia)
-
-
-## Extended Lore & Background
-
-A strategic leader who commands troops and coordinates military operations.  
-*You lead from the front. You are the mind of the army, directing the flow of battle with precision. Your orders save lives and win wars.*  
-*"Form up\! Hold the line\!"*
-
+  - **Core Concept:** Leader / Tactician / Buffer
+  - **Recommended Occupations:** Soldier (Officer), Representative (*Noble*).
+  - **Recommended Origins:** Militaristic, Urban, Colony.
+  - **Recommended Factions:** Impyrium (Legions), Dracon Dynasty, Coalition (Militia).
+  - **Key Attributes:** Charisma (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Knowledge (Tactics), Diplomacy, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Tactical Expertise, Inspiring Leader.
+  - **Tactical Role:** Granting bonuses to allies, organizing attacks, managing NPC troops.

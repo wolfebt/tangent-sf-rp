@@ -89,86 +89,339 @@ negative_keywords: >-
   unaugmented-purism, primitive
 ---
 
-## **INCORPORATED PLANETARY SYNDICATION (SYNDICATE)**
+# 1.04. MAJOR FACTION: INCORPORATED PLANETARY SYNDICATION — THE SYNDICATE (+4 WS)
 
-### **I. Detailed Faction Description**
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 4 / ML 2 | +4 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Major.Syndicate.md` in **Tangent SF RP**.
 
-* **Overview:** The Syndicate represents a High-Tech Cyberocracy—a society run like a massive, efficient, interconnected business entity. The defining characteristic is the Seamless Integration of technology via the "Mesh," a ubiquitous AR and data network that overlays the physical world, eliminating bureaucratic friction. Culturally, they view Transhumanism as a professional standard. They are pragmatic, agile, and pivot strategies instantly based on real-time analytics. Beneath the pristine corporate spires lie the "Restriction Zones" (Friction Layers), where unlicensed tech and native Premian culture thrive in the shadows.  
-* **Key Themes:** Corporate Intrigue, High-Tech Convenience, Surveillance State, "The Mesh," Transhumanism.  
-* **Relationship to Others:** The galaxy's vendor; they trade with everyone but are trusted by no one. Hated rivals of the Impyrium.
+## Overview & Mechanical Authority Block
 
-### **II. Core Identity**
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-* **Official Designation:** Incorporated Planetary Syndication  
-* **Colloquialisms:** The Syndicate / The Corp / The Suits / The Mesh  
-* **Archetype:** Cyber-Corporate / High-Tech Cyberocracy  
-* **Capital/Key World:** Premius (The Corporate Core)  
-* **Symbol/Sigil:** The Hexagon (representing the Hive/Mesh)  
-* **Driving Mandate:** Eliminate Friction; Maximize Efficiency.  
-* **Motto:** "Friction is failure. Efficiency is moral."
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-### **III. Sociological Profile**
+## Part I — Alignment & Summary Matrix Table
 
-#### **Ideology & Culture**
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Major.Syndicate.md (Sec. I)` | TL 4 / ML 2 | +4 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Major.Syndicate.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Major.Syndicate.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
 
-* **Core Beliefs:** The Market is the ultimate arbiter. Casual reverence for "The Lady" (a Premian cultural cornerstone viewing fortune/power as gifts).  
-* **Social Structure:** Corporate Hierarchy (Intern to Board Member).  
-* **View on Outsiders:** Transactional. Everyone is a potential customer or asset.  
-* **Law & Order:** Enforced by Corporate Security and algorithm; unsanctioned actions are handled as "friction" to be smoothed out or eliminated.
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-#### **Governance**
+### I. Canonical Faction Profile, Lore & Expansion Archive (`operator/factions/1.04.Major.Syndicate.md`)
 
-* **Government Type:** Corporatocracy / Cyberocracy.  
-* **Leadership:** The Board of Directors.  
-* **Succession:** Corporate promotion, shareholding, and hostile takeover.
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetype:** Hyper-Capitalist Megacorporate Directorate | **Capital:** Premius (`A:8:5:6:10:1:7:4:2`)
+* **Tech / Meta Level:** TL 4 / ML 2 | **EUFT Starting Wealth Modifier:** **+4 WS** *(Canonical EUFT Table; legacy +3 WS)*
+* **Overview & Doctrine:** The galaxy's premier economic superpower. In the Syndicate, citizenship is a subscription tier, law is corporate contract enforcement, and armies of Drop-Marines, Deckers, and Liquidators protect quarterly margins across the MESH.
+* **Prominent Species:** Humans (Premian, Base, Cyberform, Gen-E), Androids, Manelli Envoys.
+* **Canonical Faction Skill Package (20 SP):** Computers, Bluff, Diplomacy, Barter, Insight, Streetwise, Ballistic, Energy, Knowledge (Business, Technology, Trade), Vocation (Administrator, Broker, Engineer). *(Standard Preset: Computers +4, Vocation: Any +4, Academics +4, Knowledge: Technology +4, Insight +2, Diplomacy +2).*
+* **Canonical Recommended Features (-1 CP Discount):** Augmented, Heavy Augmentations, Benefit (Wealth), Benefit (Clearance), Coding Master, Computer Specialist, Digital Expert, Connected, Contacts, Deceitful, Gearhead, Silver Tongue, Tech Interface, Nimble Fingers, Well Informed.
+* **Typical Archetypes:** The Bureaucrat, The Munitions Magnate, The Company Man, The Ghost, The Broker, The Foreman, The Kingpin, The Socialite, The Decker, The Cyberneticist, The Net-Architect, The Saboteur.
+* **Unique Tech/Materials:** 'The Mesh', Adaptive Corp-Spec gear, Holographic UI.
+* **CRISP Visual Semiotics:** Sleek white-and-chrome arcology spires (surrounded by preserved Premian forests), faceless gold-visored Drop-Marine armor, cyan AR HUD overlays, and tailored nanofiber suits.
 
-### **IV. Strategic Assets**
+SYNDICATE
+FACTION DESCRIPTION
+The Incorporated Planetary Syndication (Syndicate) represents a unique evolution of human civilization in the Tangent universe. Unlike the feudal nature of the Dynasty or the ancient stagnation of the Impyrium, the Syndicate is a High-Tech Cyberocracy—a society run like a massive, efficient, and interconnected business entity where information equates to governance.
+The defining characteristic of the Syndicate is the Seamless Integration of technology into daily life. This is not an invasive hive-mind or a robotic government, but rather a culture of Technical Facilitation. Syndicate society is supported by the "Mesh," a ubiquitous Augmented Reality and data network that overlays the physical world. This system removes the "friction" of existence—bureaucracy, miscommunication, and logistical delays are eliminated by instant, secure data sharing. The interconnected information of the MESH is constantly analyzed to maximize the overall efficiency of the Syndicate as a whole, while simultaneously optimizing the life paths and productivity of individual citizens.
+Culturally, the Syndicate views Transhumanism as a professional standard and a quality-of-life improvement. Cybernetics and bio-mods are common, not to strip away humanity, but to enhance it—allowing a pilot to react faster, an artist to see more colors, or an executive to process data more efficiently. They are pragmatic and agile, willing to pivot strategies instantly based on real-time analytics, making them the most adaptive of the major powers.
+Overview
+The Syndicate is a High-Tech Cyberocracy run like a business. Supported by the "Mesh" (a ubiquitous AR network), they value Efficiency, Profit, and Transhumanism. They are the most adaptive faction, viewing cybernetics as professional upgrades.
+Key Themes: Corporate Intrigue, High-Tech Convenience, Surveillance State, "The Mesh."
+Relationship to Others: The galaxy's vendor; they trade with everyone but are trusted by no one; hated rivals of the Impyrium.
 
-#### **Economy & Tech**
+CORE IDENTITY
+* Official Designation: The Incorporated Planetary Syndication
+* Colloquialisms: The Corp / The Suits / The Mesh
+* Archetype: Cyber-Corporate / High-Tech Cyberocracy
+* Driving Mandate: Eliminate Friction; Maximize Efficiency.
+* Symbol/Sigil: The Hexagon (representing the Hive/Mesh).
+* Capital/Key World: Premius (The Corporate Core).
 
-* **Tech Level (TL):** 4 (High-Tech / Cybernetic)  
-* **Meta Level (ML):** 2 (Regulated \- PsiCorp/Premian Mystics)  
-* **Wealth Modifier:** \+3 (Highly Profitable)  
-* **Primary Exports:** Consumer electronics, Cybernetics, AI, Data/Information, Mass Surveillance tech.  
-* **Economic Model:** Hyper-Capitalism / Consumerism.
+SOCIOLOGICAL PROFILE
+Ideology & Culture
+* Core Beliefs: "Friction is failure." Efficiency is moral. Additionally, the populace holds a casual reverence for "The Lady," an entity believed to reside in the Premian system. Originally deified by the ancient Premian people, this belief has evolved into a cultural cornerstone rather than a strict religion, framing power and fortune as gifts to be respected.
+* Social Structure: Corporate Hierarchy (Intern to Board Member).
+* Philosophy: Consumerism / The Market (The Invisible Hand).
+* Magic/Psionics: Abilities are viewed as gifts from The Lady and are expected to be used for the greater good. High-functioning individuals are actively recruited and inducted into the Premian Mystics or the Syndicate PsiCorp.
+Demographics
+* Primary Species: Humans (Syndicate Genotype - Sleek/Modified).
 
-#### **Military Profile**
+IV. STRATEGIC ASSETS
+Infrastructure & Industry
+* Data-Core Networks: Planetary-scale server Spires processing real-time telemetry across the Mesh.
+* Automated Hydro-Stacks: Vertical agriculture complexes ensuring complete resource efficiency.
+Military & Defense
+* Orbital Drop Marines: Shock troops in Vanta Black power armor deployed via low-orbit drop pods.
+* Forward Operating Nodes: Rapidly deployable modular defense bases equipped with kinetic barrier fields.
 
-* **Doctrine:** Rapid, agile, data-driven deployment.  
-* **Key Units:** Orbital Drop Marines, Corporate Fixers.  
-* **Naval Assets:** Data-Core Network ships, Stealth Freighters. Vanta Black aesthetic.  
-* **Unique Tech/Materials:** "The Mesh", Adaptive Corp-Spec gear, Holographic UI.
+MECHANICS (GAME DATA)
+Advancements
+* Tech Level: 4 (High-Tech / Cybernetic)
+   * Focus: Consumer electronics, Cybernetics, AI, Mass Surveillance ("The Mesh").
+   * Aesthetic: Adaptive Neo-Futurism.
+* Meta Level: 2 (Regulated)
+   * Focus: "The Lady" (Cultural Reverence). Abilities are recruited into the PsiCorp or Premian Mystics. Unsanctioned use is a crime.
+Faction Skill Package (20 Points)
+The Syndicate education system produces specialists who understand systems, data, and social maneuvering.
+* Computers (+4): Navigating the Mesh is as essential as reading.
+* Vocation (Any) (+4): Training in a tradecraft.
+* Academics (+4): A foundation in logical principles.
+* Technology (+4): Using and maintaining high-tech gear.
+* Insight (+2): Reading people in a negotiation.
+* Diplomacy (+2): Closing the deal.
+Recommended Features (1 CP Discount)
+Members of the Syndicate can purchase these features at a discount during character creation.
+* Augmented: You start with a sophisticated cybernetic limb or implant (Tier 1).
+* Mesh-Link: A neural interface allowing hands-free access to the local data-net. Note: The Syndicate's Mesh-Link consolidates a Comm Implant and ID Chip, and is available as an implant or removable coin-sized node and does not require the Augmentation feature or CP cost. It is upgradeable to a Cyber Jack.
 
-### **V. Mechanics (Game Data)**
+VISUAL SEMIOTICS (AESTHETICS)
+Design Directive: "Adaptive Neo-Futurism."
+A synthesis of Neo-Militarism and Eco-Corp aesthetics known as Adaptive Neo-Futurism. The architecture is characterized by functional forms of white architectural concrete and "Federal Grey" brushed steel. Parks in the city and greenery inside buildings will be well manicured. Lighting is defined by "The Blue Line"—recessed Cerulean blue emissive strips tracing the architectural geometry. Dark, smoked glass surfaces create high specularity and deep reflections. The atmosphere is defensive, prestigious, and highly efficient. Mega-City but clean, a city of multi levels.
+Palette
+* Civilian / Corporate: White Architectural Concrete, "Federal Grey" Brushed Steel.
+* Military: Vanta Black (Armor and Vehicles), Dark Grey & Black (Structures and Ships).
+* Secondary: Dark Smoked Glass, Black Composite.
+* Accent: "The Blue Line" (Recessed Cerulean Emissive Strips), Dark Grey accents on Military gear.
+Lighting
+* Key Style: "The Blue Line." Recessed emissive strips tracing architectural geometry. High specularity reflections on smoked glass.
+* Mood: Defensive, Prestigious, Highly Efficient, High-Tech Stronghold.
+Shape Language
+* The Hexagon: The primary motif, representing the Mesh and efficient packing. Found in floor tiles, armor plating, holographic interfaces, and urban grid layouts.
+* Neo-Futurism: Architectural ribs, chamfered edges, and functional forms.
+* Biophilic Fortification: Manicured greenery integrated into sterile, defensive structures.
+* Multi-Level: Verticality defined by clean, stacked layers.
+Gear Aesthetic
+* "Adaptive Corp-Spec": Equipment features Federal Grey casing with white accents and cyan status lights. It looks expensive, durable, and proprietary. Military gear shifts to Vanta Black with Dark Grey accents.
+* Holographic UI: Physical buttons are rare. Guns and tools project their own cyan diagnostic screens.
+Atmosphere Tokens
+* Neo-Futurism, structural permanence, military prestige, biophilic fortification, grey steel and white concrete, Vanta Black armor, dark glass, cyan emissive lighting, architectural ribs, chamfered edges, sterile but breathable, high-tech stronghold, hexagonal tiling.
 
-* **Prominent Species:** Humans (Syndicate Genotype \- Sleek/Modified).  
-* **Faction Skill Package (20 Points):**  
-  * Computers (+4): Navigating the Mesh.  
-  * Vocation (Any) (+4): Tradecraft training.  
-  * Academics (+4): Foundation in logical principles.  
-  * Technology (+4): Using/maintaining high-tech gear.  
-  * Insight (+2): Reading people in negotiations.  
-  * Diplomacy (+2): Closing the deal.  
-* **Typical Archetypes:** The Bureaucrat, The Munitions Magnate, The Company Man, The Ghost, The Broker, The Foreman, The Kingpin, The Socialite, The Decker, The Cyberneticist, The Net-Architect, The Saboteur.  
-* **Recommended Features (1 CP Discount):**  
-  * Augmented, Computer Specialist, Digital Expert, Benefit (Wealth), Benefit (Clearance), Silver Tongue, Connected, Coding Master, Gearhead, Tech Interface, Nimble Fingers, Well Informed.
+SCENES & ENVIRONMENTS
+A. The Spire Lobby (The Bureaucracy)
+* Context: The ground floor of a Megacorp tower.
+* Atmosphere: Defensive prestige. The floor is polished white concrete with inlaid hexagonal patterns, reflecting the "Blue Line" emissive strips running up the walls.
+* Sensory: Complete silence despite thousands of people moving. The MESH dampens footstep audio and projects private "sound bubbles" for conversations.
+* Activity: Drones buzz silently overhead. People move in perfect, algorithmically generated streams to avoid collision.
+B. The Hydro-Stack (The Green Engine)
+* Context: Industrial food production levels.
+* Atmosphere: Sterile but breathable. Vertical racks of genetically perfect plants stretching up for 50 stories inside grey steel silos.
+* Visuals: Manicured greenery maintained by "Gardener" bots. The lighting is a mix of growth-magenta and the standard Cerulean strips.
+* Contrast: It is nature, but fortified and manicured. No dirt, no chaos, just biomass production.
+C. The Restriction Zone (The Friction Layer)
+* Context: The "Shadow Burbs" located in the lower levels, deep beneath the pristine Spires and mostly disconnected from the MESH.
+* Atmosphere: Vibrant, chaotic, and unregulated. Unlike the sterile silence of the upper levels, this area is filled with the noise of life—music, shouting vendors, and the hum of unauthorized machinery. It thrives in the shadows of the corporation.
+* Visuals: The sleek white paneling of the upper city is stripped away here, revealing the rusted steel skeleton and concrete foundation. Neon graffiti covers the walls, and jury-rigged power cables siphon energy from the main lines.
+* Sociology: These communities enjoy high technology without the corporate overwatch. While the Syndicate government officially disapproves of these "squatters," they are legally protected by the ancient indigenous land rights of the Premian people, creating a tense but stable diplomatic standoff in the city's underbelly.
+D. The Forward Operating Node (The Perimeter)
+* Context: A rapidly deployed military outpost on a hostile frontier world.
+* Atmosphere: High-tech stronghold. The air hums with the sub-sonic frequency of the shield generator. Sterile, defensive, and imposing.
+* Visuals: Prefabricated hex-walls of Dark Grey steel and Black composite that were dropped from orbit and interlocked automatically. "The Blue Line" here is a literal laser-fence perimeter. Auto-turrets with matte black casings track movement with cold precision.
+* Activity: Soldiers in pristine Vanta Black armor run drills with mathematical efficiency. There is no shouting; orders are transmitted silently via the Mesh.
 
-### **VI. Visual Synthesis Protocols (Aesthetics)**
+COMMON PERSONAS (ARCHETYPES)
+* The Net-Architect: A systems engineer who builds the virtual landscapes of the Mesh. They view code as physical architecture.
+   * Visuals: Wearing a high-collar interface suit, fingers twitching as they manipulate invisible holographic controls.
+* The Corporate Fixer: A negotiator who handles "friction" that the algorithms can't solve.
+   * Visuals: Impeccable grey suit, mirror-shade implants, a smile that doesn't reach their eyes.
+* The Burbs Merchant: An unlicensed vendor thriving in the Restriction Zone, trading in non-serialized goods and jailbroken tech.
+   * Visuals: Dressed in a mix of repurposed corporate synth-fabric and traditional Premian natural fibers. They operate a stall lit by unregistered neon, displaying wares that don't appear on any official inventory.
+* The Orbital Drop Marine: An elite shock trooper deployed from low orbit to secure corporate assets.
+   * Visuals: Encased in heavy "Meteor-Class" power armor painted in Vanta Black with Dark Grey accents and stark white kill-stripes. The helmet is a faceless sensor suite glowing with a cyan "T-Visor." They carry a heavy rail-cannon that is magnetically locked to their gauntlets.
 
-#### **HI-FI INK Prompt Framework**
+VII. EXPANSION MODULES
+Sub-Factions & Subsidiaries
+* Syndicate PsiCorp: The official division managing, training, and deploying licensed psionic assets for corporate operations.
+* Premian Mystics: Traditional spiritual enclaves dedicated to "The Lady," maintaining ancient cultural rites while operating within the corporate framework.
+Campaign Hooks
+* Corporate Espionage: Infiltrate a competitor's data-spire to recover proprietary Mesh algorithms.
+* Friction Layer Dispute: Mediate or exploit tensions between Spires executives and Restriction Zone squatters protected by land rights.
 
-* **SETTING STYLE:** Adaptive Neo-Futurism, High-Tech Cyberocracy, Clean, Efficient.  
-* **CONTEXT:** Spire Lobbies, multi-level verticality, sterile white architectural concrete, "Federal Grey" brushed steel, Vanta Black military gear, smoked glass, hexagonal tiling.  
-* **ATMOSPHERE:** Defensive, prestigious, structured, biophilic fortification. High specularity reflections with "The Blue Line" (cerulean emissive lighting) tracing architectural geometry.
+## **SYNDICATE — HI-FI SKETCH & HI-FI INK PROMPT FRAMEWORKS**
 
-### **VII. Expansion Modules (Optional)**
+### **1. HI-FI INK MODULAR PROMPT STRUCTURE**
+* **CONTENT PROMPT — SUBJECT:** [e.g., Corporate Fixer with mirror-shade implants, Orbital Drop Marine in Vanta Black armor, Net-Architect manipulating holographic code, Burbs Merchant with jailbroken tech]
+* **NARRATIVE:** [e.g., navigating a crowded but silent pristine lobby, deploying from a low-orbit drop pod, negotiating a frictionless trade, monitoring algorithms]
+* **GUIDANCE PROMPT — SETTING STYLE:** Professional High-Tech Elegance, Adaptive Neo-Futurism, corporate efficiency, subtle and fashionable tech integration, sleek, aerodynamic and ergonomic designs, sterile but breathable, structural permanence, chamfered edges, architectural ribs.
+* **CONTEXT:** Planetary-scale server spires, vertical hydro-stack agriculture, polished white concrete floors with inlaid hexagonal patterns, imposing laser-fence perimeters.
+* **ATMOSPHERE:** Defensive prestige, highly efficient, silent, algorithmically perfect, high-tech stronghold, transhumanist, tailored smart fabrics, low-profile personal augmentations, sleek black military gear.
+* **RENDERING PROMPT — RENDERING:** High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* **NEGATIVE PROMPT:** photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
 
-#### **Sub-Factions & Subsidiaries**
+### **2. HI-FI SKETCH MODULAR PROMPT STRUCTURE & FACTION-SPECIFIC INK ACCENTS**
+* **RENDERING:** Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* **Accent Tokens:** subtle cerulean blue emissive marker line, sharp cyan status light ink dots, deep vanta black ink pools, selective federal grey shading wash.
 
-* **Syndicate PsiCorp:** Manages and deploys licensed psionic assets for corporate operations.  
-* **Premian Mystics:** Traditional spiritual enclaves dedicated to "The Lady," maintaining cultural rites within the corporate framework.
+### **3. READY-TO-USE TEMPLATES**
+* **INTERIOR SPACE: The Spire Lobby:** Ground floor of a Syndicate Megacorp tower, polished floors with inlaid hexagonal patterns, silent algorithmic streams of corporate citizens, overhead drones. Environmental perspective sketch, complex spatial line art, diegetic lighting rendered via varying hatching density, architectural interior drafting, detailed clutter rendered in pure line work, subtle cerulean blue emissive strip marker accent.
+* **CLOSE-UP: The Fixer:** Syndicate Corporate Fixer face close up, impeccable collar, mirror-shade cybernetic implants, neural mesh-link node on temple. Extreme macro ink details, highly visible pen strokes, intricate facial cross-hatching, dense stippling for core shadows, subtle single-color cyan marker accent on the cybernetic interface.
 
-#### **Scene Vignettes**
+### II. Complete Unabridged Codex Unified Faction Document (`1.04_SYNDICATE`)
 
-* **The Spire Lobby:** Absolute silence as the Mesh dampens footstep audio. Thousands move in algorithmic streams reflecting the "Blue Line."  
-* **The Restriction Zone:** Vibrant, chaotic, unregulated. A diplomatic standoff zone protected by ancient indigenous land rights, lit by unregistered neon.
+INCORPORATED PLANETARY SYNDICATION (SYNDICATE)
+I. Detailed Faction Description
+* Overview: The Syndicate represents a High-Tech Cyberocracy—a society run like a massive, efficient, interconnected business entity. The defining characteristic is the Seamless Integration of technology via the "Mesh," a ubiquitous AR and data network that overlays the physical world, eliminating bureaucratic friction. Culturally, they view Transhumanism as a professional standard and a quality-of-life improvement. They are pragmatic, agile, and pivot strategies instantly based on real-time analytics. Beneath the pristine corporate spires lie the "Restriction Zones" (Friction Layers), where unlicensed tech and native Premian culture thrive in the shadows, legally protected by ancient indigenous land rights.
+* Key Themes: Corporate Intrigue, High-Tech Convenience, Surveillance State, "The Mesh," Transhumanism.
+* Relationship to Others: The galaxy's vendor; they trade with everyone but are trusted by no one. Hated rivals of the Impyrium.
+II. Core Identity
+* Official Designation: Incorporated Planetary Syndication
+* Colloquialisms: The Syndicate / The Corp / The Suits / The Mesh
+* Archetype: Cyber-Corporate / High-Tech Cyberocracy
+* Capital/Key World: Premius (The Corporate Core)
+* Symbol/Sigil: The Hexagon (representing the Hive/Mesh)
+* Driving Mandate: Eliminate Friction; Maximize Efficiency.
+* Motto: "Friction is failure. Efficiency is moral."
+III. Sociological Profile
+Ideology & Culture
+* Core Beliefs: The Market is the ultimate arbiter. Casual reverence for "The Lady" (a Premian cultural cornerstone viewing fortune/power as gifts to be respected).
+* Social Structure: Corporate Hierarchy (Intern to Board Member).
+* View on Outsiders: Transactional. Everyone is a potential customer, asset, or competitor.
+* Law & Order: Enforced by Corporate Security and algorithm; unsanctioned actions are handled as "friction" to be smoothed out or eliminated.
+Governance
+* Government Type: Corporatocracy / Cyberocracy.
+* Leadership: The Board of Directors.
+* Succession: Corporate promotion, shareholding, and hostile takeover.
+IV. Strategic Assets
+Economy & Tech
+* Tech Level (TL): 4 (High-Tech / Cybernetic)
+* Meta Level (ML): 2 (Regulated - PsiCorp/Premian Mystics)
+* Wealth Modifier: +3 (Highly Profitable)
+* Primary Exports: Consumer electronics, Cybernetics, AI, Data/Information, Mass Surveillance tech.
+* Economic Model: Hyper-Capitalism / Consumerism.
+Military Profile
+* Doctrine: Rapid, agile, data-driven deployment.
+* Key Units: Orbital Drop Marines, Corporate Fixers.
+* Naval Assets: Data-Core Network ships, Stealth Freighters. Vanta Black aesthetic.
+* Unique Tech/Materials: "The Mesh", Adaptive Corp-Spec gear, Holographic UI.
+V. Mechanics (Game Data)
+* Prominent Species: Humans (Syndicate Genotype - Sleek/Modified).
+* Faction Skill Package (20 Points):
+   * Computers (+4): Navigating the Mesh.
+   * Vocation (Any) (+4): Tradecraft training.
+   * Academics (+4): Foundation in logical principles.
+   * Technology (+4): Using/maintaining high-tech gear.
+   * Insight (+2): Reading people in negotiations.
+   * Diplomacy (+2): Closing the deal.
+* Typical Archetypes:
+   * The Bureaucrat: The skilled administrator ensuring smooth operation (Middle Management).
+   * The Munitions Magnate: Focuses on the trade of weapons and military equipment (Arms Division).
+   * The Company Man: Represents the company's interests and secures deals (Executives).
+   * The Ghost: Equipped with advanced enhancements to infiltrate high-security areas (Infiltrators).
+   * The Broker: Travels space lanes buying and selling (Traders).
+   * The Foreman: A stern leader who oversees the workforce (Labor Oversight).
+   * The Kingpin: Leader overseeing illegal activities (Shadow Boards).
+   * The Socialite: A charismatic individual thriving in social networking (Elites).
+   * The Decker: A master of cyberspace who infiltrates networks (The Grid).
+   * The Cyberneticist: Specialist in creating and repairing cybernetic enhancements (Augmentation Clinics).
+   * The Net-Architect: Systems engineer who designs data infrastructures (Mesh Architects).
+   * The Saboteur: A skilled operative who infiltrates to disrupt (Corporate Sabotage).
+* Recommended Features (1 CP Discount):
+   * Augmented: Representing standard corporate bio-mods or cybernetics.
+   * Computer Specialist: Navigating the Mesh flawlessly.
+   * Digital Expert: Compiling and hacking in record time.
+   * Benefit (Wealth): The deep pockets of the corporatocracy.
+   * Benefit (Clearance): Corporate access to restricted zones or servers.
+   * Silver Tongue: Closing negotiations and defusing corporate tension.
+   * Connected: A vast network of vendors, fixers, and middle-managers.
+   * Coding Master: Viewing the world purely through data streams.
+   * Gearhead: Intrinsic familiarity with mass-produced tech.
+   * Tech Interface: Linking directly into The Mesh or corporate vehicles.
+   * Nimble Fingers: Disabling security or performing delicate hardware tasks.
+   * Well Informed: Constantly fed telemetry and news via the Mesh.
+VI. Visual Semiotics (Aesthetics)
+Design Directive: "Adaptive Neo-Futurism"
+A synthesis of professional high-tech elegance, clean modernism, and functional sophistication. The architecture is defined by sleek, refined forms utilizing white architectural concrete, "Federal Grey" brushed steel, and polished dark glass. Advanced technology is implemented subtly and fashionably throughout daily life, integrated seamlessly into environments and personal attire. Personal fashion features smart fabrics and wearable tech, while cybernetic augmentations are either low-profile and nearly invisible or designed as bold, luxurious statement pieces. Vehicles are sleek, aerodynamic, and ergonomically sculpted. In stark contrast, military styling abandons subtle fashion: military gear is uncompromisingly black, sleek, and heavy-plated in high-tech armor, weapons, and combat tactical suites.
+Palette
+* Primary: White Architectural Concrete, "Federal Grey" Brushed Steel.
+* Secondary: Dark Smoked Glass, Black Composite.
+* Accent: "The Blue Line" (Recessed Cerulean Emissive Strips), Dark Grey accents on Military gear. (Military specific shifts to Vanta Black).
+Lighting
+* Key Style: "The Blue Line." Recessed emissive strips tracing architectural geometry. High specularity reflections on smoked glass.
+* Mood: Defensive, Prestigious, Highly Efficient, High-Tech Stronghold.
+Shape Language
+* Motif 1: The Hexagon: The primary motif, representing the Mesh and efficient packing. Found in floor tiles, armor plating, holographic interfaces, and urban grid layouts.
+* Motif 2: Biophilic Neo-Futurism: Architectural ribs and chamfered edges integrated with manicured, structured greenery to create sterile, defensive, yet breathable structures.
+* Motif 3: Multi-Level Verticality: The environment is defined by clean, stacked layers separating the pristine corporate spires from the chaotic street levels.
+Gear Aesthetic
+* Gear Style 1: Adaptive Corp-Spec & Personal Tech: Everyday equipment features clean, high-tech elegance, Federal Grey casing, white accents, and subtle cyan status lighting. Personal apparel leverages smart fabrics, wearable technology, and augmentations that range from low-profile subtle enhancements to bold fashion statements. In contrast, military gear is strictly non-fashionable: sleek, pitch-black, and heavily plated in rugged high-tech armor and tactical weaponry.
+* Gear Style 2: Holographic UI: Physical buttons are rare. Guns and tools project their own cyan diagnostic screens and floating light-panels.
+Atmosphere Tokens
+Professional high-tech elegance, subtle integrated technology, smart fabrics, wearable tech, low-profile or bold statement augmentations, sleek aerodynamic vehicles, grey steel and white concrete, pitch-black plated military armor, dark glass, cyan emissive lighting, architectural ribs, chamfered edges, sterile but breathable, high-tech stronghold, hexagonal tiling.
+HI-FI INK Prompt Framework
+* CONTENT PROMPT: SUBJECT: Insert main subject, e.g., Corporate Fixer, Orbital Drop Marine, Net-Architect
+* NARRATIVE: Insert action or story elements
+* GUIDANCE PROMPT: SETTING STYLE: Adaptive Neo-Futurism, High-Tech Cyberocracy, Clean, Efficient.
+* CONTEXT: Spire Lobbies, multi-level verticality, sterile white architectural concrete, "Federal Grey" brushed steel, smart fabrics, wearable technology, sleek aerodynamic vehicles, pitch-black high-tech military armor, smoked glass, hexagonal tiling.
+* ATMOSPHERE: Defensive, prestigious, structured, biophilic fortification. High specularity reflections with "The Blue Line" (cerulean emissive lighting) tracing architectural geometry.
+* RENDERING PROMPT: RENDERING: High-definition digital ink, lineless graphic novel aesthetic, hyper-detailed digital painting, volumetric form, deep color blocking, stark chiaroscuro, pure black merged shadows, internal stipple shading, halftone shadow transitions, mixed media digital art, dramatic low key lighting, visible light beams, volumetric fog, intense rim lighting, colored kicker light, realistic anatomy, heavy fabric physics, tailored clothing, cinematic composition, rule of thirds, striking contrast, vivid ink colors, painted shadow shapes, sharp planar forms.
+* FORM: Append the appropriate Template Modifier below based on shot type
+* NEGATIVE PROMPT: photorealism, photography, raw photo, film grain, bokeh, depth of field, 3d render, octane render, outlines, black lines, borders, contour lines, line art, line weight, fuzzy, blurry, messy, watermark, text, anime, traditional cel shaded, flat shading, distorted hands, plastic skin, waxy texture, airbrushed, doll-like, capes, banners, extra fabric, excess cables.
+Template Variations (Form Modifiers)
+Append the appropriate FORM tokens to your RENDERING section depending on the specific camera angle and framing of the shot required:
+* MASTER: (No specific form modifiers needed; rely on the base rendering tokens.)
+* CLOSE-UP: Extreme close-up comic panel, stark facial shadows, intense chiaroscuro, pure black recessed areas, detailed iris color blocking, sharp planar facial structure, heavy fabric folds, graphic texture rendering, deep ink washes, striking eye catchlight, dramatic graphic rim light.
+* CHARACTER CONCEPT SHEET: Graphic novel character turnaround sheet showing five distinct views: (full body front view:1.5), (full body back view:1.5), (full body profile side view:1.5), and a detailed (face close-up profile:1.8). The five images should be presented as a clean, highly detailed array on a single sheet, with a minimal flat or graphic gradient background for clarity.
+* ARCHITECTURAL ESTABLISHING SHOT: Dynamic wide establishing panel, extreme 3-point perspective, atmospheric color blocking, deep shadow recesses, graphic silhouette framing, stark architectural geometry, monumental scale, intricate graphic facade details, painted texture mapping, hyper-detailed environment illustration.
+* VEHICLE / MECH DESIGN: Dynamic action panel or static concept angle (select one), sleek aerodynamic contours, ergonomic bodywork, extreme foreshortening, stylized speed/motion effects (if moving), hard-edged metallic reflections, high-contrast surface rendering, heavy solid black shadows in mechanical recesses, functional high-tech realism, striking comic book angle.
+* INTERIOR SPACE: Dramatic interior panel setting, stark light shafts, graphic dust motes, heavy cast shadows sweeping across room, complex planar occlusion, ambient color blocking, narrative clutter rendered in high contrast, deep ink recesses in corners, expansive framing (select one).
+VII. Expansion Modules (Optional)
+Sub-Factions & Subsidiaries
+* Syndicate PsiCorp: Manages and deploys licensed psionic assets for corporate operations.
+* Premian Mystics: Traditional spiritual enclaves dedicated to "The Lady," maintaining cultural rites within the corporate framework.
+Scene Vignettes
+* The Spire Lobby: Absolute silence as the Mesh dampens footstep audio. Thousands move in algorithmic streams reflecting the "Blue Line."
+* The Restriction Zone: Vibrant, chaotic, unregulated. A diplomatic standoff zone protected by ancient indigenous land rights, lit by unregistered neon.
+Mesh Link
+* System & Functionality: The Mesh Link is a ubiquitous augmented-reality and data infrastructure that seamlessly overlays physical space. It eliminates administrative and bureaucratic friction via real-time telemetry, automated data feeds, and instant transaction processing across Syndicate territory.
+* Integration & Character Creation: Citizens and operatives interact with the network using low-profile neural or optical implants. During character creation, integration with the Mesh Link grants access to specialized skill packages (such as for Computers and Technology) and discounted features like Computer Specialist, Digital Expert, Tech Interface, and Well Informed.
+* Cultural & Sociological Context: Transhuman integration is treated as a professional standard and quality-of-life requirement within corporate spires. Outside the core network, "Restriction Zones" offer sanctuary where unlicensed technology and indigenous Premian customs operate beyond direct Mesh monitoring.
+SYNDICATE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+[CONTENT PROMPT]
+* SUBJECT: [e.g., Corporate Fixer with mirror-shade implants, Orbital Drop Marine in Vanta Black armor, Net-Architect manipulating holographic code, Burbs Merchant with jailbroken tech]
+* NARRATIVE: [e.g., navigating a crowded but silent pristine lobby, deploying from a low-orbit drop pod, negotiating a frictionless trade, monitoring algorithms]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Professional High-Tech Elegance, Adaptive Neo-Futurism, corporate efficiency, subtle and fashionable tech integration, sleek, aerodynamic and ergonomic designs, sterile but breathable, structural permanence, chamfered edges, architectural ribs.
+* CONTEXT: Planetary-scale server spires, vertical hydro-stack agriculture, polished white concrete floors with inlaid hexagonal patterns, imposing laser-fence perimeters.
+* ATMOSPHERE: Defensive prestige, highly efficient, silent, algorithmically perfect, high-tech stronghold, transhumanist, tailored smart fabrics, low-profile personal augmentations, sleek black military gear.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in Syndicate lore, use these subtle color splash tokens:
+* Accent Tokens: subtle cerulean blue emissive marker line, sharp cyan status light ink dots, deep vanta black ink pools, selective federal grey shading wash.
+3. READY-TO-USE TEMPLATES
+INTERIOR SPACE: The Spire Lobby
+Ground floor of a Syndicate Megacorp tower, polished floors with inlaid hexagonal patterns, silent algorithmic streams of corporate citizens, overhead drones. Environmental perspective sketch, complex spatial line art, diegetic lighting rendered via varying hatching density, architectural interior drafting, detailed clutter rendered in pure line work, varying line thickness to simulate depth and atmospheric perspective. Adaptive Neo-Futurism, defensive prestige atmosphere, subtle cerulean blue emissive strip marker accent. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime, cinematic lighting.
+CLOSE-UP: The Fixer
+Syndicate Corporate Fixer face close up, impeccable collar, mirror-shade cybernetic implants, neural mesh-link node on temple. Extreme macro ink details, highly visible pen strokes, intricate facial cross-hatching, dense stippling for core shadows, sharp ink contours, distinct fine-liner weights, detailed eye shading using only lines, subtle single-color cyan marker accent on the cybernetic interface. Transhumanist corporate style, confident and efficient expression. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading, blurred.
+
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Major.Syndicate.md`
+* **Codex Sources Compared:** Codex `1.04 SYNDICATE` and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Major.Syndicate.md` and Codex `1.04 SYNDICATE` and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 4 / ML 2 | +4 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-SYND-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Major.Syndicate.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04 SYNDICATE` and `1.04 FACTIONS` Master Doc.
+* **DISC-104-SYND-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 4 / ML 2 | +4 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

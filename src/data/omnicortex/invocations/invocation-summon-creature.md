@@ -40,21 +40,24 @@ negative_keywords: >-
 
 # SUMMON CREATURE Invocation
 
-**Category**: Invocations  
-**Discipline**: Dimension
-
 ## Description & Ritual Details
-Classification: Dimension (Summoning) | Utility/Combat | \[Conjuration\] \[Minion\]  
+
+Classification: Dimension (Summoning) | Utility/Combat | [Conjuration] [Minion]
+
 Parameters:
-* **Base Difficulty:** 15  
-* **Time:** Full Round Action  
-* **Range:** Close  
-* **Area:** Single Point  
-* **Duration:** 1 Round per Rank (Stage). *Spend 1 Karma Point to increase to 1 Minute per Rank.*  
-* **Resistance:** None
-Effect Description:  
-Calls a known existing creature from another plane or location to serve the caster as a temporary companion.  
+
+  - **Base Difficulty:** 15
+  - **Time:** Full Round Action
+  - **Range:** Close
+  - **Area:** Single Point
+  - **Duration:** 1 Round per Rank (Stage). *Spend 1 Karma Point to increase to 1 Minute per Rank.*
+  - **Resistance:** None
+
+Effect Description:
+
+Calls a known existing creature from another plane or location to serve the caster as a temporary companion.
+
 **Scaling Function:**
-* **Power:** Total Creature Character Points (CP) \= 10 CP per Stage achieved.  
-* **Quantity:** Can split the total CP budget among multiple creatures.
-###
+
+  - **Power:** Total Creature Character Points (CP) = 10 CP per Stage achieved.
+  - **Quantity:** Can split the total CP budget among multiple creatures.

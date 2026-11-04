@@ -46,41 +46,18 @@ cp_chassis: 80
 
 # The Swashbuckler
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Melee DPS / Mobility / Face  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A skilled combatant who excels in boarding actions and close-quarters flair.
 
-> *You fight with panache. You treat combat as a dance, outmaneuvering foes with wit and blade. You are the hero of your own story, and you make sure everyone knows it.*
+*You fight with panache. You treat combat as a dance, outmaneuvering foes with wit and blade. You are the hero of your own story, and you make sure everyone knows it.*
 
-> _"En garde! Try not to bore me."_
+*"En garde! Try not to bore me."*
 
-## Tactical Role
-Engaging enemy leaders, mobile melee damage, flamboyant distraction.
-
-## Essential Skills
-- Acrobatics
-- Athletics
-- Combat (Melee)
-- Bluff
-
-## Signature Features
-- Boarding Party
-- Weapon Master
-
-## Recommendations
-- **Occupations**: Soldier, Entertainer
-- **Origins**: Leisure, Spacer, Urban
-- **Factions**: Dynasty (Duelists), Outworlds (Pirates), Entari
-
-
-## Extended Lore & Background
-
-A skilled combatant who excels in boarding actions and close-quarters flair.  
-*You fight with panache. You treat combat as a dance, outmaneuvering foes with wit and blade. You are the hero of your own story, and you make sure everyone knows it.*  
-*"En garde\! Try not to bore me."*
-
+  - **Core Concept:** Melee DPS / Mobility / Face
+  - **Recommended Occupations:** Soldier, Entertainer.
+  - **Recommended Origins:** Leisure, Spacer, Urban.
+  - **Recommended Factions:** Dynasty (Duelists), Outworlds (Pirates), Entari.
+  - **Key Attributes:** Agility (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Athletics, Combat (Melee), Bluff.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Boarding Party, Weapon Master.
+  - **Tactical Role:** Engaging enemy leaders, mobile melee damage, flamboyant distraction.

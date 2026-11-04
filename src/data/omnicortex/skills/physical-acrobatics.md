@@ -27,15 +27,11 @@ negative_keywords: "sedentary, paralyzed, clumsy"
   - **Description:** Acrobatics is the skill of performing feats of gymnastics, extraordinary balance, and dance (and related performance arts), and breaking falls. It is used whenever a character attempts to make a physical maneuver that requires agility, balance, and coordination. This can include things like jumping over obstacles, swinging from ropes, or performing aerial maneuvers. The ability to perform feats of gymnastics, balance, tumbling, and breaking falls. It covers keeping one's footing on slippery surfaces or tightropes and maneuvering through threatened areas without being hit.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Balance:* CR 10 (narrow surface) to CR 20+ (razor edge).
+- *Balance:* CR 10 (narrow surface) to CR 20+ (razor edge).
   - *Tumble:* CR 15 to move through an enemy's threatened area without provoking an attack.
   - *Break Fall:* Reduce falling damage (CR 15 ignores first 10ft).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Tumbling:** Executing offensive or defensive rolls across hard or hazardous terrain.
       - **Tightrope & Ledge Balancing:** Retaining equilibrium along narrow beams, girders, and razor edges.

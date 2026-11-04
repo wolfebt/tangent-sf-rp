@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Intimidation is the skill of using fear and threats to control others. It reflects a character's ability to instill fear in others and manipulate situations to their advantage. Intimidate is used whenever a character needs to scare someone into doing something, whether it's to gain information or to avoid danger. This can include things like threatening physical harm, using one's reputation to intimidate others, or using psychological tactics to make someone feel powerless. The skill of coercing others through fear, physical threats, or sheer force of personality. It can be used to interrogate prisoners, demoralize enemies, or force compliance.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Coerce:** Opposed check vs. the target's **Insight** or **Willpower** (Level + Wisdom). Success forces the target to act friendly or compliant temporarily.
+- **Coerce:** Opposed check vs. the target's **Insight** or **Willpower** (Level + Wisdom). Success forces the target to act friendly or compliant temporarily.
   - **Demoralize:** Standard action in combat. Opposed check vs. target's **Insight** or **Willpower**. Success leaves the target **Shaken** (-2 to attacks/checks) for 1 round.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Physical Menace:** Towering over targets, cracking knuckles, and using size and muscle mass to compel obedience.
       - **Interrogation Under Duress:** Breaking the psychological resolve of captured prisoners to extract codes and coordinates.

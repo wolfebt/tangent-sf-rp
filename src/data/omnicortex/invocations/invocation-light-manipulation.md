@@ -38,19 +38,21 @@ negative_keywords: 'solar radiance, high noon flare, sterile laboratory, holy te
 
 # LIGHT MANIPULATION Invocation
 
-**Category**: Invocations  
-**Discipline**: Illusion
-
 ## Description & Ritual Details
-Classification: Illusion (Shadow) | Environmental | \[Minor\] \[Control\]  
+
+Classification: Illusion (Shadow) | Environmental | [Minor] [Control]
+
 Parameters:
-* **Base Difficulty:** 10  
-* **Time:** Standard Action (At Will)  
-* **Range:** Close  
-* **Area:** 20ft Radius  
-* **Duration:** Concentration  
-* **Resistance:** None
-Effect Description:  
-Adjusts the ambient illumination in the area. Can dim lights to create shadows or brighten them to reveal details.  
+
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action (At Will)
+  - **Range:** Close
+  - **Area:** 20ft Radius
+  - **Duration:** Concentration
+  - **Resistance:** None
+
+Effect Description:
+
+Adjusts the ambient illumination in the area. Can dim lights to create shadows or brighten them to reveal details.
+
 Magnitude: Can change illumination level by 30% per Skill Stage.
-###

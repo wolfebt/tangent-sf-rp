@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.timeandfocus","mechanics"]
-updatedAt: "2026-11-02T22:49:29.224Z"
+updatedAt: "2026-11-04T00:33:10.733Z"
 costs:
   bp: 0
   credits: 0
@@ -39,6 +39,38 @@ sockets:
 
 # **1.07.20 TIME, FOCUSED TASKS & TRANSPOSED SKILL BASE**
 
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mechanics.TimeAndFocus.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mechanics.TimeAndFocus.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (TIME MODIFIERS, FOCUSED TASKS & TRANSPOSED BASE MATRIX)**
+
+| Mechanic / Time Adjustment | Time Multiplier | Check Modifier | Special Rules & Scaling |
+| :--- | :---: | :---: | :--- |
+| **Meticulous (Step 1)** | `+50%` Time (`1.5x`) | `+2` Bonus | `+3` at Expert, `+3` (`+50%`) at Master, `1 step worse` if Untrained. |
+| **Meticulous (Step 2)** | `+100%` Time (`2.0x`) | `+4` Bonus | `+6` at Master. |
+| **Meticulous (Step 3)** | `+150%` Time (`2.5x`) | `+6` Bonus | `+9` at Master. |
+| **Meticulous (Step 4)** | `+200%` Time (`3.0x`) | `+8` Bonus | `+12` at Master. |
+| **Rushed (Step 1)** | `-25%` Time (`3/4` Time) | `-2` Penalty | Halved (`-1`) at Grand Master; `1 step worse` (`-4`) if Untrained. |
+| **Rushed (Step 2)** | `-50%` Time (`1/2` Time) | `-4` Penalty | Halved (`-2`) at Grand Master; `1 step worse` (`-8`) if Untrained. |
+| **Rushed (Step 3)** | `-75%` Time (`1/4` Time) | `-8` Penalty | Halved (`-4`) at Grand Master; minimum `1/4` typical time. |
+| **Focused Task** | Entire Task Duration | `+2` to Focused Task | Inflicts `-5` penalty to all other Skill Checks (Alertness/Defense) while focused. |
+| **Transposed Skill Base** | Permanent or Situational | Swaps governing Attribute | Requires Architect approval based on character concept (e.g., `INT` for `Piloting`). |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
+
 # **TIME**
 
 In Tangent, the time a character dedicates to a skill check directly impacts their chances of success. This system introduces two primary modifiers:
@@ -53,27 +85,27 @@ For each 50% increase in the base time to complete gains a +2 to the check resul
 
   
 
-\+50% time
++50% time
 
-\+2
-
-  
-
-\+100% time
-
-\+4
++2
 
   
 
-\+150% time
++100% time
 
-\+6
++4
 
   
 
-\+200% time
++150% time
 
-\+8
++6
+
+  
+
++200% time
+
++8
 
   
   
@@ -88,19 +120,19 @@ A 25% reduction in time incurs a -2 penalty (doubling for each additional 25% re
 
 3/4 time
 
-\-2
+-2
 
   
 
 1/2 time
 
-\-4
+-4
 
   
 
 1/4 time
 
-\-8
+-8
 
   
 
@@ -125,11 +157,8 @@ When a character attempts to use a skill in which they are Untrained (skill rank
   
   
   
-**  
-**
 
-# **FOCUSED TASK****  
-**
+# **FOCUSED TASK**
 
 # **FOCUSED TASK**
 
@@ -165,16 +194,13 @@ The +2 bonus and -5 penalty remain in effect for the entire duration of the task
 
   
 
-*A sniper focusing on lining up the perfect shot would receive a +2 bonus to their Firearms (Sniper) Skill Check, but would be more vulnerable to flanking attacks or sudden changes in the environment.*
+*A sniper focusing on lining up the perfect shot would receive a +2 bonus to their Ballistic (Sniper Rifles) Skill Check, but would be more vulnerable to flanking attacks or sudden changes in the environment.*
 
   
   
   
-**  
-**
 
-# **TRANSPOSED SKILL BASE****  
-**
+# **TRANSPOSED SKILL BASE**
 
 # **TRANSPOSED SKILL BASE**
 
@@ -200,7 +226,7 @@ Any transposition of a skill's base Ability Score requires Architect approval. T
 
   
 
-*A character with strong psychic abilities might use Wisdom instead of Charisma for their Persuasion skill, drawing upon their mental powers to influence others.*
+*A character with strong psychic abilities might use Wisdom instead of Charisma for their Diplomacy skill, drawing upon their mental powers to influence others.*
 
   
 
@@ -248,7 +274,9 @@ Transposed Skill Bases should align with the character's overall concept and mak
 
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-313 (1.07.Mechanics.TimeAndFocus.md):** Restored Meticulous (+2/+4/+6/+8), Rushed (-2/-4/-8), Focused Task (+2/-5), and Transposed Skill Base mechanics.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Mechanics.TimeAndFocus.md):** Restored 100% of the Time (Meticulous & Rushed), Time Factors for Unskilled Use, Focused Task (`+2/-5`), and Transposed Skill Base prose and examples from Codex `1.07 SKILLS`.
 

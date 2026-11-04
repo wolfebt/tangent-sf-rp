@@ -34,20 +34,23 @@ negative_keywords: 'megaton blast, flood, freezing blizzard'
 
 # SPARK Invocation
 
-**Category**: Invocations  
-**Discipline**: Energy
-
 ## Description & Ritual Details
-Classification: Energy (Elemental) | Utility/Attack | \[Minor\] \[Cantrip\]  
+
+Classification: Energy (Elemental) | Utility/Attack | [Minor] [Cantrip]
+
 Parameters:
-* **Base Difficulty:** 10  
-* **Time:** Standard Action (At Will)  
-* **Range:** Touch/Close  
-* **Area:** Single Target  
-* **Duration:** Instantaneous  
-* **Resistance:** None
-Effect Description:  
-Causes 1 point of elemental damage of the chosen type. This triggers the associated minor elemental effect (e.g., lighting a candle, a static shock, freezing a cup of water).  
+
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action (At Will)
+  - **Range:** Touch/Close
+  - **Area:** Single Target
+  - **Duration:** Instantaneous
+  - **Resistance:** None
+
+Effect Description:
+
+Causes 1 point of elemental damage of the chosen type. This triggers the associated minor elemental effect (e.g., lighting a candle, a static shock, freezing a cup of water).
+
 **Scaling Function:**
-* **Utility:** Range or number of small interactions increases slightly per Stage.
-###
+
+  - **Utility:** Range or number of small interactions increases slightly per Stage.

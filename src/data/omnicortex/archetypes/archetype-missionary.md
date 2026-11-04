@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Missionary
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Face / Healer / Support  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A zealous preacher who travels the galaxy to spread their faith.
 
-> *You carry the light into the darkness. You travel to the farthest reaches of the galaxy to share your truth, bringing hope and conviction to the lost and the forgotten.*
+*You carry the light into the darkness. You travel to the farthest reaches of the galaxy to share your truth, bringing hope and conviction to the lost and the forgotten.*
 
-> _"There is no place too dark for the light to reach."_
-
-## Tactical Role
-Converting NPCs, providing healing/support, navigating cultural/religious encounters.
-
-## Essential Skills
-- Diplomacy
-- Insight
-- Knowledge (Survival)
-- Knowledge (Religion)
-
-## Signature Features
-- Divine Inspiration
-- Spiritual Guide
-
-## Recommendations
-- **Occupations**: Adept, Representative
-- **Origins**: Enlightened, Colony, Spacer
-- **Factions**: Impyrium (State Religion), Entari Combine (Ethical), Ascendancy
-
-
-## Extended Lore & Background
-
-A zealous preacher who travels the galaxy to spread their faith.  
-*You carry the light into the darkness. You travel to the farthest reaches of the galaxy to share your truth, bringing hope and conviction to the lost and the forgotten.*  
 *"There is no place too dark for the light to reach."*
 
+  - **Core Concept:** Face / Healer / Support
+  - **Recommended Occupations:** Adept, Representative.
+  - **Recommended Origins:** Enlightened, Colony, Spacer.
+  - **Recommended Factions:** Impyrium (State Religion), Entari Combine (Ethical), Ascendancy.
+  - **Key Attributes:** Charisma (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (Survival), Knowledge (Religion).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Divine Inspiration, Spiritual Guide.
+  - **Tactical Role:** Converting NPCs, providing healing/support, navigating cultural/religious encounters.

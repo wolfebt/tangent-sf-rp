@@ -40,18 +40,19 @@ negative_keywords: >-
 
 # VISIONS Invocation
 
-**Category**: Invocations  
-**Discipline**: Mental
-
 ## Description & Ritual Details
-Classification: Mental (Sense) | Sensory | \[Minor\] \[Precognition\]  
+
+Classification: Mental (Sense) | Sensory | [Minor] [Precognition]
+
 Parameters:
-* **Base Difficulty:** 10  
-* **Time:** Standard Action (At Will)  
-* **Range:** Personal  
-* **Area:** Self  
-* **Duration:** Instantaneous  
-* **Resistance:** None
-Effect Description:  
-Brief flashes of insight regarding the immediate future or distant events. Grants a \+2 Bonus to the next Initiative roll or Surprise check.
-###
+
+  - **Base Difficulty:** 10
+  - **Time:** Standard Action (At Will)
+  - **Range:** Personal
+  - **Area:** Self
+  - **Duration:** Instantaneous
+  - **Resistance:** None
+
+Effect Description:
+
+Brief flashes of insight regarding the immediate future or distant events. Grants a +2 Bonus to the next Initiative roll or Surprise check.

@@ -47,41 +47,18 @@ cp_chassis: 80
 
 # The Marshal
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Social / Combat / Crowd Control  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A law enforcement officer who maintains order and protects settlements in the lawless territories.
 
-> *You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*
+*You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*
 
-> _"The law doesn't stop at the city limits. It stops where I say it stops."_
-
-## Tactical Role
-De-escalating conflicts, arresting targets, tracking fugitives.
-
-## Essential Skills
-- Intimidation
-- Diplomacy
-- Athletics
-- Combat (Pistol)
-
-## Signature Features
-- Frontier Justice
-- Wildstalker
-
-## Recommendations
-- **Occupations**: Soldier, Agent
-- **Origins**: Colony, Hostile, Militaristic
-- **Factions**: Coalition (Rangers), Outworlds (Sheriffs)
-
-
-## Extended Lore & Background
-
-A law enforcement officer who maintains order and protects settlements in the lawless territories.  
-*You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*  
 *"The law doesn't stop at the city limits. It stops where I say it stops."*
 
+  - **Core Concept:** Social / Combat / Crowd Control
+  - **Recommended Occupations:** Soldier, Agent.
+  - **Recommended Origins:** Colony, Hostile, Militaristic.
+  - **Recommended Factions:** Coalition (Rangers), Outworlds (Sheriffs).
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Diplomacy, Athletics, Combat (Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Frontier Justice, Wildstalker.
+  - **Tactical Role:** De-escalating conflicts, arresting targets, tracking fugitives.

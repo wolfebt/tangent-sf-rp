@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-technology"
 category: "architect_matrix"
 parent: "doc-architect-99-technology"
-order: 41
+order: 42
 perspective: "architect"
 entry_type: "Tech Matrix (mecha)"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.mecha.automataandgear","matrix"]
-updatedAt: "2026-11-02T22:49:14.820Z"
+updatedAt: "2026-11-04T00:33:10.468Z"
 costs:
   bp: 0
   credits: 0
@@ -51,7 +51,7 @@ When a Mecha is equipped with a Computer Core instead of a traditional Cockpit, 
 * **Why:** To ensure automated units operate with mathematically consistent attributes and skills tied strictly to their chassis size and processor rating, preventing arbitrary stat blocks and preserving Ludonarrative Consistency.
 * **How:** Execute the following four-step generation sequence to finalize the Automata's independent stat block.
 
-#### **Step: Calculate Physical Attributes (The Chassis)**
+#### **Step 1: Calculate Physical Attributes (The Chassis)**
 
 An Automata's physical capabilities are entirely dictated by the hardware of its Frame and Size Category. They do not roll for these stats; they are intrinsic constants of the engineering.
 
@@ -59,7 +59,7 @@ An Automata's physical capabilities are entirely dictated by the hardware of its
 * **Agility:** Base 0 + Handling Mod (from the Step 2 Body Type Table) + any localized mobility upgrades. *Example: A Racing Drone frame possesses +4 Agility.*
 * **Stamina:** Automata do not possess Stamina or Vitality as they are inorganic constructs. They rely entirely on their Structure Points (SP) and Damage Resistance (DR). They are immune to biological effects, poisons, disease, and fatigue.
 
-#### **Step: Calculate Mental Attributes (The Processor Core)**
+#### **Step 2: Calculate Mental Attributes (The Processor Core)**
 
 Automata rely on their **Processor Rating (PR)** to determine their cognitive capability and reaction times. The PR is strictly gated by the Tech Level of the installed Computer Core (as defined in the Computational Assets ecosystem).
 
@@ -68,7 +68,7 @@ Automata rely on their **Processor Rating (PR)** to determine their cognitive ca
 * **TL 4 (Heuristic AI):** PR 2. Intellect +2, Wisdom 0, Charisma 0. *Advanced combat automata capable of predictive tactics.*
 * **TL 5 (Persona AI):** PR 4. Intellect +4, Wisdom +2, Charisma +4 (Possesses a fully simulated, charming personality overlay).
 
-#### **Step: Allocate Skill Matrices (Software)**
+#### **Step 3: Allocate Skill Matrices (Software)**
 
 Automata do not possess natural life experiences; their skills are hard-coded into their logic matrices via Expert Software and Operation Software.
 
@@ -76,7 +76,7 @@ Automata do not possess natural life experiences; their skills are hard-coded in
 * **Hard-Coded Limits:** An Automata cannot possess a Skill Rank higher than `PR * 3` (Minimum cap of 5 for PR 0 and PR 1 drones).
 * **Targeting Computers:** If a specific Targeting Computer module is installed onto the chassis (e.g., Basic +1, AI +2), this bonus acts as an Equipment Bonus applied *on top* of their base calculated Attack skill.
 
-#### **Step: Establish Action Economy & Initiative**
+#### **Step 4: Establish Action Economy & Initiative**
 
 Automata roll their own Initiative and operate independently in the combat order, functioning identically to an NPC.
 
@@ -215,13 +215,12 @@ When committing a new vehicle design to the master lore compendium or a characte
 * **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
 * **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
 
-
 ---
 
 ## DISCREPANCY & RESTORATION LEDGER (DISC-542)
 
 * **Target Path:** `architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - MECHA` & `/game rules/architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md` (`1jU22GrwuCktcSkVqc3Bhh92arCmtS7BC`)
+* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - MECHA` & `/game_rules/architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md` (`1jU22GrwuCktcSkVqc3Bhh92arCmtS7BC`)
 * **Restoration & Normalization Log:**
   * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
   * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).

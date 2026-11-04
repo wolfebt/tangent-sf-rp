@@ -27,15 +27,11 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
   - **Description:** The skill of using muscle-powered projectile weapons or thrown objects to strike targets at a distance. This differs from *Ballistic* (guns) as it relies more on the user's physical trajectory calculation and force (for thrown items) or mechanical tension (bows).
   - **Game Mechanics:**
 
-<!-- end list -->
-
-  - **Attack Roll:** 2d10 + Ranged Rank + Agility Mod vs. Target Defense.
+- **Attack Roll:** 2d10 + Ranged Rank + Agility Mod vs. Target Defense.
   - **Damage:** Weapon Damage Dice (Strength mod is usually added to *Thrown* weapons, but not standard Bows unless they are composite/specialized).
   - **Range Increment:** Each weapon has a range increment; attacking beyond this imposes a cumulative -2 penalty per increment.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Recurve & Hunting Bows:** Drawing, anchoring, and loosing arrows rapidly at close-to-medium forest targets.
       - **Heavy Longbows:** Drawing massive 100-pound pull bows to punch arrows through metal armor at extreme distances.

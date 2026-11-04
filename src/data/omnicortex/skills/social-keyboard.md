@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Keyboard is the skill of playing a keyboard instrument, such as a piano or synthesizer. It reflects a character's ability to create music using a keyboard instrument. Keyboard is used whenever a character needs to create music or perform in a musical production. Proficiency with instrument interfaces involving keys, buttons, or haptic pads. In a Sci-Fi setting, this ranges from classic pianos to complex holographic synthesizers.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Performance:* Standard performance mechanics.
+- *Performance:* Standard performance mechanics.
   - *Composition:* Write a piece of music (Intellect + Keyboard).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Acoustic Grand Piano:** Performing complex classical sonatas, jazz improvisations, and concertos on grand pianos.
       - **Pipe & Cathedral Organ:** Operating multi-manual organ keyboards, foot pedals, and stops in massive echoic halls.

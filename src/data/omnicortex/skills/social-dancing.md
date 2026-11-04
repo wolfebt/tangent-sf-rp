@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Dancing is the skill of moving rhythmically to music. It reflects a character's ability to use body movements to express emotions and communicate effectively. Dancing is used whenever a character needs to entertain others or perform in a dance show or other performance. Rhythmic bodily movement to music. This skill covers everything from high-society ballroom dancing to club dancing or traditional folk dances. It is a display of grace, stamina, and social awareness.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Performance:* Standard performance mechanics.
+- *Performance:* Standard performance mechanics.
   - *Partnering:* CR 15 to expertly lead or follow a partner, granting them a +2 bonus to their own Social checks during the event.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Ballroom & Court Waltz:** Gliding gracefully through formal waltzes and minuet dances at aristocratic high galas.
       - **Club & Rave Freestyle:** Moving fluidly to pounding electronic music, light-shows, and underground dance beats.

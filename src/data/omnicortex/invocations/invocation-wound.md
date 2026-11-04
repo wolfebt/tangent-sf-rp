@@ -30,23 +30,27 @@ keywords: >-
   blood rot, lingering trauma
 negative_keywords: 'wound closure, surgical suture, first aid bandage, cellular regeneration'
 ---
+
 # WOUND Invocation
 
-**Category**: Invocations  
-**Discipline**: Entropy
-
 ## Description & Ritual Details
-Classification: Entropy (Chaos) | Attack | \[Necrotic\] \[Bio-Degradation\]  
+
+Classification: Entropy (Chaos) | Attack | [Necrotic] [Bio-Degradation]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Short  
-* **Area:** Single Creature  
-* **Duration:** Instantaneous  
-* **Resistance:** Fortitude (Half)
-Effect Description:  
-Accelerates the decay of cells and tissue, inflicting open wounds.  
+
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Short
+  - **Area:** Single Creature
+  - **Duration:** Instantaneous
+  - **Resistance:** Fortitude (Half)
+
+Effect Description:
+
+Accelerates the decay of cells and tissue, inflicting open wounds.
+
 **Scaling Function:**
-* **Damage:** 2d6 Negative Energy Damage per Stage.  
-* **Debuff:** Inflicts Bleeding (1 dmg/round) per Stage.
-###
+
+  - **Damage:** 2d6 Negative Energy Damage per Stage.
+  - **Debuff:** Inflicts Bleeding (1 dmg/round) per Stage.

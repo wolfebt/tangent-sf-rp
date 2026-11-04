@@ -142,11 +142,52 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "### Tiers & Effects\n- **Child (10 CP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 CP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 CP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 CP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
     "mechanic": "### Tiers & Effects\n- **Child (10 CP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 CP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 CP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 CP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Ish typical human years",
+        "type": "skill",
+        "value": -12,
+        "mode": "penalty",
+        "description": "-12 to Ish typical human years"
+      },
+      {
+        "target": "Stamina Choose two",
+        "type": "skill",
+        "value": -1,
+        "mode": "penalty",
+        "description": "-1 to Stamina Choose two"
+      },
+      {
+        "target": "Ish typical human years",
+        "type": "skill",
+        "value": -16,
+        "mode": "penalty",
+        "description": "-16 to Ish typical human years"
+      },
+      {
+        "target": "Stamina Choose one",
+        "type": "skill",
+        "value": -1,
+        "mode": "penalty",
+        "description": "-1 to Stamina Choose one"
+      },
+      {
+        "target": "Ish typical human years",
+        "type": "skill",
+        "value": -90,
+        "mode": "penalty",
+        "description": "-90 to Ish typical human years"
+      }
+    ],
     "body": "# Bodily Age\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 5 / 10 CP  \n**Type**: Physical\n\n## Description\nThe character is outside the physical prime for their species, suffering bodily limitations.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Child (10 CP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 CP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 CP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 CP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -12 to Ish typical human years\n[Penalty] -1 to Stamina Choose two\n[Penalty] -16 to Ish typical human years\n[Penalty] -1 to Stamina Choose one\n[Penalty] -90 to Ish typical human years\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
+      "[Penalty] -12 to Ish typical human years",
+      "[Penalty] -1 to Stamina Choose two",
+      "[Penalty] -16 to Ish typical human years",
+      "[Penalty] -1 to Stamina Choose one",
+      "[Penalty] -90 to Ish typical human years",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
     ]
   },
@@ -322,11 +363,44 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "Select one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
     "mechanic": "Select one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Cold",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Cold"
+      },
+      {
+        "target": "Electricity",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Electricity"
+      },
+      {
+        "target": "Fire",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Fire"
+      },
+      {
+        "target": "Dmg per die",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Dmg per die"
+      }
+    ],
     "body": "# Elemental Vulnerability\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Physical  \n\n## Description\nVulnerability (+2 dmg per die) to Acid, Cold, Electricity, or Fire.\n\n## Mechanics & Severity\nSelect one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
+    "notes": "[Modifier] +2 to Cold\n[Modifier] +2 to Electricity\n[Modifier] +2 to Fire\n[Modifier] +2 to Dmg per die\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
+      "[Modifier] +2 to Cold",
+      "[Modifier] +2 to Electricity",
+      "[Modifier] +2 to Fire",
+      "[Modifier] +2 to Dmg per die",
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
     ]
   },
@@ -937,11 +1011,20 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "The species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait.",
     "mechanic": "The species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Feet",
+        "type": "skill",
+        "value": -20,
+        "mode": "penalty",
+        "description": "-20 to Feet"
+      }
+    ],
     "body": "# Ponderous (Disadvantage)\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Movement  \n\n## Description\nBase Speed -20 feet. (CP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
+    "notes": "[Penalty] -20 to Feet\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
+      "[Penalty] -20 to Feet",
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
     ]
   },
@@ -1030,11 +1113,20 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
     "mechanic": "* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Will",
+        "type": "save",
+        "value": 12,
+        "mode": "inherent",
+        "description": "+12 on Will Checks"
+      }
+    ],
     "body": "# Psionic Static Susceptibility (Riezen Disruption)\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 4 CP  \n**Type**: Metaphysical / Neural  \n\n## Description\nBecause the character's nervous system is tightly calibrated to the structured carrier wave of the Chorus, chaotic or discordant psionic broadcasts inflict acute neuro-biological shock. The discordant frequency emitted by Riezen swarms or unaligned psychic turbulence violently clashes with the character's mental pathways, triggering intense cranial agony and cognitive disorientation.\n\n## Mechanics & Severity\n* **Psionic Disruption:** While within telepathic broadcast proximity (typically within line of sight or within 100 meters) of an active Riezen swarm or an artificial psionic scrambler, the character suffers **Disadvantage** on all Concentration, Metaphysics, Insight, and Initiative checks.\n* **Neuro-Sensory Agony:** Each round the character begins their turn within active Riezen static, they must make a **DC 12 Willpower / Stamina check** or suffer 1 point of non-lethal Mental Strain / bio-neural headache and lose their Minor Action.\n* **Chorus Disconnect:** Direct exposure to concentrated static temporarily suppresses Hive-Link communication until the source is neutralized or out of range.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "notes": "[Rule] Hindrance: Grants 4 CP refund upon selection.",
+    "notes": "[Modifier] +12 on Will Checks\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
+      "[Modifier] +12 on Will Checks",
       "[Rule] Hindrance: Grants 4 CP refund upon selection."
     ]
   },
@@ -1090,11 +1182,20 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "The species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait.",
     "mechanic": "The species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait.",
     "rules": "Hindrance: Grants 2 CP refund upon selection.",
-    "modifiers": [],
+    "modifiers": [
+      {
+        "target": "Feet",
+        "type": "skill",
+        "value": -10,
+        "mode": "penalty",
+        "description": "-10 to Feet"
+      }
+    ],
     "body": "# Slow (Disadvantage)\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +2 CP (Cost: -2 CP)  \n**Type**: Movement  \n\n## Description\nBase Speed -10 feet. (CP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait.",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
-    "notes": "[Rule] Hindrance: Grants 2 CP refund upon selection.",
+    "notes": "[Penalty] -10 to Feet\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
+      "[Penalty] -10 to Feet",
       "[Rule] Hindrance: Grants 2 CP refund upon selection."
     ]
   },
@@ -1169,13 +1270,6 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "rules": "Hindrance: Grants 2 CP refund upon selection.",
     "modifiers": [
       {
-        "target": "Social negotiations with suspicious outsiders",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Social negotiations with suspicious outsiders"
-      },
-      {
         "target": "Xenophobic f",
         "type": "skill",
         "value": -2,
@@ -1185,9 +1279,8 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     ],
     "body": "# Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 2 CP (Minor Hidden) / 4 CP (Severe Revealed)  \n**Type**: Social  \n\n## Description\nThe character is an insectoid mimetic organism operating within predominantly human or conventional carbon-based societies. While superficially humanoid, unnatural biological traits (emerald copper blood, needle-like teeth, cranial antennae) mark them as an alien outsider.\n\n## Mechanics & Severity\n* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
-    "notes": "[Penalty] -2 to Social negotiations with suspicious outsiders\n[Penalty] -2 to Xenophobic f\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
+    "notes": "[Penalty] -2 to Xenophobic f\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
-      "[Penalty] -2 to Social negotiations with suspicious outsiders",
       "[Penalty] -2 to Xenophobic f",
       "[Rule] Hindrance: Grants 2 CP refund upon selection."
     ]

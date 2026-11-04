@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Planetologist
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Science / Survival / Explorer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A scholar who studies the geology, climate, and ecosystems of planets.
 
-> *You read the world. You understand the forces that shape planets, from tectonics to weather. You know where to find resources and how to survive the elements.*
+*You read the world. You understand the forces that shape planets, from tectonics to weather. You know where to find resources and how to survive the elements.*
 
-> _"This planet is alive, and right now, it's angry."_
-
-## Tactical Role
-Identifying environmental hazards, finding resources, surviving planetary conditions.
-
-## Essential Skills
-- Academics
-- Knowledge (Survival)
-- Knowledge (Science \- Geology)
-- Knowledge (Science \- Biology)
-
-## Signature Features
-- Planetary Savant
-- Field Researcher
-
-## Recommendations
-- **Occupations**: Scholar, Explorer
-- **Origins**: Research, Colony, Hostile
-- **Factions**: Auluran (Terraformers), Ascendancy, Entari Combine
-
-
-## Extended Lore & Background
-
-A scholar who studies the geology, climate, and ecosystems of planets.  
-*You read the world. You understand the forces that shape planets, from tectonics to weather. You know where to find resources and how to survive the elements.*  
 *"This planet is alive, and right now, it's angry."*
 
+  - **Core Concept:** Science / Survival / Explorer
+  - **Recommended Occupations:** Scholar, Scout (*Explorer*).
+  - **Recommended Origins:** Research, Colony, Hostile.
+  - **Recommended Factions:** Auluran (Terraformers), Ascendancy, Entari Combine.
+  - **Key Attributes:** Intellect (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Knowledge (Survival), Knowledge (Science - Geology), Knowledge (Science - Biology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Planetary Savant, Field Researcher.
+  - **Tactical Role:** Identifying environmental hazards, finding resources, surviving planetary conditions.

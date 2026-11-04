@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Maker
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Utility / Support / Repair  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software.
 
-> *You build the future. If it's broken, you fix it; if it doesn't exist, you invent it. You keep the ship flying, the guns firing, and the lights on when the universe tries to turn them off.*
+*You build the future. If it's broken, you fix it; if it doesn't exist, you invent it. You keep the ship flying, the guns firing, and the lights on when the universe tries to turn them off.*
 
-> _"Give me a wrench and five minutes. I'll make it work."_
-
-## Tactical Role
-Fixing the ship/vehicle, building defenses, analyzing enemy tech.
-
-## Essential Skills
-- Knowledge (Technology)
-- Vocation (Engineer)
-- Vocation (Mechanic)
-- Vocation (Electrician)
-
-## Signature Features
-- Master Builder
-- Technical Aptitude
-
-## Recommendations
-- **Occupations**: Builder, Specialist
-- **Origins**: Industrial, Urban, Research
-- **Factions**: Mekan (Constructors), Syndicate (Engineers), Ascendancy
-
-
-## Extended Lore & Background
-
-A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software.  
-*You build the future. If it's broken, you fix it; if it doesn't exist, you invent it. You keep the ship flying, the guns firing, and the lights on when the universe tries to turn them off.*  
 *"Give me a wrench and five minutes. I'll make it work."*
 
+  - **Core Concept:** Utility / Support / Repair
+  - **Recommended Occupations:** Builder, Specialist.
+  - **Recommended Origins:** Industrial, Urban, Research.
+  - **Recommended Factions:** Mekan (Constructors), Syndicate (Engineers), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Engineer), Vocation (Mechanic), Vocation (Electrician).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Master Builder, Technical Aptitude.
+  - **Tactical Role:** Fixing the ship/vehicle, building defenses, analyzing enemy tech.

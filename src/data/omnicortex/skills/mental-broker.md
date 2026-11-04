@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Broker is the skill of negotiating and managing financial transactions. It reflects a character's ability to negotiate contracts, manage investments, and analyze financial data. Broker is used whenever a character needs to ensure that financial transactions are profitable and beneficial for their clients. This can include things like negotiating deals, managing investments, and analyzing market data.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Appraise Market:* CR 15 to know if a commodity is selling above or below average value in this system.
+- *Appraise Market:* CR 15 to know if a commodity is selling above or below average value in this system.
   - *Secure Deal:* CR 20 to find a buyer for illegal or rare goods.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Black Market Contraband:** Connecting sellers of illicit narcotics, military tech, and unvetted chips with buyers.
       - **Securities & Equities:** Brokering large blocks of corporate stock, municipal bonds, and venture equities.

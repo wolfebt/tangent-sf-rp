@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 9
+order: 10
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.modulee.lifepathschema","matrix"]
-updatedAt: "2026-11-02T22:49:10.303Z"
+updatedAt: "2026-11-04T00:33:10.395Z"
 costs:
   bp: 0
   credits: 0
@@ -39,11 +39,18 @@ sockets:
 
 # **99.Character.ModuleE.LifepathSchema.md**
 
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
 ## **MCM REFERENCE MODULE E: BACKSTORY SCHEMA (LIFEPATH GENERATION)**
 
 A character's history determines their skills, assets, and connections. The Lifepath method is the canonical schema for generating rich backstories. We categorize this into childhood, adolescence, and adulthood events to trace the character's trajectory. Game Masters and players utilize this sequence of chronological tables during character generation to systematically map the character's history. This process provides concrete assets, defines the psychological ghost, and grounds raw mechanics in lived experience.
-
----
 
 ### **1. Childhood (0–12 Years) Facilitation Table**
 
@@ -62,8 +69,6 @@ During the initial phase of lifepath generation, Game Masters and players establ
 | **9** | **Anomaly** | Manifested strange powers (psionics/magic). Displayed genius-level intellect. Diagnosed with a rare condition or mutation. |
 | **10** | **Normality** | A surprisingly mundane upbringing in a chaotic world. Anchors the character to "normal" life and provides a baseline to deviate from. |
 
----
-
 ### **2. Adolescence (13–18 Years) Facilitation Table**
 
 During the middle phase of lifepath generation, Game Masters and players determine the defining events of the character's teenage years by choosing an option (or rolling a `d10`) from this facilitation table or describing their unique circumstance. These events are recorded in the character's backstory profile to establish exactly where the character acquired their primary foundational skills, how they formed their core "Lie," and their initial stance toward authority and social bonds.
@@ -80,8 +85,6 @@ During the middle phase of lifepath generation, Game Masters and players determi
 | **8** | **Early Criminal Record** | Forced into or willingly chose crime. Arrested for petty theft, killed someone in self-defense, or spent formative years in a juvenile detention facility. |
 | **9** | **Exploration / Nomadic Duty** | Spent adolescence working on a freighter, scouting the frontier, or living with nomads. Learned piloting and navigation but struggled with permanent attachments. |
 | **10** | **Tragic Awakening (Meta/Tech)** | Suddenly manifested uncontrollable psionic/magical powers or underwent a traumatic, non-consensual cybernetic augmentation, altering their life trajectory forever. |
-
----
 
 ### **3. Adulthood / Career Events (19+ Years) Facilitation Table**
 
@@ -100,8 +103,6 @@ In the final stage of backstory creation, Game Masters and players finalize the 
 | **9** | **Imprisonment** | Spent years in a penal colony. Enslaved. Prisoner of war. Trapped in a dimension/virtual reality. Under house arrest. |
 | **10** | **Mystery** | A period of missing time. Wakes up with no memory. Receives anonymous messages. Unknowingly carrying a secret code or artifact. |
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-517)**
 
 - **File Target:** `architect/characters/99.Character.ModuleE.LifepathSchema.md`
@@ -109,5 +110,4 @@ In the final stage of backstory creation, Game Masters and players finalize the 
   - Restored 100% of Reference Module E (Childhood 0–12, Adolescence 13–18, and Adulthood/Career 19+ d10 Lifepath Facilitation Tables).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Verified all d10 Lifepath tables and narrative outcomes.
-
 

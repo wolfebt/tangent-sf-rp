@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Mentor
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Buffer / Support / Teacher  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Intellect  
 
-## Overview
 The experienced instructor who guides the growth of others, identifying potential and refining raw talent.
 
-> *You see the future in your pupils. You understand that the survival of your legacy depends on the success of the next generation. You don't just provide answers; you teach how to find them.*
+*You see the future in your pupils. You understand that the survival of your legacy depends on the success of the next generation. You don't just provide answers; you teach how to find them.*
 
-> _"You have the spark. Let me show you how to start the fire."_
-
-## Tactical Role
-Granting bonuses to allies' learning and skill checks, tactical instruction.
-
-## Essential Skills
-- Diplomacy
-- Knowledge (Academics)
-- Insight
-- Leadership
-
-## Signature Features
-- Shared Wisdom
-- Mentorship
-
-## Recommendations
-- **Occupations**: Scholar, Representative
-- **Origins**: Research, Urban, Enlightened
-- **Factions**: Ascendancy (Academics), Impyrium (Masters), Entari Combine
-
-
-## Extended Lore & Background
-
-The experienced instructor who guides the growth of others, identifying potential and refining raw talent.  
-*You see the future in your pupils. You understand that the survival of your legacy depends on the success of the next generation. You don't just provide answers; you teach how to find them.*  
 *"You have the spark. Let me show you how to start the fire."*
 
+  - **Core Concept:** Buffer / Support / Teacher
+  - **Recommended Occupations:** Scholar, Representative.
+  - **Recommended Origins:** Research, Urban, Enlightened.
+  - **Recommended Factions:** Ascendancy (Academics), Impyrium (Masters), Entari Combine.
+  - **Key Attributes:** Wisdom (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Knowledge (Academics), Insight, Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Shared Wisdom, Mentorship.
+  - **Tactical Role:** Granting bonuses to allies' learning and skill checks, tactical instruction.

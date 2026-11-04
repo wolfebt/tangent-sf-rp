@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.savants","mechanics"]
-updatedAt: "2026-11-02T22:49:17.102Z"
+updatedAt: "2026-11-04T00:33:10.510Z"
 costs:
   bp: 0
   credits: 0
@@ -37,7 +37,32 @@ sockets:
   allocated: []
 ---
 
-# **1.02.04 SAVANTS (THE RATIONALS)**
+# 1.02.04 SAVANTS (THE RATIONALS)
+
+* **Focus Statement:** The complete compendium of all **25 Savant (`_NT_`) Archetypes** (*The Strategist* through *The Xeno-Surveyor*), focused on Science, Engineering, Strategy, Investigation, and Metaphysics, each built on the canonical **80-CP Archetype Chassis**.
+
+## Overview & Mechanical Authority Block
+
+Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
+
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Resolution:**
+  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
+  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
+* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
+  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
+  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
+  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
+  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
+  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
+  * **Customization Budget:** `70 CP`
+* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
+* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
+
+### Division Overview & Chassis Summary
 
 Focus: Competence, Knowledge, Systems, and Strategy.
 
@@ -53,7 +78,7 @@ Savants are the brains of the operation. They solve puzzles, build tech, plan he
 
 ---
 
-## **I. SAVANT ARCHETYPE ALIGNMENT MATRIX (`_NT_`)**
+## Part I — Alignment & Summary Matrix Table (SAVANT ARCHETYPE ALIGNMENT MATRIX (`_NT_`))
 
 | **Archetype** | **Attributes (Pri/Sec)** | **Recommended Skills** | **Core Signature Features** |
 | :-: | :-: | :-: | :-: |
@@ -85,7 +110,7 @@ Savants are the brains of the operation. They solve puzzles, build tech, plan he
 
 ---
 
-## **II. COMPLETE ARCHETYPE PROFILES (1–25)**
+## Part II — Complete Unabridged Profiles & Rules Entries (1–25)
 
 ## **1. THE STRATEGIST**
 
@@ -112,7 +137,7 @@ Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of
 
 *You dig up the past to save the future. You are fearless in the face of ancient traps and curses, driven by the need to uncover the truth buried beneath the dust of ages.*
 
-*"It belongs in a museum\! Or at least, in my cargo hold."*
+*"It belongs in a museum! Or at least, in my cargo hold."*
 
   - **Core Concept:** Explorer / Lore Expert / Trap Specialist
   - **Recommended Occupations:** Scholar, Scout (*Explorer*).
@@ -435,7 +460,7 @@ A skilled worker who maintains and repairs complex machinery.
 
 *You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*
 
-*"It's a bypass of the bypass. It'll hold... probably."*
+*"It's a bypass of the bypass. It'll hold— probably."*
 
   - **Core Concept:** Support / Utility / Repair
   - **Recommended Occupations:** Builder, Spacer.
@@ -454,7 +479,7 @@ An expert in alien cultures, biology, and languages.
 
 *You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*
 
-*"They aren't monsters. They're just... different."*
+*"They aren't monsters. They're just— different."*
 
   - **Core Concept:** Face / Knowledge / Science
   - **Recommended Occupations:** Scholar, Representative (*Diplomat*).
@@ -566,7 +591,7 @@ The meticulous researcher who maps the biological and geological variables of al
 
 ---
 
-## **III. DISCREPANCY & RESTORATION LEDGER**
+## DISCREPANCY & RESTORATION LEDGER
 
 * **DISC-305 (1.02.Savants.md Full Narrative & Quote Restoration):** Restored 100% of the omitted narrative descriptions, second-person roleplay paragraphs, and iconic quotes for all 25 `_NT_` Archetypes from `/_ _ TANGENT RP CODEX _ _/1.02 ARCHETYPES` and `/game rules/operator/archetypes/1.02.Savants.md`, integrated the `Savant Archetype Alignment Matrix` from `TANGENT RP Signature Features Alignment`, and applied all canonical Attribute (`Stamina`, `Agility`, `Wisdom`), Skill (`Alertness`, `Insight`, `Vocation [Handler]`, `Knowledge [Language]`), and `80-CP Chassis` normalizations.
 

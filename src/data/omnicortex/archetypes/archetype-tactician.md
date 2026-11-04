@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Tactician
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Leader / Support / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A strategic mastermind who analyzes the battlefield and coordinates actions.
 
-> *You win the battle before it starts. You see the flow of combat, anticipating enemy moves and positioning your allies for maximum effect. You turn chaos into order.*
+*You win the battle before it starts. You see the flow of combat, anticipating enemy moves and positioning your allies for maximum effect. You turn chaos into order.*
 
-> _"They are moving to flank. Suppress the left and advance on my signal."_
-
-## Tactical Role
-Boosting ally initiative/attacks, countering enemy tactics, controlling the battlefield.
-
-## Essential Skills
-- Knowledge (Tactics)
-- Leadership
-- Combat (Any)
-- Insight
-
-## Signature Features
-- Battlefield Awareness
-- Tactical Genius
-
-## Recommendations
-- **Occupations**: Soldier, Officer
-- **Origins**: Militaristic, Urban, Spacer
-- **Factions**: Impyrium (High Command), Dracon Dynasty, Mekan (War Minds)
-
-
-## Extended Lore & Background
-
-A strategic mastermind who analyzes the battlefield and coordinates actions.  
-*You win the battle before it starts. You see the flow of combat, anticipating enemy moves and positioning your allies for maximum effect. You turn chaos into order.*  
 *"They are moving to flank. Suppress the left and advance on my signal."*
 
+  - **Core Concept:** Leader / Support / Buffer
+  - **Recommended Occupations:** Soldier, Representative (*Officer*).
+  - **Recommended Origins:** Militaristic, Urban, Spacer.
+  - **Recommended Factions:** Impyrium (High Command), Dracon Dynasty, Mekan (War Minds).
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Tactics), Leadership, Combat (Any), Insight.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Battlefield Alertness, Tactical Genius.
+  - **Tactical Role:** Boosting ally initiative/attacks, countering enemy tactics, controlling the battlefield.

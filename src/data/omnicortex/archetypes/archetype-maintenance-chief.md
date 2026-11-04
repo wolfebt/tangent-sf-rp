@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Maintenance Chief
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Support / Repair / Logistics  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 The veteran technician who keeps massive infrastructure systems online under impossible conditions.
 
-> *You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*
+*You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*
 
-> _"She's a bit cranky today, but I've got her settled."_
-
-## Tactical Role
-Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks.
-
-## Essential Skills
-- Knowledge (Technology)
-- Vocation (Engineer)
-- Alertness
-- Vocation (Management)
-
-## Signature Features
-- Efficient Manager
-- Technical Aptitude
-
-## Recommendations
-- **Occupations**: Builder, Spacer
-- **Origins**: Industrial, Spacer, Urban
-- **Factions**: Mekan (Maintenance Hubs), Syndicate (Grid Techs), Impyrium
-
-
-## Extended Lore & Background
-
-The veteran technician who keeps massive infrastructure systems online under impossible conditions.  
-*You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*  
 *"She's a bit cranky today, but I've got her settled."*
 
+  - **Core Concept:** Support / Repair / Logistics
+  - **Recommended Occupations:** Builder, Spacer.
+  - **Recommended Origins:** Industrial, Spacer, Urban.
+  - **Recommended Factions:** Mekan (Maintenance Hubs), Syndicate (Grid Techs), Impyrium.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Technology), Vocation (Engineer), Alertness, Vocation (Administrator).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Efficient Manager, Technical Aptitude.
+  - **Tactical Role:** Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks.

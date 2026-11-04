@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Detective
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Investigation / Perception  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Relentless detective who uncovers conspiracies and brings criminals to justice.
 
-> *You find the truth. You don't stop until the puzzle is solved and the guilty are exposed. You notice the details that others miss, following the trail wherever it leads.*
+*You find the truth. You don't stop until the puzzle is solved and the guilty are exposed. You notice the details that others miss, following the trail wherever it leads.*
 
-> _"Everyone has a secret. I just have to find the loose thread."_
-
-## Tactical Role
-Finding plot hooks, solving mysteries, tracking targets in cities.
-
-## Essential Skills
-- Knowledge (Investigation)
-- Insight
-- Stealth
-- Knowledge (Law/Streetwise)
-
-## Signature Features
-- Keen Observer
-- Unwavering Determination
-
-## Recommendations
-- **Occupations**: Agent, Citizen (Law)
-- **Origins**: Urban, Colony, Hostile
-- **Factions**: Coalition (Marshals), Syndicate (PIs), Entari Combine
-
-
-## Extended Lore & Background
-
-Relentless detective who uncovers conspiracies and brings criminals to justice.  
-*You find the truth. You don't stop until the puzzle is solved and the guilty are exposed. You notice the details that others miss, following the trail wherever it leads.*  
 *"Everyone has a secret. I just have to find the loose thread."*
 
+  - **Core Concept:** Investigation / Perception
+  - **Recommended Occupations:** Agent, Citizen (Law).
+  - **Recommended Origins:** Urban, Colony, Hostile.
+  - **Recommended Factions:** Coalition (Marshals), Syndicate (PIs), Entari Combine.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Investigation), Insight, Stealth, Knowledge (Law/Streetwise).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Keen Observer, Unwavering Determination.
+  - **Tactical Role:** Finding plot hooks, solving mysteries, tracking targets in cities.

@@ -32,21 +32,24 @@ negative_keywords: 'athletic vigor, iron stomach, clean oxygen, vital health'
 
 # NAUSEATE Invocation
 
-**Category**: Invocations  
-**Discipline**: Entropy
-
 ## Description & Ritual Details
-Classification: Entropy (Chaos) | Debuff | \[Biological\] \[Sickness\]  
+
+Classification: Entropy (Chaos) | Debuff | [Biological] [Sickness]
+
 Parameters:
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Short  
-* **Area:** Single Creature  
-* **Duration:** Rounds/Level  
-* **Resistance:** Fortitude (Negates)
-Effect Description:  
-Disrupts the target's biological equilibrium, inducing violent nausea.  
+
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Short
+  - **Area:** Single Creature
+  - **Duration:** Rounds/Level
+  - **Resistance:** Fortitude (Negates)
+
+Effect Description:
+
+Disrupts the target's biological equilibrium, inducing violent nausea.
+
 **Scaling Function:**
-* **Severity:** Stage 1-2 (Sickened: \-2 penalty) \-\> Stage 3+ (Nauseated: Move actions only).  
-* **Duration:** 1 Round per Stage.
-###
+
+  - **Severity:** Stage 1-2 (Sickened: -2 penalty) -> Stage 3+ (Nauseated: Move actions only).
+  - **Duration:** 1 Round per Stage.

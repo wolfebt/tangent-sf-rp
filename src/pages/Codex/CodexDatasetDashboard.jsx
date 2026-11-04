@@ -101,10 +101,11 @@ export const CodexDatasetDashboard = ({
       const term = searchTerm.toLowerCase();
       const name = (item.name || item.title || '').toLowerCase();
       const desc = (item.description || item.mechanic || '').toLowerCase();
+      const bodyText = (item.body || item.full_text || '').toLowerCase();
       const cat = (item.category || item.type || '').toString().toLowerCase();
       const kw = (item.keywords ? String(item.keywords) : '').toLowerCase();
       const negKw = (item.negative_keywords ? String(item.negative_keywords) : '').toLowerCase();
-      return name.includes(term) || desc.includes(term) || cat.includes(term) || kw.includes(term) || negKw.includes(term);
+      return name.includes(term) || desc.includes(term) || bodyText.includes(term) || cat.includes(term) || kw.includes(term) || negKw.includes(term);
     });
   }, [records, tlFilter, searchTerm]);
 

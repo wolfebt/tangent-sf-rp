@@ -85,7 +85,7 @@ export const DEFAULT_RULES = [
       "bp": 0
     },
     "modifiers": [],
-    "body": "# Attack Roll Formula\n\n**Category**: Core Combat Rules & Tables\n\n## The Attack Roll Formula\n\\text{Attack Roll} = 2d10 + \\text{Skill Rank} + \\text{Attribute Mod} + \\text{Situational Modifiers} \\quad \\text{vs.} \\quad \\text{Target Defense (CR)}\n\n- **Critical Hit (Dual 10s / Total 20, or expanded threat)**: Adds **+10 in addition to the rolled dice value** (e.g., 20 -> 30, 19 -> 29).\n- **Critical Fumble (Dual 1s / Total 2, or expanded fumble)**: Replaces the rolled dice value with a **flat -10** (Base Score - 10).\n- **Defender Wins All Ties** on opposed defense checks."
+    "body": "# Attack Roll Formula\n\n**Category**: Core Combat Rules & Tables\n\n## The Attack Roll Formula\n\\text{Attack Roll} = 2d10 + \\text{Skill Rank} + \\text{Attribute Mod} + \\text{Situational Modifiers} \\quad \\text{vs.} \\quad \\text{Target Defense (DC)}\n\n- **Critical Hit (Dual 10s / Natural 20, or expanded threat range 19, 18...)**: Adds **+10 in addition to the rolled dice value** (e.g., 20 -> 30, 19 -> 29) and doubles base weapon damage dice.\n- **Critical Fumble (Dual 1s / Natural 2, or expanded fumble range 3, 4...)**: Replaces the rolled dice value with a **flat -10** (subtracting 10 from the base score regardless of whether rolled on 2, 3, 4...).\n- **Defender Wins All Ties** on opposed defense checks."
   },
   {
     "id": "rule-burst-fire-short",

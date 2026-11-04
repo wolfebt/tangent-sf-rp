@@ -36,23 +36,26 @@ keywords: >-
 negative_keywords: 'ethereal spirit, fragile illusion, mental only, pure light, non-physical'
 ---
 
-# PROTECTION (Matter) Invocation
-
-**Category**: Invocations  
-**Discipline**: Matter
+# PROTECTION Invocation
 
 ## Description & Ritual Details
-Classification: Matter (Enhancement) | Defense | [Warding] [Specific]  
+
+Classification: Matter (Enhancement) | Defense | [Warding] [Specific]
+
 Parameters:
-* **Base Difficulty:** 12  
-* **Time:** Standard Action  
-* **Range:** Touch  
-* **Area:** Single Creature  
-* **Duration:** 1 Minute per Stage  
-* **Resistance:** None
-Effect Description:  
-Provides defensive enhancements tailored to a specific ethos, hazard, or damage type.  
+
+  - **Base Difficulty:** 12
+  - **Time:** Standard Action
+  - **Range:** Touch
+  - **Area:** Single Creature
+  - **Duration:** 1 Minute per Stage
+  - **Resistance:** None
+
+Effect Description:
+
+Provides defensive enhancements tailored to a specific ethos, hazard, or damage type.
+
 **Scaling Function:**
-* **Magnitude:** Bonus to Defense and Saves = +1 per Stage.  
-* **Absorption:** Grants Resistance 5 to chosen element per Stage.
-###
+
+  - **Magnitude:** Bonus to Defense and Saves = +1 per Stage.
+  - **Absorption:** Grants Resistance 5 to chosen element per Stage.

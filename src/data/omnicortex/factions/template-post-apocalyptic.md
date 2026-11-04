@@ -77,51 +77,142 @@ keywords: >-
 negative_keywords: 'luxurious-excess, post-scarcity, high-fashion, fragile-aristocracy'
 ---
 
-## **16\. POST-APOCALYPTIC**
+# 1.04. ARCHETYPAL FACTION: 16. POST-APOCALYPTIC CLAN (+0 WS)
 
-### **I. Detailed Faction Description**
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 2 / ML 1 | +0 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Archetypal.PostApocalyptic.md` in **Tangent SF RP**.
 
-* **Overview:** Survivors of a massive planetary catastrophe (nuclear, biological, or orbital bombardment). They scrape by in irradiated ruins, relying on scavenging and brutal survival instincts. They represent a severe regression in technology and society.  
-* **Key Themes:** Wasteland Survivors, Scavenging, Tech Regression, Irradiated Ruins.  
-* **Relationship to Others:** Ignored by the galaxy unless their ruined world contains valuable artifacts; often preyed upon by slavers or pirates.
+## Overview & Mechanical Authority Block
 
-### **II. Core Identity**
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-* **Official Designation:** The Remnant / The Wastelanders  
-* **Colloquialisms:** Scrappers / Dust-Eaters / The Forgotten  
-* **Archetype:** Wasteland Survivors  
-* **Capital/Key World:** A ruined, shattered husk of a former world.  
-* **Driving Mandate:** Rebuild, secure scarce resources, survive another day.  
-* **Motto:** "From the ashes, we endure."
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-### **III. Sociological Profile**
+## Part I — Alignment & Summary Matrix Table
 
-* **Ideology & Culture:** Harsh, pragmatic, tribal, deeply traumatized.  
-* **Social Structure:** Warlord fiefdoms, scavenger clans, or small, desperate settlements.  
-* **View on Outsiders:** Viewed with extreme suspicion or as sources of valuable off-world salvage.  
-* **Law & Order:** The law of the gun and the scarcity of water.
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Archetypal.PostApocalyptic.md (Sec. I)` | TL 2 / ML 1 | +0 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Archetypal.PostApocalyptic.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Archetypal.PostApocalyptic.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
 
-### **IV. Strategic Assets**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-* **Tech Level (TL):** 2 to 3- (Scavenged).  
-* **Strengths:** Unbreakable survival instincts, immunity to harsh conditions, mastery of jury-rigging broken tech.  
-* **Weaknesses:** Severe tech regression, starvation, lack of medical care, radiation sickness.  
-* **Military Doctrine:** Ambushes in the ruins, vehicular convoy warfare, and fighting over scrap.
+### I. Canonical Faction Profile, Lore & Unabridged Codex Entry (`operator/factions/1.04.Archetypal.PostApocalyptic.md`)
 
-### **V. Mechanics (Game Data)**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 16. Post-Apocalyptic Clan
+* **Tech / Meta Level:** TL 2 / ML 1
+* **EUFT Starting Wealth Score Modifier:** **+0 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Knowledge: Survival (+5), Vocation: Salvager (+5), Athletics (+4), Alertness (+3), Melee (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Diehard, Endurance, Fast Heal, Great Fortitude, Improvised Weapons, Resistance (Radiation), Scavenger, Self-Sufficient, Tough, Tracker
+* **CRISP Visual Semiotics Key:** Rad-shielded scrap fortresses, gas masks, spiked rover convoys across ash wastes.
 
-* **Prominent Species:** Humans (Often bearing minor radiation mutations).  
-* **Faction Skill Package (20 Points):**  
-  * Survival (+5)  
-  * Mechanics (Jury-Rigging) (+5)  
-  * Awareness (+4)  
-  * Athletics (+3)  
-  * Combat (Improvised) (+3)  
-* **Typical Archetypes:** The Scavenger, The Road-Warrior, The Wasteland Medic, The Tech-Priest (Artifact worshipper), The Raider.  
-* **Recommended Features (1 CP Discount):** Self Sufficient, Endurance, Tough, Master Craftsman, Weapon Improvisation, Danger Sense, Beginner's Luck, Tolerance, Gearhead, Tracker.
+POST-APOCALYPTIC
+I. Detailed Faction Description
+* Overview: Survivors clinging to existence in worlds devastated by catastrophic events. They are defined by their resilience, paranoia, and ability to scavenge and repurpose the ruins of the past to secure scarce resources and protect their territory.
+* Key Themes: Wasteland Survival, Scavengers, Technological Regression.
+* Relationship to Others: Desperate; they often raid wealthier factions or trade scrap for essentials.
+II. Core Identity
+* Official Designation: The Survivors of [Planet] / The Wastes
+* Colloquialisms: Scrappers / Wastelanders
+* Archetype: Wasteland Survivors
+* Capital/Key World: Variable (Ruined megacities, irradiated deserts)
+* Driving Mandate: Secure resources, protect territory, rebuild society.
+* Motto: "We inherit the ashes."
+III. Sociological Profile
+* Ideology & Culture: Survivalist, paranoid, resourceful, resilient, determined.
+* Social Structure: Tribal, often led by the strongest or the one who controls the water/power.
+* View on Outsiders: Highly suspicious; outsiders are usually raiders or competitors.
+* Law & Order: Harsh, immediate, and focused entirely on survival of the group.
+IV. Strategic Assets
+* Tech Level (TL): 3- (Scavenged/Regressing)
+* Strengths: Deep environmental knowledge, ability to scavenge/repurpose, adaptability to harsh environments, strong community bonds.
+* Weaknesses: Severe lack of resources, vulnerable to advanced outside threats, difficulty adapting to off-world environments.
+* Military Doctrine: Guerrilla tactics, ambushes, and using salvaged, mismatched weaponry.
+V. Mechanics (Game Data)
+* Prominent Species: Variable (Hardy or mutated species).
+* Faction Skill Package (20 Points):
+   * Survival (+5)
+   * Mechanics (Scavenging) (+5)
+   * Athletics (+4)
+   * Combat (Improvised) (+3)
+   * Alertness (+3)
+* Typical Archetypes:
+   * The Scavenger: Unearthing valuable tech and food from ruined megacities.
+   * The Raider: Taking what they need through violence and intimidation.
+   * The Community Leader: Keeping a desperate settlement alive against all odds.
+   * The Scout: Patrolling the wastes to warn the tribe of approaching dust storms or enemies.
+   * The Sawbones: Practicing brutal, effective medicine with scavenged tools.
+   * The Wasteland Wanderer: A lone drifter surviving entirely on their own.
+   * The Road Warrior: Driving highly modified scrap-vehicles across the desert.
+   * The Mutated Beastmaster: Fighting alongside irradiated hounds or terrors.
+   * The Scrap-Smith: Forging armor and weapons out of old stop signs and rebar.
+   * The Doomsayer: Preaching that the apocalypse was only the beginning.
+* Recommended Features (1 CP Discount):
+   * Beginner's Luck: Surviving impossible situations on pure, desperate luck.
+   * Jack-of-all-trades: Having a broad, functional knowledge of survival mechanics.
+   * Self Sufficient: Capable of maintaining yourself in the absolute middle of nowhere.
+   * Master Craftsman (Jury-Rig): The ability to weld junk into highly functional gear.
+   * Endurance: Surviving without water or rest longer than baseline humans.
+   * Danger Sense: The gut feeling that keeps you alive during a raider ambush.
+   * Weapon Improvisation: Fighting for your life with whatever pipe or wrench is nearest.
+   * Tough: Shrugging off physical blows thanks to a hardened, scarred body.
+   * Disease Resistance: Surviving in highly unsanitary, rotting environments.
+   * Tracker: Following the faint tracks of prey or enemies across the dust.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Scavenged, dusty, and pieced together.
+* Atmosphere Tokens: Ruined cities, dust storms, rusted vehicles, makeshift weapons, scavenged armor.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Wasteland Survival, Kinetic Scrap, Post-Apocalyptic.
+   * CONTEXT: Scavenged armor, ruined cities, dust storms, rusted vehicles, makeshift weapons.
+   * ATMOSPHERE: Desperate, gritty, harsh, exposed, resilient.
 
-### **VI. Visual Semiotics (Aesthetics)**
+POST-APOCALYPTIC ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Post-Apocalyptic prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., hardened Scavenger in a gas mask, ruthless Raider wielding a buzz-saw blade, weary Community Leader holding a map, resourceful Scout with a tamed beast]
+* NARRATIVE: [e.g., sifting through the ruins of an ancient city, defending a fortified water purifier, leading a convoy of rusted vehicles, spotting a dust storm on the horizon]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Ruined society, Mad Max, Fallout, scavenged scrap, asymmetrical armor, rusted husks of old tech, dust, decay.
+* CONTEXT: The skeletal remains of a skyscraper, a shanty town built inside a dry aqueduct, a vast irradiated desert, a fortified scrap-metal gate.
+* ATMOSPHERE: Survivalist, paranoid, desperate, gritty, harsh, desolate, incredibly resilient.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: faint rust orange ink wash, selective dirty bandage white negative space, subtle warning hazard yellow or toxic green marker pops.
+3. READY-TO-USE TEMPLATES
+CHARACTER CONCEPT SHEET: The Scavenger
+Post-Apocalyptic Scavenger wearing a gas mask, mismatched tire-tread armor, and a tattered duster, carrying a cobbled-together scrap rifle. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Ruined society survivalist aesthetic, paranoid and resilient expression, subtle rust orange and dirty canvas marker accents. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines.
+VEHICLE DESIGN: Wasteland Interceptor
+heavily modified Post-Apocalyptic muscle car, lifted suspension, spiked ramming bumper, rusted armor plating bolted to the chassis, exposed supercharger. Industrial design sketch, technical pen illustration, dynamic perspective, wireframe construction lines, high-contrast mechanical hatching, metallic reflections rendered purely in ink lines, exploded view accents, subtle design marker accent colors (e.g., Copic marker splash of hazard yellow and rust). Scavenged scrap aesthetic, desperate and gritty atmosphere. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading.
 
-* **Design Directive:** Dusty, ruined, and cobbled together.  
-* **Atmosphere Tokens:** Irradiated zones, scrap metal armor, dust storms, rebreathers, ruined skyscrapers.  
-* **HI-FI INK Guidance:** Post-Apocalyptic, Wasteland. Ruined concrete, rusted metal, dust storms, patchwork armor, cobbled-together weapons. Harsh, desperate, gritty.
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Archetypal.PostApocalyptic.md`
+* **Codex Sources Compared:** Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Archetypal.PostApocalyptic.md` and Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 2 / ML 1 | +0 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-POST-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Archetypal.PostApocalyptic.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc.
+* **DISC-104-POST-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 2 / ML 1 | +0 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

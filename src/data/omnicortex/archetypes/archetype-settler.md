@@ -45,41 +45,18 @@ cp_chassis: 80
 
 # The Settler
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Builder / Defender / Survivor  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Stamina  
-**Secondary Attribute**: Strength  
 
-## Overview
 A hardy individual who builds and maintains settlements in untamed worlds.
 
-> *You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*
+*You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*
 
-> _"We built this town with our own hands. We'll defend it the same way."_
-
-## Tactical Role
-Building cover, repairing structures, environmental survival.
-
-## Essential Skills
-- Vocation (Laborer)
-- Knowledge (Survival)
-- Athletics
-- Combat (Rifle)
-
-## Signature Features
-- Construction
-- Frontier Resilience
-
-## Recommendations
-- **Occupations**: Citizen, Builder
-- **Origins**: Colony, Agricultural, Hostile
-- **Factions**: Outworlds, Coalition
-
-
-## Extended Lore & Background
-
-A hardy individual who builds and maintains settlements in untamed worlds.  
-*You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*  
 *"We built this town with our own hands. We'll defend it the same way."*
 
+  - **Core Concept:** Builder / Defender / Survivor
+  - **Recommended Occupations:** Citizen, Builder.
+  - **Recommended Origins:** Colony, Agricultural, Hostile.
+  - **Recommended Factions:** Outworlds, Coalition.
+  - **Key Attributes:** Stamina (+3 Primary), Strength (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Vocation (Laborer), Knowledge (Survival), Athletics, Combat (Rifle).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Construction, Frontier Resilience.
+  - **Tactical Role:** Building cover, repairing structures, environmental survival.

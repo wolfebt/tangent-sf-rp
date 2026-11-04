@@ -9,15 +9,21 @@ const projectRoot = path.resolve(__dirname, '..');
 const scriptsDir = path.join(projectRoot, 'scripts');
 
 const buildSteps = [
-  { name: 'Species', script: 'syncOmnicortexSpecies.mjs' },
-  { name: 'Species Types', script: 'syncOmnicortexSpeciesTypes.mjs' },
+  { name: 'Skills Catalog', script: 'syncCanonicalSkillsCatalog.mjs' },
   { name: 'Features', script: 'syncOmnicortexFeatures.mjs' },
   { name: 'Traits', script: 'syncSpeciesTraits.mjs' },
   { name: 'Disadvantages', script: 'syncSpeciesDisadvantages.mjs' },
-  { name: 'Factions', script: 'syncOmnicortexFactions.mjs' },
+  { name: 'Species Types', script: 'syncOmnicortexSpeciesTypes.mjs' },
   { name: 'Sizes', script: 'buildSpeciesSize.mjs' },
-  { name: 'Movement', script: 'bridgeSpeciesMovement.mjs' },
-  { name: 'Equipment & Invocations', script: 'syncOmnicortexEquipment.mjs' },
+  { name: 'Movement', script: 'syncOmnicortexMovement.mjs' },
+  { name: 'Species', script: 'syncOmnicortexSpecies.mjs' },
+  { name: 'Factions', script: 'syncOmnicortexFactions.mjs' },
+  { name: 'Origins', script: 'syncOmnicortexOrigins.mjs' },
+  { name: 'Occupations', script: 'syncOmnicortexOccupations.mjs' },
+  { name: 'Archetypes', script: 'syncOmnicortexArchetypes.mjs' },
+  { name: 'Property, Invocations & Synthesis', script: 'syncOmnicortexEquipment.mjs' },
+  { name: 'Supporting & Rules Reference', script: 'syncOmnicortexSupportingCatalogs.mjs' },
+  { name: 'BASTION Mechanics Dataset', script: 'compileMechanicsDataset.mjs' },
   { name: 'Compendium Seed', script: 'syncMasterCanonicalCompendium.mjs' }
 ];
 
@@ -27,6 +33,7 @@ console.log('================================================================\n'
 
 const startTime = Date.now();
 let successCount = 0;
+let failureCount = 0;
 
 for (const step of buildSteps) {
   const scriptPath = path.join(scriptsDir, step.script);
@@ -35,7 +42,7 @@ for (const step of buildSteps) {
     continue;
   }
 
-  process.stdout.write(`Compiling ${step.name.padEnd(26)}... `);
+  process.stdout.write(`Compiling ${step.name.padEnd(35)}... `);
   try {
     execSync(`node "${scriptPath}"`, {
       cwd: projectRoot,
@@ -45,6 +52,7 @@ for (const step of buildSteps) {
     successCount++;
   } catch (err) {
     console.log('[FAILED]');
+    failureCount++;
     console.error(err.stderr ? err.stderr.toString() : err.message);
   }
 }
@@ -53,3 +61,7 @@ const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 console.log('\n----------------------------------------------------------------');
 console.log(`Compilation Finished in ${elapsed}s: ${successCount}/${buildSteps.length} modules successfully built.`);
 console.log('----------------------------------------------------------------\n');
+
+if (failureCount > 0) {
+  process.exit(1);
+}

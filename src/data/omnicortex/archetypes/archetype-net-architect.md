@@ -49,42 +49,20 @@ negative_keywords: 'mindless-brute, reckless, illiterate'
 cp_chassis: 80
 ---
 
-# The Net-architect
+# The Net-Architect
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Tech / Logistics / Support  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Agility  
 
-## Overview
 The high-level systems engineer who designs and manages the data infrastructures that link civilizations.
 
-> *You build the digital world. You don't just hack systems; you create the foundations they sit on. You understand the flow of information as a physical force that must be harnessed.*
+*You build the digital world. You don't just hack systems; you create the foundations they sit on. You understand the flow of information as a physical force that must be harnessed.*
 
-> _"The Grid is my masterpiece. Every packet of data is where I intended it to be."_
-
-## Tactical Role
-Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses.
-
-## Essential Skills
-- Knowledge (Computers)
-- Vocation (Engineer)
-- Knowledge (Technology)
-
-## Signature Features
-- Automation Expert
-- Master Builder
-
-## Recommendations
-- **Occupations**: Specialist, Builder
-- **Origins**: Urban, Industrial, Research
-- **Factions**: Syndicate (Mesh Architects), Mekan (Grid Weavers), Ascendancy
-
-
-## Extended Lore & Background
-
-The high-level systems engineer who designs and manages the data infrastructures that link civilizations.  
-*You build the digital world. You don't just hack systems; you create the foundations they sit on. You understand the flow of information as a physical force that must be harnessed.*  
 *"The Grid is my masterpiece. Every packet of data is where I intended it to be."*
 
+  - **Core Concept:** Tech / Logistics / Support
+  - **Recommended Occupations:** Specialist, Builder.
+  - **Recommended Origins:** Urban, Industrial, Research.
+  - **Recommended Factions:** Syndicate (Mesh Architects), Mekan (Grid Weavers), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Computers), Vocation (Engineer), Knowledge (Technology).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Automation Expert, Master Builder.
+  - **Tactical Role:** Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses.

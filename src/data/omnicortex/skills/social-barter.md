@@ -27,14 +27,10 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Barter is the skill of trading goods and services without relying solely on currency. It reflects a character's ability to negotiate value, haggle for better prices, and reach mutually beneficial agreements in trade. Barter is used whenever a character needs to acquire items, services, or information through direct exchange. This includes assessing the relative value of goods, identifying market trends, and convincing others of the worth of a trade. The art of negotiation and exchange.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Negotiate:** Opposed check vs. the target's **Diplomacy** or **Insight**.
+- **Negotiate:** Opposed check vs. the target's **Diplomacy** or **Insight**.
   - **Appraise:** CR 15+ to determine the true value or rarity of an object or service.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Street Market Haggling:** Whittling down the asking price of street vendors and cantina fences credit by credit.
       - **Bulk Discount Negotiation:** Securing large percentage-off price breaks when buying weapon crates or fuel tons in bulk.

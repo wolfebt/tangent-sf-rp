@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Aristocrat
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Resource Access / Face / Leader  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Intellect  
 
-## Overview
 A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.
 
-> *You were born to rule. Your name opens doors that are locked to commoners, and your wealth solves problems before they begin. You navigate the deadly game of courts and kings with practiced ease.*
+*You were born to rule. Your name opens doors that are locked to commoners, and your wealth solves problems before they begin. You navigate the deadly game of courts and kings with practiced ease.*
 
-> _"Do you know who I am? That was a rhetorical question."_
-
-## Tactical Role
-Gaining access to high-security areas via status, funding, legal immunity.
-
-## Essential Skills
-- Diplomacy
-- Knowledge (History)
-- Insight
-- Knowledge (Nobility)
-
-## Signature Features
-- Noble Lineage
-- Courtly Intrigue
-
-## Recommendations
-- **Occupations**: Noble, Citizen
-- **Origins**: Leisure, Urban, Enlightened
-- **Factions**: Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders)
-
-
-## Extended Lore & Background
-
-A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.  
-*You were born to rule. Your name opens doors that are locked to commoners, and your wealth solves problems before they begin. You navigate the deadly game of courts and kings with practiced ease.*  
 *"Do you know who I am? That was a rhetorical question."*
 
+  - **Core Concept:** Resource Access / Face / Leader
+  - **Recommended Occupations:** Representative / Citizen (Elite), Citizen.
+  - **Recommended Origins:** Leisure, Urban, Enlightened.
+  - **Recommended Factions:** Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders).
+  - **Key Attributes:** Charisma (+3 Primary), History (Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Knowledge (History), Insight, Knowledge (Nobility).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Noble Lineage, Courtly Intrigue.
+  - **Tactical Role:** Gaining access to high-security areas via status, funding, legal immunity.

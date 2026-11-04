@@ -221,10 +221,136 @@ Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +
   }
 ];
 
+const STOPWORDS = new Set([
+  'the', 'and', 'for', 'with', 'from', 'that', 'this', 'what', 'when', 'where',
+  'which', 'while', 'into', 'onto', 'upon', 'over', 'under', 'about', 'after',
+  'before', 'between', 'through', 'during', 'without', 'within', 'their', 'there',
+  'these', 'those', 'have', 'has', 'had', 'were', 'was', 'are', 'been', 'being',
+  'can', 'could', 'would', 'should', 'will', 'shall', 'may', 'might', 'must',
+  'does', 'did', 'not', 'only', 'also', 'than', 'then', 'very', 'some', 'such',
+  'each', 'every', 'any', 'all', 'both', 'more', 'most', 'other', 'into', 'your'
+]);
+
+interface MarkdownSection {
+  heading: string;
+  content: string;
+}
+
+/**
+ * Splits arbitrarily long Markdown prose into coherent heading-aware sections
+ * with zero character loss or truncation. Small adjacent subsections are grouped
+ * up to targetChars (~2,000), and oversized blocks are split cleanly on paragraph/line boundaries.
+ */
+export function splitMarkdownIntoSections(
+  rawMarkdown: string,
+  targetChars = 2000,
+  maxChars = 2800
+): MarkdownSection[] {
+  const normalized = String(rawMarkdown || '').replace(/\r\n/g, '\n').trim();
+  if (!normalized) return [];
+
+  const lines = normalized.split('\n');
+  const rawBlocks: MarkdownSection[] = [];
+  let currentHeading = '';
+  let currentLines: string[] = [];
+
+  for (const line of lines) {
+    const headingMatch = line.match(/^(#{1,4})\s+(.+?)\s*$/);
+    if (headingMatch) {
+      const content = currentLines.join('\n').trim();
+      if (content || currentHeading) {
+        rawBlocks.push({ heading: currentHeading, content });
+      }
+      currentHeading = headingMatch[2].replace(/[#*_`~]/g, '').trim();
+      currentLines = [line];
+    } else {
+      currentLines.push(line);
+    }
+  }
+  const trailing = currentLines.join('\n').trim();
+  if (trailing || currentHeading) {
+    rawBlocks.push({ heading: currentHeading, content: trailing });
+  }
+
+  // Split any single oversized block on paragraph / line boundaries so no chunk is truncated
+  const boundedBlocks: MarkdownSection[] = [];
+  for (const block of rawBlocks) {
+    if (block.content.length <= maxChars) {
+      boundedBlocks.push(block);
+      continue;
+    }
+    const paragraphs = block.content.split(/\n{2,}/);
+    let acc = '';
+    let partIdx = 1;
+    for (const para of paragraphs) {
+      if (para.length > maxChars) {
+        if (acc.trim()) {
+          boundedBlocks.push({
+            heading: partIdx === 1 ? block.heading : `${block.heading || 'Section'} (Part ${partIdx})`,
+            content: acc.trim()
+          });
+          partIdx++;
+          acc = '';
+        }
+        // Split huge single paragraph/table on single newlines
+        const subLines = para.split('\n');
+        let lineAcc = '';
+        for (const sl of subLines) {
+          if (lineAcc && lineAcc.length + sl.length + 1 > maxChars) {
+            boundedBlocks.push({
+              heading: partIdx === 1 ? block.heading : `${block.heading || 'Section'} (Part ${partIdx})`,
+              content: lineAcc.trim()
+            });
+            partIdx++;
+            lineAcc = sl;
+          } else {
+            lineAcc = lineAcc ? `${lineAcc}\n${sl}` : sl;
+          }
+        }
+        if (lineAcc.trim()) {
+          acc = lineAcc;
+        }
+      } else if (acc && acc.length + para.length + 2 > targetChars) {
+        boundedBlocks.push({
+          heading: partIdx === 1 ? block.heading : `${block.heading || 'Section'} (Part ${partIdx})`,
+          content: acc.trim()
+        });
+        partIdx++;
+        acc = para;
+      } else {
+        acc = acc ? `${acc}\n\n${para}` : para;
+      }
+    }
+    if (acc.trim()) {
+      boundedBlocks.push({
+        heading: partIdx === 1 ? block.heading : `${block.heading || 'Section'} (Part ${partIdx})`,
+        content: acc.trim()
+      });
+    }
+  }
+
+  // Merge small adjacent blocks up to targetChars
+  const merged: MarkdownSection[] = [];
+  for (const block of boundedBlocks) {
+    if (!block.content.trim()) continue;
+    const prev = merged[merged.length - 1];
+    if (prev && prev.content.length + block.content.length + 2 <= targetChars) {
+      prev.content = `${prev.content}\n\n${block.content}`;
+      if (!prev.heading && block.heading) {
+        prev.heading = block.heading;
+      }
+    } else {
+      merged.push({ heading: block.heading, content: block.content });
+    }
+  }
+
+  return merged;
+}
+
 /**
  * Builds dynamic compendium chunks from seed array.
- * Deconstructs 202 master articles into 700+ granular chunks across
- * overview, mechanics, tactical guide, and architect notes for high-precision RAG.
+ * Deconstructs 202 master articles into complete, zero-truncation multi-section chunks
+ * across full Markdown sections, mechanics, tactical guides, and architect notes.
  */
 function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
   if (!Array.isArray(seedList)) return [];
@@ -240,28 +366,53 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
     else if (p.includes('metaphysics') || t.includes('metaphysics')) cat = 'metaphysics';
     else if (p.includes('economatrix') || t.includes('economatrix')) cat = 'economatrix';
     else if (p.includes('faction') || t.includes('faction')) cat = 'factions';
+    else if (p.includes('species') || t.includes('species')) cat = 'species';
     else if (p.includes('origin') || p.includes('occupation') || p.includes('skill') || p.includes('character')) cat = 'character_creation';
     else if (p.includes('world') || p.includes('bestiary')) cat = 'planetary';
 
-    const cleanDesc = (item.description || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+    const rawDesc = String(item.description || '').trim();
     const cleanMech = (item.mechanic || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
     const cleanGuide = (item.guide || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
     const cleanNote = (item.note || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+    const baseId = `compendium-${item.id || item.name}`;
+    const baseTags = [...(Array.isArray(item.tags) ? item.tags : []), item.name, item.parent || '', cat].filter(Boolean);
 
-    // 1. Primary Overview Chunk
-    let overviewText = `${item.name}\n`;
-    if (cleanDesc) overviewText += `Description: ${cleanDesc.slice(0, 500)}\n`;
-    if (item.tl !== undefined && item.tl !== null) overviewText += `Tech Level: TL ${item.tl} | `;
-    if (item.ml !== undefined && item.ml !== null) overviewText += `Meta Level: ML ${item.ml}`;
+    let levelMeta = '';
+    if (item.tl !== undefined && item.tl !== null) levelMeta += `Tech Level: TL ${item.tl} | `;
+    if (item.ml !== undefined && item.ml !== null) levelMeta += `Meta Level: ML ${item.ml}`;
 
-    chunks.push({
-      id: `compendium-${item.id || item.name}`,
-      category: cat,
-      title: item.name || 'Untitled Article',
-      citation: item.parent || 'Omnicortex Compendium',
-      text: overviewText.trim(),
-      tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, item.parent || '', cat].filter(Boolean)
-    });
+    // 1. Complete Multi-Section Article Chunks (Zero Truncation)
+    const sections = splitMarkdownIntoSections(rawDesc, 2000, 2800);
+    if (sections.length === 0) {
+      chunks.push({
+        id: baseId,
+        category: cat,
+        title: item.name || 'Untitled Article',
+        citation: item.parent || 'Omnicortex Compendium',
+        text: `${item.name || 'Untitled Article'}\n${levelMeta}`.trim(),
+        tags: baseTags
+      });
+    } else {
+      sections.forEach((sec, idx) => {
+        const cleanSecText = sec.content.replace(/\s+\n/g, '\n').trim();
+        const secTitle = idx === 0
+          ? (item.name || 'Untitled Article')
+          : `${item.name || 'Untitled Article'} — ${sec.heading || `Section ${idx + 1}`}`;
+        const secCitation = sec.heading && sec.heading.toLowerCase() !== String(item.name || '').toLowerCase()
+          ? `${item.parent || 'Omnicortex Compendium'} > ${sec.heading}`
+          : (item.parent || 'Omnicortex Compendium');
+        const headerPrefix = idx === 0 && levelMeta ? `${item.name}\n${levelMeta}\n` : `${secTitle}\n`;
+
+        chunks.push({
+          id: idx === 0 ? baseId : `${baseId}-sec-${idx}`,
+          category: cat,
+          title: secTitle,
+          citation: secCitation,
+          text: `${headerPrefix}${cleanSecText}`.trim(),
+          tags: sec.heading ? [...baseTags, sec.heading] : baseTags
+        });
+      });
+    }
 
     // 2. Specialized Mechanics Chunk
     if (cleanMech) {
@@ -399,6 +550,112 @@ function buildCatalogChunks(): RuleChunk[] {
   }));
 }
 
+interface EntityDatasetGroup {
+  prefix: string;
+  category: RuleChunk['category'];
+  citationPrefix: string;
+  items: any[];
+}
+
+/**
+ * Builds complete, zero-truncation RAG chunks across all structured Omnicortex entity catalogs,
+ * indexing full Markdown body/lore, mechanics, directives (+KW), and railguards (-KW).
+ */
+export function buildOmnicortexEntityChunks(groups: EntityDatasetGroup[] = []): RuleChunk[] {
+  const chunks: RuleChunk[] = [];
+  const seenIds = new Set<string>();
+
+  for (const group of groups) {
+    if (!Array.isArray(group.items)) continue;
+    for (const item of group.items) {
+      if (!item || typeof item !== 'object') continue;
+      const rawName = String(item.name || item.title || item.id || '').trim();
+      if (!rawName) continue;
+      const rawId = String(item.id || rawName).toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
+      const baseChunkId = `entity-${group.prefix}-${rawId}`;
+      if (seenIds.has(baseChunkId)) continue;
+      seenIds.add(baseChunkId);
+
+      const desc = String(item.description || item.desc || '').trim();
+      const mech = String(item.mechanic || item.mechanics || '').trim();
+      const rawBody = String(item.body || item.full_text || '').trim();
+      const kw = item.keywords
+        ? (Array.isArray(item.keywords) ? item.keywords.join(', ') : String(item.keywords).trim())
+        : '';
+      const negKw = item.negative_keywords
+        ? (Array.isArray(item.negative_keywords) ? item.negative_keywords.join(', ') : String(item.negative_keywords).trim())
+        : '';
+
+      const extraTags: string[] = [rawName, group.prefix, group.category];
+      if (item.category) extraTags.push(String(item.category));
+      if (item.type && typeof item.type === 'string') extraTags.push(item.type);
+      if (item.sphere) extraTags.push(String(item.sphere));
+      if (item.discipline) extraTags.push(String(item.discipline));
+      if (kw) {
+        extraTags.push(...kw.split(/[,;\s]+/).filter(Boolean), 'directive');
+      }
+      if (negKw) {
+        const negTokens = negKw.split(/[,;\s]+/).filter(Boolean);
+        extraTags.push(...negTokens.map((t: string) => `railguard-${t}`), ...negTokens, 'railguard', 'negative-keywords');
+      }
+      const cleanTags = Array.from(new Set(extraTags.filter(Boolean)));
+
+      let metaHeader = `${rawName} [${group.citationPrefix}]`;
+      if (item.tech_level !== undefined || item.tl !== undefined) {
+        metaHeader += ` | TL ${item.tech_level ?? item.tl}`;
+      }
+      if (item.meta_level !== undefined || item.ml !== undefined) {
+        metaHeader += ` | ML ${item.meta_level ?? item.ml}`;
+      }
+      if (desc) metaHeader += `\nSummary: ${desc}`;
+      if (mech && !rawBody.includes(mech)) metaHeader += `\nMechanics: ${mech}`;
+      if (kw) metaHeader += `\nDirectives: ${kw}`;
+      if (negKw) metaHeader += `\nRailguards (Avoid): ${negKw}`;
+
+      if (!rawBody || rawBody === desc) {
+        chunks.push({
+          id: baseChunkId,
+          category: group.category,
+          title: `${rawName} (${group.citationPrefix})`,
+          citation: `Omnicortex ${group.citationPrefix}`,
+          text: metaHeader.trim(),
+          tags: cleanTags
+        });
+        continue;
+      }
+
+      const bodySections = splitMarkdownIntoSections(rawBody, 2000, 2800);
+      if (bodySections.length <= 1) {
+        chunks.push({
+          id: baseChunkId,
+          category: group.category,
+          title: `${rawName} (${group.citationPrefix})`,
+          citation: `Omnicortex ${group.citationPrefix}`,
+          text: `${metaHeader}\n\n${rawBody}`.trim(),
+          tags: cleanTags
+        });
+      } else {
+        bodySections.forEach((sec, idx) => {
+          const secTitle = idx === 0
+            ? `${rawName} (${group.citationPrefix})`
+            : `${rawName} (${group.citationPrefix}) — ${sec.heading || `Part ${idx + 1}`}`;
+          const secHeader = idx === 0 ? `${metaHeader}\n\n` : `${secTitle}\n`;
+          chunks.push({
+            id: idx === 0 ? baseChunkId : `${baseChunkId}-sec-${idx}`,
+            category: group.category,
+            title: secTitle,
+            citation: sec.heading ? `Omnicortex ${group.citationPrefix} > ${sec.heading}` : `Omnicortex ${group.citationPrefix}`,
+            text: `${secHeader}${sec.content}`.trim(),
+            tags: sec.heading ? [...cleanTags, sec.heading] : cleanTags
+          });
+        });
+      }
+    }
+  }
+
+  return chunks;
+}
+
 // Combine Foundational Rules, Mechanics Dataset, Catalog Chunks, and Specialized Rules
 export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
   ...buildMechanicsChunks(),
@@ -407,86 +664,134 @@ export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
   ...buildSpecializedRuleChunks()
 ];
 
-// Build Global Vocabulary across all chunks with O(1) term-to-index map
+// Build Global Vocabulary across all chunks with O(1) term-to-index map and cached vector norms
+const MAX_VOCABULARY_DIM = 6000;
 let VOCABULARY: string[] = [];
 let VOCABULARY_INDEX: Map<string, number> = new Map();
+const CHUNK_NORMS = new WeakMap<RuleChunk, number>();
+const CHUNK_LOWER_CACHE = new WeakMap<RuleChunk, string>();
 
 /**
  * Computes a fast normalized pseudo-embedding term frequency vector for text similarity
  */
-function computeTermVector(text: string, vocabulary: string[]): number[] {
+function computeTermVector(text: string, vocabulary: string[]): { vector: number[]; norm: number } {
   const words = text.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(Boolean);
   const vector = new Array(vocabulary.length).fill(0);
-  if (words.length === 0) return vector;
+  if (words.length === 0) return { vector, norm: 0 };
 
-  const wordFreq: Record<string, number> = {};
-  for (const w of words) {
-    wordFreq[w] = (wordFreq[w] || 0) + 1;
+  const wordFreq = new Map<string, number>();
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i];
+    wordFreq.set(w, (wordFreq.get(w) || 0) + 1);
   }
 
+  let normSq = 0;
+  const invLen = 1 / words.length;
+
   if (vocabulary === VOCABULARY && VOCABULARY_INDEX.size === vocabulary.length) {
-    for (const [term, count] of Object.entries(wordFreq)) {
+    for (const [term, count] of wordFreq) {
       const idx = VOCABULARY_INDEX.get(term);
       if (idx !== undefined) {
-        vector[idx] = count / words.length;
+        const val = count * invLen;
+        vector[idx] = val;
+        normSq += val * val;
       }
     }
   } else {
     for (let i = 0; i < vocabulary.length; i++) {
-      const term = vocabulary[i];
-      if (wordFreq[term]) {
-        vector[i] = wordFreq[term] / words.length;
+      const count = wordFreq.get(vocabulary[i]);
+      if (count) {
+        const val = count * invLen;
+        vector[i] = val;
+        normSq += val * val;
       }
     }
   }
 
-  return vector;
+  return { vector, norm: Math.sqrt(normSq) };
 }
 
 /**
- * Computes Cosine Similarity between two numeric vectors
+ * Fast sparse-query Cosine Similarity using non-zero query indices
  */
-function cosineSimilarity(vecA: number[], vecB: number[]): number {
-  const minLen = Math.min(vecA.length, vecB.length);
-  if (minLen === 0) return 0;
-
+function cosineSimilaritySparse(
+  nonZeroIdx: number[],
+  nonZeroVal: number[],
+  queryNorm: number,
+  chunkVec: number[],
+  chunkNorm: number
+): number {
+  if (queryNorm === 0 || chunkNorm === 0 || nonZeroIdx.length === 0) return 0;
   let dotProduct = 0;
-  let normA = 0;
-  let normB = 0;
-
-  for (let i = 0; i < vecA.length; i++) {
-    normA += vecA[i] * vecA[i];
+  const vecLen = chunkVec.length;
+  for (let i = 0; i < nonZeroIdx.length; i++) {
+    const idx = nonZeroIdx[i];
+    if (idx < vecLen) {
+      dotProduct += nonZeroVal[i] * chunkVec[idx];
+    }
   }
-  for (let i = 0; i < vecB.length; i++) {
-    normB += vecB[i] * vecB[i];
-  }
-  for (let i = 0; i < minLen; i++) {
-    dotProduct += vecA[i] * vecB[i];
-  }
-
-  if (normA === 0 || normB === 0) return 0;
-  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+  if (dotProduct === 0) return 0;
+  return dotProduct / (queryNorm * chunkNorm);
 }
 
 function recomputeEmbeddings() {
-  const ALL_TEXT = CANONICAL_RULES_COMPENDIUM.map(c => `${c.title} ${c.tags.join(' ')} ${c.text}`).join(' ');
-  VOCABULARY = Array.from(new Set(
-    ALL_TEXT.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(w => w.length > 2)
-  ));
+  const existingSet = new Set<string>(VOCABULARY);
+  const candidateCounts = new Map<string, number>();
+
+  for (const chunk of CANONICAL_RULES_COMPENDIUM) {
+    if (chunk.embedding && VOCABULARY.length > 0) continue;
+    const sampleText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`.toLowerCase();
+    const tokens = sampleText.replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/);
+    for (let i = 0; i < tokens.length; i++) {
+      const w = tokens[i];
+      if (w.length > 2 && !STOPWORDS.has(w) && !existingSet.has(w) && !/^\d{3,}$/.test(w)) {
+        candidateCounts.set(w, (candidateCounts.get(w) || 0) + 1);
+      }
+    }
+  }
+
+  if (VOCABULARY.length === 0) {
+    // Initial foundational build: include all foundational/mechanics vocabulary
+    for (const term of candidateCounts.keys()) {
+      VOCABULARY.push(term);
+    }
+  } else if (candidateCounts.size > 0 && VOCABULARY.length < MAX_VOCABULARY_DIM) {
+    // Prefix-aligned expansion: keep existing indices intact and append highest-frequency terms
+    const remainingBudget = MAX_VOCABULARY_DIM - VOCABULARY.length;
+    const sortedCandidates = Array.from(candidateCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, remainingBudget);
+    for (const [term] of sortedCandidates) {
+      VOCABULARY.push(term);
+    }
+  }
+
   VOCABULARY_INDEX = new Map(VOCABULARY.map((term, idx) => [term, idx]));
 
   for (const chunk of CANONICAL_RULES_COMPENDIUM) {
+    if (!CHUNK_LOWER_CACHE.has(chunk)) {
+      CHUNK_LOWER_CACHE.set(chunk, `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`.toLowerCase());
+    }
     if (!chunk.embedding) {
-      const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
-      chunk.embedding = computeTermVector(fullText, VOCABULARY);
+      const fullText = CHUNK_LOWER_CACHE.get(chunk)!;
+      const { vector, norm } = computeTermVector(fullText, VOCABULARY);
+      chunk.embedding = vector;
+      CHUNK_NORMS.set(chunk, norm);
     } else if (chunk.embedding.length < VOCABULARY.length) {
       // Pad existing prefix-aligned embedding vector to match expanded VOCABULARY dimension
       const prevLen = chunk.embedding.length;
       chunk.embedding.length = VOCABULARY.length;
       chunk.embedding.fill(0, prevLen);
+      if (!CHUNK_NORMS.has(chunk)) {
+        let sq = 0;
+        for (let i = 0; i < prevLen; i++) sq += chunk.embedding[i] * chunk.embedding[i];
+        CHUNK_NORMS.set(chunk, Math.sqrt(sq));
+      }
     } else if (chunk.embedding.length !== VOCABULARY.length) {
-      const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
-      chunk.embedding = computeTermVector(fullText, VOCABULARY);
+      const fullText = CHUNK_LOWER_CACHE.get(chunk)!;
+      const { vector, norm } = computeTermVector(fullText, VOCABULARY);
+      chunk.embedding = vector;
+      CHUNK_NORMS.set(chunk, norm);
     }
   }
 }
@@ -494,7 +799,7 @@ function recomputeEmbeddings() {
 // Pre-embed initial canonical rules
 recomputeEmbeddings();
 
-// Dynamic Compendium Seed Loader (fine-grained async code-splitting)
+// Dynamic Compendium & Omnicortex Entity Seed Loader (fine-grained async code-splitting)
 let compendiumSeedPromise: Promise<void> | null = null;
 let isCompendiumSeedLoaded = false;
 
@@ -508,17 +813,85 @@ export async function loadCompendiumSeedDataset(): Promise<void> {
       }
       return import('../data/compendiumSeed.json');
     };
-    compendiumSeedPromise = loadSeedModule()
-      .then(async (mod) => {
-        const seedData = (mod.default || mod) as any[];
-        const chunks = buildCompendiumChunks(seedData);
-        for (const chunk of chunks) {
-          CANONICAL_RULES_COMPENDIUM.push(chunk);
+    compendiumSeedPromise = Promise.all([
+      loadSeedModule(),
+      import('../data/speciesData.js'),
+      import('../data/factionsData.js'),
+      import('../data/originsData.js'),
+      import('../data/occupationsData.js'),
+      import('../data/archetypesData.js'),
+      import('../data/skillsData.js'),
+      import('../data/featuresData.js'),
+      import('../data/speciesTraitsData.js'),
+      import('../data/speciesDisadvantagesData.js'),
+      import('../data/weaponryData.js'),
+      import('../data/armoringData.js'),
+      import('../data/gearData.js'),
+      import('../data/augmentationsData.js'),
+      import('../data/invocationsData.js'),
+      import('../data/mechaData.js'),
+      import('../data/architectureData.js'),
+      import('../data/otherPropertyData.js'),
+      import('../data/synthesisData.js')
+    ])
+      .then(async ([
+        compMod,
+        speciesMod,
+        factionsMod,
+        originsMod,
+        occupationsMod,
+        archetypesMod,
+        skillsMod,
+        featuresMod,
+        traitsMod,
+        disadvMod,
+        weaponryMod,
+        armoringMod,
+        gearMod,
+        augMod,
+        invocMod,
+        mechaMod,
+        archMod,
+        otherPropMod,
+        synthMod
+      ]) => {
+        const seedData = ((compMod as any).default || compMod) as any[];
+        const compendiumChunks = buildCompendiumChunks(seedData);
+        const entityChunks = buildOmnicortexEntityChunks([
+          { prefix: 'species', category: 'species', citationPrefix: 'Species', items: (speciesMod as any).DEFAULT_SPECIES || [] },
+          { prefix: 'factions', category: 'factions', citationPrefix: 'Faction', items: (factionsMod as any).DEFAULT_FACTIONS || [] },
+          { prefix: 'origins', category: 'character_creation', citationPrefix: 'Origin', items: (originsMod as any).DEFAULT_ORIGINS || [] },
+          { prefix: 'occupations', category: 'character_creation', citationPrefix: 'Occupation', items: (occupationsMod as any).DEFAULT_OCCUPATIONS || [] },
+          { prefix: 'archetypes', category: 'character_creation', citationPrefix: 'Archetype', items: (archetypesMod as any).DEFAULT_ARCHETYPES || [] },
+          { prefix: 'skills', category: 'character_creation', citationPrefix: 'Skill', items: (skillsMod as any).ALL_CANONICAL_SKILLS || [] },
+          { prefix: 'features', category: 'character_creation', citationPrefix: 'Feature', items: (featuresMod as any).DEFAULT_FEATURES || [] },
+          { prefix: 'traits', category: 'species', citationPrefix: 'Trait', items: (traitsMod as any).ALL_CANONICAL_TRAITS || [] },
+          { prefix: 'disadvantages', category: 'species', citationPrefix: 'Disadvantage', items: (disadvMod as any).DEFAULT_SPECIES_DISADVANTAGES || [] },
+          { prefix: 'weaponry', category: 'combat', citationPrefix: 'Weaponry', items: (weaponryMod as any).DEFAULT_WEAPONRY || [] },
+          { prefix: 'armoring', category: 'combat', citationPrefix: 'Armoring', items: (armoringMod as any).DEFAULT_ARMORING || [] },
+          { prefix: 'gear', category: 'technology', citationPrefix: 'Gear', items: (gearMod as any).DEFAULT_GEAR || [] },
+          { prefix: 'augmentations', category: 'technology', citationPrefix: 'Augmentation', items: (augMod as any).DEFAULT_AUGMENTATIONS || [] },
+          { prefix: 'invocations', category: 'metaphysics', citationPrefix: 'Invocation', items: (invocMod as any).DEFAULT_INVOCATIONS || [] },
+          { prefix: 'mecha', category: 'technology', citationPrefix: 'Mecha', items: (mechaMod as any).DEFAULT_MECHA || [] },
+          { prefix: 'architecture', category: 'economatrix', citationPrefix: 'Architecture', items: (archMod as any).DEFAULT_ARCHITECTURE || [] },
+          { prefix: 'other_property', category: 'economatrix', citationPrefix: 'Property', items: (otherPropMod as any).DEFAULT_OTHER_PROPERTY || [] },
+          { prefix: 'synthesis', category: 'economatrix', citationPrefix: 'Synthesis', items: (synthMod as any).DEFAULT_SYNTHESIS || [] }
+        ]);
+
+        const allNewChunks = [...compendiumChunks, ...entityChunks];
+        const existingChunkIds = new Set(CANONICAL_RULES_COMPENDIUM.map(c => c.id));
+        const dedupedNewChunks: RuleChunk[] = [];
+        for (const chunk of allNewChunks) {
+          if (!existingChunkIds.has(chunk.id)) {
+            existingChunkIds.add(chunk.id);
+            CANONICAL_RULES_COMPENDIUM.push(chunk);
+            dedupedNewChunks.push(chunk);
+          }
         }
         recomputeEmbeddings();
 
-        // Offload insertion and SQLite WASM FTS5 indexing of 700+ articles to the Web Worker
-        const workerChunks = chunks.map(c => ({
+        // Offload insertion and SQLite WASM FTS5 indexing of complete Compendium + Entity vault to the Web Worker
+        const workerChunks = dedupedNewChunks.map(c => ({
           id: c.id,
           title: c.title,
           category: c.category,
@@ -654,38 +1027,72 @@ export function queryOmnicortexRAG(
     loadCompendiumSeedDataset().catch(() => {});
   }
 
-  const queryVector = computeTermVector(query, VOCABULARY);
+  const { vector: queryVector, norm: queryNorm } = computeTermVector(query, VOCABULARY);
+  const nonZeroIdx: number[] = [];
+  const nonZeroVal: number[] = [];
+  for (let i = 0; i < queryVector.length; i++) {
+    if (queryVector[i] !== 0) {
+      nonZeroIdx.push(i);
+      nonZeroVal.push(queryVector[i]);
+    }
+  }
+
   const detectedCategories = detectIntentCategories(query);
   const lowerQuery = query.toLowerCase();
+  const queryContentTokens = Array.from(new Set(
+    lowerQuery
+      .replace(/[^a-z0-9_\-\s]/g, ' ')
+      .split(/\s+/)
+      .filter(w => w.length >= 3 && !STOPWORDS.has(w))
+  ));
   const isQuerySpecificallyAboutRailguards = lowerQuery.includes('railguard') || lowerQuery.includes('avoid') || lowerQuery.includes('not recommended');
   const results: RagSearchResult[] = [];
 
   for (const chunk of CANONICAL_RULES_COMPENDIUM) {
     if (!chunk.embedding) continue;
-    
+
+    let chunkContentLower = CHUNK_LOWER_CACHE.get(chunk);
+    if (!chunkContentLower) {
+      chunkContentLower = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`.toLowerCase();
+      CHUNK_LOWER_CACHE.set(chunk, chunkContentLower);
+    }
+
     // Category filtering with explicit directive and railguard category handling
     if (activeCatFilter) {
       if (activeCatFilter === 'directives' || activeCatFilter === 'positive_keywords') {
         const isDirectiveChunk = chunk.category === 'directives' || 
           chunk.tags.some(t => t.toLowerCase().includes('directive') || t.toLowerCase().includes('keyword')) ||
-          `${chunk.title} ${chunk.text}`.toLowerCase().includes('directive') ||
-          posKeywords.some(p => `${chunk.title} ${chunk.text}`.toLowerCase().includes(p));
+          chunkContentLower.includes('directive') ||
+          posKeywords.some(p => chunkContentLower!.includes(p));
         if (!isDirectiveChunk) continue;
       } else if (activeCatFilter === 'railguards' || activeCatFilter === 'negative_keywords') {
         const isRailguardChunk = chunk.category === 'railguards' || 
           chunk.tags.some(t => t.toLowerCase().startsWith('railguard-') || t.toLowerCase() === 'negative-keywords' || t.toLowerCase().includes('railguard')) ||
-          `${chunk.title} ${chunk.text}`.toLowerCase().includes('railguard') ||
-          negKeywords.some(n => `${chunk.title} ${chunk.text}`.toLowerCase().includes(n));
+          chunkContentLower.includes('railguard') ||
+          negKeywords.some(n => chunkContentLower!.includes(n));
         if (!isRailguardChunk) continue;
       } else if (chunk.category !== activeCatFilter) {
         continue;
       }
     }
 
-    // Base vector cosine similarity
-    let score = cosineSimilarity(queryVector, chunk.embedding);
+    // Base vector cosine similarity (sparse O(k) dot product)
+    let chunkNorm = CHUNK_NORMS.get(chunk);
+    if (chunkNorm === undefined) {
+      let sq = 0;
+      for (let i = 0; i < chunk.embedding.length; i++) sq += chunk.embedding[i] * chunk.embedding[i];
+      chunkNorm = Math.sqrt(sq);
+      CHUNK_NORMS.set(chunk, chunkNorm);
+    }
+    let score = cosineSimilaritySparse(nonZeroIdx, nonZeroVal, queryNorm, chunk.embedding, chunkNorm);
 
-    const chunkContentLower = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`.toLowerCase();
+    // Direct lexical token coverage across complete unredacted chunk prose (zero loss for rare/hapax lore words)
+    for (let i = 0; i < queryContentTokens.length; i++) {
+      const qt = queryContentTokens[i];
+      if (chunkContentLower.includes(qt)) {
+        score += qt.length >= 5 ? 0.12 : 0.07;
+      }
+    }
 
     // Positive Keywords: ADD WEIGHT
     for (const tag of chunk.tags) {
@@ -729,12 +1136,14 @@ export function queryOmnicortexRAG(
       score += 0.15;
     }
 
-    // Direct boost for canonical BASTION mechanics rules
+    // Direct boost for canonical BASTION mechanics & foundational rules
     if (chunk.id.startsWith('mech-')) {
       score += 0.25;
       if (chunk.formula && (lowerQuery.includes('how') || lowerQuery.includes('rule') || lowerQuery.includes('calculate') || lowerQuery.includes('damage') || lowerQuery.includes('formula'))) {
         score += 0.20;
       }
+    } else if (chunk.id.startsWith('rule-')) {
+      score += 0.22;
     }
 
     if (score > 0.05) {

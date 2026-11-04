@@ -34,21 +34,24 @@ negative_keywords: 'porous wire fence, open terrain, unfortified gap, flimsy woo
 
 # FORCE BARRIER Invocation
 
-**Category**: Invocations  
-**Discipline**: Energy
-
 ## Description & Ritual Details
-Classification: Energy (Force) | Defense | \[Wall\] \[Impassable\]  
+
+Classification: Energy (Force) | Defense | [Wall] [Impassable]
+
 Parameters:
-* **Base Difficulty:** 18  
-* **Time:** Standard Action  
-* **Range:** Close  
-* **Area:** Wall (10ft x 10ft panels)  
-* **Duration:** Concentration \+ 1 Minute  
-* **Resistance:** None
-Effect Description:  
-Creates a plane of invisible, solid force. Indestructible except by damage.  
+
+  - **Base Difficulty:** 18
+  - **Time:** Standard Action
+  - **Range:** Close
+  - **Area:** Wall (10ft x 10ft panels)
+  - **Duration:** Concentration + 1 Minute
+  - **Resistance:** None
+
+Effect Description:
+
+Creates a plane of invisible, solid force. Indestructible except by damage.
+
 **Scaling Function:**
-* **Integrity:** Wall Structure Points \= 30 per Stage.  
-* **Hardness:** Damage Resistance (DR) \= 10 \+ (2 per Stage).
-###
+
+  - **Integrity:** Wall Structure Points = 30 per Stage.
+  - **Hardness:** Damage Resistance (DR) = 10 + (2 per Stage).

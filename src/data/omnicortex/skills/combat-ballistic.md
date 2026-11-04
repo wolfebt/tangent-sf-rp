@@ -28,17 +28,13 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
       
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Standard Attack:** **2d10 + Skill Rank + Agility Mod vs. Target Defense**.
+- **Standard Attack:** **2d10 + Skill Rank + Agility Mod vs. Target Defense**.
   - **Burst Fire (Short):** Firing a controlled 3-round burst grants a **+1 Bonus to Strike**.  
       
   - **Auto-Fire (Long Burst):** Firing longer bursts (10+ rounds) imposes a **-1 Recoil Penalty** for every 10 rounds fired. However, for every point the attack roll exceeds the target's Defense, one additional round hits (up to the total shots fired). Each extra hit deals **+1d damage** (if the initial hit penetrated DR).  
       
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Semi-Automatic Pistols:** Double-tapping service handguns rapidly, clearing malfunctions, and drawing from holsters.
       - **Heavy Revolvers:** Firing high-caliber magnum hand cannons with heavy recoil control and precision shot placement.

@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Virtuoso
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Social / Distraction / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Agility  
 
-## Overview
 Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight.
 
-> *You control the mood of the room. You can turn a hostile crowd into a cheering mob or distract a guard with a song. Your art is your weapon, and fame is your shield.*
+*You control the mood of the room. You can turn a hostile crowd into a cheering mob or distract a guard with a song. Your art is your weapon, and fame is your shield.*
 
-> _"Eyes on me, everyone. You won't want to miss this."_
-
-## Tactical Role
-Distracting guards, earning money, gaining access to exclusive events.
-
-## Essential Skills
-- Acrobatics
-- Expression (any)
-- Diplomacy
-- Social
-
-## Signature Features
-- Showmanship
-- Star Power
-
-## Recommendations
-- **Occupations**: Entertainer, Citizen
-- **Origins**: Leisure, Urban, Enlightened
-- **Factions**: Entari Combine (Culture), Alterian Enclave, Syndicate (Media)
-
-
-## Extended Lore & Background
-
-Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight.  
-*You control the mood of the room. You can turn a hostile crowd into a cheering mob or distract a guard with a song. Your art is your weapon, and fame is your shield.*  
 *"Eyes on me, everyone. You won't want to miss this."*
 
+  - **Core Concept:** Social / Distraction / Buffer
+  - **Recommended Occupations:** Entertainer, Citizen.
+  - **Recommended Origins:** Leisure, Urban, Enlightened.
+  - **Recommended Factions:** Entari Combine (Culture), Alterian Enclave, Syndicate (Media).
+  - **Key Attributes:** Charisma (+3 Primary), Agility (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Expression (any), Diplomacy, Social.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Showmanship, Star Power.
+  - **Tactical Role:** Distracting guards, earning money, gaining access to exclusive events.

@@ -50,14 +50,10 @@ Sign - Hand gesture communication
 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).
+- **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).
   - **Fluency:** Ranks determine fluency (1-2: Broken, 3-5: Fluent, 6+: Native/Technical).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Trade Common Fluency:** Reading, writing, and speaking the primary universal interstellar commerce tongue.
       - **Draconic Dialects:** Fluency in the guttural, complex structural syntax of the Dynasty worlds.

@@ -27,15 +27,11 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Farmer is the skill of cultivating crops and raising livestock. It reflects a character's ability to manage soil health, plant and harvest crops, and tend to animals. Farmer is used whenever a character needs to produce food, manage agricultural operations, or work with livestock. This can include things like preparing fields, planting seeds, and ensuring animal health.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Crop Management:* CR 15 to ensure a successful harvest despite poor conditions.
+- *Crop Management:* CR 15 to ensure a successful harvest despite poor conditions.
   - *Animal Husbandry:* CR 15 to breed or treat livestock.
   - *Soil Analysis:* CR 20 to determine optimal crops for a specific environment.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Hydroponics & Aeroponics:** Managing vertical water-nutrient tanks, pH balances, and LED grow-light cycles.
       - **Broad-Acre Grain Farming:** Operating harvesters, planting vast cereal fields, and timing seasonal crop rotations.

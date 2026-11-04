@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Archivist is the skill of preserving and organizing historical documents and artifacts. It reflects a character's ability to collect and preserve historical records and artifacts, catalog artifacts, preserve documents, and research historical events. Archivist is used whenever a character needs to preserve and make accessible historical records for future generations. This can include things like cataloging artifacts, preserving documents, and researching historical events. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Deep Search:* CR 20 to find a specific, non-digitized record or deleted file fragment.
+- *Deep Search:* CR 20 to find a specific, non-digitized record or deleted file fragment.
   - *Preservation:* CR 15 to restore damaged books or data drives.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Ancient Tome Preservation:** Restoring, sealing, and handling fragile parchment, papyrus, and crystalline plates.
       - **Data Recovery & File Reconstruction:** Extracting readable data from melted drives, corrupted memory, and shattered chips.

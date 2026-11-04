@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Constable is the skill of enforcing the law and maintaining order. It reflects a character's ability to investigate crimes, make arrests, and protect citizens. Constable is used whenever a character needs to ensure that laws are upheld and that citizens are safe. This can include things like investigating crimes, making arrests, and protecting citizens. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Procedure:* CR 15 to know the jurisdiction and rights in a specific sector.
+- *Procedure:* CR 15 to know the jurisdiction and rights in a specific sector.
   - *Collect Evidence:* CR 15 to properly bag and tag evidence without contaminating it.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Patrol Procedures:** Walking beats, spotting suspicious street activity, and projecting an authoritative presence.
       - **Riot & Crowd Control:** Deploying shield walls, tear gas lines, and batons to break up violent civil mobs.

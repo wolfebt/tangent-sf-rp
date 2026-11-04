@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Nature is the skill of understanding and interacting with the natural world. It reflects a character's ability to survive in the wilderness and understand the ecology of different environments. Nature is used whenever a character needs to navigate through the wilderness, whether it's to hunt for food or to avoid danger. This can include things like tracking animals, identifying plants, and surviving in extreme environments. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Identify Creature:** CR 10 + Creature's Rarity/CR.
+- **Identify Creature:** CR 10 + Creature's Rarity/CR.
   - **Foraging/Remedies:** CR 15 to find herbal antidotes or food.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Alien Botany:** Identifying toxic, medicinal, and nutritional properties of wild planetary plants.
       - **Zoology & Beast Behavior:** Predicting predator attack vectors, nesting grounds, and pack dynamics.

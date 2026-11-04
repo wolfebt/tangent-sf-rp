@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-species-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-species-matrix"
-order: 14
+order: 15
 perspective: "architect"
 entry_type: "Species Design Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","species","99.species.traitsanddisadvantages","matrix"]
-updatedAt: "2026-11-03T10:56:26.834Z"
+updatedAt: "2026-11-04T00:33:10.433Z"
 costs:
   bp: 0
   credits: 0
@@ -39,11 +39,18 @@ sockets:
 
 # **99.Species.TraitsAndDisadvantages.md**
 
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
 ## **5. Species Traits Catalog**
 
 Species traits are categorized into **Basic (`1 CP`)**, **Advanced (`2 CP`)**, and **Elite (`4 CP`)** tiers. Any Feature listed as **Recommended** for the Species costs **1 CP less** than standard (2 CP instead of 3 CP, minimum 1 CP) when purchased by a member of that species. *(Skills always cost a straight 1 CP per Rank / 5 CP per 5 Ranks with no discount).*
-
----
 
 ### **BASIC TRAITS [1 CP]**
 
@@ -92,8 +99,6 @@ Species traits are categorized into **Basic (`1 CP`)**, **Advanced (`2 CP`)**, a
 | **Tail** | +2 to Trip and Acrobatics (Balance) checks; usable as a `1d6` Blunt natural weapon. | Physical |
 | **Urbanite** | +2 species bonus on Diplomacy and Insight checks. | Social |
 | **Water-Sense** | **Blindsense 30 feet** against creatures touching the same body of water. | Sensory |
-
----
 
 ### **ADVANCED TRAITS [2 CP]**
 
@@ -158,8 +163,6 @@ Species traits are categorized into **Basic (`1 CP`)**, **Advanced (`2 CP`)**, a
 | **Treespeech** | Ability to converse empathetically with plants. | Meta |
 | **Venom** | Natural attack delivers **Hemotoxic** (STR/STA), **Neurotoxic** (AGI/Sensory), or **Cytotoxic** (Tissue Corrosive) venom. | Physical |
 
----
-
 ### **ELITE TRAITS [4 CP]**
 
 *Immunities & Powerful Abilities*
@@ -191,8 +194,6 @@ Species traits are categorized into **Basic (`1 CP`)**, **Advanced (`2 CP`)**, a
 | **Vampiric Power** | Gain +1 temporary Physical Ability point per 2 points of Stamina/Vitality drained. | Meta |
 | **Wyrm Senses** | Take Features from any *Acute Sense* line (*Req: Dragon Apotheosis*). | Sensory |
 
----
-
 ## **6. Disadvantages (CP Reduction)**
 
 *(Note: Under Rule 10, Species-level Disadvantages and Stigmas reduce the net CP cost of the Species Package and are **exempt** from the +10 CP Personal Hindrance Cap during character creation.)*
@@ -207,8 +208,6 @@ Species traits are categorized into **Basic (`1 CP`)**, **Advanced (`2 CP`)**, a
 | **Sunlight Powerlessness** | **-6 CP** | **Staggered / Helpless** in direct natural sunlight (*Req: Undead / Half-Undead / Shadow*). |
 | **Vulnerable to Sunlight** | **-4 CP** | Suffers **1 point of Stamina drain per hour** in direct sunlight (*Req: Native to Darklands/Shadow*). |
 
----
-
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-530)**
 
 - **File Target:** `architect/species/99.Species.TraitsAndDisadvantages.md`
@@ -216,5 +215,4 @@ Species traits are categorized into **Basic (`1 CP`)**, **Advanced (`2 CP`)**, a
   - Restored 100% of Part III.5–6 (41 Basic Traits [1 CP], 57 Advanced Traits [2 CP], 24 Elite Traits [4 CP], and 7 Species Disadvantages).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized `Alertness/Perception` -> `Alertness`, `Language` -> `Knowledge (Language)`, and enforced Rule 10 (Species Disadvantages exempt from the +10 CP Personal Hindrance Cap).
-
 

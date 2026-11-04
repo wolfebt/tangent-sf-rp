@@ -35,22 +35,26 @@ keywords: >-
   material fortification, structural reinforcement
 negative_keywords: 'ethereal spirit, fragile illusion, mental only, pure light, non-physical'
 ---
+
 # RESISTANCE Invocation
 
-**Category**: Invocations  
-**Discipline**: Matter
-
 ## Description & Ritual Details
-Classification: Matter (Enhancement) | Defense | \[Hardening\] \[Elemental\]  
+
+Classification: Matter (Enhancement) | Defense | [Hardening] [Elemental]
+
 Parameters:
-* **Base Difficulty:** 15  
-* **Time:** Standard Action  
-* **Range:** Touch  
-* **Area:** Single Creature  
-* **Duration:** 1 Minute per Stage  
-* **Resistance:** None
-Effect Description:  
-Grants damage resistance (DR) against a specific environmental hazard or energy type.  
+
+  - **Base Difficulty:** 15
+  - **Time:** Standard Action
+  - **Range:** Touch
+  - **Area:** Single Creature
+  - **Duration:** 1 Minute per Stage
+  - **Resistance:** None
+
+Effect Description:
+
+Grants damage resistance (DR) against a specific environmental hazard or energy type.
+
 **Scaling Function:**
-* **Integrity:** Energy Resistance \= 5 x Stage.
-###
+
+  - **Integrity:** Energy Resistance = 5 x Stage.

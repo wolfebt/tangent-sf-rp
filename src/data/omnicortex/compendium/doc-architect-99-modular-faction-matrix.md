@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-architect-99-modular-faction-matrix"
 category: "architect_matrix"
 parent: "5.00 ARCHITECT & MODULAR MATRICES (SOURCE OF TRUTH)"
-order: 16
+order: 17
 perspective: "architect"
 entry_type: "Architect Matrix"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular faction matrix","matrix"]
-updatedAt: "2026-11-02T22:49:08.708Z"
+updatedAt: "2026-11-04T00:33:10.377Z"
 costs:
   bp: 0
   credits: 0
@@ -45,8 +45,6 @@ In the Tangent universe, a Faction is not merely a political boundary; it is a *
 
 This framework synthesizes **Narrative Architecture**, **Game Mechanics (Skills, Recommended Features, and Wealth)**, and **Visual Semiotics (CRISP AI Prompts)** into a unified design document. It ensures that every faction entry serves as a functional "Source of Truth" for World Building and Character Creation (`operator/1.04 FACTIONS.md`).
 
----
-
 ## **PART I: THE CONSTRUCTION PROTOCOL**
 
 To ensure consistency across the Tangent Universe, all factions must be built using this four-phase protocol. This ensures that a "Militaristic" faction in one sector functions mechanically similarly to one in another, even if their flavor differs.
@@ -65,8 +63,6 @@ To ensure consistency across the Tangent Universe, all factions must be built us
 | **Exploration / Academic** | Discovery / Knowledge | Piloting, Survival, Sciences | Moderate (+1 to +2) |
 | **Agrarian / Colony** | Survival / Growth | Nature, Vocation, Fortitude | Low (0 to +1) |
 | **Isolationist / Alien** | Preservation / Vigilance | Stealth, Alertness, Culture | Variable |
-
----
 
 ### **PHASE 2: MECHANICAL SKELETON**
 
@@ -106,8 +102,6 @@ Determine the faction's global Wealth Modifier. This bonus is applied to the sta
 - **Rule:** Curate **10 Recommended Features** emblematic of the faction's training and privileges. Characters belonging to this faction purchase any of these Recommended Features at a **1 CP discount** (2 CP instead of 3 CP, down to the 1 CP minimum).
 - **Examples:** *Authority*, *Security Clearance*, *Benefit (Wealth/Equipment)*, *Contacts*, *Awakened*, *Augmented*.
 
----
-
 ### **PHASE 3: NARRATIVE ARCHITECTURE**
 
 *Define the "Cultural Software" and governance:*
@@ -115,8 +109,6 @@ Determine the faction's global Wealth Modifier. This bonus is applied to the sta
 - **Governance:** How do they rule? (e.g., Corporatocracy, Feudal Monarchy, Consensus Technocracy, Hive Mind).
 - **Law Level:** How strict is social control? (0 Lawless Frontier to 10 Algorithmic Totalitarianism).
 - **Sociological Hooks:** What defines daily life? (e.g., *"Subscription Reality"* for the Syndicate, *"Feudal Caste Protocol"* for the Dynasty).
-
----
 
 ### **PHASE 4: KINETIC SEMIOTICS (AESTHETICS)**
 
@@ -126,13 +118,10 @@ Determine the faction's global Wealth Modifier. This bonus is applied to the sta
 - **Materials:** Signature physical substrates (e.g., White Psycholith Ceramic, Weathered Durasteel, Living Iron-Wood, Obsidian Basalt).
 - **Lighting & Mood:** Atmospheric palette (e.g., Clinical Cyan Neon, Golden Chiaroscuro, Bioluminescent Amber).
 
----
-
 ## **PART II: THE FACTION TEMPLATE (MASTER)**
 
 *Copy this block when authoring a new faction entry:*
 
-```markdown
 # **[FACTION NAME]**
 
 ## **I. CORE IDENTITY**
@@ -183,9 +172,38 @@ Determine the faction's global Wealth Modifier. This bonus is applied to the sta
 * **Lighting:** [Lighting description]
 * **Rendering Prompt:** Photorealistic Cinematic Art, 8k raw imagery, lineless rendering, volumetric form, painterly realism, hyper-realistic texture, lifelike imagery, realistic anatomy, detailed musculature, heavy fabric physics, tailored clothing, intricate material definition, chiaroscuro, low-key lighting, visible light beams, volumetric fog, deep color blocking, rich blacks, soft shadow transitions, deep indigo shadows, colored rim lighting, backlighting, kicker light, film grain, subsurface scattering, cinematic composition, rule of thirds, anamorphic bokeh.
 * **Negative Prompt:** outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like.
-```
 
----
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
+### **VII. ASSET APPENDICES (DATABASES)**
+
+Every canonical faction entry houses structured data tables for its signature architectural, vehicular, and mecha assets:
+
+#### **A. Architectural Database (Buildings & Installations)**
+
+| Structure Name | Scale / Footprint | Height | Structure Points (SP) | Base DR | Primary Function & Installed Modules |
+| :--- | :--- | :--- | :---: | :---: | :--- |
+| **Marshal Garrison (Exemplar)** | Small (`40x40 ft`) | 2-Story | `1,000 SP` | `DR 20` | Holding Cells, Armory, Comms Array (`20 Modules`) |
+
+#### **B. Vehicular & Mecha Database**
+
+| Vehicle / Mecha Name | Classification / Size | Structure Points (SP) | Base DR | Primary Loadout, Propulsion & Installed Mounts |
+| :--- | :--- | :---: | :---: | :--- |
+| **"Ironback" Walker (Exemplar)** | Frontier Cavalry / Large (`x2` Scale) | `120 SP` | `DR 15` | "Peacemaker" Heavy Mag-Rail, Shoulder MG / Bipedal Walker |
+
+### **VIII. EXPANSION MODULES (DEEP-DIVE LORE & VIGNETTES)**
+
+- **A. Technical & Lore Expansion:** Detailed mechanical and lore breakdowns of proprietary faction systems (e.g., *The Mesh*, *Psi-Tech*, *Biomorphic Fabrication*, *The Chorus*).
+- **B. Historical Archive:** Chronicled timeline of major eras, wars, schisms, and structural transitions (e.g., *The Age of Radiance*, *The Severance*, *The Great Neglect*).
+- **C. Common Personas (Narrative Archetypes):** Evocative character profiles detailing signature roles within the faction's daily life, including behavioral traits and visual signifiers.
+- **D. Narrative Scene Vignettes:** Atmospheric storyboards and in-universe scenes illustrating the faction's setting, cultural friction, and architectural mood in action.
 
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-505)**
 
@@ -194,5 +212,4 @@ Determine the faction's global Wealth Modifier. This bonus is applied to the sta
   - Restored 100% of Part I (4-Phase Construction Protocol) and Part II (Master Faction Template & CRISP Image Synthesis Guidance) from `/game rules/architect/99. MODULAR FACTION MATRIX.md` and the Nov 2 revision.
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized `Alertness` -> `Alertness` and integrated the `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks, 4 Features, 4 Traits at 0 CP` background allocation rule.
-
 

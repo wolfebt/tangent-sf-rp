@@ -27,13 +27,9 @@ negative_keywords: "isolated, anti-social, inarticulate"
   - **Description:** Wind is the skill of playing wind instruments, like a flute or trumpet. It reflects a character's ability to create music using wind instruments. Wind is used whenever a character needs to create music or perform in a musical production. Proficiency with instruments that require breath to play, including woodwinds and brass.
   - **Mechanics:**
 
-<!-- end list -->
+- *Performance:* Standard performance mechanics.
 
-  - *Performance:* Standard performance mechanics.
-
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Brass Trumpet & Cornet:** Blasting clear, ringing fanfares, jazzy muted solos, and piercing high-register brass lines.
       - **Saxophone (Alto/Tenor/Baritone):** Playing soulful, expressive jazz melodies, blues runs, and smooth vibrato riffs.

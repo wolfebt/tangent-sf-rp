@@ -66,51 +66,142 @@ negative_keywords: >-
   cynical-pragmatism
 ---
 
-## **18\. RELIGIOUS CULT**
+# 1.04. ARCHETYPAL FACTION: 18. RELIGIOUS CULT (+1 WS)
 
-### **I. Detailed Faction Description**
+* **Focus Statement:** The complete unabridged sociological, strategic, mechanical (`TL 2 / ML 3 | +1 WS`, `20 SP` Faction Package, `-1 CP` Recommended Features), and CRISP/HI-FI visual synthesis module for `1.04.Archetypal.ReligiousCult.md` in **Tangent SF RP**.
 
-* **Overview:** Fanatical splinter groups following a charismatic leader, a bizarre cosmic event, or a dangerous dogma. They are highly insular, demanding absolute devotion from their members, and often prepare for a violent cosmic reckoning.  
-* **Key Themes:** Fanatical Orders, Dogma, Brainwashing, Martyrdom.  
-* **Relationship to Others:** Hostile or deeply manipulative, seeking to convert outsiders or destroy them as heretics.
+## Overview & Mechanical Authority Block
 
-### **II. Core Identity**
+Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
 
-* **Official Designation:** The Order of \[Entity\] / The Holy Vanguard  
-* **Colloquialisms:** The Fanatics / The Cult / The Zealots  
-* **Archetype:** Fanatical Orders  
-* **Capital/Key World:** A hidden compound, a hollowed-out asteroid, or a deep-space temple.  
-* **Driving Mandate:** Spread the true faith, prepare for the end, or ascend to a higher plane.  
-* **Motto:** "Faith requires sacrifice."
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
+* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
+* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
+* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
 
-### **III. Sociological Profile**
+## Part I — Alignment & Summary Matrix Table
 
-* **Ideology & Culture:** Dogmatic, brainwashed, entirely subservient to the leadership.  
-* **Social Structure:** A strict pyramid with the Prophet/Leader at the absolute peak.  
-* **View on Outsiders:** Unbelievers meant to be converted, ignored, or purged.  
-* **Law & Order:** Strict adherence to holy texts; punishments are often ritualistic and brutal.
+| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
+| :--- | :--- | :--- | :--- |
+| **Executive Summary & Game Data** | `operator/factions/1.04.Archetypal.ReligiousCult.md (Sec. I)` | TL 2 / ML 3 | +1 WS | 20 SP Package (0 CP) | Rec Features (-1 CP) | Establishes Faction Tech/Meta levels, EUFT Wealth modifier, 20-SP skill package, and discounted features. |
+| **Sociological, Strategic & Military Profile** | `operator/factions/1.04.Archetypal.ReligiousCult.md (Sec. II–IV)` | Core Identity, Governance, Economy, Military Doctrine, Typical Archetypes | Unabridged lore, society structure, strategic assets, and signature units/structures. |
+| **Visual Semiotics & HI-FI Prompt Frameworks** | `operator/factions/1.04.Archetypal.ReligiousCult.md (Sec. VI–VII)` | CRISP Semiotics + HI-FI INK & HI-FI SKETCH Modular Frameworks | Complete visual design directives, palettes, shape language, and ready-to-use image generation templates. |
 
-### **IV. Strategic Assets**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-* **Tech Level (TL):** 3  
-* **Strengths:** Absolutely fearless, unified purpose, charismatic leadership capable of moving masses.  
-* **Weaknesses:** Dogmatic and inflexible, easily manipulated by their leaders, alienated from galactic society.  
-* **Military Doctrine:** Suicide tactics, overwhelming zeal, and a total disregard for their own casualties.
+### I. Canonical Faction Profile, Lore & Unabridged Codex Entry (`operator/factions/1.04.Archetypal.ReligiousCult.md`)
 
-### **V. Mechanics (Game Data)**
+## Executive Summary & Nov 2 Canonical Game Data
+* **Archetypal Faction Classification:** 18. Religious Cult
+* **Tech / Meta Level:** TL 2 / ML 3
+* **EUFT Starting Wealth Score Modifier:** **+1 WS**
+* **Canonical 20-Point Faction Skill Package (0 CP):** Knowledge: Religion (+5), Willpower/Insight (+5), Attune (+4), Expression: Oratory (+3), Intimidate (+3)
+* **Canonical Recommended Features (-1 CP Discount):** Awakened (Divine), Believer, Devout, True Faith, Fearless, Indomitable Will, Inspiration, Iron Will, Karmic Blessing, Persuasive
+* **CRISP Visual Semiotics Key:** Incense-filled catacombs, gilded reliquaries, ecstatic chanting congregations.
 
-* **Prominent Species:** Variable.  
-* **Faction Skill Package (20 Points):**  
-  * Discipline (+5)  
-  * Intimidate (+4)  
-  * Insight (+4)  
-  * Melee Combat (+4)  
-  * Academics (Theology) (+3)  
-* **Typical Archetypes:** The Prophet, The Inquisitor, The Ascetic, The Martyr, The Zealot Vanguard.  
-* **Recommended Features (1 CP Discount):** Iron Will, Fearless, Indomitable Will, Resolute, Pain Tolerance, Diehard, Unsettling Aura, Power Attack, Channel Smite, Awakened.
+RELIGIOUS CULT
+I. Detailed Faction Description
+* Overview: Fanatical factions characterized by absolute devotion to a particular belief system or charismatic spiritual leader. They operate with terrifying unity, seeking to spread their faith, eliminate non-believers, or prepare for prophesied end-times.
+* Key Themes: Fanaticism, Blind Faith, Doomsday Preparation, Charismatic Leaders.
+* Relationship to Others: Insular and often hostile to non-believers.
+II. Core Identity
+* Official Designation: The Order of [Deity/Concept] / The True Path
+* Colloquialisms: The Zealots / The Fanatics
+* Archetype: Fanatical Orders
+* Capital/Key World: Variable (Remote temple complexes, hidden compounds)
+* Driving Mandate: Spread belief, achieve spiritual enlightenment, prepare for the end times.
+* Motto: "Faith is absolute. Doubt is death."
+III. Sociological Profile
+* Ideology & Culture: Fanatical, zealous, dogmatic, secretive.
+* Social Structure: Theocratic hierarchy centered around a single prophet or high priesthood.
+* View on Outsiders: Heathens to be converted or purged.
+* Law & Order: Strict religious dogma and brutal inquisitions for heresy.
+IV. Strategic Assets
+* Tech Level (TL): 3
+* Strengths: Willingness to die for beliefs, strong community bonds, charismatic leaders, ability to inspire total devotion, access to unique spiritual knowledge.
+* Weaknesses: Dogmatic and inflexible, vulnerable to manipulation by leaders, internal schisms, difficulty communicating with secular societies.
+* Military Doctrine: Martyrdom, fearless human-wave attacks, and psychological terror.
+V. Mechanics (Game Data)
+* Prominent Species: Variable (Highly devoted believers).
+* Faction Skill Package (20 Points):
+   * Discipline (+5)
+   * Academics (Theology) (+5)
+   * Intimidate (+4)
+   * Insight (+3)
+   * Combat (+3)
+* Typical Archetypes:
+   * The Prophet: The charismatic leader who speaks directly for the divine.
+   * The Missionary: Traveling the galaxy to convert new believers to the cause.
+   * The Inquisitor: Rooting out heresy and torturing non-believers.
+   * The Cultist: A fanatical follower willing to commit atrocities for the faith.
+   * The Ascetic: Denying physical pleasures to achieve pure spiritual enlightenment.
+   * The Zealot: A heavily armed holy warrior enforcing the dogma.
+   * The Doomsayer: Preaching the imminent end of the galaxy to terrified crowds.
+   * The Martyr: Eagerly seeking a glorious death in combat to ensure salvation.
+   * The Temple Guard: Protecting the sacred holy sites from secular trespassers.
+   * The Relic Keeper: Guarding and studying ancient, holy artifacts.
+* Recommended Features (1 CP Discount):
+   * Iron Will: Unbreakable, fanatical devotion protecting the mind from manipulation.
+   * Fearless: Stripped of the fear of death by absolute faith in the afterlife.
+   * Inspiring Personality: Radiating a holy aura that draws followers to the cause.
+   * Awakened: Mind opened to divine, metaphysical energies.
+   * Centering: Maintaining perfect spiritual balance even in chaotic warfare.
+   * Fanatical Devotion: Pushing past physical limits when defending the faith.
+   * Veiled Threat: Terrifying heathens with promises of divine retribution.
+   * Discipline Focus: Mastering a specific, holy aspect of magical power.
+   * Tough: Enduring immense physical trauma as a test of faith.
+   * Pain Tolerance: Ignoring agony, viewing it as a purification of the soul.
+VI. Visual Semiotics (Aesthetics)
+* Design Directive: Mystical, devoted, and intimidating.
+* Atmosphere Tokens: Robes, altars, incense smoke, massive idols, chanting crowds.
+* HI-FI INK Guidance:
+   * SETTING STYLE: Fanatical Order, Dark Ritual, Zealous.
+   * CONTEXT: Robes, altars, incense smoke, massive idols, chanting crowds.
+   * ATMOSPHERE: Mystical, intimidating, devoted, blindingly light or pitch dark.
 
-### **VI. Visual Semiotics (Aesthetics)**
+RELIGIOUS CULT ARCHETYPE - HI-FI SKETCH PROMPT FRAMEWORK
+1. MODULAR PROMPT STRUCTURE
+Build your Religious Cult prompts using this tailored base structure:
+[CONTENT PROMPT]
+* SUBJECT: [e.g., charismatic Prophet bathed in holy light, zealous Inquisitor holding a brand, devoted Cultist in heavy robes, ascetic Missionary with ceremonial scars]
+* NARRATIVE: [e.g., delivering a fanatic sermon to a massive crowd, preparing a ritual sacrifice, reading from a forbidden holy text, aggressively converting outsiders]
+[GUIDANCE PROMPT]
+* SETTING STYLE: Fanatical, ornate but oppressive, religious iconography, grand temples or hidden catacombs, smoke and incense, ceremonial robes.
+* CONTEXT: A massive, terrifying cathedral of sharp stone, a secret candle-lit subterranean ritual chamber, a public execution square, a monastic mountain retreat.
+* ATMOSPHERE: Fanatical, zealous, dogmatic, intimidating, hypnotic, dangerously devoted.
+[RENDERING PROMPT]
+* RENDERING: Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, precise contour lines, intricate cross-hatching, stipple shading, dynamic line weight, mostly monochrome, black ink on clean paper, subtle selective color accents, architectural precision, traditional media aesthetic, highly detailed draftsmanship, volumetric cross-hatching, expressive ink strokes, clean negative space, technical illustration qualities, crisp line execution.
+* FORM: [Insert specific Form Modifier from Hi-Fi Sketch rules]
+* NEGATIVE PROMPT: photorealism, photography, raw photo, 3d render, CGI, oil painting, watercolor, lineless, soft shading, airbrushed, blurred, depth of field, out of focus, gradient mesh, flat colors, heavy block shading, smudged, messy lines, scratchy, poorly drawn contours, text, watermark, anime, comic book coloring, cinematic lighting.
+2. FACTION-SPECIFIC INK ACCENTS
+To maintain the Hi-Fi Sketch aesthetic while grounding it in this archetype, use these subtle color splash tokens:
+* Accent Tokens: zealous gold marker trim, deep ceremonial crimson/blood red ink wash on robes or altars, faint eerie green or holy yellow ritual flame glow.
+3. READY-TO-USE TEMPLATES
+INTERIOR SPACE: The Ritual Chamber
+Secret subterranean Religious Cult ritual chamber, massive statues of enigmatic deities, a central stone altar surrounded by kneeling cultists in heavy robes, thick incense smoke filling the air. Environmental perspective sketch, complex spatial line art, diegetic lighting rendered via varying hatching density, architectural interior drafting, detailed clutter rendered in pure line work, varying line thickness to simulate depth. Fanatical and intimidating atmosphere, subtle eerie green ritual flame marker accent and deep crimson shadows. Hyper-detailed ink sketch, fine line art, micron pen illustration, masterwork drawing, mostly monochrome. --no photorealism, photography, 3d render, CGI, flat colors, messy lines, anime.
+CHARACTER CONCEPT SHEET: The Inquisitor
+Zealous Religious Cult Inquisitor wearing heavy, ornate robes adorned with holy symbols, carrying a glowing ceremonial branding iron. Character design sketchbook page, precise anatomical draftsmanship, turnaround views: (front view ink sketch:1.5), (back view ink sketch:1.5), (side profile ink sketch:1.5), faint construction lines visible, clean white paper background, highly detailed costume line art, organized sketch array. Dogmatic and terrifying aesthetic, fanatical expression, subtle zealous gold marker trim and glowing red iron accent. Hyper-detailed ink sketch, fine line art, micron pen illustration, mostly monochrome. --no photorealism, 3d render, CGI, soft shading, heavy block shading.
 
-* **Design Directive:** Uniform, ritualistic, and unsettling.  
-* **Atmosphere Tokens:** Flowing robes, branded holy symbols, grand but hidden altars, unified color schemes, incense.  
-* **HI-FI INK Guidance:** Sci-Fi Cult, Dark Devotion. Dimly lit temples, masses of followers in identical robes, glowing esoteric symbols, grand altars. Fanatical, unsettling, devoted.
+## Part III — Discrepancy & Restoration Ledger
+
+### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
+
+* **Target File Audited:** `/game_rules/operator/factions/1.04.Archetypal.ReligiousCult.md`
+* **Codex Sources Compared:** Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc
+* **Audit Findings:** Merged 100% of `/game_rules/operator/factions/1.04.Archetypal.ReligiousCult.md` and Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc with zero redactions or ellipses, enforcing `TL 2 / ML 3 | +1 WS`, `20 SP` Faction Skill Package (`0 CP`), and `Recommended Features (-1 CP Discount: 2 CP instead of 3 CP)`.
+
+### Canonical Discrepancy & Restoration Entries
+
+* **DISC-104-RELI-1 (Complete Dual-Archive Lore & Prompt Framework Synthesis):** Preserved both the full narrative/expansion modules from `/game_rules/operator/factions/1.04.Archetypal.ReligiousCult.md` and the complete structured I–VII sections and HI-FI INK/SKETCH templates from Codex `1.04. MINOR FACTIONS` (`1jcn_ct00P3zdOmiChpHrdxmIcU7yl5xwtXhgBLU2XFk`) and `1.04 FACTIONS` Master Doc.
+* **DISC-104-RELI-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `TL 2 / ML 3 | +1 WS`, `20 SP` Faction Skill Package at `0 CP`, `Recommended Features (-1 CP Discount)`, and canonical BASTION terminology (`CP`, `CR`, `2d10`, `Alertness`, `Insight`, `Vocation (Handler)`).
+
+### Stage 4 — BASTION Deterministic Verification Checklist
+
+* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
+* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
+* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

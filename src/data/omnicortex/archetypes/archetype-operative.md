@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Operative
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Stealth / Sabotage / Utility  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Intellect  
 
-## Overview
 A skilled agent who carries out dirty work. Expert in infiltration and sabotage.
 
-> *You are the shadow in the corner. You slip past defenses, disable systems, and extract targets without leaving a trace. You are the tool that fixes problems quietly.*
+*You are the shadow in the corner. You slip past defenses, disable systems, and extract targets without leaving a trace. You are the tool that fixes problems quietly.*
 
-> _"I was never here."_
-
-## Tactical Role
-Infiltration, sabotage, covert surveillance.
-
-## Essential Skills
-- Stealth
-- Bluff
-- Knowledge (Technology)
-- Combat (Pistol)
-
-## Signature Features
-- Undercover Operations
-- Security Expertise
-
-## Recommendations
-- **Occupations**: Agent, Criminal
-- **Origins**: Urban, Militaristic, Industrial
-- **Factions**: Syndicate (Agents), Impyrium (Spies), Ascendancy (Intelligence)
-
-
-## Extended Lore & Background
-
-A skilled agent who carries out dirty work. Expert in infiltration and sabotage.  
-*You are the shadow in the corner. You slip past defenses, disable systems, and extract targets without leaving a trace. You are the tool that fixes problems quietly.*  
 *"I was never here."*
 
+  - **Core Concept:** Stealth / Sabotage / Utility
+  - **Recommended Occupations:** Agent, Criminal.
+  - **Recommended Origins:** Urban, Militaristic, Industrial.
+  - **Recommended Factions:** Syndicate (Agents), Impyrium (Spies), Ascendancy (Intelligence).
+  - **Key Attributes:** Agility (+3 Primary), Intellect (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Stealth, Bluff, Knowledge (Technology), Combat (Pistol).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Undercover Operations, Security Expertise.
+  - **Tactical Role:** Infiltration, sabotage, covert surveillance.

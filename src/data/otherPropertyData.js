@@ -1,8 +1,8 @@
 /**
  * Canonical Other Property Database for Tangent SF RP
+ * Auto-generated from src/data/omnicortex/other_property/
  * Commodities, Consumables, Raw Materials, Ammunition, Power Cells, Trade Goods & Meta-Tech Catalysts
- * Grounded in 2.00 ECONOMATRIX.md, 99.Tech.Equipment.Framework.md, 99.Tech.Equipment.SystemsAndMastercrafting.md,
- * and 99.Tech.Weaponry.ForgeProtocol.md. All prices follow the Tangent Standard Curve: round(10 * 4^(CR / 5)).
+ * Total Other Property Items: 16
  */
 
 export const DEFAULT_OTHER_PROPERTY = [
@@ -44,7 +44,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Dehydrated Field Rations (1-Day Pack)\n\nCompact dehydrated nutrient rations sealed in waterproof foil pouches. Provides balanced daily caloric intake for biological operators.\n\n**Mechanics:** 1 Day of food. Restores Supply Die.\n\n**Notes:** 1 day of rations. Restores degraded Supply Die during field survival. Inedible for non-biological entities."
   },
   {
     "id": "nutrient-solution-biotech",
@@ -84,7 +85,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Biotech Nutrient Solution (1-Dose Sustenance Bath)\n\nBio-rich enzymatic nutrient suspension required to sustain grown Auluran and Kitin heavy weapons and living carapace armor.\n\n**Mechanics:** Prevents Broken (Starving) condition on grown Biotech heavy weapons and armor for 1 week.\n\n**Notes:** Grown heavy weapons and armor must be submerged in 1 dose of Nutrient Solution once per week, or they degrade and gain the Broken (Starving) condition."
   },
   {
     "id": "standard-kinetic-magazine",
@@ -122,7 +124,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Standard Kinetic Magazine (Caseless Slugs)\n\nStandardized box magazine loaded with chemical-propellant or magnetically primed solid kinetic slugs for ballistic firearms.\n\n**Mechanics:** Restores 1 full magazine of standard Kinetic (Piercing/Blunt) ammunition.\n\n**Notes:** Standard reload for ballistic pistols, submachine guns, rifles, and shotguns."
   },
   {
     "id": "micro-energy-cell",
@@ -162,7 +165,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Micro-Cell (Holdout & Attachment Battery)\n\nSub-miniature high-density capacitor cell engineered for holdout pistols, optical sights, weapon attachments, and diminutive personal electronics.\n\n**Mechanics:** Powers holdout energy weapons, sights, and Fine/Diminutive electronics.\n\n**Notes:** Standard TL 3 modular micro-power source. Negligible mass."
   },
   {
     "id": "standard-power-cell",
@@ -202,7 +206,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Standard Energy Cell (Universal TL 3 Battery)\n\nUniversal TL 3 modular hydrogen-graphene energy cell used to power directed-energy pistols, SMGs, rifles, energy blades, and field scanners.\n\n**Mechanics:** Standard reload/power source for Pistols, SMGs, Rifles, and Energy Blades.\n\n**Notes:** Features TL 3 Modular universal charging ports compatible across Syndicate, Ascendancy, Coalition, and Combine hardware."
   },
   {
     "id": "heavy-power-pack",
@@ -240,7 +245,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Heavy Weapon Power Pack (Backpack Unit)\n\nHigh-output wearable capacitor pack with armored umbilical feed cable designed for heavy energy weapons, plasma launchers, and industrial fusion cutters.\n\n**Mechanics:** Powers Heavy Weapons, Plasma Launchers, and high-drain field emitters.\n\n**Notes:** Worn as a backpack unit or clipped to heavy armor webbing."
   },
   {
     "id": "special-payload-magazine",
@@ -279,7 +285,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Special Payload Ammunition Clip (AP / Incendiary / Cryo / EMP)\n\nPrecision-manufactured specialized munition magazine containing tungsten-core Armor-Piercing, Thermal Incendiary, Cryo-Gel, Corrosive Acid, Ionizing EMP, or Non-Lethal Gel rounds.\n\n**Mechanics:** Loads 1 magazine of specialized payload rounds (AP, Incendiary, Cryo, Acid, EMP, or Non-Lethal Gel).\n\n**Notes:** Crafted at CR 10 (160 Cr) per magazine to alter a ballistic or launcher weapon's damage vector or penetration profile."
   },
   {
     "id": "plasteel-ingot-bulk",
@@ -317,7 +324,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Refined Plasteel & Titanium Ingot (Industrial Lot)\n\nHigh-tensile space-age structural alloy billet combining polymer matrices with refined titanium-steel alloys. Essential feedstock for workshops and nano-forges.\n\n**Mechanics:** Provides 160 Cr of TL 3 Industrial Raw Materials for crafting or armor/hull repair.\n\n**Notes:** Standard industrial raw material lot (provides 160 Cr of raw material value toward Productivity Engine crafting or structural SP repairs)."
   },
   {
     "id": "nanotube-wire-spool",
@@ -356,7 +364,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Carbon-Nanotube High-Tensile Spool (100m)\n\nBraided molecular carbon-nanotube cord with 10,000 lbs breaking strain and motorized spooling handle. Used in both tactical rigging and composite armor weaving.\n\n**Mechanics:** Supports 5 tons tensile load; usable as tactical rigging or TL 3-4 composite raw material.\n\n**Notes:** Supports up to 5 tons of suspended mass; counts as 160 Cr of industrial carbon-nanotube material."
   },
   {
     "id": "kitin-hive-resin-composite",
@@ -394,7 +403,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Kitin Hive-Resin Structural Composite\n\nSecreted organic bio-resin composite harvested by the Kitin Collective. Lighter than plasteel, extraordinarily rigid, and naturally self-sealing against micro-breaches.\n\n**Mechanics:** Kitin factional material. Grants Lightweight trait on armor or +2 Stealth (acoustic dampening) in structures.\n\n**Notes:** Armor crafted with Hive-Resin gains the Lightweight trait; architectural bulkheads lined with Hive-Resin grant +2 to Stealth (sound dampening) inside them."
   },
   {
     "id": "alterian-sunglass-laminate",
@@ -435,7 +445,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Alterian Sunglass Laminate (Solar Capacitor)\n\nCrystalline structures grown from pure silica and coherent light by Alterian Enclave artisans. Functions as a perpetual solar capacitor.\n\n**Mechanics:** Alterian factional material. Recharges energy weapons and powered tools automatically in direct sunlight.\n\n**Notes:** When integrated into energy weapons or powered tools (Photosynthesis trait), automatically recharges energy cells and ammunition when exposed to direct sunlight."
   },
   {
     "id": "cold-credit-bearer-chit",
@@ -476,7 +487,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Cold Credit Bearer Chit (640 Cr Untraceable Bond)\n\nCryptographically locked physical bearer chit ('Cold Credits') holding 640 standard Credits offline, bypassing the Syndicate Mesh financial surveillance grid.\n\n**Mechanics:** Untraceable offline bearer currency worth 640 Cr (CR 15 value).\n\n**Notes:** Favored by Outworlds freelancers, Coalition traders, and Gray Market fixers for untraceable liquid transactions."
   },
   {
     "id": "platinum-iridium-bullion",
@@ -522,7 +534,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Precious Metal Trade Bullion (Platinum / Iridium Bar)\n\nAssayed and stamped precious metal bullion bar of refined platinum and iridium, universally accepted across the Commodities & Exchange Matrix from primitive worlds to Entari Combine ports.\n\n**Mechanics:** Universal physical trade commodity worth 640 Cr (CR 15 value).\n\n**Notes:** Retains full exchange value across all Tech Levels and disconnected frontier sectors."
   },
   {
     "id": "resonance-crystal-catalyst",
@@ -564,7 +577,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Resonance Crystal (Meta-Tech Enhancement Catalyst)\n\nNaturally polarized noospheric mineral crystal that vibrates in harmony with Conscious Light. Required to anchor permanent passive Meta-Tech Enhancements into physical Sockets or dermal tattoos.\n\n**Mechanics:** Exotic Meta-Tech catalyst worth 2,560 Cr (CR 20). Required for Passive Enhancements and Imbued Tattoos.\n\n**Notes:** Meta-Tech fabrication requires Resonance Crystals for Passive Enhancements (such as Energy Sheath, Ghost-Strike, or Featherweight), constituting 50% of the final item value."
   },
   {
     "id": "refined-aetherium-ampoule",
@@ -604,7 +618,8 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Refined Aetherium Ampoule (Meta-Tech Imbuement Catalyst)\n\nHermetically containment-sealed ampoule of refined Aetherium—the hyper-conductive metaphysical element capable of hard-coding active Invocations into technological hardware.\n\n**Mechanics:** Exotic Meta-Tech catalyst worth 10,240 Cr (CR 25). Required for Active Imbuements and Aether-Node fabrication.\n\n**Notes:** Required as 50% raw material value to fabricate Active Meta-Tech Imbuements (such as Blink Suits or Sun-Fire Vambraces) and TL 4 Aether-integrated power cores."
   },
   {
     "id": "raw-polymatter-canister",
@@ -645,6 +660,7 @@ export const DEFAULT_OTHER_PROPERTY = [
       "strain": 0,
       "focus": 0,
       "ap": 0
-    }
+    },
+    "body": "# Raw Polymatter Substrate Canister (Mekan Liquid Metal)\n\nA magnetic-lattice containment cylinder holding true TL 5 Polymatter—a programmable liquid-metal substrate existing in a state of hyper-potentiality that reacts instantaneously to neural or digital commands.\n\n**Mechanics:** Apex TL 5 exotic substrate worth 40,960 Cr (CR 30). Enables Morphic equipment fabrication and Base Substance Exchange.\n\n**Notes:** Used in Tier 5 Genesis fabrication and Base Substance Exchange to forge Morphic weapons, armor, and implants."
   }
 ];

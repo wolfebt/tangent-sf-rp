@@ -27,13 +27,9 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Academics is the skill of knowledge acquisition and analysis. It reflects a character's ability to research and understand complex topics. Academics is used whenever a character needs to research a topic, analyze data, or draw conclusions based on evidence. This can include things like researching a new technology, analyzing an artwork or deciphering old texts. 
   - **Mechanics:**
 
-<!-- end list -->
+- *Research:* CR 15 to find obscure information in a library/database.
 
-  - *Research:* CR 15 to find obscure information in a library/database.
-
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Research Methodology:** Efficiently querying galactic libraries, university databases, and scholarly compendiums.
       - **Critical Epistemology:** Evaluating the validity, systemic bias, and objective truth of complex source materials.

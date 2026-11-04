@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Religion is the skill of understanding and practicing religious beliefs. It reflects a character's ability to understand the beliefs and practices of different religions, and to practice their own religion. Religion is used whenever a character needs to interact with people of different faiths, whether it's to negotiate a peace treaty or to perform a religious ceremony. This can include things like understanding religious texts, performing religious rituals, and interpreting religious symbols.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Identify Symbol/Rite:** CR 10 (Common) to CR 25 (Secret Cult).
+- **Identify Symbol/Rite:** CR 10 (Common) to CR 25 (Secret Cult).
   - **Theological Debate:** Supported by Diplomacy checks.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Pantheons & Cosmic Deities:** Recalling the domains, alignments, and mythologies of recognized sector gods.
       - **Sectarian Cults & Heresies:** Identifying outlawed apocalyptic sects, blood cults, and rogue pseudo-religious factions.

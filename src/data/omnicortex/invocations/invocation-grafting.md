@@ -35,23 +35,27 @@ keywords: >-
   transmutation
 negative_keywords: 'static purist, pure energy, unalterable dogma, ethereal incorporeal'
 ---
+
 # GRAFTING Invocation
 
-**Category**: Invocations  
-**Discipline**: Matter
-
 ## Description & Ritual Details
-Classification: Matter (Transmutation) | Healing/Utility | \[Fusion\] \[Modification\]  
+
+Classification: Matter (Transmutation) | Healing/Utility | [Fusion] [Modification]
+
 Parameters:
-* **Base Difficulty:** 20  
-* **Time:** 1 Hour (Ritual)  
-* **Range:** Touch  
-* **Area:** Single Creature  
-* **Duration:** Permanent  
-* **Resistance:** Fortitude (Negates)
-Effect Description:  
-Attaches or integrates a foreign object or limb onto a living body.  
+
+  - **Base Difficulty:** 20
+  - **Time:** 1 Hour (Ritual)
+  - **Range:** Touch
+  - **Area:** Single Creature
+  - **Duration:** Permanent
+  - **Resistance:** Fortitude (Negates)
+
+Effect Description:
+
+Attaches or integrates a foreign object or limb onto a living body.
+
 **Scaling Function:**
-* **Complexity:** Reduces Rejection Penalty/Damage by 2 per Stage.  
-* **Utility:** Allows grafting of higher TL items (TL 3 \-\> TL 4 \-\> TL 5\) per Stage.
-###
+
+  - **Complexity:** Reduces Rejection Penalty/Damage by 2 per Stage.
+  - **Utility:** Allows grafting of higher TL items (TL 3 -> TL 4 -> TL 5) per Stage.

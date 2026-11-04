@@ -50,41 +50,18 @@ cp_chassis: 80
 
 # The Philosopher
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Support / Lore / Mental Tank  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The seeker of deeper meaning who challenges the assumptions of society and explores the fundamental nature of existence.
 
-> *You think where others merely act. You analyze the moral and existential implications of every decision, providing the ethical framework that keeps the group—and civilization—from losing its soul.*
+*You think where others merely act. You analyze the moral and existential implications of every decision, providing the ethical framework that keeps the group—and civilization—from losing its soul.*
 
-> _"To know the universe, one must first know the silence between the thoughts."_
-
-## Tactical Role
-Resisting mental intrusion, providing ethical guidance, identifying historical/philosophical context.
-
-## Essential Skills
-- Academics
-- Insight
-- Diplomacy
-- Knowledge (History)
-
-## Signature Features
-- Metacognition
-- Enlightened Mind
-
-## Recommendations
-- **Occupations**: Scholar, Adept
-- **Origins**: Enlightened, Research, Urban
-- **Factions**: Alterian Enclave (Sages), Mekan (Code Adherents), Ascendancy
-
-
-## Extended Lore & Background
-
-The seeker of deeper meaning who challenges the assumptions of society and explores the fundamental nature of existence.  
-*You think where others merely act. You analyze the moral and existential implications of every decision, providing the ethical framework that keeps the group—and civilization—from losing its soul.*  
 *"To know the universe, one must first know the silence between the thoughts."*
 
+  - **Core Concept:** Support / Lore / Mental Tank
+  - **Recommended Occupations:** Scholar, Adept.
+  - **Recommended Origins:** Enlightened, Research, Urban.
+  - **Recommended Factions:** Alterian Enclave (Sages), Mekan (Code Adherents), Ascendancy.
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Academics, Insight, Diplomacy, Knowledge (History).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Metacognition, Enlightened Mind.
+  - **Tactical Role:** Resisting mental intrusion, providing ethical guidance, identifying historical/philosophical context.

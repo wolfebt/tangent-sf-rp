@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Navigation is the skill of understanding and using navigational tools. It reflects a character's ability to navigate through different environments, whether it's on land, sea, or air. Navigation is used whenever a character needs to travel to a specific location, whether it's to explore a new area or to deliver a package. This can include things like using a map and compass, piloting a ship, or flying a plane.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Plot Course:** CR 10 (Familiar) to CR 25 (Uncharted/Hazardous).
+- **Plot Course:** CR 10 (Familiar) to CR 25 (Uncharted/Hazardous).
   - **Astrogation:** Calculating FTL jumps (CR varies by distance and route stability).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Astrogation & FTL Calculations:** Plotting jump-vectors through hyperspace, avoiding gravity wells and stars.
       - **Planetary Orienteering:** Traversing wilderness using compasses, star arrays, natural landmarks, and elevation maps.

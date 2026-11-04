@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Foreman
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Leadership / Logistics / Intimidation  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Stamina  
 
-## Overview
 A stern and authoritative leader who oversees the workforce and ensures that production targets are met.
 
-> *You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*
+*You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*
 
-> _"The schedule is not a suggestion. Get back to work."_
-
-## Tactical Role
-Organizing NPC labor, intimidating local workers, managing base construction.
-
-## Essential Skills
-- Intimidation
-- Leadership
-- Diplomacy
-- Vocation (Administrator)
-
-## Signature Features
-- Commanding Presence
-- Efficient Manager
-
-## Recommendations
-- **Occupations**: Citizen (Worker), Builder
-- **Origins**: Industrial, Colony, Urban
-- **Factions**: Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium
-
-
-## Extended Lore & Background
-
-A stern and authoritative leader who oversees the workforce and ensures that production targets are met.  
-*You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*  
 *"The schedule is not a suggestion. Get back to work."*
 
+  - **Core Concept:** Leadership / Logistics / Intimidation
+  - **Recommended Occupations:** Citizen (Worker), Builder.
+  - **Recommended Origins:** Industrial, Colony, Urban.
+  - **Recommended Factions:** Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium.
+  - **Key Attributes:** Charisma (+3 Primary), Stamina (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Leadership, Diplomacy, Vocation (Administrator).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Commanding Presence, Efficient Manager.
+  - **Tactical Role:** Organizing NPC labor, intimidating local workers, managing base construction.

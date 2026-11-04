@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-architect-99-modular-character-matrix"
 category: "architect_matrix"
 parent: "doc-architect-99-modular-character-matrix"
-order: 8
+order: 9
 perspective: "architect"
 entry_type: "Character Matrix Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","99.character.modulec_e.biologysoullifepath","matrix"]
-updatedAt: "2026-11-02T22:49:10.194Z"
+updatedAt: "2026-11-04T00:33:10.395Z"
 costs:
   bp: 0
   credits: 0
@@ -39,6 +39,15 @@ sockets:
 
 # **99.Character.ModuleC_E.BiologySoulLifepath.md**
 
+## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+
+- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
+- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
+- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
+- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
+- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
+- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+
 ## **MCM REFERENCE MODULES C & D: BIOLOGY & NARRATIVE ARCHITECTURE (THE SOUL)**
 
 ### **REFERENCE MODULE C: SPECIES & BIOLOGY**
@@ -48,8 +57,6 @@ During the physiological phase of character creation, the Architect or Operator 
 - **Attribute Mods:** Add Species modifiers (e.g., +2 STR for Kongi) to the Chassis base.
 - **Features:** Add innate biological traits (e.g., Low-Light Vision, Flight, Natural Armor, Prehensile Limbs).
 - **Size:** Apply Scaling modifiers (see `operator/1.10 SCALING.md`) for Tiny, Small, Large, Huge, etc.
-
----
 
 ### **REFERENCE MODULE D: NARRATIVE ARCHITECTURE (THE SOUL)**
 
@@ -124,7 +131,7 @@ A character's voice anchors their reality in the auditory space of the game. Fac
 - **The Academic/Tech:** Speaks in precise jargon, correcting others' grammar. Uses passive voice ("Mistakes were made") to deflect blame. References statistics or probabilities rather than certainties.
 - **The Grunt/Thug:** Mono-syllabic and harsh. Uses street slang or military brevity codes ("Oscar Mike," "Copy that"). Speaks with aggressive volume, interrupting frequently. Heavy breathing or spitting between sentences.
 - **The Deceiver/Manipulator:** Silky, modulated tone that changes pitch to match the listener's comfort zone. Uses rhetorical questions and dramatic pauses. Speaks sotto voce (whispering) to force others to lean in, asserting dominance.
-- **The Alien/Other:** Refers to self in the third person ("This one thinks..."). Voices may contain dissonant harmonics (two tones at once) or staccato clicking. Biologically impossible vowel sounds create a sense of unease.
+- **The Alien/Other:** Refers to self in the third person ("This one thinks"). Voices may contain dissonant harmonics (two tones at once) or staccato clicking. Biologically impossible vowel sounds create a sense of unease.
 - **The Droid/Synthetic:** Flat affect, lack of contractions, or varying audio quality (static, skipping) depending on damage.
 
 ##### **Idiosyncrasies and Quirks Table (2d10 Roll: 2–20 or Select 1–20)**
@@ -202,11 +209,7 @@ The Ghost explains why the character believes the Lie. It provides the Architect
 - **Sci-Fi Specific Fears:** Vacuum Exposure (fear of hull breaches or EVA suits failing). Technophobia (fear of A.I. takeover or losing humanity to cybernetics). Xenophobia (fear of alien contamination or invasion). Teleportation (fear of their atoms being scattered or "dying" during transport). Time Dilation (fear of losing time with loved ones due to relativistic travel).
 - **Secrets:** Hiding an addiction, a criminal past, an illegitimate child, working as a double agent, fraudulent credentials, contracting a terminal illness, or secretly lacking powers/magic.
 
----
-
 *Continued in **[Reference Module E: Backstory Schema (Lifepath Generation)](./99.Character.ModuleE.LifepathSchema.md)**.*
-
----
 
 ## **DISCREPANCY & RESTORATION LEDGER (DISC-516)**
 
@@ -215,5 +218,4 @@ The Ghost explains why the character believes the Lie. It provides the Architect
   - Restored 100% of Reference Module C (Species & Biology) and Reference Module D (Narrative Architecture: Archetypal Roles, Physicality/Somatic Facilitation, Fashion/Attire, Vocal Textures, 20-Item Quirks Table, Motivators, Lie/Ghost Engine, and Fears/Secrets).
 - **Mechanical Normalization Pass (12 Global Rules):**
   - Normalized table header from legacy `2d10` to `Index (1–20)` (`2d10` system) and updated cross-references to `operator/1.03 SPECIES.md` and `operator/1.10 SCALING.md`.
-
 

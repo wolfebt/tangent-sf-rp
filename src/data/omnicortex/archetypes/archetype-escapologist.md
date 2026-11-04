@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Escapologist
 
-**Sphere**: Operatives (The Artisans)  
-**Core Concept**: Evasion / Utility / Mobility  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Agility  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 The master of extraction and evasion who specializes in getting out of "impossible" situations.
 
-> *You are the loose thread. No cage can hold you, and no perimeter is absolute. You turn the enemy's own protocols into your exit strategy, proving that the best defense is simply not being there when the hammer falls.*
+*You are the loose thread. No cage can hold you, and no perimeter is absolute. You turn the enemy's own protocols into your exit strategy, proving that the best defense is simply not being there when the hammer falls.*
 
-> _"I'm not trapped in here with you. I'm already halfway to the hangar."_
-
-## Tactical Role
-Extraction specialist, bypassing traps, navigating high-security exits.
-
-## Essential Skills
-- Acrobatics
-- Legerdemain
-- Stealth
-- Investigation
-
-## Signature Features
-- Daredevil
-- Evasive Maneuvers
-
-## Recommendations
-- **Occupations**: Criminal, Entertainer
-- **Origins**: Urban, Leisure, Spacer
-- **Factions**: Outworlds (Fugitives), Syndicate (Extractors), Coalition
-
-
-## Extended Lore & Background
-
-The master of extraction and evasion who specializes in getting out of "impossible" situations.  
-*You are the loose thread. No cage can hold you, and no perimeter is absolute. You turn the enemy's own protocols into your exit strategy, proving that the best defense is simply not being there when the hammer falls.*  
 *"I'm not trapped in here with you. I'm already halfway to the hangar."*
 
+  - **Core Concept:** Evasion / Utility / Mobility
+  - **Recommended Occupations:** Criminal, Entertainer.
+  - **Recommended Origins:** Urban, Leisure, Spacer.
+  - **Recommended Factions:** Outworlds (Fugitives), Syndicate (Extractors), Coalition.
+  - **Key Attributes:** Agility (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Acrobatics, Legerdemain, Stealth, Investigation.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Daredevil, Evasive Maneuvers.
+  - **Tactical Role:** Extraction specialist, bypassing traps, navigating high-security exits.

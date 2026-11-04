@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Tailor is the skill of designing and creating clothing items, such as dresses, suits, or light armor or armor dressings. It reflects a character's ability to create clothing that is functional and aesthetically pleasing. Tailors are responsible for ensuring that clothing items fit well and are made from high-quality materials. This can include things like designing patterns, cutting fabric, and sewing clothing items. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Craft Outfit:* CR 15 (Common) to CR 25 (High Fashion/Armored).
+- *Craft Outfit:* CR 15 (Common) to CR 25 (High Fashion/Armored).
   - *Disguise Prep:* CR 20 to alter clothing to fit a disguise.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **High-Society Couture:** Designing and hand-stitching bespoke silk suits, evening gowns, and noble court capes.
       - **Ballistic Fabric Weaving:** Splicing flexible aramid, carbon-weave, and spider-silk fibers into puncture-proof business suits.

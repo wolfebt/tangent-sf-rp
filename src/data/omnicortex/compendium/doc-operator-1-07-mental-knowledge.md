@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.knowledge","mechanics"]
-updatedAt: "2026-11-02T22:49:29.474Z"
+updatedAt: "2026-11-04T00:33:10.738Z"
 costs:
   bp: 0
   credits: 0
@@ -39,20 +39,49 @@ sockets:
 
 # **1.07.03 MENTAL SKILLS: KNOWLEDGE (A – M)**
 
+`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Knowledge.md]`
+
+## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+
+* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Knowledge.md`
+* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
+* **Mechanical Authority (`/game_rules` Wins):**
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
+* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
+* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
+
+---
+
+## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (KNOWLEDGE SKILLS (A – M) SUMMARY MATRIX)**
+
+| Skill Name | Governing Attribute | Core Task CRs | Canonical Specialties |
+| :--- | :--- | :--- | :---: |
+| **Appraisal** | Intellect (`INT`) | Value Item (`CR 10–30`), Detect Forgery (Opposed), Identify (`CR 15+`) | 10 Specialties |
+| **Business** | Intellect (`INT`) | Analyze Market (`CR 15`), Corporate Insight (`CR 20`), Negotiation (`CR 15+`) | 10 Specialties |
+| **Computers** | Intellect (`INT`) | Remote System (`CR 10–25`), Hacking (`Security + 10`), Programming (`CR 15–30+`) | 10 Specialties |
+| **Culture** | Intellect (`INT`) | Etiquette Knowledge (`CR 10–25`), Identify Origin (`CR 15`) | 10 Specialties |
+| **History** | Intellect (`INT`) | Recall Event (`CR 10–30`), Legend Lore (`CR 20`) | 10 Specialties |
+| **Investigation** | Intellect (`INT`) | Analyze Clue (`CR 15`), Forensics (`CR 15+`) | 10 Specialties |
+| **Language** | Intellect (`INT`) | Decipher Script (`CR 20–30+`), Fluency Tiers (`Ranks 1–6+`) | 10 Specialties |
+| **Logistics** | Intellect (`INT`) | Supply Chain (`CR 15`), Resource Allocation (`CR 20`), Transport (`CR 15+`) | 10 Specialties |
+| **Medicine** | Wisdom (`WIS`) / Intellect (`INT`) | First Aid (`CR 15`), Long-Term Care (`CR 15`), Surgery (`CR 15–30`) | 10 Specialties |
+| **Metaphysics** | Intellect (`INT`) | Identify Pattern (`CR 15`), Analyze Reality (`CR 20`), Theorize (`CR 25`) | 10 Specialties |
+
+---
+
+## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
+
 ## **KNOWLEDGE (Category)**
 
   - **Ability:** Intellect
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Common Knowledge:* CR 10.
+- *Common Knowledge:* CR 10.
   - *Obscure Fact:* CR 20.
   - *Lost/Forbidden Knowledge:* CR 30+.
 
-<!-- end list -->
-
-  - **Skill Lists:**
+- **Skill Lists:**
 
   
 
@@ -62,15 +91,11 @@ sockets:
   - **Description:** The skill of determining the value, authenticity, and origin of items. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).
+- **Value Item:** CR 10 (Common) to CR 30 (Unique/Alien).
   - **Detect Forgery:** Opposed check vs. Forgery (Bluff/Craft).
   - **Identify Properties:** CR 15+ to determine what a specific device or artifact does.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Antiquities & Relics:** Dating and pricing ancient artifacts, dynastic treasures, and pre-collapse relics.
       - **Gems & Exotic Minerals:** Assessing crystalline purity, carats, cut, and value of rare planetary ores.
@@ -91,15 +116,11 @@ sockets:
   - **Description:** The skill of understanding markets, corporate structures, economics, and business operations. It allows a character to analyze market trends, understand financial systems, and manage business ventures.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Analyze Market:* CR 15 to predict trends or find investment opportunities.
+- *Analyze Market:* CR 15 to predict trends or find investment opportunities.
   - *Corporate Insight:* CR 20 to understand internal company politics or organizational structures.
   - *Negotiation:* CR 15+ to facilitate business deals.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Corporate Law & Governance:** Understanding regulatory filings, compliance liabilities, and corporate charters.
       - **Market Trend Analysis:** Forecasting supply, demand, and economic fluctuations across star sectors.
@@ -120,15 +141,11 @@ sockets:
   - **Description:** Computer is the skill of understanding and using computer technology. It reflects a character's ability to operate and program computers, and to understand the underlying principles of computer science. Computer is used whenever a character needs to use a computer to perform a task, whether it's to hack into a system or to analyze data. This can include things like programming, hacking, and data analysis.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Operate Remote System:** CR 10 to CR 25 depending on security.
+- **Operate Remote System:** CR 10 to CR 25 depending on security.
   - **Hacking:** CR is determined by the target system's firewall/security rating (Security Level + 10).
   - **Programming:** CR 15 (Simple Script) to CR 30+ (AI architecture).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Network Intrusion (Hacking):** Cracking firewalls, breaching intrusion detection systems, and gaining administrative root.
       - **Cyber-Defense & Hardening:** Patching zero-day vulnerabilities, setting up honeypots, and countering rival hackers.
@@ -149,14 +166,10 @@ sockets:
   - **Description:** Culture is the skill of understanding and appreciating different cultures. It reflects a character's ability to understand the customs, beliefs, and practices of different groups of people. Culture is used whenever a character needs to interact with people from different cultures, whether it's to negotiate a deal or to avoid offending someone. This can include things like understanding social norms, speaking different languages, and recognizing cultural symbols. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).
+- **Etiquette Knowledge:** CR 10 (Common custom) to CR 25 (Obscure ritual).
   - **Identify Origin:** CR 15 to identify a person's origin based on dress or behavior.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Impyrium High Society:** Navigating the subtle etiquette, titles, and ancestral hierarchies of the imperial core.
       - **Dynasty Lineages:** Understanding the honor codes, draconic influences, and clan hierarchies of the Dynasty.
@@ -177,14 +190,10 @@ sockets:
   - **Description:** History is the skill of understanding and interpreting historical events. It reflects a character's ability to understand the past and how it has shaped the present. History is used whenever a character needs to understand the context of a situation, whether it's to solve a mystery or to plan a strategy. This can include things like researching historical events, analyzing historical documents, and interpreting historical artifacts. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Recall Event:** CR 10 (Recent/Famous) to CR 30 (Pre-history/Lost).
+- **Recall Event:** CR 10 (Recent/Famous) to CR 30 (Pre-history/Lost).
   - **Legend Lore:** CR 20 to know rumors or legends about a specific place or item.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Ancient Civilizations:** Studying the structures, fall, and artifacts of long-dead interstellar empires.
       - **Galactic Wars & Campaigns:** Recalling operational movements, treaties, and turning points of sector-wide conflicts.
@@ -205,14 +214,10 @@ sockets:
   - **Description:** The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.
+- **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.
   - **Search/Forensics:** CR 15+ to find microscopic evidence or wiped data.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Crime Scene Reconstruction:** Determining angles of fire, point of entry, sequence of events, and struggles.
       - **Forensic Ballistics & Trauma:** Matching projectile deformation, burn marks, and wound tracks to weapons.
@@ -256,14 +261,10 @@ Sign - Hand gesture communication
 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).
+- **Decipher Script:** CR 20 (Simple code/Unknown dialect) to CR 30+ (Ancient/Alien cipher).
   - **Fluency:** Ranks determine fluency (1-2: Broken, 3-5: Fluent, 6+: Native/Technical).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Trade Common Fluency:** Reading, writing, and speaking the primary universal interstellar commerce tongue.
       - **Draconic Dialects:** Fluency in the guttural, complex structural syntax of the Dynasty worlds.
@@ -284,15 +285,11 @@ Sign - Hand gesture communication
   - **Description:** The skill of managing the flow of resources, supply chains, and large-scale operations. It reflects a character's ability to plan efficient movement, optimize inventory levels, and coordinate resource allocation. Logistics is used whenever a character needs to organize complex logistical operations, whether for military, industrial, or commercial purposes.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.
+- *Supply Chain Management:* CR 15 to establish efficient supply routes or storage solutions.
   - *Resource Allocation:* CR 20 to optimize resource distribution during high-demand or crisis scenarios.
   - *Transport Planning:* CR 15+ to coordinate complex multi-modal shipments or fleet movements.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Interstellar Supply Chains:** Organizing transport schedules across jump gates and hyperspace lanes.
       - **Fleet Fuel & Resource Management:** Calculating propellant reserves, reactor fuel burn, and life support replenishment.
@@ -313,15 +310,11 @@ Sign - Hand gesture communication
   - **Description:** Medicine is the skill of understanding and treating medical conditions. It reflects a character's ability to diagnose and treat illnesses and injuries. Medicine is used whenever a character needs to heal themselves or others, whether it's to save a life or to prevent an infection. This can include things like diagnosing illnesses, performing surgeries, and administering medication. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **First Aid:** CR 15 to stabilize a dying character.
+- **First Aid:** CR 15 to stabilize a dying character.
   - **Long-term Care:** CR 15 to double natural healing rates for a patient.
   - **Surgery/Treat Disease:** CR varies by severity (CR 15 to CR 30).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Combat Trauma & Triage:** Stabilizing life-threatening wounds, stopping arterial bleeds, and patching sucking chests.
       - **Field Surgery:** Performing amputations, extracting shrapnel, and suturing organs under battlefield conditions.
@@ -342,15 +335,11 @@ Sign - Hand gesture communication
   - **Description:** Metaphysics is the skill of understanding the fundamental nature of reality, existence, and the underlying principles of the universe. It reflects a character's ability to grasp abstract concepts, perceive patterns in the fabric of existence, and understand the limits of physical laws. Metaphysics is used whenever a character needs to comprehend anomalies, navigate realities, or understand the nature of psionic or magical energy.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Identify Pattern:* CR 15 to recognize repeating cosmological or mystical patterns.
+- *Identify Pattern:* CR 15 to recognize repeating cosmological or mystical patterns.
   - *Analyze Reality:* CR 20 to determine if a location is subject to unusual physical or planar laws.
   - *Theorize:* CR 25 to formulate a hypothesis about a high-level cosmic event.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Planar Mechanics:** Charting the geometry, boundaries, and bleed-through zones of alternate dimensions.
       - **Cosmological Anomaly Analysis:** Diagnosing spatial rifts, localized reality tears, and planar convergence points.
@@ -369,7 +358,9 @@ Sign - Hand gesture communication
 
 ---
 
-## **DISCREPANCY & RESTORATION LEDGER**
+## **PART III: DISCREPANCY & RESTORATION LEDGER**
 
-* **DISC-313 (1.07.Mental.Knowledge.md):** Restored Knowledge Skills A–M (Appraisal through Metaphysics) with all 100 Specialties and normalized CR mechanics.
+### DISCREPANCY & RESTORATION LEDGER
+
+* **DISC-313 (1.07.Mental.Knowledge.md):** Restored Knowledge Skills A–M (`Appraisal` through `Metaphysics`, including `Computers` and `Knowledge (Language)` with all Notable Languages) and all 100 Specialties from Codex `1.07 SKILLS`.
 

@@ -6,8 +6,8 @@
  * Environments, Natural Weapons, Sensory Modes, Vocations, etc.).
  */
 
-import { ALL_CANONICAL_SKILLS } from './skillsData';
-import { DEFAULT_FEATURES } from './featuresData';
+import { ALL_CANONICAL_SKILLS } from './skillsData.js';
+import { DEFAULT_FEATURES } from './featuresData.js';
 
 // ── 1. CANONICAL BASTION CHOICE CATALOGS ──
 

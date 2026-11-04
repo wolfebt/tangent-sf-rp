@@ -45,40 +45,18 @@ cp_chassis: 80
 
 # The Architect
 
-**Sphere**: Savants (The Rationals)  
-**Core Concept**: Builder / Support / Utility  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Skilled in the design and upkeep of infrastructure.
 
-> *You design the world. From skyscrapers to space stations, you understand the structures that house civilization. You see the stress points and the hidden flows of energy and people.*
+*You design the world. From skyscrapers to space stations, you understand the structures that house civilization. You see the stress points and the hidden flows of energy and people.*
 
-> _"Form follows function, but strength is non-negotiable."_
-
-## Tactical Role
-Designing bases, identifying structural weaknesses, overseeing construction.
-
-## Essential Skills
-- Vocation (Architect)
-- Knowledge (Technology)
-- Vocation (Engineer)
-
-## Signature Features
-- Macro-Engineering
-- Coordination
-
-## Recommendations
-- **Occupations**: Builder, Scholar
-- **Origins**: Urban, Industrial, Colony
-- **Factions**: Syndicate (Arcologies), Dynasty (Fortresses), Mekan (Megastructures)
-
-
-## Extended Lore & Background
-
-Skilled in the design and upkeep of infrastructure.  
-*You design the world. From skyscrapers to space stations, you understand the structures that house civilization. You see the stress points and the hidden flows of energy and people.*  
 *"Form follows function, but strength is non-negotiable."*
 
+  - **Core Concept:** Builder / Support / Utility
+  - **Recommended Occupations:** Builder, Scholar.
+  - **Recommended Origins:** Urban, Industrial, Colony.
+  - **Recommended Factions:** Syndicate (Arcologies), Dynasty (Fortresses), Mekan (Megastructures).
+  - **Key Attributes:** Intellect (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Knowledge (Architecture), Knowledge (Technology), Vocation (Engineer).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Macro-Engineering, Coordination.
+  - **Tactical Role:** Designing bases, identifying structural weaknesses, overseeing construction.

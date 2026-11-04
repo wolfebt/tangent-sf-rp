@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Science is the skill of understanding and applying the scientific method. It reflects a character's ability to understand the natural world and use that knowledge to solve problems. Science is used whenever a character needs to understand the behavior of natural phenomena, whether it's to design an experiment or to solve a mystery. This can include things like designing experiments, analyzing data, and interpreting scientific theories. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Lab Work:** CR 15 to perform experiments.
+- **Lab Work:** CR 15 to perform experiments.
   - **Identify Substance:** CR 15 to CR 25.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Inorganic Chemistry:** Synthesizing acids, industrial catalysts, synthetic polymers, and inert shielding reagents.
       - **Biochemistry:** Analyzing cellular metabolism, amino acid structures, and enzymatic reaction triggers.

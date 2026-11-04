@@ -44,41 +44,18 @@ cp_chassis: 80
 
 # The High Commander
 
-**Sphere**: Sentinels (The Stabilizers)  
-**Core Concept**: Leadership / Strategy / Buff  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Intellect  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A high-ranking military commander who leads legions into battle.
 
-> *You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*
+*You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*
 
-> _"Victory is not an accident. It is engineered."_
-
-## Tactical Role
-Mass buffing allies, coordinating large-scale battles, strategic planning.
-
-## Essential Skills
-- Leadership
-- Knowledge (Tactics)
-- Athletics
-- Combat (Any)
-
-## Signature Features
-- Tactical Mastery
-- Inspiring Strategist
-
-## Recommendations
-- **Occupations**: Soldier (Officer), Noble
-- **Origins**: Militaristic, Urban (Capital)
-- **Factions**: Impyrium (High Command), Dynasty (High Lord)
-
-
-## Extended Lore & Background
-
-A high-ranking military commander who leads legions into battle.  
-*You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*  
 *"Victory is not an accident. It is engineered."*
 
+  - **Core Concept:** Leadership / Strategy / Buff
+  - **Recommended Occupations:** Soldier (Officer), Representative (*Noble*).
+  - **Recommended Origins:** Militaristic, Urban (Capital).
+  - **Recommended Factions:** Impyrium (High Command), Dynasty (High Lord).
+  - **Key Attributes:** Intellect (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Leadership, Knowledge (Tactics), Athletics, Combat (Any).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Tactical Mastery, Inspiring Strategist.
+  - **Tactical Role:** Mass buffing allies, coordinating large-scale battles, strategic planning.

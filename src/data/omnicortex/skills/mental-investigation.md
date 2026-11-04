@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** The application of deductive reasoning, forensics, and information gathering to solve mysteries. It differs from Alertness (which is spotting things) by focusing on *analyzing* what is found.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.
+- **Analyze Clue:** CR 15 to determine how a clue fits into the larger picture.
   - **Search/Forensics:** CR 15+ to find microscopic evidence or wiped data.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Crime Scene Reconstruction:** Determining angles of fire, point of entry, sequence of events, and struggles.
       - **Forensic Ballistics & Trauma:** Matching projectile deformation, burn marks, and wound tracks to weapons.

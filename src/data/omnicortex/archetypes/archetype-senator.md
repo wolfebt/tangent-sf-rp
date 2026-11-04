@@ -48,41 +48,18 @@ cp_chassis: 80
 
 # The Senator
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Face / Leader / Buffer  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion.
 
-> *You play the great game. You know that laws are just suggestions and power is just perception. You manipulate the system to serve your ends, ensuring that public opinion is always on your side.*
+*You play the great game. You know that laws are just suggestions and power is just perception. You manipulate the system to serve your ends, ensuring that public opinion is always on your side.*
 
-> _"I don't need a weapon. I have a mandate."_
-
-## Tactical Role
-Dealing with authorities, securing funding, changing laws.
-
-## Essential Skills
-- Diplomacy
-- Bluff
-- Insight
-- Leadership
-
-## Signature Features
-- Political Acumen
-- Influence Network
-
-## Recommendations
-- **Occupations**: Representative, Noble
-- **Origins**: Urban, Leisure, Enlightened
-- **Factions**: Impyrium (Senate), Coalition (Council), Entari Combine
-
-
-## Extended Lore & Background
-
-Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion.  
-*You play the great game. You know that laws are just suggestions and power is just perception. You manipulate the system to serve your ends, ensuring that public opinion is always on your side.*  
 *"I don't need a weapon. I have a mandate."*
 
+  - **Core Concept:** Face / Leader / Buffer
+  - **Recommended Occupations:** Representative, Citizen (Elite / *Noble*).
+  - **Recommended Origins:** Urban, Leisure, Enlightened.
+  - **Recommended Factions:** Impyrium (Senate), Coalition (Council), Entari Combine.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Bluff, Insight, Leadership.
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Political Acumen, Influence Network.
+  - **Tactical Role:** Dealing with authorities, securing funding, changing laws.

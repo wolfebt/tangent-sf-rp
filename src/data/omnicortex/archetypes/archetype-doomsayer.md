@@ -47,40 +47,18 @@ cp_chassis: 80
 
 # The Doomsayer
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Debuffer / Intimidator / Caster  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Charisma  
-**Secondary Attribute**: Wisdom  
 
-## Overview
 A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it.
 
-> *You see the darkness coming. You are the harbinger of entropy, speaking truths that others fear to hear. Your presence instills dread, for you walk hand in hand with the inevitable end.*
+*You see the darkness coming. You are the harbinger of entropy, speaking truths that others fear to hear. Your presence instills dread, for you walk hand in hand with the inevitable end.*
 
-> _"The void calls, and I am its voice."_
-
-## Tactical Role
-Demoralizing enemies, inflicting fear, wielding entropic magic.
-
-## Essential Skills
-- Intimidation
-- Diplomacy
-- Discipline (Entropy \- Chaos)
-
-## Signature Features
-- Harbinger of Doom
-- Embrace the Void
-
-## Recommendations
-- **Occupations**: Adept, Outcast
-- **Origins**: Hostile, Spacer, Enlightened
-- **Factions**: Outworlds (Entropy Cults), Sha'Nor, Coalition
-
-
-## Extended Lore & Background
-
-A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it.  
-*You see the darkness coming. You are the harbinger of entropy, speaking truths that others fear to hear. Your presence instills dread, for you walk hand in hand with the inevitable end.*  
 *"The void calls, and I am its voice."*
 
+  - **Core Concept:** Debuffer / Intimidator / Caster
+  - **Recommended Occupations:** Adept, Outcast.
+  - **Recommended Origins:** Hostile, Spacer, Enlightened.
+  - **Recommended Factions:** Outworlds (Entropy Cults), Sha'Nor, Coalition.
+  - **Key Attributes:** Charisma (+3 Primary), Wisdom (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Intimidation, Diplomacy, Discipline (Entropy - Chaos).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Harbinger of Doom, Embrace the Void.
+  - **Tactical Role:** Demoralizing enemies, inflicting fear, wielding entropic magic.

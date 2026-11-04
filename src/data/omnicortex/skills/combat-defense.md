@@ -27,14 +27,10 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
   - **Description:** Defense is the art of self-preservation in combat. unlike other combat skills used to inflict damage, this skill measures a character's ability to avoid being hit, deflect blows, or position themselves advantageously to mitigate harm. It represents situational awareness, footwork, and the effective use of protective gear like shields.
   - **Game Mechanics:**
 
-<!-- end list -->
-
-  - **Passive Defense:** Your Rank in this skill is directly added to your **Defense Score**. (e.g., A character with Agility +2 and Defense Rank 4 has a base Defense of 16).
+- **Passive Defense:** Your Rank in this skill is directly added to your **Defense Score**. (e.g., A character with Agility +2 and Defense Rank 4 has a base Defense of 16).
   - **Active Defense (Reaction):** In specific tactical situations (such as the *Total Defense* action), you may roll a Defense check to replace your static score or negate specific maneuvers like Trips or Grapples.
 
-<!-- end list -->
-
-  - **Specialties:**
+- **Specialties:**
       
       - **Evasion & Footwork:** Dodging, weaving, and ducking under melee swings and incoming kinetic projectiles.
       - **Solid Shield Blocking:** Intercepting arrows, blades, and blunt trauma directly on a heavy metal or composite shield.

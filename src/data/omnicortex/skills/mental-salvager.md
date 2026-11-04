@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Salvager is the skill of salvaging materials or items from wrecked or damaged ships, buildings, or other structures. It reflects a character's ability to identify and extract valuable materials or items from damaged structures. Salvagers are responsible for ensuring that materials or items are extracted safely and efficiently. This can include things like salvaging metal from a shipwreck, or extracting valuable items from a damaged building. 
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Valuation:* CR 15 to know if a piece of junk is worth credits.
+- *Valuation:* CR 15 to know if a piece of junk is worth credits.
   - *Extraction:* CR 20 to remove a component without breaking it.
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Deep Space Derelict Cutting:** Using industrial plasma torches to slice open airless starship hulls and structural spines.
       - **Structural Stabilization:** Bracing sagging ship decks and collapsed buildings with jacks to prevent crushing collapses.

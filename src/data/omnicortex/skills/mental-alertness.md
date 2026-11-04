@@ -27,14 +27,10 @@ negative_keywords: "mindless, instinct-only, illiterate"
   - **Description:** Alertness is the skill of being aware of one's surroundings and noticing changes or potential threats in the environment. It reflects a character's ability to pay attention to details and react quickly to unexpected situations. Alertness is used whenever a character needs to be aware of their surroundings, whether it's to avoid danger or to gather information. This can include things like noticing a hidden door, detecting a trap, or identifying a potential ambush.
   - **Mechanics:**
 
-<!-- end list -->
-
-  - *Spot/Listen:* Opposed by Stealth.
+- *Spot/Listen:* Opposed by Stealth.
   - *Search:* CR 10 (easy) to CR 30 (microscopic detail).
 
-<!-- end list -->
-
-  - **Specialties:** 
+- **Specialties:** 
       
       - **Visual Spotting:** Identifying hidden snipers, optical glints, camouflaged personnel, and concealed traps.
       - **Auditory Listening:** Eavesdropping through bulkheads, picking out hushed footsteps, and identifying weapon charging hums.

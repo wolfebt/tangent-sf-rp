@@ -47,41 +47,18 @@ cp_chassis: 80
 
 # The Priest
 
-**Sphere**: Visionaries (The Idealists)  
-**Core Concept**: Support / Leader / Face  
-**Chassis Allocation**: 80 CP (+3 Primary, +2 Secondary, Essential Skills & Signature Features)  
-**Primary Attribute**: Wisdom  
-**Secondary Attribute**: Charisma  
 
-## Overview
 A devout servant of a state religion, maintaining morale and conducting ceremonies.
 
-> *You are the pillar of the community. You hold the spiritual authority of an institution, guiding the faithful and ensuring the stability of society through ritual and tradition.*
+*You are the pillar of the community. You hold the spiritual authority of an institution, guiding the faithful and ensuring the stability of society through ritual and tradition.*
 
-> _"By the authority vested in me, I command you to cease."_
-
-## Tactical Role
-Social influence via religious rank, buffing morale, healing.
-
-## Essential Skills
-- Diplomacy
-- Insight
-- Knowledge (History)
-- Knowledge (Religion)
-
-## Signature Features
-- Religious Authority
-- Spiritual Guidance
-
-## Recommendations
-- **Occupations**: Adept, Representative
-- **Origins**: Enlightened, Urban, Colony
-- **Factions**: Impyrium (Orthodoxy), Dracon Dynasty (Dragon Cults)
-
-
-## Extended Lore & Background
-
-A devout servant of a state religion, maintaining morale and conducting ceremonies.  
-*You are the pillar of the community. You hold the spiritual authority of an institution, guiding the faithful and ensuring the stability of society through ritual and tradition.*  
 *"By the authority vested in me, I command you to cease."*
 
+  - **Core Concept:** Support / Leader / Face
+  - **Recommended Occupations:** Adept, Representative.
+  - **Recommended Origins:** Enlightened, Urban, Colony.
+  - **Recommended Factions:** Impyrium (Orthodoxy), Dracon Dynasty (Dragon Cults).
+  - **Key Attributes:** Wisdom (+3 Primary), Charisma (+2 Secondary).
+  - **Essential Skills (Rank 6 — 24 CP + 6 Supporting Skills at Rank 3 — 18 CP):** Diplomacy, Insight, Knowledge (History), Knowledge (Religion).
+  - **Signature Traits (1 CP each) & Core Signature Features (2 CP Recommended):** Religious Authority, Spiritual Guidance.
+  - **Tactical Role:** Social influence via religious rank, buffing morale, healing.
