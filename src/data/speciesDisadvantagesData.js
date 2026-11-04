@@ -365,6 +365,20 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "rules": "Hindrance: Grants 4 CP refund upon selection.",
     "modifiers": [
       {
+        "target": "Additional damage per damage die",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Additional damage per damage die"
+      },
+      {
+        "target": "Dmg per die to Acid",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent",
+        "description": "+2 to Dmg per die to Acid"
+      },
+      {
         "target": "Cold",
         "type": "skill",
         "value": 2,
@@ -395,8 +409,10 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     ],
     "body": "# Elemental Vulnerability\n\n**Category**: Species Disadvantages (CP Reduction)  \n**CP Refund**: +4 CP (Cost: -4 CP)  \n**Type**: Physical  \n\n## Description\nVulnerability (+2 dmg per die) to Acid, Cold, Electricity, or Fire.\n\n## Mechanics & Severity\nSelect one elemental energy damage type (Acid/Corrosive, Cold/Cryo, Electricity/Voltic, or Fire/Pyro). The species suffers +2 additional damage per damage die rolled whenever taking damage of the chosen elemental type.",
     "special_rules": "Hindrance: Grants 4 CP refund upon selection.",
-    "notes": "[Modifier] +2 to Cold\n[Modifier] +2 to Electricity\n[Modifier] +2 to Fire\n[Modifier] +2 to Dmg per die\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
+    "notes": "[Modifier] +2 to Additional damage per damage die\n[Modifier] +2 to Dmg per die to Acid\n[Modifier] +2 to Cold\n[Modifier] +2 to Electricity\n[Modifier] +2 to Fire\n[Modifier] +2 to Dmg per die\n[Rule] Hindrance: Grants 4 CP refund upon selection.",
     "notesList": [
+      "[Modifier] +2 to Additional damage per damage die",
+      "[Modifier] +2 to Dmg per die to Acid",
       "[Modifier] +2 to Cold",
       "[Modifier] +2 to Electricity",
       "[Modifier] +2 to Fire",
@@ -806,13 +822,6 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "description": "-2 on Concentration Checks"
       },
       {
-        "target": "Concentration",
-        "type": "skill",
-        "value": -2,
-        "mode": "penalty",
-        "description": "-2 to Concentration"
-      },
-      {
         "target": "Mental",
         "type": "skill",
         "value": -2,
@@ -822,10 +831,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     ],
     "body": "# Mental Issues\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 / 12 CP  \n**Type**: Mental\n\n## Description\nNeurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 CP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 CP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 CP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 CP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Penalty] -2 on Concentration Checks\n[Penalty] -2 to Concentration\n[Penalty] -2 to Mental\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -2 on Concentration Checks\n[Penalty] -2 to Mental\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Penalty] -2 on Concentration Checks",
-      "[Penalty] -2 to Concentration",
       "[Penalty] -2 to Mental",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
     ]
@@ -1078,16 +1086,32 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "value": -4,
         "mode": "penalty",
         "description": "-4 Wealth Score"
+      },
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": -8,
+        "mode": "penalty",
+        "description": "-8 Wealth Score"
+      },
+      {
+        "target": "Wealth",
+        "type": "wealth",
+        "value": -12,
+        "mode": "penalty",
+        "description": "-12 Wealth Score"
       }
     ],
     "body": "# Poor\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Resource\n\n## Description\nStarting with severe financial deficits, second-hand gear, or crushing loanshark debt.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 CP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 CP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Penalty] -4 to Wealth Score\n[Penalty] -8 to Wealth Score\n[Penalty] -12 to Wealth Score\n[Penalty] -4 Wealth Score\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -4 to Wealth Score\n[Penalty] -8 to Wealth Score\n[Penalty] -12 to Wealth Score\n[Penalty] -4 Wealth Score\n[Penalty] -8 Wealth Score\n[Penalty] -12 Wealth Score\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Penalty] -4 to Wealth Score",
       "[Penalty] -8 to Wealth Score",
       "[Penalty] -12 to Wealth Score",
       "[Penalty] -4 Wealth Score",
+      "[Penalty] -8 Wealth Score",
+      "[Penalty] -12 Wealth Score",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
     ]
   },
@@ -1270,6 +1294,13 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "rules": "Hindrance: Grants 2 CP refund upon selection.",
     "modifiers": [
       {
+        "target": "Social negotiations with suspicious outsiders",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Social negotiations with suspicious outsiders"
+      },
+      {
         "target": "Xenophobic f",
         "type": "skill",
         "value": -2,
@@ -1279,8 +1310,9 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     ],
     "body": "# Stigma: Minor Xeno (Hidden) / Severe Xeno (Revealed)\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted / Refund**: 2 CP (Minor Hidden) / 4 CP (Severe Revealed)  \n**Type**: Social  \n\n## Description\nThe character is an insectoid mimetic organism operating within predominantly human or conventional carbon-based societies. While superficially humanoid, unnatural biological traits (emerald copper blood, needle-like teeth, cranial antennae) mark them as an alien outsider.\n\n## Mechanics & Severity\n* **Concealed State (Minor Xeno -2):** As long as antennae, sharp needle teeth, and green blood remain concealed, the character incurs only a **Minor Xeno penalty (-1 to -2)** on social negotiations with suspicious outsiders or xenophobic factions.\n* **Revealed State (Severe Xeno -4):** If the character's antennae are exposed, green blood is spilled in public, or their insectoid nature is discovered, their social penalty worsens immediately to **Severe Xeno (-4)**. Prices increase by 50–100%, authorities are notified, and initial NPC reactions become automatically Unfriendly or Hostile.",
     "special_rules": "Hindrance: Grants 2 CP refund upon selection.",
-    "notes": "[Penalty] -2 to Xenophobic f\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
+    "notes": "[Penalty] -2 to Social negotiations with suspicious outsiders\n[Penalty] -2 to Xenophobic f\n[Rule] Hindrance: Grants 2 CP refund upon selection.",
     "notesList": [
+      "[Penalty] -2 to Social negotiations with suspicious outsiders",
       "[Penalty] -2 to Xenophobic f",
       "[Rule] Hindrance: Grants 2 CP refund upon selection."
     ]
@@ -1395,6 +1427,27 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "rules": "Hindrance: Grants 0 CP refund upon selection.",
     "modifiers": [
       {
+        "target": "Tech Level Luddite",
+        "type": "skill",
+        "value": -3,
+        "mode": "penalty",
+        "description": "-3 to Tech Level Luddite"
+      },
+      {
+        "target": "Penalty",
+        "type": "skill",
+        "value": -2,
+        "mode": "penalty",
+        "description": "-2 to Penalty"
+      },
+      {
+        "target": "Penalty",
+        "type": "skill",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Penalty"
+      },
+      {
         "target": "Tech Level",
         "type": "tech_level",
         "value": -1,
@@ -1404,8 +1457,11 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     ],
     "body": "# Technologically Impaired\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 10 / 20 / 30 CP  \n**Type**: Mental / Background\n\n## Description\nBaffled by modern technology, computing devices, energy weapons, or automated starships.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **10 CP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 CP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 CP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Penalty] -1 Tech Level\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -3 to Tech Level Luddite\n[Penalty] -2 to Penalty\n[Penalty] -4 to Penalty\n[Penalty] -1 Tech Level\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
+      "[Penalty] -3 to Tech Level Luddite",
+      "[Penalty] -2 to Penalty",
+      "[Penalty] -4 to Penalty",
       "[Penalty] -1 Tech Level",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
     ]
@@ -1460,16 +1516,32 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
         "value": -2,
         "mode": "penalty",
         "description": "-2 to Karma Pool"
+      },
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": -4,
+        "mode": "penalty",
+        "description": "-4 to Karma Pool"
+      },
+      {
+        "target": "Karma",
+        "type": "karma",
+        "value": -6,
+        "mode": "penalty",
+        "description": "-6 to Karma Pool"
       }
     ],
     "body": "# Unlucky\n\n**Category**: Hindrances & Disadvantages  \n**CP Granted**: 3 / 6 / 9 CP  \n**Type**: Metaphysical / Karma\n\n## Description\nA profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 CP**: **-2 to Karma Pool** maximum.\n- **6 CP**: **-4 to Karma Pool** maximum.\n- **9 CP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the Architect automatic complication triggers at the start of each session.",
     "special_rules": "Hindrance: Grants 0 CP refund upon selection.",
-    "notes": "[Penalty] -2 to Karma Pool maximum\n[Penalty] -4 to Karma Pool maximum\n[Penalty] -6 to Karma Pool maximum\n[Penalty] -2 to Karma Pool\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
+    "notes": "[Penalty] -2 to Karma Pool maximum\n[Penalty] -4 to Karma Pool maximum\n[Penalty] -6 to Karma Pool maximum\n[Penalty] -2 to Karma Pool\n[Penalty] -4 to Karma Pool\n[Penalty] -6 to Karma Pool\n[Rule] Hindrance: Grants 0 CP refund upon selection.",
     "notesList": [
       "[Penalty] -2 to Karma Pool maximum",
       "[Penalty] -4 to Karma Pool maximum",
       "[Penalty] -6 to Karma Pool maximum",
       "[Penalty] -2 to Karma Pool",
+      "[Penalty] -4 to Karma Pool",
+      "[Penalty] -6 to Karma Pool",
       "[Rule] Hindrance: Grants 0 CP refund upon selection."
     ]
   },

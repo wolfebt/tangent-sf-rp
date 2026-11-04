@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 12
+order: 13
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.restanddying","mechanics"]
-updatedAt: "2026-11-04T00:33:10.528Z"
+updatedAt: "2026-11-04T09:33:29.380Z"
 costs:
   bp: 0
   credits: 0
@@ -39,32 +39,7 @@ sockets:
 
 # 1.01.09 REST, DEATH & DYING
 
-* **Focus Statement:** Complete rules for **Resource Management**, **Full Rest (`6–8 Hours` & Species Exceptions)**, **Light Rest (`Nap`, `Lounging`, `Light Duty` up to `4/Day`)**, **The Unified Mortality State (`0 Health` / Death's Door, `Stability Points = STA + 5`)**, and **Revivification (`The High Cost of Dying`: `-5 Experience Debt` and total Karma loss)**.
-
-## Overview & Mechanical Authority Block
-
-Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
-
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
-* **Critical Hit & Fumble Resolution:**
-  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
-  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
-* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
-  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
-  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
-  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
-  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
-  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
-  * **Customization Budget:** `70 CP`
-* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
-* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
-* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
-
-## Part I — Alignment & Summary Matrix Table
-
-| Rest / Mortality State | Duration / Threshold | Mechanical Recovery / Resolution | Interruption / Failure Consequence |
+## **Mechanical Summary Matrix**| Rest / Mortality State | Duration / Threshold | Mechanical Recovery / Resolution | Interruption / Failure Consequence |
 | :--- | :---: | :--- | :--- |
 | **Full Rest** *(Biological)* | `6–8 Hours` Sleep | `100% Vitality & Essence` \| `+5 + STA Health` \| Resets `1/Day` abilities | Interrupted by combat; Karma never resets via rest. |
 | **Full Rest** *(Exceptions)* | `Light Rest` / `4-Hr Trance` | Synthetics, Fae, and Kitin refresh via Light Rest; Alterians and Mondi meditate. | Maintains dim environmental alertness during meditation. |
@@ -73,8 +48,6 @@ Every rule, formula, and character creation procedure in **Volume I: The Operato
 | **Light Rest: Light Duty** | `3 Hours` *(Up to 4/Day)* | Same recovery as Nap while permitting routine watch, light recreation, and minimal labor. | Strenuous activity degrades **Light Duty -> Not Rested**. |
 | **Mortality State (Death's Door)** | `0 Health` & `0 Vitality` | Unconscious, Prone, Comatose \| `Stability Points = STA + 5` (`-1` per turn; `CR 15 Medicine` stabilizes). | Instant death at `0 Stability` or single hit `>= STA Score`. |
 | **Revivification** | `TL 5 Tech` / `Order Meta` | Returns character from clinical death at `1 Health` with **Exhausted** condition. | **Loses ALL Karma Points** + suffers **`-5 Experience Debt`**. |
-
-## Part II — Complete Unabridged Profiles & Rules Entries
 
 ### 1. Rest & Resource Management
 
@@ -139,9 +112,4 @@ When a character takes damage that reduces them to **0 Health**, the following s
 * **Penalties of Revivification:**
   * **Total Karma Loss:** A revived character immediately **loses ALL remaining Karma Points** (`Karma Pool drops to 0`).
   * **Experience Debt (`-5 AP/CP Debt`):** They suffer a **-5 Experience Debt** due to the profound physiological and metaphysical trauma. This is taken either as an immediate `-5 CP` reduction in a trait (or traits) or as a `-5 AP` reduction in accumulated/future experience awards until the debt is paid in full.
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-109A (Unabridged Codex Rest, Death & Dying Prose Restoration):** Restored 100% of the Codex `1.01 CHARACTER CREATION` prose (`lines 1115–1199`) covering Rest, Full Rest (including Synthetics, Fae, Kitin, Alterians, and Mondi physiological exceptions), Light Rest (`Nap`, `Lounging`, `Light Duty`, and the degradation rule), Death & Dying, and Revivification.
-* **DISC-109B (Unified Mortality State & CR Normalization):** Harmonized `Stability Points = Stamina Score + 5` (`-1` per round at `0 Health`) with the Codex Death's Door sequence, normalized `Medicine (CR 15)` stabilization, and enforced the `-5 Experience Debt` and total Karma drain on Revivification.
 

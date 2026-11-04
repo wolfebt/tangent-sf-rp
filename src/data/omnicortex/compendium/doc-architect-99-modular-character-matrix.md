@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular character matrix","matrix"]
-updatedAt: "2026-11-04T00:33:10.373Z"
+updatedAt: "2026-11-04T09:33:29.243Z"
 costs:
   bp: 0
   credits: 0
@@ -38,6 +38,33 @@ sockets:
 ---
 
 # **99. MODULAR CHARACTER MATRIX (MCM)**
+
+## Overview & Mechanical Authority Block
+
+Every rule, formula, and procedural matrix in this master compendium is governed by these canonical **Tangent SF RP** mechanical invariants:
+
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Resolution:** Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`) equals `Rolled Dice + 10` (`20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`) converts the rolled dice into a flat `-10` (`Base Score - 10`) + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at `1 CP` each plus 3 Recommended Core Features at `9 CP`) and a **70-CP Customization Budget**.
+* **Background Skill Ranks:** `60 Background Skill Ranks` allocated at `0 CP` as `20 SP Faction` + `20 SP Origin` + `20 SP Occupation`, alongside `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across all creation, species, companion, and bestiary packages.
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct entities combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR (`Armor Layering Cap`: only the single highest DR across bio, cyber, and worn armor applies).
+* **Personal Hindrance Cap:** Standard personal character hindrances have a `+10 CP` maximum limit; **Species-level hindrances and cybernetic Stigmas do NOT count toward the 10-point standard hindrance limit**.
+* **Economic Unified Field Theory (EUFT) & UDU Hierarchy:** Base 5-CR intervals follow `Value (Credits) = 10 * 4^(CR / 5)` modified by Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`). Pristine crafting materials cost `50%` of Credit Value; Scavenged Scrap retains `10%` value (`5x Item Credit Value` in unrefined scrap mass). UDU capacity scales at `10 Usable Nodes (Tier 0) = 1 Socket (Tier 1)`, `10 Sockets = 1 Mount (Tier 2)`, and `10 Mounts = 1 Module (Tier 3)` (`Garaging: 1 Mount = 1 Scale Multiplier`; vehicle table SP is pre-calculated).
+
+## Part I — Alignment & Summary Matrix Table
+
+| MCM Module / Subfolder File | Construction Phase | Primary Mechanical & Narrative Role |
+| :--- | :--- | :--- |
+| **`99.Character.ModuleA.TierChassis.md`** | Module A: Tier Chassis | `Tiers 0–20` baseline Attributes, Skill Ranks, Actions, Vitality/Health (`Base 30 + Bonus`), and DR. |
+| **`99.Character.ModuleB.CompetencyRoles.md`** | Module B: Combat Roles | Striker, Defender, Controller, Support, and Boss (`x2` Pools, Legendary Resilience) overlays. |
+| **`99.Character.ModuleC_E.BiologySoulLifepath.md`** | Modules C–E: Lifepath | Species biology, psychological motivations (The Lie / The Truth), and procedural lifepath events. |
+| **`99.Character.ModuleE.LifepathSchema.md`** | Module E: JSON Schema | Deterministic lifepath generation tables and JSON schema structure. |
+| **`99.Character.ModuleF_G.GenreAndVisuals.md`** | Modules F–G: Visuals | Genre tone calibration and CRISP / Hi-Fi Ink character token/sheet synthesis. |
+| **`04.03.BestiaryAndXenofauna.md`** | Xenofauna & Progenitors | Complete MCM stat blocks for canonical beasts, swarms, dragons, Ila, and U'Nonn. |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 ## **UNIFIED PROTOCOLS FOR NPCS, ALLIES, BOSSES & ADVERSARIES**
 
@@ -189,15 +216,6 @@ Phase III Reference Modules (The Database) for constructing NPCs, Bestiary Xenof
 - **[Reference Modules F & G: Genre & Visual Semiotics](./characters/99.Character.ModuleF_G.GenreAndVisuals.md)** — *Genre & Setting Modules, Mystery Suspect Triangle, Equipment/Cybernetic Loadouts, and Faction Visual Semiotics*
 - **[Bestiary, Xenofauna & Progenitor Compendium](./characters/04.03.BestiaryAndXenofauna.md)** — *Scaled Xenofauna & Adversary Stat Blocks, 20 Canonical Bestiary Profiles, and Progenitor Entities (The Entity, The Ila, The U'Nonn) with CRISP Visual Matrices*
 
-## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
-
-- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
-- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
-- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
-- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
-- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
-- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
-
 ## **PHASE III: STANDARDIZED PERSONA TEMPLATE & QUICK START BUILD RULES**
 
 ### **1. Canonical Persona Sheet Schema**
@@ -232,7 +250,7 @@ Phase III Reference Modules (The Database) for constructing NPCs, Bestiary Xenof
 - **Combat, Armor Location DR & Assets:** Weapons (`Attack Score`, `Damage`, `Notes`), Hit Location DR (`Head, Torso, Right Arm, Left Arm, Right Leg, Left Leg` — single highest domain DR applies), Gear, Mecha, Meta-Tech, and Property.
 - **Character Point (CP) Expenditure Tracker:** Starting Budget (`150 CP` = `80 CP` Archetype Chassis + `70 CP` Customization) + Personal Hindrances (`+10 CP` max) + Species Disadvantage Refunds = Total CP Available minus Attributes (`5 CP` per `+1`), Skills (`1 CP` per Rank), Features (`3 CP` Standard / `2 CP` Recommended), Vitality/Health (`1 CP` per `+5`), and Extra Traits (`1 CP`).
 
-## **DISCREPANCY & RESTORATION LEDGER (DISC-503)**
+## Part III — Discrepancy & Restoration Ledger
 
 - **File Target:** `architect/99. MODULAR CHARACTER MATRIX.md`
 - **Restoration Pass (Three-Way Merge):**

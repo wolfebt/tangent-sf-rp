@@ -42,5 +42,3 @@ negative_keywords: "mindless, instinct-only, illiterate"
       - **Talk Show Charm:** Dominating live interview formats, deflecting awkward queries, and landing memorable soundbites.
       - **Charity Gala Organizing:** Hosting multi-million-credit charity events to scrub reputations and curry public goodwill.
       - **VIP Access & Entourage Control:** Using celebrity status to walk past security bouncers and enter exclusive VIP spaces.
-
----

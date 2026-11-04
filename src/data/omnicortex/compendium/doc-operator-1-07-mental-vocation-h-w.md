@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-mental-vocation"
-order: 191
+order: 192
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.vocation.h_w","mechanics"]
-updatedAt: "2026-11-04T00:33:10.745Z"
+updatedAt: "2026-11-04T09:33:29.561Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.08 MENTAL SKILLS: VOCATIONS (H – W)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Vocation.H_W.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Vocation.H_W.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (VOCATIONS (H – W) SUMMARY MATRIX)**
+## **VOCATIONS (H – W** SUMMARY MATRIX)**
 
 | Vocation Skill | Governing Attribute | Core Task CRs | Canonical Specialties |
 | :--- | :--- | :--- | :---: |
@@ -68,8 +54,6 @@ sockets:
 | **Weaponsmith** | Intellect (`INT`) or Strength (`STR`) | Repair Weapon (`CR 15`), Craft Weapon (`CR 15–25+`), Modify (`CR 20`) | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 ### **HANDLER**
 
@@ -286,12 +270,4 @@ sockets:
       - **Vibro & High-Frequency Blades:** Wiring ultrasonic vibrating motors and balancing resonant tungsten blades.
       - **Field Cleaning & Unjamming:** Rapidly drilling out squib rounds, clearing mangled brass feeds, and scraping carbon build-up.
       - **Exotic Material Tempering:** Machining titanium alloys, depleted uranium darts, and plasma-containment coils.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mental.Vocation.H_W.md):** Restored Vocations H–W (`Vocation (Handler)` through `Weaponsmith`) and all 90 Specialties from Codex `1.07 SKILLS` with canonical `Vocation (Handler)` nomenclature.
 

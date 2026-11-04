@@ -61,5 +61,3 @@ Grants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).
 
   - **Range:** Sense Range = 30ft + (10ft per Stage).
   - **Duration:** 10 Minutes per Stage.
-
----

@@ -48,5 +48,3 @@ negative_keywords: "isolated, anti-social, inarticulate"
 ---
 
 *Continued in **[Expression Skills (O – W: Oratory to Wind)](./1.07.Social.Expression.O_W.md)**.*
-
----

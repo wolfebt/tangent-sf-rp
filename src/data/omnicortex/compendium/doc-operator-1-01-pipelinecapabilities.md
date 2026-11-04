@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 5
+order: 6
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.pipelinecapabilities","mechanics"]
-updatedAt: "2026-11-04T00:33:10.525Z"
+updatedAt: "2026-11-04T09:33:29.380Z"
 costs:
   bp: 0
   credits: 0
@@ -39,32 +39,7 @@ sockets:
 
 # 1.01.02 CHARACTER CREATION PIPELINE II: CAPABILITIES, VITALITY & LOADOUT
 
-* **Focus Statement:** Step-by-step Operator creation rules for **Technology Level (`TL 0–5`)**, **CP-Scaled Vitality, Health & Structure Pools (`Base 30 + 5/CP`, Zero Stamina Scaling)**, **Personal Hindrances (`+10 CP` Cap)**, **Recommended Features (`3 CP / 2 CP`)**, **Skills (`1 CP` per Rank)**, and **Augmentations**, complete with the Xy'larra capabilities walkthrough.
-
-## Overview & Mechanical Authority Block
-
-Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
-
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
-* **Critical Hit & Fumble Resolution:**
-  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
-  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
-* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
-  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
-  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
-  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
-  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
-  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
-  * **Customization Budget:** `70 CP`
-* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
-* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
-* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
-
-## Part I — Alignment & Summary Matrix Table
-
-| Pipeline Stage | Canonical Reference | Core Cost / Allocation Formula | Primary Mechanical Function |
+## **Mechanical Summary Matrix**| Pipeline Stage | Canonical Reference | Core Cost / Allocation Formula | Primary Mechanical Function |
 | :--- | :--- | :--- | :--- |
 | **1. Technology Level** | `99. TECHNOLOGY.md` | `TL 3 = 0 CP` (`+10 CP` per TL above 3; `-10 CP` per TL below 3) | Determines Education Skill Bonus (`+20` to `+50 SP`), Tech Wealth Modifier (`-4` to `+8 WS`), and gear/skill access. |
 | **2. Vitality, Health & SP** | `1.01.VitalityHealthStructure.md` | `Base 30 Vitality / 30 Health` (`60 SP`) + `+5 points per 1 CP` | Establishes non-lethal and lethal integrity buffers (Suggested Max `60` each / `120 SP`; **NEVER scaled by Stamina**). |
@@ -72,8 +47,6 @@ Every rule, formula, and character creation procedure in **Volume I: The Operato
 | **4. Features** | `1.08 FEATURES.md` | `3 CP` Standard \| `2 CP` Recommended (`1 CP` minimum) | Unlocks combat maneuvers, skill masteries, Karma blessings, and Metaphysic awakenings. |
 | **5. Skills** | `1.07 SKILLS.md` | `1 CP` per `1 Skill Rank` (`5 CP` per `5 Ranks`) | Allocates ranks across Physical, Mental, Social, Metaphysic (Discipline), and Combat categories (Starting Max: `Rank 11`). |
 | **6. Augmentations** | `2.00.Augmentations.md` | `0 CP / 0 Nodes` (Civilian) \| `Augmented (3 CP)` + Node/CP Cost | Installs subdermal fashionware/utility implants or invasive cybernetic, bioware, and meta-tech systems. |
-
-## Part II — Complete Unabridged Profiles & Rules Entries
 
 ### 1. Technology Level
 
@@ -178,9 +151,4 @@ The **Augmentations** stage of character creation in Tangent (`2.00.Augmentation
 #### Walkthrough Example: Xy'larra (Augmentations)
 
 > *Not wanting heavy surgical invasiveness, Xy'larra outfits herself with a subdermal **Comm Implant** (`CR 10`) and **ID Chip** (`CR 5`) for diplomatic convenience and negligible invasiveness (`0 CP`, `0 Nodes`).*
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-102A (Pipeline II Unabridged Codex Prose & Walkthrough Restoration):** Restored all Codex `1.01 CHARACTER CREATION` prose and Xy'larra walkthrough examples across Technology Level, Hindrances, Features, Skills, and Augmentations, integrated with the canonical Tech Level table (`TL 0` to `TL 5`).
-* **DISC-102B (Zero Stamina Scaling, +10 CP Hindrance Cap & Recommended Features):** Enforced `Base 30 Vitality / 30 Health` (`+5` per `1 CP`, never scaled by Stamina; `Stamina Mod = Base Toughness`), the `+10 CP` Personal Hindrance Cap (with Species hindrances and Stigmas exempt), straight `1 CP` per `1` Skill Rank pricing, and standardized "Recommended Features" terminology (`3 CP` Standard / `2 CP` Recommended).
 

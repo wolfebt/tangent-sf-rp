@@ -42,5 +42,3 @@ negative_keywords: "sedentary, paralyzed, clumsy"
       - **Vibration & Scent Masking:** Evading tracking beasts and species relying on non-visual olfactory or acoustic senses.
       - **Quick-Cover Snapping:** Darting between cover zones while security patrols or camera sweeps cycle past.
       - **Infiltration Rigging:** Placing acoustic and optical cloaks over gear to silence rattling holsters and gear packs.
-
----

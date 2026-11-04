@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.architecture.examplesandskins","matrix"]
-updatedAt: "2026-11-04T00:33:10.433Z"
+updatedAt: "2026-11-04T09:33:29.310Z"
 costs:
   bp: 0
   credits: 0
@@ -292,28 +292,4 @@ When a character seeks to build or buy an asset with a CR exceeding their Wealth
 > **Daily Progress (PP) = (Craft Check Result - 10) * Tool Tier Multiplier**
 
 Under this engine, a Mastercraft Arcology Module (CR 30, Target PP = 40,960) would take a hobbyist with Basic Tools (x10 multiplier) over 409 days to build. However, an advanced engineering team utilizing a Nanoforge (x1,000 multiplier) with a high check result can materialize the identical structure in less than two days.
-
-### EUFT & Matrix Systems Audit Retrofits (Canonical Reference)
-
-* **Tangent Standard Curve (Base CR Intervals of 5):** `Value (Credits) = 10 * 4 ^ (CR / 5)`.
-* **Linear Micro-Modifiers (+1 to +4 CR):** Non-multiple-of-5 CR adjustments apply linear multipliers to the nearest base 5-CR tier rather than exponential compounding:
-  * **+1 CR:** `x1.3` (+30% Base Value)
-  * **+2 CR:** `x1.75` (+75% Base Value)
-  * **+3 CR:** `x2.3` (+130% Base Value)
-  * **+4 CR:** `x3.0` (+200% Base Value)
-  * **-1 CR (Flaw):** `x0.75` (-25% Base Value)
-* **Crafting Material & Scrap Ratio:** Pristine raw materials cost **50%** of an item's total Credit Value. Unrefined **Scavenged Scrap** retains **10%** value, requiring **5x the item's Credit Value** in raw scrap mass to satisfy the 50% crafting material threshold.
-* **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
-* **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
-
----
-
-## DISCREPANCY & RESTORATION LEDGER (DISC-539)
-
-* **Target Path:** `architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - ARCHITECTURAL` & `/game_rules/architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md` (`1btMxjuC8lt49IaTxcLP7HdHo90oPExTn`)
-* **Restoration & Normalization Log:**
-  * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
-  * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).
-  * Restored Standardization Protocols, all 5 Pre-Calculated Structure Examples (Mudskipper Outpost, Sand-Skimmer Mobile Base, Syndicate Executive Penthouse, Impyrium Forward Command Bunker, Arcology Habitat), all Factional Architectural Skins, and Section XV Economic Integration.
 

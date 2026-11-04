@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 196
+order: 197
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.metaphysics","mechanics"]
-updatedAt: "2026-11-04T00:33:10.745Z"
+updatedAt: "2026-11-04T09:33:29.571Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.13 METAPHYSICS & DISCIPLINES**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Metaphysics.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Metaphysics.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (METAPHYSICS & DISCIPLINES SUMMARY MATRIX)**
+## **METAPHYSICS & DISCIPLINES SUMMARY MATRIX**
 
 | Component / Discipline | Focus Pair | Governing Attribute | Potency Scaling & Mechanics |
 | :--- | :--- | :--- | :--- |
@@ -68,8 +54,6 @@ sockets:
 | **Mental** | Projection & Sense | Key Ability | Extended Range (`100 ft * Rank`); Telepathy, Domination, Mind Blast, Precognition |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **METAPHYSICS & DISCIPLINESThe Tangent System Framework**
 
@@ -510,12 +494,4 @@ Using a complementary skill to boost the Meta effect.
 
   - *Example:* Using **Anatomy (Knowledge)** to boost a **Wither (Entropy)** spell.
   - *Mechanic:* Roll Anatomy vs CR 10. For every 5 points over 10, gain +1 to the Attune/Damage roll.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Metaphysics.md):** Restored `Attune`, `Discipline Skills`, `Invocations`, all 6 Disciplines / 12 Foci, and Casting Modifiers from Codex `1.07 SKILLS`, normalizing `BP` to `CP`, `DC` to `CR`, `HP` to `Vitality`, and `1d20` to `2d10`.
 

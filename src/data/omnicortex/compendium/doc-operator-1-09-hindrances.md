@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 215
+order: 216
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.09 hindrances","mechanics"]
-updatedAt: "2026-11-04T00:33:10.495Z"
+updatedAt: "2026-11-04T09:33:29.358Z"
 costs:
   bp: 0
   credits: 0
@@ -38,10 +38,7 @@ sockets:
 ---
 
 # **1.09 HINDRANCES**
-
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/1.09 HINDRANCES.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+## Overview & Mechanical Authority Block
 
 * **Canonical Archive Path:** `/game_rules/operator/1.09 HINDRANCES.md`
 * **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.09 HINDRANCES (File ID: 1QY4SZC5bIcn78ls9ApkKyTOm6vFMCvI_0TL9mIQzw7s)`
@@ -54,7 +51,7 @@ sockets:
 
 ---
 
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MASTER HINDRANCE TABLE (ALL 26 HINDRANCES & SEVERITY TIERS))**
+## Part I — Alignment & Summary Matrix Table
 
 | Hindrance Name | Bonus CP Granted | Category | Mechanical Summary & Severity Tiers |
 | :--- | :---: | :--- | :--- |
@@ -89,7 +86,7 @@ sockets:
 
 ---
 
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED HINDRANCE OVERVIEW, COMPENDIUM & CATEGORIES)**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 ### **1. Hindrances Overview (Unabridged Codex Introduction)**
 
@@ -164,9 +161,7 @@ Complete unabridged descriptions and mechanical rules for all 26 canonical Hindr
 
 ---
 
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-307A (Unabridged Codex Dual-Section Restoration):** Restored 100% of both the introductory `# HINDRANCES` section (`Types of Hindrances`, `CP Value`, `Balancing Act`, `Role-Playing Opportunities`, `Architect Involvement`, `Acrophobia Example`) and the `# HINDRANCES COMPENDIUM` section (`System Overview`, `Design Philosophy`, `Mechanics & Limits`, `Terminology Distinction`, and `Categories I–VII` with all examples) from Codex `1.09 HINDRANCES`.
 * **DISC-307B (Rule 10 Personal Cap & Species Exemption Normalization):** Enforced the canonical `+10 CP` Personal Hindrance Cap with explicit Species-Level Hindrance Exemption, normalized `BP -> CP`, `DC -> CR`, `Dexterity -> Agility`, `Constitution -> Stamina`, and `Rolling with Hindrance (2d20)` -> `Rolling with Disadvantage (2d10 + 1d10 keep lowest 2)`.

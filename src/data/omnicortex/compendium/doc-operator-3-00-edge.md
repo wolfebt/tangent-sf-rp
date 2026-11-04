@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "doc-operator-3-00-combat"
-order: 234
+order: 235
 perspective: "operator"
 entry_type: "Combat Module"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.edge","mechanics"]
-updatedAt: "2026-11-04T00:33:10.533Z"
+updatedAt: "2026-11-04T09:33:29.393Z"
 costs:
   bp: 0
   credits: 0
@@ -38,35 +38,6 @@ sockets:
 ---
 
 # **3.00.01 EDGE & TACTICAL MANEUVERS**
-
-> **Module Scope:** Positional & Movement Edge, Deception/Ambush Edge & Feature-Gated Precision Strike Consolidation Reference
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Mechanical Authority (`/game_rules` Wins):** Core Resolution `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`; Advantage/Disadvantage `+1d10` per stack (keep highest 2 / lowest 2); Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19, 18, and lower`) = `Rolled Dice + 10` (e.g., `20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + Critical Effect; Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3, 4, and higher`) = `Rolled Dice becomes flat -10` + Situational Complication.
-* **Character & Pool Axioms:** `150 CP` starting budget (`80 CP` Archetype Chassis + `70 CP` Customization); `60 SP` free Background skills (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation + `4 Recommended Features` + `4 Traits` at `0 CP`); Universal Straight Pricing (`+5 CP` per `+1` Attribute, `-5 CP` per `-1`, `1 CP` per `1` Skill Rank); Personal Hindrance Cap `+10 CP` (Species-level disadvantages and Stigmas exempt); `Base 30 Vitality` and `Base 30 Health` (`Base 60 Structure Points [SP]` for Synthetics/Constructs), scaled strictly at `+5 points per 1 CP` spent with **zero Stamina scaling**; Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain **Armor DR** (**Armor Layering Cap**: biological, cybernetic, and wearable DR never stack).
-* **EUFT & UDU Invariants:** Base 5-CR Valuation `Value (Credits) = 10 * 4^(CR / 5)`; Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`); Pristine Materials = `50%` of Credit Value, Scavenged Scrap = `10%` value (`5x Item Credit Value` in unrefined scrap mass); `10:1` UDU Hierarchy (`10 Nodes = 1 Socket`, `10 Sockets = 1 Mount`, `10 Mounts = 1 Module`); Mecha table SP is pre-calculated (apply Scale Multiplier only to weapon damage, movement speed, and weapon range; Garaging `1 Mount = 1 Scale Multiplier`).
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX**
-
-| Section ID | Module / Sub-System Name | Mechanical Authority & Rule Governance | Restoration Status |
-| :--- | :--- | :--- | :---: |
-| **Section 01** | **1. POSITIONAL & MOVEMENT EDGE** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 02** | **Aiming** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 03** | **Flanking** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 04** | **Advancing Target (Reckless Approach)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 05** | **Retreating Target (Unprotected Flight)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 06** | **High Ground** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 07** | **Prone** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 08** | **Braced** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 09** | **Charge** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 10** | **Close In (Guarded Approach)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 11** | **Withdraw (Guarded Retreat)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 12** | **Evasive Movement** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-
----
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES**
 
 **Edge** refers to tactical advantage modifiers that characters can gain or lose based on their movements, elevation, positioning, cover, and deception during combat. These modifiers significantly influence the outcome of attack and defense rolls, making positioning and action economy central to tactical combat.
 
@@ -154,17 +125,4 @@ Consolidating multiple iterative actions into a single multiplied-dice strike is
 * **Precision Strike (`Combat Skill Rank 6+`):** Consolidate a single attack action to deal **twice (`2x`) base weapon damage dice**.
 * **Improved Precision Strike (`Precision Strike, Combat Skill Rank 11+`):** Consolidate a single attack action to deal **three times (`3x`) base weapon damage dice**.
 * **Greater Precision Strike (`Improved Precision Strike, Combat Skill Rank 16+`):** Consolidate a single attack action to deal **four times (`4x`) base weapon damage dice**.
-
----
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-RECON (combat/3.00.Edge.md):** Restored 100% of Codex lore, tables, and mechanical profiles while enforcing `/game_rules` 2d10 vs. CR resolution, Critical (`Rolled Dice + 10`) / Fumble (`-10`) math, Base 30 Vitality/Health (`+5 per 1 CP`, zero Stamina scaling), Stamina Base Toughness, Armor Layering Cap, and EUFT valuation (`Value = 10 * 4^(CR / 5)` + Linear Micro-Modifiers).
-* **DISC-STAGE2-AUDIT (combat/3.00.Edge.md):** Purged all legacy d20/DC/BP/Dexterity/Constitution/Awareness/Sense Motive/Linguistics tokens, converted all LaTeX and fenced code blocks into 100% plain-text Markdown, removed all ellipses and HTML comments, and verified 100% textual completeness against `_ _ TANGENT RP CODEX _ _`.
-* **STAGE 4 POST-GENERATION VERIFICATION CHECKLIST:**
-  * `[x]` 100 percent of Codex text and entries restored with zero redactions, ellipses, or placeholders.
-  * `[x]` All CP/SP/CR/EUFT/UDU math verified against `/game_rules` canonical mechanics (`150 CP` budget, `80 CP` chassis, `60 SP` background, Base 30 Vitality & Health, zero Stamina scaling, Stamina Base Toughness, Armor Layering Cap, feature-gated `Precision Strike`, EUFT `10 * 4^(CR/5)` with Linear Micro-Modifiers).
-  * `[x]` Zero instances of `"Recommended Features"` (all converted to `"Recommended Features"`).
-  * `[x]` 100 percent clean plain-text Markdown formatting (`bastion_validator.py`: 0 violations).
-
 

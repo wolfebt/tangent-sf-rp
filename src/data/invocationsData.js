@@ -2539,7 +2539,7 @@ export const DEFAULT_INVOCATIONS = [
     "keywords": "exorcism, entity banishment, spiritual purge, metaphysical severance, ethereal cleansing, unbind possession, alien entity eviction",
     "negative_keywords": "demonic pact, void corruption, biological grafting, cybernetic override",
     "description": "EXORCISM invocation for Entropy reality manipulation.",
-    "body": "# EXORCISM Invocation\n\n## Description & Ritual Details\n\nClassification: Entropy (Order) | Attack/Utility | [Banishment] [Spirit]\n\nParameters:\n\n  - **Base Difficulty:** 20\n  - **Time:** Full Round Action (Maintained)\n  - **Range:** Short\n  - **Area:** Single Creature (Possessed)\n  - **Duration:** Instantaneous (after success)\n  - **Resistance:** Will Save (Possessor)\n\nEffect Description:\n\nDrives out possessing spirits, demons, or entities.\n\n**Scaling Function:**\n\n  - **Power:** Damage to Spirit = 2d6 per Stage (Force/Holy).\n  - **Severity:** Save CR increases by +1 per Stage.\n\n  \n  \n  \n  \n\n\n---"
+    "body": "# EXORCISM Invocation\n\n## Description & Ritual Details\n\nClassification: Entropy (Order) | Attack/Utility | [Banishment] [Spirit]\n\nParameters:\n\n  - **Base Difficulty:** 20\n  - **Time:** Full Round Action (Maintained)\n  - **Range:** Short\n  - **Area:** Single Creature (Possessed)\n  - **Duration:** Instantaneous (after success)\n  - **Resistance:** Will Save (Possessor)\n\nEffect Description:\n\nDrives out possessing spirits, demons, or entities.\n\n**Scaling Function:**\n\n  - **Power:** Damage to Spirit = 2d6 per Stage (Force/Holy).\n  - **Severity:** Save CR increases by +1 per Stage."
   },
   {
     "id": "invocation-facade",
@@ -2969,7 +2969,7 @@ export const DEFAULT_INVOCATIONS = [
     "keywords": "force field, energy bubble, 360 shield, perimeter dome, kinetic sphere, hard-light dome, total containment",
     "negative_keywords": "flanking opening, unshielded flank, localized weak spot",
     "description": "FORCE FIELD invocation for Energy reality manipulation.",
-    "body": "# FORCE FIELD Invocation\n\n## Description & Ritual Details\n\nClassification: Energy (Force) | Defense | [Area] [Bubble]\n\nParameters:\n\n  - **Base Difficulty:** 25\n  - **Time:** Full Round Action\n  - **Range:** Self\n  - **Area:** 10ft Radius Sphere\n  - **Duration:** Concentration\n  - **Resistance:** None\n\nEffect Description:\n\nCreates a shimmering outer bubble of force that excludes physical matter.\n\n**Scaling Function:**\n\n  - **Integrity:** Field HP = 50 per Stage.\n  - **Duration:** Base Concentration + (1 Minute per Stage) without concentration.\n\n  \n  \n  \n\n\n---"
+    "body": "# FORCE FIELD Invocation\n\n## Description & Ritual Details\n\nClassification: Energy (Force) | Defense | [Area] [Bubble]\n\nParameters:\n\n  - **Base Difficulty:** 25\n  - **Time:** Full Round Action\n  - **Range:** Self\n  - **Area:** 10ft Radius Sphere\n  - **Duration:** Concentration\n  - **Resistance:** None\n\nEffect Description:\n\nCreates a shimmering outer bubble of force that excludes physical matter.\n\n**Scaling Function:**\n\n  - **Integrity:** Field HP = 50 per Stage.\n  - **Duration:** Base Concentration + (1 Minute per Stage) without concentration."
   },
   {
     "id": "invocation-force-missile",
@@ -3204,7 +3204,7 @@ export const DEFAULT_INVOCATIONS = [
     "keywords": "gate, teleportation, spatial rift, wormhole transit, dimensional gate, pocket sanctuary, ethereal phase, coordinate jump, slipstream, fold space, blink transit",
     "negative_keywords": "anchored bunker, heavy sedentary, slow trench warfare, crude ballistics, terrestrial confinement",
     "description": "GATE invocation for Dimension reality manipulation.",
-    "body": "# GATE Invocation\n\n## Description & Ritual Details\n\nClassification: Dimension (Teleport) | Utility/Summon | [Portal] [Two-Way]\n\nParameters:\n\n  - **Base Difficulty:** 25\n  - **Time:** Standard Action\n  - **Range:** Medium\n  - **Area:** 10ft to 20ft Ring\n  - **Duration:** Concentration\n  - **Resistance:** None\n\nEffect Description:\n\nOpens a stable, two-way wormhole connecting to another location.\n\n**Scaling Function:**\n\n  - **Stability:** Duration without concentration = 1 Round per Stage.\n  - **Size:** Portal diameter increases by +5ft per Stage.\n\n  \n  \n  \n  \n\n\n---"
+    "body": "# GATE Invocation\n\n## Description & Ritual Details\n\nClassification: Dimension (Teleport) | Utility/Summon | [Portal] [Two-Way]\n\nParameters:\n\n  - **Base Difficulty:** 25\n  - **Time:** Standard Action\n  - **Range:** Medium\n  - **Area:** 10ft to 20ft Ring\n  - **Duration:** Concentration\n  - **Resistance:** None\n\nEffect Description:\n\nOpens a stable, two-way wormhole connecting to another location.\n\n**Scaling Function:**\n\n  - **Stability:** Duration without concentration = 1 Round per Stage.\n  - **Size:** Portal diameter increases by +5ft per Stage."
   },
   {
     "id": "invocation-glamour",
@@ -4191,7 +4191,7 @@ export const DEFAULT_INVOCATIONS = [
     "keywords": "mutation, transmutation, bio-grafting, shapeshifting, cellular mutation, size alteration, molecular restructuring, petrification, anatomical morph, material transmutation",
     "negative_keywords": "static purist, pure energy, unalterable dogma, ethereal incorporeal",
     "description": "MUTATION invocation for Matter reality manipulation.",
-    "body": "# MUTATION Invocation\n\n## Description & Ritual Details\n\nClassification: Matter (Transmutation) | Buff/Utility | [Alteration] [Biology]\n\nParameters:\n\n  - **Base Difficulty:** 18\n  - **Time:** Standard Action\n  - **Range:** Touch\n  - **Area:** Single Creature\n  - **Duration:** 1 Minute per Stage\n  - **Resistance:** Fortitude (Negates)\n\nEffect Description:\n\nAlters the physical form to produce a specific biological enhancement (gills, claws).\n\n**Scaling Function:**\n\n  - **Magnitude:** Natural Weapon Damage = 1d6 per Stage.\n  - **Quantity:** Number of Mutations = 1 per Stage (Max 5 CP worth per Stage).\n\n  \n  \n  \n\n\n---"
+    "body": "# MUTATION Invocation\n\n## Description & Ritual Details\n\nClassification: Matter (Transmutation) | Buff/Utility | [Alteration] [Biology]\n\nParameters:\n\n  - **Base Difficulty:** 18\n  - **Time:** Standard Action\n  - **Range:** Touch\n  - **Area:** Single Creature\n  - **Duration:** 1 Minute per Stage\n  - **Resistance:** Fortitude (Negates)\n\nEffect Description:\n\nAlters the physical form to produce a specific biological enhancement (gills, claws).\n\n**Scaling Function:**\n\n  - **Magnitude:** Natural Weapon Damage = 1d6 per Stage.\n  - **Quantity:** Number of Mutations = 1 per Stage (Max 5 CP worth per Stage)."
   },
   {
     "id": "invocation-nauseate",
@@ -5263,7 +5263,7 @@ export const DEFAULT_INVOCATIONS = [
     "keywords": "shadow assault, umbral shadow, shadow weapon, absolute darkness, quasi-real matter, cold chill, shadow step, nether shroud, void strike, shadow conjuring",
     "negative_keywords": "solar radiance, high noon flare, sterile laboratory, holy temple, open honesty",
     "description": "SHADOW ASSAULT invocation for Illusion reality manipulation.",
-    "body": "# SHADOW ASSAULT Invocation\n\n## Description & Ritual Details\n\nClassification: Illusion (Shadow) | Attack | [Evocation] [Cold]\n\nParameters:\n\n  - **Base Difficulty:** 15\n  - **Time:** Standard Action\n  - **Range:** Close\n  - **Area:** Single Target or Burst\n  - **Duration:** Instantaneous\n  - **Resistance:** Reflex (Half) & Will (Disbelief)\n\nEffect Description:\n\nEvokes a blast of roiling shadow energy that mimics a physical attack.\n\n**Scaling Function:**\n\n  - **Damage:** 1d6 Shadow Damage per Stage.\n  - **Debuff:** Targets taking damage are Entangled (Shadows cling) for 1 round per Stage.\n\n  \n  \n  \n\n\n---"
+    "body": "# SHADOW ASSAULT Invocation\n\n## Description & Ritual Details\n\nClassification: Illusion (Shadow) | Attack | [Evocation] [Cold]\n\nParameters:\n\n  - **Base Difficulty:** 15\n  - **Time:** Standard Action\n  - **Range:** Close\n  - **Area:** Single Target or Burst\n  - **Duration:** Instantaneous\n  - **Resistance:** Reflex (Half) & Will (Disbelief)\n\nEffect Description:\n\nEvokes a blast of roiling shadow energy that mimics a physical attack.\n\n**Scaling Function:**\n\n  - **Damage:** 1d6 Shadow Damage per Stage.\n  - **Debuff:** Targets taking damage are Entangled (Shadows cling) for 1 round per Stage."
   },
   {
     "id": "invocation-shadow-conjuring",
@@ -6139,7 +6139,7 @@ export const DEFAULT_INVOCATIONS = [
     "keywords": "super-sense, telepathy, mind probe, remote viewing, precognition, sensory expansion, empathy scan, universal translation, cognitive recon, aura detection",
     "negative_keywords": "mindless brute, crude demolition, blind aggression, anti-intellectual, loud bludgeoning",
     "description": "SUPER-SENSE invocation for Mental reality manipulation.",
-    "body": "# SUPER-SENSE Invocation\n\n## Description & Ritual Details\n\nClassification: Mental (Sense) | Sensory | [Extra-Sensory] [Mode]\n\nParameters:\n\n  - **Base Difficulty:** 18\n  - **Time:** Standard Action\n  - **Range:** Personal\n  - **Area:** Self\n  - **Duration:** Minutes/Level\n  - **Resistance:** None\n\nEffect Description:\n\nGrants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).\n\n**Scaling Function:**\n\n  - **Range:** Sense Range = 30ft + (10ft per Stage).\n  - **Duration:** 10 Minutes per Stage.\n\n---"
+    "body": "# SUPER-SENSE Invocation\n\n## Description & Ritual Details\n\nClassification: Mental (Sense) | Sensory | [Extra-Sensory] [Mode]\n\nParameters:\n\n  - **Base Difficulty:** 18\n  - **Time:** Standard Action\n  - **Range:** Personal\n  - **Area:** Self\n  - **Duration:** Minutes/Level\n  - **Resistance:** None\n\nEffect Description:\n\nGrants a specific enhanced sensory capability (Darkvision, Tremorsense, X-Ray).\n\n**Scaling Function:**\n\n  - **Range:** Sense Range = 30ft + (10ft per Stage).\n  - **Duration:** 10 Minutes per Stage."
   },
   {
     "id": "invocation-telekinesis",

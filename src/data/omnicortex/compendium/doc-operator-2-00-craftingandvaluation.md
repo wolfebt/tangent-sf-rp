@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 222
+order: 223
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","economatrix","2.00.craftingandvaluation","mechanics"]
-updatedAt: "2026-11-04T00:33:10.545Z"
+updatedAt: "2026-11-04T09:33:29.400Z"
 costs:
   bp: 0
   credits: 0
@@ -38,33 +38,6 @@ sockets:
 ---
 
 # **2.00.08 THE CRAFTING ENGINE & MASTER VALUATION TABLES**
-
-> **Module Scope:** Productivity Engine, Production Tiers, Master CR-to-Credits Valuation Table, Linear Micro-Modifiers & UDU Hierarchy
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Mechanical Authority (`/game_rules` Wins):** Core Resolution `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`; Advantage/Disadvantage `+1d10` per stack (keep highest 2 / lowest 2); Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19, 18, and lower`) = `Rolled Dice + 10` (e.g., `20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + Critical Effect; Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3, 4, and higher`) = `Rolled Dice becomes flat -10` + Situational Complication.
-* **Character & Pool Axioms:** `150 CP` starting budget (`80 CP` Archetype Chassis + `70 CP` Customization); `60 SP` free Background skills (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation + `4 Recommended Features` + `4 Traits` at `0 CP`); Universal Straight Pricing (`+5 CP` per `+1` Attribute, `-5 CP` per `-1`, `1 CP` per `1` Skill Rank); Personal Hindrance Cap `+10 CP` (Species-level disadvantages and Stigmas exempt); `Base 30 Vitality` and `Base 30 Health` (`Base 60 Structure Points [SP]` for Synthetics/Constructs), scaled strictly at `+5 points per 1 CP` spent with **zero Stamina scaling**; Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain **Armor DR** (**Armor Layering Cap**: biological, cybernetic, and wearable DR never stack).
-* **EUFT & UDU Invariants:** Base 5-CR Valuation `Value (Credits) = 10 * 4^(CR / 5)`; Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`); Pristine Materials = `50%` of Credit Value, Scavenged Scrap = `10%` value (`5x Item Credit Value` in unrefined scrap mass); `10:1` UDU Hierarchy (`10 Nodes = 1 Socket`, `10 Sockets = 1 Mount`, `10 Mounts = 1 Module`); Mecha table SP is pre-calculated (apply Scale Multiplier only to weapon damage, movement speed, and weapon range; Garaging `1 Mount = 1 Scale Multiplier`).
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX**
-
-| Section ID | Module / Sub-System Name | Mechanical Authority & Rule Governance | Restoration Status |
-| :--- | :--- | :--- | :---: |
-| **Section 01** | **5. The Crafting Engine: Complexity as Gameplay** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 02** | **5. The Productivity Formula** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 03** | **5. Solving the "Decades" Problem** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 04** | **6. Comprehensive Reference Tables** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 05** | **7. Macro-Economics: Factions and Starships** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 06** | **7. The "Resource Unit" Abstraction** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 07** | **7. Cooperative Crafting (Industrial Scale)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 08** | **The Productivity Formula** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 09** | **Macro-Scale Construction and Faction Labor Pools** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 10** | **Canonical Linear Micro-Modifiers & Scavenged Scrap Ratios (Rule #12)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-
----
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES**
 
 ## **5. The Crafting Engine: Complexity as Gameplay**
 
@@ -274,19 +247,4 @@ A shipyard employing 1,000 engineers operating Industrial (x200) tools can gener
   * **+4 CR:** `x3.0` (+200% Base Tier Value)
   * **-1 CR Flaw:** `x0.75` (-25% Base Tier Value)
 * **Crafting Material Ratio (50% Pristine vs. 10% Scrap):** Pristine raw materials cost **50% of Market Credit Value**; unrefined Scavenged Scrap holds **10% value** (requiring **5x the item's Credit Value in unrefined scrap mass** to satisfy the 50% material requirement).
-
----
-
----
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-412 (Crafting Engine & Master Valuation Tables Full Restoration):** Restored 100% of Sections 5, 6, and 7 and The Productivity Engine and Macro-Economics from `/_ _ TANGENT RP CODEX _ _/2.00 ECONOMATRIX` (Lines 222–384 and 498–532) plus the Linear Micro-Modifiers and 5x Scavenged Scrap mass rule.
-* **DISC-STAGE2-AUDIT (economatrix/2.00.CraftingAndValuation.md):** Purged all legacy d20/DC/BP/Dexterity/Constitution/Awareness/Sense Motive/Linguistics tokens, converted all LaTeX and fenced code blocks into 100% plain-text Markdown, removed all ellipses and HTML comments, and verified 100% textual completeness against `_ _ TANGENT RP CODEX _ _`.
-* **STAGE 4 POST-GENERATION VERIFICATION CHECKLIST:**
-  * `[x]` 100 percent of Codex text and entries restored with zero redactions, ellipses, or placeholders.
-  * `[x]` All CP/SP/CR/EUFT/UDU math verified against `/game_rules` canonical mechanics (`150 CP` budget, `80 CP` chassis, `60 SP` background, Base 30 Vitality & Health, zero Stamina scaling, Stamina Base Toughness, Armor Layering Cap, feature-gated `Precision Strike`, EUFT `10 * 4^(CR/5)` with Linear Micro-Modifiers).
-  * `[x]` Zero instances of `"Recommended Features"` (all converted to `"Recommended Features"`).
-  * `[x]` 100 percent clean plain-text Markdown formatting (`bastion_validator.py`: 0 violations).
-
 

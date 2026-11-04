@@ -34,7 +34,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.518Z"
+    "updatedAt": "2026-11-04T09:35:51.833Z"
   },
   {
     "id": "mech-combat-actions-by-skill-tier",
@@ -62,7 +62,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.833Z"
   },
   {
     "id": "mech-combat-initiative",
@@ -86,7 +86,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.833Z"
   },
   {
     "id": "mech-combat-edge-system",
@@ -119,7 +119,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-damage-calculation",
@@ -147,7 +147,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-called-shots-locations",
@@ -181,7 +181,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-disabled-destroyed-thresholds",
@@ -209,7 +209,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-mortality-state",
@@ -237,7 +237,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-scaling-14-tiers",
@@ -264,7 +264,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-economatrix-standard-curve",
@@ -290,7 +290,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-metaphysics-triad-casting",
@@ -317,7 +317,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-character-150cp-creation",
@@ -345,7 +345,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-companion-40cp-formula",
@@ -375,7 +375,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-vitals-30-30-60",
@@ -404,7 +404,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-karma-spending-actions",
@@ -434,7 +434,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-augmentations-body-alteration-tiers",
@@ -463,7 +463,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-mecha-vehicles-all-sorts",
@@ -493,7 +493,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-euft-micro-modifiers-productivity",
@@ -522,7 +522,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-udu-hierarchy-compression-garaging",
@@ -551,7 +551,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-archetype-80cp-chassis-and-cosmic-entities",
@@ -580,7 +580,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   }
 ];
 

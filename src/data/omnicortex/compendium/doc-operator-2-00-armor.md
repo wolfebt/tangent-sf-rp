@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "doc-operator-2-00-economatrix"
-order: 225
+order: 226
 perspective: "operator"
 entry_type: "Economatrix Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","economatrix","2.00.armor","mechanics"]
-updatedAt: "2026-11-04T00:33:10.545Z"
+updatedAt: "2026-11-04T09:33:29.400Z"
 costs:
   bp: 0
   credits: 0
@@ -39,41 +39,12 @@ sockets:
 
 # **2.00.02 ARMOR & PROTECTIVE SYSTEMS CATALOG**
 
-> **Module Scope:** Cultural & Faction Armor Catalog, 6-Step Armor Design Protocol, Socket Modules, Force Fields & Shields
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Mechanical Authority (`/game_rules` Wins):** Core Resolution `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`; Advantage/Disadvantage `+1d10` per stack (keep highest 2 / lowest 2); Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19, 18, and lower`) = `Rolled Dice + 10` (e.g., `20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + Critical Effect; Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3, 4, and higher`) = `Rolled Dice becomes flat -10` + Situational Complication.
-* **Character & Pool Axioms:** `150 CP` starting budget (`80 CP` Archetype Chassis + `70 CP` Customization); `60 SP` free Background skills (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation + `4 Recommended Features` + `4 Traits` at `0 CP`); Universal Straight Pricing (`+5 CP` per `+1` Attribute, `-5 CP` per `-1`, `1 CP` per `1` Skill Rank); Personal Hindrance Cap `+10 CP` (Species-level disadvantages and Stigmas exempt); `Base 30 Vitality` and `Base 30 Health` (`Base 60 Structure Points [SP]` for Synthetics/Constructs), scaled strictly at `+5 points per 1 CP` spent with **zero Stamina scaling**; Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain **Armor DR** (**Armor Layering Cap**: biological, cybernetic, and wearable DR never stack).
-* **EUFT & UDU Invariants:** Base 5-CR Valuation `Value (Credits) = 10 * 4^(CR / 5)`; Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`); Pristine Materials = `50%` of Credit Value, Scavenged Scrap = `10%` value (`5x Item Credit Value` in unrefined scrap mass); `10:1` UDU Hierarchy (`10 Nodes = 1 Socket`, `10 Sockets = 1 Mount`, `10 Mounts = 1 Module`); Mecha table SP is pre-calculated (apply Scale Multiplier only to weapon damage, movement speed, and weapon range; Garaging `1 Mount = 1 Scale Multiplier`).
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX**
-
-| Section ID | Module / Sub-System Name | Mechanical Authority & Rule Governance | Restoration Status |
-| :--- | :--- | :--- | :---: |
-| **Section 01** | **Civilian and Concealable Wear (Light Grade)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 02** | **Synth-Leather "Jack"** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 03** | **Ballistic Mesh** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 04** | **Nanofiber "Cloth" Suit** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 05** | **Tactical & Enforcement (Medium Grade)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 06** | **Security Vest (Standard)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 07** | **Scout Suit / Infiltration Coat** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 08** | **Heavy Tactical Helmet** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 09** | **Military Hard Suits (Heavy Grade)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 10** | **Infantry Plate (Trooper Armor)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 11** | **Survival "Hard-Suit"** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 12** | **Composite Combat Shell (Entari/Syndicate)** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-
----
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES**
-
 All personal protective suits use **Tier 1 UDU Sockets** for modular customization and follow the **Armor Design Protocol** (`99.Tech.Armor.DesignAndCatalog.md`).
 * **Canonical Armor Layering Rule (Rule #12):** Damage Resistance (DR) **does not stack across biological, cybernetic, and wearable domains**; only the single highest DR applies (Ablative Force Fields act as an outer buffer before Armor DR, and Stamina Modifier subtracts point-for-point as Base Toughness after Armor DR).
 
 ---
 
-## **PART I: COMPLETE CULTURAL & FACTION ARMOR CATALOG**
+## **I. COMPLETE CULTURAL & FACTION ARMOR CATALOG**
 
 ## **Civilian and Concealable Wear (Light Grade)**
 
@@ -529,12 +500,9 @@ Stat Block:
   
   
 
-
 ---
 
-## **PART II: THE ARMOR DESIGN PROTOCOL, SOCKET MODULES, FIELD GENERATORS & SHIELDS**
-
-# **Tab 1**  
+## **II. THE ARMOR DESIGN PROTOCOL, SOCKET MODULES, FIELD GENERATORS & SHIELDS**
 
 # **99 - ARMOR MATRIX**
 
@@ -588,15 +556,9 @@ Heavy armoring inevitably encumbers the operative. Tangent quantifies this encum
 
 1.  **Mobility Penalty:** Applies directly to Acrobatics, Athletics, Stealth, and fine physical manipulation checks. It does *not* apply to Combat Attack rolls or Defense checks.
 
-
-
   - *Strength Counter:* If the wearer's Strength modifier is at least **double** the Mobility Penalty, the penalty is completely ignored.
 
-
-
 1.  **Movement Penalty:** Applies directly as a flat deduction to all forms of movement speed (Walk, Run, Sprint, Fly).
-
-
 
   - *Strength Counter:* Exceptional physical power counters this drag: **Strength 2** negates a -5 Movement Penalty, and **Strength 4** negates up to a -10 Movement Penalty.
 
@@ -607,13 +569,9 @@ Operating in extreme environments or hot combat zones frequently tempts operativ
   - **Stacking Benefit:** Wearing a secondary set of armor combines its flat DR with the primary armor for overlapping locations.
   - **Compounding Penalties:** All baseline penalties of both suits combine, plus severe layering friction penalties based on the secondary armor's DR and coverage:
 
-
-
   - **Secondary DR 10:** Imposes **-1 Mobility** (if Upper Body/Torso) and **-5 Movement** (if Lower Body/Legs).
   - **Secondary DR 15:** Imposes **-2 Mobility** (if Upper Body/Torso) and **-10 Movement** (if Lower Body/Legs).
   - **Secondary DR 20+:** Imposes **-4 Mobility** (if Upper Body/Torso) and **-20 Movement** (if Lower Body/Legs).
-
-
 
   - **Exemptions:** Armor DR granted by internal Cybernetic Augmentations, Subdermal Plating, or Metaphysical Wards stacks freely and does *not* trigger layering penalties unless explicitly stated.
   - **Option Invalidation:** Certain installed option modules (e.g., Reactive Camouflage, Holo-Distortion, or External Sensors) become completely non-functional if covered by a secondary outer garment.
@@ -681,8 +639,6 @@ Equipment in Tangent is modular, capable of evolving alongside the character thr
   - **Mastercrafting (Bonus Sockets):** High-quality manufacturing allows armor to exceed standard Socket limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus Socket (up to a maximum of 1 per TL of the item, twice the base sockets for standard armor, or a maximum of 2 bonus sockets for Clothing). Each bonus slot adds +5 to the base Craft CR.
   - **Socket Compression:** If a build requires more capacity, advanced engineering can compress hardware at a severe premium:
 
-
-
   - *Efficient Design:* -25% Socket cost (round up). Adds +5 CR.
   - *Miniaturized:* -50% Socket cost (round up). Requires Tech Level +1 over item base. Adds +10 CR.
   - *Integrated:* 0 Sockets (fused directly into chassis). Cannot be removed. Adds +5 CR.
@@ -700,11 +656,7 @@ Meta-Tech fabrication requires rare conductive materials (e.g., Aetherium or Res
   - **Enhancement (Passive):** Permanently improves the physical properties of the armor (e.g., *Ghost-Strike* phasing, *Featherweight* gravity alteration). Always On. Each Socket allocated increases Crafting CR by +5.
   - **Imbuement (Active):** Hard-codes an Invocation into the armor, allowing a non-Awakened user to trigger the effect.
 
-
-
   - **Craft CR** = 15 + Invocation Rank + TL Modifier (TL 3: +0, TL 4: +2, TL 5: +5)
-
-
 
   - **Consumable Modifier:** If designed for single use (e.g., emergency burnout planar shift), reduce the final Meta-Tech CR by 10.
   - **Interface (Symbiotic):** Amplifies an Awakened user's natural casting pool or focus.
@@ -785,11 +737,7 @@ Calculate the final Crafting CR and Market Value:
 1.  **Lock the Final CR:** Sum Base Chassis CR + Coverage Mod + Sockets Used Modifiers - Downgrades.
 2.  **Determine Market Value:** Run the final Crafting CR through the Tangent Standard Curve formula:
 
-
-
   - **Value (Credits) = 10 * 4^(CR / 5)*
-
-
 
 1.  **Fabrication Phase:** Crafting requires a Vocation (Armorsmith) or Knowledge (Engineering) check against the Final CR. Manufacturing time is tracked by the **Productivity Engine** (Target PP = Credit Value).
 
@@ -896,8 +844,6 @@ Precision tuning allows a skilled armorer to reinforce field harmonics during fa
   - **DR Improvement:** For every 2 points a Crafting check exceeds the Field's Base CR, the field gains **+1 DR**.
   - **AP Scaling:** Any increase to the field's DR automatically increases its Ablative Points by **+2 AP per 1 point of DR gained**.
   - **Tech Level Caps:** The maximum DR increase is bounded by material science:
-
-
 
   - **TL 3:** Maximum +5 DR (+10 AP)
   - **TL 4:** Maximum +10 DR (+20 AP)
@@ -1082,17 +1028,11 @@ Forged specifically for the hereditary champions and knight-commanders of the Dr
   - **Movement Penalties:** None (masterfully counter-balanced).
   - **Hierarchical Mastercraft Sockets:**
 
-
-
   - **Knight-Acolyte:** 4 Custom Sockets.
   - **Knight-Sergeant:** 5 Custom Sockets.
   - **Knight-Officer:** 6 Custom Sockets.
 
-
-
   - **Dynastic Variants:**
-
-
 
   - *Stealth Bodysuit Variant:* DR 10 (All Locations), -1 Socket, grants +5 bonus to Stealth checks.
   - *Heavy Assault Variant:* DR 20 (All Locations), -1 Socket, engineered joints completely negate base Mobility and Movement penalties.
@@ -1105,27 +1045,20 @@ Designed exclusively for Syndicate shock-assault infantry dropped from low orbit
   - **Defensive Stats:** DR 25 (All Locations), 80 SP.
   - **Pre-Installed Integrated Systems (Fully Occupied Chassis):**
 
-
-
   - **Full Environmental Seal (TL 3):** Indefinite life support cycle with emergency sealants.
   - **Tactical Computer (TL 3):** +2 Initiative, +2 Perception, +1 Combat Actions.
   - **Exoskeleton Servos (TL 3):** +2 Strength enhancement.
   - **Kinetic Damper (TL 3):** Doubles DR vs crash and falling impacts; grants full DR vs direct explosives.
   - **Flexible Weave (TL 2):** Specifically offsets -1 Mobility and -5 Movement. Combined with the Exoskeleton Servos (+2 Str), all default Bulwark penalties (-2 Mobility, -10 Movement) are entirely neutralized.
 
-
-
   - **Socket Balance:** 0 Available Sockets in standard production line. Exceeding this baseline requires a complete Mastercraft redesign and reconstruction.**  
     **
-
-# **Tab 2**  
 
 # **99 - ARMOR MATRIX**
 
 # **THE MATERIAL MITIGATION OF TRAUMA**
 
   
-
 
 ### **The Intersection of Personal Defense and Narrative Identity**
 
@@ -1136,7 +1069,6 @@ In speculative fiction, a suit of armor tells a story. The battered, hydraulic-h
 This report establishes the Tangent Armor Matrix, aligning personal defense mechanics with the overarching global Equipment Matrix. It strictly delineates the creation process into two layers: the "Agnostic Chassis" (the physics-compliant engineering skeleton) and the "Cultural Skin" (the aesthetic and functional overlay of a faction). It utilizes Structure Points (SP), Damage Resistance (DR), and Universal Displacement Unit Sockets (UDU) to create a unified system for everything from primitive hide leathers to metaphysical hard-light shells.
 
   
-
 
 ### **I. ANATOMY OF ARMOR (The Component List)**
 
@@ -1152,7 +1084,6 @@ Every suit of armor or protective garment in the Tangent system is defined by a 
   - **Crafting CR:** The Challenge Rating required to manufacture the item, dictating its final market price based on the standard exponential curve.
 
   
-
 
 ### **II. THE DESIGN PROTOCOL (Step-by-Step Construction)**
 
@@ -1229,8 +1160,6 @@ Equipment in Tangent is inherently modular, capable of evolving alongside the ch
   - **Standard Upgrades:** Each mundane module costs its listed Socket amount and increases the Crafting CR by +5 (or +10 for TL4/TL5 items).
   - **Mastercrafting (Bonus Sockets):** High-quality manufacturing allows armor to exceed standard Socket limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus Socket (up to a maximum of 1 per TL of the item).
   - **Socket Compression:** If a build requires more capacity, advanced engineering can compress the hardware at a severe premium.
-
-
 
   - *Efficient Design:* -25% Socket cost (Round up). Adds +5 CR.
   - *Miniaturized:* -50% Socket cost (Round up). Requires Tech Level +1 over item base. Adds +10 CR.
@@ -1332,7 +1261,6 @@ Calculate the absolute final Crafting CR and Market Value to ensure economic int
 
   
 
-
 ### **III. STANDARD ARMOR CATALOG**
 
 Common configurations found throughout the galaxy. These baselines perfectly align with the Dimensional Footprint mathematical complexities.
@@ -1387,7 +1315,6 @@ Common configurations found throughout the galaxy. These baselines perfectly ali
 
   
 
-
 ### **IV. FIELD GENERATORS & CARRIED SHIELDS**
 
 #### **Field Generators (Energy Shields)**
@@ -1415,7 +1342,6 @@ Unlike worn armor, shields provide an active Block Bonus to the user's Defense S
 | **Projected Energy** | +2 | 2 lb. | 16 | 1 | Bracer holds socket; shield does not. |
 
   
-
 
 ### **V. UNIFIED ECONOMY & EXCHANGE**
 
@@ -1596,19 +1522,4 @@ To further prevent market abuse, the economy imposes Liquidity Drag. In real-wor
   - **Scrap** sell at 10% of Total Value.
 
 Because the raw materials required to craft an item also cost 50% of the item's Total Value, a character who buys materials and crafts an item for immediate resale operates at a 0% profit margin. Profit is only possible through adventuring, scavenging materials for free, or utilizing specialized merchant skills.
-
----
-
----
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-403 (Armor Catalog & Matrix Design Protocol Restoration):** Restored all 9 Armor Grades (Light, Medium, Heavy, Superheavy, Powered, Exotic, Magi-Tech, Psi-Tech, and TL 5 Advanced Physics) from `/_ _ TANGENT RP CODEX _ _/2.00 ECONOMATRIX` (Lines 1354–1824) alongside the complete 6-Step Armor Design Protocol, 32 Socket Modules, 15 Field Generators, and Carried Shields from `Armor Matrix revision`, enforcing the single-highest-DR Armor Layering Cap.
-* **DISC-STAGE2-AUDIT (economatrix/2.00.Armor.md):** Purged all legacy d20/DC/BP/Dexterity/Constitution/Awareness/Sense Motive/Linguistics tokens, converted all LaTeX and fenced code blocks into 100% plain-text Markdown, removed all ellipses and HTML comments, and verified 100% textual completeness against `_ _ TANGENT RP CODEX _ _`.
-* **STAGE 4 POST-GENERATION VERIFICATION CHECKLIST:**
-  * `[x]` 100 percent of Codex text and entries restored with zero redactions, ellipses, or placeholders.
-  * `[x]` All CP/SP/CR/EUFT/UDU math verified against `/game_rules` canonical mechanics (`150 CP` budget, `80 CP` chassis, `60 SP` background, Base 30 Vitality & Health, zero Stamina scaling, Stamina Base Toughness, Armor Layering Cap, feature-gated `Precision Strike`, EUFT `10 * 4^(CR/5)` with Linear Micro-Modifiers).
-  * `[x]` Zero instances of `"Recommended Features"` (all converted to `"Recommended Features"`).
-  * `[x]` 100 percent clean plain-text Markdown formatting (`bastion_validator.py`: 0 violations).
-
 

@@ -43,5 +43,3 @@ negative_keywords: "mindless, instinct-only, illiterate"
       - **Vibro & High-Frequency Blades:** Wiring ultrasonic vibrating motors and balancing resonant tungsten blades.
       - **Field Cleaning & Unjamming:** Rapidly drilling out squib rounds, clearing mangled brass feeds, and scraping carbon build-up.
       - **Exotic Material Tempering:** Machining titanium alloys, depleted uranium darts, and plasma-containment coils.
-
----

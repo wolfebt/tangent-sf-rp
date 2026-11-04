@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 7
+order: 8
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.attributes","mechanics"]
-updatedAt: "2026-11-04T00:33:10.518Z"
+updatedAt: "2026-11-04T09:33:29.376Z"
 costs:
   bp: 0
   credits: 0
@@ -39,32 +39,7 @@ sockets:
 
 # 1.01.04 ATTRIBUTES & SAVING THROWS
 
-* **Focus Statement:** The complete mechanical and narrative reference for the six Primary Attributes (**Strength**, **Agility**, **Stamina**, **Intellect**, **Wisdom**, **Charisma**), straight `+5 CP / -5 CP` pricing, General Attribute Checks, Active and Passive Saving Throws (`2d10 + 2 + [2 * Attr]` / `CR 12 + [2 * Attr]`), and the `+1 per 5 over CR 10` Skill Synergy protocol.
-
-## Overview & Mechanical Authority Block
-
-Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
-
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
-* **Critical Hit & Fumble Resolution:**
-  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
-  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
-* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
-  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
-  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
-  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
-  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
-  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
-  * **Customization Budget:** `70 CP`
-* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
-* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
-* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
-
-## Part I — Alignment & Summary Matrix Table
-
-| Attribute | Associated Check / Save | Active Save Formula | Passive Save CR | Core Mechanical Governance |
+## **Mechanical Summary Matrix**| Attribute | Associated Check / Save | Active Save Formula | Passive Save CR | Core Mechanical Governance |
 | :--- | :--- | :--- | :--- | :--- |
 | **Strength (`STR`)** | **Might Check / Save** | `2d10 + 2 + (2 * STR) + Bonus` | `12 + (2 * STR) + Bonus` | Lifting/carrying capacity, breaking objects, melee/unarmed damage, grappling, stability. |
 | **Agility (`AGI`)** | **Reflex Save** | `2d10 + 2 + (2 * AGI) + Bonus` | `12 + (2 * AGI) + Bonus` | Ranged accuracy, passive Defense (`10 + AGI + Defense + Armor`), Initiative, balance, dodging AoEs. |
@@ -72,8 +47,6 @@ Every rule, formula, and character creation procedure in **Volume I: The Operato
 | **Intellect (`INT`)** | **Reason Check / Save** | `2d10 + 2 + (2 * INT) + Bonus` | `12 + (2 * INT) + Bonus` | Problem-solving, deduction, codebreaking, science/tech, Arcane/Psychic Metafocus, `Perception (INT + WIS)`. |
 | **Wisdom (`WIS`)** | **Willpower Save** | `2d10 + 2 + (2 * WIS) + Bonus` | `12 + (2 * WIS) + Bonus` | Sensing deception (`Insight`), resisting fear/mental control, Divine/Primal Metafocus, `Perception (INT + WIS)`. |
 | **Charisma (`CHA`)** | **Etiquette Check / Save** | `2d10 + 2 + (2 * CHA) + Bonus` | `12 + (2 * CHA) + Bonus` | Persuasion, leadership, social navigation, Negative Karma debt limit (`CHA + 1`), Hereditary/Bardic Metafocus. |
-
-## Part II — Complete Unabridged Profiles & Rules Entries
 
 ### 1. Cost, Starting Maximum & Tier Benchmarks
 
@@ -275,9 +248,4 @@ This Attribute Check encompasses a wide range of social skills and interactions,
 * **Task Difficulty:** The Architect sets the CR for the Etiquette check based on the complexity of the social situation, taking into account factors like the cultural context, the power dynamics involved, and the desired outcome.
 * **Modifiers:** Other modifiers, such as those from skills, features, faction reputation, or social standing, apply to the Etiquette check.
 * **Example:** A character with a **Charisma score of `+5`** attends a formal diplomatic reception where they must navigate complex social customs and expectations. The Architect calls for an **Etiquette check** to avoid committing a social faux pas that could offend important dignitaries or undermine their faction's reputation. The Architect sets the **CR for the check at 15**, considering the character's lack of experience in such high-society events. The character's base score for Etiquette checks is **+12** (`2 + [2 * 5]`). Even though the character's humble upbringing provides no cultural bonus to this check, they need only roll a **3 or higher on `2d10`** to rely on their impressive Charisma and avoid embarrassment.
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-104A (Full Unabridged Codex Prose Restoration for All Six Attributes):** Restored 100% of the multi-paragraph narrative descriptions, sub-sections (`Average Score`, `Exceptional Score`, `Non-Attribute`, `General Checks`, `Saving Throws`, `Targeted Challenge`, `Opposed Challenge`, `Skill Synergy`, `Task/Challenge Difficulty`, `Modifiers`, and worked `Examples`) from Codex `1.01 CHARACTER CREATION` lines 288–699 that had been condensed in prior drafts.
-* **DISC-104B (Save Formula, Zero Stamina Scaling & Skill Nomenclature Normalization):** Enforced `Active Save = 2d10 + 2 + (2 * Attribute) + Feature Bonus` and `Passive Save CR = 12 + (2 * Attribute) + Feature Bonus`, normalized `Knowledge (Language)` and `Alertness` in the Skill Synergy examples, and verified Zero Stamina Scaling (`Stamina Mod = Base Toughness`).
 

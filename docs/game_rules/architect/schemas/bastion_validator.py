@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-BASTION Deterministic Archival Linter & Mathematical Validator
+BASTION Deterministic Archival Linter, Mathematical Validator & Two-Tier SSOT Enforcer
 """
 import os, re, sys, json
 
@@ -21,7 +21,14 @@ PROHIBITED_PATTERNS = [
     ("ASCII Tree Diagram", re.compile(r"[├└│]")),
 ]
 
-def audit_markdown_file(filepath: str) -> list:
+REQUIRED_HUB_HEADERS = [
+    "## Overview & Mechanical Authority Block",
+    "## Part I — Alignment & Summary Matrix Table",
+    "## Part II — Complete Unabridged Profiles & Rules Entries",
+    "## Part III — Discrepancy & Restoration Ledger",
+]
+
+def audit_markdown_file(filepath: str, base_dir: str = None) -> list:
     with open(filepath, "r", encoding="utf-8") as f:
         txt = f.read()
     body = re.split(r"^#{2,3}\s+(?:Part III — )?DISCREPANCY & RESTORATION LEDGER", txt, maxsplit=1, flags=re.M | re.I)[0]
@@ -32,11 +39,29 @@ def audit_markdown_file(filepath: str) -> list:
         matches = pat.findall(body_clean)
         if matches:
             findings.append(f"{filepath}: {label} -> {matches}")
-    # Also check entire file for Bonus Features, REDACTED, ellipses, ASCII trees
     for label, pat in PROHIBITED_PATTERNS[-3:]:
         matches = pat.findall(txt)
         if matches:
             findings.append(f"{filepath} (FULL FILE): {label} -> {matches}")
+
+    # Two-Tier SSOT Structural Checks
+    lines = txt.splitlines()
+    first_line = lines[0] if lines else ""
+    if not first_line.startswith("# "):
+        findings.append(f"{filepath}: Line 1 must start with canonical '# ' heading (found: {first_line[:40]!r})")
+
+    if base_dir:
+        rel_dir = os.path.relpath(os.path.dirname(filepath), base_dir)
+        if rel_dir in (".", "operator", "architect"):
+            for req in REQUIRED_HUB_HEADERS:
+                if req not in txt:
+                    findings.append(f"{filepath} (Master Hub): Missing required section {req!r}")
+        else:
+            if re.search(r"^##\s+\**(?:Overview & Mechanical Authority Block|DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK|MECHANICAL AUTHORITY & CANONICAL RULES BLOCK)", txt, re.M | re.I):
+                findings.append(f"{filepath} (Subfolder Leaf): Must not contain top-level Authority Block wrapper")
+            if re.search(r"^#{2,3}\s+\**(?:Part III\s*[—:]\s*)?DISCREPANCY & RESTORATION LEDGER", txt, re.M | re.I):
+                findings.append(f"{filepath} (Subfolder Leaf): Must not contain top-level Discrepancy Ledger")
+
     return findings
 
 if __name__ == "__main__":
@@ -47,11 +72,11 @@ if __name__ == "__main__":
         md_count = 1
         all_findings.extend(audit_markdown_file(target))
     else:
-        for root, _, files in os.walk(target):
+        for root, _, files in sorted(os.walk(target)):
             for fn in sorted(files):
                 if fn.endswith(".md"):
                     md_count += 1
-                    all_findings.extend(audit_markdown_file(os.path.join(root, fn)))
+                    all_findings.extend(audit_markdown_file(os.path.join(root, fn), target))
     print(f"BASTION Audit Complete: {md_count} Markdown files scanned, {len(all_findings)} violations found.")
     for item in all_findings:
         print(" [VIOLATION]", item)

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "doc-operator-1-09-hindrances"
-order: 217
+order: 218
 perspective: "operator"
 entry_type: "Hindrance Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.mentalandpsychological","mechanics"]
-updatedAt: "2026-11-04T00:33:10.663Z"
+updatedAt: "2026-11-04T09:33:29.500Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.09.02 MENTAL, PSYCHOLOGICAL & METAPHYSICAL HINDRANCES**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/hindrances/1.09.MentalAndPsychological.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/hindrances/1.09.MentalAndPsychological.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.09 HINDRANCES (File ID: 1QY4SZC5bIcn78ls9ApkKyTOm6vFMCvI_0TL9mIQzw7s)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Personal Hindrance Cap (`+10 CP`):** Maximum `+10 CP` gained from personal Hindrances during character creation.
-* **Species-Level Hindrance Exemption:** Innate species-level disadvantages, biological flaws, and Xeno Stigmas (`1.03 SPECIES.md`) are explicitly exempt from the `+10 CP` personal Hindrance cap.
-* **Core Resolution & Nomenclature:** Uses `2d10 vs. CR`, `Disadvantage` (`2d10 + 1d10` keep lowest 2), `Agility`, `Stamina`, and `Character Points (CP)`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MENTAL, PSYCHOLOGICAL & METAPHYSICAL HINDRANCES MATRIX)**
+## **MENTAL, PSYCHOLOGICAL & METAPHYSICAL HINDRANCES MATRIX**
 
 | Hindrance Name | Bonus CP Granted | Category | Mechanical Effect & Severity Tiers |
 | :--- | :---: | :--- | :--- |
@@ -69,8 +55,6 @@ sockets:
 | **Unlucky** | `3 / 6 / 9 CP` | Metaphysical / Karma | Reduces maximum **Karma Pool** by `-2 KP` (`3 CP`), `-4 KP` (`6 CP`), or `-6 KP` (`9 CP`, Karmic Debt if negative). |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED HINDRANCE PROFILES & MECHANICS)**
 
 * **Personal Hindrance Cap (`1.09 HINDRANCES.md`):** Personal/typical Hindrances grant up to a maximum of **+10 Character Points (CP)** during character creation. Innate species-level hindrances, biological disadvantages, and Xeno Stigmas (`1.03 SPECIES.md`) do **not** count toward the 10 CP limit for typical hindrances.
 
@@ -173,12 +157,4 @@ sockets:
 * **CP Value:** `3 / 6 / 9 CP` | **Category:** Metaphysical / Karma
 * **Description:** The universe conspires against the character.
 * **Mechanic:** Permanently reduces the character's maximum **Karma Pool** by **`-2 KP` (`3 CP`)**, **`-4 KP` (`6 CP`)**, or **`-6 KP` (`9 CP`)**. This can reduce a character's Karma Pool to `0` or into negative numbers (**Karmic Debt**), meaning the character begins every session owing the Architect bad-luck complications (`1.01.Karma.md`).
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-308+ (1.09.MentalAndPsychological.md):** Restored 100% of the Mental, Psychological & Metaphysical Hindrance profiles (`Addiction` through `Unlucky`) from Codex `1.09 HINDRANCES`, normalizing `Constitution damage` to `Stamina damage`, `DC` to `CR`, `Hindrance` roll to `Disadvantage`, and `BP` to `CP`.
 

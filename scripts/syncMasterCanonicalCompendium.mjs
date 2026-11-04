@@ -67,6 +67,7 @@ const SUBFOLDER_TO_MASTER_ID = {
 
 const CUSTOM_SUBARTICLE_ORDER = [
   // 1.00 Introduction
+  '1.00.Introduction.md',
   '1.00.Glossary.md',
   // 1.01 Character Creation
   '1.01.PipelineIdentity.md',
@@ -752,7 +753,7 @@ function resolveHierarchyMetadata(fileObj, articleId) {
   // 4. All other subfolder modular documents
   const domainName = branchSegments[1] || 'core';
   const entryTypeMap = {
-    introduction: 'System Glossary',
+    introduction: cleanFileName.toLowerCase().includes('glossary') ? 'System Glossary' : 'System Introduction',
     character_creation: 'Character Creation Rule',
     archetypes: isOp ? 'Operator Archetype' : 'Architect Archetype Catalog',
     species: isOp ? 'Standalone Species' : 'Species Design Matrix',
@@ -860,12 +861,27 @@ export function syncCanonicalCompendium({ silent = false } = {}) {
     console.log(`Discovered ${rawFiles.length} markdown rule file(s) across all subfolders.`);
   }
 
+  // Build root master doc IDs first so subfolder leaf files with identical stems never collide
+  const rootMasterIds = new Set(
+    rawFiles
+      .filter(f => f.relBranch === 'operator' || f.relBranch === 'architect')
+      .map(f => {
+        const key = f.relBranch === 'operator' ? 'operator' : 'architect';
+        return makeArticleId(key, f.fileName);
+      })
+  );
+
   // Build candidate article records first
   const candidateNodes = rawFiles.map(fileObj => {
+    const isRootMaster = fileObj.relBranch === 'operator' || fileObj.relBranch === 'architect';
     const isOp = fileObj.relBranch === 'operator' || fileObj.relBranch.startsWith('operator/');
     const isArch = fileObj.relBranch === 'architect' || fileObj.relBranch.startsWith('architect/');
     const subfolderKey = isOp ? 'operator' : isArch ? 'architect' : 'core';
-    const articleId = makeArticleId(subfolderKey, fileObj.fileName);
+    let articleId = makeArticleId(subfolderKey, fileObj.fileName);
+    if (!isRootMaster && rootMasterIds.has(articleId)) {
+      const branchKey = fileObj.relBranch.replace(/[^a-z0-9]+/g, '-');
+      articleId = makeArticleId(branchKey, fileObj.fileName);
+    }
     const hierarchy = resolveHierarchyMetadata(fileObj, articleId);
     return {
       fileObj,

@@ -42,5 +42,3 @@ negative_keywords: "mindless, instinct-only, illiterate"
       - **Merchant Marine Regulations:** Navigating international interstellar laws regarding distress signals and salvaging rights.
       - **Consignment Sales:** Negotiating display, sale percentages, and escrow protection for third-party luxury cargo.
       - **Counter-Embargo Smuggling:** Slipping essential food, fuels, and machine components past military naval blockades.
-
----

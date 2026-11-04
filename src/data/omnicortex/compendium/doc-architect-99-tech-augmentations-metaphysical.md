@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.metaphysical","matrix"]
-updatedAt: "2026-11-04T00:33:10.461Z"
+updatedAt: "2026-11-04T09:33:29.320Z"
 costs:
   bp: 0
   credits: 0
@@ -191,28 +191,4 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 * **Location:** Torso (Heart) | **Nodes:** 15 (1.5 Sockets) | **TL/ML:** 4/5 | **CR:** 35 | **Value:** 163,840 Cr
 * **Description:** The ultimate biological replacement. The host's biological heart is removed and replaced with a spinning, frictionless Aetherium crystal turbine that pumps liquid resonance through the veins instead of blood.
 * **Mechanic:** The user no longer ages and gains the *Ageless* and *Regeneration* (1 Health per minute) features. The user's Vitality maximum is permanently increased by +20 (equivalent to 4 CP of Vitality investment). However, the user becomes critically vulnerable to anti-magic: entering an established Null-Void field or being struck by a targeted Metaphysical EMP forces a CR 20 Fortitude save, or the user drops immediately to 0 Health.
-
-### EUFT & Matrix Systems Audit Retrofits (Canonical Reference)
-
-* **Tangent Standard Curve (Base CR Intervals of 5):** `Value (Credits) = 10 * 4 ^ (CR / 5)`.
-* **Linear Micro-Modifiers (+1 to +4 CR):** Non-multiple-of-5 CR adjustments apply linear multipliers to the nearest base 5-CR tier rather than exponential compounding:
-  * **+1 CR:** `x1.3` (+30% Base Value)
-  * **+2 CR:** `x1.75` (+75% Base Value)
-  * **+3 CR:** `x2.3` (+130% Base Value)
-  * **+4 CR:** `x3.0` (+200% Base Value)
-  * **-1 CR (Flaw):** `x0.75` (-25% Base Value)
-* **Crafting Material & Scrap Ratio:** Pristine raw materials cost **50%** of an item's total Credit Value. Unrefined **Scavenged Scrap** retains **10%** value, requiring **5x the item's Credit Value** in raw scrap mass to satisfy the 50% crafting material threshold.
-* **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
-* **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
-
----
-
-## DISCREPANCY & RESTORATION LEDGER (DISC-547)
-
-* **Target Path:** `architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - AUGMENTATIONS MATRIX` & `/game_rules/architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md` (`1xYpIT7ZPlxgqrIc4AZL5mz8edDTo455X`)
-* **Restoration & Normalization Log:**
-  * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
-  * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).
-  * Restored complete Metaphysical Augmentations Matrix (Imbued Tattoos, Psi-Crystals, Cyber-Occult Neural Sockets, Neural/Sensory/Somatic/Offensive/Structural Implants) and enforced the Armor Layering Cap.
 

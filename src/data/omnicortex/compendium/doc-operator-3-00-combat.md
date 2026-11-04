@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-3-00-combat"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 233
+order: 234
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","3.00 combat","mechanics"]
-updatedAt: "2026-11-04T00:33:10.503Z"
+updatedAt: "2026-11-04T09:33:29.361Z"
 costs:
   bp: 0
   credits: 0
@@ -41,13 +41,13 @@ sockets:
 
 > **Module Scope:** 2d10 Tactical Combat Engine, Skill Stages, Initiative, Attack/Defense, Modifiers, Actions, Damage & Mortality
 
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+## Overview & Mechanical Authority Block
 
 * **Mechanical Authority (`/game_rules` Wins):** Core Resolution `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`; Advantage/Disadvantage `+1d10` per stack (keep highest 2 / lowest 2); Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19, 18, and lower`) = `Rolled Dice + 10` (e.g., `20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + Critical Effect; Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3, 4, and higher`) = `Rolled Dice becomes flat -10` + Situational Complication.
 * **Character & Pool Axioms:** `150 CP` starting budget (`80 CP` Archetype Chassis + `70 CP` Customization); `60 SP` free Background skills (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation + `4 Recommended Features` + `4 Traits` at `0 CP`); Universal Straight Pricing (`+5 CP` per `+1` Attribute, `-5 CP` per `-1`, `1 CP` per `1` Skill Rank); Personal Hindrance Cap `+10 CP` (Species-level disadvantages and Stigmas exempt); `Base 30 Vitality` and `Base 30 Health` (`Base 60 Structure Points [SP]` for Synthetics/Constructs), scaled strictly at `+5 points per 1 CP` spent with **zero Stamina scaling**; Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain **Armor DR** (**Armor Layering Cap**: biological, cybernetic, and wearable DR never stack).
 * **EUFT & UDU Invariants:** Base 5-CR Valuation `Value (Credits) = 10 * 4^(CR / 5)`; Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`); Pristine Materials = `50%` of Credit Value, Scavenged Scrap = `10%` value (`5x Item Credit Value` in unrefined scrap mass); `10:1` UDU Hierarchy (`10 Nodes = 1 Socket`, `10 Sockets = 1 Mount`, `10 Mounts = 1 Module`); Mecha table SP is pre-calculated (apply Scale Multiplier only to weapon damage, movement speed, and weapon range; Garaging `1 Mount = 1 Scale Multiplier`).
 
-## **PART I: ALIGNMENT & SUMMARY MATRIX**
+## Part I — Alignment & Summary Matrix Table
 
 | Section ID | Module / Sub-System Name | Mechanical Authority & Rule Governance | Restoration Status |
 | :--- | :--- | :--- | :---: |
@@ -66,12 +66,19 @@ sockets:
 
 ---
 
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
-The Tangent combat system employs a **2d10 resolution engine** that factors in character skills, attributes, and tactical modifiers. The outcome of every action is determined by rolling **two ten-sided dice (`2d10`)** and adding relevant modifiers. Combat actions are governed by **Skill Stage**, with higher Skill Ranks unlocking additional iterative actions per turn.
+### **Introduction to the Combat System**
 
-Character skills play a central role in combat. Each operator possesses a distinct set of proficiencies—ranging from unarmed martial arts, vibro-blade fencing, and ballistic marksmanship to heavy vehicular gunnery and metaphysical invocations—that determine the actions they can execute during their turn. As characters advance and their Skill Ranks increase, they unlock additional actions per round, creating a dynamic, tactical combat experience where skill mastery, positioning, and resource management decide the outcome of every battle.
+The combat system uses a `2d10` dice system that factors in character skills, abilities, and other modifiers. Combat actions are determined by Skill Rank, with higher Skill Ranks unlocking additional actions per turn.
 
+In the game, combat employs a `2d10` dice system, which adds an element of randomness and uncertainty to each encounter. The outcome of actions is determined by rolling a pair of ten-sided dice (`2d10`) and adding relevant modifiers. These modifiers take into account character skills, abilities, and various situational factors.
+
+Character skills play a significant role in combat. Each character has a unique set of skills that determine their combat capabilities. These skills include weapon proficiency, combat techniques, and special abilities. The skill level of a character influences the combat actions they can perform during their turn. For example, a character with high swordsmanship skill may be able to perform a flurry of attacks, while a character with high stealth skill may be able to hide from their opponents.
+
+As characters progress and their skill levels increase, they unlock additional actions, enhancing their combat capabilities. This allows for more strategic and dynamic combat encounters. For instance, a character with a higher level of swordsmanship skill may be able to execute more powerful attacks or counter enemy attacks more effectively.
+
+The `2d10` dice system introduces an element of chance into combat, ensuring that no two encounters are exactly the same. This can lead to exciting and unexpected outcomes, adding tension and excitement to every battle. The combination of character skills, abilities, modifiers, and random dice rolls creates a rich and engaging combat experience that keeps players engaged and on the edge of their seats.
 ---
 
 ## **1. CORE MECHANICS**
@@ -299,7 +306,7 @@ Detailed tactical maneuvers, status conditions, hit locations, damage classifica
 
 ---
 
-## DISCREPANCY & RESTORATION LEDGER
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-104 (Second-Half Combat Restoration):** Restored the truncated second half of `3.00 COMBAT.md` from `/game rules` (`1y0z4kn-n8b8tyH9o38qwQVv2maW2cZAT`) and `3.00 COMBAT` (`1ldlRqh6rX2p4_928VMxEQfPzd5eDUQxUNLhj-OWp9Ig`), including the full Damage Types summary, granular Body Locations (`-1` to `-5` Called Shots + Specialized Tentacles/Wings/Fins), Limb Damage thresholds, Unified Mortality State (`Stability = STA + 5`), Section 7 (`How Scaling Works in Combat`), and the `COMBAT DIRECTORY INDEX`.
 * **DISC-105 (Authorial Errata Alignment):** Corrected 2d10 Criticals (`Rolled Dice + 10`) and Fumbles (`Rolled Dice = flat -10`), removed baseline Consolidation & Grazing Protocols and `AP` penetration shorthands, and confirmed single-strike dice multiplication is strictly gated behind the **Precision Strike** Combat Feature chain (`1.08 FEATURES.md`).
@@ -310,5 +317,4 @@ Detailed tactical maneuvers, status conditions, hit locations, damage classifica
   * `[x]` All CP/SP/CR/EUFT/UDU math verified against `/game_rules` canonical mechanics (`150 CP` budget, `80 CP` chassis, `60 SP` background, Base 30 Vitality & Health, zero Stamina scaling, Stamina Base Toughness, Armor Layering Cap, feature-gated `Precision Strike`, EUFT `10 * 4^(CR/5)` with Linear Micro-Modifiers).
   * `[x]` Zero instances of `"Recommended Features"` (all converted to `"Recommended Features"`).
   * `[x]` 100 percent clean plain-text Markdown formatting (`bastion_validator.py`: 0 violations).
-
 

@@ -59,10 +59,3 @@ Alters the physical form to produce a specific biological enhancement (gills, cl
 
   - **Magnitude:** Natural Weapon Damage = 1d6 per Stage.
   - **Quantity:** Number of Mutations = 1 per Stage (Max 5 CP worth per Stage).
-
-  
-  
-  
-
-
----

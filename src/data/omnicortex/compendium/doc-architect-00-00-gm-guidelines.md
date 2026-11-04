@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","00.00 gm guidelines","matrix"]
-updatedAt: "2026-11-04T00:33:10.363Z"
+updatedAt: "2026-11-04T09:33:29.230Z"
 costs:
   bp: 0
   credits: 0
@@ -39,16 +39,31 @@ sockets:
 
 # **00.00 ARCHITECT GUIDELINES & ADJUDICATION PROTOCOL**
 
-## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
+## Overview & Mechanical Authority Block
 
-- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
-- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
-- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
-- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
-- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
-- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
+Every rule, formula, and procedural matrix in this master compendium is governed by these canonical **Tangent SF RP** mechanical invariants:
 
-The **Architect** (Game Master) arbitrates the physical, economic, and metaphysical laws of the Tangent universe, balancing deterministic mathematical rigor with evocative science-fantasy storytelling.
+* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
+* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
+* **Critical Hit & Fumble Resolution:** Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`) equals `Rolled Dice + 10` (`20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`) converts the rolled dice into a flat `-10` (`Base Score - 10`) + `Situational Complication`.
+* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at `1 CP` each plus 3 Recommended Core Features at `9 CP`) and a **70-CP Customization Budget**.
+* **Background Skill Ranks:** `60 Background Skill Ranks` allocated at `0 CP` as `20 SP Faction` + `20 SP Origin` + `20 SP Occupation`, alongside `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
+* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across all creation, species, companion, and bestiary packages.
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct entities combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR (`Armor Layering Cap`: only the single highest DR across bio, cyber, and worn armor applies).
+* **Personal Hindrance Cap:** Standard personal character hindrances have a `+10 CP` maximum limit; **Species-level hindrances and cybernetic Stigmas do NOT count toward the 10-point standard hindrance limit**.
+* **Economic Unified Field Theory (EUFT) & UDU Hierarchy:** Base 5-CR intervals follow `Value (Credits) = 10 * 4^(CR / 5)` modified by Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`). Pristine crafting materials cost `50%` of Credit Value; Scavenged Scrap retains `10%` value (`5x Item Credit Value` in unrefined scrap mass). UDU capacity scales at `10 Usable Nodes (Tier 0) = 1 Socket (Tier 1)`, `10 Sockets = 1 Mount (Tier 2)`, and `10 Mounts = 1 Module (Tier 3)` (`Garaging: 1 Mount = 1 Scale Multiplier`; vehicle table SP is pre-calculated).
+
+## Part I — Alignment & Summary Matrix Table
+
+| Section / Protocol | Governance Scope | Core Mechanical Formula / Benchmark |
+| :--- | :--- | :--- |
+| **1. 2d10 Bell Curve & CR** | Universal Resolution | `2d10 + Skill + Attribute + Mods vs. CR` (`CR 10` Routine to `CR 35+` Mythic) |
+| **2. Threat Budgeting** | Encounter Design | Party Average CP vs. Adversary Tier (`Tiers 0–20` MCM Chassis) |
+| **3. Dual AI Pair-GM** | BASTION & AIME | BASTION (Deterministic Math & Rules) + AIME (Sensory Narrative & Pacing) |
+| **4. Socratic & CRISP** | Co-Design & Visuals | 2–3 Guided Trade-Off Questions + 10-Faction CRISP / Hi-Fi Ink Prompt Engine |
+| **5. Session Zero & Safety** | Tabletop Contract | Lines & Veils, X-Card Calibration, and Open Door Protocol |
+
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 ## **1. THE 2D10 BELL CURVE & CHALLENGE RATING (CR) BENCHMARKS**
 
@@ -178,7 +193,7 @@ Every participant has an unconditional **Open Door Policy**: any player may step
 * **Collaborative Storytelling:** The Architect and Operators are co-authors, not adversaries. The Architect builds challenging, fair encounters using deterministic Codex math, while players build characters who actively engage with the squad and the plot.
 * **Character Conflict vs. Player Conflict:** In-character ideological friction between a Syndicate executive and a Coalition rebel can create compelling drama, but must always be consented to out-of-character by both players and must never spill into interpersonal disrespect at the table.
 
-## **DISCREPANCY & RESTORATION LEDGER (00.00 GM GUIDELINES)**
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-107 (BASTION Operational & Socratic Protocols Added):** Appended Section 4 containing the canonical BASTION operational phrasing (`"Accessing Archive"`, `"Calculating CR"`, `"Visualizing Output"`), exact missing-data string, Socratic question mandate, step-by-step 150 CP & EUFT proof mandate, and Universal CRISP "Hi-Fi Ink" Visualization Engine & Form Presets A–F.
 * **DISC-108 (Session Zero & Safety Protocols Added):** Appended Section 5 containing the 5-point Session Zero Checklist, Lines and Veils, The X-Card, Open Door Policy, and Tabletop Social Contract.

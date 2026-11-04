@@ -426,7 +426,7 @@ Every document across **Volume I: The Operator's Manual (Player Compendium)** an
 
   * `99.Schema.ArchitectureAndBase.md`, `99.Schema.BastionLinterAndValidator.md`, `99.Schema.MechaAndAutomata.md`, `99.Schema.OperatorCharacter.md`, `99.Schema.PlanetarySystem.md`.
 
-## Part III — Discrepancy & Restoration Ledger (Root Index)
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-001 (Stamina Scaling Purge):** Replaced legacy `30 + [5 * STA]` Vitality and Health formulas with canonical CP-scaled pools (`Base 30 Vitality / Base 30 Health; +5 per 1 CP; NEVER scaled by Stamina`) and Stamina Base Toughness (`point-for-point damage reduction after Armor DR`).
 

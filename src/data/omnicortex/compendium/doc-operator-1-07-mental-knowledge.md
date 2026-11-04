@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 186
+order: 187
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.knowledge","mechanics"]
-updatedAt: "2026-11-04T00:33:10.738Z"
+updatedAt: "2026-11-04T09:33:29.561Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.03 MENTAL SKILLS: KNOWLEDGE (A – M)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Knowledge.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Knowledge.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (KNOWLEDGE SKILLS (A – M) SUMMARY MATRIX)**
+## **KNOWLEDGE SKILLS (A – M** SUMMARY MATRIX)**
 
 | Skill Name | Governing Attribute | Core Task CRs | Canonical Specialties |
 | :--- | :--- | :--- | :---: |
@@ -69,8 +55,6 @@ sockets:
 | **Metaphysics** | Intellect (`INT`) | Identify Pattern (`CR 15`), Analyze Reality (`CR 20`), Theorize (`CR 25`) | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 ## **KNOWLEDGE (Category)**
 
@@ -355,12 +339,4 @@ Sign - Hand gesture communication
 ---
 
 *Continued in **[Knowledge Skills (N – T: Nature to Trade)](./1.07.Mental.Knowledge.N_T.md)**.*
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mental.Knowledge.md):** Restored Knowledge Skills A–M (`Appraisal` through `Metaphysics`, including `Computers` and `Knowledge (Language)` with all Notable Languages) and all 100 Specialties from Codex `1.07 SKILLS`.
 

@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "doc-operator-1-09-hindrances"
-order: 218
+order: 219
 perspective: "operator"
 entry_type: "Hindrance Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.socialandbackground","mechanics"]
-updatedAt: "2026-11-04T00:33:10.668Z"
+updatedAt: "2026-11-04T09:33:29.500Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.09.03 SOCIAL, BACKGROUND & RESOURCE HINDRANCES**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/hindrances/1.09.SocialAndBackground.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/hindrances/1.09.SocialAndBackground.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.09 HINDRANCES (File ID: 1QY4SZC5bIcn78ls9ApkKyTOm6vFMCvI_0TL9mIQzw7s)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Personal Hindrance Cap (`+10 CP`):** Maximum `+10 CP` gained from personal Hindrances during character creation.
-* **Species-Level Hindrance Exemption:** Innate species-level disadvantages, biological flaws, and Xeno Stigmas (`1.03 SPECIES.md`) are explicitly exempt from the `+10 CP` personal Hindrance cap.
-* **Core Resolution & Nomenclature:** Uses `2d10 vs. CR`, `Disadvantage` (`2d10 + 1d10` keep lowest 2), `Agility`, `Stamina`, and `Character Points (CP)`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (SOCIAL, BACKGROUND & RESOURCE HINDRANCES MATRIX)**
+## **SOCIAL, BACKGROUND & RESOURCE HINDRANCES MATRIX**
 
 | Hindrance Name | Bonus CP Granted | Category | Mechanical Effect & Severity Tiers |
 | :--- | :---: | :--- | :--- |
@@ -68,8 +54,6 @@ sockets:
 | **Social Issues** | `3 / 6 / 9 / 12 CP` | Social | Minor (`3 CP`: `-2` Diplomacy), Moderate (`6 CP`: `-4` Diplomacy & `-1` attitude step), Major (`9 CP`: Social checks with **Disadvantage**), Severe (`12 CP`: Social checks with **Disadvantage** + `-2` all CHA skills). |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED HINDRANCE PROFILES & MECHANICS)**
 
 * **Personal Hindrance Cap (`1.09 HINDRANCES.md`):** Personal/typical Hindrances grant up to a maximum of **+10 Character Points (CP)** during character creation. Innate species-level hindrances, biological disadvantages, and Xeno Stigmas (`1.03 SPECIES.md`) do **not** count toward the 10 CP limit for typical hindrances. Innate species-level stigmas do not count toward this personal limit.
 
@@ -160,12 +144,4 @@ sockets:
   * **Moderate (`6 CP` — Abrasive / Clueless):** Frequently offends others or misreads social situations; **`-4` penalty** to Diplomacy checks, and initial NPC attitudes start **one step lower** (*Hostile* instead of *Unfriendly*, *Unfriendly* instead of *Indifferent*).
   * **Major (`9 CP` — Antisocial / Repellent Personality):** Cannot naturally improve NPC attitudes through casual interaction; **all Social checks (*Diplomacy, Bluff, Intimidate, Barter*) are rolled with Disadvantage**.
   * **Severe (`12 CP` — Social Pariah / Ostracized):** Most NPCs refuse to interact with the character unless forced, and **all Social checks are rolled with Disadvantage**, AND the character suffers a flat **`-2` penalty on all Charisma-based skills**, even on non-social tasks (such as *Vocation [Handler]* or Charisma-based *Attune*). *(Capped at `+10 CP` toward the personal Hindrance creation limit).*
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-308+ (1.09.SocialAndBackground.md):** Restored 100% of the Social, Background & Resource Hindrance profiles (`Adversary` through `Social Issues`) from Codex `1.09 HINDRANCES`, normalizing `Persuasion/Deception` to `Diplomacy/Bluff`, `made at Hindrance` to `rolled with Disadvantage`, and `BP` to `CP`.
 

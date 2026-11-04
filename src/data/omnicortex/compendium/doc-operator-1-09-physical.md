@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-09-hindrances"
 category: "operator_rule"
 parent: "doc-operator-1-09-hindrances"
-order: 216
+order: 217
 perspective: "operator"
 entry_type: "Hindrance Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","hindrances","1.09.physical","mechanics"]
-updatedAt: "2026-11-04T00:33:10.668Z"
+updatedAt: "2026-11-04T09:33:29.500Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.09.01 PHYSICAL & SENSORY HINDRANCES**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/hindrances/1.09.Physical.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/hindrances/1.09.Physical.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.09 HINDRANCES (File ID: 1QY4SZC5bIcn78ls9ApkKyTOm6vFMCvI_0TL9mIQzw7s)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Personal Hindrance Cap (`+10 CP`):** Maximum `+10 CP` gained from personal Hindrances during character creation.
-* **Species-Level Hindrance Exemption:** Innate species-level disadvantages, biological flaws, and Xeno Stigmas (`1.03 SPECIES.md`) are explicitly exempt from the `+10 CP` personal Hindrance cap.
-* **Core Resolution & Nomenclature:** Uses `2d10 vs. CR`, `Disadvantage` (`2d10 + 1d10` keep lowest 2), `Agility`, `Stamina`, and `Character Points (CP)`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (PHYSICAL & SENSORY HINDRANCES SUMMARY MATRIX)**
+## **PHYSICAL & SENSORY HINDRANCES SUMMARY MATRIX**
 
 | Hindrance Name | Bonus CP Granted | Category | Mechanical Effect & Severity Tiers |
 | :--- | :---: | :--- | :--- |
@@ -66,8 +52,6 @@ sockets:
 | **Mute** | `2 CP` | Physical | Cannot speak verbally; cannot cast Verbal invocations; requires sign, text, or Telepathy. |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED HINDRANCE PROFILES & MECHANICS)**
 
 * **Personal Hindrance Cap (`1.09 HINDRANCES.md`):** Personal Hindrances grant up to a maximum of **+10 Character Points (CP)** during character creation. Innate species-level biological flaws (such as a Graa's *Armless* trait or a Sigal's *Limbless* trait) do not count toward this personal limit.
 
@@ -128,12 +112,4 @@ sockets:
 * **CP Value:** `2 CP` | **Category:** Physical
 * **Description:** The character cannot speak vocally.
 * **Mechanic:** Cannot perform Metaphysic Invocations requiring **Verbal** components, and cannot communicate without sign language, written/digital text, or **Telepathy**.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-308+ (1.09.Physical.md):** Restored 100% of the Physical & Sensory Hindrance profiles (`Bodily Age`, `Disability`, `Distinctive Features`, `Impaired Sense`, `Lost Sense`, `Mute`) from Codex `1.09 HINDRANCES`, normalizing `Dexterity` to `Agility`, `Hindrance` roll to `Disadvantage`, and `BP` to `CP`.
 

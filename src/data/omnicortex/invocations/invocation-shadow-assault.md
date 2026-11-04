@@ -58,10 +58,3 @@ Evokes a blast of roiling shadow energy that mimics a physical attack.
 
   - **Damage:** 1d6 Shadow Damage per Stage.
   - **Debuff:** Targets taking damage are Entangled (Shadows cling) for 1 round per Stage.
-
-  
-  
-  
-
-
----

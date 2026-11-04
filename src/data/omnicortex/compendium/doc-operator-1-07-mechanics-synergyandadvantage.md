@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 202
+order: 203
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.synergyandadvantage","mechanics"]
-updatedAt: "2026-11-04T00:33:10.733Z"
+updatedAt: "2026-11-04T09:33:29.560Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.19 SKILL SYNERGY, ADVANTAGE & DISADVANTAGE**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mechanics.SynergyAndAdvantage.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mechanics.SynergyAndAdvantage.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (SYNERGY, ADVANTAGE & DISADVANTAGE MATRIX)**
+## **SYNERGY, ADVANTAGE & DISADVANTAGE MATRIX**
 
 | Mechanic | Dice / Bonus Formula | Stacking & Countering Rules |
 | :--- | :--- | :--- |
@@ -64,8 +50,6 @@ sockets:
 | **Rolling with Disadvantage** | Roll `2d10 + 1d10` per stack; keep **lowest 2 dice** | Stacks add `+1d10` per source; cancels 1-for-1 with Advantage; `1 KP` removes 1 penalty die. |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **SKILL SYNERGY**
 
@@ -266,12 +250,4 @@ If you must roll with Disadvantage, consider using a Karma Point to improve your
 ### **Mitigating Factors**
 
 Try to minimize the impact of Disadvantage by addressing its source, if possible. For example, move to a better-lit area, use proper tools, or seek assistance from a skilled ally.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mechanics.SynergyAndAdvantage.md):** Restored 100% of the Skill Synergy, Advantage, and Disadvantage prose from Codex `1.07 SKILLS`, removed the duplicated opening sentence in Disadvantage, reconciled both Passive (`+2/+4`) and Active (`+1` per `5` over `CR 10`) Synergy formulas, and enforced the canonical `2d10 + 1d10` (keep highest/lowest 2) Advantage/Disadvantage rule.
 

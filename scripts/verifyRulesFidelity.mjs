@@ -79,15 +79,19 @@ ruleFiles.forEach(({ fullPath, fileName, relBranch }) => {
   const articleId = `doc-${subfolderKey}-${normalizedSlug}`;
   const topArticleId = `doc-${topFolderKey}-${normalizedSlug}`;
 
-  const matchedArticle = seedData.find(
-    a =>
-      a.id === articleId ||
-      a.id === `doc-${subfolderKey}-${rawSlug}` ||
-      a.id === topArticleId ||
-      a.id === `doc-${topFolderKey}-${rawSlug}` ||
-      (a.fileName === fileName && (a.subfolder || '').toLowerCase() === relBranch.toLowerCase()) ||
-      a.id.toLowerCase() === cleanFileName.toLowerCase()
-  );
+  const matchedArticle =
+    seedData.find(
+      a =>
+        (a.fileName === fileName && (a.subfolder || '').toLowerCase() === relBranch.toLowerCase()) ||
+        a.id === articleId ||
+        a.id === `doc-${subfolderKey}-${rawSlug}`
+    ) ||
+    seedData.find(
+      a =>
+        a.id === topArticleId ||
+        a.id === `doc-${topFolderKey}-${rawSlug}` ||
+        a.id.toLowerCase() === cleanFileName.toLowerCase()
+    );
 
   if (!matchedArticle) {
     console.error(`[FAIL] Missing article for ${fileName} (expected ID: ${articleId})`);

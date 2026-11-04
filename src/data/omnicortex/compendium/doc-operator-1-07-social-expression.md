@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 192
+order: 193
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.social.expression","mechanics"]
-updatedAt: "2026-11-04T00:33:10.753Z"
+updatedAt: "2026-11-04T09:33:29.576Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.09 SOCIAL SKILLS: EXPRESSION (A – L)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Social.Expression.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Social.Expression.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (EXPRESSION SKILLS (A – L) SUMMARY MATRIX)**
+## **EXPRESSION SKILLS (A – L** SUMMARY MATRIX)**
 
 | Expression Skill | Governing Attribute | Core Task CRs | Canonical Specialties |
 | :--- | :--- | :--- | :---: |
@@ -65,8 +51,6 @@ sockets:
 | **Legerdemain** | Agility (`AGI`) or Charisma (`CHA`) | Pickpocket (`CR 20` or opposed by `Alertness`), Conceal Item (`CR 15`) | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **SOCIAL**
 
@@ -231,12 +215,4 @@ sockets:
 ---
 
 *Continued in **[Expression Skills (O – W: Oratory to Wind)](./1.07.Social.Expression.O_W.md)**.*
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Social.Expression.md):** Restored Expression Skills A–L (`Acting` through `Legerdemain`) and all 60 Specialties from Codex `1.07 SKILLS` with `2d10 vs. CR` normalization.
 

@@ -61,11 +61,3 @@ Opens a stable, two-way wormhole connecting to another location.
 
   - **Stability:** Duration without concentration = 1 Round per Stage.
   - **Size:** Portal diameter increases by +5ft per Stage.
-
-  
-  
-  
-  
-
-
----

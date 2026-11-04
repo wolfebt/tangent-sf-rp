@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-2-00-economatrix"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 220
+order: 221
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","2.00 economatrix","mechanics"]
-updatedAt: "2026-11-04T00:33:10.503Z"
+updatedAt: "2026-11-04T09:33:29.361Z"
 costs:
   bp: 0
   credits: 0
@@ -41,13 +41,13 @@ sockets:
 
 > **Module Scope:** Master Player Economy, EUFT Valuation Curve, Wealth Matrix, Productivity Engine & Trade Hub
 
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+## Overview & Mechanical Authority Block
 
 * **Mechanical Authority (`/game_rules` Wins):** Core Resolution `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`; Advantage/Disadvantage `+1d10` per stack (keep highest 2 / lowest 2); Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19, 18, and lower`) = `Rolled Dice + 10` (e.g., `20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + Critical Effect; Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3, 4, and higher`) = `Rolled Dice becomes flat -10` + Situational Complication.
 * **Character & Pool Axioms:** `150 CP` starting budget (`80 CP` Archetype Chassis + `70 CP` Customization); `60 SP` free Background skills (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation + `4 Recommended Features` + `4 Traits` at `0 CP`); Universal Straight Pricing (`+5 CP` per `+1` Attribute, `-5 CP` per `-1`, `1 CP` per `1` Skill Rank); Personal Hindrance Cap `+10 CP` (Species-level disadvantages and Stigmas exempt); `Base 30 Vitality` and `Base 30 Health` (`Base 60 Structure Points [SP]` for Synthetics/Constructs), scaled strictly at `+5 points per 1 CP` spent with **zero Stamina scaling**; Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain **Armor DR** (**Armor Layering Cap**: biological, cybernetic, and wearable DR never stack).
 * **EUFT & UDU Invariants:** Base 5-CR Valuation `Value (Credits) = 10 * 4^(CR / 5)`; Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`); Pristine Materials = `50%` of Credit Value, Scavenged Scrap = `10%` value (`5x Item Credit Value` in unrefined scrap mass); `10:1` UDU Hierarchy (`10 Nodes = 1 Socket`, `10 Sockets = 1 Mount`, `10 Mounts = 1 Module`); Mecha table SP is pre-calculated (apply Scale Multiplier only to weapon damage, movement speed, and weapon range; Garaging `1 Mount = 1 Scale Multiplier`).
 
-## **PART I: ALIGNMENT & SUMMARY MATRIX**
+## Part I — Alignment & Summary Matrix Table
 
 | Section ID | Module / Sub-System Name | Mechanical Authority & Rule Governance | Restoration Status |
 | :--- | :--- | :--- | :---: |
@@ -66,7 +66,7 @@ sockets:
 
 ---
 
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 # **A Design Protocol for the Tangent SciFi Fantasy RPG**
 
@@ -556,7 +556,6 @@ Because the raw materials required to craft an item also cost 50% of the item's 
   
   
 
-
 # **The Productivity Engine and Macro-Economics**
 
 Because the Tangent Standard Curve dictates that value scales exponentially, a linear crafting system (e.g., generating 50 credits of value per day) would require literal centuries to build high-end assets, ending campaigns before items are finished. Tangent solves the "Time vs. Cost" paradox through the Productivity Engine, converting effort into Productivity Points (PP).
@@ -760,7 +759,6 @@ Transporting people is a steady income source but requires Life Support modules.
   
   
 
-
 # **The Tangent Standard Curve (TSC)**  
 
 # **ECONOMATRIX**
@@ -792,7 +790,6 @@ By strictly adhering to this calculation, all pricing debates are eliminated. Th
 
   
   
-
 
 ### **Wealth Score and Purchasing Power**
 
@@ -941,7 +938,6 @@ An additional Skill of level 6+ may be accounted to aid in Trade per each of the
   
   
 
-
 ---
 
 ## **11. Canonical EUFT Micro-Modifiers, Material Ratios & Layering Retrofits**
@@ -979,7 +975,7 @@ Detailed equipment, architecture, augmentation, armor, vehicle, and weapon modif
 
 ---
 
-## DISCREPANCY & RESTORATION LEDGER
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-401 (2.00 Economatrix Full Prose & EUFT Retrofits):** Restored 100% of Sections 1–10, the Liquidity Gap, Productivity Engine, and Economy & Trade overview from `/_ _ TANGENT RP CODEX _ _/2.00 ECONOMATRIX`, integrated the Linear Micro-Modifier multipliers (+1 to +4 CR), 10% Scrap / 5x Scrap Mass crafting rule, Armor Layering Cap, and Mecha Scale Multiplier rules, and normalized all CP -> CP and CR -> CR formulas.
 * **DISC-STAGE2-AUDIT (2.00 ECONOMATRIX.md):** Purged all legacy d20/DC/BP/Dexterity/Constitution/Awareness/Sense Motive/Linguistics tokens, converted all LaTeX and fenced code blocks into 100% plain-text Markdown, removed all ellipses and HTML comments, and verified 100% textual completeness against `_ _ TANGENT RP CODEX _ _`.
@@ -988,5 +984,4 @@ Detailed equipment, architecture, augmentation, armor, vehicle, and weapon modif
   * `[x]` All CP/SP/CR/EUFT/UDU math verified against `/game_rules` canonical mechanics (`150 CP` budget, `80 CP` chassis, `60 SP` background, Base 30 Vitality & Health, zero Stamina scaling, Stamina Base Toughness, Armor Layering Cap, feature-gated `Precision Strike`, EUFT `10 * 4^(CR/5)` with Linear Micro-Modifiers).
   * `[x]` Zero instances of `"Recommended Features"` (all converted to `"Recommended Features"`).
   * `[x]` 100 percent clean plain-text Markdown formatting (`bastion_validator.py`: 0 violations).
-
 

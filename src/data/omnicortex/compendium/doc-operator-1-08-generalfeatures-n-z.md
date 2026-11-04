@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-generalfeatures"
-order: 213
+order: 214
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.generalfeatures.n_z","mechanics"]
-updatedAt: "2026-11-04T00:33:10.653Z"
+updatedAt: "2026-11-04T09:33:29.491Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.08.06 GENERAL FEATURES (PART II: N – Z & SUPERHUMAN MUTATIONS)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/features/1.08.GeneralFeatures.N_Z.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/features/1.08.GeneralFeatures.N_Z.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.08 FEATURES (File ID: 1sSXybfCpspSaGg1DpaYNoBTEeCGvCyEAuIC-EAPSxiM)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Feature Pricing:** Standard Feature = `3 CP`; Recommended Feature = `2 CP` (`-1 CP` discount for Species, Faction, Origin, or Occupation recommended features; minimum `1 CP`).
-* **Core Resolution & Saves:** `2d10 + Modifiers vs. CR`; Advantage rolls `+1d10` (keep highest 2).
-* **Feature-Gated Consolidation & Zero Stamina Scaling:** `Precision Strike` (`2x`/`3x`/`4x` base weapon dice) gates single-attack consolidation; Stamina provides `Base Toughness` DR and never scales Health/Vitality pools.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (GENERAL FEATURES (PART II & SUPERHUMAN MUTATIONS) SUMMARY TABLE)**
+## **GENERAL FEATURES (PART II & SUPERHUMAN MUTATIONS** SUMMARY TABLE)**
 
 | **FEATURE NAME** | **PREREQUISITE** | **BENEFIT / EFFECT** | **SPECIAL / NOTES** |
 | :--- | :--- | :--- | :--- |
@@ -117,8 +103,6 @@ sockets:
 | **Unbreakable Skeleton** | Tough, Stamina 3 | DR 5 vs. Bludgeoning/Crushing/Falling; immune to bone fracture (*Cripple*); +1 Unarmed dmg | Superhuman Mutation |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED FEATURE PROFILES & MECHANICS)**
 
 ## **Natural Leader**
 
@@ -367,12 +351,4 @@ Extremely rare congenital mutations, neurodivergent architectures, and sensory a
 
 * **Prerequisite:** Tough, Stamina 3
 * **Benefit:** You gain **Damage Resistance (DR) 5** specifically against Bludgeoning, Crushing, and Falling damage. You are completely immune to effects that specifically fracture or break bones (such as the *Cripple* Sneak Attack feature). Because of your extreme bone density, your unarmed strikes deal an additional **+1 Damage**.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-316+ (1.08.GeneralFeatures.N_Z.md):** Restored all 15 Part II General Features (`Natural Leader` through `Zero G Training`) and all 15 Superhuman Biological & Neurological Mutations (`Absolute Pitch` through `Unbreakable Skeleton`).
 

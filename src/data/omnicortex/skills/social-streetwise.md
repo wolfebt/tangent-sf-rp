@@ -43,5 +43,3 @@ negative_keywords: "isolated, anti-social, inarticulate"
       - **Spotting Plainclothes Law:** Pointing out disguised undercover detectives and corporate internal security spooks in crowds.
       - **Illicit Contraband Sourcing:** Procuring illegal combat drugs, untracked blasters, and forged transit papers in alleys.
       - **Urban Evasion:** Slipping away through winding back-alleys, fire escapes, and sewer drains when syndicates hunt you.
-
----

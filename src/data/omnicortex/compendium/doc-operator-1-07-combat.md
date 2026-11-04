@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 195
+order: 196
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.combat","mechanics"]
-updatedAt: "2026-11-04T00:33:10.727Z"
+updatedAt: "2026-11-04T09:33:29.550Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.12 COMBAT SKILLS**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Combat.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Combat.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (COMBAT SKILLS SUMMARY MATRIX)**
+## **COMBAT SKILLS SUMMARY MATRIX**
 
 | Combat Sub-Group | Skill Name | Governing Attribute | Core Resolution & Special Mechanics | Canonical Specialties |
 | :--- | :--- | :--- | :--- | :---: |
@@ -67,8 +53,6 @@ sockets:
 | **Advanced** | **Heavy Energy** | Agility (`AGI`) or Intellect (`INT`) | Line/Area high-Penetration ship, siege, and vehicle energy weapons | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **COMBAT** 
 
@@ -314,12 +298,4 @@ These skills govern the use of high-technology weaponry that utilizes directed e
       - **Point-Defense Energy Arrays (PDC):** Tracking and vaporizing incoming torpedoes and starfighters with automated pulse lasers.
       - **Macro-Ion Cannons:** Firing massive EMP and ion charges that disable starship power grids, engines, and shields without hull breach.
       - **Coaxial Plasma Bombardment Cannons:** Directing planetary bombardment salvos from orbit to obliterate coastal cities.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Combat.md):** Restored Archaic (`Defense`, `Melee`, `Ranged`, `Unarmed`), Modern (`Ballistic`, `Heavy Weapons`), and Advanced (`Energy`, `Heavy Energy`) Combat Skills and all 80 Specialties from Codex `1.07 SKILLS`.
 

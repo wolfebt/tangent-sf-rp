@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.levels","matrix"]
-updatedAt: "2026-11-02T22:49:14.464Z"
+updatedAt: "2026-11-04T09:33:29.326Z"
 costs:
   bp: 0
   credits: 0
@@ -262,15 +262,4 @@ Technology far beyond the understanding of active species—the domain of the **
 - **Temporal Mechanics:** Controlling the flow of time, creating stable wormholes, and manipulating causality.
 - **Ascension:** Becoming entities of pure consciousness.
 - **Game Mechanics:** **NOT AVAILABLE FOR PLAYERS.** Remnants, ruins, and artifacts of this level are plot devices and hooks, not standard equipment.
-
----
-
-## **DISCREPANCY & RESTORATION LEDGER (DISC-532)**
-
-- **File Target:** `architect/technology/core/99.Tech.Levels.md`
-- **Restoration Pass (Three-Way Merge):**
-  - Restored 100% of the Technology Levels codex (TL 0 Stone Age through TL X Transgalactic, including Overview & Culture, Demographics & Mechanics, and Nascent/Standard/Advanced Progression Tracks).
-- **Mechanical Normalization Pass (12 Global Rules):**
-  - Integrated canonical CP Costs (-30 CP to +20 CP) and WS Modifiers (-4 WS to +8 WS) for each Tech Level.
-
 

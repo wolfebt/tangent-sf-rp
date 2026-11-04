@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","companions","99.companion.formpackages","matrix"]
-updatedAt: "2026-11-04T00:33:10.403Z"
+updatedAt: "2026-11-04T09:33:29.275Z"
 costs:
   bp: 0
   credits: 0
@@ -38,15 +38,6 @@ sockets:
 ---
 
 # **99.Companion.FormPackages.md**
-
-## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
-
-- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
-- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
-- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
-- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
-- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
-- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **APPENDIX A: COMPANION MODULAR BUILD SYSTEM — PART 1: THE 12 FORM PACKAGES (15 CP CHASSIS)**
 
@@ -144,12 +135,4 @@ Select **one** Form Package below to establish the companion's classification, s
 - **Attributes (5 CP):** Wisdom +1.
 - **Features (12 CP):** *Flight (Hover)* \[2 CP\], *Incorporeal (Phasing — 50% damage reduction from non-magical physical attacks; ambient luminescence at will)* \[6 CP\], *Telepathy* \[2 CP\], *Invisibility* \[2 CP\].
 - **Disadvantage (-2 CP):** Cannot physically lift or manipulate solid objects.
-
-## **DISCREPANCY & RESTORATION LEDGER (DISC-520)**
-
-- **File Target:** `architect/companions/99.Companion.FormPackages.md`
-- **Restoration Pass (Three-Way Merge):**
-  - Restored all 12 Companion Form Packages (A. The Predator through L. The Wisp) at 15 CP each.
-- **Mechanical Normalization Pass (12 Global Rules):**
-  - Normalized all legacy `CP` -> `CP`, `AC` -> `Defense`, and `Stamina` -> `Stamina`.
 

@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-04-factions"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 114
+order: 115
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.04 factions","mechanics"]
-updatedAt: "2026-11-04T00:33:10.488Z"
+updatedAt: "2026-11-04T09:33:29.343Z"
 costs:
   bp: 0
   credits: 0
@@ -284,7 +284,6 @@ Polity / Order
 1.04.02 MINOR & ARCHETYPAL FACTIONS COMPENDIUM (01 – 25)
 This file contains the complete game data, 20-Point Faction Skill Packages, Recommended Features (-1 CP discount), and CRISP Visual Semiotics for all 25 Minor & Archetypal Factions (1.04 FACTIONS.md).
 
-#
 	Archetypal Faction
 	TL / ML
 	WS Mod
@@ -801,8 +800,6 @@ Lighting: Sterile Agri-Glow, Cool Neon, Cyan Circuit Lines.
   * **Lighting:** Bioluminescent Vein-Glow & Pulsating Cyan Synaptic Light.
 
 ### VI. Codex Minor Factions Comparative Reference
-
-
 
 ## Part III — Discrepancy & Restoration Ledger
 

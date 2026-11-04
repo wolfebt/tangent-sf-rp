@@ -12,19 +12,16 @@ const skillsSubdirPath = path.join(projectRoot, 'docs', 'game_rules', 'operator'
 const skillsDataPath = path.join(projectRoot, 'src', 'data', 'skillsData.js');
 const omnicortexSkillsDir = path.join(projectRoot, 'src', 'data', 'omnicortex', 'skills');
 
-const subFilesMarkdown = fs.existsSync(skillsSubdirPath)
+const subFileContents = fs.existsSync(skillsSubdirPath)
   ? fs.readdirSync(skillsSubdirPath)
       .filter(f => f.endsWith('.md'))
       .sort()
       .map(f => fs.readFileSync(path.join(skillsSubdirPath, f), 'utf8'))
-      .join('\n\n')
-  : '';
-const fullMarkdown = subFilesMarkdown
-  ? `${subFilesMarkdown}\n\n${fs.readFileSync(skillsDocPath, 'utf8')}`
-  : fs.readFileSync(skillsDocPath, 'utf8');
+  : [];
+const masterSkillsMarkdown = fs.readFileSync(skillsDocPath, 'utf8');
 
 /**
- * Extracts the markdown section for a given skill from 1.07 SKILLS.md
+ * Extracts the markdown section for a given skill from 1.07.*.md subfiles (with master hub fallback)
  */
 function findSkillSection(skill) {
   const name = skill.name.trim();
@@ -41,36 +38,37 @@ function findSkillSection(skill) {
     new RegExp(`^\\s*#{2,4}\\s+${escapedName}\\s*$`, 'im')
   ];
 
-  // Search across all modular 1.07.*.md subfiles (without summary-table truncation)
-  const searchRegion = subFilesMarkdown || fullMarkdown;
+  // Search each modular 1.07.*.md subfile in isolation so file boundaries never bleed
+  const candidateDocs = subFileContents.length > 0 ? [...subFileContents, masterSkillsMarkdown] : [masterSkillsMarkdown];
 
-  let match = null;
-  for (const re of headingCandidates) {
-    const m = re.exec(searchRegion);
-    if (m) {
-      match = m;
-      break;
+  for (const searchRegion of candidateDocs) {
+    let match = null;
+    for (const re of headingCandidates) {
+      const m = re.exec(searchRegion);
+      if (m) {
+        match = m;
+        break;
+      }
     }
+    if (!match) continue;
+
+    const startOffset = match.index;
+    const headingLine = match[0].trim();
+    const headingHashes = (headingLine.match(/^#+/) || ['##'])[0].length;
+
+    const afterStart = searchRegion.slice(startOffset + match[0].length);
+    // Find next heading of same or higher level (excluding empty "## " spacer lines) or Part III ledger
+    const nextHeadingRe = new RegExp(`^\\s*#{1,${headingHashes}}\\s+(?:\\*\\*[^*]+\\*\\*|PART\\s+III|DISCREPANCY|[A-Z0-9])`, 'im');
+    const nextMatch = nextHeadingRe.exec(afterStart);
+
+    const rawSection = nextMatch
+      ? searchRegion.slice(startOffset, startOffset + match[0].length + nextMatch.index)
+      : searchRegion.slice(startOffset);
+
+    return rawSection.trim();
   }
 
-  if (!match) {
-    return null;
-  }
-
-  const startOffset = match.index;
-  const headingLine = match[0].trim();
-  const headingHashes = (headingLine.match(/^#+/) || ['##'])[0].length;
-
-  const afterStart = searchRegion.slice(startOffset + match[0].length);
-  // Find next heading of same or higher level (excluding empty "## " spacer lines) or Part III ledger
-  const nextHeadingRe = new RegExp(`^\\s*#{1,${headingHashes}}\\s+(?:\\*\\*[^*]+\\*\\*|PART\\s+III|DISCREPANCY)`, 'im');
-  const nextMatch = nextHeadingRe.exec(afterStart);
-
-  const rawSection = nextMatch
-    ? searchRegion.slice(startOffset, startOffset + match[0].length + nextMatch.index)
-    : searchRegion.slice(startOffset);
-
-  return rawSection.trim();
+  return null;
 }
 
 function parseSkillSection(rawSection, fallbackSkill) {

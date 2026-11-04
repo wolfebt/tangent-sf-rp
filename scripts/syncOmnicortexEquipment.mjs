@@ -368,10 +368,10 @@ function syncInvocations() {
   const outputCode = `/**
  * Canonical Invocations Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/invocations/
- * Total Invocations: \${items.length}
+ * Total Invocations: ${items.length}
  */
 
-export const DEFAULT_INVOCATIONS = \${JSON.stringify(items, null, 2)};
+export const DEFAULT_INVOCATIONS = ${JSON.stringify(items, null, 2)};
 export const getInvocationById = (id) => DEFAULT_INVOCATIONS.find(i => i.id === id);
 
 /**
@@ -460,7 +460,7 @@ export const getEnrichedInvocationData = (invocation) => {
     modifiers: Array.isArray(invocation.modifiers) ? invocation.modifiers : (canonical?.modifiers || [])
   };
 };
-\`;
+`;
 
   fs.writeFileSync(path.join(staticDataRoot, 'invocationsData.js'), outputCode, 'utf8');
   console.log(`Successfully synced ${items.length} invocations to invocationsData.js`);

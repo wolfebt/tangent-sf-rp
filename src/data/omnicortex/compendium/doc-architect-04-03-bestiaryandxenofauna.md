@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","characters","04.03.bestiaryandxenofauna","matrix"]
-updatedAt: "2026-11-04T00:33:10.395Z"
+updatedAt: "2026-11-04T09:33:29.260Z"
 costs:
   bp: 0
   credits: 0
@@ -38,15 +38,6 @@ sockets:
 ---
 
 # **04.03 BESTIARY, XENOFAUNA & PROGENITOR COMPENDIUM**
-
-## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
-
-- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
-- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
-- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
-- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
-- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
-- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **I. XENOFAUNA ARCHITECTURE & SCALING RULES**
 
@@ -335,13 +326,4 @@ In addition to the Tier Chassis, custom creatures, drones, and NPCs may be const
 - **CRISP Visual Synthesis Matrix — The U'Nonn (Anunnaki):**
   - **Setting Style:** **Celestial Neo-Sumerian Supertechnology.** Towering stepped pyramids and citadels of polished lapis lazuli and dark basalt connected by anti-gravity bridges, with glowing cuneiform holographic interfaces.
   - **Materiality & Subject Visuals:** Polished Lapis Blue, Obsidian Basalt, Aurum Gold, Burnished Bronze; towering regal humanoids (or hybrid avatars) with stylized beards, horned neural-amplifier crowns, high-collared force-field vestments, and metallic feathered flight wings.
-
-## **DISCREPANCY & RESTORATION LEDGER (DISC-519)**
-
-- **File Target:** `architect/characters/04.03.BestiaryAndXenofauna.md`
-- **Restoration Pass (Three-Way Merge):**
-  - Merged the 8 MCM Tier-Scaled Xenofauna stat blocks with all 20 point-buy Bestiary stat blocks from `05. BESTIARY --` (`1XyYpcPthxfhQA7Bvp3AwswsXDGb4KTmssseg0ldxH-0`).
-  - Restored 100% of the Progenitor and Existential Entity entries (`05. Entity * ****`, `05.02.Progenitor.Ila`, and `05.02.Progenitor.U'Nonn`) including their complete CRISP visual synthesis matrices.
-- **Mechanical Normalization Pass (12 Global Rules):**
-  - Normalized all legacy `CP` -> `CP`, `CON` -> `STA`, `CR` -> `CR`, `Alertness` -> `Alertness`, and attack rolls to `2d10 + Strike`.
 

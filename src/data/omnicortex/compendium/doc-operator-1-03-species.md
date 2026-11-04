@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-03-species"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 20
+order: 21
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.03 species","mechanics"]
-updatedAt: "2026-11-04T00:33:10.483Z"
+updatedAt: "2026-11-04T09:33:29.343Z"
 costs:
   bp: 0
   credits: 0
@@ -37,11 +37,9 @@ sockets:
   allocated: []
 ---
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/1.03 SPECIES.md]`
-
 # **1.03 SPECIES — MASTER SPECIES CATALOG & TAXONOMIC INDEX**
 
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+## Overview & Mechanical Authority Block
 
 * **Canonical Archive Path:** `/game_rules/operator/1.03 SPECIES.md`
 * **Primary Codex & Rules Sources:** `01.03 SPECIES (work), 05.02.Progenitor.Ila, 05.02.Progenitor.U'Nonn, 1.03 SPECIES.md`
@@ -51,7 +49,7 @@ sockets:
   * **Personal Hindrance Cap Exemption (Rule #10):** Innate species disadvantages, biological flaws, and social Stigmas are factored directly into the net Species Package CP cost and **do not count toward the Operator's `+10 CP` personal Hindrance cap**.
   * **Core Resolution & Nomenclature (Rules #1–#7, #11):** All checks and saves resolve via `2d10 + Skill Rank + Attribute Modifier vs. Challenge Rating (CR)`. All difficulty targets, currency, attributes, skills, and feature headers use canonical nomenclature (**`Challenge Rating (CR)`**, **`Character Points (CP)`**, **`Strength`**, **`Agility`**, **`Stamina`**, **`Intellect`**, **`Wisdom`**, **`Charisma`**, **`Alertness`**, **`Insight`**, **`Knowledge (Language)`**, **`Vocation (Handler)`**, and **`Recommended Features`**).
 
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE**
+## Part I — Alignment & Summary Matrix Table
 
 # **1.03 SPECIES CATALOG**
 
@@ -65,7 +63,6 @@ Player characters can choose from a diverse range of species and sub-species acr
 * **Species Hindrances & Stigmas (Canonical Rule #10):** Innate biological disadvantages and social Stigmas reduce the net CP cost of the Species Package and **do not count toward the character's 10 CP personal Hindrance limit**.
 * **Vitality, Health & Synthetic Structure (Canonical Rule #8):** Biological species start with **Base 30 Vitality and Base 30 Health** (increased strictly by +5 points per 1 CP; Stamina never increases pools and instead grants Base Toughness damage reduction). Synthetics and Constructs combine both pools into **Base 60 Structure Points (SP)** (+5 SP per 1 CP, Suggested Max: 120 SP).
 
-
 ## **I. AUDITED SPECIES & SUB-SPECIES CP BREAKDOWN TABLES**
 
 ### **1. Aeld (Elven) Lineages**
@@ -78,7 +75,6 @@ Player characters can choose from a diverse range of species and sub-species acr
 | **Draconian (Scaled)** | Humanoid (0) | +1 INT [5], +1 Any [5] | +10 Skills [10] | Aeld Base [5], *Dragonkin Traits* [6], +1 Feature [3] | Dragonkin (-4), Xeno (-2) | **28 CP** *(or 23 CP)* |
 | **Kovian (Nocturne)** | Humanoid (0) | +1 INT [5], +1 Any [5], -1 CHA [-5] | +10 Disc [10] | Aeld Base [5], *Darksight* [1] | Xeno (-2), Supremacist (-2) | **17 CP** |
 | **Vajar (Wilder)** | Humanoid (0) | +2 Any [10] | +10 Skills [10] | *Awakened (Nature)* [2], *Ageless* [2], *Sleepless* [2], *Alter Form (Adv. Animal)* [2], *Mutation* [3] | Feral (-4), Xeno (-2) | **25 CP** |
-
 
 ### **2. Asi (Fey) Lineages**
 * **Asi Base Heritage (8 CP):** *Fey Chassis* [2–3 CP], *Ageless* [2 CP], *Obfuscate* [2 CP], *Sleepless* [2 CP].
@@ -94,7 +90,6 @@ Player characters can choose from a diverse range of species and sub-species acr
 | **Whisper** | Shifter Fey (3) | +1 CHA [5] | +10 Skills [10] *(or —)* | Asi Base [8], *Alternate Form (Wisp — Fine)* [4], *Awakened (Nature)* [2], *Silent* [2], *Flight* [4] | Fey (-2) | **26–36 CP** |
 | **Wildling** | Shifter Fey (3) | +1 Any [5] | — | Asi Base [8], *Animal Affinity* [2], *Climber* [2], *Alter Form (Animal)* [2], *Awakened (Nature)* [2] | Animal (-2), Xeno (-2) | **20 CP** |
 
-
 ### **3. Auluran Lineages**
 * **Auluran Base Heritage (9 CP):** *Biotechnology* [2 CP], *Low-Light Vision* [1 CP], *Prehensile Feet & Tail* [3 CP], *Scent* [1 CP], *Natural Weapons (Claws/Fangs)* [2 CP].
 
@@ -104,7 +99,6 @@ Player characters can choose from a diverse range of species and sub-species acr
 | **Koda (Hunter Caste)** | Humanoid (0) | +1 AGI [5], +1 STR [5] | — | Auluran Base [9], *Digitigrade* [1], *Climber* [2], *Quick* [2], *Martial Arts* [2], *Biotechnology* [2] | Xeno (-2) | **26 CP** |
 | **Graa (Apex Quadruped)** | Beast (1) | +1 AGI [5], +2 Any [10] | — | Auluran Base [9], *Large* [2], *Armless* [-4], *Quick* [2], *Martial Arts* [2], *Quadruped* [2], +1 Feature [3] | Animal (-2), Xeno (-2) | **28 CP** *(18–31 CP)* |
 | **Prokos (Arctic Biform)** | Biform (0) | +1 INT [5] | — | Auluran Base [9], *Adapted (Cold)* [1], *Alternate Form (Quadruped)* [2], *Improved Great Fortitude* [2], *Climber* [2], *Quick* [2] | Xeno (-2) | **21 CP** |
-
 
 ### **4. Human Lineages & Engineered Strains (`1.03.Humans.md`)**
 
@@ -136,7 +130,6 @@ Player characters can choose from a diverse range of species and sub-species acr
 | **Impyrium Regi** | +2 INT [10] | +20 Skills [20] | *Adaptive Aspects* [2], *Awakened (Psychic)* [2], *Status (Nobility)* [3] | — | **37 CP** |
 | **Janissary (Clone Soldier)** | +2 Any [10], -1 CHA [-5] | +20 Combat/Mil [20] | *Combat Reflexes / Conditioning* [2] | Clone Servitude (-5) | **22 CP** |
 
-
 ### **5. Kitin Collective (The Star Hive) & Riezen (`1.03.Kitin.md`)**
 * **Kitin Base Heritage (8 CP):** *Awakened (Psychic — Chorus)* [2 CP], *Biotechnology* [2 CP], *Hive-Link* [2 CP], *Universal Torpor (4 hrs conscious rest; immune to sleep)* [2 CP].
 
@@ -153,7 +146,6 @@ Player characters can choose from a diverse range of species and sub-species acr
   * **Toxic Blood (Ingested):** **Fortitude Save CR = 11 + (2 * Stamina)**; failure inflicts Pain Incapacitation for 1 hour (Severe Nausea on a successful save). *Prerequisites: Stamina 1, Poison Immunity.*
   * **Venomous Saliva (Injected Bite):** **Fortitude Save CR = 11 + (2 * Stamina)**; failure inflicts Paralysis for 1 hour (Drugged / -2 all checks on a successful save). *Prerequisites: Toxic Blood, Stamina 2.*
   * **Venom Spit (Contact, Range 15 ft):** **Fortitude Save CR = 11 + (2 * Stamina)**; failure inflicts **Blinded** for 10+ minutes. *Prerequisites: Toxic Blood, Stamina 2.*
-
 
 ### **6. Synthetic, Verdant, Aberration & Independent Xeno Lineages**
 
@@ -178,7 +170,6 @@ Player characters can choose from a diverse range of species and sub-species acr
 | **Qeric** | Small Hexapod (TL 1 / ML 3) | +1 AGI [5], +1 CHA [5] | — | *Beast* [1], *Small* [2], *Climbing* [2], *Patagia (Glide)* [2], *Multidextrous* [2], *Uncanny Scent* [2] | Severe Xeno (-2) | **19 CP** |
 | **Vassoth** | Medium Serpentauric (TL 1 / ML 3) | +2 STR [10], +2 AGI [10] | +10 Skills [10] | *Venom* [2], *Constriction (12–18 ft tail)* [2] | Severe Xeno (-2) | **32 CP** |
 | **Weti** | Tiny Simian (TL 1 / ML 3) | +2 AGI [10] | +10 Skills [10] | *Tiny Size* [4], *Climbing* [2], *Prehensile Tail* [2], *Quick* [2] | Severe Xeno (-4) | **26 CP** |
-
 
 ## **II. COMPLETE 85-SPECIES MASTER LIST & CHARACTER POINT BREAKDOWN**
 
@@ -279,6 +270,7 @@ Player characters can choose from a diverse range of species and sub-species acr
 
 # *85 species*
 
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 # **SPECIES FORMAT**  
   
@@ -326,7 +318,6 @@ Some species are naturally awakened, meaning they have an innate connection to m
 | SPECIES BUILDING *\\>Typical Species Traits 1/2/4 pt ea \\>Typical Species Features count as recommended (2 CP ea not 3\\) Recommended Features are in addition to any from Profession (with stacking recommendations bring cost to 1 point minimum) \\>Ability Modifiers (+1 to an Ability for 5pt / \-1 to an Ability as a 5pt Disadvantage) \\>Species Skills (5pt per sets of 5 / 1pt per Rank; no package discount) \\>Stigmas are Disadvantages (-1 for Minor, \-2 for typical and \-3 for Severe) with possible multiples (Xeno \\[Alien (to Humans)\\], Animal \\[Beastlike\\], Dragonkin, Fey, Shifters, Augmented \- or anything that may be superficially judged) \\>Lists of typical and available Species Traits (about 2 to 6\\) with Recommended Traits and Recommended Features (4 to 10 each list) \- available but optional Any Trait or Feature staged will need to count all costs for all included stages, prerequisites for the trait or feature of a species may be skipped if desired, not gaining the abilities or effects. Catalog Notations \\* Powerful Species often with special traits, package will be over 20 points \\*\\* From the other side of the Reach (and if Campaign is Permitting) \\*\\*\\* Special Circumstance or Oddity (and if Campaign is Permitting) \\*\\*\\*\\* Most Likely a Non-Player Species (not generally Campaign permitted) (A) Alterian Conclave, (E) Entari Combine, (D) Dracon Dynasty, (S) Syndicate, (I) Imperium factions* |  
 | :---- |  
   
-#   
   
 
 # **SPECIES FORMAT BLOCK**  
@@ -643,14 +634,9 @@ ATMOSPHERE: \\[List of sensory and lighting descriptors\\].
 * [1.03.Vassoth](./species/1.03.Vassoth.md)  
 * [1.03.Weti](./species/1.03.Weti.md)
 
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (MASTER DIRECTORY & TEMPLATES)**
-
 All 85+ playable species, sub-species, engineered strains, synthetic frames, and progenitor lineages are indexed above and detailed in full unabridged profiles across the 3 Master Compendiums (`1.03.AeldAndAsi.md`, `1.03.HumansAuluransKitin.md`, `1.03.SyntheticsAndXeno.md`), the 16 Independent Xeno Species files, and the 9 Taxonomic Lineage Subfolders (`Aeld/`, `Asi/`, `Aulurans/`, `Humans/`, `Kitin/`, `Orll/`, `Progenitors/`, `ShaNor/`, `Synthetics/`).
 
-## DISCREPANCY & RESTORATION LEDGER
-
-### **Part III: Discrepancy & Restoration Ledger**
+## Part III — Discrepancy & Restoration Ledger
 
 ### **Stage 2 Audit Report (`1.03 SPECIES.md`)**
 

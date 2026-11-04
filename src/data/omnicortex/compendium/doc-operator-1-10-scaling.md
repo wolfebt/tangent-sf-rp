@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-10-scaling"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 219
+order: 220
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.10 scaling","mechanics"]
-updatedAt: "2026-11-04T00:33:10.495Z"
+updatedAt: "2026-11-04T09:33:29.359Z"
 costs:
   bp: 0
   credits: 0
@@ -38,10 +38,7 @@ sockets:
 ---
 
 # **1.10 SCALING**
-
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/1.10 SCALING.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+## Overview & Mechanical Authority Block
 
 * **Canonical Archive Path:** `/game_rules/operator/1.10 SCALING.md`
 * **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.10 SCALING (File ID: 1xbjLAz3kV1rZkY2gKrzpYgzi0jHSG2PUn0VlDRetKwU)`
@@ -53,7 +50,7 @@ sockets:
 
 ---
 
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MASTER SIZE & SCALING MATRIX (14 SIZE CATEGORIES & GARAGING))**
+## Part I — Alignment & Summary Matrix Table
 
 ### **1. Master Size & Scaling Table (14 Universal Size Categories)**
 
@@ -76,7 +73,7 @@ sockets:
 
 ---
 
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SCALING RULES, META-TECH & RELATIVE COMBAT MATH)**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 ### **1. Unabridged Scaling System Overview & Core Principles**
 
@@ -172,9 +169,7 @@ This multiplier applies to **Meta-Tech and Invocations** as well when generated 
 
 ---
 
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-311A (Unabridged Codex Section & Example Restoration):** Restored 100% of the original headings (`Size Categories`, `Scaling Modifiers`, `Strength and Combat Modifiers`, `Stealth Modifier`, `Special Rules for Starships`, `Scaling in Combat`, `Meta-Tech`, `Example`, and `Relative Combat Modifiers`) and quick-reference scale callouts from Codex `1.10 SCALING`.
 * **DISC-311B (Rule 12 Pre-Calculated Vehicle SP & Garaging Normalization):** Enforced the canonical distinction between biological/unlisted SP scaling and pre-calculated Vehicle/Mecha table SP (Scale Multiplier applies only to weapon damage, movement speed, area, and range), integrated the `1 Mount = 1 Scale Multiplier` garaging rule, and normalized `Save DCs` to `Save CRs`.

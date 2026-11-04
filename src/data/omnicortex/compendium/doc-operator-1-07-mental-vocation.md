@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 188
+order: 189
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.vocation","mechanics"]
-updatedAt: "2026-11-04T00:33:10.745Z"
+updatedAt: "2026-11-04T09:33:29.571Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.05 MENTAL SKILLS: VOCATION (OVERVIEW & EUFT CRAFTING ENGINE)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Vocation.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Vocation.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (VOCATION STAGES & EUFT CRAFTING MATRIX)**
+## **VOCATION STAGES & EUFT CRAFTING MATRIX**
 
 | Skill Stage | Rank Range | Starting Wealth Score Bonus | High-Demand Multiplier (`x2`) | EUFT Crafting & Tool Multipliers |
 | :--- | :---: | :---: | :---: | :--- |
@@ -64,8 +50,6 @@ sockets:
 | **Stage 5–6: Grand Master / Pinnacle** | `21+` | `+5 WS` | `+10 WS` | `50%` Pristine Materials / `10%` Scrap (`5x` mass); Tier 5 (`x5,000`) |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 ### **Codex Vocation Category Baseline**
 
@@ -138,12 +122,4 @@ All 27 canonical Vocation Skills (each with 10 specialized sub-disciplines) are 
 * **[Vocations A – C (Administrator to Celebrity)](./1.07.Mental.Vocation.A_C.md)** — *Administrator, Alchemist, Ambassador, Architect, Archivist, Armorer, Artist, Artificer, Broker, Celebrity*
 * **[Vocations C – G (Constable to Groundskeeper)](./1.07.Mental.Vocation.C_G.md)** — *Constable, Courtesan, Culinarian, Demolitionist, Electrician, Engineer, Farmer, Groundskeeper*
 * **[Vocations H – W (Handler to Weaponsmith)](./1.07.Mental.Vocation.H_W.md)** — *Handler, Laborer, Mechanic, Researcher, Salvager, Soldier, Tailor, Transporter, Weaponsmith*
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mental.Vocation.md):** Restored Codex `VOCATION (Category)` overview rules (`Ability`, `Mechanics`, `Earn Income`, `Craft/Repair`) and integrated canonical Starting Wealth Score stage progression and the EUFT Productivity Engine (`10 * 4^(CR/5)`, Linear Micro-Modifiers, `50%` Pristine / `10%` Scrap).
 

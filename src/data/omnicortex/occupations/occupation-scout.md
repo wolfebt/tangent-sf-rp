@@ -79,33 +79,6 @@ economic_context: Frontier surveying & expedition bounties
 
 # 1.06.11. OCCUPATION: SCOUT (BASE WS 1)
 
-* **Focus Statement:** The complete unabridged career profile, Professional Skill (`20 SP`), Recommended Feature (`General Features` at `-1 CP`), Occupational Trait (`2 Free at 0 CP`), EUFT Wealth (`Base WS 1`), and 11-Faction CRISP Character Visual module for `1.06.Scout.md` in **Tangent SF RP**.
-
-## Overview & Mechanical Authority Block
-
-Every rule, background package, and sociological profile in **Volume I: The Operator's Manual** adheres to these canonical mechanical laws (`/game_rules/operator/` authority):
-
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
-* **Critical Hit & Fumble Math:** Critical Hit (`Natural 20` / double-10s on `2d10`) equals `Rolled Dice + 10` (`20 -> 30`) + `2x Base Weapon Damage Dice` + `Weapon/Elemental Critical Effect`. Fumble (`Natural 2` / double-1s on `2d10`) equals `-10 to Attack/Check Score` + `Situational Complication`.
-* **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** and a **70-CP Customization Budget**.
-* **Background Allocations (0 CP Baseline):** `60 Background Skill Ranks` allocated at `0 CP` across **Faction (`20 SP`) + Origin (`20 SP`) + Occupation (`20 SP`)**, alongside **4 Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and **4 Background Traits** at `0 CP` (`2 Origin Traits` + `2 Occupation Traits`; **Extra Traits cost `1 CP` each**).
-* **Standardized Faction Wealth & Lore Anchors:** The **Kovian Tribunal (Nocturne Aeld)** is standardized at **`+3 WS`** (`TL 3 / ML 4`), and the **Radiant Impyrium** includes the canonical **Psycholith** psycho-reactive Aetherite-ceramic mineral codex (`+5 WS`, `TL 4+ / ML 4`).
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with Base `30 Vitality` and Base `30 Health`; Synthetic/Construct characters combine both into Base `60 Structure Points (SP)`. Pools scale strictly at `+5 points per 1 CP` spent (Suggested Max: `60` each / `120 SP`; **NEVER** scaled by Stamina). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR.
-* **Personal Hindrance Cap:** Maximum `+10 CP` gained from personal Hindrances during creation; Species-level disadvantages and cultural Stigmas are exempt.
-
-## Part I — Alignment & Summary Matrix Table
-
-| Section / Entry | Canonical Reference | Mechanical Allocation / Parameters | Operational & Narrative Scope |
-| :--- | :--- | :--- | :--- |
-| **Professional Skills & EUFT Wealth Base** | `operator/occupations/1.06.Scout.md (Sec. I)` | 20 SP Pool (Alertness, Piloting, Stealth, Knowledge (Survival), and 1 Knowledge or Vocation Skill) | Base WS 1 | Establishes career skill training (Rank 11 cap, Rank 6 recommended) and starting EUFT Base Wealth Score. |
-| **Recommended Features & Occupational Traits** | `operator/occupations/1.06.Scout.md (Sec. II)` | General Features (-1 CP Discount) | 2 Free Traits (0 CP; Extra = 1 CP) | Grants -1 CP discount on recommended feature category and 2 free occupational traits. |
-| **11-Faction CRISP Character Visual Matrix** | `Codex 1.06 OCCUPATION GUIDELINES` | 10 Major Factions + Kitin Collective Character Visual Profiles | Complete character Context, Style, Palette, and Tokens across all 11 galactic polities. |
-
-## Part II — Complete Unabridged Profiles & Rules Entries
-
-### I. Canonical Occupation Profile & Modernized Game Data (`operator/occupations/1.06.Scout.md`)
-
 * **Operational Focus:** Reconnaissance, Pathfinding, Surveying, Survival, and Sniper Overwatch.
 * **EUFT Base Wealth Score:** **Base WS 1**
 * **Canonical Professional Skills (20 SP Allocation):** Alertness, Piloting, Stealth, Knowledge (Survival), and 1 Knowledge or Vocation Skill
@@ -216,8 +189,6 @@ Scouts have knacks that allow them to improve their efficiency in specific terra
 
 *\+2 to Stealth, Survival and Defense in chosen Terrain*
 
-# 
-
 ## **Occupation Character Visual Synthesis**
 
 ## **11\. SCOUT**
@@ -280,94 +251,3 @@ Scouts have knacks that allow them to improve their efficiency in specific terra
   * **Style:** Quadrupedal Mantis Pathfinder, Active Chitin Camouflage.  
   * **Palette:** Adaptive Camo Chitin, Cyan Sensory Pits, Emerald Hemolymph, Dust Grey.  
   * **Tokens:** Quadrupedal stance, active camouflage, compound sensors, bio-rifle.
-
-### II. Complete Unabridged Codex Occupation Entry (`1.06_SCOUT`)
-
-SCOUT
-A Scout focuses on exploration, survival, and gathering information in various environments. Scouts are often skilled in piloting, navigation, and engineering, and being adept at handling out-of-the-way locations and recognizing potential dangers. Scouts are trained to survey and survive in unknown territories, gathering information while keeping themselves safe. They are skilled in traversing different environments and are knowledgeable enough to make the most of their situation. Scouts are often proficient in finding food, shelter, and navigating through unfamiliar terrain.
-
-Professional Skills
-Alertness, Pilot, Stealth, Survival and one Knowledge or Vocation Skill
-
-Recommended Features
-General
-
-Archetypes
-Space Scout
-Planetary Scout
-Reconnaissance Scout
-Urban Scout
-Wilderness Scout
-
-Traits
-Adaptability
-Scouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.
-+2 to a specific Skill Check, may change assigned Skill daily
-
-Camouflage
-Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.
-May use Stealth at normal movement speed
-
-Combat Training
-Scouts are proficient in combat, making them skilled with various types of weapons.
-+2 to a Combat Skill of choice
-
-Curiosity
-Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.
-Regain a Karma Point on the first encounter when dealing with something new - creature, area, technology, etc.
-
-Independence
-Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.
-+1 Karma Point
-
-Keen Observation
-Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.
-Take 10 on Alertness Checks
-
-Navigation
-Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.
-+2 Navigation (Knowledge)
-
-Physical Fitness
-Scouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.
-+1 Might and Reflex Checks
-
-Pilot
-Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.
-+2 Pilot and Navigation
-
-Resourcefulness
-Scouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.
-Once per Day make a Skill Check of choice at Advantage
-
-Stalker
-The scout is able to stay out of sight with ease.
-May take 10 on Stealth Checks
-
-Survival Skills
-The ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.
-+2 Survival
-
-Terrain Expert
-Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.
-+2 to Stealth, Survival and Defense in chosen Terrain
-
-## Part III — Discrepancy & Restoration Ledger
-
-### Stage 2 — Cross-Archive Audit Report (`/game_rules/operator/` vs. `_ _ TANGENT RP CODEX _ _`)
-
-* **Target File Audited:** `/game_rules/operator/occupations/1.06.Scout.md`
-* **Codex Sources Compared:** Codex `1.06 SCOUT` and `1.06 OCCUPATION GUIDELINES` (`1hlkBp-xS6Jdhle8R_DkJIUV9gWdm9Em3ImxDJ1LXPzc`).
-* **Audit Findings:** Verified 100% preservation of all career lore, archetypes, Professional Skills (`20 SP` at `0 CP`), Recommended Features (`General Features` at `-1 CP`), Occupational Traits (`2 Free at 0 CP`), and 11-Faction CRISP character visualization profiles.
-
-### Canonical Discrepancy & Restoration Entries
-
-* **DISC-106-SCO-1 (Unabridged Career Lore, Archetypes & Trait Restoration):** Preserved all Codex narrative paragraphs, archetype lists, and trait descriptions alongside the modernized `/game_rules` mechanical summary for `1.06.Scout.md`.
-* **DISC-106-SCO-2 (Mechanical Authority & Nomenclature Normalization):** Enforced `Base WS 1`, `20 SP` Professional Skill pool (`0 CP`), `General Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), `2 Free Traits` (`0 CP`; `Extra Traits = 1 CP`), and canonical skill names (`Alertness`, `Insight`, `Knowledge (Language)`).
-
-### Stage 4 — BASTION Deterministic Verification Checklist
-
-* [x] **Mechanical Authority (`/game_rules` Wins):** Enforced `60 Background Skill Ranks` (`20 SP Faction + 20 SP Origin + 20 SP Occupation` at `0 CP`), `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`), and `4 Background Traits` at `0 CP` (`Extra Traits = 1 CP` each).
-* [x] **Standardized Polities & Codexes:** Verified **Kovian Tribunal** at **`+3 WS`** (`TL 3 / ML 4`) and **Radiant Impyrium** (`+5 WS`, `TL 4+ / ML 4`) with the complete **Psycholith** mineral codex.
-* [x] **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** Restored 100% of lore paragraphs, sociological profiles, scene vignettes, tables, and CRISP/HI-FI visual prompt frameworks from the Codex documents with zero redactions, zero ellipses, and zero placeholders.
-* [x] **Nomenclature & BASTION Linter Compliance:** Replaced all legacy terms (`CP` for `BP`, `CR` for `DC`, `2d10` for `d20`, `Agility` for `Dexterity`, `Stamina` for `Constitution`, `Alertness` for `Awareness`, `Insight` for `Sense Motive`, `Knowledge (Language)` for `Linguistics`, `Vocation (Handler)` for `Animal Handling`, and `Recommended Features` for `Recommended Features`) with `0` violations in `bastion_validator.py`.

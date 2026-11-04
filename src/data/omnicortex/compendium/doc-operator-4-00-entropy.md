@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-4-00-metaphysics"
 category: "operator_rule"
 parent: "doc-operator-4-00-metaphysics"
-order: 243
+order: 244
 perspective: "operator"
 entry_type: "Metaphysics Discipline"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","metaphysics","4.00.entropy","mechanics"]
-updatedAt: "2026-11-04T00:33:10.678Z"
+updatedAt: "2026-11-04T09:33:29.510Z"
 costs:
   bp: 0
   credits: 0
@@ -38,35 +38,6 @@ sockets:
 ---
 
 # **Entropy Invocations**  
-
-> **Module Scope:** Entropy Discipline Invocations: Chaos (11 Invocations) & Order (13 Invocations)
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Mechanical Authority (`/game_rules` Wins):** Core Resolution `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`; Advantage/Disadvantage `+1d10` per stack (keep highest 2 / lowest 2); Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19, 18, and lower`) = `Rolled Dice + 10` (e.g., `20 -> 30`, `19 -> 29`) + `2x Base Weapon Damage Dice` + Critical Effect; Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3, 4, and higher`) = `Rolled Dice becomes flat -10` + Situational Complication.
-* **Character & Pool Axioms:** `150 CP` starting budget (`80 CP` Archetype Chassis + `70 CP` Customization); `60 SP` free Background skills (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation + `4 Recommended Features` + `4 Traits` at `0 CP`); Universal Straight Pricing (`+5 CP` per `+1` Attribute, `-5 CP` per `-1`, `1 CP` per `1` Skill Rank); Personal Hindrance Cap `+10 CP` (Species-level disadvantages and Stigmas exempt); `Base 30 Vitality` and `Base 30 Health` (`Base 60 Structure Points [SP]` for Synthetics/Constructs), scaled strictly at `+5 points per 1 CP` spent with **zero Stamina scaling**; Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain **Armor DR** (**Armor Layering Cap**: biological, cybernetic, and wearable DR never stack).
-* **EUFT & UDU Invariants:** Base 5-CR Valuation `Value (Credits) = 10 * 4^(CR / 5)`; Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`); Pristine Materials = `50%` of Credit Value, Scavenged Scrap = `10%` value (`5x Item Credit Value` in unrefined scrap mass); `10:1` UDU Hierarchy (`10 Nodes = 1 Socket`, `10 Sockets = 1 Mount`, `10 Mounts = 1 Module`); Mecha table SP is pre-calculated (apply Scale Multiplier only to weapon damage, movement speed, and weapon range; Garaging `1 Mount = 1 Scale Multiplier`).
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX**
-
-| Section ID | Module / Sub-System Name | Mechanical Authority & Rule Governance | Restoration Status |
-| :--- | :--- | :--- | :---: |
-| **Section 01** | **CHAOS INVOCATIONS** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 02** | **CULL** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 03** | **TOUCH OF DEATH** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 04** | **WOUND** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 05** | **FEAR** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 06** | **CURSE** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 07** | **BLIGHT** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 08** | **CORROSION** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 09** | **NAUSEATE** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 10** | **NULLIFY** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 11** | **SUFFOCATE** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-| **Section 12** | **CHAOTIC BLAST** | Canonical `/game_rules` 2d10 vs. CR & EUFT Verified | `100% Restored` |
-
----
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES**
 
 # **Entropy Invocations**
 
@@ -677,25 +648,4 @@ Drives out possessing spirits, demons, or entities.
 
   - **Power:** Damage to Spirit = 2d6 per Stage (Force/Holy).
   - **Severity:** Save CR increases by +1 per Stage.
-
-  
-  
-  
-  
-
-
----
-
----
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-416 (4.00.Entropy.md Full Restoration):** Restored 100% of the unredacted Chaos and Order Invocation stat blocks, parameters, descriptions, and scaling functions (Lines 505–1124).
-* **DISC-STAGE2-AUDIT (metaphysics/4.00.Entropy.md):** Purged all legacy d20/DC/BP/Dexterity/Constitution/Awareness/Sense Motive/Linguistics tokens, converted all LaTeX and fenced code blocks into 100% plain-text Markdown, removed all ellipses and HTML comments, and verified 100% textual completeness against `_ _ TANGENT RP CODEX _ _`.
-* **STAGE 4 POST-GENERATION VERIFICATION CHECKLIST:**
-  * `[x]` 100 percent of Codex text and entries restored with zero redactions, ellipses, or placeholders.
-  * `[x]` All CP/SP/CR/EUFT/UDU math verified against `/game_rules` canonical mechanics (`150 CP` budget, `80 CP` chassis, `60 SP` background, Base 30 Vitality & Health, zero Stamina scaling, Stamina Base Toughness, Armor Layering Cap, feature-gated `Precision Strike`, EUFT `10 * 4^(CR/5)` with Linear Micro-Modifiers).
-  * `[x]` Zero instances of `"Recommended Features"` (all converted to `"Recommended Features"`).
-  * `[x]` 100 percent clean plain-text Markdown formatting (`bastion_validator.py`: 0 violations).
-
 

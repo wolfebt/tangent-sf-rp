@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-mental-vocation"
-order: 189
+order: 190
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.vocation.a_c","mechanics"]
-updatedAt: "2026-11-04T00:33:10.743Z"
+updatedAt: "2026-11-04T09:33:29.561Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.06 MENTAL SKILLS: VOCATIONS (A – C)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Vocation.A_C.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Vocation.A_C.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (VOCATIONS (A – C) SUMMARY MATRIX)**
+## **VOCATIONS (A – C** SUMMARY MATRIX)**
 
 | Vocation Skill | Governing Attribute | Core Task CRs | Canonical Specialties |
 | :--- | :--- | :--- | :---: |
@@ -69,8 +55,6 @@ sockets:
 | **Celebrity** | Charisma (`CHA`) | Work the Crowd (`CR 15`), PR Spin (`CR 20`) | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 ### **ADMINISTRATOR**
 
@@ -310,12 +294,4 @@ sockets:
       - **Talk Show Charm:** Dominating live interview formats, deflecting awkward queries, and landing memorable soundbites.
       - **Charity Gala Organizing:** Hosting multi-million-credit charity events to scrub reputations and curry public goodwill.
       - **VIP Access & Entourage Control:** Using celebrity status to walk past security bouncers and enter exclusive VIP spaces.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mental.Vocation.A_C.md):** Restored Vocations A–C (`Administrator` through `Celebrity`) and all 100 Specialties from Codex `1.07 SKILLS` with `2d10 vs. CR` normalization.
 

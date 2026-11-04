@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.mecha.forgeprotocol","matrix"]
-updatedAt: "2026-11-04T00:33:10.477Z"
+updatedAt: "2026-11-04T09:33:29.330Z"
 costs:
   bp: 0
   credits: 0
@@ -41,7 +41,6 @@ sockets:
   
 ## **THE STRUCTURE OF MOBILITY**  
   
-###   
   
 ### **The Definition of Mecha**  
   
@@ -57,9 +56,7 @@ The study of this vehicular transport within the Tangent universe extends far be
   
 When analyzing the transportation assets of the major galactic powers, one observes a distinct bifurcation between the "Agnostic Chassis"—the fundamental, physics-compliant engineering skeleton—and the "Cultural Skin," the aesthetic and functional overlay that aligns the machine with a faction’s specific technological ethos.  
   
-###   
   
-### ---  
   
 ### **The Matrix of Eras and Technological Sub-Strata**  
   
@@ -80,36 +77,45 @@ To accurately represent the nuance of innovation within these eras, each Tech Le
   
 
   
-#### **TL 0: The Stone Age (Primitive / Pre-Industrial)** Operating entirely outside of complex mechanical dependence, TL 0 equipment relies on inherent magic, survival strategies, or deep cultural dogma that rejects fragility in favor of organic strength. Materials consist of unworked stone, bone, wood, and animal hides in the Nascent stage, advancing to bronze, iron, and masonry in the Standard stage. Equipment at this tier possesses the **"Degrading"** trait, breaking easily under sustained stress, and offers minimal Damage Resistance (DR). Vehicular propulsion relies entirely on biological traction or environmental wind. (Base Cost Modifier: N/A)  
+#### **TL 0: The Stone Age (Primitive / Pre-Industrial)**
+
+Operating entirely outside of complex mechanical dependence, TL 0 equipment relies on inherent magic, survival strategies, or deep cultural dogma that rejects fragility in favor of organic strength. Materials consist of unworked stone, bone, wood, and animal hides in the Nascent stage, advancing to bronze, iron, and masonry in the Standard stage. Equipment at this tier possesses the **"Degrading"** trait, breaking easily under sustained stress, and offers minimal Damage Resistance (DR). Vehicular propulsion relies entirely on biological traction or environmental wind. (Base Cost Modifier: N/A)  
   
 
   
-#### **TL 1: The Metal Age (Industrial / Mechanical)** Marking the transition from the Iron Age to the Industrial Revolution, TL 1 is characterized by the harnessing of fire for foundries, allowing for mass metallurgy. Power sources shift from muscle and wind to coal, steam, and early fossil fuels. Nascent technologies include intricate clockwork mechanisms akin to the Antikythera mechanism, complex architectural domes, alchemy, plate armor, and crossbows, as well as stationary steam engines and the printing press. Standard innovations introduce internal combustion, early photography, and rudimentary vaccines. Advanced TL 1+ borders on the digital, featuring direct current  electricity, radio, biplanes, early X-Rays, and chemical weapons. Equipment here is heavy, highly durable, but imposes significant check penalties due to its unrefined ergonomics. (Base Cost Modifier: -5 CR)  
+#### **TL 1: The Metal Age (Industrial / Mechanical)**
+
+Marking the transition from the Iron Age to the Industrial Revolution, TL 1 is characterized by the harnessing of fire for foundries, allowing for mass metallurgy. Power sources shift from muscle and wind to coal, steam, and early fossil fuels. Nascent technologies include intricate clockwork mechanisms akin to the Antikythera mechanism, complex architectural domes, alchemy, plate armor, and crossbows, as well as stationary steam engines and the printing press. Standard innovations introduce internal combustion, early photography, and rudimentary vaccines. Advanced TL 1+ borders on the digital, featuring direct current  electricity, radio, biplanes, early X-Rays, and chemical weapons. Equipment here is heavy, highly durable, but imposes significant check penalties due to its unrefined ergonomics. (Base Cost Modifier: -5 CR)  
   
 
   
-#### **TL 2: The Data Age (Digital / Information)** Comparable to modern Earth, TL 2 spans from early telegraphy to the colonization of the local solar system. Power generation relies on advanced hydrocarbons, fission, and renewable infrastructure. The era is defined by global connectivity, digital networks, and the miniaturization of electronics. Ground propulsion is dominated by Roller Vehicles (wheels and tracks), while atmospheric flight relies on airfoils and chemical jet turbines. Nascent tech includes jet engines, orbital rocketry, and fission bombs. The Standard era perfects GPS, reusable rockets, and genetic sequencing. The Advanced TL 2+ tier borders on cybernetic integration, featuring quantum prototypes, functional virtual reality, nascent artificial intelligence algorithms, and prototype railguns. Protective equipment utilizes kevlar, ceramic plates, and advanced alloys, possessing a **"Ballistic Weave"** trait that highly resists piercing kinetic trauma. (Base Cost Modifier: -5 CR)  
+#### **TL 2: The Data Age (Digital / Information)**
+
+Comparable to modern Earth, TL 2 spans from early telegraphy to the colonization of the local solar system. Power generation relies on advanced hydrocarbons, fission, and renewable infrastructure. The era is defined by global connectivity, digital networks, and the miniaturization of electronics. Ground propulsion is dominated by Roller Vehicles (wheels and tracks), while atmospheric flight relies on airfoils and chemical jet turbines. Nascent tech includes jet engines, orbital rocketry, and fission bombs. The Standard era perfects GPS, reusable rockets, and genetic sequencing. The Advanced TL 2+ tier borders on cybernetic integration, featuring quantum prototypes, functional virtual reality, nascent artificial intelligence algorithms, and prototype railguns. Protective equipment utilizes kevlar, ceramic plates, and advanced alloys, possessing a **"Ballistic Weave"** trait that highly resists piercing kinetic trauma. (Base Cost Modifier: -5 CR)  
   
 
   
-#### **TL 3: The Space Age (Stellar / The Gate Era)** The dawn of interstellar expansion, breaking the bonds of the home star system. Power is generated via Thorium reactors and Hydrogen fuel cells. A critical limitation of this era is that artificial gravity remains achievable only via spin or thrust; manipulation of gravitons is not yet mastered. TL 3 represents the galactic baseline for common trade, featuring reaction mass space flight (Ionic or Fusion), memory materials with limited shape retention, and molecular nanotechnology. Ground movement sees the introduction of GEV (Hover) technology and Mecha (Walkers) driven by myomer musculature. Advanced TL 3+ pushes the limits of thermodynamics with the discovery of Tangent Space for faster-than-light travel, holographic transceivers, and energy shields that impose massive power drains. TL 3 equipment is defined by the **"Modular"** trait, featuring universal data ports, standard charging protocols, and vacuum-ready hermetic seals. (Base Cost Modifier: +0 CR)  
+#### **TL 3: The Space Age (Stellar / The Gate Era)**
+
+The dawn of interstellar expansion, breaking the bonds of the home star system. Power is generated via Thorium reactors and Hydrogen fuel cells. A critical limitation of this era is that artificial gravity remains achievable only via spin or thrust; manipulation of gravitons is not yet mastered. TL 3 represents the galactic baseline for common trade, featuring reaction mass space flight (Ionic or Fusion), memory materials with limited shape retention, and molecular nanotechnology. Ground movement sees the introduction of GEV (Hover) technology and Mecha (Walkers) driven by myomer musculature. Advanced TL 3+ pushes the limits of thermodynamics with the discovery of Tangent Space for faster-than-light travel, holographic transceivers, and energy shields that impose massive power drains. TL 3 equipment is defined by the **"Modular"** trait, featuring universal data ports, standard charging protocols, and vacuum-ready hermetic seals. (Base Cost Modifier: +0 CR)  
   
 
   
-#### **TL 4: The Stellar Age (Galactic / The Warp Era)** The domain of high-tier galactic factions (like the Impyrium and Syndicate), characterized by a practical mastery over matter and force where standard physics are treated as a mere suggestion. Power generation shifts to antimatter, cold fusion, and Aetherium integration. This era masters gravity with artificial grav-plating, inertial dampeners, and repulsorlift hover technology. Starships feature independent Tangent Drives for FTL travel without relying on fixed gate networks. Biological limitations are bypassed via "Clinical Immortality" cellular treatments and trans-neural interfaces that turn the biological brain into a supercomputer terminal. Material science is defined by programmable materials engineered at the nanoscale. Equipment utilizes smart-fabrics, nanocarbon weaves, and phase-shift armor. All TL 4 equipment inherently possesses the **"Self-Repairing"** trait, regenerating 1 Structure Point per hour due to localized nanotech. Kinetic weaponry becomes entirely obsolete unless chemically or magnetically hyper-accelerated to keep pace with directed energy and plasma. (Base Cost Modifier: +5 CR)  
+#### **TL 4: The Stellar Age (Galactic / The Warp Era)**
+
+The domain of high-tier galactic factions (like the Impyrium and Syndicate), characterized by a practical mastery over matter and force where standard physics are treated as a mere suggestion. Power generation shifts to antimatter, cold fusion, and Aetherium integration. This era masters gravity with artificial grav-plating, inertial dampeners, and repulsorlift hover technology. Starships feature independent Tangent Drives for FTL travel without relying on fixed gate networks. Biological limitations are bypassed via "Clinical Immortality" cellular treatments and trans-neural interfaces that turn the biological brain into a supercomputer terminal. Material science is defined by programmable materials engineered at the nanoscale. Equipment utilizes smart-fabrics, nanocarbon weaves, and phase-shift armor. All TL 4 equipment inherently possesses the **"Self-Repairing"** trait, regenerating 1 Structure Point per hour due to localized nanotech. Kinetic weaponry becomes entirely obsolete unless chemically or magnetically hyper-accelerated to keep pace with directed energy and plasma. (Base Cost Modifier: +5 CR)  
   
 
   
-#### **TL 5: The Galactic Age (Cosmic / The Singularity)** The realm of "God-Like" power (Mekan and Mondi entities), representing the apex of material science. The pillars of this era are matter-energy conversion (replicators), dimensional compression (folding space), and absolute gravitonic control. The distinction between hardware and software vanishes completely. Equipment at this tier relies heavily on two exotic technologies:  
+#### **TL 5: The Galactic Age (Cosmic / The Singularity)**
+
+The realm of "God-Like" power (Mekan and Mondi entities), representing the apex of material science. The pillars of this era are matter-energy conversion (replicators), dimensional compression (folding space), and absolute gravitonic control. The distinction between hardware and software vanishes completely. Equipment at this tier relies heavily on two exotic technologies:  
   
 * **Polymatter:** Polymatter is a synthetic, programmable substrate existing in a hyper-potential state. It is composed of true liquid metal held in a magnetic suspension that reacts instantaneously to telepathic or digital commands. Equipment forged from Polymatter possesses the **"Morphic"** trait, allowing it to reshape as a Free Action into complex mechanical forms, such as shifting from a sensory scanner into a lethal weapon. Polymatter also utilizes Base Substance Exchange, integrating ambient foreign matter (rock, steel scrap) directly into its matrix to increase its mass or repair structural damage.   
 * **Holophotonics:** Holophotonics, developed by highly advanced entities, consist of programmable hard-light constructs. Unlike visual illusions, these are tactile, functional photons capable of exerting kinetic force, bearing immense weight, and cutting through steel. Holophotonic gear grants the **"Weightless"** trait. The physical emitter is often the size of a piece of Fine jewelry (0 Sockets), carrying zero bulk when inactive, but projecting full functional mass when triggered. (Base Cost Modifier: +10 CR)  
   
-###   
   
-###   
   
-### ---  
   
 ### **Faction-Specific Design Philosophies**  
   
@@ -179,9 +185,7 @@ To accurately represent the nuance of innovation within these eras, each Tech Le
 * **Philosophy:** The Swarm. Their engineering relies on incredibly rigid yet remarkably lightweight organic construction.   
 * **Signature:** Secreted self-sealing resin, telepathic hive-mind communication integration, acoustically absorbent materials for stealth.  
   
-###   
   
-### ---  
   
 ### **THE UNIVERSAL SCALE: MODULES VS. MOUNTS**  
   
@@ -207,9 +211,7 @@ The UDU hierarchy relies on a strict 10:1 conversion ratio. **1 Module equals 10
 | **Tier 2: Mount** | Hardpoints: Armor, Weapons, Shields, Sensors. | 1 Mount = 10 Sockets |  
 | **Tier 3: Module** | Facilities: Rooms, Hangars, Cores, Barracks. | 1 Module = 10 Mounts |  
   
-###   
   
-### ---  
   
 #### **Dimensional Footprint and Base Complexity**  
   
@@ -227,9 +229,7 @@ Every discrete piece of equipment is assigned a Size Category, which dictates it
   
 Items classified as "Fine" possess a mass so negligible they do not consume standard Socket capacity for inventory management. They may serve as minor aesthetic additions or highly miniaturized components, though they remain subject to standard durability constraints.  
   
-###   
   
-### ---  
   
 #### **Integration Rules**  
   
@@ -242,9 +242,7 @@ Items classified as "Fine" possess a mass so negligible they do not consume stan
 * **Gargantuan** (x10 Scale, \<64ft, \<125 tons): Requires 10\\* Full Modules (Heavy Bay) per unit.   
 * **Colossal** (x20 Scale, \<128ft, \<1K tons): Requires 20\\* Full Modules (Launch Gantry) per unit.  
   
-###   
   
-### ---  
   
 #### **Equipment Modification and Mastercrafting**  
   
@@ -255,9 +253,7 @@ UDU Capacity allows for the installation of optics, barrel attachments, biometri
 * **Standard Upgrades:** Each mundane module costs its listed UDU Capacity amount and increases the Crafting CR by +5 (or +10 for TL4/TL5 items).   
 * **Mastercrafting (Bonus Capacity):** High-quality manufacturing allows armor and weapons to exceed standard limits. For every 5 points an Acquisition or Crafting check exceeds the item's Base CR, the item gains 1 Bonus UDU Slot (up to a maximum of 1 per TL of the item).  
   
-###   
   
-### ---  
   
 **UDU Compression:** If a build requires more capacity than physically available, advanced engineering can compress the hardware at a severe premium.  
   
@@ -265,9 +261,7 @@ UDU Capacity allows for the installation of optics, barrel attachments, biometri
 * **Miniaturized:** -50% UDU Capacity cost (Round up). Requires Tech Level +1 over item base. Adds +10 CR.   
 * **Integrated:** 0 UDU Capacity (Fused to chassis). Cannot be removed. Adds +5 CR.  
   
-###   
   
-### ---  
   
 ### **The Mecha Forge Protocol (Instructional Guide)**  
   
@@ -281,7 +275,6 @@ This section details the mechanical rules and procedural steps for constructing 
 * **Why:** To ensure that all vehicular and macro-mobility assets remain mathematically viable, economically balanced, and narratively consistent within the Tangent Standard Economic Curve, preventing ludonarrative dissonance where heavy capital ships cost less than advanced sniper rifles.   
 * **How:** Execute the following step-by-step construction protocol.  
   
-####   
   
 #### **Step 1: Establish Chassis Size & Scale**  
   
@@ -308,7 +301,6 @@ Vehicles define their physical footprint by their Size Category and Scale Multip
   
 *\\* ds: Die Step (reduce die type, e.g., d10 -\> d8). xN: Multiply dice count/value.* *\\*\\* Starship Scale Note: Enormous+ sizes use Proximity Damage rules (see Combat).*  
   
-####   
   
 #### **Step 2: Define Body Type & Configuration**  
   
@@ -329,7 +321,6 @@ The physical form of the chassis dictates its utility, its Handling Modifier (cr
   
 *Valuation Example:* A Medium Humanoid Power Armor (TL 3). Calculation: Medium Base (CR 22\) + Humanoid (CR +8) + TL3 (CR +0) = Final Base CR 30\. It possesses +0 Handling.  
   
-####   
   
 #### **Step 3: Implement Core Chassis Configuration (Free Systems)**  
   
@@ -341,7 +332,6 @@ To ensure the Mounts listed above are available for Payload/Weaponry, specific m
 * **Basic Locomotion:** Standard movement type (Treads, Legs, Hover) providing base speed.   
 * **Control System:** Cockpit (Pilot) or Computer Core (Remote/Automata).  
   
-####   
   
 #### **Step 4: Execute System Integration and Mount Allocation**  
   
@@ -355,7 +345,6 @@ Allocate functional systems, weapons, and armor into the remaining chassis Mount
 * **Logistics:** 1 Mount = 100kg of dedicated cargo storage.   
 * **Crew Capacity Rule:** A vehicle requires 1 Crew Station (1 Mount) per Tier of Scale above Medium to operate efficiently (Large = 2 Crew, Huge = 5 Crew, Gargantuan = 10 Crew). This requirement can be mitigated by installing advanced AI Targeting/Piloting Computers.  
   
-####   
   
 #### **Step 5: Armor Layering & Defense Calculation**  
   
@@ -365,7 +354,6 @@ Armor provides Damage Resistance (DR) but must be scaled to the size of the Mech
   
 * **Defense (CR) Formula:** Base 10 + Pilot's Agility Modifier + Vehicle Combat Mod (from Size) + Vehicle Handling Mod (from Body Type).  
   
-####   
   
 #### **Step 6: Finalization & The Productivity Engine (Economics)**  
   
@@ -373,35 +361,5 @@ Sum the final CR of the chassis and all applied systems. Calculate the final Cre
   
 *Instructional Execution:* \\* **Value Calculation:** Plug the final CR into the formula: Value (Credits) = 10 \\* 4^(CR / 5). If purchasing, verify the character possesses a Wealth Score (WS) equal to or greater than the CR. If not, they must pay the liquid credit difference.  
   
-* **Build Time:** If crafting, the Target Productivity Points (PP) required to finish the vehicle equals its Credit Value. Calculate Daily Progress: Daily PP = (Craft Check Result - 10\) \\* Tool Tier Multiplier. Divide the Total Value by the Daily PP to find the number of days required to build the Mecha.  
-  
-###   
-  
-###   
-  
-### ---
-
-### EUFT & Matrix Systems Audit Retrofits (Canonical Reference)
-
-* **Tangent Standard Curve (Base CR Intervals of 5):** `Value (Credits) = 10 * 4 ^ (CR / 5)`.
-* **Linear Micro-Modifiers (+1 to +4 CR):** Non-multiple-of-5 CR adjustments apply linear multipliers to the nearest base 5-CR tier rather than exponential compounding:
-  * **+1 CR:** `x1.3` (+30% Base Value)
-  * **+2 CR:** `x1.75` (+75% Base Value)
-  * **+3 CR:** `x2.3` (+130% Base Value)
-  * **+4 CR:** `x3.0` (+200% Base Value)
-  * **-1 CR (Flaw):** `x0.75` (-25% Base Value)
-* **Crafting Material & Scrap Ratio:** Pristine raw materials cost **50%** of an item's total Credit Value. Unrefined **Scavenged Scrap** retains **10%** value, requiring **5x the item's Credit Value** in raw scrap mass to satisfy the 50% crafting material threshold.
-* **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
-* **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
-
----
-
-## DISCREPANCY & RESTORATION LEDGER (DISC-540)
-
-* **Target Path:** `architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - MECHA` & `/game_rules/architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md`
-* **Restoration & Normalization Log:**
-  * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
-  * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).
-  * Restored full 6-Step Mecha Forge Protocol, Size & Scale tables (pre-calculated SP; Scale Multiplier applied only to damage, speed, and range), Garaging rule (1 Mount = 1 Scale Multiplier, 10 Mounts = 1 Module), and all 10 Faction CRISP Visual Matrices.
+* **Build Time:** If crafting, the Target Productivity Points (PP) required to finish the vehicle equals its Credit Value. Calculate Daily Progress: Daily PP = (Craft Check Result - 10\) \\* Tool Tier Multiplier. Divide the Total Value by the Daily PP to find the number of days required to build the Mecha.
 

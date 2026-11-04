@@ -41,5 +41,3 @@ negative_keywords: "mindless, instinct-only, illiterate"
       - **Linguistic Philology:** Tracing the roots, evolution, and semantic mutations of languages across galactic eras.
       - **Comparative Sociology:** Analyzing societal development structures across disparate humanoid and alien cultures.
       - **Scholastic Peer Review:** Detecting fabrication, confirmation bias, and flawed datasets in published scientific reports.
-
----

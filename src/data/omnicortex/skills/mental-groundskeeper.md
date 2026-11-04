@@ -42,5 +42,3 @@ negative_keywords: "mindless, instinct-only, illiterate"
       - **Park & Plaza Sanitation:** Clearing public leaves, emptying waste receptacles, and pressure-washing stone avenues.
       - **Soil & Mulch Composting:** Managing thermal compost piles, shredding yard waste, and top-dressing garden beds.
       - **Planetary Terraforming Planting:** Seeding hardy lichen and scrub bushes across barren rocky ground to build topsoil.
-
----

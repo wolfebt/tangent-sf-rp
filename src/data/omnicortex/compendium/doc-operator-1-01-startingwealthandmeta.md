@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-01-character-creation"
 category: "operator_rule"
 parent: "doc-operator-1-01-character-creation"
-order: 6
+order: 7
 perspective: "operator"
 entry_type: "Character Creation Rule"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.startingwealthandmeta","mechanics"]
-updatedAt: "2026-11-04T00:33:10.528Z"
+updatedAt: "2026-11-04T09:33:29.380Z"
 costs:
   bp: 0
   credits: 0
@@ -39,40 +39,13 @@ sockets:
 
 # 1.01.03 CHARACTER CREATION PIPELINE III: PROPERTY, STARTING WEALTH & META
 
-* **Focus Statement:** Step-by-step Operator creation rules for **Property & Equipment Acquisition**, **Starting Wealth Score (`WS`) Calculation**, **The Golden Rule (`Item CR <= WS`)**, **The Liquidity Gap**, **The 12-Tier Financial Status Hierarchy**, and **Metaphysical Capabilities (`Awakened`, `Disciplines`, `Invocations`, `Essence`)**, complete with Xy'larra's property and metaphysical walkthrough.
-
-## Overview & Mechanical Authority Block
-
-Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
-
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
-* **Critical Hit & Fumble Resolution:**
-  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
-  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
-* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
-  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
-  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
-  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
-  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
-  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
-  * **Customization Budget:** `70 CP`
-* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
-* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
-* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
-
-## Part I — Alignment & Summary Matrix Table
-
-| Subsystem / Table | Canonical Reference | Core Equation / Parameter | Primary Operational Role |
+## **Mechanical Summary Matrix**| Subsystem / Table | Canonical Reference | Core Equation / Parameter | Primary Operational Role |
 | :--- | :--- | :--- | :--- |
 | **1. Property & Loadout** | `2.00 ECONOMATRIX.md` | `Wealth Score`, `Credits`, `Crafting`, `Conjuration`, `Benefit` | Equips Operators with weapons, armor (single-domain DR cap), gear, vehicles, and starships. |
 | **2. Starting Wealth Score** | `02 ECONOMY AND WEALTH.md` | `WS = Occupation Base + Origin + Faction + TL + Vocation Bonus` | Quantifies composite economic leverage, credit access, and auto-buy purchasing power. |
 | **3. Golden Rule & Gap** | `02 ECONOMY AND WEALTH.md` | Auto-Buy if `Item CR <= WS` \| `Gap = Value(CR) - Value(WS)` | Eliminates bookkeeping for routine gear while pricing high-CR acquisitions via `10 * 4^(CR/5)`. |
 | **4. Financial Hierarchy** | `2.00 ECONOMATRIX.md` | `WS 0` (*Indebted*, `-5 CP`) to `WS 80+` (*Faction Ruler*, `160 CP`) | Maps Wealth Score tiers to CP investment, auto-buy limits, net worth, and lifestyle. |
 | **5. Meta Capabilities** | `1.06 METAPHYSICS.md` | `Awakened (3/2 CP)` + `Attune` + `6 Disciplines (12 Foci)` + `Invocations` | Unlocks Resonance channeling, Discipline Focus skills, Invocations (`1 CP/Rank`), and Essence pools. |
-
-## Part II — Complete Unabridged Profiles & Rules Entries
 
 ### 1. Property
 
@@ -208,9 +181,4 @@ The **Meta** stage of character creation in Tangent (`1.06 METAPHYSICS.md`) focu
 > * *Current starting Metaphysic skills: **Attune 5** and **Mental (Sense) 10**.*
 
 Remember, character creation in Tangent is designed to be highly flexible, and these steps can be adapted to fit your character concept, preferences, and the Architect's campaign guidelines.
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-103A (Property, Wealth & Meta Unabridged Codex Restoration):** Restored all Codex `1.01 CHARACTER CREATION` prose and Xy'larra walkthrough examples for Property and Meta, combined with the full Starting Wealth Score calculation tables (`Occupation Base`, `Origin`, `Faction`, `Tech Level`, `Trade/Vocation Multipliers`) and the 12-Tier Financial Status Hierarchy.
-* **DISC-103B (EUFT & Metaphysic School Alignment):** Linked Property acquisition to the canonical EUFT curve (`Value = 10 * 4^[CR/5]`), Golden Rule (`Item CR <= WS`), Liquidity Gap (`Value[Item CR] - Value[WS]`), and Armor Layering Cap, and mapped legacy school examples to the 6 canonical Metaphysic Disciplines (`Dimension`, `Energy`, `Entropy`, `Illusion`, `Matter`, `Mental`).
 

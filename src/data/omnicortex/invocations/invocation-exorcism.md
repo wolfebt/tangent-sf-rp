@@ -56,11 +56,3 @@ Drives out possessing spirits, demons, or entities.
 
   - **Power:** Damage to Spirit = 2d6 per Stage (Force/Holy).
   - **Severity:** Save CR increases by +1 per Stage.
-
-  
-  
-  
-  
-
-
----

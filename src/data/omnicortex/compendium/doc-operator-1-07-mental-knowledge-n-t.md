@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-mental-knowledge"
-order: 187
+order: 188
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mental.knowledge.n_t","mechanics"]
-updatedAt: "2026-11-04T00:33:10.738Z"
+updatedAt: "2026-11-04T09:33:29.561Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.04 MENTAL SKILLS: KNOWLEDGE (N – T)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mental.Knowledge.N_T.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mental.Knowledge.N_T.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (KNOWLEDGE SKILLS (N – T) SUMMARY MATRIX)**
+## **KNOWLEDGE SKILLS (N – T** SUMMARY MATRIX)**
 
 | Skill Name | Governing Attribute | Core Task CRs | Canonical Specialties |
 | :--- | :--- | :--- | :---: |
@@ -69,8 +55,6 @@ sockets:
 | **Trade** | Intellect (`INT`) | Analyze Market (`CR 15`), Trade Law (`CR 20`) | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 ### **NATURE**
 
@@ -311,12 +295,4 @@ sockets:
       - **Merchant Marine Regulations:** Navigating international interstellar laws regarding distress signals and salvaging rights.
       - **Consignment Sales:** Negotiating display, sale percentages, and escrow protection for third-party luxury cargo.
       - **Counter-Embargo Smuggling:** Slipping essential food, fuels, and machine components past military naval blockades.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mental.Knowledge.N_T.md):** Restored Knowledge Skills N–T (`Nature` through `Trade`, including `Knowledge (Technology)`) and all 100 Specialties from Codex `1.07 SKILLS`.
 

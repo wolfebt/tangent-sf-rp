@@ -26,7 +26,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.518Z"
+    "updatedAt": "2026-11-04T09:35:51.833Z"
   },
   {
     "id": "mech-combat-actions-by-skill-tier",
@@ -54,7 +54,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.833Z"
   },
   {
     "id": "mech-combat-initiative",
@@ -78,7 +78,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.833Z"
   },
   {
     "id": "mech-combat-edge-system",
@@ -111,7 +111,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-damage-calculation",
@@ -139,7 +139,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-called-shots-locations",
@@ -173,7 +173,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-disabled-destroyed-thresholds",
@@ -201,7 +201,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-combat-mortality-state",
@@ -229,7 +229,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-scaling-14-tiers",
@@ -256,7 +256,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-economatrix-standard-curve",
@@ -282,7 +282,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-metaphysics-triad-casting",
@@ -309,7 +309,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-character-150cp-creation",
@@ -337,7 +337,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-companion-40cp-formula",
@@ -367,7 +367,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-vitals-30-30-60",
@@ -396,7 +396,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-karma-spending-actions",
@@ -426,7 +426,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-augmentations-body-alteration-tiers",
@@ -455,7 +455,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-mecha-vehicles-all-sorts",
@@ -485,7 +485,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-euft-micro-modifiers-productivity",
@@ -514,7 +514,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-udu-hierarchy-compression-garaging",
@@ -543,7 +543,7 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   },
   {
     "id": "mech-archetype-80cp-chassis-and-cosmic-entities",
@@ -572,6 +572,6 @@
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T00:33:18.519Z"
+    "updatedAt": "2026-11-04T09:35:51.834Z"
   }
 ]

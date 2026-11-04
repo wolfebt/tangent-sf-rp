@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.cybernetic","matrix"]
-updatedAt: "2026-11-04T00:33:10.459Z"
+updatedAt: "2026-11-04T09:33:29.314Z"
 costs:
   bp: 0
   credits: 0
@@ -383,28 +383,4 @@ Non-permanent, external harnesses that provide mechanical advantages without sur
 | **Cyber-Mecha Shell** | Full Body | 100 | 40 | 655,360 | Superheavy wearable shell. Provides DR 80. |
 
 *Created for the Tangent RP System. Reference Matrix 99 - AUGMENTATION.*
-
-### EUFT & Matrix Systems Audit Retrofits (Canonical Reference)
-
-* **Tangent Standard Curve (Base CR Intervals of 5):** `Value (Credits) = 10 * 4 ^ (CR / 5)`.
-* **Linear Micro-Modifiers (+1 to +4 CR):** Non-multiple-of-5 CR adjustments apply linear multipliers to the nearest base 5-CR tier rather than exponential compounding:
-  * **+1 CR:** `x1.3` (+30% Base Value)
-  * **+2 CR:** `x1.75` (+75% Base Value)
-  * **+3 CR:** `x2.3` (+130% Base Value)
-  * **+4 CR:** `x3.0` (+200% Base Value)
-  * **-1 CR (Flaw):** `x0.75` (-25% Base Value)
-* **Crafting Material & Scrap Ratio:** Pristine raw materials cost **50%** of an item's total Credit Value. Unrefined **Scavenged Scrap** retains **10%** value, requiring **5x the item's Credit Value** in raw scrap mass to satisfy the 50% crafting material threshold.
-* **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest applicable DR applies against an incoming damage source.
-* **Mecha Scale Multiplier & Garaging:** Structure Points (SP) in vehicle size tables are pre-calculated; apply the active **Scale Multiplier** only to weapon damage, movement speed, and range during tactical play. For garaging in ships and bases, **1 Mount = 1 Scale Multiplier** (`10 Mounts = 1 Module`; e.g., Medium x1 = 1 Mount / 0.1 Modules; Large x2 = 2 Mounts / 0.2 Modules; Huge x5 = 5 Mounts / 0.5 Modules; Gargantuan x10 = 10 Mounts / 1 Module; Colossal x20 = 20 Mounts / 2 Modules).
-
----
-
-## DISCREPANCY & RESTORATION LEDGER (DISC-545)
-
-* **Target Path:** `architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md`
-* **Primary Sources Reconciled:** `/_ _ TANGENT RP CODEX _ _/99 - AUGMENTATIONS MATRIX` & `/game_rules/architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md` (`1aydQ3vqxNBop9CXFUdIlHHu2Pnpo-fc8`)
-* **Restoration & Normalization Log:**
-  * Restored 100% of canonical prose, engineering tables, component catalogs, and structural mechanics without truncation.
-  * Applied all 12 Mandatory Mechanical Normalization Rules globally (`2d10` vs. `CR`, `CP` economy, `AGI`/`STA` attributes, canonical skill nomenclature `Alertness`/`Insight`/`Knowledge (Language)`/`Vocation (Handler)`, and EUFT Linear Micro-Modifiers + 10% Scrap Ratio + Armor Layering Cap + Mecha Scale Multiplier `1 Mount = 1 Scale Multiplier`).
-  * Restored complete Cybernetic Augmentations Matrix (Sections 1–12: Economy of Self, Chassis Node Limits, Civilian Standard Fashionware, Prosthetic & Replacement Structures, Hand/Foot Options, Limb Upgrades, Exotic Limbs, Body/Sensory/Brain Modifications, TL4 Enhanced & TL5 Advanced Augmentations, Full Body Conversion, Stigma Thresholds, and Pseudo-Cybernetics) and normalized Awareness -> Alertness and Armor Layering Cap.
 

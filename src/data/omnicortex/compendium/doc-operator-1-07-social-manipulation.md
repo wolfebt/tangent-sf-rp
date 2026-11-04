@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 194
+order: 195
 perspective: "operator"
 entry_type: "Skill Category"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.social.manipulation","mechanics"]
-updatedAt: "2026-11-04T00:33:10.753Z"
+updatedAt: "2026-11-04T09:33:29.580Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.11 SOCIAL SKILLS: MANIPULATION**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Social.Manipulation.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Social.Manipulation.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MANIPULATION SKILLS SUMMARY MATRIX)**
+## **MANIPULATION SKILLS SUMMARY MATRIX**
 
 | Manipulation Skill | Governing Attribute | Core Task CRs | Canonical Specialties |
 | :--- | :--- | :--- | :---: |
@@ -66,8 +52,6 @@ sockets:
 | **Streetwise** | Charisma (`CHA`) or Wisdom (`WIS`) | Gather Info (`CR 10–20` in `1d4` hrs), Urban Survival (`CR 15`), Locate Fence | 10 Specialties |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 ## **MANIPULATION**
 
@@ -244,12 +228,4 @@ These skills are used to influence others, hide intentions, or read social situa
       - **Spotting Plainclothes Law:** Pointing out disguised undercover detectives and corporate internal security spooks in crowds.
       - **Illicit Contraband Sourcing:** Procuring illegal combat drugs, untracked blasters, and forged transit papers in alleys.
       - **Urban Evasion:** Slipping away through winding back-alleys, fire escapes, and sewer drains when syndicates hunt you.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Social.Manipulation.md):** Restored all 7 Manipulation Skills (`Insight`, `Bluff`, `Barter`, `Diplomacy`, `Intimidate`, `Leadership`, `Streetwise`) and all 70 Specialties from Codex `1.07 SKILLS`, normalizing `Sense Motive` to `Insight`.
 

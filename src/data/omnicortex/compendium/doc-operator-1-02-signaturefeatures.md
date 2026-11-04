@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "doc-operator-1-02-archetypes"
-order: 19
+order: 20
 perspective: "operator"
 entry_type: "Operator Archetype"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","archetypes","1.02.signaturefeatures","mechanics"]
-updatedAt: "2026-11-04T00:33:10.513Z"
+updatedAt: "2026-11-04T09:33:29.370Z"
 costs:
   bp: 0
   credits: 0
@@ -39,32 +39,7 @@ sockets:
 
 # 1.02.05 ARCHETYPE SIGNATURE TRAITS & FEATURES
 
-* **Focus Statement:** The master index and mechanized rules reference for all **100 Archetype Signature Traits (`1 CP` each)** and **Recommended Signature Features (`3 CP` Standard / `2 CP` Recommended, minimum `1 CP`)** across Sentinels (`_S_J`), Operatives (`_SP`), Visionaries (`_NF_`), and Savants (`_NT_`), including the 100-Feature Mechanized Tables (`1.08` layout) and all 9 detailed tactical feature profiles from Codex `1.02 ARCHETYPES`.
-
-## Overview & Mechanical Authority Block
-
-Every rule, formula, and character creation procedure in **Volume I: The Operator's Manual** (`operator/`) is governed by these canonical mechanical invariants:
-
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Advantage & Disadvantage:** Roll `+1d10` per stack of Advantage (keep the highest 2 dice) or Disadvantage (keep the lowest 2 dice). Opposing stacks cancel 1-for-1.
-* **Critical Hit & Fumble Resolution:**
-  * **Critical Hit (`Natural 20` / double-10s on `2d10`, or expanded threat range `19`, `18`):** `2x Base Weapon Damage Dice + 30 to Attack Score + Weapon/Elemental Critical Effect`.
-  * **Fumble (`Natural 2` / double-1s on `2d10`, or expanded fumble range `3`, `4`):** `-10 to Attack/Check Score + Situational Complication`.
-* **Character Point (CP) Economy (`150 CP` Starting Budget):** Starting Operators receive **150 Character Points (CP)**, structured as an **80-CP Archetype Chassis** plus a **70-CP Customization Budget** (or allocated via full custom point-buy):
-  * **Primary Attribute at `+3`:** `15 CP` (`+5 CP` per `+1`)
-  * **Secondary Attribute at `+2`:** `10 CP` (`+5 CP` per `+1`)
-  * **4 Essential Skills at Rank 6 (Trained):** `24 CP` (`1 CP` per Rank)
-  * **6 Supporting Skills at Rank 3 (Novice):** `18 CP` (`1 CP` per Rank)
-  * **2 Signature Traits (`1 CP` each) + 3 Recommended Core Features (`9 CP`):** `13 CP`
-  * **Customization Budget:** `70 CP`
-* **Background Allocations (`60 SP` at `0 CP`):** `20 SP Faction + 20 SP Origin + 20 SP Occupation = 60 Skill Ranks`, `4 Recommended Features`, and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
-* **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across both Species Packages and post-species customization (zero package discount).
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct characters combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). The **Stamina Modifier** serves as **Base Toughness**, subtracting point-for-point from incoming wound damage after Armor DR.
-* **Personal Hindrance Cap (`+10 CP` Maximum):** Personal character Hindrances grant at most **`+10 CP`** during creation. **Species-level hindrances and cybernetic/xeno Stigmas are exempt from this 10-point cap.**
-
-## Part I — Alignment & Summary Matrix Table
-
-| Catalog Section | Temperament / Scope | Entry Count | Cost & Discount Rule | Primary Mechanical Contents |
+## **Mechanical Summary Matrix**| Catalog Section | Temperament / Scope | Entry Count | Cost & Discount Rule | Primary Mechanical Contents |
 | :--- | :--- | :---: | :--- | :--- |
 | **I.1 Sentinels Index** | `_S_J` (*The Stabilizers*) | 25 Archetype Pairs | `1 CP` Trait \| `3 CP` (`2 CP` Rec.) Feature | Maps all 25 Sentinel archetypes (*The Bureaucrat* to *The Beast-Handler*) to their Signature Traits and Recommended Features. |
 | **I.2 Operatives Index** | `_SP` (*The Artisans*) | 25 Archetype Pairs | `1 CP` Trait \| `3 CP` (`2 CP` Rec.) Feature | Maps all 25 Operative archetypes (*The Thespian* to *The Combat-Saboteur*) to their Signature Traits and Recommended Features. |
@@ -72,8 +47,6 @@ Every rule, formula, and character creation procedure in **Volume I: The Operato
 | **I.4 Savants Index** | `_NT_` (*The Rationals*) | 25 Archetype Pairs | `1 CP` Trait \| `3 CP` (`2 CP` Rec.) Feature | Maps all 25 Savant archetypes (*The Strategist* to *The Xeno-Surveyor*) to their Signature Traits and Recommended Features. |
 | **II. Mechanized Catalog** | All 4 Divisions (`1.08` Layout) | 100 Mechanized Rows | `3 CP` Standard \| `2 CP` Recommended | Complete `2d10 vs. CR` mechanized tables for Sentinel, Operative, Visionary, and Savant Signature Features. |
 | **III. Detailed Profiles** | Codex Showcase Profiles | 9 Full Profiles | `3 CP` Standard \| `2 CP` Recommended | Full Aesthetic, Classification, Activation, and `2d10 vs. CR` Effect blocks for the 9 Codex showcase Signature Features. |
-
-## Part II — Complete Unabridged Profiles & Rules Entries
 
 Each of the 100 Playable Archetypes grants access to two **Signature Traits (`1 CP` each)** and recommends specialized **Signature Features (`3 CP` Standard / `2 CP` if matching the character's Archetype as a Recommended Feature, minimum `1 CP`)**.
 
@@ -451,12 +424,4 @@ Every Signature Feature across all four Archetype divisions is codified below in
   1. **Double (`2x`)** the Invocation's range;
   2. **Expand** its area of effect radius/dimensions by **+15 ft (`5 meters`)**; or
   3. **Transmute** its energy damage type to another known Energy or Kinetic Impact subtype.
-
----
-
-
-## DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-205A (100-Archetype Master Index & 9 Showcase Feature Profiles Restoration):** Restored the complete 100-Archetype Signature Feature list and all 9 detailed showcase profiles (*Bureaucratic Efficiency*, *Guardian's Ward*, *Black Market Connections*, *Protective Stance*, *Field Triage*, *Stage Presence*, *Silent Killer*, *Cyber Warfare*, and *Arcane Weaving*) from Codex `1.02 ARCHETYPES` (`lines 1232–1399`), integrated with the four `1.08` Mechanized Signature Feature tables.
-* **DISC-205B (Mechanical & Nomenclature Normalization):** Normalized all feature costs to `Character Points (CP)` (`3 CP` Standard / `2 CP` Recommended), all target difficulties to `Challenge Rating (CR)`, all saves to `Fortitude / Reflex / Willpower`, and all skill names to `Alertness`, `Insight`, `Vocation (Handler)`, and `Knowledge (Language)`.
 

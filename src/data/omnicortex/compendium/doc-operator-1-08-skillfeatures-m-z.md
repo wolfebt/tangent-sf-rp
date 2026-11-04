@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-skillfeatures"
-order: 207
+order: 208
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.skillfeatures.m_z","mechanics"]
-updatedAt: "2026-11-04T00:33:10.662Z"
+updatedAt: "2026-11-04T09:33:29.493Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.08.09 SKILL FEATURES (PART II: M – Z)**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/features/1.08.SkillFeatures.M_Z.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/features/1.08.SkillFeatures.M_Z.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.08 FEATURES (File ID: 1sSXybfCpspSaGg1DpaYNoBTEeCGvCyEAuIC-EAPSxiM)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Feature Pricing:** Standard Feature = `3 CP`; Recommended Feature = `2 CP` (`-1 CP` discount for Species, Faction, Origin, or Occupation recommended features; minimum `1 CP`).
-* **Core Resolution & Saves:** `2d10 + Modifiers vs. CR`; Advantage rolls `+1d10` (keep highest 2).
-* **Feature-Gated Consolidation & Zero Stamina Scaling:** `Precision Strike` (`2x`/`3x`/`4x` base weapon dice) gates single-attack consolidation; Stamina provides `Base Toughness` DR and never scales Health/Vitality pools.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (SKILL FEATURES (PART II: M – Z) SUMMARY TABLE)**
+## **SKILL FEATURES (PART II: M – Z** SUMMARY TABLE)**
 
 | **FEATURE NAME** | **PREREQUISITE** | **BENEFIT / EFFECT** | **SPECIAL / NOTES** |
 | :--- | :--- | :--- | :--- |
@@ -108,8 +94,6 @@ sockets:
 | **Versatile Professional** | Vocation 6, Intellect 2 | Gain Virtual Vocation skills equal to Intellect score above 1 | — |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED FEATURE PROFILES & MECHANICS)**
 
 ## **Meticulous**
 
@@ -330,12 +314,4 @@ sockets:
   - **Benefit:** You gain "Virtual Skills" in the Vocation category. For every point of Intellect Bonus, gain access to a related Vocation sub-skill without spending CP.
 
 - *Example:* A Soldier with Int +2 might gain Virtual Ranks in *Armorer* and *Demolitions*.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-316+ (1.08.SkillFeatures.M_Z.md):** Restored all 24 Part II Skill Features (`Meticulous` through `Versatile Professional`) and normalized `Sleight of Hand / Disable Device / Escape Artist / Library Use / Firearms` to `Legerdemain / Knowledge (Technology) / Acrobatics (Escapology) / Academics (Archivist) / Ballistic`.
 

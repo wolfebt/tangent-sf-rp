@@ -48,5 +48,3 @@ negative_keywords: "mindless, instinct-only, illiterate"
 ---
 
 *Continued in **[Knowledge Skills (N – T: Nature to Trade)](./1.07.Mental.Knowledge.N_T.md)**.*
-
----

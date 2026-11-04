@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","economy","02.economy.unifiedfieldtheory","matrix"]
-updatedAt: "2026-11-04T00:33:10.409Z"
+updatedAt: "2026-11-04T09:33:29.276Z"
 costs:
   bp: 0
   credits: 0
@@ -38,15 +38,6 @@ sockets:
 ---
 
 # **02.02 THE TANGENT ECONOMIC UNIFIED FIELD THEORY (EUFT DESIGN PROTOCOL)**
-
-## **MECHANICAL AUTHORITY & CANONICAL RULES BLOCK**
-
-- **Core Resolution Engine:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`. Critical Hit (Natural 20 / double-10s) = `Rolled Dice + 10 (20 -> 30) + 2x Base Weapon Damage Dice + Critical Effect`. Fumble (Natural 2 / double-1s) = `Flat -10 + Complication`. Advantage/Disadvantage rolls `+1d10` per stack and keeps the highest or lowest 2 dice.
-- **Character Point (CP) Economy & 80-CP Archetype Chassis:** Starting Operator budget is **150 CP**, partitioned into the **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at 1 CP each + 3 Recommended Core Features at 9 CP) plus **70 CP Customization**.
-- **60-SP Sociological Background Allocation:** **Faction (20 SP) + Origin (20 SP) + Occupation (20 SP) = 60 Skill Ranks, 4 Features, and 4 Traits at 0 CP** (additional traits cost 1 CP each).
-- **Universal Straight CP Pricing:** Attributes cost **5 CP per +1** (and refund **-5 CP per -1 penalty**); Skills cost **1 CP per 1 Skill Rank** (**5 CP per 5 Ranks**) across all character, species, companion, and adversary builds with zero package discounts. Standard Features cost **3 CP** (**2 CP** when listed under **Recommended Features**, minimum 1 CP).
-- **Vitality, Health & Structure (Zero Stamina Scaling):** Biological characters begin with **Base 30 Vitality** and **Base 30 Health** (Synthetics/Constructs combine both into **Base 60 Structure Points [SP]**), scaled strictly at **+5 points per 1 CP** spent. **Stamina (STA) never increases Vitality or Health**; Stamina modifier subtracts point-for-point from incoming damage as **Base Toughness** after highest single-domain Armor DR (`Stability Points = STA + 5`).
-- **Personal Hindrance Cap:** Maximum **+10 CP** gained from personal Hindrances at character creation; **Species-level disadvantages and Stigmas are exempt** from this cap.
 
 ## **1. INTRODUCTION: RESOLVING ECONOMIC DISSONANCE IN RPGS**
 
@@ -304,10 +295,4 @@ When pricing multi-story buildings or arcologies (`99.Technology.ArchitecturalMa
 
 1. **Every Item Entry Must List `CR` (`WS`) and `Value (Cr)`:** Derived deterministically via `Value = 10 * 4 ^ (Base CR / 5)` and modified by Linear Micro-Modifiers (`+1 CR = x1.3`, `+2 CR = x1.75`, `+3 CR = x2.3`, `+4 CR = x3.0`, `-1 CR = x0.75`).
 2. **Zero-Sum Faction Cultural Skins:** Any Faction Cultural Skin that grants a `-5 CR` discount to acquisition complexity (such as Coalition Jury-Rigged gear) must apply a permanent `-25% Base SP` (or `-1 UDU Socket/Mount`) chassis sidegrade rather than relying solely on fumble RNG.
-
-## **DISCREPANCY & RESTORATION LEDGER (02.Economy.UnifiedFieldTheory.md)**
-
-- **File Target:** `architect/02.Economy.UnifiedFieldTheory.md`
-- **Restoration Pass (Three-Way Merge):** Restored 100% of Codex `06. Tangent - Economic Unified Theory (EUT)` prose, tables, and formulas with zero redactions or ellipses.
-- **Mechanical Normalization Pass (12 Global Rules):** Enforced 2d10 vs. CR, Character Points (CP), Universal Straight CP Pricing, and EUFT Linear Micro-Modifiers.
 

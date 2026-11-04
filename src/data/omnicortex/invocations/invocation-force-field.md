@@ -54,10 +54,3 @@ Creates a shimmering outer bubble of force that excludes physical matter.
 
   - **Integrity:** Field HP = 50 per Stage.
   - **Duration:** Base Concentration + (1 Minute per Stage) without concentration.
-
-  
-  
-  
-
-
----

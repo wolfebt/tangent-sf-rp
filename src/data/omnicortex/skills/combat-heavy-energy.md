@@ -44,5 +44,3 @@ negative_keywords: "pacifist, unarmed-civilian, helpless"
       - **Point-Defense Energy Arrays (PDC):** Tracking and vaporizing incoming torpedoes and starfighters with automated pulse lasers.
       - **Macro-Ion Cannons:** Firing massive EMP and ion charges that disable starship power grids, engines, and shields without hull breach.
       - **Coaxial Plasma Bombardment Cannons:** Directing planetary bombardment salvos from orbit to obliterate coastal cities.
-
----

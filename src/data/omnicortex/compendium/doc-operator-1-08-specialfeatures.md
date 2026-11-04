@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-08-features"
 category: "operator_rule"
 parent: "doc-operator-1-08-features"
-order: 214
+order: 215
 perspective: "operator"
 entry_type: "Feature Catalog"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.specialfeatures","mechanics"]
-updatedAt: "2026-11-04T00:33:10.663Z"
+updatedAt: "2026-11-04T09:33:29.493Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.08.10 SPECIAL FEATURES**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/features/1.08.SpecialFeatures.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/features/1.08.SpecialFeatures.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.08 FEATURES (File ID: 1sSXybfCpspSaGg1DpaYNoBTEeCGvCyEAuIC-EAPSxiM)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Feature Pricing:** Standard Feature = `3 CP`; Recommended Feature = `2 CP` (`-1 CP` discount for Species, Faction, Origin, or Occupation recommended features; minimum `1 CP`).
-* **Core Resolution & Saves:** `2d10 + Modifiers vs. CR`; Advantage rolls `+1d10` (keep highest 2).
-* **Feature-Gated Consolidation & Zero Stamina Scaling:** `Precision Strike` (`2x`/`3x`/`4x` base weapon dice) gates single-attack consolidation; Stamina provides `Base Toughness` DR and never scales Health/Vitality pools.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (SPECIAL FEATURES SUMMARY TABLE (37 FEATURES))**
+## **SPECIAL FEATURES SUMMARY TABLE (37 FEATURES)**
 
 | **FEATURE NAME** | **PREREQUISITE** | **BENEFIT / EFFECT** | **SPECIAL / NOTES** |
 | :--- | :--- | :--- | :--- |
@@ -96,8 +82,6 @@ sockets:
 | **Wild Speech** | Nature Affinity / Fey / Special | Communicate with Beast-type animals as if sharing a language | — |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED FEATURE PROFILES & MECHANICS)**
 
 Special Features are often restricted by Species, Origin, or Technology Level. They represent biological realities or extensive body modification rather than simple training.
 
@@ -470,12 +454,4 @@ Special Features are often restricted by Species, Origin, or Technology Level. T
 
   - **Prerequisite:** Nature Affinity, Fey, or Druidic training
   - **Benefit:** You can communicate with animals (Beast type) as if you shared a language. You can use **Social Skills** (Diplomacy, Bluff, Intimidate) on animals with no penalty.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-316+ (1.08.SpecialFeatures.md):** Restored all 37 Special Features (`Acute Sense` through `Wild Speech`, including `Non-Lethal Immunity`), normalized `Companion (40 CP)` and `Augmented (6 CP)`, and updated `Rage` so `+2 Stamina` grants `+2 Base Toughness DR` and `+4 Fortitude Saves`.
 

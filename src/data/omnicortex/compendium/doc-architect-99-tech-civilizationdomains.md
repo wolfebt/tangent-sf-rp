@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.civilizationdomains","matrix"]
-updatedAt: "2026-11-04T00:33:10.463Z"
+updatedAt: "2026-11-04T09:33:29.326Z"
 costs:
   bp: 0
   credits: 0
@@ -187,14 +187,4 @@ Detailed progression tracks across the **16 Civilization Domains** from Tech Lev
 - **TL 3 (Mag-Rail & Directed Energy):** Ferrous railguns, lasers, plasma projectors, and vibro-blades.
 - **TL 4 (Particle, Disruptor & Mono-Edge):** Heavy particle beams, force-field disruptors, and monofilament weapons.
 - **TL 5 (Gravitonic, Disintegrator & Holophotonic):** Gravity-pulse emitters, molecular disintegrators, and hard-light weaponry.
-
----
-
-## **DISCREPANCY & RESTORATION LEDGER (DISC-533)**
-
-- **File Target:** `architect/technology/core/99.Tech.CivilizationDomains.md`
-- **Restoration Pass (Three-Way Merge):**
-  - Restored 100% of all 16 Civilization Domains (Agriculture through Weaponry) across TL 0–TL 5.
-- **Mechanical Normalization Pass (12 Global Rules):**
-  - Integrated canonical Processor Ratings (PR 0 to PR 4+) and Productivity Engine Tool Multipliers (`x1` to `x5,000`).
 

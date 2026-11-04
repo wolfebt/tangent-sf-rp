@@ -41,5 +41,3 @@ negative_keywords: "isolated, anti-social, inarticulate"
       - **Hunting Horns & Bugles:** Sounding natural, valveless brass calls that carry across forests and battlefields.
       - **Alien Double-Pipes:** Playing exotic instruments requiring circular breathing to produce unceasing melodic loops.
       - **Didgeridoo & Drone Wind:** Producing deep, guttural, cyclical drone vibrations infused with vocalized animal growls.
-
----

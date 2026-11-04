@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 183
+order: 184
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.07 skills","mechanics"]
-updatedAt: "2026-11-04T00:33:10.495Z"
+updatedAt: "2026-11-04T09:33:29.350Z"
 costs:
   bp: 0
   credits: 0
@@ -38,10 +38,7 @@ sockets:
 ---
 
 # **1.07 SKILLS**
-
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/1.07 SKILLS.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
+## Overview & Mechanical Authority Block
 
 * **Canonical Archive Path:** `/game_rules/operator/1.07 SKILLS.md`
 * **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
@@ -54,7 +51,7 @@ sockets:
 
 ---
 
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (MASTER SKILL CATEGORIES & STAGE PROGRESSION)**
+## Part I — Alignment & Summary Matrix Table
 
 ### **1. Master Skill Category Summary Matrix (80 Canonical Skills)**
 
@@ -83,7 +80,7 @@ sockets:
 
 ---
 
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL SYSTEM, TABLES & DIRECTORY)**
+## Part II — Complete Unabridged Profiles & Rules Entries
 
 Skills represent a character's training and expertise in specific areas. They are categorized into Physical, Mental, Social, Metaphysic, and Combat groups. During character creation, players receive Skill Points from their chosen species, origin, and faction, which they can allocate to improve their skills. Skill Checks determine success in actions related to the corresponding skill, and various modifiers can influence the outcome.
 
@@ -558,9 +555,7 @@ Individual skill definitions, 10-specialty matrices, and advanced resolution mec
 
 ---
 
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-312A (Full Prose & Master Table Restoration):** Restored 100% of the introductory prose, Skill Points, Master Skill Category Tables (Physical, Mental, Knowledge, Vocation, Social Manipulation/Expression, Combat Archaic/Modern/Advanced, Metafocus), Skill Sources, Skill Ranks, Skill Modifiers, Time Modifiers, and Tier Descriptions from Codex `1.07 SKILLS`.
 * **DISC-312B (Mechanical Authority Normalization):** Enforced `2d10 vs. CR` resolution, `1 CP per 1 Skill Rank` customization pricing, `60 SP` background allocation (`20 SP` Faction + `20 SP` Origin + `20 SP` Occupation, normalized from legacy `25 SP` Occupation), and canonical skill names (`Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, `Computers`, `Ballistic`, `Diplomacy`, `Bluff`).

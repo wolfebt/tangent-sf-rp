@@ -7,14 +7,14 @@ isMasterDoc: true
 masterDocId: "doc-operator-1-02-archetypes"
 category: "operator_rule"
 parent: "1.00 OPERATOR CORE RULES (SOURCE OF TRUTH)"
-order: 14
+order: 15
 perspective: "operator"
 entry_type: "Core Rulebook"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.02 archetypes","mechanics"]
-updatedAt: "2026-11-04T00:33:10.483Z"
+updatedAt: "2026-11-04T09:33:29.343Z"
 costs:
   bp: 0
   credits: 0
@@ -124,7 +124,7 @@ All 100 character and NPC Archetypes are organized into four temperament divisio
 * **[Savants — The Rationals (`_NT_`)](./archetypes/1.02.Savants.md)** — *25 Archetypes focused on Science, Technology, Strategy, and Metaphysics (The Strategist through The Xeno-Surveyor)*
 * **[Archetype Signature Traits & Features](./archetypes/1.02.SignatureFeatures.md)** — *Master reference list of Signature Traits/Recommended Features for all 100 Archetypes, the 100-Feature Mechanized Table (`1.08` layout), and detailed Signature Feature mechanics*
 
-## DISCREPANCY & RESTORATION LEDGER
+## Part III — Discrepancy & Restoration Ledger
 
 * **DISC-201A (Unabridged Codex Philosophy & Chassis Allocation Restoration):** Restored 100% of the "Mechanical Gravity" design philosophy and `80-CP Chassis Allocation Formula` (`15 CP Primary + 10 CP Secondary + 24 CP Essential Skills + 18 CP Supporting Skills + 13 CP Signature Traits & Recommended Core Features = 80 CP`, plus `70 CP` Customization = `150 CP`) from Codex `1.02 ARCHETYPES` (`1jb8J2KTTmL0ao7UyDxfYglqPtIrogovNz-aboPBz9m8`).
 * **DISC-201B (Canonical Terminology & Validator Purity):** Normalized all skill, attribute, and feature terminology (`Character Points [CP]`, `Vocation [Handler]`, `Knowledge [Language]`, `Recommended Features`) so `bastion_validator.py` passes with `0` violations.

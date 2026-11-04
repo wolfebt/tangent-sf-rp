@@ -86,10 +86,10 @@ function syncDisadvantages() {
   const outputCode = `/**
  * Canonical Disadvantages Database for Tangent SF RP (Species & General Disadvantages)
  * Auto-generated from src/data/omnicortex/disadvantages/
- * Total Disadvantages: \${disadvantagesList.length}
+ * Total Disadvantages: ${disadvantagesList.length}
  */
 
-export const DEFAULT_SPECIES_DISADVANTAGES = \${JSON.stringify(disadvantagesList, null, 2)};
+export const DEFAULT_SPECIES_DISADVANTAGES = ${JSON.stringify(disadvantagesList, null, 2)};
 
 // Backward-compatibility alias
 export const SPECIES_DISADVANTAGES = DEFAULT_SPECIES_DISADVANTAGES;

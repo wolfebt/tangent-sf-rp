@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 198
+order: 199
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.skillchecks","mechanics"]
-updatedAt: "2026-11-04T00:33:10.728Z"
+updatedAt: "2026-11-04T09:33:29.550Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.17 SKILL CHECKS**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mechanics.SkillChecks.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mechanics.SkillChecks.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (SKILL CHECK RESOLUTION & DIFFICULTY MATRIX)**
+## **SKILL CHECK RESOLUTION & DIFFICULTY MATRIX**
 
 | Difficulty Tier | Challenge Rating (CR) | Benchmark Example |
 | :--- | :---: | :--- |
@@ -67,8 +53,6 @@ sockets:
 | **Miraculous** | `CR 35+` | Defying probability (persuading a fanatical zealot) |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **SKILL CHECKS**
 
@@ -171,12 +155,4 @@ The final sum of the 2d10 roll, Skill Rank, Ability Score modifier, and any othe
 
 ***Skill Checks are a fundamental mechanic in Tangent, used to resolve a wide range of actions and challenges throughout the game. They provide a structured and transparent way to determine success or failure, while also allowing for flexibility and customization based on the character's abilities, the difficulty of the task, and the Architect's discretion. This system ensures that skill checks are both engaging and fair, reflecting the character's capabilities and the inherent risks and rewards of their actions.*  
 **
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mechanics.SkillChecks.md):** Restored 100% of the Skill Checks prose and examples from Codex `1.07 SKILLS`, normalizing `20-sided die (d20)` to `two 10-sided dice (2d10)`, `DC` to `CR`, and `Lockpicking` to `Knowledge (Technology — Security) or Legerdemain`.
 

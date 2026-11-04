@@ -7,14 +7,14 @@ isMasterDoc: false
 masterDocId: "doc-operator-1-07-skills"
 category: "operator_rule"
 parent: "doc-operator-1-07-skills"
-order: 203
+order: 204
 perspective: "operator"
 entry_type: "Skill Mechanics"
 tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","skills","1.07.mechanics.timeandfocus","mechanics"]
-updatedAt: "2026-11-04T00:33:10.733Z"
+updatedAt: "2026-11-04T09:33:29.561Z"
 costs:
   bp: 0
   credits: 0
@@ -39,21 +39,7 @@ sockets:
 
 # **1.07.20 TIME, FOCUSED TASKS & TRANSPOSED SKILL BASE**
 
-`[BASTION // ACCESSING ARCHIVE: /game_rules/operator/skills/1.07.Mechanics.TimeAndFocus.md]`
-
-## **DOCUMENT HEADER & MECHANICAL AUTHORITY BLOCK**
-
-* **Canonical Archive Path:** `/game_rules/operator/skills/1.07.Mechanics.TimeAndFocus.md`
-* **Codex Source Reference:** `/_ _ TANGENT RP CODEX _ _/1.07 SKILLS (File ID: 1mjixv5rlRqd68R0LWOG806G_b3kWx-ofhkxDNhk-ZCE)`
-* **Mechanical Authority (`/game_rules` Wins):**
-* **Core Resolution Roll:** `2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Challenge Rating (CR)`.
-* **Skill Pricing:** `1 CP per 1 Skill Rank` straight customization pricing (`60 SP` foundational background allocation at `0 CP`).
-* **Canonical Skill Nomenclature:** Enforces `Alertness`, `Insight`, `Knowledge (Language)`, `Athletics`, `Vocation (Handler)`, `Knowledge (Technology)`, and `Computers`.
-* **Textual Completeness (`_ _ TANGENT RP CODEX _ _` Wins):** 100% of original lore paragraphs, examples, tables, and rules entries restored verbatim with zero redactions, ellipses, or placeholders.
-
----
-
-## **PART I: ALIGNMENT & SUMMARY MATRIX TABLE (TIME MODIFIERS, FOCUSED TASKS & TRANSPOSED BASE MATRIX)**
+## **TIME MODIFIERS, FOCUSED TASKS & TRANSPOSED BASE MATRIX**
 
 | Mechanic / Time Adjustment | Time Multiplier | Check Modifier | Special Rules & Scaling |
 | :--- | :---: | :---: | :--- |
@@ -68,8 +54,6 @@ sockets:
 | **Transposed Skill Base** | Permanent or Situational | Swaps governing Attribute | Requires Architect approval based on character concept (e.g., `INT` for `Piloting`). |
 
 ---
-
-## **PART II: COMPLETE UNABRIDGED PROFILES & RULES ENTRIES (COMPLETE UNABRIDGED SKILL PROFILES, SPECIALTIES & MECHANICS)**
 
 # **TIME**
 
@@ -271,12 +255,4 @@ Clear communication between the player and Architect is essential to ensure that
 ### **Character Concept**
 
 Transposed Skill Bases should align with the character's overall concept and make sense within the context of the game world and its rules.
-
----
-
-## **PART III: DISCREPANCY & RESTORATION LEDGER**
-
-### DISCREPANCY & RESTORATION LEDGER
-
-* **DISC-313 (1.07.Mechanics.TimeAndFocus.md):** Restored 100% of the Time (Meticulous & Rushed), Time Factors for Unskilled Use, Focused Task (`+2/-5`), and Transposed Skill Base prose and examples from Codex `1.07 SKILLS`.
 
