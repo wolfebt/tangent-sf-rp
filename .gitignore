@@ -36,3 +36,4 @@ functions/.secret.local
 # Test artifacts
 playwright-report/
 test-results/
+inspection-screenshots/

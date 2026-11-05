@@ -42,6 +42,14 @@ import { RingedPlanetLogo } from '../UI/RingedPlanetLogo';
 import { USER_GUIDE_SECTIONS } from '../Guide/userGuideData';
 import { UserGuideView } from '../Guide/UserGuideView';
 
+/**
+ * Strips internal developer/audit Discrepancy & Restoration Ledger from player/user view
+ */
+export const stripDiscrepancyLedger = (text) => {
+  if (!text) return '';
+  return text.split(/^#{2,3}\s+(?:\*{0,2}(?:Part\s+(?:III|[0-9]+)|Stage\s+[0-9]+)\s*[—:-]\s*\*{0,2})?(?:Discrepancy|Errata)\s*&?\s*(?:Restoration|Errata|Matrix|Entries)?\s*(?:Ledger|Matrix|Entries)?/im)[0].trimEnd();
+};
+
 const TreeArticleItem = ({
   item,
   isSelected,
@@ -770,7 +778,7 @@ export const DBMWikiView = ({
     return sortedCurrentTabArticles.filter(item => {
       const nameMatch = (item.name || '').toLowerCase().includes(q);
       const fileMatch = (item.fileName || '').toLowerCase().includes(q);
-      const descMatch = (item.description || item.body || '').toLowerCase().includes(q);
+      const descMatch = stripDiscrepancyLedger(item.description || item.body || '').toLowerCase().includes(q);
       const typeMatch = (item.entry_type || '').toLowerCase().includes(q);
       const noteMatch = (item.note || '').toLowerCase().includes(q);
       const tagMatch = Array.isArray(item.tags)
@@ -788,7 +796,7 @@ export const DBMWikiView = ({
     return otherArticles.filter(item => {
       const nameMatch = (item.name || '').toLowerCase().includes(q);
       const fileMatch = (item.fileName || '').toLowerCase().includes(q);
-      const descMatch = (item.description || item.body || '').toLowerCase().includes(q);
+      const descMatch = stripDiscrepancyLedger(item.description || item.body || '').toLowerCase().includes(q);
       const typeMatch = (item.entry_type || '').toLowerCase().includes(q);
       return nameMatch || fileMatch || descMatch || typeMatch;
     });
@@ -1171,9 +1179,11 @@ export const DBMWikiView = ({
   const [isChapterIndexOpen, setIsChapterIndexOpen] = useState(false);
 
   // Pre-process inter-wiki links [[Article Name]] and [[Display Label|Target]]
+  // and strip developer-facing Discrepancy & Restoration Ledger from player/user view
   const preProcessWikiText = (text) => {
     if (!text) return '';
-    return text
+    const userViewText = stripDiscrepancyLedger(text);
+    return userViewText
       .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, label, target) => `[${label.trim()}](wiki:${target.trim()})`)
       .replace(/\[\[([^\]]+)\]\]/g, (_, target) => `[${target.trim()}](wiki:${target.trim()})`);
   };
@@ -1312,13 +1322,50 @@ export const DBMWikiView = ({
     td: ({node, ...props}) => (
       <td className="p-2.5 text-slate-300 border-r border-slate-800/40 last:border-r-0 font-sans leading-snug" {...props} />
     ),
-    code: ({node, inline, ...props}) => inline 
-      ? <code className="bg-slate-950 text-cyan-300 px-1.5 py-0.5 rounded font-mono text-xs border border-cyan-900/50" {...props} />
-      : <code className="block bg-slate-950 p-4 rounded-lg border border-cyan-900/50 overflow-x-auto text-xs my-4 font-mono text-amber-200 leading-relaxed shadow-inner" {...props} />,
+    pre: ({ node, children, ...props }) => (
+      <pre
+        className="bg-slate-950 p-4 rounded-lg border border-cyan-900/50 overflow-x-auto text-xs my-4 font-mono text-amber-200 leading-relaxed shadow-inner"
+        {...props}
+      >
+        {React.isValidElement(children) ? React.cloneElement(children, { 'data-block-code': 'true' }) : children}
+      </pre>
+    ),
+    code: ({ node, inline, className, children, 'data-block-code': dataBlockCode, ...restProps }) => {
+      const textContent = Array.isArray(children)
+        ? children.join('')
+        : (typeof children === 'string' ? children : '');
+      const isBlock = dataBlockCode === 'true' || inline === false || Boolean(className) || textContent.includes('\n');
+      if (isBlock) {
+        return (
+          <code className={className || 'font-mono text-xs text-amber-200'} {...restProps}>
+            {children}
+          </code>
+        );
+      }
+
+      const itemPerspective = (activeArticle?.perspective === 'operator' || activeArticle?.perspective === 'architect')
+        ? activeArticle.perspective
+        : activeTab;
+
+      const pillThemeClasses = itemPerspective === 'operator'
+        ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40 shadow-[0_0_6px_rgba(16,185,129,0.18)]'
+        : itemPerspective === 'architect'
+        ? 'bg-amber-950/80 text-amber-300 border-amber-500/40 shadow-[0_0_6px_rgba(245,158,11,0.18)]'
+        : 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 shadow-[0_0_6px_rgba(34,211,238,0.18)]';
+
+      return (
+        <code
+          className={`inline-block px-2 py-0.5 mx-0.5 rounded-full font-mono text-[11px] sm:text-xs font-semibold border shadow-sm align-baseline transition-colors select-text max-w-full break-words ${pillThemeClasses}`}
+          {...restProps}
+        >
+          {children}
+        </code>
+      );
+    },
     strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />
   };
 
-  const articleBodyText = activeArticle ? (activeArticle.description || activeArticle.body || '') : '';
+  const articleBodyText = activeArticle ? stripDiscrepancyLedger(activeArticle.description || activeArticle.body || '') : '';
 
   const handleScrollToTop = useCallback(() => {
     if (desktopContentRef.current) {

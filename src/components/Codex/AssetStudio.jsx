@@ -581,11 +581,27 @@ export const omnicortexMarkdownComponents = {
       {children}
     </td>
   ),
-  code: ({ node, inline, children, ...props }) => (
-    <code className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 text-[11px] font-mono" {...props}>
-      {children}
-    </code>
+  pre: ({ node, children, ...props }) => (
+    <pre className="bg-slate-950 p-4 rounded-lg border border-cyan-900/50 overflow-x-auto text-xs my-4 font-mono text-amber-200 leading-relaxed shadow-inner" {...props}>
+      {React.isValidElement(children) ? React.cloneElement(children, { 'data-block-code': 'true' }) : children}
+    </pre>
   ),
+  code: ({ node, inline, className, children, 'data-block-code': dataBlockCode, ...restProps }) => {
+    const textContent = Array.isArray(children) ? children.join('') : (typeof children === 'string' ? children : '');
+    const isBlock = dataBlockCode === 'true' || inline === false || Boolean(className) || textContent.includes('\n');
+    if (isBlock) {
+      return (
+        <code className={className || 'font-mono text-xs text-amber-200'} {...restProps}>
+          {children}
+        </code>
+      );
+    }
+    return (
+      <code className="inline-block px-2 py-0.5 mx-0.5 rounded-full bg-slate-900 border border-slate-800 text-emerald-300 text-[11px] font-mono font-semibold shadow-sm align-baseline" {...restProps}>
+        {children}
+      </code>
+    );
+  },
   hr: ({ node, ...props }) => (
     <hr className="border-slate-800/80 my-3.5" {...props} />
   )
