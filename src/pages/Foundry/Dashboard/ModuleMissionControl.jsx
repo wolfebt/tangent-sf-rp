@@ -121,7 +121,8 @@ export default function ModuleMissionControl({
     togglePerspectiveMode, 
     activePillar, 
     setActivePillar,
-    setModal 
+    setModal,
+    openGuidedElementCreator
   } = useADEStore();
 
   // Local state for Shifted Studio Bar functions
@@ -1195,8 +1196,21 @@ export default function ModuleMissionControl({
                 Ingest standalone ELEMENTS.md files, manage bestiaries, gear, factions & two-way DBM sync.
               </p>
             </div>
-            <div className="mt-4 pt-3 border-t border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-emerald-400 font-bold">
+            <div className="mt-4 pt-3 border-t border-emerald-500/20 flex items-center justify-between gap-2 text-[11px] font-mono text-emerald-400 font-bold">
               <span>Enter Forge ↗</span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  AudioService.playTerminalBeep(1220, 0.03);
+                  openGuidedElementCreator?.({ mode: 'guided', seedTab: 'spark' });
+                }}
+                className="px-2 py-0.5 rounded-lg bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-400/50 text-emerald-200 text-[10px] uppercase tracking-wider flex items-center gap-1 cursor-pointer"
+                title="Launch 5-Stage Guided Element Forge directly"
+              >
+                <Compass size={11} />
+                <span>+ Guided</span>
+              </button>
             </div>
           </div>
 

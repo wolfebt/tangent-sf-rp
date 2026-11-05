@@ -9,6 +9,7 @@
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import type { AdeElementRecord, AdePreflightTelemetry } from '../../../types/ade';
+import type { GuidedEditorMode } from '../../../types/guidedForge';
 import { STORAGE_KEYS } from '../../../constants/storageKeys.ts';
 
 export type StudioMode = 'development' | 'live_session';
@@ -22,6 +23,7 @@ export type StoryWorkspaceTab = WeaverWorkspaceTab;
 export type StageWorkspaceTab = 'setup' | 'anchors' | 'flow' | 'environment' | 'encounters' | 'scripts' | 'run';
 export type CockpitDeck = 'inspector' | 'tactical' | 'elements' | 'aime';
 export type CronicleDeckMode = 'living_memory' | 'scratchbook';
+export type ElementSeedTab = 'spark' | 'blueprint' | 'dbm';
 
 export type AdeModalKey = 
   | 'catalog'
@@ -70,6 +72,8 @@ export interface ADEStoreState {
   isRightDockOpen: boolean;
   isSplitView: boolean;
   editingElement: AdeElementRecord | null;
+  elementEditorMode: GuidedEditorMode;
+  elementEditorInitialSeed: ElementSeedTab | null;
   cronicleInitialMode: CronicleDeckMode;
   preflightTelemetry: PreflightTelemetry;
   modals: Record<AdeModalKey, boolean>;
@@ -99,6 +103,13 @@ export interface ADEStoreState {
   setIsSplitView: (val: boolean | ((prev: boolean) => boolean)) => void;
   toggleSplitView: () => void;
   setEditingElement: (element: AdeElementRecord | null) => void;
+  setElementEditorMode: (mode: GuidedEditorMode) => void;
+  openGuidedElementCreator: (options?: {
+    element?: AdeElementRecord | null;
+    type?: string;
+    mode?: GuidedEditorMode;
+    seedTab?: ElementSeedTab | null;
+  }) => void;
   setCronicleInitialMode: (mode: CronicleDeckMode) => void;
   setPreflightTelemetry: (telemetry: PreflightTelemetry) => void;
   setModal: (key: AdeModalKey, open: boolean) => void;
@@ -212,6 +223,8 @@ export const useADEStore = create<ADEStoreState>()(
         isRightDockOpen: true,
         isSplitView: false,
         editingElement: null,
+        elementEditorMode: 'guided',
+        elementEditorInitialSeed: null,
         cronicleInitialMode: 'living_memory',
         preflightTelemetry: {
           score: 100,
@@ -274,10 +287,40 @@ export const useADEStore = create<ADEStoreState>()(
           isSplitView: typeof val === 'function' ? val(state.isSplitView) : val
         })),
         toggleSplitView: () => set((state) => ({ isSplitView: !state.isSplitView })),
-        setEditingElement: (element) => set((state) => ({
-          editingElement: element,
-          modals: { ...state.modals, editElement: Boolean(element) }
-        })),
+        setEditingElement: (element) => set((state) => {
+          const isBlank =
+            element &&
+            !element.title &&
+            !element.content &&
+            Object.keys(element.fields || {}).length === 0;
+          return {
+            editingElement: element,
+            ...(element ? { elementEditorMode: isBlank ? 'guided' : 'sheet' } : {}),
+            modals: { ...state.modals, editElement: Boolean(element) }
+          };
+        }),
+        setElementEditorMode: (mode) => set({ elementEditorMode: mode }),
+        openGuidedElementCreator: (options = {}) => set((state) => {
+          const resolvedType = options.type || options.element?.type || state.activeElementType || 'Persona';
+          const resolvedElement: AdeElementRecord = options.element || {
+            id: `elem_${Date.now()}`,
+            title: '',
+            type: resolvedType,
+            content: '',
+            fields: {}
+          };
+          const resolvedMode: GuidedEditorMode =
+            options.mode ||
+            (options.element && options.element.title ? 'sheet' : 'guided');
+
+          return {
+            activeElementType: resolvedElement.type || resolvedType,
+            editingElement: resolvedElement,
+            elementEditorMode: resolvedMode,
+            elementEditorInitialSeed: options.seedTab ?? 'spark',
+            modals: { ...state.modals, editElement: true }
+          };
+        }),
         setCronicleInitialMode: (mode) => set({ cronicleInitialMode: mode }),
         setPreflightTelemetry: (telemetry) => set({ preflightTelemetry: telemetry }),
 

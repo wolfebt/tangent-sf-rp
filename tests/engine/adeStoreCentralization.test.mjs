@@ -154,6 +154,13 @@ test('adeStore: Typed editingElement lifecycle management', () => {
 
   store.setEditingElement(mockElement);
   assert.deepEqual(useADEStore.getState().editingElement, mockElement);
+  assert.equal(useADEStore.getState().elementEditorMode, 'sheet');
+
+  store.openGuidedElementCreator({ type: 'Setting', mode: 'guided', seedTab: 'blueprint' });
+  assert.equal(useADEStore.getState().modals.editElement, true);
+  assert.equal(useADEStore.getState().elementEditorMode, 'guided');
+  assert.equal(useADEStore.getState().elementEditorInitialSeed, 'blueprint');
+  assert.equal(useADEStore.getState().editingElement?.type, 'Setting');
 
   store.setEditingElement(null);
   assert.equal(useADEStore.getState().editingElement, null);

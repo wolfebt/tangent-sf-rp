@@ -49,6 +49,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     getActiveGemsText, 
     updateSavedElement, 
     deleteSavedElement, 
+    saveElementToCloud,
     updateStory,
     activeScenarioId,
     setActiveScenarioId,
@@ -83,6 +84,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     setCronicleInitialMode,
     editingModalElement,
     setEditingModalElement,
+    elementEditorMode,
+    elementEditorInitialSeed,
     isSplitView
   } = useAdeStore(
     useShallow((state) => ({
@@ -106,6 +109,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       setCronicleInitialMode: state.setCronicleInitialMode,
       editingModalElement: state.editingElement,
       setEditingModalElement: state.setEditingElement,
+      elementEditorMode: state.elementEditorMode,
+      elementEditorInitialSeed: state.elementEditorInitialSeed,
       isSplitView: state.isSplitView
     }))
   );
@@ -546,7 +551,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         />
       )}
 
-      {/* Full Element Forge Modal inside Story Module */}
+      {/* Full Element Forge Modal inside Story Module (Dual-Mode Guided + Sheet) */}
       {isEditElementModalOpen && (
         <EditElementModal
           isOpen={isEditElementModalOpen}
@@ -555,9 +560,15 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
             setEditingModalElement(null);
           }}
           element={editingModalElement}
-          onSave={(savedElem) => {
+          initialMode={elementEditorMode}
+          initialSeedTab={elementEditorInitialSeed || 'spark'}
+          activeScenario={activeNode}
+          onSave={async (savedElem) => {
             if (typeof updateSavedElement === 'function' && savedElem?.id) {
-              updateSavedElement(savedElem.id, savedElem);
+              await updateSavedElement(savedElem.id, savedElem);
+            }
+            if (typeof saveElementToCloud === 'function' && savedElem) {
+              await saveElementToCloud(savedElem);
             }
             setIsEditElementModalOpen(false);
             setEditingModalElement(null);
