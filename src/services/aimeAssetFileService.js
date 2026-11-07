@@ -27,8 +27,10 @@ export const EXTENSION_TO_TYPE_MAP = {
   '.persona': 'Persona',
   '.setting': 'Setting',
   '.species': 'Species',
+  '.property': 'Property',
   '.tech': 'Technology',
   '.philosophy': 'Philosophy',
+  '.metaphysics': 'Metaphysics',
   '.scene': 'Scene',
   '.faction': 'Faction',
   '.encounter': 'Encounter',
@@ -48,7 +50,8 @@ export function serializeAimeAsset(element) {
   }
 
   const assetType = element.type;
-  const fileExtension = getElementFileExtension(assetType);
+  const subcat = element.propertySubcategory || element.fields?.propertySubcategory;
+  const fileExtension = getElementFileExtension(assetType, subcat);
   const now = new Date().toISOString();
 
   // Extract guidance from element.guidance or element.fields.guidance

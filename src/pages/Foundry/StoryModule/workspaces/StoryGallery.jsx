@@ -31,6 +31,9 @@ import {
 import ElementForge from '../../ElementForge/ElementForge';
 import { normalizeElementType } from '../../ElementForge/elementSchemas';
 import { useStory } from '../../../../context/CampaignContext';
+import { useDBM } from '../../../../context/DBMContext';
+import { useFolio } from '../../../../context/FolioContext';
+import { buildUnifiedAdeCatalog } from '../../../../utils/cortexAdeAssetBridge';
 import { useConfirm } from '../../../../context/ConfirmContext';
 import { AudioService } from '../../../../services/audioService';
 import { ModifierService, MODIFIER_PRESETS } from '../../../../services/modifierService';
@@ -91,14 +94,27 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
     return Array.from(unique.values());
   }, [universeState?.maps, mapsCatalog]);
 
-  // Gallery Personas & Items for source derivation
+  // Unified Cortex + Folio + MCM + Module Personas & Property for modifier derivation
+  const { dbData = {} } = useDBM() || {};
+  const { roster: folioRoster = [], personaRoster = [], publicPersonas = [] } = useFolio() || {};
+  const unifiedElements = useMemo(
+    () =>
+      buildUnifiedAdeCatalog({
+        elementsCatalog: elementsCatalog || [],
+        dbData,
+        folioRoster: Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : personaRoster,
+        publicPersonas
+      }),
+    [elementsCatalog, dbData, folioRoster, personaRoster, publicPersonas]
+  );
+
   const galleryPersonas = useMemo(() => {
-    return (elementsCatalog || []).filter(e => normalizeElementType(e.type) === 'Persona');
-  }, [elementsCatalog]);
+    return unifiedElements.filter(e => normalizeElementType(e.type) === 'Persona');
+  }, [unifiedElements]);
 
   const galleryItems = useMemo(() => {
-    return (elementsCatalog || []).filter(e => normalizeElementType(e.type) === 'Item');
-  }, [elementsCatalog]);
+    return unifiedElements.filter(e => normalizeElementType(e.type) === 'Property');
+  }, [unifiedElements]);
 
   // Filtered Modifiers
   const filteredModifiers = useMemo(() => {
@@ -702,12 +718,12 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
                   </div>
 
                   <div>
-                    <label className="block text-[9px] text-slate-500 mb-0.5">Item / Tech Apparatus</label>
+                    <label className="block text-[9px] text-slate-500 mb-0.5">Property / Gear / Tech</label>
                     <select
                       onChange={(e) => handleSourceSelect('item', e.target.value)}
                       className="w-full bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-200"
                     >
-                      <option value="">Select Item...</option>
+                      <option value="">Select Property...</option>
                       {galleryItems.map((itm) => (
                         <option key={itm.id} value={itm.id}>{itm.title}</option>
                       ))}

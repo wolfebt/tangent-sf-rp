@@ -31,9 +31,29 @@ export function extractCanonicalName(entity = {}) {
  */
 export function dbmItemToFoundryElement(dbmItem = {}, categoryKey = 'compendium') {
   const name = extractCanonicalName(dbmItem);
+  const propCats = new Set(['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other', 'property']);
+  const metaCats = new Set(['invocations', 'disciplines', 'special_abilities', 'synthesis']);
+  const resolvedType =
+    categoryKey === 'species'
+      ? 'Species'
+      : categoryKey === 'occupations'
+      ? 'Occupation'
+      : categoryKey === 'factions'
+      ? 'Faction'
+      : categoryKey === 'philosophy'
+      ? 'Philosophy'
+      : metaCats.has(categoryKey)
+      ? 'Metaphysics'
+      : categoryKey === 'modular_characters' || categoryKey === 'archetypes'
+      ? 'Persona'
+      : propCats.has(categoryKey)
+      ? 'Property'
+      : 'Lore';
   return {
     id: dbmItem.id || `elem_${categoryKey}_${Date.now()}`,
-    type: categoryKey === 'species' ? 'Species' : categoryKey === 'occupations' ? 'Occupation' : categoryKey === 'factions' ? 'Faction' : 'Lore',
+    type: resolvedType,
+    ...(propCats.has(categoryKey) ? { propertySubcategory: categoryKey === 'property' ? 'gear' : categoryKey } : {}),
+    ...(metaCats.has(categoryKey) ? { metaphysicsSubcategory: categoryKey } : {}),
     title: name,
     content: dbmItem.description || dbmItem.content || dbmItem.summary || '',
     fields: {

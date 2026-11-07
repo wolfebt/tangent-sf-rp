@@ -2,19 +2,15 @@ import React, { useState } from 'react';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
 import { useStory, useCampaign } from '../../context/CampaignContext';
-import { ELEMENT_SCHEMAS } from '../../pages/Foundry/ElementForge/elementSchemas';
+import { ELEMENT_SCHEMAS, ELEMENT_TYPES } from '../../pages/Foundry/ElementForge/elementSchemas';
 
 const PRESETS = [
   { label: 'Derelict Ship Encounter', type: 'Encounter', prompt: 'Derelict starship floating in deep space with environmental hazards, automated defense turrets, and valuable salvaged data core.' },
-  { label: 'Sci-Fi Character Fixer', type: 'Character', prompt: 'Cynical cyberpunk information broker with cybernetic ocular implants, clandestine faction ties, and a secret agenda.' },
+  { label: 'Sci-Fi Persona Fixer', type: 'Persona', prompt: 'Cynical cyberpunk information broker with cybernetic ocular implants, clandestine faction ties, and a secret agenda.' },
+  { label: 'Prototype Property Relic', type: 'Property', prompt: 'Phase-resonant monofilament carbine with TL-4 micro-capacitors and Precursor targeting telemetry.' },
   { label: 'Ancient Psi Artifact Clue', type: 'Clue', prompt: 'Strange crystalline monolith emitting psionic pulses, decipherable only by attuned individuals.' },
-  { label: 'High-Tech Facility Location', type: 'Location', prompt: 'Heavily fortified subterranean research station guarded by tactical drones and biometric security doors.' },
+  { label: 'High-Tech Facility Setting', type: 'Setting', prompt: 'Heavily fortified subterranean research station guarded by tactical drones and biometric security doors.' },
   { label: 'Faction Shadow War', type: 'Story Arc', prompt: 'Escalating covert conflict between rival megacorporations competing for control of a newly discovered warp gate.' }
-];
-
-const ELEMENT_TYPES = [
-  'Story Arc', 'Adventure', 'Character', 'Location', 'Faction', 
-  'Encounter', 'Item', 'Clue', 'Map', 'Handout', 'Custom'
 ];
 
 const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat', activeNode: propActiveNode }) => {

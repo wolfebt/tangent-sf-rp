@@ -800,5 +800,19 @@ export const getFallbackSeedForCategory = (catK) => {
   }
   if (catK === 'societies') return DEFAULT_MASTER_SOCIETIES;
 
+  // Consolidated Cortex Worldbuilding, Narrative & Modular Character Collections
+  if (
+    catK === 'modular_characters' ||
+    catK === 'special_abilities' ||
+    catK === 'planetary_design' ||
+    catK === 'universe' ||
+    catK === 'world' ||
+    catK === 'setting' ||
+    catK === 'philosophy' ||
+    catK === 'scene'
+  ) {
+    return [];
+  }
+
   return [];
 };

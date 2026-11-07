@@ -1,3 +1,47 @@
+export const ADE_CONSOLIDATED_LOREBOOK_FIELDS = {
+    oneLinePitch: { type: 'textarea', label: 'One-Line Pitch / Core Hook' },
+    primaryTriggers: { type: 'tags', label: 'Primary Trigger Keywords' },
+    secondaryTriggers: { type: 'tags', label: 'Secondary Trigger Keywords (AND)' },
+    triggerRegex: { type: 'text', label: 'Advanced Regex Pattern' },
+    loreSnippet: { type: 'textarea', label: 'Dynamic Lorebook Injection Snippet' },
+    injectionPriority: { type: 'number', label: 'Injection Priority (1-10)', default: 5 },
+    conditionExpression: { type: 'text', label: 'Story Flag Gate Condition' },
+    alwaysActive: { type: 'boolean', label: 'Always Active (Pin to Context)' }
+};
+
+export const ADE_CONSOLIDATED_PROPERTY_FIELDS = {
+    propertySubcategory: {
+        type: 'select',
+        label: 'Property Subcategory',
+        options: ['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other']
+    },
+    functionPurpose: { type: 'textarea', label: 'Function & Operational Purpose' },
+    mechanismPowerSource: { type: 'textarea', label: 'Mechanism, Power Source & Physics' },
+    originHistory: { type: 'textarea', label: 'Origin, Maker & Provenance' },
+    aestheticForm: { type: 'textarea', label: 'Aesthetic Form & Sensory Signature' },
+    narrativeSignificance: { type: 'textarea', label: 'Narrative Significance & Plot Role' },
+    limitationsCosts: { type: 'textarea', label: 'Operational Limitations, Risks & Costs' },
+    societalImpact: { type: 'textarea', label: 'Societal & Strategic Impact' },
+    interactiveType: {
+        type: 'select',
+        label: 'VTT Interactive Object Type',
+        options: ['none', 'loot_chest', 'terminal', 'door', 'hazard', 'shrine', 'vehicle']
+    },
+    vttInteractionDC: { type: 'number', label: 'VTT Interaction / Lock / Hack DC' },
+    lootTable: { type: 'textarea', label: 'Contained Loot / Data Payload' }
+};
+
+export const ADE_CONSOLIDATED_METAPHYSICS_FIELDS = {
+    metaphysicsSubcategory: {
+        type: 'select',
+        label: 'Metaphysics Subcategory',
+        options: ['invocations', 'disciplines', 'special_abilities', 'synthesis']
+    },
+    manifestationSensory: { type: 'textarea', label: 'Sensory Manifestation & Resonance Signature' },
+    strainBacklash: { type: 'textarea', label: 'Strain, Overchanneling & Backlash Risks' },
+    originLore: { type: 'textarea', label: 'Metaphysical Origin, Phenomenon & Lore' }
+};
+
 export const categoryConfig = {
     compendium: {
         label: 'COMPENDIUM',
@@ -86,8 +130,14 @@ export const categoryConfig = {
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_skills: { type: 'multiselect', source: 'skills', label: 'Recommended Skills', manageable: true },
             recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
+            physiologyBiology: { type: 'textarea', label: 'Physiology, Anatomy & Biology' },
+            cultureSociety: { type: 'textarea', label: 'Culture, Psychology & Social Norms' },
+            communicationLanguage: { type: 'textarea', label: 'Communication & Language' },
+            dietaryLifecycle: { type: 'textarea', label: 'Dietary Needs & Lifecycle' },
+            roleInSetting: { type: 'textarea', label: 'Role in Galactic Setting' },
             keywords: { type: 'text', label: 'Guidance Keywords' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     species_type: {
@@ -223,8 +273,15 @@ export const categoryConfig = {
             gear_aesthetic: { type: 'textarea', label: 'Gear Aesthetic' },
             lighting_mood: { type: 'textarea', label: 'Lighting / Mood' },
             image_prompt: { type: 'textarea', label: 'Image Prompt' },
+            publicAgenda: { type: 'textarea', label: 'Public Agenda & Face' },
+            hiddenAgenda: { type: 'textarea', label: 'Hidden Agenda & Classified Goals' },
+            notableFigures: { type: 'textarea', label: 'Notable Figures & Operatives' },
+            territoriesAssets: { type: 'textarea', label: 'Controlled Territories & Strategic Assets' },
+            alliesEnemies: { type: 'textarea', label: 'Allies, Rivals & Diplomatic Friction' },
+            plotHooks: { type: 'textarea', label: 'Campaign Plot Hooks' },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     origins: {
@@ -470,7 +527,9 @@ export const categoryConfig = {
             modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             discipline_skills: { type: 'multiselect', source: 'skills', label: 'Discipline Skills', manageable: true },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_METAPHYSICS_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     disadvantages: {
@@ -511,11 +570,22 @@ export const categoryConfig = {
             tech_level: { type: 'number', label: 'Tech Level (TL 0-5)' },
             meta_level: { type: 'number', label: 'Meta Level (ML 0-5)' },
             craft_dc: { type: 'number', label: 'Encounter / Threat DC' },
+            vitalityPoints: { type: 'number', label: 'Vitality Pool (VP - Organic)' },
+            healthPoints: { type: 'number', label: 'Health Pool (HP - Organic)' },
+            structurePoints: { type: 'number', label: 'Structure Pool (SP - Synthetic)' },
+            armorDR: { type: 'number', label: 'Armor / Chassis DR' },
+            appearance: { type: 'textarea', label: 'Physical Appearance & Silhouette' },
+            voiceMannerisms: { type: 'textarea', label: 'Voice, Cadence & Mannerisms' },
+            motivationsGoals: { type: 'textarea', label: 'Motivations, Drives & Goals' },
+            secretAgenda: { type: 'textarea', label: 'Secret Agenda / Twist' },
+            relationships: { type: 'textarea', label: 'Key Relationships & Faction Ties' },
+            npcRoutine: { type: 'textarea', label: 'NPC Tactical Routine / Script (JSON)' },
             description: { type: 'textarea', aiEnabled: true, label: 'Appearance, Behavioral AI & Motives' },
             mechanic: { type: 'textarea', label: 'Combat Behaviors, Special Traits & Loot' },
             note: { type: 'textarea', label: 'Architect Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     world_design: {
@@ -563,26 +633,40 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Overview / History' },
             quirks: { type: 'textarea', label: 'Planetary Quirks / Hazards' },
             adventureHooks: { type: 'textarea', label: 'Adventure Hooks' },
+            highConcept: { type: 'textarea', label: 'High Concept & Planetary Identity' },
+            planetaryGeography: { type: 'textarea', label: 'Planetary Geography & Biomes' },
+            societiesGovernance: { type: 'textarea', label: 'Societies, Governance & Factions' },
+            economyResources: { type: 'textarea', label: 'Economy, Trade & Strategic Resources' },
+            majorConflicts: { type: 'textarea', label: 'Major Planetary Conflicts' },
+            physicsMetaphysics: { type: 'textarea', label: 'Local Physics & Metaphysical Anomalies' },
+            historicalTimeline: { type: 'textarea', label: 'Historical Timeline' },
             note: { type: 'textarea', label: 'Architect Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     technology: {
-        label: 'TECHNOLOGY',
-        hideFromMenu: true,
+        label: 'Technology',
+        parent: 'personal_property',
+        hideFromMenu: false,
         viewType: 'table',
-        directory_columns: ['name', 'tech_level', 'meta_level', 'craft_dc'],
+        directory_columns: ['name', 'tech_level', 'meta_level', 'craft_dc', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Technology Profile Designation' },
+            domain: { type: 'text', label: 'Technological Domain / Discipline' },
             tech_level: { type: 'number', label: 'Tech Level (TL 0-5)', default: 3 },
             meta_level: { type: 'number', label: 'Meta Level (ML 0-5)', default: 0 },
             craft_dc: { type: 'number', label: 'Technological Complexity DC' },
+            costs: { type: 'costs_map', label: 'Valuation & Fabrication Costs' },
+            availability: { type: 'select', source: 'availability', manageable: true },
             description: { type: 'textarea', aiEnabled: true, label: 'Technical Specifications & Domain Capabilities' },
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
+            mechanic: { type: 'textarea', label: 'Operational Rules & System Effects' },
+            note: { type: 'textarea', label: 'Architect Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     economatrix: {
@@ -633,7 +717,9 @@ export const categoryConfig = {
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
             cast_time: { type: 'text', label: 'Cast Time' },
             duration: { type: 'text', label: 'Duration' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_METAPHYSICS_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     special_abilities: {
@@ -663,7 +749,9 @@ export const categoryConfig = {
             mechanic: { type: 'textarea' },
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_METAPHYSICS_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     augmentations: {
@@ -696,14 +784,16 @@ export const categoryConfig = {
             component: { type: 'multiselect', source: 'component', manageable: true },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     personal_property: {
         label: 'PROPERTY',
         isParent: true,
         viewType: 'landing',
-        subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other'],
+        subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'technology', 'other'],
     },
     gear: {
         label: 'Gear',
@@ -744,7 +834,9 @@ export const categoryConfig = {
             availability: { type: 'select', source: 'availability', manageable: true },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         },
         subcategories: {
             gear_category: { label: 'CATEGORIES', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
@@ -800,7 +892,9 @@ export const categoryConfig = {
             wielding: { type: 'select', options: ['One-Handed', 'Two-Handed', 'Versatile', 'Independent', 'Mounted'] },
             component: { type: 'multiselect', source: 'component', manageable: true },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         },
         subcategories: {
             availability: { label: 'AVAILABILITY', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
@@ -852,7 +946,9 @@ export const categoryConfig = {
             resistance: { type: 'multiselect', source: 'resistance', manageable: true },
             modes: { type: 'multiselect', source: 'mode', manageable: true, label: 'Modes' },
             mechanic: { type: 'textarea' },
-            note: { type: 'textarea' }
+            note: { type: 'textarea' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         },
         subcategories: {
             availability: { label: 'AVAILABILITY', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
@@ -897,7 +993,9 @@ export const categoryConfig = {
             recommended_tl: { type: 'multiselect', source: 'technology', manageable: true, label: 'Recommended Tech Level (TL)' },
             recommended_ml: { type: 'multiselect', source: 'meta_level', manageable: true, label: 'Recommended Meta Level (ML)' },
             keywords: { type: 'text', label: 'Positive Resonance Keywords (+AI Weight)' },
-            negative_keywords: { type: 'text', label: 'Railguard & Incompatible Keywords (-AI Exclusion)' }
+            negative_keywords: { type: 'text', label: 'Railguard & Incompatible Keywords (-AI Exclusion)' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     architecture: {
@@ -953,7 +1051,9 @@ export const categoryConfig = {
             recommended_tl: { type: 'multiselect', source: 'technology', manageable: true, label: 'Recommended Tech Level (TL)' },
             recommended_ml: { type: 'multiselect', source: 'meta_level', manageable: true, label: 'Recommended Meta Level (ML)' },
             keywords: { type: 'text', label: 'Positive Resonance Keywords (+AI Weight)' },
-            negative_keywords: { type: 'text', label: 'Railguard & Incompatible Keywords (-AI Exclusion)' }
+            negative_keywords: { type: 'text', label: 'Railguard & Incompatible Keywords (-AI Exclusion)' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     other: {
@@ -977,7 +1077,9 @@ export const categoryConfig = {
             recommended_tl: { type: 'multiselect', source: 'technology', manageable: true, label: 'Recommended Tech Level (TL)' },
             recommended_ml: { type: 'multiselect', source: 'meta_level', manageable: true, label: 'Recommended Meta Level (ML)' },
             keywords: { type: 'text', label: 'Positive Resonance Keywords (+AI Weight)' },
-            negative_keywords: { type: 'text', label: 'Railguard & Incompatible Keywords (-AI Exclusion)' }
+            negative_keywords: { type: 'text', label: 'Railguard & Incompatible Keywords (-AI Exclusion)' },
+            ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     user_guide: {
@@ -1172,10 +1274,16 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Cosmology & Origins' },
             scale: { type: 'select', options: ['Multiverse', 'Galaxy', 'Solar System', 'Single Planet', 'Microcosm'] },
             laws_of_physics: { type: 'textarea', label: 'Physical Laws & Magic Systems' },
+            fundamentalLaws: { type: 'textarea', label: 'Fundamental Laws & Constants' },
+            cosmologyDimensions: { type: 'textarea', label: 'Cosmology, Planes & Dimensions' },
+            originMythHistory: { type: 'textarea', label: 'Origin Myth & Deep Epochs' },
+            thematicTone: { type: 'textarea', label: 'Thematic Tone & Genre Pillars' },
+            interdimensionalTravel: { type: 'textarea', label: 'FTL & Interdimensional Travel Rules' },
             history: { type: 'textarea', label: 'Cosmic History' },
             note: { type: 'textarea' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     world: {
@@ -1187,13 +1295,21 @@ export const categoryConfig = {
         fields: {
             name: { type: 'text', required: true, label: 'World Name' },
             universe: { type: 'select', source: 'universe', manageable: true },
+            highConcept: { type: 'textarea', label: 'High Concept & Planetary Identity' },
             description: { type: 'textarea', aiEnabled: true },
             geography: { type: 'textarea', label: 'Geography & Climate' },
+            planetaryGeography: { type: 'textarea', label: 'Planetary Biomes & Regions' },
             biosphere: { type: 'textarea', label: 'Flora & Fauna' },
             culture: { type: 'textarea', label: 'Dominant Cultures' },
+            societiesGovernance: { type: 'textarea', label: 'Societies, Governance & Factions' },
+            economyResources: { type: 'textarea', label: 'Economy, Trade & Strategic Resources' },
+            majorConflicts: { type: 'textarea', label: 'Major Planetary Conflicts' },
+            physicsMetaphysics: { type: 'textarea', label: 'Local Physics & Metaphysical Anomalies' },
+            historicalTimeline: { type: 'textarea', label: 'Historical Timeline' },
             note: { type: 'textarea' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     setting: {
@@ -1205,11 +1321,18 @@ export const categoryConfig = {
             name: { type: 'text', required: true, label: 'Setting/Location Name' },
             world: { type: 'text', label: 'World / Origin' },
             description: { type: 'textarea', aiEnabled: true, label: 'Atmosphere & Vibe' },
+            sensoryAtmosphere: { type: 'textarea', label: 'Sensory Atmosphere (Sight, Sound, Smell)' },
+            architecturalLayout: { type: 'textarea', label: 'Architectural Layout & Zones' },
             points_of_interest: { type: 'textarea', label: 'Points of Interest' },
+            pointsOfInterest: { type: 'textarea', label: 'Key Landmarks & Interactive Anchors' },
             inhabitants: { type: 'textarea', label: 'Notable Inhabitants' },
+            inhabitantsDenizens: { type: 'textarea', label: 'Local Denizens, Patrols & Factions' },
+            localRulesHazards: { type: 'textarea', label: 'Local Rules, Security & Hazards' },
+            secretsPlotHooks: { type: 'textarea', label: 'Hidden Secrets & Plot Hooks' },
             note: { type: 'textarea' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     philosophy: {
@@ -1220,11 +1343,18 @@ export const categoryConfig = {
         fields: {
             name: { type: 'text', required: true, label: 'Belief / Philosophy Name' },
             description: { type: 'textarea', aiEnabled: true, label: 'Core Tenets' },
+            coreDogmaTenets: { type: 'textarea', label: 'Core Dogma & Philosophical Tenets' },
+            cosmologyWorldview: { type: 'textarea', label: 'Cosmology & Metaphysical Worldview' },
             origin: { type: 'textarea', label: 'Origin & Founders' },
             practices: { type: 'textarea', label: 'Practices & Rituals' },
+            ritualsPractices: { type: 'textarea', label: 'Sacred Rites, Disciplines & Practices' },
+            moralCodeTaboos: { type: 'textarea', label: 'Moral Code, Virtues & Taboos' },
+            institutionalStructure: { type: 'textarea', label: 'Institutional Structure & Clergy' },
+            culturalFrictionSchisms: { type: 'textarea', label: 'Cultural Friction, Heresies & Schisms' },
             note: { type: 'textarea' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     scene: {
@@ -1236,14 +1366,23 @@ export const categoryConfig = {
             name: { type: 'text', required: true, label: 'Scene Title' },
             scene_type: { type: 'select', label: 'Scene Type', options: ['Action / Combat', 'Investigation / Clue', 'Social / Intrigue', 'Exploration / Survival', 'Downtime / Recovery', 'Cinematic Revelation'], default: 'Action / Combat' },
             dramatic_hook: { type: 'text', label: 'Dramatic Hook / Conflict' },
+            sceneObjective: { type: 'textarea', label: 'Dramatic Goal / Scene Objective' },
+            readAloud: { type: 'textarea', label: 'Read-Aloud / Opening Boxed Text' },
             setting_location: { type: 'text', label: 'Location / Setting' },
             participants: { type: 'text', label: 'Key NPCs & Factions' },
+            sensoryDetails: { type: 'textarea', label: 'Sensory Palette & Environmental Cues' },
+            lightingAtmosphere: { type: 'text', label: 'Lighting, Weather & Mood' },
+            dramaticConflict: { type: 'textarea', label: 'Central Tension, Obstacles & Stakes' },
+            sceneBeats: { type: 'textarea', label: 'Scene Beats & Escalation Sequence' },
             description: { type: 'textarea', aiEnabled: true, label: 'Scene Beats & Narrative Flow' },
+            transitionsExits: { type: 'textarea', label: 'Transitions, Leads & Branching Exits' },
             rewards_loot: { type: 'textarea', label: 'Rewards, Clues & Loot Cache' },
+            linkedMapId: { type: 'text', label: 'Linked Tactical Map ID' },
             mechanic: { type: 'textarea', label: 'Tactical Rules & DC Checks' },
             note: { type: 'textarea', label: 'Architect Secrets & Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
-            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' }
+            negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
     // --- Auxiliary & Subcategory Reference Collections (Top-Level Mapped) ---
@@ -1576,7 +1715,9 @@ export const categoryConfig = {
             description: { type: 'textarea', aiEnabled: true, label: 'Visual Keyframe Motifs & Summary' },
             crisp_prompt: { type: 'textarea', label: 'CRISP Rendering Prompt Template' },
             mechanic: { type: 'textarea', label: 'Full Synthesis Specification' },
-            note: { type: 'textarea', label: 'Architect Notes' }
+            note: { type: 'textarea', label: 'Architect Notes' },
+            ...ADE_CONSOLIDATED_METAPHYSICS_FIELDS,
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     }
 };
@@ -1877,6 +2018,23 @@ export const FIELD_ORDER_WEIGHTS = {
   points_of_interest: 658,
   inhabitants: 660,
   practices: 662,
+  oneLinePitch: 664,
+  propertySubcategory: 36,
+  originHistory: 665,
+  aestheticForm: 666,
+  narrativeSignificance: 667,
+  limitationsCosts: 668,
+  societalImpact: 669,
+  interactiveType: 670,
+  vttInteractionDC: 671,
+  lootTable: 672,
+  primaryTriggers: 680,
+  secondaryTriggers: 681,
+  triggerRegex: 682,
+  loreSnippet: 683,
+  injectionPriority: 684,
+  conditionExpression: 685,
+  alwaysActive: 686,
   note: 690,
   parent: 695,
   order: 698

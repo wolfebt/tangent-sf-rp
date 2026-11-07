@@ -65,7 +65,15 @@ export default function WeaverWorkspace({
     <div className="flex-1 h-full w-full bg-[#080d16] flex flex-col overflow-hidden font-mono text-slate-100">
       {/* ── TAB VIEWPORTS (Switched via WEAVER branches in the left Guide Rail) ── */}
       <div className="flex-1 flex overflow-hidden min-h-0 relative">
-        {/* TAB 1: WRITE & AUTHOR (Text Canvas with AIME Co-Pilot & Drag-and-Drop) */}
+        {/* TAB 1: BRAINSTORM (Dual Scope: Story Scenario & World Elements + Guidance Gems) */}
+        {currentTab === 'brainstorm' && (
+          <BrainstormTab
+            activeNode={activeNode}
+            updateStory={updateStory}
+          />
+        )}
+
+        {/* TAB 2: WRITE & AUTHOR (Text Canvas with AIME Co-Pilot & Drag-and-Drop) */}
         {currentTab === 'write' && (
           <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#090d16]">
             <StoryWeaver
@@ -81,14 +89,6 @@ export default function WeaverWorkspace({
           </div>
         )}
 
-        {/* TAB 2: BRAINSTORM (Dual Scope: Story Scenario & World Elements + Guidance Gems) */}
-        {currentTab === 'brainstorm' && (
-          <BrainstormTab
-            activeNode={activeNode}
-            updateStory={updateStory}
-          />
-        )}
-
         {/* TAB 4: ELEMENTS (World Elements Palette with Drag-and-Drop to Prose) */}
         {currentTab === 'elements' && (
           <ElementsTab
@@ -100,6 +100,8 @@ export default function WeaverWorkspace({
         {currentTab === 'graph' && (
           <WeaverGraphTab
             activeNode={activeNode}
+            onSelectTab={onSelectTab}
+            onSwitchView={onSwitchView}
           />
         )}
 

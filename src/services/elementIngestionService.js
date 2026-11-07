@@ -11,10 +11,12 @@ import { ELEMENT_SCHEMAS, ELEMENT_TYPES } from '../pages/Foundry/ElementForge/el
 const TYPE_DETECTION_PATTERNS = [
   { type: 'Faction', regex: /Faction Development Fields|Faction Name/i },
   { type: 'Persona', regex: /Persona Development Fields|Character Portrait|Role in Story|Character Archetype/i },
+  { type: 'Metaphysics', regex: /Metaphysics Development Fields|Metaphysics Subcategory|Invocation \/ Discipline \/ Power Name|Governing Meta Skill/i },
   { type: 'Philosophy', regex: /Philosophy Development Fields|Core Tenet & Guiding Question|Guiding Question/i },
   { type: 'Scene', regex: /Scene Development Fields|Scene Title \/ Working Name|Opening Beat & Inciting Event/i },
   { type: 'Setting', regex: /Setting Development Fields|Setting Name|Primary Conflict \/ Tension/i },
   { type: 'Species', regex: /Species Development Fields|Species Name|Homeworld \/ Plane of Origin|Sentience Level/i },
+  { type: 'Property', regex: /Property Development Fields|Property Subcategory/i },
   { type: 'Technology', regex: /Technology Development Fields|Technology Name|Core Function & Readiness/i },
   { type: 'Universe', regex: /Universe Development Fields|Universe Name \/ Designation|Ontological Premise/i },
   { type: 'World', regex: /World Development Fields|World Name|Core Premise \/ High Concept/i },
@@ -31,7 +33,8 @@ const TYPE_DETECTION_PATTERNS = [
 const NAME_KEYS = [
   'faction name', 'name', 'character name', 'full name',
   'setting name', 'world name', 'species name', 'technology name',
-  'philosophy name', 'universe name / designation', 'universe name',
+  'philosophy name', 'invocation / discipline / power name', 'invocation name', 'discipline name',
+  'universe name / designation', 'universe name',
   'scene title / working name', 'scene title', 'title', 'element name'
 ];
 

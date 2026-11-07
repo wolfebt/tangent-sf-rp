@@ -40,11 +40,11 @@ export const AIME_CORE_MODULES = [
   },
   {
     type: 'Technology Forge',
-    canonicalType: 'Technology',
+    canonicalType: 'Property',
     ext: '.tech',
     icon: '⚙️',
     pillStyle: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
-    description: 'Defines technologies, tech levels, power sources, and societal impact.'
+    description: 'Defines property, technologies, weaponry, armoring, augmentations, gear, mecha, and architecture.'
   },
   {
     type: 'Philosophy Scribe',
@@ -66,19 +66,44 @@ export const AIME_CORE_MODULES = [
 
 export const AIME_CORE_ELEMENT_TYPES = AIME_CORE_MODULES.map(m => m.type);
 
+export const PROPERTY_SUBCATEGORIES = [
+  { id: 'weaponry', label: 'Weaponry', shortLabel: 'WEAPONRY', dbmCollection: 'weaponry', codexMatrixId: 'weaponry', icon: '⚔️' },
+  { id: 'armoring', label: 'Armoring', shortLabel: 'ARMORING', dbmCollection: 'armoring', codexMatrixId: 'armor', icon: '🛡️' },
+  { id: 'augmentations', label: 'Augmentations', shortLabel: 'AUGMENTS', dbmCollection: 'augmentations', codexMatrixId: 'augmentations', icon: '🦾' },
+  { id: 'gear', label: 'Gear & Equipment', shortLabel: 'GEAR', dbmCollection: 'gear', codexMatrixId: 'equipment', icon: '🎒' },
+  { id: 'mecha', label: 'Mecha & Vehicles', shortLabel: 'MECHA', dbmCollection: 'mecha', codexMatrixId: 'mecha', icon: '🤖' },
+  { id: 'architecture', label: 'Architecture', shortLabel: 'ARCHITECT', dbmCollection: 'architecture', codexMatrixId: 'architecture', icon: '🏛️' },
+  { id: 'technology', label: 'Technology & Schematics', shortLabel: 'TECH', dbmCollection: 'technology', codexMatrixId: 'technology', icon: '⚙️' },
+  { id: 'other', label: 'Other Property', shortLabel: 'OTHER', dbmCollection: 'other', codexMatrixId: 'other', icon: '📦' }
+];
+
+export const PERSONA_SUBCATEGORIES = [
+  { id: 'folio', label: 'Persona Folio', shortLabel: 'FOLIO', source: 'folio', icon: '📜' },
+  { id: 'mcm', label: 'Modular Matrix (MCM)', shortLabel: 'MCM', dbmCollection: 'modular_characters', codexMatrixId: 'modular-characters', icon: '🎯' },
+  { id: 'archetypes', label: 'Archetypes', shortLabel: 'ARCHETYPES', dbmCollection: 'archetypes', codexMatrixId: 'archetypes', icon: '🧭' },
+  { id: 'story', label: 'Story Personas', shortLabel: 'STORY', source: 'story', icon: '👤' }
+];
+
+export const METAPHYSICS_SUBCATEGORIES = [
+  { id: 'invocations', label: 'Invocations', shortLabel: 'INVOCATIONS', dbmCollection: 'invocations', codexMatrixId: 'invocation', icon: '🔥' },
+  { id: 'disciplines', label: 'Disciplines & Spheres', shortLabel: 'DISCIPLINES', dbmCollection: 'disciplines', codexMatrixId: null, icon: '🔮' },
+  { id: 'special_abilities', label: 'Special Abilities', shortLabel: 'ABILITIES', dbmCollection: 'special_abilities', codexMatrixId: null, icon: '⚡' },
+  { id: 'synthesis', label: 'Synthesis & Resonance', shortLabel: 'SYNTHESIS', dbmCollection: 'synthesis', codexMatrixId: 'meta-tech', icon: '✨' }
+];
+
 export const ELEMENT_TYPES = [
   'Persona',
+  'Species',
+  'Faction',
+  'Property',
+  'Metaphysics',
   'Scene',
   'Setting',
   'World',
-  'Species',
-  'Technology',
   'Philosophy',
   'Story Arc',
   'Adventure',
-  'Faction',
   'Encounter',
-  'Item',
   'Clue',
   'Handout',
   'Map',
@@ -88,11 +113,48 @@ export const ELEMENT_TYPES = [
 
 export const ELEMENT_TYPE_ALIASES = {
   'World Anvil': 'World',
+  'Planetary Design': 'World',
   'Persona Maker': 'Persona',
+  'Modular Character': 'Persona',
+  'Modular Characters': 'Persona',
+  'Character': 'Persona',
+  'NPC': 'Persona',
   'Setting Architect': 'Setting',
+  'Location': 'Setting',
   'Species Creator': 'Species',
-  'Technology Forge': 'Technology',
+  'Technology Forge': 'Property',
+  'Technology': 'Property',
+  'Item': 'Property',
+  'Items': 'Property',
+  'Personal Property': 'Property',
+  'Weaponry': 'Property',
+  'Weapon': 'Property',
+  'Weapons': 'Property',
+  'Armoring': 'Property',
+  'Armor': 'Property',
+  'Augmentations': 'Property',
+  'Augmentation': 'Property',
+  'Cyberware': 'Property',
+  'Cybernetics': 'Property',
+  'Implant': 'Property',
+  'Gear': 'Property',
+  'Equipment': 'Property',
+  'Artifact': 'Property',
+  'Relic': 'Property',
+  'Mecha': 'Property',
+  'Vehicle': 'Property',
+  'Vehicles': 'Property',
+  'Architecture': 'Property',
+  'Other Property': 'Property',
   'Philosophy Scribe': 'Philosophy',
+  'Invocation': 'Metaphysics',
+  'Invocations': 'Metaphysics',
+  'Discipline': 'Metaphysics',
+  'Disciplines': 'Metaphysics',
+  'Special Ability': 'Metaphysics',
+  'Special Abilities': 'Metaphysics',
+  'Psionics': 'Metaphysics',
+  'Synthesis': 'Metaphysics',
   'Scene Builder': 'Scene',
   'Custom Codex': 'Custom',
   'Custom Element': 'Custom'
@@ -114,23 +176,126 @@ export const normalizeElementType = (type = '') => {
 };
 
 /**
+ * Infers the canonical Property subcategory ('weaponry' | 'armoring' | 'augmentations' | 'gear' | 'mecha' | 'architecture' | 'technology' | 'other')
+ * from an ADE element, legacy Item/Technology record, or OmniCortex document.
+ */
+export const inferPropertySubcategory = (record = {}) => {
+  if (!record || typeof record !== 'object') return 'gear';
+  const fields = record.fields || {};
+  const validIds = new Set(PROPERTY_SUBCATEGORIES.map(s => s.id));
+
+  const explicit = String(
+    record.propertySubcategory ||
+    fields.propertySubcategory ||
+    record.subcategoryId ||
+    ''
+  ).trim().toLowerCase();
+  if (validIds.has(explicit)) return explicit;
+
+  const rawHint = String(
+    record.dbmCategory ||
+    fields.dbmCategory ||
+    fields.itemCategory ||
+    record.originalType ||
+    record.type ||
+    record.category ||
+    fields.category ||
+    ''
+  ).trim().toLowerCase();
+
+  if (rawHint === 'weaponry' || rawHint === 'weapons' || rawHint === 'weapon' || rawHint.includes('weapon')) return 'weaponry';
+  if (rawHint === 'armoring' || rawHint === 'armor' || rawHint.includes('armor')) return 'armoring';
+  if (rawHint === 'augmentations' || rawHint === 'augmentation' || rawHint.includes('cyber') || rawHint.includes('augment') || rawHint.includes('bioware')) return 'augmentations';
+  if (rawHint === 'mecha' || rawHint.includes('mecha') || rawHint.includes('vehicle') || rawHint.includes('starship')) return 'mecha';
+  if (rawHint === 'architecture' || rawHint.includes('architect') || rawHint.includes('facility') || rawHint.includes('bunker')) return 'architecture';
+  if (rawHint === 'technology' || rawHint === 'technology forge' || rawHint === 'tech' || rawHint === 'synthesis' || rawHint === 'meta-tech') return 'technology';
+  if (rawHint === 'other' || rawHint === 'other_property' || rawHint === 'other property' || rawHint.includes('commodit') || rawHint.includes('consumable')) return 'other';
+  if (rawHint === 'gear' || rawHint === 'equipment') return 'gear';
+
+  // Heuristic field inspection for untagged records
+  if (record.damage || fields.damage || record.wielding || fields.wielding) return 'weaponry';
+  if (record.coverage || fields.coverage || record.body_locations || fields.body_locations) return 'armoring';
+  if (record.nodes_consumed !== undefined || fields.nodes_consumed !== undefined || record.nodes !== undefined) return 'augmentations';
+  if (record.footprint || fields.footprint || record.stories || fields.stories) return 'architecture';
+  if (record.vft_mode || fields.vft_mode || (record.frame && record.propulsion)) return 'mecha';
+  if (fields.technologyName || fields.socialEconomicImpact || fields.mechanismPowerSource) return 'technology';
+
+  // Fallback title/name keyword inference for untagged legacy items
+  const titleHint = String(record.title || record.name || fields.title || fields.name || '').toLowerCase();
+  if (/\b(mecha|walker|starship|corvette|frigate|shuttle|rover|skimmer)\b/.test(titleHint)) return 'mecha';
+  if (/\b(bunker|citadel|outpost|fortress|habitat|arcology|facility)\b/.test(titleHint)) return 'architecture';
+  if (/\b(cyberware|implant|prosthetic|neural|bioware|graft)\b/.test(titleHint)) return 'augmentations';
+  if (/\b(armor|armour|plates|carapace|vest|exosuit)\b/.test(titleHint)) return 'armoring';
+  if (/\b(rifle|pistol|carbine|cannon|blade|sword|lance|railgun|shotgun)\b/.test(titleHint)) return 'weaponry';
+
+  return 'gear';
+};
+
+/**
+ * Infers the canonical Metaphysics subcategory ('invocations' | 'disciplines' | 'special_abilities' | 'synthesis')
+ * from an ADE element or OmniCortex document.
+ */
+export const inferMetaphysicsSubcategory = (record = {}) => {
+  if (!record || typeof record !== 'object') return 'invocations';
+  const fields = record.fields || {};
+  const validIds = new Set(METAPHYSICS_SUBCATEGORIES.map(s => s.id));
+
+  const explicit = String(
+    record.metaphysicsSubcategory ||
+    fields.metaphysicsSubcategory ||
+    record.subcategoryId ||
+    ''
+  ).trim().toLowerCase();
+  if (validIds.has(explicit)) return explicit;
+
+  const rawHint = String(
+    record.dbmCategory ||
+    fields.dbmCategory ||
+    record.originalType ||
+    record.type ||
+    record.category ||
+    fields.category ||
+    ''
+  ).trim().toLowerCase();
+
+  if (rawHint === 'invocations' || rawHint === 'invocation') return 'invocations';
+  if (rawHint === 'disciplines' || rawHint === 'discipline') return 'disciplines';
+  if (rawHint === 'special_abilities' || rawHint === 'special ability' || rawHint === 'special abilities' || rawHint.includes('ability')) return 'special_abilities';
+  if (rawHint === 'synthesis' || rawHint === 'meta-tech' || rawHint.includes('synthesis')) return 'synthesis';
+
+  if (record.crisp_prompt || fields.crisp_prompt || record.synthesis_type || fields.synthesis_type) return 'synthesis';
+  if (record.discipline_skills || fields.discipline_skills) return 'disciplines';
+
+  return 'invocations';
+};
+
+/**
  * Returns canonical file extension for an element type.
  */
-export const getElementFileExtension = (type = '') => {
+export const getElementFileExtension = (type = '', subcategory = '') => {
   const norm = (type || '').toLowerCase();
+  const sub = (subcategory || '').toLowerCase();
   if (norm.includes('persona')) return '.persona';
   if (norm.includes('world') || norm.includes('anvil')) return '.world';
   if (norm.includes('setting') || norm.includes('architect')) return '.setting';
   if (norm.includes('species') || norm.includes('creator')) return '.species';
-  if (norm.includes('tech') || norm.includes('forge')) return '.tech';
+  if (norm.includes('tech') || norm.includes('forge') || sub === 'technology') return '.tech';
+  if (norm === 'item') return '.item';
+  if (norm.includes('property')) return '.property';
+  if (norm.includes('metaphysics') || norm.includes('invocation')) return '.metaphysics';
   if (norm.includes('philosophy') || norm.includes('scribe')) return '.philosophy';
   if (norm.includes('scene') || norm.includes('builder')) return '.scene';
+  if (norm.includes('faction')) return '.faction';
+  if (norm.includes('universe')) return '.universe';
   if (norm.includes('map')) return '.map';
   if (norm.includes('custom') || norm.includes('codex')) return '.custom';
   return '.element';
 };
 
 export const getTypePillStyle = (type) => {
+  if (type === 'Property') {
+    return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+  }
   const mod = AIME_CORE_MODULES.find(m => m.type === type || m.canonicalType === type);
   if (mod) return mod.pillStyle;
 
@@ -151,6 +316,9 @@ export const getTypePillStyle = (type) => {
     case 'Faction':
     case 'Philosophy':
       return 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40';
+    case 'Metaphysics':
+      return 'bg-violet-500/20 text-violet-300 border-violet-500/40';
+    case 'Property':
     case 'Item':
     case 'Clue':
     case 'Handout':
@@ -261,14 +429,22 @@ const SETTING_ARCHITECT_SCHEMA = [
 ];
 
 const SPECIES_CREATOR_SCHEMA = [
-  // Canonical AIME Core Traits
+  // Canonical AIME + OmniCortex Consolidated Species Traits
   { tab: 'Core Traits', key: 'speciesName', aliasKeys: ['name', 'title'], label: 'Species Name', type: 'text', placeholder: 'Formal or common name of the species...' },
-  { tab: 'Core Traits', key: 'classification', aliasKeys: ['speciesType', 'archetype'], label: 'Classification', type: 'text', placeholder: 'Biological or synthetic category (e.g. "Sentient Silicate", "Cyber-Augmented Primate")...' },
-  { tab: 'Core Traits', key: 'physicalDescription', aliasKeys: ['appearance', 'features', 'composition'], label: 'Physical Description', type: 'textarea', placeholder: 'Appearance, anatomy, sensory organs, size scale, life cycle...' },
-  { tab: 'Core Traits', key: 'abilitiesPowers', aliasKeys: ['powers', 'abilities', 'traits'], label: 'Abilities & Powers', type: 'textarea', placeholder: 'Special physiological traits, unique skills, natural armor, psionics...' },
-  { tab: 'Core Traits', key: 'behaviorDiet', aliasKeys: ['diet', 'temperament'], label: 'Behavior & Diet', type: 'textarea', placeholder: 'Social structure, temperament, dietary requirements, cultural instincts...' },
-  { tab: 'Core Traits', key: 'habitatOrigin', aliasKeys: ['homeworld', 'origin'], label: 'Habitat & Origin', type: 'textarea', placeholder: 'Native planetary environment and evolutionary history...' },
-  { tab: 'Core Traits', key: 'roleInWorld', aliasKeys: ['role', 'societalImpact'], label: 'Role in the World', type: 'textarea', placeholder: 'Ecological impact, geopolitical niche, or societal role...' },
+  { tab: 'Core Traits', key: 'parent_species', aliasKeys: ['lineage'], label: 'Lineage / Parent Species', type: 'text', placeholder: 'e.g. Humans (Core & Variants), Aeld, Aulurans, Kitin, Synthetics...' },
+  { tab: 'Core Traits', key: 'classification', aliasKeys: ['speciesType', 'type', 'archetype'], label: 'Chassis Classification', type: 'text', placeholder: 'Biological or synthetic category (e.g. Humanoid, Synthetic, Beast, Aberration)...' },
+  { tab: 'Core Traits', key: 'size', label: 'Size Category', type: 'text', placeholder: 'Medium, Large, Small, Huge...' },
+  { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'stigma'], label: 'One-Line Pitch / Stigma', type: 'text', placeholder: 'Compelling hook or galactic reputation...' },
+  { tab: 'Core Traits', key: 'physicalDescription', aliasKeys: ['description', 'physiologyBiology', 'appearance', 'features'], label: 'Physiology & Physical Description', type: 'textarea', placeholder: 'Appearance, anatomy, sensory organs, size scale, life cycle...' },
+  { tab: 'Core Traits', key: 'abilitiesPowers', aliasKeys: ['mechanic', 'powers', 'abilities', 'traits'], label: 'Inherent Traits, Abilities & Mechanics', type: 'textarea', placeholder: 'Special physiological traits, unique skills, natural armor, psionics...' },
+  { tab: 'Core Traits', key: 'behaviorDiet', aliasKeys: ['cultureSociety', 'dietaryLifecycle', 'diet', 'temperament'], label: 'Culture, Psychology & Diet', type: 'textarea', placeholder: 'Social structure, temperament, dietary requirements, cultural instincts...' },
+  { tab: 'Core Traits', key: 'habitatOrigin', aliasKeys: ['homeworld', 'origin'], label: 'Homeworld & Habitat Origin', type: 'textarea', placeholder: 'Native planetary environment and evolutionary history...' },
+  { tab: 'Core Traits', key: 'roleInWorld', aliasKeys: ['roleInSetting', 'role', 'societalImpact'], label: 'Role in Galactic Setting', type: 'textarea', placeholder: 'Ecological impact, geopolitical niche, or societal role...' },
+  // Cortex Mechanical Metadata
+  { tab: 'Cortex Mechanics', key: 'cp', label: 'Character Points (CP)', type: 'text', placeholder: '0' },
+  { tab: 'Cortex Mechanics', key: 'tech_level', label: 'Baseline Tech Level (TL 0-5)', type: 'text', placeholder: '3' },
+  { tab: 'Cortex Mechanics', key: 'meta_level', label: 'Baseline Meta Level (ML 0-5)', type: 'text', placeholder: '0' },
+  { tab: 'Cortex Mechanics', key: 'movement', label: 'Locomotion Modes', type: 'text', placeholder: 'Ground 30ft, Flight, Zero-G...' },
   // Extended Cloud DBM Links
   { tab: 'Cloud DBM Links', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
   { tab: 'Cloud DBM Links', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
@@ -276,16 +452,76 @@ const SPECIES_CREATOR_SCHEMA = [
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
 
-const TECHNOLOGY_FORGE_SCHEMA = [
-  // Canonical AIME Core Traits
-  { tab: 'Core Traits', key: 'technologyName', aliasKeys: ['title', 'name', 'category'], label: 'Technology Name', type: 'text', placeholder: 'Clear designation or model name for the technology...' },
-  { tab: 'Core Traits', key: 'techLevel', aliasKeys: ['level', 'tl'], label: 'Tech Level', type: 'text', placeholder: 'Sophistication tier (e.g. "Near-Future", "TL-3 Interstellar", "TL-4 Hard-Light", "Precursor")...' },
-  { tab: 'Core Traits', key: 'functionPurpose', aliasKeys: ['function', 'purpose'], label: 'Function & Purpose', type: 'textarea', placeholder: 'What the technology does and the problem it solves...' },
-  { tab: 'Core Traits', key: 'mechanismPowerSource', aliasKeys: ['power', 'mechanism'], label: 'Mechanism & Power Source', type: 'textarea', placeholder: 'How it operates and what fuels it (e.g. antimatter, zero-point battery, aether tap)...' },
-  { tab: 'Core Traits', key: 'socialEconomicImpact', aliasKeys: ['impact', 'socialImpact'], label: 'Social & Economic Impact', type: 'textarea', placeholder: 'How the technology has altered society, culture, warfare, and the economy...' },
-  // Extended Engineering & Lore
-  { tab: 'Engineering & Drawbacks', key: 'weaknesses', label: 'Drawbacks & Vulnerabilities', type: 'textarea', placeholder: 'Overheating risks, EMP sensitivity, rare resource requirements...' },
-  { tab: 'Engineering & Drawbacks', key: 'originContext', label: 'Inventor & Historical Context', type: 'textarea', placeholder: 'Who created it, when, and under what circumstances...' },
+export const PROPERTY_SCHEMA = [
+  // Canonical Consolidated Property Traits (Weaponry, Armoring, Augmentations, Gear, Mecha, Architecture, Technology, Other)
+  { tab: 'Core Traits', key: 'name', aliasKeys: ['technologyName', 'itemName', 'title'], label: 'Property / Asset Designation', type: 'text', placeholder: 'Clear model, relic, weapon, suit, implant, vehicle, or schematic name...' },
+  {
+    tab: 'Core Traits',
+    key: 'propertySubcategory',
+    aliasKeys: ['itemCategory', 'dbmCategory'],
+    label: 'Property Subcategory',
+    type: 'select',
+    options: ['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other'],
+    placeholder: 'weaponry / armoring / augmentations / gear / mecha / architecture / technology / other'
+  },
+  { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'pitch'], label: 'One-Line Pitch', type: 'text', placeholder: 'Single-sentence operational and narrative hook...' },
+  { tab: 'Core Traits', key: 'techLevel', aliasKeys: ['tech_level', 'tl', 'level'], label: 'Tech Level (TL 0-5)', type: 'text', placeholder: '3' },
+  { tab: 'Core Traits', key: 'metaLevel', aliasKeys: ['meta_level', 'ml'], label: 'Meta Level (ML 0-5)', type: 'text', placeholder: '0' },
+  { tab: 'Core Traits', key: 'rarity', aliasKeys: ['availability', 'quality'], label: 'Availability / Rarity', type: 'text', placeholder: 'Common, Uncommon, Rare, Restricted / Military, Prototype...' },
+  { tab: 'Core Traits', key: 'functionPurpose', aliasKeys: ['description', 'properties', 'primary_purpose'], label: 'Overview, Function & Capabilities', type: 'textarea', placeholder: 'What this property/technology does, how operators use it, and its physical profile...' },
+  { tab: 'Core Traits', key: 'aestheticForm', aliasKeys: ['faction_skin', 'style'], label: 'Manufacturer, Aesthetic & Form', type: 'textarea', placeholder: 'Cultural skin, chassis materials, silhouette, and sensory signature...' },
+
+  // OmniCortex & Codex Mechanical Specs
+  { tab: 'Cortex Specs', key: 'craft_dc', aliasKeys: ['design_dc', 'base_dc'], label: 'Crafting / Valuation DC (0-80)', type: 'text', placeholder: '20' },
+  { tab: 'Cortex Specs', key: 'cost', label: 'Credit Value (Cr)', type: 'text', placeholder: '2560' },
+  { tab: 'Cortex Specs', key: 'weight', label: 'Weight (kg)', type: 'text', placeholder: '2.5' },
+  { tab: 'Cortex Specs', key: 'mechanic', label: 'Rules, Combat Stats & Active Mechanics', type: 'textarea', placeholder: 'Damage dice, armor DR, node displacement, socket bonuses, or system mechanics...' },
+  { tab: 'Cortex Specs', key: 'damage', label: 'Weapon Damage (Weaponry)', type: 'text', placeholder: '2d8 Kinetic / 3d6 Plasma...' },
+  { tab: 'Cortex Specs', key: 'range', label: 'Effective Range (Weaponry)', type: 'text', placeholder: 'Medium (30m / 100m)...' },
+  { tab: 'Cortex Specs', key: 'ap', label: 'Armor Piercing (AP)', type: 'text', placeholder: '2' },
+  { tab: 'Cortex Specs', key: 'dr', aliasKeys: ['dr_rating'], label: 'Damage Resistance (DR)', type: 'text', placeholder: '10' },
+  { tab: 'Cortex Specs', key: 'sp', aliasKeys: ['durability'], label: 'Structure Points / Durability (SP)', type: 'text', placeholder: '20' },
+  { tab: 'Cortex Specs', key: 'nodes_consumed', aliasKeys: ['nodes'], label: 'UDU Node Displacement (Augmentations)', type: 'text', placeholder: '10' },
+  { tab: 'Cortex Specs', key: 'location', aliasKeys: ['coverage', 'footprint', 'frame'], label: 'Slot / Coverage / Frame / Footprint', type: 'text', placeholder: 'Torso / Sealed / Walker / Gargantuan...' },
+
+  // Engineering, Lore & VTT Stage Interactivity
+  { tab: 'Engineering & VTT', key: 'mechanismPowerSource', aliasKeys: ['power_source', 'propulsion'], label: 'Mechanism, Power Source & Propulsion', type: 'textarea', placeholder: 'Micro-fusion cell, zero-point tap, neural link, grav-repulsor...' },
+  { tab: 'Engineering & VTT', key: 'socialEconomicImpact', aliasKeys: ['societalImpact', 'impact'], label: 'Social, Economic & Strategic Impact', type: 'textarea', placeholder: 'How this asset or technology impacts warfare, trade, or society...' },
+  { tab: 'Engineering & VTT', key: 'weaknesses', aliasKeys: ['limitationsCosts'], label: 'Drawbacks, Strain & Vulnerabilities', type: 'textarea', placeholder: 'Overheating risks, EMP vulnerability, bio-strain, maintenance cost...' },
+  { tab: 'Engineering & VTT', key: 'originContext', aliasKeys: ['originHistory'], label: 'Creator, Provenance & History', type: 'textarea', placeholder: 'Foundry, corporation, or precursor civilization that forged it...' },
+  { tab: 'Engineering & VTT', key: 'interactiveType', label: 'VTT Stage Object Type', type: 'text', placeholder: 'none / loot_chest / terminal / door / hazard / shrine / vehicle' },
+  { tab: 'Engineering & VTT', key: 'vttInteractionDC', label: 'VTT Lock / Hack / Disarm DC', type: 'text', placeholder: '15' },
+  { tab: 'Engineering & VTT', key: 'lootTable', label: 'Contained Loot / Data Payload', type: 'textarea', placeholder: 'Credits, schematics, encrypted logs...' },
+  ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+  ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
+];
+
+const TECHNOLOGY_FORGE_SCHEMA = PROPERTY_SCHEMA;
+
+const METAPHYSICS_SCHEMA = [
+  // Core Traits
+  { tab: 'Core Traits', key: 'name', aliasKeys: ['title', 'invocationName'], label: 'Invocation / Discipline / Power Name', type: 'text', placeholder: 'Gravity Singularity, Telekinesis, Astral Severance...' },
+  { tab: 'Core Traits', key: 'metaphysicsSubcategory', label: 'Metaphysics Subcategory', type: 'text', placeholder: 'invocations / disciplines / special_abilities / synthesis' },
+  { tab: 'Core Traits', key: 'discipline', label: 'Metaphysical Discipline / Sphere', type: 'text', placeholder: 'Elemental, Dimensional, Psionic, Entropic, Biometabolic...' },
+  { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'concept'], label: 'One-Line Pitch / Core Effect', type: 'textarea', placeholder: 'Concise overview of how this invocation, discipline, or metaphysical ability alters reality...' },
+  { tab: 'Core Traits', key: 'description', label: 'Detailed Metaphysical Overview', type: 'textarea', placeholder: 'Phenomenology, channeler requirements, and in-universe behavior...' },
+
+  // OmniCortex & Codex Invocation / Ability Parameters
+  { tab: 'Invocation & Rules', key: 'meta_skill', label: 'Governing Meta Skill', type: 'text', placeholder: 'Meta-Elemental, Meta-Psionics, Meta-Dimensional...' },
+  { tab: 'Invocation & Rules', key: 'meta_level', aliasKeys: ['metaLevel', 'ml'], label: 'Meta Level (ML 0–5)', type: 'text', placeholder: '3' },
+  { tab: 'Invocation & Rules', key: 'design_dc', aliasKeys: ['craft_dc', 'dc'], label: 'Design / Invocation DC', type: 'text', placeholder: '18' },
+  { tab: 'Invocation & Rules', key: 'cast_time', label: 'Cast Time / Action Cost', type: 'text', placeholder: '2 AP / Reaction / 1 Minute Ritual...' },
+  { tab: 'Invocation & Rules', key: 'duration', label: 'Duration', type: 'text', placeholder: 'Instantaneous / Concentration (1 min) / Scene...' },
+  { tab: 'Invocation & Rules', key: 'range', label: 'Effective Range', type: 'text', placeholder: 'Touch / Short (15m) / Medium (45m) / Line of Sight...' },
+  { tab: 'Invocation & Rules', key: 'area', label: 'Area Pattern', type: 'text', placeholder: 'Single Target / 6m Sphere / 10m Cone / 20m Line...' },
+  { tab: 'Invocation & Rules', key: 'target', label: 'Target Specification', type: 'text', placeholder: 'Self / One Creature / All Entities in Zone...' },
+  { tab: 'Invocation & Rules', key: 'effect', label: 'Effect Type / Damage Profile', type: 'text', placeholder: 'Force Damage, Telepathic Link, Gravity Control, Ward...' },
+  { tab: 'Invocation & Rules', key: 'mechanic', label: 'Canonical Rules & Resolution Mechanics', type: 'textarea', placeholder: '2d10 check resolution, saving throws, scaling degrees of success, and modifiers...' },
+
+  // Resonance, Strain & Manifestation
+  { tab: 'Manifestation & Strain', key: 'strainBacklash', label: 'Resource Cost, Strain & Overchanneling Backlash', type: 'textarea', placeholder: 'Focus/Strain expenditure, AP cost, and consequences of critical failure or overchanneling...' },
+  { tab: 'Manifestation & Strain', key: 'manifestationSensory', aliasKeys: ['crisp_prompt'], label: 'Sensory Signature & Visual Keyframe', type: 'textarea', placeholder: 'Cherenkov halo, ozone crackle, harmonic hum, or visual synthesis prompt...' },
+  { tab: 'Manifestation & Strain', key: 'originLore', label: 'Metaphysical Origin & Practitioners', type: 'textarea', placeholder: 'Traditions, species, or awakened orders known to wield this phenomenon...' },
   ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
   ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
 ];
@@ -351,11 +587,16 @@ export const ELEMENT_SCHEMAS = {
   'Species Creator': SPECIES_CREATOR_SCHEMA,
   'Species': SPECIES_CREATOR_SCHEMA,
 
-  'Technology Forge': TECHNOLOGY_FORGE_SCHEMA,
-  'Technology': TECHNOLOGY_FORGE_SCHEMA,
+  'Property': PROPERTY_SCHEMA,
+  'Technology Forge': PROPERTY_SCHEMA,
+  'Technology': PROPERTY_SCHEMA,
 
   'Philosophy Scribe': PHILOSOPHY_SCRIBE_SCHEMA,
   'Philosophy': PHILOSOPHY_SCRIBE_SCHEMA,
+
+  'Metaphysics': METAPHYSICS_SCHEMA,
+  'Invocation': METAPHYSICS_SCHEMA,
+  'Invocations': METAPHYSICS_SCHEMA,
 
   'Scene Builder': SCENE_BUILDER_SCHEMA,
   'Scene': SCENE_BUILDER_SCHEMA,
@@ -380,15 +621,26 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Overview', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Gameplay tags (e.g. Investigation, Combat, Heist)...' }
   ],
   'Faction': [
+    { tab: 'Core Traits', key: 'name', aliasKeys: ['title'], label: 'Faction Name', type: 'text', placeholder: 'Coalition of Independent Worlds, Radiant Impyrium...' },
+    { tab: 'Core Traits', key: 'faction_type', aliasKeys: ['classification'], label: 'Faction Classification', type: 'text', placeholder: 'Major Galactic Power, Corporate Syndicate, Sovereign Clan...' },
+    { tab: 'Core Traits', key: 'archetype', label: 'Sociological Archetype', type: 'text', placeholder: 'Frontier Industrialists, High-Tech Cyberocracy, Feudal Technocracy...' },
+    { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['driving_mandate', 'coreIdentity'], label: 'Core Identity & Driving Mandate', type: 'textarea', placeholder: 'Primary mission, ethos, and galactic posture...' },
+    { tab: 'Core Traits', key: 'motto', aliasKeys: ['symbol_sigil'], label: 'Official Motto & Heraldry', type: 'text', placeholder: 'Motto and sigil...' },
+    { tab: 'Core Traits', key: 'description', label: 'Detailed Faction Overview', type: 'textarea', placeholder: 'Historical origin, culture, and societal footprint...' },
+    { tab: 'Ideology & Governance', key: 'ideology', aliasKeys: ['core_beliefs'], label: 'Core Beliefs & Ideology', type: 'textarea', placeholder: 'Core beliefs and code of operation...' },
+    { tab: 'Ideology & Governance', key: 'goals', aliasKeys: ['publicAgenda', 'hiddenAgenda'], label: 'Public vs Hidden Agenda', type: 'textarea', placeholder: 'What the faction wants to achieve openly and covertly...' },
+    { tab: 'Ideology & Governance', key: 'government', aliasKeys: ['government_type', 'leadership'], label: 'Government & Leadership', type: 'textarea', placeholder: 'Administrative model, rulers, and succession...' },
+    { tab: 'Ideology & Governance', key: 'alliesEnemies', aliasKeys: ['relationship_to_others', 'outsider_view'], label: 'Diplomatic Posture, Allies & Rivals', type: 'textarea', placeholder: 'Foreign relations and friction points...' },
+    { tab: 'Assets & Resources', key: 'territory', aliasKeys: ['capital_world', 'territoriesAssets'], label: 'Capital World & Territory', type: 'textarea', placeholder: 'Home system, controlled sectors, and strongholds...' },
+    { tab: 'Assets & Resources', key: 'resources', aliasKeys: ['primary_exports', 'economic_model'], label: 'Economic Power & Strategic Exports', type: 'textarea', placeholder: 'Assets, exports, wealth modifier, industry...' },
+    { tab: 'Assets & Resources', key: 'military_doctrine', aliasKeys: ['key_units', 'naval_assets'], label: 'Military Doctrine, Units & Fleet', type: 'textarea', placeholder: 'Signature formations, void fleet, and combat doctrine...' },
+    { tab: 'Cortex Mechanics', key: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'text', placeholder: '3' },
+    { tab: 'Cortex Mechanics', key: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'text', placeholder: '1' },
+    { tab: 'Cortex Mechanics', key: 'prominent_species', label: 'Prominent Species', type: 'text', placeholder: 'Humans, Draconic Descendants, Synthetics...' },
+    { tab: 'Cortex Mechanics', key: 'mechanic', label: 'Faction Perks & Reputation Mechanics', type: 'textarea', placeholder: 'Skill packages, faction traits, and mechanical bonuses...' },
     { tab: 'Overview', key: 'dbmFactionRef', label: 'Faction Record (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Link Cloud DBM Faction...' },
-    { tab: 'Overview', key: 'coreIdentity', label: 'Core Identity & Mandate', type: 'textarea', placeholder: 'Identity...' },
-    { tab: 'Overview', key: 'motto', label: 'Public Motto / Symbol', type: 'text', placeholder: 'Motto...' },
-    { tab: 'Ideology & Governance', key: 'ideology', label: 'Core Ideology', type: 'textarea', placeholder: 'Core beliefs and code of operation...' },
-    { tab: 'Ideology & Governance', key: 'goals', label: 'Public vs Hidden Agenda', type: 'textarea', placeholder: 'What the faction wants to achieve...' },
-    { tab: 'Ideology & Governance', key: 'government', label: 'Government Type & Leadership', type: 'textarea', placeholder: 'Leadership...' },
-    { tab: 'Assets & Resources', key: 'resources', label: 'Economic Power & Industry', type: 'textarea', placeholder: 'Assets, weapons, wealth, contacts...' },
-    { tab: 'Assets & Resources', key: 'territory', label: 'Scope of Influence & Territory', type: 'textarea', placeholder: 'Territory...' },
-    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
+    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS,
+    ...GUIDANCE_DIRECTIVE_SCHEMA_FIELDS
   ],
   'Encounter': [
     { tab: 'Overview', key: 'encounterType', label: 'Type', type: 'text', placeholder: 'Kind of encounter (e.g. Combat, Social, Puzzle, Chase)...' },
@@ -397,13 +649,7 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Special rules, timers, or hazards...' },
     ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
   ],
-  'Item': [
-    { tab: 'Overview', key: 'itemCategory', label: 'Cloud DB Category', type: 'text', placeholder: 'Weaponry / Armoring / Gear / Augmentations...' },
-    { tab: 'Overview', key: 'rarity', label: 'Rarity', type: 'text', placeholder: 'Rarity (e.g. Common, Prototype, Artifact)...' },
-    { tab: 'Properties', key: 'properties', label: 'Properties', type: 'textarea', placeholder: 'Passive abilities and bonuses...' },
-    { tab: 'Mechanics', key: 'mechanic', label: 'Mechanics', type: 'textarea', placeholder: 'Active functioning and usage rules...' },
-    ...LOREBOOK_TRIGGER_SCHEMA_FIELDS
-  ],
+  'Item': PROPERTY_SCHEMA,
   'Clue': [
     { tab: 'Overview', key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },
     { tab: 'Overview', key: 'locationFound', label: 'Location Found', type: 'text', placeholder: 'Where or how it is discovered...' },
@@ -450,11 +696,11 @@ export const SCENARIO_GUIDE_MODULES = [
   },
   {
     id: 'sg_item',
-    name: 'Loot & Relic Spec',
-    category: 'Items',
-    elementType: 'Item',
+    name: 'Property, Gear & Relic Spec',
+    category: 'Property',
+    elementType: 'Property',
     icon: '💎',
-    promptTemplate: 'Generate an ancient relic / tech item specification for "{title}". Include lore origin, Tech Level, mechanical stat bonuses, active abilities, and CP cost.'
+    promptTemplate: 'Generate a Property / Tech / Armament specification for "{title}". Include subcategory (weaponry, armoring, augmentations, gear, mecha, architecture, or technology), lore origin, Tech Level, mechanical stat bonuses, active abilities, and Crafting DC / Credit valuation.'
   },
   {
     id: 'sg_clue',

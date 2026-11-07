@@ -1,5 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useStory } from '../../../../context/CampaignContext';
+import { useDBM } from '../../../../context/DBMContext';
+import { useFolio } from '../../../../context/FolioContext';
+import { buildUnifiedAdeCatalog } from '../../../../utils/cortexAdeAssetBridge';
 import { AudioService } from '../../../../services/audioService';
 import DraggablePanel from './DraggablePanel';
 import { 
@@ -7,24 +10,25 @@ import {
   MapPin, User, Shield, Swords, Gem, FileText, 
   Flame, Cpu, Globe, Compass, Eye, X, Move
 } from 'lucide-react';
-import { ELEMENT_TYPES, getTypePillStyle } from '../../ElementForge/elementSchemas';
+import { ELEMENT_TYPES, getTypePillStyle, normalizeElementType } from '../../ElementForge/elementSchemas';
 
 export const ADE_ELEMENT_SLOTS = [
   { id: 'Scene', label: 'Scenes & Rooms', icon: MapPin, color: 'text-rose-400', category: 'Scene' },
-  { id: 'Persona', label: 'Personas / NPCs', icon: User, color: 'text-purple-400', category: 'Persona' },
+  { id: 'Persona', label: 'Personas, Folio & MCM', icon: User, color: 'text-purple-400', category: 'Persona' },
   { id: 'Encounter', label: 'Tactical Encounters', icon: Swords, color: 'text-red-400', category: 'Encounter' },
-  { id: 'Item', label: 'Items & Loot Caches', icon: Gem, color: 'text-emerald-400', category: 'Item' },
+  { id: 'Property', label: 'Property, Gear & Tech', icon: Gem, color: 'text-amber-400', category: 'Property' },
+  { id: 'Setting', label: 'Settings & Locations', icon: MapPin, color: 'text-emerald-400', category: 'Setting' },
   { id: 'Clue', label: 'Clues & Evidence', icon: Search, color: 'text-amber-400', category: 'Clue' },
   { id: 'Handout', label: 'Operator Handouts', icon: FileText, color: 'text-sky-400', category: 'Handout' },
   { id: 'Hazard', label: 'Traps & Hazards', icon: Flame, color: 'text-orange-400', category: 'Hazard' },
-  { id: 'Technology', label: 'Technology & Relays', icon: Cpu, color: 'text-fuchsia-400', category: 'Technology' },
   { id: 'Faction', label: 'Factions & Outposts', icon: Shield, color: 'text-indigo-400', category: 'Faction' },
   { id: 'Story Arc', label: 'Story Arcs & Acts', icon: Compass, color: 'text-amber-300', category: 'Story Arc' },
   { id: 'Adventure', label: 'Adventure Modules', icon: BookOpen, color: 'text-yellow-400', category: 'Adventure' },
-  { id: 'Species', label: 'Species & Dens', icon: Globe, color: 'text-teal-400', category: 'Species' },
-  { id: 'World', label: 'World & Environment', icon: Globe, color: 'text-blue-400', category: 'World' },
+  { id: 'Species', label: 'Species & Xenofauna', icon: Globe, color: 'text-teal-400', category: 'Species' },
+  { id: 'World', label: 'World & Planetary', icon: Globe, color: 'text-blue-400', category: 'World' },
   { id: 'Universe', label: 'Universe & Physics', icon: Globe, color: 'text-cyan-300', category: 'Universe' },
   { id: 'Philosophy', label: 'Philosophies', icon: Compass, color: 'text-indigo-300', category: 'Philosophy' },
+  { id: 'Metaphysics', label: 'Metaphysics & Invocations', icon: Sparkles, color: 'text-violet-300', category: 'Metaphysics' },
   { id: 'Custom', label: 'Custom Markers', icon: Sparkles, color: 'text-slate-300', category: 'Custom' },
   { id: 'all', label: 'All Elements', icon: BookOpen, color: 'text-cyan-400' }
 ];
@@ -36,12 +40,20 @@ export const StoryElementsDrawer = ({
   onInspectElement
 }) => {
   const { elementsCatalog, universeState, saveElementToCloud, updateSavedElement } = useStory();
+  const { dbData = {} } = useDBM() || {};
+  const { roster: folioRoster = [], personaRoster = [], publicPersonas = [] } = useFolio() || {};
   const [activeSlot, setActiveSlot] = useState('Scene');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Collect all elements from catalog as well as scenarios tree
+  // Collect all elements from unified Cortex + Folio + MCM + Story Module catalog as well as scenarios tree
   const allStoryElements = useMemo(() => {
-    const list = [...(elementsCatalog || [])];
+    const unified = buildUnifiedAdeCatalog({
+      elementsCatalog: elementsCatalog || [],
+      dbData,
+      folioRoster: Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : personaRoster,
+      publicPersonas
+    });
+    const list = [...unified];
 
     // Also extract scenario nodes from universeState
     const traverseScenarios = (nodes) => {
@@ -71,15 +83,16 @@ export const StoryElementsDrawer = ({
     }
 
     return list;
-  }, [elementsCatalog, universeState?.scenarios]);
+  }, [elementsCatalog, dbData, folioRoster, personaRoster, publicPersonas, universeState?.scenarios]);
 
   // Counts by element type
   const typeCounts = useMemo(() => {
     const counts = { all: allStoryElements.length };
     allStoryElements.forEach(item => {
-      const t = item.type || 'Custom';
-      counts[t] = (counts[t] || 0) + 1;
-      if (t === 'Hazard' || t === 'Trap' || t === 'hazard') {
+      const rawT = item.type || 'Custom';
+      const canonicalT = normalizeElementType(rawT);
+      counts[canonicalT] = (counts[canonicalT] || 0) + 1;
+      if (rawT === 'Hazard' || rawT === 'Trap' || rawT === 'hazard') {
         counts['Hazard'] = (counts['Hazard'] || 0) + 1;
       }
     });
@@ -92,12 +105,13 @@ export const StoryElementsDrawer = ({
 
     if (activeSlot !== 'all') {
       result = result.filter(item => {
-        const itemType = (item.type || 'Custom').toLowerCase();
+        const rawType = (item.type || 'Custom').toLowerCase();
+        const canonicalType = normalizeElementType(item.type || 'Custom').toLowerCase();
         const slotType = activeSlot.toLowerCase();
         if (slotType === 'hazard') {
-          return itemType.includes('hazard') || itemType.includes('trap');
+          return rawType.includes('hazard') || rawType.includes('trap');
         }
-        return itemType === slotType;
+        return canonicalType === slotType || rawType === slotType;
       });
     }
 

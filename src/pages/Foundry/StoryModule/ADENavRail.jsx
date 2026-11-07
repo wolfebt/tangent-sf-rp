@@ -31,13 +31,24 @@ import {
   Layers,
   Network,
   ChevronDown,
-  Check
+  Check,
+  Palette
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { ADE_THEMES as THEMES } from '../../../constants/adeThemes';
-import { ELEMENT_TYPES, normalizeElementType, getTypePillStyle } from '../ElementForge/elementSchemas';
+import {
+  ELEMENT_TYPES,
+  PROPERTY_SUBCATEGORIES,
+  PERSONA_SUBCATEGORIES,
+  METAPHYSICS_SUBCATEGORIES,
+  normalizeElementType,
+  getTypePillStyle
+} from '../ElementForge/elementSchemas';
 import { useAdeStore } from '../store/adeStore';
 import { useStory } from '../../../context/CampaignContext';
+import { useDBM } from '../../../context/DBMContext';
+import { useFolio } from '../../../context/FolioContext';
+import { ADE_TYPE_TO_CORTEX_COLLECTIONS } from '../../../utils/cortexAdeAssetBridge';
 
 export const ADENavRail = ({
   activeView = 'scenarios',
@@ -52,6 +63,7 @@ export const ADENavRail = ({
   modifiersCount = 0,
   pendingCronicleCount = 0,
   onOpenCronicle,
+  onOpenArtistHub,
   onOpenPrintModal,
   onOpenGuide,
   isTreeExpanded = true,
@@ -61,11 +73,28 @@ export const ADENavRail = ({
 }) => {
   const navigate = useNavigate();
   const { elementsCatalog: contextElementsCatalog } = useStory() || {};
+  const { dbData = {} } = useDBM() || {};
+  const { roster: folioRoster = [], personaRoster = [] } = useFolio() || {};
   const storeActiveElementType = useAdeStore((state) => state.activeElementType);
   const setStoreActiveElementType = useAdeStore((state) => state.setActiveElementType);
+  const activePropertySubcategory = useAdeStore((state) => state.activePropertySubcategory || 'all');
+  const setActivePropertySubcategory = useAdeStore((state) => state.setActivePropertySubcategory);
+  const activePersonaSource = useAdeStore((state) => state.activePersonaSource || 'all');
+  const setActivePersonaSource = useAdeStore((state) => state.setActivePersonaSource);
+  const activeMetaphysicsSubcategory = useAdeStore((state) => state.activeMetaphysicsSubcategory || 'all');
+  const setActiveMetaphysicsSubcategory = useAdeStore((state) => state.setActiveMetaphysicsSubcategory);
 
   const elementsCatalog = propElementsCatalog || contextElementsCatalog || [];
   const activeElementType = normalizeElementType(propActiveElementType || storeActiveElementType || ELEMENT_TYPES[0]);
+  const liveFolioList = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : []);
+
+  const getCategoryAssetCount = (elType) => {
+    const moduleCount = (elementsCatalog || []).filter(e => normalizeElementType(e?.type) === elType).length;
+    const cortexCols = ADE_TYPE_TO_CORTEX_COLLECTIONS[elType] || [];
+    const cortexCount = cortexCols.reduce((sum, col) => sum + (Array.isArray(dbData?.[col]) ? dbData[col].length : 0), 0);
+    const folioCount = elType === 'Persona' ? liveFolioList.length : 0;
+    return moduleCount + cortexCount + folioCount;
+  };
 
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -103,20 +132,20 @@ export const ADENavRail = ({
 
   const weaverModeBranches = [
     {
-      id: 'write',
-      label: 'Write & Author',
-      description: 'Manuscript canvas with inline AI assistant & element drag-and-drop',
-      icon: PenTool,
-      color: 'text-cyan-400',
-      activeCls: 'bg-cyan-950/80 text-cyan-200 border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.15)]'
-    },
-    {
       id: 'brainstorm',
       label: 'Brainstorm',
       description: 'Dual-scope ideation & Guidance Gems directives for story scenarios and world elements',
       icon: Lightbulb,
       color: 'text-amber-400',
       activeCls: 'bg-amber-950/70 text-amber-200 border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
+    },
+    {
+      id: 'write',
+      label: 'Write & Author',
+      description: 'Manuscript canvas with inline AI assistant & element drag-and-drop',
+      icon: PenTool,
+      color: 'text-cyan-400',
+      activeCls: 'bg-cyan-950/80 text-cyan-200 border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.15)]'
     },
     {
       id: 'elements',
@@ -225,6 +254,15 @@ export const ADENavRail = ({
   ];
 
   const utilityItems = [
+    {
+      id: 'artist_hub',
+      label: 'ARTIST HUB',
+      sublabel: 'HIFI Chroma & Sketch',
+      description: 'Modular Image Prompt Studio (HIFI CHROMA & HI-FI SKETCH Frameworks)',
+      icon: Palette,
+      colorTheme: 'purple',
+      onClick: onOpenArtistHub
+    },
     {
       id: 'cronicle',
       label: 'CRONICLE',
@@ -575,54 +613,226 @@ export const ADENavRail = ({
                   <div className="ml-5 pl-2.5 border-l border-emerald-500/30 flex flex-col gap-0.5 my-0.5 shrink-0">
                     {ELEMENT_TYPES.map((elType) => {
                       const isBranchActive = isActive && activeElementType === elType;
+                      const catCount = getCategoryAssetCount(elType);
+                      const isPropertyBranch = elType === 'Property';
+                      const isPersonaBranch = elType === 'Persona';
+                      const isMetaphysicsBranch = elType === 'Metaphysics';
 
                       return (
-                        <button
-                          key={elType}
-                          type="button"
-                          onClick={() => {
-                            AudioService.playTerminalBeep(1100, 0.02);
-                            if (!isPinned) {
-                              setIsHovered(false);
-                              setHoveredItem(null);
-                            }
-                            closeMobileRail();
-                            if (setStoreActiveElementType) {
-                              setStoreActiveElementType(elType);
-                            }
-                            if (onSelectElementType) {
-                              onSelectElementType(elType);
-                            } else if (onSwitchView) {
-                              onSwitchView('elements');
-                            }
-                          }}
-                          onMouseEnter={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setHoveredItem({
-                              item: {
-                                label: elType,
-                                sublabel: `Element Forge • ${elType}`,
-                                description: `Browse and forge ${elType} story elements`
-                              },
-                              theme,
-                              rect
-                            });
-                          }}
-                          onMouseLeave={() => setHoveredItem(null)}
-                          className={`group/branch relative w-full py-1 px-2 rounded-lg flex items-center justify-between gap-1.5 text-left transition-all cursor-pointer border ${
-                            isBranchActive
-                              ? `${getTypePillStyle(elType)} shadow-[0_0_10px_rgba(16,185,129,0.15)]`
-                              : 'border-transparent text-slate-400 hover:text-slate-100 hover:bg-slate-900/70'
-                          }`}
-                        >
-                          {/* Horizontal Tree Branch Connector Tick */}
-                          <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-2 h-px bg-emerald-500/30 pointer-events-none" />
+                        <React.Fragment key={elType}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              AudioService.playTerminalBeep(1100, 0.02);
+                              if (!isPinned) {
+                                setIsHovered(false);
+                                setHoveredItem(null);
+                              }
+                              closeMobileRail();
+                              if (isPropertyBranch && setActivePropertySubcategory) {
+                                setActivePropertySubcategory('all');
+                              }
+                              if (isPersonaBranch && setActivePersonaSource) {
+                                setActivePersonaSource('all');
+                              }
+                              if (isMetaphysicsBranch && setActiveMetaphysicsSubcategory) {
+                                setActiveMetaphysicsSubcategory('all');
+                              }
+                              if (setStoreActiveElementType) {
+                                setStoreActiveElementType(elType);
+                              }
+                              if (onSelectElementType) {
+                                onSelectElementType(elType);
+                              } else if (onSwitchView) {
+                                onSwitchView('elements');
+                              }
+                            }}
+                            onMouseEnter={(e) => {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              setHoveredItem({
+                                item: {
+                                  label: elType,
+                                  sublabel: `Element Forge • ${elType}`,
+                                  description: isPropertyBranch
+                                    ? 'Weaponry, Armoring, Augmentations, Gear, Mecha, Architecture & Technology consolidated from OmniCortex'
+                                    : isPersonaBranch
+                                    ? 'Persona Folio Roster, Modular Character Matrix (MCM), Archetypes & Story Personas'
+                                    : isMetaphysicsBranch
+                                    ? 'Invocations, Metaphysical Disciplines, Special Abilities & Synthesis consolidated from OmniCortex'
+                                    : `Browse and forge ${elType} story & Cortex elements`
+                                },
+                                theme,
+                                rect
+                              });
+                            }}
+                            onMouseLeave={() => setHoveredItem(null)}
+                            className={`group/branch relative w-full py-1 px-2 rounded-lg flex items-center justify-between gap-1.5 text-left transition-all cursor-pointer border ${
+                              isBranchActive
+                                ? `${getTypePillStyle(elType)} shadow-[0_0_10px_rgba(16,185,129,0.15)]`
+                                : 'border-transparent text-slate-400 hover:text-slate-100 hover:bg-slate-900/70'
+                            }`}
+                          >
+                            {/* Horizontal Tree Branch Connector Tick */}
+                            <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-2 h-px bg-emerald-500/30 pointer-events-none" />
 
-                          <span className={`font-mono text-[10px] uppercase tracking-wider truncate ${isBranchActive ? 'font-bold' : 'font-medium'}`}>
-                            {elType}
-                          </span>
-                          {isBranchActive && <Check size={11} className="text-emerald-400 shrink-0" />}
-                        </button>
+                            <span className={`font-mono text-[10px] uppercase tracking-wider truncate ${isBranchActive ? 'font-bold' : 'font-medium'}`}>
+                              {elType}
+                            </span>
+                            <div className="flex items-center gap-1 shrink-0">
+                              {catCount > 0 && (
+                                <span className={`text-[8px] font-mono px-1 py-0.2 rounded ${
+                                  isBranchActive
+                                    ? 'bg-black/40 text-emerald-300 border border-emerald-500/40'
+                                    : 'bg-slate-900/80 text-slate-500 group-hover/branch:text-slate-300'
+                                }`}>
+                                  {catCount}
+                                </span>
+                              )}
+                              {isBranchActive && <Check size={11} className="text-emerald-400 shrink-0" />}
+                            </div>
+                          </button>
+
+                          {/* Expandable Property Subcategories when Property is active */}
+                          {isPropertyBranch && isBranchActive && (
+                            <div className="ml-3.5 pl-2 border-l border-amber-500/30 flex flex-col gap-0.5 my-0.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1120, 0.02);
+                                  if (setActivePropertySubcategory) setActivePropertySubcategory('all');
+                                }}
+                                className={`w-full py-0.5 px-1.5 rounded text-left font-mono text-[9px] uppercase tracking-wider flex items-center justify-between cursor-pointer transition-colors ${
+                                  activePropertySubcategory === 'all'
+                                    ? 'bg-amber-950/70 text-amber-300 font-bold border border-amber-500/40'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                }`}
+                              >
+                                <span>All Property</span>
+                              </button>
+                              {PROPERTY_SUBCATEGORIES.map((sub) => {
+                                const subCount = Array.isArray(dbData?.[sub.dbmCollection]) ? dbData[sub.dbmCollection].length : 0;
+                                const isSubActive = activePropertySubcategory === sub.id;
+                                return (
+                                  <button
+                                    key={sub.id}
+                                    type="button"
+                                    onClick={() => {
+                                      AudioService.playTerminalBeep(1120, 0.02);
+                                      if (setActivePropertySubcategory) setActivePropertySubcategory(sub.id);
+                                      if (onSwitchView && !isActive) onSwitchView('elements');
+                                    }}
+                                    className={`w-full py-0.5 px-1.5 rounded text-left font-mono text-[9px] uppercase tracking-wider flex items-center justify-between cursor-pointer transition-colors ${
+                                      isSubActive
+                                        ? 'bg-amber-950/70 text-amber-300 font-bold border border-amber-500/40'
+                                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                    }`}
+                                  >
+                                    <span className="truncate">{sub.icon} {sub.shortLabel}</span>
+                                    {subCount > 0 && (
+                                      <span className="text-[8px] text-slate-500 ml-1">{subCount}</span>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Expandable Metaphysics Subcategories when Metaphysics is active */}
+                          {isMetaphysicsBranch && isBranchActive && (
+                            <div className="ml-3.5 pl-2 border-l border-violet-500/30 flex flex-col gap-0.5 my-0.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1120, 0.02);
+                                  if (setActiveMetaphysicsSubcategory) setActiveMetaphysicsSubcategory('all');
+                                }}
+                                className={`w-full py-0.5 px-1.5 rounded text-left font-mono text-[9px] uppercase tracking-wider flex items-center justify-between cursor-pointer transition-colors ${
+                                  activeMetaphysicsSubcategory === 'all'
+                                    ? 'bg-violet-950/70 text-violet-300 font-bold border border-violet-500/40'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                }`}
+                              >
+                                <span>All Metaphysics</span>
+                              </button>
+                              {METAPHYSICS_SUBCATEGORIES.map((sub) => {
+                                const subCount = Array.isArray(dbData?.[sub.dbmCollection]) ? dbData[sub.dbmCollection].length : 0;
+                                const isSubActive = activeMetaphysicsSubcategory === sub.id;
+                                return (
+                                  <button
+                                    key={sub.id}
+                                    type="button"
+                                    onClick={() => {
+                                      AudioService.playTerminalBeep(1120, 0.02);
+                                      if (setActiveMetaphysicsSubcategory) setActiveMetaphysicsSubcategory(sub.id);
+                                      if (onSwitchView && !isActive) onSwitchView('elements');
+                                    }}
+                                    className={`w-full py-0.5 px-1.5 rounded text-left font-mono text-[9px] uppercase tracking-wider flex items-center justify-between cursor-pointer transition-colors ${
+                                      isSubActive
+                                        ? 'bg-violet-950/70 text-violet-300 font-bold border border-violet-500/40'
+                                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                    }`}
+                                  >
+                                    <span className="truncate">{sub.icon} {sub.shortLabel}</span>
+                                    {subCount > 0 && (
+                                      <span className="text-[8px] text-slate-500 ml-1">{subCount}</span>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Expandable Persona Sources when Persona is active */}
+                          {isPersonaBranch && isBranchActive && (
+                            <div className="ml-3.5 pl-2 border-l border-purple-500/30 flex flex-col gap-0.5 my-0.5">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1120, 0.02);
+                                  if (setActivePersonaSource) setActivePersonaSource('all');
+                                }}
+                                className={`w-full py-0.5 px-1.5 rounded text-left font-mono text-[9px] uppercase tracking-wider flex items-center justify-between cursor-pointer transition-colors ${
+                                  activePersonaSource === 'all'
+                                    ? 'bg-purple-950/70 text-purple-300 font-bold border border-purple-500/40'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                }`}
+                              >
+                                <span>All Personas</span>
+                              </button>
+                              {PERSONA_SUBCATEGORIES.map((sub) => {
+                                const subCount = sub.id === 'folio'
+                                  ? liveFolioList.length
+                                  : sub.id === 'mcm'
+                                  ? (Array.isArray(dbData?.modular_characters) ? dbData.modular_characters.length : 0)
+                                  : sub.id === 'archetypes'
+                                  ? (Array.isArray(dbData?.archetypes) ? dbData.archetypes.length : 0)
+                                  : (elementsCatalog || []).filter(e => normalizeElementType(e?.type) === 'Persona' && !e?.isFolioPersona && e?.dbmCategory !== 'modular_characters' && e?.dbmCategory !== 'archetypes').length;
+                                const isSubActive = activePersonaSource === sub.id;
+                                return (
+                                  <button
+                                    key={sub.id}
+                                    type="button"
+                                    onClick={() => {
+                                      AudioService.playTerminalBeep(1120, 0.02);
+                                      if (setActivePersonaSource) setActivePersonaSource(sub.id);
+                                      if (onSwitchView && !isActive) onSwitchView('elements');
+                                    }}
+                                    className={`w-full py-0.5 px-1.5 rounded text-left font-mono text-[9px] uppercase tracking-wider flex items-center justify-between cursor-pointer transition-colors ${
+                                      isSubActive
+                                        ? 'bg-purple-950/70 text-purple-300 font-bold border border-purple-500/40'
+                                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                    }`}
+                                  >
+                                    <span className="truncate">{sub.icon} {sub.shortLabel}</span>
+                                    {subCount > 0 && (
+                                      <span className="text-[8px] text-slate-500 ml-1">{subCount}</span>
+                                    )}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </React.Fragment>
                       );
                     })}
                   </div>

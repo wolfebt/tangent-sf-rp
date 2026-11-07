@@ -64,30 +64,34 @@ export default function Stage4TacticalSystems({
     });
   };
 
-  // Live EUFT Cost CR ↔ Credit Value synchronization for Relics
+  // Live EUFT Cost CR ↔ Credit Value synchronization for Relics / Property
   const handleCostCrChange = (rawCr) => {
     if (rawCr === '') {
-      onMergeFields?.({ costCr: '', creditValue: '' });
+      onMergeFields?.({ costCr: '', craft_dc: '', creditValue: '', cost: '' });
       return;
     }
     const crNum = Math.max(0, Math.min(60, Number(rawCr) || 0));
     const credits = calculateCreditValue(crNum);
     onMergeFields?.({
       costCr: String(crNum),
-      creditValue: String(credits)
+      craft_dc: String(crNum),
+      creditValue: String(credits),
+      cost: String(credits)
     });
   };
 
   const handleCreditsChange = (rawCredits) => {
     if (rawCredits === '') {
-      onMergeFields?.({ creditValue: '', costCr: '' });
+      onMergeFields?.({ creditValue: '', cost: '', costCr: '', craft_dc: '' });
       return;
     }
     const creditNum = Math.max(0, Number(rawCredits) || 0);
     const cr = calculateCRFromCredits(creditNum);
     onMergeFields?.({
       creditValue: String(creditNum),
-      costCr: String(cr)
+      cost: String(creditNum),
+      costCr: String(cr),
+      craft_dc: String(cr)
     });
   };
 
@@ -373,7 +377,7 @@ export default function Stage4TacticalSystems({
                 type="number"
                 min="0"
                 max="60"
-                value={fields.costCr ?? ''}
+                value={fields.costCr ?? fields.craft_dc ?? ''}
                 onChange={(e) => handleCostCrChange(e.target.value)}
                 placeholder="e.g. 15"
                 className="w-full bg-slate-950 border border-amber-500/40 focus:border-amber-400 text-amber-200 p-2.5 rounded-xl text-xs outline-none"
@@ -387,10 +391,62 @@ export default function Stage4TacticalSystems({
               <input
                 type="number"
                 min="0"
-                value={fields.creditValue ?? ''}
+                value={fields.creditValue ?? fields.cost ?? ''}
                 onChange={(e) => handleCreditsChange(e.target.value)}
                 placeholder="e.g. 640"
                 className="w-full bg-slate-950 border border-emerald-500/40 focus:border-emerald-400 text-emerald-200 p-2.5 rounded-xl text-xs outline-none"
+              />
+            </div>
+          </div>
+
+          {/* Subcategory Tactical Combat / Cyberware Fields */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+            <div>
+              <label className="block text-[10px] font-bold text-rose-300 uppercase mb-1">
+                Damage / Output
+              </label>
+              <input
+                type="text"
+                value={fields.damage || ''}
+                onChange={(e) => onChangeField?.('damage', e.target.value)}
+                placeholder="e.g. 3d8+2 Energy"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-cyan-300 uppercase mb-1">
+                Range / Coverage
+              </label>
+              <input
+                type="text"
+                value={fields.range || fields.location || ''}
+                onChange={(e) => onChangeField?.('range', e.target.value)}
+                placeholder="e.g. 40m / Torso"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-amber-300 uppercase mb-1">
+                Armor DR / AP
+              </label>
+              <input
+                type="text"
+                value={fields.dr || fields.ap || ''}
+                onChange={(e) => onChangeField?.('dr', e.target.value)}
+                placeholder="e.g. DR 6 / AP 4"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] font-bold text-purple-300 uppercase mb-1">
+                Bio-Nodes / Weight
+              </label>
+              <input
+                type="text"
+                value={fields.nodes_consumed || fields.weight || ''}
+                onChange={(e) => onChangeField?.('nodes_consumed', e.target.value)}
+                placeholder="e.g. 2 Nodes / 1.5 kg"
+                className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2 rounded-xl text-xs outline-none"
               />
             </div>
           </div>
@@ -587,12 +643,12 @@ export default function Stage4TacticalSystems({
         </section>
       )}
 
-      {/* ── FAMILY 4: MACRO-LORE (WORLD, UNIVERSE, PHILOSOPHY, ARC, ADVENTURE) ── */}
+      {/* ── FAMILY 4: MACRO-LORE & METAPHYSICS (WORLD, UNIVERSE, PHILOSOPHY, METAPHYSICS, ARC, ADVENTURE) ── */}
       {playbook.family === 'macro' && (
         <section className="rounded-2xl border border-slate-800 bg-[#0c121e]/95 p-5 grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
           <div>
             <label className="block text-[10px] font-bold text-cyan-300 uppercase mb-1.5">
-              Setting Tech Level Ceiling (TL 0–5)
+              {draft.type === 'Metaphysics' ? 'Tech Level Affinity (TL 0–5)' : 'Setting Tech Level Ceiling (TL 0–5)'}
             </label>
             <select
               value={fields['tech-level'] ?? '3'}
@@ -609,11 +665,16 @@ export default function Stage4TacticalSystems({
 
           <div>
             <label className="block text-[10px] font-bold text-purple-300 uppercase mb-1.5">
-              Setting Meta Level Ceiling (ML 0–5)
+              {draft.type === 'Metaphysics' ? 'Required Meta Level (ML 0–5)' : 'Setting Meta Level Ceiling (ML 0–5)'}
             </label>
             <select
-              value={fields['meta-level'] ?? '3'}
-              onChange={(e) => onChangeField?.('meta-level', e.target.value)}
+              value={fields.meta_level ?? fields['meta-level'] ?? '3'}
+              onChange={(e) =>
+                onMergeFields?.({
+                  'meta-level': e.target.value,
+                  meta_level: e.target.value
+                })
+              }
               className="w-full bg-slate-950 border border-slate-800 text-purple-200 p-2.5 rounded-xl text-xs outline-none"
             >
               {[0, 1, 2, 3, 4, 5].map((ml) => (
@@ -623,6 +684,60 @@ export default function Stage4TacticalSystems({
               ))}
             </select>
           </div>
+
+          {draft.type === 'Metaphysics' && (
+            <>
+              <div>
+                <label className="block text-[10px] font-bold text-violet-300 uppercase mb-1.5">
+                  Invocation / Ability Design DC
+                </label>
+                <input
+                  type="number"
+                  min="5"
+                  max="60"
+                  value={fields.design_dc || '18'}
+                  onChange={(e) => onChangeField?.('design_dc', e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 text-violet-200 p-2.5 rounded-xl text-xs outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-violet-300 uppercase mb-1.5">
+                  Governing Meta Skill / Discipline
+                </label>
+                <input
+                  type="text"
+                  value={fields.meta_skill || fields.discipline || ''}
+                  onChange={(e) => onChangeField?.('meta_skill', e.target.value)}
+                  placeholder="e.g. Meta-Psionics, Meta-Dimensional..."
+                  className="w-full bg-slate-950 border border-slate-800 text-slate-100 p-2.5 rounded-xl text-xs outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-amber-300 uppercase mb-1.5">
+                  Cast Time / AP &amp; Strain Cost
+                </label>
+                <input
+                  type="text"
+                  value={fields.cast_time || ''}
+                  onChange={(e) => onChangeField?.('cast_time', e.target.value)}
+                  placeholder="e.g. 2 AP • 2 Strain"
+                  className="w-full bg-slate-950 border border-slate-800 text-amber-200 p-2.5 rounded-xl text-xs outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold text-emerald-300 uppercase mb-1.5">
+                  Range &amp; Area Pattern
+                </label>
+                <input
+                  type="text"
+                  value={fields.range || ''}
+                  onChange={(e) => onChangeField?.('range', e.target.value)}
+                  placeholder="e.g. Medium (45m) • 6m Sphere"
+                  className="w-full bg-slate-950 border border-slate-800 text-emerald-200 p-2.5 rounded-xl text-xs outline-none"
+                />
+              </div>
+            </>
+          )}
 
           <div>
             <label className="block text-[10px] font-bold text-emerald-300 uppercase mb-1.5">

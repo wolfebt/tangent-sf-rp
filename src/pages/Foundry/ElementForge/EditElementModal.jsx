@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ELEMENT_TYPES,
+  PROPERTY_SUBCATEGORIES,
+  METAPHYSICS_SUBCATEGORIES,
   getElementFileExtension,
   getTypePillStyle,
   normalizeElementType
@@ -43,7 +46,8 @@ import {
   Compass,
   Zap,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ExternalLink
 } from 'lucide-react';
 
 const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className }) => {
@@ -87,6 +91,7 @@ const EditElementModal = ({
   initialSeedTab = 'spark',
   activeScenario = null
 }) => {
+  const navigate = useNavigate();
   const {
     deleteSavedElement,
     elementsCatalog,
@@ -377,6 +382,15 @@ const EditElementModal = ({
     const rawUpdatedElement = {
       ...element,
       type,
+      ...(type === 'Property'
+        ? { propertySubcategory: fields.propertySubcategory || element.propertySubcategory || 'gear' }
+        : {}),
+      ...(type === 'Metaphysics'
+        ? { metaphysicsSubcategory: fields.metaphysicsSubcategory || element.metaphysicsSubcategory || 'invocations' }
+        : {}),
+      ...(type === 'Persona'
+        ? { personaSubcategory: fields.personaSubcategory || element.personaSubcategory || 'story' }
+        : {}),
       title: title.trim(),
       content,
       imageUrl,
@@ -397,7 +411,7 @@ const EditElementModal = ({
       let derivedMod = null;
       if (type === 'Persona') {
         derivedMod = ModifierService.createModifierFromPerson(updatedElement);
-      } else if (type === 'Item') {
+      } else if (type === 'Item' || type === 'Property') {
         derivedMod = ModifierService.createModifierFromItem(updatedElement);
       } else if (type === 'Setting') {
         derivedMod = ModifierService.createModifierFromLocation(updatedElement);
@@ -572,7 +586,38 @@ const EditElementModal = ({
                 </h2>
                 <span className={`text-[9px] font-mono px-2 py-0.2 rounded-full border font-bold uppercase ${getTypePillStyle(type)}`}>
                   {type}
+                  {type === 'Property' && (fields.propertySubcategory || element.propertySubcategory)
+                    ? ` • ${fields.propertySubcategory || element.propertySubcategory}`
+                    : ''}
                 </span>
+                {element.isFolioPersona && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      navigate('/folio');
+                    }}
+                    className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-950/80 border border-purple-500/50 text-purple-200 hover:bg-purple-900 flex items-center gap-1 cursor-pointer"
+                    title="Open full character sheet in Persona Folio"
+                  >
+                    <span>🪪 Open in Folio</span>
+                    <ExternalLink size={10} />
+                  </button>
+                )}
+                {element.codexMatrixId && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClose();
+                      navigate(`/codex?matrix=${element.codexMatrixId}`);
+                    }}
+                    className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 hover:bg-cyan-900 flex items-center gap-1 cursor-pointer"
+                    title="Open canonical entry in Codex Studio"
+                  >
+                    <span>⚡ Open in Codex</span>
+                    <ExternalLink size={10} />
+                  </button>
+                )}
               </div>
               <p className="text-[11px] text-slate-400 font-mono truncate max-w-[260px] sm:max-w-md">
                 {title ? `${title} • ` : ''}ID: {element.id}
@@ -898,21 +943,68 @@ const EditElementModal = ({
                 />
               </div>
 
-              <div>
-                <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
-                  Element Type
-                </label>
-                <select
-                  value={type}
-                  onChange={(e) => handleTypeSelectChange(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-amber-300 p-2 rounded-lg text-xs font-bold outline-none cursor-pointer"
-                >
-                  {ELEMENT_TYPES.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Element Type
+                  </label>
+                  <select
+                    value={type}
+                    onChange={(e) => handleTypeSelectChange(e.target.value)}
+                    className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-amber-300 p-2 rounded-lg text-xs font-bold outline-none cursor-pointer"
+                  >
+                    {ELEMENT_TYPES.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {type === 'Property' && (
+                  <div className="flex-1">
+                    <label className="block text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-1">
+                      Subcategory
+                    </label>
+                    <select
+                      value={fields.propertySubcategory || element.propertySubcategory || 'gear'}
+                      onChange={(e) =>
+                        handleMergeFields({
+                          propertySubcategory: e.target.value,
+                          itemCategory: e.target.value
+                        })
+                      }
+                      className="w-full bg-slate-950 border border-amber-500/50 focus:border-amber-400 text-amber-200 p-2 rounded-lg text-xs font-bold outline-none cursor-pointer"
+                    >
+                      {PROPERTY_SUBCATEGORIES.map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.icon} {sub.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                {type === 'Metaphysics' && (
+                  <div className="flex-1">
+                    <label className="block text-[11px] font-bold text-violet-400 uppercase tracking-wider mb-1">
+                      Subcategory
+                    </label>
+                    <select
+                      value={fields.metaphysicsSubcategory || element.metaphysicsSubcategory || 'invocations'}
+                      onChange={(e) =>
+                        handleMergeFields({
+                          metaphysicsSubcategory: e.target.value
+                        })
+                      }
+                      className="w-full bg-slate-950 border border-violet-500/50 focus:border-violet-400 text-violet-200 p-2 rounded-lg text-xs font-bold outline-none cursor-pointer"
+                    >
+                      {METAPHYSICS_SUBCATEGORIES.map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.icon} {sub.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
 
               {/* Element Image Action */}
@@ -1131,6 +1223,7 @@ const EditElementModal = ({
           isOpen={isArtistHubOpen}
           onClose={() => setIsArtistHubOpen(false)}
           initialPrompt={buildArtistHubVisualBrief(currentDraft)}
+          elementContext={currentDraft}
           onApplyAsset={(asset) => {
             if (asset?.url || asset?.imageUrl) {
               setImageUrl(asset.url || asset.imageUrl);

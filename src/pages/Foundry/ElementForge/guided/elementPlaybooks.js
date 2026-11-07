@@ -140,11 +140,13 @@ export const ARCHETYPE_BLUEPRINTS = [
         }
       },
       sg_item: {
-        summary: 'Prototype tech device or precursor relic calibrated for the Tangent Economatrix.',
+        summary: 'Prototype tech device, ordnance, or precursor relic calibrated for the Tangent Economatrix.',
         seedGuidance: { genre: 'Sci-Fi', tone: 'Formal', pacing: 'Steady' },
         seedFields: {
-          itemCategory: 'Gear',
+          propertySubcategory: 'gear',
+          itemCategory: 'gear',
           rarity: 'Prototype',
+          techLevel: '4',
           'tech-level': '4'
         }
       },
@@ -243,26 +245,38 @@ export const ARCHETYPE_BLUEPRINTS = [
   {
     id: 'bp_tech_system',
     name: 'Breakthrough Tech Paradigm',
-    category: 'Items',
-    elementType: 'Technology',
+    category: 'Property',
+    elementType: 'Property',
     icon: '⚙️',
     summary: 'Foundational technology defining power sources, societal disruption, and vulnerabilities.',
     promptTemplate: 'Specify a Technology Forge dossier for "{title}". Include Tech Level, power mechanism, battlefield/civilian impact, and engineering failure modes.',
     seedGuidance: { genre: 'Sci-Fi', tone: 'Serious' },
-    seedFields: { techLevel: 'TL-4 Hard-Light / Nanotech' },
+    seedFields: { propertySubcategory: 'technology', techLevel: '4', 'tech-level': '4' },
     seedTags: 'Technology, Engineering, TL-4'
   },
   {
     id: 'bp_philosophy_creed',
-    name: 'Metaphysical Order / Creed',
+    name: 'Philosophical Order / Creed',
     category: 'Lorebook',
     elementType: 'Philosophy',
     icon: '📜',
-    summary: 'Belief system, machine cult, or psionic doctrine with tenets, rituals, and schisms.',
+    summary: 'Belief system, machine cult, or civic creed with tenets, rituals, and schisms.',
     promptTemplate: 'Write a Philosophy Scribe codex for "{title}". Include core tenet, cosmology, moral code, sacred iconography, and political influence.',
     seedGuidance: { genre: 'Sci-Fi', tone: 'Formal', literaryDevices: ['Symbolism'] },
     seedFields: {},
     seedTags: 'Philosophy, Creed, Doctrine'
+  },
+  {
+    id: 'bp_metaphysics_invocation',
+    name: 'Invocation / Metaphysical Power',
+    category: 'Metaphysics',
+    elementType: 'Metaphysics',
+    icon: '🔥',
+    summary: 'Psionic, dimensional, or arcane invocation with discipline, Design DC, range/area, and Strain backlash.',
+    promptTemplate: 'Design a canonical Metaphysics Invocation dossier for "{title}". Include governing discipline, Meta Skill, Meta Level, Design DC, cast time, range, area, mechanical 2d10 effect, and overchanneling backlash.',
+    seedGuidance: { genre: 'Sci-Fi', tone: 'Serious' },
+    seedFields: { metaphysicsSubcategory: 'invocations', meta_level: '3', 'meta-level': '3', design_dc: '18' },
+    seedTags: 'Metaphysics, Invocation, Psionics'
   }
 ];
 
@@ -281,7 +295,7 @@ const PLAYBOOK_MAP = {
     stage3Subtitle: 'Appearance, motivations, history, flaws, and narrative prose.',
     stage4Title: 'MCM Statblock & Autonomous VTT Routine',
     stage4Subtitle: 'Calibrate Threat Tier, Canonical v6 Vitals (30/30 or 60 SP), Loadout & VTT AI.',
-    dbmCategories: ['archetypes', 'species', 'factions', 'occupations'],
+    dbmCategories: ['modular_characters', 'archetypes', 'species', 'factions', 'occupations'],
     supportsSituationalModifier: true
   },
   Species: {
@@ -299,7 +313,7 @@ const PLAYBOOK_MAP = {
   Faction: {
     family: 'entity',
     familyLabel: 'Faction & Syndicate',
-    pitchKey: 'coreIdentity',
+    pitchKey: 'oneLinePitch',
     pitchLabel: 'Core Identity & Mandate',
     pitchPlaceholder: 'e.g. A clandestine merchant choir monopolizing jump-gate telemetry...',
     stage3Title: 'Ideology, Governance & Resources',
@@ -320,7 +334,7 @@ const PLAYBOOK_MAP = {
     stage3Subtitle: 'Spatial architecture, inhabitants, acoustics, climate, and hidden landmarks.',
     stage4Title: 'Environmental Hazards & Paired Sector Map',
     stage4Subtitle: 'Bind atmospheric rules, hazard Challenge Ratings, and VTT tactical maps.',
-    dbmCategories: [],
+    dbmCategories: ['setting'],
     supportsSituationalModifier: true
   },
   Scene: {
@@ -333,7 +347,7 @@ const PLAYBOOK_MAP = {
     stage3Subtitle: 'Location slugline, sights/sounds/smells, interactive props, and prose.',
     stage4Title: 'Sequential Scene Beats & Read-Aloud',
     stage4Subtitle: 'Author VTT stage beats, Architect read-aloud box, weather, and map link.',
-    dbmCategories: []
+    dbmCategories: ['scene']
   },
   Encounter: {
     family: 'location',
@@ -360,23 +374,36 @@ const PLAYBOOK_MAP = {
     dbmCategories: []
   },
 
-  // Family 3: Relics, Gear & Tech
-  Item: {
+  // Family 3: Consolidated Property (Weaponry, Armoring, Augmentations, Gear, Mecha, Architecture, Technology, Other)
+  Property: {
     family: 'relic',
-    familyLabel: 'Equipment, Relic & Ordnance',
-    pitchKey: 'properties',
-    pitchLabel: 'Signature Property / Concept',
-    pitchPlaceholder: 'e.g. Phase-tuned monofilament blade thathum-resonates near psionic rifts...',
-    stage3Title: 'Item Lore, Form & Properties',
-    stage3Subtitle: 'Category, rarity, passive capabilities, visual craftsmanship, and history.',
+    familyLabel: 'Property, Ordnance & Technology',
+    pitchKey: 'oneLinePitch',
+    pitchLabel: 'Signature Property / Tech Concept',
+    pitchPlaceholder: 'e.g. Phase-tuned monofilament blade or zero-point hard-light emitter...',
+    stage3Title: 'Property Lore, Engineering & Form',
+    stage3Subtitle: 'Subcategory, function, power mechanism, visual craftsmanship, and drawbacks.',
     stage4Title: 'BASTION Economatrix & Rules Calibration',
     stage4Subtitle: 'Calibrate Tech/Meta Level, EUFT Cost/Craft CR ↔ Credits, and active 2d10 mechanics.',
-    dbmCategories: ['weaponry', 'armoring', 'gear', 'augmentations'],
+    dbmCategories: ['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other'],
+    supportsSituationalModifier: true
+  },
+  Item: {
+    family: 'relic',
+    familyLabel: 'Property, Ordnance & Technology',
+    pitchKey: 'oneLinePitch',
+    pitchLabel: 'Signature Property / Concept',
+    pitchPlaceholder: 'e.g. Phase-tuned monofilament blade that hum-resonates near psionic rifts...',
+    stage3Title: 'Property Lore, Engineering & Form',
+    stage3Subtitle: 'Subcategory, rarity, passive capabilities, visual craftsmanship, and history.',
+    stage4Title: 'BASTION Economatrix & Rules Calibration',
+    stage4Subtitle: 'Calibrate Tech/Meta Level, EUFT Cost/Craft CR ↔ Credits, and active 2d10 mechanics.',
+    dbmCategories: ['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other'],
     supportsSituationalModifier: true
   },
   Technology: {
     family: 'relic',
-    familyLabel: 'Technology & Engineering',
+    familyLabel: 'Property, Ordnance & Technology',
     pitchKey: 'functionPurpose',
     pitchLabel: 'Core Technological Function',
     pitchPlaceholder: 'e.g. Zero-point micro-capacitors enabling portable hard-light barriers...',
@@ -384,7 +411,7 @@ const PLAYBOOK_MAP = {
     stage3Subtitle: 'Power source, societal/economic impact, inventor history, and failure modes.',
     stage4Title: 'Tech Tier & Economatrix Benchmark',
     stage4Subtitle: 'Anchor canonical Tech Level (TL 0–5), Meta Level, and complexity CR.',
-    dbmCategories: ['augmentations', 'gear', 'weaponry']
+    dbmCategories: ['technology', 'augmentations', 'gear', 'weaponry', 'mecha', 'architecture']
   },
 
   // Family 4: Macro-Lore & Doctrines
@@ -393,12 +420,12 @@ const PLAYBOOK_MAP = {
     familyLabel: 'World & Planetary Bible',
     pitchKey: 'corePremise',
     pitchLabel: 'Core Premise / High Concept',
-    pitchPlaceholder: 'e.g. A tidally locked ocean world where cities ride migratingleviathan shells...',
+    pitchPlaceholder: 'e.g. A tidally locked ocean world where cities ride migrating leviathan shells...',
     stage3Title: 'Cosmology, Factions & History Timeline',
     stage3Subtitle: 'Major powers, historical cataclysms, unique physics, and planetary geography.',
     stage4Title: 'World Tier Constants & Story Flags',
     stage4Subtitle: 'Establish planetary Tech/Meta Level baselines and global story state keys.',
-    dbmCategories: ['factions', 'species']
+    dbmCategories: ['planetary_design', 'world', 'factions', 'species']
   },
   Universe: {
     family: 'macro',
@@ -410,7 +437,7 @@ const PLAYBOOK_MAP = {
     stage3Subtitle: 'Foundational metaphysics, laws of causality, and cosmic origin.',
     stage4Title: 'Universal Constants & Tier Ceilings',
     stage4Subtitle: 'Define baseline Tech/Meta ceilings across campaigns in this universe.',
-    dbmCategories: []
+    dbmCategories: ['universe']
   },
   Philosophy: {
     family: 'macro',
@@ -420,9 +447,21 @@ const PLAYBOOK_MAP = {
     pitchPlaceholder: 'e.g. Consciousness is an electromagnetic debt that must be returned to the Void...',
     stage3Title: 'Tenets, Rituals, Ethics & Iconography',
     stage3Subtitle: 'Doctrines, daily practices, sacred symbols, cosmology, and societal influence.',
-    stage4Title: 'Metaphysical Resonance & Doctrinal Scope',
-    stage4Subtitle: 'Set associated Meta Level affinity, taboos, and faction alignment hooks.',
-    dbmCategories: ['invocations', 'features']
+    stage4Title: 'Doctrinal Scope & Cultural Alignment',
+    stage4Subtitle: 'Set cultural tech/meta context, taboos, and faction alignment hooks.',
+    dbmCategories: ['philosophy']
+  },
+  Metaphysics: {
+    family: 'macro',
+    familyLabel: 'Metaphysics, Invocations & Synthesis',
+    pitchKey: 'oneLinePitch',
+    pitchLabel: 'Core Invocation / Metaphysical Effect',
+    pitchPlaceholder: 'e.g. Collapses local gravity into a 6m singularity pulling hostile units inward...',
+    stage3Title: 'Discipline, Manifestation & Invocation Parameters',
+    stage3Subtitle: 'Subcategory (Invocation, Discipline, Ability, Synthesis), range, area, cast time, and sensory signature.',
+    stage4Title: 'Meta Level, Design DC & Strain Calibration',
+    stage4Subtitle: 'Calibrate Meta Level (ML 0–5), Invocation Design DC, governing Meta Skill, and Strain/AP cost.',
+    dbmCategories: ['invocations', 'disciplines', 'special_abilities', 'synthesis']
   },
   'Story Arc': {
     family: 'macro',
@@ -505,6 +544,78 @@ export function getPlaybookForType(rawType = 'Persona') {
  */
 export function getPitchFieldKey(rawType = 'Persona') {
   return getPlaybookForType(rawType).pitchKey;
+}
+
+/**
+ * Searches across all Omnicortex Canon DBM categories on demand.
+ * Returns an empty array when the query is blank so no unsearched catalog dump is rendered.
+ */
+export function searchOmnicortexCanonRecords(
+  dbData = {},
+  query = '',
+  preferredCategories = [],
+  limit = 60
+) {
+  const trimmedQuery = String(query || '').trim();
+  if (!trimmedQuery || !dbData || typeof dbData !== 'object') {
+    return [];
+  }
+
+  const q = trimmedQuery.toLowerCase();
+  const preferredSet = new Set(Array.isArray(preferredCategories) ? preferredCategories : []);
+  const matches = [];
+
+  for (const [cat, list] of Object.entries(dbData)) {
+    if (!Array.isArray(list)) continue;
+
+    for (const item of list) {
+      if (!item || typeof item !== 'object') continue;
+      const itemTitle = String(
+        item.name || item.title || item.factionName || item.speciesName || ''
+      ).trim();
+      if (!itemTitle) continue;
+
+      const displaySummary = String(
+        item.description || item.concept || item.summary || item.notes || item.mechanic || ''
+      ).trim();
+
+      const titleLower = itemTitle.toLowerCase();
+      const catLower = cat.toLowerCase();
+      const summaryLower = displaySummary.toLowerCase();
+
+      const titleMatched = titleLower.includes(q);
+      const catMatched = catLower.includes(q);
+      const summaryMatched = summaryLower.includes(q);
+
+      if (!titleMatched && !catMatched && !summaryMatched) continue;
+
+      let rank = 4;
+      if (titleLower === q) rank = 0;
+      else if (titleLower.startsWith(q)) rank = 1;
+      else if (titleMatched) rank = 2;
+      else if (catMatched) rank = 3;
+
+      matches.push({
+        record: {
+          ...item,
+          id: item.id || `${cat}_${itemTitle}`,
+          displayTitle: itemTitle,
+          dbmCategory: cat,
+          displaySummary
+        },
+        rank,
+        preferredBoost: preferredSet.has(cat) ? 0 : 1
+      });
+    }
+  }
+
+  matches.sort((a, b) => {
+    if (a.rank !== b.rank) return a.rank - b.rank;
+    if (a.preferredBoost !== b.preferredBoost) return a.preferredBoost - b.preferredBoost;
+    return a.record.displayTitle.localeCompare(b.record.displayTitle);
+  });
+
+  return matches.slice(0, limit).map((m) => m.record);
 }
 
 /**
@@ -691,8 +802,8 @@ export function computeGuidedElementReadiness(draft = {}) {
     if (fields.mcmTier && (fields.health || fields.defense)) tacticalStatus = 'complete';
     else if (fields.mcmChassis || fields.mcmRole || fields['char-species']) tacticalStatus = 'partial';
   } else if (playbook.family === 'relic') {
-    if ((fields.techLevel || fields['tech-level']) && (fields.costCr || fields.mechanic)) tacticalStatus = 'complete';
-    else if (fields.techLevel || fields['tech-level'] || fields.rarity) tacticalStatus = 'partial';
+    if ((fields.techLevel || fields['tech-level']) && (fields.costCr || fields.craft_dc || fields.cost || fields.mechanic)) tacticalStatus = 'complete';
+    else if (fields.techLevel || fields['tech-level'] || fields.rarity || fields.propertySubcategory) tacticalStatus = 'partial';
   } else if (playbook.family === 'location') {
     if (fields.sceneBeats || fields.readAloud || fields.pairedMapId || fields.weatherPreset) tacticalStatus = 'complete';
   } else if (playbook.family === 'epistemic') {

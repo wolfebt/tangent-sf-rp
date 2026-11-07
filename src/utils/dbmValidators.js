@@ -44,7 +44,7 @@ export function validateDbmEntry(categoryKey, entry) {
   if (config?.fields) {
     for (const [fieldKey, fieldDef] of Object.entries(config.fields)) {
       if (fieldDef.required) {
-        const val = entry[fieldKey];
+        const val = entry[fieldKey] !== undefined ? entry[fieldKey] : (fieldKey === 'name' ? entry.title : undefined);
         const isMissing =
           val === undefined ||
           val === null ||

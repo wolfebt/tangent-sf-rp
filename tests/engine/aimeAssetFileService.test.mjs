@@ -119,6 +119,8 @@ describe('AIME Portable Asset File Service (The Art of AI Crafting Parity)', () 
     assert.equal(getElementFileExtension('Persona'), '.persona');
     assert.equal(getElementFileExtension('Setting'), '.setting');
     assert.equal(getElementFileExtension('Species'), '.species');
+    assert.equal(getElementFileExtension('Property'), '.property');
+    assert.equal(getElementFileExtension('Property', 'technology'), '.tech');
     assert.equal(getElementFileExtension('Technology'), '.tech');
     assert.equal(getElementFileExtension('Philosophy'), '.philosophy');
     assert.equal(getElementFileExtension('Scene'), '.scene');
@@ -128,6 +130,7 @@ describe('AIME Portable Asset File Service (The Art of AI Crafting Parity)', () 
     assert.equal(EXTENSION_TO_TYPE_MAP['.persona'], 'Persona');
     assert.equal(EXTENSION_TO_TYPE_MAP['.setting'], 'Setting');
     assert.equal(EXTENSION_TO_TYPE_MAP['.species'], 'Species');
+    assert.equal(EXTENSION_TO_TYPE_MAP['.property'], 'Property');
     assert.equal(EXTENSION_TO_TYPE_MAP['.tech'], 'Technology');
     assert.equal(EXTENSION_TO_TYPE_MAP['.philosophy'], 'Philosophy');
     assert.equal(EXTENSION_TO_TYPE_MAP['.scene'], 'Scene');

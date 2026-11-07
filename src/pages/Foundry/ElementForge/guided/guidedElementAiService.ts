@@ -339,30 +339,36 @@ export function calibrateElementWithBastion({
     };
   }
 
-  // 2. Relic / Item / Technology Calibration (Economatrix EUFT)
+  // 2. Relic / Property / Item / Technology Calibration (Economatrix EUFT)
   if (playbook.family === 'relic') {
     const isPrecursor = /\b(precursor|progenitor|relic|artifact|singularity|ancient)\b/.test(corpus);
     const isPrototype = /\b(prototype|hard-light|nanotech|experimental|quantum|masterwork)\b/.test(corpus);
-    const tl = Number(fields.techLevel || fields['tech-level'] || (isPrecursor ? 5 : isPrototype ? 4 : 3));
-    const ml = Number(fields['meta-level'] ?? (/\b(psionic|aether|rune|awakened|soul)\b/.test(corpus) ? 3 : 0));
+    const rawTlStr = String(fields.techLevel || fields['tech-level'] || '').replace(/[^0-9]/g, '');
+    const tl = rawTlStr !== '' ? Number(rawTlStr) : (isPrecursor ? 5 : isPrototype ? 4 : 3);
+    const ml = Number(fields.metaLevel ?? fields['meta-level'] ?? (/\b(psionic|aether|rune|awakened|soul)\b/.test(corpus) ? 3 : 0));
     const rarity = fields.rarity || (isPrecursor ? 'Artifact' : isPrototype ? 'Prototype' : 'Standard');
 
     const defaultCr = isPrecursor ? 25 : isPrototype ? 18 : 12;
-    const costCr = fields.costCr !== undefined && fields.costCr !== ''
-      ? Number(fields.costCr)
-      : fields.creditValue
-      ? calculateCRFromCredits(Number(fields.creditValue))
+    const rawCrField = fields.costCr !== undefined && fields.costCr !== '' ? fields.costCr : fields.craft_dc;
+    const rawCreditField = fields.creditValue !== undefined && fields.creditValue !== '' ? fields.creditValue : fields.cost;
+    const costCr = rawCrField !== undefined && rawCrField !== ''
+      ? Number(rawCrField)
+      : rawCreditField
+      ? calculateCRFromCredits(Number(rawCreditField))
       : defaultCr;
     const creditValue = calculateCreditValue(costCr);
 
     const calibratedFields = {
       ...fields,
-      techLevel: `TL-${tl}`,
+      techLevel: String(tl),
       'tech-level': String(tl),
+      metaLevel: String(ml),
       'meta-level': String(ml),
       rarity,
       costCr: String(costCr),
+      craft_dc: String(costCr),
       creditValue: String(creditValue),
+      cost: String(creditValue),
       mechanic:
         fields.mechanic ||
         `Canonical v6 (TL-${tl}): Unopposed operation CR 15; Crafting/Purchase CR ${costCr} (${creditValue.toLocaleString()} Cr EUFT).`

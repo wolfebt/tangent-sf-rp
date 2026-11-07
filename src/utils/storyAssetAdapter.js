@@ -7,6 +7,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { OBJECT_TYPES } from '../services/interactiveObjectService.js';
 import { TRAP_TYPES } from '../services/reactiveVttService.js';
+import { inferPropertySubcategory, inferMetaphysicsSubcategory } from '../pages/Foundry/ElementForge/elementSchemas.js';
 
 /**
  * Normalizes an ADE story component element into a Stage VTT Token / Static Entity.
@@ -72,7 +73,7 @@ export function adeElementToInteractiveObject(element, position = { x: 400, y: 3
   let objectType = 'security_terminal';
   let icon = '💻';
 
-  if (elemType === 'Item') {
+  if (elemType === 'Item' || elemType === 'Property') {
     objectType = 'loot_cache';
     icon = '📦';
   } else if (elemType === 'Clue' || elemType === 'Handout') {
@@ -107,7 +108,7 @@ export function adeElementToInteractiveObject(element, position = { x: 400, y: 3
     doorState: objectType === 'blast_door' ? 'closed' : undefined,
     isHacked: false,
     adeStoryElementId: element.id,
-    lootPayload: elemType === 'Item' ? [adeElementToFolioItem(element)] : (fields.lootPayload || []),
+    lootPayload: (elemType === 'Item' || elemType === 'Property') ? [adeElementToFolioItem(element)] : (fields.lootPayload || []),
     // Reactive hazard attributes if applicable
     isTrap: elemType === 'Hazard' || !!fields.isTrap,
     trapType: fields.trapType || 'proximity_plasma_mine',
@@ -126,13 +127,21 @@ export function adeElementToFolioItem(element) {
   if (!element) return null;
 
   const fields = element.fields || {};
-  const rawCat = (fields.itemCategory || fields.category || 'gear').toLowerCase();
+  const rawCat = (
+    fields.propertySubcategory ||
+    element.propertySubcategory ||
+    fields.itemCategory ||
+    fields.category ||
+    'gear'
+  ).toLowerCase();
 
   let targetCategory = 'gear';
   if (['weapon', 'weapons', 'weaponry'].includes(rawCat)) {
     targetCategory = 'weapons';
   } else if (['armor', 'armoring', 'shield', 'shields'].includes(rawCat)) {
     targetCategory = 'armoring';
+  } else if (['augment', 'augmentation', 'augmentations', 'cyberware'].includes(rawCat)) {
+    targetCategory = 'augmentations';
   } else if (['mecha', 'vehicle'].includes(rawCat)) {
     targetCategory = 'mecha';
   }
@@ -171,27 +180,47 @@ export function adeElementToOmnicortexDoc(element) {
   let category = 'gear';
 
   if (element.type === 'Persona') {
-    category = 'bestiary';
+    if (
+      element.personaSubcategory === 'mcm' ||
+      element.dbmCategory === 'modular_characters' ||
+      fields.mcmTier !== undefined ||
+      fields.mcmRole !== undefined
+    ) {
+      category = 'modular_characters';
+    } else if (element.dbmCategory === 'archetypes' || element.personaSubcategory === 'archetypes') {
+      category = 'archetypes';
+    } else {
+      category = 'bestiary';
+    }
   } else if (element.type === 'Faction') {
     category = 'factions';
   } else if (element.type === 'Species') {
     category = 'species';
-  } else if (element.type === 'Clue' || element.type === 'Handout' || element.type === 'Philosophy') {
+  } else if (element.type === 'World') {
+    category = element.dbmCategory === 'planetary_design' || fields.starClass ? 'planetary_design' : 'world';
+  } else if (element.type === 'Universe') {
+    category = 'universe';
+  } else if (element.type === 'Setting') {
+    category = 'setting';
+  } else if (element.type === 'Scene') {
+    category = 'scene';
+  } else if (element.type === 'Philosophy') {
+    category = 'philosophy';
+  } else if (element.type === 'Metaphysics' || element.type === 'Invocation' || element.type === 'Invocations') {
+    category = inferMetaphysicsSubcategory(element);
+  } else if (element.type === 'Clue' || element.type === 'Handout') {
     category = 'compendium';
-  } else if (element.type === 'Item') {
-    const raw = (fields.itemCategory || '').toLowerCase();
-    if (raw.includes('weapon')) category = 'weaponry';
-    else if (raw.includes('armor')) category = 'armoring';
-    else category = 'gear';
+  } else if (element.type === 'Property' || element.type === 'Item' || element.type === 'Technology') {
+    category = inferPropertySubcategory(element);
   }
 
   return {
     category,
     document: {
-      id: element.id || `omni_${Date.now()}`,
-      name: element.title || 'Omnicortex Entity',
+      id: element.dbmId || fields.dbmId || element.id || `omni_${Date.now()}`,
+      name: element.title || element.name || 'Omnicortex Entity',
       body: element.content || '',
-      description: element.content || fields.summary || '',
+      description: element.content || fields.oneLinePitch || fields.summary || '',
       ...fields,
       source: 'ADE Studio'
     }
@@ -200,27 +229,35 @@ export function adeElementToOmnicortexDoc(element) {
 
 /**
  * Saves or updates an ADE element into Omnicortex DBM via DBMContext.
+ * Supports both `DBMContext.saveEntry(doc, category)` and legacy `saveItem(category, doc)` signatures.
  */
 export function syncElementToOmnicortexDBM(element, dbmContext) {
-  if (!element || !dbmContext || typeof dbmContext.saveItem !== 'function') return false;
+  if (!element || !dbmContext) return false;
+  const hasSaveEntry = typeof dbmContext.saveEntry === 'function';
+  const hasSaveItem = typeof dbmContext.saveItem === 'function';
+  if (!hasSaveEntry && !hasSaveItem) return false;
 
   const mapped = adeElementToOmnicortexDoc(element);
   if (!mapped) return false;
 
-  dbmContext.saveItem(mapped.category, mapped.document);
+  if (hasSaveEntry) {
+    dbmContext.saveEntry(mapped.document, mapped.category);
+  } else {
+    dbmContext.saveItem(mapped.category, mapped.document);
+  }
   return true;
 }
 
 /**
  * Hydrates an ADE story element with the latest canonical fields from Omnicortex DBM.
- * @param {Object} element - The active ADE story element with fields.dbmRef or dbmRef.
+ * @param {Object} element - The active ADE story element with fields.dbmRef / dbmId or dbmRef.
  * @param {Object} dbData - The Omnicortex database container from useDBM().
  * @returns {Object|null} - Updated element object, or null if unlinked/not found.
  */
 export function pullElementFromOmnicortexDBM(element, dbData) {
   if (!element || !dbData) return null;
 
-  const dbmId = element.fields?.dbmRef || element.dbmRef;
+  const dbmId = element.fields?.dbmRef || element.dbmRef || element.fields?.dbmId || element.dbmId;
   if (!dbmId) return null;
 
   const category = element.fields?.dbmCategory || element.dbmCategory;

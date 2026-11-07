@@ -23,6 +23,8 @@ export default function ADETopToolbar({
   onSelectScenario,
   isPrintModalOpen = false,
   onTogglePrintModal,
+  isArtistHubOpen = false,
+  onToggleArtistHub,
   isCronicleOpen = false,
   onToggleCronicle,
   isCompilerOpen = false,
@@ -120,6 +122,8 @@ export default function ADETopToolbar({
         onToggleCronicle={onToggleCronicle}
         isPrintModalOpen={isPrintModalOpen}
         onTogglePrintModal={onTogglePrintModal}
+        isArtistHubOpen={isArtistHubOpen}
+        onToggleArtistHub={onToggleArtistHub}
         isRightDockOpen={isRightDockOpen}
         onToggleRightDock={onToggleRightDock}
         activeCockpitDeck={activeCockpitDeck}

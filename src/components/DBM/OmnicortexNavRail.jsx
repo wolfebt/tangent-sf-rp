@@ -131,6 +131,7 @@ export const SUB_SECTION_META = {
   augmentations: { label: 'Augmentations', shortLabel: 'AUGMENTS', icon: Zap, color: '#f472b6' },
   mecha: { label: 'Mecha & Vehicles', shortLabel: 'MECHA', icon: Bot, color: '#fbbf24' },
   architecture: { label: 'Architecture', shortLabel: 'ARCHITECT', icon: Landmark, color: '#34d399' },
+  technology: { label: 'Technology & Schematics', shortLabel: 'TECH', icon: Zap, color: '#38bdf8' },
   other: { label: 'Other Property', shortLabel: 'OTHER', icon: Boxes, color: '#94a3b8' },
   planetary_design: { label: 'Planetary Design', shortLabel: 'PLANETS', icon: Globe, color: '#818cf8' },
   world: { label: 'World Profiles', shortLabel: 'WORLDS', icon: Globe, color: '#818cf8' },
@@ -232,8 +233,8 @@ export const OMNICORTEX_SECTIONS = [
     icon: Package,
     colorTheme: 'orange',
     isParent: true,
-    subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other'],
-    sublabel: 'Gear, Weapons, Armor, Augmentations'
+    subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'technology', 'other'],
+    sublabel: 'Gear, Weapons, Armor, Augments & Tech'
   },
   {
     id: 'disadvantages',

@@ -15,6 +15,8 @@ export const PROPERTY_CATEGORIES = new Set([
   'equipment',
   'mecha',
   'architecture',
+  'technology',
+  'property',
   'other',
   'other_property',
   'personal_property'

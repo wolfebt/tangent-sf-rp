@@ -6,7 +6,8 @@ import {
   PanelRightClose, 
   PanelRight,
   Sparkles,
-  Columns
+  Columns,
+  Palette
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 
@@ -31,6 +32,8 @@ export default function ToolbarQuickActions({
   onToggleCronicle,
   isPrintModalOpen,
   onTogglePrintModal,
+  isArtistHubOpen,
+  onToggleArtistHub,
   isRightDockOpen,
   onToggleRightDock,
   activeCockpitDeck,
@@ -218,6 +221,22 @@ export default function ToolbarQuickActions({
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
           )}
         </button>
+
+        {/* Artist Hub */}
+        {onToggleArtistHub && (
+          <button
+            type="button"
+            onClick={() => onToggleArtistHub?.(true)}
+            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+              isArtistHubOpen
+                ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                : 'text-purple-400 hover:text-purple-200 hover:bg-slate-800/80 border border-transparent'
+            }`}
+            title="Artist Hub — HIFI CHROMA & HI-FI SKETCH Modular Prompt Studio"
+          >
+            <Palette size={12} />
+          </button>
+        )}
 
         {/* Print */}
         <button

@@ -167,9 +167,24 @@ test('adeElementToOmnicortexDoc: Correct compendium category routing', () => {
     fields: { itemCategory: 'Armoring' }
   });
   assert.equal(armorDoc.category, 'armoring');
+
+  const cyberPropertyDoc = adeElementToOmnicortexDoc({
+    type: 'Property',
+    propertySubcategory: 'augmentations',
+    title: 'Synaptic Reflex Booster'
+  });
+  assert.equal(cyberPropertyDoc.category, 'augmentations');
+
+  const mcmPersonaDoc = adeElementToOmnicortexDoc({
+    type: 'Persona',
+    personaSubcategory: 'mcm',
+    title: 'Syndicate Enforcer',
+    fields: { mcmTier: '4' }
+  });
+  assert.equal(mcmPersonaDoc.category, 'modular_characters');
 });
 
-test('syncElementToOmnicortexDBM: Calls DBMContext saveItem cleanly', () => {
+test('syncElementToOmnicortexDBM: Supports both DBMContext saveEntry(doc, cat) and legacy saveItem(cat, doc)', () => {
   let savedCategory = null;
   let savedDoc = null;
 
@@ -192,6 +207,24 @@ test('syncElementToOmnicortexDBM: Calls DBMContext saveItem cleanly', () => {
   assert.equal(savedCategory, 'species');
   assert.equal(savedDoc.name, 'Celestine Aeld');
   assert.equal(savedDoc.source, 'ADE Studio');
+
+  let entryCat = null;
+  let entryDoc = null;
+  const liveDbm = {
+    saveEntry: (doc, cat) => {
+      entryDoc = doc;
+      entryCat = cat;
+    }
+  };
+  const propElement = {
+    id: 'elem_phase_rifle',
+    type: 'Property',
+    propertySubcategory: 'weaponry',
+    title: 'Phase Rifle'
+  };
+  assert.equal(syncElementToOmnicortexDBM(propElement, liveDbm), true);
+  assert.equal(entryCat, 'weaponry');
+  assert.equal(entryDoc.name, 'Phase Rifle');
 });
 
 test('pullElementFromOmnicortexDBM: null/unlinked safety', () => {

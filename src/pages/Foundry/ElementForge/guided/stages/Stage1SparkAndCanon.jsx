@@ -15,10 +15,17 @@ import {
   CheckCircle2,
   X
 } from 'lucide-react';
-import { ELEMENT_TYPES, getTypePillStyle } from '../../elementSchemas';
+import {
+  ELEMENT_TYPES,
+  PROPERTY_SUBCATEGORIES,
+  PERSONA_SUBCATEGORIES,
+  METAPHYSICS_SUBCATEGORIES,
+  getTypePillStyle
+} from '../../elementSchemas';
 import {
   getPlaybookForType,
-  ARCHETYPE_BLUEPRINTS
+  ARCHETYPE_BLUEPRINTS,
+  searchOmnicortexCanonRecords
 } from '../elementPlaybooks';
 import { synthesizeQuickBlueprintMarkdown } from '../guidedElementAiService';
 import { useDBM } from '../../../../../context/DBMContext';
@@ -73,7 +80,6 @@ export default function Stage1SparkAndCanon({
   const [blueprintDirectives, setBlueprintDirectives] = useState('');
   const [isSynthesizingDump, setIsSynthesizingDump] = useState(false);
   const [dbmSearch, setDbmSearch] = useState('');
-  const [showAllDbmCategories, setShowAllDbmCategories] = useState(false);
 
   useEffect(() => {
     if (initialSeedTab) {
@@ -102,42 +108,11 @@ export default function Stage1SparkAndCanon({
     );
   }, [visibleBlueprints, selectedBlueprintId]);
 
-  // Discover canonical DBM entries for this playbook
-  const dbmCandidates = useMemo(() => {
-    if (!dbData || typeof dbData !== 'object') return [];
-    const defaultCats =
-      playbook.dbmCategories.length > 0 && !showAllDbmCategories
-        ? playbook.dbmCategories
-        : ['archetypes', 'species', 'factions', 'weaponry', 'armoring', 'gear', 'augmentations', 'invocations', 'features'];
-
-    const collected = [];
-    for (const cat of defaultCats) {
-      const list = Array.isArray(dbData[cat]) ? dbData[cat] : [];
-      for (const item of list) {
-        if (!item) continue;
-        const itemTitle = item.name || item.title || item.factionName || item.speciesName;
-        if (!itemTitle) continue;
-        collected.push({
-          ...item,
-          id: item.id || `${cat}_${itemTitle}`,
-          displayTitle: itemTitle,
-          dbmCategory: cat,
-          displaySummary: item.description || item.concept || item.summary || item.notes || ''
-        });
-      }
-    }
-
-    if (!dbmSearch.trim()) return collected.slice(0, 60);
-    const q = dbmSearch.toLowerCase();
-    return collected
-      .filter(
-        (c) =>
-          c.displayTitle.toLowerCase().includes(q) ||
-          c.dbmCategory.toLowerCase().includes(q) ||
-          c.displaySummary.toLowerCase().includes(q)
-      )
-      .slice(0, 60);
-  }, [dbData, playbook.dbmCategories, showAllDbmCategories, dbmSearch]);
+  // Search canonical Omnicortex DBM entries across all categories on demand
+  const dbmCandidates = useMemo(
+    () => searchOmnicortexCanonRecords(dbData, dbmSearch, playbook.dbmCategories, 60),
+    [dbData, dbmSearch, playbook.dbmCategories]
+  );
 
   const pitchValue = fields[playbook.pitchKey] || '';
 
@@ -323,6 +298,110 @@ export default function Stage1SparkAndCanon({
             />
           </div>
         </div>
+
+        {/* Property Subcategory Selector (Consolidated Cortex Property Collections) */}
+        {type === 'Property' && (
+          <div>
+            <label className="block text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider mb-1.5">
+              Property Subcategory (OmniCortex Target Collection)
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {PROPERTY_SUBCATEGORIES.map((sub) => {
+                const currentSub = fields.propertySubcategory || fields.itemCategory || 'gear';
+                const active = currentSub === sub.id;
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1120, 0.02);
+                      onMergeFields?.({
+                        propertySubcategory: sub.id,
+                        itemCategory: sub.id
+                      });
+                    }}
+                    className={`px-2.5 py-1.5 rounded-xl text-[11px] font-mono font-bold uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-1.5 ${
+                      active
+                        ? 'bg-amber-950/90 border-amber-400 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                        : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    <span>{sub.icon}</span>
+                    <span>{sub.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Metaphysics Subcategory Selector */}
+        {type === 'Metaphysics' && (
+          <div>
+            <label className="block text-[11px] font-mono font-bold text-violet-300 uppercase tracking-wider mb-1.5">
+              Metaphysics Subcategory (OmniCortex Target Collection)
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {METAPHYSICS_SUBCATEGORIES.map((sub) => {
+                const currentSub = fields.metaphysicsSubcategory || 'invocations';
+                const active = currentSub === sub.id;
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1120, 0.02);
+                      onMergeFields?.({
+                        metaphysicsSubcategory: sub.id
+                      });
+                    }}
+                    className={`px-2.5 py-1.5 rounded-xl text-[11px] font-mono font-bold uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-1.5 ${
+                      active
+                        ? 'bg-violet-950/90 border-violet-400 text-violet-200 shadow-[0_0_10px_rgba(139,92,246,0.2)]'
+                        : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    <span>{sub.icon}</span>
+                    <span>{sub.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Persona Source Track Selector */}
+        {type === 'Persona' && (
+          <div>
+            <label className="block text-[11px] font-mono font-bold text-purple-300 uppercase tracking-wider mb-1.5">
+              Persona Representation Track
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+              {PERSONA_SUBCATEGORIES.map((sub) => {
+                const currentTrack = fields.personaSubcategory || (fields.mcmTier ? 'mcm' : 'story');
+                const active = currentTrack === sub.id;
+                return (
+                  <button
+                    key={sub.id}
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1120, 0.02);
+                      onMergeFields?.({ personaSubcategory: sub.id });
+                    }}
+                    className={`px-2.5 py-1.5 rounded-xl text-[11px] font-mono font-bold uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-1.5 ${
+                      active
+                        ? 'bg-purple-950/90 border-purple-400 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
+                        : 'bg-slate-950/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    <span>{sub.icon}</span>
+                    <span>{sub.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* High-Concept One-Line Pitch */}
         <div>
@@ -557,74 +636,72 @@ export default function Stage1SparkAndCanon({
           {/* TAB 3: OMNICORTEX CANON DBM SEEDING */}
           {seedTab === 'dbm' && (
             <div className="space-y-3">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="relative flex-1 min-w-[220px]">
-                  <input
-                    type="text"
-                    value={dbmSearch}
-                    onChange={(e) => setDbmSearch(e.target.value)}
-                    placeholder="Search Omnicortex Canon records..."
-                    className="w-full pl-9 pr-3 py-2 bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-xl text-xs text-slate-100 font-mono outline-none"
-                  />
-                  <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
-                </div>
-
-                {playbook.dbmCategories.length > 0 && (
+              <div className="relative">
+                <input
+                  type="text"
+                  value={dbmSearch}
+                  onChange={(e) => setDbmSearch(e.target.value)}
+                  placeholder="Search Omnicortex Canon records..."
+                  className="w-full pl-9 pr-8 py-2 bg-slate-950 border border-slate-800 focus:border-cyan-400 rounded-xl text-xs text-slate-100 font-mono outline-none"
+                />
+                <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
+                {dbmSearch && (
                   <button
                     type="button"
-                    onClick={() => setShowAllDbmCategories((prev) => !prev)}
-                    className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[10px] font-mono font-bold uppercase text-cyan-300 cursor-pointer"
+                    onClick={() => setDbmSearch('')}
+                    aria-label="Clear Omnicortex search"
+                    className="absolute right-2.5 top-2 text-slate-500 hover:text-slate-200 p-0.5 cursor-pointer"
                   >
-                    {showAllDbmCategories
-                      ? `Filter to ${playbook.dbmCategories.join('/')} Canon`
-                      : 'Browse All Canon Categories'}
+                    <X size={13} />
                   </button>
                 )}
               </div>
 
-              {dbmCandidates.length === 0 ? (
-                <div className="p-6 text-center rounded-xl bg-slate-950/60 border border-dashed border-slate-800 text-xs text-slate-500 font-mono">
-                  No matching Omnicortex DBM entries found. Try broadening your search or switching categories.
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
-                  {dbmCandidates.map((item) => {
-                    const isLinked = fields.dbmRef === item.id;
-                    return (
-                      <div
-                        key={`${item.dbmCategory}_${item.id}`}
-                        className={`p-3 rounded-xl border flex items-start justify-between gap-2.5 transition-all ${
-                          isLinked
-                            ? 'bg-cyan-950/60 border-cyan-400 text-cyan-100'
-                            : 'bg-slate-950/70 border-slate-800 text-slate-200 hover:border-slate-700'
-                        }`}
-                      >
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-mono font-bold truncate">
-                              {item.displayTitle}
-                            </span>
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-900 border border-slate-700 text-cyan-300 uppercase shrink-0">
-                              {item.dbmCategory}
-                            </span>
-                          </div>
-                          {item.displaySummary && (
-                            <p className="text-[11px] text-slate-400 line-clamp-2 mt-1">
-                              {item.displaySummary}
-                            </p>
-                          )}
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleSeedFromDbmItem(item)}
-                          className="px-2.5 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-mono font-bold uppercase shrink-0 cursor-pointer"
+              {dbmSearch.trim() && (
+                dbmCandidates.length === 0 ? (
+                  <div className="p-6 text-center rounded-xl bg-slate-950/60 border border-dashed border-slate-800 text-xs text-slate-500 font-mono">
+                    No matching Omnicortex Canon entries found for &ldquo;{dbmSearch.trim()}&rdquo;.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+                    {dbmCandidates.map((item) => {
+                      const isLinked = fields.dbmRef === item.id;
+                      return (
+                        <div
+                          key={`${item.dbmCategory}_${item.id}`}
+                          className={`p-3 rounded-xl border flex items-start justify-between gap-2.5 transition-all ${
+                            isLinked
+                              ? 'bg-cyan-950/60 border-cyan-400 text-cyan-100'
+                              : 'bg-slate-950/70 border-slate-800 text-slate-200 hover:border-slate-700'
+                          }`}
                         >
-                          {isLinked ? '✓ Seeded' : '⚡ Seed'}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-mono font-bold truncate">
+                                {item.displayTitle}
+                              </span>
+                              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-900 border border-slate-700 text-cyan-300 uppercase shrink-0">
+                                {item.dbmCategory}
+                              </span>
+                            </div>
+                            {item.displaySummary && (
+                              <p className="text-[11px] text-slate-400 line-clamp-2 mt-1">
+                                {item.displaySummary}
+                              </p>
+                            )}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleSeedFromDbmItem(item)}
+                            className="px-2.5 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-mono font-bold uppercase shrink-0 cursor-pointer"
+                          >
+                            {isLinked ? '✓ Seeded' : '⚡ Seed'}
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )
               )}
             </div>
           )}

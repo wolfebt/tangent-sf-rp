@@ -8,6 +8,9 @@
 import { useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../context/CampaignContext';
+import { useDBM } from '../../context/DBMContext';
+import { useFolio } from '../../context/FolioContext';
+import { buildUnifiedAdeCatalog } from '../../utils/cortexAdeAssetBridge';
 
 /**
  * Recursively flattens a scenario tree into a single array.
@@ -62,19 +65,35 @@ export function useMapAssets() {
 }
 
 /**
- * Contract for accessing Story Elements assets.
+ * Contract for accessing unified Story Module + OmniCortex + Folio + MCM Elements assets.
  */
 export function useElementAssets() {
   const navigate = useNavigate();
-  const { elementsCatalog, setEditingElement } = useStory();
+  const { elementsCatalog } = useStory() || {};
+  const { dbData = {} } = useDBM() || {};
+  const { roster: folioRoster = [], personaRoster = [], publicPersonas = [] } = useFolio() || {};
+
+  const liveFolio = useMemo(
+    () => (Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : [])),
+    [folioRoster, personaRoster]
+  );
 
   const list = useMemo(() => {
+    return buildUnifiedAdeCatalog({
+      elementsCatalog: Array.isArray(elementsCatalog) ? elementsCatalog : [],
+      dbData,
+      folioRoster: liveFolio,
+      publicPersonas: Array.isArray(publicPersonas) ? publicPersonas : []
+    });
+  }, [elementsCatalog, dbData, liveFolio, publicPersonas]);
+
+  const moduleList = useMemo(() => {
     return Array.isArray(elementsCatalog) ? elementsCatalog : [];
   }, [elementsCatalog]);
 
   const getById = useCallback((elementId) => {
     if (!elementId) return null;
-    return list.find(el => el.id === elementId) || null;
+    return list.find(el => el.id === elementId || el.dbmId === elementId || el.folioDocId === elementId) || null;
   }, [list]);
 
   const openInEditor = useCallback((elementId, returnTo = 'stage') => {
@@ -86,6 +105,7 @@ export function useElementAssets() {
 
   return {
     list,
+    moduleList,
     getById,
     openInEditor
   };

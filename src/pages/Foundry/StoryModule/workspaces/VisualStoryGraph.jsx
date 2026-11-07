@@ -36,7 +36,8 @@ export const VisualStoryGraph = ({
   onSelectScenario,
   onOpenInWeaver,
   onPanStageToMap,
-  onSwitchView
+  onSwitchView,
+  embedded = false
 }) => {
   const confirm = useConfirm();
   const { 
@@ -739,6 +740,7 @@ export const VisualStoryGraph = ({
       
       {/* ── TOP GLASS-COCKPIT CONTROL TOOLBAR ── */}
       <GraphToolbar
+        embedded={embedded}
         flatNodes={flatNodes}
         allLinks={allLinks}
         continuityHealth={continuityHealth}

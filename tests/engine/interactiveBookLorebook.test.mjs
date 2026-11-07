@@ -62,8 +62,13 @@ describe('Phase 1: Custom Codex Schema & Ingestion Integration', () => {
     const pillStyle = getTypePillStyle('Custom');
     assert.ok(pillStyle.includes('teal'), `Pill style should use teal styling: ${pillStyle}`);
 
-    // 6. Consolidated canonical element types without AIME module duplicates
+    // 6. Consolidated canonical element types without AIME module duplicates (Item + Technology consolidated into Property; Metaphysics separated from Philosophy)
     assert.equal(ELEMENT_TYPES.length, 17);
+    assert.ok(ELEMENT_TYPES.includes('Property'));
+    assert.ok(ELEMENT_TYPES.includes('Metaphysics'));
+    assert.ok(ELEMENT_TYPES.includes('Philosophy'));
+    assert.ok(!ELEMENT_TYPES.includes('Item'));
+    assert.ok(!ELEMENT_TYPES.includes('Technology'));
     assert.ok(!ELEMENT_TYPES.includes('World Anvil'));
     assert.ok(!ELEMENT_TYPES.includes('Persona Maker'));
     assert.ok(!ELEMENT_TYPES.includes('Setting Architect'));
@@ -75,7 +80,9 @@ describe('Phase 1: Custom Codex Schema & Ingestion Integration', () => {
     assert.equal(normalizeElementType('Persona Maker'), 'Persona');
     assert.equal(normalizeElementType('Setting Architect'), 'Setting');
     assert.equal(normalizeElementType('Species Creator'), 'Species');
-    assert.equal(normalizeElementType('Technology Forge'), 'Technology');
+    assert.equal(normalizeElementType('Technology Forge'), 'Property');
+    assert.equal(normalizeElementType('Technology'), 'Property');
+    assert.equal(normalizeElementType('Item'), 'Property');
     assert.equal(normalizeElementType('Philosophy Scribe'), 'Philosophy');
     assert.equal(normalizeElementType('Scene Builder'), 'Scene');
   });

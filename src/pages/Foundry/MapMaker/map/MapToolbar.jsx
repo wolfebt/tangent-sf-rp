@@ -632,7 +632,8 @@ const MapToolbar = ({
         <ArtistHubModal
           isOpen={isArtistHubOpen}
           onClose={() => setIsArtistHubOpen(false)}
-          initialPrompt={currentMap?.title ? `Tactical battlemap for ${currentMap.title}` : 'Tactical battlemap'}
+          initialPrompt={currentMap?.title ? `Tactical sector concept for ${currentMap.title}` : ''}
+          initialTemplate="interior"
         />
       )}
     </div>

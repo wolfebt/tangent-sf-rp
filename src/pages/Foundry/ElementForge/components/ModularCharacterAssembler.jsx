@@ -31,13 +31,15 @@ export const ModularCharacterAssembler = ({
   elementTitle = '',
   onOpenAimeGuidance = null
 }) => {
-  const { dbData } = useDBM() || { dbData: {} };
+  const { dbData, saveEntry } = useDBM() || { dbData: {} };
 
   // Live collections from Omnicortex DBM
   const speciesList = dbData?.species || [];
   const occupationsList = dbData?.occupations || [];
   const weaponsList = dbData?.weaponry || [];
   const armorsList = dbData?.armoring || [];
+  const mcmPresetsList = dbData?.modular_characters || [];
+  const [selectedMcmPresetId, setSelectedMcmPresetId] = useState('');
 
   // Local state for interactive modular assembly
   const [tier, setTier] = useState(parseInt(fields.mcmTier || '1', 10) || 1);
@@ -195,6 +197,71 @@ Respond in JSON format:
             <span>{isSynthesizing ? 'Synthesizing...' : 'AIME Auto-Assemble'}</span>
           </button>
         </div>
+      </div>
+
+      {/* Cortex Modular Character Matrix Preset Bar */}
+      <div className="p-2.5 bg-slate-900/90 border border-purple-500/30 rounded-xl flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2 flex-1 min-w-[220px]">
+          <span className="text-[10px] font-mono font-bold uppercase text-purple-300 shrink-0">
+            Cortex MCM Library ({mcmPresetsList.length}):
+          </span>
+          <select
+            value={selectedMcmPresetId}
+            onChange={(e) => {
+              const id = e.target.value;
+              setSelectedMcmPresetId(id);
+              const preset = mcmPresetsList.find(m => String(m.id) === id);
+              if (preset) {
+                const nextTier = Number(preset.threatTier ?? preset.threat_tier ?? 1) || 1;
+                setTier(nextTier);
+                if (preset.designation) setDesignation(preset.designation);
+                onFieldChange?.('mcmTier', String(nextTier));
+                onFieldChange?.('mcmDesignation', preset.designation || 'Adversary');
+                onFieldChange?.('mcmRole', preset.competencyRole || preset.role || 'Tactical / Commando');
+                onFieldChange?.('health', String(preset.healthPoints ?? 30));
+                onFieldChange?.('vitality', String(preset.vitalityPoints ?? 30));
+                onFieldChange?.('personaSubcategory', 'mcm');
+              }
+            }}
+            className="flex-1 bg-slate-950 border border-slate-700 text-slate-200 p-1.5 rounded-lg text-xs font-mono outline-none focus:border-purple-400"
+          >
+            <option value="">-- Load Saved Modular Character Matrix Template --</option>
+            {mcmPresetsList.map((m, idx) => (
+              <option key={m.id || idx} value={String(m.id)}>
+                {m.name || m.title} (T-{m.threatTier ?? m.threat_tier ?? 1} {m.competencyRole || m.role || ''})
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {typeof saveEntry === 'function' && (
+          <button
+            type="button"
+            onClick={async () => {
+              handleApplyToElement();
+              const presetName = (elementTitle || `${designation} ${activeRole.name}`).trim();
+              await saveEntry({
+                id: fields.dbmId || `mcm_${Date.now()}`,
+                name: presetName,
+                threatTier: tier,
+                competencyRole: activeRole.name,
+                designation,
+                bossType: tier >= 8 ? 'Boss' : tier >= 4 ? 'Elite' : 'Standard',
+                isSynthetic: isSyntheticSpecies,
+                vitalityPoints: calculatedVitality,
+                healthPoints: calculatedHealth,
+                structurePoints: isSyntheticSpecies ? calculatedHealth : calculatedHealth * 2,
+                armorDR: calculatedToughness,
+                mechanic: `Def ${calculatedDefense} • +${calculatedAttackBonus} Atk • ${selectedWeapon || activeRole.defaultWeapon}`
+              }, 'modular_characters');
+              onFieldChange?.('personaSubcategory', 'mcm');
+            }}
+            className="px-2.5 py-1.5 bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider cursor-pointer"
+            title="Save this assembled statblock into OmniCortex / Codex Modular Character Matrix"
+          >
+            💾 Save to Cortex MCM
+          </button>
+        )}
       </div>
 
       {/* Assembly Grid Controls */}

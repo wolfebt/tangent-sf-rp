@@ -154,7 +154,15 @@ export const DBMProvider = ({ children }) => {
       conditions: filterInitialData(DEFAULT_CONDITIONS, 'conditions'),
       damage_types: filterInitialData(DEFAULT_DAMAGE_TYPES, 'damage_types'),
       maneuvers: filterInitialData(DEFAULT_MANEUVERS, 'maneuvers'),
-      societies: filterInitialData(DEFAULT_MASTER_SOCIETIES, 'societies')
+      societies: filterInitialData(DEFAULT_MASTER_SOCIETIES, 'societies'),
+      modular_characters: filterInitialData([], 'modular_characters'),
+      special_abilities: filterInitialData([], 'special_abilities'),
+      planetary_design: filterInitialData([], 'planetary_design'),
+      universe: filterInitialData([], 'universe'),
+      world: filterInitialData([], 'world'),
+      setting: filterInitialData([], 'setting'),
+      philosophy: filterInitialData([], 'philosophy'),
+      scene: filterInitialData([], 'scene')
     };
 
     [
@@ -240,7 +248,16 @@ export const DBMProvider = ({ children }) => {
       'architecture',
       'other',
       'augmentations',
-      'invocations'
+      'invocations',
+      'technology',
+      'modular_characters',
+      'special_abilities',
+      'planetary_design',
+      'universe',
+      'world',
+      'setting',
+      'philosophy',
+      'scene'
     ];
 
     let pendingCount = syncedCatKeys.length;
@@ -722,6 +739,11 @@ export const DBMProvider = ({ children }) => {
     return true;
   }, [currentUser]);
 
+  // Backward-compatible alias supporting saveItem(key, rawPayload) signature used by ADE bridge callers
+  const saveItem = useCallback(async (key, rawPayload) => {
+    return saveEntry(rawPayload, key);
+  }, [saveEntry]);
+
   // Safe Delete Entry with Multi-Collection Scan & Tombstone Persistence
   const deleteEntry = useCallback(async (docId, key) => {
     if (!docId) return false;
@@ -1039,6 +1061,7 @@ export const DBMProvider = ({ children }) => {
       clearToast,
       showToast,
       saveEntry,
+      saveItem,
       deleteEntry,
       importJSON,
       syncCanonicalCompendium,

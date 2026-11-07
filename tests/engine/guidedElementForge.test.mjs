@@ -19,6 +19,7 @@ import {
   mergeNonDestructiveTraits,
   inheritGuidanceFromModuleGems,
   computeGuidedElementReadiness,
+  searchOmnicortexCanonRecords,
   ARCHETYPE_BLUEPRINTS
 } from '../../src/pages/Foundry/ElementForge/guided/elementPlaybooks.js';
 import {
@@ -30,9 +31,19 @@ import {
 } from '../../src/pages/Foundry/ElementForge/guided/guidedElementAiService.ts';
 import { calculateCreditValue } from '../../src/engines/tangentEconEngine.js';
 
-test('Playbooks: All 17 canonical ELEMENT_TYPES resolve to valid 5-family playbooks', () => {
+test('Playbooks: All 17 canonical ELEMENT_TYPES (with Property consolidating Item & Technology, and Metaphysics separated from Philosophy) resolve to valid 5-family playbooks', () => {
   const validFamilies = new Set(['entity', 'location', 'relic', 'macro', 'epistemic']);
   assert.equal(ELEMENT_TYPES.length, 17);
+  assert.ok(ELEMENT_TYPES.includes('Property'));
+  assert.ok(ELEMENT_TYPES.includes('Metaphysics'));
+  assert.ok(ELEMENT_TYPES.includes('Philosophy'));
+  assert.ok(!ELEMENT_TYPES.includes('Item'));
+  assert.ok(!ELEMENT_TYPES.includes('Technology'));
+
+  const philPb = getPlaybookForType('Philosophy');
+  const metaPb = getPlaybookForType('Metaphysics');
+  assert.deepEqual(philPb.dbmCategories, ['philosophy']);
+  assert.deepEqual(metaPb.dbmCategories, ['invocations', 'disciplines', 'special_abilities', 'synthesis']);
 
   for (const elType of ELEMENT_TYPES) {
     const pb = getPlaybookForType(elType);
@@ -269,4 +280,42 @@ test('Stage 3 Fallback, Lorebook Triggers, Resonant Assets & Artist Hub Brief', 
   assert.ok(brief.includes('Commander Vane (Persona)'));
   assert.ok(brief.includes('Chrome optics'));
   assert.ok(brief.includes('Tech Level 4'));
+});
+
+test('searchOmnicortexCanonRecords: Returns empty when query is blank and searches all Omnicortex categories on demand', () => {
+  const sampleDbData = {
+    archetypes: [
+      { id: 'arch_academic', name: 'The Academic', description: 'Conducts research to further knowledge.' },
+      { id: 'arch_ace', name: 'The Ace', description: 'Navigates starships through asteroids.' }
+    ],
+    factions: [
+      { id: 'fac_entari', name: 'Entari Combine', description: 'Corporatehegemony ruling core trade lanes.' }
+    ],
+    architecture: [
+      { id: 'arch_station', name: 'Orbital Bastion Dock', description: 'Pressurized starship drydock.' }
+    ],
+    weaponry: [
+      { id: 'wpn_lance', name: 'Entari Phase Lance', description: 'High-energy particle rifle.' }
+    ]
+  };
+
+  // No pre-populated archetype catalog when search input is empty
+  assert.deepEqual(searchOmnicortexCanonRecords(sampleDbData, ''), []);
+  assert.deepEqual(searchOmnicortexCanonRecords(sampleDbData, '   '), []);
+
+  // Searches across all Omnicortex categories once user types a query
+  const dockResults = searchOmnicortexCanonRecords(sampleDbData, 'bastion dock', []);
+  assert.equal(dockResults.length, 1);
+  assert.equal(dockResults[0].dbmCategory, 'architecture');
+  assert.equal(dockResults[0].displayTitle, 'Orbital Bastion Dock');
+
+  // Archetypes remain searchable if explicitly queried
+  const aceResults = searchOmnicortexCanonRecords(sampleDbData, 'The Ace', []);
+  assert.equal(aceResults.length, 1);
+  assert.equal(aceResults[0].dbmCategory, 'archetypes');
+
+  // Preferred playbook categories receive tie-break boost for equivalent prefix matches
+  const entariForFaction = searchOmnicortexCanonRecords(sampleDbData, 'entari', ['factions']);
+  assert.equal(entariForFaction.length, 2);
+  assert.equal(entariForFaction[0].dbmCategory, 'factions');
 });

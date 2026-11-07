@@ -35,6 +35,7 @@ export type AdeModalKey =
   | 'extractor'
   | 'editElement'
   | 'print'
+  | 'artistHub'
   | 'floatingAime'
   | 'moduleExport'
   | 'moduleImport';
@@ -64,6 +65,9 @@ export interface ADEStoreState {
   storyWorkspaceTab: StoryWorkspaceTab;
   stageWorkspaceTab: StageWorkspaceTab;
   activeElementType: string;
+  activePropertySubcategory: string;
+  activePersonaSource: string;
+  activeMetaphysicsSubcategory: string;
   viewportSplit: ViewportSplit;
   activeGuideSection: GuideSection;
   activeCockpitDeck: CockpitDeck;
@@ -91,6 +95,9 @@ export interface ADEStoreState {
   setStoryWorkspaceTab: (tab: StoryWorkspaceTab) => void;
   setStageWorkspaceTab: (tab: StageWorkspaceTab) => void;
   setActiveElementType: (type: string) => void;
+  setActivePropertySubcategory: (subcat: string) => void;
+  setActivePersonaSource: (source: string) => void;
+  setActiveMetaphysicsSubcategory: (subcat: string) => void;
   setViewportSplit: (split: ViewportSplit) => void;
   setActiveGuideSection: (section: GuideSection) => void;
   setActiveCockpitDeck: (deck: CockpitDeck) => void;
@@ -215,6 +222,9 @@ export const useADEStore = create<ADEStoreState>()(
         storyWorkspaceTab: 'weaver',
         stageWorkspaceTab: 'setup',
         activeElementType: 'Persona',
+        activePropertySubcategory: 'all',
+        activePersonaSource: 'all',
+        activeMetaphysicsSubcategory: 'all',
         viewportSplit: 'side_by_side',
         activeGuideSection: 'scenarios',
         activeCockpitDeck: 'inspector',
@@ -241,6 +251,7 @@ export const useADEStore = create<ADEStoreState>()(
           extractor: false,
           editElement: false,
           print: false,
+          artistHub: false,
           floatingAime: false,
           moduleExport: false,
           moduleImport: false
@@ -267,7 +278,19 @@ export const useADEStore = create<ADEStoreState>()(
         setActiveView: (view) => set({ activeView: view }),
         setStoryWorkspaceTab: (tab) => set({ storyWorkspaceTab: tab }),
         setStageWorkspaceTab: (tab) => set({ stageWorkspaceTab: tab }),
-        setActiveElementType: (type) => set({ activeElementType: type }),
+        setActiveElementType: (type) => set({
+          activeElementType:
+            (type === 'Item' || type === 'Technology' || type === 'Technology Forge')
+              ? 'Property'
+              : (type === 'Invocation' || type === 'Invocations')
+              ? 'Metaphysics'
+              : type,
+          ...(type === 'Technology' || type === 'Technology Forge' ? { activePropertySubcategory: 'technology' } : {}),
+          ...(type === 'Invocation' || type === 'Invocations' ? { activeMetaphysicsSubcategory: 'invocations' } : {})
+        }),
+        setActivePropertySubcategory: (subcat) => set({ activePropertySubcategory: subcat || 'all' }),
+        setActivePersonaSource: (source) => set({ activePersonaSource: source || 'all' }),
+        setActiveMetaphysicsSubcategory: (subcat) => set({ activeMetaphysicsSubcategory: subcat || 'all' }),
         setViewportSplit: (split) => set({ viewportSplit: split }),
         setActiveGuideSection: (section) => set({ activeGuideSection: section }),
         setActiveCockpitDeck: (deck) => set({ activeCockpitDeck: deck }),

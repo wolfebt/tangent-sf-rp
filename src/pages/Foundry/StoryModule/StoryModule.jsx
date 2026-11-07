@@ -23,6 +23,7 @@ import StageWorkspace from '../Stage/StageWorkspace';
 import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
 import ModulePackageModal from '../../../components/StoryFoundry/ModulePackageModal';
+import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 const MapMaker = React.lazy(() => import('../MapMaker/MapMaker'));
@@ -120,6 +121,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
   const setIsCatalogOpen = (val) => setModal('catalog', val);
   const isPrintModalOpen = modals.print;
   const setIsPrintModalOpen = (val) => setModal('print', val);
+  const isArtistHubOpen = modals.artistHub;
+  const setIsArtistHubOpen = (val) => setModal('artistHub', val);
   const isGuideOpen = modals.guide;
   const setIsGuideOpen = (val) => setModal('guide', val);
   const isSettingsOpen = modals.settings;
@@ -367,6 +370,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           onSelectScenario={handleSelectScenario}
           isPrintModalOpen={isPrintModalOpen}
           onTogglePrintModal={setIsPrintModalOpen}
+          isArtistHubOpen={isArtistHubOpen}
+          onToggleArtistHub={setIsArtistHubOpen}
           isCatalogOpen={isCatalogOpen}
           onToggleCatalog={setIsCatalogOpen}
           isGuideOpen={isGuideOpen}
@@ -415,6 +420,7 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
             setCronicleInitialMode('living_memory');
             setIsCronicleOpen(true);
           }}
+          onOpenArtistHub={() => setIsArtistHubOpen(true)}
           onOpenPrintModal={() => setIsPrintModalOpen(true)}
           onOpenGuide={() => setIsGuideOpen(true)}
           isTreeExpanded={isTreeExpanded}
@@ -629,6 +635,22 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         onClose={() => setIsCompilerOpen(false)}
         activeScenario={activeNode}
       />
+
+      {/* Global ADE Artist Hub Modal (HIFI CHROMA & HI-FI SKETCH) */}
+      {isArtistHubOpen && (
+        <ArtistHubModal
+          isOpen={isArtistHubOpen}
+          onClose={() => setIsArtistHubOpen(false)}
+          initialPrompt={
+            editingModalElement?.title
+              ? `${editingModalElement.title} (${editingModalElement.type || 'Element'})`
+              : activeNode?.title
+              ? `${activeNode.title}`
+              : ''
+          }
+          elementContext={editingModalElement || activeNode || null}
+        />
+      )}
 
       {/* Standalone Module Package Export / Import Modal */}
       {(isModuleExportOpen || isModuleImportOpen) && (
