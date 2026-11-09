@@ -32,8 +32,9 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Uncanny Sense
+  - special-acute-sense
+  - special-uncanny-sense
+  - special-augmented
 disadvantages: []
 stigma: 'Xeno (-2), Synthetic (-2)'
 tech_level: '4'
@@ -44,36 +45,40 @@ costs:
   bp: 47
 modifiers:
   - target: Charisma
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Charisma'
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 20
     type: skill
+    value: 20
     mode: bonus_pool
     description: +20 Skill Points
-  - target: Acute Sense
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Uncanny Sense
     value: 1
-    type: feature
     mode: recommended
-  - target: Augmentation (any)
+    description: 'Recommended Feature: Acute Sense'
+  - target: special-uncanny-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Mutation
+    description: 'Recommended Feature: Uncanny Sense'
+  - target: special-augmented
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Augmented'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
 description: >-
   Similar to both an Android and Sentient Machine, fully made with
   Biotechnology, often being simulations of different species. Usually they are
@@ -100,6 +105,8 @@ negative_keywords: 'pure-organic, purist-tech, anti-cyborg'
 cp: 47
 bp: 47
 cp_cost: 47
+recommended_traits:
+  - trait-acute-senses
 ---
 
 # **1.03.Synthetics.Biomechanical — Biomechanical (Bio-Printed Synthetic)**

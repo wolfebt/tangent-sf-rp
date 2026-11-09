@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. modular character matrix","matrix"]
-updatedAt: "2026-11-04T09:33:29.243Z"
+updatedAt: "2026-11-08T20:27:25.731Z"
 costs:
   bp: 0
   credits: 0
@@ -49,7 +49,7 @@ Every rule, formula, and procedural matrix in this master compendium is governed
 * **Character Point (CP) Economy:** `150 CP` starting Operator budget divided into an **80-CP Archetype Chassis** (`15 CP` Primary Attribute at `+3`, `10 CP` Secondary Attribute at `+2`, `24 CP` for 4 Essential Skills at Rank 6, `18 CP` for 6 Supporting Skills at Rank 3, and `13 CP` for 2 Signature Traits at `1 CP` each plus 3 Recommended Core Features at `9 CP`) and a **70-CP Customization Budget**.
 * **Background Skill Ranks:** `60 Background Skill Ranks` allocated at `0 CP` as `20 SP Faction` + `20 SP Origin` + `20 SP Occupation`, alongside `4 Recommended Features` (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`) and `4 Traits` at `0 CP` (`Extra Traits = 1 CP` each).
 * **Universal Straight Pricing:** `+5 CP` per `+1` Attribute, `-5 CP` refund per `-1` Attribute penalty, and `1 CP` per `1` Skill Rank (`5 CP` per `5` Skill Ranks) across all creation, species, companion, and bestiary packages.
-* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct entities combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR (`Armor Layering Cap`: only the single highest DR across bio, cyber, and worn armor applies).
+* **Vitality, Health & Structure Pools (Zero Stamina Scaling):** Biological characters start with **Base 30 Vitality** and **Base 30 Health**; Synthetic/Construct entities combine both into **Base 60 Structure Points (SP)**. Pools scale strictly at **`+5 points per 1 CP`** spent (Suggested Max: `60` each / `120 SP`; **NEVER scaled by Stamina**). Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor DR (`Diminishing Returns Armor Stacking`: use the single highest DR across bio, cyber, and worn armor, plus `+1 DR` per stage of 5 [`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, etc.] calculated separately for each additional layer).
 * **Personal Hindrance Cap:** Standard personal character hindrances have a `+10 CP` maximum limit; **Species-level hindrances and cybernetic Stigmas do NOT count toward the 10-point standard hindrance limit**.
 * **Economic Unified Field Theory (EUFT) & UDU Hierarchy:** Base 5-CR intervals follow `Value (Credits) = 10 * 4^(CR / 5)` modified by Linear Micro-Modifiers (`+1 CR = x1.30`, `+2 CR = x1.75`, `+3 CR = x2.30`, `+4 CR = x3.00`, `-1 CR Flaw = x0.75`). Pristine crafting materials cost `50%` of Credit Value; Scavenged Scrap retains `10%` value (`5x Item Credit Value` in unrefined scrap mass). UDU capacity scales at `10 Usable Nodes (Tier 0) = 1 Socket (Tier 1)`, `10 Sockets = 1 Mount (Tier 2)`, and `10 Mounts = 1 Module (Tier 3)` (`Garaging: 1 Mount = 1 Scale Multiplier`; vehicle table SP is pre-calculated).
 
@@ -247,7 +247,7 @@ Phase III Reference Modules (The Database) for constructing NPCs, Bestiary Xenof
   - **Metafocus (Requires Awakened Feature per Discipline):** Attune; **Dimension** (*Summoning, Teleport*), **Energy** (*Elemental, Force*), **Entropy** (*Chaos, Order*), **Illusion** (*Phantasmal, Shadow*), **Matter** (*Enhancement, Transmutation*), **Mental** (*Telekinesis, Telepathy*), plus learned **Invocations** and **Special Abilities**.
 - **Hindrances & Disadvantages:** Personal Hindrances grant up to a **+10 CP maximum cap** at creation (Species Disadvantages and Stigmas are exempt from this cap).
 - **Traits & Recommended Features:** **4 Free Background Traits** (2 Origin + 2 Occupation; extra traits cost `1 CP` each) and **4 Free Background Features**. Standard Features cost **3 CP**; **Recommended Features** (listed by Archetype, Species, Faction, Origin, or Occupation) cost **2 CP** (`1 CP` discount, minimum `1 CP`).
-- **Combat, Armor Location DR & Assets:** Weapons (`Attack Score`, `Damage`, `Notes`), Hit Location DR (`Head, Torso, Right Arm, Left Arm, Right Leg, Left Leg` — single highest domain DR applies), Gear, Mecha, Meta-Tech, and Property.
+- **Combat, Armor Location DR & Assets:** Weapons (`Attack Score`, `Damage`, `Notes`), Hit Location DR (`Head, Torso, Right Arm, Left Arm, Right Leg, Left Leg` — highest DR + `+1 DR` per stage of 5 for each additional layer separately), Gear, Mecha, Meta-Tech, and Property.
 - **Character Point (CP) Expenditure Tracker:** Starting Budget (`150 CP` = `80 CP` Archetype Chassis + `70 CP` Customization) + Personal Hindrances (`+10 CP` max) + Species Disadvantage Refunds = Total CP Available minus Attributes (`5 CP` per `+1`), Skills (`1 CP` per Rank), Features (`3 CP` Standard / `2 CP` Recommended), Vitality/Health (`1 CP` per `+5`), and Extra Traits (`1 CP`).
 
 ## Part III — Discrepancy & Restoration Ledger

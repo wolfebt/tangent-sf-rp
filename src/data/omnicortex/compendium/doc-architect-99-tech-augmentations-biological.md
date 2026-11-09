@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.biological","matrix"]
-updatedAt: "2026-11-04T09:33:29.314Z"
+updatedAt: "2026-11-08T20:26:40.028Z"
 costs:
   bp: 0
   credits: 0
@@ -130,7 +130,7 @@ Below are examples of standard Biological Augmentations, utilizing the TL, Node,
 **Sub-Dermal Chitin Plating**
 * **Location:** Torso / Full Body | **Nodes:** 20 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr
 * **Description:** The host's skin is genetically sequenced to grow a flexible, impact-resistant chitinous layer just beneath the epidermis (similar to the Auluran/Thorn natural defenses).
-* **Mechanic:** Grants the *Exoskeleton (Light)* feature. DR equal to Strength Doubled. Adheres to the **Armor Layering Cap** (does not stack with worn or cybernetic armor; only the single highest DR applies).
+* **Mechanic:** Grants the *Exoskeleton (Light)* feature. DR equal to Strength Doubled. Adheres to **Diminishing Returns Armor Stacking** (when layered with worn or cybernetic armor, use the single highest DR as the base and add `+1 DR` per stage of 5 [`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, etc.] calculated separately for each additional layer).
 
 **Redundant Vital Organs**
 * **Location:** Torso | **Nodes:** 15 | **TL:** 4 | **CR:** 20 | **Value:** 2,560 Cr

@@ -26,8 +26,8 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Fast Heal
-  - Regeneration
+  - general-fast-heal
+  - general-regeneration
 disadvantages: []
 stigma: Monstrous (-4)
 tech_level: '1'
@@ -37,30 +37,51 @@ costs:
   cp: 1
   bp: 1
 modifiers:
-  - target: Alter Form
-    value: 1
+  - target: general-fast-heal
     type: feature
-    mode: recommended
-  - target: Ageless
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Regeneration'
+  - target: trait-fast-heal
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortality
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-alter-form-adv
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Alter Form (Adv)'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-bodyform-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
 description: >-
   Various creatures (including humanoid, animal and plant based) which are
   infused and mutated by the Shar’Nor (aka the Corrupted)
@@ -85,6 +106,14 @@ negative_keywords: 'pureblood-society, stable-form, pristine'
 cp: 1
 bp: 1
 cp_cost: 1
+recommended_traits:
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-alter-form-adv
+  - trait-ageless
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-immortal
 ---
 
 # **1.03.ShaNor.Eakren — Eakren (Sha'Nor Corrupted)**

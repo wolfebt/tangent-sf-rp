@@ -123,7 +123,14 @@ export function formatGrantedCost(usedCost = 0, standaloneCost = 0, unit = 'CP')
  */
 export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = 'Medium') {
   const modesList = Array.isArray(movementSelections) ? movementSelections : [movementSelections];
-  const sizeMultiplier = typeof size === 'object' ? (size.speedMult || 1) : (SPECIES_SIZES[size]?.speedMult || 1);
+  const sizeObj = typeof size === 'object' && size !== null
+    ? size
+    : (Object.values(SPECIES_SIZES).find(
+        s => s.id.toLowerCase() === String(size || 'Medium').toLowerCase() ||
+             s.name.toLowerCase() === String(size || 'Medium').toLowerCase()
+      ) || SPECIES_SIZES.Medium);
+  const sizeMultiplier = Number(sizeObj?.speedMult ?? 1);
+  const sizeSpeedMod = Number(sizeObj?.speedMod ?? 0);
 
   const activeBaseModes = new Map(); // target_mode -> base mode def
   const activeAdjusters = [];
@@ -215,9 +222,17 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
       }
     });
 
-    let finalSpeed = Math.max(5, baseSpeed + speedDelta);
-    if (sizeMultiplier > 1 && (targetMode === 'Ground' || targetMode === 'Flying')) {
-      finalSpeed *= sizeMultiplier;
+    const subMediumPenalty = sizeSpeedMod < 0 ? sizeSpeedMod : 0;
+    let finalSpeed = Math.max(5, baseSpeed + speedDelta + subMediumPenalty);
+    const hasStrongFlyer = modeAdjusters.some(
+      a => a.id === 'movement-strong-flyer' || a.id === 'strong_flyer' || String(a.name || '').toLowerCase().includes('strong flyer')
+    );
+    let effectiveSizeMult = sizeMultiplier > 1 ? sizeMultiplier : 1;
+    if (targetMode === 'Flying' && hasStrongFlyer) {
+      effectiveSizeMult += 1;
+    }
+    if (effectiveSizeMult > 1 && ['Ground', 'Flying', 'Swimming', 'Climbing', 'Burrowing'].includes(targetMode)) {
+      finalSpeed *= effectiveSizeMult;
     }
 
     const key = targetMode.toLowerCase();
@@ -591,9 +606,16 @@ export function calculateSpeciesBP(params = {}) {
       }
 
       if (found) {
-        const bpVal = Number(found.bp ?? (found.trait_tier === 'Elite' ? 4 : (found.trait_tier === 'Advanced' ? 2 : 1)));
+        const overrideBp = typeof t === 'object' && t !== null ? (t.bp ?? t.cp) : undefined;
+        const bpVal = Number(overrideBp ?? found.bp ?? (found.trait_tier === 'Elite' ? 4 : (found.trait_tier === 'Advanced' ? 2 : 1)));
         traitsBP += bpVal;
-        itemizedTraits.push({ id: found.id, name: found.name, bp: bpVal, tier: found.trait_tier || (bpVal === 4 ? 'Elite' : (bpVal === 2 ? 'Advanced' : 'Basic')), type: found.type || found.classification || 'Physical' });
+        itemizedTraits.push({
+          id: found.id,
+          name: (typeof t === 'object' && t?.name) ? t.name : found.name,
+          bp: bpVal,
+          tier: found.trait_tier || (bpVal === 4 ? 'Elite' : (bpVal === 2 ? 'Advanced' : 'Basic')),
+          type: found.type || found.classification || 'Physical'
+        });
       } else if (typeof t === 'object' && (t.bp !== undefined || t.cp !== undefined || t.trait_tier)) {
         const bpVal = Number(t.bp ?? t.cp ?? (t.trait_tier === 'Elite' ? 4 : (t.trait_tier === 'Advanced' ? 2 : 1)));
         traitsBP += bpVal;
@@ -738,9 +760,9 @@ export function calculateSpeciesBP(params = {}) {
       const lower = rawStigmaStr.toLowerCase();
       if (lower.includes('extreme') || lower.includes('pariah') || lower.includes('monstrous (-6)')) {
         stigmaRefund = 6;
-      } else if (lower.includes('severe') || lower.includes('monstrous') || lower.includes('feral') || lower.includes('savage')) {
+      } else if (lower.includes('severe') || lower.includes('monstrous') || lower.includes('feral') || lower.includes('savage') || lower.includes('dragonkin')) {
         stigmaRefund = 4;
-      } else if (lower.includes('typical') || lower.includes('xeno') || lower.includes('synthetic') || lower.includes('fey') || lower.includes('shifter') || lower.includes('dragonkin')) {
+      } else if (lower.includes('typical') || lower.includes('xeno') || lower.includes('synthetic') || lower.includes('fey') || lower.includes('shifter')) {
         stigmaRefund = 2;
       } else if (lower.includes('minor') || lower.includes('seclusionist')) {
         stigmaRefund = 1;
@@ -1033,13 +1055,17 @@ export function validateSpeciesBuild(speciesData = {}) {
  */
 export function calculateSpeciesCombatModifiers(size = 'Medium') {
   const def = SPECIES_SIZES[size] || SPECIES_SIZES.Medium;
+  const rawStealth = def.stealthMod;
+  const numericStealth = typeof rawStealth === 'number' ? rawStealth : -32;
   return {
     size: def.id,
     strMod: def.strMod || 0,
     agiMod: def.agiMod || 0,
     combatMod: def.combatMod || 0,
     defMod: def.defMod || 0,
-    stealthMod: def.stealthMod || 0,
+    stealthMod: rawStealth !== undefined ? rawStealth : 0,
+    stealthModNumeric: numericStealth,
+    reach: def.reach || '5 ft',
     stabilityMod: def.stabilityMod || 0,
     dmgDieStep: def.dmgDieStep || 0,
     dmgDiceMult: def.dmgDiceMult || 1,
@@ -1095,23 +1121,77 @@ export function computeSpeciesStats(formData) {
 /**
  * Computes base mathematical tier chassis and multipliers for an NPC.
  */
-export function calculateThreatTierStats(tier = 3, role = 'Tank', bossType = 'Standard', size = 'Medium', isSynthetic = false) {
+export function calculateThreatTierStats(
+  tier = 3,
+  role = 'Tank',
+  bossType = 'Standard',
+  size = 'Medium',
+  isSynthetic = false,
+  options = {}
+) {
+  if (typeof tier === 'object' && tier !== null) {
+    options = tier;
+    role = options.role ?? options.competencyRole ?? 'Tank';
+    bossType = options.bossType ?? options.boss_type ?? 'Standard';
+    size = options.size ?? options.sizeCategory ?? 'Medium';
+    isSynthetic = Boolean(options.isSynthetic || options.chassisType === 'Synthetic');
+    tier = options.tier ?? options.threatTier ?? 3;
+  }
+
   const t = Math.min(20, Math.max(0, Math.round(Number(tier || 0))));
   const chassis = THREAT_TIER_CHASSIS[t] || THREAT_TIER_CHASSIS[3];
-  const roleDef = COMPETENCY_ROLES[role] || COMPETENCY_ROLES.Tank;
+  const roleDef = COMPETENCY_ROLES[role] ||
+    Object.values(COMPETENCY_ROLES).find(
+      r => r.id?.toLowerCase() === String(role || '').toLowerCase() ||
+           r.name?.toLowerCase() === String(role || '').toLowerCase()
+    ) ||
+    COMPETENCY_ROLES.Tank;
   const bossDef = BOSS_TYPES[bossType] || BOSS_TYPES.Standard;
+
+  const isCosmicEntity = Boolean(
+    options?.isCosmicEntity ||
+    options?.chassisType === 'Non-Corporeal' ||
+    options?.chassisType === 'Entity' ||
+    options?.chassisMode === 'Non-Corporeal' ||
+    options?.chassisMode === 'Entity' ||
+    options?.type === 'Entity'
+  );
+  const primaryAttrBonus = Number(chassis.attrBonus ?? 0);
+  const secondaryAttrBonus = Number(chassis.secondaryAttrBonus ?? Math.max(0, Math.floor(primaryAttrBonus / 2)));
+
+  const primarySet = new Set(
+    (Array.isArray(roleDef.primaryAttrs) ? roleDef.primaryAttrs : []).map(a => String(a).toUpperCase().slice(0, 3))
+  );
+  const getAttrScore = (code) => primarySet.has(code) ? primaryAttrBonus : secondaryAttrBonus;
+
+  const str = isCosmicEntity ? null : getAttrScore('STR');
+  const agi = isCosmicEntity ? null : getAttrScore('AGI');
+  const sta = isCosmicEntity ? null : getAttrScore('STA');
+  const int = getAttrScore('INT');
+  const wis = getAttrScore('WIS');
+  const cha = getAttrScore('CHA');
+
+  // Size Multiplier
+  const SIZE_SCALE_MAP = {
+    Miniscule: 0.1,
+    Fine: 0.2,
+    Diminutive: 1 / 3,
+    Tiny: 0.5,
+    Small: 2 / 3,
+    Medium: 1.0,
+    Large: 2.0,
+    Huge: 5.0,
+    Gargantuan: 10.0,
+    Colossal: 20.0,
+    Enormous: 40.0,
+    Titanic: 80.0,
+    'Super Gargantuan': 160.0,
+    'Mega Colossal': 320.0
+  };
+  const sizeScale = SIZE_SCALE_MAP[size] !== undefined ? SIZE_SCALE_MAP[size] : 1.0;
 
   // Base Vitality & Health (Base 30 + Tier Bonus)
   const basePool = 30 + chassis.vitHeaBonus;
-
-  // Size Multiplier
-  let sizeScale = 1.0;
-  if (size === 'Diminutive') sizeScale = 0.1;
-  else if (size === 'Tiny') sizeScale = 0.5;
-  else if (size === 'Small') sizeScale = 0.8;
-  else if (size === 'Large') sizeScale = 2.0;
-  else if (size === 'Huge') sizeScale = 5.0;
-
   const scaledVitality = Math.round(basePool * sizeScale);
   const scaledHealth = Math.round(basePool * sizeScale);
 
@@ -1129,29 +1209,90 @@ export function calculateThreatTierStats(tier = 3, role = 'Tank', bossType = 'St
     finalHealth = scaledHealth * multiplier;
   }
 
-  // Synthetics combine Vitality + Health into Structure Points (SP)
   let structurePoints = 0;
-  if (isSynthetic) {
+  if (isCosmicEntity) {
+    const cosmicBaseSP = Math.round((60 + wis * 10) * sizeScale);
+    structurePoints = isMinion ? 1 : cosmicBaseSP * (bossDef.multiplier || 1);
+    finalVitality = 0;
+    finalHealth = 0;
+  } else if (isSynthetic) {
+    // Synthetics combine Vitality + Health into Structure Points (SP)
     structurePoints = finalVitality + finalHealth;
     finalVitality = 0;
     finalHealth = 0;
   }
 
+  const stability = isCosmicEntity ? (wis + 5) : ((sta ?? 0) + 5);
+
+  const might = 2 + 2 * (str ?? 0);
+  const reflex = 2 + 2 * (agi ?? wis ?? 0);
+  const fortitude = 2 + 2 * (sta ?? wis ?? 0);
+  const reason = 2 + 2 * int;
+  const willpower = 2 + 2 * wis;
+  const etiquette = 2 + 2 * cha;
+
+  const passiveMight = 12 + 2 * (str ?? 0);
+  const passiveReflex = 12 + 2 * (agi ?? wis ?? 0);
+  const passiveFortitude = 12 + 2 * (sta ?? wis ?? 0);
+  const passiveReason = 12 + 2 * int;
+  const passiveWillpower = 12 + 2 * wis;
+  const passiveEtiquette = 12 + 2 * cha;
+
+  const saves = {
+    might,
+    reflex,
+    fortitude,
+    reason,
+    willpower,
+    etiquette,
+    fort: fortitude,
+    ref: reflex,
+    will: willpower,
+    passiveMight,
+    passiveReflex,
+    passiveFortitude,
+    passiveReason,
+    passiveWillpower,
+    passiveEtiquette,
+    passiveFort: passiveFortitude,
+    passiveRef: passiveReflex,
+    passiveWill: passiveWillpower,
+    passive: {
+      might: passiveMight,
+      reflex: passiveReflex,
+      fortitude: passiveFortitude,
+      reason: passiveReason,
+      willpower: passiveWillpower,
+      etiquette: passiveEtiquette,
+      fort: passiveFortitude,
+      ref: passiveReflex,
+      will: passiveWillpower
+    }
+  };
+
   return {
     tier: t,
     narrativeRank: chassis.narrativeRank,
-    attributeBonus: chassis.attrBonus,
+    attributeBonus: primaryAttrBonus,
+    secondaryAttributeBonus: secondaryAttrBonus,
+    secondaryAttrBonus,
+    attributes: { str, agi, sta, int, wis, cha },
     primarySkillRank: chassis.primarySkill,
     secondarySkillRank: chassis.secondarySkill,
     actionsPerRound: chassis.actions,
     expectedDR: chassis.dr,
-    wealthScore: t,
+    wealthScore: 2 * t,
     isMinion,
     isBoss: !!bossDef.isBoss,
     isMastermind: !!bossDef.isMastermind,
+    isCosmicEntity,
+    chassisType: isCosmicEntity ? 'Non-Corporeal' : (isSynthetic ? 'Synthetic' : 'Biological'),
     vitality: finalVitality,
     health: finalHealth,
     structurePoints,
+    stability,
+    saves,
+    savingThrows: saves,
     sizeScale,
     role: roleDef.name,
     primaryAttributes: roleDef.primaryAttrs,
@@ -1170,10 +1311,18 @@ export function calculateNPCCombatBlock({
   size = 'Medium',
   designation = 'Adversary',
   agility = null,
-  isSynthetic = false
+  isSynthetic = false,
+  isCosmicEntity = false,
+  chassisType = undefined,
+  chassisMode = undefined
 } = {}) {
-  const tierStats = calculateThreatTierStats(tier, role, bossType, size, isSynthetic);
-  const agiMod = agility !== null && agility !== undefined ? Number(agility) : tierStats.attributeBonus;
+  const tierStats = calculateThreatTierStats(tier, role, bossType, size, isSynthetic, {
+    isCosmicEntity,
+    chassisType: chassisType ?? chassisMode
+  });
+  const agiMod = agility !== null && agility !== undefined
+    ? Number(agility)
+    : (tierStats.attributes.agi ?? tierStats.attributes.wis ?? tierStats.attributeBonus);
   
   // Defense DC = 10 + Agility Mod + Defense Skill Rank (Primary or Secondary based on role)
   const isDefPrimary = tierStats.keySkills.includes('Defense');
@@ -1188,14 +1337,60 @@ export function calculateNPCCombatBlock({
   const initiative = agiMod + tierStats.secondarySkillRank;
 
   // Base Movement Speed (30 ft modified by size)
-  let speed = 30 + sizeCombatMods.speedMod;
+  let speed = 30 + (sizeCombatMods.speedMod < 0 ? sizeCombatMods.speedMod : 0);
   if (sizeCombatMods.speedMult > 1) speed *= sizeCombatMods.speedMult;
 
-  // Saves (10 + Attr Mod)
+  const strVal = tierStats.attributes.str ?? 0;
+  const agiVal = agility !== null && agility !== undefined ? agiMod : (tierStats.attributes.agi ?? tierStats.attributes.wis ?? 0);
+  const staVal = tierStats.attributes.sta ?? tierStats.attributes.wis ?? 0;
+  const intVal = tierStats.attributes.int ?? 0;
+  const wisVal = tierStats.attributes.wis ?? 0;
+  const chaVal = tierStats.attributes.cha ?? 0;
+
+  const might = 2 + 2 * strVal;
+  const reflex = 2 + 2 * agiVal;
+  const fortitude = 2 + 2 * staVal;
+  const reason = 2 + 2 * intVal;
+  const willpower = 2 + 2 * wisVal;
+  const etiquette = 2 + 2 * chaVal;
+
+  const passiveMight = 12 + 2 * strVal;
+  const passiveReflex = 12 + 2 * agiVal;
+  const passiveFortitude = 12 + 2 * staVal;
+  const passiveReason = 12 + 2 * intVal;
+  const passiveWillpower = 12 + 2 * wisVal;
+  const passiveEtiquette = 12 + 2 * chaVal;
+
   const saves = {
-    fortitude: 10 + tierStats.attributeBonus,
-    reflex: 10 + agiMod,
-    will: 10 + tierStats.attributeBonus
+    might,
+    reflex,
+    fortitude,
+    reason,
+    willpower,
+    etiquette,
+    fort: fortitude,
+    ref: reflex,
+    will: willpower,
+    passiveMight,
+    passiveReflex,
+    passiveFortitude,
+    passiveReason,
+    passiveWillpower,
+    passiveEtiquette,
+    passiveFort: passiveFortitude,
+    passiveRef: passiveReflex,
+    passiveWill: passiveWillpower,
+    passive: {
+      might: passiveMight,
+      reflex: passiveReflex,
+      fortitude: passiveFortitude,
+      reason: passiveReason,
+      willpower: passiveWillpower,
+      etiquette: passiveEtiquette,
+      fort: passiveFortitude,
+      ref: passiveReflex,
+      will: passiveWillpower
+    }
   };
 
   return {
@@ -1205,8 +1400,23 @@ export function calculateNPCCombatBlock({
     attackBonus,
     initiative,
     speed,
-    saves
+    saves,
+    savingThrows: saves
   };
+}
+
+export function calculateThreatStats(paramsOrTier = 3, role = 'Tank', bossType = 'Standard', size = 'Medium', isSynthetic = false, options = {}) {
+  if (typeof paramsOrTier === 'object' && paramsOrTier !== null) {
+    return calculateNPCCombatBlock(paramsOrTier);
+  }
+  return calculateNPCCombatBlock({
+    tier: paramsOrTier,
+    role,
+    bossType,
+    size,
+    isSynthetic,
+    ...options
+  });
 }
 
 /**
@@ -1266,25 +1476,27 @@ export function calculateCompanionBP({
   functions = ['guardian_attack'],
   attributes = {},
   extraFeatures = [],
+  bonds = [],
   size = 'Medium',
   companionRank = 1
 } = {}) {
   let bpTotal = 0;
+  let bondBonusCP = 0;
 
   // Base Budget: Rank 1 = 40 BP, +10 BP per additional rank
   const rank = Math.max(1, Number(companionRank || 1));
-  const maxBP = 40 + (rank - 1) * 10;
+  const baseBudget = 40 + (rank - 1) * 10;
 
   // 1. Form Package BP
   const formDef = COMPANION_FORM_PACKAGES.find(f => f.id === form) || COMPANION_FORM_PACKAGES[0];
-  bpTotal += formDef.baseBP || 10;
+  bpTotal += Number(formDef.bpCost ?? formDef.cpCost ?? formDef.baseBP ?? 15);
 
   // 2. Function Packages BP
   if (Array.isArray(functions)) {
     for (const funcId of functions) {
       const funcDef = COMPANION_FUNCTION_PACKAGES.find(f => f.id === funcId);
       if (funcDef) {
-        bpTotal += funcDef.bpCost || 8;
+        bpTotal += Number(funcDef.bpCost ?? funcDef.cpCost ?? 10);
       }
     }
   }
@@ -1297,14 +1509,34 @@ export function calculateCompanionBP({
     }
   }
 
-  // 4. Extra Sub-features / Bonds (2-3 BP each)
-  if (Array.isArray(extraFeatures)) {
-    for (const feat of extraFeatures) {
-      const featDef = COMPANION_BOND_FEATURES.find(b => b.id === feat || b.id === feat?.id);
-      if (featDef) {
-        bpTotal += featDef.bpCost || 3;
-      } else if (typeof feat === 'object' && feat.bpCost) {
-        bpTotal += feat.bpCost;
+  // 4. Bond Features (Familiar +20 CP, Mind Link +10 CP, Shared Senses +10 CP add to 40 CP base budget) & Extra Sub-features
+  const combinedFeatures = [
+    ...(Array.isArray(extraFeatures) ? extraFeatures : []),
+    ...(Array.isArray(bonds) ? bonds : [])
+  ];
+  const seenBondIds = new Set();
+  for (const feat of combinedFeatures) {
+    const featId = typeof feat === 'object' ? (feat.id || feat.name) : feat;
+    const featKey = String(featId || '').toLowerCase().trim();
+    if (!featKey || seenBondIds.has(featKey)) continue;
+    seenBondIds.add(featKey);
+
+    const featDef = COMPANION_BOND_FEATURES.find(
+      b => b.id === featId || b.id?.toLowerCase() === featKey || b.name?.toLowerCase() === featKey
+    );
+    if (featDef) {
+      const bonus = Number(featDef.bonusCP ?? featDef.bonusBP ?? (Number(featDef.bpCost) < 0 ? Math.abs(Number(featDef.bpCost)) : 0));
+      if (bonus > 0) {
+        bondBonusCP += bonus;
+      } else {
+        bpTotal += Number(featDef.bpCost || 3);
+      }
+    } else if (typeof feat === 'object') {
+      const bonus = Number(feat.bonusCP ?? feat.bonusBP ?? (Number(feat.bpCost) < 0 ? Math.abs(Number(feat.bpCost)) : 0));
+      if (bonus > 0) {
+        bondBonusCP += bonus;
+      } else if (feat.bpCost) {
+        bpTotal += Number(feat.bpCost);
       }
     }
   }
@@ -1314,12 +1546,17 @@ export function calculateCompanionBP({
     bpTotal += 2;
   }
 
+  const maxBP = baseBudget + bondBonusCP;
   const bpRemaining = maxBP - bpTotal;
   const isOverBudget = bpTotal > maxBP;
 
   return {
     totalBPUsed: bpTotal,
+    totalCPUsed: bpTotal,
     bpRemaining,
+    cpRemaining: bpRemaining,
+    baseBudget,
+    bondBonusCP,
     maxBudget: maxBP,
     companionRank: rank,
     isOverBudget
@@ -1342,15 +1579,15 @@ export function calculateCompanionStats({
   const formDef = COMPANION_FORM_PACKAGES.find(f => f.id === form) || COMPANION_FORM_PACKAGES[0];
   const compType = COMPANION_TYPES[type] || COMPANION_TYPES.Biological;
 
-  // Base pools scaling with owner tier
-  const basePool = 20 + chassis.vitHeaBonus;
+  // Base pools scaling with owner tier (starts at 30 Vitality / 30 Health, or 60 SP for Synthetic)
+  const basePool = 30 + chassis.vitHeaBonus;
   let vitality = 0;
   let health = 0;
   let structurePoints = 0;
   let essence = 0;
 
   if (type === 'Synthetic') {
-    structurePoints = basePool * 2; // Vitality + Health combined for Structure score
+    structurePoints = basePool * 2; // Vitality + Health combined for Structure score (60 SP baseline)
   } else if (type === 'Metaphysical') {
     essence = basePool;
     health = basePool;
@@ -1630,12 +1867,15 @@ export function calculateMetaTechDC({
   invocationRank = 10,
   tl = 3,
   socketsUsed = 1,
-  dailyCharges = null
+  dailyCharges = null,
+  isSymbiotic = false,
+  amplifierType = null
 } = {}) {
   const baseDC = Number(baseItemDC || 15);
   const rank = Math.max(1, Number(invocationRank || 10));
   const sockets = Math.max(1, Number(socketsUsed || 1));
   const techLevel = Math.max(0, Number(tl || 3));
+  const tlMod = techLevel >= 5 ? 5 : (techLevel === 4 ? 2 : 0);
 
   if (enhancementType === 'Passive') {
     // Passive: Base Item DC + (Sockets Used * 5)
@@ -1647,18 +1887,24 @@ export function calculateMetaTechDC({
     return Math.max(5, Math.round(15 + rank - 10));
   }
 
+  if (
+    enhancementType === 'Symbiotic Amplifier' ||
+    enhancementType === 'Symbiotic' ||
+    isSymbiotic ||
+    String(amplifierType || '').toLowerCase().includes('symbiotic')
+  ) {
+    return techLevel >= 5 ? 35 : 25;
+  }
+
   if (enhancementType === 'Amplifier') {
     // Amplifier: Base Item DC + 10
     return Math.round(baseDC + 10);
   }
 
-  // Active Imbuement: Base 15 + Invocation Rank + TL Mod
-  let activeDC = 15 + rank;
-  if (techLevel > 3) {
-    activeDC += (techLevel - 3) * 2;
-  }
+  // Active Imbuement: Base 15 + Invocation Rank + TL Mod (TL4: +2, TL5: +5)
+  let activeDC = 15 + rank + tlMod;
   if (dailyCharges !== null && dailyCharges !== undefined && Number(dailyCharges) <= 3) {
-    activeDC = Math.round(15 + rank / 2); // Limited uses per day discount
+    activeDC = Math.round(15 + rank / 2) + tlMod; // Limited uses per day discount, preserving tlMod
   }
 
   return Math.max(10, Math.round(activeDC));
@@ -1679,7 +1925,7 @@ export function calculateMetaTechCapacity({
   const scaleDef = META_TECH_SCALE_AMPLIFICATION[scaleTier] || META_TECH_SCALE_AMPLIFICATION.Personal;
 
   let maxAllowedRank = 10;
-  if (scaleTier === 'Huge' || scaleTier === 'Gargantuan' || scaleTier === 'Titanic') {
+  if (scaleTier !== 'Personal') {
     maxAllowedRank = 30; // Mounts and Modules support up to Rank 30
   } else {
     maxAllowedRank = sockets >= 3 ? 30 : (sockets >= 2 ? 20 : 10);
@@ -1711,6 +1957,8 @@ export function computeMetaTechStats(formData) {
   const socketsUsed = Number(formData.sockets?.used ?? formData.sockets_used ?? formData.socketsUsed ?? (invocationRank > 10 ? (invocationRank > 20 ? 3 : 2) : 1));
   const dailyCharges = formData.daily_charges ?? null;
   const scaleTier = formData.scale_tier || 'Personal';
+  const isSymbiotic = Boolean(formData.is_symbiotic ?? formData.isSymbiotic ?? false);
+  const amplifierType = formData.amplifier_type ?? formData.amplifierType ?? null;
 
   const finalDC = calculateMetaTechDC({
     enhancementType,
@@ -1718,7 +1966,9 @@ export function computeMetaTechStats(formData) {
     invocationRank,
     tl,
     socketsUsed,
-    dailyCharges
+    dailyCharges,
+    isSymbiotic,
+    amplifierType
   });
 
   const capacity = calculateMetaTechCapacity({
@@ -1731,7 +1981,14 @@ export function computeMetaTechStats(formData) {
   const materialCost = calculateMaterialCost(creditValue);
   const craftingDays = calculateAllCraftingTiers(creditValue);
   const status = getFinancialStatus(finalDC);
-  const saveDC = 10 + Math.floor(invocationRank / 2);
+  const deviceTier = Number(
+    formData.device_tier ??
+    formData.deviceTier ??
+    formData.tier ??
+    getSkillStageFromRank(invocationRank)?.stage ??
+    Math.max(1, Math.ceil(invocationRank / 5))
+  );
+  const saveDC = 10 + Math.floor(invocationRank / 2) + deviceTier;
 
   return {
     enhancement_type: enhancementType,
@@ -1745,6 +2002,7 @@ export function computeMetaTechStats(formData) {
     material_cost: materialCost,
     crafting_days: craftingDays,
     financial_status: status?.name || 'Affluent',
+    device_tier: deviceTier,
     save_cr: saveDC,
     save_dc: saveDC,
     capacity_validation: capacity,
@@ -1930,6 +2188,48 @@ export function calculateConcussiveDamageSplit(incomingDamage = 0, attemptedRedu
  * @param {number} [params.deathClockCurrent=undefined]
  * @returns {object} Damage resolution state
  */
+/**
+ * Calculates Diminishing Returns Armor Stacking across multiple armor layers.
+ * - Filters positive numbers from armorLayers and sorts descending: [highest, ...rest].
+ * - Base = highest.
+ * - Each additional layer d_i > 0 in rest adds Math.ceil(d_i / 5) separately.
+ *
+ * @param {Array<number>} [armorLayers=[]]
+ * @returns {object} { highestDR, bonusDR, totalDR, layerBreakdowns }
+ */
+export function calculateStackedArmorDR(armorLayers = []) {
+  const validLayers = (Array.isArray(armorLayers) ? armorLayers : [])
+    .map(v => (typeof v === 'object' && v !== null ? Number(v.dr ?? v.armorDR ?? v.value ?? 0) : Number(v)))
+    .filter(n => Number.isFinite(n) && n > 0)
+    .sort((a, b) => b - a);
+
+  if (validLayers.length === 0) {
+    return {
+      highestDR: 0,
+      bonusDR: 0,
+      totalDR: 0,
+      layerBreakdowns: []
+    };
+  }
+
+  const [highest, ...rest] = validLayers;
+  const layerBreakdowns = [{ baseDR: highest, addedDR: highest, isPrimary: true }];
+  let bonusDR = 0;
+
+  for (const d of rest) {
+    const added = Math.ceil(d / 5);
+    bonusDR += added;
+    layerBreakdowns.push({ baseDR: d, addedDR: added, isPrimary: false });
+  }
+
+  return {
+    highestDR: highest,
+    bonusDR,
+    totalDR: highest + bonusDR,
+    layerBreakdowns
+  };
+}
+
 export function applyDamageToEntity({
   currentVitality = 30,
   currentHealth = 30,
@@ -1960,9 +2260,12 @@ export function applyDamageToEntity({
   const dmgType = String(damageType || 'kinetic').toLowerCase();
   const bypassesAllMitigation = dmgType === 'bleed' || Boolean(isOverchannelBurn);
 
-  // Armor Layering Cap: highest single domain DR only; never summed across biological, cybernetic, and wearable armor
-  const baseHighestDR = Array.isArray(armorLayers) && armorLayers.length > 0
-    ? Math.max(0, ...armorLayers.map(v => Number(v) || 0))
+  // Diminishing Returns Armor Stacking: highest layer + Math.ceil(d_i / 5) for each additional positive layer
+  const stackedArmor = Array.isArray(armorLayers) && armorLayers.length > 0
+    ? calculateStackedArmorDR(armorLayers)
+    : calculateStackedArmorDR(Number(armorDR) > 0 ? [Number(armorDR)] : []);
+  const baseHighestDR = stackedArmor.totalDR > 0
+    ? stackedArmor.totalDR
     : Math.max(0, Number(armorDR) || 0);
 
   let domainDR = baseHighestDR;

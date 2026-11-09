@@ -125,6 +125,8 @@ const FolioFacadeBridge = ({ children }) => {
     applyFactionAdjustments: identity.applyFactionAdjustments,
     applyIdentitySelection: identity.applyIdentitySelection,
     applyGuidedCharacter: identity.applyGuidedCharacter,
+    importMcmCharacterToFolio: identity.importMcmCharacterToFolio,
+    exportCurrentCharacterToMcm: identity.exportCurrentCharacterToMcm,
     isLocked: identity.isLocked,
     folioPhase: identity.folioPhase,
     isReadyForVTT: identity.isReadyForVTT,
@@ -190,6 +192,7 @@ const FolioFacadeBridge = ({ children }) => {
     handleDeleteCompanion: inventory.handleDeleteCompanion,
     handleToggleDeployCompanion: inventory.handleToggleDeployCompanion,
     publicCatalog: inventory.publicCatalog,
+    publicPersonas: inventory.publicCatalog,
     togglePersonaVisibility: inventory.togglePersonaVisibility,
     clonePublicPersona: inventory.clonePublicPersona,
 

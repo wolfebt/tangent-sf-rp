@@ -17,7 +17,7 @@ import EditElementModal from './EditElementModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import { AimeGuidanceFlyout } from '../../../components/StoryFoundry/AimeGuidanceFlyout';
 import { AudioService } from '../../../services/audioService';
-import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2, Upload, Download, Database, CheckSquare, Square, RefreshCw, ChevronDown, Pin, ExternalLink } from 'lucide-react';
+import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2, Upload, Download, Database, CheckSquare, Square, RefreshCw, ChevronDown, Pin, ExternalLink, LayoutGrid, List } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { showToast } from '../../../context/ToastContext';
 import DOMPurify from 'dompurify';
@@ -34,6 +34,10 @@ import {
   ADE_TYPE_TO_CORTEX_COLLECTIONS,
   CORTEX_BACKED_ADE_TYPES
 } from '../../../utils/cortexAdeAssetBridge.js';
+
+const EMPTY_ARRAY = [];
+const EMPTY_OBJ = {};
+const PAGE_BATCH_SIZE = 48;
 
 export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSelectType, hideSidebar = false }) => {
   const navigate = useNavigate();
@@ -64,6 +68,21 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const [selectedElement, setSelectedElement] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [viewMode, setViewMode] = useState(() => {
+    try {
+      return localStorage.getItem('tangent_ade_forge_view_mode') || 'card';
+    } catch {
+      return 'card';
+    }
+  });
+  const handleSetViewMode = (nextMode) => {
+    setViewMode(nextMode);
+    try {
+      localStorage.setItem('tangent_ade_forge_view_mode', nextMode);
+    } catch {
+      // ignore storage errors
+    }
+  };
   const [isAimeFlyoutOpen, setIsAimeFlyoutOpen] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isActionsMenuOpen, setIsActionsMenuOpen] = useState(false);
@@ -102,17 +121,22 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   };
 
   // Omnicortex DBM & Persona Folio Live State
-  const { dbData = {}, saveEntry, deleteEntry } = useDBM() || {};
+  const { dbData = EMPTY_OBJ, saveEntry, deleteEntry } = useDBM() || EMPTY_OBJ;
   const {
-    roster: folioRoster = [],
-    personaRoster = [],
-    publicPersonas = [],
+    roster: folioRoster = EMPTY_ARRAY,
+    personaRoster = EMPTY_ARRAY,
+    publicPersonas = EMPTY_ARRAY,
+    publicCatalog = EMPTY_ARRAY,
     saveToRoster,
     loadCharacter
-  } = useFolio() || {};
+  } = useFolio() || EMPTY_OBJ;
   const liveFolioRoster = useMemo(
-    () => (Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : [])),
+    () => (Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : EMPTY_ARRAY)),
     [folioRoster, personaRoster]
+  );
+  const livePublicPersonas = useMemo(
+    () => (Array.isArray(publicPersonas) && publicPersonas.length > 0 ? publicPersonas : (Array.isArray(publicCatalog) ? publicCatalog : EMPTY_ARRAY)),
+    [publicPersonas, publicCatalog]
   );
 
   const [isDbmImportOpen, setIsDbmImportOpen] = useState(false);
@@ -121,11 +145,11 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
 
   // Discover matching DBM canonical records for the active element type (for bulk Story Module pinning)
   const matchingDbmItems = useMemo(() => {
-    if (!dbData) return [];
-    const cols = ADE_TYPE_TO_CORTEX_COLLECTIONS[activeType] || [];
+    if (!dbData) return EMPTY_ARRAY;
+    const cols = ADE_TYPE_TO_CORTEX_COLLECTIONS[activeType] || EMPTY_ARRAY;
     const items = [];
     for (const col of cols) {
-      for (const entry of dbData[col] || []) {
+      for (const entry of dbData[col] || EMPTY_ARRAY) {
         if (!entry || typeof entry !== 'object') continue;
         items.push({
           ...entry,
@@ -172,7 +196,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   };
 
   const handleRefreshAllDbmLinks = async () => {
-    const linked = (elementsCatalog || []).filter(el => el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId);
+    const linked = (elementsCatalog || EMPTY_ARRAY).filter(el => el.fields?.dbmRef || el.dbmRef || el.dbmId || el.fields?.dbmId);
     if (linked.length === 0) {
       showToast({ type: 'info', text: 'No DBM-linked elements found in this Story Module.' });
       return;
@@ -193,18 +217,62 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
   const unifiedCatalog = useMemo(
     () =>
       buildUnifiedAdeCatalog({
-        elementsCatalog: elementsCatalog || [],
+        elementsCatalog: elementsCatalog || EMPTY_ARRAY,
         dbData,
         folioRoster: liveFolioRoster,
-        publicPersonas: Array.isArray(publicPersonas) ? publicPersonas : []
+        publicPersonas: livePublicPersonas
       }),
-    [elementsCatalog, dbData, liveFolioRoster, publicPersonas]
+    [elementsCatalog, dbData, liveFolioRoster, livePublicPersonas]
   );
 
+  // Pre-group elements by canonical type in a single pass so tab switching is an O(1) Map lookup
+  const elementsByTypeMap = useMemo(() => {
+    const map = new Map();
+    for (const t of ELEMENT_TYPES) {
+      map.set(t, []);
+    }
+    for (const el of unifiedCatalog) {
+      const t = normalizeElementType(el.type);
+      let bucket = map.get(t);
+      if (!bucket) {
+        bucket = [];
+        map.set(t, bucket);
+      }
+      bucket.push(el);
+    }
+    return map;
+  }, [unifiedCatalog]);
+
   const typeElements = useMemo(
-    () => unifiedCatalog.filter(el => normalizeElementType(el.type) === activeType),
-    [unifiedCatalog, activeType]
+    () => elementsByTypeMap.get(activeType) || EMPTY_ARRAY,
+    [elementsByTypeMap, activeType]
   );
+
+  // Precompute source & subcategory counts in a single pass over typeElements
+  const filterCounts = useMemo(() => {
+    let cortex = 0;
+    let modulePinned = 0;
+    const propertySub = {};
+    const personaSub = {};
+    const metaphysicsSub = {};
+
+    for (const e of typeElements) {
+      if (e.isCortexAsset || e.isFolioPersona) cortex++;
+      if (e.isPinnedToModule) modulePinned++;
+
+      if (activeType === 'Property') {
+        const sub = e.propertySubcategory || inferPropertySubcategory(e);
+        propertySub[sub] = (propertySub[sub] || 0) + 1;
+      } else if (activeType === 'Persona') {
+        const pSub = e.personaSubcategory || (e.isFolioPersona ? 'folio' : e.dbmCategory === 'modular_characters' ? 'mcm' : 'story');
+        personaSub[pSub] = (personaSub[pSub] || 0) + 1;
+      } else if (activeType === 'Metaphysics') {
+        const mSub = e.metaphysicsSubcategory || inferMetaphysicsSubcategory(e);
+        metaphysicsSub[mSub] = (metaphysicsSub[mSub] || 0) + 1;
+      }
+    }
+    return { cortex, modulePinned, propertySub, personaSub, metaphysicsSub };
+  }, [typeElements, activeType]);
 
   // Filter elements by source scope, subcategory, and search term
   const filteredElements = useMemo(() => {
@@ -219,7 +287,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       }
 
       if (activeType === 'Persona' && activePersonaSource !== 'all') {
-        const pSub = el.personaSubcategory || (el.isFolioPersona ? 'folio' : el.dbmCategory === 'modular_characters' ? 'mcm' : el.dbmCategory === 'archetypes' ? 'archetypes' : 'story');
+        const pSub = el.personaSubcategory || (el.isFolioPersona ? 'folio' : el.dbmCategory === 'modular_characters' ? 'mcm' : 'story');
         if (pSub !== activePersonaSource) return false;
       }
 
@@ -229,7 +297,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       }
 
       if (q) {
-        const haystack = [
+        const haystack = el.searchHaystack || [
           el.title,
           el.name,
           el.dbmCategory,
@@ -250,6 +318,36 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
       return true;
     });
   }, [typeElements, sourceFilter, activeType, activePropertySubcategory, activePersonaSource, activeMetaphysicsSubcategory, searchTerm]);
+
+  // Progressive windowed rendering for large catalogs (e.g., Property 800+, Metaphysics 200+)
+  const [visibleLimit, setVisibleLimit] = useState(PAGE_BATCH_SIZE);
+  const loadMoreRef = useRef(null);
+
+  useEffect(() => {
+    setVisibleLimit(PAGE_BATCH_SIZE);
+  }, [activeType, sourceFilter, activePropertySubcategory, activePersonaSource, activeMetaphysicsSubcategory, searchTerm]);
+
+  useEffect(() => {
+    const node = loadMoreRef.current;
+    if (!node || visibleLimit >= filteredElements.length) return;
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleLimit((prev) => Math.min(prev + PAGE_BATCH_SIZE, filteredElements.length));
+        }
+      },
+      { rootMargin: '320px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [visibleLimit, filteredElements.length]);
+
+  const visibleElements = useMemo(
+    () => (filteredElements.length > visibleLimit ? filteredElements.slice(0, visibleLimit) : filteredElements),
+    [filteredElements, visibleLimit]
+  );
 
   const handleTogglePinToModule = async (el, e) => {
     if (e) e.stopPropagation();
@@ -557,15 +655,49 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
           </div>
 
           <div className="flex flex-wrap gap-2.5 items-center">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder={`Search ${activeType}...`}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 pr-4 py-2 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs focus:outline-none focus:border-amber-500/60 text-slate-200 placeholder-slate-500 w-52 sm:w-60 transition-colors shadow-inner"
-              />
-              <Search className="absolute left-3 top-2.5 text-slate-500" size={14} />
+            {/* Search & View Mode Switcher (Folio-style) */}
+            <div className="flex items-center gap-2 self-stretch sm:self-auto min-w-0 flex-wrap sm:flex-nowrap">
+              <div className="relative flex-1 sm:w-64">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder={`Search ${activeType.toLowerCase()}...`}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 hover:border-slate-700 focus:border-cyan-500 rounded-xl pl-9 pr-7 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none transition-colors font-mono"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 cursor-pointer"
+                    title="Clear search"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => handleSetViewMode('card')}
+                  className={`p-1.5 rounded-lg transition-colors cursor-pointer ${viewMode === 'card' ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40' : 'text-slate-500 hover:text-slate-300'}`}
+                  title="Card Grid View"
+                  aria-label="Card Grid View"
+                >
+                  <LayoutGrid size={14} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSetViewMode('table')}
+                  className={`p-1.5 rounded-lg transition-colors cursor-pointer ${viewMode === 'table' ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40' : 'text-slate-500 hover:text-slate-300'}`}
+                  title="Table Directory View"
+                  aria-label="Table Directory View"
+                >
+                  <List size={14} />
+                </button>
+              </div>
             </div>
 
             {/* Standard Primary Create Button */}
@@ -783,8 +915,8 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                 <span className="text-slate-500 uppercase font-bold text-[10px] mr-1">Source:</span>
                 {[
                   { id: 'all', label: `All ${activeType}`, count: typeElements.length },
-                  { id: 'cortex', label: activeType === 'Persona' ? 'OmniCortex & Folio' : 'OmniCortex / Codex', count: typeElements.filter(e => e.isCortexAsset || e.isFolioPersona).length },
-                  { id: 'module', label: 'Pinned in Story Module', count: typeElements.filter(e => e.isPinnedToModule).length }
+                  { id: 'cortex', label: activeType === 'Persona' ? 'OmniCortex & Folio' : 'OmniCortex / Codex', count: filterCounts.cortex },
+                  { id: 'module', label: 'Pinned in Story Module', count: filterCounts.modulePinned }
                 ].map((opt) => (
                   <button
                     key={opt.id}
@@ -830,7 +962,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                 All ({typeElements.length})
               </button>
               {PROPERTY_SUBCATEGORIES.map((sub) => {
-                const count = typeElements.filter(e => (e.propertySubcategory || inferPropertySubcategory(e)) === sub.id).length;
+                const count = filterCounts.propertySub[sub.id] || 0;
                 const active = activePropertySubcategory === sub.id;
                 return (
                   <button
@@ -874,10 +1006,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                 All ({typeElements.length})
               </button>
               {PERSONA_SUBCATEGORIES.map((sub) => {
-                const count = typeElements.filter((e) => {
-                  const pSub = e.personaSubcategory || (e.isFolioPersona ? 'folio' : e.dbmCategory === 'modular_characters' ? 'mcm' : e.dbmCategory === 'archetypes' ? 'archetypes' : 'story');
-                  return pSub === sub.id;
-                }).length;
+                const count = filterCounts.personaSub[sub.id] || 0;
                 const active = activePersonaSource === sub.id;
                 return (
                   <button
@@ -921,7 +1050,7 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
                 All ({typeElements.length})
               </button>
               {METAPHYSICS_SUBCATEGORIES.map((sub) => {
-                const count = typeElements.filter(e => (e.metaphysicsSubcategory || inferMetaphysicsSubcategory(e)) === sub.id).length;
+                const count = filterCounts.metaphysicsSub[sub.id] || 0;
                 const active = activeMetaphysicsSubcategory === sub.id;
                 return (
                   <button
@@ -970,197 +1099,407 @@ export const ElementForge = ({ onBackToStory, activeType: propActiveType, onSele
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-max pb-8">
-              {filteredElements.map(el => {
-                const subLabel =
-                  el.type === 'Property'
-                    ? (el.propertySubcategory || inferPropertySubcategory(el)).toUpperCase()
-                    : el.type === 'Metaphysics'
-                    ? (el.metaphysicsSubcategory || inferMetaphysicsSubcategory(el)).toUpperCase()
-                    : el.type === 'Persona'
-                    ? (el.isFolioPersona ? 'FOLIO' : el.dbmCategory === 'modular_characters' ? 'MCM' : el.dbmCategory === 'archetypes' ? 'ARCHETYPE' : 'STORY')
-                    : (el.dbmCategory ? el.dbmCategory.toUpperCase() : '');
-                const previewPitch = el.fields?.oneLinePitch || el.fields?.summary || '';
+            <>
+              {viewMode === 'card' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-max pb-6">
+                  {visibleElements.map(el => {
+                    const subLabel =
+                      el.type === 'Property'
+                        ? (el.propertySubcategory || inferPropertySubcategory(el)).toUpperCase()
+                        : el.type === 'Metaphysics'
+                        ? (el.metaphysicsSubcategory || inferMetaphysicsSubcategory(el)).toUpperCase()
+                        : el.type === 'Persona'
+                        ? (el.isFolioPersona ? 'FOLIO' : el.dbmCategory === 'modular_characters' ? 'MCM' : 'STORY')
+                        : (el.dbmCategory ? el.dbmCategory.toUpperCase() : '');
+                    const previewPitch = el.fields?.oneLinePitch || el.fields?.summary || el.previewText || '';
 
-                return (
-                <div 
-                  key={el.id} 
-                  className="bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-5 hover:border-amber-500/50 hover:bg-slate-800/60 hover:shadow-[0_8px_30px_rgba(245,158,11,0.1)] transition-all duration-300 flex flex-col justify-between group cursor-pointer transform hover:-translate-y-1"
-                  onClick={() => handleEdit(el)}
-                >
-                  <div>
-                    <div className="flex justify-between items-start mb-2 gap-2">
-                      <h3 className="text-base font-extrabold text-slate-200 group-hover:text-amber-400 transition-colors line-clamp-1 tracking-wide">
-                        {el.title || el.name || 'Untitled'}
-                      </h3>
-                      <div className="flex items-center gap-1 shrink-0">
-                        {subLabel && (
-                          <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-slate-950/90 text-amber-300 border border-slate-700/80 uppercase font-bold">
-                            {subLabel}
-                          </span>
+                    return (
+                    <div 
+                      key={el.id} 
+                      className="bg-slate-900/80 border border-slate-700/50 rounded-2xl p-5 hover:border-amber-500/50 hover:bg-slate-800/80 hover:shadow-[0_8px_24px_rgba(245,158,11,0.1)] transition-colors duration-150 flex flex-col justify-between group cursor-pointer"
+                      onClick={() => handleEdit(el)}
+                    >
+                      <div>
+                        <div className="flex justify-between items-start mb-2 gap-2">
+                          <h3 className="text-base font-extrabold text-slate-200 group-hover:text-amber-400 transition-colors line-clamp-1 tracking-wide">
+                            {el.title || el.name || 'Untitled'}
+                          </h3>
+                          <div className="flex items-center gap-1 shrink-0">
+                            {subLabel && (
+                              <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-slate-950/90 text-amber-300 border border-slate-700/80 uppercase font-bold">
+                                {subLabel}
+                              </span>
+                            )}
+                            <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
+                              el.isFolioPersona
+                                ? 'bg-purple-950/80 text-purple-200 border-purple-500/50 shadow-sm'
+                                : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-sm' 
+                                : el.dbmSyncStatus === 'local_override'
+                                ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
+                                : 'bg-slate-900 text-slate-400 border-slate-700'
+                            }`}>
+                              {el.isFolioPersona
+                                ? '🪪 Folio'
+                                : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                ? '⚡ Cortex'
+                                : el.dbmSyncStatus === 'local_override'
+                                ? '▲ Override'
+                                : '○ Module'}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        {previewPitch && (
+                          <p className="text-xs text-slate-400 line-clamp-2 mb-3">
+                            {previewPitch}
+                          </p>
                         )}
-                        <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
-                          el.isFolioPersona
-                            ? 'bg-purple-950/80 text-purple-200 border-purple-500/50 shadow-sm'
-                            : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
-                            ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-sm' 
-                            : el.dbmSyncStatus === 'local_override'
-                            ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
-                            : 'bg-slate-900 text-slate-400 border-slate-700'
-                        }`}>
-                          {el.isFolioPersona
-                            ? '🪪 Folio'
-                            : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
-                            ? '⚡ Cortex'
-                            : el.dbmSyncStatus === 'local_override'
-                            ? '▲ Override'
-                            : '○ Module'}
+                      </div>
+
+                      <div className="flex justify-between items-center pt-3 border-t border-slate-700/50 mt-3 shrink-0">
+                        <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold font-mono truncate max-w-[115px]">
+                          {el.isPinnedToModule ? '📌 In Module' : el.isFolioPersona ? 'Folio Roster' : el.isCortexAsset ? 'OmniCortex' : 'Module Draft'}
                         </span>
+                        <div className="flex items-center gap-1">
+                          {/* Pin / Unpin Cortex or Folio Asset to Active Story Module */}
+                          {(el.isCortexAsset || el.isFolioPersona) && (
+                            <button
+                              type="button"
+                              onClick={(e) => handleTogglePinToModule(el, e)}
+                              className={`p-1.5 rounded border transition-colors cursor-pointer ${
+                                el.isPinnedToModule
+                                  ? 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900'
+                                  : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-800 border-slate-700/70'
+                              }`}
+                              title={el.isPinnedToModule ? 'Pinned in Story Module (Click to unpin)' : 'Pin to active Story Module'}
+                            >
+                              <Pin size={12} />
+                            </button>
+                          )}
+
+                          {/* Open in Persona Folio or Codex Studio */}
+                          {el.isFolioPersona && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (el.folioDocId && typeof loadCharacter === 'function') {
+                                  loadCharacter(el.folioDocId);
+                                }
+                                navigate('/folio');
+                              }}
+                              className="p-1.5 rounded text-purple-300 hover:text-purple-100 hover:bg-purple-950/70 border border-purple-500/30 transition-colors cursor-pointer"
+                              title="Open character sheet in Persona Folio"
+                            >
+                              <ExternalLink size={12} />
+                            </button>
+                          )}
+
+                          {!el.isFolioPersona && el.codexMatrixId && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/codex?matrix=${el.codexMatrixId}`);
+                              }}
+                              className="p-1.5 rounded text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
+                              title={`Open in Codex Studio (${el.codexMatrixId})`}
+                            >
+                              <ExternalLink size={12} />
+                            </button>
+                          )}
+
+                          {/* Pull Canon Updates from Omnicortex DBM */}
+                          {el.isPinnedToModule && (el.fields?.dbmRef || el.dbmRef || el.dbmId || el.dbmSyncStatus === 'synced') && (
+                            <button
+                              type="button"
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                const updated = pullElementFromOmnicortexDBM(el, dbData);
+                                if (updated) {
+                                  await updateSavedElement(updated.id, updated);
+                                  await saveElementToCloud(updated);
+                                  showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
+                                } else {
+                                  showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
+                                }
+                              }}
+                              className="p-1.5 rounded text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
+                              title="Pull canonical updates from Omnicortex DBM"
+                            >
+                              <RefreshCw size={12} />
+                            </button>
+                          )}
+
+                          {/* AIME Portable Asset Export Button */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              downloadAimeAssetFile(el);
+                              showToast({ type: 'success', text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type, el.propertySubcategory)} asset!` });
+                            }}
+                            className="p-1.5 rounded text-amber-400 hover:text-amber-200 hover:bg-amber-950/60 border border-amber-500/30 transition-colors"
+                            title={`Export AIME Asset (${getElementFileExtension(el.type, el.propertySubcategory)})`}
+                          >
+                            <Sparkles size={12} />
+                          </button>
+
+                          {/* Markdown Export Button */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              downloadElementMarkdownFile({ ...el, name: el.title || el.name });
+                              showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
+                            }}
+                            className="p-1.5 rounded text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-colors"
+                            title="Export as ELEMENTS.md Markdown"
+                          >
+                            <Download size={12} />
+                          </button>
+
+                          {!el.isFolioPersona && (
+                            <button
+                              type="button"
+                              onClick={async (e) => {
+                                e.stopPropagation();
+                                const targetName = el.title || 'Untitled Element';
+                                if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
+                                  await handleDeleteAsset(el);
+                                }
+                              }}
+                              className="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
+                              title="Delete Element"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          )}
+                          <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors ml-1 font-bold">
+                            Edit ✏️
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    
-                    {previewPitch && (
-                      <p className="text-xs text-slate-400 line-clamp-2 mb-3">
-                        {previewPitch}
-                      </p>
-                    )}
-                    
-                    {el.content && !previewPitch && (
-                      <div 
-                        className="text-xs text-slate-400 line-clamp-2 mb-3 overflow-hidden"
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el.content.substring(0, 120)) }}
-                      />
-                    )}
-                  </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                /* Table Directory View (Folio-matched) */
+                <div className="bg-[#121722]/90 border border-slate-800 rounded-2xl overflow-hidden shadow-lg mb-6">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left font-mono text-xs text-slate-300">
+                      <thead className="bg-slate-950/80 border-b border-slate-800 text-[10px] uppercase text-slate-400 tracking-wider">
+                        <tr>
+                          <th className="py-3 px-4">Asset Name</th>
+                          <th className="py-3 px-4">Subcategory</th>
+                          <th className="py-3 px-4">Summary / Pitch</th>
+                          <th className="py-3 px-4">Source</th>
+                          <th className="py-3 px-4">Status</th>
+                          <th className="py-3 px-4 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800/60">
+                        {visibleElements.map(el => {
+                          const subLabel =
+                            el.type === 'Property'
+                              ? (el.propertySubcategory || inferPropertySubcategory(el)).toUpperCase()
+                              : el.type === 'Metaphysics'
+                              ? (el.metaphysicsSubcategory || inferMetaphysicsSubcategory(el)).toUpperCase()
+                              : el.type === 'Persona'
+                              ? (el.isFolioPersona ? 'FOLIO' : el.dbmCategory === 'modular_characters' ? 'MCM' : 'STORY')
+                              : (el.dbmCategory ? el.dbmCategory.toUpperCase() : (el.type || activeType).toUpperCase());
+                          const previewPitch = el.fields?.oneLinePitch || el.fields?.summary || el.previewText || '';
 
-                  <div className="flex justify-between items-center pt-3 border-t border-slate-700/50 mt-3 shrink-0">
-                    <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold font-mono truncate max-w-[115px]">
-                      {el.isPinnedToModule ? '📌 In Module' : el.isFolioPersona ? 'Folio Roster' : el.isCortexAsset ? 'OmniCortex' : 'Module Draft'}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      {/* Pin / Unpin Cortex or Folio Asset to Active Story Module */}
-                      {(el.isCortexAsset || el.isFolioPersona) && (
-                        <button
-                          type="button"
-                          onClick={(e) => handleTogglePinToModule(el, e)}
-                          className={`p-1.5 rounded border transition-colors cursor-pointer ${
-                            el.isPinnedToModule
-                              ? 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900'
-                              : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-800 border-slate-700/70'
-                          }`}
-                          title={el.isPinnedToModule ? 'Pinned in Story Module (Click to unpin)' : 'Pin to active Story Module'}
-                        >
-                          <Pin size={12} />
-                        </button>
-                      )}
+                          return (
+                            <tr
+                              key={el.id}
+                              onClick={() => handleEdit(el)}
+                              className="hover:bg-slate-800/40 transition-colors cursor-pointer group"
+                            >
+                              <td className="py-3 px-4 font-bold text-white uppercase group-hover:text-amber-300 transition-colors whitespace-nowrap">
+                                <div className="flex items-center gap-2">
+                                  {el.isPinnedToModule && (
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" title="Pinned in Active Story Module" />
+                                  )}
+                                  <span className="truncate max-w-[240px]">{el.title || el.name || 'Untitled'}</span>
+                                </div>
+                              </td>
+                              <td className="py-3 px-4 whitespace-nowrap">
+                                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-950/90 text-amber-300 border border-slate-700/80 uppercase font-bold">
+                                  {subLabel || activeType}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-slate-400 max-w-md">
+                                <div className="line-clamp-1 text-[11px]">
+                                  {previewPitch || '—'}
+                                </div>
+                              </td>
+                              <td className="py-3 px-4 whitespace-nowrap">
+                                <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border shrink-0 ${
+                                  el.isFolioPersona
+                                    ? 'bg-purple-950/80 text-purple-200 border-purple-500/50 shadow-sm'
+                                    : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                    ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/50 shadow-sm' 
+                                    : el.dbmSyncStatus === 'local_override'
+                                    ? 'bg-amber-950/60 text-amber-300 border-amber-500/40'
+                                    : 'bg-slate-900 text-slate-400 border-slate-700'
+                                }`}>
+                                  {el.isFolioPersona
+                                    ? '🪪 Folio'
+                                    : (el.isCortexAsset || el.fields?.dbmRef || el.dbmRef || el.dbmSyncStatus === 'synced')
+                                    ? '⚡ Cortex'
+                                    : el.dbmSyncStatus === 'local_override'
+                                    ? '▲ Override'
+                                    : '○ Module'}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 whitespace-nowrap text-[10px] text-slate-400 uppercase tracking-wider">
+                                {el.isPinnedToModule ? '📌 In Module' : el.isFolioPersona ? 'Folio Roster' : el.isCortexAsset ? 'OmniCortex' : 'Module Draft'}
+                              </td>
+                              <td className="py-3 px-4 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                                <div className="flex items-center justify-end gap-1.5">
+                                  {(el.isCortexAsset || el.isFolioPersona) && (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => handleTogglePinToModule(el, e)}
+                                      className={`p-1.5 rounded border transition-colors cursor-pointer ${
+                                        el.isPinnedToModule
+                                          ? 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900'
+                                          : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-800 border-slate-700/70'
+                                      }`}
+                                      title={el.isPinnedToModule ? 'Pinned in Story Module (Click to unpin)' : 'Pin to active Story Module'}
+                                    >
+                                      <Pin size={12} />
+                                    </button>
+                                  )}
 
-                      {/* Open in Persona Folio or Codex Studio */}
-                      {el.isFolioPersona && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (el.folioDocId && typeof loadCharacter === 'function') {
-                              loadCharacter(el.folioDocId);
-                            }
-                            navigate('/folio');
-                          }}
-                          className="p-1.5 rounded text-purple-300 hover:text-purple-100 hover:bg-purple-950/70 border border-purple-500/30 transition-colors cursor-pointer"
-                          title="Open character sheet in Persona Folio"
-                        >
-                          <ExternalLink size={12} />
-                        </button>
-                      )}
+                                  {el.isFolioPersona && (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        if (el.folioDocId && typeof loadCharacter === 'function') {
+                                          loadCharacter(el.folioDocId);
+                                        }
+                                        navigate('/folio');
+                                      }}
+                                      className="p-1.5 rounded text-purple-300 hover:text-purple-100 hover:bg-purple-950/70 border border-purple-500/30 transition-colors cursor-pointer"
+                                      title="Open character sheet in Persona Folio"
+                                    >
+                                      <ExternalLink size={12} />
+                                    </button>
+                                  )}
 
-                      {!el.isFolioPersona && el.codexMatrixId && (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/codex?matrix=${el.codexMatrixId}`);
-                          }}
-                          className="p-1.5 rounded text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
-                          title={`Open in Codex Studio (${el.codexMatrixId})`}
-                        >
-                          <ExternalLink size={12} />
-                        </button>
-                      )}
+                                  {!el.isFolioPersona && el.codexMatrixId && (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigate(`/codex?matrix=${el.codexMatrixId}`);
+                                      }}
+                                      className="p-1.5 rounded text-cyan-300 hover:text-cyan-100 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
+                                      title={`Open in Codex Studio (${el.codexMatrixId})`}
+                                    >
+                                      <ExternalLink size={12} />
+                                    </button>
+                                  )}
 
-                      {/* Pull Canon Updates from Omnicortex DBM */}
-                      {el.isPinnedToModule && (el.fields?.dbmRef || el.dbmRef || el.dbmId || el.dbmSyncStatus === 'synced') && (
-                        <button
-                          type="button"
-                          onClick={async (e) => {
-                            e.stopPropagation();
-                            const updated = pullElementFromOmnicortexDBM(el, dbData);
-                            if (updated) {
-                              await updateSavedElement(updated.id, updated);
-                              await saveElementToCloud(updated);
-                              showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
-                            } else {
-                              showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
-                            }
-                          }}
-                          className="p-1.5 rounded text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
-                          title="Pull canonical updates from Omnicortex DBM"
-                        >
-                          <RefreshCw size={12} />
-                        </button>
-                      )}
+                                  {el.isPinnedToModule && (el.fields?.dbmRef || el.dbmRef || el.dbmId || el.dbmSyncStatus === 'synced') && (
+                                    <button
+                                      type="button"
+                                      onClick={async (e) => {
+                                        e.stopPropagation();
+                                        const updated = pullElementFromOmnicortexDBM(el, dbData);
+                                        if (updated) {
+                                          await updateSavedElement(updated.id, updated);
+                                          await saveElementToCloud(updated);
+                                          showToast({ type: 'success', text: `Pulled canonical updates from DBM for ${updated.title}!` });
+                                        } else {
+                                          showToast({ type: 'warning', text: `No matching record found in Omnicortex DBM for ${el.title}.` });
+                                        }
+                                      }}
+                                      className="p-1.5 rounded text-cyan-400 hover:text-cyan-200 hover:bg-cyan-950/70 border border-cyan-500/30 transition-colors cursor-pointer"
+                                      title="Pull canonical updates from Omnicortex DBM"
+                                    >
+                                      <RefreshCw size={12} />
+                                    </button>
+                                  )}
 
-                      {/* AIME Portable Asset Export Button */}
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          downloadAimeAssetFile(el);
-                          showToast({ type: 'success', text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type, el.propertySubcategory)} asset!` });
-                        }}
-                        className="p-1.5 rounded text-amber-400 hover:text-amber-200 hover:bg-amber-950/60 border border-amber-500/30 transition-colors"
-                        title={`Export AIME Asset (${getElementFileExtension(el.type, el.propertySubcategory)})`}
-                      >
-                        <Sparkles size={12} />
-                      </button>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      downloadAimeAssetFile(el);
+                                      showToast({ type: 'success', text: `Exported ${el.title || el.name} as portable ${getElementFileExtension(el.type, el.propertySubcategory)} asset!` });
+                                    }}
+                                    className="p-1.5 rounded text-amber-400 hover:text-amber-200 hover:bg-amber-950/60 border border-amber-500/30 transition-colors cursor-pointer"
+                                    title={`Export AIME Asset (${getElementFileExtension(el.type, el.propertySubcategory)})`}
+                                  >
+                                    <Sparkles size={12} />
+                                  </button>
 
-                      {/* Markdown Export Button */}
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          downloadElementMarkdownFile({ ...el, name: el.title || el.name });
-                          showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
-                        }}
-                        className="p-1.5 rounded text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-colors"
-                        title="Export as ELEMENTS.md Markdown"
-                      >
-                        <Download size={12} />
-                      </button>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      downloadElementMarkdownFile({ ...el, name: el.title || el.name });
+                                      showToast({ type: 'info', text: `Exported ${el.title || el.name} to ELEMENTS.md markdown.` });
+                                    }}
+                                    className="p-1.5 rounded text-slate-400 hover:text-cyan-300 hover:bg-cyan-950/50 transition-colors cursor-pointer"
+                                    title="Export as ELEMENTS.md Markdown"
+                                  >
+                                    <Download size={12} />
+                                  </button>
 
-                      {!el.isFolioPersona && (
-                        <button
-                          type="button"
-                          onClick={async (e) => {
-                            e.stopPropagation();
-                            const targetName = el.title || 'Untitled Element';
-                            if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
-                              await handleDeleteAsset(el);
-                            }
-                          }}
-                          className="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
-                          title="Delete Element"
-                        >
-                          <Trash2 size={12} />
-                        </button>
-                      )}
-                      <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors ml-1 font-bold">
-                        Edit ✏️
-                      </span>
-                    </div>
+                                  {!el.isFolioPersona && (
+                                    <button
+                                      type="button"
+                                      onClick={async (e) => {
+                                        e.stopPropagation();
+                                        const targetName = el.title || 'Untitled Element';
+                                        if (await confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
+                                          await handleDeleteAsset(el);
+                                        }
+                                      }}
+                                      className="p-1.5 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                                      title="Delete Element"
+                                    >
+                                      <Trash2 size={12} />
+                                    </button>
+                                  )}
+
+                                  <button
+                                    type="button"
+                                    onClick={() => handleEdit(el)}
+                                    className="px-2.5 py-1 bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/40 rounded text-[10px] text-cyan-300 font-bold uppercase cursor-pointer"
+                                  >
+                                    Edit
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                );
-              })}
-            </div>
+              )}
+
+              {visibleLimit < filteredElements.length && (
+                <div ref={loadMoreRef} className="flex justify-center pb-8 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setVisibleLimit((prev) => Math.min(prev + PAGE_BATCH_SIZE, filteredElements.length))}
+                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/50 text-xs font-mono font-bold text-slate-300 hover:text-amber-300 transition-colors cursor-pointer"
+                  >
+                    Show More ({filteredElements.length - visibleElements.length} remaining)
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </main>

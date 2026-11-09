@@ -31,67 +31,100 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Fast Heal
-  - Natural Weapons
-  - Runner
-  - Stealthy
+  - discipline-awakened
+  - general-fast-heal
+  - special-natural-weapons
+  - general-runner
+  - skill-stealthy
+  - physical-wall-crawler
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: 4 (Biotechnology)
 meta_level: '3'
 homeworld: Aulura (Biotech Jungle World)
 costs:
-  cp: 24
-  bp: 24
+  cp: 26
+  bp: 26
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
-  - target: Awakened
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Fast Heal
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Awakened'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Fast Heal'
+  - target: special-natural-weapons
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Natural Weapons'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wall-Crawler
+    description: 'Recommended Feature: Runner'
+  - target: skill-stealthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Stealthy'
+  - target: physical-wall-crawler
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Wall-Crawler'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
 description: >-
   Distinguished by their pronounced feline traits, such as digitigrade legs and
   a **prominent muzzle** with sharp teeth. Standing upright at an impressive
   height of **just over 7 feet tall**, the Koda exude an air of strength and
   grace. Their digitigrade legs allow them to walk on their toes, enhancing
   balance and agility.
-traits: &ref_0
+traits:
+  - trait-auluran-base-traits
+  - trait-digitigrade-ungulated
+  - trait-climber
+  - trait-quick
+  - trait-martial-arts
+  - trait-enhanced-biotechnology
+species_traits:
   - trait-auluran-base-traits
   - trait-digitigrade-ungulated
   - trait-climber
   - trait-quick
   - trait-defensive-training
-species_traits: *ref_0
 recommended_factions:
   - Auluran Clans
   - The Entari Combine
@@ -111,6 +144,11 @@ negative_keywords: 'sedentary, fragile, metallic-machinery, technophobia'
 cp: 24
 bp: 24
 cp_cost: 24
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-fast-heal
+  - trait-natural-weapons
 ---
 
 # **1.03.Aulurans.Koda — Koda (Auluran Tactical Hunter)**

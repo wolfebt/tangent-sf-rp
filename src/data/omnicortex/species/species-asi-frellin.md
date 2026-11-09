@@ -32,74 +32,90 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Fast Heal
-  - Karma Features
-  - Regeneration
+  - discipline-awakened
+  - general-fast-heal
+  - cat_karma_features
+  - general-regeneration
+  - cat_discipline_features
 disadvantages: []
 stigma: 'Xeno (-2), Animal (-2)'
 tech_level: '1'
 meta_level: '5'
 homeworld: Twilight Aerie Grottos
 costs:
-  cp: 41
-  bp: 41
+  cp: 43
+  bp: 43
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Ageless
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Awakened
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features (all Features and Invocations)
+    description: 'Recommended Feature: Awakened'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Fast Heal'
+  - target: cat_karma_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortal
+    description: 'Recommended Feature: Karma Features'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Karma Features
+    description: 'Recommended Feature: Regeneration'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Obfuscate
+    description: 'Recommended Feature: Discipline Features'
+  - target: trait-awakened-psychic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-fast-heal
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Main deity is Shal’Vir the Scripted Fate
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Hatched from fruit rich in magic
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-ageless
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
 description: >-
   The Frellin are a remarkable and distinct species classified as tiny, yet
   highly intelligent, Avian Fey. These creatures are instantly recognizable by
@@ -111,13 +127,18 @@ description: >-
   are considered exceptionally skilled in the arcane, often acting as observers
   or subtle influencers in events beyond the ken of larger, less sensitive
   beings.
-traits: &ref_0
+traits:
+  - trait-asi-base-traits
+  - trait-awakened-arcane
+  - trait-telepathy-special
+  - trait-flight
+  - trait-dark-sight
+species_traits:
   - trait-asi-base-traits
   - trait-awakened-arcane
   - trait-mind-speech
   - trait-flight
   - trait-dark-sight
-species_traits: *ref_0
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
@@ -135,6 +156,13 @@ negative_keywords: 'subterranean, heavy-armor, claustrophile, brute-force, slow'
 cp: 41
 bp: 41
 cp_cost: 41
+recommended_traits:
+  - trait-awakened-psychic
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-ageless
+  - trait-immortal
+  - trait-obfuscate
 ---
 
 # **1.03.Asi.Frellin — Frellin (Avian Owl-Fey)**

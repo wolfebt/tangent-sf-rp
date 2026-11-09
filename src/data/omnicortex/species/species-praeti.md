@@ -29,10 +29,11 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Natural Weapons
-  - Tolerance
-  - Tough
+  - general-swimmer
+  - special-darksight
+  - special-low-light-vision
+  - skill-stealthy
+  - skill-naturalist
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '2'
@@ -42,40 +43,71 @@ costs:
   cp: 25
   bp: 25
 modifiers:
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
   - target: special-uncanny-sense
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Armor (Chitinous Shell)
-    value: 1
+    description: 'Grants Inherent Feature: Uncanny Sense'
+  - target: general-swimmer
     type: feature
-    mode: recommended
-  - target: Darksight
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Swimmer'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tolerance
+    description: 'Recommended Feature: Darksight'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-stealthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Stealthy'
+  - target: skill-naturalist
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Naturalist'
+  - target: trait-amphibious
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Amphibious'
+  - target: trait-aquatic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Aquatic'
+  - target: trait-chameleon
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
 description: >-
   The Praeti (pronounced ‘Ray-Tie’) are a distinct species of Winged
   Avian-evolved humanoids, formally classified as Saura-Raptric. This
@@ -104,6 +136,12 @@ negative_keywords: 'subterranean, water-logging, cramped'
 cp: 25
 bp: 25
 cp_cost: 25
+recommended_traits:
+  - trait-amphibious
+  - trait-aquatic
+  - trait-chameleon
+  - trait-dark-sight
+  - trait-low-light-vision
 ---
 
 # **1.03.Praeti — Praeti (Saura-Raptric Winged Humanoids)**

@@ -22,7 +22,6 @@ import { lazyWithRetry } from './utils/lazyWithRetry';
 // Lazy Loaded Top-Level Routes for Optimal Bundle Performance (Resilient to Deployment Chunk Changes)
 const Dashboard = lazyWithRetry(() => import('./pages/Home'));
 const Home = Dashboard;
-const CodexApp = lazyWithRetry(() => import('./pages/Codex/CodexApp'));
 const Compendium = lazyWithRetry(() => import('./pages/Compendium'));
 const DBM = lazyWithRetry(() => import('./pages/DBM'));
 const Folio = lazyWithRetry(() => import('./pages/Folio'));
@@ -33,6 +32,35 @@ const CommsPage = lazyWithRetry(() => import('./pages/CommsPage'));
 const SquadsPage = lazyWithRetry(() => import('./pages/SquadsPage'));
 const TeamsPage = SquadsPage;
 const StageView = lazyWithRetry(() => import('./components/VTT/TripartiteStageView'));
+
+const CodexToCortexRedirect = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const matrixMap = {
+    weaponry: 'weaponry',
+    armor: 'armoring',
+    equipment: 'gear',
+    augmentations: 'augmentations',
+    mecha: 'mecha',
+    architecture: 'architecture',
+    'species-traits': 'species',
+    invocations: 'invocations',
+    factions: 'factions',
+    features: 'features',
+    companions: 'archetypes',
+    'stat-blocks': 'modular_characters',
+    planetary: 'planets'
+  };
+  const matrixParam = params.get('matrix');
+  if (matrixParam && !params.has('cat')) {
+    params.set('cat', matrixMap[matrixParam] || matrixParam);
+    if (!params.has('mode')) {
+      params.set('mode', 'studio');
+    }
+  }
+  const qs = params.toString();
+  return <Navigate to={`/dbm${qs ? `?${qs}` : ''}`} replace />;
+};
 
 const VttOpsRedirect = () => {
   const location = useLocation();
@@ -154,13 +182,14 @@ export function App() {
                                 <Route path="/teams" element={<NetworkRedirect defaultView="squads" />} />
                                 <Route path="/groups" element={<NetworkRedirect defaultView="squads" />} />
                                 <Route path="/squads" element={<NetworkRedirect defaultView="squads" />} />
-                                <Route path="/codex" element={<CodexApp />} />
-                                <Route path="/codex/*" element={<CodexApp />} />
+                                <Route path="/codex" element={<CodexToCortexRedirect />} />
+                                <Route path="/codex/*" element={<CodexToCortexRedirect />} />
                                 <Route path="/compendium" element={<Compendium />} />
                                 <Route path="/compendium/*" element={<Compendium />} />
                                 <Route path="/rules" element={<SearchPreservingRedirect to="/compendium" />} />
                                 <Route path="/rules/*" element={<SearchPreservingRedirect to="/compendium" />} />
                                 <Route path="/dbm" element={<DBM />} />
+                                <Route path="/dbm/*" element={<DBM />} />
                                 <Route path="/folio" element={<Folio />} />
                                 <Route path="/roster" element={<SearchPreservingRedirect to="/folio" />} />
                                 <Route path="/live-studio" element={<SearchPreservingRedirect to="/foundry/live" />} />

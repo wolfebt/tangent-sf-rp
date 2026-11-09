@@ -29,6 +29,23 @@ const normalizeList = (val) => {
   return [];
 };
 
+export const DISADVANTAGE_CATEGORIES = [
+  'Physical',
+  'Psychological',
+  'Social',
+  'Background',
+  'Resource',
+  'Metaphysical',
+  'Species Disadvantage',
+  'General Disadvantage'
+];
+
+export const DISADVANTAGE_SEVERITY_TIERS = [
+  { id: 'minor', label: 'Minor', index: 0 },
+  { id: 'major', label: 'Major', index: 1 },
+  { id: 'severe', label: 'Severe', index: 2 }
+];
+
 /**
  * DisadvantageArchitectGuidance
  * Renders hindrances, condition associations, penalties, and dual-card keyword chip blocks
@@ -135,6 +152,49 @@ export const DisadvantageArchitectGuidance = ({
             <div className="p-2.5 bg-slate-900/80 border border-slate-800/80 rounded-lg text-xs font-mono text-amber-200">
               {formData.cp_granted || formData.bp_granted || canonicalSeed?.cp_granted || canonicalSeed?.bp_granted || '3 / 6 / 9 CP'}
             </div>
+            {(() => {
+              const rawTierCosts = formData.tier_costs || canonicalSeed?.tier_costs || (() => {
+                const rawStr = String(formData.cp_granted || canonicalSeed?.cp_granted || '');
+                const nums = rawStr.split('/').map(s => parseInt(s.trim(), 10)).filter(n => !Number.isNaN(n));
+                return nums.length >= 2 ? nums : null;
+              })();
+              if (!rawTierCosts) return null;
+              const tierCostsArray = Array.isArray(rawTierCosts)
+                ? rawTierCosts
+                : [rawTierCosts.minor ?? rawTierCosts.Minor ?? 2, rawTierCosts.major ?? rawTierCosts.Major ?? 4, rawTierCosts.severe ?? rawTierCosts.Severe ?? 6];
+              const activeSeverity = (formData.selected_tier || formData.severity_tier || 'minor').toLowerCase();
+              return (
+                <div className="space-y-1.5 pt-1">
+                  <span className="text-[10px] font-mono text-slate-400 uppercase">Select Severity Tier:</span>
+                  <div className="grid grid-cols-3 gap-1">
+                    {DISADVANTAGE_SEVERITY_TIERS.map((t, idx) => {
+                      const costVal = tierCostsArray[idx] ?? tierCostsArray[tierCostsArray.length - 1] ?? 2;
+                      const isSel = activeSeverity === t.id;
+                      return (
+                        <button
+                          key={t.id}
+                          type="button"
+                          disabled={!isEditMode}
+                          onClick={() => {
+                            handleFieldChange('selected_tier', t.id);
+                            handleFieldChange('severity_tier', t.label);
+                            handleFieldChange('refundCP', Number(costVal) || 2);
+                            handleFieldChange('cp', Number(costVal) || 2);
+                          }}
+                          className={`px-2 py-1 rounded text-[10px] font-mono font-bold uppercase transition-all border ${
+                            isSel
+                              ? 'bg-amber-900/80 text-amber-100 border-amber-400 shadow-sm'
+                              : 'bg-slate-900 text-slate-400 border-slate-700/80 hover:border-amber-500/50 hover:text-amber-200'
+                          }`}
+                        >
+                          {t.label} (+{costVal} CP)
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })()}
             <p className="text-[11px] text-slate-400 leading-normal">
               Character Points refunded to allocate toward additional features or attribute upgrades.
             </p>
@@ -146,11 +206,27 @@ export const DisadvantageArchitectGuidance = ({
               <AlertTriangle size={13} />
               <span>Classification & Origin</span>
             </div>
-            <div className="p-2.5 bg-slate-900/80 border border-slate-800/80 rounded-lg text-xs font-mono text-sky-200">
-              {formData.disadvantage_type || formData.hindrance_type || canonicalSeed?.hindrance_type || 'Psychological / Physical'}
-            </div>
+            {isEditMode ? (
+              <select
+                value={formData.disadvantage_type || formData.hindrance_type || formData.classification || canonicalSeed?.hindrance_type || 'Physical'}
+                onChange={(e) => {
+                  handleFieldChange('disadvantage_type', e.target.value);
+                  handleFieldChange('hindrance_type', e.target.value);
+                  handleFieldChange('classification', e.target.value);
+                }}
+                className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-lg text-xs font-mono text-sky-200 focus:outline-none focus:border-sky-400"
+              >
+                {DISADVANTAGE_CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            ) : (
+              <div className="p-2.5 bg-slate-900/80 border border-slate-800/80 rounded-lg text-xs font-mono text-sky-200">
+                {formData.disadvantage_type || formData.hindrance_type || canonicalSeed?.hindrance_type || 'Psychological / Physical'}
+              </div>
+            )}
             <p className="text-[11px] text-slate-400 leading-normal">
-              Determines whether medical surgery, neural reprogramming, or therapy can alleviate this condition.
+              Determines whether medical surgery, neural reprogramming, therapy, or resource restitution can alleviate this condition.
             </p>
           </div>
 

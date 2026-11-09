@@ -32,10 +32,11 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Discipline Features
-  - Fast Heal
-  - Regeneration
+  - discipline-awakened
+  - cat_discipline_features
+  - general-fast-heal
+  - general-regeneration
+  - ability-environmental-adaptation
 disadvantages: []
 stigma: None
 tech_level: '4'
@@ -46,63 +47,85 @@ costs:
   bp: 37
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Any
-    value: 20
     type: skill
+    value: 20
     mode: bonus_pool
     description: +20 Skill Points
   - target: general-benefit-status
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: 'Adapted (one additional environ, enhanced physiology)'
-    value: 1
+    description: 'Grants Inherent Feature: Benefit (Status)'
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Adaptive Aspects
     value: 1
-    type: feature
     mode: recommended
-  - target: 'Alter Self (Minor, enhanced physiology)'
+    description: 'Recommended Feature: Awakened'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Discipline Features'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Regeneration'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortality (via Nugenics)
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity  (enhanced physiology)
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-fast-heal
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Reduced Sustenance (enhanced physiology)
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-adapted
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: +2 Features of choice
+    description: 'Recommended Species Trait: Adapted'
+  - target: trait-alter-form-basic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Alter Form (Basic)'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
 description: >-
   The Regi are not a naturally occurring human variant but a sophisticated human
   subspecies, the product of deliberate, centuries-long bio-engineering by the
@@ -134,6 +157,15 @@ negative_keywords: 'manual-labor, dirty-wastelands, subservient, scavenger'
 cp: 37
 bp: 37
 cp_cost: 37
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-adapted
+  - trait-alter-form-basic
+  - trait-immortal
+  - trait-longevity
+  - trait-reduced-sustenance
 ---
 
 # **1.03.Humans.ImpyriumRegi — Impyrium Regi (High Nobility)**

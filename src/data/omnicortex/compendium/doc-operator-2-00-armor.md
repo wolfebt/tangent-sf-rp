@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","economatrix","2.00.armor","mechanics"]
-updatedAt: "2026-11-04T09:33:29.400Z"
+updatedAt: "2026-11-08T20:26:10.306Z"
 costs:
   bp: 0
   credits: 0
@@ -40,7 +40,7 @@ sockets:
 # **2.00.02 ARMOR & PROTECTIVE SYSTEMS CATALOG**
 
 All personal protective suits use **Tier 1 UDU Sockets** for modular customization and follow the **Armor Design Protocol** (`99.Tech.Armor.DesignAndCatalog.md`).
-* **Canonical Armor Layering Rule (Rule #12):** Damage Resistance (DR) **does not stack across biological, cybernetic, and wearable domains**; only the single highest DR applies (Ablative Force Fields act as an outer buffer before Armor DR, and Stamina Modifier subtracts point-for-point as Base Toughness after Armor DR).
+* **Canonical Diminishing Returns Armor Stacking Rule (Rule #12):** When multiple layers of Damage Resistance (DR) apply across biological, cybernetic, metaphysical, and wearable domains, use the **single highest DR** as the base and add **`+1 DR` per stage of 5** (`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, `16–20 = +4`, i.e., `ceil[Layer DR / 5]`) **calculated separately for each additional armor layer** (Ablative Force Fields act as an outer buffer before Armor DR, and Stamina Modifier subtracts point-for-point as Base Toughness after Armor DR).
 
 ---
 
@@ -564,16 +564,16 @@ Heavy armoring inevitably encumbers the operative. Tangent quantifies this encum
 
 #### **Armor Layering & Secondary Stacking Protocols**
 
-Operating in extreme environments or hot combat zones frequently tempts operatives to layer secondary armor over or under a primary suit (e.g., wearing an Armored Vest under an Armored Jacket or over an Enviro-Suit). While this stacks protection, the compounding mass severely degrades kinetic performance.
+Operating in extreme environments or hot combat zones frequently tempts operatives to layer secondary armor over or under a primary suit (e.g., wearing an Armored Vest under an Armored Jacket or over an Enviro-Suit), or to combine worn armor with biological scales and subdermal cybernetics. While this increases protection, additional layers are subject to diminishing returns and compounding kinetic penalties:
 
-  - **Stacking Benefit:** Wearing a secondary set of armor combines its flat DR with the primary armor for overlapping locations.
-  - **Compounding Penalties:** All baseline penalties of both suits combine, plus severe layering friction penalties based on the secondary armor's DR and coverage:
+  - **Diminishing Returns Stacking Benefit:** When multiple layers of armor apply to an overlapping location, use the **highest single DR** as the primary base, and calculate each additional layer **separately** at **`+1 DR` per stage of 5** (`0 DR = +0`, `1–5 DR = +1`, `6–10 DR = +2`, `11–15 DR = +3`, `16–20 DR = +4`, i.e., `ceil[Layer DR / 5]` per additional layer).
+  - **Compounding Penalties:** All baseline penalties of worn suits combine, plus severe layering friction penalties based on the secondary worn armor's DR and coverage:
 
   - **Secondary DR 10:** Imposes **-1 Mobility** (if Upper Body/Torso) and **-5 Movement** (if Lower Body/Legs).
   - **Secondary DR 15:** Imposes **-2 Mobility** (if Upper Body/Torso) and **-10 Movement** (if Lower Body/Legs).
   - **Secondary DR 20+:** Imposes **-4 Mobility** (if Upper Body/Torso) and **-20 Movement** (if Lower Body/Legs).
 
-  - **Exemptions:** Armor DR granted by internal Cybernetic Augmentations, Subdermal Plating, or Metaphysical Wards stacks freely and does *not* trigger layering penalties unless explicitly stated.
+  - **Exemptions:** Armor DR granted by internal Cybernetic Augmentations, Subdermal Plating, Biological Natural Armor, or Metaphysical Wards contributes its diminishing-returns DR bonus (`+1 per stage of 5`, calculated per layer separately) without triggering worn garment layering friction penalties.
   - **Option Invalidation:** Certain installed option modules (e.g., Reactive Camouflage, Holo-Distortion, or External Sensors) become completely non-functional if covered by a secondary outer garment.
 
 ### ***II. THE DESIGN PROTOCOL (Step-by-Step Construction)***

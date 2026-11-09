@@ -26,90 +26,124 @@ bonus_skill_choices:
   - Stealth
   - Streetwise
   - Persuasion
-inherent_features:
-  - special-sense-uncontrolled
+inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Darksight
-  - Deceitful
-  - Fast Heal
-  - Regeneration
-  - Silver Tongue
-  - Stealthy
-  - Trustworthy
+  - discipline-awakened
+  - special-darksight
+  - skill-deceitful
+  - general-fast-heal
+  - general-regeneration
+  - skill-silver-tongue
+  - skill-stealthy
+  - skill-trustworthy
+  - general-jack-of-all-trades
 disadvantages: []
 stigma: 'Shifter (-2), Xeno (-2)'
 tech_level: '3'
 meta_level: '4'
 homeworld: Scattered across Conclave and Syndicate Worlds
 costs:
-  cp: 15
-  bp: 15
+  cp: 16
+  bp: 16
 modifiers:
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: special-sense-uncontrolled
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: inherent
-  - target: Adaptive Aspects (Hive Memories)
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
-    value: 1
+    description: 'Recommended Feature: Awakened'
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Darksight
     value: 1
-    type: feature
     mode: recommended
-  - target: Deceitful
+    description: 'Recommended Feature: Darksight'
+  - target: skill-deceitful
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Deceitful'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Jack of all trades
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Regeneration'
+  - target: skill-silver-tongue
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Silver Tongue
+    description: 'Recommended Feature: Silver Tongue'
+  - target: skill-stealthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Stealthy'
+  - target: skill-trustworthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Trustworthy
+    description: 'Recommended Feature: Trustworthy'
+  - target: general-jack-of-all-trades
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Jack-of-all-trades'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-adaptive-features
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
 description: >-
   Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
   matrices. They can alter their physical form to mimic other humanoids
   perfectly, operating as intelligence operatives, infiltrators, and observers.
-traits: &ref_0
+traits:
   - trait-aeld-lineage-traits
   - trait-alter-form-basic
-species_traits: *ref_0
+  - trait-sense-evil
+species_traits:
+  - trait-aeld-lineage-traits
+  - trait-alter-form-basic
 recommended_factions:
   - The Alterian Enclave
   - The Syndicate
@@ -130,6 +164,13 @@ negative_keywords: 'inflexible, heavy-armor, conspicuous, loud, static-form'
 cp: 15
 bp: 15
 cp_cost: 15
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-dark-sight
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-adaptive-features
 ---
 
 # **1.03.Aeld.Doppelganger — Doppelganger (Silvermoon Shifters)**

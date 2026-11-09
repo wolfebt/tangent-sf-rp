@@ -42,28 +42,25 @@ costs:
   bp: 45
 modifiers:
   - target: Charisma
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Charisma'
-  - target: Any
-    value: 4
+  - target: Any Attribute
     type: attribute
+    value: 4
     mode: bonus_pool
-    description: +4 Flexible Attribute Points
+    description: +4 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Size (Large)
+  - target: trait-bodyform-sizing
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Size (Small)
-    value: 1
-    type: feature
-    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Sizing'
 description: >-
   Intelligent Robot, designs from near humanoid form to industrial or military
   mecha. The typical unit is built on a medium frame for use of human sized
@@ -88,6 +85,8 @@ negative_keywords: 'subservient-protocol, corporate-loyalty, factory-slave'
 cp: 45
 bp: 45
 cp_cost: 45
+recommended_traits:
+  - trait-bodyform-sizing
 ---
 
 # **1.03.Synthetics.SentientMachine — Sentient Machine (Industrial/Military Robot)**

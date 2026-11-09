@@ -41,9 +41,10 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Lightning Reflexes
-  - Tolerance
+  - special-acute-sense
+  - ability-lightning-reflexes
+  - ability-tolerance
+  - skill-self-sufficient
 disadvantages:
   - disadvantage-fragile-frame
 stigma: Minor Xeno (hidden in mecha) / Severe Xeno (exposed) (-2)
@@ -55,50 +56,65 @@ costs:
   bp: 35
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Agility
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Agility
   - target: Strength
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Strength'
   - target: Stamina
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Stamina'
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Acute Senses
+  - target: disadvantage-fragile-frame
+    type: disadvantage
     value: 1
+    mode: inherent
+    description: 'Species Disadvantage: disadvantage-fragile-frame'
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Adaptive Aspects (Hive Memories)
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Reflexes
+    description: 'Recommended Feature: Acute Sense'
+  - target: ability-lightning-reflexes
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Self-Sufficient
+    description: 'Recommended Feature: Lightning Reflexes'
+  - target: ability-tolerance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tolerance
+    description: 'Recommended Feature: Tolerance'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Self Sufficient'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-adaptive-features
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
 description: >-
   The Syndess is the "Integration Expression," a specialized strain that has
   traded physical autonomy for cognitive and reactive supremacy. In their
@@ -145,6 +161,9 @@ negative_keywords: 'mechanical-cockpit, manual-controls, solitary-pilot'
 cp: 35
 bp: 35
 cp_cost: 35
+recommended_traits:
+  - trait-acute-senses
+  - trait-adaptive-features
 ---
 
 # **1.03.Kitin.Syndess — Syndess (Synaptic Pilot Core Expression)**

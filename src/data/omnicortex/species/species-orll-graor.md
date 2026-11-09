@@ -32,9 +32,13 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Natural Weapons
-  - Tough
+  - general-endurance
+  - general-fast-heal
+  - ability-great-fortitude
+  - general-regeneration
+  - skill-self-sufficient
+  - skill-naturalist
+  - general-tough
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '1'
@@ -45,45 +49,70 @@ costs:
   bp: 22
 modifiers:
   - target: Strength
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Strength
   - target: Stamina
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Stamina
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Armor (Chitinous Shell)
-    value: 1
+  - target: general-endurance
     type: feature
-    mode: recommended
-  - target: Darksight
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Endurance'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Fast Heal'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wall-Crawler
+    description: 'Recommended Feature: Great Fortitude'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Regeneration'
+  - target: skill-self-sufficient
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Self Sufficient'
+  - target: skill-naturalist
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Naturalist'
+  - target: general-tough
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Tough'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
 description: >-
   The grey-skinned Orll represent a distinct and notable variance within the
   broader Orll species. Unlike their more commonly encountered cousins, who are
@@ -112,6 +141,9 @@ negative_keywords: 'subterranean, dark-space, void'
 cp: 22
 bp: 22
 cp_cost: 22
+recommended_traits:
+  - trait-fast-heal
+  - trait-regeneration
 ---
 
 # **1.03.Orll.GraOr — Gra'Or (Grey Orll)**

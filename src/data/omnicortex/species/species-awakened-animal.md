@@ -27,45 +27,56 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Danger Sense
-  - Natural Weapons
-  - Runner
-  - Tough
-  - Wild Speech
+  - special-acute-sense
+  - special-danger-sense
+  - special-natural-weapons
+  - general-runner
+  - general-tough
+  - special-wild-speech
 disadvantages: []
-stigma: Beast (-2)
+stigma: Beast (-4)
 tech_level: 1 (Uplifted / Foundational)
 meta_level: 1 (Instinctual Resonance)
 homeworld: Various (Any wild biome or bio-foundry)
 costs:
-  cp: 3
-  bp: 3
+  cp: 1
+  bp: 1
 modifiers:
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Danger Sense
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Acute Sense'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Danger Sense'
+  - target: special-natural-weapons
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Natural Weapons'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wild Speech
+    description: 'Recommended Feature: Runner'
+  - target: general-tough
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Tough'
+  - target: special-wild-speech
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Wild Speech'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
 description: >-
   Uplifted canines, felines, ursines, and avians granted full sapience and
   tactical communication through cybernetic collars or bio-genetic uplift
@@ -92,6 +103,8 @@ negative_keywords: 'fine-tools, speech-inhibited, corporate-executive'
 cp: 3
 bp: 3
 cp_cost: 3
+recommended_traits:
+  - trait-acute-senses
 ---
 
 # **1.03.AwakenedAnimal — Awakened Animal**

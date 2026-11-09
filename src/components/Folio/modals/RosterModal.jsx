@@ -13,6 +13,7 @@ export const RosterModal = ({
   onSelectCharacter,
   onNewCharacter,
   onGuidedCreator,
+  onOpenPullFromMcm,
   onDuplicateCharacter,
   onDeleteCharacter,
   onUpdateNote,
@@ -148,6 +149,18 @@ export const RosterModal = ({
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
+            {onOpenPullFromMcm && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenPullFromMcm();
+                }}
+                className="px-3 py-1.5 bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 rounded text-xs font-bold uppercase shadow transition-colors flex items-center gap-1 cursor-pointer"
+                title="Pull an NPC or Persona from the Modular Character Matrix (MCM)"
+              >
+                <span>🧬</span> Pull from MCM
+              </button>
+            )}
             {onGuidedCreator && (
               <button
                 onClick={() => {

@@ -32,10 +32,12 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Gearhead
-  - Headstrong
-  - Low Light Vision
-  - Skill Focus
+  - skill-gearhead
+  - skill-headstrong
+  - special-low-light-vision
+  - skill-skill-focus
+  - skill-meticulous
+  - general-endurance
 disadvantages: []
 stigma: Minor Xeno (-1)
 tech_level: '2'
@@ -46,56 +48,80 @@ costs:
   bp: 21
 modifiers:
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Adaptive
-    value: 1
+  - target: skill-gearhead
     type: feature
-    mode: recommended
-  - target: Chameleon
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Partial)
+    description: 'Recommended Feature: Gearhead'
+  - target: skill-headstrong
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Gearhead
+    description: 'Recommended Feature: Headstrong'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Headstrong
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-skill-focus
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Skill Focus'
+  - target: skill-meticulous
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Methodical
+    description: 'Recommended Feature: Meticulous'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Rugged
+    description: 'Recommended Feature: Endurance'
+  - target: trait-low-light-vision
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Skill Focus
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-focused-study
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Focused Study'
+  - target: trait-adaptive-features
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
+  - target: trait-chameleon
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-exoskeleton-partial
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Partial)'
+  - target: trait-hardy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Hardy'
 description: >-
   Dwerg, a prominent human variant frequently referred to as Dwarves, possess a
   distinctive physiological profile rooted in their evolution on a high-gravity
@@ -120,6 +146,13 @@ negative_keywords: 'graceful-aerial, swimming, frail'
 cp: 21
 bp: 21
 cp_cost: 21
+recommended_traits:
+  - trait-low-light-vision
+  - trait-focused-study
+  - trait-adaptive-features
+  - trait-chameleon
+  - trait-exoskeleton-partial
+  - trait-hardy
 ---
 
 # **1.03.Humans.Dwerg — Dwerg (High-Gravity Subterranean Humans)**

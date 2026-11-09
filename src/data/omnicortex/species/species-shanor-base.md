@@ -29,11 +29,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Deceitful
-  - Discipline Features
-  - Iron Will
-  - Stealthy
+  - cat_discipline_features
+  - ability-iron-will
+  - skill-stealthy
+  - skill-veiled-threat
+  - special-sense
 disadvantages:
   - disadvantage-species-negative-energy-affinity
 stigma: 'Monstrous (-6), Xeno (-2)'
@@ -41,51 +41,83 @@ tech_level: '5'
 meta_level: '5'
 homeworld: The Abyssal Rift of Null-Space
 costs:
-  cp: 41
-  bp: 41
+  cp: 43
+  bp: 43
 modifiers:
   - target: Wisdom
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Wisdom
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Darksight
+  - target: disadvantage-species-negative-energy-affinity
+    type: disadvantage
     value: 1
+    mode: inherent
+    description: 'Species Disadvantage: disadvantage-species-negative-energy-affinity'
+  - target: cat_discipline_features
     type: feature
-    mode: recommended
-  - target: Deceitful
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features
+    description: 'Recommended Feature: Discipline Features'
+  - target: ability-iron-will
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Iron Will
+    description: 'Recommended Feature: Iron Will'
+  - target: skill-stealthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Stealthy'
+  - target: skill-veiled-threat
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Veiled Threat'
+  - target: special-sense
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Sense'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
+  - target: trait-sense-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Sense (Psychic)'
 description: >-
   Known as Harbingers of Entropy, Dark Hungers and Smoke Demons, the Sha’Nor are
   an extremely ancient species and are physically unlike any other species ever
   encountered. Being composed of what seems to be both some type of shifting
   organic material and dark matter simultaneously would indicate an other
   dimensional origin.
-traits: &ref_0
+traits:
+  - trait-ageless
+  - trait-alter-form-adv
+  - trait-awakened-void
+  - trait-bodyform-adaptation
+  - trait-fast-heal
+  - trait-flight
+  - trait-immortal
+  - trait-non-living
+  - trait-regeneration
+  - trait-semi-corporeal
+  - trait-telepathy-special
+species_traits:
   - trait-ageless
   - trait-alter-form-adv
   - trait-awakened-void
@@ -97,7 +129,6 @@ traits: &ref_0
   - trait-regeneration
   - trait-semi-corporeal
   - trait-mind-speech
-species_traits: *ref_0
 recommended_factions:
   - Cosmic Horror Faction Template
   - Supernatural Faction Template
@@ -113,6 +144,9 @@ negative_keywords: 'solar-radiance, biological-healing, clumsy'
 cp: 41
 bp: 41
 cp_cost: 41
+recommended_traits:
+  - trait-obfuscate
+  - trait-sense-psychic
 ---
 
 # **1.03.ShaNor.Base — Sha'Nor (Harbingers of Entropy)**

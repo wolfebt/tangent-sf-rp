@@ -30,77 +30,103 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Aptitude
-  - Attractive
-  - Awakened
-  - Discipline features
-  - Educated
-  - Low Light Vision
+  - discipline-aptitude
+  - skill-attractive
+  - cat_discipline_features
+  - skill-educated
+  - discipline-awakened
+  - special-low-light-vision
 disadvantages: []
 stigma: None
 tech_level: '4'
 meta_level: '4'
 homeworld: Varen Gate Arcologies
 costs:
-  cp: 28
-  bp: 28
+  cp: 30
+  bp: 30
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
   - target: ability-indomitable-will
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Aptitude
-    value: 1
+    description: 'Grants Inherent Feature: Indomitable Will'
+  - target: discipline-aptitude
     type: feature
-    mode: recommended
-  - target: Attractive
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Aptitude'
+  - target: skill-attractive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline features
+    description: 'Recommended Feature: Attractive'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Discipline Features'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Educated'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Awakened'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Low Light Vision'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
 description: >-
   A highly specialized and inherently rare lineage of Awakened Humans, the
   Gatekeepers are defined by their singular, potent specialty: Psychoportation
   and the intricate art of psychic navigation.
-traits: &ref_0
+traits:
+  - trait-awakened-dimension
+  - trait-psionic-gating
+  - trait-homing
+species_traits:
   - trait-awakened-dimension
   - trait-psionic-gating
   - trait-water-sense
-species_traits: *ref_0
 recommended_factions:
   - The Ascendancy
   - The Alterian Enclave
@@ -119,6 +145,11 @@ negative_keywords: 'ground-bound, claustrophobic, tech-phobic'
 cp: 28
 bp: 28
 cp_cost: 28
+recommended_traits:
+  - trait-awakened-psychic
+  - trait-longevity
+  - trait-low-light-vision
+  - trait-awakened-arcane
 ---
 
 # **1.03.Humans.Varen — Varen (The Gatekeepers)**

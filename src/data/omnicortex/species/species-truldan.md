@@ -33,7 +33,7 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Natural Weapons
+  - special-natural-weapons
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: '1'
@@ -44,24 +44,30 @@ costs:
   bp: 23
 modifiers:
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
-  - target: Natural Weapons
-    value: 1
+  - target: special-natural-weapons
     type: feature
+    value: 1
     mode: recommended
+    description: 'Recommended Feature: Natural Weapons'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
 description: >-
   Truldan will stand fully upright at 7 to 71/2 ft tall with a regal,
   aristocratic bearing. They possess a wiry, acrobatic build with minimal body
@@ -95,6 +101,8 @@ negative_keywords: 'dry-desert, heavy-metal, fire'
 cp: 23
 bp: 23
 cp_cost: 23
+recommended_traits:
+  - trait-natural-weapons
 ---
 
 # **1.03.Truldan — Truldan (Amphibious Regenerating Trolls)**

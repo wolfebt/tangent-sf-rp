@@ -28,7 +28,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: 1
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - cat_karma_features
 disadvantages: []
 stigma: None
 tech_level: '3, varies'
@@ -39,19 +40,20 @@ costs:
   bp: 13
 modifiers:
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Any
-    value: 1
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: any Karma Feature
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: cat_karma_features
     type: feature
+    value: 1
     mode: recommended
+    description: 'Recommended Feature: Karma Features'
 description: 'People found in Dynasty, Syndicate, Imperium, etc.'
 traits: &ref_0 []
 species_traits: *ref_0
@@ -77,6 +79,7 @@ negative_keywords: 'environmental-extremophile, biologically-inflexible'
 cp: 13
 bp: 13
 cp_cost: 13
+recommended_traits: []
 ---
 
 # **1.03.Humans.Base — Baseline Humans**

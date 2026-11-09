@@ -32,11 +32,15 @@ inherent_features:
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Ability Check Features
-  - Danger Sense
-  - Fearless
-  - Low Light Vision
-  - Scent
+  - cat_ability_features
+  - special-danger-sense
+  - general-fearless
+  - special-low-light-vision
+  - special-scent
+  - ability-environmental-adaptation
+  - combat-ambidextrous
+  - general-fast-heal
+  - ability-toxic-resistance
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '4'
@@ -47,69 +51,100 @@ costs:
   bp: 29
 modifiers:
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 20
     type: skill
+    value: 20
     mode: bonus_pool
     description: +20 Skill Points
   - target: special-augmented
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Any
-    value: 1
+    description: 'Grants Inherent Feature: Augmented'
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Ability Check Features
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: cat_ability_features
     type: feature
-    mode: recommended
-  - target: Adapted
     value: 1
-    type: feature
     mode: recommended
-  - target: Ambidexterity
+    description: 'Recommended Feature: Ability Features'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Danger Sense
+    description: 'Recommended Feature: Danger Sense'
+  - target: general-fearless
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Partial)
+    description: 'Recommended Feature: Fearless'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fearless
+    description: 'Recommended Feature: Low Light Vision'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Improved Healing (double healing rate)
+    description: 'Recommended Feature: Scent'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: combat-ambidextrous
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Scent
+    description: 'Recommended Feature: Ambidextrous'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: 'Toxin Resist (+4 vs Diseases, +2 vs Poisons)'
+    description: 'Recommended Feature: Fast Heal'
+  - target: ability-toxic-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Toxic Resistance'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
+  - target: trait-adapted
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adapted'
+  - target: trait-exoskeleton-partial
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Partial)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
 description: >-
   The Janissary operatives are not naturally born; instead, they are rapidly
   grown to physical adulthood from engineered zygotes in specialized gestation
@@ -137,6 +172,12 @@ negative_keywords: 'creative-freethinking, rebellious, pacifist, emotional-expre
 cp: 29
 bp: 29
 cp_cost: 29
+recommended_traits:
+  - trait-low-light-vision
+  - trait-scent
+  - trait-adapted
+  - trait-exoskeleton-partial
+  - trait-fast-heal
 ---
 
 # **1.03.Humans.Janissary — Janissary (Syndicate Clone Soldiers)**

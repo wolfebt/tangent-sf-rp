@@ -213,6 +213,22 @@ export const ArmorArchitectGuidance = ({
         </div>
       </div>
 
+      {/* ── Diminishing Returns Armor Stacking Rule Callout ── */}
+      <div className="p-4 bg-slate-950/80 border border-cyan-500/40 rounded-2xl space-y-2 shadow-md">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-300 uppercase tracking-wider">
+            <Shield size={14} className="text-cyan-400" />
+            <span>Diminishing Returns Armor Stacking Rule (BASTION Chapter 4)</span>
+          </div>
+          <span className="text-[10px] font-mono text-cyan-200 bg-cyan-950/80 border border-cyan-500/40 px-2 py-0.5 rounded">
+            Highest DR + Stage of 5 Bonus
+          </span>
+        </div>
+        <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
+          When stacking multiple armor layers (e.g., Armored Undersuit + Tactical Vest + Deflector Field + Natural Carapace), take the <strong className="text-amber-300">Highest DR</strong> layer as the base and add <strong className="text-cyan-300">+1 DR per stage of 5</strong> (<code className="text-emerald-300">0 = +0, 1–5 = +1, 6–10 = +2, 11–15 = +3, etc.</code>) calculated <strong className="text-white">separately for each additional armor layer</strong>.
+        </p>
+      </div>
+
       {/* ── Operational Era & Resonance Recommendations (TL & ML) ── */}
       <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-4">
         <div className="flex items-center justify-between border-b border-slate-800 pb-2">

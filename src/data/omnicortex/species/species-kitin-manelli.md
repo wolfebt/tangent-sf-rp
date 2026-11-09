@@ -39,11 +39,14 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Assessment
-  - Bodyform Features
-  - Low Light Vision
-  - Silver Tongue
+  - special-acute-sense
+  - general-assessment
+  - special-low-light-vision
+  - skill-silver-tongue
+  - special-bonded
+  - special-companion
+  - general-jack-of-all-trades
+  - special-sense
 disadvantages: []
 stigma: Minor Xeno (hidden) / Severe Xeno (revealed) (-2)
 tech_level: 4 (Advanced Psionic/Biomorphic)
@@ -54,87 +57,130 @@ costs:
   bp: 47
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Wisdom
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Wisdom
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Adaptive Aspects (Hive Memories)
     value: 1
-    type: feature
     mode: recommended
-  - target: Adaptive Skill Set (Hive Memories)
+    description: 'Recommended Feature: Acute Sense'
+  - target: general-assessment
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Alter Form
+    description: 'Recommended Feature: Assessment'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Assessment
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-silver-tongue
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform Features
+    description: 'Recommended Feature: Silver Tongue'
+  - target: special-bonded
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Bonded or Companion
+    description: 'Recommended Feature: Bonded'
+  - target: special-companion
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Jack of all trades
+    description: 'Recommended Feature: Companion'
+  - target: general-jack-of-all-trades
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Jack-of-all-trades'
+  - target: special-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Mutation
+    description: 'Recommended Feature: Sense'
+  - target: trait-acute-senses
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Poison Immunity
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Sense (Psychic)
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Silver Tongue
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Reduced Sustenance
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-low-light-vision
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: >-
-      Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood,
-      Sta 2
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-adaptive-features
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
+  - target: trait-adaptive-skill-set
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Skill Set'
+  - target: trait-alter-form-adv
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Alter Form (Adv)'
+  - target: trait-poison-immunity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Poison Immunity'
+  - target: trait-sense-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Sense (Psychic)'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
+  - target: trait-venom-spit
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Venom Spit'
+  - target: trait-toxic-blood
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Toxic Blood'
 description: >-
   The Manelli are a striking and enigmatic humanoid species, distinguished by
   several unique biological and sensory characteristics. Their appearance is
@@ -170,6 +216,20 @@ negative_keywords: 'berserker-rage, isolation, xenophobic, individualist'
 cp: 47
 bp: 47
 cp_cost: 47
+recommended_traits:
+  - trait-acute-senses
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-low-light-vision
+  - trait-adaptive-features
+  - trait-adaptive-skill-set
+  - trait-alter-form-adv
+  - trait-poison-immunity
+  - trait-sense-psychic
+  - trait-reduced-sustenance
+  - trait-venom-spit
+  - trait-toxic-blood
 ---
 
 # **1.03.Kitin.Manelli — Manelli (Cerebral & Diplomatic Expression)**

@@ -46,6 +46,45 @@ import {
 } from '../../../engines/tangentPlanetaryEngine';
 import { AudioService } from '../../../services/audioService';
 
+const CANONICAL_16_DOMAINS = [
+  { key: 'agriculture', name: 'Agriculture', stages: ['Hunting/Gathering', 'Farming', 'Advanced Farming', 'Terraforming', 'Planetary Engineering', 'Matter Synthesis', 'Cosmic Biosynthesis'] },
+  { key: 'architecture', name: 'Architecture', stages: ['Simple Structures', 'Advanced Masonry', 'Skyscrapers', 'Smart Cities', 'Advanced Space Habitats', 'Megastructures', 'Dimensional Architecture'] },
+  { key: 'biotechnology', name: 'Biotechnology', stages: ['Herbalism', 'Pharmacology', 'Early Biotech', 'Genetic Engineering', 'Gene Editing', 'Advanced Nanobio', 'Transcendent Biogenesis'] },
+  { key: 'communication', name: 'Communication', stages: ['Verbal/Pictograms', 'Published Text', 'Digital Networks', 'Holographic & FTL', 'Mnemonic Transceivers', 'Quantum Signaler', 'Omnipresent Noosphere'] },
+  { key: 'defense', name: 'Defense', stages: ['Fortifications', 'Bunkers & Flak', 'Missile Grids', 'Planetary Shields', 'Orbital Bastions', 'Phase-Shift Curtains', 'Reality Ward Matrices'] },
+  { key: 'energy', name: 'Energy', stages: ['Biomass/Wind', 'Fossil Fuels', 'Nuclear & Renewables', 'Fusion Power', 'Antimatter', 'Zero-Point & Dark Energy', 'Stellar / Vacuum Tap'] },
+  { key: 'health_medicine', legacyKey: 'medicine', name: 'Health & Medicine', stages: ['Herbal Remedies', 'Basic Pharmacology', 'Focused Medicine', 'Augmentations & Cloning', 'Clinical Immortality', 'Retro-Genetic Reengineering', 'Consciousness Continuity'] },
+  { key: 'industrial_production', legacyKey: 'manufacturing', name: 'Industrial Production', stages: ['Handmade', 'Crafted Foundries', 'Mass Industrial', 'Nanotechnology', 'Programmable Material', 'Polymatter', 'Instantaneous Matter Forging'] },
+  { key: 'materials', name: 'Materials', stages: ['Natural Materials', 'Synthetic Alloys', 'Advanced Composites', 'Metamaterials', 'Nanotech Assemblers', 'Polymatter', 'Exotic Femtomatter'] },
+  { key: 'metaphysics', legacyKey: 'meta_sciences', name: 'Metaphysics', stages: ['Folklore', 'Early Exploration', 'Systematic Study', 'Meta-Technology', 'Advanced Research', 'Integrated Magi-Tech', 'Deific Ontological Mastery'] },
+  { key: 'computation', legacyKey: 'devices', name: 'Computation', stages: ['Simple Mechanical', 'Electromechanical', 'Integrated Circuits', 'Optical & Quantum', 'Neural-Mesh Substrates', 'Holophotonics', 'Matrioshka Computation'] },
+  { key: 'science', name: 'Science', stages: ['Empirical', 'Systematic', 'Modern Disciplines', 'Advanced Theories', 'Unified Theories', 'Transcendent Theories', 'Omniscient Axiom Synthesis'] },
+  { key: 'society', name: 'Society', stages: ['Tribal', 'Early Civilizations', 'Modern Societies', 'Advanced System-Wide', 'Interconnected Galactic', 'Post-Scarcity Utopia', 'Ascendant Harmony'] },
+  { key: 'synthetic_intelligence', name: 'Synthetic Intelligence', stages: ['None', 'Reflexive Automation', 'Reactive Devices', 'Self-Aware AI', 'Artificial General Intelligence (AGI)', 'Hyper Intellect (ASI)', 'Cosmic Sovereign Mind'] },
+  { key: 'transportation', name: 'Transportation', stages: ['Wagons & Boats', 'Wind & Aircraft', 'Rollers & Chemical Rockets', 'GEV & Reaction FTL', 'Force Wave & Tangent Space', 'Contra-Grav & Spatial Gateways', 'Instantaneous Fold Transit'] },
+  { key: 'weaponry', name: 'Weaponry', stages: ['Melee & Bows', 'Gunpowder & Cannons', 'Modern Firearms & Missiles', 'Directed Energy & Railguns', 'Nanotech Force Weapons', 'Gravitonic Disintegration', 'Ontological Erasure'] }
+];
+
+const TL_LABELS = {
+  0: 'TL 0: Primitive / Stone',
+  1: 'TL 1: Pre-Industrial / Medieval',
+  2: 'TL 2: Industrial / Early Modern',
+  3: 'TL 3: Information / Fusion Frontier',
+  4: 'TL 4: Gravity / Subspace Standard',
+  5: 'TL 5: High-Tech / Polymatter',
+  6: 'TL 6: Precursor / Cosmic Singularity'
+};
+
+const ML_LABELS = {
+  0: 'ML 0: Null (Unawakened / Dead Zone)',
+  1: 'ML 1: Rare (Occult Folklore)',
+  2: 'ML 2: Selective (Hidden Orders)',
+  3: 'ML 3: Cultured (Academy Trained)',
+  4: 'ML 4: Standardized (Civic Meta-Tech)',
+  5: 'ML 5: Advanced (Magi-Tech Saturation)',
+  6: 'ML 6: Deific (Reality-Warping Apex)'
+};
+
 export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
   const [activeTab, setActiveTab] = useState('geophysics'); // 'geophysics' | 'sociology' | 'domains' | 'economy' | 'generator'
   const [hookFilter, setHookFilter] = useState('');
@@ -64,15 +103,18 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
   const metaLevel = Number(formData.metaLevel ?? formData.ml ?? formData.meta_level ?? 0);
   const faction = formData.dominant_faction || 'Independent';
 
-  // Domain ratings 0-5
+  // Domain ratings (16 Canonical Civilization Domains)
   const domainRatings = useMemo(() => {
-    const raw = formData.domainRatings || {};
+    const raw = formData.domainRatings || formData.civilization_domains || {};
     const result = {};
-    Object.keys(CIVILIZATION_DOMAINS_DETAILED).forEach(key => {
-      result[key] = raw[key] !== undefined ? Number(raw[key]) : techLevel;
+    CANONICAL_16_DOMAINS.forEach(({ key, legacyKey }) => {
+      const defaultVal = key === 'metaphysics' ? metaLevel : Math.min(6, techLevel);
+      const rawVal = raw[key] !== undefined ? raw[key] : (legacyKey && raw[legacyKey] !== undefined ? raw[legacyKey] : defaultVal);
+      result[key] = Number(rawVal);
+      if (legacyKey) result[legacyKey] = Number(rawVal);
     });
     return result;
-  }, [formData.domainRatings, techLevel]);
+  }, [formData.domainRatings, formData.civilization_domains, techLevel, metaLevel]);
 
   // Derived attributes
   const uwpData = useMemo(() => ({
@@ -98,8 +140,14 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
 
   const handleDomainChange = (domainKey, val) => {
     AudioService.playTerminalBeep(1200, 0.015);
-    const newDomains = { ...domainRatings, [domainKey]: Number(val) };
+    const numVal = Number(val);
+    const domainDef = CANONICAL_16_DOMAINS.find(d => d.key === domainKey);
+    const newDomains = { ...domainRatings, [domainKey]: numVal };
+    if (domainDef?.legacyKey) {
+      newDomains[domainDef.legacyKey] = numVal;
+    }
     onChange('domainRatings', newDomains);
+    onChange('civilization_domains', newDomains);
   };
 
   const handleProceduralGenerate = (selectedFaction) => {
@@ -129,18 +177,18 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
 
   // 16-Domain Radar Chart Points Calculation
   const radarPoints = useMemo(() => {
-    const domains = Object.keys(CIVILIZATION_DOMAINS_DETAILED);
-    const count = domains.length;
+    const count = 16;
     const center = 150;
     const maxRadius = 110;
 
-    const points = domains.map((key, index) => {
-      const angle = (index * 2 * Math.PI) / count - Math.PI / 2;
-      const score = (domainRatings[key] || 0) / 5; // 0 to 1
+    const points = CANONICAL_16_DOMAINS.map((dom, index) => {
+      const angle = (index * 2 * Math.PI) / 16 - Math.PI / 2;
+      const rawScore = domainRatings[dom.key] ?? 0;
+      const score = Math.min(1, Math.max(0, rawScore / 6)); // 0 to 1 across 0-6
       const r = maxRadius * score;
       const x = center + r * Math.cos(angle);
       const y = center + r * Math.sin(angle);
-      return { x, y, key, label: CIVILIZATION_DOMAINS_DETAILED[key].name, score: domainRatings[key] || 0 };
+      return { x, y, key: dom.key, label: dom.name, score: rawScore, count };
     });
 
     const polygonPoints = points.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
@@ -297,10 +345,14 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
             <input
               type="range"
               min={0}
-              max={10}
+              max={15}
               step={1}
               value={size}
-              onChange={(e) => onChange('size', Number(e.target.value))}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange('size', v);
+                onChange('size_class', v);
+              }}
               className="w-full accent-teal-500 cursor-pointer"
             />
 
@@ -338,10 +390,14 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
             <input
               type="range"
               min={0}
-              max={12}
+              max={15}
               step={1}
               value={atmosphere}
-              onChange={(e) => onChange('atmosphere', Number(e.target.value))}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange('atmosphere', v);
+                onChange('atmos_code', v);
+              }}
               className="w-full accent-teal-500 cursor-pointer"
             />
 
@@ -388,6 +444,68 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
               {hydrography > 8 && 'Pelagic / Water World: Massive global oceans. Requires floating arcologies or deep submersible habitats.'}
             </p>
           </div>
+
+          {/* Tech Level (TL 0–6) */}
+          <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-teal-400 flex items-center gap-2">
+                <Cpu size={15} /> Tech Level (TL 0–6): TL {techLevel}
+              </h3>
+              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-teal-950 border border-teal-500/40 text-teal-300">
+                {TL_LABELS[techLevel] || `TL ${techLevel}`}
+              </span>
+            </div>
+
+            <input
+              type="range"
+              min={0}
+              max={6}
+              step={1}
+              value={techLevel}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange('techLevel', v);
+                onChange('tl', v);
+                onChange('tech_level', v);
+              }}
+              className="w-full accent-teal-500 cursor-pointer"
+            />
+
+            <p className="text-xs font-mono text-slate-400 leading-relaxed">
+              Governs baseline technological infrastructure, local manufacturing capability, and Market Availability Cap (DC {marketCap}).
+            </p>
+          </div>
+
+          {/* Meta Level (ML 0–6) */}
+          <div className="p-4 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                <Sparkles size={15} /> Meta Level (ML 0–6): ML {metaLevel}
+              </h3>
+              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-950 border border-purple-500/40 text-purple-300">
+                {ML_LABELS[metaLevel] || `ML ${metaLevel}`}
+              </span>
+            </div>
+
+            <input
+              type="range"
+              min={0}
+              max={6}
+              step={1}
+              value={metaLevel}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange('metaLevel', v);
+                onChange('ml', v);
+                onChange('meta_level', v);
+              }}
+              className="w-full accent-purple-500 cursor-pointer"
+            />
+
+            <p className="text-xs font-mono text-slate-400 leading-relaxed">
+              Governs planetary metaphysical resonance, psionic/arcane prevalence, and ambient Aether saturation across the biosphere.
+            </p>
+          </div>
         </div>
       )}
 
@@ -408,10 +526,14 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
             <input
               type="range"
               min={0}
-              max={12}
+              max={15}
               step={1}
               value={population}
-              onChange={(e) => onChange('population', Number(e.target.value))}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange('population', v);
+                onChange('pop_code', v);
+              }}
               className="w-full accent-teal-500 cursor-pointer"
             />
 
@@ -592,15 +714,15 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
           {/* 16-Domain Interactive Sliders (7 Cols) */}
           <div className="lg:col-span-7 p-4 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-3">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-teal-400 mb-2">
-              Civilization Domain Advancement (0–5)
+              16 Canonical Civilization Domains (0–6)
             </h3>
 
-            {Object.entries(CIVILIZATION_DOMAINS_DETAILED).map(([key, def]) => {
-              const currentVal = domainRatings[key] !== undefined ? domainRatings[key] : techLevel;
-              const currentStage = def.stages[currentVal] || def.stages[0];
+            {CANONICAL_16_DOMAINS.map((def) => {
+              const currentVal = domainRatings[def.key] !== undefined ? domainRatings[def.key] : techLevel;
+              const currentStage = def.stages[currentVal] || def.stages[def.stages.length - 1] || def.stages[0];
 
               return (
-                <div key={key} className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+                <div key={def.key} className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
                   <div className="flex items-center justify-between text-xs font-mono">
                     <span className="font-bold text-slate-200">{def.name}</span>
                     <span className="text-teal-300 font-bold">
@@ -610,10 +732,10 @@ export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
                   <input
                     type="range"
                     min={0}
-                    max={5}
+                    max={6}
                     step={1}
                     value={currentVal}
-                    onChange={(e) => handleDomainChange(key, e.target.value)}
+                    onChange={(e) => handleDomainChange(def.key, e.target.value)}
                     className="w-full accent-teal-500 cursor-pointer"
                   />
                 </div>

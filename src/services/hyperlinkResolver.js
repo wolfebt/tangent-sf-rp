@@ -30,14 +30,14 @@ export const SECTION_REGISTRY = {
   },
   codex: {
     key: 'codex',
-    aliases: ['codex', 'omnicortex', 'lore', 'archives', 'terran codex'],
-    label: 'Terran Codex',
-    url: ROUTES.CODEX || '/codex',
+    aliases: ['codex', 'omnicortex', 'lore', 'archives', 'terran codex', 'cortex'],
+    label: 'Omnicortex & Rules Codex',
+    url: ROUTES.DBM || '/dbm',
     badge: 'PLATFORM SECTION',
-    description: 'Omnicortex lore database, technological matrices, economy, and world archives.',
-    tags: ['Database', 'Lore', 'Omnicortex'],
+    description: 'Omnicortex catalogs with integrated Rules Codex design frameworks, build cost validators, and world archives.',
+    tags: ['Database', 'Lore', 'Omnicortex', 'Rules Codex'],
     colorTheme: 'amber',
-    icon: 'BookOpen'
+    icon: 'Database'
   },
   compendium: {
     key: 'compendium',

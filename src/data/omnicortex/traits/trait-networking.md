@@ -2,7 +2,7 @@
 id: trait-networking
 name: Networking
 trait_tier: Basic
-trait_type: Social
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   A wide network of professional and informal contacts across industries,
   syndicates, and governments for information and resource gathering.
 modifiers: []
+classification: Social
 ---
 # Networking
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Social
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

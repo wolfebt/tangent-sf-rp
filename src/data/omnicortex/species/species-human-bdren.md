@@ -29,14 +29,15 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Climber
-  - Endurance
-  - Low Light Vision
-  - Fast Heal
-  - Runner
-  - Scent
-  - Self Sufficient
-  - Swimmer
+  - general-climber
+  - general-endurance
+  - special-low-light-vision
+  - general-fast-heal
+  - general-runner
+  - special-scent
+  - skill-self-sufficient
+  - general-swimmer
+  - ability-environmental-adaptation
 disadvantages: []
 stigma: None
 tech_level: '2'
@@ -47,55 +48,90 @@ costs:
   bp: 13
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
-  - target: Climber
-    value: 1
+    description: +1 Attribute Choice(s)
+  - target: general-climber
     type: feature
-    mode: recommended
-  - target: Endurance
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Climber'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Endurance'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Runner'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Scent
+    description: 'Recommended Feature: Scent'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Self Sufficient
+    description: 'Recommended Feature: Self Sufficient'
+  - target: general-swimmer
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Swimmer
+    description: 'Recommended Feature: Swimmer'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: trait-climber
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Climber'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
+  - target: trait-aquatic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Aquatic'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
 description: >-
   The B’Dren are a striking species, immediately distinguishable by their Tall
   and Lean physiques. This evolutionary trait is not merely aesthetic; it is the
@@ -122,6 +158,13 @@ negative_keywords: 'blinding-sunlight, open-plains, desert-heat'
 cp: 13
 bp: 13
 cp_cost: 13
+recommended_traits:
+  - trait-climber
+  - trait-fast-heal
+  - trait-scent
+  - trait-aquatic
+  - trait-bonded-terrain
+  - trait-longevity
 ---
 
 # **1.03.Humans.BDren — B'Dren**

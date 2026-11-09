@@ -40,6 +40,63 @@ textarea {
   -ms-overflow-style: none;
 }
 
+/* Explicit visible scrollbar for scrollable modals, panels, and dropdowns */
+.custom-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(34, 211, 238, 0.45) rgba(15, 23, 42, 0.7) !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.45);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.75);
+}
+
+/* Explicit horizontal & vertical scrollbars for wide Catalog Tables */
+.catalog-scroll-container {
+  scrollbar-width: auto !important;
+  scrollbar-color: rgba(34, 211, 238, 0.55) rgba(15, 23, 42, 0.85) !important;
+}
+
+.catalog-scroll-container::-webkit-scrollbar {
+  display: block !important;
+  width: 8px !important;
+  height: 10px !important;
+}
+
+.catalog-scroll-container::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 9999px;
+}
+
+.catalog-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.55);
+  border-radius: 9999px;
+  border: 1px solid rgba(8, 51, 68, 0.8);
+}
+
+.catalog-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.9);
+}
+
+.catalog-scroll-container::-webkit-scrollbar-corner {
+  background: rgba(15, 23, 42, 0.85);
+}
+
 /* Range input slider styling (Charcoal track, Cyan thumb) */
 input[type="range"] {
   accent-color: var(--color-accent-cyan);

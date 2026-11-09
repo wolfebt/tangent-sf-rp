@@ -9,6 +9,7 @@
 import { getMatrixById } from './codexConfig.js';
 import { normalizeOmnicortexItem, exportOmnicortexItem } from '../../utils/tangentSchemaAdapters.js';
 import { calculateSpeciesBP } from '../../engines/tangentEntityEngines.js';
+import { convertMcmToFolioPersona, convertFolioToMcmRecord } from '../../utils/personaBridge.js';
 import { DEFAULT_SPECIES } from '../../data/speciesData.js';
 import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../../data/originsData.js';
@@ -92,6 +93,8 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   species: 'species',
   'char-species': 'species',
   lineages: 'species',
+  species_lineage: 'species_lineage',
+  species_lineages: 'species_lineage',
   species_type: 'species_type',
   species_types: 'species_type',
   types: 'species_type',
@@ -123,23 +126,31 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   // Meta-Abilities & Psionics
   invocations: 'invocation',
   invocation: 'invocation',
-  disciplines: 'invocation',
   awakened: 'invocation',
-  special_abilities: 'invocation',
+  special_abilities: 'special_abilities',
+  special_ability: 'special_abilities',
   'meta-tech': 'meta-tech',
 
   // Worldbuilding & Sociology
   factions: 'factions',
   faction: 'factions',
   'char-faction': 'factions',
-  societies: 'factions',
+  societies: 'societies',
+  planetary_design: 'planetary-design',
   'planetary-design': 'planetary-design',
   planets: 'planetary-design',
-  worlds: 'planetary-design',
+  world: 'world',
+  worlds: 'world',
+  universe: 'universe',
+  setting: 'setting',
+  philosophy: 'philosophy',
+  scene: 'scene',
 
-  // Characters & NPCs
+  // Characters, NPCs & Companions
   modular_characters: 'modular-characters',
   'modular-characters': 'modular-characters',
+  companions: 'companions',
+  companion: 'companions',
   archetypes: 'archetypes',
   archetype: 'archetypes',
   'char-archetype': 'archetypes',
@@ -154,6 +165,56 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   homeworld: 'origins',
   homeworlds: 'origins',
 
+  // Developer Reference & Schema Fields
+  prerequisite: 'prerequisite',
+  modifier: 'modifier',
+  rules: 'rules',
+  synthesis: 'synthesis',
+  augmentation_type: 'augmentation_type',
+  body_location: 'body_location',
+  disciplines: 'disciplines',
+  area: 'area',
+  effect: 'effect',
+  range: 'range',
+  target: 'target',
+  critical_effect: 'critical_effect',
+  critical_success_effect: 'critical_success_effect',
+  critical_failure_effect: 'critical_failure_effect',
+  conditions: 'conditions',
+  condition: 'Condition',
+  Condition: 'Condition',
+  attributes: 'attributes',
+  damage_types: 'damage_types',
+  maneuvers: 'maneuvers',
+  gear_category: 'gear_category',
+  availability: 'availability',
+  creator: 'creator',
+  design: 'design',
+  component: 'component',
+  classification: 'classification',
+  material: 'material',
+  resistance: 'resistance',
+  mode: 'mode',
+  special: 'special',
+  society_agriculture: 'society_agriculture',
+  society_architecture: 'society_architecture',
+  society_biotechnology: 'society_biotechnology',
+  society_commerce: 'society_commerce',
+  society_communication: 'society_communication',
+  society_computation: 'society_computation',
+  society_devices: 'society_devices',
+  society_education: 'society_education',
+  society_energy: 'society_energy',
+  society_manufacturing: 'society_manufacturing',
+  society_materials: 'society_materials',
+  society_medicine: 'society_medicine',
+  society_science: 'society_science',
+  society_society: 'society_society',
+  society_synthetic_intelligence: 'society_synthetic_intelligence',
+  society_synthetics: 'society_synthetics',
+  society_transportation: 'society_transportation',
+  society_weaponry: 'society_weaponry',
+
   // System Engines
   economatrix: 'economatrix',
   technology: 'technology',
@@ -163,11 +224,15 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
 /**
  * Resolves the matching Codex Matrix ID for any asset key.
  */
-export const getMatrixIdForAssetKey = (key) => {
+export const resolveCategoryMatrixKey = (key) => {
   if (!key) return null;
-  const clean = String(key).toLowerCase().trim();
+  const raw = String(key).trim();
+  if (ASSET_COLLECTION_TO_MATRIX_MAP[raw]) return ASSET_COLLECTION_TO_MATRIX_MAP[raw];
+  const clean = raw.toLowerCase();
   return ASSET_COLLECTION_TO_MATRIX_MAP[clean] || null;
 };
+
+export const getMatrixIdForAssetKey = resolveCategoryMatrixKey;
 
 const parseListField = (val) => {
   if (Array.isArray(val)) return val;
@@ -589,7 +654,7 @@ export const adaptItemToCodexFormData = (item, matrix) => {
   // Harmonize Features Fields
   if (resolvedMatrix.id === 'features') {
     base.type = item.type || base.type || 'ability';
-    base.cp = Number(item.cp ?? base.cp ?? 2);
+    base.cp = Number(item.cp ?? base.cp ?? 3);
     base.recommended_tl = parseListField(item.recommended_tl || item.recommended_tech_level || (item.tech_level !== undefined ? [`TL ${item.tech_level}`] : base.recommended_tl));
     base.recommended_ml = parseListField(item.recommended_ml || item.recommended_meta_level || (item.meta_level !== undefined ? [`ML ${item.meta_level}`] : base.recommended_ml));
     base.tech_level = Number(item.tech_level ?? item.tl ?? base.tech_level ?? 0) || 0;
@@ -709,10 +774,12 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.primary_attribute = item.primary_attribute || seed?.primary_attribute || base.primary_attribute || 'Intellect';
     base.secondary_attribute = item.secondary_attribute || seed?.secondary_attribute || base.secondary_attribute || 'Charisma';
     base.essential_skills = item.essential_skills || seed?.essential_skills || base.essential_skills || [];
-    const sigTraits = item.signature_traits || item.traits || item.signature_features || seed?.signature_traits || seed?.signature_features || base.signature_traits || base.traits || base.signature_features || [];
+    const sigTraits = item.signature_traits || item.traits || seed?.signature_traits || seed?.traits || base.signature_traits || base.traits || [];
+    const recFeatures = item.recommended_features || item.signature_features || seed?.recommended_features || seed?.signature_features || base.recommended_features || base.signature_features || [];
     base.signature_traits = sigTraits;
     base.traits = sigTraits;
-    base.signature_features = sigTraits;
+    base.recommended_features = recFeatures;
+    base.signature_features = recFeatures;
     base.recommended_occupations = item.recommended_occupations || seed?.recommended_occupations || base.recommended_occupations || [];
     base.recommended_origins = item.recommended_origins || seed?.recommended_origins || base.recommended_origins || [];
     base.recommended_factions = item.recommended_factions || seed?.recommended_factions || base.recommended_factions || [];
@@ -727,6 +794,41 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.full_text = (typeof item.full_text === 'string' && item.full_text.trim())
       ? item.full_text
       : (seed?.full_text || base.body || '');
+  }
+
+  // Harmonize World & Planetary Design UWP Fields
+  if (resolvedMatrix.id === 'world' || resolvedMatrix.id === 'planetary-design' || resolvedMatrix.id === 'planetary_design') {
+    const resolvedUwp = item.uwp || item.uwp_string || base.uwp || base.uwp_string || '';
+    base.uwp = resolvedUwp;
+    base.uwp_string = resolvedUwp;
+
+    const resolvedStarport = item.starport || item.starport_class || base.starport || base.starport_class || 'C';
+    base.starport = resolvedStarport;
+    base.starport_class = resolvedStarport;
+
+    const resolvedSize = Number(item.size ?? item.size_code ?? base.size ?? base.size_code ?? 6);
+    base.size = resolvedSize;
+    base.size_code = resolvedSize;
+
+    const resolvedAtmos = Number(item.atmosphere ?? item.atmosphere_code ?? base.atmosphere ?? base.atmosphere_code ?? 4);
+    base.atmosphere = resolvedAtmos;
+    base.atmosphere_code = resolvedAtmos;
+
+    const resolvedPop = Number(item.population ?? item.population_code ?? base.population ?? base.population_code ?? 7);
+    base.population = resolvedPop;
+    base.population_code = resolvedPop;
+
+    const resolvedHydro = Number(item.hydrography ?? item.hydrographics_code ?? base.hydrography ?? 6);
+    base.hydrography = resolvedHydro;
+    base.hydrographics_code = resolvedHydro;
+
+    const resolvedGov = Number(item.government ?? item.government_code ?? base.government ?? 4);
+    base.government = resolvedGov;
+    base.government_code = resolvedGov;
+
+    const resolvedLaw = Number(item.lawLevel ?? item.law_level ?? base.lawLevel ?? 4);
+    base.lawLevel = resolvedLaw;
+    base.law_level = resolvedLaw;
   }
 
   // Harmonize Features Fields
@@ -820,12 +922,28 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.essential_skills = Array.isArray(formData.essential_skills) ? formData.essential_skills : [];
     const sigTraits = Array.isArray(formData.signature_traits) && formData.signature_traits.length > 0
       ? formData.signature_traits
-      : (Array.isArray(formData.traits) && formData.traits.length > 0
-          ? formData.traits
-          : (Array.isArray(formData.signature_features) ? formData.signature_features : []));
+      : (Array.isArray(formData.traits) ? formData.traits : []);
+    const recFeatures = Array.isArray(formData.recommended_features) && formData.recommended_features.length > 0
+      ? formData.recommended_features
+      : (Array.isArray(formData.signature_features) ? formData.signature_features : []);
     payload.signature_traits = sigTraits;
     payload.traits = sigTraits;
-    payload.signature_features = sigTraits;
+    payload.recommended_features = recFeatures;
+    payload.signature_features = recFeatures;
+  }
+
+  // Normalize UWP fields between world and planetary_design
+  if (resolvedMatrix.id === 'world' || resolvedMatrix.id === 'planetary-design' || resolvedMatrix.id === 'planetary_design') {
+    payload.uwp = formData.uwp || formData.uwp_string || payload.uwp || '';
+    payload.uwp_string = formData.uwp_string || formData.uwp || payload.uwp_string || '';
+    payload.starport = formData.starport || formData.starport_class || payload.starport || 'C';
+    payload.starport_class = formData.starport_class || formData.starport || payload.starport_class || 'C';
+    payload.size = Number(formData.size ?? formData.size_code ?? payload.size ?? 6);
+    payload.size_code = payload.size;
+    payload.atmosphere = Number(formData.atmosphere ?? formData.atmosphere_code ?? payload.atmosphere ?? 4);
+    payload.atmosphere_code = payload.atmosphere;
+    payload.population = Number(formData.population ?? formData.population_code ?? payload.population ?? 7);
+    payload.population_code = payload.population;
   }
 
   // Ensure species chassis type and size are synchronized
@@ -1120,6 +1238,20 @@ export const adaptCodexToOmnicortexItem = (formData, computedValues, matrix) => 
     payload.ml = payload.meta_level;
     payload.keywords = typeof formData.keywords === 'string' ? formData.keywords.trim() : (formData.keywords || '');
     payload.negative_keywords = typeof formData.negative_keywords === 'string' ? formData.negative_keywords.trim() : (formData.negative_keywords || '');
+  }
+
+  // Ensure Modular Character Matrix (MCM) records carry full Persona Folio & VTT Unit components
+  if (resolvedMatrix.id === 'modular-characters' || resolvedMatrix.id === 'modular_characters') {
+    const folioPersona = convertMcmToFolioPersona({ ...formData, ...payload }, { targetFolio: false });
+    const mcmExpanded = convertFolioToMcmRecord(folioPersona, { id: payload.id || formData.id }) || {};
+    Object.assign(payload, {
+      ...mcmExpanded,
+      ...payload,
+      name: (formData.name || formData.title || folioPersona?.['char-name'] || 'Untitled Blueprint').trim(),
+      personaData: folioPersona,
+      vttUnitData: mcmExpanded.vttUnitData,
+      is_ready_for_vtt: true
+    });
   }
 
   // Ensure credit cost sync strictly for property matrices

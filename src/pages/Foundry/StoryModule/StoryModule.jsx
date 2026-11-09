@@ -254,7 +254,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
       newParams.set('tab', resolvedTab);
     }
     const searchStr = newParams.toString();
-    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+    if (searchStr !== searchParams.toString()) {
+      navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+    }
   };
 
   const handleSwitchView = (newView, targetTab) => {
@@ -312,7 +314,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     }
 
     const searchStr = newParams.toString();
-    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+    if (searchStr !== searchParams.toString()) {
+      navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+    }
   };
 
   const handleSelectScenario = (id) => {
@@ -320,7 +324,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
     const newParams = new URLSearchParams(searchParams);
     newParams.set('scenarioId', id);
     const searchStr = newParams.toString();
-    navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+    if (searchStr !== searchParams.toString()) {
+      navigate(`/foundry${searchStr ? `?${searchStr}` : ''}`);
+    }
   };
 
   // Find active scenario node for format studios
@@ -409,7 +415,9 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
           activeElementType={activeElementType}
           onSelectElementType={(elType) => {
             if (setActiveElementType) setActiveElementType(elType);
-            handleSwitchView('elements');
+            if (activeView !== 'elements' && activeView !== 'gallery') {
+              handleSwitchView('elements');
+            }
           }}
           elementsCatalog={elementsCatalog}
           elementsCount={elementsCatalog?.length || 0}

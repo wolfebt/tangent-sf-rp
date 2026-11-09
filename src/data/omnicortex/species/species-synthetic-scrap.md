@@ -31,7 +31,8 @@ inherent_features:
   - special-heavy-augmentations
 bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - special-extreme-augmentations
 disadvantages: []
 stigma: Synthetic (-2)
 tech_level: '4'
@@ -42,32 +43,30 @@ costs:
   bp: 45
 modifiers:
   - target: Charisma
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Charisma'
-  - target: Any
-    value: 3
+  - target: Any Attribute
     type: attribute
+    value: 3
     mode: bonus_pool
-    description: +3 Flexible Attribute Points
+    description: +3 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
   - target: special-heavy-augmentations
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Integrated Heavy Augmentations
-    value: 1
+    description: 'Grants Inherent Feature: Heavy Augmentations'
+  - target: special-extreme-augmentations
     type: feature
-    mode: recommended
-  - target: Integrated Severe Augmentations
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Extreme Augmentations'
 description: >-
   Androids who have been repurposed, have had major repairs or general
   augmentations. Due to mismatched parts or stylization they will not have the
@@ -92,6 +91,7 @@ negative_keywords: 'luxury-sleek, factory-standard, pureblood'
 cp: 45
 bp: 45
 cp_cost: 45
+recommended_traits: []
 ---
 
 # **1.03.Synthetics.Scraps — Scraps (Repurposed & Salvaged Androids)**

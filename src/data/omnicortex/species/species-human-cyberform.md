@@ -32,9 +32,10 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Bodyform Features
-  - Regeneration
-  - Technologist
+  - general-regeneration
+  - special-technologist
+  - special-heavy-augmentations
+  - special-extreme-augmentations
 disadvantages: []
 stigma: 'Xeno (-2), Augmented (-4)'
 tech_level: '4'
@@ -45,59 +46,95 @@ costs:
   bp: 22
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
   - target: special-augmented
-    value: 1
     type: feature
+    value: 1
     mode: inherent
+    description: 'Grants Inherent Feature: Augmented'
   - target: special-companion
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Adaptive Aspects (AI Network)
-    value: 1
+    description: 'Grants Inherent Feature: Companion'
+  - target: general-regeneration
     type: feature
-    mode: recommended
-  - target: Adaptive Skill Set (AI Network)
     value: 1
-    type: feature
     mode: recommended
-  - target: Ageless
+    description: 'Recommended Feature: Regeneration'
+  - target: special-technologist
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform Features
+    description: 'Recommended Feature: Technologist'
+  - target: special-heavy-augmentations
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Heavy and Severe Augmentations
+    description: 'Recommended Feature: Heavy Augmentations'
+  - target: special-extreme-augmentations
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortality
+    description: 'Recommended Feature: Extreme Augmentations'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Synthetic Options
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-regeneration
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Technologist
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-adaptive-features
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
+  - target: trait-adaptive-skill-set
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Skill Set'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-synthetic-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Armor Opts'
+  - target: trait-synthetic-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Weapon Opts'
+  - target: trait-synthetic-exotic-opt
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Exotic Opt'
 description: >-
   Reclusive and highly advanced culture with adaptive picotech augmentations
   integrated on a genetic level. Personal AIs bond with each infant for its
@@ -128,6 +165,17 @@ negative_keywords: 'nature-magic, emp-vulnerable, biological-purist, low-tech'
 cp: 22
 bp: 22
 cp_cost: 22
+recommended_traits:
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-regeneration
+  - trait-adaptive-features
+  - trait-adaptive-skill-set
+  - trait-ageless
+  - trait-immortal
+  - trait-synthetic-armor-opts
+  - trait-synthetic-weapon-opts
+  - trait-synthetic-exotic-opt
 ---
 
 # **1.03.Humans.Cyberform — Cyberform (Cybernetically Integrated Humans)**

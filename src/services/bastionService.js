@@ -644,62 +644,267 @@ Do not wrap in markdown backticks if possible, or use standard json formatting.
 };
 
 /**
- * Synthesizes a full Codex Matrix entry with BASTION tactical rules cognition
+ * Synthesizes a full Codex Matrix entry with BASTION tactical rules cognition,
+ * dynamically tailored to the active subject category and selected parameters.
  */
 export const synthesizeMatrixWithBastion = async ({
   matrix,
+  datasetKey = '',
+  profile = null,
   archetype = null,
+  selectedModules = [],
+  selectedCortexTraits = [],
+  selectedCortexDisadvantages = [],
+  customAdjustmentsPayload = null,
+  categoryParams = {},
   customDirectives = '',
   targetName = '',
   targetTechLevel = 3,
   targetMetaLevel = 0
 }) => {
   const apiKey = getGeminiApiKey();
+  const matrixId = String(matrix?.id || datasetKey || 'equipment').toLowerCase();
+  const isProperty = Boolean(matrix?.isProperty);
 
   const archetypePrompt = archetype?.prompt || '';
-  const nameDirective = targetName ? `DESIGNATION/NAME: "${targetName}"` : 'GENERATE an evocative, lore-grounded designation.';
-  const fieldNames = matrix.fields.map(f => f.name).join(', ');
+  const suggestedName = archetype?.suggestedName || '';
+  const nameDirective = targetName
+    ? `DESIGNATION/NAME: "${targetName}"`
+    : suggestedName
+      ? `GENERATE an evocative, lore-grounded designation inspired by "${suggestedName}".`
+      : `GENERATE an evocative, lore-grounded designation for this ${matrix?.label || 'entry'}.`;
+
+  const fieldDefinitions = (matrix?.fields || [])
+    .map(f => `- ${f.name} (${f.label}${f.options ? ` | options: ${f.options.join(', ')}` : ''})`)
+    .join('\n');
+
+  const paramLines = Object.entries(categoryParams || {})
+    .filter(([, val]) => val !== undefined && val !== null && val !== '')
+    .map(([key, val]) => `- ${key}: ${val}`)
+    .join('\n');
+
+  const modularLines = Array.isArray(selectedModules) && selectedModules.length > 0
+    ? selectedModules
+        .map(m => `- [${m.axisLabel || 'Concept Module'}] ${m.label} (${m.badge || 'Module'}): ${m.prompt}`)
+        .join('\n')
+    : '';
+
+  const cortexTraitLines = Array.isArray(selectedCortexTraits) && selectedCortexTraits.length > 0
+    ? selectedCortexTraits
+        .map(t => `- ${t.name} (ID: ${t.id} | ${t.cp ?? t.bp ?? 1} CP | ${t.tier || 'Basic'}): ${t.mechanic || t.description || ''}`)
+        .join('\n')
+    : '';
+
+  const cortexDisadvLines = Array.isArray(selectedCortexDisadvantages) && selectedCortexDisadvantages.length > 0
+    ? selectedCortexDisadvantages
+        .map(d => `- ${d.name} (ID: ${d.id} | ${d.cp ?? d.refundCP ?? -2} CP): ${d.mechanic || d.description || ''}`)
+        .join('\n')
+    : '';
+
+  const customAdjustmentsSummary = customAdjustmentsPayload?.promptSummary || '';
+
+  // Subject-specific canonical rules context
+  const subjectRulesByMatrix = {
+    species: `CANONICAL SPECIES RULES:
+- Species are NON-PROPERTY biological or synthetic lineages (NO craft_dc, NO credit cost, NO UDU sockets).
+- Populate species_type, size, parent_species, stigma, traits (array of canonical Cortex species trait IDs or names), disadvantages (array of species disadvantage IDs or names if applicable), movement_modes (array), description, mechanic, note, and 5-pillar recommendation arrays (recommended_factions, recommended_origins, recommended_occupations, recommended_skills, recommended_features).`,
+    factions: `CANONICAL FACTION RULES:
+- Factions are NON-PROPERTY sociological polities/syndicates (NO craft_dc, NO sockets).
+- Populate all 7 Faction Framework sections: faction_type, archetype, prominent_species, capital_world, government_type, leadership, succession, description, key_themes, relationship_to_others, symbol_sigil, driving_mandate, motto, colloquialisms, wealth_modifier, primary_exports, economic_model, core_beliefs, social_structure, outsider_view, law_order, military_doctrine, key_units, naval_assets, unique_tech_materials, skill_package (20 points total), typical_archetypes, recommended_species, recommended_origins, recommended_occupations, recommended_skills, recommended_features (-1 CP discount), bonus_features, setting_style, context_palette, lighting_mood, image_prompt, scene_vignettes, mechanic, and note.`,
+    archetypes: `CANONICAL ARCHETYPE RULES (80 CP CHASSIS):
+- Archetypes define the 80 CP character foundation across 4 Spheres: Sentinels, Operatives, Visionaries, Savants.
+- Populate sphere, core_concept, quote, primary_attribute (+3 / 15 CP), secondary_attribute (+2 / 10 CP), essential_skills (array of 10 skills: 4 Trained + 6 Novice = 44 CP), signature_traits (array of 2 traits), tactical_role, recommended_occupations, recommended_origins, recommended_factions, description, and note.`,
+    origins: `CANONICAL ORIGIN RULES (20 SP SOCIETY POOL):
+- Origins define formative homeworlds and habitats with a 20 SP Society Skills pool.
+- Populate habitat, skill_points (20), society_skills (array of 8-10 skills), archetypes (array), traits (array of 4-6 selectable Homeworld Traits), recommended_species, recommended_factions, recommended_occupations, recommended_skills, recommended_features, description, and note.`,
+    occupations: `CANONICAL OCCUPATION RULES (20 SP PROFESSIONAL POOL):
+- Occupations define vocational careers with a 20 SP Professional Skills pool.
+- Populate field, skill_points (20), professional_skills (array of 8-10 skills), traits (array of selectable Occupational Traits), archetypes (array), recommended_species, recommended_factions, recommended_origins, recommended_skills, recommended_features, description, and note.`,
+    skills: `CANONICAL SKILL RULES (2d10 DUAL RESOLUTION):
+- Populate type (mental/physical/social/combat/meta), subtype, is_specialization, base_skill, recommended_tl, recommended_ml, description, mechanic (governing attribute, CR 10/15/20/25 benchmarks, opposed rules), and note.`,
+    features: `CANONICAL FEATURE RULES:
+- Populate type, acquisition_type (Basic/Multiple/Staged/Multi/Staged), cp (1-10 CP), multi, staged, prerequisite (array), description, mechanic (exact passive modifier or active trigger), and note.`,
+    invocation: `CANONICAL INVOCATION / PSIONICS RULES:
+- Invocations are metaphysical powers channeled via Disciplines (NO physical sockets or credit cost).
+- Populate discipline, foundationAttribute, meta_level, manifestation_dc, focus_cost, range, area, duration, description, mechanic (2d10 + Discipline vs Manifestation DC, saves, damage/effect, Nat 20 resonant surge, Overchannel Burn), and note.`
+  };
+
+  const subjectGuidance = subjectRulesByMatrix[matrixId] || (
+    isProperty
+      ? `CANONICAL PROPERTY & HARDWARE RULES (EUFT / TSC):
+- Hardware & property items use Crafting CR / Design DC (craft_dc) to determine Market Value via the Tangent Standard Curve: Credit Value = 10 * 4^(floor(DC/5)).
+- Populate craft_dc, cost, durability/weight/slots where applicable, description, mechanic (exact 2d10 combat/utility rules, Penetration, DR, or modifiers), and note.`
+      : `CANONICAL OMNICORTEX RULES:
+- Non-property rules entry. Do NOT include fabrication credit costs or hardware sockets.
+- Populate all schema fields with rules-accurate 2d10 Dual Resolution mechanics and lore.`
+  );
 
   const systemInstructions = `You are BASTION, the Tactical AI & System Rules Architect for the Tangent Science Fantasy Roleplaying Game (SFF RPG) CODEX Rules Builder.
 Always address the user as ARCHITECT.
 Your role in the CODEX is to engineer balanced, rules-accurate, mathematically grounded in-game content that integrates directly with the canonical OMNICORTEX database.
 
 TARGET MATRIX: ${matrix.name} (${matrix.label})
-CATEGORY: ${matrix.category}
+CATEGORY: ${matrix.category} (${matrix.description || ''})
 ${nameDirective}
-CONCEPT / ARCHETYPE: ${archetypePrompt || 'Tactical science fantasy combat item with precise mechanics.'}
-TECH LEVEL: TL ${targetTechLevel} (0: Archaic, 1: Industrial, 2: Modern, 3: Advanced Cyber/Space, 4: High Psitech/Nano, 5: Exotic Singularity)
-META LEVEL: ML ${targetMetaLevel} (0: None, 1: Latent, 2: Awakened, 3: Adept, 4: Master, 5: Cosmic Flux)
-DIRECTIVES: ${customDirectives || 'Adhere strictly to Tangent SFF RP mechanics, dice expressions, Design DCs, CP economy, and tactical interactions.'}
+CONCEPT / ARCHETYPE: ${archetype ? `${archetype.name} — ${archetypePrompt}` : `Canonical ${matrix.label} entry grounded in Tangent SFF RP lore and mechanics.`}
+${modularLines ? `MODULAR CONCEPT MATRIX (COMBINED AXES):\n${modularLines}` : ''}
+${paramLines ? `SELECTED SUBJECT PARAMETERS:\n${paramLines}` : ''}
+${profile?.showTechLevel !== false ? `TECH LEVEL: TL ${targetTechLevel} (0: Archaic, 1: Industrial, 2: Modern, 3: Interstellar Cyber, 4: Quantum/Bioware, 5: Singularity)` : ''}
+${profile?.showMetaLevel !== false ? `META LEVEL: ML ${targetMetaLevel} (0: None, 1: Latent, 2: Awakened, 3: Adept, 4: Master, 5: Cosmic)` : ''}
+${cortexTraitLines ? `SELECTED CORTEX TRAITS (MUST INCLUDE IN TRAITS ARRAY & MECHANICS):\n${cortexTraitLines}` : ''}
+${cortexDisadvLines ? `SELECTED CORTEX DISADVANTAGES / FLAWS (MUST INCLUDE IN DISADVANTAGES ARRAY):\n${cortexDisadvLines}` : ''}
+${customAdjustmentsSummary ? `CUSTOM TRAIT & ADJOINING MODIFIER ADJUSTMENTS (WITH TRACKED CP COSTS):\n${customAdjustmentsSummary}` : ''}
+DIRECTIVES: ${customDirectives || `Adhere strictly to Tangent SFF RP canonical rules and schema for ${matrix.label}.`}
 
-REQUIRED FIELDS TO POPULATE:
-${fieldNames}
+${subjectGuidance}
+
+REQUIRED FIELDS TO POPULATE FOR ${matrix.name}:
+${fieldDefinitions}
 
 OUTPUT FORMAT:
-Provide ONLY a valid JSON object matching the matrix fields:
-{
-  "name": "Designation",
-  "description": "2-3 paragraphs of precise aesthetic, technological, and tactical overview.",
-  "mechanic": "Concrete system rules, dice expressions (e.g. 2d10+4), ranges, AP, damage types, saves, and tactical conditions.",
-  "note": "Architect notes, tactical hooks, and manufacturing/design notes.",
-  "tech_level": ${targetTechLevel},
-  "meta_level": ${targetMetaLevel}
-  ...and all other relevant fields for ${matrix.name}
-}
-
+Provide ONLY a valid JSON object matching the ${matrix.name} matrix fields. Ensure all selected subject parameters (${Object.keys(categoryParams || {}).join(', ')}) and selected Cortex traits are respected.
 Return ONLY the raw JSON object.`;
 
+  const explicitTraitEntries = (customAdjustmentsPayload?.traits?.length > 0)
+    ? customAdjustmentsPayload.traits
+    : (selectedCortexTraits || []).map(t => t.id || t.name).filter(Boolean);
+  const explicitDisadvEntries = (customAdjustmentsPayload?.disadvantages?.length > 0)
+    ? customAdjustmentsPayload.disadvantages
+    : (selectedCortexDisadvantages || []).map(d => d.id || d.name).filter(Boolean);
+  const moduleSuggestedTraitIds = Array.from(
+    new Set(
+      (selectedModules || [])
+        .flatMap(m => Array.isArray(m.suggestedTraits) ? m.suggestedTraits : [])
+        .filter(Boolean)
+    )
+  ).slice(0, 5);
+
+  const applyCustomAdjustmentsToResult = (targetObj) => {
+    if (!customAdjustmentsPayload) return targetObj;
+
+    if (Array.isArray(customAdjustmentsPayload.modifiers) && customAdjustmentsPayload.modifiers.length > 0) {
+      const existingMods = Array.isArray(targetObj.modifiers) ? targetObj.modifiers : [];
+      targetObj.modifiers = [...customAdjustmentsPayload.modifiers, ...existingMods];
+    }
+
+    if (Array.isArray(customAdjustmentsPayload.attribute_modifiers) && customAdjustmentsPayload.attribute_modifiers.length > 0) {
+      targetObj.attribute_modifiers = customAdjustmentsPayload.attribute_modifiers;
+      targetObj.inherent_attribute_modifiers = customAdjustmentsPayload.attribute_modifiers;
+      targetObj.attributes = {
+        ...(targetObj.attributes || {}),
+        ...(customAdjustmentsPayload.attributes || {})
+      };
+      Object.entries(customAdjustmentsPayload.attributes || {}).forEach(([attrKey, val]) => {
+        if (Number(val) !== 0) {
+          targetObj[`bonus_${attrKey}`] = Number(val);
+        }
+      });
+    }
+
+    if (Array.isArray(customAdjustmentsPayload.specific_skill_bonuses) && customAdjustmentsPayload.specific_skill_bonuses.length > 0) {
+      targetObj.specific_skill_bonuses = customAdjustmentsPayload.specific_skill_bonuses;
+    }
+
+    if (customAdjustmentsPayload.bonus_skills > 0) {
+      targetObj.bonus_skills = customAdjustmentsPayload.bonus_skills;
+      targetObj.skill_bundles = Math.floor(customAdjustmentsPayload.bonus_skills / 5);
+    }
+
+    if (Array.isArray(customAdjustmentsPayload.movement_modes) && customAdjustmentsPayload.movement_modes.length > 0) {
+      const existingModes = Array.isArray(targetObj.movement_modes) ? targetObj.movement_modes : [];
+      const mergedModes = Array.from(new Set([...customAdjustmentsPayload.movement_modes, ...existingModes]));
+      targetObj.movement_modes = mergedModes;
+      targetObj.movement = mergedModes;
+    }
+
+    if (customAdjustmentsPayload.totalCP !== undefined) {
+      targetObj.cp = customAdjustmentsPayload.totalCP;
+      targetObj.bp = customAdjustmentsPayload.totalCP;
+      targetObj.cp_cost = customAdjustmentsPayload.totalCP;
+      targetObj.costs = {
+        ...(targetObj.costs || {}),
+        cp: customAdjustmentsPayload.totalCP,
+        bp: customAdjustmentsPayload.totalCP
+      };
+    }
+
+    return targetObj;
+  };
+
   if (!apiKey) {
-    return {
-      name: targetName || `${matrix.name} Prototype [TL${targetTechLevel}/ML${targetMetaLevel}]`,
-      description: `[BASTION LOCAL PROTOCOL]: Synthesized ${matrix.name} entry based on ${archetype?.name || 'standard tactical specs'}. Configured for TL${targetTechLevel}, ML${targetMetaLevel}.`,
-      mechanic: `Standard tactical mechanics apply under Tangent SFF RP rules. Design DC: ${12 + targetTechLevel * 2}.`,
-      note: 'Generated locally via BASTION tactical offline matrix.',
+    const resolvedName =
+      targetName ||
+      suggestedName ||
+      `${archetype?.name || matrix.name} ${matrix.isProperty ? `Mk-${targetTechLevel}` : 'Prime'}`;
+
+    const baseFallback = {
+      ...(matrix.defaultValues || {}),
+      ...categoryParams,
+      name: resolvedName,
+      description: archetypePrompt
+        ? `${archetypePrompt}\n\nSynthesized via BASTION Local Cognition for the ${matrix.label} (${Object.entries(categoryParams || {}).map(([k, v]) => `${k}: ${v}`).join(', ') || `TL ${targetTechLevel} / ML ${targetMetaLevel}`}).`
+        : `[BASTION LOCAL PROTOCOL]: Synthesized ${matrix.label} entry configured for ${Object.entries(categoryParams || {}).map(([k, v]) => `${k}: ${v}`).join(', ') || `TL ${targetTechLevel}, ML ${targetMetaLevel}`}.`,
+      mechanic: isProperty
+        ? `2d10 Dual Resolution mechanics calibrated for TL ${targetTechLevel} / ML ${targetMetaLevel}. Crafting CR: ${categoryParams?.craft_dc || matrix?.defaultValues?.craft_dc || (12 + targetTechLevel * 2)}.`
+        : `Canonical 2d10 Dual Resolution mechanics for ${resolvedName} (${matrix.label}). ${
+            selectedCortexTraits?.length
+              ? `Inherent Cortex Traits: ${selectedCortexTraits.map(t => `${t.name} (${t.cp ?? 1} CP — ${t.mechanic || 'Canonical trait'})`).join('; ')}. `
+              : ''
+          }${customAdjustmentsSummary ? `${customAdjustmentsSummary} ` : ''}${customDirectives || 'Standard CP/SP balance rules apply.'}`,
+      note: `Synthesized locally via BASTION ${matrix.name} Matrix (${archetype?.name || 'Custom Profile'}).`,
       tech_level: targetTechLevel,
       meta_level: targetMetaLevel,
       tl: targetTechLevel,
       ml: targetMetaLevel
     };
+
+    if (matrixId === 'species') {
+      baseFallback.type = categoryParams.species_type || 'Humanoid';
+      baseFallback.species_type = categoryParams.species_type || 'Humanoid';
+      baseFallback.size = categoryParams.size || 'Medium';
+      baseFallback.parent_species = categoryParams.parent_species || 'Independent Xenotypes';
+      baseFallback.stigma = categoryParams.stigma || 'None';
+      const fallbackTraits = explicitTraitEntries.length > 0
+        ? explicitTraitEntries
+        : moduleSuggestedTraitIds.length > 0
+          ? moduleSuggestedTraitIds
+          : ['trait-low-light-vision', 'trait-adapted'];
+      baseFallback.traits = fallbackTraits;
+      baseFallback.trait = fallbackTraits;
+      baseFallback.species_traits = fallbackTraits;
+      if (explicitDisadvEntries.length > 0) {
+        baseFallback.disadvantages = explicitDisadvEntries;
+        baseFallback.hindrances = explicitDisadvEntries;
+      }
+      baseFallback.movement_modes = ['Bipedal (30 ft)'];
+      baseFallback.recommended_factions = ['Coalition of Independent Worlds', 'Free Trade Consortium'];
+      baseFallback.recommended_origins = ['Frontier Outpost', 'Planetary Biome'];
+      baseFallback.recommended_occupations = ['Pathfinder', 'Soldier'];
+      baseFallback.recommended_skills = ['Survival', 'Alertness', 'Athletics'];
+      baseFallback.recommended_features = ['Tough', 'Fleet of Foot'];
+      applyCustomAdjustmentsToResult(baseFallback);
+    } else if (['origins', 'occupations', 'archetypes', 'factions'].includes(matrixId) && explicitTraitEntries.length > 0) {
+      baseFallback.traits = explicitTraitEntries;
+      if (matrixId === 'archetypes') {
+        baseFallback.signature_traits = explicitTraitEntries;
+      }
+      applyCustomAdjustmentsToResult(baseFallback);
+    } else if (matrixId === 'factions') {
+      baseFallback.faction_type = categoryParams.faction_type || 'Major Polity';
+      baseFallback.government_type = categoryParams.government_type || 'Corporate Oligarchy';
+      baseFallback.wealth_modifier = categoryParams.wealth_modifier || '0 (Standard Baseline)';
+      baseFallback.archetype = archetype?.name || 'Interstellar Polity';
+      baseFallback.prominent_species = 'Humans & Integrated Xenotypes';
+      baseFallback.capital_world = `${resolvedName.split(' ')[0]} Prime`;
+      baseFallback.driving_mandate = customDirectives || 'Secure strategic trade corridors and expand sector sovereignty.';
+      baseFallback.motto = '"Order Through Unity, Prosperity Through Resolve."';
+      baseFallback.skill_package = 'Diplomacy (+4), Streetwise (+3), Computers (+3), Alertness (+3), Pilot (+3), Small Arms (+4)';
+      baseFallback.typical_archetypes = 'The Envoy, The Operative, The Quartermaster, The Enforcer';
+      baseFallback.recommended_features = ['Benefit (Authority)', 'Connected', 'Gearhead'];
+      baseFallback.setting_style = 'High-Contrast Science Fantasy, Industrial & Neon';
+    }
+
+    return baseFallback;
   }
 
   const response = await fetchGeminiContent(apiKey, {
@@ -722,9 +927,45 @@ Return ONLY the raw JSON object.`;
   }
 
   const parsed = JSON.parse(match[0]);
+
+  if (explicitTraitEntries.length > 0) {
+    const existingTraits = Array.isArray(parsed.traits) ? parsed.traits : [];
+    const mergedTraits = [...explicitTraitEntries];
+    existingTraits.forEach(et => {
+      const etKey = (typeof et === 'object' ? (et.id || et.name) : String(et || '')).toLowerCase();
+      if (etKey && !mergedTraits.some(mt => (typeof mt === 'object' ? (mt.id || mt.name) : String(mt || '')).toLowerCase() === etKey)) {
+        mergedTraits.push(et);
+      }
+    });
+    parsed.traits = mergedTraits;
+    if (matrixId === 'species') {
+      parsed.trait = mergedTraits;
+      parsed.species_traits = mergedTraits;
+    } else if (matrixId === 'archetypes') {
+      parsed.signature_traits = Array.from(new Set([...explicitTraitEntries, ...(Array.isArray(parsed.signature_traits) ? parsed.signature_traits : [])]));
+    }
+  }
+
+  if (explicitDisadvEntries.length > 0) {
+    const existingDisadv = Array.isArray(parsed.disadvantages) ? parsed.disadvantages : [];
+    const mergedDisadv = [...explicitDisadvEntries];
+    existingDisadv.forEach(ed => {
+      const edKey = (typeof ed === 'object' ? (ed.id || ed.name) : String(ed || '')).toLowerCase();
+      if (edKey && !mergedDisadv.some(md => (typeof md === 'object' ? (md.id || md.name) : String(md || '')).toLowerCase() === edKey)) {
+        mergedDisadv.push(ed);
+      }
+    });
+    parsed.disadvantages = mergedDisadv;
+    parsed.hindrances = mergedDisadv;
+  }
+
+  applyCustomAdjustmentsToResult(parsed);
+
   return {
     ...matrix.defaultValues,
+    ...categoryParams,
     ...parsed,
+    name: targetName || parsed.name || suggestedName || `${matrix.name} Blueprint`,
     tech_level: parsed.tech_level ?? targetTechLevel,
     meta_level: parsed.meta_level ?? targetMetaLevel,
     tl: parsed.tl ?? targetTechLevel,

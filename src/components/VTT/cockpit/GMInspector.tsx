@@ -37,6 +37,7 @@ import { GMModificationReviewModal } from './GMModificationReviewModal';
 import { BastionAgent } from '../../../engine/ai/BastionAgent';
 import type { AdversaryTurnExecutionReport } from '../../../engine/ai/BastionAgent';
 import { synthesizeAdversaryTactic } from '../../../services/adversaryAiService.js';
+import { sendMcmToFolioRoster } from '../../../utils/personaBridge';
 
 const AVAILABLE_CONDITIONS = [
   'Cover',
@@ -302,13 +303,50 @@ export const GMInspector: React.FC = () => {
 
           <div className="flex items-center justify-between text-[11px] text-slate-400">
             <span>{currentToken.species || 'Humanoid'} &bull; {currentToken.archetype || 'Actor'}</span>
-            <span className={`text-[10px] px-1.5 py-0.2 rounded border font-bold ${
-              currentToken.is_persona 
-                ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300' 
-                : 'bg-slate-900 border-slate-800 text-cyan-300'
-            }`}>
-              {currentToken.is_persona ? 'HERO PERSONA (READY)' : 'TACTICAL ADVERSARY'}
-            </span>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  const sent = sendMcmToFolioRoster(currentToken, { lockForVtt: false, openInFolio: false });
+                  showToast({
+                    type: 'success',
+                    title: 'Sent to Persona Folio',
+                    text: `Sent "${sent.character_name}" to Persona Folio Roster!`
+                  });
+                }}
+                className="text-[9px] px-1.5 py-0.5 rounded bg-purple-950/90 hover:bg-purple-900 border border-purple-500/60 text-purple-200 font-bold cursor-pointer"
+                title="Send this VTT Unit to the Persona Folio Roster for full character expansion"
+              >
+                🧬 → Folio
+              </button>
+              <span className={`text-[10px] px-1.5 py-0.2 rounded border font-bold ${
+                currentToken.is_persona 
+                  ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300' 
+                  : 'bg-slate-900 border-slate-800 text-cyan-300'
+              }`}>
+                {currentToken.is_persona ? 'HERO PERSONA (READY)' : `T-${currentToken.threat_tier ?? 1} ${currentToken.competency_role || 'UNIT'}`}
+              </span>
+            </div>
+          </div>
+
+          {/* VTT Unit Tactical Stat Strip */}
+          <div className="grid grid-cols-4 gap-1 text-[9.5px] font-mono">
+            <div className="p-1 bg-slate-950/90 border border-slate-800 rounded text-center">
+              <span className="text-slate-500 block">DEF DC</span>
+              <span className="text-amber-300 font-bold">{currentToken.defense_dc ?? 12}</span>
+            </div>
+            <div className="p-1 bg-slate-950/90 border border-slate-800 rounded text-center">
+              <span className="text-slate-500 block">ATK</span>
+              <span className="text-purple-300 font-bold">+{currentToken.attack_bonus ?? 3}</span>
+            </div>
+            <div className="p-1 bg-slate-950/90 border border-slate-800 rounded text-center">
+              <span className="text-slate-500 block">DR</span>
+              <span className="text-cyan-300 font-bold">{currentToken.armor_dr ?? 0}+{currentToken.stamina_dr ?? 0}</span>
+            </div>
+            <div className="p-1 bg-slate-950/90 border border-slate-800 rounded text-center">
+              <span className="text-slate-500 block">ACT/SPD</span>
+              <span className="text-emerald-300 font-bold">{currentToken.actions_per_round ?? 3}A/{currentToken.speed_ft ?? 30}ft</span>
+            </div>
           </div>
 
           {/* Pending Modifications Alert for this Persona */}

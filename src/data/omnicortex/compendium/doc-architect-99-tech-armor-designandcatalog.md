@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.armor.designandcatalog","matrix"]
-updatedAt: "2026-11-04T09:33:29.314Z"
+updatedAt: "2026-11-08T20:25:30.918Z"
 costs:
   bp: 0
   credits: 0
@@ -94,14 +94,14 @@ Heavy armoring inevitably encumbers the operative. Tangent quantifies this encum
   
 #### **Armor Layering & Secondary Stacking Protocols**  
   
-Operating in extreme environments or hot combat zones frequently tempts operators to layer secondary armor over or under a primary suit (e.g., wearing an Armored Vest under an Armored Jacket or over an Enviro-Suit). While this stacks protection, the compounding mass severely degrades kinetic performance.  
+Operating in extreme environments or hot combat zones frequently tempts operators to layer secondary armor over or under a primary suit (e.g., wearing an Armored Vest under an Armored Jacket or over an Enviro-Suit), or to combine worn armor with biological scales and subdermal cybernetics. While additional layers increase protection, they are governed by diminishing returns and compounding kinetic penalties:  
   
-* **Stacking Benefit:** Wearing a secondary set of armor combines its flat DR with the primary armor for overlapping locations.   
-* **Compounding Penalties:** All baseline penalties of both suits combine, plus severe layering friction penalties based on the secondary armor's DR and coverage:   
+* **Diminishing Returns Stacking Benefit:** When multiple layers of armor apply to an overlapping location (across worn armor, biological/natural armor, cybernetic subdermal plating, or metaphysical wards), use the **highest single DR** as the primary base, and calculate each additional layer **separately** at **`+1 DR` per stage of 5** (`0 DR = +0`, `1–5 DR = +1`, `6–10 DR = +2`, `11–15 DR = +3`, `16–20 DR = +4`, i.e., `ceil[Layer DR / 5]` per additional layer).   
+* **Compounding Penalties:** All baseline penalties of worn suits combine, plus severe layering friction penalties based on the secondary worn armor's DR and coverage:   
 * **Secondary DR 10:** Imposes **-1 Mobility** (if Upper Body/Torso) and **-5 Movement** (if Lower Body/Legs).   
 * **Secondary DR 15:** Imposes **-2 Mobility** (if Upper Body/Torso) and **-10 Movement** (if Lower Body/Legs).   
 * **Secondary DR 20+:** Imposes **-4 Mobility** (if Upper Body/Torso) and **-20 Movement** (if Lower Body/Legs).   
-* **Exemptions:** Armor DR granted by internal Cybernetic Augmentations, Subdermal Plating, or Metaphysical Wards stacks freely and does *not* trigger layering penalties unless explicitly stated.   
+* **Exemptions:** Armor DR granted by internal Cybernetic Augmentations, Subdermal Plating, Biological Natural Armor, or Metaphysical Wards contributes its diminishing-returns DR bonus (`+1 per stage of 5`, calculated per layer separately) without triggering worn garment layering friction penalties.   
 * **Option Invalidation:** Certain installed option modules (e.g., Reactive Camouflage, Holo-Distortion, or External Sensors) become completely non-functional if covered by a secondary outer garment.  
   
 ### ***II. THE DESIGN PROTOCOL (Step-by-Step Construction)***  

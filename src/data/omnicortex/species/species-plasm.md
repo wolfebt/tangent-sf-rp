@@ -27,7 +27,9 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Sense
+  - special-sense
+  - special-energy-resistance
+  - general-soar
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: '3'
@@ -38,26 +40,45 @@ costs:
   bp: 28
 modifiers:
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Chameleon
-    value: 1
+  - target: special-sense
     type: feature
-    mode: recommended
-  - target: Energy Resist
     value: 1
-    type: feature
     mode: recommended
-  - target: Flight
+    description: 'Recommended Feature: Sense'
+  - target: special-energy-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Sense
+    description: 'Recommended Feature: Energy Resistance'
+  - target: general-soar
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Soar'
+  - target: trait-sense-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Sense (Psychic)'
+  - target: trait-chameleon
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-energy-resist
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Resist'
+  - target: trait-flight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Flight'
 description: >-
   The Plasm are a truly unique and enigmatic species, classified as a medium
   humanoid ooze. Their origins trace back to a massive, singular body from which
@@ -91,6 +112,11 @@ negative_keywords: 'rigid-armor, fixed-clothing, skeletal'
 cp: 28
 bp: 28
 cp_cost: 28
+recommended_traits:
+  - trait-sense-psychic
+  - trait-chameleon
+  - trait-energy-resist
+  - trait-flight
 ---
 
 # **1.03.Plasm — Plasm (Mutable Amorphous Ooze)**

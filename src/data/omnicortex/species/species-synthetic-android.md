@@ -34,10 +34,10 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Educated
-  - Lightning Calculator
-  - Master Craftsman
-  - Tough
+  - skill-educated
+  - general-lightning-calculator
+  - skill-master-craftsman
+  - general-tough
 disadvantages: []
 stigma: Synthetic (-2)
 tech_level: '4'
@@ -48,41 +48,45 @@ costs:
   bp: 47
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Educated
-    value: 1
+  - target: skill-educated
     type: feature
-    mode: recommended
-  - target: Lightning Calculator
     value: 1
-    type: feature
     mode: recommended
-  - target: Master Craftsman
+    description: 'Recommended Feature: Educated'
+  - target: general-lightning-calculator
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: skill-master-craftsman
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Master Craftsman'
+  - target: general-tough
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Tough'
 description: >-
   Humanlike in general form and function, and often looking synthetic with
   bright or metallic skin and hair colors as well as adjustable illuminations
@@ -110,6 +114,7 @@ negative_keywords: 'biological-disease, starvation, nature-magic'
 cp: 47
 bp: 47
 cp_cost: 47
+recommended_traits: []
 ---
 
 # **1.03.Synthetics.Android — Android (Standard Syndicate Synthetic)**

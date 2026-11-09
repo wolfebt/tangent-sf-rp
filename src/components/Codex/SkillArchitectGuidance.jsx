@@ -41,12 +41,13 @@ const CANONICAL_TL_QUICK_OPTIONS = [
 ];
 
 const CANONICAL_ML_QUICK_OPTIONS = [
-  { level: 0, label: 'ML 0', title: 'Dormant / Mundane' },
-  { level: 1, label: 'ML 1', title: 'Latent / Awakening' },
-  { level: 2, label: 'ML 2', title: 'Manifested / Awakened' },
-  { level: 3, label: 'ML 3', title: 'Adept / Resonant' },
-  { level: 4, label: 'ML 4', title: 'Master / Conduit' },
-  { level: 5, label: 'ML 5', title: 'Transcendent / Ascendant' }
+  { level: 0, label: 'ML 0: Null', shortLabel: 'ML 0', title: 'ML 0: Null — Purely Physical / Non-Resonant' },
+  { level: 1, label: 'ML 1: Rare', shortLabel: 'ML 1', title: 'ML 1: Rare — Latent / Fringe Esoterica' },
+  { level: 2, label: 'ML 2: Selective', shortLabel: 'ML 2', title: 'ML 2: Selective — Restricted / Initiate Orders' },
+  { level: 3, label: 'ML 3: Cultured', shortLabel: 'ML 3', title: 'ML 3: Cultured — Established Psionic/Arcane Traditions' },
+  { level: 4, label: 'ML 4: Standardized', shortLabel: 'ML 4', title: 'ML 4: Standardized — Institutionalized Metaphysics' },
+  { level: 5, label: 'ML 5: Advanced', shortLabel: 'ML 5', title: 'ML 5: Advanced — High-Resonance Reality Manipulation' },
+  { level: 6, label: 'ML 6: Deific', shortLabel: 'ML 6', title: 'ML 6: Deific — Cosmological / Ascendant Dominion' }
 ];
 
 /**
@@ -324,24 +325,28 @@ export const SkillArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Metaphysical or psionic resonance thresholds (ML 0-5) required for or synergistic with this discipline.
+                Metaphysical or psionic resonance thresholds (ML 0–6: Null to Deific) required for or synergistic with this discipline.
               </p>
             </div>
 
             {/* Quick-Select Buttons */}
             {isEditMode && (
               <div className="space-y-1">
-                <span className="text-[10px] font-mono uppercase text-slate-400">Quick Toggle ML Tiers:</span>
-                <div className="grid grid-cols-6 gap-1">
+                <span className="text-[10px] font-mono uppercase text-slate-400">Quick Toggle ML Tiers (ML 0–6):</span>
+                <div className="grid grid-cols-4 sm:grid-cols-7 gap-1">
                   {CANONICAL_ML_QUICK_OPTIONS.map(opt => {
-                    const isSelected = recommendedMl.some(m => m.toLowerCase() === opt.label.toLowerCase() || m === String(opt.level));
+                    const isSelected = recommendedMl.some(m =>
+                      m.toLowerCase() === opt.label.toLowerCase() ||
+                      m.toLowerCase() === (opt.shortLabel || '').toLowerCase() ||
+                      m === String(opt.level)
+                    );
                     return (
                       <button
                         key={opt.level}
                         type="button"
                         onClick={() => handleToggleMlOption(opt.label)}
                         title={opt.title}
-                        className={`py-1 text-center rounded text-[10px] font-mono font-bold transition-all border ${
+                        className={`py-1 px-1 text-center rounded text-[10px] font-mono font-bold transition-all border truncate ${
                           isSelected
                             ? 'bg-purple-600 text-white border-purple-400 shadow-sm'
                             : 'bg-slate-900 text-slate-400 border-slate-700/80 hover:border-purple-500 hover:text-purple-300'

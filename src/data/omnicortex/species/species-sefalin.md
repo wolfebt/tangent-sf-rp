@@ -27,8 +27,9 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Multidextrous
-  - Quicker
+  - combat-multidextrous
+  - general-quicker
+  - special-energy-resistance
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '4'
@@ -39,46 +40,60 @@ costs:
   bp: 22
 modifiers:
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Ageless
-    value: 1
+  - target: combat-multidextrous
     type: feature
-    mode: recommended
-  - target: Constriction
     value: 1
-    type: feature
     mode: recommended
-  - target: 'Ink Cloud (Visual Obscurement, Water only)'
+    description: 'Recommended Feature: Multidextrous'
+  - target: general-quicker
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortality
+    description: 'Recommended Feature: Quicker'
+  - target: special-energy-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immunity - Pressure
+    description: 'Recommended Feature: Energy Resistance'
+  - target: trait-additional-limbs
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Immunity - Cold
+    description: 'Recommended Species Trait: Additional Limbs'
+  - target: trait-ageless
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Multidextrous
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-constriction
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Quicker
+    description: 'Recommended Species Trait: Constriction'
+  - target: trait-obfuscate
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Resistance - Heat 10
+    description: 'Recommended Species Trait: Obfuscate'
+  - target: trait-immortal
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-energy-immunity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Immunity'
+  - target: trait-energy-resist
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Resist'
 description: >-
   The Sefalin are a fascinating species, classified as an Aquatic Aberration
   with a distinct Cephalotauric form. Their upper body is that of a
@@ -115,6 +130,14 @@ negative_keywords: 'arid-desert, rigid, clumsy'
 cp: 22
 bp: 22
 cp_cost: 22
+recommended_traits:
+  - trait-additional-limbs
+  - trait-ageless
+  - trait-constriction
+  - trait-obfuscate
+  - trait-immortal
+  - trait-energy-immunity
+  - trait-energy-resist
 ---
 
 # **1.03.Sefalin — Sefalin (Cephalotauric Deep-Sea Aberrations)**

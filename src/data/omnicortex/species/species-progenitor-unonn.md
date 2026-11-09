@@ -26,11 +26,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Discipline Features
-  - Educated
-  - Iron Will
-  - Lightning Calculator
-  - Master Craftsman
+  - cat_discipline_features
+  - skill-educated
+  - ability-iron-will
+  - general-lightning-calculator
+  - skill-master-craftsman
 disadvantages: []
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Exotic Precursor Tech)
@@ -41,40 +41,45 @@ costs:
   bp: 115
 modifiers:
   - target: Intellect
-    value: 4
     type: attribute
+    value: 4
     mode: inherent
     description: +4 Intellect
-  - target: Any
-    value: 6
+  - target: Any Attribute
     type: attribute
+    value: 6
     mode: bonus_pool
-    description: +6 Flexible Attribute Points
+    description: +6 Attribute Choice(s)
   - target: Any
-    value: 40
     type: skill
+    value: 40
     mode: bonus_pool
     description: +40 Skill Points
-  - target: Discipline Features
-    value: 1
+  - target: cat_discipline_features
     type: feature
-    mode: recommended
-  - target: Educated
     value: 1
-    type: feature
     mode: recommended
-  - target: Iron Will
+    description: 'Recommended Feature: Discipline Features'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Calculator
+    description: 'Recommended Feature: Educated'
+  - target: ability-iron-will
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Master Craftsman
+    description: 'Recommended Feature: Iron Will'
+  - target: general-lightning-calculator
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: skill-master-craftsman
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Master Craftsman'
 description: >-
   U’Nonn are ancient primordial progenitors who command matter and energy
   directly through pure thought and deific metaphysical matrices.
@@ -98,6 +103,7 @@ negative_keywords: 'subservient, mortal-fragility, physical-tool'
 cp: 115
 bp: 115
 cp_cost: 115
+recommended_traits: []
 ---
 
 # **1.03.Progenitors.UNonn — U'Nonn (Anunnaki Progenitors)**

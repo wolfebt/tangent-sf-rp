@@ -79,94 +79,155 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-aeld-lineage-traits"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-dark-sight",
+      "trait-low-light-vision",
+      "trait-martial-arts"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Any",
-        "value": 20,
         "type": "skill",
+        "value": 20,
         "mode": "bonus_pool",
         "description": "+20 Skill Points"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Agile Wrestling",
-        "value": 1,
+        "target": "combat-agile-wrestling",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Agile Wrestling"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Combat Expertise",
-        "value": 1,
+        "target": "combat-combat-expertise",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Combat Expertise"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Magical Aptitude",
-        "value": 1,
+        "target": "skill-magical-aptitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Magical Aptitude"
       },
       {
-        "target": "Martial Arts Mastery",
-        "value": 1,
+        "target": "skill-skill-specialization",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Skill Specialization"
       },
       {
-        "target": "Skill Specialization",
-        "value": 1,
+        "target": "combat-weapon-specialization",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Weapon Specialization"
       },
       {
-        "target": "Weapon Specialization",
-        "value": 1,
+        "target": "combat-combat-specialist",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Combat Specialist"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-awakened-arcane",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-awakened-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-martial-arts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Martial Arts"
       }
     ],
     "costs": {
@@ -200,18 +261,17 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Agile Wrestling",
-      "Awakened",
-      "Combat Expertise",
-      "Darksight",
-      "Lightning Calculator",
-      "Low Light Vision",
-      "Magical Aptitude",
-      "Skill Specialization",
-      "Weapon Specialization",
-      "Acute Senses",
-      "Martial Arts Mastery"
+      "special-acute-sense",
+      "combat-agile-wrestling",
+      "discipline-awakened",
+      "combat-combat-expertise",
+      "special-darksight",
+      "general-lightning-calculator",
+      "special-low-light-vision",
+      "skill-magical-aptitude",
+      "skill-skill-specialization",
+      "combat-weapon-specialization",
+      "combat-combat-specialist"
     ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Magi-Tech focus: Solar Sails, Crystalline Laminates, Aetherium refinement)",
@@ -255,102 +315,151 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [
       "trait-aeld-lineage-traits",
-      "trait-alter-form-basic"
+      "trait-alter-form-basic",
+      "trait-sense-evil"
     ],
     "species_traits": [
       "trait-aeld-lineage-traits",
-      "trait-alter-form-basic"
+      "trait-alter-form-basic",
+      "trait-sense-evil"
+    ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-dark-sight",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-adaptive-features"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "special-sense-uncontrolled",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Adaptive Aspects (Hive Memories)",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "skill-deceitful",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Deceitful"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Deceitful",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "skill-silver-tongue",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Silver Tongue"
       },
       {
-        "target": "Jack of all trades",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "skill-trustworthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Trustworthy"
       },
       {
-        "target": "Silver Tongue",
-        "value": 1,
+        "target": "general-jack-of-all-trades",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Jack-of-all-trades"
       },
       {
-        "target": "Stealthy",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Trustworthy",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-adaptive-features",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
       }
     ],
     "costs": {
-      "cp": 15,
-      "bp": 15
+      "cp": 16,
+      "bp": 16
     },
-    "cp": 15,
-    "bp": 15,
-    "cp_cost": 15,
+    "cp": 16,
+    "bp": 16,
+    "cp_cost": 16,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -367,22 +476,19 @@ export const DEFAULT_SPECIES = [
       "Streetwise",
       "Persuasion"
     ],
-    "inherent_features": [
-      "special-sense-uncontrolled"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Darksight",
-      "Deceitful",
-      "Fast Heal",
-      "Regeneration",
-      "Silver Tongue",
-      "Stealthy",
-      "Trustworthy",
-      "Adaptive Aspects (Hive Memories)",
-      "Jack of all trades"
+      "discipline-awakened",
+      "special-darksight",
+      "skill-deceitful",
+      "general-fast-heal",
+      "general-regeneration",
+      "skill-silver-tongue",
+      "skill-stealthy",
+      "skill-trustworthy",
+      "general-jack-of-all-trades"
     ],
     "stigma": "Shifter (-2), Xeno (-2)",
     "tech_level": "3",
@@ -432,71 +538,97 @@ export const DEFAULT_SPECIES = [
       "trait-aeld-lineage-traits",
       "trait-dragonkin-traits"
     ],
+    "recommended_traits": [
+      "trait-dragon-senses",
+      "trait-dragon-breath",
+      "trait-exoskeleton-light",
+      "trait-energy-resist"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Armor (Chitinous Shell)",
-        "value": 1,
+        "target": "special-energy-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Energy Resistance"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "general-fearless",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fearless"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
       },
       {
-        "target": "Dragonkin Features",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Iron Will",
+        "target": "trait-dragon-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Senses"
       },
       {
-        "target": "Natural Weapons",
+        "target": "trait-dragon-breath",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Breath"
+      },
+      {
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
+      },
+      {
+        "target": "trait-energy-resist",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Resist"
       }
     ],
     "costs": {
@@ -526,12 +658,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Discipline Features",
-      "Dragonkin Features",
-      "Iron Will",
-      "Natural Weapons",
-      "Armor (Chitinous Shell)"
+      "special-energy-resistance",
+      "general-fearless",
+      "general-tough",
+      "ability-great-fortitude"
     ],
     "stigma": "Dragonkin (-4), Xeno (-2)",
     "tech_level": "3",
@@ -579,83 +709,167 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-aeld-lineage-traits"
     ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-longevity",
+      "trait-low-light-vision",
+      "trait-reduced-sustenance",
+      "trait-sense-magic",
+      "trait-acute-senses",
+      "trait-awakened-arcane",
+      "trait-awakened-psychic"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Charisma",
         "type": "attribute",
+        "value": -1,
+        "mode": "inherent",
+        "description": "-1 Charisma"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Ability Check Features",
-        "value": 1,
+        "target": "cat_ability_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ability Features"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Magical Aptitude",
-        "value": 1,
+        "target": "skill-magical-aptitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Magical Aptitude"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
+      },
+      {
+        "target": "trait-sense-magic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Sense Magic (30 ft)"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-awakened-arcane",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-awakened-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       }
     ],
     "costs": {
-      "cp": 21,
-      "bp": 21
+      "cp": 16,
+      "bp": 16
     },
-    "cp": 21,
-    "bp": 21,
-    "cp_cost": 21,
+    "cp": 16,
+    "bp": 16,
+    "cp_cost": 16,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
         "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
       }
     ],
     "bonus_attribute_points": 1,
@@ -672,14 +886,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Ability Check Features",
-      "Acute Sense",
-      "Awakened",
-      "Darksight",
-      "Lightning Calculator",
-      "Low Light Vision",
-      "Magical Aptitude",
-      "Acute Senses"
+      "cat_ability_features",
+      "special-acute-sense",
+      "discipline-awakened",
+      "special-darksight",
+      "general-lightning-calculator",
+      "special-low-light-vision",
+      "skill-magical-aptitude"
     ],
     "stigma": "Xeno (-2), Supremacist (-2)",
     "tech_level": "3",
@@ -735,87 +948,140 @@ export const DEFAULT_SPECIES = [
       "trait-alter-form-adv",
       "trait-bodyform-mutation"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-camouflage",
+      "trait-natural-weapons",
+      "trait-regeneration",
+      "trait-bonded-terrain"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Camouflage",
-        "value": 1,
+        "target": "general-camouflage",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Camouflage"
       },
       {
-        "target": "Combat Reflexes",
-        "value": 1,
+        "target": "combat-combat-reflexes",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Combat Reflexes"
       },
       {
-        "target": "Companion",
-        "value": 1,
+        "target": "special-companion",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Companion"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Favored Environment",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "general-tracker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tracker"
       },
       {
-        "target": "Survivalist",
-        "value": 1,
+        "target": "special-wild-speech",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wild Speech"
       },
       {
-        "target": "Tracker",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Wild Speech",
-        "value": 1,
+        "target": "skill-naturalist",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Naturalist"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-camouflage",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Camouflage"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
       }
     ],
     "costs": {
@@ -840,18 +1106,17 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Camouflage",
-      "Combat Reflexes",
-      "Companion",
-      "Danger Sense",
-      "Natural Weapons",
-      "Regeneration",
-      "Tracker",
-      "Wild Speech",
-      "Acute Senses",
-      "Favored Environment",
-      "Survivalist"
+      "special-acute-sense",
+      "general-camouflage",
+      "combat-combat-reflexes",
+      "special-companion",
+      "special-danger-sense",
+      "special-natural-weapons",
+      "general-regeneration",
+      "general-tracker",
+      "special-wild-speech",
+      "ability-environmental-adaptation",
+      "skill-naturalist"
     ],
     "stigma": "Feral (-4), Xeno (-2)",
     "tech_level": "1",
@@ -891,7 +1156,8 @@ export const DEFAULT_SPECIES = [
       "species_size-medium"
     ],
     "movement": [
-      "species_movement-bipedal"
+      "species_movement-bipedal",
+      "movement-climb-improved"
     ],
     "traits": [
       "trait-asi-base-traits",
@@ -907,90 +1173,145 @@ export const DEFAULT_SPECIES = [
       "trait-quick",
       "trait-adapted"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-ageless",
+      "trait-bonded-terrain",
+      "trait-immortal",
+      "trait-obfuscate"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "skill-attractive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Attractive"
       },
       {
-        "target": "Attractive",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Favored Environment",
-        "value": 1,
+        "target": "special-wild-speech",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wild Speech"
       },
       {
-        "target": "Immortal",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Obfuscate",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Wild Speech",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
       }
     ],
     "costs": {
-      "cp": 24,
-      "bp": 24
+      "cp": 25,
+      "bp": 25
     },
-    "cp": 24,
-    "bp": 24,
-    "cp_cost": 24,
+    "cp": 25,
+    "bp": 25,
+    "cp_cost": 25,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -1011,16 +1332,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Attractive",
-      "Awakened",
-      "Danger Sense",
-      "Fast Heal",
-      "Regeneration",
-      "Wild Speech",
-      "Ageless",
-      "Favored Environment",
-      "Immortal",
-      "Obfuscate"
+      "skill-attractive",
+      "discipline-awakened",
+      "special-danger-sense",
+      "general-fast-heal",
+      "general-regeneration",
+      "special-wild-speech",
+      "ability-environmental-adaptation"
     ],
     "stigma": "Fey (-2), Xeno (-2)",
     "tech_level": "3",
@@ -1071,57 +1389,82 @@ export const DEFAULT_SPECIES = [
       "trait-awakened-nature",
       "trait-flight"
     ],
+    "recommended_traits": [
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-immortal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Immortal",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "special-wild-speech",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wild Speech"
       },
       {
-        "target": "Wild Speech",
-        "value": 1,
+        "target": "skill-naturalist",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Naturalist"
       },
       {
-        "target": "ANY 2 Nature oriented Features of choice",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
       }
     ],
     "costs": {
@@ -1151,12 +1494,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Discipline Features",
-      "Fast Heal",
-      "Regeneration",
-      "Wild Speech",
-      "Immortal",
-      "ANY 2 Nature oriented Features of choice"
+      "cat_discipline_features",
+      "general-fast-heal",
+      "general-regeneration",
+      "special-wild-speech",
+      "skill-naturalist"
     ],
     "stigma": "Xeno (-2), Fae (-2)",
     "tech_level": "1",
@@ -1200,108 +1542,133 @@ export const DEFAULT_SPECIES = [
     "traits": [
       "trait-asi-base-traits",
       "trait-awakened-arcane",
-      "trait-mind-speech",
+      "trait-telepathy-special",
       "trait-flight",
       "trait-dark-sight"
     ],
     "species_traits": [
       "trait-asi-base-traits",
       "trait-awakened-arcane",
-      "trait-mind-speech",
+      "trait-telepathy-special",
       "trait-flight",
       "trait-dark-sight"
+    ],
+    "recommended_traits": [
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-ageless",
+      "trait-immortal",
+      "trait-obfuscate"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Discipline Features (all Features and Invocations)",
-        "value": 1,
+        "target": "cat_karma_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Karma Features"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Immortal",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Karma Features",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Obfuscate",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       },
       {
-        "target": "Main deity is Shal’Vir the Scripted Fate",
+        "target": "trait-ageless",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
       },
       {
-        "target": "Hatched from fruit rich in magic",
+        "target": "trait-immortal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
       }
     ],
     "costs": {
-      "cp": 41,
-      "bp": 41
+      "cp": 43,
+      "bp": 43
     },
-    "cp": 41,
-    "bp": 41,
-    "cp_cost": 41,
+    "cp": 43,
+    "bp": 43,
+    "cp_cost": 43,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -1326,16 +1693,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Fast Heal",
-      "Karma Features",
-      "Regeneration",
-      "Ageless",
-      "Discipline Features (all Features and Invocations)",
-      "Immortal",
-      "Obfuscate",
-      "Main deity is Shal’Vir the Scripted Fate",
-      "Hatched from fruit rich in magic"
+      "discipline-awakened",
+      "general-fast-heal",
+      "cat_karma_features",
+      "general-regeneration",
+      "cat_discipline_features"
     ],
     "stigma": "Xeno (-2), Animal (-2)",
     "tech_level": "1",
@@ -1388,92 +1750,159 @@ export const DEFAULT_SPECIES = [
       "trait-alter-form-basic",
       "trait-awakened-nature"
     ],
+    "recommended_traits": [
+      "trait-fey-affinity",
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-quick",
+      "trait-ageless",
+      "trait-alternate-form",
+      "trait-alter-form-adv",
+      "trait-immortal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "skill-animal-affinity",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Animal Affinity"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "general-assessment",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Assessment"
       },
       {
-        "target": "Alternate Form (one medium humanoid)",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Alter Form (Animal) (Prerequisite: 2 Alternate Humanoid Forms)",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Animal Affinity",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Assessment",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Immortal",
+        "target": "trait-fey-affinity",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fey Affinity"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Run",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Quick",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-quick",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-alternate-form",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alternate Form"
+      },
+      {
+        "target": "trait-alter-form-adv",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Adv)"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
       }
     ],
     "costs": {
@@ -1497,19 +1926,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Animal Affinity",
-      "Assessment",
-      "Awakened",
-      "Danger Sense",
-      "Fast Heal",
-      "Regeneration",
-      "Quick",
-      "Ageless",
-      "Alertness",
-      "Alternate Form (one medium humanoid)",
-      "Alter Form (Animal) (Prerequisite: 2 Alternate Humanoid Forms)",
-      "Immortal",
-      "Run"
+      "skill-animal-affinity",
+      "general-assessment",
+      "discipline-awakened",
+      "special-danger-sense",
+      "general-fast-heal",
+      "general-regeneration",
+      "general-quick",
+      "skill-perceptive",
+      "general-runner"
     ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "0 (Primitive/Tribal)",
@@ -1552,14 +1977,19 @@ export const DEFAULT_SPECIES = [
     "traits": [
       "trait-asi-base-traits",
       "trait-awakened-energy-illusion",
-      "trait-awakened-arcane",
-      "trait-non-living"
+      "trait-non-living",
+      "trait-telekinesis"
     ],
     "species_traits": [
       "trait-asi-base-traits",
       "trait-awakened-energy-illusion",
-      "trait-awakened-arcane",
-      "trait-non-living"
+      "trait-non-living",
+      "trait-telekinesis"
+    ],
+    "recommended_traits": [
+      "trait-ageless",
+      "trait-immortal",
+      "trait-sense-magic"
     ],
     "disadvantages": [
       "disadvantage-species-armless"
@@ -1567,29 +1997,73 @@ export const DEFAULT_SPECIES = [
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
         "target": "general-photographic-memory",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Photographic Memory"
       },
       {
-        "target": "Diminutive Size (-8 Str, +8 Agi, +8 Combat, +12 Stealth)*",
+        "target": "disadvantage-species-armless",
+        "type": "disadvantage",
         "value": 1,
+        "mode": "inherent",
+        "description": "Species Disadvantage: disadvantage-species-armless"
+      },
+      {
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
+      },
+      {
+        "target": "skill-educated",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
+      },
+      {
+        "target": "skill-scholar",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scholar"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-sense-magic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Sense Magic (30 ft)"
       }
     ],
     "costs": {
@@ -1620,7 +2094,9 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Diminutive Size (-8 Str, +8 Agi, +8 Combat, +12 Stealth)*"
+      "cat_discipline_features",
+      "skill-educated",
+      "skill-scholar"
     ],
     "stigma": "Severe Xeno (-6)",
     "tech_level": "0",
@@ -1673,51 +2149,74 @@ export const DEFAULT_SPECIES = [
       "trait-quadruped",
       "trait-quick"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-fast-heal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Wisdom",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Wisdom"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Lightning Reflexes",
-        "value": 1,
+        "target": "ability-lightning-reflexes",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Reflexes"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       }
     ],
     "costs": {
@@ -1750,12 +2249,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Discipline Features",
-      "Fast Heal",
-      "Lightning Reflexes",
-      "Stealthy",
-      "Acute Senses"
+      "special-acute-sense",
+      "cat_discipline_features",
+      "general-fast-heal",
+      "ability-lightning-reflexes",
+      "skill-stealthy"
     ],
     "stigma": "Xeno (-2), Seclusionist (-1)",
     "tech_level": "1",
@@ -1800,7 +2298,7 @@ export const DEFAULT_SPECIES = [
       "trait-alter-form-adv",
       "trait-alternate-form",
       "trait-awakened-nature",
-      "trait-silent-hunter",
+      "trait-silent",
       "trait-flight"
     ],
     "species_traits": [
@@ -1808,56 +2306,103 @@ export const DEFAULT_SPECIES = [
       "trait-alter-form-adv",
       "trait-alternate-form",
       "trait-awakened-nature",
-      "trait-silent-hunter",
+      "trait-silent",
       "trait-flight"
+    ],
+    "recommended_traits": [
+      "trait-obfuscate",
+      "trait-ageless",
+      "trait-immortal",
+      "trait-acute-senses",
+      "trait-fast-heal"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Deceitful",
-        "value": 1,
+        "target": "skill-deceitful",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Deceitful"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       }
     ],
     "costs": {
-      "cp": 25,
-      "bp": 25
+      "cp": 26,
+      "bp": 26
     },
-    "cp": 25,
-    "bp": 25,
-    "cp_cost": 25,
+    "cp": 26,
+    "bp": 26,
+    "cp_cost": 26,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Charisma",
@@ -1877,12 +2422,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Deceitful",
-      "Discipline Features",
-      "Fast Heal",
-      "Stealthy",
-      "Acute Senses"
+      "skill-stealthy",
+      "skill-deceitful",
+      "special-acute-sense",
+      "cat_discipline_features",
+      "general-fast-heal"
     ],
     "stigma": "Fey (-2)",
     "tech_level": "1",
@@ -1925,105 +2469,157 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [
       "trait-asi-base-traits",
+      "trait-fey-affinity",
       "trait-climber",
       "trait-alter-form-adv",
       "trait-awakened-nature"
     ],
     "species_traits": [
       "trait-asi-base-traits",
+      "trait-fey-affinity",
       "trait-climber",
       "trait-alter-form-adv",
       "trait-awakened-nature"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-quick",
+      "trait-ageless",
+      "trait-alternate-form",
+      "trait-immortal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "general-assessment",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Assessment"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Alternate Form (one small or medium animal)",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Alter Form (Humanoid) (Prerequisite: 2 Alternate Animal Forms)",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Assessment",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Immortal",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Run",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Quick",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-quick",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-alternate-form",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alternate Form"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
       }
     ],
     "costs": {
-      "cp": 18,
-      "bp": 18
+      "cp": 20,
+      "bp": 20
     },
-    "cp": 18,
-    "bp": 18,
-    "cp_cost": 18,
+    "cp": 20,
+    "bp": 20,
+    "cp_cost": 20,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [],
@@ -2038,18 +2634,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Assessment",
-      "Awakened",
-      "Danger Sense",
-      "Fast Heal",
-      "Regeneration",
-      "Quick",
-      "Ageless",
-      "Alertness",
-      "Alternate Form (one small or medium animal)",
-      "Alter Form (Humanoid) (Prerequisite: 2 Alternate Animal Forms)",
-      "Immortal",
-      "Run"
+      "general-assessment",
+      "discipline-awakened",
+      "special-danger-sense",
+      "general-fast-heal",
+      "general-regeneration",
+      "general-quick",
+      "skill-perceptive",
+      "general-runner"
     ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "0",
@@ -2093,74 +2685,106 @@ export const DEFAULT_SPECIES = [
       "trait-auluran-base-traits",
       "trait-awakened-psychic",
       "trait-climber",
-      "trait-defensive-training",
+      "trait-martial-arts",
       "trait-quick"
     ],
     "species_traits": [
       "trait-auluran-base-traits",
       "trait-awakened-psychic",
       "trait-climber",
-      "trait-defensive-training",
+      "trait-martial-arts",
       "trait-quick"
+    ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-fast-heal",
+      "trait-natural-weapons"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Tolerance",
-        "value": 1,
+        "target": "ability-tolerance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tolerance"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
+      },
+      {
+        "target": "trait-awakened-arcane",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
       }
     ],
     "costs": {
@@ -2190,12 +2814,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Fast Heal",
-      "Natural Weapons",
-      "Runner",
-      "Tolerance",
-      "Tough"
+      "discipline-awakened",
+      "general-fast-heal",
+      "special-natural-weapons",
+      "general-runner",
+      "ability-tolerance",
+      "general-tough"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Biotechnology)",
@@ -2240,14 +2864,20 @@ export const DEFAULT_SPECIES = [
     "traits": [
       "trait-auluran-base-traits",
       "trait-quadruped",
-      "trait-defensive-training",
+      "trait-martial-arts",
       "trait-quick"
     ],
     "species_traits": [
       "trait-auluran-base-traits",
       "trait-quadruped",
-      "trait-defensive-training",
+      "trait-martial-arts",
       "trait-quick"
+    ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-dark-sight",
+      "trait-low-light-vision",
+      "trait-scent"
     ],
     "disadvantages": [
       "disadvantage-species-armless"
@@ -2255,102 +2885,150 @@ export const DEFAULT_SPECIES = [
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Acrobatic Steps",
+        "target": "disadvantage-species-armless",
+        "type": "disadvantage",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "inherent",
+        "description": "Species Disadvantage: disadvantage-species-armless"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "general-acrobatic-steps",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acrobatic Steps"
       },
       {
-        "target": "Athletics Training",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Lightning Reflexes",
-        "value": 1,
+        "target": "ability-lightning-reflexes",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Reflexes"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Nimble Moves",
-        "value": 1,
+        "target": "general-nimble-moves",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Nimble Moves"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Tracker",
-        "value": 1,
+        "target": "general-tracker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tracker"
       },
       {
-        "target": "Wall-Crawler",
-        "value": 1,
+        "target": "skill-stout",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stout"
+      },
+      {
+        "target": "physical-wall-crawler",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wall-Crawler"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
       }
     ],
     "costs": {
@@ -2378,20 +3056,19 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acrobatic Steps",
-      "Acute Sense",
-      "Danger Sense",
-      "Darksight",
-      "Endurance",
-      "Lightning Reflexes",
-      "Low Light Vision",
-      "Nimble Moves",
-      "Runner",
-      "Scent",
-      "Tracker",
-      "Acute Senses",
-      "Athletics Training",
-      "Wall-Crawler"
+      "general-acrobatic-steps",
+      "special-acute-sense",
+      "special-danger-sense",
+      "special-darksight",
+      "general-endurance",
+      "ability-lightning-reflexes",
+      "special-low-light-vision",
+      "general-nimble-moves",
+      "general-runner",
+      "special-scent",
+      "general-tracker",
+      "skill-stout",
+      "physical-wall-crawler"
     ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "4 (Biotechnology)",
@@ -2436,75 +3113,117 @@ export const DEFAULT_SPECIES = [
       "trait-digitigrade-ungulated",
       "trait-climber",
       "trait-quick",
-      "trait-defensive-training"
+      "trait-martial-arts",
+      "trait-enhanced-biotechnology"
     ],
     "species_traits": [
       "trait-auluran-base-traits",
       "trait-digitigrade-ungulated",
       "trait-climber",
       "trait-quick",
-      "trait-defensive-training"
+      "trait-martial-arts",
+      "trait-enhanced-biotechnology"
+    ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-natural-weapons"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Wall-Crawler",
-        "value": 1,
+        "target": "physical-wall-crawler",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wall-Crawler"
+      },
+      {
+        "target": "trait-awakened-arcane",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-awakened-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
       }
     ],
     "costs": {
-      "cp": 24,
-      "bp": 24
+      "cp": 26,
+      "bp": 26
     },
-    "cp": 24,
-    "bp": 24,
-    "cp_cost": 24,
+    "cp": 26,
+    "bp": 26,
+    "cp_cost": 26,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -2528,12 +3247,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Fast Heal",
-      "Natural Weapons",
-      "Runner",
-      "Stealthy",
-      "Wall-Crawler"
+      "discipline-awakened",
+      "general-fast-heal",
+      "special-natural-weapons",
+      "general-runner",
+      "skill-stealthy",
+      "physical-wall-crawler"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Biotechnology)",
@@ -2590,110 +3309,161 @@ export const DEFAULT_SPECIES = [
       "trait-adapted",
       "trait-alternate-form"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-dark-sight",
+      "trait-low-light-vision",
+      "trait-scent",
+      "trait-prehensile-tail"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "ability-great-fortitude",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Great Fortitude"
       },
       {
-        "target": "Acrobatic",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "general-climber",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Climber"
       },
       {
-        "target": "Acute Sense",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Athletic",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Climber",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-nimble-moves",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Nimble Moves"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Nimble Moves",
-        "value": 1,
+        "target": "general-tracker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tracker"
       },
       {
-        "target": "Prehensile Tail",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-acrobatic-steps",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acrobatic Steps"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Tracker",
-        "value": 1,
+        "target": "skill-stout",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stout"
       },
       {
-        "target": "Quick",
+        "target": "trait-acute-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-prehensile-tail",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Prehensile Tail"
       }
     ],
     "costs": {
@@ -2724,21 +3494,20 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Climber",
-      "Danger Sense",
-      "Darksight",
-      "Endurance",
-      "Low Light Vision",
-      "Nimble Moves",
-      "Runner",
-      "Scent",
-      "Tracker",
-      "Quick",
-      "Acrobatic",
-      "Alertness",
-      "Athletic",
-      "Prehensile Tail"
+      "special-acute-sense",
+      "general-climber",
+      "special-danger-sense",
+      "special-darksight",
+      "general-endurance",
+      "special-low-light-vision",
+      "general-nimble-moves",
+      "general-runner",
+      "special-scent",
+      "general-tracker",
+      "general-quick",
+      "general-acrobatic-steps",
+      "skill-perceptive",
+      "skill-stout"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "2",
@@ -2777,7 +3546,8 @@ export const DEFAULT_SPECIES = [
       "species_size-medium"
     ],
     "movement": [
-      "species_movement-bipedal"
+      "species_movement-bipedal",
+      "species_movement-swimming"
     ],
     "traits": [
       "trait-adapted",
@@ -2789,78 +3559,122 @@ export const DEFAULT_SPECIES = [
       "trait-amphibious",
       "trait-aquatic"
     ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-low-light-vision",
+      "trait-quick",
+      "trait-chameleon",
+      "trait-exoskeleton-partial",
+      "trait-bonded-terrain"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Chameleon",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-echolocation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Echolocation"
       },
       {
-        "target": "Echolocation",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Exoskeleton (Partial)",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Favored Environment (Aquatic)",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Fortitude Resistance",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Low Light Vision",
+        "target": "trait-dark-sight",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       },
       {
-        "target": "Quick",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-quick",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
+      },
+      {
+        "target": "trait-chameleon",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
+      },
+      {
+        "target": "trait-exoskeleton-partial",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Partial)"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
       }
     ],
     "costs": {
-      "cp": 11,
-      "bp": 11
+      "cp": 13,
+      "bp": 13
     },
-    "cp": 11,
-    "bp": 11,
-    "cp_cost": 11,
+    "cp": 13,
+    "bp": 13,
+    "cp_cost": 13,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [],
@@ -2875,14 +3689,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Echolocation",
-      "Low Light Vision",
-      "Quick",
-      "Chameleon",
-      "Exoskeleton (Partial)",
-      "Favored Environment (Aquatic)",
-      "Fortitude Resistance"
+      "special-darksight",
+      "general-echolocation",
+      "special-low-light-vision",
+      "general-quick",
+      "ability-environmental-adaptation",
+      "ability-great-fortitude"
     ],
     "stigma": "Aquatic Xeno (-3)",
     "tech_level": "4",
@@ -2930,88 +3742,126 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-bodyform-mutation"
     ],
+    "recommended_traits": [
+      "trait-fast-heal",
+      "trait-low-light-vision",
+      "trait-regeneration",
+      "trait-scent",
+      "trait-longevity"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Any",
+        "target": "Any Feature",
+        "type": "feature",
         "value": 2,
-        "type": "feature",
         "mode": "bonus_pool",
-        "description": "+2 Bonus Features"
+        "description": "+2 Bonus Feature(s)"
       },
       {
-        "target": "Ability Check Features",
-        "value": 1,
+        "target": "cat_ability_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ability Features"
       },
       {
-        "target": "Ambidexterity",
-        "value": 1,
+        "target": "skill-attractive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Attractive"
       },
       {
-        "target": "Attractive",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Mutation",
-        "value": 1,
+        "target": "combat-ambidextrous",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ambidextrous"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "ability-toxic-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Toxic Resistance"
       },
       {
-        "target": "Scent",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Toxin Resist (+4 vs Diseases, +2 vs Poisons)",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
       }
     ],
     "costs": {
@@ -3035,16 +3885,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 2,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Ability Check Features",
-      "Attractive",
-      "Fast Heal",
-      "Low Light Vision",
-      "Regeneration",
-      "Scent",
-      "Ambidexterity",
-      "Longevity",
-      "Mutation",
-      "Toxin Resist (+4 vs Diseases, +2 vs Poisons)"
+      "cat_ability_features",
+      "skill-attractive",
+      "general-fast-heal",
+      "special-low-light-vision",
+      "general-regeneration",
+      "special-scent",
+      "combat-ambidextrous",
+      "ability-toxic-resistance"
     ],
     "stigma": "Genetic (-2), Beastial (-2)",
     "tech_level": "3+",
@@ -3097,95 +3945,129 @@ export const DEFAULT_SPECIES = [
       "trait-enhanced-biotechnology",
       "trait-hive-connection"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-adaptive-features",
+      "trait-adaptive-skill-set",
+      "trait-ageless",
+      "trait-immortal",
+      "trait-reduced-sustenance"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Any",
+        "target": "Any Feature",
+        "type": "feature",
         "value": 2,
-        "type": "feature",
         "mode": "bonus_pool",
-        "description": "+2 Bonus Features"
+        "description": "+2 Bonus Feature(s)"
       },
       {
-        "target": "Adaptive Aspects (Davae Collective)",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Adaptive Skill Set (Davae Collective)",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Discipline Features",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Fast Heal",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Immortality",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       },
       {
-        "target": "Reduced Sustenance",
+        "target": "trait-adaptive-features",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-adaptive-skill-set",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Skill Set"
       },
       {
-        "target": "+2 Features of Choice",
+        "target": "trait-ageless",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
       }
     ],
     "costs": {
@@ -3214,16 +4096,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 2,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Discipline Features",
-      "Fast Heal",
-      "Regeneration",
-      "Adaptive Aspects (Davae Collective)",
-      "Adaptive Skill Set (Davae Collective)",
-      "Ageless",
-      "Immortality",
-      "Reduced Sustenance",
-      "+2 Features of Choice"
+      "discipline-awakened",
+      "cat_discipline_features",
+      "general-fast-heal",
+      "general-regeneration"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (with Biotechnology)",
@@ -3266,138 +4142,239 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [
       "trait-brutal",
-      "trait-exoskeleton-partial",
-      "trait-frenzy"
+      "trait-exoskeleton-partial"
     ],
     "species_traits": [
       "trait-brutal",
-      "trait-exoskeleton-partial",
-      "trait-frenzy"
+      "trait-exoskeleton-partial"
+    ],
+    "recommended_traits": [
+      "trait-climber",
+      "trait-low-light-vision",
+      "trait-regeneration",
+      "trait-scent",
+      "trait-aquatic",
+      "trait-quick",
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-exoskeleton-light",
+      "trait-exoskeleton-heavy",
+      "trait-fast-heal"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Intellect",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Intellect"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Bodyform (Any)",
-        "value": 1,
+        "target": "special-rage",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Rage"
       },
       {
-        "target": "Climber",
-        "value": 1,
+        "target": "general-climber",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Climber"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Exoskeleton (any others)",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Fast Healing",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Fortitude Resistance",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "general-swimmer",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Swimmer"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Swimmer",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Quick",
+        "target": "trait-climber",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Climber"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-aquatic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Aquatic"
+      },
+      {
+        "target": "trait-quick",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
+      },
+      {
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
+      },
+      {
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
+      },
+      {
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
+      },
+      {
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
+      },
+      {
+        "target": "trait-exoskeleton-heavy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Heavy)"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       }
     ],
     "costs": {
-      "cp": 8,
-      "bp": 8
+      "cp": 10,
+      "bp": 10
     },
-    "cp": 8,
-    "bp": 8,
-    "cp_cost": 8,
+    "cp": 10,
+    "bp": 10,
+    "cp_cost": 10,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -3428,22 +4405,22 @@ export const DEFAULT_SPECIES = [
       "Intimidation",
       "Athletics"
     ],
-    "inherent_features": [],
+    "inherent_features": [
+      "special-rage"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Climber",
-      "Endurance",
-      "Low Light Vision",
-      "Regeneration",
-      "Runner",
-      "Scent",
-      "Swimmer",
-      "Quick",
-      "Bodyform (Any)",
-      "Exoskeleton (any others)",
-      "Fast Healing",
-      "Fortitude Resistance"
+      "general-climber",
+      "general-endurance",
+      "special-low-light-vision",
+      "general-regeneration",
+      "general-runner",
+      "special-scent",
+      "general-swimmer",
+      "general-quick",
+      "general-fast-heal",
+      "ability-great-fortitude"
     ],
     "stigma": "Xeno (-2), Savage (-4)",
     "tech_level": "4",
@@ -3486,88 +4463,126 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [],
     "species_traits": [],
+    "recommended_traits": [
+      "trait-low-light-vision",
+      "trait-scent",
+      "trait-adapted",
+      "trait-fast-heal",
+      "trait-longevity"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Ability Check Features",
-        "value": 1,
+        "target": "cat_ability_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ability Features"
       },
       {
-        "target": "Adapted",
-        "value": 1,
+        "target": "skill-attractive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Attractive"
       },
       {
-        "target": "Ambidexterity",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Attractive",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Improved Healing (double healing rate)",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "combat-ambidextrous",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ambidextrous"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "ability-toxic-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Toxic Resistance"
       },
       {
-        "target": "Toxin Resist (+4 vs Diseases, +2 vs Poisons)",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       },
       {
-        "target": "---",
+        "target": "trait-scent",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-adapted",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adapted"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
       }
     ],
     "costs": {
@@ -3591,16 +4606,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Ability Check Features",
-      "Attractive",
-      "Low Light Vision",
-      "Scent",
-      "Adapted",
-      "Ambidexterity",
-      "Improved Healing (double healing rate)",
-      "Longevity",
-      "Toxin Resist (+4 vs Diseases, +2 vs Poisons)",
-      "---"
+      "cat_ability_features",
+      "skill-attractive",
+      "special-low-light-vision",
+      "special-scent",
+      "ability-environmental-adaptation",
+      "combat-ambidextrous",
+      "general-fast-heal",
+      "ability-toxic-resistance"
     ],
     "stigma": "None",
     "tech_level": "3",
@@ -3648,94 +4661,131 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-awakened-psychic"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-low-light-vision",
+      "trait-longevity"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Wisdom",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Wisdom"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
         "target": "general-benefit-status",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Benefit (Status)"
       },
       {
-        "target": "Aptitude",
-        "value": 1,
+        "target": "discipline-aptitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Aptitude"
       },
       {
-        "target": "Attractive",
-        "value": 1,
+        "target": "skill-attractive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Attractive"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Companion",
-        "value": 1,
+        "target": "special-companion",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Companion"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Influence",
-        "value": 1,
+        "target": "skill-influence",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Influence"
       },
       {
-        "target": "Leadership",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "skill-silver-tongue",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Silver Tongue"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "general-born-leader",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Born Leader"
       },
       {
-        "target": "Silver Tongue",
-        "value": 1,
+        "target": "general-natural-leader",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Leader"
+      },
+      {
+        "target": "trait-awakened-arcane",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
       }
     ],
     "costs": {
@@ -3767,16 +4817,16 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Aptitude",
-      "Attractive",
-      "Awakened",
-      "Companion",
-      "Educated",
-      "Influence",
-      "Low Light Vision",
-      "Silver Tongue",
-      "Leadership",
-      "Longevity"
+      "discipline-aptitude",
+      "skill-attractive",
+      "discipline-awakened",
+      "special-companion",
+      "skill-educated",
+      "skill-influence",
+      "special-low-light-vision",
+      "skill-silver-tongue",
+      "general-born-leader",
+      "general-natural-leader"
     ],
     "stigma": "None",
     "tech_level": "4",
@@ -3824,93 +4874,129 @@ export const DEFAULT_SPECIES = [
       "trait-adaptive-features",
       "trait-awakened-psychic"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-adapted",
+      "trait-alter-form-basic",
+      "trait-immortal",
+      "trait-longevity",
+      "trait-reduced-sustenance"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Any",
-        "value": 20,
         "type": "skill",
+        "value": 20,
         "mode": "bonus_pool",
         "description": "+20 Skill Points"
       },
       {
         "target": "general-benefit-status",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Benefit (Status)"
       },
       {
-        "target": "Adapted (one additional environ, enhanced physiology)",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Adaptive Aspects",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Alter Self (Minor, enhanced physiology)",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Fast Heal",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Immortality (via Nugenics)",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Longevity  (enhanced physiology)",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       },
       {
-        "target": "Reduced Sustenance (enhanced physiology)",
+        "target": "trait-adapted",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adapted"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-alter-form-basic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Basic)"
       },
       {
-        "target": "+2 Features of choice",
+        "target": "trait-immortal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
       }
     ],
     "costs": {
@@ -3943,17 +5029,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Discipline Features",
-      "Fast Heal",
-      "Regeneration",
-      "Adapted (one additional environ, enhanced physiology)",
-      "Adaptive Aspects",
-      "Alter Self (Minor, enhanced physiology)",
-      "Immortality (via Nugenics)",
-      "Longevity  (enhanced physiology)",
-      "Reduced Sustenance (enhanced physiology)",
-      "+2 Features of choice"
+      "discipline-awakened",
+      "cat_discipline_features",
+      "general-fast-heal",
+      "general-regeneration",
+      "ability-environmental-adaptation"
     ],
     "stigma": "None",
     "tech_level": "4",
@@ -3995,101 +5075,147 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [],
     "species_traits": [],
+    "recommended_traits": [
+      "trait-low-light-vision",
+      "trait-scent",
+      "trait-adapted",
+      "trait-exoskeleton-partial",
+      "trait-fast-heal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 20,
         "type": "skill",
+        "value": 20,
         "mode": "bonus_pool",
         "description": "+20 Skill Points"
       },
       {
         "target": "special-augmented",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Augmented"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Ability Check Features",
-        "value": 1,
+        "target": "cat_ability_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ability Features"
       },
       {
-        "target": "Adapted",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Ambidexterity",
-        "value": 1,
+        "target": "general-fearless",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fearless"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Exoskeleton (Partial)",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Fearless",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Improved Healing (double healing rate)",
-        "value": 1,
+        "target": "combat-ambidextrous",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ambidextrous"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "ability-toxic-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Toxic Resistance"
       },
       {
-        "target": "Toxin Resist (+4 vs Diseases, +2 vs Poisons)",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-adapted",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adapted"
+      },
+      {
+        "target": "trait-exoskeleton-partial",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Partial)"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       }
     ],
     "costs": {
@@ -4122,16 +5248,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Ability Check Features",
-      "Danger Sense",
-      "Fearless",
-      "Low Light Vision",
-      "Scent",
-      "Adapted",
-      "Ambidexterity",
-      "Exoskeleton (Partial)",
-      "Improved Healing (double healing rate)",
-      "Toxin Resist (+4 vs Diseases, +2 vs Poisons)"
+      "cat_ability_features",
+      "special-danger-sense",
+      "general-fearless",
+      "special-low-light-vision",
+      "special-scent",
+      "ability-environmental-adaptation",
+      "combat-ambidextrous",
+      "general-fast-heal",
+      "ability-toxic-resistance"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "4",
@@ -4176,100 +5301,139 @@ export const DEFAULT_SPECIES = [
       "trait-adapted",
       "trait-amphibious",
       "trait-aquatic-strength",
-      "trait-water-sense",
+      "trait-aquatic-senses",
       "trait-aquatic"
     ],
     "species_traits": [
       "trait-adapted",
       "trait-amphibious",
       "trait-aquatic-strength",
-      "trait-water-sense",
+      "trait-aquatic-senses",
       "trait-aquatic"
+    ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-quick",
+      "trait-chameleon",
+      "trait-exoskeleton-partial",
+      "trait-bonded-terrain",
+      "trait-low-light-vision"
     ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Adapted Physiology - Depth",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Chameleon",
-        "value": 1,
+        "target": "general-echolocation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Echolocation"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-swimmer",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Swimmer"
       },
       {
-        "target": "Echolocation",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Exoskeleton (Partial)",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Favored Environment (Underwater)",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Fortitude Resistance",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Low-Light Vision",
+        "target": "trait-dark-sight",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       },
       {
-        "target": "Swimmer",
+        "target": "trait-quick",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
       },
       {
-        "target": "Quick",
+        "target": "trait-chameleon",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
+      },
+      {
+        "target": "trait-exoskeleton-partial",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Partial)"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       }
     ],
     "costs": {
-      "cp": 12,
-      "bp": 12
+      "cp": 13,
+      "bp": 13
     },
-    "cp": 12,
-    "bp": 12,
-    "cp_cost": 12,
+    "cp": 13,
+    "bp": 13,
+    "cp_cost": 13,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 1,
     "specific_skill_bonuses": [],
@@ -4284,16 +5448,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Echolocation",
-      "Swimmer",
-      "Quick",
-      "Adapted Physiology - Depth",
-      "Chameleon",
-      "Exoskeleton (Partial)",
-      "Favored Environment (Underwater)",
-      "Fortitude Resistance",
-      "Low-Light Vision"
+      "special-darksight",
+      "general-echolocation",
+      "general-swimmer",
+      "general-quick",
+      "ability-environmental-adaptation",
+      "ability-great-fortitude",
+      "special-low-light-vision"
     ],
     "stigma": "Aquatic Xeno (-3)",
     "tech_level": "3",
@@ -4333,90 +5494,119 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal"
     ],
     "traits": [
-      "trait-hardy"
+      "trait-improved-great-fortitude"
     ],
     "species_traits": [
+      "trait-improved-great-fortitude"
+    ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-longevity",
+      "trait-reduced-sustenance",
       "trait-hardy"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Aptitude",
-        "value": 1,
+        "target": "discipline-aptitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Aptitude"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Reduced Sustenance",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Rugged",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Self Sufficient",
+        "target": "trait-longevity",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
+      },
+      {
+        "target": "trait-hardy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Hardy"
       }
     ],
     "costs": {
-      "cp": 15,
-      "bp": 15
+      "cp": 16,
+      "bp": 16
     },
-    "cp": 15,
-    "bp": 15,
-    "cp_cost": 15,
+    "cp": 16,
+    "bp": 16,
+    "cp_cost": 16,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -4440,14 +5630,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Aptitude",
-      "Awakened",
-      "Educated",
-      "Endurance",
-      "Self Sufficient",
-      "Longevity",
-      "Reduced Sustenance",
-      "Rugged"
+      "discipline-aptitude",
+      "discipline-awakened",
+      "skill-educated",
+      "general-endurance",
+      "skill-self-sufficient"
     ],
     "stigma": "Minor Appearance - Blue Skin (-1)",
     "tech_level": "3",
@@ -4494,81 +5681,134 @@ export const DEFAULT_SPECIES = [
       "trait-low-light-vision",
       "trait-quick"
     ],
+    "recommended_traits": [
+      "trait-climber",
+      "trait-fast-heal",
+      "trait-scent",
+      "trait-aquatic",
+      "trait-bonded-terrain",
+      "trait-longevity"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
-        "target": "Climber",
-        "value": 1,
+        "target": "general-climber",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Climber"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Favored Environment",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "general-swimmer",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Swimmer"
       },
       {
-        "target": "Self Sufficient",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Swimmer",
+        "target": "trait-climber",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Climber"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-aquatic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Aquatic"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
       }
     ],
     "costs": {
@@ -4597,16 +5837,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Climber",
-      "Endurance",
-      "Low Light Vision",
-      "Fast Heal",
-      "Runner",
-      "Scent",
-      "Self Sufficient",
-      "Swimmer",
-      "Favored Environment",
-      "Longevity"
+      "general-climber",
+      "general-endurance",
+      "special-low-light-vision",
+      "general-fast-heal",
+      "general-runner",
+      "special-scent",
+      "skill-self-sufficient",
+      "general-swimmer",
+      "ability-environmental-adaptation"
     ],
     "stigma": "None",
     "tech_level": "2",
@@ -4652,52 +5891,68 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-climber"
     ],
+    "recommended_traits": [
+      "trait-low-light-vision",
+      "trait-longevity",
+      "trait-obfuscate"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "general-well-informed",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Well Informed"
       },
       {
-        "target": "Obfuscate",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       },
       {
-        "target": "Well Informed",
+        "target": "trait-longevity",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
       }
     ],
     "costs": {
@@ -4727,10 +5982,8 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Low Light Vision",
-      "Well Informed",
-      "Longevity",
-      "Obfuscate"
+      "special-low-light-vision",
+      "general-well-informed"
     ],
     "stigma": "None",
     "tech_level": "1",
@@ -4776,75 +6029,112 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-alter-form-basic"
     ],
+    "recommended_traits": [
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-sense-psychic",
+      "trait-obfuscate"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Attractive",
-        "value": 1,
+        "target": "skill-attractive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Attractive"
       },
       {
-        "target": "Bodyform Features",
-        "value": 1,
+        "target": "skill-deceitful",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Deceitful"
       },
       {
-        "target": "Deceitful",
-        "value": 1,
+        "target": "skill-entertaining",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Entertaining"
       },
       {
-        "target": "Detect and Sensory Abilities",
-        "value": 1,
+        "target": "skill-persuasive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Persuasive"
       },
       {
-        "target": "Entertaining",
-        "value": 1,
+        "target": "skill-social",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Social"
       },
       {
-        "target": "Obfuscate",
-        "value": 1,
+        "target": "skill-trustworthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Trustworthy"
       },
       {
-        "target": "Persuasive",
-        "value": 1,
+        "target": "special-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Sense"
       },
       {
-        "target": "Social",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Trustworthy",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
+      },
+      {
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
+      },
+      {
+        "target": "trait-sense-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Sense (Psychic)"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
       }
     ],
     "costs": {
@@ -4873,15 +6163,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Attractive",
-      "Bodyform Features",
-      "Deceitful",
-      "Entertaining",
-      "Persuasive",
-      "Social",
-      "Trustworthy",
-      "Detect and Sensory Abilities",
-      "Obfuscate"
+      "skill-attractive",
+      "skill-deceitful",
+      "skill-entertaining",
+      "skill-persuasive",
+      "skill-social",
+      "skill-trustworthy",
+      "special-sense"
     ],
     "stigma": "Shifter (-2)",
     "tech_level": "3",
@@ -4927,87 +6215,145 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-bodyform-adaptation"
     ],
+    "recommended_traits": [
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-regeneration",
+      "trait-adaptive-features",
+      "trait-adaptive-skill-set",
+      "trait-ageless",
+      "trait-immortal",
+      "trait-synthetic-armor-opts",
+      "trait-synthetic-weapon-opts",
+      "trait-synthetic-exotic-opt"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
         "target": "special-augmented",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Augmented"
       },
       {
         "target": "special-companion",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Companion"
       },
       {
-        "target": "Adaptive Aspects (AI Network)",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Adaptive Skill Set (AI Network)",
-        "value": 1,
+        "target": "special-technologist",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Technologist"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "special-heavy-augmentations",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Heavy Augmentations"
       },
       {
-        "target": "Bodyform Features",
-        "value": 1,
+        "target": "special-extreme-augmentations",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Extreme Augmentations"
       },
       {
-        "target": "Heavy and Severe Augmentations",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Immortality",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       },
       {
-        "target": "Synthetic Options",
+        "target": "trait-adaptive-features",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
       },
       {
-        "target": "Technologist",
+        "target": "trait-adaptive-skill-set",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Skill Set"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
+      },
+      {
+        "target": "trait-synthetic-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Armor Opts"
+      },
+      {
+        "target": "trait-synthetic-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Weapon Opts"
+      },
+      {
+        "target": "trait-synthetic-exotic-opt",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Exotic Opt"
       }
     ],
     "costs": {
@@ -5040,15 +6386,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Bodyform Features",
-      "Regeneration",
-      "Technologist",
-      "Adaptive Aspects (AI Network)",
-      "Adaptive Skill Set (AI Network)",
-      "Ageless",
-      "Heavy and Severe Augmentations",
-      "Immortality",
-      "Synthetic Options"
+      "general-regeneration",
+      "special-technologist",
+      "special-heavy-augmentations",
+      "special-extreme-augmentations"
     ],
     "stigma": "Xeno (-2), Augmented (-4)",
     "tech_level": "4",
@@ -5098,87 +6439,135 @@ export const DEFAULT_SPECIES = [
       "trait-enhanced-biotechnology",
       "trait-hive-connection"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-adaptive-features",
+      "trait-adaptive-skill-set",
+      "trait-ageless"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Adaptive Aspects (Davae Collective)",
-        "value": 1,
+        "target": "discipline-aptitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Aptitude"
       },
       {
-        "target": "Adaptive Skill Set (Davae Collective)",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "general-eidetic-memory",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Eidetic Memory"
       },
       {
-        "target": "Ambidexterity",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Aptitude",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "combat-ambidextrous",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ambidextrous"
       },
       {
-        "target": "Eidetic Memory",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Fast Heal",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-adaptive-features",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
+      },
+      {
+        "target": "trait-adaptive-skill-set",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Skill Set"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
       }
     ],
     "costs": {
@@ -5207,17 +6596,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Aptitude",
-      "Awakened",
-      "Educated",
-      "Eidetic Memory",
-      "Fast Heal",
-      "Regeneration",
-      "Adaptive Aspects (Davae Collective)",
-      "Adaptive Skill Set (Davae Collective)",
-      "Ageless",
-      "Alertness",
-      "Ambidexterity"
+      "discipline-aptitude",
+      "discipline-awakened",
+      "skill-educated",
+      "general-eidetic-memory",
+      "general-fast-heal",
+      "general-regeneration",
+      "skill-perceptive",
+      "combat-ambidextrous"
     ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "4",
@@ -5263,81 +6649,136 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-dragonkin-traits"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-dragon-senses",
+      "trait-dragon-breath",
+      "trait-natural-weapons",
+      "trait-energy-resist",
+      "trait-exoskeleton-light",
+      "trait-resistant"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "general-benefit-status",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Benefit (Status)"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Benefit (Status, Dynasty Nobility)",
-        "value": 1,
+        "target": "skill-headstrong",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Headstrong"
       },
       {
-        "target": "Dragonkin Features",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
       },
       {
-        "target": "Energy Resist line",
-        "value": 1,
+        "target": "special-energy-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Energy Resistance"
       },
       {
-        "target": "Exoskeleton",
-        "value": 1,
+        "target": "skill-veiled-threat",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Veiled Threat"
       },
       {
-        "target": "Headstrong",
-        "value": 1,
+        "target": "ability-tolerance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tolerance"
       },
       {
-        "target": "Intimidating Prowess",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Natural Weapons",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Resilient",
+        "target": "trait-dragon-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Senses"
+      },
+      {
+        "target": "trait-dragon-breath",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Breath"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
+      },
+      {
+        "target": "trait-energy-resist",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Resist"
+      },
+      {
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
+      },
+      {
+        "target": "trait-resistant",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Resistant"
       }
     ],
     "costs": {
@@ -5363,15 +6804,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Dragonkin Features",
-      "Headstrong",
-      "Natural Weapons",
-      "Benefit (Status, Dynasty Nobility)",
-      "Energy Resist line",
-      "Exoskeleton",
-      "Intimidating Prowess",
-      "Resilient"
+      "discipline-awakened",
+      "skill-headstrong",
+      "special-natural-weapons",
+      "special-energy-resistance",
+      "skill-veiled-threat",
+      "ability-tolerance"
     ],
     "stigma": "Draconic (-2)",
     "tech_level": "3",
@@ -5416,82 +6854,120 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-mighty-surge"
     ],
+    "recommended_traits": [
+      "trait-low-light-vision",
+      "trait-focused-study",
+      "trait-adaptive-features",
+      "trait-chameleon",
+      "trait-exoskeleton-partial",
+      "trait-hardy"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Adaptive",
-        "value": 1,
+        "target": "skill-gearhead",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Gearhead"
       },
       {
-        "target": "Chameleon",
-        "value": 1,
+        "target": "skill-headstrong",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Headstrong"
       },
       {
-        "target": "Exoskeleton (Partial)",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Gearhead",
-        "value": 1,
+        "target": "skill-skill-focus",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Skill Focus"
       },
       {
-        "target": "Headstrong",
-        "value": 1,
+        "target": "skill-meticulous",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Meticulous"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Methodical",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       },
       {
-        "target": "Rugged",
+        "target": "trait-focused-study",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Focused Study"
       },
       {
-        "target": "Skill Focus",
+        "target": "trait-adaptive-features",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
+      },
+      {
+        "target": "trait-chameleon",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
+      },
+      {
+        "target": "trait-exoskeleton-partial",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Partial)"
+      },
+      {
+        "target": "trait-hardy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Hardy"
       }
     ],
     "costs": {
@@ -5525,15 +7001,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Gearhead",
-      "Headstrong",
-      "Low Light Vision",
-      "Skill Focus",
-      "Adaptive",
-      "Chameleon",
-      "Exoskeleton (Partial)",
-      "Methodical",
-      "Rugged"
+      "skill-gearhead",
+      "skill-headstrong",
+      "special-low-light-vision",
+      "skill-skill-focus",
+      "skill-meticulous",
+      "general-endurance"
     ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "2",
@@ -5575,27 +7048,29 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [],
     "species_traits": [],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Feature",
         "type": "feature",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Bonus Feature"
+        "description": "+1 Bonus Feature(s)"
       },
       {
-        "target": "any Karma Feature",
-        "value": 1,
+        "target": "cat_karma_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Karma Features"
       }
     ],
     "costs": {
@@ -5621,7 +7096,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 1,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "any Karma Feature"
+      "cat_karma_features"
     ],
     "stigma": "None",
     "tech_level": "3, varies",
@@ -5673,75 +7148,104 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-low-light-vision"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-longevity",
+      "trait-reduced-sustenance"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Combat Expertise",
-        "value": 1,
+        "target": "combat-combat-expertise",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Combat Expertise"
       },
       {
-        "target": "Eidetic Memory",
-        "value": 1,
+        "target": "general-eidetic-memory",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Eidetic Memory"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "skill-silver-tongue",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Silver Tongue"
       },
       {
-        "target": "Mystical Ability",
-        "value": 1,
+        "target": "skill-social",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Social"
       },
       {
-        "target": "Reduced Sustenance",
-        "value": 1,
+        "target": "discipline-special-ability",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Special Ability"
       },
       {
-        "target": "Sense Magic (30ft Radius)",
-        "value": 1,
+        "target": "special-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Sense"
       },
       {
-        "target": "Silver Tongue",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Social",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
       }
     ],
     "costs": {
@@ -5765,15 +7269,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Combat Expertise",
-      "Eidetic Memory",
-      "Silver Tongue",
-      "Social",
-      "Longevity",
-      "Mystical Ability",
-      "Reduced Sustenance",
-      "Sense Magic (30ft Radius)"
+      "discipline-awakened",
+      "combat-combat-expertise",
+      "general-eidetic-memory",
+      "skill-silver-tongue",
+      "skill-social",
+      "discipline-special-ability",
+      "special-sense"
     ],
     "stigma": "None",
     "tech_level": "3",
@@ -5827,63 +7329,121 @@ export const DEFAULT_SPECIES = [
       "trait-climber",
       "trait-prehensile-tail"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-longevity",
+      "trait-low-light-vision",
+      "trait-bonus-feature"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Companion",
-        "value": 1,
+        "target": "special-companion",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Companion"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Low Light",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "cat_skill_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Skill Features"
       },
       {
-        "target": "+4 Skill Features of choice",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-awakened-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-bonus-feature",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonus Feature"
       }
     ],
     "costs": {
@@ -5913,13 +7473,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Companion",
-      "Fast Heal",
-      "Regeneration",
-      "Longevity",
-      "Low Light",
-      "+4 Skill Features of choice"
+      "discipline-awakened",
+      "special-companion",
+      "general-fast-heal",
+      "general-regeneration",
+      "special-low-light-vision",
+      "cat_skill_features"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "4",
@@ -5966,82 +7525,151 @@ export const DEFAULT_SPECIES = [
       "trait-brutal",
       "trait-exoskeleton-partial"
     ],
+    "recommended_traits": [
+      "trait-climber",
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-aquatic",
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-bonded-terrain",
+      "trait-hardy"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
-        "target": "Bodyform (any)",
-        "value": 1,
+        "target": "general-climber",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Climber"
       },
       {
-        "target": "Climber",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Favored Environment",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Regeneration",
-        "value": 1,
+        "target": "general-swimmer",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Swimmer"
       },
       {
-        "target": "Rugged",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Self Sufficient",
+        "target": "trait-climber",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Climber"
       },
       {
-        "target": "Swimmer",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-aquatic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Aquatic"
+      },
+      {
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
+      },
+      {
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
+      },
+      {
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
+      },
+      {
+        "target": "trait-hardy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Hardy"
       }
     ],
     "costs": {
@@ -6077,15 +7705,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Climber",
-      "Endurance",
-      "Fast Heal",
-      "Regeneration",
-      "Self Sufficient",
-      "Swimmer",
-      "Bodyform (any)",
-      "Favored Environment",
-      "Rugged"
+      "general-climber",
+      "general-endurance",
+      "general-fast-heal",
+      "general-regeneration",
+      "skill-self-sufficient",
+      "general-swimmer",
+      "ability-environmental-adaptation"
     ],
     "stigma": "None",
     "tech_level": "1",
@@ -6126,69 +7752,104 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [],
     "species_traits": [],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-longevity",
+      "trait-resistant"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Augmented",
-        "value": 1,
+        "target": "special-augmented",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Augmented"
       },
       {
-        "target": "Contacts",
-        "value": 1,
+        "target": "general-contacts",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Contacts"
       },
       {
-        "target": "Gearhead",
-        "value": 1,
+        "target": "skill-gearhead",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Gearhead"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "general-well-informed",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Well Informed"
       },
       {
-        "target": "Medical Specialist",
-        "value": 1,
+        "target": "skill-medic",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Medic"
       },
       {
-        "target": "Well Informed",
-        "value": 1,
+        "target": "ability-tolerance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tolerance"
       },
       {
-        "target": "Resilient",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
+      },
+      {
+        "target": "trait-awakened-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-resistant",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Resistant"
       }
     ],
     "costs": {
@@ -6213,14 +7874,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Augmented",
-      "Contacts",
-      "Gearhead",
-      "Well Informed",
-      "Longevity",
-      "Medical Specialist",
-      "Resilient"
+      "discipline-awakened",
+      "special-augmented",
+      "general-contacts",
+      "skill-gearhead",
+      "general-well-informed",
+      "skill-medic",
+      "ability-tolerance"
     ],
     "stigma": "None",
     "tech_level": "4",
@@ -6273,58 +7933,64 @@ export const DEFAULT_SPECIES = [
       "trait-prehensile-tail",
       "trait-scent"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Agility"
       },
       {
         "target": "Stamina",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Stamina"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Self-Sufficient",
-        "value": 1,
+        "target": "ability-tolerance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tolerance"
       },
       {
-        "target": "Tolerance",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       }
     ],
     "costs": {
@@ -6358,11 +8024,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Endurance",
-      "Runner",
-      "Tolerance",
-      "Tough",
-      "Self-Sufficient"
+      "general-endurance",
+      "general-runner",
+      "ability-tolerance",
+      "general-tough",
+      "skill-self-sufficient"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "3",
@@ -6404,65 +8070,80 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [],
     "species_traits": [],
+    "recommended_traits": [
+      "trait-mighty-surge"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Strength"
       },
       {
         "target": "Stamina",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Stamina"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Any",
+        "target": "Any Feature",
+        "type": "feature",
         "value": 2,
-        "type": "feature",
         "mode": "bonus_pool",
-        "description": "+2 Bonus Features"
+        "description": "+2 Bonus Feature(s)"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
       },
       {
-        "target": "Potent Might",
-        "value": 1,
+        "target": "ability-potent-might",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Potent Might"
       },
       {
-        "target": "Great Fortitude",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Mighty Surge",
-        "value": 1,
+        "target": "ability-mighty-surge",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Mighty Surge"
       },
       {
-        "target": "Throwing",
-        "value": 1,
+        "target": "combat-dead-aim",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Dead Aim"
+      },
+      {
+        "target": "trait-mighty-surge",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Mighty Surge"
       }
     ],
     "costs": {
@@ -6495,11 +8176,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 2,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Tough",
-      "Potent Might",
-      "Great Fortitude",
-      "Mighty Surge",
-      "Throwing"
+      "general-tough",
+      "ability-potent-might",
+      "ability-great-fortitude",
+      "ability-mighty-surge",
+      "combat-dead-aim"
     ],
     "stigma": "Xeno (-2), Giant (-2)",
     "tech_level": "1",
@@ -6541,92 +8222,127 @@ export const DEFAULT_SPECIES = [
     "traits": [
       "trait-awakened-dimension",
       "trait-psionic-gating",
-      "trait-water-sense"
+      "trait-homing"
     ],
     "species_traits": [
       "trait-awakened-dimension",
       "trait-psionic-gating",
-      "trait-water-sense"
+      "trait-homing"
+    ],
+    "recommended_traits": [
+      "trait-awakened-psychic",
+      "trait-longevity",
+      "trait-low-light-vision",
+      "trait-awakened-arcane"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
         "target": "ability-indomitable-will",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Indomitable Will"
       },
       {
-        "target": "Aptitude",
-        "value": 1,
+        "target": "discipline-aptitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Aptitude"
       },
       {
-        "target": "Attractive",
-        "value": 1,
+        "target": "skill-attractive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Attractive"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Discipline features",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Longevity",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Low Light Vision",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
+      },
+      {
+        "target": "trait-longevity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Longevity"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-awakened-arcane",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       }
     ],
     "costs": {
-      "cp": 28,
-      "bp": 28
+      "cp": 30,
+      "bp": 30
     },
-    "cp": 28,
-    "bp": 28,
-    "cp_cost": 28,
+    "cp": 30,
+    "bp": 30,
+    "cp_cost": 30,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -6648,13 +8364,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Aptitude",
-      "Attractive",
-      "Awakened",
-      "Discipline features",
-      "Educated",
-      "Low Light Vision",
-      "Longevity"
+      "discipline-aptitude",
+      "skill-attractive",
+      "cat_discipline_features",
+      "skill-educated",
+      "discipline-awakened",
+      "special-low-light-vision"
     ],
     "stigma": "None",
     "tech_level": "4",
@@ -6702,52 +8417,68 @@ export const DEFAULT_SPECIES = [
       "trait-bodyform-adaptation",
       "trait-natural-weapons"
     ],
+    "recommended_traits": [
+      "trait-acute-senses"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
       },
       {
-        "target": "Wild Speech",
-        "value": 1,
+        "target": "special-wild-speech",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wild Speech"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
       }
     ],
     "costs": {
-      "cp": 3,
-      "bp": 3
+      "cp": 1,
+      "bp": 1
     },
-    "cp": 3,
-    "bp": 3,
-    "cp_cost": 3,
+    "cp": 1,
+    "bp": 1,
+    "cp_cost": 1,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [],
@@ -6762,15 +8493,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Danger Sense",
-      "Natural Weapons",
-      "Runner",
-      "Tough",
-      "Wild Speech",
-      "Acute Senses"
+      "special-acute-sense",
+      "special-danger-sense",
+      "special-natural-weapons",
+      "general-runner",
+      "general-tough",
+      "special-wild-speech"
     ],
-    "stigma": "Beast (-2)",
+    "stigma": "Beast (-4)",
     "tech_level": "1 (Uplifted / Foundational)",
     "meta_level": "1 (Instinctual Resonance)",
     "homeworld": "Various (Any wild biome or bio-foundry)",
@@ -6816,75 +8546,125 @@ export const DEFAULT_SPECIES = [
       "trait-digitigrade-ungulated",
       "trait-quick"
     ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-natural-weapons",
+      "trait-low-light-vision",
+      "trait-climber"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
         "target": "special-uncanny-sense",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Uncanny Sense"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Climber",
-        "value": 1,
+        "target": "general-climber",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Climber"
       },
       {
-        "target": "Endurance",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
       },
       {
-        "target": "Quicker / Quickest",
-        "value": 1,
+        "target": "general-quicker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quicker"
+      },
+      {
+        "target": "general-quickest",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quickest"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-climber",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Climber"
       }
     ],
     "costs": {
@@ -6915,14 +8695,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Natural Weapons",
-      "Low Light Vision",
-      "Climber",
-      "Endurance",
-      "Runner",
-      "Tough",
-      "Quicker / Quickest"
+      "special-darksight",
+      "special-natural-weapons",
+      "special-low-light-vision",
+      "general-climber",
+      "general-endurance",
+      "general-runner",
+      "general-tough",
+      "general-quicker",
+      "general-quickest"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "1 / 3",
@@ -6970,65 +8751,102 @@ export const DEFAULT_SPECIES = [
       "trait-chloroplast",
       "trait-exoskeleton-light"
     ],
+    "recommended_traits": [
+      "trait-fast-heal",
+      "trait-regeneration"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Strength"
       },
       {
         "target": "Stamina",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Stamina"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Armor (Chitinous Shell)",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Wall-Crawler",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
+      },
+      {
+        "target": "skill-naturalist",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Naturalist"
+      },
+      {
+        "target": "general-tough",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       }
     ],
     "costs": {
@@ -7064,11 +8882,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Natural Weapons",
-      "Tough",
-      "Armor (Chitinous Shell)",
-      "Wall-Crawler"
+      "general-endurance",
+      "general-fast-heal",
+      "ability-great-fortitude",
+      "general-regeneration",
+      "skill-self-sufficient",
+      "skill-naturalist",
+      "general-tough"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "1",
@@ -7123,123 +8943,212 @@ export const DEFAULT_SPECIES = [
       "trait-regeneration",
       "trait-aquatic"
     ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-low-light-vision",
+      "trait-quick",
+      "trait-adapted",
+      "trait-amphibious",
+      "trait-blind-sense",
+      "trait-thermal-sight",
+      "trait-dragon-senses",
+      "trait-dragon-breath",
+      "trait-energy-resist",
+      "trait-exoskeleton-light",
+      "trait-bonded-terrain",
+      "trait-hardy",
+      "trait-venom"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
-        "target": "Adaptation",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Amphibious",
-        "value": 1,
+        "target": "skill-headstrong",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Headstrong"
       },
       {
-        "target": "Blindsense (Thermal Receptors)",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Dragonkin",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Energy Resist line (one type)",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Exoskeleton (Dragonkin)",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Favored Environment",
-        "value": 1,
+        "target": "special-energy-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Energy Resistance"
       },
       {
-        "target": "Low Light Vision",
-        "value": 1,
+        "target": "skill-veiled-threat",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Veiled Threat"
       },
       {
-        "target": "Headstrong",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Intimidating Prowess",
+        "target": "trait-dark-sight",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       },
       {
-        "target": "Rugged",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       },
       {
-        "target": "Runner",
+        "target": "trait-quick",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
       },
       {
-        "target": "Self Sufficient",
+        "target": "trait-adapted",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adapted"
       },
       {
-        "target": "Quick",
+        "target": "trait-amphibious",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Amphibious"
       },
       {
-        "target": "Venom",
+        "target": "trait-blind-sense",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Blind Sense"
+      },
+      {
+        "target": "trait-thermal-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Thermal Sight"
+      },
+      {
+        "target": "trait-dragon-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Senses"
+      },
+      {
+        "target": "trait-dragon-breath",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Breath"
+      },
+      {
+        "target": "trait-energy-resist",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Resist"
+      },
+      {
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
+      },
+      {
+        "target": "trait-bonded-terrain",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bonded Terrain"
+      },
+      {
+        "target": "trait-hardy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Hardy"
+      },
+      {
+        "target": "trait-venom",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Venom"
       }
     ],
     "costs": {
@@ -7272,23 +9181,17 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Low Light Vision",
-      "Headstrong",
-      "Runner",
-      "Self Sufficient",
-      "Quick",
-      "Adaptation",
-      "Alertness",
-      "Amphibious",
-      "Blindsense (Thermal Receptors)",
-      "Dragonkin",
-      "Energy Resist line (one type)",
-      "Exoskeleton (Dragonkin)",
-      "Favored Environment",
-      "Intimidating Prowess",
-      "Rugged",
-      "Venom"
+      "special-darksight",
+      "special-low-light-vision",
+      "skill-headstrong",
+      "general-runner",
+      "skill-self-sufficient",
+      "general-quick",
+      "ability-environmental-adaptation",
+      "skill-perceptive",
+      "special-energy-resistance",
+      "skill-veiled-threat",
+      "general-endurance"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "1",
@@ -7330,91 +9233,129 @@ export const DEFAULT_SPECIES = [
     "traits": [
       "trait-digitigrade-ungulated",
       "trait-quick",
-      "trait-scent"
+      "trait-uncanny-sense-scent",
+      "trait-uncanny-sense-hearing"
     ],
     "species_traits": [
       "trait-digitigrade-ungulated",
       "trait-quick",
-      "trait-scent"
+      "trait-uncanny-sense-scent",
+      "trait-uncanny-sense-hearing"
+    ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-scent",
+      "trait-low-light-vision",
+      "trait-hardy"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
-        "target": "special-uncanny-sense",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Acute Sense",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Low-Light Vision",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Rugged",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-tracker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tracker"
       },
       {
-        "target": "Scent",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Self Sufficient",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Tracker",
+        "target": "trait-acute-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-hardy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Hardy"
       }
     ],
     "costs": {
-      "cp": 15,
-      "bp": 15
+      "cp": 19,
+      "bp": 19
     },
-    "cp": 15,
-    "bp": 15,
-    "cp_cost": 15,
+    "cp": 19,
+    "bp": 19,
+    "cp_cost": 19,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -7435,20 +9376,18 @@ export const DEFAULT_SPECIES = [
       "Combat",
       "Intimidation"
     ],
-    "inherent_features": [
-      "special-uncanny-sense"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Danger Sense",
-      "Runner",
-      "Scent",
-      "Self Sufficient",
-      "Tracker",
-      "Low-Light Vision",
-      "Rugged"
+      "special-acute-sense",
+      "special-danger-sense",
+      "general-runner",
+      "special-scent",
+      "skill-self-sufficient",
+      "general-tracker",
+      "special-low-light-vision",
+      "general-endurance"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "3",
@@ -7499,94 +9438,125 @@ export const DEFAULT_SPECIES = [
       "trait-low-light-vision",
       "trait-scent"
     ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-quick",
+      "trait-blind-sense",
+      "trait-obfuscate"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Acrobatic",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Athletic",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Blindsense",
-        "value": 1,
+        "target": "special-sneak-attack",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Sneak Attack"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-quick",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quick"
       },
       {
-        "target": "Nimble",
-        "value": 1,
+        "target": "special-uncanny-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Uncanny Sense"
       },
       {
-        "target": "Obfuscate",
-        "value": 1,
+        "target": "general-acrobatic-steps",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acrobatic Steps"
       },
       {
-        "target": "Sneak Attack",
-        "value": 1,
+        "target": "skill-stout",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stout"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "general-nimble-moves",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Nimble Moves"
       },
       {
-        "target": "Quick",
+        "target": "trait-dark-sight",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       },
       {
-        "target": "Uncanny Sense",
+        "target": "trait-quick",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Quick"
+      },
+      {
+        "target": "trait-blind-sense",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Blind Sense"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
       }
     ],
     "costs": {
@@ -7620,17 +9590,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Danger Sense",
-      "Darksight",
-      "Sneak Attack",
-      "Stealthy",
-      "Quick",
-      "Uncanny Sense",
-      "Acrobatic",
-      "Athletic",
-      "Blindsense",
-      "Nimble",
-      "Obfuscate"
+      "special-danger-sense",
+      "special-darksight",
+      "special-sneak-attack",
+      "skill-stealthy",
+      "general-quick",
+      "special-uncanny-sense",
+      "general-acrobatic-steps",
+      "skill-stout",
+      "general-nimble-moves"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "3",
@@ -7669,7 +9637,8 @@ export const DEFAULT_SPECIES = [
       "species_size-medium"
     ],
     "movement": [
-      "species_movement-bipedal"
+      "species_movement-bipedal",
+      "movement-climb-improved"
     ],
     "traits": [
       "trait-climber",
@@ -7687,96 +9656,127 @@ export const DEFAULT_SPECIES = [
       "trait-prehensile-limbs",
       "trait-scent"
     ],
+    "recommended_traits": [
+      "trait-dark-sight",
+      "trait-focused-study",
+      "trait-exoskeleton-partial",
+      "trait-patagia"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Strength"
       },
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
-        "target": "Acrobatic",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "general-fearless",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fearless"
       },
       {
-        "target": "Athletic",
-        "value": 1,
+        "target": "skill-graceful",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Graceful"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "general-nimble-moves",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Nimble Moves"
       },
       {
-        "target": "Exoskeleton (Partial)",
-        "value": 1,
+        "target": "skill-steady",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Steady"
       },
       {
-        "target": "Fearless",
-        "value": 1,
+        "target": "skill-skill-focus",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Skill Focus"
       },
       {
-        "target": "Graceful",
-        "value": 1,
+        "target": "general-acrobatic-steps",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acrobatic Steps"
       },
       {
-        "target": "Patagia",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Nimble Moves",
-        "value": 1,
+        "target": "skill-stout",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stout"
       },
       {
-        "target": "Steady",
+        "target": "trait-dark-sight",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       },
       {
-        "target": "Skill Focus",
+        "target": "trait-focused-study",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Focused Study"
+      },
+      {
+        "target": "trait-exoskeleton-partial",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Partial)"
+      },
+      {
+        "target": "trait-patagia",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Patagia"
       }
     ],
     "costs": {
-      "cp": 24,
-      "bp": 24
+      "cp": 25,
+      "bp": 25
     },
-    "cp": 24,
-    "bp": 24,
-    "cp_cost": 24,
+    "cp": 25,
+    "bp": 25,
+    "cp_cost": 25,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -7800,17 +9800,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Fearless",
-      "Graceful",
-      "Nimble Moves",
-      "Steady",
-      "Skill Focus",
-      "Acrobatic",
-      "Alertness",
-      "Athletic",
-      "Exoskeleton (Partial)",
-      "Patagia"
+      "special-darksight",
+      "general-fearless",
+      "skill-graceful",
+      "general-nimble-moves",
+      "skill-steady",
+      "skill-skill-focus",
+      "general-acrobatic-steps",
+      "skill-perceptive",
+      "skill-stout"
     ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "1",
@@ -7864,33 +9862,45 @@ export const DEFAULT_SPECIES = [
       "trait-alternate-form",
       "trait-blind-sense"
     ],
+    "recommended_traits": [
+      "trait-acute-senses"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "special-uncanny-sense",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Uncanny Sense"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
       }
     ],
     "costs": {
@@ -7925,8 +9935,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Acute Senses"
+      "special-acute-sense"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "2",
@@ -7978,87 +9987,127 @@ export const DEFAULT_SPECIES = [
       "trait-mind-speech",
       "trait-adaptive-features"
     ],
+    "recommended_traits": [
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-focused-study",
+      "trait-adaptive-skill-set",
+      "trait-ageless",
+      "trait-immortal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Adaptive Skill Set",
-        "value": 1,
+        "target": "general-assessment",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Assessment"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Assessment",
-        "value": 1,
+        "target": "general-eidetic-memory",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Eidetic Memory"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Eidetic Memory",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Fast Heal",
-        "value": 1,
+        "target": "skill-skill-focus",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Skill Focus"
       },
       {
-        "target": "Immortal",
-        "value": 1,
+        "target": "general-well-informed",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Well Informed"
       },
       {
-        "target": "Jack of all Trades",
-        "value": 1,
+        "target": "general-jack-of-all-trades",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Jack-of-all-trades"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Skill Focus",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       },
       {
-        "target": "Well Informed",
+        "target": "trait-focused-study",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Focused Study"
+      },
+      {
+        "target": "trait-adaptive-skill-set",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Skill Set"
+      },
+      {
+        "target": "trait-ageless",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
       }
     ],
     "costs": {
@@ -8088,17 +10137,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Assessment",
-      "Educated",
-      "Eidetic Memory",
-      "Fast Heal",
-      "Regeneration",
-      "Skill Focus",
-      "Well Informed",
-      "Adaptive Skill Set",
-      "Ageless",
-      "Immortal",
-      "Jack of all Trades"
+      "general-assessment",
+      "skill-educated",
+      "general-eidetic-memory",
+      "general-fast-heal",
+      "general-regeneration",
+      "skill-skill-focus",
+      "general-well-informed",
+      "general-jack-of-all-trades"
     ],
     "stigma": "Xeno (-2), Luminescent (-1)",
     "tech_level": "5",
@@ -8140,82 +10186,188 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal"
     ],
     "traits": [
-      "trait-exoskeleton-light",
-      "trait-frenzy"
+      "trait-exoskeleton-light"
     ],
     "species_traits": [
-      "trait-exoskeleton-light",
-      "trait-frenzy"
+      "trait-exoskeleton-light"
+    ],
+    "recommended_traits": [
+      "trait-fast-heal",
+      "trait-natural-weapons",
+      "trait-regeneration",
+      "trait-scent"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Strength"
       },
       {
         "target": "Stamina",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Stamina"
       },
       {
         "target": "Intellect",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Intellect"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-rage",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Rage"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "skill-stout",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stout"
       },
       {
-        "target": "Wall-Crawler",
-        "value": 1,
+        "target": "combat-combat-reflexes",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Combat Reflexes"
+      },
+      {
+        "target": "general-endurance",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
+      },
+      {
+        "target": "general-fast-heal",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
+      },
+      {
+        "target": "general-fearless",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fearless"
+      },
+      {
+        "target": "ability-great-fortitude",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
+      },
+      {
+        "target": "skill-veiled-threat",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Veiled Threat"
+      },
+      {
+        "target": "special-natural-weapons",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
+      },
+      {
+        "target": "general-regeneration",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
+      },
+      {
+        "target": "general-runner",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
+      },
+      {
+        "target": "special-scent",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
+      },
+      {
+        "target": "general-tough",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
+      },
+      {
+        "target": "trait-fast-heal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
+      },
+      {
+        "target": "trait-regeneration",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
       }
     ],
     "costs": {
-      "cp": 12,
-      "bp": 12
+      "cp": 14,
+      "bp": 14
     },
-    "cp": 12,
-    "bp": 12,
-    "cp_cost": 12,
+    "cp": 14,
+    "bp": 14,
+    "cp_cost": 14,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Strength",
@@ -8243,14 +10395,25 @@ export const DEFAULT_SPECIES = [
       "Athletics",
       "Survival"
     ],
-    "inherent_features": [],
+    "inherent_features": [
+      "special-rage"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Natural Weapons",
-      "Tough",
-      "Wall-Crawler"
+      "skill-perceptive",
+      "skill-stout",
+      "combat-combat-reflexes",
+      "general-endurance",
+      "general-fast-heal",
+      "general-fearless",
+      "ability-great-fortitude",
+      "skill-veiled-threat",
+      "special-natural-weapons",
+      "general-regeneration",
+      "general-runner",
+      "special-scent",
+      "general-tough"
     ],
     "stigma": "Savage (-4), Xeno (-2)",
     "tech_level": "1",
@@ -8308,38 +10471,69 @@ export const DEFAULT_SPECIES = [
       "trait-regeneration",
       "trait-mind-speech"
     ],
+    "recommended_traits": [
+      "trait-sense-psychic",
+      "trait-chameleon",
+      "trait-energy-resist",
+      "trait-flight"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Chameleon",
-        "value": 1,
+        "target": "special-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Sense"
       },
       {
-        "target": "Energy Resist",
-        "value": 1,
+        "target": "special-energy-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Energy Resistance"
       },
       {
-        "target": "Flight",
-        "value": 1,
+        "target": "general-soar",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Soar"
       },
       {
-        "target": "Sense",
+        "target": "trait-sense-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Sense (Psychic)"
+      },
+      {
+        "target": "trait-chameleon",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
+      },
+      {
+        "target": "trait-energy-resist",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Resist"
+      },
+      {
+        "target": "trait-flight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Flight"
       }
     ],
     "costs": {
@@ -8363,10 +10557,9 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Sense",
-      "Chameleon",
-      "Energy Resist",
-      "Flight"
+      "special-sense",
+      "special-energy-resistance",
+      "general-soar"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3",
@@ -8412,57 +10605,105 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-flight"
     ],
+    "recommended_traits": [
+      "trait-amphibious",
+      "trait-aquatic",
+      "trait-chameleon",
+      "trait-dark-sight",
+      "trait-low-light-vision"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
         "target": "special-uncanny-sense",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Uncanny Sense"
       },
       {
-        "target": "Armor (Chitinous Shell)",
-        "value": 1,
+        "target": "general-swimmer",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Swimmer"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Tolerance",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "skill-naturalist",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Naturalist"
+      },
+      {
+        "target": "trait-amphibious",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Amphibious"
+      },
+      {
+        "target": "trait-aquatic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Aquatic"
+      },
+      {
+        "target": "trait-chameleon",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
+      },
+      {
+        "target": "trait-low-light-vision",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       }
     ],
     "costs": {
@@ -8489,11 +10730,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Natural Weapons",
-      "Tolerance",
-      "Tough",
-      "Armor (Chitinous Shell)"
+      "general-swimmer",
+      "special-darksight",
+      "special-low-light-vision",
+      "skill-stealthy",
+      "skill-naturalist"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "2",
@@ -8532,54 +10773,53 @@ export const DEFAULT_SPECIES = [
       "species_size-small"
     ],
     "movement": [
-      "species_movement-bipedal"
+      "species_movement-bipedal",
+      "species_movement-climbing"
     ],
     "traits": [
       "trait-climber",
       "trait-patagia",
-      "trait-additional-limbs"
+      "trait-additional-limbs",
+      "trait-uncanny-sense-scent"
     ],
     "species_traits": [
       "trait-climber",
       "trait-patagia",
-      "trait-additional-limbs"
+      "trait-additional-limbs",
+      "trait-uncanny-sense-scent"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
-        "target": "special-uncanny-sense",
-        "value": 1,
+        "target": "physical-wall-crawler",
         "type": "feature",
-        "mode": "inherent"
-      },
-      {
-        "target": "Wall-Crawler",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Feature: Wall-Crawler"
       }
     ],
     "costs": {
-      "cp": 17,
-      "bp": 17
+      "cp": 20,
+      "bp": 20
     },
-    "cp": 17,
-    "bp": 17,
-    "cp_cost": 17,
+    "cp": 20,
+    "bp": 20,
+    "cp_cost": 20,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Agility",
@@ -8599,13 +10839,11 @@ export const DEFAULT_SPECIES = [
       "Perception",
       "Legerdemain"
     ],
-    "inherent_features": [
-      "special-uncanny-sense"
-    ],
+    "inherent_features": [],
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Wall-Crawler"
+      "physical-wall-crawler"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "1",
@@ -8667,68 +10905,93 @@ export const DEFAULT_SPECIES = [
       "trait-quick",
       "trait-regeneration"
     ],
+    "recommended_traits": [
+      "trait-additional-limbs",
+      "trait-ageless",
+      "trait-constriction",
+      "trait-obfuscate",
+      "trait-immortal",
+      "trait-energy-immunity",
+      "trait-energy-resist"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Any",
-        "value": 5,
         "type": "skill",
+        "value": 5,
         "mode": "bonus_pool",
         "description": "+5 Skill Points"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "combat-multidextrous",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Multidextrous"
       },
       {
-        "target": "Constriction",
-        "value": 1,
+        "target": "general-quicker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quicker"
       },
       {
-        "target": "Ink Cloud (Visual Obscurement, Water only)",
-        "value": 1,
+        "target": "special-energy-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Energy Resistance"
       },
       {
-        "target": "Immortality",
+        "target": "trait-additional-limbs",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Additional Limbs"
       },
       {
-        "target": "Immunity - Pressure",
+        "target": "trait-ageless",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
       },
       {
-        "target": "Immunity - Cold",
+        "target": "trait-constriction",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Constriction"
       },
       {
-        "target": "Multidextrous",
+        "target": "trait-obfuscate",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
       },
       {
-        "target": "Quicker",
+        "target": "trait-immortal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
       },
       {
-        "target": "Resistance - Heat 10",
+        "target": "trait-energy-immunity",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Immunity"
+      },
+      {
+        "target": "trait-energy-resist",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Resist"
       }
     ],
     "costs": {
@@ -8752,15 +11015,9 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Multidextrous",
-      "Quicker",
-      "Ageless",
-      "Constriction",
-      "Ink Cloud (Visual Obscurement, Water only)",
-      "Immortality",
-      "Immunity - Pressure",
-      "Immunity - Cold",
-      "Resistance - Heat 10"
+      "combat-multidextrous",
+      "general-quicker",
+      "special-energy-resistance"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "4",
@@ -8825,56 +11082,94 @@ export const DEFAULT_SPECIES = [
       "trait-non-living",
       "trait-regeneration"
     ],
+    "recommended_traits": [
+      "trait-aquatic",
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-brutal",
+      "trait-chameleon",
+      "trait-constriction",
+      "trait-exoskeleton-light"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
-        "target": "Adaptation",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Aquatic",
-        "value": 1,
+        "target": "general-swimmer",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Swimmer"
       },
       {
-        "target": "Bodyform",
+        "target": "trait-aquatic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Aquatic"
       },
       {
-        "target": "Brutal",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Chameleon",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Constriction",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Exoskeleton (Light)",
+        "target": "trait-brutal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Brutal"
+      },
+      {
+        "target": "trait-chameleon",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
+      },
+      {
+        "target": "trait-constriction",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Constriction"
+      },
+      {
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
       }
     ],
     "costs": {
@@ -8898,13 +11193,8 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Adaptation",
-      "Aquatic",
-      "Bodyform",
-      "Brutal",
-      "Chameleon",
-      "Constriction",
-      "Exoskeleton (Light)"
+      "ability-environmental-adaptation",
+      "general-swimmer"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "0",
@@ -8961,34 +11251,45 @@ export const DEFAULT_SPECIES = [
       "trait-reach",
       "trait-regeneration"
     ],
+    "recommended_traits": [
+      "trait-natural-weapons"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
-        "target": "Natural Weapons",
-        "value": 1,
+        "target": "special-natural-weapons",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Natural Weapons"
+      },
+      {
+        "target": "trait-natural-weapons",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Natural Weapons"
       }
     ],
     "costs": {
@@ -9025,7 +11326,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Natural Weapons"
+      "special-natural-weapons"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "1",
@@ -9075,63 +11376,93 @@ export const DEFAULT_SPECIES = [
       "trait-constriction",
       "trait-venom"
     ],
+    "recommended_traits": [
+      "trait-low-light-vision",
+      "trait-alternate-form",
+      "trait-chameleon",
+      "trait-dragon-senses",
+      "trait-dragon-breath",
+      "trait-energy-resist",
+      "trait-exoskeleton-light"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Strength"
       },
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
-        "target": "Alternate Form (Simple, to one Humanoid form)",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Chameleon",
-        "value": 1,
+        "target": "special-energy-resistance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Energy Resistance"
       },
       {
-        "target": "Dragonkin (Sa-Sa-Si*)",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       },
       {
-        "target": "Energy Resist line (1 type): Dragonkin",
+        "target": "trait-alternate-form",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alternate Form"
       },
       {
-        "target": "Exoskeleton",
+        "target": "trait-chameleon",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Chameleon"
       },
       {
-        "target": "Low Light Vision",
+        "target": "trait-dragon-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Senses"
       },
       {
-        "target": "*Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*",
+        "target": "trait-dragon-breath",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dragon Breath"
+      },
+      {
+        "target": "trait-energy-resist",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Energy Resist"
+      },
+      {
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
       }
     ],
     "costs": {
@@ -9164,13 +11495,8 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Low Light Vision",
-      "Alternate Form (Simple, to one Humanoid form)",
-      "Chameleon",
-      "Dragonkin (Sa-Sa-Si*)",
-      "Energy Resist line (1 type): Dragonkin",
-      "Exoskeleton",
-      "*Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*"
+      "special-low-light-vision",
+      "special-energy-resistance"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "1",
@@ -9221,57 +11547,73 @@ export const DEFAULT_SPECIES = [
       "trait-prehensile-tail",
       "trait-quick"
     ],
+    "recommended_traits": [
+      "trait-acute-senses"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Agility"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Danger Sense",
-        "value": 1,
+        "target": "special-danger-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Danger Sense"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Self-Sufficient",
-        "value": 1,
+        "target": "general-tracker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tracker"
       },
       {
-        "target": "Tracker",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Wall-Crawler",
-        "value": 1,
+        "target": "physical-wall-crawler",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wall-Crawler"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
       }
     ],
     "costs": {
@@ -9301,13 +11643,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Danger Sense",
-      "Runner",
-      "Tracker",
-      "Acute Senses",
-      "Self-Sufficient",
-      "Wall-Crawler"
+      "special-acute-sense",
+      "special-danger-sense",
+      "general-runner",
+      "general-tracker",
+      "skill-self-sufficient",
+      "physical-wall-crawler"
     ],
     "stigma": "Beast (-4), Xeno (-2)",
     "tech_level": "1",
@@ -9372,89 +11713,134 @@ export const DEFAULT_SPECIES = [
       "trait-torpor-universal",
       "trait-uncanny-senses-vibration"
     ],
+    "recommended_traits": [
+      "trait-awakened-arcane",
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-camouflage",
+      "trait-climber"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Agility"
       },
       {
         "target": "Stamina",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Stamina"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Ability Check Feature",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "general-camouflage",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Camouflage"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "skill-headstrong",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Headstrong"
       },
       {
-        "target": "Bodyform Features",
-        "value": 1,
+        "target": "skill-social",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Social"
       },
       {
-        "target": "Camouflage",
-        "value": 1,
+        "target": "cat_ability_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Ability Features"
       },
       {
-        "target": "Climbing",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Headstrong",
-        "value": 1,
+        "target": "general-climber",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Climber"
       },
       {
-        "target": "Mutation",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Social",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
+      },
+      {
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
+      },
+      {
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
+      },
+      {
+        "target": "trait-camouflage",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Camouflage"
+      },
+      {
+        "target": "trait-climber",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Climber"
       }
     ],
     "costs": {
@@ -9495,15 +11881,13 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Awakened",
-      "Bodyform Features",
-      "Camouflage",
-      "Headstrong",
-      "Social",
-      "Ability Check Feature",
-      "Alertness",
-      "Climbing",
-      "Mutation"
+      "discipline-awakened",
+      "general-camouflage",
+      "skill-headstrong",
+      "skill-social",
+      "cat_ability_features",
+      "skill-perceptive",
+      "general-climber"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Environmental)",
@@ -9564,125 +11948,197 @@ export const DEFAULT_SPECIES = [
       "trait-blind-sense-scent-em",
       "trait-enhanced-biotechnology"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-low-light-vision",
+      "trait-adaptive-features",
+      "trait-adaptive-skill-set",
+      "trait-alter-form-adv",
+      "trait-poison-immunity",
+      "trait-sense-psychic",
+      "trait-reduced-sustenance",
+      "trait-venom-spit",
+      "trait-toxic-blood"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Wisdom",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Wisdom"
       },
       {
         "target": "Charisma",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Charisma"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Adaptive Aspects (Hive Memories)",
-        "value": 1,
+        "target": "general-assessment",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Assessment"
       },
       {
-        "target": "Adaptive Skill Set (Hive Memories)",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Alter Form",
-        "value": 1,
+        "target": "skill-silver-tongue",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Silver Tongue"
       },
       {
-        "target": "Assessment",
-        "value": 1,
+        "target": "special-bonded",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Bonded"
       },
       {
-        "target": "Bodyform Features",
-        "value": 1,
+        "target": "special-companion",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Companion"
       },
       {
-        "target": "Bonded or Companion",
-        "value": 1,
+        "target": "general-jack-of-all-trades",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Jack-of-all-trades"
       },
       {
-        "target": "Jack of all trades",
-        "value": 1,
+        "target": "special-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Sense"
       },
       {
-        "target": "Low Light Vision",
+        "target": "trait-acute-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
       },
       {
-        "target": "Mutation",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Poison Immunity",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Sense (Psychic)",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Silver Tongue",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
       },
       {
-        "target": "Reduced Sustenance",
+        "target": "trait-adaptive-features",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
       },
       {
-        "target": "Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2",
+        "target": "trait-adaptive-skill-set",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Skill Set"
+      },
+      {
+        "target": "trait-alter-form-adv",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Adv)"
+      },
+      {
+        "target": "trait-poison-immunity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Poison Immunity"
+      },
+      {
+        "target": "trait-sense-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Sense (Psychic)"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
+      },
+      {
+        "target": "trait-venom-spit",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Venom Spit"
+      },
+      {
+        "target": "trait-toxic-blood",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Toxic Blood"
       }
     ],
     "costs": {
@@ -9725,22 +12181,14 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Assessment",
-      "Bodyform Features",
-      "Low Light Vision",
-      "Silver Tongue",
-      "Acute Senses",
-      "Adaptive Aspects (Hive Memories)",
-      "Adaptive Skill Set (Hive Memories)",
-      "Alter Form",
-      "Bonded or Companion",
-      "Jack of all trades",
-      "Mutation",
-      "Poison Immunity",
-      "Sense (Psychic)",
-      "Reduced Sustenance",
-      "Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2"
+      "special-acute-sense",
+      "general-assessment",
+      "special-low-light-vision",
+      "skill-silver-tongue",
+      "special-bonded",
+      "special-companion",
+      "general-jack-of-all-trades",
+      "special-sense"
     ],
     "stigma": "Minor Xeno (hidden) / Severe Xeno (revealed) (-2)",
     "tech_level": "4 (Advanced Psionic/Biomorphic)",
@@ -9808,72 +12256,103 @@ export const DEFAULT_SPECIES = [
       "trait-resin-secretion",
       "trait-torpor-universal"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-scent",
+      "trait-poison-immunity"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Strength"
       },
       {
         "target": "Stamina",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Stamina"
       },
       {
         "target": "Wisdom",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Wisdom"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Acute Senses: (Hearing, Scent)",
-        "value": 1,
+        "target": "general-fearless",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fearless"
       },
       {
-        "target": "Fearless",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Poison Immunity",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Runner",
-        "value": 1,
+        "target": "special-scent",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Scent"
       },
       {
-        "target": "Self-Sufficient",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-scent",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Scent"
+      },
+      {
+        "target": "trait-poison-immunity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Poison Immunity"
       }
     ],
     "costs": {
@@ -9920,11 +12399,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Fearless",
-      "Runner",
-      "Acute Senses: (Hearing, Scent)",
-      "Poison Immunity",
-      "Self-Sufficient"
+      "general-fearless",
+      "general-runner",
+      "special-acute-sense",
+      "special-scent",
+      "skill-self-sufficient"
     ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Industrial)",
@@ -9996,102 +12475,126 @@ export const DEFAULT_SPECIES = [
       "trait-uncanny-senses-vibration",
       "trait-weaver"
     ],
+    "recommended_traits": [
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-exoskeleton-light",
+      "trait-exoskeleton-heavy"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Strength",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Strength"
       },
       {
         "target": "Agility",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Agility"
       },
       {
         "target": "Stamina",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Stamina"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Alertness",
-        "value": 1,
+        "target": "general-double-jointed",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Double Jointed"
       },
       {
-        "target": "Bodyform Features",
-        "value": 1,
+        "target": "general-fearless",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fearless"
       },
       {
-        "target": "Double Jointed",
-        "value": 1,
+        "target": "general-runner",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Runner"
       },
       {
-        "target": "Exoskeleton (Light and Heavy)",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
       },
       {
-        "target": "Fearless",
-        "value": 1,
+        "target": "general-quicker",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Quicker"
       },
       {
-        "target": "Mutation",
-        "value": 1,
+        "target": "skill-perceptive",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Perceptive"
       },
       {
-        "target": "Runner",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Self Sufficient",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Quicker",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Weaver",
+        "target": "trait-exoskeleton-light",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Light)"
+      },
+      {
+        "target": "trait-exoskeleton-heavy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Heavy)"
       }
     ],
     "costs": {
@@ -10138,16 +12641,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Bodyform Features",
-      "Double Jointed",
-      "Fearless",
-      "Runner",
-      "Self Sufficient",
-      "Quicker",
-      "Alertness",
-      "Exoskeleton (Light and Heavy)",
-      "Mutation",
-      "Weaver"
+      "general-double-jointed",
+      "general-fearless",
+      "general-runner",
+      "skill-self-sufficient",
+      "general-quicker",
+      "skill-perceptive"
     ],
     "stigma": "Severe Xeno / Monstrous (-4)",
     "tech_level": "3 (Tactical)",
@@ -10215,87 +12714,147 @@ export const DEFAULT_SPECIES = [
       "trait-fast-heal",
       "trait-telepathic"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-awakened-arcane",
+      "trait-awakened-psychic",
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-low-light-vision",
+      "trait-adaptive-skill-set",
+      "trait-poison-immunity",
+      "trait-reduced-sustenance",
+      "trait-venom-spit",
+      "trait-toxic-blood"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Agility",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Agility"
       },
       {
         "target": "Charisma",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Charisma"
       },
       {
-        "target": "Acute Senses",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Adaptive Aspects (Hive Memories)",
-        "value": 1,
+        "target": "discipline-awakened",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Awakened"
       },
       {
-        "target": "Adaptive Skill Set (Hive Memories)",
-        "value": 1,
+        "target": "ability-great-fortitude",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Great Fortitude"
       },
       {
-        "target": "Awakened",
-        "value": 1,
+        "target": "special-low-light-vision",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Low Light Vision"
       },
       {
-        "target": "Bodyform Features",
+        "target": "trait-acute-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
       },
       {
-        "target": "Great Fortitude",
+        "target": "trait-awakened-arcane",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Arcane)"
       },
       {
-        "target": "Low Light Vision",
+        "target": "trait-awakened-psychic",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Awakened (Psychic)"
       },
       {
-        "target": "Mutation",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Poison Immunity",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Reduced Sustenance",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2",
+        "target": "trait-low-light-vision",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Low Light Vision"
+      },
+      {
+        "target": "trait-adaptive-skill-set",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Skill Set"
+      },
+      {
+        "target": "trait-poison-immunity",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Poison Immunity"
+      },
+      {
+        "target": "trait-reduced-sustenance",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Reduced Sustenance"
+      },
+      {
+        "target": "trait-venom-spit",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Venom Spit"
+      },
+      {
+        "target": "trait-toxic-blood",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Toxic Blood"
       }
     ],
     "costs": {
@@ -10329,18 +12888,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Awakened",
-      "Bodyform Features",
-      "Great Fortitude",
-      "Low Light Vision",
-      "Acute Senses",
-      "Adaptive Aspects (Hive Memories)",
-      "Adaptive Skill Set (Hive Memories)",
-      "Mutation",
-      "Poison Immunity",
-      "Reduced Sustenance",
-      "Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood, Sta 2"
+      "special-acute-sense",
+      "discipline-awakened",
+      "ability-great-fortitude",
+      "special-low-light-vision"
     ],
     "stigma": "Severe Xeno, Monstrous (when inhabiting hosts) (-4)",
     "tech_level": "— (Utilizes biological zombification of host technology)",
@@ -10412,74 +12963,97 @@ export const DEFAULT_SPECIES = [
       "trait-synaptic-integration",
       "trait-torpor-universal"
     ],
+    "recommended_traits": [
+      "trait-acute-senses",
+      "trait-adaptive-features"
+    ],
     "disadvantages": [
       "disadvantage-fragile-frame"
     ],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Agility",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Agility"
       },
       {
         "target": "Strength",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Strength"
       },
       {
         "target": "Stamina",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Stamina"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Acute Senses",
+        "target": "disadvantage-fragile-frame",
+        "type": "disadvantage",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "inherent",
+        "description": "Species Disadvantage: disadvantage-fragile-frame"
       },
       {
-        "target": "Adaptive Aspects (Hive Memories)",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Lightning Reflexes",
-        "value": 1,
+        "target": "ability-lightning-reflexes",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Reflexes"
       },
       {
-        "target": "Self-Sufficient",
-        "value": 1,
+        "target": "ability-tolerance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tolerance"
       },
       {
-        "target": "Tolerance",
-        "value": 1,
+        "target": "skill-self-sufficient",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Self Sufficient"
+      },
+      {
+        "target": "trait-acute-senses",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
+      },
+      {
+        "target": "trait-adaptive-features",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
       }
     ],
     "costs": {
@@ -10526,12 +13100,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Lightning Reflexes",
-      "Tolerance",
-      "Acute Senses",
-      "Adaptive Aspects (Hive Memories)",
-      "Self-Sufficient"
+      "special-acute-sense",
+      "ability-lightning-reflexes",
+      "ability-tolerance",
+      "skill-self-sufficient"
     ],
     "stigma": "Minor Xeno (hidden in mecha) / Severe Xeno (exposed) (-2)",
     "tech_level": "4 (Integration)",
@@ -10583,51 +13155,57 @@ export const DEFAULT_SPECIES = [
       "trait-progenitor-heritage-base",
       "trait-semi-corporeal"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 4,
         "type": "attribute",
+        "value": 4,
         "mode": "inherent",
         "description": "+4 Intellect"
       },
       {
         "target": "Any",
-        "value": 40,
         "type": "skill",
+        "value": 40,
         "mode": "bonus_pool",
         "description": "+40 Skill Points"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Iron Will",
-        "value": 1,
+        "target": "ability-iron-will",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Iron Will"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
       },
       {
-        "target": "Master Craftsman",
-        "value": 1,
+        "target": "skill-master-craftsman",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Master Craftsman"
       }
     ],
     "costs": {
@@ -10658,11 +13236,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Discipline Features",
-      "Educated",
-      "Iron Will",
-      "Lightning Calculator",
-      "Master Craftsman"
+      "cat_discipline_features",
+      "skill-educated",
+      "ability-iron-will",
+      "general-lightning-calculator",
+      "skill-master-craftsman"
     ],
     "stigma": "Deific (-6), Xeno (-2)",
     "tech_level": "5 (Precursor Singularity Manipulation)",
@@ -10709,58 +13287,64 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-progenitor-heritage-base"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 4,
         "type": "attribute",
+        "value": 4,
         "mode": "inherent",
         "description": "+4 Intellect"
       },
       {
-        "target": "Any",
-        "value": 6,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 6,
         "mode": "bonus_pool",
-        "description": "+6 Flexible Attribute Points"
+        "description": "+6 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 40,
         "type": "skill",
+        "value": 40,
         "mode": "bonus_pool",
         "description": "+40 Skill Points"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Iron Will",
-        "value": 1,
+        "target": "ability-iron-will",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Iron Will"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
       },
       {
-        "target": "Master Craftsman",
-        "value": 1,
+        "target": "skill-master-craftsman",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Master Craftsman"
       }
     ],
     "costs": {
@@ -10786,11 +13370,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Discipline Features",
-      "Educated",
-      "Iron Will",
-      "Lightning Calculator",
-      "Master Craftsman"
+      "cat_discipline_features",
+      "skill-educated",
+      "ability-iron-will",
+      "general-lightning-calculator",
+      "skill-master-craftsman"
     ],
     "stigma": "Deific (-6), Xeno (-2)",
     "tech_level": "5 (Exotic Precursor Tech)",
@@ -10837,43 +13421,79 @@ export const DEFAULT_SPECIES = [
       "trait-bodyform-adaptation",
       "trait-bodyform-mutation"
     ],
+    "recommended_traits": [
+      "trait-fast-heal",
+      "trait-regeneration",
+      "trait-alter-form-adv",
+      "trait-ageless",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-immortal"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Alter Form",
-        "value": 1,
+        "target": "general-fast-heal",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Fast Heal"
       },
       {
-        "target": "Ageless",
-        "value": 1,
+        "target": "general-regeneration",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Regeneration"
       },
       {
-        "target": "Bodyform",
+        "target": "trait-fast-heal",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Fast Heal"
       },
       {
-        "target": "Fast Heal",
+        "target": "trait-regeneration",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Regeneration"
       },
       {
-        "target": "Immortality",
+        "target": "trait-alter-form-adv",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Adv)"
       },
       {
-        "target": "Regeneration",
+        "target": "trait-ageless",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Ageless"
+      },
+      {
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
+      },
+      {
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
+      },
+      {
+        "target": "trait-immortal",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Immortal"
       }
     ],
     "costs": {
@@ -10896,12 +13516,8 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Fast Heal",
-      "Regeneration",
-      "Alter Form",
-      "Ageless",
-      "Bodyform",
-      "Immortality"
+      "general-fast-heal",
+      "general-regeneration"
     ],
     "stigma": "Monstrous (-4)",
     "tech_level": "1",
@@ -10951,7 +13567,7 @@ export const DEFAULT_SPECIES = [
       "trait-non-living",
       "trait-regeneration",
       "trait-semi-corporeal",
-      "trait-mind-speech"
+      "trait-telepathy-special"
     ],
     "species_traits": [
       "trait-ageless",
@@ -10964,7 +13580,11 @@ export const DEFAULT_SPECIES = [
       "trait-non-living",
       "trait-regeneration",
       "trait-semi-corporeal",
-      "trait-mind-speech"
+      "trait-telepathy-special"
+    ],
+    "recommended_traits": [
+      "trait-obfuscate",
+      "trait-sense-psychic"
     ],
     "disadvantages": [
       "disadvantage-species-negative-energy-affinity"
@@ -10972,63 +13592,89 @@ export const DEFAULT_SPECIES = [
     "modifiers": [
       {
         "target": "Wisdom",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Wisdom"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Darksight",
+        "target": "disadvantage-species-negative-energy-affinity",
+        "type": "disadvantage",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "inherent",
+        "description": "Species Disadvantage: disadvantage-species-negative-energy-affinity"
       },
       {
-        "target": "Deceitful",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "ability-iron-will",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Iron Will"
       },
       {
-        "target": "Iron Will",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "skill-veiled-threat",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Veiled Threat"
+      },
+      {
+        "target": "special-sense",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Sense"
+      },
+      {
+        "target": "trait-obfuscate",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Obfuscate"
+      },
+      {
+        "target": "trait-sense-psychic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Sense (Psychic)"
       }
     ],
     "costs": {
-      "cp": 41,
-      "bp": 41
+      "cp": 43,
+      "bp": 43
     },
-    "cp": 41,
-    "bp": 41,
-    "cp_cost": 41,
+    "cp": 43,
+    "bp": 43,
+    "cp_cost": 43,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Wisdom",
@@ -11048,11 +13694,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Deceitful",
-      "Discipline Features",
-      "Iron Will",
-      "Stealthy"
+      "cat_discipline_features",
+      "ability-iron-will",
+      "skill-stealthy",
+      "skill-veiled-threat",
+      "special-sense"
     ],
     "stigma": "Monstrous (-6), Xeno (-2)",
     "tech_level": "5",
@@ -11117,58 +13763,73 @@ export const DEFAULT_SPECIES = [
       "trait-semi-corporeal",
       "trait-telepathic"
     ],
+    "recommended_traits": [
+      "trait-dark-sight"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Wisdom",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Wisdom"
       },
       {
-        "target": "Any",
-        "value": 1,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 1,
         "mode": "bonus_pool",
-        "description": "+1 Flexible Attribute Point"
+        "description": "+1 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Deceitful",
-        "value": 1,
+        "target": "skill-deceitful",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Deceitful"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Iron Will",
-        "value": 1,
+        "target": "ability-iron-will",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Iron Will"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       }
     ],
     "costs": {
@@ -11196,11 +13857,11 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Deceitful",
-      "Discipline Features",
-      "Iron Will",
-      "Stealthy"
+      "special-darksight",
+      "skill-deceitful",
+      "cat_discipline_features",
+      "ability-iron-will",
+      "skill-stealthy"
     ],
     "stigma": "Xeno (-2)",
     "tech_level": "5",
@@ -11245,40 +13906,54 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [
+      "trait-dark-sight"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       }
     ],
     "costs": {
-      "cp": 25,
-      "bp": 25
+      "cp": 21,
+      "bp": 21
     },
-    "cp": 25,
-    "bp": 25,
-    "cp_cost": 25,
+    "cp": 21,
+    "bp": 21,
+    "cp_cost": 21,
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [],
@@ -11294,12 +13969,12 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Discipline Features",
-      "Educated",
-      "Lightning Calculator"
+      "special-darksight",
+      "cat_discipline_features",
+      "skill-educated",
+      "general-lightning-calculator"
     ],
-    "stigma": "Synthetic (-2), Xeno (-2)",
+    "stigma": "Synthetic (-2), Severe Xeno (-6)",
     "tech_level": "5",
     "meta_level": "5",
     "homeworld": "Precursor Ring-Forges / Aetheria",
@@ -11343,59 +14018,64 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Charisma",
-        "value": -1,
         "type": "attribute",
+        "value": -1,
         "mode": "inherent",
         "description": "-1 Charisma"
       },
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
       },
       {
-        "target": "Master Craftsman",
-        "value": 1,
+        "target": "skill-master-craftsman",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Master Craftsman"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "general-tough",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Tough"
       }
     ],
     "costs": {
@@ -11429,10 +14109,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Educated",
-      "Lightning Calculator",
-      "Master Craftsman",
-      "Tough"
+      "skill-educated",
+      "general-lightning-calculator",
+      "skill-master-craftsman",
+      "general-tough"
     ],
     "stigma": "Synthetic (-2)",
     "tech_level": "4",
@@ -11482,52 +14162,59 @@ export const DEFAULT_SPECIES = [
       "trait-synthetic-base-traits",
       "trait-adaptive-features"
     ],
+    "recommended_traits": [
+      "trait-acute-senses"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Charisma"
       },
       {
-        "target": "Any",
-        "value": 2,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 2,
         "mode": "bonus_pool",
-        "description": "+2 Flexible Attribute Points"
+        "description": "+2 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 20,
         "type": "skill",
+        "value": 20,
         "mode": "bonus_pool",
         "description": "+20 Skill Points"
       },
       {
-        "target": "Acute Sense",
-        "value": 1,
+        "target": "special-acute-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Acute Sense"
       },
       {
-        "target": "Uncanny Sense",
-        "value": 1,
+        "target": "special-uncanny-sense",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Uncanny Sense"
       },
       {
-        "target": "Augmentation (any)",
-        "value": 1,
+        "target": "special-augmented",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Augmented"
       },
       {
-        "target": "Mutation",
+        "target": "trait-acute-senses",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Acute Senses"
       }
     ],
     "costs": {
@@ -11557,10 +14244,9 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Acute Sense",
-      "Uncanny Sense",
-      "Augmentation (any)",
-      "Mutation"
+      "special-acute-sense",
+      "special-uncanny-sense",
+      "special-augmented"
     ],
     "stigma": "Xeno (-2), Synthetic (-2)",
     "tech_level": "4",
@@ -11605,31 +14291,45 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [
+      "trait-dark-sight"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Discipline Features",
-        "value": 1,
+        "target": "cat_discipline_features",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Discipline Features"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       }
     ],
     "costs": {
@@ -11653,10 +14353,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Darksight",
-      "Discipline Features",
-      "Educated",
-      "Lightning Calculator"
+      "special-darksight",
+      "cat_discipline_features",
+      "skill-educated",
+      "general-lightning-calculator"
     ],
     "stigma": "Synthetic (-2), Severe Xeno (-6)",
     "tech_level": "5",
@@ -11702,53 +14402,52 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [
+      "trait-bodyform-sizing"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Intellect"
       },
       {
         "target": "Charisma",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Charisma"
       },
       {
-        "target": "Any",
-        "value": 6,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 6,
         "mode": "bonus_pool",
-        "description": "+6 Flexible Attribute Points"
+        "description": "+6 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Metafocus Special Abilities",
-        "value": 1,
+        "target": "discipline-special-ability",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Special Ability"
       },
       {
-        "target": "Size (Large)",
+        "target": "trait-bodyform-sizing",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
-      },
-      {
-        "target": "Size (Small)",
-        "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Sizing"
       }
     ],
     "costs": {
@@ -11780,9 +14479,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Metafocus Special Abilities",
-      "Size (Large)",
-      "Size (Small)"
+      "discipline-special-ability"
     ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "1",
@@ -11828,61 +14525,64 @@ export const DEFAULT_SPECIES = [
       "trait-synthetic-base-traits",
       "trait-mind-speech"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Strength",
-        "value": -5,
         "type": "attribute",
+        "value": -5,
         "mode": "inherent",
         "description": "-5 Strength"
       },
       {
         "target": "Agility",
-        "value": -5,
         "type": "attribute",
+        "value": -5,
         "mode": "inherent",
         "description": "-5 Agility"
       },
       {
         "target": "Stamina",
-        "value": -5,
         "type": "attribute",
+        "value": -5,
         "mode": "inherent",
         "description": "-5 Stamina"
       },
       {
-        "target": "Any",
-        "value": 8,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 8,
         "mode": "bonus_pool",
-        "description": "+8 Flexible Attribute Points"
+        "description": "+8 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 40,
         "type": "skill",
+        "value": 40,
         "mode": "bonus_pool",
         "description": "+40 Skill Points"
       },
       {
         "target": "special-companion",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Companion"
       },
       {
-        "target": "Digital Expert",
-        "value": 1,
+        "target": "skill-digital-expert",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Digital Expert"
       }
     ],
     "costs": {
@@ -11927,7 +14627,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Digital Expert"
+      "skill-digital-expert"
     ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "4",
@@ -11973,129 +14673,176 @@ export const DEFAULT_SPECIES = [
       "trait-adaptive-features",
       "trait-synthetic-tech-assim",
       "trait-mind-speech",
-      "trait-fast-heal"
+      "trait-technopathic"
     ],
     "species_traits": [
       "trait-synthetic-base-traits",
       "trait-adaptive-features",
       "trait-synthetic-tech-assim",
       "trait-mind-speech",
-      "trait-fast-heal"
+      "trait-technopathic"
+    ],
+    "recommended_traits": [
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-focused-study",
+      "trait-adapted",
+      "trait-alter-form-adv",
+      "trait-exoskeleton-heavy",
+      "trait-flight",
+      "trait-bodyform-sizing"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Adapted",
-        "value": 1,
+        "target": "general-assessment",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Assessment"
       },
       {
-        "target": "Alter Form (Advanced, remains mechanical but changes form/function)",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Assessment",
-        "value": 1,
+        "target": "general-eidetic-memory",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Eidetic Memory"
       },
       {
-        "target": "Bodyform Features",
-        "value": 1,
+        "target": "skill-gearhead",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Gearhead"
       },
       {
-        "target": "Educated",
-        "value": 1,
+        "target": "skill-gifted-pilot",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Gifted Pilot"
       },
       {
-        "target": "Eidetic Memory",
-        "value": 1,
+        "target": "skill-skill-focus",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Skill Focus"
       },
       {
-        "target": "Exoskeleton (Heavy)",
-        "value": 1,
+        "target": "general-well-informed",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Well Informed"
       },
       {
-        "target": "Flight (Grav)",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Gearhead",
-        "value": 1,
+        "target": "general-jack-of-all-trades",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Jack-of-all-trades"
       },
       {
-        "target": "Gifted Pilot",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Jack of all Trades",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Size (Large, will use Mounts at 2x Mecha scale)",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Size (Small)",
+        "target": "trait-focused-study",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Focused Study"
       },
       {
-        "target": "Skill Focus",
+        "target": "trait-adapted",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adapted"
       },
       {
-        "target": "Well Informed",
+        "target": "trait-alter-form-adv",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Adv)"
+      },
+      {
+        "target": "trait-exoskeleton-heavy",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Heavy)"
+      },
+      {
+        "target": "trait-flight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Flight"
+      },
+      {
+        "target": "trait-bodyform-sizing",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Sizing"
       }
     ],
     "costs": {
-      "cp": 55,
-      "bp": 55
+      "cp": 59,
+      "bp": 59
     },
-    "cp": 55,
-    "bp": 55,
-    "cp_cost": 55,
+    "cp": 59,
+    "bp": 59,
+    "cp_cost": 59,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -12115,21 +14862,15 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Assessment",
-      "Bodyform Features",
-      "Educated",
-      "Eidetic Memory",
-      "Gearhead",
-      "Gifted Pilot",
-      "Skill Focus",
-      "Well Informed",
-      "Adapted",
-      "Alter Form (Advanced, remains mechanical but changes form/function)",
-      "Exoskeleton (Heavy)",
-      "Flight (Grav)",
-      "Jack of all Trades",
-      "Size (Large, will use Mounts at 2x Mecha scale)",
-      "Size (Small)"
+      "general-assessment",
+      "skill-educated",
+      "general-eidetic-memory",
+      "skill-gearhead",
+      "skill-gifted-pilot",
+      "skill-skill-focus",
+      "general-well-informed",
+      "ability-environmental-adaptation",
+      "general-jack-of-all-trades"
     ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "5",
@@ -12179,76 +14920,101 @@ export const DEFAULT_SPECIES = [
       "trait-adaptive-features",
       "trait-synthetic-tech-assim"
     ],
+    "recommended_traits": [
+      "trait-bodyform-adaptation",
+      "trait-bodyform-armor-opts",
+      "trait-bodyform-weapon-opts",
+      "trait-adapted",
+      "trait-alter-form-adv",
+      "trait-exoskeleton-heavy",
+      "trait-flight",
+      "trait-bodyform-sizing"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Charisma"
       },
       {
-        "target": "Any",
-        "value": 4,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 4,
         "mode": "bonus_pool",
-        "description": "+4 Flexible Attribute Points"
+        "description": "+4 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Adapted",
-        "value": 1,
+        "target": "ability-environmental-adaptation",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Environmental Adaptation"
       },
       {
-        "target": "Alter Form (Advanced, remains mechanical but changes form/function)",
+        "target": "trait-bodyform-adaptation",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Adaptation"
       },
       {
-        "target": "Bodyform Features",
+        "target": "trait-bodyform-armor-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Armor Opts"
       },
       {
-        "target": "Exoskeleton (Heavy)",
+        "target": "trait-bodyform-weapon-opts",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Weapon Opts"
       },
       {
-        "target": "Flight (Grav)",
+        "target": "trait-adapted",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adapted"
       },
       {
-        "target": "Size (Large)",
+        "target": "trait-alter-form-adv",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Adv)"
       },
       {
-        "target": "Size (Small)",
+        "target": "trait-exoskeleton-heavy",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Exoskeleton (Heavy)"
       },
       {
-        "target": "---",
+        "target": "trait-flight",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Flight"
+      },
+      {
+        "target": "trait-bodyform-sizing",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Sizing"
       }
     ],
     "costs": {
@@ -12278,14 +15044,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Bodyform Features",
-      "Adapted",
-      "Alter Form (Advanced, remains mechanical but changes form/function)",
-      "Exoskeleton (Heavy)",
-      "Flight (Grav)",
-      "Size (Large)",
-      "Size (Small)",
-      "---"
+      "ability-environmental-adaptation"
     ],
     "stigma": "Severe Synthetic (-4), Anti-Organic (-2)",
     "tech_level": "5",
@@ -12331,46 +15090,43 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Charisma"
       },
       {
-        "target": "Any",
-        "value": 3,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 3,
         "mode": "bonus_pool",
-        "description": "+3 Flexible Attribute Points"
+        "description": "+3 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
         "target": "special-heavy-augmentations",
-        "value": 1,
         "type": "feature",
-        "mode": "inherent"
+        "value": 1,
+        "mode": "inherent",
+        "description": "Grants Inherent Feature: Heavy Augmentations"
       },
       {
-        "target": "Integrated Heavy Augmentations",
-        "value": 1,
+        "target": "special-extreme-augmentations",
         "type": "feature",
-        "mode": "recommended"
-      },
-      {
-        "target": "Integrated Severe Augmentations",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Feature: Extreme Augmentations"
       }
     ],
     "costs": {
@@ -12401,8 +15157,7 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Integrated Heavy Augmentations",
-      "Integrated Severe Augmentations"
+      "special-extreme-augmentations"
     ],
     "stigma": "Synthetic (-2)",
     "tech_level": "4",
@@ -12449,40 +15204,38 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [
+      "trait-bodyform-sizing"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Charisma",
-        "value": -2,
         "type": "attribute",
+        "value": -2,
         "mode": "inherent",
         "description": "-2 Charisma"
       },
       {
-        "target": "Any",
-        "value": 4,
+        "target": "Any Attribute",
         "type": "attribute",
+        "value": 4,
         "mode": "bonus_pool",
-        "description": "+4 Flexible Attribute Points"
+        "description": "+4 Attribute Choice(s)"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Size (Large)",
+        "target": "trait-bodyform-sizing",
+        "type": "trait",
         "value": 1,
-        "type": "feature",
-        "mode": "recommended"
-      },
-      {
-        "target": "Size (Small)",
-        "value": 1,
-        "type": "feature",
-        "mode": "recommended"
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Bodyform Sizing"
       }
     ],
     "costs": {
@@ -12510,10 +15263,7 @@ export const DEFAULT_SPECIES = [
     "inherent_features": [],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [
-      "Size (Large)",
-      "Size (Small)"
-    ],
+    "recommended_features": [],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "4",
     "meta_level": "0",
@@ -12559,31 +15309,69 @@ export const DEFAULT_SPECIES = [
     "species_traits": [
       "trait-synthetic-base-traits"
     ],
+    "recommended_traits": [
+      "trait-adaptive-features",
+      "trait-synthetic-armor-opts",
+      "trait-synthetic-weapon-opts",
+      "trait-synthetic-exotic-opt"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
-        "target": "Armor (Chitinous Shell)",
-        "value": 1,
+        "target": "ability-iron-will",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Iron Will"
       },
       {
-        "target": "Brutal",
-        "value": 1,
+        "target": "general-endurance",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Endurance"
       },
       {
-        "target": "Mighty Surge",
-        "value": 1,
+        "target": "skill-educated",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Educated"
       },
       {
-        "target": "Tough",
-        "value": 1,
+        "target": "skill-gearhead",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Gearhead"
+      },
+      {
+        "target": "trait-adaptive-features",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Adaptive Features"
+      },
+      {
+        "target": "trait-synthetic-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Armor Opts"
+      },
+      {
+        "target": "trait-synthetic-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Weapon Opts"
+      },
+      {
+        "target": "trait-synthetic-exotic-opt",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Exotic Opt"
       }
     ],
     "costs": {
@@ -12604,10 +15392,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Mighty Surge",
-      "Tough",
-      "Armor (Chitinous Shell)",
-      "Brutal"
+      "ability-iron-will",
+      "general-endurance",
+      "skill-educated",
+      "skill-gearhead"
     ],
     "stigma": "Synthetic (-2)",
     "tech_level": "4",
@@ -12649,62 +15437,106 @@ export const DEFAULT_SPECIES = [
     ],
     "traits": [
       "trait-synthetic-base-traits",
-      "trait-alter-form-basic",
       "trait-adaptive-features"
     ],
     "species_traits": [
       "trait-synthetic-base-traits",
-      "trait-alter-form-basic",
       "trait-adaptive-features"
+    ],
+    "recommended_traits": [
+      "trait-alter-form-basic",
+      "trait-alter-form-adv",
+      "trait-synthetic-armor-opts",
+      "trait-synthetic-weapon-opts",
+      "trait-camouflage"
     ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 2,
         "type": "attribute",
+        "value": 2,
         "mode": "inherent",
         "description": "+2 Intellect"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Camouflage",
-        "value": 1,
+        "target": "general-camouflage",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Camouflage"
       },
       {
-        "target": "Deceitful",
-        "value": 1,
+        "target": "skill-deceitful",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Deceitful"
       },
       {
-        "target": "Jack of all trades",
-        "value": 1,
+        "target": "skill-stealthy",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Stealthy"
       },
       {
-        "target": "Stealthy",
-        "value": 1,
+        "target": "general-jack-of-all-trades",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Jack-of-all-trades"
+      },
+      {
+        "target": "trait-alter-form-basic",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Basic)"
+      },
+      {
+        "target": "trait-alter-form-adv",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Alter Form (Adv)"
+      },
+      {
+        "target": "trait-synthetic-armor-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Armor Opts"
+      },
+      {
+        "target": "trait-synthetic-weapon-opts",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Synthetic Weapon Opts"
+      },
+      {
+        "target": "trait-camouflage",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Camouflage"
       }
     ],
     "costs": {
-      "cp": 46,
-      "bp": 46
+      "cp": 45,
+      "bp": 45
     },
-    "cp": 46,
-    "bp": 46,
-    "cp_cost": 46,
+    "cp": 45,
+    "bp": 45,
+    "cp_cost": 45,
     "inherent_attribute_modifiers": [
       {
         "attribute": "Intellect",
@@ -12725,10 +15557,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Camouflage",
-      "Deceitful",
-      "Stealthy",
-      "Jack of all trades"
+      "general-camouflage",
+      "skill-deceitful",
+      "skill-stealthy",
+      "general-jack-of-all-trades"
     ],
     "stigma": "Secret (-6) / Severe if Exposed",
     "tech_level": "4",
@@ -12778,52 +15610,66 @@ export const DEFAULT_SPECIES = [
       "trait-hive-mind-swarm",
       "trait-semi-corporeal"
     ],
+    "recommended_traits": [
+      "trait-dark-sight"
+    ],
     "disadvantages": [],
     "modifiers": [
       {
         "target": "Intellect",
-        "value": 1,
         "type": "attribute",
+        "value": 1,
         "mode": "inherent",
         "description": "+1 Intellect"
       },
       {
         "target": "Strength",
-        "value": -4,
         "type": "attribute",
+        "value": -4,
         "mode": "inherent",
         "description": "-4 Strength"
       },
       {
         "target": "Any",
-        "value": 10,
         "type": "skill",
+        "value": 10,
         "mode": "bonus_pool",
         "description": "+10 Skill Points"
       },
       {
-        "target": "Coordinated Assist",
-        "value": 1,
+        "target": "general-coordinated-assist",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Coordinated Assist"
       },
       {
-        "target": "Darksight",
-        "value": 1,
+        "target": "special-darksight",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Darksight"
       },
       {
-        "target": "Lightning Calculator",
-        "value": 1,
+        "target": "general-lightning-calculator",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Lightning Calculator"
       },
       {
-        "target": "Wall-Crawler",
-        "value": 1,
+        "target": "physical-wall-crawler",
         "type": "feature",
-        "mode": "recommended"
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Feature: Wall-Crawler"
+      },
+      {
+        "target": "trait-dark-sight",
+        "type": "trait",
+        "value": 1,
+        "mode": "recommended",
+        "description": "Recommended Species Trait: Dark Sight"
       }
     ],
     "costs": {
@@ -12856,10 +15702,10 @@ export const DEFAULT_SPECIES = [
     "bonus_features": 0,
     "bonus_feature_choices": [],
     "recommended_features": [
-      "Coordinated Assist",
-      "Darksight",
-      "Lightning Calculator",
-      "Wall-Crawler"
+      "general-coordinated-assist",
+      "special-darksight",
+      "general-lightning-calculator",
+      "physical-wall-crawler"
     ],
     "stigma": "Severe Synthetic (-4), Xeno (-2)",
     "tech_level": "4",

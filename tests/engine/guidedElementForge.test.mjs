@@ -43,7 +43,7 @@ test('Playbooks: All 17 canonical ELEMENT_TYPES (with Property consolidating Ite
   const philPb = getPlaybookForType('Philosophy');
   const metaPb = getPlaybookForType('Metaphysics');
   assert.deepEqual(philPb.dbmCategories, ['philosophy']);
-  assert.deepEqual(metaPb.dbmCategories, ['invocations', 'disciplines', 'special_abilities', 'synthesis']);
+  assert.deepEqual(metaPb.dbmCategories, ['invocations', 'disciplines', 'special_abilities']);
 
   for (const elType of ELEMENT_TYPES) {
     const pb = getPlaybookForType(elType);

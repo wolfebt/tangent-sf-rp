@@ -19,9 +19,19 @@ import {
   COMPANION_FUNCTION_PACKAGES, 
   COMPANION_CONTROL_INTERFACES, 
   COMPANION_BOND_FEATURES, 
+  THREAT_TIER_CHASSIS,
   SPECIES_SIZES 
 } from '../../../engines/tangentConstants';
 import { calculateCompanionBP, calculateCompanionStats } from '../../../engines/tangentEntityEngines';
+
+const CANONICAL_BOND_OPTIONS = [
+  { id: 'familiar', alias: 'familiar_link', name: 'Familiar (Empathic Link)', bonusCP: 20, cpCost: 0, effect: 'Grants +20 CP to Companion Budget; know companion distance, direction, and status anywhere on planet' },
+  { id: 'mind_link', name: 'Mind Link (Telepathic)', bonusCP: 10, cpCost: 0, effect: 'Grants +10 CP to Companion Budget; silent telepathic communication and Free Action commands' },
+  { id: 'shared_senses', name: 'Shared Senses', bonusCP: 10, cpCost: 0, effect: 'Grants +10 CP to Companion Budget; see and hear through companion senses' },
+  { id: 'loyal_protector', name: 'Loyal Protector (Interception)', bonusCP: 0, cpCost: 3, effect: 'Costs 3 CP from Companion Budget; adjacent companion takes hits meant for master as a reaction' }
+];
+
+const CANONICAL_5_FUNCTION_PACKAGES = COMPANION_FUNCTION_PACKAGES.slice(0, 5);
 
 export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
   const [activeTab, setActiveTab] = useState('form'); // 'form', 'functions', 'bonds'
@@ -35,19 +45,63 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
   const selectedSize = formData.size || 'Medium';
   const selectedControl = formData.control_interface || formData.control_method || 'voice_gesture';
 
-  // Calculations
+  // Canonical 40 CP Base Budget + Bond Bonuses (+20 Familiar, +10 Mind Link, +10 Shared Senses)
   const bpData = useMemo(() => {
-    return calculateCompanionBP({
+    const rawEngine = calculateCompanionBP({
       form: selectedForm,
       functions: selectedFunctions,
       extraFeatures: selectedBonds,
       size: selectedSize,
       companionRank
     });
+
+    const rank = Math.max(1, Number(companionRank || 1));
+    const baseBudget = 40 + (rank - 1) * 10;
+
+    const hasFamiliar = selectedBonds.includes('familiar') || selectedBonds.includes('familiar_link');
+    const hasMindLink = selectedBonds.includes('mind_link');
+    const hasSharedSenses = selectedBonds.includes('shared_senses');
+    const bondBonusCP = (hasFamiliar ? 20 : 0) + (hasMindLink ? 10 : 0) + (hasSharedSenses ? 10 : 0);
+
+    const maxBudget = baseBudget + bondBonusCP;
+
+    const formDef = COMPANION_FORM_PACKAGES.find(f => f.id === selectedForm) || COMPANION_FORM_PACKAGES[0];
+    const formCP = Number(formDef?.cpCost ?? formDef?.baseBP ?? 15);
+
+    const functionsCP = selectedFunctions.reduce((sum, fId) => {
+      const funcDef = COMPANION_FUNCTION_PACKAGES.find(f => f.id === fId);
+      return sum + Number(funcDef?.cpCost ?? funcDef?.bpCost ?? 10);
+    }, 0);
+
+    const extraFeatureCP = selectedBonds.reduce((sum, bId) => {
+      if (bId === 'familiar' || bId === 'familiar_link' || bId === 'mind_link' || bId === 'shared_senses') {
+        return sum;
+      }
+      const bondDef = COMPANION_BOND_FEATURES.find(b => b.id === bId);
+      const cost = Number(bondDef?.cpCost ?? bondDef?.bpCost ?? 0);
+      return sum + (cost > 0 ? cost : 0);
+    }, 0);
+
+    const totalBPUsed = formCP + functionsCP + extraFeatureCP;
+    const bpRemaining = maxBudget - totalBPUsed;
+
+    return {
+      ...rawEngine,
+      baseBudget,
+      bondBonusCP,
+      maxBudget,
+      formCP,
+      functionsCP,
+      extraFeatureCP,
+      totalBPUsed,
+      bpRemaining,
+      isOverBudget: totalBPUsed > maxBudget
+    };
   }, [selectedForm, selectedFunctions, selectedBonds, selectedSize, companionRank]);
 
+  // Canonical 30 Vitality / 30 Health (60 SP Synthetic) base pools + Owner Tier scaling
   const stats = useMemo(() => {
-    return calculateCompanionStats({
+    const rawStats = calculateCompanionStats({
       ownerTier,
       type: selectedType,
       form: selectedForm,
@@ -55,6 +109,17 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
       size: selectedSize,
       companionRank
     });
+    const oTier = Math.min(20, Math.max(1, Math.round(Number(ownerTier || 1))));
+    const tierChassis = THREAT_TIER_CHASSIS?.[oTier] || { vitHeaBonus: 0 };
+    const canonicalBasePool = 30 + Number(tierChassis.vitHeaBonus || 0);
+
+    return {
+      ...rawStats,
+      vitality: selectedType === 'Biological' ? canonicalBasePool : 0,
+      health: selectedType === 'Synthetic' ? 0 : canonicalBasePool,
+      structurePoints: selectedType === 'Synthetic' ? canonicalBasePool * 2 : 0,
+      essence: selectedType === 'Metaphysical' ? canonicalBasePool : 0
+    };
   }, [ownerTier, selectedType, selectedForm, selectedFunctions, selectedSize, companionRank]);
 
   const toggleFunction = (funcId) => {
@@ -71,12 +136,15 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
   };
 
   const toggleBond = (bondId) => {
-    const exists = selectedBonds.includes(bondId);
+    const isFamiliar = bondId === 'familiar' || bondId === 'familiar_link';
+    const exists = isFamiliar
+      ? (selectedBonds.includes('familiar') || selectedBonds.includes('familiar_link'))
+      : selectedBonds.includes(bondId);
     let updated;
     if (exists) {
-      updated = selectedBonds.filter(b => b !== bondId);
+      updated = selectedBonds.filter(b => (isFamiliar ? (b !== 'familiar' && b !== 'familiar_link') : b !== bondId));
     } else {
-      updated = [...selectedBonds, bondId];
+      updated = [...selectedBonds, isFamiliar ? 'familiar' : bondId];
     }
     onChange('bonds', updated);
     onChange('extra_features', updated);
@@ -105,7 +173,9 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
         {/* Live CP Progress Meter */}
         <div className="flex items-center gap-3 bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-700">
           <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Companion CP</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">
+              Companion CP ({bpData.baseBudget} Base{bpData.bondBonusCP > 0 ? ` + ${bpData.bondBonusCP} Bond` : ''})
+            </span>
             <span className={`text-sm font-bold ${bpData.isOverBudget ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
               {bpData.totalBPUsed} / {bpData.maxBudget} CP
             </span>
@@ -243,11 +313,12 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
         </button>
       </div>
 
-      {/* Tab 1: Form Packages */}
+        {/* Tab 1: 12 Canonical Form Packages (15 CP each) */}
       {activeTab === 'form' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-          {COMPANION_FORM_PACKAGES.map(form => {
+          {COMPANION_FORM_PACKAGES.slice(0, 12).map(form => {
             const isSelected = selectedForm === form.id;
+            const formCost = form.cpCost ?? form.baseBP ?? 15;
             return (
               <button
                 key={form.id}
@@ -266,7 +337,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
                 <div className="flex items-center justify-between w-full">
                   <span className="text-xs font-bold text-slate-100">{form.name}</span>
                   <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 font-bold">
-                    {form.baseBP} CP
+                    {formCost} CP
                   </span>
                 </div>
                 <div className="text-[10px] text-slate-400 space-y-0.5">
@@ -283,11 +354,12 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
         </div>
       )}
 
-      {/* Tab 2: Function Packages */}
+      {/* Tab 2: 5 Canonical Function Packages (10 CP each) */}
       {activeTab === 'functions' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {COMPANION_FUNCTION_PACKAGES.map(func => {
+          {CANONICAL_5_FUNCTION_PACKAGES.map(func => {
             const isSelected = selectedFunctions.includes(func.id);
+            const funcCost = func.cpCost ?? func.bpCost ?? 10;
             return (
               <button
                 key={func.id}
@@ -305,7 +377,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">
-                    +{func.bpCost} CP
+                    {funcCost} CP
                   </span>
                 </div>
               </button>
@@ -314,11 +386,13 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
         </div>
       )}
 
-      {/* Tab 3: Bond Features */}
+      {/* Tab 3: Bond Features (Add to 40 CP Base Budget) */}
       {activeTab === 'bonds' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {COMPANION_BOND_FEATURES.map(bond => {
-            const isSelected = selectedBonds.includes(bond.id);
+          {CANONICAL_BOND_OPTIONS.map(bond => {
+            const isSelected = bond.id === 'familiar'
+              ? (selectedBonds.includes('familiar') || selectedBonds.includes('familiar_link'))
+              : selectedBonds.includes(bond.id);
             return (
               <button
                 key={bond.id}
@@ -335,9 +409,15 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
                   <span className="text-[10px] text-slate-400">{bond.effect}</span>
                 </div>
                 <div className="text-right shrink-0 ml-2">
-                  <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">
-                    +{bond.bpCost} CP
-                  </span>
+                  {bond.bonusCP > 0 ? (
+                    <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                      +{bond.bonusCP} CP Budget
+                    </span>
+                  ) : (
+                    <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">
+                      {bond.cpCost} CP Cost
+                    </span>
+                  )}
                 </div>
               </button>
             );

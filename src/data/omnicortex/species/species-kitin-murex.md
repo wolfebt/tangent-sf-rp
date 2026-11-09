@@ -41,8 +41,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Fearless
-  - Runner
+  - general-fearless
+  - general-runner
+  - special-acute-sense
+  - special-scent
+  - skill-self-sufficient
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Industrial)
@@ -53,50 +56,70 @@ costs:
   bp: 41
 modifiers:
   - target: Strength
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Strength
   - target: Stamina
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Stamina
   - target: Wisdom
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Wisdom'
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: 'Acute Senses: (Hearing, Scent)'
-    value: 1
+  - target: general-fearless
     type: feature
-    mode: recommended
-  - target: Fearless
     value: 1
-    type: feature
     mode: recommended
-  - target: Poison Immunity
+    description: 'Recommended Feature: Fearless'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Runner'
+  - target: special-acute-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Self-Sufficient
+    description: 'Recommended Feature: Acute Sense'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Scent'
+  - target: skill-self-sufficient
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Self Sufficient'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
+  - target: trait-poison-immunity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Poison Immunity'
 description: >-
   The Murex are the "General Purpose" expression. They are the builders and
   infantry that form the backbone of the Hive’s infrastructure. They possess a
@@ -138,6 +161,10 @@ negative_keywords: 'individualist, diplomatic-ambassador, frail'
 cp: 41
 bp: 41
 cp_cost: 41
+recommended_traits:
+  - trait-acute-senses
+  - trait-scent
+  - trait-poison-immunity
 ---
 
 # **1.03.Kitin.Murex — Murex (Foundation & Engineering Expression)**

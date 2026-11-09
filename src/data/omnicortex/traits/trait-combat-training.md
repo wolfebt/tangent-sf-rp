@@ -2,7 +2,7 @@
 id: trait-combat-training
 name: Combat Training
 trait_tier: Basic
-trait_type: Combat
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Extensive formal training in tactical firearms, CQB weapon drills, and
   battlefield maneuvering.
 modifiers: []
+classification: Combat
 ---
 # Combat Training
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Combat
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

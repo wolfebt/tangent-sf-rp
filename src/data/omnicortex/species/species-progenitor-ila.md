@@ -31,11 +31,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Discipline Features
-  - Educated
-  - Iron Will
-  - Lightning Calculator
-  - Master Craftsman
+  - cat_discipline_features
+  - skill-educated
+  - ability-iron-will
+  - general-lightning-calculator
+  - skill-master-craftsman
 disadvantages: []
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Precursor Singularity Manipulation)
@@ -46,35 +46,40 @@ costs:
   bp: 111
 modifiers:
   - target: Intellect
-    value: 4
     type: attribute
+    value: 4
     mode: inherent
     description: +4 Intellect
   - target: Any
-    value: 40
     type: skill
+    value: 40
     mode: bonus_pool
     description: +40 Skill Points
-  - target: Discipline Features
-    value: 1
+  - target: cat_discipline_features
     type: feature
-    mode: recommended
-  - target: Educated
     value: 1
-    type: feature
     mode: recommended
-  - target: Iron Will
+    description: 'Recommended Feature: Discipline Features'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Calculator
+    description: 'Recommended Feature: Educated'
+  - target: ability-iron-will
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Master Craftsman
+    description: 'Recommended Feature: Iron Will'
+  - target: general-lightning-calculator
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: skill-master-craftsman
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Master Craftsman'
 description: >-
   The Ila are god-like precursor architects of transcendent intelligence and
   luminous presence, founders of ancient megastructures and stargates.
@@ -101,6 +106,7 @@ negative_keywords: 'primitive, mundane-labor, disposable, short-lived'
 cp: 111
 bp: 111
 cp_cost: 111
+recommended_traits: []
 ---
 
 # **1.03.Progenitors.Ila — Ila (Elohim Progenitors)**

@@ -32,12 +32,15 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Danger Sense
-  - Darksight
-  - Sneak Attack
-  - Stealthy
-  - Quick
-  - Uncanny Sense
+  - special-danger-sense
+  - special-darksight
+  - special-sneak-attack
+  - skill-stealthy
+  - general-quick
+  - special-uncanny-sense
+  - general-acrobatic-steps
+  - skill-stout
+  - general-nimble-moves
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '3'
@@ -48,64 +51,85 @@ costs:
   bp: 16
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Acrobatic
-    value: 1
+  - target: special-danger-sense
     type: feature
-    mode: recommended
-  - target: Athletic
     value: 1
-    type: feature
     mode: recommended
-  - target: Blindsense
+    description: 'Recommended Feature: Danger Sense'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Danger Sense
+    description: 'Recommended Feature: Darksight'
+  - target: special-sneak-attack
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Sneak Attack'
+  - target: skill-stealthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Nimble
+    description: 'Recommended Feature: Stealthy'
+  - target: general-quick
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Obfuscate
+    description: 'Recommended Feature: Quick'
+  - target: special-uncanny-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Sneak Attack
+    description: 'Recommended Feature: Uncanny Sense'
+  - target: general-acrobatic-steps
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Acrobatic Steps'
+  - target: skill-stout
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Quick
+    description: 'Recommended Feature: Stout'
+  - target: general-nimble-moves
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Uncanny Sense
+    description: 'Recommended Feature: Nimble Moves'
+  - target: trait-dark-sight
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-quick
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Quick'
+  - target: trait-blind-sense
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Blind Sense'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
 description: >-
   The Kizin are a fascinating race of medium-sized, vulpine humanoids distantly
   related to the Kannid but distinguished by several key physical traits and a
@@ -135,6 +159,11 @@ negative_keywords: 'brute-force, heavy-armor, reckless'
 cp: 16
 bp: 16
 cp_cost: 16
+recommended_traits:
+  - trait-dark-sight
+  - trait-quick
+  - trait-blind-sense
+  - trait-obfuscate
 ---
 
 # **1.03.Kizin — Kizin (Vulpine Humanoids)**

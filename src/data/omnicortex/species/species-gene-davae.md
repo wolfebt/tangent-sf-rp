@@ -29,10 +29,10 @@ inherent_features: []
 bonus_features: 2
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Discipline Features
-  - Fast Heal
-  - Regeneration
+  - discipline-awakened
+  - cat_discipline_features
+  - general-fast-heal
+  - general-regeneration
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: 4 (with Biotechnology)
@@ -43,65 +43,85 @@ costs:
   bp: 27
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Any
+  - target: Any Feature
+    type: feature
     value: 2
-    type: feature
     mode: bonus_pool
-    description: +2 Bonus Features
-  - target: Adaptive Aspects (Davae Collective)
-    value: 1
+    description: +2 Bonus Feature(s)
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Adaptive Skill Set (Davae Collective)
     value: 1
-    type: feature
     mode: recommended
-  - target: Ageless
+    description: 'Recommended Feature: Awakened'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Discipline Features'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Regeneration'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortality
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-fast-heal
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Reduced Sustenance
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-adaptive-features
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: +2 Features of Choice
+    description: 'Recommended Species Trait: Adaptive Features'
+  - target: trait-adaptive-skill-set
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Adaptive Skill Set'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
 description: >-
   The Davae are a highly evolved psychic species whose very existence is a
   testament to the advanced, and morally questionable, biotechnology experiments
@@ -134,6 +154,15 @@ negative_keywords: 'physical-labor, brute-force, solitary-isolation, psionic-nul
 cp: 27
 bp: 27
 cp_cost: 27
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-adaptive-features
+  - trait-adaptive-skill-set
+  - trait-ageless
+  - trait-immortal
+  - trait-reduced-sustenance
 ---
 
 # **1.03.Humans.Davae — Davae (Silverglass Engineered)**

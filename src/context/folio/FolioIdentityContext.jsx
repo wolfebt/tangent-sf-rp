@@ -9,6 +9,8 @@ import { AudioService } from '../../services/audioService';
 import { 
   isStoryElementData, 
   convertPersonaElementToFolio, 
+  convertMcmToFolioPersona,
+  convertFolioToMcmRecord,
   exportStoryElementJSON 
 } from '../../utils/personaBridge';
 import { 
@@ -291,6 +293,8 @@ export const DEFAULT_IDENTITY_FALLBACK = {
   applyFactionAdjustments: () => {},
   applyIdentitySelection: () => {},
   applyGuidedCharacter: async () => null,
+  importMcmCharacterToFolio: async () => null,
+  exportCurrentCharacterToMcm: () => null,
   isLocked: false,
   folioPhase: 'creation',
   isReadyForVTT: false,
@@ -1335,6 +1339,89 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     return saved;
   }, [saveCurrentToRoster]);
 
+  const importMcmCharacterToFolio = useCallback(async (mcmEntry, options = {}) => {
+    if (!mcmEntry) return null;
+    const converted = convertMcmToFolioPersona(mcmEntry, {
+      targetFolio: true,
+      newDocId: options.createCopy !== false,
+      isLocked: Boolean(options.lockForVtt)
+    });
+    if (!converted) return null;
+
+    let hydrated = {
+      ...DEFAULT_CHARACTER,
+      ...converted,
+      folio_phase: options.lockForVtt ? 'tactical' : 'development',
+      is_locked: Boolean(options.lockForVtt),
+      is_ready_for_vtt: true,
+      updatedAt: new Date().toISOString()
+    };
+
+    const sanitized = sanitizeSubAttributes(sanitizeCharacterSkills(hydrated));
+    setCharacterData(sanitized);
+    setIsCharacterSelected(true);
+    setViewMode(options.lockForVtt ? 'play' : 'builder');
+    if (options.activeTab) {
+      setActiveTab(options.activeTab);
+    } else if (activeTab === 'catalog') {
+      setActiveTab('identity');
+    }
+
+    const saved = await saveCurrentToRoster(sanitized);
+    return saved;
+  }, [saveCurrentToRoster, activeTab]);
+
+  const exportCurrentCharacterToMcm = useCallback(() => {
+    return convertFolioToMcmRecord(characterData);
+  }, [characterData]);
+
+  // Listen for cross-module MCM -> Folio import events & pending localStorage handoffs
+  useEffect(() => {
+    const consumePendingMcmImport = async () => {
+      try {
+        const pendingRaw = localStorage.getItem('tangent_pending_folio_import');
+        if (!pendingRaw) return;
+        localStorage.removeItem('tangent_pending_folio_import');
+        const pending = JSON.parse(pendingRaw);
+        if (pending && pending.persona) {
+          const sanitized = sanitizeSubAttributes(sanitizeCharacterSkills({
+            ...DEFAULT_CHARACTER,
+            ...pending.persona
+          }));
+          setCharacterData(sanitized);
+          setIsCharacterSelected(true);
+          setViewMode(pending.lockForVtt ? 'play' : 'builder');
+          setActiveTab(pending.activeTab || 'identity');
+          await saveCurrentToRoster(sanitized);
+        }
+      } catch (e) {
+        console.warn('[FolioIdentity] Error consuming pending MCM import:', e);
+      }
+    };
+
+    consumePendingMcmImport();
+
+    const handleMcmImportEvent = async (e) => {
+      const detail = e?.detail;
+      if (!detail || !detail.persona) return;
+      try {
+        localStorage.removeItem('tangent_pending_folio_import');
+      } catch (err) {}
+      const sanitized = sanitizeSubAttributes(sanitizeCharacterSkills({
+        ...DEFAULT_CHARACTER,
+        ...detail.persona
+      }));
+      setCharacterData(sanitized);
+      setIsCharacterSelected(true);
+      setViewMode(detail.options?.lockForVtt ? 'play' : 'builder');
+      setActiveTab(detail.options?.activeTab || 'identity');
+      await saveCurrentToRoster(sanitized);
+    };
+
+    window.addEventListener('tangent-import-mcm-to-folio', handleMcmImportEvent);
+    return () => window.removeEventListener('tangent-import-mcm-to-folio', handleMcmImportEvent);
+  }, [saveCurrentToRoster]);
+
   // VTT Lifecycle & Lock Controls
   const isLocked = Boolean(characterData.is_locked);
   const folioPhase = characterData.folio_phase || 'development';
@@ -1532,6 +1619,8 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     applyFactionAdjustments,
     applyIdentitySelection,
     applyGuidedCharacter,
+    importMcmCharacterToFolio,
+    exportCurrentCharacterToMcm,
     isLocked,
     folioPhase,
     isReadyForVTT,
@@ -1581,6 +1670,8 @@ export const FolioIdentitySliceProvider = ({ children }) => {
     applyFactionAdjustments,
     applyIdentitySelection,
     applyGuidedCharacter,
+    importMcmCharacterToFolio,
+    exportCurrentCharacterToMcm,
     isLocked,
     folioPhase,
     isReadyForVTT,

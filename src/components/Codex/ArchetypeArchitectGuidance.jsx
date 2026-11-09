@@ -48,6 +48,7 @@ export const ArchetypeArchitectGuidance = ({
   const [newOriginInput, setNewOriginInput] = useState('');
   const [newOccuInput, setNewOccuInput] = useState('');
   const [newSkillInput, setNewSkillInput] = useState('');
+  const [newTraitInput, setNewTraitInput] = useState('');
   const [newFeatureInput, setNewFeatureInput] = useState('');
   const [newKeywordInput, setNewKeywordInput] = useState('');
   const [newNegativeInput, setNewNegativeInput] = useState('');
@@ -100,10 +101,16 @@ export const ArchetypeArchitectGuidance = ({
     return normalizeList(canonicalSeed?.essential_skills || canonicalSeed?.recommended_skills);
   }, [rawRecSkills, canonicalSeed]);
 
-  const rawRecFeatures = normalizeList(formData.signature_traits || formData.traits || formData.signature_features || formData.recommended_features);
+  const rawSignatureTraits = normalizeList(formData.signature_traits || formData.traits);
+  const signatureTraits = useMemo(() => {
+    if (rawSignatureTraits.length > 0) return rawSignatureTraits;
+    return normalizeList(canonicalSeed?.signature_traits || canonicalSeed?.traits);
+  }, [rawSignatureTraits, canonicalSeed]);
+
+  const rawRecFeatures = normalizeList(formData.recommended_features || formData.signature_features);
   const recommendedFeatures = useMemo(() => {
     if (rawRecFeatures.length > 0) return rawRecFeatures;
-    return normalizeList(canonicalSeed?.signature_traits || canonicalSeed?.traits || canonicalSeed?.signature_features || canonicalSeed?.recommended_features);
+    return normalizeList(canonicalSeed?.recommended_features || canonicalSeed?.signature_features);
   }, [rawRecFeatures, canonicalSeed]);
 
   const keywordsList = useMemo(() => {
@@ -208,7 +215,27 @@ export const ArchetypeArchitectGuidance = ({
     handleFieldChange('recommended_skills', updated);
   };
 
-  // Handlers for Signature Traits
+  // Handlers for Signature Traits (2 Signature Traits @ 1 CP)
+  const handleAddTrait = (e) => {
+    e.preventDefault();
+    const parts = newTraitInput.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+    if (parts.length === 0) return;
+    const current = [...signatureTraits];
+    for (const p of parts) {
+      if (!current.includes(p)) current.push(p);
+    }
+    handleFieldChange('signature_traits', current);
+    handleFieldChange('traits', current);
+    setNewTraitInput('');
+  };
+
+  const handleRemoveTrait = (itemToRemove) => {
+    const updated = signatureTraits.filter(t => t !== itemToRemove);
+    handleFieldChange('signature_traits', updated);
+    handleFieldChange('traits', updated);
+  };
+
+  // Handlers for Recommended Core Features (10 Recommended Core Features @ 2 CP, 3 in chassis)
   const handleAddFeature = (e) => {
     e.preventDefault();
     const parts = newFeatureInput.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
@@ -217,19 +244,15 @@ export const ArchetypeArchitectGuidance = ({
     for (const p of parts) {
       if (!current.includes(p)) current.push(p);
     }
-    handleFieldChange('signature_traits', current);
-    handleFieldChange('traits', current);
-    handleFieldChange('signature_features', current);
     handleFieldChange('recommended_features', current);
+    handleFieldChange('signature_features', current);
     setNewFeatureInput('');
   };
 
   const handleRemoveFeature = (itemToRemove) => {
     const updated = recommendedFeatures.filter(f => f !== itemToRemove);
-    handleFieldChange('signature_traits', updated);
-    handleFieldChange('traits', updated);
-    handleFieldChange('signature_features', updated);
     handleFieldChange('recommended_features', updated);
+    handleFieldChange('signature_features', updated);
   };
 
   // Handlers for Positive Keywords
@@ -567,7 +590,7 @@ export const ArchetypeArchitectGuidance = ({
           <span>Mechanical Allocations & Starting Synergies (Cortex Link)</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* ESSENTIAL SKILLS */}
           <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3 shadow-inner">
             <div className="space-y-1">
@@ -637,13 +660,13 @@ export const ArchetypeArchitectGuidance = ({
             )}
           </div>
 
-          {/* SIGNATURE TRAITS */}
+          {/* SIGNATURE TRAITS (2 Signature Traits @ 1 CP) */}
           <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3 shadow-inner">
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-purple-400 uppercase">
                   <Sparkles size={13} />
-                  <span>Signature Traits (1 CP Each)</span>
+                  <span>2 Signature Traits (1 CP Each)</span>
                 </div>
                 {isEditMode && onOpenPicker && (
                   <button
@@ -657,7 +680,77 @@ export const ArchetypeArchitectGuidance = ({
                 )}
               </div>
               <p className="text-[11px] text-slate-400 leading-normal">
-                Two 1-CP Signature Traits forming the mechanical core of this archetype.
+                Two 1-CP Signature Traits included in the 13 CP traits/features chassis budget.
+              </p>
+            </div>
+
+            {/* Chips Container */}
+            <div className="flex flex-wrap gap-1.5 min-h-[38px] p-2 bg-slate-900/80 border border-slate-800/80 rounded-lg">
+              {signatureTraits.length === 0 ? (
+                <span className="text-[11px] text-slate-500 italic font-mono self-center">None specified</span>
+              ) : (
+                signatureTraits.map(tr => (
+                  <span
+                    key={tr}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/30 text-purple-200 text-xs font-mono"
+                  >
+                    <span>{tr}</span>
+                    <span className="text-[9.5px] px-1 rounded bg-purple-500/20 text-purple-300">1 CP</span>
+                    {isEditMode && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveTrait(tr)}
+                        className="hover:text-red-400 transition-colors"
+                      >
+                        <X size={11} />
+                      </button>
+                    )}
+                  </span>
+                ))
+              )}
+            </div>
+
+            {/* Input Form */}
+            {isEditMode && (
+              <form onSubmit={handleAddTrait} className="flex gap-1.5">
+                <input
+                  type="text"
+                  value={newTraitInput}
+                  onChange={(e) => setNewTraitInput(e.target.value)}
+                  placeholder="Add signature traits (comma-separated)..."
+                  className="flex-1 bg-slate-900 border border-slate-700/80 rounded px-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 font-mono focus:border-purple-500 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="px-2.5 py-1 bg-purple-700 hover:bg-purple-600 text-white rounded text-xs font-mono flex items-center justify-center transition-colors"
+                >
+                  <Plus size={13} />
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* 10 RECOMMENDED CORE FEATURES (2 CP each, 3 in chassis) */}
+          <div className="bg-slate-950/60 border border-amber-500/30 rounded-xl p-4 flex flex-col justify-between space-y-3 shadow-inner">
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-400 uppercase">
+                  <Sparkles size={13} />
+                  <span>10 Core Features (2 CP, 3 in Chassis)</span>
+                </div>
+                {isEditMode && onOpenPicker && (
+                  <button
+                    type="button"
+                    onClick={() => onOpenPicker({ source: 'features', target: 'recommended_features', label: 'Recommended Core Features' })}
+                    className="px-2 py-0.5 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded text-[10px] font-mono font-bold uppercase transition-colors flex items-center gap-1"
+                  >
+                    <Compass size={10} />
+                    <span>Cortex Browse</span>
+                  </button>
+                )}
+              </div>
+              <p className="text-[11px] text-slate-400 leading-normal">
+                10 Recommended Core Features @ 2 CP each (3 selected in the 80-CP chassis alongside 2 Signature Traits + 5 CP General Features).
               </p>
             </div>
 
@@ -669,10 +762,10 @@ export const ArchetypeArchitectGuidance = ({
                 recommendedFeatures.map(ft => (
                   <span
                     key={ft}
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/30 text-purple-200 text-xs font-mono"
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/30 text-amber-200 text-xs font-mono"
                   >
                     <span>{ft}</span>
-                    <span className="text-[9.5px] px-1 rounded bg-purple-500/20 text-purple-300">1 CP</span>
+                    <span className="text-[9.5px] px-1 rounded bg-amber-500/20 text-amber-300">2 CP</span>
                     {isEditMode && (
                       <button
                         type="button"
@@ -694,12 +787,12 @@ export const ArchetypeArchitectGuidance = ({
                   type="text"
                   value={newFeatureInput}
                   onChange={(e) => setNewFeatureInput(e.target.value)}
-                  placeholder="Add signature traits (comma-separated)..."
-                  className="flex-1 bg-slate-900 border border-slate-700/80 rounded px-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 font-mono focus:border-purple-500 focus:outline-none"
+                  placeholder="Add recommended core features..."
+                  className="flex-1 bg-slate-900 border border-slate-700/80 rounded px-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 font-mono focus:border-amber-500 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="px-2.5 py-1 bg-purple-700 hover:bg-purple-600 text-white rounded text-xs font-mono flex items-center justify-center transition-colors"
+                  className="px-2.5 py-1 bg-amber-700 hover:bg-amber-600 text-white rounded text-xs font-mono flex items-center justify-center transition-colors"
                 >
                   <Plus size={13} />
                 </button>

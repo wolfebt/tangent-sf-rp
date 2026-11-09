@@ -12,12 +12,27 @@ export const VirtualizedList = ({
   containerClassName = "flex-1 overflow-y-auto p-4 space-y-2 bg-slate-950/40",
   overscan = 5,
   getKey = (item, index) => item?.id || item?.name || index,
-  resetScrollDeps = []
+  resetScrollDeps = [],
+  header = null,
+  contentMinWidth = undefined,
+  scrollContainerRef = null,
+  onContainerScroll = null
 }) => {
   const containerRef = useRef(null);
   const [scrollTop, setScrollTop] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(400);
   const animationFrameIdRef = useRef(null);
+
+  const setRefs = useCallback((node) => {
+    containerRef.current = node;
+    if (scrollContainerRef) {
+      if (typeof scrollContainerRef === 'function') {
+        scrollContainerRef(node);
+      } else {
+        scrollContainerRef.current = node;
+      }
+    }
+  }, [scrollContainerRef]);
 
   // Measure viewport height dynamically
   useEffect(() => {
@@ -53,13 +68,16 @@ export const VirtualizedList = ({
   // Throttled scroll handler using requestAnimationFrame
   const handleScroll = useCallback((e) => {
     const currentScrollTop = e.target.scrollTop;
+    if (onContainerScroll) {
+      onContainerScroll(e);
+    }
     if (animationFrameIdRef.current) {
       cancelAnimationFrame(animationFrameIdRef.current);
     }
     animationFrameIdRef.current = requestAnimationFrame(() => {
       setScrollTop(currentScrollTop);
     });
-  }, []);
+  }, [onContainerScroll]);
 
   useEffect(() => {
     return () => {
@@ -80,36 +98,39 @@ export const VirtualizedList = ({
 
   return (
     <div
-      ref={containerRef}
+      ref={setRefs}
       onScroll={handleScroll}
       className={containerClassName}
       style={{ position: 'relative' }}
     >
-      {totalItems === 0 ? null : (
-        <div style={{ height: totalHeight, width: '100%', position: 'relative' }}>
-          {visibleItems.map((item, index) => {
-            const actualIndex = startIndex + index;
-            const top = actualIndex * itemHeight;
-            const key = getKey(item, actualIndex);
+      <div style={{ minWidth: contentMinWidth || '100%', width: '100%' }}>
+        {header}
+        {totalItems === 0 ? null : (
+          <div style={{ height: totalHeight, width: '100%', position: 'relative' }}>
+            {visibleItems.map((item, index) => {
+              const actualIndex = startIndex + index;
+              const top = actualIndex * itemHeight;
+              const key = getKey(item, actualIndex);
 
-            return (
-              <div
-                key={key}
-                style={{
-                  position: 'absolute',
-                  top: `${top}px`,
-                  left: 0,
-                  right: 0,
-                  height: `${itemHeight}px`,
-                  boxSizing: 'border-box'
-                }}
-              >
-                {renderItem(item, actualIndex)}
-              </div>
-            );
-          })}
-        </div>
-      )}
+              return (
+                <div
+                  key={key}
+                  style={{
+                    position: 'absolute',
+                    top: `${top}px`,
+                    left: 0,
+                    right: 0,
+                    height: `${itemHeight}px`,
+                    boxSizing: 'border-box'
+                  }}
+                >
+                  {renderItem(item, actualIndex)}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

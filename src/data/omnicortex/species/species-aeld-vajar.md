@@ -28,15 +28,17 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Camouflage
-  - Combat Reflexes
-  - Companion
-  - Danger Sense
-  - Natural Weapons
-  - Regeneration
-  - Tracker
-  - Wild Speech
+  - special-acute-sense
+  - general-camouflage
+  - combat-combat-reflexes
+  - special-companion
+  - special-danger-sense
+  - special-natural-weapons
+  - general-regeneration
+  - general-tracker
+  - special-wild-speech
+  - ability-environmental-adaptation
+  - skill-naturalist
 disadvantages: []
 stigma: 'Feral (-4), Xeno (-2)'
 tech_level: '1'
@@ -46,60 +48,96 @@ costs:
   cp: 24
   bp: 24
 modifiers:
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Camouflage
     value: 1
-    type: feature
     mode: recommended
-  - target: Combat Reflexes
+    description: 'Recommended Feature: Acute Sense'
+  - target: general-camouflage
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Companion
+    description: 'Recommended Feature: Camouflage'
+  - target: combat-combat-reflexes
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Danger Sense
+    description: 'Recommended Feature: Combat Reflexes'
+  - target: special-companion
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment
+    description: 'Recommended Feature: Companion'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Danger Sense'
+  - target: special-natural-weapons
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Natural Weapons'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Survivalist
+    description: 'Recommended Feature: Regeneration'
+  - target: general-tracker
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tracker
+    description: 'Recommended Feature: Tracker'
+  - target: special-wild-speech
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wild Speech
+    description: 'Recommended Feature: Wild Speech'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: skill-naturalist
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Naturalist'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-camouflage
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Camouflage'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
 description: >-
   Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
   symbiotic living. They wield shapeshifting and animalistic biomodifications
@@ -129,6 +167,12 @@ negative_keywords: 'high-tech, urbanite, heavy-armor, bureaucratic, academic'
 cp: 24
 bp: 24
 cp_cost: 24
+recommended_traits:
+  - trait-acute-senses
+  - trait-camouflage
+  - trait-natural-weapons
+  - trait-regeneration
+  - trait-bonded-terrain
 ---
 
 # **1.03.Aeld.Vajar — Vajar (Wilder Aeld)**

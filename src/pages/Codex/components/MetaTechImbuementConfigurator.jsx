@@ -62,9 +62,14 @@ export const MetaTechImbuementConfigurator = ({ formData = {}, onChange }) => {
     } else {
       updated = [...selectedPassives, modId];
     }
+    const totalSockets = updated.reduce((sum, id) => {
+      const modDef = META_TECH_PASSIVE_CATALOG.find(m => m.id === id);
+      const skt = modDef?.sockets ?? ((id === 'ghost_strike' || id === 'vampiric' || String(id).toLowerCase().includes('ghost') || String(id).toLowerCase().includes('vampiric')) ? 2 : 1);
+      return sum + Number(skt);
+    }, 0);
     onChange('passive_mods', updated);
-    onChange('sockets_used', Math.max(1, updated.length));
-    onChange('socketsUsed', Math.max(1, updated.length));
+    onChange('sockets_used', Math.max(1, totalSockets));
+    onChange('socketsUsed', Math.max(1, totalSockets));
   };
 
   const handleEnhancementTypeChange = (type) => {
@@ -159,6 +164,59 @@ export const MetaTechImbuementConfigurator = ({ formData = {}, onChange }) => {
         </div>
       </div>
 
+      {/* Base Item DC & Daily Charges / Usage Mode Controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-1.5">
+          <div className="flex items-center justify-between">
+            <label className="text-[10px] uppercase font-bold text-slate-400">
+              Host Item Base Craft DC (base_item_dc)
+            </label>
+            <span className="text-xs font-bold text-yellow-300">DC {baseItemDC}</span>
+          </div>
+          <input
+            type="number"
+            min="5"
+            max="60"
+            value={baseItemDC}
+            onChange={(e) => {
+              const nextDc = Math.max(5, Number(e.target.value) || 5);
+              onChange('base_item_dc', nextDc);
+              onChange('baseItemDC', nextDc);
+            }}
+            className="w-full p-1.5 bg-slate-900 border border-slate-700 rounded-lg text-xs text-white font-bold"
+          />
+        </div>
+
+        <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-1.5">
+          <label className="text-[10px] uppercase font-bold text-slate-400 block">
+            Charge / Usage Mode (daily_charges)
+          </label>
+          <div className="grid grid-cols-3 gap-1.5">
+            {[
+              { id: 'Unlimited', val: null, label: 'Unlimited (At-Will)' },
+              { id: '3/day', val: 3, label: '3/day Limited (-5 DC)' },
+              { id: 'Consumable', val: 1, label: 'Consumable Single-Use (-50%)' }
+            ].map(chOpt => {
+              const isSelected = (dailyCharges ?? null) === chOpt.val;
+              return (
+                <button
+                  key={chOpt.id}
+                  type="button"
+                  onClick={() => onChange('daily_charges', chOpt.val)}
+                  className={`p-1.5 rounded-lg border text-[10px] font-bold transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-yellow-500/20 border-yellow-400 text-yellow-200'
+                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {chOpt.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* Type Specific Fields */}
       {selectedType === 'Passive' && (
         <div className="space-y-2">
@@ -241,14 +299,16 @@ export const MetaTechImbuementConfigurator = ({ formData = {}, onChange }) => {
           {/* Device Save CR & Target Save */}
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-1 flex flex-col justify-between">
             <label className="text-[10px] uppercase font-bold text-slate-400 block">
-              Device Power Rating
+              Device Power Rating (10 + Rank/2 + Device Tier)
             </label>
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-300">Device Save CR:</span>
-              <span className="text-sm font-bold text-amber-400 font-mono">DC {10 + Math.floor(invocationRank / 2)}</span>
+              <span className="text-sm font-bold text-amber-400 font-mono">
+                DC {10 + Math.floor(invocationRank / 2) + techLevel}
+              </span>
             </div>
             <div className="text-[9px] text-slate-500">
-              Attack roll uses wielder's Technology or Combat skill
+              Save CR = 10 + ⌊Rank {invocationRank} / 2⌋ + Device Tier {techLevel}
             </div>
           </div>
         </div>

@@ -1,8 +1,10 @@
-import React from 'react';
-import { Plus, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Trash2, Users } from 'lucide-react';
 
 export default function CroniclePersonasTab({
   personas,
+  availablePersonas = [],
+  onPullUnifiedPersona,
   newPersonaName,
   setNewPersonaName,
   newPersonaRole,
@@ -20,8 +22,49 @@ export default function CroniclePersonasTab({
   handleRemoveInventoryItem,
   handleUpdateRelationship
 }) {
+  const [selectedUnifiedPersonaId, setSelectedUnifiedPersonaId] = useState('');
+
   return (
     <div className="flex flex-col gap-5">
+      {/* Pull from Unified Persona Listing (Folio + MCM + Story) */}
+      {availablePersonas.length > 0 && (
+        <div className="bg-slate-900/90 border border-purple-500/40 p-3 rounded-xl flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-xs font-mono text-purple-300 font-bold uppercase shrink-0">
+            <Users size={14} className="text-purple-400" />
+            <span>Pull from Unified Persona Listing (Folio &amp; MCM):</span>
+          </div>
+          <div className="flex items-center gap-2 flex-1 min-w-[240px]">
+            <select
+              value={selectedUnifiedPersonaId}
+              onChange={(e) => setSelectedUnifiedPersonaId(e.target.value)}
+              className="flex-1 bg-slate-950 border border-slate-700 text-xs text-slate-100 p-2 rounded-lg font-mono outline-none focus:border-purple-400"
+            >
+              <option value="">-- Select Folio or MCM Persona ({availablePersonas.length} available) --</option>
+              {availablePersonas.map((p) => (
+                <option key={p.id} value={p.id}>
+                  [{p.sourceLabel || (p.isMcmPersona ? 'MCM' : 'FOLIO')}] {p.title || p.name} ({p.fields?.['char-occu'] || p.fields?.mcmRole || 'Operative'})
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              disabled={!selectedUnifiedPersonaId}
+              onClick={() => {
+                const found = availablePersonas.find((p) => String(p.id) === String(selectedUnifiedPersonaId));
+                if (found && onPullUnifiedPersona) {
+                  onPullUnifiedPersona(found);
+                  setSelectedUnifiedPersonaId('');
+                }
+              }}
+              className="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 text-white text-xs font-bold uppercase rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shrink-0"
+            >
+              <Plus size={13} />
+              <span>Pull Persona</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Add New Persona Bar */}
       <form onSubmit={handleCreatePersona} className="bg-slate-900/80 border border-slate-800 p-3 rounded-xl flex flex-wrap items-center gap-3">
         <div className="flex-1 min-w-[200px]">

@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.equipment.systemsandmastercrafting","matrix"]
-updatedAt: "2026-11-04T09:33:29.330Z"
+updatedAt: "2026-11-08T20:26:43.895Z"
 costs:
   bp: 0
   credits: 0
@@ -61,7 +61,7 @@ Armor serves as a destructible resource—a second skin with its own structural 
 * **Chassis Class (Base Matrix):** Dictates the base capacity for integrated Sockets, structural integrity (SP), and maximum agility. Classes range from Light (Clothing/Mesh, 1 Socket, 10 SP) to Heavy (Assault Shells, 4 Sockets, 40 SP) to Powered Exoskeletons (6+ Sockets, 120 SP).
 * **Coverage (Layer Scaling):** A multiplier applied to the Chassis Class based on how much of the body is protected. Partial coverage (vests/greaves) halves SP and Sockets, while Bulwark coverage (excessive layering) doubles SP but halves Socket capacity and severely restricts mobility.
 * **Materials (Tech Level):** Dictates the base Damage Resistance (DR) percentage and applies a final multiplier to the Structure Points. TL 1 Iron offers 50% DR and a x0.5 SP multiplier, whereas TL 4 Nanocarbon offers 125% DR and a x2.0 SP multiplier.
-* **Armor Layering Cap:** DR does not stack across biological, cybernetic, and wearable domains; only the single highest DR applies.
+* **Diminishing Returns Armor Stacking:** When multiple armor layers apply across biological, cybernetic, metaphysical, and wearable domains, use the single highest DR as the base and add `+1 DR` per stage of 5 (`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, etc.) calculated separately for each additional armor layer.
 
 Armor modules can be installed into Sockets to radically alter operational capability. Common modules include Ablative Foam (emergency SP restoration), Cloaking devices (+20 Stealth while stationary), Enviro-Seals (hermetic vacuum protection), and Grav-Chutes (inertial dampeners negating falling damage). Personal Field Generators (Shields) provide a regenerative buffer of Ablative Points (AP), requiring 2 Sockets and granting 20 AP that recharges at 5 AP per round.
 

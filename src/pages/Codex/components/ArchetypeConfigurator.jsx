@@ -27,6 +27,25 @@ const SPHERES = [
   { id: 'savants', name: 'Savants (The Rationals)', focus: 'Competence, Knowledge, Systems, and Strategy' }
 ];
 
+export const MBTI_ALIGNMENT_OPTIONS = [
+  'ISTJ — The Inspector (Sentinels / SJ)',
+  'ISFJ — The Protector (Sentinels / SJ)',
+  'ESTJ — The Director (Sentinels / SJ)',
+  'ESFJ — The Caregiver (Sentinels / SJ)',
+  'ISTP — The Virtuoso (Operatives / SP)',
+  'ISFP — The Artist (Operatives / SP)',
+  'ESTP — The Dynamo (Operatives / SP)',
+  'ESFP — The Performer (Operatives / SP)',
+  'INFJ — The Advocate (Visionaries / NF)',
+  'INFP — The Mediator (Visionaries / NF)',
+  'ENFJ — The Protagonist (Visionaries / NF)',
+  'ENFP — The Champion (Visionaries / NF)',
+  'INTJ — The Architect (Savants / NT)',
+  'INTP — The Logician (Savants / NT)',
+  'ENTJ — The Commander (Savants / NT)',
+  'ENTP — The Visionary (Savants / NT)'
+];
+
 const ATTRIBUTES = [
   'Intellect',
   'Wisdom',
@@ -55,6 +74,7 @@ export const ArchetypeConfigurator = ({
   dbData = {}
 }) => {
   const [newSkillInput, setNewSkillInput] = useState('');
+  const [newTraitInput, setNewTraitInput] = useState('');
   const [newFeatureInput, setNewFeatureInput] = useState('');
   const [newOccuInput, setNewOccuInput] = useState('');
   const [newOriginInput, setNewOriginInput] = useState('');
@@ -68,14 +88,23 @@ export const ArchetypeConfigurator = ({
     return [];
   }, [formData.essential_skills]);
 
-  const signatureFeatures = useMemo(() => {
-    const raw = formData.signature_traits || formData.traits || formData.signature_features;
+  const signatureTraits = useMemo(() => {
+    const raw = formData.signature_traits || formData.traits;
     if (Array.isArray(raw)) return raw;
     if (typeof raw === 'string') {
       return raw.split(',').map(f => f.trim()).filter(Boolean);
     }
     return [];
-  }, [formData.signature_traits, formData.traits, formData.signature_features]);
+  }, [formData.signature_traits, formData.traits]);
+
+  const recommendedCoreFeatures = useMemo(() => {
+    const raw = formData.recommended_features || formData.signature_features;
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+      return raw.split(',').map(f => f.trim()).filter(Boolean);
+    }
+    return [];
+  }, [formData.recommended_features, formData.signature_features]);
 
   const recommendedOccupations = useMemo(() => {
     if (Array.isArray(formData.recommended_occupations)) return formData.recommended_occupations;
@@ -115,20 +144,33 @@ export const ArchetypeConfigurator = ({
     onChange('essential_skills', updated);
   };
 
-  const handleAddFeature = () => {
-    const val = newFeatureInput.trim();
-    if (!val || signatureFeatures.includes(val)) return;
-    const updated = [...signatureFeatures, val];
+  const handleAddTrait = () => {
+    const val = newTraitInput.trim();
+    if (!val || signatureTraits.includes(val)) return;
+    const updated = [...signatureTraits, val];
     onChange('signature_traits', updated);
     onChange('traits', updated);
+    setNewTraitInput('');
+  };
+
+  const handleRemoveTrait = (traitToRemove) => {
+    const updated = signatureTraits.filter(t => t !== traitToRemove);
+    onChange('signature_traits', updated);
+    onChange('traits', updated);
+  };
+
+  const handleAddFeature = () => {
+    const val = newFeatureInput.trim();
+    if (!val || recommendedCoreFeatures.includes(val)) return;
+    const updated = [...recommendedCoreFeatures, val];
+    onChange('recommended_features', updated);
     onChange('signature_features', updated);
     setNewFeatureInput('');
   };
 
   const handleRemoveFeature = (featToRemove) => {
-    const updated = signatureFeatures.filter(f => f !== featToRemove);
-    onChange('signature_traits', updated);
-    onChange('traits', updated);
+    const updated = recommendedCoreFeatures.filter(f => f !== featToRemove);
+    onChange('recommended_features', updated);
     onChange('signature_features', updated);
   };
 
@@ -189,7 +231,7 @@ export const ArchetypeConfigurator = ({
         </div>
         <p className="text-xs text-slate-300 leading-relaxed font-sans">
           Archetypes bridge the gap between abstract Character Points (CP) and a functional narrative role. 
-          Each entry defines a thematic <strong>80 CP Chassis</strong>—a set of prioritized attributes, essential skills, and signature features. 
+          Each entry defines a thematic <strong>80 CP Chassis</strong> (15 CP Primary + 10 CP Secondary + 42 CP Skills [24 Essential + 18 Supporting] + 13 CP Signature Traits &amp; Core Features = 80 CP). 
           Archetypes are <strong>not adversary chassis</strong> and have no threat tiers, boss multipliers, or adversary designations.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-[11px]">
@@ -203,11 +245,11 @@ export const ArchetypeConfigurator = ({
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
             <span className="text-purple-400 font-bold">Skills Package (42 CP)</span>
-            <span className="text-slate-400 text-[10px]">4 Trained (24) + 6 Novice (18)</span>
+            <span className="text-slate-400 text-[10px]">24 Essential (4@6) + 18 Supporting (6@3)</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex flex-col">
-            <span className="text-emerald-400 font-bold">Signature Traits (1 CP)</span>
-            <span className="text-slate-400 text-[10px]">2 Signature Traits (2 CP) + 3 Relative Features (9 CP)</span>
+            <span className="text-emerald-400 font-bold">Traits &amp; Features (13 CP)</span>
+            <span className="text-slate-400 text-[10px]">2 Sig Traits + 3 Core Features (2 CP) + 1 Relative</span>
           </div>
         </div>
       </div>
@@ -226,7 +268,7 @@ export const ArchetypeConfigurator = ({
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {/* Sphere Selection */}
           <div className="space-y-1">
             <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
@@ -249,6 +291,29 @@ export const ArchetypeConfigurator = ({
             )}
           </div>
 
+          {/* MBTI / Keirsey Alignment */}
+          <div className="space-y-1">
+            <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
+              MBTI / Keirsey Alignment (16 Types)
+            </label>
+            {isEditMode ? (
+              <select
+                value={formData.mbti_alignment || ''}
+                onChange={(e) => onChange('mbti_alignment', e.target.value)}
+                className="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs font-mono text-slate-200 focus:outline-none focus:border-indigo-400"
+              >
+                <option value="">Select MBTI / Temperament...</option>
+                {MBTI_ALIGNMENT_OPTIONS.map(opt => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            ) : (
+              <div className="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-mono text-cyan-300 font-bold">
+                {formData.mbti_alignment || 'Unassigned Temperament'}
+              </div>
+            )}
+          </div>
+
           {/* Core Concept */}
           <div className="space-y-1">
             <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
@@ -261,8 +326,7 @@ export const ArchetypeConfigurator = ({
                 onChange={(e) => onChange('core_concept', e.target.value)}
                 placeholder="E.g., Logistics / Support / Social Tank"
                 className="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-indigo-400"
-              >
-              </input>
+              />
             ) : (
               <div className="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-200">
                 {formData.core_concept || 'None specified.'}
@@ -444,7 +508,7 @@ export const ArchetypeConfigurator = ({
         )}
       </div>
 
-      {/* ── Section 4: Signature Traits (1 CP Each) ── */}
+      {/* ── Section 4: Signature Traits (2 Signature Traits @ 1 CP Each) ── */}
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
@@ -454,13 +518,13 @@ export const ArchetypeConfigurator = ({
             </h4>
             <CodexTooltip
               title="Signature Traits (1 CP Each)"
-              description="Two recommended Signature Traits (1 CP each in the Traits category) plus three other relative Features (9 CP)."
+              description="Two recommended Signature Traits (1 CP each in the Traits category)."
               rule="1.02 ARCHETYPES.md"
               color="#8b5cf6"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-purple-950 border border-purple-500/40 text-purple-300">
-            1 CP Each
+            1 CP Each (2 in Chassis)
           </span>
         </div>
 
@@ -469,10 +533,10 @@ export const ArchetypeConfigurator = ({
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 pt-1">
-          {signatureFeatures.length === 0 ? (
+          {signatureTraits.length === 0 ? (
             <span className="text-xs text-slate-500 italic font-mono">No signature traits listed.</span>
           ) : (
-            signatureFeatures.map(feat => {
+            signatureTraits.map(feat => {
               const rawName = typeof feat === 'object' ? (feat.name || feat.id || '') : String(feat);
               const cleanName = rawName.replace(/^trait-(?:sig-)?/i, '').replace(/[-_]/g, ' ').toLowerCase().trim();
               const catalogTraits = [...(dbData?.traits || []), ...ALL_CANONICAL_TRAITS];
@@ -503,7 +567,7 @@ export const ArchetypeConfigurator = ({
                         {isEditMode && (
                           <button
                             type="button"
-                            onClick={() => handleRemoveFeature(feat)}
+                            onClick={() => handleRemoveTrait(feat)}
                             className="text-slate-400 hover:text-red-400 transition-colors ml-0.5 cursor-pointer"
                             title="Remove trait"
                           >
@@ -533,19 +597,95 @@ export const ArchetypeConfigurator = ({
           <div className="pt-2 flex items-center gap-2">
             <input
               type="text"
-              value={newFeatureInput}
-              onChange={(e) => setNewFeatureInput(e.target.value)}
-              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddFeature(); } }}
+              value={newTraitInput}
+              onChange={(e) => setNewTraitInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddTrait(); } }}
               placeholder="Add signature trait name..."
               className="flex-1 p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-purple-400"
             />
             <button
               type="button"
-              onClick={handleAddFeature}
+              onClick={handleAddTrait}
               className="px-3 py-2 bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-300 rounded-lg text-xs font-mono font-bold flex items-center gap-1 cursor-pointer"
             >
               <Plus size={13} />
               <span>Add Trait</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ── Section 4B: Recommended Core Features (10 Core Features @ 2 CP Each, 3 in Chassis) ── */}
+      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+          <div className="flex items-center gap-2">
+            <Tag className="w-4 h-4 text-emerald-400" />
+            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
+              Recommended Core Features (10 Recommended @ 2 CP Each, 3 in Chassis)
+            </h4>
+            <CodexTooltip
+              title="Recommended Core Features (2 CP Each)"
+              description="Each Archetype lists 10 Recommended Core Features discounted to 2 CP each (standard 3 CP). The 80 CP chassis includes 3 Core Features (6 CP) + 1 Relative Feature (3 CP)."
+              rule="1.02 ARCHETYPES.md"
+              color="#10b981"
+            />
+          </div>
+          <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300">
+            2 CP Discounted (3 in Chassis)
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-400 leading-relaxed font-sans">
+          Core Features discounted by -1 CP (to 2 CP each) for characters belonging to this Archetype:
+        </p>
+
+        <div className="flex flex-wrap gap-2 pt-1">
+          {recommendedCoreFeatures.length === 0 ? (
+            <span className="text-xs text-slate-500 italic font-mono">No recommended core features listed.</span>
+          ) : (
+            recommendedCoreFeatures.map(feat => {
+              const featName = typeof feat === 'object' ? (feat.name || feat.id || '') : String(feat);
+              return (
+                <span
+                  key={featName}
+                  className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center gap-1.5 shadow-sm"
+                >
+                  <Tag size={11} className="text-emerald-400" />
+                  <span>{featName}</span>
+                  <span className="text-[10px] text-emerald-400 ml-1">(2 CP)</span>
+                  {isEditMode && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFeature(feat)}
+                      className="text-slate-400 hover:text-red-400 transition-colors ml-0.5 cursor-pointer"
+                      title="Remove feature"
+                    >
+                      <X size={12} />
+                    </button>
+                  )}
+                </span>
+              );
+            })
+          )}
+        </div>
+
+        {isEditMode && (
+          <div className="pt-2 flex items-center gap-2">
+            <input
+              type="text"
+              value={newFeatureInput}
+              onChange={(e) => setNewFeatureInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddFeature(); } }}
+              placeholder="Add recommended core feature (2 CP)..."
+              className="flex-1 p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-emerald-400"
+            />
+            <button
+              type="button"
+              onClick={handleAddFeature}
+              className="px-3 py-2 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded-lg text-xs font-mono font-bold flex items-center gap-1 cursor-pointer"
+            >
+              <Plus size={13} />
+              <span>Add Core Feature</span>
             </button>
           </div>
         )}
@@ -699,39 +839,6 @@ export const ArchetypeConfigurator = ({
         ) : (
           <div className="p-3 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans">
             {formData.tactical_role || 'No tactical role defined.'}
-          </div>
-        )}
-      </div>
-
-      {/* ── Section 7: Full Rules Text & Narrative Lore (1.02 ARCHETYPES.MD) ── */}
-      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
-        <div className="flex items-center gap-2 border-b border-slate-800/80 pb-2.5">
-          <BookOpen className="w-4 h-4 text-indigo-400" />
-          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-            Full Rules Text & Archetype Dossier (1.02 Archetypes.md Alignment)
-          </h4>
-        </div>
-
-        {isEditMode ? (
-          <div className="space-y-1">
-            <textarea
-              rows={10}
-              value={formData.full_text || ''}
-              onChange={(e) => onChange('full_text', e.target.value)}
-              placeholder="Enter canonical 1.02 ARCHETYPES.md text and narrative flavor (Markdown supported)..."
-              className="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-indigo-400 leading-relaxed font-sans"
-            />
-            <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (#, ##, bullet points, bold, quotes)</span>
-          </div>
-        ) : (
-          <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
-            {formData.full_text ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {formData.full_text}
-              </ReactMarkdown>
-            ) : (
-              <span className="italic text-slate-500 font-mono">No full canonical text recorded for this archetype.</span>
-            )}
           </div>
         )}
       </div>

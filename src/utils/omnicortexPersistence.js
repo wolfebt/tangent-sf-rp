@@ -6,7 +6,7 @@
 
 import { StorageService } from '../services/storageService.js';
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData.js';
-import { DEFAULT_SPECIES } from '../data/speciesData.js';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../data/speciesData.js';
 import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData.js';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
@@ -567,6 +567,50 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         }
       }
 
+      if ((catKey === 'factions' || catKey === 'char-faction') && Array.isArray(DEFAULT_SYNTHESIS)) {
+        const fidCandidates = new Set([docId]);
+        if (docId === 'faction-auluran-clans') fidCandidates.add('faction-auluran');
+        if (docId === 'faction-dracon-dynasty' || docId === 'faction-draconian-order') {
+          fidCandidates.add('faction-dracon-dynasty');
+          fidCandidates.add('faction-dynasty');
+        }
+        if (docId === 'faction-radiant-impyrium' || docId === 'faction-impyrium') {
+          fidCandidates.add('faction-impyrium');
+        }
+        if (docId === 'faction-silvermoon-vanguard') {
+          fidCandidates.add('faction-alterian-enclave');
+        }
+        if (docId === 'faction-aeld-providence') {
+          fidCandidates.add('faction-alterian-enclave');
+          fidCandidates.add('faction-kovian-tribunal');
+          fidCandidates.add('faction-vajar');
+          fidCandidates.add('faction-dracon-dynasty');
+          fidCandidates.add('faction-dynasty');
+        }
+        const archMatches = DEFAULT_SYNTHESIS.filter(s => s?.synthesis_type === 'faction_architecture' && fidCandidates.has(s.faction_id));
+        const attireMatches = DEFAULT_SYNTHESIS.filter(s => s?.synthesis_type === 'faction_attire' && fidCandidates.has(s.faction_id));
+        const sceneryMatches = DEFAULT_SYNTHESIS.filter(s => s?.synthesis_type === 'origin_scenery' && fidCandidates.has(s.faction_id));
+
+        if (!enriched.architecture && archMatches.length > 0) {
+          enriched.architecture = archMatches.map(s => s.description).filter(Boolean).join('\n');
+        }
+        if (!enriched.gear_aesthetic && attireMatches.length > 0) {
+          enriched.gear_aesthetic = attireMatches.map(s => s.description).filter(Boolean).join('\n');
+        }
+        if (!enriched.design_language && (archMatches.length > 0 || attireMatches.length > 0)) {
+          enriched.design_language = [archMatches[0]?.description, attireMatches[0]?.description].filter(Boolean).join(' | ');
+        }
+        if ((archMatches.length > 0 || attireMatches.length > 0 || sceneryMatches.length > 0) && !(enriched.body || '').includes('## Visual Synthesis & Aesthetic Descriptors')) {
+          const synthLines = ['## Visual Synthesis & Aesthetic Descriptors'];
+          for (const a of archMatches) synthLines.push(`- **${a.name}:** ${a.description}`);
+          for (const at of attireMatches) synthLines.push(`- **${at.name}:** ${at.description}`);
+          for (const sc of sceneryMatches.slice(0, 11)) synthLines.push(`- **${sc.name}:** ${sc.description}`);
+          const synthSection = synthLines.join('\n');
+          enriched.body = enriched.body ? `${enriched.body}\n\n${synthSection}` : synthSection;
+          enriched.full_text = enriched.body;
+        }
+      }
+
       if (['weaponry', 'weapons', 'armoring', 'armor', 'gear', 'equipment', 'mecha', 'architecture', 'other', 'augmentations'].includes(catKey) && matchingSeed) {
         const docCredits = Number(doc.costs?.credits || doc.cost || 0);
         const seedCredits = Number(matchingSeed.costs?.credits || matchingSeed.cost || 0);
@@ -745,6 +789,7 @@ export const getFallbackSeedForCategory = (catK) => {
   if (catK === 'compendium' || catK === 'rules_codex') return cachedCompendiumSeed || [];
   if (catK === 'archetypes' || catK === 'char-archetype') return DEFAULT_ARCHETYPES;
   if (catK === 'species' || catK === 'char-species') return DEFAULT_SPECIES;
+  if (catK === 'species_lineage' || catK === 'species_lineages') return SPECIES_LINEAGES;
   if (catK === 'species_type') return DEFAULT_SPECIES_TYPES;
   if (catK === 'species_size') return DEFAULT_SPECIES_SIZES;
   if (catK === 'species_movement') return DEFAULT_SPECIES_MOVEMENT;

@@ -31,12 +31,17 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Low Light Vision
-  - Headstrong
-  - Runner
-  - Self Sufficient
-  - Quick
+  - special-darksight
+  - special-low-light-vision
+  - skill-headstrong
+  - general-runner
+  - skill-self-sufficient
+  - general-quick
+  - ability-environmental-adaptation
+  - skill-perceptive
+  - special-energy-resistance
+  - skill-veiled-threat
+  - general-endurance
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '1'
@@ -47,83 +52,140 @@ costs:
   bp: 21
 modifiers:
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
-  - target: Adaptation
-    value: 1
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Alertness
     value: 1
-    type: feature
     mode: recommended
-  - target: Amphibious
+    description: 'Recommended Feature: Darksight'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Blindsense (Thermal Receptors)
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-headstrong
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Headstrong'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Dragonkin
+    description: 'Recommended Feature: Runner'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Energy Resist line (one type)
+    description: 'Recommended Feature: Self Sufficient'
+  - target: general-quick
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Dragonkin)
+    description: 'Recommended Feature: Quick'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: skill-perceptive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Perceptive'
+  - target: special-energy-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Headstrong
+    description: 'Recommended Feature: Energy Resistance'
+  - target: skill-veiled-threat
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Intimidating Prowess
+    description: 'Recommended Feature: Veiled Threat'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Rugged
+    description: 'Recommended Feature: Endurance'
+  - target: trait-dark-sight
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-low-light-vision
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Self Sufficient
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-quick
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Quick
+    description: 'Recommended Species Trait: Quick'
+  - target: trait-adapted
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Venom
+    description: 'Recommended Species Trait: Adapted'
+  - target: trait-amphibious
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Amphibious'
+  - target: trait-blind-sense
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Blind Sense'
+  - target: trait-thermal-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Thermal Sight'
+  - target: trait-dragon-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dragon Senses'
+  - target: trait-dragon-breath
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dragon Breath'
+  - target: trait-energy-resist
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Resist'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
+  - target: trait-hardy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Hardy'
+  - target: trait-venom
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Venom'
 description: >-
   The Jorni are a formidable and imposing reptilian species, standing at an
   average height of seven feet. These powerful beings, commonly referred to as
@@ -154,6 +216,21 @@ negative_keywords: 'arid-desert, delicate, fragile'
 cp: 21
 bp: 21
 cp_cost: 21
+recommended_traits:
+  - trait-dark-sight
+  - trait-low-light-vision
+  - trait-quick
+  - trait-adapted
+  - trait-amphibious
+  - trait-blind-sense
+  - trait-thermal-sight
+  - trait-dragon-senses
+  - trait-dragon-breath
+  - trait-energy-resist
+  - trait-exoskeleton-light
+  - trait-bonded-terrain
+  - trait-hardy
+  - trait-venom
 ---
 
 # **1.03.Jorni — Jorni (Semi-Aquatic Reptilian Humanoids)**

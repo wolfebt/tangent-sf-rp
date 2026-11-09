@@ -30,12 +30,12 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Fast Heal
-  - Natural Weapons
-  - Runner
-  - Tolerance
-  - Tough
+  - discipline-awakened
+  - general-fast-heal
+  - special-natural-weapons
+  - general-runner
+  - ability-tolerance
+  - general-tough
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: 4 (Biotechnology)
@@ -46,57 +46,83 @@ costs:
   bp: 30
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Awakened
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Fast Heal
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Awakened'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Fast Heal'
+  - target: special-natural-weapons
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tolerance
+    description: 'Recommended Feature: Natural Weapons'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Runner'
+  - target: ability-tolerance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Tolerance'
+  - target: general-tough
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Tough'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
 description: >-
   These creatures possess more human-like forms, standing upright on two legs at
   a height of **5 feet average**. They share many features with humans but are
   distinguished by fine fur covering their entire bodies. Their ears are **long,
   furry, and pointed at the tips**. Their eyes are large, wide, and **iridescent
   with bright colors**.
-traits: &ref_0
+traits:
+  - trait-auluran-base-traits
+  - trait-awakened-psychic
+  - trait-climber
+  - trait-martial-arts
+  - trait-quick
+species_traits:
   - trait-auluran-base-traits
   - trait-awakened-psychic
   - trait-climber
   - trait-defensive-training
   - trait-quick
-species_traits: *ref_0
 recommended_factions:
   - Auluran Clans
   - Coalition of Independent Worlds
@@ -117,6 +143,10 @@ negative_keywords: 'clumsy, heavy-armor, aquatic, cybernetic-dependent, pacifist
 cp: 30
 bp: 30
 cp_cost: 30
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-fast-heal
+  - trait-natural-weapons
 ---
 
 # **1.03.Aulurans.Dar — Dar (Auluran Spiritual Apex)**

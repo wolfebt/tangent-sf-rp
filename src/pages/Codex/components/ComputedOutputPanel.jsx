@@ -34,6 +34,9 @@ import { calculateTechPenalty, getTechLevelDef } from '../../../engines/tangentT
 import { calculateLiquidityGap, calculateCreditValue } from '../../../engines/tangentEconEngine';
 import { SIZE_CATEGORIES_LIST } from '../../../engines/tangentConstants';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
+import { OmnicortexTooltip, SpeciesBuildCostTooltipCard } from '../../../components/Codex/SpeciesStudioTooltips';
+import { evaluateAssetBuildCost } from '../codexBuildCostValidator';
+import { getGuidanceForDataset } from '../codexDatasetGuidance';
 
 const ICON_MAP = {
   Coins,
@@ -93,14 +96,25 @@ export const ComputedOutputPanel = ({
   computedValues = {},
   formData = {},
   matrix = {},
+  currentKey = '',
+  onFieldChange = null,
   isLoading = false
 }) => {
-  const isProperty = Boolean(matrix?.isProperty);
+  const resolvedDatasetKey = currentKey || matrix?.targetCollection || matrix?.id || 'equipment';
 
-  // Economy blocks, Craft DCs, and Codex Quick-Adjudicator are strictly restricted to property assets (augmentations, architecture, armor, gear, mecha, weapons)
-  if (!isProperty) {
-    return null;
-  }
+  const buildCheck = useMemo(
+    () => evaluateAssetBuildCost(formData, resolvedDatasetKey, computedValues),
+    [formData, resolvedDatasetKey, computedValues]
+  );
+
+  const isProperty = Boolean(matrix?.isProperty) && Boolean(buildCheck?.isProperty);
+
+  const guidance = useMemo(
+    () => getGuidanceForDataset(resolvedDatasetKey) || getGuidanceForDataset(matrix?.id),
+    [resolvedDatasetKey, matrix?.id]
+  );
+
+  const [showRulesChecklist, setShowRulesChecklist] = useState(true);
 
   const isWeapon = matrix?.id === 'weaponry';
   const isInvocation = ['invocation', 'meta-tech'].includes(matrix?.id);
@@ -126,7 +140,7 @@ export const ComputedOutputPanel = ({
       ...formData,
       size: sizeVal
     });
-    const valuation = validateAssetValuation(effectiveDC, enteredCost);
+    const valuation = validateAssetValuation(enteredCost, effectiveDC);
     return { scale, valuation, sizeVal };
   }, [formData, effectiveDC, enteredCost, sizeVal]);
 
@@ -148,6 +162,15 @@ export const ComputedOutputPanel = ({
     return calculateFluidCombatModifier(sizeVal, quickTargetSize);
   }, [sizeVal, quickTargetSize]);
 
+  const statusColorClasses =
+    buildCheck.status === 'valid'
+      ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300'
+      : buildCheck.status === 'info'
+        ? 'bg-cyan-950/70 border-cyan-500/50 text-cyan-300'
+        : buildCheck.status === 'error'
+          ? 'bg-red-950/70 border-red-500/50 text-red-300'
+          : 'bg-amber-950/70 border-amber-500/50 text-amber-300';
+
   return (
     <aside className="w-full lg:w-84 xl:w-96 flex flex-col gap-4 font-mono text-slate-200 shrink-0">
       {/* Top Header Card */}
@@ -158,25 +181,173 @@ export const ComputedOutputPanel = ({
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-cyan-400">Omnicortex</span>
+              <span className="text-[9px] font-bold uppercase tracking-wider text-cyan-400">Rules Codex</span>
               <span className="text-slate-600 text-xs">•</span>
-              <span className="text-[9px] text-slate-400 uppercase">Live Engine</span>
+              <span className="text-[9px] text-slate-400 uppercase">Design Framework</span>
             </div>
             <h4 className="text-xs font-extrabold uppercase tracking-wide text-white truncate">
-              Derived Game Metrics
+              Build Cost &amp; Value Checker
             </h4>
           </div>
         </div>
 
         <span className="text-[9px] px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-bold uppercase">
-          {isLoading ? 'Computing...' : 'Synchronized'}
+          {isLoading ? 'Computing...' : 'Live Audit'}
         </span>
       </div>
+
+      {/* ── Universal Build Cost & Value Verification Card ── */}
+      <div className="bg-slate-950/85 border border-slate-800 rounded-2xl p-3.5 space-y-3 shadow-lg">
+        <OmnicortexTooltip content={<SpeciesBuildCostTooltipCard buildCheck={buildCheck} />}>
+          <div className="flex items-center justify-between gap-2 cursor-help rounded-lg p-1 -m-1 hover:bg-slate-900/60 transition-colors">
+            <div>
+              <span className="text-[9.5px] uppercase tracking-wider text-slate-400 block">
+                Active Build Valuation
+              </span>
+              <div className="text-base font-extrabold text-amber-300 tracking-tight">
+                {buildCheck.primaryCostLabel}
+              </div>
+              <span className="text-[10px] text-slate-400 block">
+                {buildCheck.secondaryLabel}
+              </span>
+            </div>
+            <span className={`px-2.5 py-1 rounded-lg border text-[10px] font-extrabold uppercase tracking-wider shrink-0 ${statusColorClasses}`}>
+              {buildCheck.statusLabel}
+            </span>
+          </div>
+        </OmnicortexTooltip>
+
+        {/* Formula Banner */}
+        <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-[10px] text-cyan-300 leading-relaxed">
+          <span className="text-slate-500 font-bold uppercase block text-[8.5px] mb-0.5">
+            Canonical Build Cost Formula
+          </span>
+          {buildCheck.formulaSummary}
+        </div>
+
+        {/* Itemized Build Cost Breakdown */}
+        {Array.isArray(buildCheck.breakdown) && buildCheck.breakdown.length > 0 && (
+          <div className="space-y-1.5 pt-1">
+            <div className="text-[9.5px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+              <span>Component Breakdown</span>
+              <span>Cost / Target</span>
+            </div>
+            <div className="divide-y divide-slate-800/70 border border-slate-800/90 rounded-xl bg-slate-900/50 overflow-hidden">
+              {buildCheck.breakdown.map((row, idx) => {
+                const isUnaccounted = Boolean(row.unaccounted || row.status === 'warning');
+                return (
+                  <div
+                    key={idx}
+                    className={`p-2 text-[10.5px] flex flex-col gap-0.5 ${
+                      isUnaccounted
+                        ? 'bg-amber-950/60 border-l-2 border-amber-500'
+                        : ''
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={`font-semibold truncate ${isUnaccounted ? 'text-amber-200' : 'text-slate-200'}`}>
+                        {row.label}
+                      </span>
+                      <span className={`font-bold shrink-0 ${
+                        row.status === 'error'
+                          ? 'text-red-400'
+                          : isUnaccounted
+                            ? 'text-amber-300'
+                            : 'text-emerald-300'
+                      }`}>
+                        {row.value}
+                      </span>
+                    </div>
+                    {row.note && (
+                      <div className={`flex items-center justify-between gap-2 text-[9.5px] font-sans ${
+                        isUnaccounted ? 'text-amber-200/80' : 'text-slate-400'
+                      }`}>
+                        <span className="truncate">{row.note}</span>
+                        {row.target && (
+                          <span className={`font-mono shrink-0 ${isUnaccounted ? 'text-amber-400/80' : 'text-slate-500'}`}>
+                            {row.target}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* 1-Click Sync to Canonical Build Cost Button */}
+        {buildCheck.syncPatch && typeof onFieldChange === 'function' && (
+          <button
+            type="button"
+            onClick={() => {
+              onFieldChange(buildCheck.syncPatch.field, buildCheck.syncPatch.value);
+              if (buildCheck.syncPatch.secondaryField) {
+                onFieldChange(buildCheck.syncPatch.secondaryField, buildCheck.syncPatch.secondaryValue);
+              }
+            }}
+            className="w-full py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/60 text-amber-200 text-[10.5px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
+          >
+            <Zap size={12} className="text-amber-400" />
+            <span>{buildCheck.syncPatch.label}</span>
+          </button>
+        )}
+      </div>
+
+      {/* ── Rules Codex Design Framework Checklist & Canonical Rules ── */}
+      {guidance && (
+        <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 space-y-2.5 shadow-md">
+          <button
+            type="button"
+            onClick={() => setShowRulesChecklist(prev => !prev)}
+            className="w-full flex items-center justify-between text-left cursor-pointer"
+          >
+            <div className="flex items-center gap-1.5">
+              <Sparkles size={13} className="text-amber-400 shrink-0" />
+              <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-200">
+                {guidance.title} Rules
+              </span>
+            </div>
+            <span className="text-[9.5px] text-cyan-400 font-bold uppercase">
+              {showRulesChecklist ? 'Hide' : 'Show'}
+            </span>
+          </button>
+
+          {showRulesChecklist && (
+            <div className="space-y-2 pt-1.5 border-t border-slate-800/80 text-[10.5px] font-sans">
+              <p className="text-slate-300 leading-relaxed">
+                {guidance.overview}
+              </p>
+              {Array.isArray(guidance.canonicalRules) && guidance.canonicalRules.length > 0 && (
+                <div className="space-y-1.5 pt-1">
+                  {guidance.canonicalRules.map((rule, rIdx) => (
+                    <div key={rule.id || rule.code || rIdx} className="p-2 rounded-lg bg-slate-900/80 border border-slate-800">
+                      <div className="flex items-center justify-between font-mono text-[9.5px] mb-0.5">
+                        <span className="text-amber-400 font-bold">{rule.title || rule.label}</span>
+                        <span className="text-slate-500">{rule.id || rule.code}</span>
+                      </div>
+                      <p className="text-slate-400 text-[10px] leading-snug">{rule.summary || rule.text}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Main Computed Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5">
         {computedOutputs.map((output) => {
           if (output.format === 'time_table') {
+            return null;
+          }
+          if (
+            !isProperty &&
+            (output.format === 'credits' ||
+              ['credit_value', 'material_cost', 'ws_threshold', 'crafting_time', 'cost'].includes(output.id))
+          ) {
             return null;
           }
 
@@ -341,127 +512,129 @@ export const ComputedOutputPanel = ({
         </div>
       )}
 
-      {/* ── Interactive Codex Quick-Adjudicator Dock ── */}
-      <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-3 shadow-md">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-200">
-            <Sliders size={13} className="text-cyan-400" />
-            <span>Codex Quick-Adjudicator</span>
+      {/* ── Interactive Codex Quick-Adjudicator Dock (Property Items Only) ── */}
+      {isProperty && (
+        <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-3 shadow-md">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-slate-200">
+              <Sliders size={13} className="text-cyan-400" />
+              <span>Codex Quick-Adjudicator</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setQuickToolTab('liquidity')}
+                className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
+                  quickToolTab === 'liquidity' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Liquidity
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuickToolTab('penalty')}
+                className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
+                  quickToolTab === 'penalty' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Tech Pen
+              </button>
+              <button
+                type="button"
+                onClick={() => setQuickToolTab('matchup')}
+                className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
+                  quickToolTab === 'matchup' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Matchup
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setQuickToolTab('liquidity')}
-              className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
-                quickToolTab === 'liquidity' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Liquidity
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuickToolTab('penalty')}
-              className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
-                quickToolTab === 'penalty' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Tech Pen
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuickToolTab('matchup')}
-              className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold transition-colors ${
-                quickToolTab === 'matchup' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Matchup
-            </button>
-          </div>
-        </div>
 
-        {/* Quick Tool 1: Liquidity Gap */}
-        {quickToolTab === 'liquidity' && (() => {
-          const isAffordable = Boolean(quickLiquidity?.canAfford ?? (quickLiquidity?.autoBuy || (quickLiquidity?.liquidCost ?? 0) === 0));
-          const margin = Number(quickLiquidity?.marginCredits ?? Math.max(0, (quickLiquidity?.playerWSValue ?? 0) - (quickLiquidity?.itemValue ?? 0))) || 0;
-          const shortfall = Number(quickLiquidity?.shortfallCredits ?? quickLiquidity?.liquidCost ?? 0) || 0;
-          const buyerCapital = Number(calculateCreditValue(quickBuyerWS)) || 0;
+          {/* Quick Tool 1: Liquidity Gap */}
+          {quickToolTab === 'liquidity' && (() => {
+            const isAffordable = Boolean(quickLiquidity?.canAfford ?? (quickLiquidity?.autoBuy || (quickLiquidity?.liquidCost ?? 0) === 0));
+            const margin = Number(quickLiquidity?.marginCredits ?? Math.max(0, (quickLiquidity?.playerWSValue ?? 0) - (quickLiquidity?.itemValue ?? 0))) || 0;
+            const shortfall = Number(quickLiquidity?.shortfallCredits ?? quickLiquidity?.liquidCost ?? 0) || 0;
+            const buyerCapital = Number(calculateCreditValue(quickBuyerWS)) || 0;
 
-          return (
+            return (
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-slate-400">Buyer WS:</span>
+                  <span className="text-amber-400 font-bold">WS {quickBuyerWS} ({buyerCapital.toLocaleString()} Cr)</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={quickBuyerWS}
+                  onChange={(e) => setQuickBuyerWS(Number(e.target.value))}
+                  className="w-full accent-amber-500 cursor-pointer"
+                />
+                <div className={`p-2 rounded text-[11px] font-bold flex items-center justify-between ${
+                  isAffordable
+                    ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
+                    : 'bg-red-950/60 border border-red-500/40 text-red-300'
+                }`}>
+                  <span>{isAffordable ? 'Affordable' : 'Liquidity Shortfall'}</span>
+                  <span>{isAffordable ? `+${margin.toLocaleString()} Cr` : `-${shortfall.toLocaleString()} Cr`}</span>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Quick Tool 2: Operator Tech Penalty */}
+          {quickToolTab === 'penalty' && (
             <div className="space-y-2 text-xs">
               <div className="flex items-center justify-between text-[11px]">
-                <span className="text-slate-400">Buyer WS:</span>
-                <span className="text-amber-400 font-bold">WS {quickBuyerWS} ({buyerCapital.toLocaleString()} Cr)</span>
+                <span className="text-slate-400">Operator Native TL:</span>
+                <span className="text-blue-400 font-bold">TL {quickOperatorTL} (Asset: TL {assetTL})</span>
               </div>
               <input
                 type="range"
                 min="0"
-                max="40"
-                value={quickBuyerWS}
-                onChange={(e) => setQuickBuyerWS(Number(e.target.value))}
-                className="w-full accent-amber-500 cursor-pointer"
+                max="5"
+                value={quickOperatorTL}
+                onChange={(e) => setQuickOperatorTL(Number(e.target.value))}
+                className="w-full accent-blue-500 cursor-pointer"
               />
               <div className={`p-2 rounded text-[11px] font-bold flex items-center justify-between ${
-                isAffordable
+                quickPenalty === 0
                   ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
-                  : 'bg-red-950/60 border border-red-500/40 text-red-300'
+                  : 'bg-amber-950/60 border border-amber-500/40 text-amber-300'
               }`}>
-                <span>{isAffordable ? 'Affordable' : 'Liquidity Shortfall'}</span>
-                <span>{isAffordable ? `+${margin.toLocaleString()} Cr` : `-${shortfall.toLocaleString()} Cr`}</span>
+                <span>{quickPenalty === 0 ? 'Full Compatibility' : 'Operating Check Penalty'}</span>
+                <span>{quickPenalty === 0 ? '+0' : `${quickPenalty}`}</span>
               </div>
             </div>
-          );
-        })()}
+          )}
 
-        {/* Quick Tool 2: Operator Tech Penalty */}
-        {quickToolTab === 'penalty' && (
-          <div className="space-y-2 text-xs">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-slate-400">Operator Native TL:</span>
-              <span className="text-blue-400 font-bold">TL {quickOperatorTL} (Asset: TL {assetTL})</span>
+          {/* Quick Tool 3: Fluid Combat Matchup */}
+          {quickToolTab === 'matchup' && (
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-slate-400">Opponent Size:</span>
+                <select
+                  value={quickTargetSize}
+                  onChange={(e) => setQuickTargetSize(e.target.value)}
+                  className="bg-slate-900 border border-slate-700 text-slate-200 rounded px-1.5 py-0.5 text-[10px]"
+                >
+                  {SIZE_CATEGORIES_LIST.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="p-2 bg-slate-900 rounded border border-slate-800 text-[11px] flex items-center justify-between">
+                <span className="text-slate-300">Opposed Attack Roll:</span>
+                <span className="text-sm font-extrabold text-amber-400 font-mono">
+                  {quickMatchup.modifier >= 0 ? `+${quickMatchup.modifier}` : quickMatchup.modifier}
+                </span>
+              </div>
             </div>
-            <input
-              type="range"
-              min="0"
-              max="5"
-              value={quickOperatorTL}
-              onChange={(e) => setQuickOperatorTL(Number(e.target.value))}
-              className="w-full accent-blue-500 cursor-pointer"
-            />
-            <div className={`p-2 rounded text-[11px] font-bold flex items-center justify-between ${
-              quickPenalty === 0
-                ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300'
-                : 'bg-amber-950/60 border border-amber-500/40 text-amber-300'
-            }`}>
-              <span>{quickPenalty === 0 ? 'Full Compatibility' : 'Operating Check Penalty'}</span>
-              <span>{quickPenalty === 0 ? '+0' : `${quickPenalty}`}</span>
-            </div>
-          </div>
-        )}
-
-        {/* Quick Tool 3: Fluid Combat Matchup */}
-        {quickToolTab === 'matchup' && (
-          <div className="space-y-2 text-xs">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-slate-400">Opponent Size:</span>
-              <select
-                value={quickTargetSize}
-                onChange={(e) => setQuickTargetSize(e.target.value)}
-                className="bg-slate-900 border border-slate-700 text-slate-200 rounded px-1.5 py-0.5 text-[10px]"
-              >
-                {SIZE_CATEGORIES_LIST.map(c => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="p-2 bg-slate-900 rounded border border-slate-800 text-[11px] flex items-center justify-between">
-              <span className="text-slate-300">Opposed Attack Roll:</span>
-              <span className="text-sm font-extrabold text-amber-400 font-mono">
-                {quickMatchup.modifier >= 0 ? `+${quickMatchup.modifier}` : quickMatchup.modifier}
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Embedded Crafting Time Table Widget (Property Items Only) */}
       {isProperty && (

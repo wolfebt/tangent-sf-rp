@@ -17,7 +17,13 @@ import {
  * @returns {number} Node capacity for that slot
  */
 export function getNodeCapacity(bodySlot) {
-  return BODY_SLOT_NODES[bodySlot] || 0;
+  if (!bodySlot) return 0;
+  if (BODY_SLOT_NODES[bodySlot] !== undefined) return BODY_SLOT_NODES[bodySlot];
+  const compact = String(bodySlot).replace(/\s+/g, '');
+  if (BODY_SLOT_NODES[compact] !== undefined) return BODY_SLOT_NODES[compact];
+  if (/arm/i.test(compact)) return BODY_SLOT_NODES.LeftArm || 30;
+  if (/leg/i.test(compact)) return BODY_SLOT_NODES.LeftLeg || 40;
+  return 0;
 }
 
 /**
@@ -29,9 +35,9 @@ export function getTotalBodyNodes() {
 }
 
 /**
- * Calculate maximum external Socket mounts allowed on a body slot (<= 50% of base node capacity).
+ * Calculate maximum external Socket mounts allowed on a body slot (<= 50% of base socket capacity, where 10 Nodes = 1 Socket).
  * @param {string} bodySlot
- * @returns {number} Max sockets allowed externally
+ * @returns {number} Max sockets allowed externally (Head: 0, Torso: 2, Arm: 1, Leg: 2)
  */
 export function getExternalSocketMax(bodySlot) {
   const baseNodes = getNodeCapacity(bodySlot);

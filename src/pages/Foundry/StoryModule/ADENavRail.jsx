@@ -8,7 +8,7 @@
  * - Viewport Drawer Controls: Scenario Outliner Tree Toggle ([)
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { 
@@ -50,6 +50,9 @@ import { useDBM } from '../../../context/DBMContext';
 import { useFolio } from '../../../context/FolioContext';
 import { ADE_TYPE_TO_CORTEX_COLLECTIONS } from '../../../utils/cortexAdeAssetBridge';
 
+const EMPTY_ARRAY = [];
+const EMPTY_OBJ = {};
+
 export const ADENavRail = ({
   activeView = 'scenarios',
   onSwitchView,
@@ -72,9 +75,9 @@ export const ADENavRail = ({
   onCloseMobile
 }) => {
   const navigate = useNavigate();
-  const { elementsCatalog: contextElementsCatalog } = useStory() || {};
-  const { dbData = {} } = useDBM() || {};
-  const { roster: folioRoster = [], personaRoster = [] } = useFolio() || {};
+  const { elementsCatalog: contextElementsCatalog } = useStory() || EMPTY_OBJ;
+  const { dbData = EMPTY_OBJ } = useDBM() || EMPTY_OBJ;
+  const { roster: folioRoster = EMPTY_ARRAY, personaRoster = EMPTY_ARRAY } = useFolio() || EMPTY_OBJ;
   const storeActiveElementType = useAdeStore((state) => state.activeElementType);
   const setStoreActiveElementType = useAdeStore((state) => state.setActiveElementType);
   const activePropertySubcategory = useAdeStore((state) => state.activePropertySubcategory || 'all');
@@ -84,17 +87,39 @@ export const ADENavRail = ({
   const activeMetaphysicsSubcategory = useAdeStore((state) => state.activeMetaphysicsSubcategory || 'all');
   const setActiveMetaphysicsSubcategory = useAdeStore((state) => state.setActiveMetaphysicsSubcategory);
 
-  const elementsCatalog = propElementsCatalog || contextElementsCatalog || [];
+  const elementsCatalog = propElementsCatalog || contextElementsCatalog || EMPTY_ARRAY;
   const activeElementType = normalizeElementType(propActiveElementType || storeActiveElementType || ELEMENT_TYPES[0]);
-  const liveFolioList = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : []);
+  const liveFolioList = Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : EMPTY_ARRAY);
 
-  const getCategoryAssetCount = (elType) => {
-    const moduleCount = (elementsCatalog || []).filter(e => normalizeElementType(e?.type) === elType).length;
-    const cortexCols = ADE_TYPE_TO_CORTEX_COLLECTIONS[elType] || [];
-    const cortexCount = cortexCols.reduce((sum, col) => sum + (Array.isArray(dbData?.[col]) ? dbData[col].length : 0), 0);
-    const folioCount = elType === 'Persona' ? liveFolioList.length : 0;
-    return moduleCount + cortexCount + folioCount;
-  };
+  const { categoryCountsMap, storyPersonaCount } = useMemo(() => {
+    const modCounts = {};
+    let sPersonaCount = 0;
+    for (const e of elementsCatalog) {
+      if (!e) continue;
+      const t = normalizeElementType(e.type);
+      modCounts[t] = (modCounts[t] || 0) + 1;
+      if (t === 'Persona' && !e.isFolioPersona && e.dbmCategory !== 'modular_characters') {
+        sPersonaCount++;
+      }
+    }
+
+    const counts = {};
+    for (const elType of ELEMENT_TYPES) {
+      const moduleCount = modCounts[elType] || 0;
+      const cortexCols = ADE_TYPE_TO_CORTEX_COLLECTIONS[elType] || EMPTY_ARRAY;
+      let cortexCount = 0;
+      for (const col of cortexCols) {
+        if (Array.isArray(dbData?.[col])) {
+          cortexCount += dbData[col].length;
+        }
+      }
+      const folioCount = elType === 'Persona' ? liveFolioList.length : 0;
+      counts[elType] = moduleCount + cortexCount + folioCount;
+    }
+    return { categoryCountsMap: counts, storyPersonaCount: sPersonaCount };
+  }, [elementsCatalog, dbData, liveFolioList]);
+
+  const getCategoryAssetCount = (elType) => categoryCountsMap[elType] || 0;
 
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -656,7 +681,7 @@ export const ADENavRail = ({
                                   description: isPropertyBranch
                                     ? 'Weaponry, Armoring, Augmentations, Gear, Mecha, Architecture & Technology consolidated from OmniCortex'
                                     : isPersonaBranch
-                                    ? 'Persona Folio Roster, Modular Character Matrix (MCM), Archetypes & Story Personas'
+                                    ? 'Persona Folio Roster, Modular Character Matrix (MCM) & Story Personas'
                                     : isMetaphysicsBranch
                                     ? 'Invocations, Metaphysical Disciplines, Special Abilities & Synthesis consolidated from OmniCortex'
                                     : `Browse and forge ${elType} story & Cortex elements`
@@ -804,9 +829,7 @@ export const ADENavRail = ({
                                   ? liveFolioList.length
                                   : sub.id === 'mcm'
                                   ? (Array.isArray(dbData?.modular_characters) ? dbData.modular_characters.length : 0)
-                                  : sub.id === 'archetypes'
-                                  ? (Array.isArray(dbData?.archetypes) ? dbData.archetypes.length : 0)
-                                  : (elementsCatalog || []).filter(e => normalizeElementType(e?.type) === 'Persona' && !e?.isFolioPersona && e?.dbmCategory !== 'modular_characters' && e?.dbmCategory !== 'archetypes').length;
+                                  : storyPersonaCount;
                                 const isSubActive = activePersonaSource === sub.id;
                                 return (
                                   <button

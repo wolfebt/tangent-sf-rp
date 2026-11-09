@@ -28,11 +28,13 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Augmented
-  - Contacts
-  - Gearhead
-  - Well Informed
+  - discipline-awakened
+  - special-augmented
+  - general-contacts
+  - skill-gearhead
+  - general-well-informed
+  - skill-medic
+  - ability-tolerance
 disadvantages: []
 stigma: None
 tech_level: '4'
@@ -42,48 +44,71 @@ costs:
   cp: 15
   bp: 15
 modifiers:
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Awakened
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Augmented
     value: 1
-    type: feature
     mode: recommended
-  - target: Contacts
+    description: 'Recommended Feature: Awakened'
+  - target: special-augmented
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Gearhead
+    description: 'Recommended Feature: Augmented'
+  - target: general-contacts
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Contacts'
+  - target: skill-gearhead
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Medical Specialist
+    description: 'Recommended Feature: Gearhead'
+  - target: general-well-informed
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Well Informed
+    description: 'Recommended Feature: Well Informed'
+  - target: skill-medic
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Resilient
+    description: 'Recommended Feature: Medic'
+  - target: ability-tolerance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Tolerance'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-resistant
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Resistant'
 description: >-
   The original inhabitants of Premius, the Syndicate Homeworld, are a people
   with a distinct and ancient heritage. Physically, they are characterized by
@@ -105,6 +130,11 @@ negative_keywords: 'wilderness-scavenger, destitute, hermit'
 cp: 15
 bp: 15
 cp_cost: 15
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-longevity
+  - trait-resistant
 ---
 
 # **1.03.Humans.Premian — Premian (Syndicate High-Standard Humans)**

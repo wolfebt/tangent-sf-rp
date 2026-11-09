@@ -36,53 +36,102 @@ export const rollDice = (count = 2, sides = 6) => {
   return total;
 };
 
+const parseCodeVal = (token, min = 0, max = 15, fallback = 0) => {
+  if (token === undefined || token === null || token === '') return fallback;
+  const str = String(token).trim().toUpperCase();
+  if (/^\d+$/.test(str)) {
+    return clamp(parseInt(str, 10), min, max);
+  }
+  if (/^[0-9A-F]$/.test(str)) {
+    return clamp(parseInt(str, 16), min, max);
+  }
+  const numMatch = str.match(/\d+/);
+  if (numMatch) {
+    return clamp(parseInt(numMatch[0], 10), min, max);
+  }
+  return fallback;
+};
+
 /**
  * Parses a Universal World Profile / Tangent World Profile (UWP/TWP) string.
- * Format: Starport:Size:Atmosphere:Hydrography:Population:Government:Law:TL:ML
- * Example: 'A:8:6:7:10:4:5:4:3'
+ * Supports:
+ * - Colon-delimited: 'A:8:6:7:10:4:5:4:3'
+ * - Canonical hyphenated TWP: 'B-6-6-7-9-5-4 - TL3 ML1'
+ * - Compact UWP: 'B667954-3' or 'B667954 - TL3 ML1'
  */
 export const parseUWP = (uwpString) => {
+  const defaultProfile = {
+    starport: 'C',
+    size: 6,
+    atmosphere: 4,
+    hydrography: 6,
+    population: 7,
+    government: 4,
+    lawLevel: 4,
+    techLevel: 3,
+    metaLevel: 1
+  };
+
   if (!uwpString || typeof uwpString !== 'string') {
-    return {
-      starport: 'C',
-      size: 6,
-      atmosphere: 4,
-      hydrography: 6,
-      population: 7,
-      government: 4,
-      lawLevel: 4,
-      techLevel: 3,
-      metaLevel: 1
-    };
+    return defaultProfile;
   }
 
-  const parts = uwpString.trim().split(':');
-  if (parts.length < 7) {
-    return {
-      starport: 'C',
-      size: 6,
-      atmosphere: 4,
-      hydrography: 6,
-      population: 7,
-      government: 4,
-      lawLevel: 4,
-      techLevel: 3,
-      metaLevel: 1
-    };
+  const trimmed = uwpString.trim();
+  if (!trimmed) return defaultProfile;
+
+  // Extract explicit TL / ML labels if present (e.g., "TL3 ML1" or "TL 4 / ML 2")
+  const tlMatch = trimmed.match(/\bTL\s*[:=-]?\s*(\d+)/i);
+  const mlMatch = trimmed.match(/\bML\s*[:=-]?\s*(\d+)/i);
+
+  // Strip explicit TL/ML suffixes for core profile tokenization
+  const coreStr = trimmed
+    .replace(/\s*-\s*TL\s*[:=-]?\s*\d+.*$/i, '')
+    .replace(/\bTL\s*[:=-]?\s*\d+/gi, '')
+    .replace(/\bML\s*[:=-]?\s*\d+/gi, '')
+    .trim();
+
+  let tokens = [];
+  if (coreStr.includes(':')) {
+    tokens = coreStr.split(':').map(s => s.trim()).filter(Boolean);
+  } else {
+    const dashParts = coreStr.split(/\s*-\s*/).map(s => s.trim()).filter(Boolean);
+    if (dashParts.length > 0 && /^[A-EX][0-9A-F]{6}$/i.test(dashParts[0])) {
+      tokens = [...dashParts[0].split(''), ...dashParts.slice(1)];
+    } else if (dashParts.length >= 7) {
+      tokens = dashParts;
+    } else if (/^[A-EX][0-9A-F]{6,8}$/i.test(coreStr)) {
+      tokens = coreStr.split('');
+    }
   }
+
+  if (tokens.length < 7) {
+    return defaultProfile;
+  }
+
+  const rawStarport = String(tokens[0] || 'C').toUpperCase();
+  const starport = /^[A-EX]$/.test(rawStarport) ? rawStarport : 'C';
+
+  const tlVal = tlMatch
+    ? clamp(parseInt(tlMatch[1], 10), 0, 5)
+    : (tokens[7] !== undefined ? parseCodeVal(tokens[7], 0, 5, 3) : 3);
+  const mlVal = mlMatch
+    ? clamp(parseInt(mlMatch[1], 10), 0, 5)
+    : (tokens[8] !== undefined ? parseCodeVal(tokens[8], 0, 5, 0) : (tlMatch ? 1 : 0));
 
   return {
-    starport: (parts[0] || 'C').toUpperCase(),
-    size: Number(parts[1]) || 0,
-    atmosphere: Number(parts[2]) || 0,
-    hydrography: Number(parts[3]) || 0,
-    population: Number(parts[4]) || 0,
-    government: Number(parts[5]) || 0,
-    lawLevel: Number(parts[6]) || 0,
-    techLevel: parts[7] !== undefined ? clamp(Number(parts[7]), 0, 5) : 3,
-    metaLevel: parts[8] !== undefined ? clamp(Number(parts[8]), 0, 5) : 0
+    starport,
+    size: parseCodeVal(tokens[1], 0, 15, 6),
+    atmosphere: parseCodeVal(tokens[2], 0, 15, 4),
+    hydrography: parseCodeVal(tokens[3], 0, 15, 6),
+    population: parseCodeVal(tokens[4], 0, 15, 7),
+    government: parseCodeVal(tokens[5], 0, 15, 4),
+    lawLevel: parseCodeVal(tokens[6], 0, 15, 4),
+    techLevel: tlVal,
+    metaLevel: mlVal
   };
 };
+
+export const parseUWPString = parseUWP;
 
 /**
  * Formats structured planetary parameters into canonical UWP/TWP string.
@@ -101,11 +150,13 @@ export const formatUWP = (data) => {
   return `${sp}:${s}:${a}:${h}:${p}:${g}:${l}:${tl}:${ml}`;
 };
 
+export const formatUWPString = formatUWP;
+
 /**
  * Returns physical gravity details and mechanics from Size class.
  */
 export const getGravityDetails = (size = 6) => {
-  const sizeNum = clamp(Math.floor(Number(size) || 0), 0, 10);
+  const sizeNum = clamp(Math.floor(Number(size) || 0), 0, 15);
   return PLANETARY_SIZE_CLASSES[sizeNum] || PLANETARY_SIZE_CLASSES[6];
 };
 
@@ -113,7 +164,7 @@ export const getGravityDetails = (size = 6) => {
  * Returns atmospheric composition, pressure, survival gear, and hazards.
  */
 export const getAtmosphereDetails = (atmosCode = 4) => {
-  const codeNum = clamp(Math.floor(Number(atmosCode) || 0), 0, 12);
+  const codeNum = clamp(Math.floor(Number(atmosCode) || 0), 0, 15);
   return ATMOSPHERE_TYPES_DETAILED[codeNum] || ATMOSPHERE_TYPES_DETAILED[4];
 };
 
@@ -187,6 +238,11 @@ export const deriveTradeCodes = (data) => {
     codes.push('Lo');
   }
 
+  // Lt (Low Tech): TL <= 2, Pop >= 1
+  if (tl <= 2 && p >= 1) {
+    codes.push('Lt');
+  }
+
   // Na (Non-Ag): Atmos 0-3, Hydro 0-3, Pop 6+
   if (a <= 3 && h <= 3 && p >= 6) {
     codes.push('Na');
@@ -219,6 +275,8 @@ export const deriveTradeCodes = (data) => {
 
   return codes;
 };
+
+export const deriveWorldTradeCodes = deriveTradeCodes;
 
 /**
  * Calculates local commodity prices and market supply/demand based on Trade Codes.
@@ -303,25 +361,25 @@ export const generateProceduralPlanet = (options = {}) => {
   }
 
   // Step 2: Physical Chassis (Size, Atmos, Hydro)
-  let size = options.size !== undefined ? Number(options.size) : clamp(rollDice(2, 6) - 2, 0, 10);
+  let size = options.size !== undefined ? clamp(Number(options.size), 0, 15) : clamp(rollDice(2, 6) - 2, 0, 10);
   
   let atmos = 0;
   if (size > 0) {
-    atmos = options.atmosphere !== undefined ? Number(options.atmosphere) : clamp(rollDice(2, 6) - 7 + size - envPenalty, 0, 12);
+    atmos = options.atmosphere !== undefined ? clamp(Number(options.atmosphere), 0, 15) : clamp(rollDice(2, 6) - 7 + size - envPenalty, 0, 15);
   }
 
   let hydro = 0;
   if (size >= 2) {
     hydro = options.hydrography !== undefined ? Number(options.hydrography) : rollDice(2, 6) - 7 + atmos - envPenalty;
     if (atmos <= 1) hydro -= 4;
-    hydro = clamp(hydro, 0, 10);
+    hydro = clamp(hydro, 0, 15);
   }
 
   // Step 3: Sociological Skin (Pop, Starport, Gov, Law)
   let isCapital = options.isCapital || faction === 'The Syndicate' || faction === 'Dracon Dynasty';
   let pop = options.population !== undefined 
-    ? Number(options.population) 
-    : clamp(isCapital ? rollDice(3, 6) - 2 : rollDice(2, 6) - 2, 0, 12);
+    ? clamp(Number(options.population), 0, 15) 
+    : clamp(isCapital ? rollDice(3, 6) - 2 : rollDice(2, 6) - 2, 0, 15);
 
   let starport = 'C';
   let gov = 4;
@@ -381,13 +439,17 @@ export const generateProceduralPlanet = (options = {}) => {
   if (faction === 'The Outworlds') tl = Math.min(2, tl);
   if (faction === 'Ascendancy' || faction === 'Mekan') tl = Math.max(4, tl);
 
-  // Step 6: Meta Level Assessment (Canonical 0..5 Scale — 6.01 PLANETARY DESIGN.md)
-  let ml = clamp(rollDice(1, 6) - 1, 0, 5);
-  if (faction === 'Alterian Enclave' || faction === 'Ascendancy') ml = clamp(ml + 2, 2, 5);
-  if (faction === 'Mekan') ml = clamp(ml + 1, 1, 5);
-  if (faction === 'The Syndicate' || faction === 'Impyrium' || faction === 'Radiant Impyrium') ml = clamp(ml - 1, 0, 4);
-  if (faction === 'Kovian Tribunal') ml = clamp(ml, 0, 3);
-  if (tl === 0) ml = clamp(ml + 1, 1, 5);
+  // Step 6: Meta Level Assessment (Canonical 0..6 Scale — 6.01 PLANETARY DESIGN.md)
+  let ml = options.metaLevel !== undefined
+    ? clamp(Number(options.metaLevel), 0, 6)
+    : clamp(rollDice(1, 6) - 1, 0, 6);
+  if (options.metaLevel === undefined) {
+    if (faction === 'Alterian Enclave' || faction === 'Ascendancy') ml = clamp(ml + 2, 2, 6);
+    if (faction === 'Mekan') ml = clamp(ml + 1, 1, 6);
+    if (faction === 'The Syndicate' || faction === 'Impyrium' || faction === 'Radiant Impyrium') ml = clamp(ml - 1, 0, 4);
+    if (faction === 'Kovian Tribunal') ml = clamp(ml, 0, 3);
+    if (tl === 0) ml = clamp(ml + 1, 1, 6);
+  }
 
   // Generate 16 Domain Ratings centered on base TL
   const domains = {};
@@ -512,12 +574,12 @@ export const derivePlanetaryKeywords = (uwpData = {}, tradeCodes = [], dominantF
 export const computePlanetaryStats = (formData = {}) => {
   const uwpData = {
     starport: formData.starport || 'C',
-    size: Number(formData.size ?? formData.size_class ?? 6),
-    atmosphere: Number(formData.atmosphere ?? formData.atmos_code ?? 4),
-    hydrography: Number(formData.hydrography ?? formData.hydro_code ?? 6),
-    population: Number(formData.population ?? formData.pop_code ?? 7),
-    government: Number(formData.government ?? formData.gov_code ?? 4),
-    lawLevel: Number(formData.lawLevel ?? formData.law_level ?? 4),
+    size: clamp(Number(formData.size ?? formData.size_class ?? 6), 0, 15),
+    atmosphere: clamp(Number(formData.atmosphere ?? formData.atmos_code ?? 4), 0, 15),
+    hydrography: clamp(Number(formData.hydrography ?? formData.hydro_code ?? 6), 0, 15),
+    population: clamp(Number(formData.population ?? formData.pop_code ?? 7), 0, 15),
+    government: clamp(Number(formData.government ?? formData.gov_code ?? 4), 0, 15),
+    lawLevel: clamp(Number(formData.lawLevel ?? formData.law_level ?? 4), 0, 15),
     techLevel: clamp(Number(formData.techLevel ?? formData.tl ?? formData.tech_level ?? 3), 0, 5),
     metaLevel: clamp(Number(formData.metaLevel ?? formData.ml ?? formData.meta_level ?? 0), 0, 5)
   };

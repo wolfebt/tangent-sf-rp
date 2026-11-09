@@ -18,7 +18,16 @@ import {
 // Data pulled from Omnicortex DBM / OPFS (Static Rules & Base Stats)
 export interface StaticEntity {
   id: string;
+  unit_id?: string;
+  source_persona_id?: string;
+  character_doc_id?: string;
   name: string;
+  image_url?: string;
+  icon?: string;
+  designation?: string;
+  threat_tier?: number;
+  competency_role?: string;
+  boss_type?: string;
   base_hp: number; // Retained for compatibility (= base_health)
   base_health?: number;
   base_vitality?: number;
@@ -27,14 +36,31 @@ export interface StaticEntity {
   tech_level: number;
   armor_dr: number;
   stamina_dr?: number;
+  defense_dc?: number;
+  attack_bonus?: number;
+  actions_per_round?: number;
+  initiative_mod?: number;
   size_modifier: number;
   speed_ft?: number;
   species?: string;
   archetype?: string;
+  occupation?: string;
+  origin?: string;
+  faction?: string;
   is_persona?: boolean;
-  character_doc_id?: string;
+  is_mcm_persona?: boolean;
   skills?: Record<string, number>;
   attributes?: Record<string, number>;
+  saves?: Record<string, number>;
+  attacks?: Array<Record<string, any>>;
+  weapons?: Array<Record<string, any>>;
+  armor?: Array<Record<string, any>>;
+  gear?: Array<Record<string, any>>;
+  features?: Array<Record<string, any>>;
+  traits?: Array<Record<string, any>>;
+  augmentations?: Array<Record<string, any>>;
+  invocations?: Array<Record<string, any>>;
+  tactical_behaviors?: string[];
 }
 
 // Data pulled from WebRTC/LiveKit/Yjs (Volatile Stage Session Data)

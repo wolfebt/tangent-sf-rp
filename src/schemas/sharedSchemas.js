@@ -32,7 +32,7 @@ export function extractCanonicalName(entity = {}) {
 export function dbmItemToFoundryElement(dbmItem = {}, categoryKey = 'compendium') {
   const name = extractCanonicalName(dbmItem);
   const propCats = new Set(['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other', 'property']);
-  const metaCats = new Set(['invocations', 'disciplines', 'special_abilities', 'synthesis']);
+  const metaCats = new Set(['invocations', 'disciplines', 'special_abilities']);
   const resolvedType =
     categoryKey === 'species'
       ? 'Species'
@@ -299,14 +299,22 @@ export function extractHeroStats(hero = {}) {
     )
   );
 
-  const defense = parseInt(hero.derived_defense || ((hero['attr-reflex'] !== undefined && hero['attr-reflex'] !== null) ? parseInt(hero['attr-reflex'], 10) + 10 : 12), 10);
-  const actionPoints = parseInt(hero.derived_ap || 3, 10);
+  const defense = parseInt(hero.derived_defense || hero.defense_dc || ((hero['attr-reflex'] !== undefined && hero['attr-reflex'] !== null) ? parseInt(hero['attr-reflex'], 10) + 10 : 12), 10);
+  const actionPoints = parseInt(hero.derived_ap || hero.actions_per_round || 3, 10);
   const agility = parseInt(hero['attr-agility'] ?? hero.attr_agility ?? 0, 10);
   const stamina = parseInt(hero['attr-stamina'] ?? hero.attr_stamina ?? 0, 10);
   const toughness = stamina;
+  const armorDr = parseInt(hero.armor_dr ?? hero.armorDR ?? hero.expected_dr ?? 0, 10);
+  const attackBonus = parseInt(hero.attack_bonus ?? hero.attackBonus ?? 4, 10);
+  const threatTier = parseInt(hero.threat_tier ?? hero.threatTier ?? hero.mcmTier ?? 3, 10);
+  const competencyRole = hero.competency_role || hero.competencyRole || hero.mcmRole || 'Tank';
+  const bossType = hero.boss_type || hero.bossType || hero.mcmBossType || 'Standard';
+  const designation = hero.designation || hero.mcmDesignation || (hero.isMcmOrigin ? 'Adversary' : 'Ally');
+  const speedFt = parseInt(hero.speed_ft || hero.speed || 30, 10);
+  const initiativeMod = parseInt(hero['initiative-mod'] ?? hero.initiative_bonus ?? agility, 10);
 
   if (isSynthetic) {
-    const rawStructure = hero.structure ?? hero.max_structure ?? hero['max-structure'] ?? hero.derived_max_structure;
+    const rawStructure = hero.structure ?? hero.max_structure ?? hero['max-structure'] ?? hero.derived_max_structure ?? hero.structure_points;
     const fallbackStructure = parseInt((hero.health || 30), 10) + parseInt((hero.vitality || 30), 10);
     const maxStructure = parseInt(rawStructure !== undefined && rawStructure !== null ? rawStructure : fallbackStructure, 10) || 60;
     const currentStructure = hero.current_structure !== undefined && hero.current_structure !== null
@@ -327,10 +335,31 @@ export function extractHeroStats(hero = {}) {
       vitality: null,
       structure: { current: currentStructure, max: maxStructure },
       defense,
+      defense_dc: defense,
       actionPoints,
+      actions_per_round: actionPoints,
       agility,
       stamina,
       toughness,
+      stamina_dr: toughness,
+      armor_dr: armorDr,
+      attack_bonus: attackBonus,
+      threat_tier: threatTier,
+      competency_role: competencyRole,
+      boss_type: bossType,
+      designation,
+      speed_ft: speedFt,
+      initiative_mod: initiativeMod,
+      species: hero['char-species'] || hero.species || 'Synthetic',
+      archetype: hero['char-archetype'] || hero.archetype || 'Synthetic',
+      occupation: hero['char-occu'] || hero.occupation || '',
+      faction: hero['char-faction'] || hero.faction || '',
+      attacks: Array.isArray(hero.attacks) ? hero.attacks : [],
+      weapons: Array.isArray(hero.weapons) ? hero.weapons : [],
+      features: Array.isArray(hero.features) ? hero.features : [],
+      traits: Array.isArray(hero.traits) ? hero.traits : [],
+      augmentations: Array.isArray(hero.augmentations) ? hero.augmentations : [],
+      invocations: Array.isArray(hero.invocations) ? hero.invocations : [],
       isSynthetic: true,
       karma: parseInt(hero.karma !== undefined ? hero.karma : 3, 10),
       maxKarma: parseInt(hero.maxKarma || 3, 10),
@@ -362,10 +391,31 @@ export function extractHeroStats(hero = {}) {
       vitality: { current: currentVitality, max: maxVitality },
       structure: null,
       defense,
+      defense_dc: defense,
       actionPoints,
+      actions_per_round: actionPoints,
       agility,
       stamina,
       toughness,
+      stamina_dr: toughness,
+      armor_dr: armorDr,
+      attack_bonus: attackBonus,
+      threat_tier: threatTier,
+      competency_role: competencyRole,
+      boss_type: bossType,
+      designation,
+      speed_ft: speedFt,
+      initiative_mod: initiativeMod,
+      species: hero['char-species'] || hero.species || 'Human',
+      archetype: hero['char-archetype'] || hero.archetype || 'Everyman',
+      occupation: hero['char-occu'] || hero.occupation || '',
+      faction: hero['char-faction'] || hero.faction || '',
+      attacks: Array.isArray(hero.attacks) ? hero.attacks : [],
+      weapons: Array.isArray(hero.weapons) ? hero.weapons : [],
+      features: Array.isArray(hero.features) ? hero.features : [],
+      traits: Array.isArray(hero.traits) ? hero.traits : [],
+      augmentations: Array.isArray(hero.augmentations) ? hero.augmentations : [],
+      invocations: Array.isArray(hero.invocations) ? hero.invocations : [],
       isSynthetic: false,
       karma: parseInt(hero.karma !== undefined ? hero.karma : 3, 10),
       maxKarma: parseInt(hero.maxKarma || 3, 10),

@@ -64,7 +64,8 @@ import {
   MovementModeSelector,
   SocialStigmaSelector
 } from '../DBM/widgets/OmnicortexFieldSelector';
-import { categoryConfig } from '../DBM/categoryConfig';
+import { categoryConfig, isDevelopmentField } from '../DBM/categoryConfig';
+import { OmnicortexTooltip, SpeciesBuildCostTooltipCard } from './SpeciesStudioTooltips';
 import { SpeciesArchitectGuidance } from './SpeciesArchitectGuidance';
 import { FactionArchitectGuidance } from './FactionArchitectGuidance';
 import { OriginArchitectGuidance } from './OriginArchitectGuidance';
@@ -134,7 +135,8 @@ import * as planetaryEngine from '../../engines/tangentPlanetaryEngine';
 import { getSizeTierIndex } from '../../engines/tangentConstants';
 
 import { CodexTooltip } from '../UI/CodexTooltip';
-import { CODEX_DATASET_GUIDANCE } from '../../pages/Codex/codexDatasetGuidance';
+import { CODEX_DATASET_GUIDANCE, getGuidanceForDataset } from '../../pages/Codex/codexDatasetGuidance';
+import { evaluateAssetBuildCost } from '../../pages/Codex/codexBuildCostValidator';
 import { 
   getMatrixIdForAssetKey, 
   adaptItemToCodexFormData, 
@@ -467,6 +469,7 @@ const HARDWARE_ONLY_FIELDS = NON_PROPERTY_EXCLUDED_FIELDS;
 
 const formatFieldValue = (item) => {
   if (item === null || item === undefined) return '';
+  if (Array.isArray(item)) return item.map(formatFieldValue).filter(Boolean).join(', ');
   if (typeof item !== 'object') return String(item);
   if (item.name) return item.name;
   if (item.title) return item.title;
@@ -475,7 +478,10 @@ const formatFieldValue = (item) => {
   if (item.attribute) return `${item.attribute} ${Number(item.bonus ?? item.value ?? 0) >= 0 ? '+' : ''}${item.bonus ?? item.value ?? 0}`;
   if (item.id) return item.id;
   try {
-    return JSON.stringify(item);
+    return Object.entries(item)
+      .filter(([, v]) => v !== null && v !== undefined && v !== '')
+      .map(([k, v]) => `${k}: ${formatFieldValue(v)}`)
+      .join(', ');
   } catch {
     return String(item);
   }
@@ -651,8 +657,13 @@ export const AssetStudio = ({
 
   // Resolve canonical matrix
   const resolvedMatrix = useMemo(() => {
-    if (propMatrix) return propMatrix;
     const mId = getMatrixIdForAssetKey(resolvedKey);
+    if (propMatrix) {
+      if (!isPropertyCategory(resolvedKey) && propMatrix.isProperty && mId) {
+        return getMatrixById(mId) || getMatrixById('features');
+      }
+      return propMatrix;
+    }
     if (mId) return getMatrixById(mId);
     if (!isPropertyCategory(resolvedKey)) {
       return getMatrixById('features');
@@ -661,7 +672,6 @@ export const AssetStudio = ({
   }, [propMatrix, resolvedKey]);
 
   const matrix = resolvedMatrix || (isPropertyCategory(resolvedKey) ? getMatrixById('equipment') : getMatrixById('features'));
-  const isProperty = Boolean(matrix?.isProperty || isPropertyMatrix(matrix?.id) || isPropertyCategory(resolvedKey) || isPropertyCategory(matrix?.id));
   const isSpeciesStudio = Boolean(
     matrix?.id?.toLowerCase() === 'species' || 
     matrix?.targetCollection?.toLowerCase() === 'species' || 
@@ -669,7 +679,13 @@ export const AssetStudio = ({
     matrix?.name?.toLowerCase() === 'species' ||
     resolvedKey?.toLowerCase() === 'species'
   );
-  const guidance = useMemo(() => CODEX_DATASET_GUIDANCE[matrix.id] || null, [matrix.id]);
+  const isProperty = !isSpeciesStudio && Boolean(
+    isPropertyCategory(resolvedKey) && (matrix?.isProperty || isPropertyMatrix(matrix?.id) || isPropertyCategory(matrix?.id))
+  );
+  const guidance = useMemo(
+    () => getGuidanceForDataset(resolvedKey) || getGuidanceForDataset(matrix.id) || CODEX_DATASET_GUIDANCE[matrix.id] || null,
+    [resolvedKey, matrix.id]
+  );
 
   const activeCategoryConfig = useMemo(() => {
     return currentConfig || categoryConfig[resolvedKey] || categoryConfig[matrix.targetCollection] || null;
@@ -819,6 +835,12 @@ export const AssetStudio = ({
 
   // Reactive live computed state hook
   const { computedValues, isCalculating } = useComputedState(matrix, formData);
+
+  // Live Rules Codex Build Cost & Value Check
+  const liveBuildCheck = useMemo(
+    () => evaluateAssetBuildCost(formData, resolvedKey || matrix?.targetCollection || matrix?.id, computedValues),
+    [formData, resolvedKey, matrix?.targetCollection, matrix?.id, computedValues]
+  );
 
   const handleFieldChange = useCallback((name, value) => {
     setFormData(prev => {
@@ -1030,7 +1052,14 @@ export const AssetStudio = ({
 
       // Create normalized payload
       const adaptedPayload = adaptCodexToOmnicortexItem(formData, mergedComputed, matrix);
-      const targetCol = matrix.targetCollection || resolvedKey;
+      const isDistinctDBMCollection = Boolean(
+        resolvedKey && (
+          ['special_abilities', 'world', 'universe', 'setting', 'philosophy', 'scene', 'companions', 'disciplines'].includes(resolvedKey) ||
+          isDevelopmentField(resolvedKey) ||
+          Boolean(categoryConfig?.[resolvedKey])
+        )
+      );
+      const targetCol = isDistinctDBMCollection ? resolvedKey : (matrix.targetCollection || resolvedKey);
       const docId = formData.id || activeItem?.id || adaptedPayload.id || `entry_${Date.now()}`;
       adaptedPayload.id = docId;
 
@@ -1083,7 +1112,14 @@ export const AssetStudio = ({
 
     if (confirmed) {
       AudioService.playTerminalBeep(700, 0.04);
-      const targetCol = matrix.targetCollection || resolvedKey;
+      const isDistinctDBMCollection = Boolean(
+        resolvedKey && (
+          ['special_abilities', 'world', 'universe', 'setting', 'philosophy', 'scene', 'companions', 'disciplines'].includes(resolvedKey) ||
+          isDevelopmentField(resolvedKey) ||
+          Boolean(categoryConfig?.[resolvedKey])
+        )
+      );
+      const targetCol = isDistinctDBMCollection ? resolvedKey : (matrix.targetCollection || resolvedKey);
       const targetId = formData.id || activeItem.id;
 
       if (deleteEntry && targetId) {
@@ -1510,6 +1546,33 @@ export const AssetStudio = ({
 
         {/* Header Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Live Rules Codex Build Cost & Value Check Pill */}
+          {liveBuildCheck && (
+            <OmnicortexTooltip
+              delay={180}
+              position="bottom"
+              color={liveBuildCheck.status === 'valid' && !liveBuildCheck.hasUnaccountedItems ? '#10b981' : '#f59e0b'}
+              content={<SpeciesBuildCostTooltipCard buildCheck={liveBuildCheck} />}
+            >
+              <div
+                className={`px-2.5 py-1 rounded-xl border text-[11px] font-mono font-bold flex items-center gap-2 shadow-sm cursor-help ${
+                  liveBuildCheck.status === 'valid' && !liveBuildCheck.hasUnaccountedItems
+                    ? 'bg-emerald-950/75 border-emerald-500/50 text-emerald-300'
+                    : liveBuildCheck.status === 'info' && !liveBuildCheck.hasUnaccountedItems
+                      ? 'bg-cyan-950/75 border-cyan-500/50 text-cyan-300'
+                      : liveBuildCheck.status === 'error'
+                        ? 'bg-red-950/75 border-red-500/50 text-red-300'
+                        : 'bg-amber-950/75 border-amber-500/50 text-amber-300'
+                }`}
+                title={`Rules Codex Build Cost Check: ${liveBuildCheck.formulaSummary}`}
+              >
+                <span className="text-amber-300 font-extrabold">{liveBuildCheck.primaryCostLabel}</span>
+                <span className="text-slate-600">•</span>
+                <span className="text-[10px] uppercase tracking-wider">{liveBuildCheck.statusLabel}</span>
+              </div>
+            </OmnicortexTooltip>
+          )}
+
           {/* Copy [[Link]] Reference for Chats */}
           <button
             type="button"
@@ -1755,10 +1818,24 @@ export const AssetStudio = ({
           {/* Bottom Rail System Metadata / Package Cost Status */}
           <div className="hidden md:flex w-full flex-col gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
             {isSpeciesStudio && speciesSummary && (
-              <div className="w-full px-2 py-1.5 rounded-lg bg-purple-950/60 border border-purple-500/40 flex items-center justify-between text-[9.5px] font-mono">
-                <span className="text-slate-300 uppercase font-bold">Package Cost</span>
-                <span className="text-emerald-400 font-bold">{speciesSummary.bpData?.totalBPUsed ?? 0} CP</span>
-              </div>
+              <OmnicortexTooltip
+                delay={180}
+                position="right"
+                color={liveBuildCheck?.hasUnaccountedItems ? '#f59e0b' : '#10b981'}
+                content={<SpeciesBuildCostTooltipCard buildCheck={liveBuildCheck} />}
+                className="w-full"
+              >
+                <div className={`w-full px-2 py-1.5 rounded-lg border flex items-center justify-between text-[9.5px] font-mono cursor-help ${
+                  liveBuildCheck?.hasUnaccountedItems
+                    ? 'bg-amber-950/70 border-amber-500/50'
+                    : 'bg-purple-950/60 border-purple-500/40'
+                }`}>
+                  <span className="text-slate-300 uppercase font-bold">Package Cost</span>
+                  <span className={liveBuildCheck?.hasUnaccountedItems ? 'text-amber-300 font-bold' : 'text-emerald-400 font-bold'}>
+                    {speciesSummary.bpData?.totalBPUsed ?? 0} CP
+                  </span>
+                </div>
+              </OmnicortexTooltip>
             )}
             <div className="flex items-center justify-between text-[8.5px] font-mono text-slate-400 uppercase tracking-wider px-0.5">
               <span className="flex items-center gap-1 truncate">
@@ -1908,19 +1985,6 @@ export const AssetStudio = ({
                   </div>
                 )}
               </div>
-
-              {/* Specialized Studio Configurators (Origins 1.05, Occupations 1.06, Archetypes 1.02) */}
-              {(matrix.id === 'origins' || matrix.id === 'occupations' || matrix.id === 'archetypes') && CustomConfigurator && (
-                <div className="pt-2 border-t border-slate-800">
-                  <CustomConfigurator
-                    formData={formData}
-                    onChange={handleFieldChange}
-                    isEditMode={isEditMode}
-                    onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                    dbData={dbData}
-                  />
-                </div>
-              )}
             </div>
           )}
 
@@ -1949,15 +2013,433 @@ export const AssetStudio = ({
                 </div>
               )}
 
-              {/* Relative Combat & Operational Parameters (for non-species, non-faction, non-origin, non-occupation, non-archetype matrices) */}
-              {relativeMechanicsFields.length > 0 && matrix.id !== 'factions' && !isSpeciesStudio && matrix.id !== 'origins' && matrix.id !== 'occupations' && matrix.id !== 'archetypes' && (
+              {/* Dedicated Faction Mechanics & Doctrine Sections (when matrix is factions) */}
+              {matrix.id === 'factions' && (
+                <div className="space-y-4">
+                  {/* Faction Player Character Options & Skill Packages */}
+                  <div className="p-4 bg-slate-950/60 border border-emerald-500/30 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                      <Flag size={14} />
+                      <span>Faction Operator Character Options & Skill Packages</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Faction Skill Package (20 Points Allocation)
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={3}
+                            value={formatFieldValue(formData.skill_package)}
+                            onChange={(e) => handleFieldChange('skill_package', e.target.value)}
+                            placeholder="E.g., Bluff (+4), Survival (+3), Streetwise (+3), Mechanics (+3), Pilot (+3), Combat/Utility (+4)"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.skill_package) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Recommended Features (1 CP Discount in Folio)
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={3}
+                            value={formatFieldValue(formData.recommended_features)}
+                            onChange={(e) => handleFieldChange('recommended_features', e.target.value)}
+                            placeholder="E.g., Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.recommended_features) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Bonus Features & Origin Traits
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={2}
+                            value={formatFieldValue(formData.bonus_features)}
+                            onChange={(e) => handleFieldChange('bonus_features', e.target.value)}
+                            placeholder="E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.bonus_features) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Typical Character Archetypes
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={2}
+                            value={formatFieldValue(formData.typical_archetypes)}
+                            onChange={(e) => handleFieldChange('typical_archetypes', e.target.value)}
+                            placeholder="E.g., The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Marshal, The Raider"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.typical_archetypes) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="space-y-1 pt-1">
+                      <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                        Faction-Specific Rules & Mechanical Perks
+                      </label>
+                      {isEditMode ? (
+                        <textarea
+                          rows={3}
+                          value={formatFieldValue(formData.mechanic)}
+                          onChange={(e) => handleFieldChange('mechanic', e.target.value)}
+                          placeholder="Faction standing rules, diplomatic bonuses, environmental traits, or mechanical perks..."
+                          className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                        />
+                      ) : (
+                        <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                          {formatFieldValue(formData.mechanic) || 'None defined.'}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Military Doctrine & Defense Assets */}
+                  <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-red-400 uppercase tracking-wider">
+                      <Shield size={14} />
+                      <span>Military Doctrine & Strategic Assets</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Military Doctrine & Combat Strategy
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={3}
+                            value={formatFieldValue(formData.military_doctrine)}
+                            onChange={(e) => handleFieldChange('military_doctrine', e.target.value)}
+                            placeholder="E.g., Attrition and overwhelming kinetic firepower. Blunt instruments."
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.military_doctrine) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Key Military Formations & Elite Units
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={3}
+                            value={formatFieldValue(formData.key_units)}
+                            onChange={(e) => handleFieldChange('key_units', e.target.value)}
+                            placeholder="E.g., Colonial Rangers (Neural Shunt Recruits), Frontier Marshals"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.key_units) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Naval & Void Fleet Assets
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={2}
+                            value={formatFieldValue(formData.naval_assets)}
+                            onChange={(e) => handleFieldChange('naval_assets', e.target.value)}
+                            placeholder="E.g., Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.naval_assets) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Unique Tech, Signatures & Precursor Relics
+                        </label>
+                        {isEditMode ? (
+                          <textarea
+                            rows={2}
+                            value={formatFieldValue(formData.unique_tech_materials)}
+                            onChange={(e) => handleFieldChange('unique_tech_materials', e.target.value)}
+                            placeholder="E.g., Reverse-Engineered Precursor Tech, Heavy Fission Batteries"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.unique_tech_materials) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Strategic Commodities, Wealth Modifier (-4 to +8 WS) & Law Level */}
+                  <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                      <Globe size={14} />
+                      <span>Trade System, Wealth Modifier & Law Level</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider">
+                          Wealth Modifier (-4 to +8 WS)
+                        </label>
+                        {isEditMode ? (
+                          <div className="flex gap-2">
+                            <select
+                              value={(() => {
+                                const m = String(formData.wealth_modifier ?? '0').match(/([+-]?\d+)/);
+                                if (!m) return '0';
+                                const n = Math.max(-4, Math.min(8, parseInt(m[1], 10)));
+                                return n > 0 ? `+${n}` : String(n);
+                              })()}
+                              onChange={(e) => handleFieldChange('wealth_modifier', e.target.value)}
+                              className="w-32 p-2.5 bg-slate-900 border border-amber-500/40 rounded-xl text-xs text-amber-200 font-mono focus:outline-none focus:border-amber-400"
+                            >
+                              {[-4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8].map(ws => {
+                                const valStr = ws > 0 ? `+${ws}` : String(ws);
+                                return (
+                                  <option key={ws} value={valStr}>{valStr} WS</option>
+                                );
+                              })}
+                            </select>
+                            <input
+                              type="text"
+                              value={formatFieldValue(formData.wealth_modifier)}
+                              onChange={(e) => handleFieldChange('wealth_modifier', e.target.value)}
+                              placeholder="E.g., 0 (Standard), +2 (Old Money)"
+                              className="flex-1 p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
+                            />
+                          </div>
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-amber-200">
+                            {formatFieldValue(formData.wealth_modifier) || '0 WS (Baseline)'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                          Law Level (0–15) & Enforcement Bodies
+                        </label>
+                        {isEditMode ? (
+                          <div className="flex gap-2">
+                            <input
+                              type="number"
+                              min={0}
+                              max={15}
+                              value={toScalarNumberValue(formData.law_level ?? formData.lawLevel ?? 4)}
+                              onChange={(e) => {
+                                const v = e.target.value === '' ? '' : Math.max(0, Math.min(15, parseInt(e.target.value, 10) || 0));
+                                handleFieldChange('law_level', v);
+                                handleFieldChange('lawLevel', v);
+                              }}
+                              title="UWP Law Level (0-15)"
+                              className="w-20 p-2.5 bg-slate-900 border border-cyan-500/40 rounded-xl text-xs text-cyan-200 font-mono focus:outline-none focus:border-cyan-400"
+                            />
+                            <input
+                              type="text"
+                              value={formatFieldValue(formData.law_order)}
+                              onChange={(e) => handleFieldChange('law_order', e.target.value)}
+                              placeholder="E.g., Federal Marshals (Code of Harm) vs Colonial Rangers"
+                              className="flex-1 p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-400"
+                            />
+                          </div>
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formData.law_level !== undefined ? `Law Level ${formData.law_level} — ` : ''}{formatFieldValue(formData.law_order) || 'Standard'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Polity Trade & Resource System
+                        </label>
+                        {isEditMode ? (
+                          <input
+                            type="text"
+                            value={formatFieldValue(formData.economic_model)}
+                            onChange={(e) => handleFieldChange('economic_model', e.target.value)}
+                            placeholder="E.g., Guild Syndicalism, Frontier Barter"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.economic_model) || 'Standard'}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
+                          Primary Exports & Strategic Commodities
+                        </label>
+                        {isEditMode ? (
+                          <input
+                            type="text"
+                            value={formatFieldValue(formData.primary_exports)}
+                            onChange={(e) => handleFieldChange('primary_exports', e.target.value)}
+                            placeholder="E.g., Heavy metals, Aetherite, Food"
+                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
+                          />
+                        ) : (
+                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                            {formatFieldValue(formData.primary_exports) || 'None specified.'}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 5 Canonical Ideological Profile Axes */}
+                  <div className="p-4 bg-slate-950/60 border border-purple-500/30 rounded-2xl space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">
+                        <Compass size={14} />
+                        <span>5-Axis Ideological Profile (Economic, Authority, Technocratic, Metaphysical, Diplomatic)</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-purple-300 bg-purple-950/80 border border-purple-500/30 px-2 py-0.5 rounded">
+                        Sociological Alignment
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                      {[
+                        {
+                          key: 'economic',
+                          field: 'ideology_economic',
+                          label: 'Economic Axis',
+                          options: ['Balanced / Mixed', 'Collectivist / Communal', 'Syndicalist / Guild', 'Mercantilist / State', 'Corporatist / Laissez-Faire', 'Post-Scarcity']
+                        },
+                        {
+                          key: 'authority',
+                          field: 'ideology_authority',
+                          label: 'Authority Axis',
+                          options: ['Constitutional / Federal', 'Anarcho-Frontier', 'Libertarian / Decentralized', 'Oligarchic / Plutocratic', 'Authoritarian / Martial', 'Totalitarian / Hive']
+                        },
+                        {
+                          key: 'technocratic',
+                          field: 'ideology_technocratic',
+                          label: 'Technocratic Axis',
+                          options: ['Pragmatic / Standard', 'Bioconservative / Luddite', 'Industrial / Utilitarian', 'Cyber-Integrated', 'Transhumanist / Synthetic', 'Singularity / AI-Led']
+                        },
+                        {
+                          key: 'metaphysical',
+                          field: 'ideology_metaphysical',
+                          label: 'Metaphysical Axis',
+                          options: ['Secular / Agnostic', 'Strict Materialist / Null', 'Regulated Psionics', 'Esoteric / Scholastic', 'Resonant / Awakened', 'Theocratic / Cultic']
+                        },
+                        {
+                          key: 'diplomatic',
+                          field: 'ideology_diplomatic',
+                          label: 'Diplomatic Axis',
+                          options: ['Pragmatic / Neutral', 'Isolationist / Xenophobic', 'Defensive / Protectionist', 'Coalition / Multilateral', 'Mercantile / Cosmopolitan', 'Hegemonic / Expansionist']
+                        }
+                      ].map(axis => {
+                        const profileObj = (typeof formData.ideological_profile === 'object' && formData.ideological_profile !== null)
+                          ? formData.ideological_profile
+                          : {};
+                        const currentVal = formData[axis.field] || profileObj[axis.key] || axis.options[0];
+                        return (
+                          <div key={axis.key} className="space-y-1">
+                            <label className="block text-[10px] font-mono font-bold text-purple-300 uppercase tracking-wider">
+                              {axis.label}
+                            </label>
+                            {isEditMode ? (
+                              <select
+                                value={currentVal}
+                                onChange={(e) => {
+                                  const nextVal = e.target.value;
+                                  handleFieldChange(axis.field, nextVal);
+                                  handleFieldChange('ideological_profile', {
+                                    ...profileObj,
+                                    [axis.key]: nextVal
+                                  });
+                                }}
+                                className="w-full p-2 bg-slate-900 border border-purple-500/40 rounded-xl text-[11px] text-slate-200 font-mono focus:outline-none focus:border-purple-400"
+                              >
+                                {axis.options.map(opt => (
+                                  <option key={opt} value={opt}>{opt}</option>
+                                ))}
+                              </select>
+                            ) : (
+                              <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-xl text-[11px] font-mono text-purple-200">
+                                {currentVal}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Relative Combat & Operational Parameters (including any remaining schema fields not rendered in dedicated sections above) */}
+              {(() => {
+                const DEDICATED_HANDLED_FIELDS = new Set(
+                  matrix.id === 'factions'
+                    ? [
+                        'skill_package', 'recommended_features', 'bonus_features', 'typical_archetypes',
+                        'mechanic', 'military_doctrine', 'key_units', 'naval_assets', 'unique_tech_materials',
+                        'economic_model', 'primary_exports', 'wealth_modifier', 'law_level', 'lawLevel', 'law_order',
+                        'ideological_profile', 'ideology_economic', 'ideology_authority', 'ideology_technocratic',
+                        'ideology_metaphysical', 'ideology_diplomatic', 'traits'
+                      ]
+                    : matrix.id === 'origins'
+                      ? ['society_skills', 'archetypes', 'traits', 'ws_modifier']
+                      : matrix.id === 'occupations'
+                        ? ['professional_skills', 'archetypes', 'traits', 'base_ws']
+                        : matrix.id === 'archetypes'
+                          ? ['essential_skills', 'supporting_skills', 'signature_traits', 'signature_features', 'traits', 'mbti_alignment']
+                          : []
+                );
+                const visibleMechanicsFields = relativeMechanicsFields.filter(f => !DEDICATED_HANDLED_FIELDS.has(f.name));
+                if (visibleMechanicsFields.length === 0 || isSpeciesStudio) return null;
+                return (
                 <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
                   <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
                     <Zap size={14} />
                     <span>{matrix.name} {isProperty ? 'Operational Parameters & Combat Mechanics' : 'Game Mechanics & Tactical Parameters'}</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {relativeMechanicsFields.map(field => {
+                    {visibleMechanicsFields.map(field => {
                       const rawVal = formData[field.name];
                       const val = rawVal ?? '';
                       const guidanceItem = CODEX_DATASET_GUIDANCE[matrix.id]?.sections?.find(s => s.id === field.name);
@@ -2046,270 +2528,8 @@ export const AssetStudio = ({
                     })}
                   </div>
                 </div>
-              )}
-
-              {/* Dedicated Faction Mechanics & Doctrine Sections (when matrix is factions) */}
-              {matrix.id === 'factions' && (
-                <div className="space-y-4">
-                  {/* Faction Player Character Options & Skill Packages */}
-                  <div className="p-4 bg-slate-950/60 border border-emerald-500/30 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
-                      <Flag size={14} />
-                      <span>Faction Operator Character Options & Skill Packages</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Faction Skill Package (20 Points Allocation)
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formData.skill_package || ''}
-                            onChange={(e) => handleFieldChange('skill_package', e.target.value)}
-                            placeholder="E.g., Bluff (+4), Survival (+3), Streetwise (+3), Mechanics (+3), Pilot (+3), Combat/Utility (+4)"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.skill_package || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Recommended Features (1 CP Discount in Folio)
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={Array.isArray(formData.recommended_features) ? formData.recommended_features.join(', ') : (formData.recommended_features || '')}
-                            onChange={(e) => handleFieldChange('recommended_features', e.target.value)}
-                            placeholder="E.g., Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {Array.isArray(formData.recommended_features) ? formData.recommended_features.join(', ') : (formData.recommended_features || 'None specified.')}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Bonus Features & Origin Traits
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formData.bonus_features || ''}
-                            onChange={(e) => handleFieldChange('bonus_features', e.target.value)}
-                            placeholder="E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.bonus_features || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Typical Character Archetypes
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formData.typical_archetypes || ''}
-                            onChange={(e) => handleFieldChange('typical_archetypes', e.target.value)}
-                            placeholder="E.g., The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Marshal, The Raider"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.typical_archetypes || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-1 pt-1">
-                      <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                        Faction-Specific Rules & Mechanical Perks
-                      </label>
-                      {isEditMode ? (
-                        <textarea
-                          rows={3}
-                          value={formData.mechanic || ''}
-                          onChange={(e) => handleFieldChange('mechanic', e.target.value)}
-                          placeholder="Faction standing rules, diplomatic bonuses, environmental traits, or mechanical perks..."
-                          className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                        />
-                      ) : (
-                        <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                          {formData.mechanic || 'None defined.'}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Military Doctrine & Defense Assets */}
-                  <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-red-400 uppercase tracking-wider">
-                      <Shield size={14} />
-                      <span>Military Doctrine & Strategic Assets</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Military Doctrine & Combat Strategy
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formData.military_doctrine || ''}
-                            onChange={(e) => handleFieldChange('military_doctrine', e.target.value)}
-                            placeholder="E.g., Attrition and overwhelming kinetic firepower. Blunt instruments."
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.military_doctrine || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Key Military Formations & Elite Units
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formData.key_units || ''}
-                            onChange={(e) => handleFieldChange('key_units', e.target.value)}
-                            placeholder="E.g., Colonial Rangers (Neural Shunt Recruits), Frontier Marshals"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.key_units || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Naval & Void Fleet Assets
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formData.naval_assets || ''}
-                            onChange={(e) => handleFieldChange('naval_assets', e.target.value)}
-                            placeholder="E.g., Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.naval_assets || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Unique Tech, Signatures & Precursor Relics
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formData.unique_tech_materials || ''}
-                            onChange={(e) => handleFieldChange('unique_tech_materials', e.target.value)}
-                            placeholder="E.g., Reverse-Engineered Precursor Tech, Heavy Fission Batteries"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.unique_tech_materials || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Strategic Commodities & Economic System */}
-                  <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                      <Coins size={14} />
-                      <span>Economic System & Strategic Commodities</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Economic Model & Trade System
-                        </label>
-                        {isEditMode ? (
-                          <input
-                            type="text"
-                            value={formData.economic_model || ''}
-                            onChange={(e) => handleFieldChange('economic_model', e.target.value)}
-                            placeholder="E.g., Exploitative Capitalism"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.economic_model || 'Standard'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Primary Exports & Commodities
-                        </label>
-                        {isEditMode ? (
-                          <input
-                            type="text"
-                            value={formData.primary_exports || ''}
-                            onChange={(e) => handleFieldChange('primary_exports', e.target.value)}
-                            placeholder="E.g., Heavy metals, Aetherite, Food"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.primary_exports || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Wealth Modifier (Score / Context)
-                        </label>
-                        {isEditMode ? (
-                          <input
-                            type="text"
-                            value={formData.wealth_modifier ?? '0'}
-                            onChange={(e) => handleFieldChange('wealth_modifier', e.target.value)}
-                            placeholder="E.g., 0, +2 (Old Money)"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {String(formData.wealth_modifier ?? '0')}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* Consolidated DBM Widgets - Filtered relative to dataset */}
               <div className="space-y-4">
@@ -2952,18 +3172,18 @@ export const AssetStudio = ({
           </div>
         </div>
 
-        {/* Right Column: Live Derived Metrics & Quick Adjudicator Panel (Property Assets Only) */}
-        {Boolean(isProperty) && (
-          <div className="w-full lg:w-84 xl:w-96 shrink-0">
-            <ComputedOutputPanel
-              computedOutputs={matrix.computedOutputs || []}
-              computedValues={computedValues}
-              formData={formData}
-              matrix={matrix}
-              isLoading={isCalculating}
-            />
-          </div>
-        )}
+        {/* Right Column: Live Rules Codex Design Framework & Build Cost Value Checker (All Assets) */}
+        <div className="w-full lg:w-84 xl:w-96 shrink-0">
+          <ComputedOutputPanel
+            computedOutputs={matrix.computedOutputs || []}
+            computedValues={computedValues}
+            formData={formData}
+            matrix={matrix}
+            currentKey={resolvedKey}
+            onFieldChange={handleFieldChange}
+            isLoading={isCalculating}
+          />
+        </div>
         </div>
       </div>
 
@@ -2983,13 +3203,15 @@ export const AssetStudio = ({
         isOpen={isAiModalOpen}
         onClose={() => setIsAiModalOpen(false)}
         matrix={matrix}
-        initialDatasetKey={matrix.targetCollection || 'equipment'}
+        initialDatasetKey={resolvedKey || matrix.targetCollection || 'equipment'}
         onApplyGeneratedData={(aiData) => {
+          const adapted = adaptItemToCodexFormData(aiData, matrix);
           setFormData(prev => ({
             ...prev,
+            ...adapted,
             ...aiData,
-            name: aiData.name || prev.name,
-            description: aiData.description || prev.description
+            name: aiData.name || adapted.name || prev.name,
+            description: aiData.description || adapted.description || prev.description
           }));
           AudioService.playTerminalBeep(1400, 0.05);
         }}
@@ -3003,7 +3225,7 @@ export const AssetStudio = ({
       <CodexIngestionModal
         isOpen={isIngestionModalOpen}
         onClose={() => setIsIngestionModalOpen(false)}
-        initialDatasetKey={matrix.targetCollection || 'equipment'}
+        initialDatasetKey={resolvedKey || matrix.targetCollection || 'equipment'}
         focusedMode={true}
         onApplyEntry={(ingestedItem) => {
           const adapted = adaptItemToCodexFormData(ingestedItem, matrix);

@@ -109,10 +109,12 @@ function syncTraits() {
       archetypeTraits.push(traitObj);
     } else if (traitType === 'Faction Trait') {
       factionTraits.push(traitObj);
-    } else {
+    } else if (traitType === 'Species Trait' && cp > 0) {
       if (traitTier === 'Advanced') speciesTraitsAdvanced.push(traitObj);
       else if (traitTier === 'Elite') speciesTraitsElite.push(traitObj);
       else speciesTraitsBasic.push(traitObj);
+    } else if (cp > 0) {
+      occupationalTraits.push(traitObj);
     }
   }
 

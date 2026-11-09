@@ -44,7 +44,7 @@ Every document across **Volume I: The Operator's Manual (Player Compendium)** an
 
 * **Stamina Base Toughness:** Stamina Modifier subtracts point-for-point from incoming damage as **Base Toughness** after Armor Damage Reduction (DR).
 
-* **Armor Layering Cap:** DR does not stack across biological, cybernetic, and wearable domains; only the single highest domain DR applies (`Final Damage = max(0, Raw Damage - max(0, Highest Single Domain DR - Weapon Penetration) - Target Stamina Modifier)`).
+* **Diminishing Returns Armor Stacking:** When multiple armor layers apply across biological, cybernetic, metaphysical, and wearable domains, use the single highest DR as the base and add `+1 DR` per stage of 5 (`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, etc.) calculated separately for each additional layer (`Final Damage = max(0, Raw Damage - max(0, Effective Stacked DR - Weapon Penetration) - Target Stamina Modifier)`).
 
 * **Feature Pricing:** `3 CP` Standard Feature | `2 CP` Recommended Feature (`1 CP` discount; minimum `1 CP`).
 

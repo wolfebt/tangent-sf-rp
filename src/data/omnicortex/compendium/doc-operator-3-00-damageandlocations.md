@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","combat","3.00.damageandlocations","mechanics"]
-updatedAt: "2026-11-04T09:33:29.390Z"
+updatedAt: "2026-11-08T20:25:34.364Z"
 costs:
   bp: 0
   credits: 0
@@ -64,7 +64,7 @@ Damage is calculated by resolving five sequential components:
   * **Wisdom (`WIS`):** Used in place of Intellect or Charisma for Divine, Faith, and Primal Metafocus checks *(while Stamina and Wisdom primarily govern defensive Fortitude and Willpower saves)*.
 * **Precision Damage:** Bonus damage derived directly from the Skill Stage/Rank of the attacker (in their relative Combat or Metafocus Focus skill).
   * **Active Defense Counter:** A target who is **actively defending** (rolling an Active Defense Reaction) reduces incoming Precision Damage by their **Defense Skill Rank**.
-* **Target's Armor DR & Penetration:** The target's highest applicable Damage Resistance (`Armor Layering Cap`: biological, cybernetic, and wearable DR do not stack; only the single highest DR applies) is subtracted from incoming damage. Weapons with **Penetration (AP)** bypass an equal number of points of the target's Armor DR (minimum 0 DR).
+* **Target's Armor DR & Penetration:** The target's effective Damage Resistance (**Diminishing Returns Armor Stacking**: start with the single highest DR layer, and add `+1 DR` per stage of 5 [`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, etc.] calculated separately for each additional biological, cybernetic, metaphysical, or worn armor layer) is subtracted from incoming damage. Weapons with **Penetration (AP)** bypass an equal number of points of the target's Armor DR (minimum 0 DR).
 * **Sneak Attack Damage:** Added **only if at least 1 point of damage penetrates the target's Armor DR** *(determined after subtracting Armor DR, but **before** subtracting the target's Stamina modifier)*.
 * **Target's Stamina (`STA`) Modifier (Base Toughness):** Subtracted point-for-point from remaining wound damage, representing physical resilience and ability to withstand injury.
 * **Critical Hits (`Natural 20`) & Fumbles (`Natural 2`):**

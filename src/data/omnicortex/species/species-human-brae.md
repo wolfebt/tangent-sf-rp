@@ -30,8 +30,8 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Low Light Vision
-  - Well Informed
+  - special-low-light-vision
+  - general-well-informed
 disadvantages: []
 stigma: None
 tech_level: '1'
@@ -42,36 +42,45 @@ costs:
   bp: 24
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Longevity
-    value: 1
+  - target: special-low-light-vision
     type: feature
-    mode: recommended
-  - target: Low Light Vision
     value: 1
-    type: feature
     mode: recommended
-  - target: Obfuscate
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-well-informed
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Well Informed
+    description: 'Recommended Feature: Well Informed'
+  - target: trait-low-light-vision
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
 description: >-
   The Half-Folk are a distinct and fascinating subspecies of humans, instantly
   recognizable by their diminutive stature, typically averaging around three
@@ -99,6 +108,10 @@ negative_keywords: 'heavy-combat, towering, brute-force'
 cp: 24
 bp: 24
 cp_cost: 24
+recommended_traits:
+  - trait-low-light-vision
+  - trait-longevity
+  - trait-obfuscate
 ---
 
 # **1.03.Humans.Brae — Brae (Small-Statured Humans)**

@@ -51,6 +51,20 @@ const SUBITEM_METADATA = {
     tagline: 'Commodities, trade goods, precious relics, and currency stores.'
   },
 
+  // --- Metaphysics Subcategories ---
+  invocations: {
+    icon: '🔥',
+    color: 'amber',
+    pill: 'Metaphysics',
+    tagline: 'Channeled metaphysical invocations, disciplines, ranges, strain, and effects.'
+  },
+  special_abilities: {
+    icon: '⚡',
+    color: 'yellow',
+    pill: 'Abilities',
+    tagline: 'Innate supernatural powers, exotic actions, and metaphysical phenomena.'
+  },
+
   // --- World Design & Cosmology Subcategories ---
   planetary_design: {
     icon: '🪐',
@@ -97,6 +111,8 @@ const SUBITEM_METADATA = {
 };
 
 const DEFAULT_ICONS = {
+  invocations: '🔥',
+  special_abilities: '⚡',
   armoring: '🛡️',
   weaponry: '⚔️',
   gear: '🎒',
@@ -117,6 +133,7 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem, dbData = {} }) 
   const config = categoryConfig[parentKey] || {};
   const subItems = config.subItems || [];
   const isProperty = parentKey === 'personal_property';
+  const isMetaphysics = parentKey === 'metaphysics';
 
   // Compute total entries count across all sub-items
   const totalAssetsCount = subItems.reduce((acc, subKey) => {
@@ -136,19 +153,19 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem, dbData = {} }) 
       <div className="border-b border-slate-800/80 pb-3 mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 shrink-0">
         <div className="flex items-center gap-2.5">
           <div className={`p-2 rounded-lg border flex items-center justify-center text-lg ${
-            isProperty 
+            isProperty || isMetaphysics
               ? 'bg-amber-500/15 border-amber-500/30 text-amber-400' 
               : 'bg-indigo-500/15 border-indigo-500/30 text-indigo-400'
           }`}>
-            {isProperty ? '📦' : '🌌'}
+            {isProperty ? '📦' : isMetaphysics ? '🔥' : '🌌'}
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-sm sm:text-base font-mono font-bold text-white uppercase tracking-wider">
-                {config.label || (isProperty ? 'PROPERTY & ARMORY' : 'WORLD DESIGN & COSMOLOGY')}
+                {config.label || (isProperty ? 'PROPERTY & ARMORY' : isMetaphysics ? 'METAPHYSICS' : 'WORLD DESIGN & COSMOLOGY')}
               </h2>
               <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold uppercase border ${
-                isProperty 
+                isProperty || isMetaphysics
                   ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' 
                   : 'bg-indigo-950/80 text-indigo-300 border-indigo-500/40'
               }`}>
@@ -158,7 +175,9 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem, dbData = {} }) 
             <p className="text-[10px] text-slate-400 font-mono">
               {isProperty 
                 ? 'Unified database index for offensive ordnance, armoring, field gear, bionics, and assets.' 
-                : 'Planetary specifications, macroscopic cosmology, philosophies, polities, and setting profiles.'}
+                : isMetaphysics
+                  ? 'Unified database index for metaphysical invocations, disciplines, and special abilities.'
+                  : 'Planetary specifications, macroscopic cosmology, philosophies, polities, and setting profiles.'}
             </p>
           </div>
         </div>

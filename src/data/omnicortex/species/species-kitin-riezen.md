@@ -35,11 +35,10 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Awakened
-  - Bodyform Features
-  - Great Fortitude
-  - Low Light Vision
+  - special-acute-sense
+  - discipline-awakened
+  - ability-great-fortitude
+  - special-low-light-vision
 disadvantages: []
 stigma: 'Severe Xeno, Monstrous (when inhabiting hosts) (-4)'
 tech_level: — (Utilizes biological zombification of host technology)
@@ -50,61 +49,95 @@ costs:
   bp: 26
 modifiers:
   - target: Agility
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Agility
   - target: Charisma
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Charisma'
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Adaptive Aspects (Hive Memories)
     value: 1
-    type: feature
     mode: recommended
-  - target: Adaptive Skill Set (Hive Memories)
+    description: 'Recommended Feature: Acute Sense'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Awakened'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform Features
+    description: 'Recommended Feature: Great Fortitude'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Great Fortitude
+    description: 'Recommended Feature: Low Light Vision'
+  - target: trait-acute-senses
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Mutation
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Poison Immunity
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Reduced Sustenance
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: >-
-      Venom Spit - Contact, DC 11+ 2xSta, Blind for 10+ minutes: Toxic Blood,
-      Sta 2
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-adaptive-skill-set
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Skill Set'
+  - target: trait-poison-immunity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Poison Immunity'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
+  - target: trait-venom-spit
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Venom Spit'
+  - target: trait-toxic-blood
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Toxic Blood'
 description: >-
   The Riezen are close relations of the original insectoid genome. While the
   Kitin Collective followed a path of steered evolution under the Manelli, the
@@ -143,6 +176,19 @@ negative_keywords: 'orderly-chorus, solitary-humanoid, rigid-endoskeleton'
 cp: 26
 bp: 26
 cp_cost: 26
+recommended_traits:
+  - trait-acute-senses
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-low-light-vision
+  - trait-adaptive-skill-set
+  - trait-poison-immunity
+  - trait-reduced-sustenance
+  - trait-venom-spit
+  - trait-toxic-blood
 ---
 
 # **1.03.Kitin.Riezen — Riezen (Divergent Parasitic Swarm)**

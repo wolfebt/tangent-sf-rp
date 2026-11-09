@@ -31,63 +31,148 @@ bonus_skill_choices:
   - Intimidation
   - Athletics
   - Survival
-inherent_features: []
+inherent_features:
+  - special-rage
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Natural Weapons
-  - Tough
+  - skill-perceptive
+  - skill-stout
+  - combat-combat-reflexes
+  - general-endurance
+  - general-fast-heal
+  - general-fearless
+  - ability-great-fortitude
+  - skill-veiled-threat
+  - special-natural-weapons
+  - general-regeneration
+  - general-runner
+  - special-scent
+  - general-tough
 disadvantages: []
 stigma: 'Savage (-4), Xeno (-2)'
 tech_level: '1'
 meta_level: '2'
 homeworld: Orll Prime Badlands
 costs:
-  cp: 12
-  bp: 12
+  cp: 14
+  bp: 14
 modifiers:
   - target: Strength
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Strength
   - target: Stamina
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Stamina
   - target: Intellect
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Intellect'
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Darksight
-    value: 1
+  - target: special-rage
     type: feature
-    mode: recommended
-  - target: Natural Weapons
     value: 1
+    mode: inherent
+    description: 'Grants Inherent Feature: Rage'
+  - target: skill-perceptive
     type: feature
-    mode: recommended
-  - target: Tough
     value: 1
-    type: feature
     mode: recommended
-  - target: Wall-Crawler
+    description: 'Recommended Feature: Perceptive'
+  - target: skill-stout
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Stout'
+  - target: combat-combat-reflexes
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Combat Reflexes'
+  - target: general-endurance
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Endurance'
+  - target: general-fast-heal
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-fearless
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Fearless'
+  - target: ability-great-fortitude
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Great Fortitude'
+  - target: skill-veiled-threat
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Veiled Threat'
+  - target: special-natural-weapons
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Natural Weapons'
+  - target: general-regeneration
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Regeneration'
+  - target: general-runner
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Runner'
+  - target: special-scent
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Scent'
+  - target: general-tough
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Tough'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
 description: >-
   The Orll are a powerful and incredibly stocky humanoid species, immediately
   recognizable across the known territories by their imposing, often
@@ -98,10 +183,11 @@ description: >-
   aesthetic trait; it provides exceptional natural insulation, allowing the Orll
   to thrive and maintain their hardiness against the constant, biting cold of
   their wooded mountain homelands.
-traits: &ref_0
+traits:
+  - trait-exoskeleton-light
+species_traits:
   - trait-exoskeleton-light
   - trait-frenzy
-species_traits: *ref_0
 recommended_factions:
   - Coalition of Independent Worlds
   - The Outworlds
@@ -118,6 +204,11 @@ negative_keywords: 'diplomacy, delicate-tech, scholar, peaceful'
 cp: 12
 bp: 12
 cp_cost: 12
+recommended_traits:
+  - trait-fast-heal
+  - trait-natural-weapons
+  - trait-regeneration
+  - trait-scent
 ---
 
 # **1.03.Orll.Base — Orll (Mountain Lineage)**

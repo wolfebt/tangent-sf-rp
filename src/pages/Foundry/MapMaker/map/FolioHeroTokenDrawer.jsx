@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useFolio } from '../../../../context/FolioContext';
+import { useDBM } from '../../../../context/DBMContext';
 import { useGroup } from '../../../../context/GroupContext';
 import { showToast } from '../../../../context/ToastContext';
 import { AudioService } from '../../../../services/audioService';
@@ -7,6 +8,7 @@ import DraggablePanel from './DraggablePanel';
 import { Users, User, Shield, Sparkles, Plus, ExternalLink } from 'lucide-react';
 import { GameGroupModal } from '../../../../components/Squads/SquadModal';
 import { extractHeroStats } from '../../../../schemas/sharedSchemas';
+import { convertMcmToFolioPersona, buildVttUnitFromPersona, sendMcmToFolioRoster } from '../../../../utils/personaBridge';
 import { TacticalPlayModal } from '../../../../components/Folio/modals/TacticalPlayModal';
 
 export const FolioHeroTokenDrawer = ({
@@ -15,17 +17,49 @@ export const FolioHeroTokenDrawer = ({
   onSummonToken
 }) => {
   const { roster, personaRoster } = useFolio();
+  const { dbData } = useDBM() || { dbData: {} };
   const { groups, activeGroup, selectGroup } = useGroup();
   const [searchQuery, setSearchQuery] = useState('');
+  const [sourceFilter, setSourceFilter] = useState('ALL'); // 'ALL' | 'FOLIO' | 'MCM'
   const [activeTab, setActiveTab] = useState('heroes'); // 'heroes' | 'teams'
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [tacticalModalHero, setTacticalModalHero] = useState(null);
 
+  const folioHeroes = roster || personaRoster || [];
+  const mcmUnits = useMemo(() => {
+    const rawMcm = Array.isArray(dbData?.modular_characters) ? dbData.modular_characters : [];
+    return rawMcm.map((m) => ({
+      ...convertMcmToFolioPersona(m, { lockForVtt: true, createCopy: false }),
+      _unitSource: 'MCM'
+    }));
+  }, [dbData?.modular_characters]);
+
+  const combinedUnits = useMemo(() => {
+    const seen = new Set();
+    const list = [];
+    folioHeroes.forEach((h) => {
+      const id = String(h['character-doc-id'] || h.id || h['char-name']);
+      seen.add(id);
+      list.push({
+        ...h,
+        _unitSource: h.is_mcm_persona ? 'MCM' : 'FOLIO'
+      });
+    });
+    mcmUnits.forEach((m) => {
+      const id = String(m['character-doc-id'] || m.id || m['char-name']);
+      if (seen.has(id)) return;
+      seen.add(id);
+      list.push(m);
+    });
+    return list;
+  }, [folioHeroes, mcmUnits]);
+
   if (!showDrawer) return null;
 
-  const heroes = roster || personaRoster || [];
+  const heroes = combinedUnits;
   const filteredHeroes = heroes.filter(hero => {
+    if (sourceFilter !== 'ALL' && hero._unitSource !== sourceFilter) return false;
     const name = hero['char-name'] || hero.name || '';
     const concept = hero['char-concept'] || hero.concept || '';
     const species = hero['char-species'] || hero.species || '';
@@ -36,16 +70,18 @@ export const FolioHeroTokenDrawer = ({
   });
 
   const handleDragStart = (e, hero) => {
-    const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
+    const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked' || hero._unitSource === 'MCM');
     if (!isReady) {
       e.preventDefault();
       showToast({ type: 'warning', text: `Operator "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
       return;
     }
     const stats = extractHeroStats(hero);
+    const vttUnit = buildVttUnitFromPersona(hero, { uniqueInstance: true });
     const tokenPayload = {
       type: 'folio_hero_token',
-      ...stats
+      ...stats,
+      ...vttUnit
     };
 
     e.dataTransfer.setData('application/json', JSON.stringify(tokenPayload));
@@ -53,7 +89,7 @@ export const FolioHeroTokenDrawer = ({
   };
 
   const handleSpawnClick = (hero) => {
-    const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
+    const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked' || hero._unitSource === 'MCM');
     if (!isReady) {
       showToast({ type: 'warning', text: `Operator "${hero['char-name'] || 'Hero'}" is in Development Phase. Lock & Set the Persona in Folio (/folio) before VTT deployment.` });
       return;
@@ -61,7 +97,12 @@ export const FolioHeroTokenDrawer = ({
     if (onSummonToken) {
       AudioService.playTerminalBeep(1100, 0.05);
       const stats = extractHeroStats(hero);
-      onSummonToken(stats);
+      const vttUnit = buildVttUnitFromPersona(hero, { uniqueInstance: true });
+      onSummonToken({
+        ...stats,
+        ...vttUnit,
+        heroId: vttUnit.id
+      });
     }
   };
 
@@ -181,18 +222,33 @@ export const FolioHeroTokenDrawer = ({
           </button>
         </div>
 
-        {/* TAB 1: Individual Heroes */}
+        {/* TAB 1: Individual Heroes & MCM Units */}
         {activeTab === 'heroes' && (
           <div className="space-y-1.5">
             <div className="text-[10px] text-slate-400 flex items-center justify-between">
-              <span>Drag hero onto canvas to spawn token</span>
+              <div className="flex items-center gap-1">
+                {['ALL', 'FOLIO', 'MCM'].map((src) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setSourceFilter(src)}
+                    className={`px-1.5 py-0.5 rounded font-mono text-[9px] font-bold uppercase cursor-pointer border ${
+                      sourceFilter === src
+                        ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                        : 'bg-[#0d1117] border-slate-800 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    {src}
+                  </button>
+                ))}
+              </div>
               <span className="font-mono text-cyan-300 font-bold">{filteredHeroes.length} Units</span>
             </div>
 
             {heroes.length > 3 && (
               <input
                 type="text"
-                placeholder="Filter roster..."
+                placeholder="Filter Folio & MCM units..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-[#0d1117] border border-[#0D5C63]/60 text-white px-2 py-1 rounded text-xs outline-none focus:border-[#22d3ee] w-full"
@@ -202,21 +258,20 @@ export const FolioHeroTokenDrawer = ({
             <div className="space-y-1.5 max-h-64 overflow-y-auto pr-0.5">
               {heroes.length === 0 ? (
                 <div className="text-[11px] text-slate-400 italic text-center py-4 bg-[#0d1117]/60 rounded border border-dashed border-slate-800">
-                  No heroes saved in Persona Folio.<br />
+                  No units saved in Persona Folio or MCM.<br />
                   <a href="/folio" className="text-cyan-400 underline font-bold mt-1 inline-block hover:text-cyan-300">
-                    Create a Hero in Folio →
+                    Create a Persona in Folio →
                   </a>
                 </div>
               ) : filteredHeroes.length === 0 ? (
                 <div className="text-[11px] text-slate-400 italic text-center py-3">
-                  No heroes match "{searchQuery}"
+                  No units match "{searchQuery}"
                 </div>
               ) : (
                 filteredHeroes.map((hero) => {
                   const stats = extractHeroStats(hero);
-                  const concept = hero['char-concept'] || hero.concept || hero['char-species'] || '';
                   const avatar = hero.tokenUrl || hero.media?.token?.url || hero.avatarUrl || hero.imageUrl || hero.avatar || hero.media?.portrait?.url;
-                  const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
+                  const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked' || hero._unitSource === 'MCM');
 
                   return (
                     <div
@@ -247,6 +302,11 @@ export const FolioHeroTokenDrawer = ({
                             <span className="text-xs font-bold text-slate-200 group-hover:text-cyan-300 transition-colors truncate">
                               {stats.name}
                             </span>
+                            {hero._unitSource === 'MCM' && (
+                              <span className="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold bg-purple-950/90 border border-purple-500/60 text-purple-300">
+                                MCM
+                              </span>
+                            )}
                             {isReady ? (
                               <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-emerald-950/80 border border-emerald-500/60 text-emerald-300">
                                 READY
@@ -273,6 +333,20 @@ export const FolioHeroTokenDrawer = ({
 
                       {isReady ? (
                         <div className="flex items-center gap-1 shrink-0">
+                          {hero._unitSource === 'MCM' && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                sendMcmToFolioRoster(hero, { lockForVtt: true, openInFolio: false });
+                                showToast({ type: 'success', text: `Sent "${stats.name}" to Persona Folio Roster!` });
+                              }}
+                              className="px-1.5 py-1 bg-purple-950/80 hover:bg-purple-800 text-purple-300 border border-purple-500/50 rounded text-[9px] font-mono font-bold uppercase cursor-pointer"
+                              title="Send this MCM Persona into Persona Folio Roster"
+                            >
+                              → FOLIO
+                            </button>
+                          )}
                           <button
                             type="button"
                             onClick={(e) => {

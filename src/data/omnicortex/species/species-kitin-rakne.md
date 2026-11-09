@@ -43,12 +43,12 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Bodyform Features
-  - Double Jointed
-  - Fearless
-  - Runner
-  - Self Sufficient
-  - Quicker
+  - general-double-jointed
+  - general-fearless
+  - general-runner
+  - skill-self-sufficient
+  - general-quicker
+  - skill-perceptive
 disadvantages: []
 stigma: Severe Xeno / Monstrous (-4)
 tech_level: 3 (Tactical)
@@ -59,70 +59,85 @@ costs:
   bp: 42
 modifiers:
   - target: Strength
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Strength
   - target: Agility
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Agility
   - target: Stamina
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Stamina'
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Alertness
-    value: 1
+  - target: general-double-jointed
     type: feature
-    mode: recommended
-  - target: Bodyform Features
     value: 1
-    type: feature
     mode: recommended
-  - target: Double Jointed
+    description: 'Recommended Feature: Double Jointed'
+  - target: general-fearless
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Light and Heavy)
+    description: 'Recommended Feature: Fearless'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fearless
+    description: 'Recommended Feature: Runner'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Mutation
+    description: 'Recommended Feature: Self Sufficient'
+  - target: general-quicker
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Quicker'
+  - target: skill-perceptive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Self Sufficient
+    description: 'Recommended Feature: Perceptive'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Quicker
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Weaver
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
+  - target: trait-exoskeleton-heavy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Heavy)'
 description: >-
   The Rakne are an intimidating Arachno-tauric species, classified as an
   Insectoid Aberration. Their form is a composite of a powerful lower spider
@@ -165,6 +180,12 @@ negative_keywords: 'diplomatic-court, baseline-humanoid, fragile, open-plains'
 cp: 42
 bp: 42
 cp_cost: 42
+recommended_traits:
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-exoskeleton-light
+  - trait-exoskeleton-heavy
 ---
 
 # **1.03.Kitin.Rakne — Rakne (Infiltration & Web-Architect Expression)**

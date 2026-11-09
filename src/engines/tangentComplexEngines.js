@@ -15,6 +15,7 @@ import {
   MECHA_ARMOR_TYPES,
   MECHA_MODULES,
   MECHA_COMPONENTS,
+  MECHA_WEAPONS,
   VFT_MODES,
   ARCHITECTURE_FOOTPRINTS,
   HEIGHT_CLASSES,
@@ -28,6 +29,8 @@ import {
   ARCHITECTURE_CORE_INTERNALS,
   ARCHITECTURE_PROPULSION,
   FACTION_ARCHITECTURAL_PARADIGMS,
+  ARCHITECTURAL_CULTURAL_SKINS,
+  ARCHITECTURAL_VFT_MODES,
   MECHA_GARAGING_RULES,
   MANUFACTURER_SKINS,
   TOOL_TIERS,
@@ -75,6 +78,7 @@ export function calculateAugmentationDC({
   isFBC = false,
   fbcPackage = 'Civilian',
   isPseudo = false,
+  hasAetheriteWiring = false,
   subMods = []
 } = {}) {
   const resolvedBase = baseCR !== undefined && baseCR !== null ? baseCR : baseDC;
@@ -90,10 +94,15 @@ export function calculateAugmentationDC({
     else if (category === 'hand_foot' || category === 'limb_upgrade') dc = 15;
     else if (category === 'exotic_limb') dc = 25;
     else if (category === 'body_mod' || category === 'sensory' || category === 'brain') dc = 20;
-    else if (category === 'tl4_bioware') dc = 25;
+    else if (category === 'tl4_bioware' || category === 'Bioware') dc = 25;
     else if (category === 'tl5_nanotech') dc = 30;
-    else if (category === 'meta_aug') dc = 20 + Number(ml || 0) * 2;
+    else if (category === 'meta_aug' || category === 'Metaphysical') dc = 20 + Number(ml || 0) * 2;
     else dc = 15;
+  }
+
+  // Aetherite Neural Wiring (+5 CR)
+  if (hasAetheriteWiring) {
+    dc += 5;
   }
 
   // Sub-modifications
@@ -238,28 +247,40 @@ export function calculateStigmaLevel(modCount = 0, isFBC = false) {
 /**
  * Computes full persistent metadata for Augmentations on save.
  */
-export function computeAugmentationStats(formData) {
-  const isFBC = !!(formData.is_fbc || formData.category === 'fbc');
-  const fbcPackage = formData.fbc_package || 'Civilian';
-  const isPseudo = !!(formData.is_pseudo || formData.category === 'pseudo');
+export function computeAugmentationStats(formData = {}) {
+  const isFBC = !!(formData.is_fbc || formData.isFBC || formData.category === 'fbc');
+  const fbcPackage = formData.fbc_package || formData.fbcPackage || 'Civilian';
+  const isPseudo = !!(formData.is_pseudo || formData.isPseudo || formData.category === 'pseudo');
+  const tl = Number(formData.tech_level ?? formData.tl ?? 3);
+  const skin = formData.skin || formData.faction_skin;
+  const hasAetheriteWiring = !!(
+    formData.has_aetherite_wiring ||
+    formData.hasAetheriteWiring ||
+    (Array.isArray(formData.sub_mods) &&
+      formData.sub_mods.some(m => {
+        const id = typeof m === 'string' ? m : m?.id;
+        return id === 'meta_aetherite_wiring' || id === 'aetherite_wiring';
+      }))
+  );
 
   const finalDC = calculateAugmentationDC({
-    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc ?? formData.baseDC,
     category: formData.category || 'body_mod',
     location: formData.location || 'Torso',
-    tl: formData.tech_level ?? formData.tl ?? 3,
+    tl,
     ml: formData.meta_level ?? formData.ml ?? 0,
-    skin: formData.skin || formData.faction_skin,
+    skin,
     isFBC,
     fbcPackage,
     isPseudo,
+    hasAetheriteWiring,
     subMods: formData.sub_mods || []
   });
 
   const nodeStats = calculateAugmentationNodes({
     location: formData.location || 'Torso',
     category: formData.category || 'body_mod',
-    nodeCost: formData.nodes_consumed,
+    nodeCost: formData.nodes_consumed ?? formData.nodeCost ?? formData.nodes,
     isPseudo,
     isFBC
   });
@@ -268,7 +289,7 @@ export function computeAugmentationStats(formData) {
     category: formData.category || 'body_mod',
     customCP: formData.cp_cost ?? formData.cp,
     customBP: formData.bp_cost ?? formData.bp,
-    tl: formData.tech_level ?? formData.tl ?? 3,
+    tl,
     isFBC,
     fbcPackage
   });
@@ -276,14 +297,39 @@ export function computeAugmentationStats(formData) {
   const sp = calculateAugmentationSP({
     location: formData.location || 'Torso',
     nodes: nodeStats.nodesConsumed,
-    isHardened: nodeStats.isHardened,
+    isHardened: formData.is_hardened ?? formData.isHardened ?? nodeStats.isHardened,
     isFBC,
     fbcPackage
   });
 
+  // Compute inorganicNodes (excluding Bioware / Metaphysical) and canonical Resonance Penalty
+  const isBioOrMetaCategory = (cat) => {
+    const c = String(cat || '').toLowerCase();
+    return c === 'tl4_bioware' || c === 'bioware' || c === 'meta_aug' || c === 'metaphysical' || c.includes('bioware') || c.includes('metaphysical');
+  };
+
+  let inorganicNodes = 0;
+  if (formData.inorganic_nodes !== undefined || formData.inorganicNodes !== undefined) {
+    inorganicNodes = Math.max(0, Number(formData.inorganic_nodes ?? formData.inorganicNodes) || 0);
+  } else if (Array.isArray(formData.augmentations) || Array.isArray(formData.installed_mods) || Array.isArray(formData.installedImplants) || Array.isArray(formData.installed_implants)) {
+    const list = formData.augmentations || formData.installed_mods || formData.installedImplants || formData.installed_implants;
+    inorganicNodes = list.reduce((sum, item) => {
+      if (!item || typeof item !== 'object') return sum;
+      if (isBioOrMetaCategory(item.category || item.type)) return sum;
+      return sum + (Number(item.nodes ?? item.nodes_consumed ?? item.nodeCost ?? 0) || 0);
+    }, 0);
+  } else {
+    inorganicNodes = isBioOrMetaCategory(formData.category) ? 0 : nodeStats.nodesConsumed;
+  }
+
+  const rawResonancePenalty = (tl >= 5 || skin === 'Mekan')
+    ? 0
+    : -Math.floor(inorganicNodes / (hasAetheriteWiring ? 40 : 20));
+  const resonancePenalty = rawResonancePenalty === 0 ? 0 : rawResonancePenalty;
+
   const creditValue = isFBC && FBC_PACKAGES[fbcPackage] ? FBC_PACKAGES[fbcPackage].credits : calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
   const materialCost = calculateMaterialCost(creditValue);
-  const stigma = calculateStigmaLevel(formData.installed_mods_count || 1, isFBC);
+  const stigma = calculateStigmaLevel(formData.installed_mods_count ?? formData.modCount ?? 1, isFBC);
 
   return {
     final_cr: finalDC,
@@ -296,6 +342,12 @@ export function computeAugmentationStats(formData) {
     complexity_tier: getComplexityTier(finalDC),
     crafting_days: calculateAllCraftingTiers(creditValue),
     node_stats: nodeStats,
+    inorganic_nodes: inorganicNodes,
+    inorganicNodes,
+    resonance_penalty: resonancePenalty,
+    resonancePenalty,
+    has_aetherite_wiring: hasAetheriteWiring,
+    hasAetheriteWiring,
     cp_cost: bpCost,
     bp_cost: bpCost,
     sp_total: sp,
@@ -309,6 +361,8 @@ export function computeAugmentationStats(formData) {
     computed_at: new Date().toISOString()
   };
 }
+
+export const calculateAugmentationStats = computeAugmentationStats;
 
 // ═══════════════════════════════════════════════════════════
 // AUGMENTATION STAGES & BODY CHART CAPACITY ENGINES
@@ -845,6 +899,8 @@ export const calculateMechaDefenseCR = calculateMechaDefenseDC;
 
 /**
  * Calculates the comprehensive Crafting CR/DC for Mecha chassis.
+ * Applies the canonical TL Base CR Modifier (TL1/2: -5, TL3: 0, TL4: +5, TL5: +10)
+ * and uses Highest Component CR rather than summing all component DCs onto the chassis exponent.
  */
 export function calculateMechaDC({
   baseCR,
@@ -855,6 +911,7 @@ export function calculateMechaDC({
   armor = [],
   modules = [],
   components = [],
+  weapons = [],
   vftMode = 'None',
   tl = 3,
   skin
@@ -868,38 +925,57 @@ export function calculateMechaDC({
   // Add Frame complexity DC
   dc += frameDef.complexityDC;
 
-  // Add Propulsion DC
+  // Canonical Tech Level Base CR Modifier: TL1/2: -5, TL3: 0, TL4: +5, TL5: +10
+  const tlNum = Number(tl ?? 3);
+  const tlMod = tlNum <= 2 ? -5 : tlNum === 3 ? 0 : tlNum === 4 ? 5 : 10;
+  dc += tlMod;
+
+  // Track highest installed component CR (Disconnected Component Costing prevents DC 140+ inflation)
+  let highestCompCR = 0;
+  const checkCompCR = (crVal) => {
+    if (Number.isFinite(crVal) && crVal > highestCompCR) {
+      highestCompCR = crVal;
+    }
+  };
+
   if (propulsion) {
     const propDef = MECHA_PROPULSION.find(p => p.id === propulsion || p.name === propulsion);
-    if (propDef) dc += propDef.dcMod;
+    if (propDef) checkCompCR(10 + (propDef.dcMod || 0));
   }
 
-  // Add Armor DC mods
   if (Array.isArray(armor)) {
     for (const armItem of armor) {
-      const armId = typeof armItem === 'string' ? armItem : armItem.id;
+      const armId = typeof armItem === 'string' ? armItem : armItem?.id;
       const armDef = MECHA_ARMOR_TYPES.find(a => a.id === armId || a.name === armId);
-      if (armDef) dc += armDef.dcMod;
+      if (armDef) checkCompCR(10 + (armDef.dcMod || 0));
     }
   }
 
-  // Add Modules DC mods
   if (Array.isArray(modules)) {
     for (const modItem of modules) {
-      const modId = typeof modItem === 'string' ? modItem : modItem.id;
+      const modId = typeof modItem === 'string' ? modItem : modItem?.id;
       const modDef = MECHA_MODULES.find(m => m.id === modId || m.name === modId);
-      if (modDef) dc += modDef.dcMod;
+      if (modDef) checkCompCR(10 + (modDef.dcMod || 0));
     }
   }
 
-  // Add Components DC mods
   if (Array.isArray(components)) {
     for (const compItem of components) {
-      const compId = typeof compItem === 'string' ? compItem : compItem.id;
+      const compId = typeof compItem === 'string' ? compItem : compItem?.id;
       const compDef = MECHA_COMPONENTS.find(c => c.id === compId || c.name === compId);
-      if (compDef) dc += compDef.dcMod;
+      if (compDef) checkCompCR(10 + (compDef.dcMod || 0));
     }
   }
+
+  if (Array.isArray(weapons)) {
+    for (const wpnItem of weapons) {
+      const wpnId = typeof wpnItem === 'string' ? wpnItem : wpnItem?.id;
+      const wpnDef = Array.isArray(MECHA_WEAPONS) ? MECHA_WEAPONS.find(w => w.id === wpnId || w.name === wpnId) : null;
+      if (wpnDef) checkCompCR(wpnDef.dc ?? wpnDef.dcMod ?? 15);
+    }
+  }
+
+  dc = Math.max(dc, highestCompCR);
 
   // Add VFT mode DC
   if (vftMode && VFT_MODES[vftMode]) {
@@ -917,22 +993,37 @@ export function calculateMechaDC({
 export const calculateMechaCR = calculateMechaDC;
 
 /**
- * Calculates Automata Skill Ranks and Maximum Skill Cap from Processing Rating (PR) (5.05 AUTOMATA.md).
- * - PR 1: 10 Skill Ranks, Max Skill Cap 5
- * - PR 2: 15 Skill Ranks, Max Skill Cap 6
- * - PR 3: 20 Skill Ranks, Max Skill Cap 9
- * - PR 4: 25 Skill Ranks, Max Skill Cap 12
- * - PR 5: 30 Skill Ranks, Max Skill Cap 15
+ * Calculates Automata Mental Attributes, Skill Ranks, and Maximum Skill Cap from Processing Rating (PR 0–4) (5.05 AUTOMATA.md).
+ * - Mental Attributes: INT = PR, WIS = PR - 2, CHA = (PR - 2) * 2
+ * - Skill Ranks: (PR + 1) * 5
  *
- * @param {number} [pr=1] - Processing Rating (1..5+)
- * @returns {{ pr: number, skillRanks: number, maxSkillCap: number }}
+ * @param {number} [pr=0] - Processing Rating (0..4+)
+ * @returns {{ pr: number, int: number, wis: number, cha: number, INT: number, WIS: number, CHA: number, mentalAttributes: object, skillRanks: number, maxSkillCap: number }}
  */
-export function calculateAutomataStatsFromPR(pr = 1) {
-  const prNum = Math.max(1, Math.round(Number(pr) || 1));
+export function calculateAutomataStatsFromPR(pr = 0) {
+  const parsed = Number(pr);
+  const prNum = Number.isFinite(parsed) ? Math.max(0, Math.min(5, Math.round(parsed))) : 0;
+  const intScore = prNum;
+  const wisScore = prNum - 2;
+  const chaScore = (prNum - 2) * 2;
   const skillRanks = (prNum + 1) * 5;
-  const maxSkillCap = Math.max(5, prNum * 3);
+  const maxSkillCap = prNum === 0 ? 2 : Math.max(5, prNum * 3);
   return {
     pr: prNum,
+    int: intScore,
+    wis: wisScore,
+    cha: chaScore,
+    INT: intScore,
+    WIS: wisScore,
+    CHA: chaScore,
+    mentalAttributes: {
+      INT: intScore,
+      WIS: wisScore,
+      CHA: chaScore,
+      int: intScore,
+      wis: wisScore,
+      cha: chaScore
+    },
     skillRanks,
     maxSkillCap
   };
@@ -940,17 +1031,31 @@ export function calculateAutomataStatsFromPR(pr = 1) {
 
 /**
  * Calculates Mount displacement and capacity budget for Mecha.
+ * Preserves fractional sub-Medium scaleMult and applies VFT -10% Mount penalty per extra form.
  */
 export function calculateMechaMounts({
   size = 'Medium',
   propulsion = null,
   armor = [],
   modules = [],
-  weapons = []
+  weapons = [],
+  vftMode = 'None',
+  extraForms,
+  vftForms
 } = {}) {
   const sizeDef = MECHA_SIZES[size] || MECHA_SIZES.Medium;
-  const totalMounts = sizeDef.mounts;
-  const scaleMult = Math.max(1, Math.round(sizeDef.scaleMult));
+  const scaleMult = Number(sizeDef.scaleMult) || 1;
+
+  const resolvedExtraForms = extraForms !== undefined && extraForms !== null
+    ? Math.max(0, Number(extraForms) || 0)
+    : (vftForms !== undefined && vftForms !== null && Number(vftForms) > 1
+      ? Number(vftForms) - 1
+      : (vftMode && vftMode !== 'None' ? 1 : 0));
+
+  const vftMountPenalty = resolvedExtraForms > 0
+    ? Number((sizeDef.mounts * 0.10 * resolvedExtraForms).toFixed(2))
+    : 0;
+  const totalMounts = Number(Math.max(0.1, sizeDef.mounts - vftMountPenalty).toFixed(2));
 
   let usedMounts = 0;
 
@@ -983,15 +1088,24 @@ export function calculateMechaMounts({
   // Weapons Mounts
   if (Array.isArray(weapons)) {
     for (const wpn of weapons) {
-      const mountCost = typeof wpn === 'object' ? (wpn.mounts ?? 1) : 1;
-      usedMounts += Number(mountCost);
+      if (typeof wpn === 'object' && wpn !== null && wpn.mounts !== undefined) {
+        usedMounts += Number(wpn.mounts);
+      } else {
+        const wpnId = typeof wpn === 'string' ? wpn : wpn?.id;
+        const wpnDef = Array.isArray(MECHA_WEAPONS) ? MECHA_WEAPONS.find(w => w.id === wpnId || w.name === wpnId) : null;
+        usedMounts += wpnDef ? Number(wpnDef.mounts || 1) : 1;
+      }
     }
   }
 
-  const remainingMounts = totalMounts - usedMounts;
+  usedMounts = Number(usedMounts.toFixed(2));
+  const remainingMounts = Number((totalMounts - usedMounts).toFixed(2));
   const isOverBudget = usedMounts > totalMounts;
 
   return {
+    baseMounts: sizeDef.mounts,
+    vftMountPenalty,
+    extraForms: resolvedExtraForms,
     totalMounts,
     usedMounts,
     remainingMounts,
@@ -1036,22 +1150,29 @@ export function calculateCrewRequired(size = 'Medium', hasAiTargeting = false) {
 
 /**
  * Computes full persistent metadata for Mecha on save.
+ * Uses Disconnected Component Credit Costing (Chassis Credits + Sum of Component Credits).
  */
-export function computeMechaStats(formData) {
+export function computeMechaStats(formData = {}) {
   const size = formData.size || 'Medium';
   const frame = formData.frame || formData.frame_type || 'Humanoid';
   const sizeDef = MECHA_SIZES[size] || MECHA_SIZES.Medium;
   const frameDef = MECHA_FRAMES[frame] || MECHA_FRAMES.Humanoid;
+  const vftMode = formData.vft_mode || (formData.vft_capable ? 'TL3_HardShift' : 'None');
+  const armorList = formData.armor_plating || formData.armor || [];
+  const moduleList = formData.installed_modules || formData.modules || [];
+  const compList = formData.components || [];
+  const weaponList = formData.linked_weapons || formData.weapons || [];
 
   const finalDC = calculateMechaDC({
     baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
     size,
     frame,
     propulsion: formData.propulsion,
-    armor: formData.armor_plating || formData.armor || [],
-    modules: formData.installed_modules || formData.modules || [],
-    components: formData.components || [],
-    vftMode: formData.vft_mode || (formData.vft_capable ? 'TL3_HardShift' : 'None'),
+    armor: armorList,
+    modules: moduleList,
+    components: compList,
+    weapons: weaponList,
+    vftMode,
     tl: formData.tl ?? 3,
     skin: formData.skin || formData.faction_skin
   });
@@ -1059,9 +1180,12 @@ export function computeMechaStats(formData) {
   const mountBudget = calculateMechaMounts({
     size,
     propulsion: formData.propulsion,
-    armor: formData.armor_plating || formData.armor || [],
-    modules: formData.installed_modules || formData.modules || [],
-    weapons: formData.linked_weapons || []
+    armor: armorList,
+    modules: moduleList,
+    weapons: weaponList,
+    vftMode,
+    extraForms: formData.extra_forms ?? formData.extraForms,
+    vftForms: formData.vft_forms ?? formData.vftForms
   });
 
   const defenseDC = calculateMechaDefenseDC({
@@ -1070,10 +1194,52 @@ export function computeMechaStats(formData) {
     frame
   });
 
-  const hasAi = (formData.installed_modules || []).some(m => (typeof m === 'string' ? m : m.id) === 'targeting_ai');
+  const hasAi = moduleList.some(m => (typeof m === 'string' ? m : m?.id) === 'targeting_ai');
   const crewRequired = calculateCrewRequired(size, hasAi);
 
-  const creditValue = calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
+  // Disconnected Component Credit Costing: Chassis Credit Value + Sum of Installed Component Credit Values
+  const chassisCreditValue = calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
+  let componentCreditValue = 0;
+
+  if (formData.propulsion) {
+    const propDef = MECHA_PROPULSION.find(p => p.id === formData.propulsion || p.name === formData.propulsion);
+    if (propDef && propDef.dcMod > 0) {
+      componentCreditValue += calculateCreditValue(10 + propDef.dcMod);
+    }
+  }
+
+  for (const armItem of armorList) {
+    const armId = typeof armItem === 'string' ? armItem : armItem?.id;
+    const armDef = MECHA_ARMOR_TYPES.find(a => a.id === armId || a.name === armId);
+    if (armDef && armDef.dcMod > 0) {
+      componentCreditValue += calculateCreditValue(10 + armDef.dcMod);
+    }
+  }
+
+  for (const modItem of moduleList) {
+    const modId = typeof modItem === 'string' ? modItem : modItem?.id;
+    const modDef = MECHA_MODULES.find(m => m.id === modId || m.name === modId);
+    if (modDef && modDef.dcMod > 0) {
+      componentCreditValue += calculateCreditValue(10 + modDef.dcMod);
+    }
+  }
+
+  for (const compItem of compList) {
+    const compId = typeof compItem === 'string' ? compItem : compItem?.id;
+    const compDef = MECHA_COMPONENTS.find(c => c.id === compId || c.name === compId);
+    if (compDef && compDef.dcMod > 0) {
+      componentCreditValue += calculateCreditValue(10 + compDef.dcMod);
+    }
+  }
+
+  for (const wpnItem of weaponList) {
+    const wpnId = typeof wpnItem === 'string' ? wpnItem : wpnItem?.id;
+    const wpnDef = Array.isArray(MECHA_WEAPONS) ? MECHA_WEAPONS.find(w => w.id === wpnId || w.name === wpnId) : null;
+    const wpnCR = wpnDef ? (wpnDef.dc ?? wpnDef.dcMod ?? 15) : (typeof wpnItem === 'object' ? (wpnItem.dc ?? wpnItem.cr ?? 15) : 15);
+    componentCreditValue += calculateCreditValue(wpnCR);
+  }
+
+  const creditValue = chassisCreditValue + componentCreditValue;
   const materialCost = calculateMaterialCost(creditValue);
 
   let tacticalSpeed = '40 ft/rnd';
@@ -1087,6 +1253,8 @@ export function computeMechaStats(formData) {
     final_dc: finalDC,
     craft_cr: finalDC,
     craft_dc: finalDC,
+    chassis_credits: chassisCreditValue,
+    component_credits: componentCreditValue,
     credit_value: creditValue,
     is_megacredit: creditValue >= 1000000,
     megacredit_value: creditValue >= 1000000 ? (creditValue / 1000000).toFixed(2) + ' MCr' : null,
@@ -1103,7 +1271,7 @@ export function computeMechaStats(formData) {
     mount_budget: mountBudget,
     udu_displacement: {
       tier: 'Mount',
-      count: sizeDef.mounts
+      count: mountBudget.totalMounts
     },
     computed_at: new Date().toISOString()
   };
@@ -1114,6 +1282,25 @@ export function computeMechaStats(formData) {
 // ═══════════════════════════════════════════════════════════
 
 /**
+ * Auto-derives canonical height_class from story count when stories > 1:
+ * 1: Single, 2: Duplex, 3-5: Multi-Story, 6-12: Mid-Rise, 13-40: High-Rise, 41+: Skyscraper
+ */
+export function deriveHeightClassFromStories(stories, fallbackHeightClass = 'Single') {
+  if (stories !== null && stories !== undefined && stories !== '' && !isNaN(stories)) {
+    const s = Math.round(Number(stories));
+    if (s > 1) {
+      if (s === 2) return 'Duplex';
+      if (s >= 3 && s <= 5) return 'MultiStory';
+      if (s >= 6 && s <= 12) return 'MidRise';
+      if (s >= 13 && s <= 40) return 'HighRise';
+      return 'Skyscraper';
+    }
+  }
+  const clean = String(fallbackHeightClass || 'Single').replace(/-/g, '');
+  return HEIGHT_CLASSES[clean] ? clean : 'Single';
+}
+
+/**
  * Calculates total Structure Points (SP) for an architectural blueprint.
  * Formula: Base_SP * Stories * Material_Multiplier * Frame_SP_Multiplier + Bulwark_Bonus
  */
@@ -1121,22 +1308,27 @@ export function calculateArchitectureSP({
   footprint = 'Large',
   heightClass = 'Single',
   customStories = null,
+  stories: storiesParam = null,
   tl = 3,
   frame = 'Standard',
-  bulwarkBonus = 0
+  bulwarkBonus = 0,
+  skin = null
 } = {}) {
+  const resolvedStoriesInput = customStories ?? storiesParam;
+  const resolvedHeightClass = deriveHeightClassFromStories(resolvedStoriesInput, heightClass);
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
-  const heightDef = HEIGHT_CLASSES[heightClass] || HEIGHT_CLASSES.Single;
+  const heightDef = HEIGHT_CLASSES[resolvedHeightClass] || HEIGHT_CLASSES.Single;
   const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
   const frameDef = ARCHITECTURE_FRAME_TYPES[frame] || ARCHITECTURE_FRAME_TYPES.Standard;
 
-  const stories = customStories !== null && customStories !== undefined && !isNaN(customStories)
-    ? Number(customStories)
+  const stories = resolvedStoriesInput !== null && resolvedStoriesInput !== undefined && !isNaN(resolvedStoriesInput)
+    ? Number(resolvedStoriesInput)
     : heightDef.stories;
 
   const baseSP = footprintDef.baseSP;
   const frameSPMult = frameDef.spMult ?? 1.0;
-  const calculated = Math.round(baseSP * stories * matDef.spMult * frameSPMult + Number(bulwarkBonus || 0));
+  const skinSPMult = skin === 'Solarian' || skin === 'Dracon' ? 1.2 : 1.0;
+  const calculated = Math.round(baseSP * stories * matDef.spMult * frameSPMult * skinSPMult + Number(bulwarkBonus || 0));
 
   return Math.max(1, calculated);
 }
@@ -1144,22 +1336,29 @@ export function calculateArchitectureSP({
 /**
  * Calculates total Module capacity for an architectural structure.
  * Includes Frame module multipliers (Elevated +25%, Subterranean -15%),
- * Mastercraft bonus capacity, and deductions for Mobile 20% Chassis Tax.
+ * Mastercraft bonus capacity, deductions for Mobile 20% Chassis Tax,
+ * and Architectural VFT (-10% Modules per extra form).
  */
 export function calculateArchitectureModules({
   footprint = 'Large',
   heightClass = 'Single',
   customStories = null,
+  stories: storiesParam = null,
   frame = 'Standard',
   isMobile = false,
-  mastercraftBonus = 0
+  mastercraftBonus = 0,
+  vftMode = 'None',
+  extraForms,
+  vftForms
 } = {}) {
+  const resolvedStoriesInput = customStories ?? storiesParam;
+  const resolvedHeightClass = deriveHeightClassFromStories(resolvedStoriesInput, heightClass);
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
-  const heightDef = HEIGHT_CLASSES[heightClass] || HEIGHT_CLASSES.Single;
+  const heightDef = HEIGHT_CLASSES[resolvedHeightClass] || HEIGHT_CLASSES.Single;
   const frameDef = ARCHITECTURE_FRAME_TYPES[frame] || ARCHITECTURE_FRAME_TYPES.Standard;
 
-  const stories = customStories !== null && customStories !== undefined && !isNaN(customStories)
-    ? Number(customStories)
+  const stories = resolvedStoriesInput !== null && resolvedStoriesInput !== undefined && !isNaN(resolvedStoriesInput)
+    ? Number(resolvedStoriesInput)
     : heightDef.stories;
 
   const frameModMult = frameDef.moduleMult ?? 1.0;
@@ -1170,11 +1369,25 @@ export function calculateArchitectureModules({
     ? (rawModules >= 1 ? Math.max(1, Math.ceil(rawModules * 0.20)) : Number((rawModules * 0.20).toFixed(3)))
     : 0;
 
-  const usableModules = Number(Math.max(0.001, rawModules - mobileTax).toFixed(3));
+  // Architectural VFT: -10% Modules per extra form
+  const resolvedExtraForms = extraForms !== undefined && extraForms !== null
+    ? Math.max(0, Number(extraForms) || 0)
+    : (vftForms !== undefined && vftForms !== null && Number(vftForms) > 1
+      ? Number(vftForms) - 1
+      : (vftMode && vftMode !== 'None' ? 1 : 0));
+
+  const vftTax = resolvedExtraForms > 0
+    ? Number((rawModules * 0.10 * resolvedExtraForms).toFixed(3))
+    : 0;
+
+  const usableModules = Number(Math.max(0.001, rawModules - mobileTax - vftTax).toFixed(3));
 
   return {
     rawModules: Number(rawModules.toFixed(3)),
     mobileTax,
+    vftTax,
+    extraForms: resolvedExtraForms,
+    heightClass: resolvedHeightClass,
     totalModules: usableModules
   };
 }
@@ -1273,6 +1486,7 @@ export function calculateArchitectureDC({
   footprint = 'Large',
   heightClass = 'Single',
   customStories = null,
+  stories = null,
   frame = 'Standard',
   tl = 3,
   environment = 'Standard',
@@ -1284,11 +1498,15 @@ export function calculateArchitectureDC({
   propulsion = null,
   generators = [],
   uduCompression = null,
+  vftMode = 'None',
+  skin = null,
   isRare = false,
   baseDC = null
 } = {}) {
+  const resolvedStories = customStories ?? stories;
+  const resolvedHeightClass = deriveHeightClassFromStories(resolvedStories, heightClass);
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
-  const heightDef = HEIGHT_CLASSES[heightClass] || HEIGHT_CLASSES.Single;
+  const heightDef = HEIGHT_CLASSES[resolvedHeightClass] || HEIGHT_CLASSES.Single;
   const frameDef = ARCHITECTURE_FRAME_TYPES[frame] || ARCHITECTURE_FRAME_TYPES.Standard;
   const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
   const envDef = ENVIRONMENTAL_MODIFIERS[environment] || ENVIRONMENTAL_MODIFIERS.Standard;
@@ -1302,6 +1520,20 @@ export function calculateArchitectureDC({
 
   let runningDC = Number(baseDC !== null && baseDC !== undefined && !isNaN(baseDC) ? baseDC : footprintDef.baseDC);
   runningDC += heightCraftMod + (frameDef.dcMod || 0) + matDef.dcMod + envDef.dcMod;
+
+  // Cultural Architectural Skin modifier
+  if (skin && ARCHITECTURAL_CULTURAL_SKINS?.[skin]) {
+    runningDC += ARCHITECTURAL_CULTURAL_SKINS[skin].dcMod || 0;
+  } else if (skin && MANUFACTURER_SKINS?.[skin]) {
+    runningDC += MANUFACTURER_SKINS[skin].dcMod || 0;
+  }
+
+  // Architectural VFT mode modifier
+  if (vftMode && ARCHITECTURAL_VFT_MODES?.[vftMode]) {
+    runningDC += ARCHITECTURAL_VFT_MODES[vftMode].dcMod || 0;
+  }
+
+  const shellBaseDC = runningDC;
 
   // Track Highest Component DC across all installed systems
   let highestComponentDC = 0;
@@ -1365,24 +1597,30 @@ export function calculateArchitectureDC({
     }
   }
 
+  let extraMods = 0;
+  // UDU Compression modifiers
+  if (uduCompression === 'Efficient') extraMods += 5;
+  else if (uduCompression === 'Miniaturized') extraMods += 10;
+  else if (uduCompression === 'Integrated') extraMods += 5;
+
+  // Regional rarity
+  if (isRare) extraMods += 5;
+
+  const shellDC = Math.max(0, Math.round(shellBaseDC + extraMods));
   const highestRuleApplied = highestComponentDC > runningDC;
   if (highestRuleApplied) {
     runningDC = highestComponentDC;
   }
-
-  // UDU Compression modifiers
-  if (uduCompression === 'Efficient') runningDC += 5;
-  else if (uduCompression === 'Miniaturized') runningDC += 10;
-  else if (uduCompression === 'Integrated') runningDC += 5;
-
-  // Regional rarity
-  if (isRare) runningDC += 5;
+  runningDC += extraMods;
 
   const finalDC = Math.max(0, Math.round(runningDC));
 
   return {
     finalCR: finalDC,
     finalDC,
+    shellCR: shellDC,
+    shellDC,
+    heightClass: resolvedHeightClass,
     highestRuleApplied,
     highestComponentCR: highestComponentDC,
     highestComponentDC,
@@ -1573,14 +1811,16 @@ export function validateArchitectureBlueprint(formData) {
 
 /**
  * Computes full persistent metadata for Architecture on save.
+ * Uses Disconnected Module Credit Sum (Shell Cr + sum(Module Cr)) and auto-derives height_class from stories.
  */
-export function computeArchitectureStats(formData) {
+export function computeArchitectureStats(formData = {}) {
   const footprint = formData.footprint || formData.scale || 'Large';
-  const heightClass = formData.height_class || 'Single';
+  const heightClass = deriveHeightClassFromStories(formData.stories, formData.height_class || 'Single');
   const frame = formData.frame_type || formData.frame || 'Standard';
   const tl = Number(formData.tl ?? 3);
   const environment = formData.environment || 'Standard';
-  const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
+  const skin = formData.cultural_skin || formData.skin || formData.faction_skin || null;
+  const vftMode = formData.vft_mode || 'None';
   const envDef = ENVIRONMENTAL_MODIFIERS[environment] || ENVIRONMENTAL_MODIFIERS.Standard;
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
 
@@ -1590,7 +1830,8 @@ export function computeArchitectureStats(formData) {
     customStories: formData.stories,
     tl,
     frame,
-    bulwarkBonus: formData.bulwark_bonus || 0
+    bulwarkBonus: formData.bulwark_bonus || 0,
+    skin
   });
 
   const moduleCalc = calculateArchitectureModules({
@@ -1599,13 +1840,17 @@ export function computeArchitectureStats(formData) {
     customStories: formData.stories,
     frame,
     isMobile: !!formData.is_mobile,
-    mastercraftBonus: formData.mastercraft_bonus || 0
+    mastercraftBonus: formData.mastercraft_bonus || 0,
+    vftMode,
+    extraForms: formData.extra_forms ?? formData.extraForms,
+    vftForms: formData.vft_forms ?? formData.vftForms
   });
 
   const totalModules = moduleCalc.totalModules;
 
   const specializedModules = formData.specialized_modules || formData.modules || [];
   let usedModules = 0;
+  let moduleCredits = 0;
   if (Array.isArray(specializedModules)) {
     for (const mod of specializedModules) {
       const modId = typeof mod === 'string' ? mod : mod.id;
@@ -1613,6 +1858,9 @@ export function computeArchitectureStats(formData) {
       const modDef = ARCHITECTURE_FACILITIES.find(m => m.id === modId || m.name === modId);
       if (modDef) {
         usedModules += modDef.modules * count;
+        moduleCredits += calculateCreditValue(modDef.dc) * count;
+      } else if (typeof mod === 'object' && (mod.dc !== undefined || mod.cr !== undefined)) {
+        moduleCredits += calculateCreditValue(mod.dc ?? mod.cr) * count;
       }
     }
   }
@@ -1623,6 +1871,55 @@ export function computeArchitectureStats(formData) {
   const sensorsAndAux = formData.sensors_and_aux || formData.sensors || [];
   const generators = formData.generators || formData.power_generators || [];
   const propulsion = formData.propulsion || formData.propulsion_type || null;
+
+  for (const arm of [...(Array.isArray(armorPlating) ? armorPlating : []), ...(Array.isArray(energyShields) ? energyShields : [])]) {
+    const armId = typeof arm === 'string' ? arm : arm?.id;
+    const count = typeof arm === 'object' && arm?.count ? Number(arm.count) : 1;
+    const armDef = ARCHITECTURE_HARDPOINTS_ARMOR.find(a => a.id === armId || a.name === armId);
+    if (armDef) {
+      moduleCredits += calculateCreditValue(armDef.dc) * count;
+    }
+  }
+
+  if (Array.isArray(structuralWeapons)) {
+    for (const wpn of structuralWeapons) {
+      const wpnId = typeof wpn === 'string' ? wpn : wpn?.id;
+      const count = typeof wpn === 'object' && wpn?.count ? Number(wpn.count) : 1;
+      const wpnDef = ARCHITECTURE_HARDPOINTS_WEAPONS.find(w => w.id === wpnId || w.name === wpnId);
+      if (wpnDef) {
+        moduleCredits += calculateCreditValue(wpnDef.dc) * count;
+      }
+    }
+  }
+
+  if (Array.isArray(sensorsAndAux)) {
+    for (const sens of sensorsAndAux) {
+      const sensId = typeof sens === 'string' ? sens : sens?.id;
+      const count = typeof sens === 'object' && sens?.count ? Number(sens.count) : 1;
+      const sensDef = ARCHITECTURE_HARDPOINTS_SENSORS.find(s => s.id === sensId || s.name === sensId);
+      if (sensDef) {
+        moduleCredits += calculateCreditValue(sensDef.dc) * count;
+      }
+    }
+  }
+
+  if (propulsion) {
+    const propId = typeof propulsion === 'string' ? propulsion : propulsion?.id;
+    const propDef = ARCHITECTURE_PROPULSION.find(p => p.id === propId || p.name === propId);
+    if (propDef) {
+      moduleCredits += calculateCreditValue(propDef.dc);
+    }
+  }
+
+  if (Array.isArray(generators)) {
+    for (const gen of generators) {
+      const genId = typeof gen === 'string' ? gen : gen?.id;
+      const genDef = ARCHITECTURE_CORE_INTERNALS.find(g => g.id === genId || g.name === genId);
+      if (genDef) {
+        moduleCredits += calculateCreditValue(genDef.dc);
+      }
+    }
+  }
 
   const mountCalc = calculateArchitectureMounts({
     footprint,
@@ -1649,11 +1946,14 @@ export function computeArchitectureStats(formData) {
     propulsion,
     generators,
     uduCompression: formData.udu_compression,
+    vftMode,
+    skin,
     isRare: !!formData.is_rare,
     baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc
   });
 
   const finalDC = dcResult.finalDC;
+  const shellDC = dcResult.shellDC ?? finalDC;
 
   // If the user checked VacuumToxic and TL < 3, or Aquatic, cost multipliers apply
   let costMult = envDef.costMult || 1.0;
@@ -1661,8 +1961,8 @@ export function computeArchitectureStats(formData) {
     costMult = 1.0; // Free at TL3+
   }
 
-  const baseCreditValue = calculateCreditValue(finalDC, formData.micro_mods ?? formData.microMods ?? 0);
-  const adjustedCreditValue = Math.round(baseCreditValue * costMult);
+  const shellCreditValue = Math.round(calculateCreditValue(shellDC, formData.micro_mods ?? formData.microMods ?? 0) * costMult);
+  const adjustedCreditValue = shellCreditValue + Math.round(moduleCredits * costMult);
   const materialCost = calculateMaterialCost(adjustedCreditValue);
 
   const cooperativeTimeline = calculateCooperativeConstructionDays({
@@ -1680,7 +1980,7 @@ export function computeArchitectureStats(formData) {
     creditValue: adjustedCreditValue
   });
 
-  const validation = validateArchitectureBlueprint(formData);
+  const validation = validateArchitectureBlueprint({ ...formData, height_class: heightClass });
 
   // Tactical Speed for Mobile Structures
   let tacticalSpeed = null;
@@ -1698,8 +1998,13 @@ export function computeArchitectureStats(formData) {
     final_dc: finalDC,
     craft_cr: finalDC,
     craft_dc: finalDC,
+    shell_cr: shellDC,
+    shell_dc: shellDC,
+    height_class: heightClass,
     highest_rule_applied: dcResult.highestRuleApplied,
     highest_component_source: dcResult.highestComponentSource,
+    shell_credits: shellCreditValue,
+    module_credits: Math.round(moduleCredits * costMult),
     credit_value: adjustedCreditValue,
     material_cost: materialCost,
     ws_threshold: finalDC,
@@ -1709,11 +2014,13 @@ export function computeArchitectureStats(formData) {
     total_modules: totalModules,
     raw_modules: moduleCalc.rawModules,
     mobile_tax_modules: moduleCalc.mobileTax,
+    vft_tax_modules: moduleCalc.vftTax,
     used_modules: usedModules,
     remaining_modules: Number((totalModules - usedModules).toFixed(2)),
     is_module_overbudget: usedModules > totalModules,
     mount_budget: mountCalc,
     tactical_speed: tacticalSpeed,
+    cultural_skin: (skin && ARCHITECTURAL_CULTURAL_SKINS?.[skin]) || null,
     combat_metrics: combatMetrics,
     validation_status: {
       valid: validation.valid,

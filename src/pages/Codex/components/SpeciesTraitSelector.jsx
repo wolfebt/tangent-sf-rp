@@ -113,8 +113,10 @@ import {
   SpeciesTypeSummaryCard,
   SpeciesSizeSummaryCard,
   MovementModeSummaryCard,
-  SocialStigmaSummaryCard
+  SocialStigmaSummaryCard,
+  SpeciesBuildCostTooltipCard
 } from '../../../components/Codex/SpeciesStudioTooltips';
+import { evaluateAssetBuildCost } from '../codexBuildCostValidator';
 import { AudioService } from '../../../services/audioService';
 import { 
   FeaturesSelector, 
@@ -240,8 +242,26 @@ export const isSpeciesTraitIdentifier = (item) => {
   return clean.startsWith('trait-') || clean.includes('traits-') || clean.startsWith('trait_') || clean.includes('trait');
 };
 
-const CANONICAL_FEATURE_IDS = new Set(DEFAULT_FEATURES.map(f => f.id.toLowerCase()));
-const CANONICAL_FEATURE_NAMES = new Set(DEFAULT_FEATURES.map(f => f.name.toLowerCase()));
+const CANONICAL_FEATURE_IDS = new Set([
+  ...DEFAULT_FEATURES.map(f => f.id.toLowerCase()),
+  'cat_ability_features',
+  'cat_combat_features',
+  'cat_discipline_features',
+  'cat_general_features',
+  'cat_karma_features',
+  'cat_skill_features',
+  'cat_special_features'
+]);
+const CANONICAL_FEATURE_NAMES = new Set([
+  ...DEFAULT_FEATURES.map(f => f.name.toLowerCase()),
+  'ability features',
+  'combat features',
+  'discipline features',
+  'general features',
+  'karma features',
+  'skill features',
+  'special features'
+]);
 
 export const isCanonicalFeatureIdentifier = (item) => {
   if (!item) return false;
@@ -744,6 +764,27 @@ export const SpeciesTraitSelector = ({
     return calculateSpeciesCombatModifiers(selectedSize);
   }, [selectedSize]);
 
+  const speciesBuildCheck = useMemo(() => {
+    return evaluateAssetBuildCost({
+      ...formData,
+      type: selectedType,
+      size: selectedSize,
+      movementModes: selectedModes,
+      attributes,
+      bonus_attribute_points: bonusAttributePoints,
+      skillBundles,
+      bonus_skills: rawBonusSkills || (skillBundles * 5),
+      traits: selectedTraits,
+      inherent_features: cleanedInherentFeatures,
+      bonus_features: bonusFeatures,
+      disadvantages: selectedDisadvantages,
+      budgetLevel: selectedBudget,
+      social_stigma: selectedStigma,
+      stigma: selectedStigma,
+      modifiers: modsList
+    }, 'species');
+  }, [formData, selectedType, selectedSize, selectedModes, attributes, bonusAttributePoints, skillBundles, rawBonusSkills, selectedTraits, cleanedInherentFeatures, bonusFeatures, selectedDisadvantages, selectedBudget, selectedStigma, modsList]);
+
   // Keep parent form's CP in sync with calculated total
   useEffect(() => {
     if (typeof onChangeRef.current !== 'function') return;
@@ -805,7 +846,7 @@ export const SpeciesTraitSelector = ({
 
     // 3. Omnicortex DBM species traits
     const dbTraits = (dbData?.trait || dbData?.species_traits || []).filter(
-      t => !['Origin Trait', 'Occupational Trait', 'Archetype Trait', 'Faction Trait'].includes(t?.trait_type)
+      t => (t?.trait_type === 'Species Trait' || !t?.trait_type) && Number(t?.cp ?? t?.costs?.cp ?? 1) > 0
     );
     dbTraits.forEach(addTrait);
 
@@ -1067,8 +1108,8 @@ export const SpeciesTraitSelector = ({
     }
     const lower = String(selectedStigma || '').toLowerCase();
     if (lower.includes('extreme') || lower.includes('pariah')) return 6;
-    if (lower.includes('severe') || lower.includes('feral') || lower.includes('monstrous')) return 4;
-    if (lower.includes('xeno') || lower.includes('synthetic') || lower.includes('shifter') || lower.includes('dragonkin') || lower.includes('fey')) return 2;
+    if (lower.includes('severe') || lower.includes('feral') || lower.includes('monstrous') || lower.includes('dragonkin')) return 4;
+    if (lower.includes('xeno') || lower.includes('synthetic') || lower.includes('shifter') || lower.includes('fey')) return 2;
     if (lower.includes('minor') || lower.includes('seclusionist')) return 1;
     return 0;
   }, [selectedStigma, stigmaMatches]);
@@ -1289,14 +1330,23 @@ export const SpeciesTraitSelector = ({
         </div>
 
         {/* Live Package Cost Meter */}
-        <div className="flex items-center gap-3 bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-700">
-          <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Package Cost</span>
-            <span className="text-sm font-bold text-emerald-400">
-              {bpData.totalBPUsed} CP
-            </span>
+        <OmnicortexTooltip
+          delay={180}
+          position="bottom"
+          color={speciesBuildCheck?.hasUnaccountedItems ? '#f59e0b' : '#10b981'}
+          content={<SpeciesBuildCostTooltipCard buildCheck={speciesBuildCheck} />}
+        >
+          <div className={`flex items-center gap-3 bg-slate-950/80 px-3.5 py-1.5 rounded-xl border cursor-help ${
+            speciesBuildCheck?.hasUnaccountedItems ? 'border-amber-500/50' : 'border-slate-700'
+          }`}>
+            <div className="text-right">
+              <span className="text-[10px] text-slate-400 uppercase font-bold block">Package Cost</span>
+              <span className={`text-sm font-bold ${speciesBuildCheck?.hasUnaccountedItems ? 'text-amber-300' : 'text-emerald-400'}`}>
+                {bpData.totalBPUsed} CP
+              </span>
+            </div>
           </div>
-        </div>
+        </OmnicortexTooltip>
       </div>
 
       {/* ── Genetics Sub-Nav Rail + Active Viewport Layout ── */}
@@ -1358,33 +1408,38 @@ export const SpeciesTraitSelector = ({
             </div>
 
             {/* Size Category */}
-            <div>
-              <label className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between mb-1">
-                <span>Size Category ({SPECIES_SIZES[selectedSize]?.bp || 0} CP)</span>
-                <OmnicortexTooltip content={<SpeciesSizeSummaryCard sizeName={selectedSize} />} color="#38bdf8">
-                  <span className="text-sky-400 hover:text-sky-300 cursor-help flex items-center gap-0.5" title="View Physical Scaling Breakdown">
-                    <Info size={11} /> Breakdown
+            {(() => {
+              const sizeObj = SPECIES_SIZES[selectedSize];
+              return (
+                <div>
+                  <label className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between mb-1">
+                    <span>Size Category ({sizeObj?.bp || 0} CP)</span>
+                    <OmnicortexTooltip content={<SpeciesSizeSummaryCard sizeName={selectedSize} />} color="#38bdf8">
+                      <span className="text-sky-400 hover:text-sky-300 cursor-help flex items-center gap-0.5" title="View Physical Scaling Breakdown">
+                        <Info size={11} /> Breakdown
+                      </span>
+                    </OmnicortexTooltip>
+                  </label>
+                  <select
+                    value={selectedSize}
+                    onChange={(e) => {
+                      onChange('size', e.target.value);
+                      onChange('species_size', e.target.value);
+                    }}
+                    className="w-full p-2 bg-slate-950 border border-sky-500/40 rounded-xl text-xs text-sky-200 focus:outline-none focus:border-sky-400 font-mono"
+                  >
+                    {Object.keys(SPECIES_SIZES).map(s => (
+                      <option key={s} value={s}>
+                        {SPECIES_SIZES[s].name} ({SPECIES_SIZES[s].bp} CP)
+                      </option>
+                    ))}
+                  </select>
+                  <span className="text-[10px] text-slate-500 mt-1 block">
+                    Space: {sizeObj?.space || '5 ft'} • Reach: {sizeObj?.reach || '5 ft'}
                   </span>
-                </OmnicortexTooltip>
-              </label>
-              <select
-                value={selectedSize}
-                onChange={(e) => {
-                  onChange('size', e.target.value);
-                  onChange('species_size', e.target.value);
-                }}
-                className="w-full p-2 bg-slate-950 border border-sky-500/40 rounded-xl text-xs text-sky-200 focus:outline-none focus:border-sky-400 font-mono"
-              >
-                {Object.keys(SPECIES_SIZES).map(s => (
-                  <option key={s} value={s}>
-                    {SPECIES_SIZES[s].name} ({SPECIES_SIZES[s].bp} CP)
-                  </option>
-                ))}
-              </select>
-              <span className="text-[10px] text-slate-500 mt-1 block">
-                Space: {SPECIES_SIZES[selectedSize]?.space || '5 ft'} • Reach: {SPECIES_SIZES[selectedSize]?.reach || '5 ft'}
-              </span>
-            </div>
+                </div>
+              );
+            })()}
           </div>
 
           {/* Combat & Physical Modifiers Bar */}
@@ -1408,8 +1463,10 @@ export const SpeciesTraitSelector = ({
               </div>
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800/80">
                 <span className="text-slate-500 block text-[9px] uppercase font-bold">Stealth Mod</span>
-                <span className={`text-sm font-bold ${combatMods.stealthMod > 0 ? 'text-emerald-400' : (combatMods.stealthMod < 0 ? 'text-red-400' : 'text-slate-300')}`}>
-                  {combatMods.stealthMod >= 0 ? `+${combatMods.stealthMod}` : combatMods.stealthMod}
+                <span className={`text-sm font-bold ${typeof combatMods.stealthMod === 'number' && combatMods.stealthMod > 0 ? 'text-emerald-400' : (typeof combatMods.stealthMod !== 'number' || combatMods.stealthMod < 0 ? 'text-red-400' : 'text-slate-300')}`}>
+                  {typeof combatMods.stealthMod === 'number'
+                    ? (combatMods.stealthMod >= 0 ? `+${combatMods.stealthMod}` : combatMods.stealthMod)
+                    : combatMods.stealthMod}
                 </span>
               </div>
               <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800/80">
@@ -1580,6 +1637,34 @@ export const SpeciesTraitSelector = ({
                     </button>
                   </span>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recommended Species Traits Strip */}
+          {Array.isArray(formData.recommended_traits) && formData.recommended_traits.length > 0 && (
+            <div className="p-2.5 rounded-xl bg-cyan-950/20 border border-cyan-500/30 flex flex-wrap items-center gap-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1 mr-1">
+                <Sparkles size={13} /> Recommended Species Traits ({formData.recommended_traits.length}):
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {formData.recommended_traits.map((recId, idx) => {
+                  const idStr = typeof recId === 'object' ? (recId.id || recId.name) : String(recId);
+                  const found = allAvailableTraits.find(t => t.id === idStr || t.name?.toLowerCase() === idStr.toLowerCase());
+                  const label = found ? found.name : idStr.replace(/^trait[-_]/, '').replace(/[_-]/g, ' ');
+                  const bpCost = found ? found.bp : 1;
+                  return (
+                    <span
+                      key={`${idStr}-${idx}`}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-900/90 border border-cyan-500/40 text-[11px] text-slate-200"
+                    >
+                      <span className="font-semibold">{label}</span>
+                      <span className="text-[9.5px] font-mono px-1 py-0.2 rounded bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 font-bold">
+                        {bpCost} CP
+                      </span>
+                    </span>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -2509,9 +2594,18 @@ export const SpeciesTraitSelector = ({
               <span className="text-xs font-bold text-slate-200 uppercase tracking-wider">
                 Itemized Character Point Breakdown
               </span>
-              <span className="text-xs font-bold font-mono text-emerald-400">
-                Package Cost: {bpData.totalBPUsed} CP
-              </span>
+              <OmnicortexTooltip
+                delay={180}
+                position="left"
+                color={speciesBuildCheck?.hasUnaccountedItems ? '#f59e0b' : '#10b981'}
+                content={<SpeciesBuildCostTooltipCard buildCheck={speciesBuildCheck} />}
+              >
+                <span className={`text-xs font-bold font-mono cursor-help ${
+                  speciesBuildCheck?.hasUnaccountedItems ? 'text-amber-300' : 'text-emerald-400'
+                }`}>
+                  Package Cost: {bpData.totalBPUsed} CP
+                </span>
+              </OmnicortexTooltip>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
@@ -2578,9 +2672,9 @@ export const SpeciesTraitSelector = ({
                     Move: {m.name} ({m.bp >= 0 ? `+${m.bp}` : m.bp} CP)
                   </span>
                 ))}
-                {(bpData.itemized?.attributes || []).map((a, idx) => (
+                {(bpData.itemized?.attributes || []).filter(a => !a.isPool).map((a, idx) => (
                   <span key={`attr-${idx}`} className="px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-200">
-                    {a.attribute} {a.value >= 0 ? `+${a.value}` : a.value} ({a.bp >= 0 ? `+${a.bp}` : a.bp} CP)
+                    {a.attr || a.attribute} {a.value >= 0 ? `+${a.value}` : a.value} ({a.bp >= 0 ? `+${a.bp}` : a.bp} CP)
                   </span>
                 ))}
                 {bonusAttributePoints > 0 && (
@@ -2598,7 +2692,7 @@ export const SpeciesTraitSelector = ({
                     Trait: {tr.name} ({tr.bp >= 0 ? `+${tr.bp}` : tr.bp} CP)
                   </span>
                 ))}
-                {(bpData.itemized?.features || []).map((ft, idx) => (
+                {(bpData.itemized?.features || []).filter(ft => !ft.isPool).map((ft, idx) => (
                   <span key={`ft-${idx}`} className="px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-500/30 text-indigo-200">
                     Feature: {ft.name} (+{ft.bp ?? 3} CP)
                   </span>
@@ -2618,6 +2712,15 @@ export const SpeciesTraitSelector = ({
                     Stigma: {selectedStigma} (-{bpData.breakdown.stigmaRefund} CP)
                   </span>
                 )}
+                {(speciesBuildCheck?.unaccountedItems || []).map((u, idx) => (
+                  <span
+                    key={`unacc-${idx}`}
+                    title={u.note || 'Unaccounted by formula'}
+                    className="px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/60 text-amber-200 font-bold"
+                  >
+                    ⚠ {u.label} ({u.formattedCost})
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -2664,14 +2767,23 @@ export const SpeciesTraitSelector = ({
 
             {/* Live Package Cost & Close */}
             <div className="flex items-center gap-4">
-              <div className="bg-slate-950/80 px-3.5 py-1.5 rounded-xl border border-slate-700 flex items-center gap-3">
-                <div className="text-right">
-                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Package Cost</span>
-                  <span className="text-sm font-bold text-emerald-400">
-                    {bpData.totalBPUsed} CP
-                  </span>
+              <OmnicortexTooltip
+                delay={180}
+                position="bottom"
+                color={speciesBuildCheck?.hasUnaccountedItems ? '#f59e0b' : '#10b981'}
+                content={<SpeciesBuildCostTooltipCard buildCheck={speciesBuildCheck} />}
+              >
+                <div className={`bg-slate-950/80 px-3.5 py-1.5 rounded-xl border flex items-center gap-3 cursor-help ${
+                  speciesBuildCheck?.hasUnaccountedItems ? 'border-amber-500/50' : 'border-slate-700'
+                }`}>
+                  <div className="text-right">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Package Cost</span>
+                    <span className={`text-sm font-bold ${speciesBuildCheck?.hasUnaccountedItems ? 'text-amber-300' : 'text-emerald-400'}`}>
+                      {bpData.totalBPUsed} CP
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </OmnicortexTooltip>
 
               <button
                 type="button"

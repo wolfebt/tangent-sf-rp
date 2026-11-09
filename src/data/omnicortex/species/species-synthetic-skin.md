@@ -32,44 +32,74 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Camouflage
-  - Deceitful
-  - Stealthy
+  - general-camouflage
+  - skill-deceitful
+  - skill-stealthy
+  - general-jack-of-all-trades
 disadvantages: []
 stigma: Secret (-6) / Severe if Exposed
 tech_level: '4'
 meta_level: '1'
 homeworld: Covert Black Labs
 costs:
-  cp: 46
-  bp: 46
+  cp: 45
+  bp: 45
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Camouflage
-    value: 1
+  - target: general-camouflage
     type: feature
-    mode: recommended
-  - target: Deceitful
     value: 1
-    type: feature
     mode: recommended
-  - target: Jack of all trades
+    description: 'Recommended Feature: Camouflage'
+  - target: skill-deceitful
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Deceitful'
+  - target: skill-stealthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Stealthy'
+  - target: general-jack-of-all-trades
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Jack-of-all-trades'
+  - target: trait-alter-form-basic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Alter Form (Basic)'
+  - target: trait-alter-form-adv
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Alter Form (Adv)'
+  - target: trait-synthetic-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Armor Opts'
+  - target: trait-synthetic-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Weapon Opts'
+  - target: trait-camouflage
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Camouflage'
 description: >-
   Experimental design to be more Human like in form and function, for various
   reasons including infiltration. No obvious distinguishable traits showing
@@ -78,11 +108,13 @@ description: >-
   and Biomed Scanners with a CR 20 - medical treatment will also reveal nature
   to the physician (although wounds would outwardly be ‘normal’ with loss of
   fluids included [limited blood simulation]).
-traits: &ref_0
+traits:
+  - trait-synthetic-base-traits
+  - trait-adaptive-features
+species_traits:
   - trait-synthetic-base-traits
   - trait-alter-form-basic
   - trait-adaptive-features
-species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - Corporate Faction Template
@@ -100,6 +132,12 @@ negative_keywords: 'clunky-metal, obvious-robot, conspicuous'
 cp: 46
 bp: 46
 cp_cost: 46
+recommended_traits:
+  - trait-alter-form-basic
+  - trait-alter-form-adv
+  - trait-synthetic-armor-opts
+  - trait-synthetic-weapon-opts
+  - trait-camouflage
 ---
 
 # **1.03.Synthetics.Skins — Skins (Bio-Mimetic Infiltrator Androids)**

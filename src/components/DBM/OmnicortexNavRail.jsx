@@ -23,7 +23,8 @@ import {
   ExternalLink,
   ChevronRight,
   ChevronDown,
-  Pin
+  PanelLeftClose,
+  PanelLeftOpen
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { 
@@ -32,6 +33,34 @@ import {
   isDevelopmentField,
   getDevelopmentField
 } from './categoryConfig';
+
+export {
+  DEVELOPMENT_FIELDS_GROUPS,
+  DEVELOPMENT_FIELDS_REGISTRY,
+  isDevelopmentField,
+  getDevelopmentField
+};
+
+export const CANONICAL_SOCIETY_SPHERES = [
+  { key: 'society_agriculture', label: 'Agriculture' },
+  { key: 'society_architecture', label: 'Architecture' },
+  { key: 'society_biotechnology', label: 'Biotechnology' },
+  { key: 'society_commerce', label: 'Commerce' },
+  { key: 'society_communication', label: 'Communication' },
+  { key: 'society_computation', label: 'Computation' },
+  { key: 'society_devices', label: 'Devices' },
+  { key: 'society_education', label: 'Education' },
+  { key: 'society_energy', label: 'Energy' },
+  { key: 'society_manufacturing', label: 'Manufacturing' },
+  { key: 'society_materials', label: 'Materials' },
+  { key: 'society_medicine', label: 'Medicine' },
+  { key: 'society_science', label: 'Science' },
+  { key: 'society_society', label: 'Society & Governance' },
+  { key: 'society_synthetic_intelligence', label: 'Synthetic Intelligence' },
+  { key: 'society_synthetics', label: 'Synthetics' },
+  { key: 'society_transportation', label: 'Transportation' },
+  { key: 'society_weaponry', label: 'Weaponry' }
+];
 
 /**
  * @file OmnicortexNavRail.jsx
@@ -46,6 +75,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-purple-500/25 border-purple-400 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.4)]',
     activeBtn: 'bg-purple-950/70 border-purple-400/80 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.25)]',
     activeLabel: 'text-purple-300 font-extrabold [text-shadow:0_0_8px_rgba(168,85,247,0.7)]',
+    idleLabel: 'text-purple-400/85 group-hover:text-purple-200',
     bar: 'bg-purple-400 shadow-[0_0_8px_rgba(168,85,247,0.8)]',
     badge: 'bg-purple-500 text-white'
   },
@@ -54,6 +84,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-emerald-500/25 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(16,185,129,0.4)]',
     activeBtn: 'bg-emerald-950/70 border-emerald-400/80 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.25)]',
     activeLabel: 'text-emerald-300 font-extrabold [text-shadow:0_0_8px_rgba(16,185,129,0.7)]',
+    idleLabel: 'text-emerald-400/85 group-hover:text-emerald-200',
     bar: 'bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
     badge: 'bg-emerald-500 text-black'
   },
@@ -62,6 +93,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-cyan-500/25 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.4)]',
     activeBtn: 'bg-cyan-950/70 border-cyan-400/80 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.25)]',
     activeLabel: 'text-cyan-300 font-extrabold [text-shadow:0_0_8px_rgba(34,211,238,0.7)]',
+    idleLabel: 'text-cyan-400/85 group-hover:text-cyan-200',
     bar: 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]',
     badge: 'bg-cyan-500 text-black'
   },
@@ -70,6 +102,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-blue-500/25 border-blue-400 text-blue-200 shadow-[0_0_12px_rgba(59,130,246,0.4)]',
     activeBtn: 'bg-blue-950/70 border-blue-400/80 text-blue-200 shadow-[0_0_15px_rgba(59,130,246,0.25)]',
     activeLabel: 'text-blue-300 font-extrabold [text-shadow:0_0_8px_rgba(59,130,246,0.7)]',
+    idleLabel: 'text-blue-400/85 group-hover:text-blue-200',
     bar: 'bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.8)]',
     badge: 'bg-blue-500 text-white'
   },
@@ -78,6 +111,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]',
     activeBtn: 'bg-amber-950/70 border-amber-400/80 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.25)]',
     activeLabel: 'text-amber-300 font-extrabold [text-shadow:0_0_8px_rgba(245,158,11,0.7)]',
+    idleLabel: 'text-amber-400/85 group-hover:text-amber-200',
     bar: 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]',
     badge: 'bg-amber-500 text-black'
   },
@@ -86,6 +120,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-yellow-500/25 border-yellow-400 text-yellow-200 shadow-[0_0_12px_rgba(234,179,8,0.4)]',
     activeBtn: 'bg-yellow-950/70 border-yellow-400/80 text-yellow-200 shadow-[0_0_15px_rgba(234,179,8,0.25)]',
     activeLabel: 'text-yellow-300 font-extrabold [text-shadow:0_0_8px_rgba(234,179,8,0.7)]',
+    idleLabel: 'text-yellow-400/85 group-hover:text-yellow-200',
     bar: 'bg-yellow-400 shadow-[0_0_8px_rgba(234,179,8,0.8)]',
     badge: 'bg-yellow-500 text-black'
   },
@@ -94,6 +129,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-rose-500/25 border-rose-400 text-rose-200 shadow-[0_0_12px_rgba(244,63,94,0.4)]',
     activeBtn: 'bg-rose-950/70 border-rose-400/80 text-rose-200 shadow-[0_0_15px_rgba(244,63,94,0.25)]',
     activeLabel: 'text-rose-300 font-extrabold [text-shadow:0_0_8px_rgba(244,63,94,0.7)]',
+    idleLabel: 'text-rose-400/85 group-hover:text-rose-200',
     bar: 'bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.8)]',
     badge: 'bg-rose-500 text-white'
   },
@@ -102,6 +138,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-orange-500/25 border-orange-400 text-orange-200 shadow-[0_0_12px_rgba(249,115,22,0.4)]',
     activeBtn: 'bg-orange-950/70 border-orange-400/80 text-orange-200 shadow-[0_0_15px_rgba(249,115,22,0.25)]',
     activeLabel: 'text-orange-300 font-extrabold [text-shadow:0_0_8px_rgba(249,115,22,0.7)]',
+    idleLabel: 'text-orange-400/85 group-hover:text-orange-200',
     bar: 'bg-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.8)]',
     badge: 'bg-orange-500 text-black'
   },
@@ -110,6 +147,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-red-500/25 border-red-400 text-red-200 shadow-[0_0_12px_rgba(239,68,68,0.4)]',
     activeBtn: 'bg-red-950/70 border-red-400/80 text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.25)]',
     activeLabel: 'text-red-300 font-extrabold [text-shadow:0_0_8px_rgba(239,68,68,0.7)]',
+    idleLabel: 'text-red-400/85 group-hover:text-red-200',
     bar: 'bg-red-400 shadow-[0_0_8px_rgba(239,68,68,0.8)]',
     badge: 'bg-red-500 text-white'
   },
@@ -118,6 +156,7 @@ const SECTION_THEMES = {
     activeBox: 'bg-indigo-500/25 border-indigo-400 text-indigo-200 shadow-[0_0_12px_rgba(99,102,241,0.4)]',
     activeBtn: 'bg-indigo-950/70 border-indigo-400/80 text-indigo-200 shadow-[0_0_15px_rgba(99,102,241,0.25)]',
     activeLabel: 'text-indigo-300 font-extrabold [text-shadow:0_0_8px_rgba(99,102,241,0.7)]',
+    idleLabel: 'text-indigo-400/85 group-hover:text-indigo-200',
     bar: 'bg-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.8)]',
     badge: 'bg-indigo-500 text-white'
   }
@@ -125,6 +164,8 @@ const SECTION_THEMES = {
 
 export const SUB_SECTION_META = {
   trait: { label: 'Species Traits', shortLabel: 'SPECIES TRAITS', icon: Sparkles, color: '#c084fc' },
+  invocations: { label: 'Invocations', shortLabel: 'INVOCATIONS', icon: Flame, color: '#fbbf24' },
+  special_abilities: { label: 'Special Abilities', shortLabel: 'SPECIAL ABILITIES', icon: Zap, color: '#facc15' },
   gear: { label: 'Gear & Supplies', shortLabel: 'GEAR', icon: Package, color: '#fb923c' },
   weaponry: { label: 'Weaponry', shortLabel: 'WEAPONRY', icon: Crosshair, color: '#f87171' },
   armoring: { label: 'Armoring', shortLabel: 'ARMORING', icon: Shield, color: '#60a5fa' },
@@ -133,6 +174,8 @@ export const SUB_SECTION_META = {
   architecture: { label: 'Architecture', shortLabel: 'ARCHITECT', icon: Landmark, color: '#34d399' },
   technology: { label: 'Technology & Schematics', shortLabel: 'TECH', icon: Zap, color: '#38bdf8' },
   other: { label: 'Other Property', shortLabel: 'OTHER', icon: Boxes, color: '#94a3b8' },
+  modular_characters: { label: 'Threats & NPCs (MCM)', shortLabel: 'THREATS (MCM)', icon: Bot, color: '#f87171' },
+  companions: { label: 'Companions & Familiars', shortLabel: 'COMPANIONS', icon: Bot, color: '#fb923c' },
   planetary_design: { label: 'Planetary Design', shortLabel: 'PLANETS', icon: Globe, color: '#818cf8' },
   world: { label: 'World Profiles', shortLabel: 'WORLDS', icon: Globe, color: '#818cf8' },
   universe: { label: 'Universe Rules', shortLabel: 'UNIVERSE', icon: Sparkles, color: '#818cf8' },
@@ -173,7 +216,7 @@ export const OMNICORTEX_SECTIONS = [
   {
     id: 'occupations',
     label: 'Occupations & Vocations',
-    shortLabel: 'CAREERS',
+    shortLabel: 'OCCUPATIONS',
     icon: Crosshair,
     colorTheme: 'blue',
     sublabel: 'Professions & Skill Allocations'
@@ -208,23 +251,17 @@ export const OMNICORTEX_SECTIONS = [
     shortLabel: 'TRAITS',
     icon: Sparkles,
     colorTheme: 'cyan',
-    sublabel: 'Origins, Careers, Archetypes & Factions'
+    sublabel: 'Origins, Occupations, Archetypes & Factions'
   },
   {
-    id: 'invocations',
-    label: 'Invocations',
-    shortLabel: 'MAGIC',
+    id: 'metaphysics',
+    label: 'Invocations & Special Abilities',
+    shortLabel: 'METAPHYSICS',
     icon: Flame,
     colorTheme: 'amber',
-    sublabel: 'Disciplines, Ranges & Strain'
-  },
-  {
-    id: 'special_abilities',
-    label: 'Special Abilities',
-    shortLabel: 'ABILITIES',
-    icon: Zap,
-    colorTheme: 'yellow',
-    sublabel: 'Supernatural Powers & Exotic Actions'
+    isParent: true,
+    subItems: ['invocations', 'special_abilities'],
+    sublabel: 'Invocations, Disciplines & Special Abilities'
   },
   {
     id: 'personal_property',
@@ -250,7 +287,12 @@ export const OMNICORTEX_SECTIONS = [
     shortLabel: 'THREATS',
     icon: Bot,
     colorTheme: 'red',
-    sublabel: 'Bestiary Statblocks & NPCs'
+    isParent: true,
+    subItems: [
+      { key: 'modular_characters', label: 'Threats & NPCs (MCM)' },
+      { key: 'companions', label: 'Companions & Familiars' }
+    ],
+    sublabel: 'Bestiary Statblocks, NPCs & Companions'
   },
   {
     id: 'world_design',
@@ -276,31 +318,35 @@ export const OmnicortexNavRail = ({
 }) => {
   const navigate = useNavigate();
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isPinned, setIsPinned] = useState(() => {
+  const [isCollapsed, setIsCollapsed] = useState(() => {
     if (typeof window === 'undefined') return false;
     try {
-      return localStorage.getItem('tangent_omnicortex_nav_pinned') === 'true';
+      return localStorage.getItem('tangent_omnicortex_nav_collapsed') === 'true';
     } catch {
       return false;
     }
   });
 
-  const togglePin = (e) => {
+  // Developer Fields Flyout State
+  const [isDevPanelOpen, setIsDevPanelOpen] = useState(false);
+
+  const toggleCollapse = (e) => {
     e?.stopPropagation?.();
-    const next = !isPinned;
-    AudioService.playTerminalBeep(next ? 1250 : 950, 0.02);
-    setIsPinned(next);
+    const next = isDevPanelOpen ? false : !isCollapsed;
+    AudioService.playTerminalBeep(next ? 950 : 1250, 0.02);
+    if (isDevPanelOpen) {
+      setIsDevPanelOpen(false);
+    }
+    setIsCollapsed(next);
+    setHoveredItem(null);
     try {
-      localStorage.setItem('tangent_omnicortex_nav_pinned', String(next));
+      localStorage.setItem('tangent_omnicortex_nav_collapsed', String(next));
     } catch {}
   };
 
-  // Purely autocollapse when not hovered/pinned; lock open when isPinned; open on hover (on mobile viewports only, isMobileOpen controls drawer)
-  const isExpanded = isPinned || isHovered || (Boolean(isMobileOpen) && typeof window !== 'undefined' && window.innerWidth < 768);
+  // Collapse to icons+labels when isCollapsed is true or when Dev Fields menu is open (on mobile viewports, isMobileOpen controls drawer)
+  const isExpanded = !isDevPanelOpen && (!isCollapsed || (Boolean(isMobileOpen) && typeof window !== 'undefined' && window.innerWidth < 768));
 
-  // Developer Fields Flyout State
-  const [isDevPanelOpen, setIsDevPanelOpen] = useState(false);
   const [devSearchTerm, setDevSearchTerm] = useState('');
   const [expandedDevGroups, setExpandedDevGroups] = useState({
     system: true,
@@ -344,22 +390,28 @@ export const OmnicortexNavRail = ({
     }, 0);
   }, [dbData]);
 
-  // Expandable Branch State for Parent Sections (Species -> Species Traits, Property -> Subcategories, World Design -> Subcategories)
-  const [expandedBranches, setExpandedBranches] = useState({
-    species: true,
-    personal_property: true,
-    world_design: false
-  });
-
-  // Auto-expand branch when activeSectionKey is the parent or one of its subItems
-  useEffect(() => {
+  // Expandable Branch State for Parent Sections: collapsed unless the section (or one of its subItems) is selected
+  const [expandedBranches, setExpandedBranches] = useState(() => {
+    const initial = {};
     OMNICORTEX_SECTIONS.forEach(sec => {
       if (Array.isArray(sec.subItems) && sec.subItems.length > 0) {
-        if (activeSectionKey === sec.id || sec.subItems.includes(activeSectionKey)) {
-          setExpandedBranches(prev => (prev[sec.id] ? prev : { ...prev, [sec.id]: true }));
-        }
+        const subKeys = sec.subItems.map(s => (typeof s === 'object' ? s.key : s));
+        initial[sec.id] = activeSectionKey === sec.id || subKeys.includes(activeSectionKey);
       }
     });
+    return initial;
+  });
+
+  // Auto-expand only the active section's branch and collapse all other branches when activeSectionKey changes
+  useEffect(() => {
+    const next = {};
+    OMNICORTEX_SECTIONS.forEach(sec => {
+      if (Array.isArray(sec.subItems) && sec.subItems.length > 0) {
+        const subKeys = sec.subItems.map(s => (typeof s === 'object' ? s.key : s));
+        next[sec.id] = activeSectionKey === sec.id || subKeys.includes(activeSectionKey);
+      }
+    });
+    setExpandedBranches(next);
   }, [activeSectionKey]);
 
   const toggleBranch = (sectionId, e) => {
@@ -374,10 +426,15 @@ export const OmnicortexNavRail = ({
   // Compute count for each section
   const getSectionCount = (section) => {
     if (section.isParent && Array.isArray(section.subItems)) {
-      return section.subItems.reduce((acc, subKey) => {
+      const seenKeys = new Set([section.id]);
+      const baseCount = Array.isArray(dbData[section.id]) ? dbData[section.id].length : 0;
+      return section.subItems.reduce((acc, sub) => {
+        const subKey = typeof sub === 'object' ? sub.key : sub;
+        if (seenKeys.has(subKey)) return acc;
+        seenKeys.add(subKey);
         const list = dbData[subKey];
         return acc + (Array.isArray(list) ? list.length : 0);
-      }, (Array.isArray(dbData[section.id]) ? dbData[section.id].length : 0));
+      }, baseCount);
     }
     const list = dbData[section.id];
     return Array.isArray(list) ? list.length : 0;
@@ -385,13 +442,18 @@ export const OmnicortexNavRail = ({
 
   const handleItemClick = (section) => {
     AudioService.playTerminalBeep(1150, 0.02);
+    if (isDevPanelOpen) {
+      setIsDevPanelOpen(false);
+    }
     const hasSubItems = Array.isArray(section.subItems) && section.subItems.length > 0;
     if (hasSubItems) {
-      if (activeSectionKey === section.id && section.isParent) {
-        setExpandedBranches(prev => ({ ...prev, [section.id]: !prev[section.id] }));
+      if (activeSectionKey === section.id && !isDevPanelOpen) {
+        setExpandedBranches(prev => ({ [section.id]: !prev[section.id] }));
       } else {
-        setExpandedBranches(prev => ({ ...prev, [section.id]: true }));
+        setExpandedBranches({ [section.id]: true });
       }
+    } else {
+      setExpandedBranches({});
     }
     onSelectSection(section.id, section);
     setHoveredItem(null);
@@ -400,6 +462,12 @@ export const OmnicortexNavRail = ({
 
   const handleSubItemClick = (subKey, parentSection) => {
     AudioService.playTerminalBeep(1150, 0.02);
+    if (isDevPanelOpen) {
+      setIsDevPanelOpen(false);
+    }
+    if (parentSection?.id) {
+      setExpandedBranches({ [parentSection.id]: true });
+    }
     onSelectSection(subKey, parentSection);
     setHoveredItem(null);
     if (onCloseMobile) onCloseMobile();
@@ -414,84 +482,82 @@ export const OmnicortexNavRail = ({
           onClick={onCloseMobile}
         />
       )}
-      {/* Desktop In-Flow Sizing Anchor (prevents center workspace layout shifts while hovering, reserves space when pinned) */}
+      {/* Desktop In-Flow Sizing Anchor (reserves full drawer width when expanded, compact icon+label rail width when collapsed) */}
       <div
         className={`hidden md:block shrink-0 h-full pointer-events-none transition-all duration-200 ease-out ${
-          isPinned ? 'w-56 sm:w-60' : 'w-14 sm:w-16'
+          isExpanded ? 'w-56 sm:w-60' : 'w-18 sm:w-20'
         }`}
         aria-hidden="true"
       />
 
       <nav
         aria-label="Omnicortex Navigation Rail"
-        onMouseEnter={() => {
-          if (typeof window !== 'undefined' && window.matchMedia?.('(hover: hover) and (pointer: fine)')?.matches) {
-            setIsHovered(true);
-          }
-        }}
         onMouseLeave={() => {
-          setIsHovered(false);
           setHoveredItem(null);
         }}
         className={`absolute top-0 bottom-0 left-0 h-full bg-[#070a12]/98 backdrop-blur-xl border-r border-slate-800/90 flex flex-col justify-between py-2 px-1 select-none z-40 font-sans transition-all duration-200 ease-out ${
           isExpanded 
             ? 'w-56 sm:w-60 shadow-[12px_0_35px_rgba(0,0,0,0.85)] border-slate-700/80' 
-            : 'w-14 sm:w-16 shadow-lg'
+            : 'w-18 sm:w-20 shadow-lg'
         } ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }`}
       >
-        {/* Expanded Drawer Top Header with Pin Option */}
-        <div
-          className={`w-full flex items-center justify-between px-2.5 py-1 mb-1 border-b border-slate-800/80 shrink-0 transition-all duration-200 overflow-hidden ${
-            isExpanded ? 'opacity-100 h-7' : 'opacity-0 h-0 p-0 mb-0 border-b-0 pointer-events-none'
-          }`}
-        >
-          <div className="flex items-center gap-1.5 min-w-0">
-            <span className="font-mono text-[10px] font-extrabold text-cyan-400 uppercase tracking-widest truncate">
-              OMNICORTEX
-            </span>
-            <span className="text-[8.5px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold">
-              SECTIONS
-            </span>
-          </div>
-          <div className="flex items-center gap-1 shrink-0">
-            <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider hidden sm:inline">
-              SECTIONS
-            </span>
-            <button
-              type="button"
-              onClick={togglePin}
-              className={`p-1 rounded-md transition-all cursor-pointer ${
-                isPinned
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                  : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/70 border border-transparent'
-              }`}
-              title={isPinned ? "Unpin Rail (Auto-collapse on exit)" : "Pin Rail (Lock open)"}
-              aria-label={isPinned ? "Unpin Rail" : "Pin Rail"}
-            >
-              <Pin size={11} className={`transition-transform duration-200 ${isPinned ? 'rotate-45 text-cyan-300' : 'text-slate-400 hover:text-slate-200'}`} />
-            </button>
-            {onCloseMobile && (
+        {/* Top Header with Collapse / Expand Rail Toggle */}
+        {isExpanded ? (
+          <div className="w-full flex items-center justify-between px-2.5 py-1 mb-1 border-b border-slate-800/80 shrink-0 h-7 transition-all duration-200 overflow-hidden">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="font-mono text-[10px] font-extrabold text-cyan-400 uppercase tracking-widest truncate">
+                OMNICORTEX
+              </span>
+              <span className="text-[8.5px] font-mono px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold shrink-0">
+                SECTIONS
+              </span>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
               <button
                 type="button"
-                onClick={onCloseMobile}
-                className="md:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-                title="Close Navigation Rail"
-                aria-label="Close Navigation Rail"
+                onClick={toggleCollapse}
+                className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/70 border border-transparent hover:border-cyan-500/30 transition-all cursor-pointer"
+                title="Collapse Rail (Show Icons & Labels)"
+                aria-label="Collapse Rail"
               >
-                <X size={12} />
+                <PanelLeftClose size={13} />
               </button>
-            )}
+              {onCloseMobile && (
+                <button
+                  type="button"
+                  onClick={onCloseMobile}
+                  className="md:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                  title="Close Navigation Rail"
+                  aria-label="Close Navigation Rail"
+                >
+                  <X size={12} />
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="w-full flex items-center justify-center pb-1 mb-1 border-b border-slate-800/80 shrink-0 h-7">
+            <button
+              type="button"
+              onClick={toggleCollapse}
+              className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/70 border border-transparent hover:border-cyan-500/30 transition-all cursor-pointer"
+              title="Expand Rail"
+              aria-label="Expand Rail"
+            >
+              <PanelLeftOpen size={14} />
+            </button>
+          </div>
+        )}
 
         {/* Main Omnicortex Sections Scroll Area */}
         <div className="flex-1 min-h-0 w-full flex flex-col items-stretch gap-0.5 sm:gap-1 overflow-y-auto no-scrollbar py-0.5">
           {OMNICORTEX_SECTIONS.map((section) => {
             const hasSubItems = Array.isArray(section.subItems) && section.subItems.length > 0;
+            const subItemKeys = hasSubItems ? section.subItems.map(s => (typeof s === 'object' ? s.key : s)) : [];
             const isDirectActive = activeSectionKey === section.id;
-            const isChildActive = hasSubItems && section.subItems.includes(activeSectionKey);
+            const isChildActive = hasSubItems && subItemKeys.includes(activeSectionKey);
             const isItemActive = isDirectActive || isChildActive;
             const isBranchOpen = hasSubItems && Boolean(expandedBranches[section.id]);
 
@@ -517,8 +583,10 @@ export const OmnicortexNavRail = ({
                     });
                   }}
                   onMouseLeave={() => setHoveredItem(null)}
-                  className={`group relative w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 ${
-                    isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+                  className={`group relative w-full rounded-xl flex transition-all cursor-pointer select-none border shrink-0 ${
+                    isExpanded
+                      ? 'h-8.5 sm:h-9 px-2 flex-row items-center justify-start'
+                      : 'py-1.5 px-0.5 flex-col items-center justify-center min-h-[46px]'
                   } ${
                     isItemActive
                       ? theme.activeBtn
@@ -540,53 +608,63 @@ export const OmnicortexNavRail = ({
                     <Icon size={16} />
                   </div>
 
-                  {/* Label & Descriptive Text to the Right of Icon */}
-                  <div
-                    className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                      isExpanded 
-                        ? 'opacity-100 ml-2.5 max-w-[170px]' 
-                        : 'opacity-0 max-w-0 pointer-events-none'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-1">
-                      <span
-                        className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
-                          isItemActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
-                        }`}
-                      >
-                        {section.shortLabel === 'DISADV' ? 'DISADVANTAGES' : section.shortLabel}
-                      </span>
-                      {hasSubItems && (
-                        <span
-                          role="button"
-                          tabIndex={-1}
-                          onClick={(e) => toggleBranch(section.id, e)}
-                          title={isBranchOpen ? 'Collapse branch' : 'Expand branch'}
-                          className="p-0.5 rounded hover:bg-slate-800/80 text-slate-400 hover:text-white transition-colors"
-                        >
-                          <ChevronDown
-                            size={12}
-                            className={`transition-transform duration-200 ${isBranchOpen ? 'rotate-180 text-cyan-300' : ''}`}
-                          />
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
-                      {section.label}
+                  {/* Collapsed Mode: Visible Section Name Underneath Icon */}
+                  {!isExpanded && (
+                    <span
+                      className={`font-mono text-[8px] sm:text-[8.5px] font-bold uppercase tracking-tighter text-center mt-1 truncate max-w-full px-0.5 leading-tight select-none transition-colors ${
+                        isItemActive ? theme.activeLabel : (theme.idleLabel || 'text-slate-300 group-hover:text-white')
+                      }`}
+                    >
+                      {section.shortLabel}
                     </span>
-                  </div>
+                  )}
+
+                  {/* Expanded Mode: Label & Descriptive Text to the Right of Icon */}
+                  {isExpanded && (
+                    <div className="flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden opacity-100 ml-2.5 max-w-[170px]">
+                      <div className="flex items-center justify-between gap-1">
+                        <span
+                          className={`font-mono text-[11px] font-bold uppercase tracking-wider truncate leading-tight ${
+                            isItemActive ? theme.activeLabel : 'text-slate-200 group-hover:text-white'
+                          }`}
+                        >
+                          {section.shortLabel === 'DISADV' ? 'DISADVANTAGES' : section.shortLabel}
+                        </span>
+                        {hasSubItems && (
+                          <span
+                            role="button"
+                            tabIndex={-1}
+                            onClick={(e) => toggleBranch(section.id, e)}
+                            title={isBranchOpen ? 'Collapse branch' : 'Expand branch'}
+                            className="p-0.5 rounded hover:bg-slate-800/80 text-slate-400 hover:text-white transition-colors"
+                          >
+                            <ChevronDown
+                              size={12}
+                              className={`transition-transform duration-200 ${isBranchOpen ? 'rotate-180 text-cyan-300' : ''}`}
+                            />
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[9px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                        {section.label}
+                      </span>
+                    </div>
+                  )}
                 </button>
 
-                {/* Expanding Subcategory Tree Branch (Species -> Species Traits, Property -> Subcategories, World -> Subcategories) */}
+                {/* Expanding Subcategory Tree Branch (Species -> Species Traits, Metaphysics -> Invocations & Special Abilities, Property -> Subcategories, World -> Subcategories) */}
                 {hasSubItems && isBranchOpen && isExpanded && (
                   <div className="relative pl-2.5 ml-4 my-0.5 flex flex-col gap-1 border-l-2 border-slate-700/80">
-                    {section.subItems.map((subKey) => {
+                    {section.subItems.map((subItem) => {
+                      const subKey = typeof subItem === 'object' ? subItem.key : subItem;
+                      const customSubLabel = typeof subItem === 'object' ? subItem.label : null;
                       const subMeta = SUB_SECTION_META[subKey] || {
-                        label: subKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-                        shortLabel: subKey.replace(/_/g, ' ').toUpperCase(),
+                        label: customSubLabel || subKey.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                        shortLabel: (customSubLabel || subKey).replace(/_/g, ' ').toUpperCase(),
                         icon: Sparkles,
                         color: '#22d3ee'
                       };
+                      const displayLabel = customSubLabel || subMeta.shortLabel || subMeta.label;
                       const SubIcon = subMeta.icon || Sparkles;
                       const isSubActive = activeSectionKey === subKey;
                       const subCount = Array.isArray(dbData[subKey]) ? dbData[subKey].length : 0;
@@ -596,7 +674,7 @@ export const OmnicortexNavRail = ({
                           key={subKey}
                           type="button"
                           onClick={() => handleSubItemClick(subKey, section)}
-                          title={`${subMeta.label} (${subCount} records)`}
+                          title={`${customSubLabel || subMeta.label} (${subCount} records)`}
                           className={`group/sub relative w-full px-2 py-1.5 rounded-lg text-left font-mono text-[9.5px] font-bold uppercase tracking-wider transition-all flex items-center justify-between gap-1.5 cursor-pointer border ${
                             isSubActive
                               ? `${theme.activeBtn} shadow-sm`
@@ -625,7 +703,7 @@ export const OmnicortexNavRail = ({
                               className="truncate"
                               style={isSubActive ? { color: subMeta.color } : {}}
                             >
-                              {subMeta.shortLabel || subMeta.label}
+                              {displayLabel}
                             </span>
                           </div>
                           {subCount > 0 && (
@@ -643,53 +721,8 @@ export const OmnicortexNavRail = ({
           })}
         </div>
 
-        {/* Bottom Footer Section: Codex Launcher & Architect Tools */}
+        {/* Bottom Footer Section: Architect Tools */}
         <div className="flex flex-col items-center gap-1 w-full pt-1.5 border-t border-slate-800/80 shrink-0">
-          {/* Rules Codex Matrices Quick Launcher */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.03);
-              if (!isPinned) {
-                setIsHovered(false);
-                setHoveredItem(null);
-              }
-              navigate('/codex');
-            }}
-            onMouseEnter={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setHoveredItem({
-                label: 'RULES CODEX MATRICES',
-                sublabel: 'Guided Matrix Builders',
-                desc: 'Switch to the step-by-step Rules Codex builder suite (/codex)',
-                rect
-              });
-            }}
-            onMouseLeave={() => setHoveredItem(null)}
-            className={`w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 bg-purple-950/40 hover:bg-purple-900/60 border-purple-500/40 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm ${
-              isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
-            }`}
-            title={isExpanded ? undefined : "Open Rules Codex (/codex)"}
-          >
-            <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
-              <Boxes size={15} />
-            </div>
-            <div
-              className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                isExpanded 
-                  ? 'opacity-100 ml-2.5 max-w-[170px]' 
-                  : 'opacity-0 max-w-0 pointer-events-none'
-              }`}
-            >
-              <span className="font-mono text-[10.5px] font-bold text-purple-300 uppercase tracking-wider truncate leading-tight">
-                RULES CODEX
-              </span>
-              <span className="text-[8.5px] text-purple-400/80 truncate font-mono leading-tight mt-0.5">
-                Guided Matrix Builders
-              </span>
-            </div>
-          </button>
-
           {/* Master Developer Access Fields Button (Admin Only) */}
           {isAdmin && (
             <button
@@ -709,8 +742,10 @@ export const OmnicortexNavRail = ({
                 });
               }}
               onMouseLeave={() => setHoveredItem(null)}
-              className={`w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border shrink-0 shadow-sm ${
-                isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+              className={`w-full rounded-xl flex transition-all cursor-pointer select-none border shrink-0 shadow-sm ${
+                isExpanded
+                  ? 'h-8.5 sm:h-9 px-2 flex-row items-center justify-start'
+                  : 'py-1.5 px-0.5 flex-col items-center justify-center min-h-[46px]'
               } ${
                 isDevFieldActive || isDevPanelOpen
                   ? 'bg-amber-500/25 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
@@ -721,25 +756,26 @@ export const OmnicortexNavRail = ({
               <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
                 <Wrench size={15} className={isDevPanelOpen ? 'rotate-45 transition-transform' : 'transition-transform'} />
               </div>
-              <div
-                className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                  isExpanded 
-                    ? 'opacity-100 ml-2.5 max-w-[170px]' 
-                    : 'opacity-0 max-w-0 pointer-events-none'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-1">
-                  <span className="font-mono text-[10.5px] font-bold text-amber-300 uppercase tracking-wider truncate leading-tight">
-                    DEV FIELDS
-                  </span>
-                  <span className="text-[8.5px] font-mono px-1 rounded bg-amber-500/20 text-amber-300 font-bold shrink-0">
-                    {DEVELOPMENT_FIELDS_REGISTRY.length}
+              {!isExpanded && (
+                <span className="font-mono text-[8px] sm:text-[8.5px] font-bold uppercase tracking-tighter text-center mt-1 truncate max-w-full px-0.5 leading-tight text-amber-300">
+                  DEV FIELDS
+                </span>
+              )}
+              {isExpanded && (
+                <div className="flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden opacity-100 ml-2.5 max-w-[170px]">
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="font-mono text-[10.5px] font-bold text-amber-300 uppercase tracking-wider truncate leading-tight">
+                      DEV FIELDS
+                    </span>
+                    <span className="text-[8.5px] font-mono px-1 rounded bg-amber-500/20 text-amber-300 font-bold shrink-0">
+                      {DEVELOPMENT_FIELDS_REGISTRY.length}
+                    </span>
+                  </div>
+                  <span className="text-[8.5px] text-amber-400/80 truncate font-mono leading-tight mt-0.5">
+                    {DEVELOPMENT_FIELDS_GROUPS.length} Schema Groups
                   </span>
                 </div>
-                <span className="text-[8.5px] text-amber-400/80 truncate font-mono leading-tight mt-0.5">
-                  {DEVELOPMENT_FIELDS_GROUPS.length} Schema Groups
-                </span>
-              </div>
+              )}
             </button>
           )}
 
@@ -750,6 +786,9 @@ export const OmnicortexNavRail = ({
               onClick={() => {
                 AudioService.playTerminalBeep(1100, 0.02);
                 setHoveredItem(null);
+                if (isDevPanelOpen) {
+                  setIsDevPanelOpen(false);
+                }
                 onOpenUserGuide();
               }}
               onMouseEnter={(e) => {
@@ -762,28 +801,31 @@ export const OmnicortexNavRail = ({
                 });
               }}
               onMouseLeave={() => setHoveredItem(null)}
-              className={`w-full h-8.5 sm:h-9 rounded-xl flex items-center transition-all cursor-pointer select-none border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white shrink-0 ${
-                isExpanded ? 'px-2 justify-start' : 'px-1 justify-center'
+              className={`w-full rounded-xl flex transition-all cursor-pointer select-none border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white shrink-0 ${
+                isExpanded
+                  ? 'h-8.5 sm:h-9 px-2 flex-row items-center justify-start'
+                  : 'py-1.5 px-0.5 flex-col items-center justify-center min-h-[46px]'
               }`}
               title={isExpanded ? undefined : "Omnicortex User Guide"}
             >
               <div className="w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0">
                 <HelpCircle size={15} />
               </div>
-              <div
-                className={`flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden ${
-                  isExpanded 
-                    ? 'opacity-100 ml-2.5 max-w-[170px]' 
-                    : 'opacity-0 max-w-0 pointer-events-none'
-                }`}
-              >
-                <span className="font-mono text-[10.5px] font-bold text-slate-300 uppercase tracking-wider truncate leading-tight">
+              {!isExpanded && (
+                <span className="font-mono text-[8px] sm:text-[8.5px] font-bold uppercase tracking-tighter text-center mt-1 truncate max-w-full px-0.5 leading-tight text-slate-300">
                   USER GUIDE
                 </span>
-                <span className="text-[8.5px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
-                  Documentation
-                </span>
-              </div>
+              )}
+              {isExpanded && (
+                <div className="flex flex-col min-w-0 flex-1 text-left transition-all duration-200 overflow-hidden opacity-100 ml-2.5 max-w-[170px]">
+                  <span className="font-mono text-[10.5px] font-bold text-slate-300 uppercase tracking-wider truncate leading-tight">
+                    USER GUIDE
+                  </span>
+                  <span className="text-[8.5px] text-slate-400/80 truncate font-mono leading-tight mt-0.5">
+                    Documentation
+                  </span>
+                </div>
+              )}
             </button>
           )}
         </div>
@@ -822,7 +864,7 @@ export const OmnicortexNavRail = ({
               )}
               {hoveredItem.subItems && (
                 <div className="text-[9px] text-amber-300/80 font-mono mt-1">
-                  Sub-items: {hoveredItem.subItems.join(', ')}
+                  Sub-items: {hoveredItem.subItems.map(s => (typeof s === 'object' ? (s.label || s.key) : s)).join(', ')}
                 </div>
               )}
             </div>,
@@ -833,7 +875,7 @@ export const OmnicortexNavRail = ({
       {/* ── DEVELOPER FIELDS VERTICAL MENU (Strictly Dev Mode) ── */}
       {isAdmin && isDevPanelOpen && (
         <aside
-          className="absolute md:relative z-30 md:z-10 top-0 bottom-0 left-14 sm:left-16 md:left-0 w-72 sm:w-80 bg-[#080d18]/98 backdrop-blur-2xl border-r border-amber-500/40 shadow-[12px_0_35px_rgba(0,0,0,0.85)] flex flex-col p-3 select-none font-sans animate-in slide-in-from-left-4 duration-200 shrink-0 h-full"
+          className="absolute md:relative z-30 md:z-10 top-0 bottom-0 left-18 sm:left-20 md:left-0 w-72 sm:w-80 bg-[#080d18]/98 backdrop-blur-2xl border-r border-amber-500/40 shadow-[12px_0_35px_rgba(0,0,0,0.85)] flex flex-col p-3 select-none font-sans animate-in slide-in-from-left-4 duration-200 shrink-0 h-full"
         >
           {/* Header Banner - Matching Screenshot media_1790164338449.png */}
           <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/60 flex items-center justify-between shadow-[0_0_15px_rgba(245,158,11,0.15)] shrink-0">

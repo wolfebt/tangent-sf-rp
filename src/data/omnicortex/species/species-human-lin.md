@@ -30,10 +30,12 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Companion
-  - Fast Heal
-  - Regeneration
+  - discipline-awakened
+  - special-companion
+  - general-fast-heal
+  - general-regeneration
+  - special-low-light-vision
+  - cat_skill_features
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '4'
@@ -44,43 +46,80 @@ costs:
   bp: 22
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Awakened
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Companion
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Awakened'
+  - target: special-companion
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Companion'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Regeneration'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: +4 Skill Features of choice
+    description: 'Recommended Feature: Low Light Vision'
+  - target: cat_skill_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Skill Features'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-bonus-feature
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonus Feature'
 description: >-
   These human variants are a distinctive offshoot, presenting as nature-centered
   intellectuals with a strong physical deviation from baseline human norms. They
@@ -110,6 +149,14 @@ negative_keywords: 'sterile-metal, deep-space, high-gravity'
 cp: 22
 bp: 22
 cp_cost: 22
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-longevity
+  - trait-low-light-vision
+  - trait-bonus-feature
 ---
 
 # **1.03.Humans.Lin — Lin (Arboreal Bio-Tech Humans)**

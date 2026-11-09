@@ -30,13 +30,15 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Natural Weapons
-  - Low Light Vision
-  - Climber
-  - Endurance
-  - Runner
-  - Tough
+  - special-darksight
+  - special-natural-weapons
+  - special-low-light-vision
+  - general-climber
+  - general-endurance
+  - general-runner
+  - general-tough
+  - general-quicker
+  - general-quickest
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: 1 / 3
@@ -47,51 +49,85 @@ costs:
   bp: 14
 modifiers:
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
   - target: special-uncanny-sense
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Darksight
-    value: 1
+    description: 'Grants Inherent Feature: Uncanny Sense'
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Natural Weapons
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Darksight'
+  - target: special-natural-weapons
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Climber
+    description: 'Recommended Feature: Natural Weapons'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Endurance
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-climber
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Climber'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Endurance'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Quicker / Quickest
+    description: 'Recommended Feature: Runner'
+  - target: general-tough
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Tough'
+  - target: general-quicker
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Quicker'
+  - target: general-quickest
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Quickest'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-climber
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Climber'
 description: >-
   Horned, ungulate humanoids renowned as mountaineers, high-gravity scouts, and
   perimeter wardens.
@@ -115,6 +151,11 @@ negative_keywords: 'flat-plains, oceanic, slow, uncoordinated'
 cp: 14
 bp: 14
 cp_cost: 14
+recommended_traits:
+  - trait-dark-sight
+  - trait-natural-weapons
+  - trait-low-light-vision
+  - trait-climber
 ---
 
 # **1.03.Caprian — Caprian (Horned Ungulate Humanoids)**

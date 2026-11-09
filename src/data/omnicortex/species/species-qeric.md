@@ -10,6 +10,7 @@ size:
   - species_size-small
 movement:
   - species_movement-bipedal
+  - species_movement-climbing
 speeds: '30 ft Groundspeed, 30 ft Climbspeed'
 reach: 3 ft
 senses: 'Low-light vision. [1]'
@@ -27,48 +28,49 @@ bonus_skill_choices:
   - Stealth
   - Perception
   - Legerdemain
-inherent_features:
-  - special-uncanny-sense
+inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - physical-wall-crawler
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: '1'
 meta_level: '2'
 homeworld: Qer (Canopy World)
 costs:
-  cp: 17
-  bp: 17
+  cp: 20
+  bp: 20
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
-  - target: special-uncanny-sense
-    value: 1
+  - target: physical-wall-crawler
     type: feature
-    mode: inherent
-  - target: Wall-Crawler
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Wall-Crawler'
 description: >-
   The Qeric (Pronounced Ker-Ik) are a species of small, six-limbed arboreal
   humanoids that bear a superficial resemblance to Rodentia, characterized by
   their friendly, inherently cute, and exceptionally quick nature. Qeric are
   generally diminutive, perfectly sized for navigating their arboreal homes.
-traits: &ref_0
+traits:
   - trait-climber
   - trait-patagia
   - trait-additional-limbs
-species_traits: *ref_0
+  - trait-uncanny-sense-scent
+species_traits:
+  - trait-climber
+  - trait-patagia
+  - trait-additional-limbs
 recommended_factions:
   - The Entari Combine
   - Coalition of Independent Worlds
@@ -87,6 +89,7 @@ negative_keywords: 'heavy-infantry, slugthrower, terrifying'
 cp: 17
 bp: 17
 cp_cost: 17
+recommended_traits: []
 ---
 
 # **1.03.Qeric — Qeric (Six-Limbed Arboreal Gliders)**

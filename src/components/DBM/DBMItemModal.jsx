@@ -7,7 +7,7 @@ import { isPropertyCategory } from '../../utils/tangentSchemaAdapters';
 export const getDatasetKeyForCollection = (colKey) => {
   if (!colKey) return 'species';
   const k = colKey.toLowerCase();
-  if (k === 'species' || k === 'species_type' || k === 'species_size' || k === 'species_movement') return 'species';
+  if (k === 'species' || k === 'species_lineage' || k === 'species_type' || k === 'species_size' || k === 'species_movement') return 'species';
   if (k === 'features') return 'features';
   if (k === 'trait' || k === 'species_traits') return 'trait';
   if (k === 'traits') return 'traits';
@@ -50,11 +50,11 @@ export const CANONICAL_ATTRIBUTES_LIST = [
     pairs: [
       {
         primary: { name: 'Intellect', type: 'Primary Attribute' },
-        subAttributes: [{ name: 'Logic', type: 'Sub-Attribute' }]
+        subAttributes: [{ name: 'Intellect', type: 'Sub-Attribute' }]
       },
       {
         primary: { name: 'Wisdom', type: 'Primary Attribute' },
-        subAttributes: [{ name: 'Will', type: 'Sub-Attribute' }]
+        subAttributes: [{ name: 'Wisdom', type: 'Sub-Attribute' }]
       },
       {
         primary: { name: 'Charisma', type: 'Primary Attribute' },

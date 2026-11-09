@@ -200,9 +200,9 @@ export const CodexMechanicsModal = ({
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {guidance.canonicalRules.map(rule => (
                   <div key={rule.id} className="p-3 bg-slate-900/80 border border-slate-800/90 rounded-xl space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-bold">
-                      <span className="text-amber-400 font-mono tracking-wider">{rule.id}</span>
-                      <span className="text-slate-300 font-sans truncate ml-2">{rule.title}</span>
+                    <div className="flex flex-wrap items-center justify-between gap-1 text-[10px] font-bold">
+                      <span className="text-amber-400 font-mono tracking-wider shrink-0">{rule.id}</span>
+                      <span className="text-slate-300 font-sans break-words">{rule.title}</span>
                     </div>
                     <p className="text-[11px] text-slate-400 font-sans leading-relaxed">
                       {rule.summary}

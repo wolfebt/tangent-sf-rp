@@ -3,27 +3,27 @@
 // ═══════════════════════════════════════════════════════════
 
 export const THREAT_TIER_CHASSIS = {
-  0: { tier: 0, narrativeRank: 'Civilian / Minion', attrBonus: 0, primarySkill: 5, secondarySkill: 3, actions: 1, vitHeaBonus: 0, dr: 0, bp: '< 50 CP', cp: '< 50 CP' },
-  1: { tier: 1, narrativeRank: 'Adept', attrBonus: 0, primarySkill: 6, secondarySkill: 3, actions: 2, vitHeaBonus: 5, dr: 2, bp: '50 CP', cp: '50 CP' },
-  2: { tier: 2, narrativeRank: 'Militia', attrBonus: 1, primarySkill: 7, secondarySkill: 4, actions: 2, vitHeaBonus: 10, dr: 5, bp: '75 CP', cp: '75 CP' },
-  3: { tier: 3, narrativeRank: 'Trooper', attrBonus: 1, primarySkill: 8, secondarySkill: 4, actions: 2, vitHeaBonus: 15, dr: 8, bp: '100 CP', cp: '100 CP' },
-  4: { tier: 4, narrativeRank: 'Standard', attrBonus: 2, primarySkill: 9, secondarySkill: 5, actions: 2, vitHeaBonus: 20, dr: 10, bp: '125 CP', cp: '125 CP' },
-  5: { tier: 5, narrativeRank: 'Professional', attrBonus: 2, primarySkill: 10, secondarySkill: 5, actions: 2, vitHeaBonus: 25, dr: 12, bp: '150 CP', cp: '150 CP' },
-  6: { tier: 6, narrativeRank: 'Veteran', attrBonus: 3, primarySkill: 11, secondarySkill: 6, actions: 3, vitHeaBonus: 30, dr: 15, bp: '175 CP', cp: '175 CP' },
-  7: { tier: 7, narrativeRank: 'Specialist', attrBonus: 3, primarySkill: 12, secondarySkill: 7, actions: 3, vitHeaBonus: 35, dr: 18, bp: '200 CP', cp: '200 CP' },
-  8: { tier: 8, narrativeRank: 'Elite', attrBonus: 4, primarySkill: 13, secondarySkill: 8, actions: 3, vitHeaBonus: 40, dr: 20, bp: '225 CP', cp: '225 CP' },
-  9: { tier: 9, narrativeRank: 'Operative', attrBonus: 4, primarySkill: 14, secondarySkill: 9, actions: 3, vitHeaBonus: 45, dr: 22, bp: '250 CP', cp: '250 CP' },
-  10: { tier: 10, narrativeRank: 'Champion', attrBonus: 5, primarySkill: 16, secondarySkill: 11, actions: 4, vitHeaBonus: 50, dr: 25, bp: '275 CP', cp: '275 CP' },
-  11: { tier: 11, narrativeRank: 'Warlord', attrBonus: 5, primarySkill: 17, secondarySkill: 12, actions: 4, vitHeaBonus: 55, dr: 28, bp: '300 CP', cp: '300 CP' },
-  12: { tier: 12, narrativeRank: 'Commander', attrBonus: 6, primarySkill: 18, secondarySkill: 13, actions: 4, vitHeaBonus: 60, dr: 30, bp: '325 CP', cp: '325 CP' },
-  13: { tier: 13, narrativeRank: 'General', attrBonus: 6, primarySkill: 19, secondarySkill: 14, actions: 4, vitHeaBonus: 65, dr: 32, bp: '350 CP', cp: '350 CP' },
-  14: { tier: 14, narrativeRank: 'Paragon', attrBonus: 7, primarySkill: 21, secondarySkill: 16, actions: 5, vitHeaBonus: 70, dr: 35, bp: '375 CP', cp: '375 CP' },
-  15: { tier: 15, narrativeRank: 'High Lord', attrBonus: 7, primarySkill: 22, secondarySkill: 17, actions: 5, vitHeaBonus: 75, dr: 38, bp: '400 CP', cp: '400 CP' },
-  16: { tier: 16, narrativeRank: 'Heroic', attrBonus: 8, primarySkill: 23, secondarySkill: 18, actions: 5, vitHeaBonus: 80, dr: 40, bp: '425 CP', cp: '425 CP' },
-  17: { tier: 17, narrativeRank: 'Legend', attrBonus: 8, primarySkill: 24, secondarySkill: 19, actions: 5, vitHeaBonus: 85, dr: 42, bp: '450 CP', cp: '450 CP' },
-  18: { tier: 18, narrativeRank: 'Ascendant', attrBonus: 9, primarySkill: 26, secondarySkill: 21, actions: 6, vitHeaBonus: 90, dr: 45, bp: '475 CP', cp: '475 CP' },
-  19: { tier: 19, narrativeRank: 'Demigod', attrBonus: 9, primarySkill: 28, secondarySkill: 23, actions: 6, vitHeaBonus: 95, dr: 48, bp: '500 CP', cp: '500 CP' },
-  20: { tier: 20, narrativeRank: 'Cosmic / Mythic', attrBonus: 10, primarySkill: 30, secondarySkill: 26, actions: 6, vitHeaBonus: 100, dr: 50, bp: '525 CP', cp: '525 CP' }
+  0: { tier: 0, narrativeRank: 'Civilian / Minion', attrBonus: 0, secondaryAttrBonus: 0, primarySkill: 5, secondarySkill: 3, actions: 1, vitHeaBonus: 0, dr: 0, bp: '< 50 CP', cp: '< 50 CP' },
+  1: { tier: 1, narrativeRank: 'Adept', attrBonus: 0, secondaryAttrBonus: 0, primarySkill: 6, secondarySkill: 3, actions: 2, vitHeaBonus: 5, dr: 2, bp: '50 CP', cp: '50 CP' },
+  2: { tier: 2, narrativeRank: 'Militia', attrBonus: 1, secondaryAttrBonus: 0, primarySkill: 7, secondarySkill: 4, actions: 2, vitHeaBonus: 10, dr: 5, bp: '75 CP', cp: '75 CP' },
+  3: { tier: 3, narrativeRank: 'Trooper', attrBonus: 1, secondaryAttrBonus: 1, primarySkill: 8, secondarySkill: 4, actions: 2, vitHeaBonus: 15, dr: 8, bp: '100 CP', cp: '100 CP' },
+  4: { tier: 4, narrativeRank: 'Standard', attrBonus: 2, secondaryAttrBonus: 1, primarySkill: 9, secondarySkill: 5, actions: 2, vitHeaBonus: 20, dr: 10, bp: '125 CP', cp: '125 CP' },
+  5: { tier: 5, narrativeRank: 'Professional', attrBonus: 2, secondaryAttrBonus: 2, primarySkill: 10, secondarySkill: 5, actions: 2, vitHeaBonus: 25, dr: 12, bp: '150 CP', cp: '150 CP' },
+  6: { tier: 6, narrativeRank: 'Veteran', attrBonus: 3, secondaryAttrBonus: 2, primarySkill: 11, secondarySkill: 6, actions: 3, vitHeaBonus: 30, dr: 15, bp: '175 CP', cp: '175 CP' },
+  7: { tier: 7, narrativeRank: 'Specialist', attrBonus: 3, secondaryAttrBonus: 3, primarySkill: 12, secondarySkill: 7, actions: 3, vitHeaBonus: 35, dr: 18, bp: '200 CP', cp: '200 CP' },
+  8: { tier: 8, narrativeRank: 'Elite', attrBonus: 4, secondaryAttrBonus: 3, primarySkill: 13, secondarySkill: 8, actions: 3, vitHeaBonus: 40, dr: 20, bp: '225 CP', cp: '225 CP' },
+  9: { tier: 9, narrativeRank: 'Operative', attrBonus: 4, secondaryAttrBonus: 4, primarySkill: 14, secondarySkill: 9, actions: 3, vitHeaBonus: 45, dr: 22, bp: '250 CP', cp: '250 CP' },
+  10: { tier: 10, narrativeRank: 'Champion', attrBonus: 5, secondaryAttrBonus: 4, primarySkill: 16, secondarySkill: 11, actions: 4, vitHeaBonus: 50, dr: 25, bp: '275 CP', cp: '275 CP' },
+  11: { tier: 11, narrativeRank: 'Warlord', attrBonus: 5, secondaryAttrBonus: 5, primarySkill: 17, secondarySkill: 12, actions: 4, vitHeaBonus: 55, dr: 28, bp: '300 CP', cp: '300 CP' },
+  12: { tier: 12, narrativeRank: 'Commander', attrBonus: 6, secondaryAttrBonus: 5, primarySkill: 18, secondarySkill: 13, actions: 4, vitHeaBonus: 60, dr: 30, bp: '325 CP', cp: '325 CP' },
+  13: { tier: 13, narrativeRank: 'General', attrBonus: 6, secondaryAttrBonus: 6, primarySkill: 19, secondarySkill: 14, actions: 4, vitHeaBonus: 65, dr: 32, bp: '350 CP', cp: '350 CP' },
+  14: { tier: 14, narrativeRank: 'Paragon', attrBonus: 7, secondaryAttrBonus: 6, primarySkill: 21, secondarySkill: 16, actions: 5, vitHeaBonus: 70, dr: 35, bp: '375 CP', cp: '375 CP' },
+  15: { tier: 15, narrativeRank: 'High Lord', attrBonus: 7, secondaryAttrBonus: 7, primarySkill: 22, secondarySkill: 17, actions: 5, vitHeaBonus: 75, dr: 38, bp: '400 CP', cp: '400 CP' },
+  16: { tier: 16, narrativeRank: 'Heroic', attrBonus: 8, secondaryAttrBonus: 8, primarySkill: 23, secondarySkill: 18, actions: 5, vitHeaBonus: 80, dr: 40, bp: '425 CP', cp: '425 CP' },
+  17: { tier: 17, narrativeRank: 'Legend', attrBonus: 8, secondaryAttrBonus: 8, primarySkill: 24, secondarySkill: 19, actions: 5, vitHeaBonus: 85, dr: 42, bp: '450 CP', cp: '450 CP' },
+  18: { tier: 18, narrativeRank: 'Ascendant', attrBonus: 9, secondaryAttrBonus: 9, primarySkill: 26, secondarySkill: 21, actions: 6, vitHeaBonus: 90, dr: 45, bp: '475 CP', cp: '475 CP' },
+  19: { tier: 19, narrativeRank: 'Demigod', attrBonus: 9, secondaryAttrBonus: 9, primarySkill: 28, secondarySkill: 23, actions: 6, vitHeaBonus: 95, dr: 48, bp: '500 CP', cp: '500 CP' },
+  20: { tier: 20, narrativeRank: 'Cosmic / Mythic', attrBonus: 10, secondaryAttrBonus: 10, primarySkill: 30, secondarySkill: 26, actions: 6, vitHeaBonus: 100, dr: 50, bp: '525 CP', cp: '525 CP' }
 };
 
 export const COMPETENCY_ROLES = {
@@ -158,8 +158,60 @@ export const COMPETENCY_ROLES = {
     description: 'Controls digital/mechanical battlefield, hacking security and jamming comms',
     keywords: 'electronic warfare, cyber warfare, drone override, hacking, jamming, security breach',
     negative_keywords: 'primitive, technophobe, magic-only, non-technical'
+  },
+  socialite_envoy_broker: {
+    id: 'socialite_envoy_broker',
+    name: 'Socialite / Envoy / Broker (The Face)',
+    category: 7,
+    group: 'Face',
+    primaryAttrs: ['Charisma', 'Wisdom'],
+    keySkills: ['Diplomacy', 'Insight', 'Culture', 'Appraisal'],
+    feature: 'Silver Tongued / Connected (Shift attitude & broker favors)',
+    description: 'High-society negotiator, diplomatic envoy, and information broker dominating social arenas',
+    keywords: 'diplomat, envoy, broker, socialite, negotiation, intrigue, persuasion, etiquette',
+    negative_keywords: 'feral, mute, antisocial, brute'
+  },
+  spy: {
+    id: 'spy',
+    name: 'The Spy (Covert Infiltrator)',
+    category: 7,
+    group: 'Face',
+    primaryAttrs: ['Charisma', 'Agility'],
+    keySkills: ['Bluff', 'Disguise', 'Stealth', 'Sleight of Hand'],
+    feature: 'Deep Cover (Advantage on Deception/Disguise checks)',
+    description: 'Covert operative specializing in false identities, espionage, and silent extraction',
+    keywords: 'spy, infiltrator, deep cover, disguise, espionage, deception, covert agent',
+    negative_keywords: 'obvious, loud, clumsy, honest'
+  },
+  healer: {
+    id: 'healer',
+    name: 'The Healer (Trauma & Restoration)',
+    category: 8,
+    group: 'Medic & Scholar',
+    primaryAttrs: ['Wisdom', 'Intellect'],
+    keySkills: ['Medicine', 'Insight', 'Attune'],
+    feature: 'Triage Master (Restore Health/Vitality in combat as Standard Action)',
+    description: 'Dedicated medical and metaphysical restorative specialist keeping squads alive under fire',
+    keywords: 'healer, physician, triage, restoration, trauma surgeon, life support',
+    negative_keywords: 'assassin, berserker, destructive'
+  },
+  biochemist_combat_medic: {
+    id: 'biochemist_combat_medic',
+    name: 'Biochemist / Combat Medic',
+    category: 8,
+    group: 'Medic & Scholar',
+    primaryAttrs: ['Intellect', 'Wisdom'],
+    keySkills: ['Medicine', 'Science (Biology/Chemistry)', 'Survival'],
+    feature: 'Stim-Chems & Antitoxins (Deploy combat boosters and neutralize bio-hazards)',
+    description: 'Field pharmacologist and combat medic synthesizing stims, antidotes, and bio-agents',
+    keywords: 'combat medic, biochemist, pharmacology, stim-packs, antitoxin, field researcher',
+    negative_keywords: 'uneducated, technophobe, reckless'
   }
 };
+COMPETENCY_ROLES.SocialiteEnvoyBroker = COMPETENCY_ROLES.socialite_envoy_broker;
+COMPETENCY_ROLES.Spy = COMPETENCY_ROLES.spy;
+COMPETENCY_ROLES.Healer = COMPETENCY_ROLES.healer;
+COMPETENCY_ROLES.BiochemistCombatMedic = COMPETENCY_ROLES.biochemist_combat_medic;
 
 export const DESIGNATIONS = {
   Adversary: { id: 'Adversary', name: 'Adversary (Enemy)', description: 'Built to actively oppose players using full combat mechanics' },
@@ -200,27 +252,33 @@ export const COMPANION_TYPES = {
 };
 
 export const COMPANION_FORM_PACKAGES = [
-  { id: 'canine', name: 'Canine / War Hound', type: 'Biological', size: 'Medium', baseBP: 10, bonusFeatures: ['Natural Weapons (Teeth 1d6)', 'Scent', 'Trip Attack', 'Runner'], stats: { str: 2, agi: 1, sta: 1, int: -1, wis: 1, cha: 0 } },
-  { id: 'feline', name: 'Feline / Shadow Stalker', type: 'Biological', size: 'Small', baseBP: 10, bonusFeatures: ['Natural Weapons (Claws 1d4)', 'Low-Light Vision', 'Sneaky (+2 Stealth)', 'Cat\'s Luck'], stats: { str: 0, agi: 3, sta: 0, int: -1, wis: 1, cha: 0 } },
-  { id: 'avian', name: 'Avian / Sky Hunter', type: 'Biological', size: 'Tiny', baseBP: 12, bonusFeatures: ['Flight (Fly 40ft)', 'Keen Senses (+2 Alertness)', 'Natural Weapons (Talons 1d4)'], stats: { str: -2, agi: 3, sta: 0, int: -1, wis: 2, cha: 0 } },
-  { id: 'reptilian', name: 'Reptilian / Armored Monitor', type: 'Biological', size: 'Medium', baseBP: 10, bonusFeatures: ['Natural Armor (+2 DR)', 'Swim (30ft)', 'Hardy', 'Natural Weapons (Bite 1d6)'], stats: { str: 2, agi: 0, sta: 2, int: -2, wis: 0, cha: 0 } },
-  { id: 'insectoid', name: 'Insectoid / Chitin Swarmer', type: 'Biological', size: 'Small', baseBP: 10, bonusFeatures: ['Exoskeleton (+3 DR)', 'Climber (30ft)', 'Darkvision 60ft', 'Venom'], stats: { str: 1, agi: 2, sta: 1, int: -3, wis: 0, cha: 0 } },
-  { id: 'recon_drone', name: 'Recon Drone (Quad-Rotor)', type: 'Synthetic', size: 'Tiny', baseBP: 12, bonusFeatures: ['Flight (Hover/Prop 40ft)', 'Thermal Optics', 'Audio/Video Sensor Link', 'Silent Operation'], stats: { str: -3, agi: 3, sta: 0, int: 0, wis: 2, cha: -3 } },
-  { id: 'security_bot', name: 'Security Automaton (Biped)', type: 'Synthetic', size: 'Medium', baseBP: 10, bonusFeatures: ['Armor Plating (DR 5)', 'Integrated Stun Taser', 'Hardened Logic', 'Guard Protocol'], stats: { str: 3, agi: 0, sta: 2, int: 0, wis: 0, cha: -2 } },
-  { id: 'combat_drone', name: 'Combat Gun-Drone (Hover)', type: 'Synthetic', size: 'Small', baseBP: 12, bonusFeatures: ['Repulsor Hover (30ft)', 'Weapon Hardpoint (1 Socket)', 'Targeting Computer (+1 Atk)', 'Energy Shield (10 AP)'], stats: { str: 0, agi: 2, sta: 1, int: 0, wis: 1, cha: -3 } },
-  { id: 'elemental_spirit', name: 'Elemental Wisp / Familiar', type: 'Metaphysical', size: 'Tiny', baseBP: 12, bonusFeatures: ['Incorporeal Movement', 'Energy Bolt (1d6)', 'Darkvision & Ether Sight', 'Empathic Bond'], stats: { str: -4, agi: 2, sta: 0, int: 1, wis: 2, cha: 1 } },
-  { id: 'riding_mount', name: 'Heavy Riding Mount', type: 'Biological', size: 'Large', baseBP: 10, bonusFeatures: ['Fast Movement (+10ft)', 'Hauler', 'Powerful Charge', 'Mount Hardpoint (1 Mount)'], stats: { str: 4, agi: 0, sta: 3, int: -2, wis: 0, cha: 0 } }
+  { id: 'canine', name: 'Canine / War Hound', type: 'Biological', size: 'Medium', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Natural Weapons (Teeth 1d6)', 'Scent', 'Trip Attack', 'Runner'], stats: { str: 2, agi: 1, sta: 1, int: -1, wis: 1, cha: 0 } },
+  { id: 'feline', name: 'Feline / Shadow Stalker', type: 'Biological', size: 'Small', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Natural Weapons (Claws 1d4)', 'Low-Light Vision', 'Sneaky (+2 Stealth)', 'Cat\'s Luck'], stats: { str: 0, agi: 3, sta: 0, int: -1, wis: 1, cha: 0 } },
+  { id: 'avian', name: 'Avian / Sky Hunter', type: 'Biological', size: 'Tiny', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Flight (Fly 40ft)', 'Keen Senses (+2 Alertness)', 'Natural Weapons (Talons 1d4)'], stats: { str: -2, agi: 3, sta: 0, int: -1, wis: 2, cha: 0 } },
+  { id: 'reptilian', name: 'Reptilian / Armored Monitor', type: 'Biological', size: 'Medium', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Natural Armor (+2 DR)', 'Swim (30ft)', 'Hardy', 'Natural Weapons (Bite 1d6)'], stats: { str: 2, agi: 0, sta: 2, int: -2, wis: 0, cha: 0 } },
+  { id: 'insectoid', name: 'Insectoid / Chitin Swarmer', type: 'Biological', size: 'Small', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Exoskeleton (+3 DR)', 'Climber (30ft)', 'Darksight 60ft', 'Venom'], stats: { str: 1, agi: 2, sta: 1, int: -3, wis: 0, cha: 0 } },
+  { id: 'aquatic', name: 'Aquatic / Leviathan Scout', type: 'Biological', size: 'Medium', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Amphibious', 'Swim (60ft)', 'Water-Sense (30ft)', 'Natural Weapons (Bite 1d6)'], stats: { str: 2, agi: 2, sta: 1, int: -1, wis: 1, cha: 0 } },
+  { id: 'riding_mount', name: 'Heavy Riding Mount', type: 'Biological', size: 'Large', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Fast Movement (+10ft)', 'Hauler', 'Powerful Charge', 'Mount Hardpoint (1 Mount)'], stats: { str: 4, agi: 0, sta: 3, int: -2, wis: 0, cha: 0 } },
+  { id: 'symbiote', name: 'Bio-Symbiote / Living Graft', type: 'Biological', size: 'Tiny', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Shared Physiology', 'Fast Heal', 'Chameleon', 'Toxin Filter'], stats: { str: -2, agi: 2, sta: 2, int: 0, wis: 2, cha: -1 } },
+  { id: 'recon_drone', name: 'Recon Drone (Quad-Rotor)', type: 'Synthetic', size: 'Tiny', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Flight (Hover/Prop 40ft)', 'Thermal Optics', 'Audio/Video Sensor Link', 'Silent Operation'], stats: { str: -3, agi: 3, sta: 0, int: 0, wis: 2, cha: -3 } },
+  { id: 'security_bot', name: 'Security Automaton (Biped)', type: 'Synthetic', size: 'Medium', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Armor Plating (DR 5)', 'Integrated Stun Taser', 'Hardened Logic', 'Guard Protocol'], stats: { str: 3, agi: 0, sta: 2, int: 0, wis: 0, cha: -2 } },
+  { id: 'combat_drone', name: 'Combat Gun-Drone (Hover)', type: 'Synthetic', size: 'Small', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Repulsor Hover (30ft)', 'Weapon Hardpoint (1 Socket)', 'Targeting Computer (+1 Atk)', 'Energy Shield (10 AP)'], stats: { str: 0, agi: 2, sta: 1, int: 0, wis: 1, cha: -3 } },
+  { id: 'elemental_spirit', name: 'Elemental Wisp / Familiar', type: 'Metaphysical', size: 'Tiny', baseBP: 15, bpCost: 15, cpCost: 15, bonusFeatures: ['Incorporeal Movement', 'Energy Bolt (1d6)', 'Darksight & Ether Sight', 'Empathic Bond'], stats: { str: -4, agi: 2, sta: 0, int: 1, wis: 2, cha: 1 } }
 ];
 
+export const COMPANION_FORMS = COMPANION_FORM_PACKAGES;
+
 export const COMPANION_FUNCTION_PACKAGES = [
-  { id: 'guardian_attack', name: 'Guardian / Attack Focus', bpCost: 8, keySkills: ['Unarmed Combat (5)', 'Intimidate (3)', 'Athletics (4)'], bonusAtk: 2, bonusDR: 2 },
-  { id: 'scout_recon', name: 'Scout / Recon Focus', bpCost: 8, keySkills: ['Stealth (5)', 'Alertness (5)', 'Survival (4)'], bonusStealth: 4, bonusAwareness: 3 },
-  { id: 'utility_interface', name: 'Utility & Tool Interface', bpCost: 8, keySkills: ['Computers (4)', 'Engineering (4)', 'Search (4)'], bonusTech: 2 },
-  { id: 'medical_injector', name: 'Medical & Trauma Support', bpCost: 8, keySkills: ['Medicine (5)', 'First Aid (5)'], bonusMed: 3 },
-  { id: 'hacking_warfare', name: 'Hacking & EW Infiltrator', bpCost: 8, keySkills: ['Computers (5)', 'Mechanic (4)'], bonusHack: 3 },
-  { id: 'stealth_assassin', name: 'Stealth & Ambush', bpCost: 8, keySkills: ['Stealth (6)', 'Evasion (4)', 'Melee Combat (3)'], bonusAmbush: 3 },
-  { id: 'mount_transport', name: 'Mount & Heavy Transport', bpCost: 6, keySkills: ['Athletics (5)', 'Survival (4)'], bonusCapacity: 'Heavy Load' }
+  { id: 'guardian_attack', name: 'Guardian / Combat Focus', bpCost: 10, cpCost: 10, keySkills: ['Unarmed Combat (5)', 'Intimidate (3)', 'Athletics (4)'], bonusAtk: 2, bonusDR: 2 },
+  { id: 'scout_recon', name: 'Scout / Recon Focus', bpCost: 10, cpCost: 10, keySkills: ['Stealth (5)', 'Alertness (5)', 'Survival (4)'], bonusStealth: 4, bonusAwareness: 3 },
+  { id: 'utility_interface', name: 'Utility & Tech Interface', bpCost: 10, cpCost: 10, keySkills: ['Computers (4)', 'Engineering (4)', 'Search (4)'], bonusTech: 2 },
+  { id: 'medical_injector', name: 'Medical & Trauma Support', bpCost: 10, cpCost: 10, keySkills: ['Medicine (5)', 'First Aid (5)'], bonusMed: 3 },
+  { id: 'mount_transport', name: 'Mount & Heavy Transport', bpCost: 10, cpCost: 10, keySkills: ['Athletics (5)', 'Survival (4)'], bonusCapacity: 'Heavy Load' },
+  { id: 'hacking_warfare', name: 'Hacking & EW Infiltrator', bpCost: 10, cpCost: 10, keySkills: ['Computers (5)', 'Mechanic (4)'], bonusHack: 3 },
+  { id: 'stealth_assassin', name: 'Stealth & Ambush', bpCost: 10, cpCost: 10, keySkills: ['Stealth (6)', 'Evasion (4)', 'Melee Combat (3)'], bonusAmbush: 3 }
 ];
+
+export const COMPANION_FUNCTIONS = COMPANION_FUNCTION_PACKAGES.slice(0, 5);
 
 export const COMPANION_CONTROL_INTERFACES = [
   { id: 'voice_gesture', name: 'Direct Voice / Gestural (Move Action)', range: '50 ft (Voice/Sight)', description: 'Issues physical order using a Move Action' },
@@ -230,11 +288,19 @@ export const COMPANION_CONTROL_INTERFACES = [
 ];
 
 export const COMPANION_BOND_FEATURES = [
-  { id: 'familiar_link', name: 'Familiar (Empathic Link)', bpCost: 2, effect: 'Know companion distance, direction, and emotional status anywhere on planet' },
-  { id: 'mind_link', name: 'Mind Link (Telepathic)', bpCost: 3, effect: 'Silent telepathic communication; share highest Knowledge skill rank' },
-  { id: 'shared_senses', name: 'Shared Senses', bpCost: 3, effect: 'See and hear through companion senses as standard action' },
-  { id: 'loyal_protector', name: 'Loyal Protector (Interception)', bpCost: 3, effect: 'Adjacent companion takes hits meant for master as a reaction' }
+  { id: 'familiar', alias: 'familiar_link', name: 'Familiar (Empathic Link)', bonusCP: 20, bpCost: -20, cpCost: -20, effect: 'Grants +20 Bonus CP to Companion budget; know companion distance, direction, and status anywhere on planet' },
+  { id: 'familiar_link', name: 'Familiar (Empathic Link)', bonusCP: 20, bpCost: -20, cpCost: -20, effect: 'Grants +20 Bonus CP to Companion budget; know companion distance, direction, and status anywhere on planet' },
+  { id: 'mind_link', name: 'Mind Link (Telepathic)', bonusCP: 10, bpCost: -10, cpCost: -10, effect: 'Grants +10 Bonus CP to Companion budget; silent telepathic communication and Free Action commands' },
+  { id: 'shared_senses', name: 'Shared Senses', bonusCP: 10, bpCost: -10, cpCost: -10, effect: 'Grants +10 Bonus CP to Companion budget; see and hear through companion senses' },
+  { id: 'loyal_protector', name: 'Loyal Protector (Interception)', bonusCP: 0, bpCost: 3, cpCost: 3, effect: 'Adjacent companion takes hits meant for master as a reaction' }
 ];
+
+export const COMPANION_BONDS = {
+  familiar: { id: 'familiar', name: 'Familiar (Empathic Link)', bonusCP: 20, bpCost: -20, cpCost: -20, effect: 'Grants +20 Bonus CP to Companion budget' },
+  familiar_link: { id: 'familiar_link', name: 'Familiar (Empathic Link)', bonusCP: 20, bpCost: -20, cpCost: -20, effect: 'Grants +20 Bonus CP to Companion budget' },
+  mind_link: { id: 'mind_link', name: 'Mind Link (Telepathic)', bonusCP: 10, bpCost: -10, cpCost: -10, effect: 'Grants +10 Bonus CP to Companion budget' },
+  shared_senses: { id: 'shared_senses', name: 'Shared Senses', bonusCP: 10, bpCost: -10, cpCost: -10, effect: 'Grants +10 Bonus CP to Companion budget' }
+};
 
 // ═══════════════════════════════════════════════════════════
 // INVOCATION MATRIX & SPECIAL ABILITY CONSTANTS (PLAN 26)
@@ -250,17 +316,77 @@ export const SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES = [
 ];
 
 export const INVOCATION_DISCIPLINES = [
-  { id: 'telekinesis', name: 'Telekinesis', parent: 'Force / Kinetic', type: 'Attack / Utility', description: 'Manipulate physical matter, project kinetic blasts, create force shields' },
-  { id: 'telepathy', name: 'Telepathy', parent: 'Mental / Consciousness', type: 'Sensory / Control', description: 'Read thoughts, transmit mental speech, mental compulsions, memory alteration' },
-  { id: 'clairvoyance', name: 'Clairvoyance / Precognition', parent: 'Mental / Sense', type: 'Sensory', description: 'Remote scrying, danger sense, predictive combat positioning' },
-  { id: 'pyrokinesis', name: 'Pyrokinesis', parent: 'Energy / Thermal', type: 'Attack', description: 'Thermal excitation, plasma arcs, superheated fire waves' },
-  { id: 'chronos', name: 'Chronos-Distortion', parent: 'Dimension / Temporal', type: 'Utility / Control', description: 'Accelerate self, slow enemies, localized temporal stasis' },
-  { id: 'biometabolism', name: 'Biometabolism', parent: 'Matter / Biological', type: 'Defense / Healing', description: 'Accelerated tissue repair, adrenaline surge, toxin purging, shapeshifting' },
-  { id: 'void_attunement', name: 'Void-Attunement', parent: 'Entropy / Dark Energy', type: 'Attack / Control', description: 'Gravity wells, phasing incorporeal, matter dissolution, vacuum siphons' },
-  { id: 'elemental_cryo', name: 'Cryokinesis', parent: 'Energy / Thermal', type: 'Attack / Control', description: 'Thermal drain, sub-zero flash freezing, ice barrier projection' },
-  { id: 'elemental_voltic', name: 'Electrokinesis', parent: 'Energy / Electromagnetic', type: 'Attack', description: 'Lightning bolts, EMP disruption, electronic circuit overriding' },
-  { id: 'dimension_space', name: 'Spatial Distortion (Phase/Gate)', parent: 'Dimension / Spatial', type: 'Movement', description: 'Short-range blinking, long-range wormholes, planar phasing' }
+  {
+    id: 'dimension',
+    name: 'Dimension',
+    parent: 'Space & Time',
+    type: 'Movement / Control',
+    foci: [
+      { id: 'space_teleportation', name: 'Space / Teleportation', description: 'Short-range blinking, wormholes, dimensional pockets, planar phasing' },
+      { id: 'time_chronos', name: 'Time / Chronos', description: 'Temporal acceleration, slow fields, localized stasis, initiative manipulation' }
+    ],
+    description: 'Manipulation of spatial coordinates, dimensional boundaries, gravity, and temporal flow'
+  },
+  {
+    id: 'energy',
+    name: 'Energy',
+    parent: 'Thermal & Electromagnetic',
+    type: 'Attack / Utility',
+    foci: [
+      { id: 'thermal_pyro_cryo', name: 'Thermal (Pyrokinesis / Cryokinesis)', description: 'Heat excitation, plasma arcs, flash-freezing, thermal barriers' },
+      { id: 'electromagnetic_voltic', name: 'Electromagnetic (Voltic / Photonic)', description: 'Lightning projection, EMP disruption, laser/photonic coherence' }
+    ],
+    description: 'Generation, redirection, and absorption of kinetic, thermal, voltic, and photonic energies'
+  },
+  {
+    id: 'entropy',
+    name: 'Entropy',
+    parent: 'Decay & Chaos',
+    type: 'Attack / Debuff',
+    foci: [
+      { id: 'decay_necrosis', name: 'Decay / Necrosis', description: 'Cellular wither, material corrosion, vitality siphoning, blight' },
+      { id: 'chaos_probability', name: 'Chaos / Void Probability', description: 'Entropy cascades, jinxes, dark-energy gravity wells, null-fields' }
+    ],
+    description: 'Acceleration of thermodynamic decay, disorder, void siphoning, and probability collapse'
+  },
+  {
+    id: 'illusion',
+    name: 'Illusion',
+    parent: 'Phantasm & Shadow',
+    type: 'Deception / Stealth',
+    foci: [
+      { id: 'phantasm_sensory', name: 'Phantasm / Sensory', description: 'Holographic figments, auditory/visual hallucinations, psychic decoys' },
+      { id: 'shadow_concealment', name: 'Shadow / Concealment', description: 'Light bending, active invisibility, silence fields, umbral cloaking' }
+    ],
+    description: 'Manipulation of light, sound, and sensory perception to deceive or conceal'
+  },
+  {
+    id: 'matter',
+    name: 'Matter',
+    parent: 'Telekinesis & Biometabolism',
+    type: 'Control / Defense / Healing',
+    foci: [
+      { id: 'telekinesis_force', name: 'Telekinesis / Force', description: 'Remote physical manipulation, kinetic barriers, crushing force waves' },
+      { id: 'transmutation_biometabolism', name: 'Transmutation / Biometabolism', description: 'Cellular regeneration, metabolic surge, molecular reshaping, armor hardening' }
+    ],
+    description: 'Direct control over physical mass, force vectors, molecular structure, and biological tissue'
+  },
+  {
+    id: 'mental',
+    name: 'Mental',
+    parent: 'Telepathy & Clairvoyance',
+    type: 'Sensory / Control',
+    foci: [
+      { id: 'telepathy_consciousness', name: 'Telepathy / Consciousness', description: 'Mind link, thought reading, psychic compulsion, memory alteration, mind shields' },
+      { id: 'clairvoyance_precognition', name: 'Clairvoyance / Precognition', description: 'Remote viewing, danger sense, combat prescience, psychometric reading' }
+    ],
+    description: 'Projection of consciousness, telepathic communion, psychic defense, and extrasensory perception'
+  }
 ];
+
+export const INVOCATION_FOCI = INVOCATION_DISCIPLINES.flatMap(d =>
+  d.foci.map(f => ({ ...f, disciplineId: d.id, disciplineName: d.name }))
+);
 
 export const INVOCATION_BASE_DIFFICULTIES = {
   Simple: { id: 'Simple', name: 'Simple (DC 10)', dc: 10, example: 'Minor sensory effect, lighting candle, cleaning' },
@@ -347,23 +473,33 @@ export const META_TECH_ENHANCEMENT_TYPES = {
 };
 
 export const META_TECH_PASSIVE_CATALOG = [
-  { id: 'energy_sheath', name: 'Energy Sheath', discipline: 'Energy (Elemental)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'Deals +1d6 Energy damage (Pyro/Cryo/Voltic)' },
-  { id: 'ghost_strike', name: 'Ghost-Strike', discipline: 'Dimension (Phase)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'Ignores physical DR; only blocked by force fields' },
-  { id: 'seeking', name: 'Seeking Micro-Correction', discipline: 'Mental (Sense)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: '+2 Attack roll bonus via micro-telekinetic nudging' },
-  { id: 'vampiric', name: 'Vampiric Drain', discipline: 'Entropy (Chaos)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'On Critical Hit, wielder heals Health equal to 1/2 damage' },
-  { id: 'soul_bound', name: 'Soul-Bound', discipline: 'Mental (Projection)', sockets: 1, dcMod: 5, targetType: 'Weapon/Armor', effect: 'Only functions for designated user; immune to disarm' },
-  { id: 'featherweight', name: 'Featherweight Weave', discipline: 'Dimension (Gravity)', sockets: 1, dcMod: 5, targetType: 'Armor', effect: 'Armor counts as one weight category lighter' },
-  { id: 'chameleon_weave', name: 'Chameleon Shadow Weave', discipline: 'Illusion (Shadow)', sockets: 1, dcMod: 5, targetType: 'Armor', effect: '+4 Stealth while moving, +8 when stationary' },
-  { id: 'hardened_logic', name: 'Hardened Logic Lattice', discipline: 'Mental (Shield)', sockets: 1, dcMod: 5, targetType: 'Armor/Deck', effect: 'Advantage on saves vs hacking and psionic intrusion' },
-  { id: 'auto_mend', name: 'Auto-Mend Matrix', discipline: 'Matter (Repair)', sockets: 1, dcMod: 5, targetType: 'Armor/Item', effect: 'Item regenerates 1d4 Structure Points (SP) per hour' }
+  { id: 'energy_sheath', name: 'Energy Sheath', discipline: 'Energy', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'Deals +1d6 Energy damage (Pyro/Cryo/Voltic)' },
+  { id: 'ghost_strike', name: 'Ghost-Strike', discipline: 'Dimension', sockets: 2, dcMod: 10, targetType: 'Weapon', effect: 'Ignores physical DR; only blocked by force fields' },
+  { id: 'seeking', name: 'Seeking Micro-Correction', discipline: 'Mental', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: '+2 Attack roll bonus via micro-telekinetic nudging' },
+  { id: 'vampiric', name: 'Vampiric Drain', discipline: 'Entropy', sockets: 2, dcMod: 10, targetType: 'Weapon', effect: 'On Critical Hit, wielder heals Health equal to 1/2 damage' },
+  { id: 'soul_bound', name: 'Soul-Bound', discipline: 'Mental', sockets: 1, dcMod: 5, targetType: 'Weapon/Armor', effect: 'Only functions for designated user; immune to disarm' },
+  { id: 'featherweight', name: 'Featherweight Weave', discipline: 'Dimension', sockets: 1, dcMod: 5, targetType: 'Armor', effect: 'Armor counts as one weight category lighter' },
+  { id: 'chameleon_weave', name: 'Chameleon Shadow Weave', discipline: 'Illusion', sockets: 1, dcMod: 5, targetType: 'Armor', effect: '+4 Stealth while moving, +8 when stationary' },
+  { id: 'hardened_logic', name: 'Hardened Logic Lattice', discipline: 'Mental', sockets: 1, dcMod: 5, targetType: 'Armor/Deck', effect: 'Advantage on saves vs hacking and psionic intrusion' },
+  { id: 'auto_mend', name: 'Auto-Mend Matrix', discipline: 'Matter', sockets: 1, dcMod: 5, targetType: 'Armor/Item', effect: 'Item regenerates 1d4 Structure Points (SP) per hour' },
+  { id: 'phase_shift_weave', name: 'Phase-Shift Weave', discipline: 'Dimension', sockets: 2, dcMod: 10, targetType: 'Armor', effect: '20% miss chance against physical ballistic and melee attacks' },
+  { id: 'kinetic_sink', name: 'Kinetic Absorption Sink', discipline: 'Energy', sockets: 1, dcMod: 5, targetType: 'Armor', effect: '+5 DR vs Kinetic/Concussive; converts impact into 1 Essence' },
+  { id: 'entropy_edge', name: 'Entropic Edge', discipline: 'Entropy', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'Sunders target Armor DR by -2 on Critical Hit' },
+  { id: 'blink_recall', name: 'Dimensional Recall', discipline: 'Dimension', sockets: 1, dcMod: 5, targetType: 'Weapon/Item', effect: 'Teleports back to wielder hand as a Free Action within 100 ft' },
+  { id: 'aether_capacitor', name: 'Aether Capacitor Cell', discipline: 'Energy', sockets: 1, dcMod: 5, targetType: 'Item/Armor', effect: 'Stores up to 5 Essence points for powering invocations or Meta-Tech' },
+  { id: 'resonance_dampener', name: 'Resonance Null-Dampener', discipline: 'Entropy', sockets: 2, dcMod: 10, targetType: 'Armor/Item', effect: 'Grants +4 Save Resistance against hostile Invocations and Psionics' }
 ];
 
 export const META_TECH_SCALE_AMPLIFICATION = {
-  Personal: { id: 'Personal', name: 'Personal Scale (x1)', multiplier: 1, unit: 'Socket', description: 'Standard individual magic and blast radius' },
-  Large: { id: 'Large', name: 'Large Scale (x2)', multiplier: 2, unit: 'Socket', description: 'Ogre-sized magic; fireballs hit like light cannons' },
-  Huge: { id: 'Huge', name: 'Vehicle Scale (x5)', multiplier: 5, unit: 'Mount', description: 'Tank-sized magic; telepathy reaches horizon' },
-  Gargantuan: { id: 'Gargantuan', name: 'Siege Scale (x10)', multiplier: 10, unit: 'Mount', description: 'Siege magic; earthquakes level city blocks' },
-  Titanic: { id: 'Titanic', name: 'Strategic / City Scale (x80)', multiplier: 80, unit: 'Module', description: 'Orbital/city magic; planetary weather control' }
+  Personal: { id: 'Personal', name: 'Personal Scale (x1)', multiplier: 1, unit: 'Socket', cost: 1, description: 'Standard individual magic and blast radius' },
+  Large: { id: 'Large', name: 'Large Scale (x2)', multiplier: 2, unit: 'Mount', cost: 1, description: 'Large walker/creature magic (1 Mount)' },
+  Huge: { id: 'Huge', name: 'Vehicle Scale (x5)', multiplier: 5, unit: 'Mount', cost: 2, description: 'Tank-sized magic; telepathy reaches horizon' },
+  Gargantuan: { id: 'Gargantuan', name: 'Siege Scale (x10)', multiplier: 10, unit: 'Mount', cost: 4, description: 'Siege magic; earthquakes level city blocks' },
+  Colossal: { id: 'Colossal', name: 'Corvette / Titan Scale (x20)', multiplier: 20, unit: 'Module', cost: 1, description: 'Capital tactical magic across kilometer grids' },
+  Enormous: { id: 'Enormous', name: 'Cruiser / Fortress Scale (x40)', multiplier: 40, unit: 'Module', cost: 2, description: 'Fortress-wide wards and fleet-scale projection' },
+  Titanic: { id: 'Titanic', name: 'Strategic / City Scale (x80)', multiplier: 80, unit: 'Module', cost: 4, description: 'Orbital/city magic; planetary weather control' },
+  SuperGargantuan: { id: 'SuperGargantuan', name: 'Dreadnought / Continental Scale (x160)', multiplier: 160, unit: 'Module', cost: 8, description: 'Continental resonance and orbital siege projection' },
+  MegaColossal: { id: 'MegaColossal', name: 'Planetary / Megastructure Scale (x320)', multiplier: 320, unit: 'Module', cost: 16, description: 'World-engine and Dyson-scale metaphysical amplification' }
 };
 
 export const META_TECH_SOCKET_LIMITS = {
@@ -404,8 +540,15 @@ export const PLANETARY_SIZE_CLASSES = {
   7: { size: 7, name: 'Class 7 (Standard Large)', km: '9,600–11,200 km', gravityTier: 'Standard', gVal: '1.0–1.2G', moveMod: 'Normal', carryMult: 1, combatMod: 'None', fallDmg: '1d6/10ft' },
   8: { size: 8, name: 'Class 8 (Super-Earth)', km: '11,200–12,800 km', gravityTier: 'High', gVal: '1.2–1.6G', moveMod: '-5 ft', carryMult: 0.5, combatMod: '-2 Attack, +2 Str / -2 Agi', fallDmg: '1d8/10ft (Fatigue)' },
   9: { size: 9, name: 'Class 9 (Heavy Super-Earth)', km: '12,800–14,400 km', gravityTier: 'High', gVal: '1.6–2.0G', moveMod: '-5 ft', carryMult: 0.5, combatMod: '-2 Attack, +2 Str / -2 Agi', fallDmg: '1d8/10ft (Fatigue)' },
-  10: { size: 10, name: 'Class 10 (Giant / Extreme)', km: '> 14,400 km', gravityTier: 'Extreme', gVal: '> 2.0G', moveMod: 'Half Speed', carryMult: 0.25, combatMod: '-4 to all Physical Checks', fallDmg: 'Crush Dmg 1d6/min' }
+  10: { size: 10, name: 'Class 10 / A (Massive Terrestrial / Mini-Neptune)', km: '14,400–25,000 km', gravityTier: 'Extreme', gVal: '2.0–2.5G', moveMod: 'Half Speed', carryMult: 0.25, combatMod: '-4 to all Physical Checks', fallDmg: 'Crush Dmg 1d6/min' },
+  11: { size: 11, name: 'Class 11 / B (Small Gas Giant / Ice Giant)', km: '25,000–50,000 km', gravityTier: 'Extreme', gVal: '2.5–3.0G', moveMod: 'Half Speed', carryMult: 0.25, combatMod: '-4 to all Physical Checks', fallDmg: 'Crush Dmg 1d6/min' },
+  12: { size: 12, name: 'Class 12 / C (Medium Gas Giant)', km: '50,000–90,000 km', gravityTier: 'Extreme', gVal: '3.0–5.0G', moveMod: 'Half Speed', carryMult: 0.25, combatMod: '-4 to all Physical Checks', fallDmg: 'Crush Dmg 2d6/min' },
+  13: { size: 13, name: 'Class 13 / D (Large Gas Giant)', km: '90,000–140,000 km', gravityTier: 'Extreme', gVal: '5.0–8.0G', moveMod: 'Half Speed', carryMult: 0.25, combatMod: '-6 to all Physical Checks', fallDmg: 'Crush Dmg 3d6/min' },
+  14: { size: 14, name: 'Class 14 / E (Super-Jupiter / Brown Dwarf)', km: '> 140,000 km', gravityTier: 'Extreme', gVal: '> 8.0G', moveMod: 'Immobilized without Grav-Rig', carryMult: 0.1, combatMod: '-8 to all Physical Checks', fallDmg: 'Crush Dmg 4d6/min' },
+  15: { size: 15, name: 'Class 15 / F (Artificial Megastructure / Ringworld)', km: '100,000+ km', gravityTier: 'Standard', gVal: '1.0G (Artificial)', moveMod: 'Normal', carryMult: 1, combatMod: 'None', fallDmg: '1d6/10ft' }
 };
+
+export const UWP_SIZE_CODES = PLANETARY_SIZE_CLASSES;
 
 export const ATMOSPHERE_TYPES_DETAILED = {
   0: { code: 0, name: 'Vacuum', pressure: '0.00 atm', gear: 'Vacc Suit', hazard: 'Suffocation, high radiation, 1d6 decompression dmg/rnd' },
@@ -420,7 +563,31 @@ export const ATMOSPHERE_TYPES_DETAILED = {
   9: { code: 9, name: 'Dense, Tainted', pressure: 'High', gear: 'Filter Mask', hazard: 'Breathable pressure but contains allergens/pollutants' },
   10: { code: 10, name: 'Extreme Heat (10/A)', pressure: '> 120°F', gear: 'Cool Suit', hazard: '1d4 Heat dmg/10 mins (Fort Save DC 15)' },
   11: { code: 11, name: 'Extreme Cold (11/B)', pressure: '< 0°F', gear: 'Thermal Suit', hazard: '1d6 Cold dmg/10 mins (Fort Save DC 15)' },
-  12: { code: 12, name: 'Insidious (12/C)', pressure: 'Varies', gear: 'Sealed Suit', hazard: 'Defeats suit seals over time; extreme corrosive hazard' }
+  12: { code: 12, name: 'Insidious (12/C)', pressure: 'Varies', gear: 'Sealed Suit', hazard: 'Defeats suit seals over time; extreme corrosive hazard' },
+  13: { code: 13, name: 'Dense, High (13/D)', pressure: '> 2.5 atm', gear: 'Pressure Suit', hazard: 'Lethal barotrauma at sea level; breathable only at high mountain altitudes' },
+  14: { code: 14, name: 'Thin, Low (14/E)', pressure: '0.1–0.5 atm', gear: 'Respirator', hazard: 'Breathable atmosphere pools only in deep canyons and lowlands' },
+  15: { code: 15, name: 'Unusual / Anomalous (15/F)', pressure: 'Variable', gear: 'Sealed Suit', hazard: 'Metaphysical storms, shifting pressure tides, or engineered containment' }
+};
+
+export const UWP_ATMOSPHERE_CODES = ATMOSPHERE_TYPES_DETAILED;
+
+export const UWP_POPULATION_RANGES = {
+  0: { code: 0, name: 'Uninhabited (0)', range: '0', description: 'Barren or uncolonized world' },
+  1: { code: 1, name: 'Outpost (1–99)', range: '10^1 (1–99)', description: 'Tiny research station, homestead, or lighthouse crew' },
+  2: { code: 2, name: 'Village (100–999)', range: '10^2 (100–999)', description: 'Small pioneer camp or mining rig' },
+  3: { code: 3, name: 'Settlement (1,000–9,999)', range: '10^3 (1K–10K)', description: 'Frontier town or company colony' },
+  4: { code: 4, name: 'Town (10,000–99,999)', range: '10^4 (10K–100K)', description: 'Established colonial hub' },
+  5: { code: 5, name: 'City (100,000–999,999)', range: '10^5 (100K–1M)', description: 'Minor planetary population center' },
+  6: { code: 6, name: 'Region (1M–9.9M)', range: '10^6 (1M–10M)', description: 'Developing world with multiple cities' },
+  7: { code: 7, name: 'Standard World (10M–99M)', range: '10^7 (10M–100M)', description: 'Moderate planetary population' },
+  8: { code: 8, name: 'Populous World (100M–999M)', range: '10^8 (100M–1B)', description: 'Fully settled terrestrial world' },
+  9: { code: 9, name: 'High Population (1B–9.9B)', range: '10^9 (1B–10B)', description: 'Earth-equivalent major world' },
+  10: { code: 10, name: 'Dense World (10B–99B)', range: '10^10 (10B–100B)', description: 'Heavily urbanized arcology world' },
+  11: { code: 11, name: 'Ecumenopolis (100B–999B)', range: '10^11 (100B–1T)', description: 'Planet-spanning city / hive world' },
+  12: { code: 12, name: 'Hyper-Ecumenopolis (1T+)', range: '10^12 (1T–10T)', description: 'Multi-layered continental shell world' },
+  13: { code: 13, name: 'System Swarm (10T+)', range: '10^13 (10T–100T)', description: 'Orbital habitat swarm and mega-arcologies' },
+  14: { code: 14, name: 'Dyson Cluster (100T+)', range: '10^14 (100T–1Q)', description: 'Matrioshka / Dyson ring civilization' },
+  15: { code: 15, name: 'Cosmic Singularity (1Q+)', range: '10^15+ (Virtual /Gestalt)', description: 'Post-physical / quantum substrate population' }
 };
 
 export const GOVERNMENT_TYPES_DETAILED = {
@@ -482,6 +649,7 @@ export const TRADE_CODE_DEFINITIONS = {
   Ic: { code: 'Ic', name: 'Ice-Capped', desc: 'Frozen surface / cryogenic world', exports: 'Water (Ice), Superconductors, Cryo-Tech', rule: 'Atmos 0-1, Hydro 1+' },
   In: { code: 'In', name: 'Industrial', desc: 'High pop manufacturing center', exports: 'Weapons, Vehicles, Modules, Electronics', rule: 'Atmos (0-2, 4, 7, 9), Pop 9+' },
   Lo: { code: 'Lo', name: 'Low Pop', desc: 'Pioneer population (< 10,000)', exports: 'Raw Materials', rule: 'Pop 1-3' },
+  Lt: { code: 'Lt', name: 'Low Tech', desc: 'Pre-industrial or early industrial society (TL <= 2)', exports: 'Raw Materials, Handicrafts, Textiles', rule: 'TL <= 2, Pop >= 1' },
   Na: { code: 'Na', name: 'Non-Ag', desc: 'Too dry or barren for farming', exports: 'Textiles (Synthetic), Processed Ore', rule: 'Atmos 0-3, Hydro 0-3, Pop 6+' },
   Ni: { code: 'Ni', name: 'Non-Ind', desc: 'Too low pop for heavy industry', exports: 'Raw Materials', rule: 'Pop 4-6' },
   Po: { code: 'Po', name: 'Poor', desc: 'Lacking viable resources or land', exports: 'Scrap, Labor', rule: 'Atmos 2-5, Hydro 0-3' },

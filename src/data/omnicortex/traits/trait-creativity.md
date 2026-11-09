@@ -2,7 +2,7 @@
 id: trait-creativity
 name: Creativity
 trait_tier: Basic
-trait_type: Mental
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Ingenious problem solving and out-of-the-box thinking when crafting,
   engineering, or improvising solutions.
 modifiers: []
+classification: Mental
 ---
 # Creativity
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Mental
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

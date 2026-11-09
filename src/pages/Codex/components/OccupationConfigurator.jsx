@@ -68,12 +68,13 @@ export const OccupationConfigurator = ({
   const [newTraitInput, setNewTraitInput] = useState('');
 
   const professionalSkills = useMemo(() => {
-    if (Array.isArray(formData.professional_skills)) return formData.professional_skills;
-    if (typeof formData.professional_skills === 'string') {
-      return formData.professional_skills.split(',').map(s => s.trim()).filter(Boolean);
+    const raw = formData.professional_skills || formData.recommended_skills;
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+      return raw.split(',').map(s => s.trim()).filter(Boolean);
     }
     return [];
-  }, [formData.professional_skills]);
+  }, [formData.professional_skills, formData.recommended_skills]);
 
   const recommendedFeatures = useMemo(() => {
     const list = formData.recommended_features || formData.features || [];
@@ -147,12 +148,14 @@ export const OccupationConfigurator = ({
     if (!val || professionalSkills.includes(val)) return;
     const updated = [...professionalSkills, val];
     onChange('professional_skills', updated);
+    onChange('recommended_skills', updated);
     setNewSkillInput('');
   };
 
   const handleRemoveSkill = (skillToRemove) => {
     const updated = professionalSkills.filter(s => s !== skillToRemove);
     onChange('professional_skills', updated);
+    onChange('recommended_skills', updated);
   };
 
   const handleAddFeature = () => {
@@ -231,11 +234,39 @@ export const OccupationConfigurator = ({
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Coins className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-            <span><strong>2 Free Traits</strong> (+2 CP for extra)</span>
+            <span><strong>2 Free Traits</strong> (+1 CP for extra)</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Shield className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span><strong>EUFT Base WS:</strong> {formData.base_ws ?? 2}</span>
+          </div>
+        </div>
+
+        {/* Interactive Base Wealth Score (Base WS 1 to 6) Control */}
+        <div className="pt-2 border-t border-amber-500/30 flex flex-wrap items-center justify-between gap-3 font-mono text-xs">
+          <span className="text-[10px] uppercase font-bold text-amber-300">
+            Occupation Base Wealth Score (Base WS 1 to 6)
+          </span>
+          <div className="flex items-center gap-1.5">
+            {[1, 2, 3, 4, 5, 6].map(wsVal => {
+              const currentWs = Number(formData.base_ws ?? 2);
+              const isSelected = currentWs === wsVal;
+              return (
+                <button
+                  key={wsVal}
+                  type="button"
+                  disabled={!isEditMode}
+                  onClick={() => isEditMode && onChange('base_ws', wsVal)}
+                  className={`py-1 px-2.5 rounded-lg border font-bold text-xs transition-all cursor-pointer disabled:cursor-default ${
+                    isSelected
+                      ? 'bg-amber-500/20 border-amber-400 text-amber-200 shadow-sm'
+                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Base WS {wsVal}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -577,39 +608,6 @@ export const OccupationConfigurator = ({
               <Plus size={13} />
               <span>Add Archetype</span>
             </button>
-          </div>
-        )}
-      </div>
-
-      {/* ── Section 5: Full Rules Text & Extended Lore (1.06 OCCUPATIONS.MD) ── */}
-      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
-        <div className="flex items-center gap-2 border-b border-slate-800/80 pb-2.5">
-          <BookOpen className="w-4 h-4 text-amber-400" />
-          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-            Full Rules Text & Career Lore (1.06 Occupations.md Alignment)
-          </h4>
-        </div>
-
-        {isEditMode ? (
-          <div className="space-y-1">
-            <textarea
-              rows={10}
-              value={formData.full_text || ''}
-              onChange={(e) => onChange('full_text', e.target.value)}
-              placeholder="Enter canonical 1.06 OCCUPATIONS.md rules text and career lore (Markdown supported)..."
-              className="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-amber-400 leading-relaxed font-sans"
-            />
-            <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (#, ##, bullet points, bold)</span>
-          </div>
-        ) : (
-          <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
-            {formData.full_text ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {formData.full_text}
-              </ReactMarkdown>
-            ) : (
-              <span className="italic text-slate-500 font-mono">No full canonical text recorded for this occupation.</span>
-            )}
           </div>
         )}
       </div>

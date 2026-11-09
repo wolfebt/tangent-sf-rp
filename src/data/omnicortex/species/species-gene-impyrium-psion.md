@@ -31,14 +31,16 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Aptitude
-  - Attractive
-  - Awakened
-  - Companion
-  - Educated
-  - Influence
-  - Low Light Vision
-  - Silver Tongue
+  - discipline-aptitude
+  - skill-attractive
+  - discipline-awakened
+  - special-companion
+  - skill-educated
+  - skill-influence
+  - special-low-light-vision
+  - skill-silver-tongue
+  - general-born-leader
+  - general-natural-leader
 disadvantages: []
 stigma: None
 tech_level: '4'
@@ -49,64 +51,90 @@ costs:
   bp: 25
 modifiers:
   - target: Wisdom
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Wisdom
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
   - target: general-benefit-status
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Aptitude
-    value: 1
+    description: 'Grants Inherent Feature: Benefit (Status)'
+  - target: discipline-aptitude
     type: feature
-    mode: recommended
-  - target: Attractive
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Aptitude'
+  - target: skill-attractive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Companion
+    description: 'Recommended Feature: Attractive'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Awakened'
+  - target: special-companion
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Influence
+    description: 'Recommended Feature: Companion'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Leadership
+    description: 'Recommended Feature: Educated'
+  - target: skill-influence
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Influence'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-silver-tongue
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Silver Tongue
+    description: 'Recommended Feature: Silver Tongue'
+  - target: general-born-leader
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Born Leader'
+  - target: general-natural-leader
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Natural Leader'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
 description: >-
   The Impyrium Psion is a highly specialized human subspecies 'Evolved' through
   eugenics and make prominent use of Psitech. Following the Dragon's purge and
@@ -137,6 +165,10 @@ negative_keywords: 'physical-labor, anti-authoritarian, tech-hack, primitive'
 cp: 25
 bp: 25
 cp_cost: 25
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-low-light-vision
+  - trait-longevity
 ---
 
 # **1.03.Humans.ImpyriumPsion — Impyrium Psion**

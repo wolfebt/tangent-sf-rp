@@ -525,7 +525,7 @@ const ATTRIBUTE_GUIDES = {
     role: 'Primary Tactical Stat'
   },
   Stamina: {
-    governs: 'Maximum Health Point (HP) pool, Fortitude saving checks, natural fatigue thresholds, and wound recovery.',
+    governs: 'Governs Fortitude saving throws (+2 + 2*STA), Stability Points (STA + 5), and point-for-point Base Toughness damage reduction after Armor DR (never increases maximum Vitality or Health pools).',
     subAttrs: ['Fortitude', 'Toughness'],
     role: 'Primary Defensive Stat'
   },
@@ -747,7 +747,7 @@ export const SocialStigmaSummaryCard = ({
     severityLabel = 'Extreme Stigma / Pariah';
     penaltyText = `-${totalPenalty || 6} Social Reaction Checks`;
     badgeColor = 'bg-red-950 text-red-300 border-red-500/60 shadow-[0_0_10px_rgba(239,68,68,0.3)]';
-  } else if (totalPenalty >= 4 || stigmaStr.toLowerCase().includes('severe') || stigmaStr.toLowerCase().includes('feral') || stigmaStr.toLowerCase().includes('savage')) {
+  } else if (totalPenalty >= 4 || stigmaStr.toLowerCase().includes('severe') || stigmaStr.toLowerCase().includes('feral') || stigmaStr.toLowerCase().includes('savage') || stigmaStr.toLowerCase().includes('dragonkin')) {
     severityLabel = 'Severe Social Stigma';
     penaltyText = `-${totalPenalty || 4} Social Reaction Checks`;
     badgeColor = 'bg-red-950/80 text-red-300 border-red-500/50';
@@ -966,7 +966,9 @@ export const SpeciesSizeSummaryCard = ({
         <div className="p-1.5 bg-slate-950/80 rounded border border-slate-800">
           <span className="text-[9px] text-slate-400 block uppercase">Stealth</span>
           <span className="font-bold text-cyan-300">
-            {sizeData.stealth_mod >= 0 ? `+${sizeData.stealth_mod}` : sizeData.stealth_mod}
+            {typeof sizeData.stealth_mod === 'number'
+              ? (sizeData.stealth_mod >= 0 ? `+${sizeData.stealth_mod}` : sizeData.stealth_mod)
+              : sizeData.stealth_mod}
           </span>
         </div>
       </div>
@@ -982,6 +984,206 @@ export const SpeciesSizeSummaryCard = ({
           <div><strong className="text-slate-400">Tactical Reach:</strong> {sizeData.reach}</div>
         )}
       </div>
+    </div>
+  );
+};
+
+/**
+ * 11. SPECIES & ASSET BUILD COST TOOLTIP CARD
+ * Displays all items with cost for a species (or general asset) and highlights
+ * any items unaccounted for by the formula in amber.
+ */
+export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
+  if (!buildCheck) return null;
+
+  const isSpecies = Boolean(buildCheck.isSpecies || Array.isArray(buildCheck.costItems));
+  const accountedItems = Array.isArray(buildCheck.accountedItems)
+    ? buildCheck.accountedItems
+    : (Array.isArray(buildCheck.costItems) ? buildCheck.costItems.filter(i => !i.unaccounted) : []);
+  const unaccountedItems = Array.isArray(buildCheck.unaccountedItems)
+    ? buildCheck.unaccountedItems
+    : (Array.isArray(buildCheck.costItems) ? buildCheck.costItems.filter(i => i.unaccounted) : []);
+  const baselineItems = Array.isArray(buildCheck.baselineItems) ? buildCheck.baselineItems : [];
+  const hasUnaccounted = Boolean(buildCheck.hasUnaccountedItems || unaccountedItems.length > 0);
+  const isWarning = hasUnaccounted || buildCheck.status === 'warning' || buildCheck.status === 'error';
+
+  return (
+    <div className="space-y-2.5 font-mono text-xs">
+      {/* Header */}
+      <div className={`flex items-start justify-between gap-2 pb-2 border-b ${
+        isWarning ? 'border-amber-500/40' : 'border-emerald-500/30'
+      }`}>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded border ${
+              isWarning
+                ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
+                : 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
+            }`}>
+              {buildCheck.title || 'Species Build Cost'}
+            </span>
+            {hasUnaccounted && (
+              <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/50 flex items-center gap-1">
+                <AlertTriangle size={10} className="text-amber-400 shrink-0" />
+                <span>{unaccountedItems.length} Unaccounted</span>
+              </span>
+            )}
+          </div>
+          {buildCheck.secondaryLabel && (
+            <div className="text-[10px] text-slate-300 mt-1 truncate">
+              {buildCheck.secondaryLabel}
+            </div>
+          )}
+        </div>
+        <div className="text-right shrink-0">
+          <span className={`text-xs font-bold px-2 py-0.5 rounded-lg border ${
+            isWarning
+              ? 'bg-amber-500/20 text-amber-300 border-amber-500/50'
+              : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+          }`}>
+            {buildCheck.primaryCostLabel || buildCheck.primaryValue || '0 CP'}
+          </span>
+          {buildCheck.actualValue !== undefined &&
+            buildCheck.expectedValue !== undefined &&
+            buildCheck.actualValue !== buildCheck.expectedValue && (
+              <div className="text-[9px] text-amber-300 font-bold mt-0.5">
+                Stored: {buildCheck.actualValue} {buildCheck.unit || 'CP'}
+              </div>
+            )}
+        </div>
+      </div>
+
+      {/* Baseline 0-CP Strip (if any) */}
+      {isSpecies && baselineItems.length > 0 && (
+        <div className="px-2 py-1 rounded-lg bg-slate-950/80 border border-slate-800/80 text-[9.5px] text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+          <span className="text-slate-500 font-bold uppercase">Baseline (0 CP):</span>
+          <span>{baselineItems.map(b => b.label.replace(/^(Chassis|Size|Movement):\s*/i, '')).join(' • ')}</span>
+        </div>
+      )}
+
+      {/* Formula Accounted Items with Cost */}
+      {isSpecies ? (
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-slate-400 px-0.5">
+            <span>Items with Cost (Formula Accounted)</span>
+            <span>{accountedItems.length} Item{accountedItems.length === 1 ? '' : 's'}</span>
+          </div>
+
+          {accountedItems.length > 0 ? (
+            <div className="space-y-1 max-h-52 overflow-y-auto pr-0.5">
+              {accountedItems.map((item, idx) => {
+                const isNegative = Number(item.cost || 0) < 0;
+                return (
+                  <div
+                    key={`${item.category}-${item.label}-${idx}`}
+                    className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg bg-slate-900/90 border border-slate-800/90 text-[10.5px]"
+                  >
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-[8.5px] font-bold uppercase px-1.5 py-0.2 rounded bg-slate-800 text-cyan-300 border border-cyan-500/25 shrink-0">
+                        {item.category}
+                      </span>
+                      <span className="text-slate-100 truncate" title={item.label}>
+                        {item.label.replace(/^(Chassis|Size|Movement|Trait|Feature|Flaw|Stigma):\s*/i, '')}
+                      </span>
+                    </div>
+                    <span className={`font-bold shrink-0 px-1.5 py-0.2 rounded text-[10px] ${
+                      isNegative
+                        ? 'text-sky-300 bg-sky-950/60 border border-sky-500/30'
+                        : 'text-emerald-300 bg-emerald-950/60 border border-emerald-500/30'
+                    }`}>
+                      {item.formattedCost}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="px-2.5 py-1.5 rounded-lg bg-slate-950/70 border border-slate-800 text-[10px] text-slate-400 italic">
+              No non-zero cost items accounted by formula.
+            </div>
+          )}
+
+          {/* Unaccounted Items Highlighted in Amber */}
+          {unaccountedItems.length > 0 && (
+            <div className="pt-1.5 space-y-1">
+              <div className="flex items-center justify-between text-[9.5px] font-bold uppercase tracking-wider text-amber-300 px-0.5">
+                <span className="flex items-center gap-1">
+                  <AlertTriangle size={11} className="text-amber-400 shrink-0" />
+                  <span>Unaccounted by Formula</span>
+                </span>
+                <span>{unaccountedItems.length} Flagged</span>
+              </div>
+              <div className="space-y-1 max-h-44 overflow-y-auto pr-0.5">
+                {unaccountedItems.map((u, idx) => (
+                  <div
+                    key={`unaccounted-${u.category}-${u.label}-${idx}`}
+                    className="px-2.5 py-1.5 rounded-lg bg-amber-950/80 border border-amber-500/60 text-amber-200 space-y-0.5 shadow-[0_0_12px_rgba(245,158,11,0.15)]"
+                  >
+                    <div className="flex items-center justify-between gap-2 text-[10.5px]">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="text-[8.5px] font-bold uppercase px-1.5 py-0.2 rounded bg-amber-500/25 text-amber-300 border border-amber-400/50 shrink-0">
+                          {u.category}
+                        </span>
+                        <span className="font-bold text-amber-200 truncate" title={u.label}>
+                          {u.label}
+                        </span>
+                      </div>
+                      <span className="font-bold text-[10px] px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 border border-amber-400/60 shrink-0">
+                        {u.formattedCost}
+                      </span>
+                    </div>
+                    {u.note && (
+                      <div className="text-[9.5px] text-amber-300/90 font-sans leading-snug">
+                        {u.note}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* General Asset Breakdown Fallback */
+        Array.isArray(buildCheck.breakdown) && buildCheck.breakdown.length > 0 && (
+          <div className="space-y-1 max-h-60 overflow-y-auto pr-0.5">
+            {buildCheck.breakdown.map((row, idx) => {
+              const rowWarn = row.status === 'warning' || row.status === 'error' || row.unaccounted;
+              return (
+                <div
+                  key={`${row.label}-${idx}`}
+                  className={`px-2 py-1 rounded-lg border text-[10px] ${
+                    rowWarn
+                      ? 'bg-amber-950/80 border-amber-500/50 text-amber-200'
+                      : 'bg-slate-900/90 border-slate-800 text-slate-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className={`font-semibold truncate ${rowWarn ? 'text-amber-200' : 'text-slate-200'}`}>
+                      {row.label}
+                    </span>
+                    <span className={`font-bold shrink-0 ${rowWarn ? 'text-amber-300' : 'text-emerald-300'}`}>
+                      {row.value}
+                    </span>
+                  </div>
+                  {row.note && (
+                    <div className={`text-[9px] mt-0.5 font-sans ${rowWarn ? 'text-amber-300/85' : 'text-slate-400'}`}>
+                      {row.note}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )
+      )}
+
+      {/* Footer Formula Summary */}
+      {buildCheck.formulaSummary && (
+        <div className="pt-1.5 border-t border-slate-800/80 text-[9px] text-slate-400 font-sans leading-snug">
+          {buildCheck.formulaSummary}
+        </div>
+      )}
     </div>
   );
 };

@@ -18,6 +18,9 @@ import {
   Activity
 } from 'lucide-react';
 import { useStory } from '../../../context/CampaignContext';
+import { useDBM } from '../../../context/DBMContext';
+import { useFolio } from '../../../context/FolioContext';
+import { buildUnifiedAdeCatalog, buildUnifiedPersonaList, buildVttUnitFromPersona } from '../../../utils/cortexAdeAssetBridge';
 import { AudioService } from '../../../services/audioService';
 import { formatCronicleContextForAIME } from '../../../services/cronicleService';
 import { generateStoryScratchbook, findElementsUsed } from '../../../pages/Foundry/StoryModule/scratchbookService';
@@ -55,6 +58,26 @@ export default function CronicleDeckModal({
     updateCreativeState,
     triggerStorySave
   } = useStory();
+  const { dbData } = useDBM() || { dbData: {} };
+  const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
+
+  const unifiedCatalog = useMemo(() => {
+    return buildUnifiedAdeCatalog({
+      elementsCatalog,
+      dbData,
+      folioRoster: personaRoster,
+      publicPersonas: publicCatalog
+    });
+  }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
+
+  const unifiedPersonaList = useMemo(() => {
+    return buildUnifiedPersonaList({
+      elementsCatalog,
+      dbData,
+      folioRoster: personaRoster,
+      publicPersonas: publicCatalog
+    });
+  }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
 
   // Unified Cronicle sub-tabs:
   // 'working_memory' | 'deltas' | 'personas' | 'world' | 'timeline' | 'working_copies' | 'scratchbook_doc'
@@ -236,6 +259,53 @@ export default function CronicleDeckModal({
     setNewPersonaRole('');
   };
 
+  const handlePullUnifiedPersona = (personaElem) => {
+    if (!personaElem) return;
+    AudioService.playTerminalBeep(1250, 0.05);
+    const vttUnit = personaElem.vttUnitData || buildVttUnitFromPersona(personaElem, { uniqueInstance: false });
+    const prefix = cronicle?.storyPrefix || 'story';
+    const baseName = personaElem.title || personaElem.name || 'Operative';
+    const id = `${prefix}_${baseName.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${Math.random().toString(36).substring(2, 5)}`;
+
+    const newPersona = {
+      id,
+      sourcePersonaId: personaElem.id,
+      sourceLabel: personaElem.sourceLabel || (personaElem.isMcmPersona ? 'MCM' : 'FOLIO'),
+      name: baseName,
+      role: personaElem.fields?.['char-occu'] || personaElem.fields?.mcmRole || personaElem.fields?.['char-role'] || 'Operator',
+      current_status: 'active',
+      base_physical_stats: {
+        str: vttUnit.attributes?.str ?? 2,
+        dex: vttUnit.attributes?.agi ?? 2,
+        int: vttUnit.attributes?.int ?? 2,
+        hp: vttUnit.hp_max ?? 30,
+        maxHp: vttUnit.hp_max ?? 30,
+        vitality: vttUnit.vit_max ?? 30,
+        defenseDC: vttUnit.defense_dc ?? 12,
+        attackBonus: vttUnit.attack_bonus ?? 3
+      },
+      active_inventory: [
+        ...(vttUnit.weapons || []).map((w) => w.name || w.title || w),
+        ...(vttUnit.gear || []).map((g) => g.name || g.title || g)
+      ].filter(Boolean),
+      relationship_matrix: {},
+      dynamic_psychological_traits: [
+        personaElem.fields?.['char-motive'],
+        personaElem.fields?.theLie
+      ].filter(Boolean),
+      acquired_physical_traits: (vttUnit.features || []).map((f) => f.name || f.title || f).filter(Boolean),
+      personaData: personaElem.personaData,
+      vttUnitData: vttUnit
+    };
+
+    updateCronicle({
+      personas: {
+        ...personas,
+        [id]: newPersona
+      }
+    });
+  };
+
   const handleDeletePersona = (personaId) => {
     AudioService.playCombatHit(false);
     const nextPersonas = { ...personas };
@@ -391,7 +461,7 @@ export default function CronicleDeckModal({
   // ── LIVING MEMORY: WORKING COPY PROTOCOL ──
   const handleCloneSelectedElement = () => {
     if (!selectedElementToClone) return;
-    const target = elementsCatalog.find(e => e.id === selectedElementToClone);
+    const target = unifiedCatalog.find(e => e.id === selectedElementToClone);
     if (target) {
       AudioService.playTerminalBeep(1300, 0.06);
       cloneElementToCronicle(target);
@@ -686,6 +756,8 @@ export default function CronicleDeckModal({
           {memoryTab === 'personas' && (
             <CroniclePersonasTab
               personas={personas}
+              availablePersonas={unifiedPersonaList}
+              onPullUnifiedPersona={handlePullUnifiedPersona}
               newPersonaName={newPersonaName}
               setNewPersonaName={setNewPersonaName}
               newPersonaRole={newPersonaRole}
@@ -742,7 +814,7 @@ export default function CronicleDeckModal({
           {memoryTab === 'working_copies' && (
             <CronicleWorkingCopiesTab
               workingCopies={workingCopies}
-              elementsCatalog={elementsCatalog}
+              elementsCatalog={unifiedCatalog}
               storyPrefix={cronicle?.storyPrefix}
               selectedElementToClone={selectedElementToClone}
               setSelectedElementToClone={setSelectedElementToClone}

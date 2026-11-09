@@ -24,9 +24,9 @@ test('Plan 17: Equipment Matrix Engine - DC and Value Calculations', () => {
   assert.equal(baseDC15, 15);
   assert.equal(calculateCreditValue(baseDC15), 640);
 
-  // Tools + Campus scale (+8 DC) -> DC 23
+  // Tools + Campus scale (+6 DC) -> DC 21
   const campusToolDC = calculateEquipmentDC({ baseDC: 15, size: 'Small', workspaceScale: 'Campus' });
-  assert.equal(campusToolDC, 23);
+  assert.equal(campusToolDC, 21);
 
   // Computer PR 3 (+15 DC) + Software Level 2 (+10 DC) on Diminutive (default DC 5) -> DC 30 (40,960 Cr)
   const quantumCyberDeckDC = calculateEquipmentDC({ size: 'Diminutive', computerPR: 3, softwareLevel: 2 });

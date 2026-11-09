@@ -38,6 +38,7 @@ const CustomSelectorModal = lazyWithRetry(() => import('./modals/CustomSelectorM
 const AssetModal = lazyWithRetry(() => import('./modals/AssetModal'));
 const MetaphysicsModal = lazyWithRetry(() => import('./modals/MetaphysicsModal'));
 const GuidedCreatorModal = lazyWithRetry(() => import('./modals/GuidedCreatorModal'));
+const PullFromMcmModal = lazyWithRetry(() => import('./modals/PullFromMcmModal'));
 const PrintFolio = lazyWithRetry(() => import('./print/PrintFolio'));
 const EconomyModal = lazyWithRetry(() => import('./modals/EconomyModal'));
 const RosterModal = lazyWithRetry(() => import('./modals/RosterModal'));
@@ -72,6 +73,7 @@ const FolioContainer = () => {
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isGuidedCreatorOpen, setIsGuidedCreatorOpen] = useState(false);
+  const [isPullFromMcmOpen, setIsPullFromMcmOpen] = useState(false);
   const [isMetaphysicsOpen, setIsMetaphysicsOpen] = useState(false);
   const [selectorConfig, setSelectorConfig] = useState(null);
 
@@ -262,7 +264,7 @@ const FolioContainer = () => {
         'features', 'features-standard', 'features-traits', 'features-hindrances', 'features-augmentations', 'features-metaphysics', 'features-awakened',
         'abilities', 'combat', 'companions',
         'property', 'property-weaponry', 'property-armoring', 'property-gear', 'property-mech', 'property-architecture', 'property-other', 'property-vehicles', 'property-wealth', 'combat-gear',
-        'narrative', 'media', 'visuals', 'other'
+        'narrative', 'scripting', 'narrative-scripting', 'media', 'visuals', 'other'
       ];
       if (validTabs.includes(tabParam)) {
         const resolvedTab = tabParam === 'stats' ? 'core-stats' : tabParam;
@@ -872,6 +874,7 @@ const FolioContainer = () => {
     const handleOpenGuide = () => setIsGuideOpen(true);
     const handleOpenNewChar = () => setIsConfirmOpen(true);
     const handleOpenGuidedCreator = () => setIsGuidedCreatorOpen(true);
+    const handleOpenPullFromMcm = () => setIsPullFromMcmOpen(true);
     const handleOpenDeleteChar = () => setIsDeleteConfirmOpen(true);
     const handleOpenClearChar = () => setIsConfirmOpen(true);
     const handleOpenPreview = () => setIsPreviewOpen(true);
@@ -891,6 +894,7 @@ const FolioContainer = () => {
     window.addEventListener('open-folio-guide', handleOpenGuide);
     window.addEventListener('open-folio-new-character', handleOpenNewChar);
     window.addEventListener('open-folio-guided-creator', handleOpenGuidedCreator);
+    window.addEventListener('open-folio-pull-mcm', handleOpenPullFromMcm);
     window.addEventListener('open-folio-delete-character', handleOpenDeleteChar);
     window.addEventListener('open-folio-clear-character', handleOpenClearChar);
     window.addEventListener('open-folio-preview', handleOpenPreview);
@@ -905,6 +909,7 @@ const FolioContainer = () => {
       window.removeEventListener('open-folio-guide', handleOpenGuide);
       window.removeEventListener('open-folio-new-character', handleOpenNewChar);
       window.removeEventListener('open-folio-guided-creator', handleOpenGuidedCreator);
+      window.removeEventListener('open-folio-pull-mcm', handleOpenPullFromMcm);
       window.removeEventListener('open-folio-delete-character', handleOpenDeleteChar);
       window.removeEventListener('open-folio-clear-character', handleOpenClearChar);
       window.removeEventListener('open-folio-preview', handleOpenPreview);
@@ -1124,6 +1129,9 @@ const FolioContainer = () => {
               onGuidedCreator={() => {
                 setIsGuidedCreatorOpen(true);
               }}
+              onOpenPullFromMcm={() => {
+                setIsPullFromMcmOpen(true);
+              }}
               onDuplicateCharacter={duplicateRosterCharacter}
               onDeleteCharacter={deleteRosterCharacter}
               onUpdateNote={updateRosterCharacterNote}
@@ -1214,8 +1222,14 @@ const FolioContainer = () => {
                   onOpenAssetModal={handleOpenAssetModal}
                 />
               )}
-              {activeTab === 'narrative' && (
-                <NarrativeTab />
+              {(activeTab === 'narrative' || activeTab === 'scripting' || activeTab === 'narrative-scripting') && (
+                <NarrativeTab
+                  initialSubTab={
+                    activeTab === 'scripting' || activeTab === 'narrative-scripting'
+                      ? 'scripting'
+                      : null
+                  }
+                />
               )}
               {(activeTab === 'media' || activeTab === 'visuals') && (
                 <MediaTab />
@@ -1314,6 +1328,9 @@ const FolioContainer = () => {
             onGuidedCreator={() => {
               setIsGuidedCreatorOpen(true);
             }}
+            onOpenPullFromMcm={() => {
+              setIsPullFromMcmOpen(true);
+            }}
             onDuplicateCharacter={duplicateRosterCharacter}
             onDeleteCharacter={deleteRosterCharacter}
             onUpdateNote={updateRosterCharacterNote}
@@ -1330,6 +1347,23 @@ const FolioContainer = () => {
               clonePublicPersona(char);
               handleSelectTab('identity');
               setIsRosterOpen(false);
+            }}
+          />
+        )}
+        {isPullFromMcmOpen && (
+          <PullFromMcmModal
+            isOpen={isPullFromMcmOpen}
+            onClose={() => setIsPullFromMcmOpen(false)}
+            onPulledCharacter={(docId, targetTab = 'identity', lockedForVtt = false) => {
+              if (docId) {
+                switchRosterCharacter(docId);
+              }
+              handleSelectTab(targetTab, docId, true, false);
+              if (lockedForVtt) {
+                setViewMode('play');
+              } else {
+                setViewMode('builder');
+              }
             }}
           />
         )}

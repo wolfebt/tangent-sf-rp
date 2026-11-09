@@ -39,6 +39,9 @@ import { AudioService } from '../../../../services/audioService';
 import { ModifierService, MODIFIER_PRESETS } from '../../../../services/modifierService';
 import { useNavigate } from 'react-router-dom';
 
+const EMPTY_ARRAY = [];
+const EMPTY_OBJ = {};
+
 export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType, onSelectElementType }) => {
   const navigate = useNavigate();
   const confirm = useConfirm();
@@ -94,18 +97,21 @@ export const StoryGallery = ({ onBackToStory, onOpenCompiler, activeElementType,
     return Array.from(unique.values());
   }, [universeState?.maps, mapsCatalog]);
 
-  // Unified Cortex + Folio + MCM + Module Personas & Property for modifier derivation
-  const { dbData = {} } = useDBM() || {};
-  const { roster: folioRoster = [], personaRoster = [], publicPersonas = [] } = useFolio() || {};
+  // Unified Cortex + Folio + MCM + Module Personas & Property for modifier derivation (only evaluated when Modifiers tab or modal is active)
+  const { dbData = EMPTY_OBJ } = useDBM() || EMPTY_OBJ;
+  const { roster: folioRoster = EMPTY_ARRAY, personaRoster = EMPTY_ARRAY, publicPersonas = EMPTY_ARRAY } = useFolio() || EMPTY_OBJ;
+  const needsModifierSources = activeTab === 'modifiers' || isNewModifierModalOpen;
   const unifiedElements = useMemo(
     () =>
-      buildUnifiedAdeCatalog({
-        elementsCatalog: elementsCatalog || [],
-        dbData,
-        folioRoster: Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : personaRoster,
-        publicPersonas
-      }),
-    [elementsCatalog, dbData, folioRoster, personaRoster, publicPersonas]
+      needsModifierSources
+        ? buildUnifiedAdeCatalog({
+            elementsCatalog: elementsCatalog || EMPTY_ARRAY,
+            dbData,
+            folioRoster: Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : personaRoster,
+            publicPersonas
+          })
+        : EMPTY_ARRAY,
+    [needsModifierSources, elementsCatalog, dbData, folioRoster, personaRoster, publicPersonas]
   );
 
   const galleryPersonas = useMemo(() => {

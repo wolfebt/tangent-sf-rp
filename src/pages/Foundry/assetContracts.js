@@ -64,26 +64,29 @@ export function useMapAssets() {
   };
 }
 
+const EMPTY_ARRAY = [];
+const EMPTY_OBJ = {};
+
 /**
  * Contract for accessing unified Story Module + OmniCortex + Folio + MCM Elements assets.
  */
 export function useElementAssets() {
   const navigate = useNavigate();
-  const { elementsCatalog } = useStory() || {};
-  const { dbData = {} } = useDBM() || {};
-  const { roster: folioRoster = [], personaRoster = [], publicPersonas = [] } = useFolio() || {};
+  const { elementsCatalog } = useStory() || EMPTY_OBJ;
+  const { dbData = EMPTY_OBJ } = useDBM() || EMPTY_OBJ;
+  const { roster: folioRoster = EMPTY_ARRAY, personaRoster = EMPTY_ARRAY, publicPersonas = EMPTY_ARRAY } = useFolio() || EMPTY_OBJ;
 
   const liveFolio = useMemo(
-    () => (Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : [])),
+    () => (Array.isArray(folioRoster) && folioRoster.length > 0 ? folioRoster : (Array.isArray(personaRoster) ? personaRoster : EMPTY_ARRAY)),
     [folioRoster, personaRoster]
   );
 
   const list = useMemo(() => {
     return buildUnifiedAdeCatalog({
-      elementsCatalog: Array.isArray(elementsCatalog) ? elementsCatalog : [],
+      elementsCatalog: Array.isArray(elementsCatalog) ? elementsCatalog : EMPTY_ARRAY,
       dbData,
       folioRoster: liveFolio,
-      publicPersonas: Array.isArray(publicPersonas) ? publicPersonas : []
+      publicPersonas: Array.isArray(publicPersonas) ? publicPersonas : EMPTY_ARRAY
     });
   }, [elementsCatalog, dbData, liveFolio, publicPersonas]);
 

@@ -2,7 +2,7 @@
 id: trait-business-acumen
 name: Business Acumen
 trait_tier: Basic
-trait_type: Mental
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Keen understanding of market dynamics, trade valuation, credit arbitration,
   and contract law.
 modifiers: []
+classification: Mental
 ---
 # Business Acumen
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Mental
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

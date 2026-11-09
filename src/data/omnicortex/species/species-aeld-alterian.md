@@ -32,16 +32,17 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Agile Wrestling
-  - Awakened
-  - Combat Expertise
-  - Darksight
-  - Lightning Calculator
-  - Low Light Vision
-  - Magical Aptitude
-  - Skill Specialization
-  - Weapon Specialization
+  - special-acute-sense
+  - combat-agile-wrestling
+  - discipline-awakened
+  - combat-combat-expertise
+  - special-darksight
+  - general-lightning-calculator
+  - special-low-light-vision
+  - skill-magical-aptitude
+  - skill-skill-specialization
+  - combat-weapon-specialization
+  - combat-combat-specialist
 disadvantages: []
 stigma: Minor Xeno (-1)
 tech_level: '3 (Magi-Tech focus: Solar Sails, Crystalline Laminates, Aetherium refinement)'
@@ -52,64 +53,105 @@ costs:
   bp: 34
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Any
-    value: 20
     type: skill
+    value: 20
     mode: bonus_pool
     description: +20 Skill Points
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Agile Wrestling
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Acute Sense'
+  - target: combat-agile-wrestling
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Combat Expertise
+    description: 'Recommended Feature: Agile Wrestling'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Awakened'
+  - target: combat-combat-expertise
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Calculator
+    description: 'Recommended Feature: Combat Expertise'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Darksight'
+  - target: general-lightning-calculator
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Magical Aptitude
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Martial Arts Mastery
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-magical-aptitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Skill Specialization
+    description: 'Recommended Feature: Magical Aptitude'
+  - target: skill-skill-specialization
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Weapon Specialization
+    description: 'Recommended Feature: Skill Specialization'
+  - target: combat-weapon-specialization
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Weapon Specialization'
+  - target: combat-combat-specialist
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Combat Specialist'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-martial-arts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Martial Arts'
 description: >-
   The Alterian Aeld are graceful, exceptionally long-lived scholars, diplomats,
   and magi-tech pioneers. They harmonize technology with arcane metaphysics,
@@ -138,6 +180,13 @@ negative_keywords: 'brute-force, heavy-armor, reckless, technophile-cybernetics,
 cp: 34
 bp: 34
 cp_cost: 34
+recommended_traits:
+  - trait-acute-senses
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-dark-sight
+  - trait-low-light-vision
+  - trait-martial-arts
 ---
 
 # **1.03.Aeld.Alterian — Celestine (Alterian Aeld)**

@@ -8,7 +8,9 @@ import {
   SIZE_CATEGORIES,
   DIE_STEP_LADDER
 } from './tangentConstants.js';
-import { calculateCreditValue, getComplexityTier, getFinancialStatus } from './tangentEconEngine.js';
+import { calculateCreditValue, getComplexityTier, getFinancialStatus, validateAssetValuation } from './tangentEconEngine.js';
+
+export { validateAssetValuation };
 
 /**
  * Safe lookup for any size category by ID, name, or alias.
@@ -504,51 +506,3 @@ export function validateAssetScaling(asset = {}) {
   };
 }
 
-/**
- * Real-time validation of entered credit cost vs. calculated EUFT value from CR/DC.
- * 
- * @param {number} enteredCR - Crafting or complexity CR/DC
- * @param {number} enteredCost - Entered or overridden credit cost
- * @param {number|object} [microMods=0] - Optional EUFT linear micro-modifiers
- * @returns {object} Valuation analysis
- */
-export function validateAssetValuation(enteredCR, enteredCost, microMods = 0) {
-  const dc = Number(enteredCR) || 0;
-  const tscValue = calculateCreditValue(dc, microMods);
-  const cost = enteredCost !== undefined && enteredCost !== null && !isNaN(enteredCost) ? Number(enteredCost) : tscValue;
-
-  const ratio = tscValue > 0 ? cost / tscValue : 1.0;
-  const isMatch = Math.abs(ratio - 1.0) < 0.05; // within 5%
-
-  let status = 'Accurate Standard Curve';
-  let color = '#10b981'; // Green
-
-  if (ratio > 1.5) {
-    status = 'Premium Overcharge (>150% TSC Value)';
-    color = '#f59e0b'; // Amber
-  } else if (ratio < 0.5 && cost > 0) {
-    status = 'Subsidized / Black Market Salvage (<50% TSC Value)';
-    color = '#38bdf8'; // Blue
-  } else if (cost === 0 && dc > 5) {
-    status = 'Unpriced / Zero Cost Flag';
-    color = '#ef4444'; // Red
-  }
-
-  const complexity = getComplexityTier(dc);
-  const wsStatus = getFinancialStatus(dc);
-
-  return {
-    cr: dc,
-    dc,
-    euftValue: tscValue,
-    tscValue,
-    enteredCost: cost,
-    ratio: Math.round(ratio * 100) / 100,
-    isMatch,
-    status,
-    color,
-    complexityTier: complexity,
-    wealthScoreRequired: dc,
-    financialStatusTier: wsStatus?.name || 'Standard'
-  };
-}

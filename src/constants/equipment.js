@@ -332,8 +332,15 @@ export const STIGMA_THRESHOLDS = [
   { name: 'None', minMods: 0, maxMods: 0, socialPenalty: 0, description: 'No visible modification' },
   { name: 'Minor', minMods: 1, maxMods: 3, socialPenalty: -2, description: 'Noticeable but tolerated' },
   { name: 'Moderate', minMods: 4, maxMods: 6, socialPenalty: -4, description: 'Clearly augmented' },
-  { name: 'Severe', minMods: 7, maxMods: 999, socialPenalty: -8, description: 'Treated as xeno/object' }
+  { name: 'Severe', minMods: 7, maxMods: 999, socialPenalty: -6, description: 'Treated as xeno/object' }
 ];
+
+export const AUGMENTATION_STIGMA_TIERS = {
+  None: 0,
+  Minor: -2,
+  Moderate: -4,
+  Severe: -6
+};
 
 // ═══════════════════════════════════════════════════════════
 // FENCE / RESALE RATES
@@ -424,11 +431,18 @@ export const EQUIPMENT_SIZES = {
 };
 
 export const WORKSPACE_SCALES = {
-  Belt: { id: 'Belt', name: 'Belt Pouch / Holster', dcMod: 0, skillBonus: 0, sockets: 1, description: 'Personal pouch or holster toolkit (+0 Check)' },
-  Pack: { id: 'Pack', name: 'Backpack Field Kit', dcMod: 2, skillBonus: 2, sockets: 4, description: 'Backpack field kit (+2 Check)' },
-  Case: { id: 'Case', name: 'Hard-Case Lab Kit', dcMod: 4, skillBonus: 4, sockets: 8, description: 'Heavy hard-case professional workshop (+4 Check)' },
-  Room: { id: 'Room', name: 'Dedicated Facility Room', dcMod: 6, skillBonus: 6, sockets: 40, description: 'Dedicated workshop/laboratory room (+6 Check)' },
-  Campus: { id: 'Campus', name: 'Industrial Campus', dcMod: 8, skillBonus: 8, sockets: 200, description: 'Full research campus or industrial facility (+8 Check)' }
+  'Basic Kit': { id: 'Basic Kit', name: 'Basic Kit', dc: 5, dcMod: 0, bonus: 0, skillBonus: 0, sockets: 1, udu: '1 Socket', description: 'Personal pouch or basic toolkit (+0 Check, 1 Socket)' },
+  'Full Set': { id: 'Full Set', name: 'Full Set', dc: 10, dcMod: 2, bonus: 2, skillBonus: 2, sockets: 2, udu: '2 Sockets', description: 'Portable full tool set (+2 Check, 2 Sockets)' },
+  'Dedicated Shop': { id: 'Dedicated Shop', name: 'Dedicated Shop', dc: 20, dcMod: 4, bonus: 4, skillBonus: 4, sockets: 100, modules: 1, udu: '1 Module', description: 'Dedicated workshop or laboratory (+4 Check, 1 Module)' },
+  'Full Facility': { id: 'Full Facility', name: 'Full Facility', dc: 30, dcMod: 6, bonus: 6, skillBonus: 6, sockets: 500, modules: 5, udu: '5+ Modules', description: 'Full industrial or research facility (+6 Check, 5+ Modules)' },
+  Belt: { id: 'Belt', name: 'Belt Pouch / Holster', dc: 5, dcMod: 0, bonus: 0, skillBonus: 0, sockets: 1, udu: '1 Socket', description: 'Personal pouch or holster toolkit (+0 Check)' },
+  Pack: { id: 'Pack', name: 'Backpack Field Kit', dc: 10, dcMod: 2, bonus: 2, skillBonus: 2, sockets: 2, udu: '2 Sockets', description: 'Backpack field kit (+2 Check)' },
+  Bench: { id: 'Bench', name: 'Workbench Set', dc: 10, dcMod: 2, bonus: 2, skillBonus: 2, sockets: 2, udu: '2 Sockets', description: 'Workbench tool set (+2 Check)' },
+  Case: { id: 'Case', name: 'Hard-Case Lab Kit', dc: 20, dcMod: 4, bonus: 4, skillBonus: 4, sockets: 100, modules: 1, udu: '1 Module', description: 'Heavy hard-case professional workshop (+4 Check)' },
+  Bay: { id: 'Bay', name: 'Dedicated Workshop Bay', dc: 20, dcMod: 4, bonus: 4, skillBonus: 4, sockets: 100, modules: 1, udu: '1 Module', description: 'Dedicated workshop bay (+4 Check)' },
+  Room: { id: 'Room', name: 'Dedicated Facility Room', dc: 20, dcMod: 4, bonus: 4, skillBonus: 4, sockets: 100, modules: 1, udu: '1 Module', description: 'Dedicated workshop/laboratory room (+4 Check)' },
+  Facility: { id: 'Facility', name: 'Full Facility', dc: 30, dcMod: 6, bonus: 6, skillBonus: 6, sockets: 500, modules: 5, udu: '5+ Modules', description: 'Full research or industrial facility (+6 Check)' },
+  Campus: { id: 'Campus', name: 'Industrial Campus', dc: 30, dcMod: 6, bonus: 6, skillBonus: 6, sockets: 500, modules: 5, udu: '5+ Modules', description: 'Full research campus or industrial facility (+6 Check)' }
 };
 
 export const COMPUTER_PR_RATINGS = {
@@ -436,15 +450,14 @@ export const COMPUTER_PR_RATINGS = {
   1: { pr: 1, name: 'Personal Deck', tl: 3, dcMod: 5, maxSoftware: 2, description: 'Standard consumer and operator processing' },
   2: { pr: 2, name: 'Cyber-Rig', tl: 3, dcMod: 10, maxSoftware: 4, description: 'Professional cyberware and hacking processor' },
   3: { pr: 3, name: 'Quantum Core', tl: 4, dcMod: 15, maxSoftware: 6, description: 'Tactical AI sub-mind and predictive suite' },
-  4: { pr: 4, name: 'Singularity Deck', tl: 5, dcMod: 25, maxSoftware: 10, description: 'Autonomous sentient cognition node' }
+  4: { pr: 4, name: 'Singularity Deck', tl: 5, dcMod: 20, maxSoftware: 10, description: 'Autonomous sentient cognition node' }
 };
 
 export const EPR_RATINGS = {
   0: { rating: 0, name: 'None (Standard)', dcMod: 0, description: 'Standard terrestrial atmosphere' },
   1: { rating: 1, name: 'EPR 1 (Filter Mask)', dcMod: 2, description: 'Filter mask: Dust, mild smoke, non-lethal airborne contaminants' },
   2: { rating: 2, name: 'EPR 2 (Hazmat)', dcMod: 5, description: 'Hazmat: Corrosive atmospheres, biological toxins, radiation shielding' },
-  3: { rating: 3, name: 'EPR 3 (Sealed Vacuum)', dcMod: 10, description: 'Sealed vacuum: Space-ready hermetic seals with 8-hour oxygen' },
-  4: { rating: 4, name: 'EPR 4 (Coronal / Extreme)', dcMod: 15, description: 'Extreme hostile: Stellar coronal mass, deep planetary pressure, void warp' }
+  3: { rating: 3, name: 'EPR 3 (Sealed Vacuum)', dcMod: 10, description: 'Sealed vacuum: Space-ready hermetic seals with 8-hour oxygen' }
 };
 
 // ═══════════════════════════════════════════════════════════
@@ -531,9 +544,16 @@ export const WEAPON_DOWNGRADES = [
   { id: 'inaccurate', name: 'Inaccurate (-1 Attack)', dcMod: -2, effect: '-1 penalty to Strike' },
   { id: 'unreliable', name: 'Unreliable (Jams on 1-2)', dcMod: -5, effect: 'Jams or misfires on natural 1 or 2' },
   { id: 'bulky', name: 'Bulky / Heavy', dcMod: -2, effect: 'Counts as one size category larger for weight and concealment' },
-  { id: 'decreased_range', name: 'Decreased Range (-50%)', dcMod: -5, effect: '-50% effective range' },
-  { id: 'disposable', name: 'Disposable / Single-Load', dcMod: -5, effect: 'Cannot reload, degrades completely once emptied' }
+  { id: 'decreased_range', name: 'Decreased Range (-50%)', dcMod: -1, effect: '-50% effective range' },
+  { id: 'disposable', name: 'Disposable / Single-Load', dcMod: -5, effect: 'Cannot reload, degrades completely once emptied' },
+  { id: 'two_handed_restriction', name: 'Two-Handed Restriction', dcMod: -2, effect: 'Requires two hands to wield despite smaller size class' },
+  { id: 'external_power_tether', name: 'External Power Tether', dcMod: -2, effect: 'Requires umbilical cable to external backpack or generator' },
+  { id: 'slow_reload', name: 'Slow Reload', dcMod: -2, effect: 'Reloading requires a Full Round Action instead of a Move Action' },
+  { id: 'exposed_emitters', name: 'Exposed Emitters / Fragile', dcMod: -2, effect: 'Half Structure Points (SP); vulnerable to sunder and EMP' }
 ];
+WEAPON_DOWNGRADES.forEach(d => {
+  WEAPON_DOWNGRADES[d.id] = d;
+});
 
 // ═══════════════════════════════════════════════════════════
 // ARMOR MATRIX CONSTANTS (PLAN 19)
@@ -719,5 +739,36 @@ export const STIGMA_LEVELS_DETAILED = {
   None: { level: 'None', minMods: 0, maxMods: 0, penalty: 0, label: 'Unmodified / Baseline', description: 'No noticeable technological or biological modification' },
   Minor: { level: 'Minor', minMods: 1, maxMods: 3, penalty: -2, label: 'Minor Stigma (-2 Social)', description: 'Visible chrome or minor biological alterations noticeable on inspection' },
   Moderate: { level: 'Moderate', minMods: 4, maxMods: 6, penalty: -4, label: 'Moderate Stigma (-4 Social)', description: 'Extensively augmented; restricted from Naturalist zones and bio-sanctuaries' },
-  Severe: { level: 'Severe', minMods: 7, maxMods: Infinity, penalty: -8, label: 'Severe Stigma (-8 Social / FBC)', description: 'Treated as an inorganic object, military hardware, or severe xenoform' }
+  Severe: { level: 'Severe', minMods: 7, maxMods: Infinity, penalty: -6, label: 'Severe Stigma (-6 Social / FBC)', description: 'Treated as an inorganic object, military hardware, or severe xenoform' }
 };
+
+export const BIOWARE_IMPLANT_CATALOG = [
+  { id: 'bio_adrenal_pump', name: 'Adrenal Surge Gland', category: 'Bioware', location: 'Torso', tl: 4, cpCost: 2, nodes: 5, baseDC: 20, effect: '+2 AGI and +10 ft Speed for 5 rounds (1/Light Rest); zero Resonance penalty' },
+  { id: 'bio_muscle_graft', name: 'Vat-Grown Myomer Graft', category: 'Bioware', location: 'Torso', tl: 4, cpCost: 2, nodes: 10, baseDC: 22, effect: '+2 Strength, living tissue regenerates 1 SP/hr; zero Resonance penalty' },
+  { id: 'bio_carapace_weave', name: 'Subdermal Chitin Weave', category: 'Bioware', location: 'Torso', tl: 4, cpCost: 2, nodes: 10, baseDC: 20, effect: '+4 Natural DR, undetectable by metallic scanners; zero Resonance penalty' },
+  { id: 'bio_toxin_filter', name: 'Hepatocyte Toxin Filter', category: 'Bioware', location: 'Torso', tl: 4, cpCost: 2, nodes: 5, baseDC: 18, effect: 'Advantage on Fortitude saves vs poison, disease, and radiation' },
+  { id: 'bio_synaptic_accelerator', name: 'Glial Synaptic Accelerator', category: 'Bioware', location: 'Head', tl: 4, cpCost: 2, nodes: 4, baseDC: 24, effect: '+2 Initiative and +1 Reflex Save; organic neural cluster' },
+  { id: 'bio_gills_amphibious', name: 'Amphibious Gill Slits', category: 'Bioware', location: 'Torso', tl: 3, cpCost: 1, nodes: 5, baseDC: 16, effect: 'Breathe water and air indefinitely; +2 Swim checks' }
+];
+
+export const METAPHYSICAL_IMPLANT_CATALOG = [
+  { id: 'meta_aetherite_wiring', name: 'Aetherite Neural Wiring', category: 'Metaphysical', location: 'Systemic', tl: 4, ml: 3, cpCost: 2, nodes: 5, baseDC: 25, dcMod: 5, effect: 'Halves cybernetic Resonance Penalty (-1 per 40 inorganic Nodes instead of 20)' },
+  { id: 'meta_psi_crystal_cortex', name: 'Psi-Crystal Cortex Node', category: 'Metaphysical', location: 'Head', tl: 4, ml: 3, cpCost: 2, nodes: 3, baseDC: 25, effect: '+5 Max Essence and +1 to Attune/Channel checks; zero Resonance penalty' },
+  { id: 'meta_imbued_rune_tattoos', name: 'Imbued Aether-Tattoo Circuitry', category: 'Metaphysical', location: 'Torso', tl: 3, ml: 2, cpCost: 2, nodes: 5, baseDC: 20, effect: 'Acts as an implanted Hands-Free Metafocus; stores 1 Invocation' },
+  { id: 'meta_soul_anchor_graft', name: 'Astral Soul-Anchor Graft', category: 'Metaphysical', location: 'Torso', tl: 4, ml: 4, cpCost: 2, nodes: 8, baseDC: 28, effect: '+2 Willpower Save vs astral/possession effects and +2 Stability in Mortality State' },
+  { id: 'meta_ether_retina', name: 'Ether-Sight Ocular Lattice', category: 'Metaphysical', location: 'Head', tl: 4, ml: 3, cpCost: 2, nodes: 2, baseDC: 22, effect: 'Grants Ether Sight 60 ft (perceive invisible, phased, and metaphysical auras)' }
+];
+
+export const CYBERNETIC_IMPLANT_CATALOG = [
+  { id: 'cyber_neural_jack', name: 'Direct Neural Interface Jack', category: 'Cybernetic', location: 'Head', tl: 3, cpCost: 2, nodes: 2, baseDC: 15, effect: 'Direct mental interface with vehicles, computers, and Smart-Link weapons' },
+  { id: 'cyber_cybereyes', name: 'Multi-Spectrum Cybereyes', category: 'Cybernetic', location: 'Head', tl: 3, cpCost: 2, nodes: 2, baseDC: 18, effect: 'Darksight 60 ft, thermal overlay, and +2 Perception' },
+  { id: 'cyber_subdermal_armor', name: 'Subdermal Plasteel Plating', category: 'Cybernetic', location: 'Torso', tl: 3, cpCost: 2, nodes: 10, baseDC: 20, effect: '+5 Armor DR, stacks via Diminishing Returns' },
+  { id: 'cyber_cranial_hardening', name: 'Cranial / Torso Structural Hardening', category: 'Cybernetic', location: 'Torso', tl: 3, cpCost: 1, nodes: 5, baseDC: 18, isHardened: true, effect: 'Doubles anatomical slot Structure Points (1 SP/Node -> 2 SP/Node)' },
+  { id: 'cyber_wired_reflexes', name: 'Wired Reflex Co-Processor', category: 'Cybernetic', location: 'Torso', tl: 3, cpCost: 2, nodes: 8, baseDC: 22, effect: '+2 Initiative and +1 Dodge Defense' }
+];
+
+export const AUGMENTATION_IMPLANT_CATALOG = [
+  ...CYBERNETIC_IMPLANT_CATALOG,
+  ...BIOWARE_IMPLANT_CATALOG,
+  ...METAPHYSICAL_IMPLANT_CATALOG
+];

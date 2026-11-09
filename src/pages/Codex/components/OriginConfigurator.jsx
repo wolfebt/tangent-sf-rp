@@ -18,6 +18,20 @@ import {
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 
+export const HABITAT_OPTIONS = [
+  'Agricultural',
+  'Aquatic',
+  'Colony',
+  'Enlightened',
+  'Hostile',
+  'Industrial',
+  'Leisure',
+  'Militaristic',
+  'Research',
+  'Spacer',
+  'Urban'
+];
+
 /**
  * OriginConfigurator
  * Specialized Studio configurator for the Origins Matrix in OmniCortex / Codex Suite.
@@ -39,12 +53,13 @@ export const OriginConfigurator = ({
   const [newTraitInput, setNewTraitInput] = useState('');
 
   const societySkills = useMemo(() => {
-    if (Array.isArray(formData.society_skills)) return formData.society_skills;
-    if (typeof formData.society_skills === 'string') {
-      return formData.society_skills.split(',').map(s => s.trim()).filter(Boolean);
+    const raw = formData.society_skills || formData.recommended_skills;
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+      return raw.split(',').map(s => s.trim()).filter(Boolean);
     }
     return [];
-  }, [formData.society_skills]);
+  }, [formData.society_skills, formData.recommended_skills]);
 
   const archetypes = useMemo(() => {
     if (Array.isArray(formData.archetypes)) return formData.archetypes;
@@ -108,12 +123,14 @@ export const OriginConfigurator = ({
     if (!val || societySkills.includes(val)) return;
     const updated = [...societySkills, val];
     onChange('society_skills', updated);
+    onChange('recommended_skills', updated);
     setNewSkillInput('');
   };
 
   const handleRemoveSkill = (skillToRemove) => {
     const updated = societySkills.filter(s => s !== skillToRemove);
     onChange('society_skills', updated);
+    onChange('recommended_skills', updated);
   };
 
   const handleAddArchetype = () => {
@@ -178,6 +195,52 @@ export const OriginConfigurator = ({
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Coins className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
             <span><strong>EUFT WS:</strong> +{formData.ws_modifier ?? 0}</span>
+          </div>
+        </div>
+
+        {/* Interactive Habitat & WS Modifier Controls */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-emerald-500/30 font-mono text-xs">
+          <div className="space-y-1">
+            <label className="block text-[10px] uppercase font-bold text-emerald-300">
+              Canonical Origin / Habitat Class (11 Origins)
+            </label>
+            <select
+              value={formData.habitat || 'Agricultural'}
+              onChange={(e) => isEditMode && onChange('habitat', e.target.value)}
+              disabled={!isEditMode}
+              className="w-full p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-emerald-200 focus:outline-none focus:border-emerald-400 disabled:opacity-70"
+            >
+              {HABITAT_OPTIONS.map(hab => (
+                <option key={hab} value={hab}>{hab}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <label className="block text-[10px] uppercase font-bold text-cyan-300">
+              Origin Wealth Score Modifier (+0 to +3 WS)
+            </label>
+            <div className="flex items-center gap-2">
+              {[0, 1, 2, 3].map(wsVal => {
+                const currentWs = Number(formData.ws_modifier ?? 0);
+                const isSelected = currentWs === wsVal;
+                return (
+                  <button
+                    key={wsVal}
+                    type="button"
+                    disabled={!isEditMode}
+                    onClick={() => isEditMode && onChange('ws_modifier', wsVal)}
+                    className={`flex-1 py-1.5 px-2 rounded-lg border font-bold text-xs transition-all cursor-pointer disabled:cursor-default ${
+                      isSelected
+                        ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-sm'
+                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    +{wsVal} WS
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -428,39 +491,6 @@ export const OriginConfigurator = ({
               <Plus size={13} />
               <span>Add Role</span>
             </button>
-          </div>
-        )}
-      </div>
-
-      {/* ── Section 4: Full Rules Text & Extended Lore (1.05 ORIGINS.md) ── */}
-      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
-        <div className="flex items-center gap-2 border-b border-slate-800/80 pb-2.5">
-          <BookOpen className="w-4 h-4 text-emerald-400" />
-          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-            Full Rules Text & Lore (1.05 Origins.md Alignment)
-          </h4>
-        </div>
-
-        {isEditMode ? (
-          <div className="space-y-1">
-            <textarea
-              rows={10}
-              value={formData.full_text || ''}
-              onChange={(e) => onChange('full_text', e.target.value)}
-              placeholder="Enter canonical 1.05 ORIGINS.md rules text and lore (Markdown supported)..."
-              className="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-emerald-400 leading-relaxed font-sans"
-            />
-            <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (#, ##, bullet points, bold)</span>
-          </div>
-        ) : (
-          <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans prose prose-invert max-w-none">
-            {formData.full_text ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {formData.full_text}
-              </ReactMarkdown>
-            ) : (
-              <span className="italic text-slate-500 font-mono">No full canonical text recorded for this origin.</span>
-            )}
           </div>
         )}
       </div>

@@ -2,7 +2,7 @@
 id: trait-negotiation
 name: Negotiation
 trait_tier: Basic
-trait_type: Social
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Adept at bargaining, contract dispute resolution, diplomacy, and finding
   mutually agreeable compromise.
 modifiers: []
+classification: Social
 ---
 # Negotiation
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Social
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

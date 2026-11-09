@@ -1,31 +1,28 @@
 ---
 id: trait-psionic-gating
-name: Psionic Gating
+name: Teleportal (Psionic Gating)
 trait_tier: Advanced
 trait_type: Species Trait
+classification: Special
 category: traits
 costs:
-  cp: 2
-  bp: 2
+  cp: 3
+  bp: 3
 description: >-
-  The mind is harmonized with the cryptographic frequency filters of the Chorus,
-  imposing Disadvantage on foreign psionic intrusions.
-modifiers:
-  - target: Foreign psionic intrusions
-    type: check_advantage
-    value: 1
-    mode: inherent
-    description: Advantage on Foreign psionic intrusions Checks
+  Innate psychoportation ability allowing the creation and steering of temporary
+  spatial and dimensional portals.
+modifiers: []
 ---
-# Psionic Gating
+# Teleportal (Psionic Gating)
 
 **Category**: TRAITS
 **Tier**: Advanced
 **Type**: Species Trait
-**CP Cost**: 2
+**Classification**: Special
+**CP Cost**: 3
 
 ## Description
-Cryptographic Chorus filtering grants +2 Mental DR and imposes Disadvantage on foreign psionic intrusions.
+Innate psychoportation ability allowing the creation and steering of temporary spatial and dimensional portals.
 
 ## Mechanics & Benefit
-+2 Mental DR; hostile telepathic scans and mind-control effects roll at Disadvantage
+Special Ability (Teleportation Portals): May open, maintain, and navigate spatial and dimensional gates.

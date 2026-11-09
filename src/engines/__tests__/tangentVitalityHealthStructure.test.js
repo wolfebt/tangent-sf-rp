@@ -270,9 +270,9 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
         companionRank: 1,
         ownerTier: 1
       });
-      // Base pool for Tier 1 companion is 25 (20 + 5).
-      // Synthetic combines Vitality + Health -> 25 + 25 = 50 Structure Points
-      assert.strictEqual(synthCompanion.structurePoints, 50);
+      // Base pool for Tier 1 companion is 35 (30 + 5).
+      // Synthetic combines Vitality + Health -> 35 + 35 = 70 Structure Points
+      assert.strictEqual(synthCompanion.structurePoints, 70);
       assert.strictEqual(synthCompanion.vitality, 0);
       assert.strictEqual(synthCompanion.health, 0);
     });

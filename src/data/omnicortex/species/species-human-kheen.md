@@ -27,11 +27,13 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Combat Expertise
-  - Eidetic Memory
-  - Silver Tongue
-  - Social
+  - discipline-awakened
+  - combat-combat-expertise
+  - general-eidetic-memory
+  - skill-silver-tongue
+  - skill-social
+  - discipline-special-ability
+  - special-sense
 disadvantages: []
 stigma: None
 tech_level: '3'
@@ -41,52 +43,71 @@ costs:
   cp: 16
   bp: 16
 modifiers:
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Awakened
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Combat Expertise
     value: 1
-    type: feature
     mode: recommended
-  - target: Eidetic Memory
+    description: 'Recommended Feature: Awakened'
+  - target: combat-combat-expertise
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Combat Expertise'
+  - target: general-eidetic-memory
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Mystical Ability
+    description: 'Recommended Feature: Eidetic Memory'
+  - target: skill-silver-tongue
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Reduced Sustenance
+    description: 'Recommended Feature: Silver Tongue'
+  - target: skill-social
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Sense Magic (30ft Radius)
+    description: 'Recommended Feature: Social'
+  - target: discipline-special-ability
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Silver Tongue
+    description: 'Recommended Feature: Special Ability'
+  - target: special-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Social
+    description: 'Recommended Feature: Sense'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
 description: >-
   The Kheen, often colloquially known as Half-Aeld, are a distinct human
   subspecies resulting from the intermingling between baseline Human and
@@ -113,6 +134,11 @@ negative_keywords: 'feral, brute-force, primitive-tribal'
 cp: 16
 bp: 16
 cp_cost: 16
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-longevity
+  - trait-reduced-sustenance
 ---
 
 # **1.03.Humans.Kheen — Kheen (Aeld-Human Hybrid)**

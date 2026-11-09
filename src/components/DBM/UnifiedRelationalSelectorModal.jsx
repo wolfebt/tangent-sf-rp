@@ -282,7 +282,7 @@ export const UnifiedRelationalSelectorModal = ({
   );
   const rawItems = (items.length > 0 ? items : localFallback).filter(i => {
     if (sourceCollection === 'trait') {
-      return !['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(i.trait_type);
+      return (i.trait_type === 'Species Trait' || !i.trait_type) && Number(i.cp ?? i.costs?.cp ?? 1) > 0;
     }
     if (sourceCollection === 'traits') {
       return i.trait_type !== 'Species Trait';
@@ -349,8 +349,9 @@ export const UnifiedRelationalSelectorModal = ({
         } else if (itemType !== categoryFilter) {
           return false;
         }
-      } else if (sourceCollection === 'trait' && ['Basic (1 CP)', 'Advanced (2 CP)', 'Elite (4 CP)'].includes(categoryFilter)) {
-        if (item.trait_tier !== categoryFilter) return false;
+      } else if (sourceCollection === 'trait' && ['Basic (1 CP)', 'Advanced (2 CP)', 'Elite (4 CP)', 'Basic', 'Advanced', 'Elite'].includes(categoryFilter)) {
+        const tierKey = String(item.trait_tier || '').trim().toLowerCase();
+        if (!tierKey || !categoryFilter.toLowerCase().startsWith(tierKey)) return false;
       } else if (categoryFilter === 'groups') {
         if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
       } else if (item.group !== categoryFilter) {
@@ -719,7 +720,7 @@ export const UnifiedRelationalSelectorModal = ({
                 {[
                   { key: 'all', label: 'All Traits', icon: '✨' },
                   { key: 'Origin Trait', label: 'Origins', icon: '🌍' },
-                  { key: 'Occupational Trait', label: 'Careers / Occupations', icon: '💼' },
+                  { key: 'Occupational Trait', label: 'Occupations', icon: '💼' },
                   { key: 'Archetype Trait', label: 'Archetypes', icon: '🎭' },
                   { key: 'Faction Trait', label: 'Factions', icon: '🏛️' }
                 ].map(tab => {

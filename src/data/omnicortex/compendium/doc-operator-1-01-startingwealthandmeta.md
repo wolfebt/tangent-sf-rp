@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","character_creation","1.01.startingwealthandmeta","mechanics"]
-updatedAt: "2026-11-04T09:33:29.380Z"
+updatedAt: "2026-11-08T20:27:25.776Z"
 costs:
   bp: 0
   credits: 0
@@ -52,7 +52,7 @@ sockets:
 The **Property** stage of character creation in Tangent (`2.00 ECONOMATRIX.md`) involves equipping your character with the necessary tools, armaments, and belongings for their adventures. This includes:
 
 * **Weapons:** Choose melee, ranged, ballistic, or energy weapons that suit your character's combat style and preferences, considering factors such as their skill proficiencies, available funds (`Wealth Score`), and the Technology Level of the setting.
-* **Armor:** Select protective clothing, tactical vests, battlesuits, or field generators that provide adequate Damage Resistance (`DR`) without hindering your character's movement or abilities. Consider the character's occupation and the types of threats they are likely to face. *(Per the Armor Layering Cap, DR does not stack across biological, cybernetic, and wearable domains; only the single highest DR applies).*
+* **Armor:** Select protective clothing, tactical vests, battlesuits, or field generators that provide adequate Damage Resistance (`DR`) without hindering your character's movement or abilities. Consider the character's occupation and the types of threats they are likely to face. *(Per Diminishing Returns Armor Stacking, use the single highest DR across biological, cybernetic, and wearable domains, plus `+1 DR` per stage of 5 [`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, etc.] calculated separately for each additional layer).*
 * **Gear:** Acquire gear that supports your character's occupation and lifestyle. This includes multi-devices, medkits, tools, supplies, communication devices, or other equipment that aids them in their endeavors.
 * **Mecha or Mounts:** Depending on the setting and your character's background, they may have access to personal vehicles, walkers, mecha, starships, or biological mounts that facilitate travel and exploration.
 

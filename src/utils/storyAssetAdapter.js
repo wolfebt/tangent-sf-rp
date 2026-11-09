@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { OBJECT_TYPES } from '../services/interactiveObjectService.js';
 import { TRAP_TYPES } from '../services/reactiveVttService.js';
 import { inferPropertySubcategory, inferMetaphysicsSubcategory } from '../pages/Foundry/ElementForge/elementSchemas.js';
+import { buildVttUnitFromPersona } from './personaBridge.js';
 
 /**
  * Normalizes an ADE story component element into a Stage VTT Token / Static Entity.
@@ -15,6 +16,21 @@ import { inferPropertySubcategory, inferMetaphysicsSubcategory } from '../pages/
  */
 export function adeElementToStageToken(element, position = { x: 350, y: 350 }) {
   if (!element) return null;
+
+  const builtUnit = buildVttUnitFromPersona(element, {
+    uniqueInstance: true,
+    position
+  });
+
+  if (builtUnit) {
+    return {
+      ...builtUnit,
+      id: `token-${element.id || uuidv4()}-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      adeStoryElementId: element.id || builtUnit.adeStoryElementId,
+      x: position.x,
+      y: position.y
+    };
+  }
 
   const fields = element.fields || {};
   const isSyn = String(fields['char-species'] || fields.species || '').toLowerCase().includes('synthetic') ||
@@ -24,7 +40,7 @@ export function adeElementToStageToken(element, position = { x: 350, y: 350 }) {
   const health = parseInt(fields.health || fields['base-hp'] || fields.hp || 30, 10);
   const vitality = parseInt(fields.vitality || 30, 10);
   const structure = parseInt(fields.structure || (isSyn ? 60 : 30), 10);
-  const armorDr = parseInt(fields.armor_dr || fields.dr || 6, 10);
+  const armorDr = parseInt(fields.armor_dr || fields.armorDR || fields.dr || 6, 10);
   const staminaDr = parseInt(fields.stamina_dr || 2, 10);
 
   const attacks = Array.isArray(fields.attacks) ? fields.attacks : [];

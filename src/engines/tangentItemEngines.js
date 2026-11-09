@@ -15,6 +15,7 @@ import {
   ARMOR_COVERAGE,
   ARMOR_MATERIALS,
   ARMOR_MODULES,
+  ARMOR_DOWNGRADES,
   MANUFACTURER_SKINS
 } from './tangentConstants.js';
 import { 
@@ -37,6 +38,52 @@ export {
   resolveItemCostDC,
   calculateScrapMassRequired
 };
+
+/**
+ * Diminishing Returns Armor Stacking:
+ * Base = highest DR layer. Each additional positive layer d_i adds ceil(d_i / 5), calculated separately per layer.
+ * @param {Array<number|object>} [armorLayers=[]] - Array of DR values or layer objects
+ * @returns {{ highestDR: number, bonusDR: number, totalDR: number, layerBreakdowns: Array<{ rawDR: number, effectiveDR: number, isPrimary: boolean }> }}
+ */
+export function calculateStackedArmorDR(armorLayers = []) {
+  if (!Array.isArray(armorLayers) || armorLayers.length === 0) {
+    return { highestDR: 0, bonusDR: 0, totalDR: 0, layerBreakdowns: [] };
+  }
+
+  const numericLayers = armorLayers
+    .map(layer => {
+      if (typeof layer === 'number') return layer;
+      if (layer && typeof layer === 'object') {
+        return Number(layer.totalDR ?? layer.dr ?? layer.dr_rating ?? layer.value ?? 0);
+      }
+      return Number(layer) || 0;
+    })
+    .filter(n => Number.isFinite(n) && n > 0)
+    .sort((a, b) => b - a);
+
+  if (numericLayers.length === 0) {
+    return { highestDR: 0, bonusDR: 0, totalDR: 0, layerBreakdowns: [] };
+  }
+
+  const [highest, ...rest] = numericLayers;
+  const layerBreakdowns = [
+    { rawDR: highest, effectiveDR: highest, isPrimary: true }
+  ];
+
+  let bonusDR = 0;
+  for (const d of rest) {
+    const layerBonus = Math.ceil(d / 5);
+    bonusDR += layerBonus;
+    layerBreakdowns.push({ rawDR: d, effectiveDR: layerBonus, isPrimary: false });
+  }
+
+  return {
+    highestDR: highest,
+    bonusDR,
+    totalDR: highest + bonusDR,
+    layerBreakdowns
+  };
+}
 
 // ═══════════════════════════════════════════════════════════
 // 1. EQUIPMENT FORGE ENGINE (PLAN 17)
@@ -69,24 +116,37 @@ export function calculateEquipmentDC({
   isRare = false
 } = {}) {
   const sizeDef = EQUIPMENT_SIZES[size] || EQUIPMENT_SIZES.Small;
-  let dc = Number(baseDC !== undefined && baseDC !== null && !isNaN(baseDC) ? baseDC : sizeDef.defaultDC);
+  const hasComputerPR = computerPR !== undefined && computerPR !== null && computerPR !== '';
+  const prNum = hasComputerPR ? Math.max(0, Math.min(4, Number(computerPR) || 0)) : null;
 
-  // Workspace scale modifier (Tools)
-  if (workspaceScale && WORKSPACE_SCALES[workspaceScale]) {
+  let dc;
+  if (baseDC !== undefined && baseDC !== null && !isNaN(baseDC)) {
+    dc = Number(baseDC);
+    if (hasComputerPR) {
+      dc += 5 * prNum;
+    }
+  } else if (hasComputerPR) {
+    // Canonical Computer PR base CR: size baseline defaultDC + 5 * PR
+    dc = sizeDef.defaultDC + (5 * prNum);
+  } else if (workspaceScale && WORKSPACE_SCALES[workspaceScale] && WORKSPACE_SCALES[workspaceScale].dc !== undefined) {
+    dc = sizeDef.defaultDC + WORKSPACE_SCALES[workspaceScale].dcMod;
+  } else {
+    dc = sizeDef.defaultDC;
+  }
+
+  // Workspace scale modifier (Tools) when baseDC was explicitly provided or size baseline used
+  if (workspaceScale && WORKSPACE_SCALES[workspaceScale] && (baseDC !== undefined && baseDC !== null && !isNaN(baseDC))) {
     dc += WORKSPACE_SCALES[workspaceScale].dcMod;
   }
 
-  // Computer Processor Rating (Electronics / Data)
-  if (computerPR !== undefined && computerPR !== null && COMPUTER_PR_RATINGS[computerPR]) {
-    dc += COMPUTER_PR_RATINGS[computerPR].dcMod;
-  }
-
-  // Software bonuses (+5 DC per level)
+  // Software bonuses (+5 CR per Rank, clamped <= Computer PR when PR is present)
   if (softwareLevel > 0) {
-    dc += Number(softwareLevel) * 5;
+    const rawSoftRank = Number(softwareLevel) || 0;
+    const effectiveSoftRank = hasComputerPR ? Math.min(rawSoftRank, prNum) : rawSoftRank;
+    dc += effectiveSoftRank * 5;
   }
 
-  // Environmental Protection Rating (Survival)
+  // Environmental Protection Rating (Survival, EPR 0-3)
   if (eprRating && EPR_RATINGS[eprRating]) {
     dc += EPR_RATINGS[eprRating].dcMod;
   }
@@ -227,10 +287,11 @@ export function calculateWeaponDC({
     }
   }
 
-  // Meta-Tech Imbuements (15 + Rank + TL Mod) or Enhancements (+5 per socket)
+  // Meta-Tech Imbuements (15 + Rank + TL Mod) without double-counting the 15 base weapon CR
   if (metaRanks > 0) {
     const tlMod = tl >= 5 ? 5 : (tl >= 4 ? 2 : 0);
-    dc += (15 + Number(metaRanks) + tlMod);
+    const metaCR = 15 + Number(metaRanks) + tlMod;
+    dc = Math.max(dc, metaCR) + (dc > 15 ? dc - 15 : 0);
   }
 
   // Manufacturer Cultural Skin DC modifier
@@ -249,25 +310,36 @@ export function calculateWeaponDC({
 /**
  * Calculates Weapon Socket budget usage.
  * 
- * @param {string|number} sizeOrSockets - Size category name or numeric socket count
- * @param {Array<string|object>} modifications - Applied modifications
+ * @param {string|number|object} sizeOrSockets - Size category name, numeric socket count, or options object
+ * @param {Array<string|object>} [modifications=[]] - Applied modifications
+ * @param {number} [metaRanks=0] - Meta-Tech invocation ranks (1 Socket per 10 Ranks, rounded up)
  * @returns {{ baseSockets: number, usedSockets: number, remainingSockets: number, isOverBudget: boolean }}
  */
-export function calculateWeaponSockets(sizeOrSockets = 'Medium', modifications = []) {
+export function calculateWeaponSockets(sizeOrSockets = 'Medium', modifications = [], metaRanks = 0) {
+  let resolvedSize = sizeOrSockets;
+  let resolvedMods = modifications;
+  let resolvedMetaRanks = metaRanks;
+
+  if (sizeOrSockets && typeof sizeOrSockets === 'object' && !Array.isArray(sizeOrSockets)) {
+    resolvedSize = sizeOrSockets.size ?? sizeOrSockets.baseSockets ?? 'Medium';
+    resolvedMods = sizeOrSockets.modifications ?? [];
+    resolvedMetaRanks = sizeOrSockets.metaRanks ?? sizeOrSockets.meta_ranks ?? 0;
+  }
+
   let baseSockets = 4;
-  if (typeof sizeOrSockets === 'number') {
-    baseSockets = sizeOrSockets;
-  } else if (typeof sizeOrSockets === 'string') {
-    if (WEAPON_SIZES[sizeOrSockets]) {
-      baseSockets = WEAPON_SIZES[sizeOrSockets].sockets;
-    } else if (EQUIPMENT_SIZES[sizeOrSockets]) {
-      baseSockets = EQUIPMENT_SIZES[sizeOrSockets].sockets;
+  if (typeof resolvedSize === 'number') {
+    baseSockets = resolvedSize;
+  } else if (typeof resolvedSize === 'string') {
+    if (WEAPON_SIZES[resolvedSize]) {
+      baseSockets = WEAPON_SIZES[resolvedSize].sockets;
+    } else if (EQUIPMENT_SIZES[resolvedSize]) {
+      baseSockets = EQUIPMENT_SIZES[resolvedSize].sockets;
     }
   }
 
   let usedSockets = 0;
-  if (Array.isArray(modifications)) {
-    modifications.forEach(mod => {
+  if (Array.isArray(resolvedMods)) {
+    resolvedMods.forEach(mod => {
       if (typeof mod === 'object' && mod !== null) {
         usedSockets += Number(mod.sockets ?? 0);
       } else if (typeof mod === 'string') {
@@ -275,6 +347,10 @@ export function calculateWeaponSockets(sizeOrSockets = 'Medium', modifications =
         if (found) usedSockets += found.sockets;
       }
     });
+  }
+
+  if (Number(resolvedMetaRanks) > 0) {
+    usedSockets += Math.ceil(Number(resolvedMetaRanks) / 10);
   }
 
   return {
@@ -305,7 +381,11 @@ export function computeWeaponStats(formData) {
   const creditValue = calculateCreditValue(finalDC);
   const materialCost = calculateMaterialCost(creditValue);
   const scrapMassRequired = calculateScrapMassRequired(creditValue);
-  const socketStats = calculateWeaponSockets(formData.size || formData.component_slots || 4, formData.modifications || []);
+  const socketStats = calculateWeaponSockets(
+    formData.size || formData.component_slots || 4,
+    formData.modifications || [],
+    formData.meta_ranks || 0
+  );
 
   return {
     final_cr: finalDC,
@@ -371,9 +451,9 @@ export function calculateArmorSP({
   if (skin === 'Dracon') {
     sp *= 1.2;
   }
-  // Coalition Rig skin grants Rugged (+1 SP multiplier)
+  // Coalition skin reduces SP by 25% (x0.75 SP)
   if (skin === 'Coalition') {
-    sp += startingSP;
+    sp *= 0.75;
   }
 
   return Math.max(1, Math.round(sp));
@@ -461,13 +541,16 @@ export function calculateArmorDC({
     });
   }
 
-  // Downgrade DC reductions (-5 per voluntary flaw)
+  // Downgrade DC reductions
   if (Array.isArray(downgrades)) {
     downgrades.forEach(dw => {
       if (typeof dw === 'object' && dw !== null) {
-        dc += Number(dw.dcMod ?? -5);
+        dc += Number(dw.dcMod ?? dw.dc_modifier ?? -2);
       } else if (typeof dw === 'string') {
-        dc -= 5;
+        const found = Array.isArray(ARMOR_DOWNGRADES)
+          ? ARMOR_DOWNGRADES.find(d => d.id === dw || d.name === dw)
+          : ARMOR_DOWNGRADES?.[dw];
+        dc += found ? Number(found.dcMod ?? -2) : -5;
       }
     });
   }
@@ -494,27 +577,37 @@ export function calculateArmorMobility({
   skin
 } = {}) {
   let baseMaxDex = 4;
-  if (size === 'Jewelry' || size === 'Device') baseMaxDex = 6;
-  else if (size === 'Lightweight') baseMaxDex = 5;
-  else if (size === 'Mediumweight') baseMaxDex = 4;
-  else if (size === 'Heavyweight') baseMaxDex = 2;
+  if (size === 'Jewelry' || size === 'Device' || size === 'Fine' || size === 'Diminutive') baseMaxDex = 6;
+  else if (size === 'Lightweight' || size === 'Tiny') baseMaxDex = 5;
+  else if (size === 'Mediumweight' || size === 'Small') baseMaxDex = 4;
+  else if (size === 'Heavyweight' || size === 'Medium') baseMaxDex = 2;
   else if (size === 'Mecha') baseMaxDex = 0;
 
   const covDef = ARMOR_COVERAGE[coverage] || ARMOR_COVERAGE.Standard;
-  let maxDex = baseMaxDex + covDef.mobilityPenalty;
-  let movePenalty = covDef.movePenalty;
+  let mobilityPenalty = Number(covDef.mobilityPenalty || 0);
+  let movePenalty = Number(covDef.movePenalty || 0);
 
-  // Kitin skin makes armor count as 1 category lighter
+  // Kitin skin reduces mobilityPenalty by 1 step toward 0 without shifting the chassis baseMaxDex
   if (skin === 'Kitin') {
-    maxDex = Math.min(6, maxDex + 1);
-    movePenalty = Math.min(0, movePenalty + 5);
+    if (mobilityPenalty < 0) {
+      mobilityPenalty = Math.min(0, mobilityPenalty + 1);
+    }
+    if (movePenalty < 0) {
+      movePenalty = Math.min(0, movePenalty + 5);
+    }
   }
-  // Coalition skin is cumbersome (-1 Max Agi)
+
+  let maxDex = baseMaxDex + mobilityPenalty;
+
+  // Coalition skin is cumbersome (-1 Max Agi, -1 mobilityPenalty)
   if (skin === 'Coalition') {
+    mobilityPenalty -= 1;
     maxDex = Math.max(0, maxDex - 1);
   }
 
   return {
+    baseMaxDex,
+    mobilityPenalty,
     maxDex: Math.max(0, maxDex),
     movePenalty
   };
@@ -564,40 +657,45 @@ export const calculateArmorCR = calculateArmorDC;
 /**
  * Computes persistent metadata for Armor on save.
  */
-export function computeArmorStats(formData) {
+export function computeArmorStats(formData = {}) {
+  const resolvedSize = formData.size || formData.category || 'Mediumweight';
+  const resolvedCoverage = formData.coverage || 'Standard';
+  const resolvedSkin = formData.faction_skin || formData.skin;
+  const resolvedTL = Number(formData.tl ?? formData.tech_level ?? 3);
+
   const finalDC = calculateArmorDC({
-    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
-    size: formData.size || formData.category || 'Mediumweight',
-    coverage: formData.coverage || 'Standard',
+    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc ?? formData.baseDC,
+    size: resolvedSize,
+    coverage: resolvedCoverage,
     modules: formData.modules || [],
     downgrades: formData.downgrades || [],
-    skin: formData.faction_skin || formData.skin,
-    isRare: !!formData.is_rare
+    skin: resolvedSkin,
+    isRare: !!(formData.is_rare ?? formData.isRare)
   });
 
   const finalSP = calculateArmorSP({
-    baseSP: formData.durability ?? formData.sp_rating,
-    size: formData.size || formData.category || 'Mediumweight',
-    coverage: formData.coverage || 'Standard',
-    tl: Number(formData.tl ?? 3),
-    skin: formData.faction_skin || formData.skin
+    baseSP: formData.durability ?? formData.sp_rating ?? formData.baseSP,
+    size: resolvedSize,
+    coverage: resolvedCoverage,
+    tl: resolvedTL,
+    skin: resolvedSkin
   });
 
   const drStats = calculateArmorDR({
-    baseDR: formData.dr_rating,
-    tl: Number(formData.tl ?? 3),
-    skin: formData.faction_skin || formData.skin
+    baseDR: formData.dr_rating ?? formData.baseDR,
+    tl: resolvedTL,
+    skin: resolvedSkin
   });
 
   const mobilityStats = calculateArmorMobility({
-    size: formData.size || formData.category || 'Mediumweight',
-    coverage: formData.coverage || 'Standard',
-    skin: formData.faction_skin || formData.skin
+    size: resolvedSize,
+    coverage: resolvedCoverage,
+    skin: resolvedSkin
   });
 
   const socketStats = calculateArmorSockets({
-    size: formData.size || formData.category || 'Mediumweight',
-    coverage: formData.coverage || 'Standard',
+    size: resolvedSize,
+    coverage: resolvedCoverage,
     modules: formData.modules || []
   });
 
@@ -611,10 +709,16 @@ export function computeArmorStats(formData) {
     craft_cr: finalDC,
     craft_dc: finalDC,
     final_sp: finalSP,
+    sp: finalSP,
     total_dr: drStats.totalDR,
+    dr: drStats.totalDR,
     dr_percent: drStats.drPercent,
     max_dex: mobilityStats.maxDex,
+    maxDex: mobilityStats.maxDex,
+    mobility_penalty: mobilityStats.mobilityPenalty,
+    mobilityPenalty: mobilityStats.mobilityPenalty,
     move_penalty: mobilityStats.movePenalty,
+    movePenalty: mobilityStats.movePenalty,
     credit_value: creditValue,
     material_cost: materialCost,
     scrap_mass_required: scrapMassRequired,
@@ -629,3 +733,5 @@ export function computeArmorStats(formData) {
     computed_at: new Date().toISOString()
   };
 }
+
+export const calculateArmorStats = computeArmorStats;

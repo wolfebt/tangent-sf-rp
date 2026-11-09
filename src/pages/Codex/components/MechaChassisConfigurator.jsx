@@ -134,12 +134,19 @@ export const MechaChassisConfigurator = ({
             <Users size={13} />
             <span>Crew: <strong>{crewRequired}</strong> {hasAi ? '(AI Assisted)' : ''}</span>
           </div>
+
+          <div className="px-2.5 py-1 rounded-lg border border-purple-500/30 bg-purple-500/10 text-purple-300 flex items-center gap-1.5">
+            <Crosshair size={13} />
+            <span>
+              Stealth: <strong>{sizeDef.stealth === 'NO' ? 'NO' : (typeof sizeDef.stealth === 'number' && sizeDef.stealth >= 0 ? `+${sizeDef.stealth}` : (sizeDef.stealth ?? '0'))}</strong>
+            </span>
+          </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-800/80 gap-1 pb-1">
-        {['Chassis', 'Propulsion & Core', 'Armor & Shields', 'Modules & Systems', 'VFT Reconfiguration'].map(tab => (
+      <div className="flex flex-wrap border-b border-slate-800/80 gap-1 pb-1">
+        {['Chassis', 'Propulsion & Core', 'Armor & Shields', 'Modules & Systems', 'Weaponry & Automata AI', 'VFT Reconfiguration'].map(tab => (
           <button
             key={tab}
             type="button"
@@ -211,6 +218,7 @@ export const MechaChassisConfigurator = ({
                     <div className="flex items-center justify-between text-[10px] text-slate-300 border-t border-slate-800/80 pt-1">
                       <span>SP: <strong>{sDef.structure}</strong></span>
                       <span>Mnts: <strong>{sDef.mounts}</strong></span>
+                      <span>Stl: <strong>{sDef.stealth === 'NO' ? 'NO' : (typeof sDef.stealth === 'number' && sDef.stealth >= 0 ? `+${sDef.stealth}` : (sDef.stealth ?? 0))}</strong></span>
                     </div>
                   </button>
                 );
@@ -328,7 +336,7 @@ export const MechaChassisConfigurator = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {MECHA_ARMOR_TYPES.map((arm) => {
               const isSelected = isArmorSelected(arm.id);
-              const scaledMounts = arm.baseMountMult * Math.max(1, Math.round(sizeDef.scaleMult));
+              const scaledMounts = Number((arm.baseMountMult * (sizeDef.scaleMult ?? 1)).toFixed(2));
               return (
                 <button
                   key={arm.id}
@@ -384,6 +392,98 @@ export const MechaChassisConfigurator = ({
               </button>
             );
           })}
+        </div>
+      )}
+
+      {/* TAB 4B: WEAPONRY & AUTOMATA AI (PR 0-4) */}
+      {activeTab === 'Weaponry & Automata AI' && (
+        <div className="space-y-4">
+          {/* Automata AI Processor Rating (PR 0-4) */}
+          <div className="p-3 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2.5">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-xs text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Cpu size={14} />
+                <span>Automata AI &amp; Processor Rating (PR 0–4)</span>
+              </span>
+              <span className="text-[10px] text-slate-400">Governs autonomous drone &amp; co-pilot intelligence</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
+              {[
+                { pr: 0, name: 'PR 0: Manual / None', skill: 'Pilot Only', dcMod: 0, desc: 'Direct manual pilot control; no autonomous actions.' },
+                { pr: 1, name: 'PR 1: Basic Drone AI', skill: '+4 Skill', dcMod: 5, desc: 'Simple waypoint navigation and basic target tracking.' },
+                { pr: 2, name: 'PR 2: Tactical VI', skill: '+8 Skill', dcMod: 10, desc: 'Automated point-defense, threat prioritization, crew -1.' },
+                { pr: 3, name: 'PR 3: Combat AI', skill: '+12 Skill', dcMod: 15, desc: 'Full combat autonomy, independent tactical maneuvers.' },
+                { pr: 4, name: 'PR 4: Sentient Core', skill: '+16 Skill', dcMod: 25, desc: 'True synthetic consciousness, dual-pilot neural sync.' }
+              ].map(aiTier => {
+                const currentPr = Number(formData.automata_pr ?? 0);
+                const isSelected = currentPr === aiTier.pr;
+                return (
+                  <button
+                    key={aiTier.pr}
+                    type="button"
+                    onClick={() => onChange('automata_pr', aiTier.pr)}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-sm'
+                        : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="font-bold text-xs text-white">{aiTier.name}</div>
+                    <div className="text-[10px] text-amber-300 mt-0.5">{aiTier.skill} • +{aiTier.dcMod} DC</div>
+                    <div className="text-[9.5px] text-slate-400 mt-1 leading-tight">{aiTier.desc}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Mounted Weaponry Hardpoints */}
+          <div className="p-3 bg-slate-900/60 border border-slate-800 rounded-xl space-y-2.5">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-xs text-red-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Crosshair size={14} />
+                <span>Mounted Weaponry &amp; Ordnance Emplacements</span>
+              </span>
+              <span className="text-[10px] text-slate-400">1 Mount = 10 Personal Weapon Sockets</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              {[
+                { id: 'autocannon_20mm', name: '20mm Rotary Autocannon', mounts: 1, dmg: '4d8 Ballistic', dcMod: 5 },
+                { id: 'pulse_laser_array', name: 'Heavy Pulse Laser Array', mounts: 2, dmg: '5d10 Energy', dcMod: 10 },
+                { id: 'vls_missile_pod', name: 'VLS Micro-Missile Pod (Swarm)', mounts: 2, dmg: '6d8 Explosive (AoE)', dcMod: 10 },
+                { id: 'plasma_lance', name: 'Mag-Accelerated Plasma Lance', mounts: 3, dmg: '8d10 Plasma', dcMod: 15 },
+                { id: 'railgun_spinal', name: 'Spinal Hyper-Velocity Railgun', mounts: 4, dmg: '10d12 Kinetic (AP 10)', dcMod: 20 },
+                { id: 'mecha_vibroblade', name: 'Titanic High-Frequency Vibroblade', mounts: 1, dmg: '5d10 Slashing', dcMod: 5 }
+              ].map(wpn => {
+                const currentWeapons = Array.isArray(formData.linked_weapons) ? formData.linked_weapons : [];
+                const isSelected = currentWeapons.some(w => (typeof w === 'string' ? w : w.id) === wpn.id);
+                return (
+                  <button
+                    key={wpn.id}
+                    type="button"
+                    onClick={() => {
+                      const next = isSelected
+                        ? currentWeapons.filter(w => (typeof w === 'string' ? w !== wpn.id : w.id !== wpn.id))
+                        : [...currentWeapons, wpn];
+                      onChange('linked_weapons', next);
+                    }}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-red-950/50 border-red-400 text-red-200'
+                        : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between font-bold text-xs text-white">
+                      <span>{wpn.name}</span>
+                      <span className="text-[10px] text-cyan-300">{wpn.mounts} Mnt</span>
+                    </div>
+                    <div className="text-[10px] text-amber-300 mt-1">{wpn.dmg}</div>
+                    <div className="text-[9.5px] text-slate-400 mt-0.5">Complexity: +{wpn.dcMod} DC</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 

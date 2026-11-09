@@ -25,6 +25,7 @@ import {
  * +0 = 1.00x, +1 = 1.30x, +2 = 1.75x, +3 = 2.30x, +4 = 3.00x; Flaw = 0.75x
  */
 export const EUFT_MICRO_MODIFIERS = Object.freeze({
+  '-1': 0.75,
   0: 1.00,
   1: 1.30,
   2: 1.75,
@@ -38,17 +39,34 @@ export const EUFT_FLAW_MODIFIER = 0.75;
  * Unified Financial Theory (EUFT / TSC): Calculate credit value from Crafting/Purchase CR.
  * Formula: Base_5 = floor(CR / 5) * 5; Value = round((10 * 4^(Base_5 / 5)) * MicroModifier[CR - Base_5])
  * @param {number} cr - Crafting or item Challenge Rating / DC (0-80)
- * @param {{ hasFlaw?: boolean }} [options] - Optional flaw flag (0.75x multiplier)
+ * @param {number|{ hasFlaw?: boolean, microMod?: number, microMods?: number }} [options] - Optional micro-modifier (-1 flaw or +0..+4) or options object
  * @returns {number} Market value in credits (rounded to nearest integer)
  */
 export function calculateCreditValue(cr, options = {}) {
   const numCr = Number(cr) || 0;
   if (numCr < 0) return 10;
-  const intCr = Math.round(numCr);
+  let intCr = Math.round(numCr);
+
+  let hasFlaw = false;
+  if (typeof options === 'number') {
+    if (options < 0) {
+      hasFlaw = true;
+    } else if (options > 0 && intCr % 5 === 0) {
+      intCr += Math.min(4, Math.round(options));
+    }
+  } else if (options && typeof options === 'object') {
+    const rawMicro = Number(options.microMod ?? options.microMods ?? 0) || 0;
+    if (options.hasFlaw || options.flaw || rawMicro < 0) {
+      hasFlaw = true;
+    } else if (rawMicro > 0 && intCr % 5 === 0) {
+      intCr += Math.min(4, Math.round(rawMicro));
+    }
+  }
+
   const base5 = Math.floor(intCr / 5) * 5;
   const offset = intCr - base5;
   const baseCredits = 10 * Math.pow(4, base5 / 5);
-  const microMult = options?.hasFlaw
+  const microMult = hasFlaw
     ? EUFT_FLAW_MODIFIER
     : (EUFT_MICRO_MODIFIERS[offset] ?? Math.pow(4, offset / 5));
   return Math.round(baseCredits * microMult);
@@ -176,22 +194,69 @@ export function calculateScrapMassRequired(creditValue) {
 /**
  * Calculate crafting duration in days given an item's credit value, crafter's skill check, tool tier, and crew size.
  * Daily Production Points (PP) = max(1, (Skill Check - 10) * Tier Multiplier * Crew Size)
+ * Enforces the canonical Solitary Crafter Cap: Vocation Rank * 100 PP/day when crewSize < 10 on Tier 3 Industrial (200x)
+ * or crewSize < 100 on Tier 5 Genesis (5000x).
  * Crafting Days = Credit Value / Daily PP
  * @param {number} creditValue - Total market credit value (= Target PP)
  * @param {number} [skillCheck=20] - Skill check total (defaults to 20)
  * @param {number} [tierMultiplier=10] - Tool tier multiplier (default 10 for Basic)
  * @param {number} [crewSize=1] - Concurrent skilled crew count
+ * @param {number|{ vocationRank?: number, solitary?: boolean, enforceSolitaryCap?: boolean }} [options={}] - Optional vocation rank or solitary cap options
  * @returns {number} Crafting duration in days (floating point)
  */
-export function calculateCraftingDays(creditValue, skillCheck = 20, tierMultiplier = 10, crewSize = 1) {
+export function calculateCraftingDays(creditValue, skillCheck = 20, tierMultiplier = 10, crewSize = 1, options = {}) {
   const val = Math.max(0, Number(creditValue) || 0);
   const check = Number(skillCheck) || 20;
   const mult = Math.max(1, Number(tierMultiplier) || 1);
   const crew = Math.max(1, Number(crewSize) || 1);
 
-  const effectiveBonus = Math.max(1, (check - 10) * mult * crew);
+  const vocRank = Math.max(
+    1,
+    typeof options === 'number'
+      ? options
+      : Number(options?.vocationRank ?? options?.rank ?? (check - 10)) || 1
+  );
+  const enforceCap = typeof options === 'object' && options !== null
+    ? options.enforceSolitaryCap !== false
+    : true;
+  const isSolitaryForced = typeof options === 'object' && options !== null && !!options.solitary;
+
+  let effectiveBonus = Math.max(1, (check - 10) * mult * crew);
+  if (enforceCap && ((mult === 200 && crew < 10) || (mult === 5000 && crew < 100) || (isSolitaryForced && mult > 100))) {
+    const solitaryCap = Math.max(1, vocRank * 100);
+    effectiveBonus = Math.min(effectiveBonus, solitaryCap);
+  }
   const days = val / effectiveBonus;
   return Math.round(days * 100) / 100;
+}
+
+/**
+ * Apply canonical High-Demand Vocation Wealth Score multiplier:
+ * - x2 for Expression, Medicine, or Metafocus
+ * - x3 for Medicine on Frontier worlds
+ * @param {number} ws - Base Wealth Score or Vocation WS bonus
+ * @param {string} domain - Vocation domain name
+ * @param {boolean} [isFrontier=false] - Whether operating in a Frontier market
+ * @returns {number} Multiplied Wealth Score
+ */
+export function applyHighDemandWSMultiplier(ws, domain = '', isFrontier = false) {
+  const baseWS = Number(ws) || 0;
+  const normDomain = String(domain || '').trim().toLowerCase();
+  if (!normDomain) return baseWS;
+
+  const isMedicine = normDomain === 'medicine' || normDomain === 'medical' || normDomain.includes('medicine');
+  if (isMedicine) {
+    return baseWS * (isFrontier ? 3 : 2);
+  }
+
+  const isHighDemand =
+    normDomain === 'expression' ||
+    normDomain === 'metafocus' ||
+    normDomain === 'meta-focus' ||
+    normDomain.includes('expression') ||
+    normDomain.includes('metafocus');
+
+  return isHighDemand ? baseWS * 2 : baseWS;
 }
 
 /**
@@ -223,23 +288,45 @@ export function formatCraftingDuration(days) {
 
 /**
  * Calculate crafting days across all 7 tool tiers for a given credit value and skill check.
+ * Supports the canonical Solitary Crafter Cap (Vocation Rank * 100 PP/day when crewSize < 10 on Industrial
+ * or crewSize < 100 on Genesis).
  * @param {number} creditValue - Total market credit value
  * @param {number} [skillCheck=20] - Skill check total
- * @returns {Array<{ id: string, name: string, multiplier: number, dailyPP: number, days: number, formatted: string }>}
+ * @param {number} [crewSize=1] - Concurrent skilled crew count
+ * @param {number|{ vocationRank?: number, solitary?: boolean, enforceSolitaryCap?: boolean }} [options={}] - Optional vocation rank or solitary cap options
+ * @returns {Array<{ id: string, name: string, multiplier: number, dailyPP: number, uncappedDailyPP: number, solitaryCapped: boolean, minCrewRequired: number, days: number, formatted: string }>}
  */
-export function calculateAllCraftingTiers(creditValue, skillCheck = 20, crewSize = 1) {
+export function calculateAllCraftingTiers(creditValue, skillCheck = 20, crewSize = 1, options = {}) {
   const val = Math.max(0, Number(creditValue) || 0);
   const check = Number(skillCheck) || 20;
   const crew = Math.max(1, Number(crewSize) || 1);
+  const vocRank = Math.max(
+    1,
+    typeof options === 'number'
+      ? options
+      : Number(options?.vocationRank ?? options?.rank ?? (check - 10)) || 1
+  );
+  const enforceCap = typeof options === 'object' && options !== null
+    ? options.enforceSolitaryCap !== false
+    : true;
+  const isSolitaryForced = typeof options === 'object' && options !== null && !!options.solitary;
 
   return TOOL_TIERS.map(tier => {
-    const dailyPP = Math.max(1, (check - 10) * tier.multiplier * crew);
+    const uncappedDailyPP = Math.max(1, (check - 10) * tier.multiplier * crew);
+    const minCrewRequired = tier.id === 'industrial' ? 10 : tier.id === 'genesis' ? 100 : 1;
+    const isUnderCrew = (tier.id === 'industrial' && crew < 10) || (tier.id === 'genesis' && crew < 100) || (isSolitaryForced && tier.multiplier > 100);
+    const solitaryCap = Math.max(1, vocRank * 100);
+    const solitaryCapped = enforceCap && isUnderCrew && uncappedDailyPP > solitaryCap;
+    const dailyPP = solitaryCapped ? solitaryCap : uncappedDailyPP;
     const days = val > 0 ? Math.round((val / dailyPP) * 100) / 100 : 0;
     return {
       id: tier.id,
       name: tier.name,
       multiplier: tier.multiplier,
       dailyPP,
+      uncappedDailyPP,
+      solitaryCapped,
+      minCrewRequired,
       days,
       formatted: formatCraftingDuration(days)
     };
@@ -947,3 +1034,53 @@ export function resolveWealthCycleRollover(debits = [], playerWS = 10, options =
     cycleCapacityCr
   };
 }
+
+/**
+ * Real-time validation of entered credit cost vs. calculated TSC/EUFT value from CR/DC.
+ *
+ * @param {number} enteredCR - Crafting or complexity CR/DC
+ * @param {number} enteredCost - Entered or overridden credit cost
+ * @param {number|object} [microMods=0] - Optional EUFT linear micro-modifiers
+ * @returns {object} Valuation analysis
+ */
+export function validateAssetValuation(enteredCR, enteredCost, microMods = 0) {
+  const dc = Number(enteredCR) || 0;
+  const tscValue = calculateCreditValue(dc, microMods);
+  const cost = enteredCost !== undefined && enteredCost !== null && !isNaN(enteredCost) ? Number(enteredCost) : tscValue;
+
+  const ratio = tscValue > 0 ? cost / tscValue : 1.0;
+  const isMatch = Math.abs(ratio - 1.0) < 0.05; // within 5%
+
+  let status = 'Accurate Standard Curve';
+  let color = '#10b981'; // Green
+
+  if (ratio > 1.5) {
+    status = 'Premium Overcharge (>150% TSC Value)';
+    color = '#f59e0b'; // Amber
+  } else if (ratio < 0.5 && cost > 0) {
+    status = 'Subsidized / Black Market Salvage (<50% TSC Value)';
+    color = '#38bdf8'; // Blue
+  } else if (cost === 0 && dc > 5) {
+    status = 'Unpriced / Zero Cost Flag';
+    color = '#ef4444'; // Red
+  }
+
+  const complexity = getComplexityTier(dc);
+  const wsStatus = getFinancialStatus(dc);
+
+  return {
+    cr: dc,
+    dc,
+    euftValue: tscValue,
+    tscValue,
+    enteredCost: cost,
+    ratio: Math.round(ratio * 100) / 100,
+    isMatch,
+    status,
+    color,
+    complexityTier: complexity,
+    wealthScoreRequired: dc,
+    financialStatusTier: wsStatus?.name || 'Standard'
+  };
+}
+

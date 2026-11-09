@@ -80,15 +80,13 @@ export const PROPERTY_SUBCATEGORIES = [
 export const PERSONA_SUBCATEGORIES = [
   { id: 'folio', label: 'Persona Folio', shortLabel: 'FOLIO', source: 'folio', icon: '📜' },
   { id: 'mcm', label: 'Modular Matrix (MCM)', shortLabel: 'MCM', dbmCollection: 'modular_characters', codexMatrixId: 'modular-characters', icon: '🎯' },
-  { id: 'archetypes', label: 'Archetypes', shortLabel: 'ARCHETYPES', dbmCollection: 'archetypes', codexMatrixId: 'archetypes', icon: '🧭' },
   { id: 'story', label: 'Story Personas', shortLabel: 'STORY', source: 'story', icon: '👤' }
 ];
 
 export const METAPHYSICS_SUBCATEGORIES = [
   { id: 'invocations', label: 'Invocations', shortLabel: 'INVOCATIONS', dbmCollection: 'invocations', codexMatrixId: 'invocation', icon: '🔥' },
   { id: 'disciplines', label: 'Disciplines & Spheres', shortLabel: 'DISCIPLINES', dbmCollection: 'disciplines', codexMatrixId: null, icon: '🔮' },
-  { id: 'special_abilities', label: 'Special Abilities', shortLabel: 'ABILITIES', dbmCollection: 'special_abilities', codexMatrixId: null, icon: '⚡' },
-  { id: 'synthesis', label: 'Synthesis & Resonance', shortLabel: 'SYNTHESIS', dbmCollection: 'synthesis', codexMatrixId: 'meta-tech', icon: '✨' }
+  { id: 'special_abilities', label: 'Special Abilities', shortLabel: 'ABILITIES', dbmCollection: 'special_abilities', codexMatrixId: null, icon: '⚡' }
 ];
 
 export const ELEMENT_TYPES = [
@@ -154,7 +152,6 @@ export const ELEMENT_TYPE_ALIASES = {
   'Special Ability': 'Metaphysics',
   'Special Abilities': 'Metaphysics',
   'Psionics': 'Metaphysics',
-  'Synthesis': 'Metaphysics',
   'Scene Builder': 'Scene',
   'Custom Codex': 'Custom',
   'Custom Element': 'Custom'
@@ -232,7 +229,7 @@ export const inferPropertySubcategory = (record = {}) => {
 };
 
 /**
- * Infers the canonical Metaphysics subcategory ('invocations' | 'disciplines' | 'special_abilities' | 'synthesis')
+ * Infers the canonical Metaphysics subcategory ('invocations' | 'disciplines' | 'special_abilities')
  * from an ADE element or OmniCortex document.
  */
 export const inferMetaphysicsSubcategory = (record = {}) => {
@@ -261,9 +258,7 @@ export const inferMetaphysicsSubcategory = (record = {}) => {
   if (rawHint === 'invocations' || rawHint === 'invocation') return 'invocations';
   if (rawHint === 'disciplines' || rawHint === 'discipline') return 'disciplines';
   if (rawHint === 'special_abilities' || rawHint === 'special ability' || rawHint === 'special abilities' || rawHint.includes('ability')) return 'special_abilities';
-  if (rawHint === 'synthesis' || rawHint === 'meta-tech' || rawHint.includes('synthesis')) return 'synthesis';
 
-  if (record.crisp_prompt || fields.crisp_prompt || record.synthesis_type || fields.synthesis_type) return 'synthesis';
   if (record.discipline_skills || fields.discipline_skills) return 'disciplines';
 
   return 'invocations';
@@ -501,7 +496,7 @@ const TECHNOLOGY_FORGE_SCHEMA = PROPERTY_SCHEMA;
 const METAPHYSICS_SCHEMA = [
   // Core Traits
   { tab: 'Core Traits', key: 'name', aliasKeys: ['title', 'invocationName'], label: 'Invocation / Discipline / Power Name', type: 'text', placeholder: 'Gravity Singularity, Telekinesis, Astral Severance...' },
-  { tab: 'Core Traits', key: 'metaphysicsSubcategory', label: 'Metaphysics Subcategory', type: 'text', placeholder: 'invocations / disciplines / special_abilities / synthesis' },
+  { tab: 'Core Traits', key: 'metaphysicsSubcategory', label: 'Metaphysics Subcategory', type: 'text', placeholder: 'invocations / disciplines / special_abilities' },
   { tab: 'Core Traits', key: 'discipline', label: 'Metaphysical Discipline / Sphere', type: 'text', placeholder: 'Elemental, Dimensional, Psionic, Entropic, Biometabolic...' },
   { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'concept'], label: 'One-Line Pitch / Core Effect', type: 'textarea', placeholder: 'Concise overview of how this invocation, discipline, or metaphysical ability alters reality...' },
   { tab: 'Core Traits', key: 'description', label: 'Detailed Metaphysical Overview', type: 'textarea', placeholder: 'Phenomenology, channeler requirements, and in-universe behavior...' },
@@ -634,6 +629,8 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Assets & Resources', key: 'territory', aliasKeys: ['capital_world', 'territoriesAssets'], label: 'Capital World & Territory', type: 'textarea', placeholder: 'Home system, controlled sectors, and strongholds...' },
     { tab: 'Assets & Resources', key: 'resources', aliasKeys: ['primary_exports', 'economic_model'], label: 'Economic Power & Strategic Exports', type: 'textarea', placeholder: 'Assets, exports, wealth modifier, industry...' },
     { tab: 'Assets & Resources', key: 'military_doctrine', aliasKeys: ['key_units', 'naval_assets'], label: 'Military Doctrine, Units & Fleet', type: 'textarea', placeholder: 'Signature formations, void fleet, and combat doctrine...' },
+    { tab: 'Assets & Resources', key: 'architecture', label: 'Architectural Synthesis & Motifs', type: 'textarea', placeholder: 'Architectural keyframes, structural materials, and habitat design language...' },
+    { tab: 'Assets & Resources', key: 'gear_aesthetic', aliasKeys: ['design_language'], label: 'Attire, Uniforms & Gear Aesthetic Synthesis', type: 'textarea', placeholder: 'Formal attire, combat livery, color palette, and visual synthesis descriptors...' },
     { tab: 'Cortex Mechanics', key: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'text', placeholder: '3' },
     { tab: 'Cortex Mechanics', key: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'text', placeholder: '1' },
     { tab: 'Cortex Mechanics', key: 'prominent_species', label: 'Prominent Species', type: 'text', placeholder: 'Humans, Draconic Descendants, Synthetics...' },

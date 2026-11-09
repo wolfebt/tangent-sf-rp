@@ -47,6 +47,8 @@ export const AugmentationNodeConfigurator = ({
   const isPseudo = !!(formData.is_pseudo || category === 'pseudo');
   const nodeCost = formData.nodes_consumed !== undefined ? Number(formData.nodes_consumed) : (AUGMENTATION_CATEGORIES[category]?.defaultNodes ?? 5);
   const modCount = Number(formData.installed_mods_count || 1);
+  const implantSubstrate = formData.implant_substrate || (category === 'bioware' ? 'Bioware' : category === 'metaphysical' ? 'Metaphysical' : 'Cybernetic');
+  const hasAetheriteWiring = Boolean(formData.aetherite_resonance_wiring);
 
   const nodeStats = calculateAugmentationNodes({
     location,
@@ -55,6 +57,12 @@ export const AugmentationNodeConfigurator = ({
     isPseudo,
     isFBC
   });
+
+  // Cyber-Occultism Resonance Penalty:
+  // -1 to Attune/Channel/Sense per 20 inorganic Nodes (halved to -1 per 40 Nodes with Aetherite Resonance Wiring +5 CR; 0 for Bioware)
+  const isBiowareSubstrate = implantSubstrate === 'Bioware' || implantSubstrate === 'Bioware (0 Resonance Penalty)' || category === 'bioware';
+  const resonanceDivisor = hasAetheriteWiring ? 40 : 20;
+  const resonancePenalty = isBiowareSubstrate ? 0 : -Math.floor(nodeStats.nodesConsumed / resonanceDivisor);
 
   const bpCost = calculateAugmentationBP({
     category,
@@ -154,7 +162,58 @@ export const AugmentationNodeConfigurator = ({
             <AlertTriangle size={13} />
             <span>Stigma: <strong>{stigma.level}</strong> ({stigma.penalty === 0 ? '0' : `${stigma.penalty} Social`})</span>
           </div>
+
+          <div className={`px-2.5 py-1 rounded-lg border flex items-center gap-1.5 ${
+            resonancePenalty < 0
+              ? 'bg-fuchsia-950/60 border-fuchsia-500/40 text-fuchsia-300'
+              : 'bg-emerald-950/40 border-emerald-500/30 text-emerald-300'
+          }`}>
+            <Sparkles size={13} />
+            <span>
+              Resonance: <strong>{resonancePenalty === 0 ? '0 Penalty' : `${resonancePenalty} Attune/Channel/Sense`}</strong>
+            </span>
+          </div>
         </div>
+      </div>
+
+      {/* Implant Substrate & Cyber-Occultism Resonance Bar */}
+      <div className="p-3 bg-slate-900/60 border border-slate-800 rounded-xl flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] uppercase font-bold text-slate-400">Implant Substrate:</span>
+          {[
+            { id: 'Cybernetic', label: 'Cybernetic (-1 Resonance / 20 Nodes)' },
+            { id: 'Bioware', label: 'Bioware (0 Resonance Penalty)' },
+            { id: 'Metaphysical', label: 'Metaphysical (Aether-Grafted)' }
+          ].map(sub => {
+            const active = implantSubstrate === sub.id;
+            return (
+              <button
+                key={sub.id}
+                type="button"
+                onClick={() => onChange('implant_substrate', sub.id)}
+                className={`px-2.5 py-1 rounded-lg border text-[11px] font-bold transition-all cursor-pointer ${
+                  active
+                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200'
+                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {sub.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <label className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-purple-950/40 border border-purple-500/40 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={hasAetheriteWiring}
+            onChange={(e) => onChange('aetherite_resonance_wiring', e.target.checked)}
+            className="rounded border-slate-700 text-purple-500"
+          />
+          <span className="text-[11px] font-bold text-purple-200">
+            Aetherite Resonance Wiring (+5 CR, halves penalty to -1 per 40 Nodes)
+          </span>
+        </label>
       </div>
 
       {/* Tabs */}

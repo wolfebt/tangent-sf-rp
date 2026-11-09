@@ -34,10 +34,10 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
   // 1. SPECIES FORGE ENGINE & BUILD RULES
   // ═══════════════════════════════════════════════════════════
   describe('Species Forge Engine', () => {
-    it('calculates standard default humanoid BP cost correctly (0 BP used, 20 max)', () => {
+    it('calculates standard default humanoid BP cost correctly (0 BP used, 25 max)', () => {
       const result = calculateSpeciesBP();
       assert.strictEqual(result.totalBPUsed, 0);
-      assert.strictEqual(result.bpRemaining, 20);
+      assert.strictEqual(result.bpRemaining, 25);
       assert.strictEqual(result.isOverBudget, false);
       assert.strictEqual(result.budgetLevel, 'Standard');
     });
@@ -51,12 +51,12 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         skillBundles: 1, // +5 BP
         traits: ['adapted', 'camouflage'], // 1 BP + 1 BP = +2 BP
         disadvantages: ['light_sensitivity'], // -2 BP refund
-        budgetLevel: 'Advanced' // max 40 BP
+        budgetLevel: 'Advanced' // max 47 BP
       });
 
       // Total = 1 + 2 + 2 + 10 + 5 + 2 - 2 = 20 BP
       assert.strictEqual(result.totalBPUsed, 20);
-      assert.strictEqual(result.bpRemaining, 20);
+      assert.strictEqual(result.bpRemaining, 27);
       assert.strictEqual(result.isOverBudget, false);
       assert.strictEqual(result.breakdown.typeBP, 1);
       assert.strictEqual(result.breakdown.sizeBP, 2);
@@ -98,12 +98,12 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.strictEqual(result.breakdown.stigmaRefund, 2);
       assert.strictEqual(result.totalCPUsed, 35);
 
-      // Verify short-name species resolution (e.g. 'Argynt' -> 'Argynt Human' = 15 CP)
+      // Verify short-name species resolution (e.g. 'Argynt' -> 'Argynt Human' = 16 CP)
       const argyntCost = calculateFullSpeciesCost('Argynt');
-      assert.strictEqual(argyntCost.totalCost, 15);
+      assert.strictEqual(argyntCost.totalCost, 16);
     });
 
-    it('accurately prices all 43 basic species traits at exactly 1 BP each', () => {
+    it('accurately prices all 42 basic species traits at exactly 1 BP each', () => {
       const basicTraitsList = [
         'Adapted',
         'Alter Form (Basic)',
@@ -114,7 +114,6 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         "Cat's Luck",
         'Cave Dweller',
         'Craftsman',
-        'Curiosity',
         'Digitigrade / Ungulated',
         'Draconic',
         'Emissary',
@@ -150,7 +149,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         'Water-Sense'
       ];
 
-      assert.strictEqual(basicTraitsList.length, 43);
+      assert.strictEqual(basicTraitsList.length, 42);
 
       basicTraitsList.forEach(traitName => {
         const result = calculateSpeciesBP({
@@ -481,12 +480,12 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         type: 'Dragon', // +5 BP
         size: 'Huge', // +4 BP
         attributes: { str: 3, agi: 2 }, // (3 + 2) * 5 = +25 BP
-        budgetLevel: 'Standard' // max 20 BP
+        budgetLevel: 'Standard' // max 25 BP
       });
-      // Total = 5 + 4 + 25 = 34 BP > 20
+      // Total = 5 + 4 + 25 = 34 BP > 25
       assert.strictEqual(result.totalBPUsed, 34);
       assert.strictEqual(result.isOverBudget, true);
-      assert.strictEqual(result.bpRemaining, -14);
+      assert.strictEqual(result.bpRemaining, -9);
     });
 
     it('resolves size combat, attribute, stealth, stability, damage, and mobility modifiers correctly across all 6 sizes', () => {
@@ -619,7 +618,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.ok(block.attackBonus >= 5);
       assert.ok(block.initiative >= 0);
       assert.strictEqual(block.speed, 30);
-      assert.strictEqual(block.saves.fortitude, 12); // 10 + 2 attrBonus
+      assert.strictEqual(block.saves.fortitude, 6); // 2 + 2 * staVal (2) = 6
     });
 
     it('generates full persistent metadata in computeModularCharacterStats', () => {
@@ -643,27 +642,27 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
   describe('Companion Forge Engine', () => {
     it('calculates 40 BP budget for rank 1 companion packages', () => {
       const bp = calculateCompanionBP({
-        form: 'canine', // 10 BP
-        functions: ['guardian_attack'], // 8 BP
+        form: 'canine', // 15 BP
+        functions: ['guardian_attack'], // 10 BP
         companionRank: 1 // max 40 BP
       });
 
-      assert.strictEqual(bp.totalBPUsed, 18);
-      assert.strictEqual(bp.bpRemaining, 22);
+      assert.strictEqual(bp.totalBPUsed, 25);
+      assert.strictEqual(bp.bpRemaining, 15);
       assert.strictEqual(bp.maxBudget, 40);
       assert.strictEqual(bp.isOverBudget, false);
     });
 
     it('expands budget by +10 BP for each additional companion rank', () => {
       const bpRank3 = calculateCompanionBP({
-        form: 'combat_gun_drone', // 10 BP
-        functions: ['guardian_attack', 'scout_recon'], // 8 + 8 = 16 BP
+        form: 'combat_gun_drone', // 15 BP
+        functions: ['guardian_attack', 'scout_recon'], // 10 + 10 = 20 BP
         companionRank: 3 // 40 + 20 = 60 BP
       });
 
-      assert.strictEqual(bpRank3.totalBPUsed, 26);
+      assert.strictEqual(bpRank3.totalBPUsed, 35);
       assert.strictEqual(bpRank3.maxBudget, 60);
-      assert.strictEqual(bpRank3.bpRemaining, 34);
+      assert.strictEqual(bpRank3.bpRemaining, 25);
     });
 
     it('scales companion stats with owner threat tier', () => {
@@ -966,7 +965,7 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.strictEqual(computed.final_dc, 27);
       assert.ok(computed.credit_value > 0);
       assert.strictEqual(computed.material_cost, Math.round(computed.credit_value * 0.5));
-      assert.strictEqual(computed.save_dc, 16); // 10 + 12/2
+      assert.strictEqual(computed.save_dc, 19); // 10 + 12/2 + deviceTier (3) = 19
       assert.strictEqual(computed.capacity_validation.capacityStatus, 'Valid');
     });
   });

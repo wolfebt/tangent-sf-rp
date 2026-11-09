@@ -37,6 +37,13 @@ export const ArmorCoverageSelector = ({
   const skin = formData.faction_skin || formData.skin || 'Syndicate';
   const modules = Array.isArray(formData.modules) ? formData.modules : [];
   const carriedShield = formData.carried_shield || 'None';
+  const creatureSize = formData.creature_size || 'Medium';
+  const extraLimbPairs = Number(formData.extra_limb_pairs ?? 0);
+  const additionalLayers = Array.isArray(formData.additional_armor_layers)
+    ? formData.additional_armor_layers
+    : [];
+  const [newLayerName, setNewLayerName] = useState('');
+  const [newLayerDR, setNewLayerDR] = useState(4);
   const bodyLocations = Array.isArray(formData.body_locations) 
     ? formData.body_locations 
     : ['Torso', 'Head', 'LeftArm', 'RightArm', 'LeftLeg', 'RightLeg'];
@@ -46,14 +53,60 @@ export const ArmorCoverageSelector = ({
     size,
     coverage,
     tl,
-    skin
+    skin,
+    creatureSize
   });
 
   const computedDR = calculateArmorDR({
     baseDR: formData.dr_rating,
     tl,
-    skin
+    skin,
+    additionalLayers
   });
+
+  // Diminishing Returns Armor Stacking Rule:
+  // Highest DR + sum of Math.ceil(layerDR / 5) for each additional layer separately (0=+0, 1-5=+1, 6-10=+2, 11-15=+3)
+  const stackingBreakdown = (() => {
+    const baseSuitDR = Number(computedDR?.baseDR ?? computedDR?.totalDR ?? formData.dr_rating ?? 0);
+    const allLayerDRs = [
+      { id: 'primary', name: formData.name || 'Primary Armor Suit', dr: baseSuitDR, isPrimary: true },
+      ...additionalLayers.map((l, i) => ({
+        id: l.id || `layer-${i}`,
+        name: l.name || `Layer ${i + 2}`,
+        dr: Math.max(0, Number(l.dr ?? 0)),
+        isPrimary: false
+      }))
+    ];
+    const sorted = [...allLayerDRs].sort((a, b) => b.dr - a.dr);
+    const highest = sorted[0] || { dr: 0, name: 'None' };
+    const secondaryLayers = sorted.slice(1).map(l => ({
+      ...l,
+      stageBonus: l.dr <= 0 ? 0 : Math.ceil(l.dr / 5)
+    }));
+    const diminishingBonus = secondaryLayers.reduce((sum, l) => sum + l.stageBonus, 0);
+    const totalStackedDR = highest.dr + diminishingBonus;
+    return { highest, secondaryLayers, diminishingBonus, totalStackedDR };
+  })();
+
+  const handleAddArmorLayer = () => {
+    const drNum = Math.max(0, Number(newLayerDR) || 0);
+    const nextLayers = [
+      ...additionalLayers,
+      {
+        id: `layer-${Date.now()}`,
+        name: newLayerName.trim() || `Underlayer / Sub-dermal (DR ${drNum})`,
+        dr: drNum
+      }
+    ];
+    onChange('additional_armor_layers', nextLayers);
+    setNewLayerName('');
+    setNewLayerDR(4);
+  };
+
+  const handleRemoveArmorLayer = (layerId) => {
+    const nextLayers = additionalLayers.filter((l, idx) => (l.id || `layer-${idx}`) !== layerId);
+    onChange('additional_armor_layers', nextLayers);
+  };
 
   const mobilityStats = calculateArmorMobility({
     size,
@@ -105,7 +158,7 @@ export const ArmorCoverageSelector = ({
           </span>
           <span className="px-2.5 py-1 rounded-xl bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-bold flex items-center gap-1">
             <ShieldAlert size={11} className="text-cyan-400" />
-            <span>{computedDR.totalDR} DR ({computedDR.drPercent}%)</span>
+            <span>{stackingBreakdown.totalStackedDR} DR {stackingBreakdown.diminishingBonus > 0 ? `(Base ${stackingBreakdown.highest.dr} +${stackingBreakdown.diminishingBonus} Stacked)` : `(${computedDR.drPercent}%)`}</span>
           </span>
           <span className="px-2.5 py-1 rounded-xl bg-purple-950/80 border border-purple-500/50 text-purple-300 font-bold flex items-center gap-1">
             <Wind size={11} className="text-purple-400" />
@@ -232,6 +285,126 @@ export const ArmorCoverageSelector = ({
                   </button>
                 );
               })}
+            </div>
+          </div>
+
+          {/* Non-Humanoid Creature Scale & Extra Limb Pairs */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-900/40 border border-slate-800 rounded-xl">
+            <div className="space-y-1">
+              <label className="block text-[11px] font-bold text-emerald-300 uppercase tracking-wider">
+                Creature Size Scaling (Diminutive/Tiny to Gargantuan/Colossal)
+              </label>
+              <select
+                value={creatureSize}
+                onChange={(e) => onChange('creature_size', e.target.value)}
+                className="w-full p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-slate-200 focus:outline-none focus:border-emerald-400"
+              >
+                {[
+                  { id: 'Diminutive/Tiny', label: 'Diminutive / Tiny (-2 CR, 0.25x SP & Mass)' },
+                  { id: 'Small', label: 'Small (-1 CR, 0.5x SP & Mass)' },
+                  { id: 'Medium', label: 'Medium (Baseline 1x SP & Mass)' },
+                  { id: 'Large', label: 'Large (+2 CR, 2x SP & Mass)' },
+                  { id: 'Huge', label: 'Huge (+4 CR, 4x SP & Mass)' },
+                  { id: 'Gargantuan/Colossal', label: 'Gargantuan / Colossal (+8 CR, 8x SP & Mass)' }
+                ].map(cs => (
+                  <option key={cs.id} value={cs.id}>{cs.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-[11px] font-bold text-amber-300 uppercase tracking-wider">
+                Extra Limb Pairs (+1 CR / +20% Mass per Pair)
+              </label>
+              <div className="flex items-center gap-2">
+                {[0, 1, 2, 3, 4].map(pairCount => (
+                  <button
+                    key={pairCount}
+                    type="button"
+                    onClick={() => onChange('extra_limb_pairs', pairCount)}
+                    className={`flex-1 py-1.5 px-2 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                      extraLimbPairs === pairCount
+                        ? 'bg-amber-500/20 border-amber-400 text-amber-200'
+                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    {pairCount === 0 ? 'Standard (2 Pairs)' : `+${pairCount} Pair${pairCount > 1 ? 's' : ''} (+${pairCount} CR / +${pairCount * 20}%)`}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Armor Layers (Diminishing Returns Stacking) */}
+          <div className="space-y-2.5 p-3.5 bg-cyan-950/20 border border-cyan-500/30 rounded-xl">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                  <Layers size={13} className="text-cyan-400" />
+                  <span>Additional Armor Layers (Diminishing Returns Stacking)</span>
+                </span>
+                <p className="text-[10px] text-slate-400 mt-0.5">
+                  Rule: Highest DR + <code className="text-cyan-300">Math.ceil(layerDR / 5)</code> for each additional layer separately (0=+0, 1-5=+1, 6-10=+2, 11-15=+3).
+                </p>
+              </div>
+              <div className="px-2.5 py-1 rounded-lg bg-slate-950 border border-cyan-500/40 text-cyan-200 text-xs font-bold">
+                Stacked DR: {stackingBreakdown.highest.dr} + {stackingBreakdown.diminishingBonus} = <span className="text-emerald-300">{stackingBreakdown.totalStackedDR} DR</span>
+              </div>
+            </div>
+
+            {additionalLayers.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {additionalLayers.map((layer, idx) => {
+                  const lId = layer.id || `layer-${idx}`;
+                  const lDr = Math.max(0, Number(layer.dr ?? 0));
+                  const stageBonus = lDr <= 0 ? 0 : Math.ceil(lDr / 5);
+                  return (
+                    <div key={lId} className="p-2 rounded-lg bg-slate-950/80 border border-slate-800 flex items-center justify-between text-xs">
+                      <div>
+                        <span className="font-bold text-slate-200">{layer.name || `Layer ${idx + 2}`}</span>
+                        <span className="text-[10px] text-cyan-300 ml-2">
+                          Raw DR {lDr} → +{stageBonus} Stacked Bonus
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveArmorLayer(lId)}
+                        className="text-slate-500 hover:text-red-400 px-1.5 py-0.5 text-xs font-bold cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <input
+                type="text"
+                value={newLayerName}
+                onChange={(e) => setNewLayerName(e.target.value)}
+                placeholder="Additional layer (e.g. Sub-dermal Weave, Under-Suit)..."
+                className="flex-1 min-w-[180px] p-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-white"
+              />
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] text-slate-400 uppercase">Layer DR:</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="30"
+                  value={newLayerDR}
+                  onChange={(e) => setNewLayerDR(Math.max(0, Number(e.target.value) || 0))}
+                  className="w-16 p-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs text-cyan-300 font-bold text-center"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleAddArmorLayer}
+                className="px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-xs font-bold cursor-pointer"
+              >
+                + Add Armor Layer (+{newLayerDR <= 0 ? 0 : Math.ceil(newLayerDR / 5)} DR)
+              </button>
             </div>
           </div>
         </div>

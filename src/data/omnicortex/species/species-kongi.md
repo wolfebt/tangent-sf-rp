@@ -10,6 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+  - movement-climb-improved
 speeds: '30 ft Groundspeed, 30 ft Climbspeed'
 reach: 10 ft
 senses: Standard visual and auditory range.
@@ -31,75 +32,99 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Fearless
-  - Graceful
-  - Nimble Moves
-  - Steady
-  - Skill Focus
+  - special-darksight
+  - general-fearless
+  - skill-graceful
+  - general-nimble-moves
+  - skill-steady
+  - skill-skill-focus
+  - general-acrobatic-steps
+  - skill-perceptive
+  - skill-stout
 disadvantages: []
 stigma: Minor Xeno (-1)
 tech_level: '1'
 meta_level: '2'
 homeworld: Kongi Prime (Jungle Canopy World)
 costs:
-  cp: 24
-  bp: 24
+  cp: 25
+  bp: 25
 modifiers:
   - target: Strength
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Strength
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
-  - target: Acrobatic
-    value: 1
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Alertness
     value: 1
-    type: feature
     mode: recommended
-  - target: Athletic
+    description: 'Recommended Feature: Darksight'
+  - target: general-fearless
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Fearless'
+  - target: skill-graceful
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Partial)
+    description: 'Recommended Feature: Graceful'
+  - target: general-nimble-moves
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fearless
+    description: 'Recommended Feature: Nimble Moves'
+  - target: skill-steady
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Graceful
+    description: 'Recommended Feature: Steady'
+  - target: skill-skill-focus
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Patagia
+    description: 'Recommended Feature: Skill Focus'
+  - target: general-acrobatic-steps
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Nimble Moves
+    description: 'Recommended Feature: Acrobatic Steps'
+  - target: skill-perceptive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Steady
+    description: 'Recommended Feature: Perceptive'
+  - target: skill-stout
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Skill Focus
+    description: 'Recommended Feature: Stout'
+  - target: trait-dark-sight
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-focused-study
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Focused Study'
+  - target: trait-exoskeleton-partial
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Partial)'
+  - target: trait-patagia
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Patagia'
 description: >-
   The Kongi are a fascinating species of simian-like humanoids, medium in size,
   originating from a high-gravity, cavernous homeworld. This environment has
@@ -130,6 +155,11 @@ negative_keywords: 'tiny-spaces, aerial-glide, frail'
 cp: 24
 bp: 24
 cp_cost: 24
+recommended_traits:
+  - trait-dark-sight
+  - trait-focused-study
+  - trait-exoskeleton-partial
+  - trait-patagia
 ---
 
 # **1.03.Kongi — Kongi (High-Gravity Simian Humanoids)**

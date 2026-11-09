@@ -93,10 +93,10 @@ export const OriginArchitectGuidance = ({
     return normalizeList(canonicalSeed?.recommended_occupations);
   }, [rawRecOccupations, canonicalSeed]);
 
-  const rawRecSkills = normalizeList(formData.recommended_skills);
+  const rawRecSkills = normalizeList(formData.recommended_skills || formData.society_skills);
   const recommendedSkills = useMemo(() => {
     if (rawRecSkills.length > 0) return rawRecSkills;
-    return normalizeList(canonicalSeed?.recommended_skills);
+    return normalizeList(canonicalSeed?.recommended_skills || canonicalSeed?.society_skills);
   }, [rawRecSkills, canonicalSeed]);
 
   const rawRecFeatures = normalizeList(formData.recommended_features);
@@ -170,11 +170,14 @@ export const OriginArchitectGuidance = ({
       }
     }
     handleFieldChange('recommended_skills', next);
+    handleFieldChange('society_skills', next);
     setNewSkillInput('');
   };
 
   const handleRemoveSkill = (val) => {
-    handleFieldChange('recommended_skills', recommendedSkills.filter(sk => sk !== val));
+    const next = recommendedSkills.filter(sk => sk !== val);
+    handleFieldChange('recommended_skills', next);
+    handleFieldChange('society_skills', next);
   };
 
   const handleAddFeature = (e) => {

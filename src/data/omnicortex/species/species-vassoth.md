@@ -31,7 +31,8 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Low Light Vision
+  - special-low-light-vision
+  - special-energy-resistance
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: '1'
@@ -42,43 +43,60 @@ costs:
   bp: 14
 modifiers:
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
-  - target: 'Alternate Form (Simple, to one Humanoid form)'
-    value: 1
+  - target: special-low-light-vision
     type: feature
-    mode: recommended
-  - target: Chameleon
     value: 1
-    type: feature
     mode: recommended
-  - target: Dragonkin (Sa-Sa-Si*)
+    description: 'Recommended Feature: Low Light Vision'
+  - target: special-energy-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: 'Energy Resist line (1 type): Dragonkin'
+    description: 'Recommended Feature: Energy Resistance'
+  - target: trait-low-light-vision
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-alternate-form
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Species Trait: Alternate Form'
+  - target: trait-chameleon
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: '*Protected colony on Entari of Dragon ancestry known as the Sa-Sa-Si.*'
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-dragon-senses
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Dragon Senses'
+  - target: trait-dragon-breath
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dragon Breath'
+  - target: trait-energy-resist
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Resist'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
 description: >-
   The Vassoth are a serpentauric race, characterized by a powerful, scaled
   serpentine lower body and tail that can reach between 12 and 18 feet in
@@ -113,6 +131,14 @@ negative_keywords: 'stealth-in-crowds, pilot-small-cockpit, tiny'
 cp: 14
 bp: 14
 cp_cost: 14
+recommended_traits:
+  - trait-low-light-vision
+  - trait-alternate-form
+  - trait-chameleon
+  - trait-dragon-senses
+  - trait-dragon-breath
+  - trait-energy-resist
+  - trait-exoskeleton-light
 ---
 
 # **1.03.Vassoth — Vassoth (Serpentauric Arcane Guardians)**

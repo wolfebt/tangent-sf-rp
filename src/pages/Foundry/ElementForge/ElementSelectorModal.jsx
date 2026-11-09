@@ -1,5 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useCampaign, useStory } from '../../../context/CampaignContext';
+import { useDBM } from '../../../context/DBMContext';
+import { useFolio } from '../../../context/FolioContext';
+import { buildUnifiedAdeCatalog } from '../../../utils/cortexAdeAssetBridge';
 import { 
   Search, 
   X, 
@@ -26,7 +29,19 @@ export const ElementSelectorModal = ({
 }) => {
   const { elementsCatalog } = useCampaign();
   const storyContext = useStory();
+  const { dbData } = useDBM() || { dbData: {} };
+  const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Unified catalog composing Story Elements + Persona Folio Roster + Omnicortex MCM & Codex
+  const unifiedCatalog = useMemo(() => {
+    return buildUnifiedAdeCatalog({
+      elementsCatalog,
+      dbData,
+      folioRoster: personaRoster,
+      publicPersonas: publicCatalog
+    });
+  }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
 
   // Map legacy dbSource keys to standard Element Types
   const typeMap = {
@@ -34,9 +49,12 @@ export const ElementSelectorModal = ({
     'factions': 'Faction',
     'origins': 'Custom',
     'occupations': 'Custom',
-    'weaponry': 'Item',
-    'armoring': 'Item',
-    'gear': 'Item',
+    'weaponry': 'Property',
+    'armoring': 'Property',
+    'gear': 'Property',
+    'personas': 'Persona',
+    'npcs': 'Persona',
+    'modular_characters': 'Persona',
     'rules_codex': 'Custom',
     'compendium': 'Custom'
   };
@@ -65,11 +83,11 @@ export const ElementSelectorModal = ({
   // Compute available type pills
   const typePills = useMemo(() => {
     const types = new Set();
-    (elementsCatalog || []).forEach(el => {
+    (unifiedCatalog || []).forEach(el => {
       if (el.type) types.add(el.type);
     });
     return [...Array.from(types).sort(), 'ALL'];
-  }, [elementsCatalog]);
+  }, [unifiedCatalog]);
 
   // Sync default type filter if unselected
   useEffect(() => {
@@ -86,7 +104,7 @@ export const ElementSelectorModal = ({
   const filteredItems = useMemo(() => {
     const query = searchTerm.trim().toLowerCase();
 
-    let list = (elementsCatalog || []).filter(el => {
+    let list = (unifiedCatalog || []).filter(el => {
       // Type matching
       if (activeTypeFilter !== 'ALL' && el.type !== activeTypeFilter) {
         return false;
@@ -115,7 +133,7 @@ export const ElementSelectorModal = ({
       if (sortOption === 'type') return String(a.type || '').localeCompare(String(b.type || ''));
       return titleA.localeCompare(titleB);
     });
-  }, [elementsCatalog, searchTerm, activeTypeFilter, sortOption, targetType]);
+  }, [unifiedCatalog, searchTerm, activeTypeFilter, sortOption, targetType]);
 
   const handleSelectItem = (item) => {
     if (onSelect) {
@@ -322,9 +340,16 @@ export const ElementSelectorModal = ({
                           {item.title || 'Untitled'}
                         </td>
                         <td className="py-3 px-4 whitespace-nowrap">
-                          <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${getTypePillStyle ? getTypePillStyle(item.type) : 'bg-slate-900 border border-slate-700 text-slate-300'}`}>
-                            {item.type || 'Custom'}
-                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${getTypePillStyle ? getTypePillStyle(item.type) : 'bg-slate-900 border border-slate-700 text-slate-300'}`}>
+                              {item.type || 'Custom'}
+                            </span>
+                            {item.sourceLabel && (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-cyan-300 font-mono">
+                                {item.sourceLabel}
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="py-3 px-4 text-slate-400 max-w-sm truncate hidden md:table-cell">
                           {item.fields?.summary || item.content || '—'}
@@ -360,6 +385,11 @@ export const ElementSelectorModal = ({
                         <span className={`text-[10px] px-2 py-0.5 rounded font-mono font-bold ${getTypePillStyle ? getTypePillStyle(item.type) : 'bg-slate-900 text-cyan-300'}`}>
                           {item.type || 'Custom'}
                         </span>
+                        {item.sourceLabel && (
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-cyan-300 font-mono font-bold uppercase">
+                            {item.sourceLabel}
+                          </span>
+                        )}
                       </div>
 
                       <h4 className="font-bold text-sm text-slate-100 group-hover:text-cyan-300 transition-colors line-clamp-1 mb-1.5">

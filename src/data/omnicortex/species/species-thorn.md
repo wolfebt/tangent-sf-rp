@@ -26,7 +26,9 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - ability-environmental-adaptation
+  - general-swimmer
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: '0'
@@ -36,39 +38,61 @@ costs:
   cp: 39
   bp: 39
 modifiers:
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
-  - target: Adaptation
-    value: 1
+    description: +2 Attribute Choice(s)
+  - target: ability-environmental-adaptation
     type: feature
-    mode: recommended
-  - target: Aquatic
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: general-swimmer
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Brutal
+    description: 'Recommended Feature: Swimmer'
+  - target: trait-aquatic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Chameleon
+    description: 'Recommended Species Trait: Aquatic'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Constriction
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Light)
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-brutal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Brutal'
+  - target: trait-chameleon
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-constriction
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Constriction'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
 description: >-
   The Thorn are a Verdant Humanoid species, a living testament to a planet's
   desperate defense mechanism. Their accelerated, directed evolution was not a
@@ -111,6 +135,15 @@ negative_keywords: 'fire, industrial-pollution, herbicide'
 cp: 39
 bp: 39
 cp_cost: 39
+recommended_traits:
+  - trait-aquatic
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-brutal
+  - trait-chameleon
+  - trait-constriction
+  - trait-exoskeleton-light
 ---
 
 # **1.03.Thorn — Thorn (Awakened Verdant Biosphere Guardians)**

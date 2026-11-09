@@ -39,11 +39,13 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Bodyform Features
-  - Camouflage
-  - Headstrong
-  - Social
+  - discipline-awakened
+  - general-camouflage
+  - skill-headstrong
+  - skill-social
+  - cat_ability_features
+  - skill-perceptive
+  - general-climber
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: 3 (Environmental)
@@ -54,61 +56,90 @@ costs:
   bp: 41
 modifiers:
   - target: Agility
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Agility
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Ability Check Feature
-    value: 1
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: Alertness
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Awakened'
+  - target: general-camouflage
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform Features
+    description: 'Recommended Feature: Camouflage'
+  - target: skill-headstrong
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Camouflage
+    description: 'Recommended Feature: Headstrong'
+  - target: skill-social
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Climbing
+    description: 'Recommended Feature: Social'
+  - target: cat_ability_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Headstrong
+    description: 'Recommended Feature: Ability Features'
+  - target: skill-perceptive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Mutation
+    description: 'Recommended Feature: Perceptive'
+  - target: general-climber
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Social
+    description: 'Recommended Feature: Climber'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-bodyform-adaptation
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-camouflage
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Camouflage'
+  - target: trait-climber
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Climber'
 description: >-
   The Manteene are quadrupedal insectoids that stand roughly the same height as
   humans but appear much larger due to their length and limb span. They are
@@ -154,6 +185,13 @@ negative_keywords: 'individualism, diplomatic-court, fragile, sleep-vulnerable'
 cp: 41
 bp: 41
 cp_cost: 41
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-camouflage
+  - trait-climber
 ---
 
 # **1.03.Kitin.Maantene — Maantene (Reconnaissance & Strike Expression)**

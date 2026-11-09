@@ -30,10 +30,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Discipline Features
-  - Fast Heal
-  - Regeneration
-  - Wild Speech
+  - cat_discipline_features
+  - general-fast-heal
+  - general-regeneration
+  - special-wild-speech
+  - skill-naturalist
 disadvantages: []
 stigma: 'Xeno (-2), Fae (-2)'
 tech_level: '1'
@@ -44,39 +45,55 @@ costs:
   bp: 34
 modifiers:
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Discipline Features
-    value: 1
+  - target: cat_discipline_features
     type: feature
-    mode: recommended
-  - target: Fast Heal
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortal
+    description: 'Recommended Feature: Discipline Features'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wild Speech
+    description: 'Recommended Feature: Regeneration'
+  - target: special-wild-speech
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: ANY 2 Nature oriented Features of choice
+    description: 'Recommended Feature: Wild Speech'
+  - target: skill-naturalist
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Naturalist'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
 description: >-
   Fey, or Fairies, are mystical humanoids, diminutive in size, yet legendary in
   their mythic presence. These anthropomorphic, often ethereal beings are a
@@ -109,6 +126,10 @@ negative_keywords: 'cold-iron, heavy-machinery, industrial, blunt, scientific-ri
 cp: 34
 bp: 34
 cp_cost: 34
+recommended_traits:
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-immortal
 ---
 
 # **1.03.Asi.Fey — Fey (Diminutive Anthropomorphic Asi)**

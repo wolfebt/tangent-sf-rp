@@ -2,6 +2,18 @@
 // MECHA & VEHICLES MATRIX CONSTANTS (PLAN 21)
 // ═══════════════════════════════════════════════════════════
 
+export { WEAPON_DOWNGRADES } from './equipment.js';
+
+export const ARMOR_DOWNGRADES = [
+  { id: 'exposed_vitals', name: 'Exposed Vitals', dcMod: -2, effect: 'Critical hit threat range against wearer increases by 1', valueOf() { return -2; } },
+  { id: 'clumsy', name: 'Clumsy / Unbalanced', dcMod: -2, effect: 'Increases Armor Mobility Penalty by an additional -1', valueOf() { return -2; } },
+  { id: 'fragile_seals', name: 'Fragile Seals', dcMod: -2, effect: 'Environmental seals breach on any Critical Hit', valueOf() { return -2; } },
+  { id: 'obvious', name: 'Obvious / Unconcealable', dcMod: -1, effect: 'Cannot be concealed beneath clothing; -4 Disguise', valueOf() { return -1; } }
+];
+ARMOR_DOWNGRADES.forEach(d => {
+  ARMOR_DOWNGRADES[d.id] = d;
+});
+
 export const MECHA_OPERATIONAL_DOMAINS = [
   'Personal Mobility',
   'Civilian',
@@ -259,10 +271,10 @@ export const MECHA_SIZES = {
   Huge: { id: 'Huge', name: 'Huge', scale: 'x5', scaleMult: 5.0, strCbtMod: 4, defMod: -4, stealth: -8, structure: 250, mounts: 25, baseDC: 30, example: 'Main Battle Tank, Dropship, Heavy Walker' },
   Gargantuan: { id: 'Gargantuan', name: 'Gargantuan', scale: 'x10', scaleMult: 10.0, strCbtMod: 8, defMod: -8, stealth: -16, structure: 500, mounts: 50, baseDC: 35, example: 'Corvette, Assault Gunboat, Titan Walker' },
   Colossal: { id: 'Colossal', name: 'Colossal', scale: 'x20', scaleMult: 20.0, strCbtMod: 16, defMod: -16, stealth: -32, structure: 1000, mounts: 100, baseDC: 40, example: 'Frigate, Heavy Destroyer, Mega-Carrier' },
-  Enormous: { id: 'Enormous', name: 'Enormous', scale: 'x40', scaleMult: 40.0, strCbtMod: 32, defMod: -32, stealth: 0, structure: 2500, mounts: 200, baseDC: 45, example: 'Capital Battlecruiser' },
-  Titanic: { id: 'Titanic', name: 'Titanic', scale: 'x80', scaleMult: 80.0, strCbtMod: 64, defMod: -64, stealth: 0, structure: 5000, mounts: 400, baseDC: 50, example: 'Colony Ship, Planetary Dreadnought' },
-  SuperGargantuan: { id: 'SuperGargantuan', name: 'Super Gargantuan', scale: 'x160', scaleMult: 160.0, strCbtMod: 128, defMod: -128, stealth: 0, structure: 10000, mounts: 800, baseCR: 60, baseDC: 60, example: 'System Dreadnought, Star Fort' },
-  MegaColossal: { id: 'MegaColossal', name: 'Mega Colossal', scale: 'x320', scaleMult: 320.0, strCbtMod: 256, defMod: -256, stealth: 0, structure: 20000, mounts: 1600, baseCR: 80, baseDC: 80, example: 'Dyson Swarm Node, Megastructure Ship' }
+  Enormous: { id: 'Enormous', name: 'Enormous', scale: 'x40', scaleMult: 40.0, strCbtMod: 32, defMod: -32, stealth: 'NO', structure: 2500, mounts: 200, baseDC: 45, example: 'Capital Battlecruiser' },
+  Titanic: { id: 'Titanic', name: 'Titanic', scale: 'x80', scaleMult: 80.0, strCbtMod: 64, defMod: -64, stealth: 'NO', structure: 5000, mounts: 400, baseDC: 50, example: 'Colony Ship, Planetary Dreadnought' },
+  SuperGargantuan: { id: 'SuperGargantuan', name: 'Super Gargantuan', scale: 'x160', scaleMult: 160.0, strCbtMod: 128, defMod: -128, stealth: 'NO', structure: 10000, mounts: 800, baseCR: 60, baseDC: 60, example: 'System Dreadnought, Star Fort' },
+  MegaColossal: { id: 'MegaColossal', name: 'Mega Colossal', scale: 'x320', scaleMult: 320.0, strCbtMod: 256, defMod: -256, stealth: 'NO', structure: 20000, mounts: 1600, baseCR: 80, baseDC: 80, example: 'Dyson Swarm Node, Megastructure Ship' }
 };
 
 export const MECHA_FRAMES = {
@@ -289,7 +301,38 @@ export const MECHA_PROPULSION = [
   { id: 'repulsorlift', name: 'Anti-Gravity / Repulsorlift', category: 'Flight', tl: 4, dcMod: 20, mounts: 2, speed: '80 ft/rnd', notes: 'Silent hover, ignores all terrain' },
   { id: 'gravitonic', name: 'Gravitonic Orbital Flight', category: 'Flight', tl: 5, dcMod: 30, mounts: 3, speed: '200+ ft/rnd', notes: 'Space-capable, inertial dampening' },
   { id: 'aquatic_prop', name: 'Ballast & Marine Propeller', category: 'Aquatic', tl: 2, dcMod: 5, mounts: 1, speed: '30 ft/rnd', notes: 'Standard sub-surface movement' },
-  { id: 'hydro_jet', name: 'Hydro-Jet Supercavitation', category: 'Aquatic', tl: 3, dcMod: 10, mounts: 2, speed: '60 ft/rnd', notes: 'High speed underwater propulsion' }
+  { id: 'hydro_jet', name: 'Hydro-Jet Supercavitation', category: 'Aquatic', tl: 3, dcMod: 10, mounts: 2, speed: '60 ft/rnd', notes: 'High speed underwater propulsion' },
+  { id: 'hyperdrive', name: 'Hyperdrive (Gate /Beacon Transit)', category: 'FTL', tl: 3, dcMod: 15, mounts: 4, speed: 'FTL (1 ly/day)', notes: 'Requires Jump Gate or Nav-Beacon network' },
+  { id: 'subspace_warp', name: 'Subspace Warp Drive', category: 'FTL', tl: 4, dcMod: 25, mounts: 6, speed: 'FTL (5 ly/day)', notes: 'Independent interstellar subspace bubble propulsion' },
+  { id: 'jump_fold', name: 'Dimensional Jump / Fold Drive', category: 'FTL', tl: 5, dcMod: 35, mounts: 8, speed: 'Instant Jump (Sector)', notes: 'Instantaneous point-to-point spatial folding' },
+  { id: 'astral_sail', name: 'Astral / Aether Sail', category: 'FTL', tl: 4, ml: 3, dcMod: 20, mounts: 3, speed: 'FTL (Leyline)', notes: 'Rides stellar solar winds and metaphysical leylines' }
+];
+
+export const MECHA_WEAPONS = [
+  // Kinetic (Ballistic / Missile)
+  { id: 'vulcan_minigun', name: 'Vulcan Minigun', category: 'Kinetic', tl: 3, dc: 15, dcMod: 15, mounts: 1, baseDamage: '2d10', damageType: 'Ballistic', baseRange: '2,000 ft', notes: 'Auto-Fire, Anti-Infantry' },
+  { id: 'light_autocannon', name: 'Light Autocannon', category: 'Kinetic', tl: 3, dc: 18, dcMod: 18, mounts: 2, baseDamage: '3d10', damageType: 'Ballistic', baseRange: '3,000 ft', notes: 'Burst Fire' },
+  { id: 'atgm_pod', name: 'ATGM Missile Pod', category: 'Kinetic', tl: 3, dc: 18, dcMod: 18, mounts: 2, baseDamage: '4d8', damageType: 'Explosive', baseRange: '1 Mile', notes: 'Homing, Ammo: 4' },
+  { id: 'heavy_railgun', name: 'Heavy Railgun', category: 'Kinetic', tl: 3, dc: 25, dcMod: 25, mounts: 4, baseDamage: '4d10', damageType: 'Kinetic', baseRange: '2 Miles', notes: 'Penetration (Ignores 10 DR)' },
+  { id: 'siege_howitzer', name: 'Siege Howitzer', category: 'Kinetic', tl: 2, dc: 20, dcMod: 20, mounts: 5, baseDamage: '5d10', damageType: 'Explosive', baseRange: '5 Miles', notes: 'Arcing Fire (Indirect)' },
+  { id: 'mac_cannon', name: 'MAC Cannon', category: 'Kinetic', tl: 4, dc: 30, dcMod: 30, mounts: 6, baseDamage: '6d10', damageType: 'Kinetic', baseRange: 'Line of Sight', notes: 'Structure Killer' },
+  { id: 'mass_driver', name: 'Mass Driver (Titan)', category: 'Kinetic', tl: 4, dc: 40, dcMod: 40, mounts: 10, baseDamage: '10d10', damageType: 'Kinetic', baseRange: 'Orbital', notes: 'Capital / Orbital Siege' },
+  // Energy Weaponry
+  { id: 'pulse_laser', name: 'Pulse Laser', category: 'Energy', tl: 3, dc: 18, dcMod: 18, mounts: 1, baseDamage: '2d8', damageType: 'Energy', baseRange: '3,000 ft', notes: 'Accurate (+1 to Hit)' },
+  { id: 'plasma_flamer', name: 'Plasma Flamer', category: 'Energy', tl: 3, dc: 20, dcMod: 20, mounts: 2, baseDamage: '3d6', damageType: 'Thermal', baseRange: 'Cone (100 ft)', notes: 'Ignores DR, Overheat risk' },
+  { id: 'ion_blaster', name: 'Ion Blaster', category: 'Energy', tl: 3, dc: 18, dcMod: 18, mounts: 1, baseDamage: '1d10', damageType: 'Ion', baseRange: '1,500 ft', notes: 'Dmg x2 vs Shields/Synthetics' },
+  { id: 'heavy_particle_beam', name: 'Heavy Particle Beam', category: 'Energy', tl: 4, dc: 28, dcMod: 28, mounts: 4, baseDamage: '5d8', damageType: 'Energy', baseRange: 'Line (2,000 ft)', notes: 'Melts Armor (-2 DR to target)' },
+  { id: 'ppc_projector', name: 'PPC Projector', category: 'Energy', tl: 4, dc: 30, dcMod: 30, mounts: 5, baseDamage: '4d10', damageType: 'Lightning', baseRange: '4,000 ft', notes: 'EMP Effect (Stuns Systems)' },
+  { id: 'tachyon_lance', name: 'Tachyon Lance', category: 'Energy', tl: 5, dc: 35, dcMod: 35, mounts: 4, baseDamage: '4d12', damageType: 'Exotic', baseRange: 'Line of Sight', notes: 'Ignores Shields' },
+  { id: 'nova_cannon', name: 'Nova Cannon (Titan)', category: 'Energy', tl: 5, dc: 45, dcMod: 45, mounts: 12, baseDamage: '12d10', damageType: 'Thermal', baseRange: '10 Miles', notes: 'Capital WMD' },
+  // Melee & Close-Proximity
+  { id: 'hydraulic_ram', name: 'Hydraulic Siege Ram', category: 'Melee', tl: 2, dc: 12, dcMod: 12, mounts: 1, baseDamage: '2d8', damageType: 'Bludgeon', baseRange: 'Touch', notes: 'Knockback, x2 dmg to structures' },
+  { id: 'harvester_saw', name: 'Industrial Harvester Saw', category: 'Melee', tl: 2, dc: 15, dcMod: 15, mounts: 2, baseDamage: '3d10', damageType: 'Slashing', baseRange: 'Touch', notes: 'Sundering (Destroys Armor)' },
+  { id: 'vibro_cleaver', name: 'Vibro-Cleaver', category: 'Melee', tl: 3, dc: 20, dcMod: 20, mounts: 2, baseDamage: '4d8', damageType: 'Slashing', baseRange: 'Reach', notes: 'High Crit Range (19-20)' },
+  { id: 'thermal_lance', name: 'Thermal Lance (Pile Bunker)', category: 'Melee', tl: 3, dc: 22, dcMod: 22, mounts: 2, baseDamage: '5d10', damageType: 'Piercing', baseRange: 'Touch', notes: 'Single Shot spike, penetration' },
+  { id: 'arc_whip', name: 'Arc-Whip', category: 'Melee', tl: 4, dc: 25, dcMod: 25, mounts: 1, baseDamage: '3d8', damageType: 'Slashing', baseRange: '30 ft', notes: 'Entangle / Trip vehicles' },
+  { id: 'plasma_saber', name: 'Plasma Beam Saber', category: 'Melee', tl: 4, dc: 28, dcMod: 28, mounts: 2, baseDamage: '5d8', damageType: 'Energy', baseRange: 'Reach', notes: 'Penetrating (Ignores 10 DR)' },
+  { id: 'grav_hammer', name: 'Grav-Hammer', category: 'Melee', tl: 5, dc: 35, dcMod: 35, mounts: 3, baseDamage: '6d10', damageType: 'Force', baseRange: 'Reach', notes: 'Knockback and AoE Shockwave' }
 ];
 
 export const MECHA_ARMOR_TYPES = [

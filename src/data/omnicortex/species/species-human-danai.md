@@ -29,12 +29,14 @@ inherent_features: []
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Aptitude
-  - Awakened
-  - Educated
-  - Eidetic Memory
-  - Fast Heal
-  - Regeneration
+  - discipline-aptitude
+  - discipline-awakened
+  - skill-educated
+  - general-eidetic-memory
+  - general-fast-heal
+  - general-regeneration
+  - skill-perceptive
+  - combat-ambidextrous
 disadvantages: []
 stigma: Minor Xeno (-1)
 tech_level: '4'
@@ -45,59 +47,90 @@ costs:
   bp: 13
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
-  - target: Any
-    value: 1
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Adaptive Aspects (Davae Collective)
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: discipline-aptitude
     type: feature
-    mode: recommended
-  - target: Adaptive Skill Set (Davae Collective)
     value: 1
-    type: feature
     mode: recommended
-  - target: Ageless
+    description: 'Recommended Feature: Aptitude'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Alertness
+    description: 'Recommended Feature: Awakened'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Ambidexterity
+    description: 'Recommended Feature: Educated'
+  - target: general-eidetic-memory
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Aptitude
+    description: 'Recommended Feature: Eidetic Memory'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Regeneration'
+  - target: skill-perceptive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Eidetic Memory
+    description: 'Recommended Feature: Perceptive'
+  - target: combat-ambidextrous
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Ambidextrous'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-adaptive-features
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
+  - target: trait-adaptive-skill-set
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Skill Set'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
 description: >-
   The Danai are a distinct and potent hybrid subspecies resulting from the
   genetic blending of baseline humans with the highly-engineered Davae. They
@@ -124,6 +157,14 @@ negative_keywords: 'brutality, isolation, violent-outburst'
 cp: 13
 bp: 13
 cp_cost: 13
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-adaptive-features
+  - trait-adaptive-skill-set
+  - trait-ageless
 ---
 
 # **1.03.Humans.Danai — Danai (Davae Hybrid)**

@@ -30,13 +30,14 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Assessment
-  - Educated
-  - Eidetic Memory
-  - Fast Heal
-  - Regeneration
-  - Skill Focus
-  - Well Informed
+  - general-assessment
+  - skill-educated
+  - general-eidetic-memory
+  - general-fast-heal
+  - general-regeneration
+  - skill-skill-focus
+  - general-well-informed
+  - general-jack-of-all-trades
 disadvantages: []
 stigma: 'Xeno (-2), Luminescent (-1)'
 tech_level: '5'
@@ -47,59 +48,85 @@ costs:
   bp: 27
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Adaptive Skill Set
-    value: 1
+  - target: general-assessment
     type: feature
-    mode: recommended
-  - target: Ageless
     value: 1
-    type: feature
     mode: recommended
-  - target: Assessment
+    description: 'Recommended Feature: Assessment'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Educated'
+  - target: general-eidetic-memory
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Eidetic Memory
+    description: 'Recommended Feature: Eidetic Memory'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortal
+    description: 'Recommended Feature: Regeneration'
+  - target: skill-skill-focus
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Jack of all Trades
+    description: 'Recommended Feature: Skill Focus'
+  - target: general-well-informed
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Well Informed'
+  - target: general-jack-of-all-trades
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Skill Focus
+    description: 'Recommended Feature: Jack-of-all-trades'
+  - target: trait-fast-heal
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Well Informed
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-focused-study
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Focused Study'
+  - target: trait-adaptive-skill-set
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Skill Set'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
 description: >-
   Ancient and enigmatic, there are various ancient historical accounts of beings
   which would fit the Mondi’s description and style throughout most human
@@ -131,6 +158,13 @@ negative_keywords: 'physical-brawling, dirt, manual-labor, heavy-armor'
 cp: 27
 bp: 27
 cp_cost: 27
+recommended_traits:
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-focused-study
+  - trait-adaptive-skill-set
+  - trait-ageless
+  - trait-immortal
 ---
 
 # **1.03.Mondi — Mondi (Luminous Psionic Mentors)**

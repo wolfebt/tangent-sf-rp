@@ -37,6 +37,11 @@ import { ModifierService } from '../../../services/modifierService';
 import { AudioService } from '../../../services/audioService';
 import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 import {
+  sendMcmToFolioRoster,
+  convertPersonaElementToFolio,
+  FOLIO_NARRATIVE_SECTIONS
+} from '../../../utils/personaBridge';
+import {
   FolderOpen,
   ChevronDown,
   Save,
@@ -115,6 +120,7 @@ const EditElementModal = ({
   const [assetHub, setAssetHub] = useState([]);
   const [dbmSyncStatus, setDbmSyncStatus] = useState('standalone');
   const [activeTabIdx, setActiveTabIdx] = useState(0);
+  const [narrativeSectionId, setNarrativeSectionId] = useState('profile');
 
   const [linkToActiveScenario, setLinkToActiveScenario] = useState(false);
   const [registerModifierOnSave, setRegisterModifierOnSave] = useState(false);
@@ -590,19 +596,68 @@ const EditElementModal = ({
                     ? ` • ${fields.propertySubcategory || element.propertySubcategory}`
                     : ''}
                 </span>
-                {element.isFolioPersona && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onClose();
-                      navigate('/folio');
-                    }}
-                    className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-950/80 border border-purple-500/50 text-purple-200 hover:bg-purple-900 flex items-center gap-1 cursor-pointer"
-                    title="Open full character sheet in Persona Folio"
-                  >
-                    <span>🪪 Open in Folio</span>
-                    <ExternalLink size={10} />
-                  </button>
+                {type === 'Persona' && (
+                  <div className="flex items-center gap-1.5">
+                    {!element.isFolioPersona && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const currentElementSnapshot = {
+                            ...element,
+                            title: title || element.title || 'Unnamed Persona',
+                            type: 'Persona',
+                            imageUrl,
+                            content,
+                            fields,
+                            customFields,
+                            guidance,
+                            assetHub
+                          };
+                          const folioData = convertPersonaElementToFolio(currentElementSnapshot);
+                          const sent = sendMcmToFolioRoster(folioData, {
+                            lockForVtt: true,
+                            openInFolio: false
+                          });
+                          showToast({
+                            type: 'success',
+                            text: `Sent "${sent['char-name'] || sent.character_name || title || 'Persona'}" to Persona Folio Roster!`
+                          });
+                        }}
+                        className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 hover:bg-cyan-900 flex items-center gap-1 cursor-pointer"
+                        title="Send this MCM / Story Persona to the Persona Folio Roster (VTT & Folio Ready)"
+                      >
+                        <span>🧬 Send to Folio</span>
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const currentElementSnapshot = {
+                          ...element,
+                          title: title || element.title || 'Unnamed Persona',
+                          type: 'Persona',
+                          imageUrl,
+                          content,
+                          fields,
+                          customFields,
+                          guidance,
+                          assetHub
+                        };
+                        const folioData = convertPersonaElementToFolio(currentElementSnapshot);
+                        sendMcmToFolioRoster(folioData, {
+                          lockForVtt: false,
+                          openInFolio: true
+                        });
+                        onClose();
+                        navigate('/folio');
+                      }}
+                      className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-950/80 border border-purple-500/50 text-purple-200 hover:bg-purple-900 flex items-center gap-1 cursor-pointer"
+                      title="Send & Open in Persona Folio to continue full character development"
+                    >
+                      <span>🪪 {element.isFolioPersona ? 'Open in Folio' : 'Expand in Folio'}</span>
+                      <ExternalLink size={10} />
+                    </button>
+                  </div>
                 )}
                 {element.codexMatrixId && (
                   <button
@@ -1117,18 +1172,95 @@ const EditElementModal = ({
 
               {/* Tab: Narrative Prose & Lore */}
               {currentTab === 'Narrative Prose & Lore' && (
-                <div className="space-y-2 h-full flex flex-col">
-                  <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
-                    Detailed Description &amp; Narrative Notes
-                  </label>
-                  <div className="bg-slate-950 text-white rounded-lg border border-slate-700 overflow-hidden flex-1 min-h-[300px]">
-                    <ReactQuill
-                      theme="snow"
-                      value={content}
-                      onChange={setContent}
-                      placeholder="Write detailed lore, background, secrets, or description..."
-                      className="h-full flex flex-col text-slate-100"
-                    />
+                <div className="space-y-4 h-full flex flex-col">
+                  {/* Persona Folio Narrative Sections (Incorporated for Persona Elements) */}
+                  {type === 'Persona' && (
+                    <div className="p-4 bg-slate-950/80 border border-cyan-500/30 rounded-xl space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2">
+                        <div>
+                          <h4 className="text-xs font-bold text-cyan-300 uppercase tracking-wider font-mono">
+                            Persona Folio Narrative Fields (Synced with MCM &amp; Folio)
+                          </h4>
+                          <p className="text-[10px] text-slate-400">
+                            Structured narrative identity, physicality, backstory, and psychology fields carried directly into the Persona Folio &amp; MCM.
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {FOLIO_NARRATIVE_SECTIONS.map((sec) => (
+                            <button
+                              key={sec.id}
+                              type="button"
+                              onClick={() => setNarrativeSectionId(sec.id)}
+                              className={`px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer ${
+                                narrativeSectionId === sec.id
+                                  ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/60'
+                                  : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
+                              }`}
+                            >
+                              {sec.title}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {(() => {
+                        const activeSec =
+                          FOLIO_NARRATIVE_SECTIONS.find((s) => s.id === narrativeSectionId) ||
+                          FOLIO_NARRATIVE_SECTIONS[0];
+                        return (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {activeSec.fields.map((nf) => {
+                              const val =
+                                fields[nf.id] ||
+                                (nf.aliasKeys || []).map((k) => fields[k]).find(Boolean) ||
+                                '';
+                              return (
+                                <div
+                                  key={nf.id}
+                                  className={`space-y-1 ${nf.span2 ? 'md:col-span-2' : ''}`}
+                                >
+                                  <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block font-mono">
+                                    {nf.label}
+                                  </label>
+                                  <AutoExpandingElementTextarea
+                                    value={val}
+                                    onChange={(e) => {
+                                      const nextVal = e.target.value;
+                                      handleFieldChange(nf.id, nextVal);
+                                      (nf.aliasKeys || []).forEach((aliasKey) => {
+                                        handleFieldChange(aliasKey, nextVal);
+                                      });
+                                    }}
+                                    placeholder={nf.placeholder}
+                                    className="w-full bg-slate-900 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2 rounded-lg text-xs outline-none"
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  )}
+
+                  <div className="space-y-2 flex-1 flex flex-col">
+                    <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
+                      Detailed Description, Narrative Prose &amp; Lore
+                    </label>
+                    <div className="bg-slate-950 text-white rounded-lg border border-slate-700 overflow-hidden flex-1 min-h-[280px]">
+                      <ReactQuill
+                        theme="snow"
+                        value={content}
+                        onChange={(val) => {
+                          setContent(val);
+                          if (type === 'Persona') {
+                            handleFieldChange('narrativeProse', val);
+                          }
+                        }}
+                        placeholder="Write detailed lore, background, secrets, or description..."
+                        className="h-full flex flex-col text-slate-100"
+                      />
+                    </div>
                   </div>
                 </div>
               )}

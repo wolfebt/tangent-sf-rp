@@ -47,11 +47,8 @@ export const LandingDrawerArea = ({
             onOpenRoster={() => onOpenDrawer('persona-folio')} 
           />
         )}
-        {(activeDrawer === 'omnicortex' || activeDrawer === 'dbm') && (
+        {(activeDrawer === 'omnicortex' || activeDrawer === 'dbm' || activeDrawer === 'codex') && (
           <OmnicortexDrawer onClose={onCloseDrawer} />
-        )}
-        {activeDrawer === 'codex' && (
-          <CodexDrawer onClose={onCloseDrawer} />
         )}
         {(activeDrawer === 'game-groups' || activeDrawer === 'teams' || activeDrawer === 'squads') && (
           <GameGroupsDrawer onClose={onCloseDrawer} />

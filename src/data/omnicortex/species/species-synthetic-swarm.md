@@ -34,9 +34,10 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Coordinated Assist
-  - Darksight
-  - Lightning Calculator
+  - general-coordinated-assist
+  - special-darksight
+  - general-lightning-calculator
+  - physical-wall-crawler
 disadvantages: []
 stigma: 'Severe Synthetic (-4), Xeno (-2)'
 tech_level: '4'
@@ -47,36 +48,45 @@ costs:
   bp: 28
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Strength
-    value: -4
     type: attribute
+    value: -4
     mode: inherent
     description: '-4 Strength'
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Coordinated Assist
-    value: 1
+  - target: general-coordinated-assist
     type: feature
-    mode: recommended
-  - target: Darksight
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Calculator
+    description: 'Recommended Feature: Coordinated Assist'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wall-Crawler
+    description: 'Recommended Feature: Darksight'
+  - target: general-lightning-calculator
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: physical-wall-crawler
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Wall-Crawler'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
 description: >-
   An Ooze composed of a nano-machine hyper colony - slithers on surfaces or with
   flight ability and highly morphic. Tech 5 for a conscious hive mind, at Tech 4
@@ -104,6 +114,8 @@ negative_keywords: 'single-bullet-target, solid-frame, skeletal'
 cp: 28
 bp: 28
 cp_cost: 28
+recommended_traits:
+  - trait-dark-sight
 ---
 
 # **1.03.Synthetics.Swarm — Swarm (Nanomachine Hyper-Colony Ooze)**

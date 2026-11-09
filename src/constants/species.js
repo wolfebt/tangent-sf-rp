@@ -3,10 +3,12 @@
 // ═══════════════════════════════════════════════════════════
 
 export const SPECIES_BUDGET_LEVELS = {
-  Standard: { id: 'Standard', name: 'Standard Species (10–20 BP)', minBP: 10, maxBP: 20, description: 'Humans, Elves, and baseline sentient races' },
-  Advanced: { id: 'Advanced', name: 'Advanced Species (25–40 BP)', minBP: 25, maxBP: 40, description: 'Dragonkin, High-Tier Synthetics, and genetically engineered species' },
-  Monster: { id: 'Monster', name: 'Monster / NPC Species (40+ BP)', minBP: 40, maxBP: 100, description: 'Dragons, Incorporeal Entities, and Progenitor beings' }
+  Standard: { id: 'Standard', name: 'Standard Lineage (12–25 CP)', label: 'Standard Lineage (12–25 CP)', min: 12, max: 25, target: 20, minBP: 12, maxBP: 25, description: 'Humans, Elves, and baseline sentient races' },
+  Advanced: { id: 'Advanced', name: 'Advanced Lineage (25–47 CP)', label: 'Advanced Lineage (25–47 CP)', min: 25, max: 47, target: 35, minBP: 25, maxBP: 47, description: 'Dragonkin, High-Tier Synthetics, and genetically engineered species' },
+  Monster: { id: 'Monster', name: 'Monster / Apex / Progenitor (50+ CP)', label: 'Monster / Apex / Progenitor (50+ CP)', min: 50, max: 120, target: 75, minBP: 50, maxBP: 120, description: 'Dragons, Incorporeal Entities, and Progenitor beings' }
 };
+
+export const SPECIES_BUDGET_TIERS = SPECIES_BUDGET_LEVELS;
 
 export const SPECIES_TYPES = {
   Humanoid: {
@@ -124,8 +126,8 @@ export const SPECIES_TYPES = {
     name: 'Synthetic / Construct',
     bp: 15,
     description: 'Animated objects or artificially created creatures. Synthetics designed to emulate another type may have its form but may or may not have abilities to match.',
-    senses: 'Low-light vision [1] and Darkvision 60 feet [1].',
-    traits: 'Hardened Frame: Bonus HP based on size (Tiny: —, Small: +10, Medium: +20, Large: +40, Huge: +80) [2], Synthetic Strength: Lift/Carry/Grapple as 1 size larger [2], Repair Required: Cannot heal damage on own [-3]',
+    senses: 'Low-light vision [1] and Darksight 60ft [1].',
+    traits: 'Hardened Frame: Base 60 Structure Points (SP) instead of Vitality/Health; inherent DR 5/- and 10 Base Socket Capacity [2], Synthetic Strength: Lift/Carry/Grapple as 1 size larger [2], Repair Required: Cannot heal damage on own [-3]',
     immunities: 'Mental Immunity (Mind-affecting effects) [3], Metabolic Immunity (Ability damage/drain, fatigue, exhaustion, energy drain, nonlethal) [3], Fortitude Immunity (Effects requiring Fortitude save) [3]',
     fortification: '',
     physiology: 'Synthetics do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]'
@@ -182,20 +184,20 @@ export const getSizeTierIndex = (itemOrName) => {
 };
 
 export const SPECIES_SIZES = {
-  Miniscule: { id: 'Miniscule', name: 'Miniscule', bp: 10, strMod: -32, agiMod: 16, combatMod: 32, defMod: 16, stealthMod: 20, stabilityMod: -32, dmgDieStep: -5, speedMod: -20, dimensions: '<1 in / <1 oz (Micro-Organism, Insect, Micro-Drone)' },
-  Fine: { id: 'Fine', name: 'Fine', bp: 8, strMod: -16, agiMod: 12, combatMod: 16, defMod: 12, stealthMod: 16, stabilityMod: -24, dmgDieStep: -4, speedMod: -15, dimensions: '<6 in / <1/8 lb (Small Rodent, Micro-Scout)' },
-  Diminutive: { id: 'Diminutive', name: 'Diminutive', bp: 6, strMod: -8, agiMod: 8, combatMod: 8, defMod: 8, stealthMod: 12, stabilityMod: -16, dmgDieStep: -3, speedMod: -10, dimensions: '<1 ft / <1 lb (Rat, Sparrow, Mini-Drone)' },
-  Tiny: { id: 'Tiny', name: 'Tiny', bp: 4, strMod: -4, agiMod: 4, combatMod: 4, defMod: 4, stealthMod: 8, stabilityMod: -8, dmgDieStep: -2, speedMod: -10, dimensions: '<2 ft / <8 lbs (House Cat, Hawk, Skateboard)' },
-  Small: { id: 'Small', name: 'Small', bp: 2, strMod: -2, agiMod: 2, combatMod: 2, defMod: 2, stealthMod: 4, stabilityMod: -4, dmgDieStep: -1, speedMod: -5, dimensions: '<4 ft / <60 lbs (Chimpanzee, Lynx, Scooter)' },
-  Medium: { id: 'Medium', name: 'Medium', bp: 0, strMod: 0, agiMod: 0, combatMod: 0, defMod: 0, stealthMod: 0, stabilityMod: 0, dmgDieStep: 0, speedMod: 0, dimensions: '4-8 ft / 60-500 lbs (Human, Rottweiler, Motorcycle)' },
-  Large: { id: 'Large', name: 'Large', bp: 2, strMod: 2, agiMod: -2, combatMod: -2, defMod: -2, stealthMod: -4, stabilityMod: 4, dmgDiceMult: 2, speedMult: 2, dimensions: '>8 ft / >500 lbs (Horse, Lion, Small Car)' },
-  Huge: { id: 'Huge', name: 'Huge', bp: 4, strMod: 4, agiMod: -4, combatMod: -4, defMod: -4, stealthMod: -8, stabilityMod: 8, dmgDiceMult: 5, speedMult: 5, dimensions: '>16 ft / >4,000 lbs (Elephant, Rhinoceros, Delivery Truck)' },
-  Gargantuan: { id: 'Gargantuan', name: 'Gargantuan', bp: 8, strMod: 8, agiMod: -8, combatMod: -8, defMod: -8, stealthMod: -16, stabilityMod: 16, dmgDiceMult: 10, speedMult: 10, dimensions: '<64 ft / <125 tons (Siege Walker, Landing Craft, Apex Behemoth)' },
-  Colossal: { id: 'Colossal', name: 'Colossal', bp: 16, strMod: 16, agiMod: -16, combatMod: -16, defMod: -16, stealthMod: -32, stabilityMod: 32, dmgDiceMult: 20, speedMult: 20, dimensions: '<128 ft / <1,000 tons (Titan Mech, Corvette Starship, World-Burrower)' },
-  Enormous: { id: 'Enormous', name: 'Enormous', bp: 32, strMod: 32, agiMod: -32, combatMod: -32, defMod: -32, stealthMod: 0, stabilityMod: 64, dmgDiceMult: 40, speedMult: 40, dimensions: '<512 ft / <16,000 tons (Frigate Vessel, Fortress Complex)' },
-  Titanic: { id: 'Titanic', name: 'Titanic', bp: 64, strMod: 64, agiMod: -64, combatMod: -64, defMod: -64, stealthMod: 0, stabilityMod: 128, dmgDiceMult: 80, speedMult: 80, dimensions: '<1,024 ft / <144,000 tons (Battleship, Defense Station)' },
-  'Super Gargantuan': { id: 'Super Gargantuan', name: 'Super Gargantuan', bp: 128, strMod: 128, agiMod: -128, combatMod: -128, defMod: -128, stealthMod: 0, stabilityMod: 256, dmgDiceMult: 160, speedMult: 160, dimensions: '<5,280 ft / <50M tons (Dreadnought, Colony Spire)' },
-  'Mega Colossal': { id: 'Mega Colossal', name: 'Mega Colossal', bp: 256, strMod: 256, agiMod: -256, combatMod: -256, defMod: -256, stealthMod: 0, stabilityMod: 512, dmgDiceMult: 320, speedMult: 320, dimensions: '1 Mile+ / 50M+ tons (Super-Dreadnought, Megastructure Arcology)' }
+  Miniscule: { id: 'Miniscule', name: 'Miniscule', bp: 10, strMod: -32, agiMod: 16, combatMod: 32, defMod: 32, stealthMod: 20, stabilityMod: -32, dmgDieStep: -5, speedMod: -20, reach: '0 ft', dimensions: '<1 in / <1 oz (Micro-Organism, Insect, Micro-Drone)' },
+  Fine: { id: 'Fine', name: 'Fine', bp: 8, strMod: -16, agiMod: 12, combatMod: 16, defMod: 16, stealthMod: 16, stabilityMod: -24, dmgDieStep: -4, speedMod: -15, reach: '0 ft', dimensions: '<6 in / <1/8 lb (Small Rodent, Micro-Scout)' },
+  Diminutive: { id: 'Diminutive', name: 'Diminutive', bp: 6, strMod: -8, agiMod: 8, combatMod: 8, defMod: 8, stealthMod: 12, stabilityMod: -16, dmgDieStep: -3, speedMod: -10, reach: '0 ft', dimensions: '<1 ft / <1 lb (Rat, Sparrow, Mini-Drone)' },
+  Tiny: { id: 'Tiny', name: 'Tiny', bp: 4, strMod: -4, agiMod: 4, combatMod: 4, defMod: 4, stealthMod: 8, stabilityMod: -8, dmgDieStep: -2, speedMod: -10, reach: '0 ft', dimensions: '<2 ft / <8 lbs (House Cat, Hawk, Skateboard)' },
+  Small: { id: 'Small', name: 'Small', bp: 2, strMod: -2, agiMod: 2, combatMod: 2, defMod: 2, stealthMod: 4, stabilityMod: -4, dmgDieStep: -1, speedMod: -5, reach: '5 ft', dimensions: '<4 ft / <60 lbs (Chimpanzee, Lynx, Scooter)' },
+  Medium: { id: 'Medium', name: 'Medium', bp: 0, strMod: 0, agiMod: 0, combatMod: 0, defMod: 0, stealthMod: 0, stabilityMod: 0, dmgDieStep: 0, speedMod: 0, reach: '5 ft', dimensions: '4-8 ft / 60-500 lbs (Human, Rottweiler, Motorcycle)' },
+  Large: { id: 'Large', name: 'Large', bp: 2, strMod: 2, agiMod: -2, combatMod: -2, defMod: -2, stealthMod: -4, stabilityMod: 4, dmgDiceMult: 2, speedMult: 2, reach: '5–10 ft', dimensions: '>8 ft / >500 lbs (Horse, Lion, Small Car)' },
+  Huge: { id: 'Huge', name: 'Huge', bp: 4, strMod: 4, agiMod: -4, combatMod: -4, defMod: -4, stealthMod: -8, stabilityMod: 8, dmgDiceMult: 5, speedMult: 5, reach: '10–15 ft', dimensions: '>16 ft / >4,000 lbs (Elephant, Rhinoceros, Delivery Truck)' },
+  Gargantuan: { id: 'Gargantuan', name: 'Gargantuan', bp: 8, strMod: 8, agiMod: -8, combatMod: -8, defMod: -8, stealthMod: -16, stabilityMod: 16, dmgDiceMult: 10, speedMult: 10, reach: '15–20 ft', dimensions: '<64 ft / <125 tons (Siege Walker, Landing Craft, Apex Behemoth)' },
+  Colossal: { id: 'Colossal', name: 'Colossal', bp: 16, strMod: 16, agiMod: -16, combatMod: -16, defMod: -16, stealthMod: -32, stabilityMod: 32, dmgDiceMult: 20, speedMult: 20, reach: '20–25 ft', dimensions: '<128 ft / <1,000 tons (Titan Mech, Corvette Starship, World-Burrower)' },
+  Enormous: { id: 'Enormous', name: 'Enormous', bp: 32, strMod: 32, agiMod: -32, combatMod: -32, defMod: -32, stealthMod: 'Impossible (NO)', stabilityMod: 64, dmgDiceMult: 40, speedMult: 40, reach: '30+ ft', dimensions: '<512 ft / <16,000 tons (Frigate Vessel, Fortress Complex)' },
+  Titanic: { id: 'Titanic', name: 'Titanic', bp: 64, strMod: 64, agiMod: -64, combatMod: -64, defMod: -64, stealthMod: 'Impossible (NO)', stabilityMod: 128, dmgDiceMult: 80, speedMult: 80, reach: '30+ ft', dimensions: '<1,024 ft / <144,000 tons (Battleship, Defense Station)' },
+  'Super Gargantuan': { id: 'Super Gargantuan', name: 'Super Gargantuan', bp: 128, strMod: 128, agiMod: -128, combatMod: -128, defMod: -128, stealthMod: 'Impossible (NO)', stabilityMod: 256, dmgDiceMult: 160, speedMult: 160, reach: '30+ ft', dimensions: '<5,280 ft / <50M tons (Dreadnought, Colony Spire)' },
+  'Mega Colossal': { id: 'Mega Colossal', name: 'Mega Colossal', bp: 256, strMod: 256, agiMod: -256, combatMod: -256, defMod: -256, stealthMod: 'Impossible (NO)', stabilityMod: 512, dmgDiceMult: 320, speedMult: 320, reach: '30+ ft', dimensions: '1 Mile+ / 50M+ tons (Super-Dreadnought, Megastructure Arcology)' }
 };
 
 
@@ -353,7 +355,8 @@ export const SPECIES_TRAITS_BASIC = [
   { id: 'digitigrade', name: 'Digitigrade / Ungulated', bp: 1, type: 'Movement', description: '+10 Movement Speed and +4 Stability, Special pants and Boots needed.' },
   { id: 'draconic', name: 'Draconic', bp: 1, type: 'Physical', description: 'Access to purchase various Dragon Traits' },
   { id: 'emissary', name: 'Emissary', bp: 1, type: 'Social', description: 'Once per day make a check at advantage for Bluff or Diplomacy.' },
-  { id: 'exoskeleton_partial', name: 'Exoskeleton (Partial)', bp: 1, type: 'Physical', description: 'DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.' },
+  { id: 'exoskeleton_partial', name: 'Light Exoskeleton', alias: 'Exoskeleton (Partial)', bp: 1, type: 'Physical', description: 'Natural DR = STR + 2 (or STR + 4 with Heavy Armor)' },
+  { id: 'light_exoskeleton', name: 'Light Exoskeleton', bp: 1, type: 'Physical', description: 'Natural DR = STR + 2 (or STR + 4 with Heavy Armor)' },
   { id: 'focused_study', name: 'Focused Study', bp: 1, type: 'Trained', description: 'Gain Skill Focus in a skill of their choice.' },
   { id: 'frenzy', name: 'Frenzy', bp: 1, type: 'Physical', description: '1/day, whenever taking damage, fly into frenzy for 1 min (+2 Sta/Str, –2 Defense).' },
   { id: 'greedy_eye', name: 'Greedy Eye', bp: 1, type: 'Trained', description: '+4 bonus on all Appraise checks.' },
@@ -424,7 +427,8 @@ export const SPECIES_TRAITS_ADVANCED = [
   { id: 'dragon_mind', name: 'Dragon Mind', bp: 2, type: 'Physical', description: 'Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.' },
   { id: 'dragon_senses', name: 'Dragon Senses', bp: 2, type: 'Sensory', description: 'Make Alertness Checks with Advantage. Req: Dragonkin, Alertness 11.' },
   { id: 'energy_resist', name: 'Energy Resist', bp: 2, is_ranked: true, type: 'Physical', description: 'DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.' },
-  { id: 'exoskeleton_light', name: 'Exoskeleton (Light)', bp: 2, type: 'Physical', description: 'DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.' },
+  { id: 'exoskeleton_light', name: 'Medium Exoskeleton', alias: 'Exoskeleton (Light)', bp: 2, type: 'Physical', description: 'Natural DR = STR * 2 (or STR * 3 with Heavy Armor)' },
+  { id: 'medium_exoskeleton', name: 'Medium Exoskeleton', bp: 2, type: 'Physical', description: 'Natural DR = STR * 2 (or STR * 3 with Heavy Armor)' },
   { id: 'fast_heal', name: 'Fast Heal', bp: 2, type: 'Physical', description: 'Daily Recovery of Health and Vitality during a Light Rest (repeatable).' },
   { id: 'fey_affinity', name: 'Fey Affinity', bp: 2, type: 'Meta', description: 'Animals treat character as Trusting & Neutral, Friendly.' },
   { id: 'fiend_affinity', name: 'Fiend Affinity', bp: 2, type: 'Meta', description: 'Animals treat character as a Predator & Dangerous, Wary.' },
@@ -506,7 +510,8 @@ export const SPECIES_TRAITS_ELITE = [
   { id: 'energy_absorption', name: 'Energy Absorption', bp: 4, is_ranked: true, type: 'Meta', description: 'Heals 20% of damage ignored. Ranked. Req: Energy Immunity.' },
   { id: 'energy_immunity', name: 'Energy Immunity', bp: 4, type: 'Physical', description: 'Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.' },
   { id: 'ether_sight', name: 'Ether Sight', bp: 4, type: 'Meta', description: 'See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.' },
-  { id: 'exoskeleton_heavy', name: 'Exoskeleton (Heavy)', bp: 4, type: 'Physical', description: 'DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.' },
+  { id: 'exoskeleton_heavy', name: 'Heavy Exoskeleton', alias: 'Exoskeleton (Heavy)', bp: 4, type: 'Physical', description: 'Natural DR = STR * 3 (or STR * 4 with Heavy Armor, -5 ft speed)' },
+  { id: 'heavy_exoskeleton', name: 'Heavy Exoskeleton', bp: 4, type: 'Physical', description: 'Natural DR = STR * 3 (or STR * 4 with Heavy Armor, -5 ft speed)' },
   { id: 'flight', name: 'Flight', bp: 4, type: 'Movement', description: 'Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.' },
   { id: 'hexapedal', name: 'Hexapedal', bp: 4, type: 'Movement', description: 'Six legged, +8 Stability, +20 movement speed. Special Accommodations.' },
   { id: 'immortal', name: 'Immortal', bp: 4, type: 'Meta', description: 'Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.' },
@@ -552,6 +557,27 @@ export const SPECIES_SKILL_MODIFIERS = [
   { id: 'species_skill_point', name: 'Skill Point (+1)', bp: 1, value: 1, costPerPoint: 1, type: 'Skills', effect: '+1 Species Skill Point (1 CP).' }
 ];
 
+export const SYNTHETIC_CHASSIS_DATA = {
+  baseCost: 15,
+  traits: [
+    { id: 'hardened_frame', name: 'Hardened Frame', bp: 2, description: 'Base 60 Structure Points (SP) instead of Vitality/Health; inherent DR 5/- and 10 Base Socket Capacity' },
+    { id: 'optical_array', name: 'Optical Array', bp: 2, description: 'Low-light vision and Darksight 60ft' },
+    { id: 'synthetic_strength', name: 'Synthetic Strength', bp: 2, description: 'Lift/Carry/Grapple as 1 size larger' },
+    { id: 'mental_immunity', name: 'Mental Immunity', bp: 3, description: 'Immune to all mind-affecting effects' },
+    { id: 'metabolic_immunity', name: 'Metabolic Immunity', bp: 3, description: 'Immune to ability damage/drain, fatigue, exhaustion, energy drain, and nonlethal damage' },
+    { id: 'fortitude_immunity', name: 'Fortitude Immunity', bp: 3, description: 'Immune to any effect requiring a Fortitude save (unless it also affects objects)' },
+    { id: 'non_breathing', name: 'Non-Living Physiology', bp: 3, description: 'Does not breathe, eat, or sleep' },
+    { id: 'repair_required', name: 'Repair Required', bp: -3, description: 'Cannot heal damage on own; must be repaired via Engineering/Mechanic' }
+  ]
+};
+
+export const SPECIES_TRAITS_CATALOG = [
+  ...SPECIES_TRAITS_BASIC,
+  ...SPECIES_TRAITS_ADVANCED,
+  ...SPECIES_TRAITS_ELITE,
+  ...SYNTHETIC_CHASSIS_DATA.traits
+];
+
 export const SPECIES_COMPONENT_RULES = {
   types: SPECIES_TYPES,
   sizes: SPECIES_SIZES,
@@ -563,8 +589,11 @@ export const SPECIES_COMPONENT_RULES = {
   basicTraits: SPECIES_TRAITS_BASIC,
   advancedTraits: SPECIES_TRAITS_ADVANCED,
   eliteTraits: SPECIES_TRAITS_ELITE,
+  traitsCatalog: SPECIES_TRAITS_CATALOG,
+  syntheticChassis: SYNTHETIC_CHASSIS_DATA,
   disadvantages: SPECIES_DISADVANTAGES,
   budgetLevels: SPECIES_BUDGET_LEVELS,
+  budgetTiers: SPECIES_BUDGET_TIERS,
   attributeCostPerPoint: 5,
   attributeRefundPerPenalty: 5,
   skillCostPerPoint: 1,

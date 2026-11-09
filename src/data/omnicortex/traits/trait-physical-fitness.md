@@ -2,7 +2,7 @@
 id: trait-physical-fitness
 name: Physical Fitness
 trait_tier: Basic
-trait_type: Physical
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Superior cardiovascular endurance, stamina, and physical conditioning,
   granting bonuses on long-distance athletics checks.
 modifiers: []
+classification: Physical
 ---
 # Physical Fitness
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Physical
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

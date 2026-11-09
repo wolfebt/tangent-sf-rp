@@ -27,81 +27,114 @@ inherent_features: []
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Echolocation
-  - Swimmer
-  - Quick
+  - special-darksight
+  - general-echolocation
+  - general-swimmer
+  - general-quick
+  - ability-environmental-adaptation
+  - ability-great-fortitude
+  - special-low-light-vision
 disadvantages: []
 stigma: Aquatic Xeno (-3)
 tech_level: '3'
 meta_level: '2'
 homeworld: Aquaria & Pelagic Colony Worlds
 costs:
-  cp: 12
-  bp: 12
+  cp: 13
+  bp: 13
 modifiers:
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
-  - target: Any
-    value: 1
+    description: +1 Attribute Choice(s)
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Adapted Physiology - Depth
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Chameleon
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Darksight'
+  - target: general-echolocation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Echolocation
+    description: 'Recommended Feature: Echolocation'
+  - target: general-swimmer
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Partial)
+    description: 'Recommended Feature: Swimmer'
+  - target: general-quick
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment (Underwater)
+    description: 'Recommended Feature: Quick'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fortitude Resistance
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low-Light Vision
+    description: 'Recommended Feature: Great Fortitude'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Swimmer
+    description: 'Recommended Feature: Low Light Vision'
+  - target: trait-dark-sight
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Quick
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-quick
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Quick'
+  - target: trait-chameleon
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-exoskeleton-partial
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Partial)'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
 description: >-
   The indigenous aquatic humanoids of Aquarius, known simply as Aquatic Humans,
   are a native race whose history on the water world significantly predates the
   establishment and influence of the Impyrium in this region. They are the
   planet's original sentient inhabitants.
-traits: &ref_0
+traits:
+  - trait-adapted
+  - trait-amphibious
+  - trait-aquatic-strength
+  - trait-aquatic-senses
+  - trait-aquatic
+species_traits:
   - trait-adapted
   - trait-amphibious
   - trait-aquatic-strength
   - trait-water-sense
   - trait-aquatic
-species_traits: *ref_0
 recommended_factions:
   - The Syndicate
   - Coalition of Independent Worlds
@@ -117,6 +150,13 @@ negative_keywords: 'arid-desert, heavy-foundry, claustrophobia'
 cp: 12
 bp: 12
 cp_cost: 12
+recommended_traits:
+  - trait-dark-sight
+  - trait-quick
+  - trait-chameleon
+  - trait-exoskeleton-partial
+  - trait-bonded-terrain
+  - trait-low-light-vision
 ---
 
 # **1.03.Humans.Aquarian — Aquarian (Aquarius Native)**

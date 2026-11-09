@@ -109,6 +109,7 @@ function syncSpecies() {
     const specific_skill_bonuses = Array.isArray(data.specific_skill_bonuses) ? [...data.specific_skill_bonuses] : [];
     const inherent_features = Array.isArray(data.inherent_features) ? [...data.inherent_features] : [];
     const recommended_features = Array.isArray(data.recommended_features) ? [...data.recommended_features] : [];
+    const recommended_traits = Array.isArray(data.recommended_traits) ? [...data.recommended_traits] : [];
 
     modifiers.forEach(m => {
       if (!m || typeof m !== 'object') return;
@@ -126,6 +127,8 @@ function syncSpecies() {
         } else if (m.mode === 'recommended') {
           if (!recommended_features.includes(m.target)) recommended_features.push(m.target);
         }
+      } else if (m.type === 'trait' && m.mode === 'recommended') {
+        if (!recommended_traits.includes(m.target)) recommended_traits.push(m.target);
       }
     });
 
@@ -150,7 +153,15 @@ function syncSpecies() {
         cleaned_inherent_features.push(f);
       }
     });
-    const cleaned_recommended_features = recommended_features.filter(f => !isTrait(f));
+    const cleaned_recommended_features = [];
+    const cleaned_recommended_traits = [...recommended_traits];
+    recommended_features.forEach(f => {
+      if (isTrait(f)) {
+        if (!cleaned_recommended_traits.includes(f)) cleaned_recommended_traits.push(f);
+      } else if (!cleaned_recommended_features.includes(f)) {
+        cleaned_recommended_features.push(f);
+      }
+    });
 
     const speciesObj = {
       id,
@@ -163,6 +174,7 @@ function syncSpecies() {
       movement: Array.isArray(data.movement) ? data.movement : (data.movement ? [data.movement] : ['species_movement-bipedal']),
       traits: traits,
       species_traits: traits,
+      recommended_traits: cleaned_recommended_traits,
       disadvantages: Array.isArray(data.disadvantages) ? data.disadvantages : [],
       modifiers: modifiers,
       costs: costs,

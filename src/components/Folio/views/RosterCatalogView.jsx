@@ -11,6 +11,7 @@ export const RosterCatalogView = ({
   onSelectCharacter,
   onNewCharacter,
   onGuidedCreator,
+  onOpenPullFromMcm,
   onDuplicateCharacter,
   onDeleteCharacter,
   onUpdateNote,
@@ -117,6 +118,21 @@ export const RosterCatalogView = ({
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 shrink-0 flex-wrap">
+          {onOpenPullFromMcm && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1200, 0.03);
+                onOpenPullFromMcm();
+              }}
+              className="px-3 py-2 bg-purple-950/90 hover:bg-purple-900 border border-purple-500/60 text-purple-200 hover:text-white text-xs font-mono font-bold uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(168,85,247,0.25)] flex items-center gap-1.5 cursor-pointer"
+              title="Pull an NPC or Persona from the Modular Character Matrix (MCM) into your Folio Roster"
+            >
+              <span>🧬</span>
+              <span>Pull from MCM</span>
+            </button>
+          )}
+
           {onGuidedCreator && (
             <button
               type="button"
@@ -274,6 +290,11 @@ export const RosterCatalogView = ({
                         {isActive && (
                           <span className="px-2 py-0.5 rounded-md bg-cyan-500/20 border border-cyan-400 text-[9.5px] font-mono font-bold text-cyan-300 uppercase">
                             Active Folio
+                          </span>
+                        )}
+                        {char.is_mcm_persona && (
+                          <span className="px-2 py-0.5 rounded-md bg-purple-950/90 border border-purple-500/60 text-[9.5px] font-mono font-bold text-purple-300 uppercase">
+                            🧬 MCM T-{char.mcm_threat_tier ?? 1}
                           </span>
                         )}
                         <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-[9.5px] font-mono text-slate-300 uppercase">

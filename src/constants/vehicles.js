@@ -270,3 +270,19 @@ export const FACTION_ARCHITECTURAL_PARADIGMS = {
 
 // Backwards compatibility alias
 export const SPECIALIZED_MODULE_CATALOG = ARCHITECTURE_FACILITIES;
+
+export const ARCHITECTURAL_CULTURAL_SKINS = {
+  Solarian: { id: 'Solarian', name: 'Solarian / Dynasty', crMod: 2, dcMod: 2, effect: '+2 CR (+20% SP, reinforced bulkheads)' },
+  Coalition: { id: 'Coalition', name: 'Coalition / Outworlds', crMod: -2, dcMod: -2, effect: '-2 CR (Jury-rigged, 50% faster field patching)' },
+  Kitin: { id: 'Kitin', name: 'Kitin / Auluran Bio-Hive', crMod: 0, dcMod: 0, selfRepairPercentPerDay: 10, effect: '+0 CR (10% SP/day self-repair)' },
+  'Aether-Wrought': { id: 'Aether-Wrought', name: 'Aether-Wrought / Alterian', crMod: 5, dcMod: 5, essenceRegenPerHour: 1, effect: '+5 CR (+1 Essence/hr ambient leyline capacitor)' },
+  AetherWrought: { id: 'AetherWrought', name: 'Aether-Wrought / Alterian', crMod: 5, dcMod: 5, essenceRegenPerHour: 1, effect: '+5 CR (+1 Essence/hr ambient leyline capacitor)' },
+  Precursor: { id: 'Precursor', name: 'Precursor / Mekan Polymatter', crMod: 10, dcMod: 10, isPolymatter: true, effect: '+10 CR (Polymatter dynamic floorplan reconfiguration)' }
+};
+
+export const ARCHITECTURAL_VFT_MODES = {
+  None: { id: 'None', name: 'Static Structure', dcMod: 0, modulePenaltyPerExtraForm: 0, actionCost: 'N/A', description: 'Standard fixed architectural footprint' },
+  TL3_HardShift: { id: 'TL3_HardShift', name: 'TL3 Mechanical Deployment (Hard Shift)', tl: 3, dcMod: 10, modulePenaltyPerExtraForm: 0.10, actionCost: '10 Minutes (100 Rounds)', description: 'Hydraulic folding walls, retractable blast domes (-10% Modules per extra form)' },
+  TL4_FluidShift: { id: 'TL4_FluidShift', name: 'TL4 Smart-Matter Reconfiguration (Fluid Shift)', tl: 4, dcMod: 20, modulePenaltyPerExtraForm: 0.10, actionCost: '1 Minute (10 Rounds)', description: 'Programmable nanocarbon bulkheads (-10% Modules per extra form)' },
+  TL5_StateShift: { id: 'TL5_StateShift', name: 'TL5 Polymatter / Hard-Light (State Shift)', tl: 5, dcMod: 30, modulePenaltyPerExtraForm: 0.10, actionCost: '1 Round', description: 'Instantaneous polymatter and hard-light architecture (-10% Modules per extra form)' }
+};

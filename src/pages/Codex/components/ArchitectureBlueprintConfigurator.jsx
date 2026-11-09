@@ -405,7 +405,19 @@ export const ArchitectureBlueprintConfigurator = ({
                   min="1"
                   max="1000"
                   value={stories}
-                  onChange={(e) => onChange('stories', Math.max(1, Number(e.target.value)))}
+                  onChange={(e) => {
+                    const nextStories = Math.max(1, Number(e.target.value));
+                    onChange('stories', nextStories);
+                    const resolveClass = (s) => {
+                      if (s <= 1) return 'Single';
+                      if (s === 2) return 'Duplex';
+                      if (s <= 5) return HEIGHT_CLASSES['Multi-Story'] ? 'Multi-Story' : 'MultiStory';
+                      if (s <= 12) return HEIGHT_CLASSES['Mid-Rise'] ? 'Mid-Rise' : 'MidRise';
+                      if (s <= 40) return HEIGHT_CLASSES['High-Rise'] ? 'High-Rise' : 'HighRise';
+                      return 'Skyscraper';
+                    };
+                    onChange('height_class', resolveClass(nextStories));
+                  }}
                   className="w-20 bg-slate-950 border border-slate-700 rounded px-2 py-0.5 text-right text-white font-bold"
                 />
               </div>
@@ -880,6 +892,75 @@ export const ArchitectureBlueprintConfigurator = ({
               </div>
             </div>
           )}
+
+          {/* Variable Form Technology (VFT: -10% Modules per extra form) */}
+          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <RefreshCw size={14} />
+                  <span>Variable Form Technology (VFT: -10% Modules per Extra Form)</span>
+                </h4>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  Allows a structure or mobile base to fold, deploy, or reconfigure between distinct operational forms. Each extra form reduces usable Module capacity by 10% and increases Craft DC by +5.
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {[0, 1, 2, 3].map(extraForms => {
+                  const currentExtra = Number(formData.vft_extra_forms ?? 0);
+                  const active = currentExtra === extraForms;
+                  return (
+                    <button
+                      key={extraForms}
+                      type="button"
+                      onClick={() => onChange('vft_extra_forms', extraForms)}
+                      className={`px-2.5 py-1 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
+                        active
+                          ? 'bg-amber-600 text-white border-amber-400'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                      }`}
+                    >
+                      {extraForms === 0 ? 'Static (0 Extra)' : `+${extraForms} Form${extraForms > 1 ? 's' : ''} (-${extraForms * 10}% Mod)`}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Cultural Architectural Skins (Solarian, Coalition, Kitin, Aether-Wrought, Precursor) */}
+          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-3">
+            <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Sparkles size={14} />
+              <span>Cultural Architectural Skins &amp; Paradigms</span>
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+              {[
+                { id: 'Solarian', name: 'Solarian', desc: 'Regal gilded spires, solar-sail collectors, high-authority shields.' },
+                { id: 'Coalition', name: 'Coalition', desc: 'Modular utilitarian brutalism, rapid-deployable prefab bays.' },
+                { id: 'Kitin', name: 'Kitin (Bio-Hive)', desc: 'Living chitinous resin and organic self-regenerating walls.' },
+                { id: 'Aether-Wrought', name: 'Aether-Wrought', desc: 'Crystalline resonance conduits, levitating geometric sanctums.' },
+                { id: 'Precursor', name: 'Precursor', desc: 'Non-Euclidean monoliths, self-healing metamaterial geometry.' }
+              ].map(skinOpt => {
+                const isSelected = factionSkin === skinOpt.id;
+                return (
+                  <button
+                    key={skinOpt.id}
+                    type="button"
+                    onClick={() => onChange('faction_skin', skinOpt.id)}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-sm'
+                        : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="font-bold text-xs text-white">{skinOpt.name}</div>
+                    <p className="text-[10px] text-slate-400 mt-1 leading-tight">{skinOpt.desc}</p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 

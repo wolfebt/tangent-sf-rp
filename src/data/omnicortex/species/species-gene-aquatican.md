@@ -10,6 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+  - species_movement-swimming
 speeds: '30 ft Groundspeed, 30 ft Swimspeed'
 reach: 5 ft
 senses: Standard visual and auditory range.
@@ -27,61 +28,91 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Echolocation
-  - Low Light Vision
-  - Quick
+  - special-darksight
+  - general-echolocation
+  - special-low-light-vision
+  - general-quick
+  - ability-environmental-adaptation
+  - ability-great-fortitude
 disadvantages: []
 stigma: Aquatic Xeno (-3)
 tech_level: '4'
 meta_level: '3'
 homeworld: Deep-Sea Gen-E Habitats
 costs:
-  cp: 11
-  bp: 11
+  cp: 13
+  bp: 13
 modifiers:
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Chameleon
-    value: 1
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Darksight
     value: 1
-    type: feature
     mode: recommended
-  - target: Echolocation
+    description: 'Recommended Feature: Darksight'
+  - target: general-echolocation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Partial)
+    description: 'Recommended Feature: Echolocation'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment (Aquatic)
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-quick
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fortitude Resistance
+    description: 'Recommended Feature: Quick'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Quick
+    description: 'Recommended Feature: Great Fortitude'
+  - target: trait-dark-sight
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-quick
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Quick'
+  - target: trait-chameleon
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Chameleon'
+  - target: trait-exoskeleton-partial
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Partial)'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
 description: >-
   Aquatic Humans of Aquatica, a unique and potent engineered human-variant. This
   species has been in existence for over a century, representing one of the
@@ -113,6 +144,13 @@ negative_keywords: 'dehydration, desert-wasteland, fire, clumsy-on-land'
 cp: 11
 bp: 11
 cp_cost: 11
+recommended_traits:
+  - trait-dark-sight
+  - trait-low-light-vision
+  - trait-quick
+  - trait-chameleon
+  - trait-exoskeleton-partial
+  - trait-bonded-terrain
 ---
 
 # **1.03.Humans.Aquatican — Aquatican (Syndicate Engineered)**

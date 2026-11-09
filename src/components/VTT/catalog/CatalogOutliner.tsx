@@ -38,6 +38,7 @@ import { DEFAULT_AUGMENTATIONS } from '../../../data/augmentationsData';
 import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { adeElementToStageToken, adeElementToInteractiveObject } from '../../../utils/storyAssetAdapter';
+import { convertMcmToFolioPersona, buildVttUnitFromPersona } from '../../../utils/personaBridge';
 
 export interface CatalogOutlinerProps {
   searchQuery: string;
@@ -88,6 +89,10 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   const liveAugmentations = useMemo(() => (dbData.augmentations && dbData.augmentations.length > 0) ? dbData.augmentations : DEFAULT_AUGMENTATIONS, [dbData.augmentations]);
   const liveFactions = useMemo(() => (dbData.factions && dbData.factions.length > 0) ? dbData.factions : DEFAULT_FACTIONS, [dbData.factions]);
   const liveBestiary = useMemo(() => (dbData.bestiary && dbData.bestiary.length > 0) ? dbData.bestiary : (dbData.species && dbData.species.length > 0) ? dbData.species : DEFAULT_SPECIES, [dbData.bestiary, dbData.species]);
+  const liveMcmPersonas = useMemo(
+    () => (dbData.modular_characters || []).map((m: any) => convertMcmToFolioPersona(m, { lockForVtt: true, createCopy: false })),
+    [dbData.modular_characters]
+  );
 
   // ADE World Elements collections
   const adeElements = elementsCatalog || [];
@@ -232,48 +237,37 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     return false;
   };
 
-  // Spawn Token onto Stage with icon & image alignment
-  const handleDeployToken = (entity: {
-    id: string;
-    name: string;
-    vitality?: number;
-    health?: number;
-    structure?: number;
-    hp?: number;
-    dr?: number;
-    stamina_dr?: number;
-    species?: string;
-    archetype?: string;
-    isPersona?: boolean;
-    imageUrl?: string;
-    image?: string;
-    icon?: string;
-    category?: string;
-  }) => {
-    const newId = `${entity.id}-${Date.now()}`;
-    const isSyn = String(entity.species || '').toLowerCase().includes('synthetic') || String(entity.species || '').toLowerCase().includes('mecha');
+  // Spawn Token onto Stage with full VTT Unit components & unique instance ID
+  const handleDeployToken = (entity: any) => {
+    const vttUnit = (buildVttUnitFromPersona(entity.rawPersona || entity, {
+      uniqueInstance: true,
+      position: { x: 350, y: 350 }
+    }) || {}) as Record<string, any>;
+    const newId = vttUnit.id || `${entity.id}-${Date.now()}`;
+    const isSyn = Boolean(vttUnit.is_synthetic);
     const staticToken = {
+      ...vttUnit,
       id: newId,
-      character_doc_id: entity.id,
-      name: entity.name,
-      image_url: entity.image || entity.imageUrl,
+      character_doc_id: vttUnit.character_doc_id || entity.id,
+      name: entity.name || vttUnit.name,
+      image_url: entity.image || entity.imageUrl || vttUnit.image_url,
       icon: entity.icon || (entity.category === 'weapon' ? '⚔️' : entity.category === 'armor' ? '🛡️' : entity.isPersona ? '🧙‍♂️' : '📦'),
-      base_hp: entity.health || entity.hp || 30,
-      base_vitality: entity.vitality || 30,
-      base_health: entity.health || entity.hp || 30,
-      base_structure: entity.structure || 60,
+      base_hp: vttUnit.base_hp || entity.health || entity.hp || 30,
+      base_vitality: vttUnit.base_vitality || entity.vitality || 30,
+      base_health: vttUnit.base_health || entity.health || entity.hp || 30,
+      base_structure: vttUnit.base_structure || entity.structure || 60,
       is_synthetic: isSyn,
-      tech_level: 3,
-      armor_dr: entity.dr || 6,
-      stamina_dr: entity.stamina_dr || 2,
-      size_modifier: 0,
-      speed_ft: 30,
-      species: entity.species || (isSyn ? 'Synthetic' : 'Human'),
-      archetype: entity.archetype || 'Operator',
-      is_persona: !!entity.isPersona
+      tech_level: vttUnit.tech_level || 3,
+      armor_dr: entity.dr ?? vttUnit.armor_dr ?? 6,
+      stamina_dr: entity.stamina_dr ?? vttUnit.stamina_dr ?? 2,
+      size_modifier: vttUnit.size_modifier || 0,
+      speed_ft: vttUnit.speed_ft || 30,
+      species: entity.species || vttUnit.species || (isSyn ? 'Synthetic' : 'Human'),
+      archetype: entity.archetype || vttUnit.archetype || 'Operator',
+      is_persona: entity.isPersona !== undefined ? !!entity.isPersona : Boolean(vttUnit.is_persona)
     };
 
-    useEngineStore.getState().loadStaticEntity(staticToken);
+    useEngineStore.getState().loadStaticEntity(staticToken as any);
     // Deploy at default stage center
     useEngineStore.getState().updatePosition(newId, 350, 350);
     useEngineStore.getState().clearSelection();
@@ -604,13 +598,13 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
       {activeCategory === 'personae' && (
         <div className="space-y-1">
           <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-1 mb-1 flex items-center justify-between">
-            <span>Hero Operators & Personas</span>
-            <span className="text-emerald-400 font-bold">{personaRoster.length + adePersonas.length}</span>
+            <span>Hero Operators, MCM &amp; Story Personas</span>
+            <span className="text-emerald-400 font-bold">{personaRoster.length + liveMcmPersonas.length + adePersonas.length}</span>
           </div>
 
-          {personaRoster.length === 0 && adePersonas.length === 0 ? (
+          {personaRoster.length === 0 && liveMcmPersonas.length === 0 && adePersonas.length === 0 ? (
             <div className="p-3 text-center text-xs text-slate-500 font-mono border border-dashed border-slate-800 rounded-xl">
-              No operator loaded from Persona Folio (/folio) or ADE Elements.
+              No operator loaded from Persona Folio (/folio), MCM, or ADE Elements.
             </div>
           ) : (
             <>
@@ -639,7 +633,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       id={pId}
                       title={pName}
                       subtitle={sub}
-                      badge="FOLIO HERO"
+                      badge={p.is_mcm_persona ? 'MCM FOLIO' : 'FOLIO HERO'}
                       icon={<Users size={14} />}
                       iconColor="text-emerald-400"
                       dragPayload={{
@@ -655,7 +649,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         imageUrl: img,
                         image: img,
                         icon,
-                        isPersona: true
+                        isPersona: true,
+                        rawPersona: p
                       }}
                       onSpawn={() => handleDeployToken({
                         id: pId,
@@ -669,7 +664,65 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         imageUrl: img,
                         image: img,
                         icon,
-                        isPersona: true
+                        isPersona: true,
+                        rawPersona: p
+                      })}
+                      isVisibleToPlayers={true}
+                    />
+                  );
+                })}
+
+              {liveMcmPersonas
+                .filter((p: any) => matchesSearch(p.name || p['char-name'] || '', 'npc', p))
+                .map((p: any, idx: number) => {
+                  const pId = p['character-doc-id'] || p.id || `mcm-${idx}`;
+                  const pName = p.name || p['char-name'] || 'MCM Unit';
+                  const pSpecies = p['char-species'] || 'Human';
+                  const pRole = p['char-occu'] || p.mcm_competency_role || 'Operative';
+                  const pTier = p.mcm_threat_tier ?? 1;
+                  const vit = p['vitality-max'] ?? 30;
+                  const hp = p['health-max'] ?? 30;
+                  const dr = p['armor-dr'] ?? 2;
+                  const img = p.imageUrl || p.tokenUrl;
+                  const icon = p.isSynthetic ? '🤖' : '🧬';
+
+                  return (
+                    <CatalogNodeItem
+                      key={`mcm-persona-${pId}-${idx}`}
+                      id={pId}
+                      title={pName}
+                      subtitle={`T-${pTier} ${pRole} • ${pSpecies} • ${vit} VP / ${hp} HP`}
+                      badge="MCM UNIT"
+                      icon={<Users size={14} />}
+                      iconColor="text-purple-400"
+                      dragPayload={{
+                        type: 'hero',
+                        id: pId,
+                        name: pName,
+                        vitality: vit,
+                        health: hp,
+                        dr,
+                        species: pSpecies,
+                        archetype: pRole,
+                        imageUrl: img,
+                        image: img,
+                        icon,
+                        isPersona: true,
+                        rawPersona: p
+                      }}
+                      onSpawn={() => handleDeployToken({
+                        id: pId,
+                        name: pName,
+                        vitality: vit,
+                        health: hp,
+                        dr,
+                        species: pSpecies,
+                        archetype: pRole,
+                        imageUrl: img,
+                        image: img,
+                        icon,
+                        isPersona: true,
+                        rawPersona: p
                       })}
                       isVisibleToPlayers={true}
                     />
@@ -681,8 +734,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                 .map((p: any, idx: number) => {
                   const pId = p.id || `ade-persona-${idx}`;
                   const pName = p.title || p.name || 'ADE Persona';
-                  const pSpecies = p.fields?.species || 'Human';
-                  const pArchetype = p.fields?.archetype || 'Operator';
+                  const pSpecies = p.fields?.['char-species'] || p.fields?.species || 'Human';
+                  const pArchetype = p.fields?.['char-archetype'] || p.fields?.archetype || 'Operator';
                   const img = p.imageUrl || p.image;
                   const icon = p.icon || '🧙‍♂️';
 
@@ -692,7 +745,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                       id={pId}
                       title={pName}
                       subtitle={`ADE Persona • ${pSpecies} • ${pArchetype}`}
-                      badge="ADE PERSONA"
+                      badge={p.isMcmPersona || p.fields?.personaSubcategory === 'mcm' ? 'ADE MCM' : 'ADE PERSONA'}
                       icon={<Users size={14} />}
                       iconColor="text-emerald-300"
                       dragPayload={{
@@ -704,7 +757,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         imageUrl: img,
                         image: img,
                         icon,
-                        isPersona: true
+                        isPersona: true,
+                        rawPersona: p
                       }}
                       onSpawn={() => handleDeployToken({
                         id: pId,
@@ -714,7 +768,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
                         imageUrl: img,
                         image: img,
                         icon,
-                        isPersona: true
+                        isPersona: true,
+                        rawPersona: p
                       })}
                       isVisibleToPlayers={true}
                       onDelete={() => handleDeleteAdeElement(p)}

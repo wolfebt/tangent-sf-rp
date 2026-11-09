@@ -35,7 +35,7 @@ export const ADE_CONSOLIDATED_METAPHYSICS_FIELDS = {
     metaphysicsSubcategory: {
         type: 'select',
         label: 'Metaphysics Subcategory',
-        options: ['invocations', 'disciplines', 'special_abilities', 'synthesis']
+        options: ['invocations', 'disciplines', 'special_abilities']
     },
     manifestationSensory: { type: 'textarea', label: 'Sensory Manifestation & Resonance Signature' },
     strainBacklash: { type: 'textarea', label: 'Strain, Overchanneling & Backlash Risks' },
@@ -72,6 +72,8 @@ export const categoryConfig = {
             title: { type: 'text', label: 'Formal Title / Subspecies' },
             parent_species: { 
                 type: 'select', 
+                source: 'species_lineage',
+                manageable: true,
                 label: 'Lineage', 
                 options: [
                     'Aeld',
@@ -80,6 +82,7 @@ export const categoryConfig = {
                     'Humans (Core & Variants)',
                     'Engineered Humans (Gen-E)',
                     'Kitin',
+                    'Orll',
                     'Synthetics',
                     "Sha'nor & Void Lineages",
                     'Progenitors',
@@ -138,6 +141,27 @@ export const categoryConfig = {
             keywords: { type: 'text', label: 'Guidance Keywords' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
             ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
+        }
+    },
+    species_lineage: {
+        label: 'SPECIES LINEAGES',
+        viewType: 'table',
+        hideFromMenu: true,
+        directory_columns: ['name', 'cp', 'base_chassis', 'inherent_traits', 'subspecies', 'stigma', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Lineage Name' },
+            cp: { type: 'number', label: 'Base Heritage Cost (CP)', default: 0 },
+            bp: { type: 'number', label: 'Legacy BP', default: 0 },
+            base_chassis: { type: 'text', label: 'Base Chassis Type' },
+            inherent_traits: { type: 'text', label: 'Base Heritage Traits & Package' },
+            subspecies: { type: 'text', label: 'Canonical Subspecies & Castes' },
+            stigma: { type: 'text', label: 'Default Social Stigma / Rebate' },
+            tech_level: { type: 'number', label: 'Typical Tech Level (TL)', default: 3 },
+            meta_level: { type: 'number', label: 'Typical Meta Level (ML)', default: 0 },
+            description: { type: 'textarea', aiEnabled: true, label: 'Lineage Overview & Evolutionary Lore' },
+            mechanic: { type: 'textarea', label: 'Lineage Base Heritage Mechanics' },
+            body: { type: 'textarea', aiEnabled: true, label: 'Full Lineage Compendium Profile (Markdown)' },
+            note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
     species_type: {
@@ -208,8 +232,8 @@ export const categoryConfig = {
             trait_type: { type: 'select', label: 'Trait Type', options: ['Species Trait'], default: 'Species Trait' },
             trait_tier: { type: 'select', label: 'Trait Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
             tier: { type: 'select', label: 'Legacy Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
-            classification: { type: 'select', label: 'Classification / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Combat', 'Movement', 'Metaphysical', 'General'] },
-            type: { type: 'select', label: 'Category / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Combat', 'Movement', 'Meta', 'General'] },
+            classification: { type: 'select', label: 'Classification / Domain', options: ['Defensive', 'Offensive', 'Physical', 'Social', 'Trained', 'Magical/Psionic', 'Sensory', 'Mental', 'Combat', 'Movement', 'Metaphysical', 'General'] },
+            type: { type: 'select', label: 'Category / Domain', options: ['Defensive', 'Offensive', 'Physical', 'Social', 'Trained', 'Magical/Psionic', 'Sensory', 'Mental', 'Combat', 'Movement', 'Meta', 'General'] },
             isPurchasable: { type: 'radio', label: 'Purchasable by Character', options: ['No', 'Yes'], default: 'No' },
             cpCost: { type: 'select', label: 'CP Cost (if Purchasable)', options: [1, 2, 4], default: 1 },
             cp: { type: 'number', label: 'Character Points (CP)', default: 1 },
@@ -231,7 +255,23 @@ export const categoryConfig = {
             prominent_species: { type: 'text', label: 'Prominent Species' },
             capital_world: { type: 'text', label: 'Capital / Key World' },
             description: { type:'textarea', aiEnabled: true },
-            society: { type: 'select', source: 'societies', manageable: true },
+            society: { type: 'select', source: 'societies', label: 'Society & Governance Sphere', manageable: true },
+            synthetic_intelligence: { type: 'select', source: 'society_synthetic_intelligence', label: 'Synthetic Intelligence Sphere', manageable: true },
+            agriculture: { type: 'select', source: 'society_agriculture', label: 'Agriculture Sphere', manageable: true },
+            architecture_sphere: { type: 'select', source: 'society_architecture', label: 'Architecture Sphere', manageable: true },
+            biotechnology: { type: 'select', source: 'society_biotechnology', label: 'Biotechnology Sphere', manageable: true },
+            commerce: { type: 'select', source: 'society_commerce', label: 'Commerce Sphere', manageable: true },
+            communication: { type: 'select', source: 'society_communication', label: 'Communication Sphere', manageable: true },
+            computation: { type: 'select', source: 'society_computation', label: 'Computation Sphere', manageable: true },
+            devices: { type: 'select', source: 'society_devices', label: 'Devices Sphere', manageable: true },
+            education: { type: 'select', source: 'society_education', label: 'Education Sphere', manageable: true },
+            energy: { type: 'select', source: 'society_energy', label: 'Energy Sphere', manageable: true },
+            manufacturing: { type: 'select', source: 'society_manufacturing', label: 'Manufacturing Sphere', manageable: true },
+            materials: { type: 'select', source: 'society_materials', label: 'Materials Sphere', manageable: true },
+            medicine: { type: 'select', source: 'society_medicine', label: 'Medicine Sphere', manageable: true },
+            science: { type: 'select', source: 'society_science', label: 'Science Sphere', manageable: true },
+            transportation: { type: 'select', source: 'society_transportation', label: 'Transportation Sphere', manageable: true },
+            weaponry_sphere: { type: 'select', source: 'society_weaponry', label: 'Weaponry Sphere', manageable: true },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
             modifiers: { type: 'modifiers_list', label: 'Universal Modifiers & Bonuses' },
             attitude: { type: 'textarea' },
@@ -241,15 +281,20 @@ export const categoryConfig = {
             archetype: { type: 'text', label: 'Archetype / Philosophy' },
             tech_level: { type: 'number', label: 'Tech Level (TL 0-5)', default: 3 },
             meta_level: { type: 'number', label: 'Meta Level (ML 0-5)', default: 0 },
-            wealth_modifier: { type: 'text', label: 'Wealth Modifier' },
-            skill_package: { type: 'multiselect', label: 'Skill Package' },
+            wealth_modifier: { type: 'number', min: -4, max: 8, default: 0, label: 'Wealth Modifier (-4 to +8 WS)' },
+            ideology_economic: { type: 'number', min: -5, max: 5, default: 0, label: 'Ideology: Economic Axis (-5 Collectivist to +5 Corporatist)' },
+            ideology_authority: { type: 'number', min: -5, max: 5, default: 0, label: 'Ideology: Authority Axis (-5 Anarchic to +5 Totalitarian)' },
+            ideology_technocratic: { type: 'number', min: -5, max: 5, default: 0, label: 'Ideology: Technocratic Axis (-5 Bioconservative to +5 Transhumanist)' },
+            ideology_metaphysical: { type: 'number', min: -5, max: 5, default: 0, label: 'Ideology: Metaphysical Axis (-5 Materialist to +5 Esoteric)' },
+            ideology_diplomatic: { type: 'number', min: -5, max: 5, default: 0, label: 'Ideology: Diplomatic Axis (-5 Isolationist to +5 Hegemonic)' },
+            skill_package: { type: 'multiselect', label: 'Skill Package (20 SP Pool)' },
             recommended_species: { type: 'multiselect', source: 'species', label: 'Recommended Species', manageable: true },
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
             recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
             recommended_skills: { type: 'multiselect', source: 'skills', label: 'Recommended Skills', manageable: true },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 CP Discount)', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features (-1 CP)', manageable: true },
             traits: { type: 'multiselect', source: 'traits', label: 'Faction Traits', manageable: true },
-            bonus_features: { type: 'multiselect', label: 'Bonus Features' },
+            bonus_features: { type: 'multiselect', label: 'Recommended Features (-1 CP)' },
             keywords: { type: 'text', label: 'Guidance Keywords' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
             colloquialisms: { type: 'text', label: 'Colloquialisms' },
@@ -415,8 +460,9 @@ export const categoryConfig = {
         fields: {
             name: { type:'text', required: true},
             type: { type: 'select', options: ['mental', 'physical', 'social', 'combat', 'meta'], required: true },
-            subtype: { type: 'select', options: ['knowledge', 'vocation', 'manipulation', 'expression', 'archaic', 'modern', 'advanced'] },
+            subtype: { type: 'select', options: ['core', 'discipline', 'knowledge', 'vocation', 'manipulation', 'expression', 'archaic', 'modern', 'advanced'] },
             governing_attribute: { type: 'text', label: 'Governing Ability / Attribute' },
+            specialties: { type: 'text', label: 'Skill Specialties (1 CP / Rank)' },
             is_specialization: { type: 'boolean', label: 'SPECIALIZATION' },
             base_skill: { type: 'select', source: 'skills', label: 'BASE SKILL' },
             description: { type:'textarea', aiEnabled: true, label: 'Canonical Skill Description' },
@@ -479,8 +525,8 @@ export const categoryConfig = {
             trait_tier: {
                 type: 'select',
                 label: 'Trait Tier',
-                options: ['Basic', 'Advanced', 'Elite'],
-                default: 'Basic'
+                options: ['Pillar (1 CP)', 'Origin (1 CP)', 'Occupational (1 CP)', 'Faction (1 CP)', 'Archetype Signature (1 CP)'],
+                default: 'Pillar (1 CP)'
             },
             cp: { type: 'number', label: 'Character Point (CP) Cost', default: 1 },
             bp: { type: 'number', label: 'Legacy BP', default: 1 },
@@ -535,15 +581,28 @@ export const categoryConfig = {
     disadvantages: {
         label: 'DISADVANTAGES',
         viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
+        directory_columns: ['name', 'disadvantage_type', 'classification', 'description', 'cp'],
         fields: {
             name: { type:'text', required: true},
+            disadvantage_type: {
+                type: 'select',
+                label: 'Disadvantage Type',
+                options: ['Personal Hindrance', 'Species Disadvantage', 'Quirk'],
+                default: 'Personal Hindrance'
+            },
+            classification: {
+                type: 'select',
+                label: 'Severity / Classification',
+                options: ['Minor', 'Major', 'Severe'],
+                default: 'Minor'
+            },
+            cp_granted: { type: 'number', label: 'CP Granted / Rebate', default: 1 },
             description: { type:'textarea', aiEnabled: true},
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
             modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            cp: { type: 'number'},
+            cp: { type: 'number', label: 'CP Rebate', default: 1 },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
@@ -553,14 +612,38 @@ export const categoryConfig = {
     modular_characters: {
         label: 'MODULAR CHARACTERS',
         viewType: 'table',
+        subItems: ['modular_characters', 'companions'],
         directory_columns: ['name', 'threatTier', 'competencyRole', 'designation', 'bossType'],
         fields: {
             name: { type: 'text', required: true, label: 'Operator / Archetype Name' },
             threatTier: { type: 'number', label: 'Threat Tier (0-20)' },
+            role: {
+                type: 'select',
+                label: 'Canonical MCM Role',
+                options: [
+                    'Tank', 'Juggernaut', 'Duelist', 'Ranger', 'Sniper', 'Skirmisher',
+                    'Tactician', 'Saboteur', 'Adept', 'Controller', 'Psion',
+                    'Socialite / Envoy / Broker', 'Spy', 'Healer', 'Biochemist / Combat Medic',
+                    'Scholar', 'Pathfinder',
+                    'Bruiser', 'Striker', 'Assassin', 'Gunslinger', 'Blaster', 'Buffer', 'Commander', 'Summoner'
+                ]
+            },
             competencyRole: { 
                 type: 'select', 
                 label: 'Competency Role',
-                options: ['Tank', 'Bruiser', 'Striker', 'Assassin', 'Sniper', 'Gunslinger', 'Blaster', 'Controller', 'Buffer', 'Healer', 'Commander', 'Summoner'] 
+                options: [
+                    'Tank', 'Juggernaut', 'Duelist', 'Ranger', 'Sniper', 'Skirmisher',
+                    'Tactician', 'Saboteur', 'Adept', 'Controller', 'Psion',
+                    'Socialite / Envoy / Broker', 'Spy', 'Healer', 'Biochemist / Combat Medic',
+                    'Scholar', 'Pathfinder',
+                    'Bruiser', 'Striker', 'Assassin', 'Gunslinger', 'Blaster', 'Buffer', 'Commander', 'Summoner'
+                ] 
+            },
+            chassis_mode: {
+                type: 'select',
+                label: 'Chassis Mode',
+                options: ['Biological', 'Synthetic / Construct', 'Non-Corporeal / Cosmic Entity'],
+                default: 'Biological'
             },
             designation: { type: 'select', label: 'Designation', options: ['Adversary', 'Ally', 'Companion', 'Neutral'] },
             bossType: { type: 'select', label: 'Chassis Type', options: ['Minion', 'Standard', 'Boss', 'Mastermind'] },
@@ -585,6 +668,47 @@ export const categoryConfig = {
             note: { type: 'textarea', label: 'Architect Notes' },
             keywords: { type: 'text', label: 'Guidance Keywords & Positive Directives' },
             negative_keywords: { type: 'text', label: 'Negative Keywords & Railguards' },
+            ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
+        }
+    },
+    companions: {
+        label: 'COMPANIONS & FAMILIARS',
+        parent: 'modular_characters',
+        viewType: 'table',
+        directory_columns: ['name', 'companion_type', 'form_package', 'size', 'owner_tier', 'companion_rank', 'cp', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Companion / Familiar Name' },
+            companion_type: {
+                type: 'select',
+                label: 'Companion Type',
+                options: ['Biological Beast', 'Synthetic Drone / Automaton', 'Metaphysical Familiar / Spirit', 'Symbiont', 'Mount / Steed'],
+                default: 'Biological Beast'
+            },
+            form_package: {
+                type: 'select',
+                label: 'Form Package',
+                options: ['Quadruped / Predator', 'Avian / Flyer', 'Serpentine / Coiler', 'Insectoid / Arachnid', 'Aquatic / Amphibian', 'Hover Drone / Sphere', 'Bipedal Construct', 'Amorphous / Spectral'],
+                default: 'Quadruped / Predator'
+            },
+            function_packages: {
+                type: 'multiselect',
+                label: 'Function Packages',
+                options: ['Recon / Scout', 'Guardian / Shield', 'Combat / Striker', 'Medical / Support', 'Technical / Splicer', 'Mount / Carrier', 'Arcane / Focus Conduit', 'Stealth / Infiltrator']
+            },
+            size: {
+                type: 'select',
+                source: 'species_size',
+                label: 'Size Category',
+                options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge'],
+                default: 'Small'
+            },
+            owner_tier: { type: 'number', min: 1, max: 6, default: 1, label: 'Owner Tier (1-6)' },
+            companion_rank: { type: 'number', min: 1, max: 10, default: 1, label: 'Companion Rank (1-10)' },
+            extra_features: { type: 'multiselect', source: 'trait', manageable: true, label: 'Extra Features & Traits' },
+            cp: { type: 'number', default: 3, label: 'Character Points (CP)' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description & Bond Lore' },
+            mechanic: { type: 'textarea', label: 'Companion Mechanics, Telemetry & Actions' },
+            note: { type: 'textarea', label: 'Architect Notes' },
             ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     },
@@ -617,15 +741,18 @@ export const categoryConfig = {
             name: { type: 'text', required: true, label: 'Planet / System Name' },
             starClass: { type: 'select', label: 'Star Class', options: ['O', 'B', 'A', 'F', 'G', 'K', 'M', 'D', 'Black Hole', 'Neutron', 'Nebula'] },
             orbitalZone: { type: 'select', label: 'Orbital Zone', options: ['Inner (Hot)', 'BioZone (Habitable)', 'Outer (Cold)', 'Halo (Deep Space)'] },
-            size: { type: 'number', label: 'Size / Gravity Tier (1-10)' },
-            atmosphere: { type: 'number', label: 'Atmosphere Code (0-12)' },
-            hydrography: { type: 'number', label: 'Hydrography (0-100%)' },
+            size: { type: 'number', min: 0, max: 15, label: 'Size / Gravity Tier (0-15)' },
+            size_code: { type: 'number', min: 0, max: 15, label: 'Size Code (0-15)' },
+            atmosphere: { type: 'number', min: 0, max: 15, label: 'Atmosphere Code (0-15)' },
+            atmosphere_code: { type: 'number', min: 0, max: 15, label: 'Atmosphere Code (0-15)' },
+            hydrography: { type: 'number', min: 0, max: 100, label: 'Hydrography (0-100%)' },
             biosphere: { type: 'select', label: 'Biosphere / Life', options: ['None', 'Microbial', 'Vegetative', 'Arthropoid', 'Reptilian', 'Avian/Mammal', 'Sophont'] },
-            population: { type: 'number', label: 'Population Code (0-15)' },
-            tech_level: { type: 'number', label: 'Tech Level (TL 0-5)' },
-            meta_level: { type: 'number', label: 'Metafocus Level (ML 0-6)' },
-            government: { type: 'number', label: 'Government Code (0-15)' },
-            lawLevel: { type: 'number', label: 'Law Level Code (0-15)' },
+            population: { type: 'number', min: 0, max: 15, label: 'Population Code (0-15)' },
+            population_code: { type: 'number', min: 0, max: 15, label: 'Population Code (0-15)' },
+            tech_level: { type: 'number', min: 0, max: 5, label: 'Tech Level (TL 0-5)' },
+            meta_level: { type: 'number', min: 0, max: 6, label: 'Metafocus Level (ML 0-6)' },
+            government: { type: 'number', min: 0, max: 15, label: 'Government Code (0-15)' },
+            lawLevel: { type: 'number', min: 0, max: 15, label: 'Law Level Code (0-15)' },
             starport: { type: 'select', label: 'Starport Class', options: ['A', 'B', 'C', 'D', 'E', 'X'] },
             tradeCodes: { type: 'multiselect', source: 'traits', manageable: true, label: 'Trade Classifications' },
             factionArchetype: { type: 'text', label: 'Faction / Cultural Aesthetic' },
@@ -688,8 +815,15 @@ export const categoryConfig = {
             note: { type: 'textarea' }
         }
     },
+    metaphysics: {
+        label: 'METAPHYSICS',
+        isParent: true,
+        viewType: 'landing',
+        subItems: ['invocations', 'special_abilities'],
+    },
     invocations: {
         label: 'INVOCATIONS',
+        parent: 'metaphysics',
         viewType: 'table',
         directory_columns: ['name', 'description', 'discipline', 'meta_skill', 'design_dc'],
         fields: {
@@ -724,6 +858,7 @@ export const categoryConfig = {
     },
     special_abilities: {
         label: 'SPECIAL ABILITIES',
+        parent: 'metaphysics',
         viewType: 'table',
         directory_columns: ['name', 'description', 'discipline', 'meta_skill', 'design_dc'],
         fields: {
@@ -821,7 +956,7 @@ export const categoryConfig = {
             weight: { type: 'number', label: 'Weight (kg)' },
             sp: { type: 'number', label: 'Structure Points (SP)' },
             dr: { type: 'number', label: 'Damage Resist (DR)' },
-            workspace_scale: { type: 'select', options: ['Belt', 'Bench', 'Bay', 'Facility'], label: 'Workspace Scale' },
+            workspace_scale: { type: 'select', options: ['Basic Kit', 'Full Set', 'Dedicated Shop', 'Full Facility', 'Belt', 'Pack', 'Case', 'Room', 'Campus'], label: 'Workspace Scale' },
             computer_pr: { type: 'number', label: 'Processor Rating (PR)' },
             software_level: { type: 'number', label: 'Software Level' },
             epr_rating: { type: 'number', label: 'EPR Rating' },
@@ -880,7 +1015,7 @@ export const categoryConfig = {
             creator: { type: 'multiselect', source: 'creator', manageable: true },
             classification: { type: 'select', options: ['Melee (Slashing)', 'Melee (Blunt)', 'Melee (Piercing)', 'Ranged (Ballistic)', 'Heavy (Ballistic)', 'Ranged (Energy)', 'Heavy (Energy)'] },
             damage: { type: 'text', label: 'Damage (DMG)' },
-            damage_type: { type: 'select', options: ['Kinetic', 'Force', 'Thermal (Pyro/Cryo)', 'Voltic (Electrical)', 'Sonic', 'Corrosive (Acid)', 'Psychic/Metaphysical'] },
+            damage_type: { type: 'select', options: ['Kinetic', 'Force', 'Thermal (Pyro/Cryo)', 'Voltic (Electrical)', 'Sonic', 'Corrosive (Acid)', 'Psychic/Metaphysical', 'Plasma', 'Laser', 'Particle', 'Ion/EMP', 'Disruption', 'Concussive'] },
             ap: { type: 'number', label: 'Penetration' },
             ammunition: { type: 'text', label: 'Ammunition / Capacity' },
             power_source: { type: 'text', label: 'Power Source' },
@@ -1111,8 +1246,12 @@ export const categoryConfig = {
             manufacturing: { type: 'select', source: 'society_manufacturing', label: 'Manufacturing', manageable: true },
             materials: { type: 'select', source: 'society_materials', label: 'Materials', manageable: true },
             medicine: { type: 'select', source: 'society_medicine', label: 'Medicine', manageable: true },
-            society: { type: 'select', source: 'society_society', label: 'Structure', manageable: true },
+            science: { type: 'select', source: 'society_science', label: 'Science', manageable: true },
+            computation: { type: 'select', source: 'society_computation', label: 'Computation', manageable: true },
+            society: { type: 'select', source: 'society_society', label: 'Society & Governance', manageable: true },
+            synthetic_intelligence: { type: 'select', source: 'society_synthetic_intelligence', label: 'Synthetic Intelligence', manageable: true },
             synthetics: { type: 'select', source: 'society_synthetics', label: 'Synthetics', manageable: true },
+            transportation: { type: 'select', source: 'society_transportation', label: 'Transportation', manageable: true },
             weaponry: { type: 'select', source: 'society_weaponry', label: 'Weaponry', manageable: true },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' }
@@ -1123,14 +1262,18 @@ export const categoryConfig = {
             society_biotechnology: { label: 'BIOTECHNOLOGY', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_commerce: { label: 'COMMERCE', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_communication: { label: 'COMMUNICATION', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
+            society_computation: { label: 'COMPUTATION', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_devices: { label: 'DEVICES', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_education: { label: 'EDUCATION', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_energy: { label: 'ENERGY', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_manufacturing: { label: 'MANUFACTURING', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_materials: { label: 'MATERIALS', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_medicine: { label: 'MEDICINE', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
-            society_society: { label: 'SOCIETY STRUCTURE', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
+            society_science: { label: 'SCIENCE', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
+            society_society: { label: 'SOCIETY & GOVERNANCE', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
+            society_synthetic_intelligence: { label: 'SYNTHETIC INTELLIGENCE', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_synthetics: { label: 'SYNTHETICS', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
+            society_transportation: { label: 'TRANSPORTATION', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } },
             society_weaponry: { label: 'SOCIETY WEAPONRY', directory_columns: ['name', 'level', 'description'], fields: { name: { type: 'text', required: true }, level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] }, description: { type: 'textarea' }, prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true }, modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' }, mechanic: { type: 'textarea' }, note: { type: 'textarea' } } }
         }
     },
@@ -1162,7 +1305,7 @@ export const categoryConfig = {
             bonus_scope: { type: 'radio', label: 'Bonus Scope', options: ['any', 'specific'], default: 'any' },
             bonus_feature_categories: { type: 'multiselect', label: 'Bonus Feature Categories', options: ['any', 'ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic'] },
             bonus_skill_categories: { type: 'multiselect', label: 'Bonus Skill Categories', options: ['any', 'mental', 'physical', 'social', 'combat', 'meta'] },
-            bonus_attribute_options: { type: 'multiselect', label: 'Bonus Attribute Options', options: ['Any Attribute', 'Any Primary Attribute', 'Any Sub-Attribute', 'Strength', 'Might', 'Agility', 'Reflex', 'Stamina', 'Fortitude', 'Intellect', 'Logic', 'Wisdom', 'Will', 'Charisma', 'Etiquette'] },
+            bonus_attribute_options: { type: 'multiselect', label: 'Bonus Attribute Options', options: ['Any Attribute', 'Any Primary Attribute', 'Any Sub-Attribute', 'Strength', 'Might', 'Agility', 'Reflex', 'Stamina', 'Fortitude', 'Intellect', 'Wisdom', 'Charisma', 'Etiquette'] },
             skill_bonus_type: { type: 'radio', label: 'Skill Bonus Type', options: ['adjust', 'grant'], default: 'adjust' },
             granted_skill_id: { type: 'select', source: 'skills', label: 'Granted Skill' },
             value: { type: 'number' },
@@ -1295,6 +1438,14 @@ export const categoryConfig = {
         fields: {
             name: { type: 'text', required: true, label: 'World Name' },
             universe: { type: 'select', source: 'universe', manageable: true },
+            size: { type: 'number', min: 0, max: 15, label: 'Size / Gravity Tier (0-15)' },
+            size_code: { type: 'number', min: 0, max: 15, label: 'Size Code (0-15)' },
+            atmosphere: { type: 'number', min: 0, max: 15, label: 'Atmosphere Code (0-15)' },
+            atmosphere_code: { type: 'number', min: 0, max: 15, label: 'Atmosphere Code (0-15)' },
+            population: { type: 'number', min: 0, max: 15, label: 'Population Code (0-15)' },
+            population_code: { type: 'number', min: 0, max: 15, label: 'Population Code (0-15)' },
+            tech_level: { type: 'number', min: 0, max: 5, label: 'Tech Level (TL 0-5)' },
+            meta_level: { type: 'number', min: 0, max: 6, label: 'Metafocus Level (ML 0-6)' },
             highConcept: { type: 'textarea', label: 'High Concept & Planetary Identity' },
             description: { type: 'textarea', aiEnabled: true },
             geography: { type: 'textarea', label: 'Geography & Climate' },
@@ -1603,8 +1754,50 @@ export const categoryConfig = {
             note: { type: 'textarea' }
         }
     },
+    society_science: {
+        label: 'SOCIETY: SCIENCE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_computation: {
+        label: 'SOCIETY: COMPUTATION',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
     society_society: {
-        label: 'SOCIETY: STRUCTURE',
+        label: 'SOCIETY: SOCIETY & GOVERNANCE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_synthetic_intelligence: {
+        label: 'SOCIETY: SYNTHETIC INTELLIGENCE',
         hideFromMenu: true,
         directory_columns: ['name', 'level', 'description'],
         fields: {
@@ -1619,6 +1812,20 @@ export const categoryConfig = {
     },
     society_synthetics: {
         label: 'SOCIETY: SYNTHETICS',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_transportation: {
+        label: 'SOCIETY: TRANSPORTATION',
         hideFromMenu: true,
         directory_columns: ['name', 'level', 'description'],
         fields: {
@@ -1716,7 +1923,6 @@ export const categoryConfig = {
             crisp_prompt: { type: 'textarea', label: 'CRISP Rendering Prompt Template' },
             mechanic: { type: 'textarea', label: 'Full Synthesis Specification' },
             note: { type: 'textarea', label: 'Architect Notes' },
-            ...ADE_CONSOLIDATED_METAPHYSICS_FIELDS,
             ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
         }
     }
@@ -1751,7 +1957,7 @@ export const DEVELOPMENT_FIELDS_GROUPS = [
     id: 'societies_spheres',
     label: 'Societies & Spheres of Development',
     icon: '🏛️',
-    description: 'Civilization structures and the 14 technological/cultural spheres of societal progression.'
+    description: 'Civilization structures and the 16 technological/cultural spheres of societal progression.'
   }
 ];
 
@@ -1765,6 +1971,7 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'synthesis', group: 'system', label: 'CRISP Visual Synthesis', icon: '🎨', desc: '266 canonical CRISP visual rendering keyframes across species, factions, origins, occupations, and archetypes.' },
 
   // Species, Anatomy & Locomotion
+  { key: 'species_lineage', group: 'species_anatomy', label: 'Species Lineages', icon: '👑', desc: 'Ancestral species bloodlines, base heritage CP packages, subspecies castes, and taxonomic families (Aeld, Asi, Aulurans, Humans, Gen-E, Kitin, Orll, Progenitors, Sha\'Nor, Synthetics, Independent Xenotypes).' },
   { key: 'species_type', group: 'species_anatomy', label: 'Species Types', icon: '🧬', desc: 'Biological and synthetic classifications (Humanoid, Cybernetic, Xenobiological, etc.).' },
   { key: 'species_size', group: 'species_anatomy', label: 'Species Sizes & Scaling', icon: '📐', desc: 'Size categories, scaling multipliers, height/weight boundaries, and reach modifiers.' },
   { key: 'species_movement', group: 'species_anatomy', label: 'Species Movements', icon: '🏃', desc: 'Locomotion methods (Bipedal, Flight, Burrowing, Aquatic, Zero-G, etc.).' },
@@ -1796,21 +2003,25 @@ export const DEVELOPMENT_FIELDS_REGISTRY = [
   { key: 'mode', group: 'equipment_crafting', label: 'Weapon & Armor Modes', icon: '🔄', desc: 'Operational firing modes (Single, Burst, Full-Auto, Charge, Defensive Brace).' },
   { key: 'special', group: 'equipment_crafting', label: 'Weapon Specials', icon: '⭐', desc: 'Unique weapon mechanics, specialized properties, and handling quirks.' },
 
-  // Societies & Spheres of Development
+  // Societies & Spheres of Development (16 Canonical Civilization Domains)
   { key: 'societies', group: 'societies_spheres', label: 'Societies Master', icon: '🏛️', desc: 'Complete societal profiles defining culture, tech/meta milestones, and spheres.' },
   { key: 'society_agriculture', group: 'societies_spheres', label: 'Society: Agriculture', icon: '🌾', desc: 'Food production, farming technologies, hydroponics, and ecosystem synthesis.' },
   { key: 'society_architecture', group: 'societies_spheres', label: 'Society: Architecture', icon: '🏙️', desc: 'Urban engineering, habitat construction, dome architecture, and megastructures.' },
   { key: 'society_biotechnology', group: 'societies_spheres', label: 'Society: Biotechnology', icon: '🧬', desc: 'Genetics, cloning, bio-engineering, neural crafting, and organism design.' },
   { key: 'society_commerce', group: 'societies_spheres', label: 'Society: Commerce', icon: '💰', desc: 'Economic models, banking networks, trade routes, currency, and resource exchange.' },
   { key: 'society_communication', group: 'societies_spheres', label: 'Society: Communication', icon: '📡', desc: 'Sub-space relays, ansible networks, holonet infrastructure, and telemetry.' },
+  { key: 'society_computation', group: 'societies_spheres', label: 'Society: Computation', icon: '💻', desc: 'Data processing, quantum computing, algorithmic networks, and computational matrices.' },
   { key: 'society_devices', group: 'societies_spheres', label: 'Society: Devices', icon: '📱', desc: 'Consumer electronics, personal computing, sensors, tools, and apparatus.' },
   { key: 'society_education', group: 'societies_spheres', label: 'Society: Education', icon: '🎓', desc: 'Knowledge institutions, neural archives, apprenticeships, and academies.' },
   { key: 'society_energy', group: 'societies_spheres', label: 'Society: Energy', icon: '⚡', desc: 'Power generation, fusion reactors, antimatter taps, and solar arrays.' },
   { key: 'society_manufacturing', group: 'societies_spheres', label: 'Society: Manufacturing', icon: '🏗️', desc: 'Industrial automated fabrication, nano-forges, mass production, and orbital yards.' },
   { key: 'society_materials', group: 'societies_spheres', label: 'Society: Materials', icon: '🔬', desc: 'Material science, meta-materials, molecular metallurgy, and high-density plating.' },
   { key: 'society_medicine', group: 'societies_spheres', label: 'Society: Medicine', icon: '💉', desc: 'Healthcare infrastructure, cellular regeneration, trauma care, and panaceas.' },
-  { key: 'society_society', group: 'societies_spheres', label: 'Society: Structure', icon: '⚖️', desc: 'Government models, legal systems, social stratification, and caste frameworks.' },
-  { key: 'society_synthetics', group: 'societies_spheres', label: 'Society: Synthetics', icon: '🤖', desc: 'Artificial intelligence, android rights, synthetic biology, and cybernetics.' },
+  { key: 'society_science', group: 'societies_spheres', label: 'Society: Science', icon: '🔭', desc: 'Empirical and unified scientific disciplines, research laboratories, and theoretical physics.' },
+  { key: 'society_society', group: 'societies_spheres', label: 'Society & Governance', icon: '⚖️', desc: 'Government models, legal systems, social stratification, and civic governance frameworks.' },
+  { key: 'society_synthetic_intelligence', group: 'societies_spheres', label: 'Synthetic Intelligence', icon: '🤖', desc: 'Reflexive automation, self-aware AI, Artificial General Intelligence (AGI), and Hyper Intellect (ASI).' },
+  { key: 'society_synthetics', group: 'societies_spheres', label: 'Society: Synthetics', icon: '🦿', desc: 'Android chassis, synthetic biology, cybernetic integration, and automaton labor.' },
+  { key: 'society_transportation', group: 'societies_spheres', label: 'Society: Transportation', icon: '🚀', desc: 'Planetary transit, GEV vehicles, reaction FTL, Tangent Space drives, and spatial gateways.' },
   { key: 'society_weaponry', group: 'societies_spheres', label: 'Society: Weaponry', icon: '⚔️', desc: 'Military doctrines, planetary defense grids, ordinance, and arms advancement.' },
 ];
 
@@ -1834,7 +2045,10 @@ export const FIELD_ORDER_WEIGHTS = {
   title: 15,
   parent_species: 20,
   lineage: 22,
+  base_chassis: 23,
+  subspecies: 24,
   homeworld: 25,
+  inherent_traits: 26,
   stigma: 28,
   entry_type: 30,
   category: 35,

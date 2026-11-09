@@ -29,13 +29,13 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Attractive
-  - Bodyform Features
-  - Deceitful
-  - Entertaining
-  - Persuasive
-  - Social
-  - Trustworthy
+  - skill-attractive
+  - skill-deceitful
+  - skill-entertaining
+  - skill-persuasive
+  - skill-social
+  - skill-trustworthy
+  - special-sense
 disadvantages: []
 stigma: Shifter (-2)
 tech_level: '3'
@@ -46,51 +46,75 @@ costs:
   bp: 9
 modifiers:
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Attractive
-    value: 1
+  - target: skill-attractive
     type: feature
-    mode: recommended
-  - target: Bodyform Features
     value: 1
-    type: feature
     mode: recommended
-  - target: Deceitful
+    description: 'Recommended Feature: Attractive'
+  - target: skill-deceitful
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Detect and Sensory Abilities
+    description: 'Recommended Feature: Deceitful'
+  - target: skill-entertaining
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Entertaining
+    description: 'Recommended Feature: Entertaining'
+  - target: skill-persuasive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Obfuscate
+    description: 'Recommended Feature: Persuasive'
+  - target: skill-social
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Persuasive
+    description: 'Recommended Feature: Social'
+  - target: skill-trustworthy
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Social
+    description: 'Recommended Feature: Trustworthy'
+  - target: special-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Trustworthy
+    description: 'Recommended Feature: Sense'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-sense-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Sense (Psychic)'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
 description: >-
   Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
   subtly alter their facial structure, voice, and eye pigments to adopt distinct
@@ -114,6 +138,12 @@ negative_keywords: 'obvious, honest, rigid, static-features'
 cp: 9
 bp: 9
 cp_cost: 9
+recommended_traits:
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-sense-psychic
+  - trait-obfuscate
 ---
 
 # **1.03.Humans.Changeling — Changeling (Doppelganger Hybrid)**

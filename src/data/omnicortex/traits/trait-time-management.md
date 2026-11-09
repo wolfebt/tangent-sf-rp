@@ -2,7 +2,7 @@
 id: trait-time-management
 name: Time Management
 trait_tier: Basic
-trait_type: Mental
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Mastery of operational logistics, prioritizing tasks, and maximizing
   productivity during downtime.
 modifiers: []
+classification: Mental
 ---
 # Time Management
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Mental
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

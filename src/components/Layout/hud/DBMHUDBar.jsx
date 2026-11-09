@@ -128,24 +128,6 @@ export const DBMHUDBar = ({
               Omnicortex Options
             </div>
 
-            {/* Switch to Rules Codex */}
-            <button
-              type="button"
-              onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.03);
-                setIsDbmMenuOpen(false);
-                navigate('/codex');
-              }}
-              className="w-full text-left px-3 py-2 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-200 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between cursor-pointer"
-              title="Switch from Omnicortex DB to Rules Codex Matrices"
-            >
-              <div className="flex items-center gap-2">
-                <BookOpen size={13} className="text-purple-400" />
-                <span>Rules Codex</span>
-              </div>
-              <span className="text-[10px] text-purple-400 font-mono">Codex</span>
-            </button>
-
             {/* User Guide */}
             <button
               type="button"

@@ -20,6 +20,9 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { useStory } from '../../../../context/CampaignContext';
+import { useDBM } from '../../../../context/DBMContext';
+import { useFolio } from '../../../../context/FolioContext';
+import { buildUnifiedAdeCatalog } from '../../../../utils/cortexAdeAssetBridge';
 import { showConfirm } from '../../../../context/ConfirmContext';
 import { getTypePillStyle } from '../../ElementForge/elementSchemas';
 import { useAdeStore } from '../../store/adeStore';
@@ -32,9 +35,20 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
     updateSavedElement,
     deleteSavedElement 
   } = useStory();
+  const { dbData } = useDBM() || { dbData: {} };
+  const { personaRoster = [], publicCatalog = [] } = useFolio() || {};
 
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('All');
+
+  const unifiedCatalog = useMemo(() => {
+    return buildUnifiedAdeCatalog({
+      elementsCatalog,
+      dbData,
+      folioRoster: personaRoster,
+      publicPersonas: publicCatalog
+    });
+  }, [elementsCatalog, dbData, personaRoster, publicCatalog]);
 
   const categories = ['All', 'Persona', 'Faction', 'Location', 'Object', 'Lore', 'Encounter', 'Hazard'];
 
@@ -47,16 +61,16 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
   };
 
   const filteredElements = useMemo(() => {
-    return (elementsCatalog || []).filter((elem) => {
+    return (unifiedCatalog || []).filter((elem) => {
       const matchesSearch = !search ||
         (elem.title || '').toLowerCase().includes(search.toLowerCase()) ||
-        (elem.fields?.description || '').toLowerCase().includes(search.toLowerCase()) ||
+        (elem.fields?.description || elem.fields?.summary || '').toLowerCase().includes(search.toLowerCase()) ||
         (elem.type || '').toLowerCase().includes(search.toLowerCase());
       
       const matchesType = selectedType === 'All' || elem.type?.toLowerCase() === selectedType.toLowerCase();
       return matchesSearch && matchesType;
     });
-  }, [elementsCatalog, search, selectedType]);
+  }, [unifiedCatalog, search, selectedType]);
 
   const handleDragStart = (e, elem) => {
     AudioService.playTerminalBeep(940, 0.02);
@@ -186,9 +200,16 @@ export default function ElementsTab({ activeNode, onInsertElementMention }) {
                   <div className="space-y-1.5">
                     {/* Header badge & title */}
                     <div className="flex items-center justify-between gap-1.5">
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase border ${pill.bg} ${pill.border} ${pill.text}`}>
-                        {elem.type || 'Asset'}
-                      </span>
+                      <div className="flex items-center gap-1">
+                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold uppercase border ${pill.bg} ${pill.border} ${pill.text}`}>
+                          {elem.type || 'Asset'}
+                        </span>
+                        {elem.sourceLabel && (
+                          <span className="text-[8.5px] px-1.5 py-0.5 rounded-full bg-slate-950 border border-slate-700 text-cyan-300 font-bold uppercase">
+                            {elem.sourceLabel}
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
                         {mentioned && (
                           <span className="text-[9px] text-cyan-400 font-bold flex items-center gap-0.5" title="Mentioned in current story">

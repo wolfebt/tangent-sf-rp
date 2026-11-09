@@ -453,15 +453,15 @@ const PLAYBOOK_MAP = {
   },
   Metaphysics: {
     family: 'macro',
-    familyLabel: 'Metaphysics, Invocations & Synthesis',
+    familyLabel: 'Metaphysics, Invocations & Disciplines',
     pitchKey: 'oneLinePitch',
     pitchLabel: 'Core Invocation / Metaphysical Effect',
     pitchPlaceholder: 'e.g. Collapses local gravity into a 6m singularity pulling hostile units inward...',
     stage3Title: 'Discipline, Manifestation & Invocation Parameters',
-    stage3Subtitle: 'Subcategory (Invocation, Discipline, Ability, Synthesis), range, area, cast time, and sensory signature.',
+    stage3Subtitle: 'Subcategory (Invocation, Discipline, Special Ability), range, area, cast time, and sensory signature.',
     stage4Title: 'Meta Level, Design DC & Strain Calibration',
     stage4Subtitle: 'Calibrate Meta Level (ML 0–5), Invocation Design DC, governing Meta Skill, and Strain/AP cost.',
-    dbmCategories: ['invocations', 'disciplines', 'special_abilities', 'synthesis']
+    dbmCategories: ['invocations', 'disciplines', 'special_abilities']
   },
   'Story Arc': {
     family: 'macro',

@@ -330,7 +330,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false, docked = false })
       }
     });
 
-    // 6. Codex Matrices
+    // 6. Cortex Rules Codex Design Frameworks
     (Array.isArray(CODEX_MATRICES) ? CODEX_MATRICES : []).forEach((mat) => {
       if (
         mat.name?.toLowerCase().includes(q) ||
@@ -338,14 +338,15 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false, docked = false })
         mat.category?.toLowerCase().includes(q) ||
         mat.description?.toLowerCase().includes(q)
       ) {
+        const targetCat = mat.targetCollection || mat.id;
         results.push({
           id: `matrix_${mat.id}`,
-          title: `${mat.name} Matrix`,
+          title: `${mat.name} Design Framework`,
           subtitle: `${mat.category} • ${mat.description || ''}`,
-          badge: 'CODEX',
+          badge: 'CORTEX',
           badgeClass: 'bg-amber-950/80 text-amber-300 border-amber-500/50',
           icon: <Database size={13} className="text-amber-400" />,
-          onSelect: () => handleDeploy(`/codex?matrix=${encodeURIComponent(mat.id)}`)
+          onSelect: () => handleDeploy(`/dbm?cat=${encodeURIComponent(targetCat)}&mode=studio`)
         });
       }
     });

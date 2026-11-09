@@ -31,7 +31,8 @@ bonus_skill_choices:
 inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - discipline-special-ability
 disadvantages: []
 stigma: Severe Synthetic (-4)
 tech_level: '1'
@@ -42,37 +43,35 @@ costs:
   bp: 45
 modifiers:
   - target: Intellect
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Intellect'
   - target: Charisma
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Charisma'
-  - target: Any
-    value: 6
+  - target: Any Attribute
     type: attribute
+    value: 6
     mode: bonus_pool
-    description: +6 Flexible Attribute Points
+    description: +6 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Metafocus Special Abilities
-    value: 1
+  - target: discipline-special-ability
     type: feature
-    mode: recommended
-  - target: Size (Large)
     value: 1
-    type: feature
     mode: recommended
-  - target: Size (Small)
+    description: 'Recommended Feature: Special Ability'
+  - target: trait-bodyform-sizing
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Bodyform Sizing'
 description: Construct of Metaphysical origin
 traits: &ref_0
   - trait-synthetic-base-traits
@@ -93,6 +92,8 @@ negative_keywords: 'agile-acrobatics, hacking, subtle-espionage'
 cp: 45
 bp: 45
 cp_cost: 45
+recommended_traits:
+  - trait-bodyform-sizing
 ---
 
 # **1.03.Synthetics.Golem — Golem (Arcane Metaphysical Construct)**

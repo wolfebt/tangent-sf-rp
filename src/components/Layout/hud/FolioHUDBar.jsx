@@ -60,6 +60,15 @@ export const FolioHUDBar = ({
   if (!isCharacterSelected) {
     return (
       <div className="flex items-center gap-1.5 sm:gap-2">
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent('open-folio-pull-mcm'))}
+          className="px-2.5 py-1 rounded-lg bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+          title="Pull an NPC or Persona from the Modular Character Matrix (MCM)"
+        >
+          <span>🧬</span>
+          <span>Pull from MCM</span>
+        </button>
         <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400/80 px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-500/30">
           OPERATOR CATALOG
         </span>
@@ -388,6 +397,17 @@ export const FolioHUDBar = ({
             >
               <Zap size={13} className="text-amber-400" />
               <span>New Operator (Guided)</span>
+            </button>
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-folio-pull-mcm'))}
+              className="w-full text-left px-3 py-1.5 hover:bg-purple-950/80 text-purple-300 uppercase font-bold rounded flex items-center justify-between cursor-pointer"
+              title="Pull an NPC or Persona from the Modular Character Matrix (MCM) into Persona Folio"
+            >
+              <span className="flex items-center gap-1.5">
+                <span>🧬</span>
+                <span>Pull from MCM</span>
+              </span>
+              <span className="text-[9px] text-purple-400 font-mono">MATRIX</span>
             </button>
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-folio-delete-character'))}

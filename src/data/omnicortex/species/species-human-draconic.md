@@ -28,10 +28,12 @@ inherent_features:
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Dragonkin Features
-  - Headstrong
-  - Natural Weapons
+  - discipline-awakened
+  - skill-headstrong
+  - special-natural-weapons
+  - special-energy-resistance
+  - skill-veiled-threat
+  - ability-tolerance
 disadvantages: []
 stigma: Draconic (-2)
 tech_level: '3'
@@ -41,56 +43,91 @@ costs:
   cp: 15
   bp: 15
 modifiers:
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: general-benefit-status
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Any
-    value: 1
+    description: 'Grants Inherent Feature: Benefit (Status)'
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Awakened
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: discipline-awakened
     type: feature
-    mode: recommended
-  - target: 'Benefit (Status, Dynasty Nobility)'
     value: 1
-    type: feature
     mode: recommended
-  - target: Dragonkin Features
+    description: 'Recommended Feature: Awakened'
+  - target: skill-headstrong
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Energy Resist line
+    description: 'Recommended Feature: Headstrong'
+  - target: special-natural-weapons
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton
+    description: 'Recommended Feature: Natural Weapons'
+  - target: special-energy-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Headstrong
+    description: 'Recommended Feature: Energy Resistance'
+  - target: skill-veiled-threat
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Intimidating Prowess
+    description: 'Recommended Feature: Veiled Threat'
+  - target: ability-tolerance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Tolerance'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Resilient
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-dragon-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dragon Senses'
+  - target: trait-dragon-breath
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dragon Breath'
+  - target: trait-natural-weapons
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Natural Weapons'
+  - target: trait-energy-resist
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Resist'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
+  - target: trait-resistant
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Resistant'
 description: >-
   The Dragon-Blooded individuals within the Dynasty are a distinct and powerful
   class, sharing many traits and characteristics with the Draconian Alterians, a
@@ -115,6 +152,15 @@ negative_keywords: 'cowardly, dishonorable, treacherous'
 cp: 15
 bp: 15
 cp_cost: 15
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-dragon-senses
+  - trait-dragon-breath
+  - trait-natural-weapons
+  - trait-energy-resist
+  - trait-exoskeleton-light
+  - trait-resistant
 ---
 
 # **1.03.Humans.Draconic — Draconic (Dragon Blooded Humans)**

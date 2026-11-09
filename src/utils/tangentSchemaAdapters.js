@@ -4,6 +4,8 @@
 // modern consolidated nested NoSQL maps and universal arrays.
 // ═══════════════════════════════════════════════════════════
 
+import { calculateCreditValue } from '../engines/tangentEconEngine.js';
+
 export const PROPERTY_CATEGORIES = new Set([
   'augmentations',
   'augmentation',
@@ -70,7 +72,7 @@ export function normalizeOmnicortexItem(item, categoryHint = null) {
       } else {
         const rawDc = item.craft_dc ?? item.design_dc ?? item.base_dc ?? item.dc;
         if (rawDc !== undefined && rawDc !== null && rawDc !== '' && Number(rawDc) >= 0) {
-          costs.credits = Math.round(10 * Math.pow(4, Number(rawDc) / 5));
+          costs.credits = calculateCreditValue(Number(rawDc));
         } else {
           costs.credits = 0;
         }
@@ -413,7 +415,7 @@ export function getItemCosts(item) {
   if (!item) return { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 };
   const rawDc = item.craft_dc ?? item.design_dc ?? item.base_dc ?? item.dc;
   const fallbackTscCredits = (rawDc !== undefined && rawDc !== null && rawDc !== '' && Number(rawDc) > 0)
-    ? Math.round(10 * Math.pow(4, Number(rawDc) / 5))
+    ? calculateCreditValue(Number(rawDc))
     : 0;
   if (item.costs && typeof item.costs === 'object') {
     const rawCr = Number(item.costs.credits || 0) || Number(item.cost || item.price || 0) || fallbackTscCredits;

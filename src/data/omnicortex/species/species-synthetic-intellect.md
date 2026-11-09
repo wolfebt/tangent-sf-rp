@@ -40,7 +40,7 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Digital Expert
+  - skill-digital-expert
 disadvantages: []
 stigma: Severe Synthetic (-4)
 tech_level: '4'
@@ -51,43 +51,45 @@ costs:
   bp: 47
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Strength
-    value: -5
     type: attribute
+    value: -5
     mode: inherent
     description: '-5 Strength'
   - target: Agility
-    value: -5
     type: attribute
+    value: -5
     mode: inherent
     description: '-5 Agility'
   - target: Stamina
-    value: -5
     type: attribute
+    value: -5
     mode: inherent
     description: '-5 Stamina'
-  - target: Any
-    value: 8
+  - target: Any Attribute
     type: attribute
+    value: 8
     mode: bonus_pool
-    description: +8 Flexible Attribute Points
+    description: +8 Attribute Choice(s)
   - target: Any
-    value: 40
     type: skill
+    value: 40
     mode: bonus_pool
     description: +40 Skill Points
   - target: special-companion
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Digital Expert
-    value: 1
+    description: 'Grants Inherent Feature: Companion'
+  - target: skill-digital-expert
     type: feature
+    value: 1
     mode: recommended
+    description: 'Recommended Feature: Digital Expert'
 description: Conscious Algorithm housed within a structure or a mech. (the ‘Shell’).
 traits: &ref_0
   - trait-synthetic-base-traits
@@ -112,6 +114,7 @@ negative_keywords: 'physical-endurance, melee-brawler, heavy-armor'
 cp: 47
 bp: 47
 cp_cost: 47
+recommended_traits: []
 ---
 
 # **1.03.Synthetics.IntellectConstruct — Intellect Construct (Mainframe / Vessel AI)**

@@ -71,13 +71,35 @@ const DISCIPLINE_PRESETS = {
     negative_keywords: 'mindless-brute, crude-mechanics, illiterate-thug, null-magic'
   },
   matter: {
+    label: 'Matter — Creation & Transmutation',
+    foci: ['Creation (Fabrication & Shaping)', 'Transmutation (Molecular Restructuring & Phase)'],
     species: ['Golem (Arcane Construct)', 'Dwerg Human', 'Biomechanical Synthetic', 'Mekan (Assimilation Unit)'],
     factions: ['The Mekan Collective', 'Technological Faction Template', 'Coalition of Independent Worlds'],
     origins: ['Industrial', 'Research', 'Colony'],
     occupations: ['Builder', 'Specialist', 'Adept', 'Scholar'],
     keywords: 'transmutation, molecular-restructuring, density-alteration, construct-fabrication, material-hardening',
     negative_keywords: 'pure-ethereal, non-physical, frivolous-illusion, fragile-glass'
+  },
+  illusion: {
+    label: 'Illusion — Phantasm & Shadow',
+    foci: ['Phantasm (Sensory Projection & Mirage)', 'Shadow (Umbral Weaving & Concealment)'],
+    species: ['Doppelganger (Shifter)', 'Whisper', 'Tenen (Sha’nor Spectral)', 'Sigal'],
+    factions: ['The Outworlds', 'The Alterian Enclave', 'Criminal Syndicate / Cartel'],
+    origins: ['Urban', 'Enlightened', 'Colony', 'Hostile'],
+    occupations: ['Agent', 'Adept', 'Criminal', 'Representative'],
+    keywords: 'illusion, phantasm, shadow-weaving, sensory-projection, mirage, umbral-concealment, hologram, glamour',
+    negative_keywords: 'blunt-kinetic, heavy-siege, unsubtle-brawler, floodlight-exposure'
   }
+};
+
+export const resolveDisciplineKey = (disciplineValue) => {
+  const raw = String(disciplineValue || '').toLowerCase();
+  if (raw.includes('illus') || raw.includes('phantasm') || raw.includes('shadow') || raw.includes('mirage') || raw.includes('umbral')) return 'illusion';
+  if (raw.includes('entropy') || raw.includes('decay') || raw.includes('necro')) return 'entropy';
+  if (raw.includes('dimen') || raw.includes('teleport') || raw.includes('spatial') || raw.includes('rift')) return 'dimension';
+  if (raw.includes('energy') || raw.includes('plasma') || raw.includes('force') || raw.includes('fire') || raw.includes('pyro')) return 'energy';
+  if (raw.includes('matter') || raw.includes('transmut') || raw.includes('creation') || raw.includes('construct')) return 'matter';
+  return 'mental';
 };
 
 /**
@@ -166,12 +188,7 @@ export const InvocationArchitectGuidance = ({
 
   // Detected discipline
   const detectedDiscipline = useMemo(() => {
-    const raw = String(formData.discipline || '').toLowerCase();
-    if (raw.includes('entropy') || raw.includes('decay') || raw.includes('necro')) return 'entropy';
-    if (raw.includes('dimen') || raw.includes('teleport') || raw.includes('spatial') || raw.includes('rift')) return 'dimension';
-    if (raw.includes('energy') || raw.includes('plasma') || raw.includes('force') || raw.includes('fire') || raw.includes('pyro')) return 'energy';
-    if (raw.includes('matter') || raw.includes('transmut') || raw.includes('creation') || raw.includes('construct')) return 'matter';
-    return 'mental';
+    return resolveDisciplineKey(formData.discipline);
   }, [formData.discipline]);
 
   // Apply discipline preset

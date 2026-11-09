@@ -32,10 +32,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Endurance
-  - Runner
-  - Tolerance
-  - Tough
+  - general-endurance
+  - general-runner
+  - ability-tolerance
+  - general-tough
+  - skill-self-sufficient
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '3'
@@ -46,40 +47,45 @@ costs:
   bp: 36
 modifiers:
   - target: Agility
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Agility
   - target: Stamina
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Stamina
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Endurance
-    value: 1
+  - target: general-endurance
     type: feature
-    mode: recommended
-  - target: Runner
     value: 1
-    type: feature
     mode: recommended
-  - target: Self-Sufficient
+    description: 'Recommended Feature: Endurance'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tolerance
+    description: 'Recommended Feature: Runner'
+  - target: ability-tolerance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Tolerance'
+  - target: general-tough
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Tough'
+  - target: skill-self-sufficient
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Self Sufficient'
 description: >-
   The subspecies of human commonly referred to as the Rautha is a medium-sized
   humanoid variant distinguished by a unique combination of enhanced physical
@@ -112,6 +118,7 @@ negative_keywords: 'slow, clumsy, heavy-armor, aquatic'
 cp: 36
 bp: 36
 cp_cost: 36
+recommended_traits: []
 ---
 
 # **1.03.Humans.Rautha — Rautha (Caudal Variant Humans)**

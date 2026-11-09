@@ -33,6 +33,8 @@ import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { PanelLeftOpen, ChevronRight, Menu, Crown, Bot } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { OmnicortexNavRail } from './OmnicortexNavRail';
+import { getMatrixIdForAssetKey, adaptItemToCodexFormData } from '../../pages/Codex/codexAssetBridge';
+import { getMatrixById } from '../../pages/Codex/codexConfig';
 
 const EMPTY_CONFIG = {};
 
@@ -197,20 +199,38 @@ export const DBMContainer = () => {
 
       // 2. Filter by Subtypes / Disciplines / Society / Aspect / Lineage (Species) / Trait Tier & Classification
       if (filterSubtypes.length > 0) {
-        const subCandidates = [
-          item.subtype,
-          item.discipline,
-          item.society,
-          item.aspect,
-          item.aspect_subtype,
-          item.parent_species,
-          item.lineage,
-          item.trait_tier,
-          item.classification
-        ].filter(Boolean);
-        const subs = subCandidates.flatMap(s => Array.isArray(s) ? s : [s]);
-        const matchesSub = filterSubtypes.some(s => subs.some(subItem => String(subItem).toLowerCase().includes(String(s).toLowerCase().split(' ')[0])));
-        if (!matchesSub) return false;
+        if (currentKey === 'species') {
+          const p = String(item.parent_species || item.lineage || '').toLowerCase().trim();
+          const matchesSpeciesLineage = filterSubtypes.some(s => {
+            const sLower = String(s).toLowerCase().trim();
+            if (p === sLower) return true;
+            if (sLower.includes('engineered') || sLower.includes('gen-e') || sLower === 'gene') {
+              return p.includes('engineered') || p.includes('gen-e') || p === 'gene';
+            }
+            if (sLower.includes('human')) {
+              return p.includes('human') && !p.includes('engineered') && !p.includes('gen-e');
+            }
+            const shortToken = sLower.split(' ')[0].replace(/[^a-z0-9]/g, '');
+            const cleanP = p.replace(/[^a-z0-9]/g, '');
+            return Boolean(shortToken && cleanP.includes(shortToken));
+          });
+          if (!matchesSpeciesLineage) return false;
+        } else {
+          const subCandidates = [
+            item.subtype,
+            item.discipline,
+            item.society,
+            item.aspect,
+            item.aspect_subtype,
+            item.parent_species,
+            item.lineage,
+            item.trait_tier,
+            item.classification
+          ].filter(Boolean);
+          const subs = subCandidates.flatMap(s => Array.isArray(s) ? s : [s]);
+          const matchesSub = filterSubtypes.some(s => subs.some(subItem => String(subItem).toLowerCase().includes(String(s).toLowerCase().split(' ')[0])));
+          if (!matchesSub) return false;
+        }
       }
 
       // 3. Filter by Tech Level (TL)
@@ -338,9 +358,21 @@ export const DBMContainer = () => {
     }
     pendingNavSearchRef.current = null;
 
-    const catParam = searchParams.get('cat');
+    const rawCatParam = searchParams.get('cat') || searchParams.get('matrix');
     const subParam = searchParams.get('sub');
     const itemParam = searchParams.get('item');
+    const modeParam = searchParams.get('mode');
+
+    const MATRIX_TO_CORTEX_CAT = {
+      armor: 'armoring',
+      equipment: 'gear',
+      invocation: 'invocations',
+      'modular-characters': 'modular_characters',
+      'planetary-design': 'planets',
+      planetary_design: 'planets',
+      traits: 'trait'
+    };
+    const catParam = rawCatParam ? (MATRIX_TO_CORTEX_CAT[rawCatParam.toLowerCase()] || rawCatParam) : null;
 
     if (catParam && catParam !== activeCategory) {
       setActiveCategory?.(catParam);
@@ -359,7 +391,16 @@ export const DBMContainer = () => {
         setIsEditMode(isAdmin ? true : false);
         setIsEntryModalOpen(true);
       }
-    } else if (!itemParam && isEntryModalOpen) {
+    } else if (modeParam === 'studio' || modeParam === 'create' || modeParam === 'guided' || modeParam === 'codex') {
+      const targetKey = subParam || catParam || currentKey;
+      const matrixId = getMatrixIdForAssetKey(targetKey);
+      const activeMatrix = matrixId ? getMatrixById(matrixId) : null;
+      const draft = adaptItemToCodexFormData(null, activeMatrix);
+      setSelectedItem(null);
+      setEditFormData(draft);
+      setIsEditMode(true);
+      setIsEntryModalOpen(true);
+    } else if (!itemParam && !modeParam && isEntryModalOpen) {
       setIsEntryModalOpen(false);
       setSelectedItem(null);
     }
@@ -411,9 +452,10 @@ export const DBMContainer = () => {
   const handleCloseItem = useCallback(() => {
     setIsEntryModalOpen(false);
     setSelectedItem(null);
-    if (searchParams.get('item')) {
+    if (searchParams.get('item') || searchParams.get('mode')) {
       const newParams = new URLSearchParams(location.search);
       newParams.delete('item');
+      newParams.delete('mode');
       const newSearch = `?${newParams.toString()}`;
       pendingNavSearchRef.current = newSearch;
       navigate({ pathname: location.pathname, search: newSearch });
@@ -442,59 +484,53 @@ export const DBMContainer = () => {
       { 
         label: 'Omnicortex DBM', 
         to: '/dbm?cat=species', 
-        onClick: (activeCategory !== 'species' || activeSubcategory || selectedItem) ? () => handleNavigateCategory('species', null) : undefined 
+        onClick: (activeCategory !== 'species' || activeSubcategory || selectedItem || isEntryModalOpen) ? () => handleNavigateCategory('species', null) : undefined 
       }
     ];
 
     const catLabel = parentConfig?.label || categoryConfig[activeCategory]?.label || activeCategory;
     crumbs.push({
       label: catLabel,
-      onClick: (activeSubcategory || selectedItem) ? () => handleNavigateCategory(activeCategory, null) : undefined,
-      active: !activeSubcategory && !selectedItem,
-      badge: (!activeSubcategory && !selectedItem && currentItems?.length) ? `${currentItems.length}` : undefined
+      onClick: (activeSubcategory || selectedItem || isEntryModalOpen) ? () => handleNavigateCategory(activeCategory, null) : undefined,
+      active: !activeSubcategory && !selectedItem && !isEntryModalOpen,
+      badge: (!activeSubcategory && !selectedItem && !isEntryModalOpen && currentItems?.length) ? `${currentItems.length}` : undefined
     });
 
     if (activeSubcategory) {
       const subLabel = subConfig?.label || categoryConfig[activeSubcategory]?.label || activeSubcategory;
       crumbs.push({
         label: subLabel,
-        onClick: selectedItem ? () => handleNavigateCategory(activeCategory, activeSubcategory) : undefined,
-        active: !selectedItem,
-        badge: (!selectedItem && currentItems?.length) ? `${currentItems.length}` : undefined
+        onClick: (selectedItem || isEntryModalOpen) ? () => handleNavigateCategory(activeCategory, activeSubcategory) : undefined,
+        active: !selectedItem && !isEntryModalOpen,
+        badge: (!selectedItem && !isEntryModalOpen && currentItems?.length) ? `${currentItems.length}` : undefined
       });
     }
 
-    if (selectedItem) {
+    if (selectedItem || isEntryModalOpen) {
       crumbs.push({
-        label: selectedItem.name || selectedItem.title || 'Entry Studio',
+        label: selectedItem ? (selectedItem.name || selectedItem.title || 'Rules Codex Studio') : `Design New ${currentConfig?.label || 'Asset'}`,
         active: true,
-        badge: selectedItem.type || undefined
+        badge: selectedItem?.type || 'RULES CODEX'
       });
     }
 
     return crumbs;
-  }, [activeCategory, activeSubcategory, selectedItem, parentConfig, subConfig, currentItems, handleNavigateCategory]);
+  }, [activeCategory, activeSubcategory, selectedItem, isEntryModalOpen, parentConfig, subConfig, currentConfig, currentItems, handleNavigateCategory]);
 
-  const handleCreateNew = async () => {
+  const handleCreateNew = (prefillData = null) => {
     if (!isAdmin) {
       showToast({ type: 'error', title: 'Access Denied', text: 'Administrator or Architect privileges are required to create new database entries.' });
       return;
     }
 
-    const res = await confirm({
-      title: `Create New ${currentConfig?.label || 'Entry'}`,
-      message: `Specify an identifier or name for the new ${currentConfig?.label || 'database entry'}:`,
-      inputLabel: 'Entry Name',
-      inputValue: '',
-      confirmLabel: 'Create Entry'
-    });
-    const newName = typeof res === 'object' ? res?.value : (typeof res === 'string' ? res : '');
-    if (!res || !newName || !newName.trim()) return;
+    const matrixId = getMatrixIdForAssetKey(currentKey);
+    const activeMatrix = matrixId ? getMatrixById(matrixId) : null;
+    const customPrefill = (prefillData && typeof prefillData === 'object' && !prefillData.nativeEvent) ? prefillData : null;
+    const initialData = adaptItemToCodexFormData(customPrefill, activeMatrix);
 
-    setSelectedItem(null);
-    const initialData = { name: newName.trim(), description: '' };
     if (currentConfig?.fields) {
       Object.keys(currentConfig.fields).forEach(fKey => {
+        if (initialData[fKey] !== undefined) return;
         const fDef = currentConfig.fields[fKey];
         if (fDef.default !== undefined) {
           initialData[fKey] = fDef.default;
@@ -508,19 +544,26 @@ export const DBMContainer = () => {
       });
     }
 
-    const docId = `entry_${Date.now()}`;
-    const payload = { ...initialData, name: newName.trim(), id: docId, updatedAt: new Date().toISOString() };
+    setSelectedItem(null);
+    setEditFormData(initialData);
+    setIsEditMode(true);
+    setIsEntryModalOpen(true);
 
-    const success = await saveEntry(payload, currentKey);
-    if (success) {
-      setSelectedItem(payload);
-      setEditFormData(payload);
-      setIsEditMode(true);
-      setIsEntryModalOpen(true);
-      showToast({ type: 'success', title: 'Entry Created', text: `Created new entry: "${newName.trim()}"` });
-    } else {
-      showToast({ type: 'error', title: 'Creation Failed', text: 'Failed to create new entry. Check console or network.' });
+    const newParams = new URLSearchParams(location.search);
+    if (!newParams.get('cat')) {
+      newParams.set('cat', activeCategory || 'species');
     }
+    if (activeSubcategory && !newParams.get('sub')) {
+      newParams.set('sub', activeSubcategory);
+    }
+    newParams.delete('item');
+    newParams.set('mode', 'studio');
+    const newSearch = `?${newParams.toString()}`;
+    pendingNavSearchRef.current = newSearch;
+    if (location.search !== newSearch) {
+      navigate({ pathname: location.pathname, search: newSearch });
+    }
+    AudioService.playTerminalBeep(1200, 0.03);
   };
 
   const handleDuplicateEntry = async (itemToDuplicate) => {
@@ -979,6 +1022,8 @@ export const DBMContainer = () => {
                   isAdmin={isAdmin}
                   handleDeleteEntry={handleDeleteEntry}
                   handleDuplicateEntry={handleDuplicateEntry}
+                  saveEntry={saveEntry}
+                  dbData={dbData}
                 />
               )}
             </>

@@ -2,7 +2,7 @@
 id: trait-charismatic
 name: Charismatic
 trait_tier: Basic
-trait_type: Social
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -11,12 +11,13 @@ description: >-
   Natural charm and magnetism that puts strangers at ease and bolsters
   leadership checks.
 modifiers: []
+classification: Social
 ---
 # Charismatic
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Social
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

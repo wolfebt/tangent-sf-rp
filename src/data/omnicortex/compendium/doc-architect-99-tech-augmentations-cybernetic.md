@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.cybernetic","matrix"]
-updatedAt: "2026-11-04T09:33:29.314Z"
+updatedAt: "2026-11-08T20:26:42.041Z"
 costs:
   bp: 0
   credits: 0
@@ -183,7 +183,7 @@ Structure Points (SP) are matched 1-to-1 with Node Capacity, except for vital ho
 
 ### **5.1 Integrated Cybernetic Armor**
 
-> **Armor Layering Cap:** Damage Resistance (DR) does not stack across biological, cybernetic, and wearable domains; only the single highest DR applies.
+> **Diminishing Returns Armor Stacking:** When multiple sources of Damage Resistance (DR) apply across biological, cybernetic, metaphysical, and wearable domains, use the single highest DR as the base and add `+1 DR` per stage of 5 (`0 = +0`, `1–5 = +1`, `6–10 = +2`, `11–15 = +3`, `16–20 = +4`, i.e., `ceil[Layer DR / 5]`) calculated separately for each additional armor layer.
 
 | Tier | Stage | Coverage Example | Nodes | SP | DR |
 | :--- | :--- | :--- | :--- | :--- | :--- |

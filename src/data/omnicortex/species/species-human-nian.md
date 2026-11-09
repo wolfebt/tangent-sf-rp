@@ -32,12 +32,13 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Climber
-  - Endurance
-  - Fast Heal
-  - Regeneration
-  - Self Sufficient
-  - Swimmer
+  - general-climber
+  - general-endurance
+  - general-fast-heal
+  - general-regeneration
+  - skill-self-sufficient
+  - general-swimmer
+  - ability-environmental-adaptation
 disadvantages: []
 stigma: None
 tech_level: '1'
@@ -48,56 +49,100 @@ costs:
   bp: 8
 modifiers:
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
-  - target: Bodyform (any)
-    value: 1
+  - target: general-climber
     type: feature
-    mode: recommended
-  - target: Climber
     value: 1
-    type: feature
     mode: recommended
-  - target: Endurance
+    description: 'Recommended Feature: Climber'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Endurance'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Regeneration'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Rugged
+    description: 'Recommended Feature: Self Sufficient'
+  - target: general-swimmer
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Self Sufficient
+    description: 'Recommended Feature: Swimmer'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Swimmer
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: trait-climber
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Climber'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-aquatic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Aquatic'
+  - target: trait-bodyform-adaptation
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
+  - target: trait-hardy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Hardy'
 description: >-
   Tall (7ft+), stocky with bone growths and plating, akin to Denisovan humans.
   The Nian evolved on worlds characterized by intense seismic activity, rapid
@@ -125,6 +170,16 @@ negative_keywords: 'aristocratic, delicate, indoor-sedentary'
 cp: 8
 bp: 8
 cp_cost: 8
+recommended_traits:
+  - trait-climber
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-aquatic
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-bonded-terrain
+  - trait-hardy
 ---
 
 # **1.03.Humans.Nian — Nian (Calcified Dermal Humans)**

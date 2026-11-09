@@ -28,17 +28,19 @@ inherent_features: []
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Acrobatic Steps
-  - Acute Sense
-  - Danger Sense
-  - Darksight
-  - Endurance
-  - Lightning Reflexes
-  - Low Light Vision
-  - Nimble Moves
-  - Runner
-  - Scent
-  - Tracker
+  - general-acrobatic-steps
+  - special-acute-sense
+  - special-danger-sense
+  - special-darksight
+  - general-endurance
+  - ability-lightning-reflexes
+  - special-low-light-vision
+  - general-nimble-moves
+  - general-runner
+  - special-scent
+  - general-tracker
+  - skill-stout
+  - physical-wall-crawler
 disadvantages:
   - disadvantage-species-armless
 stigma: 'Animal (-2), Xeno (-2)'
@@ -50,84 +52,126 @@ costs:
   bp: 28
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
-  - target: Any
-    value: 1
+    description: +2 Attribute Choice(s)
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Acrobatic Steps
+    description: +1 Bonus Feature(s)
+  - target: disadvantage-species-armless
+    type: disadvantage
     value: 1
+    mode: inherent
+    description: 'Species Disadvantage: disadvantage-species-armless'
+  - target: general-acrobatic-steps
     type: feature
-    mode: recommended
-  - target: Acute Senses
     value: 1
-    type: feature
     mode: recommended
-  - target: Athletics Training
+    description: 'Recommended Feature: Acrobatic Steps'
+  - target: special-acute-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Danger Sense
+    description: 'Recommended Feature: Acute Sense'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Danger Sense'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Endurance
+    description: 'Recommended Feature: Darksight'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Reflexes
+    description: 'Recommended Feature: Endurance'
+  - target: ability-lightning-reflexes
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Lightning Reflexes'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Nimble Moves
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-nimble-moves
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Nimble Moves'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Scent
+    description: 'Recommended Feature: Runner'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tracker
+    description: 'Recommended Feature: Scent'
+  - target: general-tracker
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wall-Crawler
+    description: 'Recommended Feature: Tracker'
+  - target: skill-stout
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Stout'
+  - target: physical-wall-crawler
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Wall-Crawler'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
 description: >-
   Intelligent feline quadrupeds with muscular bodies built for power and
   agility. They feature strong legs, large paws, and sharp retractable claws.
   Their rounded heads have powerful jaws and sharp teeth for gripping and
   tearing flesh. A Graa can reach **9ft in length (plus a 4ft tail)** and weigh
   around **600lbs**.
-traits: &ref_0
+traits:
+  - trait-auluran-base-traits
+  - trait-quadruped
+  - trait-martial-arts
+  - trait-quick
+species_traits:
   - trait-auluran-base-traits
   - trait-quadruped
   - trait-defensive-training
   - trait-quick
-species_traits: *ref_0
 recommended_factions:
   - Auluran Clans
   - Mercenary Faction Template
@@ -146,6 +190,11 @@ negative_keywords: 'fine-manipulation, marksmanship, tool-crafting, academic, ur
 cp: 28
 bp: 28
 cp_cost: 28
+recommended_traits:
+  - trait-acute-senses
+  - trait-dark-sight
+  - trait-low-light-vision
+  - trait-scent
 ---
 
 # **1.03.Aulurans.Graa — Graa (Auluran Industrial Vanguard)**

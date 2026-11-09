@@ -114,6 +114,8 @@ export const SKILL_GROUP_ITEMS = [
 const FALLBACK_CATALOG_DATA = {
   archetypes: DEFAULT_ARCHETYPES,
   species: DEFAULT_SPECIES,
+  species_lineage: SPECIES_LINEAGES,
+  species_lineages: SPECIES_LINEAGES,
   species_type: DEFAULT_SPECIES_TYPES,
   species_types: DEFAULT_SPECIES_TYPES,
   species_size: DEFAULT_SPECIES_SIZES,
@@ -738,12 +740,26 @@ export const UniversalCatalogModal = ({
       if (canonicalColKey === 'species') {
         if (selectedSpeciesCategories.length > 0) {
           const matches = selectedSpeciesCategories.some(selectedCat => {
-            const filterStr = String(selectedCat).toLowerCase();
+            const filterStr = String(selectedCat).toLowerCase().trim();
             const cleanFilter = filterStr.replace(/[^a-z0-9]/g, '');
-            const itemCatLower = itemCat.toLowerCase();
+            const itemCatLower = itemCat.toLowerCase().trim();
             const cleanItemCat = itemCatLower.replace(/[^a-z0-9]/g, '');
-            const parentLower = String(item.parent_species || item.lineage || '').toLowerCase();
+            const parentLower = String(item.parent_species || item.lineage || '').toLowerCase().trim();
             const cleanParent = parentLower.replace(/[^a-z0-9]/g, '');
+
+            if (filterStr.includes('engineered') || filterStr.includes('gen-e') || filterStr === 'gene') {
+              return (
+                itemCatLower.includes('engineered') ||
+                itemCatLower.includes('gen-e') ||
+                parentLower.includes('engineered') ||
+                parentLower.includes('gen-e') ||
+                parentLower === 'gene'
+              );
+            }
+            if (filterStr.includes('human')) {
+              const isEng = itemCatLower.includes('engineered') || itemCatLower.includes('gen-e') || parentLower.includes('engineered') || parentLower.includes('gen-e');
+              return !isEng && (itemCatLower.includes('human') || parentLower.includes('human'));
+            }
 
             return (
               itemCatLower === filterStr ||

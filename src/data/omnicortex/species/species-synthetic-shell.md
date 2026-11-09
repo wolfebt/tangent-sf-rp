@@ -26,8 +26,10 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Mighty Surge
-  - Tough
+  - ability-iron-will
+  - general-endurance
+  - skill-educated
+  - skill-gearhead
 disadvantages: []
 stigma: Synthetic (-2)
 tech_level: '4'
@@ -37,22 +39,46 @@ costs:
   cp: 27
   bp: 27
 modifiers:
-  - target: Armor (Chitinous Shell)
-    value: 1
+  - target: ability-iron-will
     type: feature
-    mode: recommended
-  - target: Brutal
     value: 1
-    type: feature
     mode: recommended
-  - target: Mighty Surge
+    description: 'Recommended Feature: Iron Will'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tough
+    description: 'Recommended Feature: Endurance'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Educated'
+  - target: skill-gearhead
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Gearhead'
+  - target: trait-adaptive-features
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adaptive Features'
+  - target: trait-synthetic-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Armor Opts'
+  - target: trait-synthetic-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Weapon Opts'
+  - target: trait-synthetic-exotic-opt
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Synthetic Exotic Opt'
 description: >-
   A synthetic body housing a previously organic consciousness - body is a
   variant of another type of Synthetic, such as an Android, a Sentient Machine
@@ -80,6 +106,11 @@ negative_keywords: 'permanent-death-fear, natural-aging, bio-purist'
 cp: 27
 bp: 27
 cp_cost: 27
+recommended_traits:
+  - trait-adaptive-features
+  - trait-synthetic-armor-opts
+  - trait-synthetic-weapon-opts
+  - trait-synthetic-exotic-opt
 ---
 
 # **1.03.Synthetics.Shell — Shell (Cybernetic Consciousness Vessel)**

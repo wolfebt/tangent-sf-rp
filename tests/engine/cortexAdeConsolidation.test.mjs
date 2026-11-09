@@ -74,11 +74,12 @@ test('Phase 1: OmniCortex CATEGORY_CONFIG consolidates ADE fields across Species
 
   assert.ok(ADE_CONSOLIDATED_METAPHYSICS_FIELDS.metaphysicsSubcategory);
   assert.ok(ADE_CONSOLIDATED_METAPHYSICS_FIELDS.manifestationSensory);
-  for (const metaCat of ['invocations', 'disciplines', 'special_abilities', 'synthesis']) {
+  for (const metaCat of ['invocations', 'disciplines', 'special_abilities']) {
     assert.ok(CATEGORY_CONFIG[metaCat], `CATEGORY_CONFIG.${metaCat} must exist`);
     assert.ok(CATEGORY_CONFIG[metaCat].fields.metaphysicsSubcategory, `CATEGORY_CONFIG.${metaCat} must consolidate metaphysicsSubcategory`);
     assert.ok(CATEGORY_CONFIG[metaCat].fields.primaryTriggers, `CATEGORY_CONFIG.${metaCat} must consolidate primaryTriggers`);
   }
+  assert.equal(CATEGORY_CONFIG.synthesis.fields.metaphysicsSubcategory, undefined, 'synthesis is a visual descriptor table, not a Metaphysics subcategory');
 });
 
 test('Phase 1: omnicortexPersistence hydrates custom local entries across all newly registered Cortex categories', () => {
@@ -128,20 +129,25 @@ test('Phase 2: Property consolidates Item & Technology, and Metaphysics is separ
     PROPERTY_SUBCATEGORIES.map(s => s.id),
     ['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other']
   );
-  assert.equal(PERSONA_SUBCATEGORIES.length, 4);
-  assert.equal(METAPHYSICS_SUBCATEGORIES.length, 4);
+  assert.equal(PERSONA_SUBCATEGORIES.length, 3);
+  assert.deepEqual(
+    PERSONA_SUBCATEGORIES.map(s => s.id),
+    ['folio', 'mcm', 'story']
+  );
+  assert.equal(METAPHYSICS_SUBCATEGORIES.length, 3);
   assert.deepEqual(
     METAPHYSICS_SUBCATEGORIES.map(s => s.id),
-    ['invocations', 'disciplines', 'special_abilities', 'synthesis']
+    ['invocations', 'disciplines', 'special_abilities']
   );
 
   // Backward-compatible aliases normalize cleanly
   for (const alias of ['Property', 'Item', 'Equipment', 'Weapon', 'Armor', 'Augmentation', 'Cyberware', 'Mecha', 'Architecture', 'Technology', 'Technology Forge', 'Personal Property']) {
     assert.equal(normalizeElementType(alias), 'Property', `Alias "${alias}" must normalize to Property`);
   }
-  for (const metaAlias of ['Metaphysics', 'Invocation', 'Invocations', 'Discipline', 'Disciplines', 'Special Ability', 'Special Abilities', 'Synthesis', 'Psionics']) {
+  for (const metaAlias of ['Metaphysics', 'Invocation', 'Invocations', 'Discipline', 'Disciplines', 'Special Ability', 'Special Abilities', 'Psionics']) {
     assert.equal(normalizeElementType(metaAlias), 'Metaphysics', `Alias "${metaAlias}" must normalize to Metaphysics`);
   }
+  assert.notEqual(normalizeElementType('Synthesis'), 'Metaphysics', 'Synthesis descriptors do not belong to Metaphysics');
   assert.equal(normalizeElementType('Philosophy'), 'Philosophy');
 
   // Subcategory inference handles explicit fields, legacy Technology type, and keyword hints
@@ -150,7 +156,7 @@ test('Phase 2: Property consolidates Item & Technology, and Metaphysics is separ
   assert.equal(inferPropertySubcategory({ fields: { propertySubcategory: 'augmentations' } }), 'augmentations');
   assert.equal(inferPropertySubcategory({ title: 'Heavy Exo-Mecha Walker' }), 'mecha');
   assert.equal(inferMetaphysicsSubcategory({ dbmCategory: 'disciplines' }), 'disciplines');
-  assert.equal(inferMetaphysicsSubcategory({ fields: { metaphysicsSubcategory: 'synthesis' } }), 'synthesis');
+  assert.equal(inferMetaphysicsSubcategory({ fields: { metaphysicsSubcategory: 'special_abilities' } }), 'special_abilities');
   assert.equal(inferMetaphysicsSubcategory({ title: 'Gravity Singularity Lance' }), 'invocations');
   assert.equal(getElementFileExtension('Property'), '.property');
   assert.equal(getElementFileExtension('Property', 'technology'), '.tech');
@@ -281,6 +287,20 @@ test('Phase 3: cortexAdeAssetBridge projects Cortex Species, Factions, 8 Propert
   assert.equal(factionEls.length, 1);
   assert.equal(factionEls[0].title, 'Entari Combine');
   assert.equal(factionEls[0].fields.oneLinePitch, 'Monopolize warp telemetry.');
+  assert.ok(
+    factionEls[0].content.includes('## Visual Synthesis & Aesthetic Descriptors'),
+    'Faction content must embed its matching CRISP Visual Synthesis descriptors directly'
+  );
+  assert.ok(
+    factionEls[0].content.includes('The Entari Combine Architectural Keyframe Synthesis'),
+    'Faction content must include its Architectural Keyframe Synthesis description'
+  );
+  assert.ok(
+    factionEls[0].content.includes('The Entari Combine Formal Attire & Uniforms Synthesis'),
+    'Faction content must include its Formal Attire & Uniforms Synthesis description'
+  );
+  assert.ok(factionEls[0].fields.architecture.includes('The Entari Combine'));
+  assert.ok(factionEls[0].fields.gear_aesthetic.includes('The Entari Combine'));
 
   // Verify all 8 Property subcategories + legacy Technology migrated cleanly without duplicating pinned wpn_lance
   const propertyEls = unified.filter(e => e.type === 'Property');
@@ -300,26 +320,41 @@ test('Phase 3: cortexAdeAssetBridge projects Cortex Species, Factions, 8 Propert
   assert.equal(migratedBeacon.type, 'Property');
   assert.equal(migratedBeacon.propertySubcategory, 'technology');
 
-  // Verify Personas: Folio + MCM + Archetype all represented under Persona
+  // Verify Personas: Folio + MCM represented under Persona (Archetypes are a component of a Persona, not standalone Persona elements)
   const personaEls = unified.filter(e => e.type === 'Persona');
-  assert.equal(personaEls.length, 3);
-  assert.ok(personaEls.some(p => p.personaSubcategory === 'folio' && p.title === 'Captain Eva Rostova' && p.isFolioPersona));
-  assert.ok(personaEls.some(p => p.personaSubcategory === 'mcm' && p.title === 'Combine Heavy Enforcer' && p.fields.mcmTier === '5'));
-  assert.ok(personaEls.some(p => p.personaSubcategory === 'archetypes' && p.title === 'Void Slicer'));
+  assert.equal(personaEls.length, 2);
+  const evaFolio = personaEls.find(p => p.personaSubcategory === 'folio' && p.title === 'Captain Eva Rostova');
+  assert.ok(evaFolio && evaFolio.isFolioPersona);
+  assert.ok(
+    evaFolio.content.includes('## Visual Synthesis & Aesthetic Descriptors'),
+    'Folio Persona content must embed matching occupational/character visual synthesis descriptions'
+  );
+  const combineEnforcer = personaEls.find(p => p.personaSubcategory === 'mcm' && p.title === 'Combine Heavy Enforcer');
+  assert.ok(combineEnforcer && combineEnforcer.fields.mcmTier === '5');
+  assert.ok(
+    combineEnforcer.content.includes('## Visual Synthesis & Aesthetic Descriptors'),
+    'MCM Persona content must embed matching occupational/character visual synthesis descriptions'
+  );
+  assert.ok(!personaEls.some(p => p.dbmCategory === 'archetypes' || p.personaSubcategory === 'archetypes'));
 
-  // Verify Planetary Design projects into World
+  // Verify Planetary Design projects into World and embeds matching origin scenery synthesis in content
   const worldEls = unified.filter(e => e.type === 'World');
   assert.equal(worldEls.length, 1);
   assert.equal(worldEls[0].title, 'Kestrel Prime');
+  assert.ok(
+    worldEls[0].content.includes('## Visual Synthesis & Aesthetic Descriptors'),
+    'World content must embed matching origin scenery synthesis descriptions'
+  );
 
-  // Verify Philosophy and Metaphysics are strictly separated (zero cross-contamination)
+  // Verify Philosophy and Metaphysics are strictly separated and synthesis is NEVER projected as Metaphysics
   const philosophyEls = unified.filter(e => e.type === 'Philosophy');
   assert.equal(philosophyEls.length, 1);
   assert.equal(philosophyEls[0].title, 'The Concordance of Stillness');
   assert.equal(philosophyEls[0].dbmCategory, 'philosophy');
 
   const metaphysicsEls = unified.filter(e => e.type === 'Metaphysics');
-  assert.equal(metaphysicsEls.length, 4);
+  assert.equal(metaphysicsEls.length, 3, 'Metaphysics only projects invocations, disciplines, and special_abilities (never synthesis)');
+  assert.ok(!metaphysicsEls.some(m => m.dbmCategory === 'synthesis' || m.metaphysicsSubcategory === 'synthesis'));
   for (const metaSub of CORTEX_METAPHYSICS_COLLECTIONS) {
     assert.ok(
       metaphysicsEls.some(m => m.metaphysicsSubcategory === metaSub),
@@ -451,4 +486,28 @@ test('Phase 3 & 4: consolidateAdeElementToCortexPayload produces valid DBM entri
   assert.equal(philConsolidated.targetCollection, 'philosophy');
   const philValidation = validateDbmEntry('philosophy', philConsolidated.payload);
   assert.equal(philValidation.valid, true, `Philosophy validation errors: ${philValidation.errors.join(', ')}`);
+
+  // 5. Verify WeakMap record projection memoization, plain-text previewText, searchHaystack, and buildUnifiedAdeCatalog reference-tuple caching
+  const cachedReproject = projectOmnicortexRecordToAdeElement(invConsolidated.payload, 'invocations');
+  assert.equal(cachedReproject, reprojectedInv, 'projectOmnicortexRecordToAdeElement must return memoized reference from WeakMap on repeated calls');
+  assert.ok(cachedReproject.previewText.includes('Freezes local temporal flow'));
+  assert.ok(cachedReproject.searchHaystack.includes('chrono stasis pulse'));
+
+  const emptyElements = [];
+  const emptyFolio = [];
+  const emptyPublic = [];
+  const dbRef = { invocations: [invConsolidated.payload] };
+  const firstCatalog = buildUnifiedAdeCatalog({
+    elementsCatalog: emptyElements,
+    dbData: dbRef,
+    folioRoster: emptyFolio,
+    publicPersonas: emptyPublic
+  });
+  const secondCatalog = buildUnifiedAdeCatalog({
+    elementsCatalog: emptyElements,
+    dbData: dbRef,
+    folioRoster: emptyFolio,
+    publicPersonas: emptyPublic
+  });
+  assert.equal(secondCatalog, firstCatalog, 'buildUnifiedAdeCatalog must return cached array reference when input references are unchanged');
 });

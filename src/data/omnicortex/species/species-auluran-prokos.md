@@ -30,17 +30,20 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Climber
-  - Danger Sense
-  - Darksight
-  - Endurance
-  - Low Light Vision
-  - Nimble Moves
-  - Runner
-  - Scent
-  - Tracker
-  - Quick
+  - special-acute-sense
+  - general-climber
+  - special-danger-sense
+  - special-darksight
+  - general-endurance
+  - special-low-light-vision
+  - general-nimble-moves
+  - general-runner
+  - special-scent
+  - general-tracker
+  - general-quick
+  - general-acrobatic-steps
+  - skill-perceptive
+  - skill-stout
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '2'
@@ -51,74 +54,110 @@ costs:
   bp: 23
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: ability-great-fortitude
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Acrobatic
-    value: 1
+    description: 'Grants Inherent Feature: Great Fortitude'
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Alertness
     value: 1
-    type: feature
     mode: recommended
-  - target: Acute Sense
+    description: 'Recommended Feature: Acute Sense'
+  - target: general-climber
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Athletic
+    description: 'Recommended Feature: Climber'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Climber
+    description: 'Recommended Feature: Danger Sense'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Danger Sense
+    description: 'Recommended Feature: Darksight'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Endurance'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Endurance
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-nimble-moves
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Nimble Moves'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Nimble Moves
+    description: 'Recommended Feature: Runner'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Prehensile Tail
+    description: 'Recommended Feature: Scent'
+  - target: general-tracker
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Tracker'
+  - target: general-quick
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Scent
+    description: 'Recommended Feature: Quick'
+  - target: general-acrobatic-steps
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tracker
+    description: 'Recommended Feature: Acrobatic Steps'
+  - target: skill-perceptive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Quick
+    description: 'Recommended Feature: Perceptive'
+  - target: skill-stout
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Stout'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
+  - target: trait-prehensile-tail
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Prehensile Tail'
 description: >-
   The Prokos stand as a unique and fascinating sub-species within the broader
   spectrum of feline humanoids. Their lineage traces a distant connection to the
@@ -149,6 +188,12 @@ negative_keywords: 'heat-intolerant, desert-dweller, static-form, fragile'
 cp: 23
 bp: 23
 cp_cost: 23
+recommended_traits:
+  - trait-acute-senses
+  - trait-dark-sight
+  - trait-low-light-vision
+  - trait-scent
+  - trait-prehensile-tail
 ---
 
 # **1.03.Aulurans.Prokos — Prokos (Arctic Biform Auluran)**

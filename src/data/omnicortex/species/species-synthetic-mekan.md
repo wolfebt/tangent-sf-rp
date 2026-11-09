@@ -31,106 +31,142 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Assessment
-  - Bodyform Features
-  - Educated
-  - Eidetic Memory
-  - Gearhead
-  - Gifted Pilot
-  - Skill Focus
-  - Well Informed
+  - general-assessment
+  - skill-educated
+  - general-eidetic-memory
+  - skill-gearhead
+  - skill-gifted-pilot
+  - skill-skill-focus
+  - general-well-informed
+  - ability-environmental-adaptation
+  - general-jack-of-all-trades
 disadvantages: []
 stigma: Severe Synthetic (-4)
 tech_level: '5'
 meta_level: '3'
 homeworld: Mekan Prime
 costs:
-  cp: 55
-  bp: 55
+  cp: 59
+  bp: 59
 modifiers:
   - target: Intellect
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Intellect
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Adapted
-    value: 1
+  - target: general-assessment
     type: feature
-    mode: recommended
-  - target: 'Alter Form (Advanced, remains mechanical but changes form/function)'
     value: 1
-    type: feature
     mode: recommended
-  - target: Assessment
+    description: 'Recommended Feature: Assessment'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform Features
+    description: 'Recommended Feature: Educated'
+  - target: general-eidetic-memory
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Eidetic Memory'
+  - target: skill-gearhead
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Eidetic Memory
+    description: 'Recommended Feature: Gearhead'
+  - target: skill-gifted-pilot
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Heavy)
+    description: 'Recommended Feature: Gifted Pilot'
+  - target: skill-skill-focus
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Flight (Grav)
+    description: 'Recommended Feature: Skill Focus'
+  - target: general-well-informed
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Gearhead
+    description: 'Recommended Feature: Well Informed'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Gifted Pilot
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: general-jack-of-all-trades
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Jack of all Trades
+    description: 'Recommended Feature: Jack-of-all-trades'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: 'Size (Large, will use Mounts at 2x Mecha scale)'
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Size (Small)
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Skill Focus
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-focused-study
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Well Informed
+    description: 'Recommended Species Trait: Focused Study'
+  - target: trait-adapted
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Adapted'
+  - target: trait-alter-form-adv
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Alter Form (Adv)'
+  - target: trait-exoskeleton-heavy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Heavy)'
+  - target: trait-flight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Flight'
+  - target: trait-bodyform-sizing
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Sizing'
 description: >-
   The Mekan entity is a highly intelligent essence of psychic-elemental energy.
   This essence is the core power animating and empowering their mechanical body,
   which serves as a vital physical containment. Through sheer force of will, a
   Mekan bonds with machinery, gaining a specific form and the associated
   abilities.
-traits: &ref_0
+traits:
+  - trait-synthetic-base-traits
+  - trait-adaptive-features
+  - trait-synthetic-tech-assim
+  - trait-mind-speech
+  - trait-technopathic
+species_traits:
   - trait-synthetic-base-traits
   - trait-adaptive-features
   - trait-synthetic-tech-assim
   - trait-mind-speech
   - trait-fast-heal
-species_traits: *ref_0
 recommended_factions:
   - The Mekan Collective
   - Technological Faction Template
@@ -149,6 +185,16 @@ negative_keywords: 'organic-healing, nature-communion, biological-purism'
 cp: 55
 bp: 55
 cp_cost: 55
+recommended_traits:
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-focused-study
+  - trait-adapted
+  - trait-alter-form-adv
+  - trait-exoskeleton-heavy
+  - trait-flight
+  - trait-bodyform-sizing
 ---
 
 # **1.03.Synthetics.Mekan — Mekan (Psychic-Elemental Machine Consensus)**

@@ -19,6 +19,25 @@ import {
 } from '../../../../engines/tangentConstants';
 import { AudioService } from '../../../../services/audioService';
 
+const CANONICAL_16_DOMAINS = [
+  { key: 'agriculture', name: 'Agriculture', stages: ['Hunting/Gathering', 'Farming', 'Advanced Farming', 'Terraforming', 'Planetary Engineering', 'Matter Synthesis', 'Cosmic Biosynthesis'] },
+  { key: 'architecture', name: 'Architecture', stages: ['Simple Structures', 'Advanced Masonry', 'Skyscrapers', 'Smart Cities', 'Advanced Space Habitats', 'Megastructures', 'Dimensional Architecture'] },
+  { key: 'biotechnology', name: 'Biotechnology', stages: ['Herbalism', 'Pharmacology', 'Early Biotech', 'Genetic Engineering', 'Gene Editing', 'Advanced Nanobio', 'Transcendent Biogenesis'] },
+  { key: 'communication', name: 'Communication', stages: ['Verbal/Pictograms', 'Published Text', 'Digital Networks', 'Holographic & FTL', 'Mnemonic Transceivers', 'Quantum Signaler', 'Omnipresent Noosphere'] },
+  { key: 'defense', name: 'Defense', stages: ['Fortifications', 'Bunkers & Flak', 'Missile Grids', 'Planetary Shields', 'Orbital Bastions', 'Phase-Shift Curtains', 'Reality Ward Matrices'] },
+  { key: 'energy', name: 'Energy', stages: ['Biomass/Wind', 'Fossil Fuels', 'Nuclear & Renewables', 'Fusion Power', 'Antimatter', 'Zero-Point & Dark Energy', 'Stellar / Vacuum Tap'] },
+  { key: 'health_medicine', legacyKey: 'medicine', name: 'Health & Medicine', stages: ['Herbal Remedies', 'Basic Pharmacology', 'Focused Medicine', 'Augmentations & Cloning', 'Clinical Immortality', 'Retro-Genetic Reengineering', 'Consciousness Continuity'] },
+  { key: 'industrial_production', legacyKey: 'manufacturing', name: 'Industrial Production', stages: ['Handmade', 'Crafted Foundries', 'Mass Industrial', 'Nanotechnology', 'Programmable Material', 'Polymatter', 'Instantaneous Matter Forging'] },
+  { key: 'materials', name: 'Materials', stages: ['Natural Materials', 'Synthetic Alloys', 'Advanced Composites', 'Metamaterials', 'Nanotech Assemblers', 'Polymatter', 'Exotic Femtomatter'] },
+  { key: 'metaphysics', legacyKey: 'meta_sciences', name: 'Metaphysics', stages: ['Folklore', 'Early Exploration', 'Systematic Study', 'Meta-Technology', 'Advanced Research', 'Integrated Magi-Tech', 'Deific Ontological Mastery'] },
+  { key: 'computation', legacyKey: 'devices', name: 'Computation', stages: ['Simple Mechanical', 'Electromechanical', 'Integrated Circuits', 'Optical & Quantum', 'Neural-Mesh Substrates', 'Holophotonics', 'Matrioshka Computation'] },
+  { key: 'science', name: 'Science', stages: ['Empirical', 'Systematic', 'Modern Disciplines', 'Advanced Theories', 'Unified Theories', 'Transcendent Theories', 'Omniscient Axiom Synthesis'] },
+  { key: 'society', name: 'Society', stages: ['Tribal', 'Early Civilizations', 'Modern Societies', 'Advanced System-Wide', 'Interconnected Galactic', 'Post-Scarcity Utopia', 'Ascendant Harmony'] },
+  { key: 'synthetic_intelligence', name: 'Synthetic Intelligence', stages: ['None', 'Reflexive Automation', 'Reactive Devices', 'Self-Aware AI', 'Artificial General Intelligence (AGI)', 'Hyper Intellect (ASI)', 'Cosmic Sovereign Mind'] },
+  { key: 'transportation', name: 'Transportation', stages: ['Wagons & Boats', 'Wind & Aircraft', 'Rollers & Chemical Rockets', 'GEV & Reaction FTL', 'Force Wave & Tangent Space', 'Contra-Grav & Spatial Gateways', 'Instantaneous Fold Transit'] },
+  { key: 'weaponry', name: 'Weaponry', stages: ['Melee & Bows', 'Gunpowder & Cannons', 'Modern Firearms & Missiles', 'Directed Energy & Railguns', 'Nanotech Force Weapons', 'Gravitonic Disintegration', 'Ontological Erasure'] }
+];
+
 /**
  * PlanetaryCivilizationWorkflow
  * Integrates 16-Domain Civilizational profiling, Civilization Archetypes, and World Trade Codes
@@ -30,31 +49,41 @@ export const PlanetaryCivilizationWorkflow = ({
   onChange,
   isEditMode = true
 }) => {
-  // Initial domains
+  // Initial 16 Canonical Civilization Domains
   const initialDomains = useMemo(() => {
     const base = {
       agriculture: 3,
       architecture: 3,
       biotechnology: 3,
-      commerce: 3,
       communication: 3,
-      devices: 3,
-      education: 3,
+      defense: 3,
       energy: 3,
-      manufacturing: 3,
+      health_medicine: 3,
+      industrial_production: 3,
       materials: 3,
-      medicine: 3,
-      meta_sciences: 1,
+      metaphysics: 1,
+      computation: 3,
       science: 3,
       society: 3,
       synthetic_intelligence: 2,
       transportation: 3,
       weaponry: 3
     };
-    if (formData.civilization_domains && typeof formData.civilization_domains === 'object') {
-      return { ...base, ...formData.civilization_domains };
-    }
-    return base;
+    const raw = formData.civilization_domains && typeof formData.civilization_domains === 'object'
+      ? formData.civilization_domains
+      : {};
+    const merged = { ...base };
+    CANONICAL_16_DOMAINS.forEach(({ key, legacyKey }) => {
+      if (raw[key] !== undefined) {
+        merged[key] = Number(raw[key]);
+      } else if (legacyKey && raw[legacyKey] !== undefined) {
+        merged[key] = Number(raw[legacyKey]);
+      }
+      if (legacyKey) {
+        merged[legacyKey] = merged[key];
+      }
+    });
+    return merged;
   }, [formData.civilization_domains]);
 
   const [domainRatings, setDomainRatings] = useState(initialDomains);
@@ -63,10 +92,13 @@ export const PlanetaryCivilizationWorkflow = ({
   );
 
   const handleDomainChange = (domainKey, val) => {
-    setDomainRatings(prev => ({
-      ...prev,
-      [domainKey]: Math.max(0, Math.min(5, Number(val) || 0))
-    }));
+    const clamped = Math.max(0, Math.min(6, Number(val) || 0));
+    const def = CANONICAL_16_DOMAINS.find(d => d.key === domainKey);
+    setDomainRatings(prev => {
+      const next = { ...prev, [domainKey]: clamped };
+      if (def?.legacyKey) next[def.legacyKey] = clamped;
+      return next;
+    });
   };
 
   // Matched Civilization Archetype
@@ -80,20 +112,20 @@ export const PlanetaryCivilizationWorkflow = ({
     return CIVILIZATION_ARCHETYPES[CIVILIZATION_ARCHETYPES.length - 1];
   }, [domainRatings]);
 
-  // Radar Polygon calculation
+  // 16-Domain Radar Polygon calculation
   const radarPoints = useMemo(() => {
-    const domains = Object.keys(CIVILIZATION_DOMAINS_DETAILED);
-    const count = domains.length;
+    const count = 16;
     const center = 140;
     const maxRadius = 100;
 
-    const points = domains.map((key, index) => {
-      const angle = (index * 2 * Math.PI) / count - Math.PI / 2;
-      const score = (domainRatings[key] || 0) / 5;
+    const points = CANONICAL_16_DOMAINS.map((dom, index) => {
+      const angle = (index * 2 * Math.PI) / 16 - Math.PI / 2;
+      const rawScore = domainRatings[dom.key] || 0;
+      const score = Math.min(1, Math.max(0, rawScore / 6));
       const r = maxRadius * score;
       const x = center + r * Math.cos(angle);
       const y = center + r * Math.sin(angle);
-      return { x, y, key, label: CIVILIZATION_DOMAINS_DETAILED[key].name, score: domainRatings[key] || 0 };
+      return { x, y, key: dom.key, label: dom.name, score: rawScore, count };
     });
 
     const polygonPoints = points.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
@@ -176,6 +208,19 @@ export const PlanetaryCivilizationWorkflow = ({
               />
             ))}
 
+            {/* 16 Domain Axis Spokes */}
+            {radarPoints.points.map((p, i) => (
+              <line
+                key={i}
+                x1={radarPoints.center}
+                y1={radarPoints.center}
+                x2={radarPoints.center + radarPoints.maxRadius * Math.cos((i * 2 * Math.PI) / 16 - Math.PI / 2)}
+                y2={radarPoints.center + radarPoints.maxRadius * Math.sin((i * 2 * Math.PI) / 16 - Math.PI / 2)}
+                stroke="#1e293b"
+                strokeWidth="1"
+              />
+            ))}
+
             {/* Radar polygon */}
             <polygon
               points={radarPoints.polygonPoints}
@@ -245,13 +290,13 @@ export const PlanetaryCivilizationWorkflow = ({
       {/* 16 Domains Interactive Sliders */}
       <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
         <span className="text-xs font-mono font-bold uppercase text-slate-300 block">
-          Individual Domain Ratings (0 to 5):
+          16 Canonical Civilization Domain Ratings (0 to 6):
         </span>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 font-mono text-xs">
-          {Object.entries(CIVILIZATION_DOMAINS_DETAILED).map(([key, def]) => {
-            const val = domainRatings[key] || 0;
+          {CANONICAL_16_DOMAINS.map((def) => {
+            const val = domainRatings[def.key] || 0;
             return (
-              <div key={key} className="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800 space-y-1">
+              <div key={def.key} className="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800 space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-300 font-bold uppercase text-[11px] truncate">{def.name}</span>
                   <span className="text-emerald-400 font-extrabold px-1.5 py-0.2 bg-emerald-950 rounded border border-emerald-500/40">
@@ -261,10 +306,10 @@ export const PlanetaryCivilizationWorkflow = ({
                 <input
                   type="range"
                   min="0"
-                  max="5"
+                  max="6"
                   step="1"
                   value={val}
-                  onChange={(e) => handleDomainChange(key, e.target.value)}
+                  onChange={(e) => handleDomainChange(def.key, e.target.value)}
                   className="w-full accent-emerald-500 cursor-pointer"
                 />
                 <span className="text-[10px] text-slate-500 block truncate">

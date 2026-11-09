@@ -33,6 +33,9 @@ export const ADE_ELEMENT_SLOTS = [
   { id: 'all', label: 'All Elements', icon: BookOpen, color: 'text-cyan-400' }
 ];
 
+const EMPTY_ARRAY = [];
+const EMPTY_OBJ = {};
+
 export const StoryElementsDrawer = ({
   showDrawer,
   setShowDrawer,
@@ -40,8 +43,8 @@ export const StoryElementsDrawer = ({
   onInspectElement
 }) => {
   const { elementsCatalog, universeState, saveElementToCloud, updateSavedElement } = useStory();
-  const { dbData = {} } = useDBM() || {};
-  const { roster: folioRoster = [], personaRoster = [], publicPersonas = [] } = useFolio() || {};
+  const { dbData = EMPTY_OBJ } = useDBM() || EMPTY_OBJ;
+  const { roster: folioRoster = EMPTY_ARRAY, personaRoster = EMPTY_ARRAY, publicPersonas = EMPTY_ARRAY } = useFolio() || EMPTY_OBJ;
   const [activeSlot, setActiveSlot] = useState('Scene');
   const [searchQuery, setSearchQuery] = useState('');
 

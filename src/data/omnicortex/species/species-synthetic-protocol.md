@@ -32,7 +32,7 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Bodyform Features
+  - ability-environmental-adaptation
 disadvantages: []
 stigma: 'Severe Synthetic (-4), Anti-Organic (-2)'
 tech_level: '5'
@@ -43,52 +43,65 @@ costs:
   bp: 49
 modifiers:
   - target: Charisma
-    value: -2
     type: attribute
+    value: -2
     mode: inherent
     description: '-2 Charisma'
-  - target: Any
-    value: 4
+  - target: Any Attribute
     type: attribute
+    value: 4
     mode: bonus_pool
-    description: +4 Flexible Attribute Points
+    description: +4 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Adapted
-    value: 1
+  - target: ability-environmental-adaptation
     type: feature
-    mode: recommended
-  - target: 'Alter Form (Advanced, remains mechanical but changes form/function)'
     value: 1
-    type: feature
     mode: recommended
-  - target: Bodyform Features
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: trait-bodyform-adaptation
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (Heavy)
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Flight (Grav)
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Size (Large)
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-adapted
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Size (Small)
+    description: 'Recommended Species Trait: Adapted'
+  - target: trait-alter-form-adv
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: '---'
+    description: 'Recommended Species Trait: Alter Form (Adv)'
+  - target: trait-exoskeleton-heavy
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Heavy)'
+  - target: trait-flight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Flight'
+  - target: trait-bodyform-sizing
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Sizing'
 description: >-
   Robotic Race originally created to be the Mekan War Machine, eventually
   becoming self-aware and independent.
@@ -115,6 +128,15 @@ negative_keywords: 'rogue-anarchy, combat-frenzy, wilderness'
 cp: 49
 bp: 49
 cp_cost: 49
+recommended_traits:
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-adapted
+  - trait-alter-form-adv
+  - trait-exoskeleton-heavy
+  - trait-flight
+  - trait-bodyform-sizing
 ---
 
 # **1.03.Synthetics.Protocol — Protocol (Awakened Mekan War Machines)**

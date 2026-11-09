@@ -30,35 +30,44 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Discipline Features
-  - Educated
-  - Lightning Calculator
+  - special-darksight
+  - cat_discipline_features
+  - skill-educated
+  - general-lightning-calculator
 disadvantages: []
-stigma: 'Synthetic (-2), Xeno (-2)'
+stigma: 'Synthetic (-2), Severe Xeno (-6)'
 tech_level: '5'
 meta_level: '5'
 homeworld: Precursor Ring-Forges / Aetheria
 costs:
-  cp: 25
-  bp: 25
+  cp: 21
+  bp: 21
 modifiers:
-  - target: Darksight
-    value: 1
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Discipline Features
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Darksight'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Calculator
+    description: 'Recommended Feature: Discipline Features'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Educated'
+  - target: general-lightning-calculator
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
 description: >-
   Aether powered golem created by advanced Metaphysics and Technology, designed
   by progenitors as builders (possibly the U’Nonn?)
@@ -83,6 +92,8 @@ negative_keywords: 'rust, primitive-clockwork, organic-flesh'
 cp: 25
 bp: 25
 cp_cost: 25
+recommended_traits:
+  - trait-dark-sight
 ---
 
 # **1.03.Synthetics.Aetherion — Aetherion (Progenitor Aether-Construct)**

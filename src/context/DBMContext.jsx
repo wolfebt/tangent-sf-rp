@@ -7,7 +7,7 @@ import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreU
 import { validateDbmEntry } from '../utils/dbmValidators';
 
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData';
-import { DEFAULT_SPECIES } from '../data/speciesData';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../data/speciesData';
 import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../data/originsData';
@@ -100,12 +100,309 @@ import {
 } from '../utils/omnicortexPersistence.js';
 
 
+const CANONICAL_SECTION_FALLBACK_SEEDS = {
+  special_abilities: [
+    {
+      id: 'special-ability-aetheric-pulse',
+      name: 'Aetheric Resonance Pulse',
+      discipline: 'Energy',
+      meta_skill: 'Channeling',
+      area: ['Small Burst (10ft Radius) (+2 DC)'],
+      effect: ['Kinetic / Force'],
+      range: ['Close (30ft) (+2 DC)'],
+      target: ['All Creatures in Area'],
+      design_dc: 18,
+      tech_level: 3,
+      meta_level: 2,
+      costs: { cp: 5, bp: 5, focus: 4 },
+      description: 'Releases a concussive wave of resonant aetheric force that destabilizes nearby hostiles.',
+      mechanic: '2d10 + Governing Attribute + Discipline Skill vs. CR 18 (Essence = ceil(18 / 5) = 4 Focus). Targets within 10ft suffer 2d8 Force damage and must pass a Fortitude save or be pushed 10ft.'
+    },
+    {
+      id: 'special-ability-void-blink',
+      name: 'Dimensional Phase Step',
+      discipline: 'Dimension',
+      meta_skill: 'Alteration',
+      area: ['Single Target (+0 DC)'],
+      effect: ['Spatial Displacement'],
+      range: ['Close (30ft) (+2 DC)'],
+      target: ['Self'],
+      design_dc: 15,
+      tech_level: 4,
+      meta_level: 3,
+      costs: { cp: 5, bp: 5, focus: 3 },
+      description: 'Briefly folds local space-time to step instantaneously across tactical obstacles.',
+      mechanic: 'Move Action; costs 3 Focus (ceil(15 / 5)). Teleport up to 30ft to an unoccupied space within line of sight without provoking reactions.'
+    }
+  ],
+  modular_characters: [
+    {
+      id: 'mcm-syndicate-enforcer',
+      name: 'Syndicate Heavy Enforcer',
+      threatTier: 4,
+      role: 'Tank',
+      competencyRole: 'Tank',
+      chassis_mode: 'Biological',
+      designation: 'Adversary',
+      bossType: 'Standard',
+      sizeCategory: 'Medium',
+      isSynthetic: false,
+      tech_level: 4,
+      meta_level: 1,
+      craft_dc: 18,
+      vitalityPoints: 45,
+      healthPoints: 25,
+      structurePoints: 0,
+      armorDR: 8,
+      description: 'Cybernetically reinforced corporate security operative deployed to secure high-value Syndicate assets.',
+      mechanic: 'Role: Tank (Biological). Equipped with Heavy Riot Carapace (DR 8) and Mag-Shotgun (2d10+4 Kinetic, Penetration 2).'
+    },
+    {
+      id: 'mcm-mekan-stalker-construct',
+      name: 'Mekan Hunter-Seeker Construct',
+      threatTier: 6,
+      role: 'Skirmisher',
+      competencyRole: 'Skirmisher',
+      chassis_mode: 'Synthetic / Construct',
+      designation: 'Adversary',
+      bossType: 'Standard',
+      sizeCategory: 'Medium',
+      isSynthetic: true,
+      tech_level: 4,
+      meta_level: 0,
+      craft_dc: 22,
+      vitalityPoints: 0,
+      healthPoints: 0,
+      structurePoints: 65,
+      armorDR: 10,
+      description: 'Autonomous multi-limbed tactical reconnaissance and elimination unit operating on the Mekan collective grid.',
+      mechanic: 'Role: Skirmisher (Synthetic / Construct). Immune to biological toxins and psychic fear; integrated Plasma Cutter (3d8 Plasma).'
+    }
+  ],
+  companions: [
+    {
+      id: 'companion-cyber-hound-mk4',
+      name: 'K-9 Cyber-Hound Mk IV',
+      companion_type: 'Synthetic Drone / Automaton',
+      form_package: 'Quadruped / Predator',
+      function_packages: ['Recon / Scout', 'Guardian / Shield'],
+      size: 'Medium',
+      owner_tier: 2,
+      companion_rank: 3,
+      extra_features: ['Thermal Optics', 'Subvocal Telemetry Link'],
+      cp: 3,
+      description: 'Loyal quadruped tactical unit outfitted with multi-spectrum sensors and reinforced alloy jaws.',
+      mechanic: 'Form: Quadruped / Predator; Functions: Recon / Scout, Guardian / Shield. Grants +2 to owner Perception/Tracking checks and can intercept melee attacks.'
+    },
+    {
+      id: 'companion-aether-wisp-familiar',
+      name: 'Luminous Aether-Wisp',
+      companion_type: 'Metaphysical Familiar / Spirit',
+      form_package: 'Amorphous / Spectral',
+      function_packages: ['Arcane / Focus Conduit', 'Stealth / Infiltrator'],
+      size: 'Tiny',
+      owner_tier: 2,
+      companion_rank: 2,
+      extra_features: ['Resonance Battery', 'Phase Hover'],
+      cp: 3,
+      description: 'Sentient harmonic entity bound to an awakened practitioner’s aura, acting as a living focus conduit.',
+      mechanic: 'Form: Amorphous / Spectral; Function: Arcane / Focus Conduit. Stores up to 4 reserve Focus points and grants +1 to Invocation checks.'
+    }
+  ],
+  planetary_design: [
+    {
+      id: 'planet-prime-auriga',
+      name: 'Auriga Prime',
+      starClass: 'G',
+      orbitalZone: 'BioZone (Habitable)',
+      size: 6,
+      size_code: 6,
+      atmosphere: 4,
+      atmosphere_code: 4,
+      hydrography: 70,
+      biosphere: 'Sophont',
+      population: 10,
+      population_code: 10,
+      tech_level: 4,
+      meta_level: 3,
+      government: 4,
+      lawLevel: 4,
+      starport: 'A',
+      uwp: 'A647A44-4',
+      description: 'Core garden world and commercial nexus featuring orbital shipyards, deep-ocean arcologies, and ancient progenitor ruins.',
+      highConcept: 'Cosmopolitan core world balancing high-tech trade with awakened metaphysical academies.'
+    }
+  ],
+  world: [
+    {
+      id: 'world-auriga-prime',
+      name: 'Auriga Prime',
+      universe: 'Tangent Orion Arm',
+      size: 6,
+      size_code: 6,
+      atmosphere: 4,
+      atmosphere_code: 4,
+      population: 10,
+      population_code: 10,
+      tech_level: 4,
+      meta_level: 3,
+      uwp: 'A647A44-4',
+      starport: 'A',
+      highConcept: 'Primary diplomatic and commercial hub of the Coalition of Independent Worlds.',
+      description: 'A vibrant terrestrial world of sprawling spire-cities, orbital elevators, and resonant ley-line sanctuaries.',
+      geography: 'Temperate continents separated by deep sapphire oceans and equatorial archipelagos.',
+      culture: 'Pluralistic trade culture blending human, Aeld, and synthetic citizenry.'
+    }
+  ],
+  universe: [
+    {
+      id: 'universe-tangent-prime',
+      name: 'Tangent Space Continuum',
+      scale: 'Galaxy',
+      description: 'The primary sci-fi/metaphysical cosmos where relativistic starfaring civilizations intersect with dimensional Tangent Space and awakened psionic/arcane disciplines.',
+      laws_of_physics: 'Standard relativistic physics augmented by Tangent Space FTL translation and the 6 Canonical Metaphysical Disciplines (Dimension, Energy, Entropy, Illusion, Matter, Mental).',
+      thematicTone: 'High-stakes tactical space opera, cyber-occult intrigue, and frontier exploration.'
+    }
+  ],
+  setting: [
+    {
+      id: 'setting-nexus-highport',
+      name: 'Aegis Orbital Highport',
+      world: 'Auriga Prime',
+      description: 'Geosynchronous ring-station anchoring Auriga Prime’s primary orbital elevator, bustling with merchant hulls, syndicate brokers, and diplomatic envoys.',
+      points_of_interest: 'Grand Spire Concourse, Dockyard Sector 7, The Null-G Bazaar, Diplomatic Enclave.',
+      localRulesHazards: 'Law Level 5; concealed sidearms restricted, active neural-scan customs checkpoints.'
+    }
+  ],
+  philosophy: [
+    {
+      id: 'philosophy-harmonic-convergence',
+      name: 'The Harmonic Convergence',
+      origin: 'Alterian & Aeld Mystic Orders',
+      description: 'Philosophical tradition teaching that technological computation and metaphysical resonance are dual expressions of a single cosmic architecture.',
+      coreDogmaTenets: 'Balance between mind, machine, and the dimensional weave; rejection of reckless entropy.',
+      practices: 'Meditation within harmonic crystal chambers and disciplined Focus attunement.'
+    }
+  ],
+  scene: [
+    {
+      id: 'scene-dockyard-ambush',
+      name: 'Stand-Off at Dockyard Bay 14',
+      scene_type: 'Action / Combat',
+      dramatic_hook: 'Syndicate strike teams lock down the blast doors just as the courier vessel finishes fueling.',
+      setting_location: 'Aegis Orbital Highport - Dockyard Sector 7',
+      description: 'Sparks rain from overhead cargo gantries while mag-clamps seal the starship berth. The party must override the security terminal or breach the cordon before orbital defense cutters arrive.',
+      mechanic: 'Computers or Engineering CR 20 to release docking clamps; low-gravity cargo cranes provide +2 cover.'
+    }
+  ],
+  society_society: [
+    {
+      id: 'soc-gov-0-tribal',
+      name: 'Stage 0: Tribal & Clan Councils',
+      level: 0,
+      category: 'society_society',
+      sphere_key: 'society_society',
+      description: 'Kinship bands, oral law, and localized chieftain or elder governance.'
+    },
+    {
+      id: 'soc-gov-3-planetary',
+      name: 'Stage 3: Unified Planetary & Interplanetary Governance',
+      level: 3,
+      category: 'society_society',
+      sphere_key: 'society_society',
+      description: 'System-wide constitutional federations, corporate directorates, and codified interstellar law.'
+    },
+    {
+      id: 'soc-gov-5-post-scarcity',
+      name: 'Stage 5: Post-Scarcity Consensus & Galactic Accord',
+      level: 5,
+      category: 'society_society',
+      sphere_key: 'society_society',
+      description: 'Instantaneous quantum-linked civic participation and post-scarcity resource allocation.'
+    }
+  ],
+  society_synthetic_intelligence: [
+    {
+      id: 'soc-si-0-none',
+      name: 'Stage 0: Mechanical Automation',
+      level: 0,
+      category: 'society_synthetic_intelligence',
+      sphere_key: 'society_synthetic_intelligence',
+      description: 'Purely mechanical clockwork and non-cognitive relay systems.'
+    },
+    {
+      id: 'soc-si-3-self-aware',
+      name: 'Stage 3: Self-Aware Automata (Theory of Mind)',
+      level: 3,
+      category: 'society_synthetic_intelligence',
+      sphere_key: 'society_synthetic_intelligence',
+      description: 'Sentient synthetic personas with independent initiative and emotional comprehension.'
+    },
+    {
+      id: 'soc-si-4-agi',
+      name: 'Stage 4: Artificial General Intelligence (AGI)',
+      level: 4,
+      category: 'society_synthetic_intelligence',
+      sphere_key: 'society_synthetic_intelligence',
+      description: 'Full cognitive parity and multi-domain synthesis across civic and scientific networks.'
+    },
+    {
+      id: 'soc-si-5-asi',
+      name: 'Stage 5: Hyper Intellect (ASI)',
+      level: 5,
+      category: 'society_synthetic_intelligence',
+      sphere_key: 'society_synthetic_intelligence',
+      description: 'Trans-sophont planetary computation cores and galactic strategic minds.'
+    }
+  ],
+  society_science: [
+    {
+      id: 'soc-sci-3-advanced',
+      name: 'Stage 3: Relativistic & Quantum Sciences',
+      level: 3,
+      category: 'society_science',
+      sphere_key: 'society_science',
+      description: 'Systematic mastery of high-energy physics, gravitics, and interstellar astrophysics.'
+    }
+  ],
+  society_computation: [
+    {
+      id: 'soc-comp-3-quantum',
+      name: 'Stage 3: Quantum & Neural Computation',
+      level: 3,
+      category: 'society_computation',
+      sphere_key: 'society_computation',
+      description: 'High-density optical and quantum processor cores with direct neural interface protocols.'
+    }
+  ],
+  society_transportation: [
+    {
+      id: 'soc-trans-3-ftl',
+      name: 'Stage 3: GEV & Reaction FTL Transit',
+      level: 3,
+      category: 'society_transportation',
+      sphere_key: 'society_transportation',
+      description: 'Gravitic surface transit, orbital shuttles, and interstellar FTL starship corridors.'
+    }
+  ]
+};
+
+const hydrateSectionItemsWithFallback = (items, catKey) => {
+  const list = Array.isArray(items) ? items : [];
+  if (list.length > 0) return list;
+  const fallback = CANONICAL_SECTION_FALLBACK_SEEDS[catKey];
+  if (!Array.isArray(fallback) || fallback.length === 0) return list;
+  const tombstones = getOmnicortexTombstones();
+  return fallback.filter(seed => !isOmnicortexDeleted(seed, tombstones));
+};
+
 export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState(() => {
     const initial = {
       compendium: filterInitialData(getFallbackSeedForCategory('compendium'), 'compendium'),
       archetypes: filterInitialData(DEFAULT_ARCHETYPES, 'archetypes'),
       species: filterInitialData(DEFAULT_SPECIES, 'species'),
+      species_lineage: filterInitialData(SPECIES_LINEAGES, 'species_lineage'),
       species_type: filterInitialData(DEFAULT_SPECIES_TYPES, 'species_type'),
       species_size: filterInitialData(DEFAULT_SPECIES_SIZES, 'species_size'),
       species_movement: filterInitialData(DEFAULT_SPECIES_MOVEMENT, 'species_movement'),
@@ -155,14 +452,15 @@ export const DBMProvider = ({ children }) => {
       damage_types: filterInitialData(DEFAULT_DAMAGE_TYPES, 'damage_types'),
       maneuvers: filterInitialData(DEFAULT_MANEUVERS, 'maneuvers'),
       societies: filterInitialData(DEFAULT_MASTER_SOCIETIES, 'societies'),
-      modular_characters: filterInitialData([], 'modular_characters'),
-      special_abilities: filterInitialData([], 'special_abilities'),
-      planetary_design: filterInitialData([], 'planetary_design'),
-      universe: filterInitialData([], 'universe'),
-      world: filterInitialData([], 'world'),
-      setting: filterInitialData([], 'setting'),
-      philosophy: filterInitialData([], 'philosophy'),
-      scene: filterInitialData([], 'scene')
+      modular_characters: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.modular_characters, 'modular_characters'), 'modular_characters'),
+      companions: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.companions, 'companions'), 'companions'),
+      special_abilities: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.special_abilities, 'special_abilities'), 'special_abilities'),
+      planetary_design: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.planetary_design, 'planetary_design'), 'planetary_design'),
+      universe: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.universe, 'universe'), 'universe'),
+      world: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.world, 'world'), 'world'),
+      setting: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.setting, 'setting'), 'setting'),
+      philosophy: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.philosophy, 'philosophy'), 'philosophy'),
+      scene: hydrateSectionItemsWithFallback(filterInitialData(CANONICAL_SECTION_FALLBACK_SEEDS.scene, 'scene'), 'scene')
     };
 
     [
@@ -171,20 +469,30 @@ export const DBMProvider = ({ children }) => {
       'society_biotechnology',
       'society_commerce',
       'society_communication',
+      'society_computation',
       'society_devices',
       'society_education',
       'society_energy',
       'society_manufacturing',
       'society_materials',
       'society_medicine',
+      'society_science',
       'society_society',
+      'society_synthetic_intelligence',
       'society_synthetics',
+      'society_transportation',
       'society_weaponry'
     ].forEach(sphereKey => {
       const sphereSeeds = DEFAULT_SOCIETAL_ENTRIES.filter(
         e => e.category === sphereKey || e.sphere_key === sphereKey
       );
-      initial[sphereKey] = filterInitialData(sphereSeeds, sphereKey);
+      const effectiveSeeds = sphereSeeds.length > 0
+        ? sphereSeeds
+        : (CANONICAL_SECTION_FALLBACK_SEEDS[sphereKey] || []);
+      initial[sphereKey] = hydrateSectionItemsWithFallback(
+        filterInitialData(effectiveSeeds, sphereKey),
+        sphereKey
+      );
     });
 
     return initial;
@@ -251,6 +559,7 @@ export const DBMProvider = ({ children }) => {
       'invocations',
       'technology',
       'modular_characters',
+      'companions',
       'special_abilities',
       'planetary_design',
       'universe',
@@ -283,7 +592,10 @@ export const DBMProvider = ({ children }) => {
             if (cancelled) return;
             const tombstones = getOmnicortexTombstones();
             const rawDocs = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
-            const items = mergeSeedsWithDocs(rawDocs, catK, tombstones);
+            const items = hydrateSectionItemsWithFallback(
+              mergeSeedsWithDocs(rawDocs, catK, tombstones),
+              catK
+            );
 
             setDbData(prev => ({
               ...prev,
@@ -301,7 +613,10 @@ export const DBMProvider = ({ children }) => {
               return;
             }
             const tombstones = getOmnicortexTombstones();
-            const items = mergeSeedsWithDocs([], catK, tombstones);
+            const items = hydrateSectionItemsWithFallback(
+              mergeSeedsWithDocs([], catK, tombstones),
+              catK
+            );
             setDbData(prev => ({ ...prev, [catK]: items }));
             pendingCount--;
             if (pendingCount <= 0) {
@@ -317,7 +632,10 @@ export const DBMProvider = ({ children }) => {
           return;
         }
         const tombstones = getOmnicortexTombstones();
-        const items = mergeSeedsWithDocs([], catK, tombstones);
+        const items = hydrateSectionItemsWithFallback(
+          mergeSeedsWithDocs([], catK, tombstones),
+          catK
+        );
         setDbData(prev => ({ ...prev, [catK]: items }));
         pendingCount--;
         if (pendingCount <= 0) {
@@ -600,6 +918,15 @@ export const DBMProvider = ({ children }) => {
       });
 
       const operations = [];
+
+      // 0. Species Lineages
+      SPECIES_LINEAGES.forEach(item => {
+        operations.push({
+          ref: doc(db, 'species_lineage', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
 
       // 1. Species Types
       DEFAULT_SPECIES_TYPES.forEach(item => {

@@ -29,45 +29,75 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Deceitful
-  - Discipline Features
-  - Fast Heal
-  - Stealthy
+  - skill-stealthy
+  - skill-deceitful
+  - special-acute-sense
+  - cat_discipline_features
+  - general-fast-heal
 disadvantages: []
 stigma: Fey (-2)
 tech_level: '1'
 meta_level: '4'
 homeworld: Misty Ether-Glades
 costs:
-  cp: 25
-  bp: 25
+  cp: 26
+  bp: 26
 modifiers:
   - target: Charisma
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Charisma
-  - target: Acute Senses
-    value: 1
+  - target: skill-stealthy
     type: feature
-    mode: recommended
-  - target: Deceitful
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features
+    description: 'Recommended Feature: Stealthy'
+  - target: skill-deceitful
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Deceitful'
+  - target: special-acute-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Acute Sense'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Discipline Features'
+  - target: general-fast-heal
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Fast Heal'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
 description: >-
   The Fey creature known as Whisper possesses a deeply enigmatic nature,
   evidenced by its capacity to manifest in two strikingly distinct primary
@@ -77,14 +107,20 @@ description: >-
   phenomenon, and is highly mobile. It is its most elusive and true-to-nature
   manifestation, reflecting its primal connection to the subtle energies of the
   Feywild.
-traits: &ref_0
+traits:
+  - trait-asi-base-traits
+  - trait-alter-form-adv
+  - trait-alternate-form
+  - trait-awakened-nature
+  - trait-silent
+  - trait-flight
+species_traits:
   - trait-asi-base-traits
   - trait-alter-form-adv
   - trait-alternate-form
   - trait-awakened-nature
   - trait-silent-hunter
   - trait-flight
-species_traits: *ref_0
 recommended_factions:
   - The Alterian Enclave
   - The Syndicate
@@ -102,6 +138,12 @@ negative_keywords: 'loud, heavy-infantry, conspicuous, physical-labor'
 cp: 25
 bp: 25
 cp_cost: 25
+recommended_traits:
+  - trait-obfuscate
+  - trait-ageless
+  - trait-immortal
+  - trait-acute-senses
+  - trait-fast-heal
 ---
 
 # **1.03.Asi.Whisper — Whisper (Luminous Wisp Shifter Asi)**

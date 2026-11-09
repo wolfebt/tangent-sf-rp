@@ -30,11 +30,10 @@ inherent_features: []
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Awakened
-  - Discipline Features
-  - Dragonkin Features
-  - Iron Will
-  - Natural Weapons
+  - special-energy-resistance
+  - general-fearless
+  - general-tough
+  - ability-great-fortitude
 disadvantages: []
 stigma: 'Dragonkin (-4), Xeno (-2)'
 tech_level: '3'
@@ -45,49 +44,65 @@ costs:
   bp: 28
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Any
-    value: 1
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Armor (Chitinous Shell)
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: special-energy-resistance
     type: feature
-    mode: recommended
-  - target: Awakened
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features
+    description: 'Recommended Feature: Energy Resistance'
+  - target: general-fearless
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Dragonkin Features
+    description: 'Recommended Feature: Fearless'
+  - target: general-tough
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Iron Will
+    description: 'Recommended Feature: Tough'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Natural Weapons
+    description: 'Recommended Feature: Great Fortitude'
+  - target: trait-dragon-senses
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Dragon Senses'
+  - target: trait-dragon-breath
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dragon Breath'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
+  - target: trait-energy-resist
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Energy Resist'
 description: >-
   Draconians bridge ancient elven grace with the primal draconic essence.
   Scaled, proud, and martial, they serve as warrior-philosophers and guardians
@@ -116,6 +131,11 @@ negative_keywords: 'subterfuge, frail, cowardly, dishonorable, primitive'
 cp: 28
 bp: 28
 cp_cost: 28
+recommended_traits:
+  - trait-dragon-senses
+  - trait-dragon-breath
+  - trait-exoskeleton-light
+  - trait-energy-resist
 ---
 
 # **1.03.Aeld.Draconian — Draconian (Scaled Aeld)**

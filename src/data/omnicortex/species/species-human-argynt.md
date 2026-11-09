@@ -31,67 +31,85 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Aptitude
-  - Awakened
-  - Educated
-  - Endurance
-  - Self Sufficient
+  - discipline-aptitude
+  - discipline-awakened
+  - skill-educated
+  - general-endurance
+  - skill-self-sufficient
 disadvantages: []
 stigma: Minor Appearance - Blue Skin (-1)
 tech_level: '3'
 meta_level: '3'
 homeworld: Argyntia (Heavy Metal World)
 costs:
-  cp: 15
-  bp: 15
+  cp: 16
+  bp: 16
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Aptitude
-    value: 1
+  - target: discipline-aptitude
     type: feature
-    mode: recommended
-  - target: Awakened
     value: 1
-    type: feature
     mode: recommended
-  - target: Educated
+    description: 'Recommended Feature: Aptitude'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Endurance
+    description: 'Recommended Feature: Awakened'
+  - target: skill-educated
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Educated'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Reduced Sustenance
+    description: 'Recommended Feature: Endurance'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Rugged
+    description: 'Recommended Feature: Self Sufficient'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Self Sufficient
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
+  - target: trait-hardy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Hardy'
 description: >-
   The Argynts, a distinct branch of humanity, are instantly recognizable by
   their striking blue skin, a permanent and visible mark of their ancestral
@@ -102,9 +120,10 @@ description: >-
   common but valuable metal. Centuries of intense mining pulverized these
   materials into thick, pervasive dust that blanketed the atmosphere, eventually
   settling on and integrating with the planet's surface.
-traits: &ref_0
+traits:
+  - trait-improved-great-fortitude
+species_traits:
   - trait-hardy
-species_traits: *ref_0
 recommended_factions:
   - The Outworlds
   - Coalition of Independent Worlds
@@ -120,6 +139,12 @@ negative_keywords: 'fragile, luxury, delicate, light-gravity'
 cp: 15
 bp: 15
 cp_cost: 15
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-longevity
+  - trait-reduced-sustenance
+  - trait-hardy
 ---
 
 # **1.03.Humans.Argynt — Argynt (Aether-Touched Humans)**

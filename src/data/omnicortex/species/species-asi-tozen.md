@@ -31,11 +31,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Discipline Features
-  - Fast Heal
-  - Lightning Reflexes
-  - Stealthy
+  - special-acute-sense
+  - cat_discipline_features
+  - general-fast-heal
+  - ability-lightning-reflexes
+  - skill-stealthy
 disadvantages: []
 stigma: 'Xeno (-2), Seclusionist (-1)'
 tech_level: '1'
@@ -46,35 +46,50 @@ costs:
   bp: 24
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Wisdom
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Wisdom
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Discipline Features
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Acute Sense'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Reflexes
+    description: 'Recommended Feature: Discipline Features'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Fast Heal'
+  - target: ability-lightning-reflexes
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Lightning Reflexes'
+  - target: skill-stealthy
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Stealthy'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
 description: >-
   The Tozen are a captivating breed of fey, distinguished by their graceful,
   centauric forms that blend the upper body of a lean, lithe humanoid with the
@@ -102,6 +117,9 @@ negative_keywords: 'indoor-confined, starship-ductwork, urbanite, cramped-cockpi
 cp: 24
 bp: 24
 cp_cost: 24
+recommended_traits:
+  - trait-acute-senses
+  - trait-fast-heal
 ---
 
 # **1.03.Asi.Tozen — Tozen (Cervine Centaurid Asi)**

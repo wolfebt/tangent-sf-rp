@@ -19,6 +19,7 @@ import { useUILayoutStore } from '../store/uiLayoutStore';
 import { useConfirm } from '../../../context/ConfirmContext';
 import { AudioService } from '../../../services/audioService';
 import { VttEventBus } from '../../../utils/vttEventBus';
+import { buildVttUnitFromPersona } from '../../../utils/personaBridge';
 import { 
   createBlankCanvas, 
   createDerelictStarshipMap, 
@@ -220,33 +221,44 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       const dropX = rect ? Math.max(20, Math.round(e.clientX - rect.left)) : 350;
       const dropY = rect ? Math.max(20, Math.round(e.clientY - rect.top)) : 350;
 
-      const isPersona = data.type === 'character' || !!data.isPersona || data.elementType === 'Persona' || data.element?.type === 'Persona';
+      const isPersona =
+        data.type === 'character' ||
+        data.type === 'hero' ||
+        data.type === 'folio_hero_token' ||
+        !!data.isPersona ||
+        data.elementType === 'Persona' ||
+        data.element?.type === 'Persona';
 
       if (isPersona) {
-        const charData = data.element || data;
-        const newId = `${charData.id || 'token'}-${Date.now()}`;
-        const isSyn = !!charData.isSynthetic || String(charData.species || '').toLowerCase().includes('synthetic');
+        const charData = data.rawPersona || data.element || data;
+        const vttUnit = (buildVttUnitFromPersona(charData, {
+          uniqueInstance: true,
+          position: { x: dropX, y: dropY }
+        }) || {}) as Record<string, any>;
+        const newId = vttUnit.id || `${charData.id || 'token'}-${Date.now()}`;
+        const isSyn = Boolean(vttUnit.is_synthetic);
         const staticToken = {
+          ...vttUnit,
           id: newId,
-          character_doc_id: charData.id || charData.heroId || charData['character-doc-id'],
-          name: charData.name || charData.title || 'Operator',
-          base_hp: charData.health || charData.hp || 30,
-          base_vitality: charData.vitality || 30,
-          base_health: charData.health || charData.hp || 30,
-          base_structure: charData.structure || 60,
+          character_doc_id: vttUnit.character_doc_id || charData.id || charData.heroId || charData['character-doc-id'],
+          name: charData.name || charData.title || vttUnit.name || 'Operator',
+          base_hp: vttUnit.base_hp || charData.health || charData.hp || 30,
+          base_vitality: vttUnit.base_vitality || charData.vitality || 30,
+          base_health: vttUnit.base_health || charData.health || charData.hp || 30,
+          base_structure: vttUnit.base_structure || charData.structure || 60,
           is_synthetic: isSyn,
-          tech_level: charData.tech_level || 3,
-          armor_dr: charData.dr || charData.armor_dr || 8,
-          stamina_dr: charData.stamina_dr || 2,
-          size_modifier: 0,
-          speed_ft: charData.speed_ft || 30,
-          species: charData.species || 'Human',
-          archetype: charData.archetype || 'Operator',
-          is_persona: true
+          tech_level: vttUnit.tech_level || 3,
+          armor_dr: charData.dr ?? vttUnit.armor_dr ?? 6,
+          stamina_dr: charData.stamina_dr ?? vttUnit.stamina_dr ?? 2,
+          size_modifier: vttUnit.size_modifier || 0,
+          speed_ft: vttUnit.speed_ft || 30,
+          species: charData.species || vttUnit.species || 'Human',
+          archetype: charData.archetype || vttUnit.archetype || 'Operator',
+          is_persona: vttUnit.is_persona
         };
 
         // Ingest into VolatileSharder engine state
-        useEngineStore.getState().loadStaticEntity(staticToken);
+        useEngineStore.getState().loadStaticEntity(staticToken as any);
         useEngineStore.getState().updatePosition(newId, dropX, dropY);
         useEngineStore.getState().clearSelection();
         useEngineStore.getState().setSelection(newId, true);

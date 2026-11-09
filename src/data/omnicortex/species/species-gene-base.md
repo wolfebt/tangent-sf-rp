@@ -27,10 +27,14 @@ inherent_features: []
 bonus_features: 1
 bonus_feature_choices: []
 recommended_features:
-  - Ability Check Features
-  - Attractive
-  - Low Light Vision
-  - Scent
+  - cat_ability_features
+  - skill-attractive
+  - special-low-light-vision
+  - special-scent
+  - ability-environmental-adaptation
+  - combat-ambidextrous
+  - general-fast-heal
+  - ability-toxic-resistance
 disadvantages: []
 stigma: None
 tech_level: '3'
@@ -40,61 +44,86 @@ costs:
   cp: 18
   bp: 18
 modifiers:
-  - target: Any
-    value: 2
+  - target: Any Attribute
     type: attribute
+    value: 2
     mode: bonus_pool
-    description: +2 Flexible Attribute Points
+    description: +2 Attribute Choice(s)
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Any
-    value: 1
+  - target: Any Feature
     type: feature
+    value: 1
     mode: bonus_pool
-    description: +1 Bonus Feature
-  - target: Ability Check Features
-    value: 1
+    description: +1 Bonus Feature(s)
+  - target: cat_ability_features
     type: feature
-    mode: recommended
-  - target: Adapted
     value: 1
-    type: feature
     mode: recommended
-  - target: Ambidexterity
+    description: 'Recommended Feature: Ability Features'
+  - target: skill-attractive
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Attractive
+    description: 'Recommended Feature: Attractive'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Improved Healing (double healing rate)
+    description: 'Recommended Feature: Low Light Vision'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Scent'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Longevity
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: combat-ambidextrous
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Scent
+    description: 'Recommended Feature: Ambidextrous'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: 'Toxin Resist (+4 vs Diseases, +2 vs Poisons)'
+    description: 'Recommended Feature: Fast Heal'
+  - target: ability-toxic-resistance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: '---'
+    description: 'Recommended Feature: Toxic Resistance'
+  - target: trait-low-light-vision
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
+  - target: trait-adapted
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Adapted'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
 description: >-
   GThe Gen-E designation applies to any individual or population of human stock
   that has been non-hybridically bio-engineered for specific traits, purposes,
@@ -132,6 +161,12 @@ negative_keywords: 'primitive, bio-purist, degenerative-defects, superstition'
 cp: 18
 bp: 18
 cp_cost: 18
+recommended_traits:
+  - trait-low-light-vision
+  - trait-scent
+  - trait-adapted
+  - trait-fast-heal
+  - trait-longevity
 ---
 
 # **1.03.Humans.GenE — Gen-E (Base Engineered Humans)**

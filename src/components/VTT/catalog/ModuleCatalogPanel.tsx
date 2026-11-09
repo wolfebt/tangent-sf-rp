@@ -48,6 +48,7 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
     } catch {}
 
     const rosterCount = folio?.personaRoster?.length || (character?.name ? 1 : 0);
+    const mcmPersonasCount = (dbData?.modular_characters || []).length;
     const adePersonasCount = (elementsCatalog || []).filter((e: any) => e.type === 'Persona').length;
     const adeItemsCount = (elementsCatalog || []).filter((e: any) => e.type === 'Item').length;
     const adeFactionsCount = (elementsCatalog || []).filter((e: any) => e.type === 'Faction').length;
@@ -65,8 +66,8 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
     return {
       scenes: maps.length,
       story: scenarios.length + (storyCards.length > 0 ? 1 : 0),
-      personae: rosterCount + adePersonasCount,
-      encounters: scenarioEncountersCount + bestiaryCount,
+      personae: rosterCount + mcmPersonasCount + adePersonasCount,
+      encounters: scenarioEncountersCount + bestiaryCount + mcmPersonasCount,
       factions: factionsCount,
       lore: (storyCards.length || 0) + (universeState?.lore?.length || 0) + adeLoreCount,
       armory: armoryCount,

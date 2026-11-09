@@ -32,7 +32,7 @@ inherent_features:
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
+  - special-acute-sense
 disadvantages: []
 stigma: Severe Xeno (-4)
 tech_level: '2'
@@ -43,23 +43,30 @@ costs:
   bp: 18
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: special-uncanny-sense
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: Acute Senses
-    value: 1
+    description: 'Grants Inherent Feature: Uncanny Sense'
+  - target: special-acute-sense
     type: feature
+    value: 1
     mode: recommended
+    description: 'Recommended Feature: Acute Sense'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
 description: >-
   The Mobula are a remarkable lineage of Aquatic Shifters, a people uniquely
   adapted to thrive both on land and within the vast ocean depths. Their
@@ -99,6 +106,8 @@ negative_keywords: 'confined-corridors, arid-desert, subterranean'
 cp: 18
 bp: 18
 cp_cost: 18
+recommended_traits:
+  - trait-acute-senses
 ---
 
 # **1.03.Mobula — Mobula (Pelagic Manta-Shifters)**

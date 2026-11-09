@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","source-of-truth","1.00 introduction","mechanics"]
-updatedAt: "2026-11-04T11:39:18.336Z"
+updatedAt: "2026-11-08T20:27:25.761Z"
 costs:
   bp: 0
   credits: 0
@@ -163,7 +163,7 @@ Defining the states of life, structural resilience, and damage mitigation:
 | **Health** | Integrity | Biological structural integrity and life force. Damage here represents physical wounds and trauma. | **Base `30`**; increased strictly by **`+5 per 1 CP`** (Suggested Max: `60`). **Never scaled by Stamina.** |
 | **Structure (SP)** | Integrity | Combined integrity pool (`Vitality + Health`) for Synthetics, Constructs, Vehicles, Mecha, and Buildings. | **Base `60 SP`** for Synthetics (`+5 SP per 1 CP`; Suggested Max: `120 SP`). |
 | **Base Toughness** | Mitigation | Point-for-point damage reduction granted by a character's **Stamina (STA) Modifier**. | Subtracts `STA Mod` from incoming damage *after* Armor DR. |
-| **DR** | Mitigation | **Damage Resistance / Reduction**. Flat value subtracted from incoming damage before Base Toughness and Vitality. | `0` (Clothing) to `60+` (Capital Ship). **Armor Layering Cap:** Only the single highest DR across bio, cyber, and worn armor applies. |
+| **DR** | Mitigation | **Damage Resistance / Reduction**. Flat value subtracted from incoming damage before Base Toughness and Vitality. | `0` (Clothing) to `60+` (Capital Ship). **Diminishing Returns Armor Stacking:** Use the single highest DR across bio, cyber, and worn armor, plus `+1 DR` per stage of 5 (`1–5 = +1`, `6–10 = +2`, etc.) calculated separately for each additional layer. |
 | **Penetration** | Mitigation | Weapon armor-piercing rating that reduces the target's effective Armor DR against that attack. | `Effective DR = max(0, Highest Single Domain DR - Weapon Penetration)` |
 | **Precision Strike** | Combat | Feature-gated Standard Action strike consolidation chain (`1.08.CombatFeatures.md`). | `Precision Strike` (`Skill 6`) = `2x` Base Weapon Dice; `Improved` (`Skill 11`) = `3x`; `Greater` (`Skill 16`) = `4x`. |
 | **Defense** | Combat | Static target number an attacker's `2d10` Strike roll must meet or exceed to hit. | `10 + Agility + Defense Skill Rank + Shield/Size/Cover Modifiers` |

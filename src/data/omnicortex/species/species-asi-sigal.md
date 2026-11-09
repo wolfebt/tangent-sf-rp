@@ -29,7 +29,10 @@ inherent_features:
   - general-photographic-memory
 bonus_features: 0
 bonus_feature_choices: []
-recommended_features: []
+recommended_features:
+  - cat_discipline_features
+  - skill-educated
+  - skill-scholar
 disadvantages:
   - disadvantage-species-armless
 stigma: Severe Xeno (-6)
@@ -41,23 +44,55 @@ costs:
   bp: 37
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
   - target: general-photographic-memory
-    value: 1
     type: feature
+    value: 1
     mode: inherent
-  - target: 'Diminutive Size (-8 Str, +8 Agi, +8 Combat, +12 Stealth)*'
+    description: 'Grants Inherent Feature: Photographic Memory'
+  - target: disadvantage-species-armless
+    type: disadvantage
     value: 1
+    mode: inherent
+    description: 'Species Disadvantage: disadvantage-species-armless'
+  - target: cat_discipline_features
     type: feature
+    value: 1
     mode: recommended
+    description: 'Recommended Feature: Discipline Features'
+  - target: skill-educated
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Educated'
+  - target: skill-scholar
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Scholar'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-sense-magic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Sense Magic (30 ft)'
 description: >-
   The Sigals are an extraordinary race known as the Crystal Fae. Their physical
   form is not organic in the traditional sense but is a floating stone,
@@ -69,12 +104,16 @@ description: >-
   otherworldly presence. Though they possess no discernible limbs, their innate
   magical abilities allow them to interact with their environment with precision
   and grace.
-traits: &ref_0
+traits:
+  - trait-asi-base-traits
+  - trait-awakened-energy-illusion
+  - trait-non-living
+  - trait-telekinesis
+species_traits:
   - trait-asi-base-traits
   - trait-awakened-energy-illusion
   - trait-awakened-arcane
   - trait-non-living
-species_traits: *ref_0
 recommended_factions:
   - The Alterian Enclave
   - The Ascendancy
@@ -94,6 +133,10 @@ negative_keywords: 'melee-combat, physical-strength, heavy-armor, primitive, mud
 cp: 37
 bp: 37
 cp_cost: 37
+recommended_traits:
+  - trait-ageless
+  - trait-immortal
+  - trait-sense-magic
 ---
 
 # **1.03.Asi.Sigal — Sigal (Crystalline Elemental Asi)**

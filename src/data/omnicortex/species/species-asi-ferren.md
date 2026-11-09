@@ -10,6 +10,7 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+  - movement-climb-improved
 speeds: '40 ft Groundspeed, 40 ft Climbspeed'
 reach: 3 ft
 senses: 'Low-light vision. [1]'
@@ -30,71 +31,107 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Attractive
-  - Awakened
-  - Danger Sense
-  - Fast Heal
-  - Regeneration
-  - Wild Speech
+  - skill-attractive
+  - discipline-awakened
+  - special-danger-sense
+  - general-fast-heal
+  - general-regeneration
+  - special-wild-speech
+  - ability-environmental-adaptation
 disadvantages: []
 stigma: 'Fey (-2), Xeno (-2)'
 tech_level: '3'
 meta_level: '4'
 homeworld: Feywild Canopy Realms
 costs:
-  cp: 24
-  bp: 24
+  cp: 25
+  bp: 25
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Ageless
-    value: 1
+  - target: skill-attractive
     type: feature
-    mode: recommended
-  - target: Attractive
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Attractive'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Danger Sense
+    description: 'Recommended Feature: Awakened'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Heal
+    description: 'Recommended Feature: Danger Sense'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Favored Environment
+    description: 'Recommended Feature: Fast Heal'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Immortal
+    description: 'Recommended Feature: Regeneration'
+  - target: special-wild-speech
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Obfuscate
+    description: 'Recommended Feature: Wild Speech'
+  - target: ability-environmental-adaptation
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Environmental Adaptation'
+  - target: trait-awakened-arcane
+    type: trait
     value: 1
-    type: feature
     mode: recommended
-  - target: Wild Speech
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-ageless
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Ageless'
+  - target: trait-bonded-terrain
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bonded Terrain'
+  - target: trait-immortal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Immortal'
+  - target: trait-obfuscate
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Obfuscate'
 description: >-
   The Ferren are a fascinating species of arboreal fey, distinguished by their
   slender, elf-like appearance and, most notably, a unique split tail that helps
@@ -125,6 +162,15 @@ negative_keywords: 'heavy-armor, industrial, cybernetics, polluter, sedentary'
 cp: 24
 bp: 24
 cp_cost: 24
+recommended_traits:
+  - trait-awakened-arcane
+  - trait-awakened-psychic
+  - trait-fast-heal
+  - trait-regeneration
+  - trait-ageless
+  - trait-bonded-terrain
+  - trait-immortal
+  - trait-obfuscate
 ---
 
 # **1.03.Asi.Ferren — Ferren (Arboreal Sciurine Asi)**

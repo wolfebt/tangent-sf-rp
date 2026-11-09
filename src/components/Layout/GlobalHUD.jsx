@@ -667,29 +667,12 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                     </div>
                   </button>
 
-                  {/* CODEX */}
-                  <button
-                    type="button"
-                    onClick={() => { navigate('/codex'); setIsMobileNavOpen(false); }}
-                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isCodex ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
-                      <Hammer size={16} />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-xs">CODEX MATRICES</div>
-                      <div className="text-[10px] text-slate-400">12-Matrix Forge & Custom Builders</div>
-                    </div>
-                  </button>
-
                   {/* CORTEX */}
                   <button
                     type="button"
                     onClick={() => { navigate('/dbm'); setIsMobileNavOpen(false); }}
                     className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isDBM ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                      isDBM || isCodex ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
                     }`}
                   >
                     <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
@@ -697,7 +680,7 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-xs">CORTEX</div>
-                      <div className="text-[10px] text-slate-400">Omnicortex Master Database</div>
+                      <div className="text-[10px] text-slate-400">Omnicortex Catalogs & Rules Codex Forge</div>
                     </div>
                   </button>
 

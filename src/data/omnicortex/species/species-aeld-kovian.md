@@ -17,6 +17,8 @@ immunities: None
 inherent_attribute_modifiers:
   - attribute: Intellect
     bonus: 1
+  - attribute: Charisma
+    bonus: -1
 bonus_attribute_points: 1
 specific_skill_bonuses: []
 bonus_skills: 10
@@ -30,72 +32,125 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Ability Check Features
-  - Acute Sense
-  - Awakened
-  - Darksight
-  - Lightning Calculator
-  - Low Light Vision
-  - Magical Aptitude
+  - cat_ability_features
+  - special-acute-sense
+  - discipline-awakened
+  - special-darksight
+  - general-lightning-calculator
+  - special-low-light-vision
+  - skill-magical-aptitude
 disadvantages: []
 stigma: 'Xeno (-2), Supremacist (-2)'
 tech_level: '3'
 meta_level: '4'
 homeworld: Kovia (Shadow-fortress World)
 costs:
-  cp: 21
-  bp: 21
+  cp: 16
+  bp: 16
 modifiers:
   - target: Intellect
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Intellect
-  - target: Any
-    value: 1
+  - target: Charisma
     type: attribute
+    value: -1
+    mode: inherent
+    description: '-1 Charisma'
+  - target: Any Attribute
+    type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Ability Check Features
-    value: 1
+  - target: cat_ability_features
     type: feature
-    mode: recommended
-  - target: Acute Senses
     value: 1
-    type: feature
     mode: recommended
-  - target: Awakened
+    description: 'Recommended Feature: Ability Features'
+  - target: special-acute-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Darksight
+    description: 'Recommended Feature: Acute Sense'
+  - target: discipline-awakened
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Lightning Calculator
+    description: 'Recommended Feature: Awakened'
+  - target: special-darksight
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Darksight'
+  - target: general-lightning-calculator
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Magical Aptitude
+    description: 'Recommended Feature: Lightning Calculator'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Low Light Vision'
+  - target: skill-magical-aptitude
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Magical Aptitude'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
+  - target: trait-longevity
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Longevity'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-reduced-sustenance
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Reduced Sustenance'
+  - target: trait-sense-magic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Sense Magic (30 ft)'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
+  - target: trait-awakened-arcane
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Arcane)'
+  - target: trait-awakened-psychic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Awakened (Psychic)'
 description: >-
   The Kovians are a fiercely disciplined, subterranean and void-dwelling elven
   faction. Prioritizing cold logic, genetic preservation, and shadow-craft, they
   harbor deep skepticism toward outsiders.
-traits: &ref_0
+traits:
   - trait-aeld-lineage-traits
-species_traits: *ref_0
+species_traits:
+  - trait-aeld-lineage-traits
 recommended_factions:
   - Kovian Tribunal
   - The Alterian Enclave
@@ -116,6 +171,15 @@ negative_keywords: 'gregarious, daylight-dependent, naive, diplomatic-mediator, 
 cp: 21
 bp: 21
 cp_cost: 21
+recommended_traits:
+  - trait-dark-sight
+  - trait-longevity
+  - trait-low-light-vision
+  - trait-reduced-sustenance
+  - trait-sense-magic
+  - trait-acute-senses
+  - trait-awakened-arcane
+  - trait-awakened-psychic
 ---
 
 # **1.03.Aeld.Kovian — Nocturne (Kovian Aeld)**

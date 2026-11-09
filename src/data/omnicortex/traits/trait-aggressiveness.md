@@ -2,7 +2,7 @@
 id: trait-aggressiveness
 name: Aggressiveness
 trait_tier: Basic
-trait_type: Combat
+trait_type: Occupational Trait
 category: traits
 costs:
   cp: 1
@@ -21,12 +21,13 @@ modifiers:
     value: 1
     mode: inherent
     description: +1 to Breach
+classification: Combat
 ---
 # Aggressiveness
 
 **Category**: TRAITS
 **Tier**: Basic
-**Type**: Combat
+**Type**: Occupational Trait
 **CP Cost**: 1
 
 ## Description

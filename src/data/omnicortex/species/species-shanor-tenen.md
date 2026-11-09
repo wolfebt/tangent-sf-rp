@@ -28,11 +28,11 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Darksight
-  - Deceitful
-  - Discipline Features
-  - Iron Will
-  - Stealthy
+  - special-darksight
+  - skill-deceitful
+  - cat_discipline_features
+  - ability-iron-will
+  - skill-stealthy
 disadvantages: []
 stigma: Xeno (-2)
 tech_level: '5'
@@ -43,40 +43,50 @@ costs:
   bp: 50
 modifiers:
   - target: Wisdom
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Wisdom
-  - target: Any
-    value: 1
+  - target: Any Attribute
     type: attribute
+    value: 1
     mode: bonus_pool
-    description: +1 Flexible Attribute Point
+    description: +1 Attribute Choice(s)
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Darksight
-    value: 1
+  - target: special-darksight
     type: feature
-    mode: recommended
-  - target: Deceitful
     value: 1
-    type: feature
     mode: recommended
-  - target: Discipline Features
+    description: 'Recommended Feature: Darksight'
+  - target: skill-deceitful
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Iron Will
+    description: 'Recommended Feature: Deceitful'
+  - target: cat_discipline_features
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Stealthy
+    description: 'Recommended Feature: Discipline Features'
+  - target: ability-iron-will
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Iron Will'
+  - target: skill-stealthy
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Stealthy'
+  - target: trait-dark-sight
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Dark Sight'
 description: >-
   The Tenen are an extremely rare offshoot of Sha’Nor which have evolved from
   their predatory nature and Vampiric needs. Theory of this is primarily due to
@@ -111,6 +121,8 @@ negative_keywords: 'predatory-vampire, physical-brawler, loud'
 cp: 50
 bp: 50
 cp_cost: 50
+recommended_traits:
+  - trait-dark-sight
 ---
 
 # **1.03.ShaNor.Tenen — Tenen (Order-Attuned Sha'Nor Offshoot)**

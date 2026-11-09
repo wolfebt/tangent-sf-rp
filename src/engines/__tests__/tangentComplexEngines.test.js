@@ -72,7 +72,7 @@ test('Plan 20: Augmentations Matrix Engine - Stigma Levels and FBC', () => {
   assert.equal(calculateStigmaLevel(5).level, 'Moderate');
   assert.equal(calculateStigmaLevel(5).penalty, -4);
   assert.equal(calculateStigmaLevel(8).level, 'Severe');
-  assert.equal(calculateStigmaLevel(8).penalty, -8);
+  assert.equal(calculateStigmaLevel(8).penalty, -6);
 
   // Full Body Conversion (FBC)
   const fbcCivilian = computeAugmentationStats({

@@ -32,114 +32,186 @@ bonus_skill_choices:
   - Combat
   - Intimidation
   - Athletics
-inherent_features: []
+inherent_features:
+  - special-rage
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Climber
-  - Endurance
-  - Low Light Vision
-  - Regeneration
-  - Runner
-  - Scent
-  - Swimmer
-  - Quick
+  - general-climber
+  - general-endurance
+  - special-low-light-vision
+  - general-regeneration
+  - general-runner
+  - special-scent
+  - general-swimmer
+  - general-quick
+  - general-fast-heal
+  - ability-great-fortitude
 disadvantages: []
 stigma: 'Xeno (-2), Savage (-4)'
 tech_level: '4'
 meta_level: '4'
 homeworld: Imperial Barracks Worlds
 costs:
-  cp: 8
-  bp: 8
+  cp: 10
+  bp: 10
 modifiers:
   - target: Strength
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Strength
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Stamina
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Stamina
   - target: Intellect
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Intellect'
   - target: Charisma
-    value: -1
     type: attribute
+    value: -1
     mode: inherent
     description: '-1 Charisma'
   - target: Any
-    value: 5
     type: skill
+    value: 5
     mode: bonus_pool
     description: +5 Skill Points
-  - target: Bodyform (Any)
-    value: 1
+  - target: special-rage
     type: feature
-    mode: recommended
-  - target: Climber
     value: 1
+    mode: inherent
+    description: 'Grants Inherent Feature: Rage'
+  - target: general-climber
     type: feature
-    mode: recommended
-  - target: Endurance
     value: 1
-    type: feature
     mode: recommended
-  - target: Exoskeleton (any others)
+    description: 'Recommended Feature: Climber'
+  - target: general-endurance
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fast Healing
+    description: 'Recommended Feature: Endurance'
+  - target: special-low-light-vision
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Fortitude Resistance
+    description: 'Recommended Feature: Low Light Vision'
+  - target: general-regeneration
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Low Light Vision
+    description: 'Recommended Feature: Regeneration'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Regeneration
+    description: 'Recommended Feature: Runner'
+  - target: special-scent
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Scent'
+  - target: general-swimmer
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Scent
+    description: 'Recommended Feature: Swimmer'
+  - target: general-quick
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Swimmer
+    description: 'Recommended Feature: Quick'
+  - target: general-fast-heal
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Quick
+    description: 'Recommended Feature: Fast Heal'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Great Fortitude'
+  - target: trait-climber
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Climber'
+  - target: trait-low-light-vision
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Low Light Vision'
+  - target: trait-regeneration
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Regeneration'
+  - target: trait-scent
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Scent'
+  - target: trait-aquatic
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Aquatic'
+  - target: trait-quick
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Quick'
+  - target: trait-bodyform-adaptation
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Adaptation'
+  - target: trait-bodyform-armor-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Armor Opts'
+  - target: trait-bodyform-weapon-opts
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Bodyform Weapon Opts'
+  - target: trait-exoskeleton-light
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Light)'
+  - target: trait-exoskeleton-heavy
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Exoskeleton (Heavy)'
+  - target: trait-fast-heal
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Fast Heal'
 description: >-
   Genetically engineered as a warrior species for the Impyrium, The Digon are
   physically imposing: tall (averaging 7 ft), stocky, and distinguished by their
   gray skin.
-traits: &ref_0
+traits:
+  - trait-brutal
+  - trait-exoskeleton-partial
+species_traits:
   - trait-brutal
   - trait-exoskeleton-partial
   - trait-frenzy
-species_traits: *ref_0
 recommended_factions:
   - Impyrium Dominion
   - Radiant Impyrium
@@ -159,6 +231,19 @@ negative_keywords: 'subtle-espionage, delicate-craft, diplomacy, psionics, agile
 cp: 8
 bp: 8
 cp_cost: 8
+recommended_traits:
+  - trait-climber
+  - trait-low-light-vision
+  - trait-regeneration
+  - trait-scent
+  - trait-aquatic
+  - trait-quick
+  - trait-bodyform-adaptation
+  - trait-bodyform-armor-opts
+  - trait-bodyform-weapon-opts
+  - trait-exoskeleton-light
+  - trait-exoskeleton-heavy
+  - trait-fast-heal
 ---
 
 # **1.03.Humans.Digon — Digon (Impyrium Shock Clones)**

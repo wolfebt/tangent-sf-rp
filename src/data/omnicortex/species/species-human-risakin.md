@@ -31,10 +31,11 @@ inherent_features: []
 bonus_features: 2
 bonus_feature_choices: []
 recommended_features:
-  - Tough
-  - Potent Might
-  - Great Fortitude
-  - Mighty Surge
+  - general-tough
+  - ability-potent-might
+  - ability-great-fortitude
+  - ability-mighty-surge
+  - combat-dead-aim
 disadvantages: []
 stigma: 'Xeno (-2), Giant (-2)'
 tech_level: '1'
@@ -45,45 +46,55 @@ costs:
   bp: 34
 modifiers:
   - target: Strength
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Strength
   - target: Stamina
-    value: 2
     type: attribute
+    value: 2
     mode: inherent
     description: +2 Stamina
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Any
+  - target: Any Feature
+    type: feature
     value: 2
-    type: feature
     mode: bonus_pool
-    description: +2 Bonus Features
-  - target: Tough
-    value: 1
+    description: +2 Bonus Feature(s)
+  - target: general-tough
     type: feature
-    mode: recommended
-  - target: Potent Might
     value: 1
-    type: feature
     mode: recommended
-  - target: Great Fortitude
+    description: 'Recommended Feature: Tough'
+  - target: ability-potent-might
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Mighty Surge
+    description: 'Recommended Feature: Potent Might'
+  - target: ability-great-fortitude
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Throwing
+    description: 'Recommended Feature: Great Fortitude'
+  - target: ability-mighty-surge
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Mighty Surge'
+  - target: combat-dead-aim
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Dead Aim'
+  - target: trait-mighty-surge
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Mighty Surge'
 description: >-
   The Risakin, represents a branch of humanity that underwent natural evolution
   on high-gravity worlds. Standing approximately 10 feet tall, these humans
@@ -109,6 +120,8 @@ negative_keywords: 'tight-ducts, stealth, tiny, agile-aerial'
 cp: 34
 bp: 34
 cp_cost: 34
+recommended_traits:
+  - trait-mighty-surge
 ---
 
 # **1.03.Humans.Risakin — Risakin (Giant Folk)**

@@ -2096,10 +2096,17 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
       // Lineage filter
       if (speciesLineageFilter !== 'All') {
-        const target = speciesLineageFilter.toLowerCase().split(' ')[0].replace(/[^a-z0-9]/g, '');
-        const cleanParent = parentName.replace(/[^a-z0-9]/g, '');
+        const sLower = speciesLineageFilter.toLowerCase().trim();
         const cleanId = (sp.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (!cleanParent.includes(target) && !cleanId.includes(target)) return false;
+        if (sLower.includes('engineered') || sLower.includes('gen-e') || sLower === 'gene') {
+          if (!parentName.includes('engineered') && !parentName.includes('gen-e') && parentName !== 'gene' && !cleanId.includes('speciesgene')) return false;
+        } else if (sLower.includes('human')) {
+          if (!parentName.includes('human') || parentName.includes('engineered') || parentName.includes('gen-e')) return false;
+        } else {
+          const target = sLower.split(' ')[0].replace(/[^a-z0-9]/g, '');
+          const cleanParent = parentName.replace(/[^a-z0-9]/g, '');
+          if (!cleanParent.includes(target) && !cleanId.includes(target)) return false;
+        }
       }
 
       // Search query across name, description, lineage, homeworld, keywords, and railguards
@@ -2167,12 +2174,23 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
             All ({(dbData.species || []).length})
           </button>
           {SPECIES_LINEAGES.map(lin => {
+            const linNameLower = lin.name.toLowerCase().trim();
+            const linIdLower = lin.id.toLowerCase().trim();
             const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
             const count = (dbData.species || []).filter(s => {
-              const cleanParent = (s.parent_species || '').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+              const p = (s.parent_species || s.lineage || '').toLowerCase().trim();
+              if (p === linNameLower || p === linIdLower) return true;
+              if (linIdLower === 'gene' || linNameLower.includes('engineered')) {
+                return p.includes('engineered') || p.includes('gen-e') || p === 'gene';
+              }
+              if (linIdLower === 'humans' || linNameLower.startsWith('human')) {
+                return p.includes('human') && !p.includes('engineered') && !p.includes('gen-e');
+              }
+              const cleanParent = p.replace(/[^a-zA-Z0-9]/g, '');
               const cleanId = (s.id || '').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
               return cleanParent.includes(shortName) || cleanId.includes(shortName);
             }).length;
+            const pillLabel = lin.id === 'gene' ? 'Engineered Humans' : lin.name.split('(')[0].trim();
             return (
               <button
                 key={lin.id}
@@ -2185,7 +2203,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 }`}
                 title={lin.description}
               >
-                <span>{lin.name.split(' ')[0]}</span>
+                <span>{pillLabel}</span>
                 {count > 0 && (
                   <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
                     {count}

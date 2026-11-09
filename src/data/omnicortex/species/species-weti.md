@@ -30,10 +30,12 @@ inherent_features: []
 bonus_features: 0
 bonus_feature_choices: []
 recommended_features:
-  - Acute Sense
-  - Danger Sense
-  - Runner
-  - Tracker
+  - special-acute-sense
+  - special-danger-sense
+  - general-runner
+  - general-tracker
+  - skill-self-sufficient
+  - physical-wall-crawler
 disadvantages: []
 stigma: 'Beast (-4), Xeno (-2)'
 tech_level: '1'
@@ -44,39 +46,50 @@ costs:
   bp: 20
 modifiers:
   - target: Agility
-    value: 1
     type: attribute
+    value: 1
     mode: inherent
     description: +1 Agility
   - target: Any
-    value: 10
     type: skill
+    value: 10
     mode: bonus_pool
     description: +10 Skill Points
-  - target: Acute Senses
-    value: 1
+  - target: special-acute-sense
     type: feature
-    mode: recommended
-  - target: Danger Sense
     value: 1
-    type: feature
     mode: recommended
-  - target: Runner
+    description: 'Recommended Feature: Acute Sense'
+  - target: special-danger-sense
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Self-Sufficient
+    description: 'Recommended Feature: Danger Sense'
+  - target: general-runner
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Tracker
+    description: 'Recommended Feature: Runner'
+  - target: general-tracker
+    type: feature
     value: 1
-    type: feature
     mode: recommended
-  - target: Wall-Crawler
+    description: 'Recommended Feature: Tracker'
+  - target: skill-self-sufficient
+    type: feature
     value: 1
-    type: feature
     mode: recommended
+    description: 'Recommended Feature: Self Sufficient'
+  - target: physical-wall-crawler
+    type: feature
+    value: 1
+    mode: recommended
+    description: 'Recommended Feature: Wall-Crawler'
+  - target: trait-acute-senses
+    type: trait
+    value: 1
+    mode: recommended
+    description: 'Recommended Species Trait: Acute Senses'
 description: >-
   The Weti are **tiny arboreal simian humanoids** originating from a dense,
   high-canopy jungle homeworld, where their tool use and complex social
@@ -108,6 +121,8 @@ negative_keywords: 'heavy-combat, high-strength, lumbering'
 cp: 20
 bp: 20
 cp_cost: 20
+recommended_traits:
+  - trait-acute-senses
 ---
 
 # **1.03.Weti — Weti (Tiny Arboreal Simian Engineers)**
