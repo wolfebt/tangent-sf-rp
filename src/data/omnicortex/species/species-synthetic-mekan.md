@@ -3,7 +3,7 @@ id: species-synthetic-mekan
 name: Mekan (Assimilation Unit)
 title: Mekan (Technopathic Assimilator)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

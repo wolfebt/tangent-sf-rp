@@ -887,8 +887,6 @@ export const CodexAiSynthesizerModal = ({
     }
   }, [isOpen, initialMode]);
 
-  if (!isOpen) return null;
-
   const applyPresetParamsToState = (presetParams) => {
     if (!presetParams || typeof presetParams !== 'object') return;
     const { tl, ml, tech_level, meta_level, ...restParams } = presetParams;
@@ -1584,6 +1582,8 @@ export const CodexAiSynthesizerModal = ({
     () => new Set(adjustmentRows.map((r) => r.traitId).filter(Boolean)),
     [adjustmentRows]
   );
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-6 sm:pt-10 pb-10 overflow-y-auto select-none font-sans">

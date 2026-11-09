@@ -3,7 +3,7 @@ id: species-synthetic-swarm
 name: Swarm (Micro-Drone Synthetic)
 title: Swarm (Nanite / Micro-Drone Collective)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
   - species_type-ooze

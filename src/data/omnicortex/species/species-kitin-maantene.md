@@ -3,7 +3,7 @@ id: species-kitin-maantene
 name: Maantene (Recon Expression)
 title: Maantene (Kitin Recon Expression / Quadruped)
 category: species
-parent_species: Kitin
+parent_species: "Kitin (Genomatrix Collective)"
 type:
   - species_type-aberration
 size:

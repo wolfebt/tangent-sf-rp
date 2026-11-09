@@ -81,7 +81,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Gen-E • Transhuman',
         suggestedName: 'Gen-E Heavy Gravity Laborer',
         prompt: 'Purpose-bred genetic human subspecies engineered for extreme planetary biomes, high-G mining, void adaptation, or tactical reflexes.',
-        presetParams: { species_type: 'Humanoid', size: 'Medium', parent_species: 'Engineered Humans (Gen-E)', stigma: 'Mutant (-2)', tl: 4, ml: 0 },
+        presetParams: { species_type: 'Humanoid', size: 'Medium', parent_species: 'Humans (Gen-E)', stigma: 'Mutant (-2)', tl: 4, ml: 0 },
         presetModules: ['morph_apex_predator', 'gen_bio_engineered', 'gen_high_g_deathworld', 'role_siege_juggernaut'],
         suggestedTraits: ['trait-enhanced-strength', 'trait-dual-skeletal-structure', 'trait-hardy', 'trait-fatigue-resistance', 'trait-physical-fitness', 'trait-stable-footed']
       },
@@ -91,7 +91,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Synthetic • 60 SP Chassis',
         suggestedName: 'Mekan Autonomous Sovereign',
         prompt: 'Self-aware cybernetic or android construct operating on Structure Points (SP) with vacuum immunity, modular hardpoints, and neural logic cores.',
-        presetParams: { species_type: 'Synthetic', size: 'Medium', parent_species: 'Synthetics', stigma: 'Synthetic (-2)', tl: 4, ml: 0 },
+        presetParams: { species_type: 'Synthetic', size: 'Medium', parent_species: 'Synthetics (Artificial Lifeforms)', stigma: 'Synthetic (-2)', tl: 4, ml: 0 },
         presetModules: ['morph_synthetic_frame', 'gen_foundry_assembled', 'role_cyber_artificer'],
         suggestedTraits: ['trait-synthetic-base-traits', 'trait-non-living', 'trait-synthetic-armor-options', 'trait-synthetic-weapon-options', 'trait-synthetic-aux-core', 'trait-sleepless']
       },
@@ -101,7 +101,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Awakened • High ML',
         suggestedName: 'Alterian Void-Seer',
         prompt: 'Ancient psychic or fey-touched bloodline attuned to dimensional leylines, innate telepathy, and high Meta Level resonance.',
-        presetParams: { species_type: 'Humanoid', size: 'Medium', parent_species: 'Aeld', stigma: 'None', tl: 4, ml: 3 },
+        presetParams: { species_type: 'Humanoid', size: 'Medium', parent_species: 'Aeld (Elven Bloodlines)', stigma: 'None', tl: 4, ml: 3 },
         presetModules: ['gen_ancient_precursor', 'gen_leyline_awakened', 'role_telepathic_seer'],
         suggestedTraits: ['trait-aeld-lineage-traits', 'trait-awakened-psychic', 'trait-mind-speech', 'trait-psionic-gating', 'trait-sense-psychic', 'trait-longevity']
       },
@@ -111,7 +111,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Kitin • Natural Armor',
         suggestedName: 'Kitin Carapace Warden',
         prompt: 'Insectoid or arthropoid species possessing natural chitinous Damage Reduction, compound optics, pheromone communication, and extra limbs.',
-        presetParams: { species_type: 'Humanoid', size: 'Medium', parent_species: 'Kitin', stigma: 'Xeno (-2)', tl: 3, ml: 0 },
+        presetParams: { species_type: 'Humanoid', size: 'Medium', parent_species: 'Kitin (Genomatrix Collective)', stigma: 'Xeno (-2)', tl: 3, ml: 0 },
         presetModules: ['morph_chitinous', 'gen_subterranean_abyssal', 'role_hive_collective'],
         suggestedTraits: ['trait-kitin-base-traits', 'trait-exoskeleton-light', 'trait-chitinous-shell-armor', 'trait-additional-limbs', 'trait-hive-link', 'trait-dark-sight']
       },
@@ -151,7 +151,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Dragon • Scaled/Breath',
         suggestedName: 'Sovereign Draconis Scion',
         prompt: 'Regal draconic lineage bearing hardened dermal scales, thermal vision, winged propulsion, and an elemental breath weapon.',
-        presetParams: { species_type: 'Dragon', size: 'Large', parent_species: 'Aeld', stigma: 'Minor (-1)', tl: 3, ml: 2 },
+        presetParams: { species_type: 'Dragon', size: 'Large', parent_species: 'Aeld (Elven Bloodlines)', stigma: 'Minor (-1)', tl: 3, ml: 2 },
         presetModules: ['morph_draconic_scaled', 'gen_ancient_precursor', 'role_siege_juggernaut'],
         suggestedTraits: ['trait-draconic', 'trait-dragonkin-traits', 'trait-dragon-breath', 'trait-dragon-wings', 'trait-natural-armor', 'trait-thermal-sight']
       },

@@ -29,6 +29,8 @@ import {
   SPECIES_TRAITS_ADVANCED,
   SPECIES_TRAITS_ELITE
 } from '../../engines/tangentConstants.js';
+import { DEFAULT_SPECIES } from '../../data/speciesData.js';
+import { DEFAULT_SPECIES_TYPES } from '../../data/speciesTypesData.js';
 import { DEFAULT_SPECIES_TRAITS } from '../../data/speciesTraitsData.js';
 import { DEFAULT_FEATURES } from '../../data/featuresData.js';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../../data/speciesDisadvantagesData.js';
@@ -187,10 +189,20 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
   const bd = bpData?.breakdown || {};
   const it = bpData?.itemized || {};
 
+  const computedCP = Number(bpData?.totalBPUsed ?? 0);
+  const rawStoredCP = data.cp ?? data.costs?.cp ?? data.bp ?? data.costs?.bp;
+  const hasExplicitCP = rawStoredCP !== undefined && rawStoredCP !== null && rawStoredCP !== '';
+  const storedCP = hasExplicitCP ? Number(rawStoredCP) : computedCP;
+  const isStoredSynced = !hasExplicitCP || storedCP === computedCP;
+
   const accountedItems = [];
   const unaccountedItems = [];
   const baselineItems = [];
 
+  const allSpeciesTypes = [
+    ...Object.values(SPECIES_TYPES || {}),
+    ...(Array.isArray(DEFAULT_SPECIES_TYPES) ? DEFAULT_SPECIES_TYPES : [])
+  ];
   const allTraitsCatalog = (DEFAULT_SPECIES_TRAITS && DEFAULT_SPECIES_TRAITS.length > 0)
     ? DEFAULT_SPECIES_TRAITS
     : [...(SPECIES_TRAITS_BASIC || []), ...(SPECIES_TRAITS_ADVANCED || []), ...(SPECIES_TRAITS_ELITE || [])];
@@ -222,8 +234,10 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
       .replace(/^species_type-/, '')
       .trim()
       .toLowerCase();
-    const matchedPrimaryType = Object.values(SPECIES_TYPES || {}).find(
-      t => t.id.toLowerCase() === cleanPrimaryType || t.name.toLowerCase() === cleanPrimaryType
+    const matchedPrimaryType = allSpeciesTypes.find(
+      t =>
+        String(t.id || '').replace(/^species_type-/, '').toLowerCase() === cleanPrimaryType ||
+        String(t.name || '').toLowerCase() === cleanPrimaryType
     );
 
     if (!matchedPrimaryType && cleanPrimaryType) {
@@ -265,27 +279,41 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
       }
     }
 
-    // Check secondary types ignored by calculateSpeciesBP (which only reads type[0])
+    // Check secondary types in type[] (which act as secondary taxonomy tags when stored CP matches formula)
     for (let i = 1; i < rawTypeArr.length; i += 1) {
       const extraRaw = rawTypeArr[i];
       const cleanExtra = String(typeof extraRaw === 'object' ? (extraRaw?.name || extraRaw?.id) : extraRaw)
         .replace(/^species_type-/, '')
         .trim()
         .toLowerCase();
-      const matchedExtra = Object.values(SPECIES_TYPES || {}).find(
-        t => t.id.toLowerCase() === cleanExtra || t.name.toLowerCase() === cleanExtra
+      const matchedExtra = allSpeciesTypes.find(
+        t =>
+          String(t.id || '').replace(/^species_type-/, '').toLowerCase() === cleanExtra ||
+          String(t.name || '').toLowerCase() === cleanExtra
       );
-      const extraCost = Number(matchedExtra?.bp ?? 0);
+      const extraCost = Number(matchedExtra?.bp ?? matchedExtra?.cp ?? 0);
       const extraName = matchedExtra?.name || cleanExtra.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      unaccountedItems.push({
-        category: 'Chassis',
-        label: `Secondary Chassis: ${extraName}`,
-        cost: extraCost,
-        formattedCost: `${formatSignedCP(extraCost)} (Unaccounted)`,
-        unaccounted: true,
-        status: 'warning',
-        note: 'Secondary chassis type in type[] not counted by formula'
-      });
+      if (isStoredSynced || extraCost === 0) {
+        baselineItems.push({
+          category: 'Chassis',
+          label: `Secondary Taxonomy: ${extraName}`,
+          cost: 0,
+          formattedCost: '0 CP',
+          unaccounted: false,
+          status: 'valid',
+          note: 'Secondary chassis classification tag'
+        });
+      } else {
+        unaccountedItems.push({
+          category: 'Chassis',
+          label: `Secondary Chassis: ${extraName}`,
+          cost: extraCost,
+          formattedCost: `${formatSignedCP(extraCost)} (Unaccounted)`,
+          unaccounted: true,
+          status: 'warning',
+          note: 'Secondary chassis type in type[] not counted by formula'
+        });
+      }
     }
   } else if (data.base_chassis && Number(bd.typeBP || 0) === 0) {
     const baseChassisStr = String(data.base_chassis).trim();
@@ -502,8 +530,8 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
     }
   });
 
-  // Check if Matrix Col 2 has any attribute modifiers not accounted in itemizedAttrs
-  if (matrixCols[2]) {
+  // Check if Matrix Col 2 has any attribute modifiers not accounted in itemizedAttrs (only when stored CP differs from formula)
+  if (matrixCols[2] && !isStoredSynced) {
     const attrTokens = splitTopLevelCommas(matrixCols[2]);
     attrTokens.forEach(tok => {
       if (/^or\b/i.test(tok) || tok.toLowerCase().includes('(or ')) return;
@@ -820,7 +848,7 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
   });
 
   // ── 11. MECHANICAL SUMMARY MATRIX ITEMS UNACCOUNTED BY FORMULA ────────────
-  if (matrixCols[4]) {
+  if (matrixCols[4] && !isStoredSynced) {
     const featTokens = splitTopLevelCommas(matrixCols[4]);
     const accountedPool = [
       ...itemizedTraits.map(t => ({ name: t.name, cp: t.bp, used: false })),
@@ -835,6 +863,7 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
       if (cpMatches.length === 0) return;
       const lastMatch = cpMatches[cpMatches.length - 1];
       const cpNum = Number(lastMatch[1].split(/[–-]/)[0]);
+      if (cpNum === 0) return;
       const cleanTok = tok.replace(/\[.*?\]/g, '').trim();
       const lowerTok = cleanTok.toLowerCase();
 
@@ -874,10 +903,6 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
   }
 
   // ── 12. STORED CP VS FORMULA CP VARIANCE ──────────────────────────────────
-  const computedCP = Number(bpData?.totalBPUsed ?? 0);
-  const rawStoredCP = data.cp ?? data.costs?.cp ?? data.bp ?? data.costs?.bp;
-  const hasExplicitCP = rawStoredCP !== undefined && rawStoredCP !== null && rawStoredCP !== '';
-  const storedCP = hasExplicitCP ? Number(rawStoredCP) : computedCP;
   if (hasExplicitCP && storedCP !== computedCP) {
     const delta = storedCP - computedCP;
     unaccountedItems.push({
@@ -923,15 +948,16 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
   // 1. PROPERTY CATALOGS (TSC Credit Value, Craft DC, Material Cost, UDU/Slots)
   // ─────────────────────────────────────────────────────────────────────────
   if (isProp) {
-    const craftDC = Number(
+    const rawDC =
       computedValues?.craft_dc ??
       computedValues?.design_dc ??
       data.craft_dc ??
       data.design_dc ??
       data.dc ??
-      resolveItemCostDC(data) ??
-      15
-    ) || 15;
+      resolveItemCostDC(data);
+    const craftDC = (rawDC !== undefined && rawDC !== null && rawDC !== '' && !Number.isNaN(Number(rawDC)))
+      ? Number(rawDC)
+      : 15;
 
     const expectedCredits = calculateCreditValue(craftDC);
     const materialCost = calculateMaterialCost(expectedCredits);
@@ -941,7 +967,7 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
     const hasExplicitCost = rawEnteredCost !== undefined && rawEnteredCost !== null && rawEnteredCost !== '';
     const enteredCredits = hasExplicitCost ? Number(rawEnteredCost) : expectedCredits;
 
-    const valuation = validateAssetValuation(enteredCredits, craftDC);
+    const valuation = validateAssetValuation(craftDC, enteredCredits);
 
     // Slot / Socket / Node / Hardpoint / Module capacity check
     let capacityItem = null;
@@ -1040,18 +1066,22 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
       };
     }
 
-    const isCostSynced = !hasExplicitCost || Math.abs(enteredCredits - expectedCredits) <= Math.max(5, expectedCredits * 0.05);
+    const isCostSynced = !hasExplicitCost || Math.abs(enteredCredits - expectedCredits) <= Math.max(15, expectedCredits * 0.05);
+    const isBalanced =
+      Boolean(valuation?.isBalanced) ||
+      isCostSynced ||
+      valuation?.status === 'Accurate Standard Curve';
     const status = isOverCapacity
       ? 'error'
-      : (!valuation.isBalanced ? 'warning' : 'valid');
+      : (!isBalanced ? 'warning' : 'valid');
 
     const statusLabel = isOverCapacity
       ? '⚠ OVER SLOT CAPACITY'
-      : !valuation.isBalanced
-        ? `⚠ ${valuation.status.toUpperCase()} (${valuation.ratio}x TSC)`
+      : !isBalanced
+        ? `⚠ ${String(valuation?.status || 'MISMATCH').toUpperCase()} (${valuation?.ratio ?? 0}x TSC)`
         : isCostSynced
           ? '✓ TSC COST VERIFIED'
-          : `✓ TSC BALANCED (${valuation.ratio}x)`;
+          : `✓ TSC BALANCED (${valuation?.ratio ?? 1}x)`;
 
     const breakdown = [
       {
@@ -1072,8 +1102,8 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
         label: 'Configured Credit Cost',
         value: `${enteredCredits.toLocaleString()} Cr`,
         target: `${expectedCredits.toLocaleString()} Cr`,
-        status: valuation.isBalanced ? 'valid' : 'warning',
-        note: valuation.message
+        status: isBalanced ? 'valid' : 'warning',
+        note: valuation?.message || (isBalanced ? 'Matches canonical TSC credit curve' : `Expected ${expectedCredits.toLocaleString()} Cr at DC ${craftDC}`)
       },
       {
         label: 'Raw Material Cost (50%)',
@@ -1106,7 +1136,7 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
       summary: statusLabel,
       formulaSummary: 'Credit Value = 10 × 4^(Craft DC / 5) | Material = 50% | WS = DC',
       breakdown,
-      syncPatch: !isCostSynced ? {
+      syncPatch: !isBalanced ? {
         field: 'cost',
         value: expectedCredits,
         secondaryField: 'craft_dc',
@@ -1267,6 +1297,71 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
 
     const warnings = unaccountedItems.map(u => `Unaccounted by formula: ${u.label} (${u.formattedCost}) — ${u.note}`);
 
+    const canonicalSeed = Array.isArray(DEFAULT_SPECIES)
+      ? DEFAULT_SPECIES.find(
+          s =>
+            (data.id && String(s.id).toLowerCase() === String(data.id).toLowerCase()) ||
+            (data.name && String(s.name).toLowerCase() === String(data.name).toLowerCase())
+        )
+      : null;
+    const targetCP = canonicalSeed?.cp ?? computedCP;
+    const extraPatch = (!isSynced || hasUnaccountedItems)
+      ? (canonicalSeed
+          ? {
+              type: canonicalSeed.type,
+              species_type: canonicalSeed.species_type || canonicalSeed.type,
+              size: canonicalSeed.size,
+              species_size: canonicalSeed.species_size || canonicalSeed.size,
+              movement: canonicalSeed.movement,
+              movement_modes: canonicalSeed.movement_modes || canonicalSeed.movement,
+              traits: canonicalSeed.traits,
+              trait: canonicalSeed.traits,
+              species_traits: canonicalSeed.species_traits || canonicalSeed.traits,
+              inherent_traits: [],
+              recommended_traits: canonicalSeed.recommended_traits || [],
+              disadvantages: canonicalSeed.disadvantages || [],
+              hindrances: canonicalSeed.hindrances || [],
+              inherent_disadvantages: [],
+              flaws: [],
+              modifiers: canonicalSeed.modifiers || [],
+              inherent_attribute_modifiers: canonicalSeed.inherent_attribute_modifiers || [],
+              attribute_modifiers: canonicalSeed.inherent_attribute_modifiers || [],
+              attributes: null,
+              bonus_str: 0,
+              bonus_agi: 0,
+              bonus_sta: 0,
+              bonus_int: 0,
+              bonus_wis: 0,
+              bonus_cha: 0,
+              bonus_attribute_points: canonicalSeed.bonus_attribute_points ?? 0,
+              bonus_attribute_points_physical: 0,
+              bonus_attribute_points_mental: 0,
+              bonus_attribute_points_primary: 0,
+              bonus_attribute_points_sub: 0,
+              specific_skill_bonuses: canonicalSeed.specific_skill_bonuses || [],
+              bonus_skills: canonicalSeed.bonus_skills ?? 0,
+              bonus_skill_points: canonicalSeed.bonus_skills ?? 0,
+              skillPoints: canonicalSeed.bonus_skills ?? 0,
+              skill_points: canonicalSeed.bonus_skills ?? 0,
+              skillBundles: 0,
+              skill_bundles: 0,
+              bonus_skill_choices: canonicalSeed.bonus_skill_choices || [],
+              inherent_features: canonicalSeed.inherent_features || [],
+              bonus_features: canonicalSeed.bonus_features ?? 0,
+              bonus_feature_points: canonicalSeed.bonus_features ?? 0,
+              feature_pool: canonicalSeed.bonus_features ?? 0,
+              bonus_feature_choices: canonicalSeed.bonus_feature_choices || [],
+              bonus_traits: 0,
+              recommended_features: canonicalSeed.recommended_features || [],
+              stigma: canonicalSeed.stigma || 'None',
+              social_stigma: canonicalSeed.social_stigma || canonicalSeed.stigma || 'None'
+            }
+          : {
+              species_traits: Array.isArray(data.traits) && data.traits.length > 0 ? data.traits : (data.species_traits || []),
+              specific_skill_bonuses: []
+            })
+      : undefined;
+
     return {
       title: key === 'species_lineage' || key === 'lineages' ? 'Lineage CP Cost Breakdown' : 'Species CP Cost Breakdown',
       isProperty: false,
@@ -1288,12 +1383,15 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
       hasUnaccountedItems,
       warnings,
       breakdown,
-      syncPatch: !isSynced ? {
+      syncPatch: (!isSynced || hasUnaccountedItems) ? {
         field: 'cp',
-        value: computedCP,
+        value: targetCP,
         secondaryField: 'bp',
-        secondaryValue: computedCP,
-        label: `Sync Stored CP (${storedCP} → ${computedCP} CP)`
+        secondaryValue: targetCP,
+        ...(extraPatch ? { extraPatch } : {}),
+        label: !isSynced
+          ? `Sync Stored CP (${storedCP} → ${targetCP} CP)`
+          : `Reconcile & Sync Species (${targetCP} CP)`
       } : null
     };
   }
@@ -1312,7 +1410,7 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
     const recOccs = parseList(data.recommended_occupations);
     const recOrigins = parseList(data.recommended_origins);
 
-    const skillsValid = skills.length >= 6;
+    const skillsValid = skills.length >= 3;
     const traitsValid = traits.length >= 2 || recFeats.length >= 3;
     const chassisCP = Number(data.cp_chassis || data.bp_chassis || 80);
     const isComplete = hasDistinctAttrs && skillsValid && traitsValid;
@@ -1386,7 +1484,7 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
     const recFeats = parseList(data.recommended_features || data.features);
 
     const isPoolValid = spPool === 20;
-    const hasEnoughSkills = skills.length >= 4;
+    const hasEnoughSkills = skills.length >= 1;
     const hasEnoughTraits = traits.length >= 2;
     const allValid = isPoolValid && hasEnoughSkills && hasEnoughTraits;
 
@@ -1494,7 +1592,7 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
           note: hasBenefit ? 'Benefit rules text defined' : 'Missing benefit rules text'
         }
       ],
-      syncPatch: (!data.cp && data.cp !== 0) ? {
+      syncPatch: !isStandardCP ? {
         field: 'cp',
         value: 3,
         label: 'Set Canonical 3 CP Cost'
@@ -1508,8 +1606,18 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
   switch (key) {
     case 'trait':
     case 'species_traits': {
+      const canonicalTrait = Array.isArray(DEFAULT_SPECIES_TRAITS)
+        ? DEFAULT_SPECIES_TRAITS.find(
+            t =>
+              (data.id && String(t.id).toLowerCase() === String(data.id).toLowerCase()) ||
+              (data.name && String(t.name).toLowerCase() === String(data.name).toLowerCase())
+          )
+        : null;
       const rawTier = toCleanString(data.trait_tier || data.tier || data.type || data.category, 'Basic (1 CP)');
-      const expectedCP = /elite|4\s*cp/i.test(rawTier) ? 4 : /advanced|2\s*cp/i.test(rawTier) ? 2 : 1;
+      const tierCP = /elite|4\s*cp/i.test(rawTier) ? 4 : /advanced|2\s*cp/i.test(rawTier) ? 2 : 1;
+      const expectedCP = (canonicalTrait && Number.isFinite(Number(canonicalTrait.cp)))
+        ? Number(canonicalTrait.cp)
+        : tierCP;
       const actualCP = Number(data.cp ?? data.cost_cp ?? data.bp ?? expectedCP);
       const isMatched = actualCP === expectedCP;
 
@@ -1611,7 +1719,7 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
     const severityClass = toCleanString(data.classification || data.severity, isSpeciesDisadv ? 'Species Disadvantage' : 'Minor');
     const rawRebate = Number(data.cp_granted ?? data.cp ?? data.refundCP ?? (isSpeciesDisadv ? 2 : 2));
     const absRebate = Math.abs(rawRebate) || 2;
-    const withinCap = isSpeciesDisadv ? (absRebate >= 1 && absRebate <= 4) : (absRebate >= 1 && absRebate <= 10);
+    const withinCap = isSpeciesDisadv ? (absRebate >= 1 && absRebate <= 6) : (absRebate >= 1 && absRebate <= 10);
 
     return {
       title: isSpeciesDisadv ? 'Species Disadvantage Rebate' : 'Personal Hindrance CP Rebate',
@@ -1766,7 +1874,9 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
   if (key === 'factions' || key === 'faction' || key === 'societies') {
     const tl = data.tl ?? data.tech_level ?? 3;
     const ml = data.ml ?? data.meta_level ?? 1;
-    const wealthMod = Number(data.wealth_modifier ?? 0);
+    const rawWealthStr = String(data.wealth_modifier ?? 0);
+    const wmMatch = rawWealthStr.match(/[+-]?\d+/);
+    const wealthMod = wmMatch ? Number(wmMatch[0]) : 0;
     const isWealthValid = wealthMod >= -4 && wealthMod <= 8;
     const factionTraits = parseList(data.traits || data.faction_traits);
     const recFeats = parseList(data.recommended_features);

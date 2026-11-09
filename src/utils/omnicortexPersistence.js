@@ -6,7 +6,7 @@
 
 import { StorageService } from '../services/storageService.js';
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData.js';
-import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../data/speciesData.js';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES, resolveSpeciesLineageName } from '../data/speciesData.js';
 import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData.js';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
@@ -212,6 +212,35 @@ export const isOmnicortexDeleted = (item, tombstones = null) => {
   return Boolean(id && set.has(id));
 };
 
+export const getActiveSpeciesLineages = (overrideLineages = null) => {
+  if (Array.isArray(overrideLineages) && overrideLineages.length > 0) {
+    return overrideLineages;
+  }
+  const customLineagesMap = getOmnicortexCustomEntries()['species_lineage'] || {};
+  const customById = new Map();
+  Object.values(customLineagesMap).forEach(entry => {
+    if (entry && entry.id) {
+      customById.set(String(entry.id).toLowerCase().trim(), entry);
+    }
+  });
+  const baseLineages = SPECIES_LINEAGES.map(seed => {
+    const sId = String(seed.id).toLowerCase().trim();
+    if (customById.has(sId)) {
+      const custom = customById.get(sId);
+      const mergedAliases = Array.from(new Set([...(seed.aliases || []), seed.name, custom.name].filter(Boolean)));
+      return { ...seed, ...custom, aliases: mergedAliases };
+    }
+    return seed;
+  });
+  const seedIds = new Set(SPECIES_LINEAGES.map(s => String(s.id).toLowerCase().trim()));
+  Object.values(customLineagesMap).forEach(entry => {
+    if (entry && entry.id && !seedIds.has(String(entry.id).toLowerCase().trim())) {
+      baseLineages.push(entry);
+    }
+  });
+  return baseLineages;
+};
+
 export const filterInitialData = (dataList, catKey = null) => {
   const tombstones = getOmnicortexTombstones();
   if (!catKey) {
@@ -260,8 +289,19 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
       return [...mergedSeeds, ...appendedCustom];
     }
   }
+  const RETIRED_SPECIES_IDS = new Set(['species-aeld-celestine', 'species-aeld-nocturne']);
+  if (catKey === 'species' || catKey === 'char-species') {
+    RETIRED_SPECIES_IDS.forEach(retId => removeOmnicortexCustomEntry(catKey, retId));
+  }
+
   let items = (docsList || []).filter(i => {
     if (isOmnicortexDeleted(i, currentTombstones)) return false;
+    if (catKey === 'species' || catKey === 'char-species') {
+      const spId = String(i.id || '').toLowerCase().trim();
+      if (RETIRED_SPECIES_IDS.has(spId)) {
+        return false;
+      }
+    }
     if (catKey === 'features') {
       if (i.trait_type === 'Species Trait' || i.category === 'Species Trait' || i.type === 'species_trait') return false;
       const cpVal = Number(i.cp ?? i.bp ?? 3);
@@ -282,8 +322,12 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
   const customEntryMap = new Map();
   Object.values(customEntries).forEach(entry => {
     if (entry && !isOmnicortexDeleted(entry, currentTombstones)) {
-      if (entry.id) {
-        customEntryMap.set(entry.id.toString().toLowerCase().trim(), entry);
+      const entryId = entry.id ? entry.id.toString().toLowerCase().trim() : '';
+      if ((catKey === 'species' || catKey === 'char-species') && RETIRED_SPECIES_IDS.has(entryId)) {
+        return;
+      }
+      if (entryId) {
+        customEntryMap.set(entryId, entry);
       }
       if (entry.name) {
         customEntryMap.set(entry.name.toString().toLowerCase().trim(), entry);
@@ -349,13 +393,32 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
       }
     });
 
+    const existingIds = new Set(items.map(i => (i.id || '').toString().toLowerCase().trim()));
+    const missingSeeds = fallbackSeeds.filter(seed => {
+      if (isOmnicortexDeleted(seed, currentTombstones)) return false;
+      const sId = (seed.id || '').toString().toLowerCase().trim();
+      if (sId && existingIds.has(sId)) return false;
+      return true;
+    }).map(seed => {
+      const sId = (seed.id || '').toString().toLowerCase().trim();
+      if (sId && customEntryMap.has(sId)) {
+        return customEntryMap.get(sId);
+      }
+      const sName = (seed.name || '').toString().toLowerCase().trim();
+      if (sName && customEntryMap.has(sName)) {
+        return customEntryMap.get(sName);
+      }
+      return seed;
+    });
+
+    if (missingSeeds.length > 0) {
+      items = [...items, ...missingSeeds];
+    }
+
     // Hydrate existing docs with newly added schema fields and recommendations if missing or empty in Firestore/local storage
     items = items.map(doc => {
       if (!doc || typeof doc !== 'object') return doc;
       const docId = (doc.id || '').toString().toLowerCase().trim();
-      // If doc is a local custom entry, preserve user's exact customized content without seed backfills
-      if (docId && customEntryMap.has(docId)) return doc;
-
       const docName = (doc.name || '').toString().toLowerCase().trim();
       const docTitle = (doc.title || '').toString().toLowerCase().trim();
       // If doc is a local custom entry or explicitly flagged custom, preserve user's exact customized content without seed backfills
@@ -436,43 +499,90 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         }
       }
 
+      if ((catKey === 'species_lineage' || catKey === 'species_lineages') && matchingSeed) {
+        enriched.name = matchingSeed.name || enriched.name;
+        enriched.aliases = Array.from(new Set([...(matchingSeed.aliases || []), ...(enriched.aliases || []), doc.name, matchingSeed.name].filter(Boolean)));
+        enriched.description = matchingSeed.description || enriched.description;
+      }
+
       if ((catKey === 'species' || catKey === 'char-species') && matchingSeed) {
-        if (!enriched.type && matchingSeed.type) enriched.type = matchingSeed.type;
-        if (!enriched.species_type && (matchingSeed.species_type || matchingSeed.type)) {
-          enriched.species_type = matchingSeed.species_type || matchingSeed.type;
+        const canonicalTraits = Array.isArray(matchingSeed.traits) ? matchingSeed.traits : [];
+        enriched.parent_species = matchingSeed.parent_species || enriched.parent_species;
+        enriched.type = matchingSeed.type || enriched.type;
+        enriched.species_type = matchingSeed.species_type || matchingSeed.type || enriched.species_type;
+        enriched.size = matchingSeed.size || enriched.size;
+        enriched.species_size = matchingSeed.species_size || matchingSeed.size || enriched.species_size;
+        enriched.movement = matchingSeed.movement || enriched.movement;
+        enriched.movement_modes = matchingSeed.movement_modes || matchingSeed.movement || enriched.movement_modes;
+        enriched.traits = canonicalTraits;
+        enriched.trait = canonicalTraits;
+        enriched.species_traits = Array.isArray(matchingSeed.species_traits) ? matchingSeed.species_traits : canonicalTraits;
+        enriched.inherent_traits = [];
+        if (matchingSeed.recommended_traits !== undefined) enriched.recommended_traits = matchingSeed.recommended_traits;
+        if (matchingSeed.disadvantages !== undefined) enriched.disadvantages = matchingSeed.disadvantages;
+        enriched.hindrances = matchingSeed.hindrances || [];
+        enriched.inherent_disadvantages = [];
+        enriched.flaws = [];
+        if (matchingSeed.modifiers !== undefined) enriched.modifiers = matchingSeed.modifiers;
+        if (matchingSeed.inherent_attribute_modifiers !== undefined) {
+          enriched.inherent_attribute_modifiers = matchingSeed.inherent_attribute_modifiers;
+          enriched.attribute_modifiers = matchingSeed.inherent_attribute_modifiers;
+          enriched.attributes = null;
+          enriched.bonus_str = 0;
+          enriched.bonus_agi = 0;
+          enriched.bonus_sta = 0;
+          enriched.bonus_int = 0;
+          enriched.bonus_wis = 0;
+          enriched.bonus_cha = 0;
         }
-        if (!enriched.size && matchingSeed.size) enriched.size = matchingSeed.size;
-        if (!enriched.species_size && (matchingSeed.species_size || matchingSeed.size)) {
-          enriched.species_size = matchingSeed.species_size || matchingSeed.size;
-        }
-        if (!enriched.social_stigma && (matchingSeed.social_stigma || matchingSeed.stigma)) {
-          enriched.social_stigma = matchingSeed.social_stigma || matchingSeed.stigma;
-        }
-        if ((!enriched.bonus_attribute_points || Number(enriched.bonus_attribute_points) === 0) && Number(matchingSeed.bonus_attribute_points) > 0) {
+        if (matchingSeed.bonus_attribute_points !== undefined) {
           enriched.bonus_attribute_points = matchingSeed.bonus_attribute_points;
+          enriched.bonus_attribute_points_physical = 0;
+          enriched.bonus_attribute_points_mental = 0;
+          enriched.bonus_attribute_points_primary = 0;
+          enriched.bonus_attribute_points_sub = 0;
         }
-        if ((!enriched.bonus_skills || Number(enriched.bonus_skills) === 0) && Number(matchingSeed.bonus_skills) > 0) {
+        if (matchingSeed.specific_skill_bonuses !== undefined) {
+          enriched.specific_skill_bonuses = matchingSeed.specific_skill_bonuses;
+        }
+        if (matchingSeed.bonus_skills !== undefined) {
           enriched.bonus_skills = matchingSeed.bonus_skills;
+          enriched.bonus_skill_points = matchingSeed.bonus_skills;
+          enriched.skillPoints = matchingSeed.bonus_skills;
+          enriched.skill_points = matchingSeed.bonus_skills;
+          enriched.skillBundles = 0;
+          enriched.skill_bundles = 0;
         }
-        if ((!enriched.bonus_features || Number(enriched.bonus_features) === 0) && Number(matchingSeed.bonus_features) > 0) {
+        if (matchingSeed.bonus_skill_choices !== undefined) {
+          enriched.bonus_skill_choices = matchingSeed.bonus_skill_choices;
+        }
+        if (matchingSeed.inherent_features !== undefined) {
+          enriched.inherent_features = matchingSeed.inherent_features;
+        }
+        if (matchingSeed.bonus_features !== undefined) {
           enriched.bonus_features = matchingSeed.bonus_features;
+          enriched.bonus_feature_points = matchingSeed.bonus_features;
+          enriched.feature_pool = matchingSeed.bonus_features;
         }
-        if ((!Array.isArray(enriched.modifiers) || enriched.modifiers.length === 0) && Array.isArray(matchingSeed.modifiers) && matchingSeed.modifiers.length > 0) {
-          enriched.modifiers = matchingSeed.modifiers;
+        enriched.bonus_traits = 0;
+        if (matchingSeed.bonus_feature_choices !== undefined) {
+          enriched.bonus_feature_choices = matchingSeed.bonus_feature_choices;
         }
-        if ((!enriched.cp || Number(enriched.cp) === 0) && Number(matchingSeed.cp) > 0) {
+        if (matchingSeed.recommended_features !== undefined) {
+          enriched.recommended_features = matchingSeed.recommended_features;
+        }
+        enriched.stigma = matchingSeed.stigma ?? enriched.stigma;
+        enriched.social_stigma = matchingSeed.social_stigma || matchingSeed.stigma || 'None';
+        if (matchingSeed.cp !== undefined) {
           enriched.cp = matchingSeed.cp;
           enriched.bp = matchingSeed.bp ?? matchingSeed.cp;
           enriched.cp_cost = matchingSeed.cp_cost ?? matchingSeed.cp;
-          enriched.costs = { ...(matchingSeed.costs || {}), ...(enriched.costs || {}), cp: matchingSeed.cp, bp: matchingSeed.bp ?? matchingSeed.cp };
-        }
-        if (docId === 'species-gene-digon') {
-          enriched.size = matchingSeed.size;
-          enriched.modifiers = matchingSeed.modifiers;
-          enriched.cp = matchingSeed.cp;
-          enriched.bp = matchingSeed.bp;
-          enriched.cp_cost = matchingSeed.cp_cost;
-          enriched.costs = matchingSeed.costs;
+          enriched.costs = {
+            ...(matchingSeed.costs || {}),
+            ...(enriched.costs || {}),
+            cp: matchingSeed.cp,
+            bp: matchingSeed.bp ?? matchingSeed.cp
+          };
         }
       }
 
@@ -499,6 +609,12 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         enriched.primary_attribute = matchingSeed.primary_attribute || enriched.primary_attribute;
         enriched.secondary_attribute = matchingSeed.secondary_attribute || enriched.secondary_attribute;
         enriched.key_attributes = matchingSeed.key_attributes || enriched.key_attributes;
+        if (Array.isArray(matchingSeed.essential_skills) && matchingSeed.essential_skills.length > (Array.isArray(enriched.essential_skills) ? enriched.essential_skills.length : 0)) {
+          enriched.essential_skills = matchingSeed.essential_skills;
+        }
+        if (Array.isArray(matchingSeed.signature_traits) && matchingSeed.signature_traits.length > (Array.isArray(enriched.signature_traits) ? enriched.signature_traits.length : 0)) {
+          enriched.signature_traits = matchingSeed.signature_traits;
+        }
       }
 
       if (catKey === 'skills' && matchingSeed) {
@@ -713,28 +829,6 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         return allowedSeedIds.has(id) || customEntryMap.has(id) || Boolean(item.isCustom || item.is_custom || id.startsWith('entry_'));
       });
     }
-
-    const existingIds = new Set(items.map(i => (i.id || '').toString().toLowerCase().trim()));
-    const missingSeeds = fallbackSeeds.filter(seed => {
-      if (isOmnicortexDeleted(seed, currentTombstones)) return false;
-      const sId = (seed.id || '').toString().toLowerCase().trim();
-      if (sId && existingIds.has(sId)) return false;
-      return true;
-    }).map(seed => {
-      const sId = (seed.id || '').toString().toLowerCase().trim();
-      if (sId && customEntryMap.has(sId)) {
-        return customEntryMap.get(sId);
-      }
-      const sName = (seed.name || '').toString().toLowerCase().trim();
-      if (sName && customEntryMap.has(sName)) {
-        return customEntryMap.get(sName);
-      }
-      return seed;
-    });
-
-    if (missingSeeds.length > 0) {
-      items = [...items, ...missingSeeds];
-    }
   }
 
   // Any custom entries that were not in docsList or seeds (e.g. brand new custom species created by user)
@@ -742,6 +836,7 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
   Object.values(customEntries).forEach(entry => {
     if (!entry || isOmnicortexDeleted(entry, currentTombstones)) return;
     const entryId = (entry.id || '').toString().toLowerCase().trim();
+    if ((catKey === 'species' || catKey === 'char-species') && RETIRED_SPECIES_IDS.has(entryId)) return;
     if (entryId && !allCurrentIds.has(entryId)) {
       items.push(entry);
       allCurrentIds.add(entryId);
@@ -778,6 +873,22 @@ export const mergeSeedsWithDocs = (docsList, catKey, tombstones = null) => {
         primary_attribute: primary,
         secondary_attribute: secondary,
         key_attributes: `${primary} (Primary), ${secondary} (Secondary).`
+      };
+    });
+  }
+
+  if (catKey === 'species' || catKey === 'char-species') {
+    const activeLineages = getActiveSpeciesLineages();
+    items = items.map(item => {
+      if (!item || typeof item !== 'object') return item;
+      const resolvedParent = resolveSpeciesLineageName(item, activeLineages) || item.parent_species || 'Independent Xenotypes';
+      if (item.parent_species === resolvedParent && (!item.lineage || item.lineage === resolvedParent)) {
+        return item;
+      }
+      return {
+        ...item,
+        parent_species: resolvedParent,
+        ...(item.lineage !== undefined ? { lineage: resolvedParent } : {})
       };
     });
   }

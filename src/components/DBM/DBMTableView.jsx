@@ -3,7 +3,7 @@ import { VirtualizedList } from './VirtualizedList';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
 import { useConfirm } from '../../context/ConfirmContext';
-import { SPECIES_LINEAGES } from '../../data/speciesData';
+import { SPECIES_LINEAGES, resolveSpeciesLineageName, doesSpeciesMatchLineage } from '../../data/speciesData';
 import { getGuidanceForDataset } from '../../pages/Codex/codexDatasetGuidance';
 import { evaluateAssetBuildCost } from '../../pages/Codex/codexBuildCostValidator';
 import { getMatrixIdForAssetKey } from '../../pages/Codex/codexAssetBridge';
@@ -61,16 +61,6 @@ const renderBuildCostCell = (buildCheck) => {
   const hasUnaccounted = Boolean(buildCheck.hasUnaccountedItems || (buildCheck.unaccountedItems && buildCheck.unaccountedItems.length > 0));
   const isValid = (buildCheck.status === 'valid' || buildCheck.status === 'info') && !hasUnaccounted;
   const badgeText = buildCheck.primaryCostLabel || buildCheck.primaryValue || buildCheck.statusLabel || buildCheck.summary || '-';
-  const costLines = Array.isArray(buildCheck.costItems)
-    ? buildCheck.costItems.map(i => `${i.unaccounted ? '⚠ [UNACCOUNTED] ' : '• '}${i.label}: ${i.formattedCost}`)
-    : [];
-  const tooltip = [
-    `${buildCheck.title || 'Build Cost Check'}: ${buildCheck.statusLabel || buildCheck.summary || badgeText}`,
-    ...costLines,
-    buildCheck.formulaSummary || '',
-    ...(buildCheck.warnings || []),
-    ...(buildCheck.errors || []),
-  ].filter(Boolean).join('\n');
 
   return (
     <OmnicortexTooltip
@@ -79,7 +69,7 @@ const renderBuildCostCell = (buildCheck) => {
       content={<SpeciesBuildCostTooltipCard buildCheck={buildCheck} />}
     >
       <span
-        title={tooltip}
+        title=""
         className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold border cursor-help ${
           isValid
             ? 'bg-emerald-950/70 text-emerald-300 border-emerald-500/40'
@@ -231,7 +221,8 @@ const CatalogVirtualRow = ({
   isAdmin,
   handleDuplicateEntry,
   handleDeleteEntry,
-  buildCheck
+  buildCheck,
+  speciesLineages
 }) => {
   const interactions = useItemInteractions({
     onSelect: () => handleOpenItem(item, isAdmin),
@@ -281,7 +272,9 @@ const CatalogVirtualRow = ({
             </div>
           );
         }
-        const cellVal = item[col] ?? (col === 'type' ? (item.species_type || item.trait_type) : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
+        const cellVal = (col === 'parent_species' || col === 'lineage')
+          ? (resolveSpeciesLineageName(item, speciesLineages) || item[col])
+          : (item[col] ?? (col === 'type' ? (item.species_type || item.trait_type) : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined)));
         return (
           <div
             key={col}
@@ -304,7 +297,8 @@ const CatalogTableRow = ({
   isAdmin,
   handleDuplicateEntry,
   handleDeleteEntry,
-  buildCheck
+  buildCheck,
+  speciesLineages
 }) => {
   const interactions = useItemInteractions({
     onSelect: () => handleOpenItem(item, isAdmin),
@@ -351,7 +345,9 @@ const CatalogTableRow = ({
             </td>
           );
         }
-        const cellVal = item[col] ?? (col === 'type' ? (item.species_type || item.trait_type) : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined));
+        const cellVal = (col === 'parent_species' || col === 'lineage')
+          ? (resolveSpeciesLineageName(item, speciesLineages) || item[col])
+          : (item[col] ?? (col === 'type' ? (item.species_type || item.trait_type) : (col === 'cp' ? (item.cp ?? item.bp ?? item.costs?.cp ?? item.costs?.bp) : undefined)));
         return (
           <td
             key={col}
@@ -891,16 +887,33 @@ export const DBMTableView = ({
         const check = evaluateAssetBuildCost(item, currentKey);
         if (check?.syncPatch && check.syncPatch.field) {
           const patchObj = {
+            ...(check.syncPatch.extraPatch || {}),
             [check.syncPatch.field]: check.syncPatch.value,
             ...(check.syncPatch.secondaryField
               ? { [check.syncPatch.secondaryField]: check.syncPatch.secondaryValue }
               : {})
           };
-          await saveEntry(currentKey, {
-            ...item,
-            ...patchObj,
-            updatedAt: new Date().toISOString()
-          });
+          if (check.syncPatch.field === 'cp') {
+            patchObj.cp_cost = check.syncPatch.value;
+            patchObj.costs = {
+              ...(item.costs || {}),
+              cp: check.syncPatch.value,
+              bp: check.syncPatch.secondaryValue ?? check.syncPatch.value
+            };
+          } else if (check.syncPatch.field === 'cost') {
+            patchObj.costs = {
+              ...(item.costs || {}),
+              credits: check.syncPatch.value
+            };
+          }
+          await saveEntry(
+            {
+              ...item,
+              ...patchObj,
+              updatedAt: new Date().toISOString()
+            },
+            currentKey
+          );
         }
       }
     } finally {
@@ -1132,7 +1145,7 @@ export const DBMTableView = ({
                         setIsFileMenuOpen(false);
                         const ok = await confirm({
                           title: 'Sync Cloud Species',
-                          message: 'Sync all 81 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.',
+                          message: 'Sync all 84 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.',
                           danger: true,
                           confirmLabel: 'Sync Species'
                         });
@@ -1149,7 +1162,7 @@ export const DBMTableView = ({
                       className="w-full text-left px-2.5 py-1.5 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 rounded flex items-center gap-2 transition-colors font-medium border border-purple-500/30"
                     >
                       <span>🧬</span>
-                      <span>{isSyncingSpecies ? 'Syncing...' : 'Sync Cloud Species (81)'}</span>
+                      <span>{isSyncingSpecies ? 'Syncing...' : 'Sync Cloud Species (84)'}</span>
                     </button>
                   )}
 
@@ -1431,22 +1444,9 @@ export const DBMTableView = ({
                           {(Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES)
                             .filter(lin => !filterSearchTerm || lin.name.toLowerCase().includes(filterSearchTerm.toLowerCase()))
                             .map(lin => {
+                              const activeLineages = Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES;
                               const checked = filterSubtypes.includes(lin.name);
-                              const count = currentItems.filter(i => {
-                                const p = String(i.parent_species || i.lineage || '').toLowerCase().trim();
-                                const linNameLower = lin.name.toLowerCase().trim();
-                                const linIdLower = lin.id.toLowerCase().trim();
-                                if (p === linNameLower || p === linIdLower) return true;
-                                if (linIdLower === 'gene' || linNameLower.includes('engineered')) {
-                                  return p.includes('engineered') || p.includes('gen-e') || p === 'gene';
-                                }
-                                if (linIdLower === 'humans' || linNameLower.startsWith('human')) {
-                                  return p.includes('human') && !p.includes('engineered') && !p.includes('gen-e');
-                                }
-                                const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-                                const cleanP = p.replace(/[^a-zA-Z0-9]/g, '');
-                                return Boolean(shortName && cleanP.includes(shortName));
-                              }).length;
+                              const count = currentItems.filter(i => doesSpeciesMatchLineage(i, lin, activeLineages)).length;
 
                               return (
                                 <label
@@ -2524,6 +2524,7 @@ export const DBMTableView = ({
                 handleDuplicateEntry={handleDuplicateEntry}
                 handleDeleteEntry={handleDeleteEntry}
                 buildCheck={buildCheckByItemKey.get(item.id || item.name || idx) || evaluateAssetBuildCost(item, currentKey)}
+                speciesLineages={Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES}
               />
             )}
           />
@@ -2602,6 +2603,7 @@ export const DBMTableView = ({
                     handleDuplicateEntry={handleDuplicateEntry}
                     handleDeleteEntry={handleDeleteEntry}
                     buildCheck={buildCheckByItemKey.get(item.id || item.name || idx) || evaluateAssetBuildCost(item, currentKey)}
+                    speciesLineages={Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES}
                   />
                 ))}
               </tbody>

@@ -259,10 +259,10 @@ export const ComputedOutputPanel = ({
                       </span>
                     </div>
                     {row.note && (
-                      <div className={`flex items-center justify-between gap-2 text-[9.5px] font-sans ${
+                      <div className={`flex items-start justify-between gap-2 text-[9.5px] font-sans ${
                         isUnaccounted ? 'text-amber-200/80' : 'text-slate-400'
                       }`}>
-                        <span className="truncate">{row.note}</span>
+                        <span className="break-words leading-snug">{row.note}</span>
                         {row.target && (
                           <span className={`font-mono shrink-0 ${isUnaccounted ? 'text-amber-400/80' : 'text-slate-500'}`}>
                             {row.target}

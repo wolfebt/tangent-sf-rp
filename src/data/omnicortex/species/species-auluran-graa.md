@@ -3,7 +3,7 @@ id: species-auluran-graa
 name: Graa (Auluran Heavy)
 title: Graa (Auluran Heavy Beast Caste)
 category: species
-parent_species: Aulurans
+parent_species: "Aulurans (Cat Folk)"
 type:
   - species_type-beast
 size:

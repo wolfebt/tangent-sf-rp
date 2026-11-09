@@ -3,7 +3,7 @@ id: species-progenitor-unonn
 name: U’Nonn (Progenitor Sovereign)
 title: U’Nonn (Ancient Reality Shaper)
 category: species
-parent_species: Progenitors
+parent_species: "Progenitors (Ancients)"
 type:
   - species_type-aberration
 size:

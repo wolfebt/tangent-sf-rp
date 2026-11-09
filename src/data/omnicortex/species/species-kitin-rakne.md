@@ -3,7 +3,7 @@ id: species-kitin-rakne
 name: Rakne (Infiltration Expression)
 title: Rakne (Kitin Infiltration Expression / Arachno-Tauric)
 category: species
-parent_species: Kitin
+parent_species: "Kitin (Genomatrix Collective)"
 type:
   - species_type-aberration
 size:

@@ -28,6 +28,8 @@ import { BreadcrumbNav } from '../UI/BreadcrumbNav';
 import { useDBM } from '../../context/DBMContext';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
+import { SPECIES_LINEAGES, resolveSpeciesLineageName, doesSpeciesMatchLineage } from '../../data/speciesData';
+import { mergeSeedsWithDocs } from '../../utils/omnicortexPersistence';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 import { PanelLeftOpen, ChevronRight, Menu, Crown, Bot } from 'lucide-react';
@@ -145,7 +147,13 @@ export const DBMContainer = () => {
   const toastMessage = dbm.toastMessage || syncHook.toastMessage;
   const clearToast = dbm.clearToast || syncHook.clearToast;
   const showToast = dbm.showToast || syncHook.showToast;
-  const currentItems = dbData[currentKey] || [];
+  const currentItems = useMemo(() => {
+    const raw = dbData[currentKey] || [];
+    if (currentKey === 'species') {
+      return mergeSeedsWithDocs(raw, 'species');
+    }
+    return raw;
+  }, [dbData, currentKey]);
 
   const totalAssetsCount = useMemo(() => {
     return Object.keys(dbData).reduce((acc, k) => {
@@ -156,6 +164,11 @@ export const DBMContainer = () => {
   // Helper for natural sorting value parsing
   const getSortableValue = (item, field) => {
     if (!item) return null;
+    if (field === 'parent_species' || field === 'lineage') {
+      const activeLineages = Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES;
+      const resolved = resolveSpeciesLineageName(item, activeLineages) || item[field];
+      return resolved || null;
+    }
     const val = item[field];
     if (val === undefined || val === null || val === '') return null;
     return val;
@@ -200,20 +213,8 @@ export const DBMContainer = () => {
       // 2. Filter by Subtypes / Disciplines / Society / Aspect / Lineage (Species) / Trait Tier & Classification
       if (filterSubtypes.length > 0) {
         if (currentKey === 'species') {
-          const p = String(item.parent_species || item.lineage || '').toLowerCase().trim();
-          const matchesSpeciesLineage = filterSubtypes.some(s => {
-            const sLower = String(s).toLowerCase().trim();
-            if (p === sLower) return true;
-            if (sLower.includes('engineered') || sLower.includes('gen-e') || sLower === 'gene') {
-              return p.includes('engineered') || p.includes('gen-e') || p === 'gene';
-            }
-            if (sLower.includes('human')) {
-              return p.includes('human') && !p.includes('engineered') && !p.includes('gen-e');
-            }
-            const shortToken = sLower.split(' ')[0].replace(/[^a-z0-9]/g, '');
-            const cleanP = p.replace(/[^a-z0-9]/g, '');
-            return Boolean(shortToken && cleanP.includes(shortToken));
-          });
+          const activeLineages = Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES;
+          const matchesSpeciesLineage = filterSubtypes.some(s => doesSpeciesMatchLineage(item, s, activeLineages));
           if (!matchesSpeciesLineage) return false;
         } else {
           const subCandidates = [
@@ -275,10 +276,13 @@ export const DBMContainer = () => {
       // 8. Search Term (full-text search across multiple fields)
       if (searchTerm && searchTerm.trim()) {
         const term = searchTerm.toLowerCase().trim();
+        const activeLineages = Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0 ? dbData.species_lineage : SPECIES_LINEAGES;
+        const resolvedLineage = (currentKey === 'species' || item.parent_species) ? resolveSpeciesLineageName(item, activeLineages) : '';
         const matches = (
           (item.name && item.name.toLowerCase().includes(term)) ||
           (item.title && item.title.toLowerCase().includes(term)) ||
           (item.parent_species && item.parent_species.toLowerCase().includes(term)) ||
+          (resolvedLineage && resolvedLineage.toLowerCase().includes(term)) ||
           (item.homeworld && item.homeworld.toLowerCase().includes(term)) ||
           (item.stigma && item.stigma.toLowerCase().includes(term)) ||
           (item.description && item.description.toLowerCase().includes(term)) ||

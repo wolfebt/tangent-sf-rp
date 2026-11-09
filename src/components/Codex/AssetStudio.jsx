@@ -65,6 +65,7 @@ import {
   SocialStigmaSelector
 } from '../DBM/widgets/OmnicortexFieldSelector';
 import { categoryConfig, isDevelopmentField } from '../DBM/categoryConfig';
+import { SPECIES_LINEAGES, resolveSpeciesLineageName } from '../../data/speciesData';
 import { OmnicortexTooltip, SpeciesBuildCostTooltipCard } from './SpeciesStudioTooltips';
 import { SpeciesArchitectGuidance } from './SpeciesArchitectGuidance';
 import { FactionArchitectGuidance } from './FactionArchitectGuidance';
@@ -716,13 +717,19 @@ export const AssetStudio = ({
       });
     }
     if (activeCategoryConfig?.fields) {
+      const activeLineages = Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0
+        ? dbData.species_lineage
+        : SPECIES_LINEAGES;
       Object.entries(activeCategoryConfig.fields).forEach(([fName, fDef]) => {
         if (SPECS_FIELD_NAMES.has(fName) && !shouldExclude(fName) && !hasFieldOrAlias(fName)) {
+          const resolvedOptions = (fName === 'parent_species' || fDef.source === 'species_lineage')
+            ? activeLineages.map(l => l.name).filter(Boolean)
+            : fDef.options;
           fieldsMap.set(fName, {
             name: fName,
             label: fDef.label || fName.replace(/_/g, ' ').toUpperCase(),
             type: fDef.type || 'text',
-            options: fDef.options,
+            options: resolvedOptions,
             min: fDef.min,
             max: fDef.max,
             placeholder: fDef.placeholder || `Enter ${fName.replace(/_/g, ' ')}...`,
@@ -733,7 +740,7 @@ export const AssetStudio = ({
       });
     }
     return Array.from(fieldsMap.values());
-  }, [matrix, activeCategoryConfig, isProperty, isSpeciesStudio]);
+  }, [matrix, activeCategoryConfig, isProperty, isSpeciesStudio, dbData?.species_lineage]);
 
   // Extract all game mechanics fields relative to current dataset
   const relativeMechanicsFields = useMemo(() => {
@@ -1564,7 +1571,7 @@ export const AssetStudio = ({
                         ? 'bg-red-950/75 border-red-500/50 text-red-300'
                         : 'bg-amber-950/75 border-amber-500/50 text-amber-300'
                 }`}
-                title={`Rules Codex Build Cost Check: ${liveBuildCheck.formulaSummary}`}
+                title=""
               >
                 <span className="text-amber-300 font-extrabold">{liveBuildCheck.primaryCostLabel}</span>
                 <span className="text-slate-600">•</span>
@@ -1876,7 +1883,14 @@ export const AssetStudio = ({
                       ? (formData.tech_level ?? formData.tl)
                       : (field.name === 'meta_level' || field.name === 'ml')
                         ? (formData.meta_level ?? formData.ml)
-                        : formData[field.name];
+                        : field.name === 'parent_species'
+                          ? (resolveSpeciesLineageName(
+                              formData,
+                              Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0
+                                ? dbData.species_lineage
+                                : SPECIES_LINEAGES
+                            ) || formData.parent_species)
+                          : formData[field.name];
                     const val = rawVal ?? '';
                     const guidanceItem = CODEX_DATASET_GUIDANCE[matrix.id]?.sections?.find(s => s.id === field.name);
 

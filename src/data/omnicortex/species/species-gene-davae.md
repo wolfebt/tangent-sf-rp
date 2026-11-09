@@ -3,7 +3,7 @@ id: species-gene-davae
 name: Davae (Gen-E)
 title: Davae (Hive Psion Transhuman)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:

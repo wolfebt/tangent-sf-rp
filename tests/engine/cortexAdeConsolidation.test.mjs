@@ -44,16 +44,17 @@ test('Phase 1: OmniCortex CATEGORY_CONFIG consolidates ADE fields across Species
   assert.ok(ADE_CONSOLIDATED_LOREBOOK_FIELDS.primaryTriggers);
   assert.ok(ADE_CONSOLIDATED_PROPERTY_FIELDS.mechanismPowerSource);
 
-  // Personal Property parent includes all 8 canonical subcategories including technology
+  // Personal Property parent includes all 7 canonical property subcategories (technology is in Dev Fields)
   const propSubs = CATEGORY_CONFIG.personal_property.subItems;
-  for (const expected of ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'technology', 'other']) {
+  for (const expected of ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other']) {
     assert.ok(propSubs.includes(expected), `personal_property.subItems should include "${expected}"`);
     assert.ok(CATEGORY_CONFIG[expected], `CATEGORY_CONFIG.${expected} must exist`);
     assert.ok(CATEGORY_CONFIG[expected].fields.oneLinePitch, `CATEGORY_CONFIG.${expected} must consolidate oneLinePitch`);
     assert.ok(CATEGORY_CONFIG[expected].fields.primaryTriggers, `CATEGORY_CONFIG.${expected} must consolidate primaryTriggers`);
   }
-  assert.equal(CATEGORY_CONFIG.technology.parent, 'personal_property');
-  assert.equal(CATEGORY_CONFIG.technology.hideFromMenu, false);
+  assert.ok(!propSubs.includes('technology'), 'personal_property.subItems should not include "technology" (it resides in Dev Fields)');
+  assert.equal(CATEGORY_CONFIG.technology.parent, undefined);
+  assert.equal(CATEGORY_CONFIG.technology.hideFromMenu, true);
 
   // Species, Factions & Modular Characters consolidate ADE narrative fields
   assert.ok(CATEGORY_CONFIG.species.fields.physiologyBiology);

@@ -3,7 +3,7 @@ id: species-gene-base
 name: Gen-E (Base Engineered Human)
 title: Gen-E (Standard Engineered Transhuman)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:

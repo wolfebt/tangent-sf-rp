@@ -3,7 +3,7 @@ id: species-gene-chimera
 name: Chimera (Gen-E)
 title: Chimera (Splice Transhuman)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:

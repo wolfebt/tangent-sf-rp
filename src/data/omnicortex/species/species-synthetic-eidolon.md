@@ -3,7 +3,7 @@ id: species-synthetic-eidolon
 name: Eidolon (Aetherion Specialist)
 title: Eidolon (Silicon / Crystalline Entity)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

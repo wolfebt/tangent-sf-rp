@@ -3,7 +3,7 @@ id: species-kitin-riezen
 name: Riezen (Divergent Swarm)
 title: Riezen (Kitin Divergent Swarm / Insect Ooze)
 category: species
-parent_species: Kitin
+parent_species: "Kitin (Genomatrix Collective)"
 type:
   - species_type-ooze
   - species_type-aberration

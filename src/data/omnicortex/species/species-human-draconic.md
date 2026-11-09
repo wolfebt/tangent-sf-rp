@@ -3,7 +3,7 @@ id: species-human-draconic
 name: Draconic Human
 title: Draconic Human (Dragonkin Bloodline)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

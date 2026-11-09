@@ -3,7 +3,7 @@ id: species-human-rautha
 name: Rautha Human
 title: Rautha Human (Predator Variant)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

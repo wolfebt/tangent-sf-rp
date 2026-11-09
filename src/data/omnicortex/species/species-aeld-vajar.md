@@ -3,7 +3,7 @@ id: species-aeld-vajar
 name: Vajar (Wilder)
 title: Vajar (Wilder Aeld)
 category: species
-parent_species: Aeld
+parent_species: "Aeld (Elven Bloodlines)"
 type:
   - species_type-humanoid
 size:

@@ -3,7 +3,7 @@ id: species-shanor-tenen
 name: Tenen (Sha’nor Spectral)
 title: Tenen (Spectral Void Entity)
 category: species
-parent_species: Sha'nor & Void Lineages
+parent_species: "Sha'Nor (Void Lineages)"
 type:
   - species_type-spectral
 size:

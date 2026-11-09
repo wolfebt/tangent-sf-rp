@@ -7,7 +7,7 @@ import { commitChunkedBatches, sanitizeFirestoreData } from '../utils/firestoreU
 import { validateDbmEntry } from '../utils/dbmValidators';
 
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData';
-import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../data/speciesData';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES, resolveSpeciesLineageName } from '../data/speciesData';
 import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../data/originsData';
@@ -711,16 +711,34 @@ export const DBMProvider = ({ children }) => {
   const syncCanonicalSpecies = useCallback(async () => {
     try {
       showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_SPECIES.length} canonical species to cloud...` });
-      const operations = DEFAULT_SPECIES.map(item => ({
-        ref: doc(db, 'species', item.id),
-        data: {
+      const activeLineages = latestDbDataRef.current?.species_lineage?.length
+        ? latestDbDataRef.current.species_lineage
+        : SPECIES_LINEAGES;
+      removeOmnicortexCustomEntry('species', 'species-aeld-celestine');
+      removeOmnicortexCustomEntry('species', 'species-aeld-nocturne');
+      const resolvedSpeciesList = DEFAULT_SPECIES.map(item => {
+        removeOmnicortexCustomEntry('species', item.id);
+        return {
           ...item,
+          parent_species: resolveSpeciesLineageName(item, activeLineages) || item.parent_species,
           updatedAt: new Date().toISOString()
-        },
+        };
+      });
+      setDbData(prev => ({
+        ...prev,
+        species: mergeSeedsWithDocs(resolvedSpeciesList, 'species')
+      }));
+      const operations = resolvedSpeciesList.map(item => ({
+        ref: doc(db, 'species', item.id),
+        data: item,
         merge: true
       }));
 
       await commitChunkedBatches(operations, 450);
+      try {
+        await deleteDoc(doc(db, 'species', 'species-aeld-celestine'));
+        await deleteDoc(doc(db, 'species', 'species-aeld-nocturne'));
+      } catch (_) {}
       showToast({
         type: 'success',
         title: 'Species Synced',
@@ -919,8 +937,12 @@ export const DBMProvider = ({ children }) => {
 
       const operations = [];
 
+      const activeLineages = latestDbDataRef.current?.species_lineage?.length
+        ? latestDbDataRef.current.species_lineage
+        : SPECIES_LINEAGES;
+
       // 0. Species Lineages
-      SPECIES_LINEAGES.forEach(item => {
+      activeLineages.forEach(item => {
         operations.push({
           ref: doc(db, 'species_lineage', item.id),
           data: { ...item, updatedAt: new Date().toISOString() },
@@ -984,7 +1006,11 @@ export const DBMProvider = ({ children }) => {
       DEFAULT_SPECIES.forEach(item => {
         operations.push({
           ref: doc(db, 'species', item.id),
-          data: { ...item, updatedAt: new Date().toISOString() },
+          data: {
+            ...item,
+            parent_species: resolveSpeciesLineageName(item, activeLineages) || item.parent_species,
+            updatedAt: new Date().toISOString()
+          },
           merge: true
         });
       });
@@ -1020,6 +1046,23 @@ export const DBMProvider = ({ children }) => {
     const docId = payload.id || `entry_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     payload.id = docId;
 
+    if (key === 'species') {
+      const activeLineages = latestDbDataRef.current?.species_lineage || SPECIES_LINEAGES;
+      payload.parent_species = resolveSpeciesLineageName(payload, activeLineages) || payload.parent_species;
+    } else if (key === 'species_lineage') {
+      const prevLineages = latestDbDataRef.current?.species_lineage || SPECIES_LINEAGES;
+      const prevLin = prevLineages.find(l => (l.id || '').toString().toLowerCase() === docId.toString().toLowerCase());
+      const seedLin = SPECIES_LINEAGES.find(l => (l.id || '').toString().toLowerCase() === docId.toString().toLowerCase());
+      payload.aliases = Array.from(new Set([
+        ...(seedLin?.aliases || []),
+        ...(prevLin?.aliases || []),
+        ...(Array.isArray(payload.aliases) ? payload.aliases : []),
+        seedLin?.name,
+        prevLin?.name,
+        payload.name
+      ].filter(Boolean)));
+    }
+
     // 1. Schema Validation
     const validation = validateDbmEntry(key, payload);
     if (!validation.valid) {
@@ -1048,6 +1091,28 @@ export const DBMProvider = ({ children }) => {
       const updated = idx >= 0
         ? existing.map(i => (i.id || '').toString().toLowerCase() === docId.toString().toLowerCase() ? sanitizedEntry : i)
         : [...existing, sanitizedEntry];
+
+      if (key === 'species_lineage') {
+        const customSpeciesMap = getOmnicortexCustomEntries()['species'] || {};
+        const updatedSpecies = (prev.species || []).map(sp => {
+          const resolvedParent = resolveSpeciesLineageName(sp, updated) || sp.parent_species;
+          if (sp.parent_species === resolvedParent && (!sp.lineage || sp.lineage === resolvedParent)) {
+            return sp;
+          }
+          const nextSp = {
+            ...sp,
+            parent_species: resolvedParent,
+            ...(sp.lineage !== undefined ? { lineage: resolvedParent } : {})
+          };
+          const spId = (sp.id || '').toString().toLowerCase().trim();
+          if (spId && customSpeciesMap[spId]) {
+            saveOmnicortexCustomEntry('species', nextSp);
+          }
+          return nextSp;
+        });
+        return { ...prev, [key]: updated, species: updatedSpecies };
+      }
+
       return { ...prev, [key]: updated };
     });
 
@@ -1210,12 +1275,27 @@ export const DBMProvider = ({ children }) => {
     setDbData(prev => {
       const existing = prev[key] || [];
       const existingIds = new Set(existing.map(i => (i.id || '').toString().toLowerCase()));
-      const newItems = preparedList.filter(i => !existingIds.has((i.id || '').toString().toLowerCase()));
+      const newItems = preparedList.filter(i => !existingIds.has((i.id || '').toLowerCase()));
       const updatedExisting = existing.map(item => {
         const match = preparedList.find(p => (p.id || '').toString().toLowerCase() === (item.id || '').toString().toLowerCase());
         return match || item;
       });
-      return { ...prev, [key]: [...updatedExisting, ...newItems] };
+      const updatedList = [...updatedExisting, ...newItems];
+      if (key === 'species_lineage') {
+        const updatedSpecies = (prev.species || []).map(sp => {
+          const resolvedParent = resolveSpeciesLineageName(sp, updatedList) || sp.parent_species;
+          if (sp.parent_species === resolvedParent && (!sp.lineage || sp.lineage === resolvedParent)) {
+            return sp;
+          }
+          return {
+            ...sp,
+            parent_species: resolvedParent,
+            ...(sp.lineage !== undefined ? { lineage: resolvedParent } : {})
+          };
+        });
+        return { ...prev, [key]: updatedList, species: updatedSpecies };
+      }
+      return { ...prev, [key]: updatedList };
     });
 
     // If no authenticated user, keep optimistic state

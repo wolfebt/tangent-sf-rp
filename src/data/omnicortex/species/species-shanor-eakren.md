@@ -3,7 +3,7 @@ id: species-shanor-eakren
 name: Eakren (Corrupted Aberration)
 title: Eakren (Void-Warped Mutant)
 category: species
-parent_species: Sha'nor & Void Lineages
+parent_species: "Sha'Nor (Void Lineages)"
 type:
   - species_type-aberration
 size:

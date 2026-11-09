@@ -76,18 +76,16 @@ export const categoryConfig = {
                 manageable: true,
                 label: 'Lineage', 
                 options: [
-                    'Aeld',
+                    'Aeld (Elven Bloodlines)',
                     'Asi (Fey Lineages)',
-                    'Aulurans',
-                    'Humans (Core & Variants)',
-                    'Engineered Humans (Gen-E)',
-                    'Kitin',
-                    'Orll',
-                    'Synthetics',
-                    "Sha'nor & Void Lineages",
-                    'Progenitors',
+                    'Aulurans (Cat Folk)',
+                    'Humans (Gen-E)',
+                    'Humans (Variants)',
                     'Independent Xenotypes',
-                    'Independent'
+                    'Kitin (Genomatrix Collective)',
+                    'Progenitors (Ancients)',
+                    "Sha'Nor (Void Lineages)",
+                    'Synthetics (Artificial Lifeforms)'
                 ] 
             },
             description: { type: 'textarea', aiEnabled: true, label: 'Description' },
@@ -775,8 +773,7 @@ export const categoryConfig = {
     },
     technology: {
         label: 'Technology',
-        parent: 'personal_property',
-        hideFromMenu: false,
+        hideFromMenu: true,
         viewType: 'table',
         directory_columns: ['name', 'tech_level', 'meta_level', 'craft_dc', 'description'],
         fields: {
@@ -928,7 +925,7 @@ export const categoryConfig = {
         label: 'PROPERTY',
         isParent: true,
         viewType: 'landing',
-        subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'technology', 'other'],
+        subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other'],
     },
     gear: {
         label: 'Gear',

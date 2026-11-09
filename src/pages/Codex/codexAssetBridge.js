@@ -10,7 +10,7 @@ import { getMatrixById } from './codexConfig.js';
 import { normalizeOmnicortexItem, exportOmnicortexItem } from '../../utils/tangentSchemaAdapters.js';
 import { calculateSpeciesBP } from '../../engines/tangentEntityEngines.js';
 import { convertMcmToFolioPersona, convertFolioToMcmRecord } from '../../utils/personaBridge.js';
-import { DEFAULT_SPECIES } from '../../data/speciesData.js';
+import { DEFAULT_SPECIES, resolveSpeciesLineageName } from '../../data/speciesData.js';
 import { DEFAULT_FACTIONS } from '../../data/factionsData.js';
 import { DEFAULT_ORIGINS } from '../../data/originsData.js';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData.js';
@@ -297,6 +297,10 @@ export const adaptItemToCodexFormData = (item, matrix) => {
   if (resolvedMatrix.id === 'species') {
     const seed = findCanonicalSeed(item, DEFAULT_SPECIES);
     const modsArray = Array.isArray(item.modifiers) ? item.modifiers : [];
+
+    base.parent_species = resolveSpeciesLineageName(
+      item.parent_species || item.lineage || seed?.parent_species || item
+    ) || base.parent_species || 'Independent Xenotypes';
 
     const rawChassis = item.species_type || (Array.isArray(item.type) ? item.type[0] : item.type) || seed?.species_type || seed?.type || base.species_type || 'Humanoid';
     const cleanChassis = typeof rawChassis === 'string' && rawChassis.startsWith('species_type-')

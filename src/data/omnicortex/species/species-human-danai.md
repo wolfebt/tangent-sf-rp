@@ -3,7 +3,7 @@ id: species-human-danai
 name: Danai (Davae Hybrid)
 title: Danai (Human-Davae Hybrid)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

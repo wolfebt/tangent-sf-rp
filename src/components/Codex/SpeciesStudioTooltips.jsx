@@ -43,6 +43,7 @@ export const OmnicortexTooltip = ({
   color = '#a855f7',
   delay = 1000,
   className = '',
+  tooltipClassName = '',
   interactive = true,
   disabled = false
 }) => {
@@ -52,6 +53,25 @@ export const OmnicortexTooltip = ({
   const tooltipRef = useRef(null);
   const showTimerRef = useRef(null);
   const hideTimerRef = useRef(null);
+
+  const isBuildCostCard = Boolean(
+    content &&
+    typeof content === 'object' &&
+    content.props &&
+    content.props.buildCheck
+  );
+  const buildCheckItemCount = isBuildCostCard
+    ? (Array.isArray(content.props.buildCheck.accountedItems)
+        ? content.props.buildCheck.accountedItems.length
+        : Array.isArray(content.props.buildCheck.costItems)
+          ? content.props.buildCheck.costItems.length
+          : 0)
+    : 0;
+  const resolvedTooltipWidthClass = tooltipClassName
+    ? tooltipClassName
+    : isBuildCostCard
+      ? (buildCheckItemCount > 10 ? 'w-[92vw] sm:w-[640px]' : 'w-80 sm:w-[420px]')
+      : 'w-80 sm:w-96';
 
   const calculatePosition = useCallback(() => {
     if (!triggerRef.current) return;
@@ -184,6 +204,7 @@ export const OmnicortexTooltip = ({
     <>
       <div
         ref={triggerRef}
+        title=""
         className={`inline-flex items-center ${className}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -202,7 +223,7 @@ export const OmnicortexTooltip = ({
             }
           }}
           onMouseLeave={handleMouseLeave}
-          className="fixed z-[999999] w-80 sm:w-96 max-w-[calc(100vw-24px)] bg-[#070b14]/98 border rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(0,0,0,0.8)] p-3.5 text-left font-sans backdrop-blur-2xl animate-fade-in pointer-events-auto select-text max-h-[85vh] overflow-y-auto"
+          className={`fixed z-[999999] ${resolvedTooltipWidthClass} max-w-[calc(100vw-24px)] bg-[#070b14]/98 border rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(0,0,0,0.8)] p-3.5 text-left font-sans backdrop-blur-2xl animate-fade-in pointer-events-auto select-text max-h-[90vh] overflow-y-auto`}
           style={{
             top: `${coords.top}px`,
             left: `${coords.left}px`,
@@ -1070,7 +1091,7 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
           </div>
 
           {accountedItems.length > 0 ? (
-            <div className="space-y-1 max-h-52 overflow-y-auto pr-0.5">
+            <div className={accountedItems.length > 10 ? 'grid grid-cols-1 sm:grid-cols-2 gap-1' : 'space-y-1'}>
               {accountedItems.map((item, idx) => {
                 const isNegative = Number(item.cost || 0) < 0;
                 return (
@@ -1113,7 +1134,7 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
                 </span>
                 <span>{unaccountedItems.length} Flagged</span>
               </div>
-              <div className="space-y-1 max-h-44 overflow-y-auto pr-0.5">
+              <div className="space-y-1">
                 {unaccountedItems.map((u, idx) => (
                   <div
                     key={`unaccounted-${u.category}-${u.label}-${idx}`}
@@ -1146,7 +1167,7 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
       ) : (
         /* General Asset Breakdown Fallback */
         Array.isArray(buildCheck.breakdown) && buildCheck.breakdown.length > 0 && (
-          <div className="space-y-1 max-h-60 overflow-y-auto pr-0.5">
+          <div className="space-y-1">
             {buildCheck.breakdown.map((row, idx) => {
               const rowWarn = row.status === 'warning' || row.status === 'error' || row.unaccounted;
               return (

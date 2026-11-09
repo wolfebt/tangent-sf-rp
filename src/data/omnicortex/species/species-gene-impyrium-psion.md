@@ -3,7 +3,7 @@ id: species-gene-impyrium-psion
 name: Impyrium Psion (Gen-E)
 title: Impyrium Psion (Imperial Inquisitor)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:

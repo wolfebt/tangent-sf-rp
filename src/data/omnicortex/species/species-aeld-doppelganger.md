@@ -3,7 +3,7 @@ id: species-aeld-doppelganger
 name: Doppelganger (Shifter)
 title: Doppelganger (Shifter Aeld)
 category: species
-parent_species: Aeld
+parent_species: "Aeld (Elven Bloodlines)"
 type:
   - species_type-humanoid
 size:

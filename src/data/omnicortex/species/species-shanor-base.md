@@ -3,7 +3,7 @@ id: species-shanor-base
 name: Sha'nor
 title: Sha'nor (Void Aberration)
 category: species
-parent_species: Sha'nor & Void Lineages
+parent_species: "Sha'Nor (Void Lineages)"
 type:
   - species_type-aberration
 size:

@@ -3,7 +3,7 @@ id: species-kitin-murex
 name: Murex (Foundation Expression)
 title: Murex (Kitin Foundation Expression / General Purpose Builder & Infantry)
 category: species
-parent_species: Kitin
+parent_species: "Kitin (Genomatrix Collective)"
 type:
   - species_type-aberration
 size:

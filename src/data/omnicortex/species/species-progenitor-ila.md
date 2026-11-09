@@ -3,7 +3,7 @@ id: species-progenitor-ila
 name: Ila (Progenitor Archon)
 title: Ila (Precursor Entity)
 category: species
-parent_species: Progenitors
+parent_species: "Progenitors (Ancients)"
 type:
   - species_type-entity
 size:

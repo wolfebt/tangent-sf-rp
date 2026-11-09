@@ -3,7 +3,7 @@ id: species-auluran-dar
 name: Dar (Auluran Hunter)
 title: Dar (Auluran Hunter Caste)
 category: species
-parent_species: Aulurans
+parent_species: "Aulurans (Cat Folk)"
 type:
   - species_type-humanoid
 size:

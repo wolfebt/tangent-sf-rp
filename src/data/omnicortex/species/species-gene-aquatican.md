@@ -3,7 +3,7 @@ id: species-gene-aquatican
 name: Aquatican (Gen-E)
 title: Aquatican (Syndicate Pelagic Operative)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:

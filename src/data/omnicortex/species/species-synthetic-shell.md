@@ -3,7 +3,7 @@ id: species-synthetic-shell
 name: Shell (Transferred Organic)
 title: Shell (Sleeve for Organic Mind)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

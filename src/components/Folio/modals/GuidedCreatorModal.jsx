@@ -14,7 +14,7 @@ import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES, getEnrichedFeatureData } from '../../../data/featuresData';
 import { ALL_CANONICAL_TRAITS, getEnrichedTraitData } from '../../../data/speciesTraitsData';
 import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES, getGroupedArchetypes } from '../../../data/archetypesData';
-import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES, resolveSpeciesLineageName, doesSpeciesMatchLineage } from '../../../data/speciesData';
 import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
 import { DEFAULT_WEAPONRY } from '../../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../../data/armoringData';
@@ -2083,8 +2083,12 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   );
 
   const renderSpecies = () => {
+    const activeLineages = Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0
+      ? dbData.species_lineage
+      : SPECIES_LINEAGES;
     const filteredSpecies = (dbData.species || []).filter(sp => {
-      const parentName = (sp.parent_species || '').toLowerCase();
+      const resolvedParent = resolveSpeciesLineageName(sp, activeLineages) || sp.parent_species || '';
+      const parentName = resolvedParent.toLowerCase();
       const name = (sp.name || '').toLowerCase();
       const title = (sp.title || '').toLowerCase();
       const desc = (sp.description || '').toLowerCase();
@@ -2096,17 +2100,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
       // Lineage filter
       if (speciesLineageFilter !== 'All') {
-        const sLower = speciesLineageFilter.toLowerCase().trim();
-        const cleanId = (sp.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (sLower.includes('engineered') || sLower.includes('gen-e') || sLower === 'gene') {
-          if (!parentName.includes('engineered') && !parentName.includes('gen-e') && parentName !== 'gene' && !cleanId.includes('speciesgene')) return false;
-        } else if (sLower.includes('human')) {
-          if (!parentName.includes('human') || parentName.includes('engineered') || parentName.includes('gen-e')) return false;
-        } else {
-          const target = sLower.split(' ')[0].replace(/[^a-z0-9]/g, '');
-          const cleanParent = parentName.replace(/[^a-z0-9]/g, '');
-          if (!cleanParent.includes(target) && !cleanId.includes(target)) return false;
-        }
+        if (!doesSpeciesMatchLineage(sp, speciesLineageFilter, activeLineages)) return false;
       }
 
       // Search query across name, description, lineage, homeworld, keywords, and railguards
@@ -2173,24 +2167,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
           >
             All ({(dbData.species || []).length})
           </button>
-          {SPECIES_LINEAGES.map(lin => {
-            const linNameLower = lin.name.toLowerCase().trim();
-            const linIdLower = lin.id.toLowerCase().trim();
-            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-            const count = (dbData.species || []).filter(s => {
-              const p = (s.parent_species || s.lineage || '').toLowerCase().trim();
-              if (p === linNameLower || p === linIdLower) return true;
-              if (linIdLower === 'gene' || linNameLower.includes('engineered')) {
-                return p.includes('engineered') || p.includes('gen-e') || p === 'gene';
-              }
-              if (linIdLower === 'humans' || linNameLower.startsWith('human')) {
-                return p.includes('human') && !p.includes('engineered') && !p.includes('gen-e');
-              }
-              const cleanParent = p.replace(/[^a-zA-Z0-9]/g, '');
-              const cleanId = (s.id || '').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
-              return cleanParent.includes(shortName) || cleanId.includes(shortName);
-            }).length;
-            const pillLabel = lin.id === 'gene' ? 'Engineered Humans' : lin.name.split('(')[0].trim();
+          {activeLineages.map(lin => {
+            const count = (dbData.species || []).filter(s => doesSpeciesMatchLineage(s, lin, activeLineages)).length;
+            const pillLabel = lin.name;
             return (
               <button
                 key={lin.id}
@@ -2272,7 +2251,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                       </div>
                       {sp.parent_species && (
                         <span className="text-[10px] text-purple-300 font-mono flex items-center gap-1 mt-0.5">
-                          <span>🧬</span> {sp.parent_species}
+                          <span>🧬</span> {resolveSpeciesLineageName(sp, activeLineages) || sp.parent_species}
                         </span>
                       )}
                     </div>

@@ -7,52 +7,112 @@
 export const SPECIES_LINEAGES = [
   {
     "id": "aeld",
-    "name": "Aeld",
+    "name": "Aeld (Elven Bloodlines)",
+    "aliases": [
+      "Aeld",
+      "Aeld (Elven Bloodlines)",
+      "Aeld (Elven)",
+      "Elven Bloodlines"
+    ],
     "description": "Long-lived, graceful beings possessing innate arcane affinity, high technology, and specialized sub-species adaptations."
   },
   {
     "id": "asi",
     "name": "Asi (Fey Lineages)",
+    "aliases": [
+      "Asi",
+      "Asi (Fey Lineages)",
+      "Fey Lineages"
+    ],
     "description": "Ageless fey entities connected to the primal forces of nature, illusion, and multidimensional realms."
   },
   {
     "id": "aulurans",
-    "name": "Aulurans",
+    "name": "Aulurans (Cat Folk)",
+    "aliases": [
+      "Aulurans",
+      "Aulurans (Cat Folk)",
+      "Auluran",
+      "Cat Folk"
+    ],
     "description": "Biotechnological feline predators organized into distinct physical castes (Dar, Koda, Graa, Prokos)."
   },
   {
     "id": "humans",
-    "name": "Humans (Core & Variants)",
+    "name": "Humans (Variants)",
+    "aliases": [
+      "Humans",
+      "Humans (Variants)",
+      "Humans (Core & Variants)",
+      "Human"
+    ],
     "description": "The versatile, ubiquitous baseline of the galaxy along with regional environmental adaptations."
   },
   {
     "id": "gene",
-    "name": "Engineered Humans (Gen-E)",
+    "name": "Humans (Gen-E)",
+    "aliases": [
+      "Humans (Gen-E)",
+      "Engineered Humans (Gen-E)",
+      "Engineered Humans",
+      "Gen-E",
+      "gene"
+    ],
     "description": "Laboratory-optimized transhumans, psionic lines, and specialized military combat castes."
   },
   {
     "id": "kitin",
-    "name": "Kitin",
+    "name": "Kitin (Genomatrix Collective)",
+    "aliases": [
+      "Kitin",
+      "Kitin (Genomatrix Collective)",
+      "Genomatrix Collective"
+    ],
     "description": "Chitinous insectoid beings connected via hive psionics, ranging from diplomatic humanoids to colossus swarm forms."
   },
   {
     "id": "synthetics",
-    "name": "Synthetics",
+    "name": "Synthetics (Artificial Lifeforms)",
+    "aliases": [
+      "Synthetics",
+      "Synthetics (Artificial Lifeforms)",
+      "Synthetic",
+      "Artificial Lifeforms"
+    ],
     "description": "Mechanical, silicon, and digitized entities, from androids and scraps to pure intellect cores and crystalline eidolons."
   },
   {
     "id": "shanor",
-    "name": "Sha'Nor & Void Lineages",
+    "name": "Sha'Nor (Void Lineages)",
+    "aliases": [
+      "Sha'Nor (Void Lineages)",
+      "Sha'Nor & Void Lineages",
+      "Sha'nor & Void Lineages",
+      "Sha'Nor",
+      "Sha'nor",
+      "Void Lineages"
+    ],
     "description": "Semi-corporeal beings born of deep void rifts, wielding reality-warping and spectral powers."
   },
   {
     "id": "progenitors",
-    "name": "Progenitors",
+    "name": "Progenitors (Ancients)",
+    "aliases": [
+      "Progenitors",
+      "Progenitors (Ancients)",
+      "Progenitor",
+      "Ancients"
+    ],
     "description": "Ancient deific precursors of immense intellect, matter manipulation, and dimensional mastery."
   },
   {
     "id": "independent",
     "name": "Independent Xenotypes",
+    "aliases": [
+      "Independent Xenotypes",
+      "Independent",
+      "Xenotypes"
+    ],
     "description": "Diverse sentient alien species native to unique planetary biomes across the Reach."
   }
 ];
@@ -63,7 +123,7 @@ export const DEFAULT_SPECIES = [
     "name": "Alterian",
     "title": "Alterian (Aeld Conclave)",
     "category": "species",
-    "parent_species": "Aeld",
+    "parent_species": "Aeld (Elven Bloodlines)",
     "type": [
       "species_type-humanoid"
     ],
@@ -303,7 +363,7 @@ export const DEFAULT_SPECIES = [
     "name": "Doppelganger (Shifter)",
     "title": "Doppelganger (Shifter Aeld)",
     "category": "species",
-    "parent_species": "Aeld",
+    "parent_species": "Aeld (Elven Bloodlines)",
     "type": [
       "species_type-humanoid"
     ],
@@ -520,7 +580,7 @@ export const DEFAULT_SPECIES = [
     "name": "Draconian (Scaled Aeld)",
     "title": "Draconian (Scaled Aeld)",
     "category": "species",
-    "parent_species": "Aeld",
+    "parent_species": "Aeld (Elven Bloodlines)",
     "type": [
       "species_type-humanoid"
     ],
@@ -693,7 +753,7 @@ export const DEFAULT_SPECIES = [
     "name": "Kovian",
     "title": "Kovian (Umbral Aeld)",
     "category": "species",
-    "parent_species": "Aeld",
+    "parent_species": "Aeld (Elven Bloodlines)",
     "type": [
       "species_type-humanoid"
     ],
@@ -924,7 +984,7 @@ export const DEFAULT_SPECIES = [
     "name": "Vajar (Wilder)",
     "title": "Vajar (Wilder Aeld)",
     "category": "species",
-    "parent_species": "Aeld",
+    "parent_species": "Aeld (Elven Bloodlines)",
     "type": [
       "species_type-humanoid"
     ],
@@ -2671,7 +2731,7 @@ export const DEFAULT_SPECIES = [
     "name": "Dar (Auluran Hunter)",
     "title": "Dar (Auluran Hunter Caste)",
     "category": "species",
-    "parent_species": "Aulurans",
+    "parent_species": "Aulurans (Cat Folk)",
     "type": [
       "species_type-humanoid"
     ],
@@ -2851,7 +2911,7 @@ export const DEFAULT_SPECIES = [
     "name": "Graa (Auluran Heavy)",
     "title": "Graa (Auluran Heavy Beast Caste)",
     "category": "species",
-    "parent_species": "Aulurans",
+    "parent_species": "Aulurans (Cat Folk)",
     "type": [
       "species_type-beast"
     ],
@@ -3098,7 +3158,7 @@ export const DEFAULT_SPECIES = [
     "name": "Koda (Auluran Worker)",
     "title": "Koda (Auluran Builder Caste)",
     "category": "species",
-    "parent_species": "Aulurans",
+    "parent_species": "Aulurans (Cat Folk)",
     "type": [
       "species_type-humanoid"
     ],
@@ -3283,7 +3343,7 @@ export const DEFAULT_SPECIES = [
     "name": "Prokos (Auluran Biform)",
     "title": "Prokos (Auluran Biform Shifter)",
     "category": "species",
-    "parent_species": "Aulurans",
+    "parent_species": "Aulurans (Cat Folk)",
     "type": [
       "species_type-humanoid"
     ],
@@ -3538,7 +3598,7 @@ export const DEFAULT_SPECIES = [
     "name": "Aquatican (Gen-E)",
     "title": "Aquatican (Syndicate Pelagic Operative)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -3726,7 +3786,7 @@ export const DEFAULT_SPECIES = [
     "name": "Chimera (Gen-E)",
     "title": "Chimera (Splice Transhuman)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -3923,7 +3983,7 @@ export const DEFAULT_SPECIES = [
     "name": "Davae (Gen-E)",
     "title": "Davae (Hive Psion Transhuman)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -4130,7 +4190,7 @@ export const DEFAULT_SPECIES = [
     "name": "Digon (Gen-E)",
     "title": "Digon (Imperial Heavy Shock Trooper)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -4451,7 +4511,7 @@ export const DEFAULT_SPECIES = [
     "name": "Gen-E (Base Engineered Human)",
     "title": "Gen-E (Standard Engineered Transhuman)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -4645,7 +4705,7 @@ export const DEFAULT_SPECIES = [
     "name": "Impyrium Psion (Gen-E)",
     "title": "Impyrium Psion (Imperial Inquisitor)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -4856,7 +4916,7 @@ export const DEFAULT_SPECIES = [
     "name": "Impyrium Regi (Gen-E)",
     "title": "Impyrium Regi (Imperial High Blood)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -5063,7 +5123,7 @@ export const DEFAULT_SPECIES = [
     "name": "Janissary (Gen-E)",
     "title": "Janissary (Syndicate Elite Enforcer)",
     "category": "species",
-    "parent_species": "Engineered Humans (Gen-E)",
+    "parent_species": "Humans (Gen-E)",
     "type": [
       "species_type-humanoid"
     ],
@@ -5287,7 +5347,7 @@ export const DEFAULT_SPECIES = [
     "name": "Aquarian Human",
     "title": "Aquarian Human (Water Variant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -5483,7 +5543,7 @@ export const DEFAULT_SPECIES = [
     "name": "Argynt Human",
     "title": "Argynt Human (Heavy Gravity Variant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -5663,7 +5723,7 @@ export const DEFAULT_SPECIES = [
     "name": "B’Dren Human",
     "title": "B’Dren Human (Nocturnal Variant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -5875,7 +5935,7 @@ export const DEFAULT_SPECIES = [
     "name": "Brae Human",
     "title": "Brae Human (Small Stature Variant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -6013,7 +6073,7 @@ export const DEFAULT_SPECIES = [
     "name": "Changeling (Doppelganger Hybrid)",
     "title": "Changeling (Human-Aeld Hybrid)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -6199,7 +6259,7 @@ export const DEFAULT_SPECIES = [
     "name": "Cyberform Human",
     "title": "Cyberform Human (Transhuman Cyborg)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -6419,7 +6479,7 @@ export const DEFAULT_SPECIES = [
     "name": "Danai (Davae Hybrid)",
     "title": "Danai (Human-Davae Hybrid)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -6633,7 +6693,7 @@ export const DEFAULT_SPECIES = [
     "name": "Draconic Human",
     "title": "Draconic Human (Dragonkin Bloodline)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -6838,7 +6898,7 @@ export const DEFAULT_SPECIES = [
     "name": "Dwerg Human",
     "title": "Dwerg Human (Forge Folk)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -7036,7 +7096,7 @@ export const DEFAULT_SPECIES = [
     "name": "Human (Base)",
     "title": "Human (Standard Baseline)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -7132,7 +7192,7 @@ export const DEFAULT_SPECIES = [
     "name": "Kheen Human",
     "title": "Kheen Human (Aeld Hybrid)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -7305,7 +7365,7 @@ export const DEFAULT_SPECIES = [
     "name": "Lin Human",
     "title": "Lin Human (Arboreal Canopy Folk)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -7507,7 +7567,7 @@ export const DEFAULT_SPECIES = [
     "name": "Nian Human",
     "title": "Nian Human (Armored Variant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -7740,7 +7800,7 @@ export const DEFAULT_SPECIES = [
     "name": "Premian Human",
     "title": "Premian Human (Merchant Folk)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -7909,7 +7969,7 @@ export const DEFAULT_SPECIES = [
     "name": "Rautha Human",
     "title": "Rautha Human (Predator Variant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -8058,7 +8118,7 @@ export const DEFAULT_SPECIES = [
     "name": "Risakin (Giant Folk)",
     "title": "Risakin (Heavy-World Giant)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -8209,7 +8269,7 @@ export const DEFAULT_SPECIES = [
     "name": "Varen (Gatekeeper)",
     "title": "Varen (Warp Gatekeeper Human)",
     "category": "species",
-    "parent_species": "Humans (Core & Variants)",
+    "parent_species": "Humans (Variants)",
     "type": [
       "species_type-humanoid"
     ],
@@ -11679,7 +11739,7 @@ export const DEFAULT_SPECIES = [
     "name": "Maantene (Recon Expression)",
     "title": "Maantene (Kitin Recon Expression / Quadruped)",
     "category": "species",
-    "parent_species": "Kitin",
+    "parent_species": "Kitin (Genomatrix Collective)",
     "type": [
       "species_type-aberration"
     ],
@@ -11920,7 +11980,7 @@ export const DEFAULT_SPECIES = [
     "name": "Manelli (Cerebral Expression)",
     "title": "Manelli (Kitin Cerebral Expression / Mimetic Humanoid)",
     "category": "species",
-    "parent_species": "Kitin",
+    "parent_species": "Kitin (Genomatrix Collective)",
     "type": [
       "species_type-humanoid"
     ],
@@ -12220,7 +12280,7 @@ export const DEFAULT_SPECIES = [
     "name": "Murex (Foundation Expression)",
     "title": "Murex (Kitin Foundation Expression / General Purpose Builder & Infantry)",
     "category": "species",
-    "parent_species": "Kitin",
+    "parent_species": "Kitin (Genomatrix Collective)",
     "type": [
       "species_type-aberration"
     ],
@@ -12437,7 +12497,7 @@ export const DEFAULT_SPECIES = [
     "name": "Rakne (Infiltration Expression)",
     "title": "Rakne (Kitin Infiltration Expression / Arachno-Tauric)",
     "category": "species",
-    "parent_species": "Kitin",
+    "parent_species": "Kitin (Genomatrix Collective)",
     "type": [
       "species_type-aberration"
     ],
@@ -12679,7 +12739,7 @@ export const DEFAULT_SPECIES = [
     "name": "Riezen (Divergent Swarm)",
     "title": "Riezen (Kitin Divergent Swarm / Insect Ooze)",
     "category": "species",
-    "parent_species": "Kitin",
+    "parent_species": "Kitin (Genomatrix Collective)",
     "type": [
       "species_type-ooze",
       "species_type-aberration"
@@ -12923,7 +12983,7 @@ export const DEFAULT_SPECIES = [
     "name": "Syndess (Pilot Expression)",
     "title": "Syndess (Kitin Pilot Expression / Multi-segmented Integration Strain)",
     "category": "species",
-    "parent_species": "Kitin",
+    "parent_species": "Kitin (Genomatrix Collective)",
     "type": [
       "species_type-aberration"
     ],
@@ -13137,7 +13197,7 @@ export const DEFAULT_SPECIES = [
     "name": "Ila (Progenitor Archon)",
     "title": "Ila (Precursor Entity)",
     "category": "species",
-    "parent_species": "Progenitors",
+    "parent_species": "Progenitors (Ancients)",
     "type": [
       "species_type-entity"
     ],
@@ -13271,7 +13331,7 @@ export const DEFAULT_SPECIES = [
     "name": "U’Nonn (Progenitor Sovereign)",
     "title": "U’Nonn (Ancient Reality Shaper)",
     "category": "species",
-    "parent_species": "Progenitors",
+    "parent_species": "Progenitors (Ancients)",
     "type": [
       "species_type-aberration"
     ],
@@ -13403,7 +13463,7 @@ export const DEFAULT_SPECIES = [
     "name": "Eakren (Corrupted Aberration)",
     "title": "Eakren (Void-Warped Mutant)",
     "category": "species",
-    "parent_species": "Sha'nor & Void Lineages",
+    "parent_species": "Sha'Nor (Void Lineages)",
     "type": [
       "species_type-aberration"
     ],
@@ -13546,7 +13606,7 @@ export const DEFAULT_SPECIES = [
     "name": "Sha'nor",
     "title": "Sha'nor (Void Aberration)",
     "category": "species",
-    "parent_species": "Sha'nor & Void Lineages",
+    "parent_species": "Sha'Nor (Void Lineages)",
     "type": [
       "species_type-aberration"
     ],
@@ -13727,7 +13787,7 @@ export const DEFAULT_SPECIES = [
     "name": "Tenen (Sha’nor Spectral)",
     "title": "Tenen (Spectral Void Entity)",
     "category": "species",
-    "parent_species": "Sha'nor & Void Lineages",
+    "parent_species": "Sha'Nor (Void Lineages)",
     "type": [
       "species_type-spectral"
     ],
@@ -13890,7 +13950,7 @@ export const DEFAULT_SPECIES = [
     "name": "Aetherion (Progenitor Construct)",
     "title": "Aetherion (Aether-Powered Golem)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14002,7 +14062,7 @@ export const DEFAULT_SPECIES = [
     "name": "Android",
     "title": "Android (Synthetic Humanoid)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14144,7 +14204,7 @@ export const DEFAULT_SPECIES = [
     "name": "Biomechanical Synthetic",
     "title": "Biomechanical (Cyber-Organic Hybrid)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14275,7 +14335,7 @@ export const DEFAULT_SPECIES = [
     "name": "Eidolon (Aetherion Specialist)",
     "title": "Eidolon (Silicon / Crystalline Entity)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14386,7 +14446,7 @@ export const DEFAULT_SPECIES = [
     "name": "Golem (Arcane Construct)",
     "title": "Golem (Arcane / Heavy Magitech Construct)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14507,7 +14567,7 @@ export const DEFAULT_SPECIES = [
     "name": "Intellect Construct (Pure AI)",
     "title": "Intellect Construct (Autonomous Mind Core)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14658,7 +14718,7 @@ export const DEFAULT_SPECIES = [
     "name": "Mekan (Assimilation Unit)",
     "title": "Mekan (Technopathic Assimilator)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -14900,7 +14960,7 @@ export const DEFAULT_SPECIES = [
     "name": "Protocol (Task Automaton)",
     "title": "Protocol (Specialized Directive Unit)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -15074,7 +15134,7 @@ export const DEFAULT_SPECIES = [
     "name": "Scrap (Junkframe Synthetic)",
     "title": "Scrap (Kit-Bashed Autonomous Frame)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -15187,7 +15247,7 @@ export const DEFAULT_SPECIES = [
     "name": "Sentient Machine (Free Droid)",
     "title": "Sentient Machine (Awakened Industrial Bot)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -15293,7 +15353,7 @@ export const DEFAULT_SPECIES = [
     "name": "Shell (Transferred Organic)",
     "title": "Shell (Sleeve for Organic Mind)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -15425,7 +15485,7 @@ export const DEFAULT_SPECIES = [
     "name": "Skin (Infiltrator Synthetic)",
     "title": "Skin (Synthetic Replicant / Infiltrator)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic"
     ],
@@ -15589,7 +15649,7 @@ export const DEFAULT_SPECIES = [
     "name": "Swarm (Micro-Drone Synthetic)",
     "title": "Swarm (Nanite / Micro-Drone Collective)",
     "category": "species",
-    "parent_species": "Synthetics",
+    "parent_species": "Synthetics (Artificial Lifeforms)",
     "type": [
       "species_type-synthetic",
       "species_type-ooze"
@@ -15732,10 +15792,101 @@ export const DEFAULT_SPECIES = [
   }
 ];
 
+export const resolveSpeciesLineage = (rawInput, lineagesList = SPECIES_LINEAGES) => {
+  const activeList = Array.isArray(lineagesList) && lineagesList.length > 0 ? lineagesList : SPECIES_LINEAGES;
+  const rawStr = typeof rawInput === 'object' && rawInput !== null
+    ? String(rawInput.parent_species || rawInput.lineage || rawInput.name || '')
+    : String(rawInput || '');
+  const itemId = typeof rawInput === 'object' && rawInput !== null
+    ? String(rawInput.id || '').toLowerCase().trim()
+    : '';
+  const lower = rawStr.toLowerCase().trim().replace(/^species_lineage-/, '');
+
+  const findByIdInActive = (targetId) =>
+    activeList.find(l => String(l?.id || '').toLowerCase().trim() === targetId) ||
+    SPECIES_LINEAGES.find(l => l.id === targetId) ||
+    null;
+
+  if (lower) {
+    const directMatch = activeList.find(l => {
+      const lId = String(l?.id || '').toLowerCase().trim();
+      const lName = String(l?.name || '').toLowerCase().trim();
+      const lAliases = Array.isArray(l?.aliases) ? l.aliases.map(a => String(a).toLowerCase().trim()) : [];
+      return lId === lower || lName === lower || lAliases.includes(lower);
+    });
+    if (directMatch) return directMatch;
+
+    const canonicalMatch = SPECIES_LINEAGES.find(l => {
+      const lId = l.id.toLowerCase();
+      const lName = l.name.toLowerCase();
+      const lAliases = (l.aliases || []).map(a => a.toLowerCase());
+      return lId === lower || lName === lower || lAliases.includes(lower);
+    });
+    if (canonicalMatch) return findByIdInActive(canonicalMatch.id);
+  }
+
+  if (lower.includes('gen-e') || lower.includes('engineered') || lower === 'gene' || itemId.startsWith('species-gene-')) {
+    return findByIdInActive('gene');
+  }
+  if (lower.includes('human') || itemId.startsWith('species-human-')) {
+    return findByIdInActive('humans');
+  }
+  if (lower.includes('aeld') || lower.includes('elven') || itemId.startsWith('species-aeld-')) {
+    return findByIdInActive('aeld');
+  }
+  if (lower.includes('asi') || lower.includes('fey') || itemId.startsWith('species-asi-')) {
+    return findByIdInActive('asi');
+  }
+  if (lower.includes('auluran') || lower.includes('cat folk') || itemId.startsWith('species-auluran-')) {
+    return findByIdInActive('aulurans');
+  }
+  if (lower.includes('kitin') || lower.includes('genomatrix') || itemId.startsWith('species-kitin-')) {
+    return findByIdInActive('kitin');
+  }
+  if (lower.includes('synthetic') || lower.includes('artificial lifeform') || itemId.startsWith('species-synthetic-')) {
+    return findByIdInActive('synthetics');
+  }
+  if (lower.includes("sha'nor") || lower.includes('shanor') || lower.includes('void lineage') || itemId.startsWith('species-shanor-')) {
+    return findByIdInActive('shanor');
+  }
+  if (lower.includes('progenitor') || lower.includes('ancient') || itemId.startsWith('species-progenitor-')) {
+    return findByIdInActive('progenitors');
+  }
+  if (lower.includes('independent') || lower.includes('xenotype') || itemId.startsWith('species-independent-')) {
+    return findByIdInActive('independent');
+  }
+
+  return null;
+};
+
+export const resolveSpeciesLineageName = (rawInput, lineagesList = SPECIES_LINEAGES) => {
+  const matched = resolveSpeciesLineage(rawInput, lineagesList);
+  if (matched?.name) return matched.name;
+  if (typeof rawInput === 'object' && rawInput !== null) {
+    return String(rawInput.parent_species || rawInput.lineage || '');
+  }
+  return String(rawInput || '');
+};
+
+export const doesSpeciesMatchLineage = (speciesOrParent, targetLineageOrName, lineagesList = SPECIES_LINEAGES) => {
+  const linA = resolveSpeciesLineage(speciesOrParent, lineagesList);
+  const linB = resolveSpeciesLineage(targetLineageOrName, lineagesList);
+  if (linA && linB) {
+    return String(linA.id || linA.name).toLowerCase() === String(linB.id || linB.name).toLowerCase();
+  }
+  const strA = typeof speciesOrParent === 'object' && speciesOrParent !== null
+    ? String(speciesOrParent.parent_species || speciesOrParent.lineage || '').toLowerCase().trim()
+    : String(speciesOrParent || '').toLowerCase().trim();
+  const strB = typeof targetLineageOrName === 'object' && targetLineageOrName !== null
+    ? String(targetLineageOrName.name || targetLineageOrName.id || '').toLowerCase().trim()
+    : String(targetLineageOrName || '').toLowerCase().trim();
+  return Boolean(strA && strB && strA === strB);
+};
+
 export const getSpeciesById = (id) => DEFAULT_SPECIES.find(s => s.id === id);
 
-export const getSpeciesByLineage = (lineageName) => 
-  DEFAULT_SPECIES.filter(s => (s.parent_species || '').toLowerCase() === (lineageName || '').toLowerCase());
+export const getSpeciesByLineage = (lineageName, lineagesList = SPECIES_LINEAGES) => 
+  DEFAULT_SPECIES.filter(s => doesSpeciesMatchLineage(s, lineageName, lineagesList));
 
 export const getSpeciesBpCost = (speciesObj) => {
   if (!speciesObj) return 0;

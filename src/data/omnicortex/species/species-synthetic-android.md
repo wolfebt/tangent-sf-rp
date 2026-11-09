@@ -3,7 +3,7 @@ id: species-synthetic-android
 name: Android
 title: Android (Synthetic Humanoid)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

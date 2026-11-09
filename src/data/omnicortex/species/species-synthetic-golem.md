@@ -3,7 +3,7 @@ id: species-synthetic-golem
 name: Golem (Arcane Construct)
 title: Golem (Arcane / Heavy Magitech Construct)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

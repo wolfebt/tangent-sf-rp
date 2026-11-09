@@ -3,7 +3,7 @@ id: species-human-kheen
 name: Kheen Human
 title: Kheen Human (Aeld Hybrid)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

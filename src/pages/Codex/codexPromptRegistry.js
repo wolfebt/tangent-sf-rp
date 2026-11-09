@@ -92,7 +92,7 @@ export const OMNICORTEX_DATASETS = [
   {
     "name": "String (Common name of the specific sub-species, e.g., 'Dar' or 'Celestine')",
     "title": "String (Formal cultural or caste title, e.g., 'Dar (Auluran Hunter Caste)')",
-    "parent_species": "String (Exact canonical lineage: 'Aeld', 'Asi (Fey Lineages)', 'Aulurans', 'Humans (Core & Variants)', 'Engineered Humans (Gen-E)', 'Kitin', 'Synthetics', 'Sha\\'nor & Void Lineages', 'Progenitors', 'Independent Xenotypes')",
+    "parent_species": "String (Exact canonical lineage: 'Aeld (Elven Bloodlines)', 'Asi (Fey Lineages)', 'Aulurans (Cat Folk)', 'Humans (Gen-E)', 'Humans (Variants)', 'Independent Xenotypes', 'Kitin (Genomatrix Collective)', 'Progenitors (Ancients)', 'Sha\\'Nor (Void Lineages)', 'Synthetics (Artificial Lifeforms)')",
     "description": "String (1-2 sentence elevator pitch of the species)",
     "stigma": "String (Reaction penalty, e.g., 'Xeno (-2)' or 'None')",
     "homeworld": "String (Origin planet or habitat, e.g., 'Aulura Prime')",

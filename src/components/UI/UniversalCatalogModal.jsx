@@ -57,7 +57,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { useDBM } from '../../context/DBMContext';
 import { getMatrixIdForAssetKey } from '../../pages/Codex/codexAssetBridge';
 import { DEFAULT_ARCHETYPES } from '../../data/archetypesData';
-import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../data/speciesData';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES, resolveSpeciesLineageName } from '../../data/speciesData';
 import { DEFAULT_FEATURES, getEnrichedFeatureData } from '../../data/featuresData';
 import { ALL_CANONICAL_SKILLS, getEnrichedSkillData } from '../../data/skillsData';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData';
@@ -209,30 +209,13 @@ export const getItemCategory = (item, canonicalColKey) => {
   }
 
   if (canonicalColKey === 'species') {
-    const parent = item.parent_species;
+    const resolved = resolveSpeciesLineageName(item, SPECIES_LINEAGES);
+    if (resolved) return resolved;
+    const parent = item.parent_species || item.lineage;
     if (parent) {
-      const clean = Array.isArray(parent) ? parent[0] : String(parent).split('(')[0].trim();
+      const clean = Array.isArray(parent) ? parent[0] : String(parent).trim();
       if (clean && String(clean).toLowerCase() !== 'species') {
-        if (String(clean).toLowerCase() === 'independent') return 'Independent Xenotypes';
-        if (String(clean).toLowerCase().replace(/[^a-z0-9]/g, '') === 'shanor') return "Sha'Nor";
         return String(clean);
-      }
-    }
-    const lineage = item.lineage;
-    if (lineage) {
-      const clean = Array.isArray(lineage) ? lineage[0] : String(lineage).split('(')[0].trim();
-      if (clean && String(clean).toLowerCase() !== 'species') {
-        if (String(clean).toLowerCase() === 'independent') return 'Independent Xenotypes';
-        if (String(clean).toLowerCase().replace(/[^a-z0-9]/g, '') === 'shanor') return "Sha'Nor";
-        return String(clean);
-      }
-    }
-    const name = String(item.name || item.title || '').toLowerCase();
-    for (const l of (SPECIES_LINEAGES || [])) {
-      if (name.includes(l.id) || name.includes(l.name.toLowerCase().split(' ')[0])) {
-        const linName = l.name.split('(')[0].trim();
-        if (linName.toLowerCase().replace(/[^a-z0-9]/g, '').startsWith('shanor')) return "Sha'Nor";
-        return String(linName);
       }
     }
     return 'Independent Xenotypes';
@@ -1210,9 +1193,10 @@ export const UniversalCatalogModal = ({
       );
     }
     if (canonicalColKey === 'species') {
+      const resolvedParent = resolveSpeciesLineageName(item, dbData?.species_lineage || SPECIES_LINEAGES) || item.parent_species;
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
-          {item.parent_species && <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300">{item.parent_species}</span>}
+          {resolvedParent && <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-800/60 text-cyan-300">{resolvedParent}</span>}
           {item.tech_level !== undefined && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400">TL {item.tech_level}</span>}
           {item.cp !== undefined && <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">{item.cp} CP</span>}
         </div>
@@ -1900,7 +1884,7 @@ export const UniversalCatalogModal = ({
                                 </div>
                                 {canonicalColKey === 'species' && item.parent_species && (
                                   <div className="text-[10px] text-cyan-400/80 font-mono">
-                                    Lineage: {item.parent_species}
+                                    Lineage: {resolveSpeciesLineageName(item, dbData?.species_lineage || SPECIES_LINEAGES) || item.parent_species}
                                   </div>
                                 )}
                                 {item.sphere && (

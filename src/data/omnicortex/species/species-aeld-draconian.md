@@ -3,7 +3,7 @@ id: species-aeld-draconian
 name: Draconian (Scaled Aeld)
 title: Draconian (Scaled Aeld)
 category: species
-parent_species: Aeld
+parent_species: "Aeld (Elven Bloodlines)"
 type:
   - species_type-humanoid
 size:

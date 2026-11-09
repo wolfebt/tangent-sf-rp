@@ -3,7 +3,7 @@ id: species-auluran-koda
 name: Koda (Auluran Worker)
 title: Koda (Auluran Builder Caste)
 category: species
-parent_species: Aulurans
+parent_species: "Aulurans (Cat Folk)"
 type:
   - species_type-humanoid
 size:

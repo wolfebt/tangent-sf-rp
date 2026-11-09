@@ -26,55 +26,141 @@ const isValidFeature = (f) => {
 export const SPECIES_LINEAGES = [
   {
     id: 'aeld',
-    name: 'Aeld',
+    name: 'Aeld (Elven Bloodlines)',
+    aliases: ['Aeld', 'Aeld (Elven Bloodlines)', 'Aeld (Elven)', 'Elven Bloodlines'],
     description: 'Long-lived, graceful beings possessing innate arcane affinity, high technology, and specialized sub-species adaptations.'
   },
   {
     id: 'asi',
     name: 'Asi (Fey Lineages)',
+    aliases: ['Asi', 'Asi (Fey Lineages)', 'Fey Lineages'],
     description: 'Ageless fey entities connected to the primal forces of nature, illusion, and multidimensional realms.'
   },
   {
     id: 'aulurans',
-    name: 'Aulurans',
+    name: 'Aulurans (Cat Folk)',
+    aliases: ['Aulurans', 'Aulurans (Cat Folk)', 'Auluran', 'Cat Folk'],
     description: 'Biotechnological feline predators organized into distinct physical castes (Dar, Koda, Graa, Prokos).'
   },
   {
     id: 'humans',
-    name: 'Humans (Core & Variants)',
+    name: 'Humans (Variants)',
+    aliases: ['Humans', 'Humans (Variants)', 'Humans (Core & Variants)', 'Human'],
     description: 'The versatile, ubiquitous baseline of the galaxy along with regional environmental adaptations.'
   },
   {
     id: 'gene',
-    name: 'Engineered Humans (Gen-E)',
+    name: 'Humans (Gen-E)',
+    aliases: ['Humans (Gen-E)', 'Engineered Humans (Gen-E)', 'Engineered Humans', 'Gen-E', 'gene'],
     description: 'Laboratory-optimized transhumans, psionic lines, and specialized military combat castes.'
   },
   {
     id: 'kitin',
-    name: 'Kitin',
+    name: 'Kitin (Genomatrix Collective)',
+    aliases: ['Kitin', 'Kitin (Genomatrix Collective)', 'Genomatrix Collective'],
     description: 'Chitinous insectoid beings connected via hive psionics, ranging from diplomatic humanoids to colossus swarm forms.'
   },
   {
     id: 'synthetics',
-    name: 'Synthetics',
+    name: 'Synthetics (Artificial Lifeforms)',
+    aliases: ['Synthetics', 'Synthetics (Artificial Lifeforms)', 'Synthetic', 'Artificial Lifeforms'],
     description: 'Mechanical, silicon, and digitized entities, from androids and scraps to pure intellect cores and crystalline eidolons.'
   },
   {
     id: 'shanor',
-    name: "Sha'Nor & Void Lineages",
+    name: "Sha'Nor (Void Lineages)",
+    aliases: ["Sha'Nor (Void Lineages)", "Sha'Nor & Void Lineages", "Sha'nor & Void Lineages", "Sha'Nor", "Sha'nor", "Void Lineages"],
     description: "Semi-corporeal beings born of deep void rifts, wielding reality-warping and spectral powers."
   },
   {
     id: 'progenitors',
-    name: 'Progenitors',
+    name: 'Progenitors (Ancients)',
+    aliases: ['Progenitors', 'Progenitors (Ancients)', 'Progenitor', 'Ancients'],
     description: 'Ancient deific precursors of immense intellect, matter manipulation, and dimensional mastery.'
   },
   {
     id: 'independent',
     name: 'Independent Xenotypes',
+    aliases: ['Independent Xenotypes', 'Independent', 'Xenotypes'],
     description: 'Diverse sentient alien species native to unique planetary biomes across the Reach.'
   }
 ];
+
+export const resolveSpeciesLineage = (rawInput, lineagesList = SPECIES_LINEAGES) => {
+  const activeList = Array.isArray(lineagesList) && lineagesList.length > 0 ? lineagesList : SPECIES_LINEAGES;
+  const rawStr = typeof rawInput === 'object' && rawInput !== null
+    ? String(rawInput.parent_species || rawInput.lineage || rawInput.name || '')
+    : String(rawInput || '');
+  const itemId = typeof rawInput === 'object' && rawInput !== null
+    ? String(rawInput.id || '').toLowerCase().trim()
+    : '';
+  const lower = rawStr.toLowerCase().trim().replace(/^species_lineage-/, '');
+
+  const findByIdInActive = (targetId) =>
+    activeList.find(l => String(l?.id || '').toLowerCase().trim() === targetId) ||
+    SPECIES_LINEAGES.find(l => l.id === targetId) ||
+    null;
+
+  if (lower) {
+    const directMatch = activeList.find(l => {
+      const lId = String(l?.id || '').toLowerCase().trim();
+      const lName = String(l?.name || '').toLowerCase().trim();
+      const lAliases = Array.isArray(l?.aliases) ? l.aliases.map(a => String(a).toLowerCase().trim()) : [];
+      return lId === lower || lName === lower || lAliases.includes(lower);
+    });
+    if (directMatch) return directMatch;
+
+    const canonicalMatch = SPECIES_LINEAGES.find(l => {
+      const lId = l.id.toLowerCase();
+      const lName = l.name.toLowerCase();
+      const lAliases = (l.aliases || []).map(a => a.toLowerCase());
+      return lId === lower || lName === lower || lAliases.includes(lower);
+    });
+    if (canonicalMatch) return findByIdInActive(canonicalMatch.id);
+  }
+
+  if (lower.includes('gen-e') || lower.includes('engineered') || lower === 'gene' || itemId.startsWith('species-gene-')) {
+    return findByIdInActive('gene');
+  }
+  if (lower.includes('human') || itemId.startsWith('species-human-')) {
+    return findByIdInActive('humans');
+  }
+  if (lower.includes('aeld') || lower.includes('elven') || itemId.startsWith('species-aeld-')) {
+    return findByIdInActive('aeld');
+  }
+  if (lower.includes('asi') || lower.includes('fey') || itemId.startsWith('species-asi-')) {
+    return findByIdInActive('asi');
+  }
+  if (lower.includes('auluran') || lower.includes('cat folk') || itemId.startsWith('species-auluran-')) {
+    return findByIdInActive('aulurans');
+  }
+  if (lower.includes('kitin') || lower.includes('genomatrix') || itemId.startsWith('species-kitin-')) {
+    return findByIdInActive('kitin');
+  }
+  if (lower.includes('synthetic') || lower.includes('artificial lifeform') || itemId.startsWith('species-synthetic-')) {
+    return findByIdInActive('synthetics');
+  }
+  if (lower.includes("sha'nor") || lower.includes('shanor') || lower.includes('void lineage') || itemId.startsWith('species-shanor-')) {
+    return findByIdInActive('shanor');
+  }
+  if (lower.includes('progenitor') || lower.includes('ancient') || itemId.startsWith('species-progenitor-')) {
+    return findByIdInActive('progenitors');
+  }
+  if (lower.includes('independent') || lower.includes('xenotype') || itemId.startsWith('species-independent-')) {
+    return findByIdInActive('independent');
+  }
+
+  return null;
+};
+
+export const resolveSpeciesLineageName = (rawInput, lineagesList = SPECIES_LINEAGES) => {
+  const matched = resolveSpeciesLineage(rawInput, lineagesList);
+  if (matched?.name) return matched.name;
+  if (typeof rawInput === 'object' && rawInput !== null) {
+    return String(rawInput.parent_species || rawInput.lineage || '');
+  }
+  return String(rawInput || '');
+};
 
 function syncSpecies() {
   if (!fs.existsSync(speciesDir)) {
@@ -89,7 +175,7 @@ function syncSpecies() {
 
   for (const file of files) {
     const fullPath = path.join(speciesDir, file);
-    const content = fs.readFileSync(fullPath, 'utf8');
+    let content = fs.readFileSync(fullPath, 'utf8');
     const parsed = matter(content);
     const data = parsed.data || {};
     const body = (parsed.content || '').trim();
@@ -98,7 +184,18 @@ function syncSpecies() {
     const name = data.name || id;
     const title = data.title || name;
     const category = data.category || 'species';
-    const parentSpecies = data.parent_species || 'Independent Xenotypes';
+    const parentSpecies = resolveSpeciesLineageName({ id, parent_species: data.parent_species }) || data.parent_species || 'Independent Xenotypes';
+
+    if (data.parent_species && data.parent_species !== parentSpecies) {
+      const updatedContent = content.replace(
+        /^parent_species:\s*.*$/m,
+        `parent_species: "${parentSpecies}"`
+      );
+      if (updatedContent !== content) {
+        fs.writeFileSync(fullPath, updatedContent, 'utf8');
+        content = updatedContent;
+      }
+    }
 
     const modifiers = Array.isArray(data.modifiers) ? data.modifiers : [];
     const cpVal = Number(data.costs?.cp ?? data.costs?.bp ?? data.cp ?? data.cp_cost ?? 10);
@@ -225,10 +322,101 @@ export const SPECIES_LINEAGES = ${JSON.stringify(SPECIES_LINEAGES, null, 2)};
 
 export const DEFAULT_SPECIES = ${JSON.stringify(speciesList, null, 2)};
 
+export const resolveSpeciesLineage = (rawInput, lineagesList = SPECIES_LINEAGES) => {
+  const activeList = Array.isArray(lineagesList) && lineagesList.length > 0 ? lineagesList : SPECIES_LINEAGES;
+  const rawStr = typeof rawInput === 'object' && rawInput !== null
+    ? String(rawInput.parent_species || rawInput.lineage || rawInput.name || '')
+    : String(rawInput || '');
+  const itemId = typeof rawInput === 'object' && rawInput !== null
+    ? String(rawInput.id || '').toLowerCase().trim()
+    : '';
+  const lower = rawStr.toLowerCase().trim().replace(/^species_lineage-/, '');
+
+  const findByIdInActive = (targetId) =>
+    activeList.find(l => String(l?.id || '').toLowerCase().trim() === targetId) ||
+    SPECIES_LINEAGES.find(l => l.id === targetId) ||
+    null;
+
+  if (lower) {
+    const directMatch = activeList.find(l => {
+      const lId = String(l?.id || '').toLowerCase().trim();
+      const lName = String(l?.name || '').toLowerCase().trim();
+      const lAliases = Array.isArray(l?.aliases) ? l.aliases.map(a => String(a).toLowerCase().trim()) : [];
+      return lId === lower || lName === lower || lAliases.includes(lower);
+    });
+    if (directMatch) return directMatch;
+
+    const canonicalMatch = SPECIES_LINEAGES.find(l => {
+      const lId = l.id.toLowerCase();
+      const lName = l.name.toLowerCase();
+      const lAliases = (l.aliases || []).map(a => a.toLowerCase());
+      return lId === lower || lName === lower || lAliases.includes(lower);
+    });
+    if (canonicalMatch) return findByIdInActive(canonicalMatch.id);
+  }
+
+  if (lower.includes('gen-e') || lower.includes('engineered') || lower === 'gene' || itemId.startsWith('species-gene-')) {
+    return findByIdInActive('gene');
+  }
+  if (lower.includes('human') || itemId.startsWith('species-human-')) {
+    return findByIdInActive('humans');
+  }
+  if (lower.includes('aeld') || lower.includes('elven') || itemId.startsWith('species-aeld-')) {
+    return findByIdInActive('aeld');
+  }
+  if (lower.includes('asi') || lower.includes('fey') || itemId.startsWith('species-asi-')) {
+    return findByIdInActive('asi');
+  }
+  if (lower.includes('auluran') || lower.includes('cat folk') || itemId.startsWith('species-auluran-')) {
+    return findByIdInActive('aulurans');
+  }
+  if (lower.includes('kitin') || lower.includes('genomatrix') || itemId.startsWith('species-kitin-')) {
+    return findByIdInActive('kitin');
+  }
+  if (lower.includes('synthetic') || lower.includes('artificial lifeform') || itemId.startsWith('species-synthetic-')) {
+    return findByIdInActive('synthetics');
+  }
+  if (lower.includes("sha'nor") || lower.includes('shanor') || lower.includes('void lineage') || itemId.startsWith('species-shanor-')) {
+    return findByIdInActive('shanor');
+  }
+  if (lower.includes('progenitor') || lower.includes('ancient') || itemId.startsWith('species-progenitor-')) {
+    return findByIdInActive('progenitors');
+  }
+  if (lower.includes('independent') || lower.includes('xenotype') || itemId.startsWith('species-independent-')) {
+    return findByIdInActive('independent');
+  }
+
+  return null;
+};
+
+export const resolveSpeciesLineageName = (rawInput, lineagesList = SPECIES_LINEAGES) => {
+  const matched = resolveSpeciesLineage(rawInput, lineagesList);
+  if (matched?.name) return matched.name;
+  if (typeof rawInput === 'object' && rawInput !== null) {
+    return String(rawInput.parent_species || rawInput.lineage || '');
+  }
+  return String(rawInput || '');
+};
+
+export const doesSpeciesMatchLineage = (speciesOrParent, targetLineageOrName, lineagesList = SPECIES_LINEAGES) => {
+  const linA = resolveSpeciesLineage(speciesOrParent, lineagesList);
+  const linB = resolveSpeciesLineage(targetLineageOrName, lineagesList);
+  if (linA && linB) {
+    return String(linA.id || linA.name).toLowerCase() === String(linB.id || linB.name).toLowerCase();
+  }
+  const strA = typeof speciesOrParent === 'object' && speciesOrParent !== null
+    ? String(speciesOrParent.parent_species || speciesOrParent.lineage || '').toLowerCase().trim()
+    : String(speciesOrParent || '').toLowerCase().trim();
+  const strB = typeof targetLineageOrName === 'object' && targetLineageOrName !== null
+    ? String(targetLineageOrName.name || targetLineageOrName.id || '').toLowerCase().trim()
+    : String(targetLineageOrName || '').toLowerCase().trim();
+  return Boolean(strA && strB && strA === strB);
+};
+
 export const getSpeciesById = (id) => DEFAULT_SPECIES.find(s => s.id === id);
 
-export const getSpeciesByLineage = (lineageName) => 
-  DEFAULT_SPECIES.filter(s => (s.parent_species || '').toLowerCase() === (lineageName || '').toLowerCase());
+export const getSpeciesByLineage = (lineageName, lineagesList = SPECIES_LINEAGES) => 
+  DEFAULT_SPECIES.filter(s => doesSpeciesMatchLineage(s, lineageName, lineagesList));
 
 export const getSpeciesBpCost = (speciesObj) => {
   if (!speciesObj) return 0;

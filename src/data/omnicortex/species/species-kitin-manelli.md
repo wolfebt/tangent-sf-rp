@@ -3,7 +3,7 @@ id: species-kitin-manelli
 name: Manelli (Cerebral Expression)
 title: Manelli (Kitin Cerebral Expression / Mimetic Humanoid)
 category: species
-parent_species: Kitin
+parent_species: "Kitin (Genomatrix Collective)"
 type:
   - species_type-humanoid
 size:

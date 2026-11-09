@@ -3,7 +3,7 @@ id: species-human-premian
 name: Premian Human
 title: Premian Human (Merchant Folk)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

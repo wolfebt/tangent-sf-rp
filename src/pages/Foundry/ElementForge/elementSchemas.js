@@ -426,7 +426,7 @@ const SETTING_ARCHITECT_SCHEMA = [
 const SPECIES_CREATOR_SCHEMA = [
   // Canonical AIME + OmniCortex Consolidated Species Traits
   { tab: 'Core Traits', key: 'speciesName', aliasKeys: ['name', 'title'], label: 'Species Name', type: 'text', placeholder: 'Formal or common name of the species...' },
-  { tab: 'Core Traits', key: 'parent_species', aliasKeys: ['lineage'], label: 'Lineage / Parent Species', type: 'text', placeholder: 'e.g. Humans (Core & Variants), Aeld, Aulurans, Kitin, Synthetics...' },
+  { tab: 'Core Traits', key: 'parent_species', aliasKeys: ['lineage'], label: 'Lineage / Parent Species', type: 'text', placeholder: 'e.g. Humans (Variants), Humans (Gen-E), Aeld (Elven Bloodlines), Aulurans (Cat Folk), Kitin (Genomatrix Collective), Synthetics (Artificial Lifeforms)...' },
   { tab: 'Core Traits', key: 'classification', aliasKeys: ['speciesType', 'type', 'archetype'], label: 'Chassis Classification', type: 'text', placeholder: 'Biological or synthetic category (e.g. Humanoid, Synthetic, Beast, Aberration)...' },
   { tab: 'Core Traits', key: 'size', label: 'Size Category', type: 'text', placeholder: 'Medium, Large, Small, Huge...' },
   { tab: 'Core Traits', key: 'oneLinePitch', aliasKeys: ['summary', 'stigma'], label: 'One-Line Pitch / Stigma', type: 'text', placeholder: 'Compelling hook or galactic reputation...' },

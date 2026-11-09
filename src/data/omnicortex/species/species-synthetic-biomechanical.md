@@ -3,7 +3,7 @@ id: species-synthetic-biomechanical
 name: Biomechanical Synthetic
 title: Biomechanical (Cyber-Organic Hybrid)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

@@ -3,7 +3,7 @@ id: species-synthetic-intellect
 name: Intellect Construct (Pure AI)
 title: Intellect Construct (Autonomous Mind Core)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

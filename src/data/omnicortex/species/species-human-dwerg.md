@@ -3,7 +3,7 @@ id: species-human-dwerg
 name: Dwerg Human
 title: Dwerg Human (Forge Folk)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

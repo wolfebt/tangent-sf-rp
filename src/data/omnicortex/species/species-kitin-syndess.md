@@ -3,7 +3,7 @@ id: species-kitin-syndess
 name: Syndess (Pilot Expression)
 title: Syndess (Kitin Pilot Expression / Multi-segmented Integration Strain)
 category: species
-parent_species: Kitin
+parent_species: "Kitin (Genomatrix Collective)"
 type:
   - species_type-aberration
 size:

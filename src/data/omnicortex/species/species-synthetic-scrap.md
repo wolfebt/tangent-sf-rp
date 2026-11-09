@@ -3,7 +3,7 @@ id: species-synthetic-scrap
 name: Scrap (Junkframe Synthetic)
 title: Scrap (Kit-Bashed Autonomous Frame)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

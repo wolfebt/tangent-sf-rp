@@ -3,7 +3,7 @@ id: species-synthetic-sentient-machine
 name: Sentient Machine (Free Droid)
 title: Sentient Machine (Awakened Industrial Bot)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

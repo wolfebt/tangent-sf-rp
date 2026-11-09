@@ -3,7 +3,7 @@ id: species-synthetic-protocol
 name: Protocol (Task Automaton)
 title: Protocol (Specialized Directive Unit)
 category: species
-parent_species: Synthetics
+parent_species: "Synthetics (Artificial Lifeforms)"
 type:
   - species_type-synthetic
 size:

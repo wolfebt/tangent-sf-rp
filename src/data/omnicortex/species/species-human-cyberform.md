@@ -3,7 +3,7 @@ id: species-human-cyberform
 name: Cyberform Human
 title: Cyberform Human (Transhuman Cyborg)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

@@ -3,7 +3,7 @@ id: species-gene-janissary
 name: Janissary (Gen-E)
 title: Janissary (Syndicate Elite Enforcer)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:

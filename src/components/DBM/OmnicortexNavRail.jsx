@@ -270,8 +270,8 @@ export const OMNICORTEX_SECTIONS = [
     icon: Package,
     colorTheme: 'orange',
     isParent: true,
-    subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'technology', 'other'],
-    sublabel: 'Gear, Weapons, Armor, Augments & Tech'
+    subItems: ['gear', 'weaponry', 'armoring', 'augmentations', 'mecha', 'architecture', 'other'],
+    sublabel: 'Gear, Weapons, Armor & Augments'
   },
   {
     id: 'disadvantages',

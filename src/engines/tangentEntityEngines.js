@@ -303,12 +303,26 @@ export function calculateSpeciesBP(params = {}) {
   // Normalize parameters
   let type = params.type || params.species_type || 'Humanoid';
   let size = params.size || params.species_size || 'Medium';
-  let movementModes = params.movementModes || params.movement_modes || params.movement || ['normal'];
+  let movementModes = (Array.isArray(params.movement) && params.movement.length > 0)
+    ? params.movement
+    : (params.movementModes || params.movement_modes || params.movement || ['normal']);
   let attributes = {};
   let skillBundles = params.skillBundles ?? params.skill_bundles ?? 0;
+  const canonicalSeed = (!params.isCustom && !params.is_custom && Array.isArray(DEFAULT_SPECIES))
+    ? DEFAULT_SPECIES.find(
+        s =>
+          (params.id && String(s.id).toLowerCase().trim() === String(params.id).toLowerCase().trim()) ||
+          (params.name && String(s.name).toLowerCase().trim() === String(params.name).toLowerCase().trim())
+      )
+    : null;
+  const canonicalHasZeroTraits = Boolean(canonicalSeed && Array.isArray(canonicalSeed.traits) && canonicalSeed.traits.length === 0);
+  const primaryTraitsList = canonicalHasZeroTraits
+    ? []
+    : (Array.isArray(params.traits) && params.traits.length > 0)
+      ? params.traits
+      : (Array.isArray(params.species_traits) ? params.species_traits : []);
   const rawTraits = [
-    ...(Array.isArray(params.traits) ? params.traits : []),
-    ...(Array.isArray(params.species_traits) ? params.species_traits : []),
+    ...primaryTraitsList,
     ...(Array.isArray(params.inherent_traits) ? params.inherent_traits : [])
   ];
   // Legacy support: ONLY include items from inherent_features in traits if they explicitly represent a species trait

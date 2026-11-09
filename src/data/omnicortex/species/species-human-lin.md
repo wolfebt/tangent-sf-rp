@@ -3,7 +3,7 @@ id: species-human-lin
 name: Lin Human
 title: Lin Human (Arboreal Canopy Folk)
 category: species
-parent_species: Humans (Core & Variants)
+parent_species: "Humans (Variants)"
 type:
   - species_type-humanoid
 size:

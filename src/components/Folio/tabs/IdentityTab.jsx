@@ -8,7 +8,7 @@ import { showConfirm } from '../../../context/ConfirmContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { db } from '../../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES, resolveSpeciesLineageName } from '../../../data/speciesData';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../../../data/originsData';
@@ -1850,7 +1850,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
             )}
             {selectedSpecies?.parent_species && val && (
               <span className="text-xs font-mono text-slate-400 truncate hidden md:inline">
-                • Lineage: {selectedSpecies.parent_species}
+                • Lineage: {resolveSpeciesLineageName(selectedSpecies, dbData?.species_lineage || SPECIES_LINEAGES) || selectedSpecies.parent_species}
               </span>
             )}
           </div>
@@ -1872,7 +1872,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                   {(() => {
                     const groups = {};
                     speciesCatalog.forEach(s => {
-                      const lin = s.parent_species || s.lineage || 'Independent Xenotypes';
+                      const lin = resolveSpeciesLineageName(s, dbData?.species_lineage || SPECIES_LINEAGES) || s.parent_species || s.lineage || 'Independent Xenotypes';
                       if (!groups[lin]) groups[lin] = [];
                       groups[lin].push(s);
                     });
@@ -1962,12 +1962,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
               selectedValue: val,
               browsePath,
               colorTheme: 'cyan',
-              categoryExtractor: (item) => item.parent_species || item.lineage || 'Independent Xenotypes',
+              categoryExtractor: (item) => resolveSpeciesLineageName(item, dbData?.species_lineage || SPECIES_LINEAGES) || item.parent_species || item.lineage || 'Independent Xenotypes',
               renderCardBadges: (item) => (
                 <>
                   {item.parent_species && (
                     <span className="px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-600/40 text-cyan-300 font-bold">
-                      {item.parent_species}
+                      {resolveSpeciesLineageName(item, dbData?.species_lineage || SPECIES_LINEAGES) || item.parent_species}
                     </span>
                   )}
                   {item.type && (
@@ -2188,9 +2188,19 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                         <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
                           Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} CP</strong>
                         </span>
+                        {speciesCost.breakdown.featuresBP > 0 && (
+                          <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Features: <strong className="text-purple-300">+{speciesCost.breakdown.featuresBP} CP</strong>
+                          </span>
+                        )}
                         {speciesCost.breakdown.disadvantagesRefund > 0 && (
                           <span className="px-2 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
                             Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} CP</strong>
+                          </span>
+                        )}
+                        {speciesCost.breakdown.stigmaRefund > 0 && (
+                          <span className="px-2 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
+                            Stigma: <strong>-{speciesCost.breakdown.stigmaRefund} CP</strong>
                           </span>
                         )}
                       </div>
@@ -2201,7 +2211,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                   <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
                     <div>
                       <span className="text-slate-500 block text-[10px]">Lineage</span>
-                      <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
+                      <strong className="text-cyan-300">{resolveSpeciesLineageName(selectedSpecies, dbData?.species_lineage || SPECIES_LINEAGES) || selectedSpecies.parent_species || 'Species'}</strong>
                     </div>
                     {selectedSpecies.type && (() => {
                       const info = formatSpeciesType(selectedSpecies.type);
@@ -4382,7 +4392,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
             </div>
             {selectedSpecies && (
               <div className="flex flex-wrap gap-2 text-[10px] font-mono text-slate-400 mt-1">
-                <span>Lineage: <strong className="text-cyan-200">{selectedSpecies.parent_species || 'Species'}</strong></span>
+                <span>Lineage: <strong className="text-cyan-200">{resolveSpeciesLineageName(selectedSpecies, dbData?.species_lineage || SPECIES_LINEAGES) || selectedSpecies.parent_species || 'Species'}</strong></span>
                 {selectedSpecies.size && (
                   <span>
                     • Size:{' '}
@@ -4774,7 +4784,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
                 </h2>
                 {inspectItem.item.parent_species && (
                   <p className="text-xs text-cyan-400/90 font-mono">
-                    Lineage: {inspectItem.item.parent_species}
+                    Lineage: {resolveSpeciesLineageName(inspectItem.item, dbData?.species_lineage || SPECIES_LINEAGES) || inspectItem.item.parent_species}
                   </p>
                 )}
                 {inspectItem.item.sphere && (

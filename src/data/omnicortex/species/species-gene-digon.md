@@ -3,7 +3,7 @@ id: species-gene-digon
 name: Digon (Gen-E)
 title: Digon (Imperial Heavy Shock Trooper)
 category: species
-parent_species: Engineered Humans (Gen-E)
+parent_species: "Humans (Gen-E)"
 type:
   - species_type-humanoid
 size:
