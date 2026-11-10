@@ -881,6 +881,24 @@ export function calculateBodyCapacityBreakdown(characterData) {
 // ═══════════════════════════════════════════════════════════
 
 /**
+ * Resolves any canonical or descriptive Mecha frame string to a canonical MECHA_FRAMES key.
+ */
+export function resolveMechaFrameKey(frame = 'Humanoid', classification = '', name = '') {
+  const raw = String(frame || '').trim();
+  if (MECHA_FRAMES[raw]) return raw;
+  const combined = `${raw} ${classification || ''} ${name || ''}`.toLowerCase();
+  if (/racer|racing|interceptor|speeder|hydrofoil|hyper-velocity|sportscar/.test(combined)) return 'Racing';
+  if (/drone|biomimetic|organic|quadruped drone|arachnid drone|creature/.test(combined)) return 'Creature';
+  if (/fighter|shuttle|ornithopter|gunship|vtol|helicopter|rotorcraft|bomber|aerospace|starfighter|aircraft|airship|zeppelin|glider|winged|drop-pod|aerodyne/.test(combined)) return 'Winged';
+  if (/industrial|loader|excavator|bulldozer|freighter|barge|utility|mining|harvester|tug|garbage|hauler|crane|tractor|driller|salvage|cargo|crawler|step-van|rover/.test(combined)) return 'Industrial';
+  if (/quadruped|hexapod|multi-legged|spider|siege walker|terrain walker|infantry walker|light mecha|recon walker|stalker|arachnid|walker|dreadnought/.test(combined)) return 'Walker';
+  if (/humanoid|bipedal|power armor|exoskeleton|exosuit|hard-suit|boarding|combat shell|assault mech/.test(combined)) return 'Humanoid';
+  if (/personal|hoverboard|skateboard|surfboard|segway|scooter|cycle|motorcycle|bike|sedan|coupe|commuter|roadster|limousine|buggy|atv|skimmer|hover pod|ground transport/.test(combined)) return 'Personal';
+  if (raw) return 'Platform';
+  return 'Humanoid';
+}
+
+/**
  * Calculates Base Defense DC for Mecha.
  * Formula: 10 + Pilot Agility + Size Combat Mod + Frame Handling Mod
  */
@@ -890,7 +908,8 @@ export function calculateMechaDefenseDC({
   frame = 'Humanoid'
 } = {}) {
   const sizeDef = MECHA_SIZES[size] || MECHA_SIZES.Medium;
-  const frameDef = MECHA_FRAMES[frame] || MECHA_FRAMES.Humanoid;
+  const resolvedFrameKey = resolveMechaFrameKey(frame);
+  const frameDef = MECHA_FRAMES[resolvedFrameKey] || MECHA_FRAMES.Humanoid;
 
   return 10 + Number(pilotAgility || 0) + (sizeDef.defMod ?? 0) + (frameDef.handlingMod ?? 0);
 }
@@ -907,6 +926,8 @@ export function calculateMechaDC({
   baseDC,
   size = 'Medium',
   frame = 'Humanoid',
+  classification = '',
+  name = '',
   propulsion = 'wheels',
   armor = [],
   modules = [],
@@ -917,7 +938,8 @@ export function calculateMechaDC({
   skin
 } = {}) {
   const sizeDef = MECHA_SIZES[size] || MECHA_SIZES.Medium;
-  const frameDef = MECHA_FRAMES[frame] || MECHA_FRAMES.Humanoid;
+  const resolvedFrameKey = resolveMechaFrameKey(frame, classification, name);
+  const frameDef = MECHA_FRAMES[resolvedFrameKey] || MECHA_FRAMES.Humanoid;
   const resolvedBase = baseCR !== undefined && baseCR !== null ? baseCR : baseDC;
 
   let dc = Number(resolvedBase !== undefined && resolvedBase !== null && !isNaN(resolvedBase) ? resolvedBase : (sizeDef.baseCR ?? sizeDef.baseDC));
@@ -1155,27 +1177,45 @@ export function calculateCrewRequired(size = 'Medium', hasAiTargeting = false) {
 export function computeMechaStats(formData = {}) {
   const size = formData.size || 'Medium';
   const frame = formData.frame || formData.frame_type || 'Humanoid';
+  const resolvedFrameKey = resolveMechaFrameKey(frame, formData.classification, formData.name);
   const sizeDef = MECHA_SIZES[size] || MECHA_SIZES.Medium;
-  const frameDef = MECHA_FRAMES[frame] || MECHA_FRAMES.Humanoid;
+  const frameDef = MECHA_FRAMES[resolvedFrameKey] || MECHA_FRAMES.Humanoid;
   const vftMode = formData.vft_mode || (formData.vft_capable ? 'TL3_HardShift' : 'None');
-  const armorList = formData.armor_plating || formData.armor || [];
-  const moduleList = formData.installed_modules || formData.modules || [];
-  const compList = formData.components || [];
-  const weaponList = formData.linked_weapons || formData.weapons || [];
+  const armorList = Array.isArray(formData.armor_plating)
+    ? formData.armor_plating
+    : (Array.isArray(formData.armor) ? formData.armor : []);
+  const moduleList = Array.isArray(formData.installed_modules)
+    ? formData.installed_modules
+    : (Array.isArray(formData.modules) ? formData.modules : []);
+  const compList = Array.isArray(formData.components) ? formData.components : [];
+  const weaponList = Array.isArray(formData.linked_weapons)
+    ? formData.linked_weapons
+    : (Array.isArray(formData.weapons) ? formData.weapons : []);
+  const resolvedTL = formData.tl ?? formData.tech_level ?? 3;
 
-  const finalDC = calculateMechaDC({
-    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
+  const formulaDC = calculateMechaDC({
+    baseDC: formData.base_cr ?? formData.base_dc,
     size,
     frame,
+    classification: formData.classification,
+    name: formData.name,
     propulsion: formData.propulsion,
     armor: armorList,
     modules: moduleList,
     components: compList,
     weapons: weaponList,
     vftMode,
-    tl: formData.tl ?? 3,
+    tl: resolvedTL,
     skin: formData.skin || formData.faction_skin
   });
+
+  const hasExplicitCraftDC =
+    formData.base_dc === undefined &&
+    formData.base_cr === undefined &&
+    (formData.craft_dc !== undefined || formData.craft_cr !== undefined);
+  const finalDC = hasExplicitCraftDC
+    ? Number(formData.craft_dc ?? formData.craft_cr)
+    : formulaDC;
 
   const mountBudget = calculateMechaMounts({
     size,
@@ -1253,6 +1293,8 @@ export function computeMechaStats(formData = {}) {
     final_dc: finalDC,
     craft_cr: finalDC,
     craft_dc: finalDC,
+    formula_dc: formulaDC,
+    resolved_frame_key: resolvedFrameKey,
     chassis_credits: chassisCreditValue,
     component_credits: componentCreditValue,
     credit_value: creditValue,
@@ -1746,7 +1788,8 @@ export function validateArchitectureBlueprint(formData) {
   const totalModules = moduleCalc.totalModules;
 
   // Compute used modules
-  const specializedModules = formData.specialized_modules || formData.modules || [];
+  const rawSpecModules = formData.specialized_modules ?? (Array.isArray(formData.modules) ? formData.modules : []);
+  const specializedModules = Array.isArray(rawSpecModules) ? rawSpecModules : [];
   let usedModules = 0;
   for (const mod of specializedModules) {
     const modId = typeof mod === 'string' ? mod : mod.id;
@@ -1949,11 +1992,18 @@ export function computeArchitectureStats(formData = {}) {
     vftMode,
     skin,
     isRare: !!formData.is_rare,
-    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc
+    baseDC: formData.base_cr ?? formData.base_dc
   });
 
-  const finalDC = dcResult.finalDC;
-  const shellDC = dcResult.shellDC ?? finalDC;
+  const formulaDC = dcResult.finalDC;
+  const hasExplicitArchDC =
+    formData.base_dc === undefined &&
+    formData.base_cr === undefined &&
+    (formData.craft_dc !== undefined || formData.design_dc !== undefined || formData.craft_cr !== undefined);
+  const finalDC = hasExplicitArchDC
+    ? Number(formData.craft_dc ?? formData.design_dc ?? formData.craft_cr)
+    : formulaDC;
+  const shellDC = hasExplicitArchDC ? finalDC : (dcResult.shellDC ?? finalDC);
 
   // If the user checked VacuumToxic and TL < 3, or Aquatic, cost multipliers apply
   let costMult = envDef.costMult || 1.0;

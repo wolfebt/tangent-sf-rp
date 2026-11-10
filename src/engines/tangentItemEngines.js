@@ -189,8 +189,8 @@ export const calculateEquipmentCR = calculateEquipmentDC;
  * Computes the full persistent metadata for Equipment on save.
  */
 export function computeEquipmentStats(formData) {
-  const finalDC = calculateEquipmentDC({
-    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc,
+  const formulaDC = calculateEquipmentDC({
+    baseDC: formData.base_cr ?? formData.base_dc ?? formData.craft_cr ?? formData.craft_dc,
     size: formData.size || 'Small',
     workspaceScale: formData.workspace_scale,
     computerPR: formData.computer_pr,
@@ -200,6 +200,7 @@ export function computeEquipmentStats(formData) {
     metaSockets: formData.meta_sockets || 0,
     isRare: !!formData.is_rare
   });
+  const finalDC = formulaDC;
 
   const creditValue = calculateCreditValue(finalDC, { hasFlaw: Array.isArray(formData.downgrades) && formData.downgrades.length > 0 });
   const materialCost = calculateMaterialCost(creditValue);
@@ -211,6 +212,7 @@ export function computeEquipmentStats(formData) {
     final_dc: finalDC,
     craft_cr: finalDC,
     craft_dc: finalDC,
+    formula_dc: formulaDC,
     credit_value: creditValue,
     material_cost: materialCost,
     scrap_mass_required: scrapMassRequired,
@@ -253,7 +255,9 @@ export function calculateWeaponDC({
   tl = 3,
   isRare = false
 } = {}) {
-  let dc = Number(baseDC ?? 15) || 15;
+  let dc = (baseDC !== undefined && baseDC !== null && baseDC !== '' && !Number.isNaN(Number(baseDC)))
+    ? Number(baseDC)
+    : 15;
 
   // Add Modification DCs
   if (Array.isArray(modifications)) {
@@ -392,6 +396,7 @@ export function computeWeaponStats(formData) {
     final_dc: finalDC,
     craft_cr: finalDC,
     craft_dc: finalDC,
+    formula_dc: finalDC,
     credit_value: creditValue,
     material_cost: materialCost,
     scrap_mass_required: scrapMassRequired,
@@ -663,8 +668,8 @@ export function computeArmorStats(formData = {}) {
   const resolvedSkin = formData.faction_skin || formData.skin;
   const resolvedTL = Number(formData.tl ?? formData.tech_level ?? 3);
 
-  const finalDC = calculateArmorDC({
-    baseDC: formData.base_cr ?? formData.craft_cr ?? formData.base_dc ?? formData.craft_dc ?? formData.baseDC,
+  const formulaDC = calculateArmorDC({
+    baseDC: formData.base_cr ?? formData.base_dc ?? formData.baseDC,
     size: resolvedSize,
     coverage: resolvedCoverage,
     modules: formData.modules || [],
@@ -672,6 +677,11 @@ export function computeArmorStats(formData = {}) {
     skin: resolvedSkin,
     isRare: !!(formData.is_rare ?? formData.isRare)
   });
+
+  const hasExplicitBase = formData.base_cr !== undefined || formData.base_dc !== undefined || formData.baseDC !== undefined;
+  const finalDC = (!hasExplicitBase && (formData.craft_dc !== undefined || formData.craft_cr !== undefined))
+    ? Number(formData.craft_dc ?? formData.craft_cr)
+    : formulaDC;
 
   const finalSP = calculateArmorSP({
     baseSP: formData.durability ?? formData.sp_rating ?? formData.baseSP,
@@ -708,6 +718,7 @@ export function computeArmorStats(formData = {}) {
     final_dc: finalDC,
     craft_cr: finalDC,
     craft_dc: finalDC,
+    formula_dc: formulaDC,
     final_sp: finalSP,
     sp: finalSP,
     total_dr: drStats.totalDR,

@@ -1824,22 +1824,26 @@ export const AssetStudio = ({
 
           {/* Bottom Rail System Metadata / Package Cost Status */}
           <div className="hidden md:flex w-full flex-col gap-1.5 pt-2 border-t border-slate-800/80 mt-auto shrink-0">
-            {isSpeciesStudio && speciesSummary && (
+            {((isSpeciesStudio && speciesSummary) || (isProperty && liveBuildCheck)) && (
               <OmnicortexTooltip
                 delay={180}
                 position="right"
-                color={liveBuildCheck?.hasUnaccountedItems ? '#f59e0b' : '#10b981'}
+                color={(liveBuildCheck?.hasUnaccountedItems || liveBuildCheck?.status === 'warning' || liveBuildCheck?.status === 'error') ? '#f59e0b' : '#10b981'}
                 content={<SpeciesBuildCostTooltipCard buildCheck={liveBuildCheck} />}
                 className="w-full"
               >
                 <div className={`w-full px-2 py-1.5 rounded-lg border flex items-center justify-between text-[9.5px] font-mono cursor-help ${
-                  liveBuildCheck?.hasUnaccountedItems
+                  (liveBuildCheck?.hasUnaccountedItems || liveBuildCheck?.status === 'warning' || liveBuildCheck?.status === 'error')
                     ? 'bg-amber-950/70 border-amber-500/50'
-                    : 'bg-purple-950/60 border-purple-500/40'
+                    : isSpeciesStudio
+                      ? 'bg-purple-950/60 border-purple-500/40'
+                      : 'bg-emerald-950/60 border-emerald-500/40'
                 }`}>
-                  <span className="text-slate-300 uppercase font-bold">Package Cost</span>
-                  <span className={liveBuildCheck?.hasUnaccountedItems ? 'text-amber-300 font-bold' : 'text-emerald-400 font-bold'}>
-                    {speciesSummary.bpData?.totalBPUsed ?? 0} CP
+                  <span className="text-slate-300 uppercase font-bold">
+                    {isSpeciesStudio ? 'Package Cost' : 'Build Cost'}
+                  </span>
+                  <span className={(liveBuildCheck?.hasUnaccountedItems || liveBuildCheck?.status === 'warning' || liveBuildCheck?.status === 'error') ? 'text-amber-300 font-bold' : 'text-emerald-400 font-bold'}>
+                    {isSpeciesStudio ? `${speciesSummary.bpData?.totalBPUsed ?? 0} CP` : (liveBuildCheck?.primaryCostLabel || '0 Cr')}
                   </span>
                 </div>
               </OmnicortexTooltip>

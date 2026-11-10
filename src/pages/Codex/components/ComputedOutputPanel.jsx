@@ -286,6 +286,11 @@ export const ComputedOutputPanel = ({
               if (buildCheck.syncPatch.secondaryField) {
                 onFieldChange(buildCheck.syncPatch.secondaryField, buildCheck.syncPatch.secondaryValue);
               }
+              if (buildCheck.syncPatch.extraPatch && typeof buildCheck.syncPatch.extraPatch === 'object') {
+                Object.entries(buildCheck.syncPatch.extraPatch).forEach(([k, v]) => {
+                  onFieldChange(k, v);
+                });
+              }
             }}
             className="w-full py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/60 text-amber-200 text-[10.5px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
           >

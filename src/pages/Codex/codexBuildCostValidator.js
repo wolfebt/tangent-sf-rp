@@ -27,8 +27,45 @@ import {
   SPECIES_DISADVANTAGES,
   SPECIES_TRAITS_BASIC,
   SPECIES_TRAITS_ADVANCED,
-  SPECIES_TRAITS_ELITE
+  SPECIES_TRAITS_ELITE,
+  EQUIPMENT_SIZES,
+  WORKSPACE_SCALES,
+  EPR_RATINGS,
+  WEAPON_SIZES,
+  WEAPON_MODIFICATIONS,
+  WEAPON_CAPACITY_UPGRADES,
+  WEAPON_DOWNGRADES,
+  ARMOR_COVERAGE,
+  ARMOR_MATERIALS,
+  ARMOR_MODULES,
+  ARMOR_DOWNGRADES,
+  MANUFACTURER_SKINS,
+  MECHA_SIZES,
+  MECHA_FRAMES,
+  MECHA_PROPULSION,
+  MECHA_ARMOR_TYPES,
+  MECHA_MODULES,
+  MECHA_COMPONENTS,
+  MECHA_WEAPONS,
+  VFT_MODES,
+  ARCHITECTURE_FOOTPRINTS,
+  HEIGHT_CLASSES,
+  ARCHITECTURE_FRAME_TYPES,
+  ARCHITECTURE_MATERIALS,
+  ENVIRONMENTAL_MODIFIERS,
+  ARCHITECTURE_FACILITIES
 } from '../../engines/tangentConstants.js';
+import {
+  calculateEquipmentDC,
+  calculateWeaponDC,
+  calculateArmorDC
+} from '../../engines/tangentItemEngines.js';
+import {
+  resolveMechaFrameKey,
+  calculateMechaDC,
+  calculateArchitectureDC,
+  deriveHeightClassFromStories
+} from '../../engines/tangentComplexEngines.js';
 import { DEFAULT_SPECIES } from '../../data/speciesData.js';
 import { DEFAULT_SPECIES_TYPES } from '../../data/speciesTypesData.js';
 import { DEFAULT_SPECIES_TRAITS } from '../../data/speciesTraitsData.js';
@@ -928,6 +965,686 @@ export function extractSpeciesBuildCostItems(data = {}, precomputedBpData = null
 }
 
 /**
+ * Extracts itemized build DC / cost breakdown and any credit or formula DC discrepancies
+ * for Property assets (Equipment/Gear, Mecha/Vehicles, Weaponry, Armoring, Augmentations, Architecture, Other).
+ */
+export function extractPropertyBuildCostItems({
+  data = {},
+  key = 'equipment',
+  craftDC = 15,
+  expectedCredits = 640,
+  materialCost = 320,
+  enteredCredits = 640,
+  hasExplicitCost = false,
+  valuation = {},
+  capacityItem = null,
+  isOverCapacity = false,
+  complexityTier = 'Expert'
+} = {}) {
+  const accountedItems = [];
+  const unaccountedItems = [];
+  const baselineItems = [];
+  let formulaDC = null;
+  let formulaSummaryNote = '';
+
+  const tlNum = Number(data.tl ?? data.tech_level ?? 3);
+  const mlNum = Number(data.ml ?? data.meta_level ?? 0);
+
+  if (key === 'mecha' || key === 'vehicles') {
+    const sizeKey = data.size || 'Medium';
+    const sizeDef = MECHA_SIZES[sizeKey] || MECHA_SIZES.Medium;
+    const hasExplicitBase = data.base_dc !== undefined && data.base_dc !== null && data.base_dc !== '';
+    const baseDC = hasExplicitBase ? Number(data.base_dc) : Number(sizeDef.baseCR ?? sizeDef.baseDC ?? 22);
+
+    accountedItems.push({
+      category: 'Chassis',
+      label: `Chassis Size: ${sizeKey}`,
+      value: `+${sizeDef.baseDC} DC`,
+      cost: sizeDef.baseDC,
+      status: 'valid',
+      note: `${sizeDef.structure} Base SP • ${sizeDef.scale} Scale • ${sizeDef.mounts} Mounts`
+    });
+
+    if (hasExplicitBase && baseDC !== sizeDef.baseDC) {
+      const baseDiff = baseDC - sizeDef.baseDC;
+      accountedItems.push({
+        category: 'Chassis',
+        label: `Base DC Override (${baseDC})`,
+        value: `${baseDiff >= 0 ? '+' : ''}${baseDiff} DC`,
+        cost: baseDiff,
+        status: 'valid',
+        note: `Configured Base DC ${baseDC} vs ${sizeKey} Default DC ${sizeDef.baseDC}`
+      });
+    }
+
+    const resolvedFrameKey = resolveMechaFrameKey(
+      data.frame || data.frame_type,
+      data.classification || data.category,
+      data.name
+    );
+    const frameDef = MECHA_FRAMES[resolvedFrameKey] || MECHA_FRAMES.Humanoid;
+    const rawFrameStr = toCleanString(data.frame || data.frame_type, '');
+    const frameLabel = rawFrameStr && rawFrameStr.toLowerCase() !== resolvedFrameKey.toLowerCase()
+      ? `${resolvedFrameKey} (${rawFrameStr})`
+      : resolvedFrameKey;
+
+    if (frameDef.complexityDC !== 0) {
+      accountedItems.push({
+        category: 'Frame',
+        label: `Frame Configuration: ${frameLabel}`,
+        value: `${frameDef.complexityDC >= 0 ? '+' : ''}${frameDef.complexityDC} DC`,
+        cost: frameDef.complexityDC,
+        status: 'valid',
+        note: `Handling ${frameDef.handlingMod >= 0 ? '+' : ''}${frameDef.handlingMod} • ${frameDef.description}`
+      });
+    } else {
+      baselineItems.push(`Frame: ${frameLabel} (0 DC)`);
+    }
+
+    const tlMod = tlNum <= 2 ? -5 : tlNum === 3 ? 0 : tlNum === 4 ? 5 : 10;
+    if (tlMod !== 0) {
+      accountedItems.push({
+        category: 'Tech Level',
+        label: `Tech Level: TL ${tlNum}`,
+        value: `${tlMod >= 0 ? '+' : ''}${tlMod} DC`,
+        cost: tlMod,
+        status: 'valid',
+        note: `Canonical Mecha TL ${tlNum} Base CR modifier`
+      });
+    } else {
+      baselineItems.push('Tech Level: TL 3 (0 DC)');
+    }
+
+    const propKey = data.propulsion || data.propulsion_type;
+    if (propKey) {
+      const propDef = Array.isArray(MECHA_PROPULSION)
+        ? MECHA_PROPULSION.find(p => p.id === propKey || p.name === propKey)
+        : null;
+      if (propDef) {
+        if (propDef.dcMod !== 0) {
+          accountedItems.push({
+            category: 'Propulsion',
+            label: `Propulsion: ${propDef.name}`,
+            value: `Comp CR ${10 + propDef.dcMod}`,
+            cost: propDef.dcMod,
+            status: 'valid',
+            note: `${propDef.speed} • ${propDef.mounts} Mount(s)`
+          });
+        } else {
+          baselineItems.push(`Propulsion: ${propDef.name} (0 DC)`);
+        }
+      }
+    }
+
+    const armorList = Array.isArray(data.armor) ? data.armor : (Array.isArray(data.armor_types) ? data.armor_types : []);
+    armorList.forEach(armItem => {
+      const armId = typeof armItem === 'string' ? armItem : armItem?.id;
+      const armDef = Array.isArray(MECHA_ARMOR_TYPES)
+        ? MECHA_ARMOR_TYPES.find(a => a.id === armId || a.name === armId)
+        : null;
+      if (armDef) {
+        accountedItems.push({
+          category: 'Armor',
+          label: `Hull Armor: ${armDef.name}`,
+          value: `Comp CR ${10 + armDef.dcMod}`,
+          cost: armDef.dcMod,
+          status: 'valid',
+          note: `${armDef.effect} (TL ${armDef.tl})`
+        });
+      }
+    });
+
+    const moduleList = Array.isArray(data.modules) ? data.modules : (Array.isArray(data.installed_modules) ? data.installed_modules : []);
+    moduleList.forEach(modItem => {
+      const modId = typeof modItem === 'string' ? modItem : modItem?.id;
+      const modDef = Array.isArray(MECHA_MODULES)
+        ? MECHA_MODULES.find(m => m.id === modId || m.name === modId)
+        : null;
+      if (modDef) {
+        if (modDef.dcMod !== 0) {
+          accountedItems.push({
+            category: 'Module',
+            label: `Mecha Module: ${modDef.name}`,
+            value: `Comp CR ${10 + modDef.dcMod}`,
+            cost: modDef.dcMod,
+            status: 'valid',
+            note: `${modDef.function} (${modDef.mounts} Mounts)`
+          });
+        } else {
+          baselineItems.push(`Module: ${modDef.name} (0 DC)`);
+        }
+      }
+    });
+
+    const compList = Array.isArray(data.components) ? data.components : [];
+    compList.forEach(compItem => {
+      const compId = typeof compItem === 'string' ? compItem : compItem?.id;
+      const compDef = Array.isArray(MECHA_COMPONENTS)
+        ? MECHA_COMPONENTS.find(c => c.id === compId || c.name === compId)
+        : null;
+      if (compDef) {
+        if (compDef.dcMod !== 0) {
+          accountedItems.push({
+            category: 'Component',
+            label: `Core Component: ${compDef.name}`,
+            value: `Comp CR ${10 + compDef.dcMod}`,
+            cost: compDef.dcMod,
+            status: 'valid',
+            note: compDef.notes
+          });
+        } else {
+          baselineItems.push(`Component: ${compDef.name} (0 DC)`);
+        }
+      }
+    });
+
+    const vftKey = data.vft_mode || data.vftMode;
+    if (vftKey && vftKey !== 'None' && VFT_MODES[vftKey] && VFT_MODES[vftKey].dcMod !== 0) {
+      const vDef = VFT_MODES[vftKey];
+      accountedItems.push({
+        category: 'VFT',
+        label: `Variable Form Tech: ${vDef.name}`,
+        value: `+${vDef.dcMod} DC`,
+        cost: vDef.dcMod,
+        status: 'valid',
+        note: vDef.notes || vDef.actionCost
+      });
+    }
+
+    const skinKey = data.faction_skin || data.skin;
+    if (skinKey && MANUFACTURER_SKINS[skinKey]) {
+      const sDef = MANUFACTURER_SKINS[skinKey];
+      if (sDef.dcMod !== 0) {
+        accountedItems.push({
+          category: 'Skin',
+          label: `Manufacturer Skin: ${sDef.name}`,
+          value: `${sDef.dcMod >= 0 ? '+' : ''}${sDef.dcMod} DC`,
+          cost: sDef.dcMod,
+          status: 'valid',
+          note: sDef.trait
+        });
+      } else {
+        baselineItems.push(`Skin: ${sDef.name} (0 DC)`);
+      }
+    }
+
+    formulaDC = calculateMechaDC({
+      baseDC: hasExplicitBase ? baseDC : undefined,
+      size: sizeKey,
+      frame: data.frame || data.frame_type || 'Humanoid',
+      classification: data.classification || data.category || '',
+      name: data.name || '',
+      propulsion: propKey || 'wheels',
+      armor: armorList,
+      modules: moduleList,
+      components: compList,
+      weapons: Array.isArray(data.weapons) ? data.weapons : [],
+      vftMode: vftKey || 'None',
+      tl: tlNum,
+      skin: skinKey
+    });
+
+    const fParts = [
+      `${sizeKey} (${sizeDef.baseDC} DC)`,
+      `${resolvedFrameKey} (${frameDef.complexityDC >= 0 ? '+' : ''}${frameDef.complexityDC} DC)`,
+      `TL ${tlNum} (${tlMod >= 0 ? '+' : ''}${tlMod} DC)`
+    ];
+    formulaSummaryNote = `Mecha Forge Formula: ${fParts.join(' + ')} = DC ${formulaDC} (${calculateCreditValue(formulaDC).toLocaleString()} Cr) vs Stored DC ${craftDC} (${expectedCredits.toLocaleString()} Cr)`;
+  } else if (key === 'gear' || key === 'equipment') {
+    const sizeKey = data.size || 'Small';
+    const sizeDef = EQUIPMENT_SIZES[sizeKey] || EQUIPMENT_SIZES.Small;
+    const rawBase = data.base_cr ?? data.base_dc;
+    const hasExplicitBase = rawBase !== undefined && rawBase !== null && rawBase !== '';
+    const baseDC = hasExplicitBase ? Number(rawBase) : sizeDef.defaultDC;
+
+    accountedItems.push({
+      category: 'Chassis',
+      label: `Equipment Size: ${sizeKey}`,
+      value: `+${sizeDef.defaultDC} DC`,
+      cost: sizeDef.defaultDC,
+      status: 'valid',
+      note: `${sizeDef.capacityDisplay} • Mass ${sizeDef.mass} • ${sizeDef.sp} SP`
+    });
+
+    if (hasExplicitBase && baseDC !== sizeDef.defaultDC) {
+      const baseDiff = baseDC - sizeDef.defaultDC;
+      accountedItems.push({
+        category: 'Chassis',
+        label: `Base Complexity Adjustment (Base DC ${baseDC})`,
+        value: `${baseDiff >= 0 ? '+' : ''}${baseDiff} DC`,
+        cost: baseDiff,
+        status: 'valid',
+        note: `Configured Base DC ${baseDC} vs ${sizeKey} Default DC ${sizeDef.defaultDC}`
+      });
+    }
+
+    const wsScale = data.workspace_scale;
+    if (wsScale && wsScale !== 'None' && WORKSPACE_SCALES[wsScale]) {
+      const wsDef = WORKSPACE_SCALES[wsScale];
+      if (wsDef.dcMod !== 0) {
+        accountedItems.push({
+          category: 'Workspace',
+          label: `Workspace Scale: ${wsDef.name}`,
+          value: `+${wsDef.dcMod} DC`,
+          cost: wsDef.dcMod,
+          status: 'valid',
+          note: wsDef.description
+        });
+      } else {
+        baselineItems.push(`Workspace: ${wsDef.name} (0 DC)`);
+      }
+    }
+
+    const compPR = data.computer_pr;
+    if (compPR !== undefined && compPR !== null && compPR !== '' && Number(compPR) > 0) {
+      const prNum = Number(compPR);
+      accountedItems.push({
+        category: 'Computing',
+        label: `Computer Processing Rating (PR ${prNum})`,
+        value: `+${prNum * 5} DC`,
+        cost: prNum * 5,
+        status: 'valid',
+        note: `+5 DC per PR tier (PR ${prNum})`
+      });
+    }
+
+    const softLvl = Number(data.software_level || 0);
+    if (softLvl > 0) {
+      accountedItems.push({
+        category: 'Computing',
+        label: `Software Intrusion/Defense (Rank ${softLvl})`,
+        value: `+${softLvl * 5} DC`,
+        cost: softLvl * 5,
+        status: 'valid',
+        note: `+5 DC per Software Rank`
+      });
+    }
+
+    const epr = Number(data.epr_rating || 0);
+    if (epr > 0 && EPR_RATINGS[epr]) {
+      accountedItems.push({
+        category: 'Protection',
+        label: `Environmental Protection: ${EPR_RATINGS[epr].name}`,
+        value: `+${EPR_RATINGS[epr].dcMod} DC`,
+        cost: EPR_RATINGS[epr].dcMod,
+        status: 'valid',
+        note: EPR_RATINGS[epr].description
+      });
+    }
+
+    const metaSocks = Number(data.meta_sockets || 0);
+    if (metaSocks > 0) {
+      accountedItems.push({
+        category: 'Meta-Tech',
+        label: `Meta-Tech Sockets (${metaSocks})`,
+        value: `+${metaSocks * 5} DC`,
+        cost: metaSocks * 5,
+        status: 'valid',
+        note: `+5 DC per Meta Socket`
+      });
+    }
+
+    const skinKey = data.skin || data.faction_skin;
+    if (skinKey && MANUFACTURER_SKINS[skinKey]) {
+      const sDef = MANUFACTURER_SKINS[skinKey];
+      if (sDef.dcMod !== 0) {
+        accountedItems.push({
+          category: 'Skin',
+          label: `Manufacturer Skin: ${sDef.name}`,
+          value: `${sDef.dcMod >= 0 ? '+' : ''}${sDef.dcMod} DC`,
+          cost: sDef.dcMod,
+          status: 'valid',
+          note: sDef.trait
+        });
+      } else {
+        baselineItems.push(`Skin: ${sDef.name} (0 DC)`);
+      }
+    }
+
+    if (data.is_rare) {
+      accountedItems.push({
+        category: 'Rarity',
+        label: 'Regional Rarity',
+        value: '+5 DC',
+        cost: 5,
+        status: 'valid',
+        note: 'Restricted / Rare availability modifier'
+      });
+    }
+
+    baselineItems.push(`Tech Level: TL ${tlNum} (0 DC)`);
+    if (data.category) baselineItems.push(`Category: ${data.category}`);
+
+    formulaDC = calculateEquipmentDC({
+      baseDC,
+      size: sizeKey,
+      workspaceScale: wsScale,
+      computerPR: compPR,
+      softwareLevel: softLvl,
+      eprRating: epr,
+      skin: skinKey,
+      metaSockets: metaSocks,
+      isRare: !!data.is_rare
+    });
+
+    const eqParts = [`Base DC (${baseDC})`];
+    if (wsScale && WORKSPACE_SCALES[wsScale]?.dcMod) eqParts.push(`Workspace ${wsScale} (+${WORKSPACE_SCALES[wsScale].dcMod} DC)`);
+    if (compPR !== undefined && compPR !== null && Number(compPR) > 0) eqParts.push(`Computer PR ${compPR} (+${Number(compPR) * 5} DC)`);
+    if (softLvl > 0) eqParts.push(`Software Lvl ${softLvl} (+${softLvl * 5} DC)`);
+    if (epr > 0 && EPR_RATINGS[epr]?.dcMod) eqParts.push(`EPR ${epr} (+${EPR_RATINGS[epr].dcMod} DC)`);
+    if (metaSocks > 0) eqParts.push(`Meta Sockets (+${metaSocks * 5} DC)`);
+    if (skinKey && MANUFACTURER_SKINS[skinKey]?.dcMod) eqParts.push(`${skinKey} (${MANUFACTURER_SKINS[skinKey].dcMod} DC)`);
+    if (data.is_rare) eqParts.push(`Rare (+5 DC)`);
+    formulaSummaryNote = `Equipment Forge Formula: ${eqParts.join(' + ')} = DC ${formulaDC} (${calculateCreditValue(formulaDC).toLocaleString()} Cr) vs Stored DC ${craftDC} (${expectedCredits.toLocaleString()} Cr)`;
+  } else if (key === 'weaponry' || key === 'weapons') {
+    const sizeKey = data.size || 'Medium';
+    const rawBase = data.base_cr ?? data.base_dc;
+    const hasExplicitBase = rawBase !== undefined && rawBase !== null && rawBase !== '';
+    const baseDC = hasExplicitBase ? Number(rawBase) : craftDC;
+
+    accountedItems.push({
+      category: 'Chassis',
+      label: `Weapon Chassis (${data.classification || data.weapon_type || sizeKey})`,
+      value: `+${baseDC} DC`,
+      cost: baseDC,
+      status: 'valid',
+      note: `Damage: ${data.damage || '1d6'} (${data.damage_type || 'Kinetic'}) • Size: ${sizeKey} • TL ${tlNum}`
+    });
+
+    if (Array.isArray(data.modifications)) {
+      data.modifications.forEach(mod => {
+        if (typeof mod === 'object' && mod !== null) {
+          const dcMod = Number(mod.dcMod ?? mod.dc_modifier ?? 0);
+          accountedItems.push({
+            category: 'Modification',
+            label: `Weapon Mod: ${mod.name || mod.id || 'Mod'}`,
+            value: `${dcMod >= 0 ? '+' : ''}${dcMod} DC`,
+            cost: dcMod,
+            status: 'valid',
+            note: mod.effect || `${mod.sockets ?? 1} Socket(s)`
+          });
+        } else if (typeof mod === 'string') {
+          const found = WEAPON_MODIFICATIONS.find(m => m.id === mod || m.name === mod);
+          if (found) {
+            accountedItems.push({
+              category: 'Modification',
+              label: `Weapon Mod: ${found.name}`,
+              value: `+${found.dcMod} DC`,
+              cost: found.dcMod,
+              status: 'valid',
+              note: `${found.effect} (${found.sockets} Socket${found.sockets === 1 ? '' : 's'})`
+            });
+          }
+        }
+      });
+    }
+
+    if (Array.isArray(data.downgrades)) {
+      data.downgrades.forEach(dw => {
+        const dwId = typeof dw === 'string' ? dw : dw?.id;
+        const found = WEAPON_DOWNGRADES.find(d => d.id === dwId || d.name === dwId);
+        if (found) {
+          accountedItems.push({
+            category: 'Downgrade',
+            label: `Weapon Flaw: ${found.name}`,
+            value: `${found.dcMod} DC`,
+            cost: found.dcMod,
+            status: 'valid',
+            note: found.effect
+          });
+        }
+      });
+    }
+
+    const capKey = data.capacity_upgrade || 'typical';
+    if (capKey && capKey !== 'typical') {
+      const capDef = WEAPON_CAPACITY_UPGRADES.find(c => c.id === capKey || c.name === capKey);
+      if (capDef && capDef.dcMod !== 0) {
+        accountedItems.push({
+          category: 'Capacity',
+          label: `Ammo Capacity: ${capDef.name}`,
+          value: `+${capDef.dcMod} DC`,
+          cost: capDef.dcMod,
+          status: 'valid',
+          note: `x${capDef.multiplier} Ammunition Capacity`
+        });
+      }
+    } else {
+      baselineItems.push('Capacity: Standard (0 DC)');
+    }
+
+    const metaRanks = Number(data.meta_ranks || 0);
+    if (metaRanks > 0) {
+      accountedItems.push({
+        category: 'Meta-Tech',
+        label: `Invocation / Meta Ranks (${metaRanks})`,
+        value: `+${metaRanks * 5} DC`,
+        cost: metaRanks * 5,
+        status: 'valid',
+        note: '+5 DC per Meta Rank'
+      });
+    }
+
+    const skinKey = data.faction_skin || data.skin;
+    if (skinKey && MANUFACTURER_SKINS[skinKey]) {
+      const sDef = MANUFACTURER_SKINS[skinKey];
+      if (sDef.dcMod !== 0) {
+        accountedItems.push({
+          category: 'Skin',
+          label: `Manufacturer Skin: ${sDef.name}`,
+          value: `${sDef.dcMod >= 0 ? '+' : ''}${sDef.dcMod} DC`,
+          cost: sDef.dcMod,
+          status: 'valid',
+          note: sDef.trait
+        });
+      } else {
+        baselineItems.push(`Skin: ${sDef.name} (0 DC)`);
+      }
+    }
+
+    formulaDC = calculateWeaponDC({
+      baseDC,
+      modifications: data.modifications || [],
+      downgrades: data.downgrades || [],
+      capacityUpgrade: capKey,
+      skin: skinKey,
+      metaRanks,
+      tl: tlNum,
+      isRare: !!data.is_rare
+    });
+  } else if (key === 'armoring' || key === 'armor') {
+    const sizeKey = data.size || data.armor_class || data.category || 'Mediumweight';
+    const covKey = data.coverage || 'Standard';
+    const covDef = ARMOR_COVERAGE[covKey] || ARMOR_COVERAGE.Standard;
+    const matDef = ARMOR_MATERIALS[tlNum] || ARMOR_MATERIALS[3];
+    const rawBase = data.base_cr ?? data.base_dc ?? data.baseDC;
+    const hasExplicitBase = rawBase !== undefined && rawBase !== null && rawBase !== '';
+
+    accountedItems.push({
+      category: 'Chassis',
+      label: `Armor Chassis (${sizeKey})`,
+      value: `DC ${hasExplicitBase ? Number(rawBase) : craftDC}`,
+      cost: hasExplicitBase ? Number(rawBase) : craftDC,
+      status: 'valid',
+      note: `DR ${data.dr ?? 10} • SP ${data.sp ?? data.durability ?? 20} • Coverage: ${covDef.name}`
+    });
+
+    if (hasExplicitBase && covDef.dcMod !== 0) {
+      accountedItems.push({
+        category: 'Coverage',
+        label: `Coverage Mode: ${covDef.name}`,
+        value: `${covDef.dcMod >= 0 ? '+' : ''}${covDef.dcMod} DC`,
+        cost: covDef.dcMod,
+        status: 'valid',
+        note: covDef.description
+      });
+    } else {
+      baselineItems.push(`Coverage: ${covDef.name}`);
+    }
+
+    baselineItems.push(`Material: TL ${tlNum} ${matDef.name}`);
+
+    if (Array.isArray(data.modules)) {
+      data.modules.forEach(mod => {
+        const modId = typeof mod === 'string' ? mod : mod?.id;
+        const found = ARMOR_MODULES.find(m => m.id === modId || m.name === modId);
+        if (found) {
+          accountedItems.push({
+            category: 'Module',
+            label: `Armor Module: ${found.name}`,
+            value: `+${found.dcMod} DC`,
+            cost: found.dcMod,
+            status: 'valid',
+            note: `${found.effect} (${found.sockets} Socket${found.sockets === 1 ? '' : 's'})`
+          });
+        }
+      });
+    }
+
+    if (hasExplicitBase) {
+      formulaDC = calculateArmorDC({
+        baseDC: Number(rawBase),
+        size: sizeKey,
+        coverage: covKey,
+        modules: data.modules || [],
+        downgrades: data.downgrades || [],
+        skin: data.faction_skin || data.skin,
+        isRare: !!(data.is_rare ?? data.isRare)
+      });
+    }
+  } else if (key === 'augmentations' || key === 'augmentation') {
+    const augType = toCleanString(data.augmentation_type || data.type, 'Cybernetic');
+    const loc = toCleanString(data.body_location || data.location, 'Torso');
+    const nodes = Number(data.nodes ?? data.node_cost ?? data.costs?.nodes ?? 1);
+    accountedItems.push({
+      category: 'Implant',
+      label: `${augType} Implant (${loc})`,
+      value: `DC ${craftDC}`,
+      cost: craftDC,
+      status: 'valid',
+      note: `Anatomical Allocation: ${nodes}/200 Nodes • Tech Level: TL ${tlNum}`
+    });
+    if (data.stigma) baselineItems.push(`Stigma: ${data.stigma}`);
+  } else if (key === 'architecture') {
+    const footprintKey = data.footprint || data.scale || data.size || 'Large';
+    const fpDef = ARCHITECTURE_FOOTPRINTS[footprintKey] || ARCHITECTURE_FOOTPRINTS.Large;
+    const heightKey = deriveHeightClassFromStories(data.stories, data.height_class || 'Single');
+    const hDef = HEIGHT_CLASSES[heightKey] || HEIGHT_CLASSES.Single;
+    const frameKey = data.frame_type || data.frame || 'Standard';
+    const archFrameDef = ARCHITECTURE_FRAME_TYPES[frameKey] || ARCHITECTURE_FRAME_TYPES.Standard;
+    const envKey = data.environment || 'Standard';
+    const envDef = ENVIRONMENTAL_MODIFIERS[envKey] || ENVIRONMENTAL_MODIFIERS.Standard;
+
+    accountedItems.push({
+      category: 'Structure',
+      label: `Structural Blueprint (${footprintKey} • ${hDef.name})`,
+      value: `DC ${craftDC}`,
+      cost: craftDC,
+      status: 'valid',
+      note: `Frame: ${archFrameDef.name} • SP ${(data.sp ?? fpDef.baseSP).toLocaleString()} • DR ${data.dr ?? 15} • Env: ${envDef.name}`
+    });
+    baselineItems.push(`Tech Level: TL ${tlNum}`);
+    if (data.security_level) baselineItems.push(`Security: ${data.security_level}`);
+  } else {
+    accountedItems.push({
+      category: 'Valuation',
+      label: `Base Fabrication / Design DC (${complexityTier})`,
+      value: `DC ${craftDC}`,
+      cost: craftDC,
+      status: 'valid',
+      note: `Tech Level: TL ${tlNum}${mlNum > 0 ? ` • Meta Level: ML ${mlNum}` : ''}`
+    });
+  }
+
+  // Always include the Canonical TSC Valuation & Material rows in accountedItems
+  accountedItems.push({
+    category: 'Valuation',
+    label: `Canonical TSC Value (DC ${craftDC})`,
+    value: `${expectedCredits.toLocaleString()} Cr`,
+    cost: expectedCredits,
+    status: 'valid',
+    note: `10 × 4^(DC/5) EUFT step table • Required Wealth Score: WS ${craftDC}`
+  });
+
+  accountedItems.push({
+    category: 'Materials',
+    label: 'Raw Material Cost (50%)',
+    value: `${materialCost.toLocaleString()} Cr`,
+    cost: materialCost,
+    status: 'valid',
+    note: 'Required fabrication & salvage materials baseline (50% TSC)'
+  });
+
+  if (capacityItem && !isOverCapacity) {
+    accountedItems.push({
+      category: 'Capacity',
+      label: capacityItem.label,
+      value: capacityItem.value,
+      cost: 0,
+      status: 'valid',
+      note: capacityItem.note
+    });
+  }
+
+  // 1. Check for Stored Credit Cost vs Canonical TSC Credit Cost Discrepancy
+  if (hasExplicitCost && enteredCredits !== expectedCredits) {
+    const creditDelta = enteredCredits - expectedCredits;
+    const deltaSign = creditDelta >= 0 ? '+' : '';
+    const continuousApprox = Math.round(10 * Math.pow(4, craftDC / 5));
+    const isContinuousRounding = enteredCredits === continuousApprox;
+    const noteText = isContinuousRounding
+      ? `Stored price (${enteredCredits.toLocaleString()} Cr) uses continuous 10×4^(${craftDC}/5) rounding instead of canonical EUFT step table (${expectedCredits.toLocaleString()} Cr at DC ${craftDC})`
+      : `Stored price is ${enteredCredits.toLocaleString()} Cr (${valuation?.ratio ?? 1}x TSC); canonical EUFT value at DC ${craftDC} is ${expectedCredits.toLocaleString()} Cr (${valuation?.status || 'Mismatch'})`;
+
+    unaccountedItems.push({
+      category: 'Cost Discrepancy',
+      label: 'Credit Cost Discrepancy (Stored vs Canonical TSC)',
+      value: `${enteredCredits.toLocaleString()} Cr ≠ ${expectedCredits.toLocaleString()} Cr (${deltaSign}${creditDelta.toLocaleString()} Cr)`,
+      cost: creditDelta,
+      status: 'warning',
+      note: noteText
+    });
+  }
+
+  // 2. Check for Forge Protocol Formula DC vs Stored Craft DC Discrepancy
+  if (formulaDC !== null && Number.isFinite(formulaDC) && craftDC !== formulaDC) {
+    const dcDelta = craftDC - formulaDC;
+    const dcDeltaSign = dcDelta >= 0 ? '+' : '';
+    const formulaCredits = calculateCreditValue(formulaDC);
+    unaccountedItems.push({
+      category: 'Formula Discrepancy',
+      label: `Forge Formula DC Discrepancy (Stored DC ${craftDC} vs Formula DC ${formulaDC})`,
+      value: `${dcDeltaSign}${dcDelta} DC (${expectedCredits.toLocaleString()} Cr vs ${formulaCredits.toLocaleString()} Cr)`,
+      cost: dcDelta,
+      status: 'warning',
+      note: formulaSummaryNote || `Canonical Forge Formula computes DC ${formulaDC} (${formulaCredits.toLocaleString()} Cr), whereas item is stored at DC ${craftDC} (${expectedCredits.toLocaleString()} Cr)`
+    });
+  }
+
+  // 3. Check for Over-Capacity Discrepancy
+  if (isOverCapacity && capacityItem) {
+    unaccountedItems.push({
+      category: 'Capacity Discrepancy',
+      label: capacityItem.label,
+      value: capacityItem.value,
+      cost: 0,
+      status: 'error',
+      note: capacityItem.note
+    });
+  }
+
+  return {
+    costItems: [...accountedItems, ...unaccountedItems],
+    accountedItems,
+    unaccountedItems,
+    baselineItems,
+    hasUnaccountedItems: unaccountedItems.length > 0,
+    formulaDC,
+    formulaCredits: formulaDC !== null ? calculateCreditValue(formulaDC) : expectedCredits
+  };
+}
+
+/**
  * Evaluates an asset's build cost, budget allocation, and canonical rules compliance
  * for any Cortex catalog or Rules Codex matrix.
  *
@@ -949,10 +1666,10 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
   // ─────────────────────────────────────────────────────────────────────────
   if (isProp) {
     const rawDC =
-      computedValues?.craft_dc ??
-      computedValues?.design_dc ??
       data.craft_dc ??
       data.design_dc ??
+      computedValues?.craft_dc ??
+      computedValues?.design_dc ??
       data.dc ??
       resolveItemCostDC(data);
     const craftDC = (rawDC !== undefined && rawDC !== null && rawDC !== '' && !Number.isNaN(Number(rawDC)))
@@ -989,7 +1706,8 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
         ? sumSocketList(metaModsList)
         : Number(data.meta_tech_sockets ?? data.meta_sockets ?? 0);
       const modsUsed = modSockets + metaSockets;
-      const maxSockets = Number(data.sockets ?? computedValues?.sockets ?? 4);
+      const rawSocketsField = data.sockets && typeof data.sockets === 'object' ? data.sockets.max : data.sockets;
+      const maxSockets = Number(rawSocketsField ?? data.component_slots ?? computedValues?.sockets ?? 4);
       isOverCapacity = modsUsed > maxSockets;
       capacityItem = {
         label: 'Tactical Socket Capacity',
@@ -1066,30 +1784,53 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
       };
     }
 
-    const isCostSynced = !hasExplicitCost || Math.abs(enteredCredits - expectedCredits) <= Math.max(15, expectedCredits * 0.05);
-    const isBalanced =
-      Boolean(valuation?.isBalanced) ||
-      isCostSynced ||
-      valuation?.status === 'Accurate Standard Curve';
+    const itemized = extractPropertyBuildCostItems({
+      data,
+      key,
+      craftDC,
+      expectedCredits,
+      materialCost,
+      enteredCredits,
+      hasExplicitCost,
+      valuation,
+      capacityItem,
+      isOverCapacity,
+      complexityTier
+    });
+
+    const isCostSynced = !hasExplicitCost || enteredCredits === expectedCredits;
+    const isDCSynced = itemized.formulaDC === null || craftDC === itemized.formulaDC;
+    const isBalanced = isCostSynced && isDCSynced && !isOverCapacity;
     const status = isOverCapacity
       ? 'error'
       : (!isBalanced ? 'warning' : 'valid');
 
+    const creditDiff = enteredCredits - expectedCredits;
+    const creditDiffSign = creditDiff >= 0 ? '+' : '';
+    const dcDiff = itemized.formulaDC !== null ? craftDC - itemized.formulaDC : 0;
+    const dcDiffSign = dcDiff >= 0 ? '+' : '';
+
     const statusLabel = isOverCapacity
       ? '⚠ OVER SLOT CAPACITY'
-      : !isBalanced
-        ? `⚠ ${String(valuation?.status || 'MISMATCH').toUpperCase()} (${valuation?.ratio ?? 0}x TSC)`
-        : isCostSynced
-          ? '✓ TSC COST VERIFIED'
-          : `✓ TSC BALANCED (${valuation?.ratio ?? 1}x)`;
+      : (!isCostSynced && !isDCSynced)
+        ? `⚠ COST & DC DISCREPANCY (DC ${craftDC} vs ${itemized.formulaDC} • ${creditDiffSign}${creditDiff.toLocaleString()} Cr)`
+        : !isCostSynced
+          ? (valuation?.status && valuation.status !== 'Accurate Standard Curve'
+            ? `⚠ ${String(valuation.status).toUpperCase()} (${valuation.ratio ?? 0}x TSC)`
+            : `⚠ TSC COST DISCREPANCY (${creditDiffSign}${creditDiff.toLocaleString()} Cr vs EUFT)`)
+          : !isDCSynced
+            ? `⚠ FORMULA DC DISCREPANCY (DC ${craftDC} vs ${itemized.formulaDC} [${dcDiffSign}${dcDiff} DC])`
+            : '✓ TSC COST VERIFIED';
 
     const breakdown = [
       {
         label: 'Crafting / Design DC',
         value: `DC ${craftDC}`,
         target: complexityTier,
-        status: 'valid',
-        note: `Required Wealth Score: WS ${craftDC}`
+        status: isDCSynced ? 'valid' : 'warning',
+        note: isDCSynced
+          ? `Required Wealth Score: WS ${craftDC}`
+          : `Stored DC ${craftDC} vs Formula DC ${itemized.formulaDC} (${dcDiffSign}${dcDiff} DC)`
       },
       {
         label: 'Canonical TSC Value',
@@ -1102,8 +1843,10 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
         label: 'Configured Credit Cost',
         value: `${enteredCredits.toLocaleString()} Cr`,
         target: `${expectedCredits.toLocaleString()} Cr`,
-        status: isBalanced ? 'valid' : 'warning',
-        note: valuation?.message || (isBalanced ? 'Matches canonical TSC credit curve' : `Expected ${expectedCredits.toLocaleString()} Cr at DC ${craftDC}`)
+        status: isCostSynced ? 'valid' : 'warning',
+        note: isCostSynced
+          ? 'Matches canonical TSC credit curve'
+          : `Expected ${expectedCredits.toLocaleString()} Cr at DC ${craftDC} (${creditDiffSign}${creditDiff.toLocaleString()} Cr)`
       },
       {
         label: 'Raw Material Cost (50%)',
@@ -1118,16 +1861,24 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
       breakdown.push(capacityItem);
     }
 
+    const targetSyncDC = !isDCSynced && itemized.formulaDC !== null ? itemized.formulaDC : craftDC;
+    const targetSyncCredits = calculateCreditValue(targetSyncDC);
+
     return {
       title: 'TSC Build Cost & Valuation',
       isProperty: true,
+      hasItemizedBreakdown: true,
       unit: 'Cr',
       primaryCostLabel: `${enteredCredits.toLocaleString()} Cr`,
       primaryValue: `${enteredCredits.toLocaleString()} Cr`,
-      secondaryLabel: `DC ${craftDC} • WS ${craftDC}`,
+      secondaryLabel: !isDCSynced && itemized.formulaDC !== null
+        ? `DC ${craftDC} (Formula: DC ${itemized.formulaDC}) • WS ${craftDC}`
+        : `DC ${craftDC} • WS ${craftDC}`,
       expectedValue: expectedCredits,
       actualValue: enteredCredits,
       craftDC,
+      formulaDC: itemized.formulaDC,
+      formulaCredits: itemized.formulaCredits,
       materialCost,
       requiredWS: craftDC,
       complexityTier,
@@ -1136,12 +1887,22 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
       summary: statusLabel,
       formulaSummary: 'Credit Value = 10 × 4^(Craft DC / 5) | Material = 50% | WS = DC',
       breakdown,
+      costItems: itemized.costItems,
+      accountedItems: itemized.accountedItems,
+      unaccountedItems: itemized.unaccountedItems,
+      baselineItems: itemized.baselineItems,
+      hasUnaccountedItems: itemized.hasUnaccountedItems,
       syncPatch: !isBalanced ? {
         field: 'cost',
-        value: expectedCredits,
+        value: targetSyncCredits,
         secondaryField: 'craft_dc',
-        secondaryValue: craftDC,
-        label: `Sync to ${expectedCredits.toLocaleString()} Cr (DC ${craftDC})`
+        secondaryValue: targetSyncDC,
+        extraPatch: {
+          design_dc: targetSyncDC
+        },
+        label: !isDCSynced
+          ? `Sync to Formula DC ${targetSyncDC} (${targetSyncCredits.toLocaleString()} Cr)`
+          : `Sync to ${targetSyncCredits.toLocaleString()} Cr (DC ${targetSyncDC})`
       } : null
     };
   }

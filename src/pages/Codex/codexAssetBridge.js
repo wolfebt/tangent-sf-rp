@@ -249,7 +249,31 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     return { ...(resolvedMatrix.defaultValues || {}), id: `codex_${resolvedMatrix.id || 'item'}_${Date.now()}` };
   }
 
+  const isExistingItem = Boolean(
+    item.id || item.name || item.title || item.craft_dc !== undefined || item.design_dc !== undefined || item.cost !== undefined || item.credits !== undefined
+  );
+
   const base = { ...(resolvedMatrix.defaultValues || {}), ...item };
+
+  // Prevent matrix defaultValues from injecting phantom DC modifiers onto existing items that didn't define them
+  if (isExistingItem) {
+    if (item.base_dc === undefined && item.base_cr === undefined) {
+      delete base.base_dc;
+    }
+    if (item.computer_pr === undefined) {
+      delete base.computer_pr;
+    }
+    if (item.workspace_scale === undefined) {
+      delete base.workspace_scale;
+    }
+    if (item.faction_skin === undefined && item.skin === undefined) {
+      delete base.faction_skin;
+    }
+    if (item.propulsion === undefined && item.propulsion_type === undefined) {
+      delete base.propulsion;
+      delete base.propulsion_type;
+    }
+  }
 
   // Harmonize Tech Level
   const resolvedTl = item.tech_level !== undefined 
@@ -276,7 +300,9 @@ export const adaptItemToCodexFormData = (item, matrix) => {
   // Harmonize Craft / Build DC for Property matrices
   if (resolvedMatrix.isProperty || ['architecture', 'weaponry', 'armor', 'equipment', 'mecha', 'augmentations', 'meta-tech', 'other'].includes(resolvedMatrix.id)) {
     const resolvedDc = item.craft_dc ?? item.design_dc ?? item.dc ?? base.craft_dc ?? 15;
-    base.craft_dc = Number(resolvedDc) || 15;
+    base.craft_dc = (resolvedDc !== undefined && resolvedDc !== null && resolvedDc !== '' && !Number.isNaN(Number(resolvedDc)))
+      ? Number(resolvedDc)
+      : 15;
   }
 
   // Harmonize Cost

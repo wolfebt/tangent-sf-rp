@@ -969,10 +969,6 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
             ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
-        },
-        subcategories: {
-            gear_category: { label: 'CATEGORIES', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            availability: { label: 'AVAILABILITY', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
         }
     },
     weaponry: {
@@ -1027,13 +1023,6 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
             ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
-        },
-        subcategories: {
-            availability: { label: 'AVAILABILITY', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            special: { label: 'SPECIAL', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            mode: { label: 'MODES', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            critical_effect: { label: 'CRITICAL EFFECTS', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            creator: { label: 'CREATORS', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
         }
     },
     armoring: {
@@ -1081,14 +1070,6 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             ...ADE_CONSOLIDATED_PROPERTY_FIELDS,
             ...ADE_CONSOLIDATED_LOREBOOK_FIELDS
-        },
-        subcategories: {
-            availability: { label: 'AVAILABILITY', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            material: { label: 'MATERIALS', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            resistance: { label: 'RESISTANCES', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            creator: { label: 'CREATORS', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            design: { label: 'DESIGNS', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
-            classification: { label: 'CLASSIFICATIONS', directory_columns: ['name', 'description'], fields: { name: { type: 'text', required: true }, description: { type: 'textarea' } } },
         }
     },
     mecha: {

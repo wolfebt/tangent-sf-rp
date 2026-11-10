@@ -848,7 +848,7 @@ export const DBMContainer = () => {
             if (activeKey === 'species' || activeCategory === 'species' || activeKey === 'trait' || activeCategory === 'trait') {
               parentKey = 'species';
               pConfig = categoryConfig['species'];
-            } else if (categoryConfig[activeCategory]?.isParent || categoryConfig[activeCategory]?.subItems || categoryConfig[activeCategory]?.subcategories) {
+            } else if (categoryConfig[activeCategory]?.isParent || categoryConfig[activeCategory]?.subItems) {
               parentKey = activeCategory;
               pConfig = categoryConfig[activeCategory];
             } else if (categoryConfig[activeCategory]?.parent) {
@@ -857,6 +857,9 @@ export const DBMContainer = () => {
             } else if (categoryConfig[currentKey]?.parent) {
               parentKey = categoryConfig[currentKey].parent;
               pConfig = categoryConfig[parentKey];
+            } else if (categoryConfig[activeCategory]?.subcategories) {
+              parentKey = activeCategory;
+              pConfig = categoryConfig[activeCategory];
             }
 
             if (!pConfig) return null;

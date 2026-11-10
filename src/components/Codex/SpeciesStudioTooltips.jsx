@@ -1017,7 +1017,8 @@ export const SpeciesSizeSummaryCard = ({
 export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
   if (!buildCheck) return null;
 
-  const isSpecies = Boolean(buildCheck.isSpecies || Array.isArray(buildCheck.costItems));
+  const isItemized = Boolean(buildCheck.isSpecies || buildCheck.hasItemizedBreakdown || Array.isArray(buildCheck.costItems));
+  const isProperty = Boolean(buildCheck.isProperty);
   const accountedItems = Array.isArray(buildCheck.accountedItems)
     ? buildCheck.accountedItems
     : (Array.isArray(buildCheck.costItems) ? buildCheck.costItems.filter(i => !i.unaccounted) : []);
@@ -1046,7 +1047,11 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
             {hasUnaccounted && (
               <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/50 flex items-center gap-1">
                 <AlertTriangle size={10} className="text-amber-400 shrink-0" />
-                <span>{unaccountedItems.length} Unaccounted</span>
+                <span>
+                  {isProperty
+                    ? `${unaccountedItems.length} Discrepanc${unaccountedItems.length === 1 ? 'y' : 'ies'}`
+                    : `${unaccountedItems.length} Unaccounted`}
+                </span>
               </span>
             )}
           </div>
@@ -1068,25 +1073,30 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
             buildCheck.expectedValue !== undefined &&
             buildCheck.actualValue !== buildCheck.expectedValue && (
               <div className="text-[9px] text-amber-300 font-bold mt-0.5">
-                Stored: {buildCheck.actualValue} {buildCheck.unit || 'CP'}
+                Stored: {typeof buildCheck.actualValue === 'number' ? buildCheck.actualValue.toLocaleString() : buildCheck.actualValue} {buildCheck.unit || 'CP'}
               </div>
             )}
         </div>
       </div>
 
-      {/* Baseline 0-CP Strip (if any) */}
-      {isSpecies && baselineItems.length > 0 && (
+      {/* Baseline 0-Cost Strip (if any) */}
+      {isItemized && baselineItems.length > 0 && (
         <div className="px-2 py-1 rounded-lg bg-slate-950/80 border border-slate-800/80 text-[9.5px] text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-          <span className="text-slate-500 font-bold uppercase">Baseline (0 CP):</span>
-          <span>{baselineItems.map(b => b.label.replace(/^(Chassis|Size|Movement):\s*/i, '')).join(' • ')}</span>
+          <span className="text-slate-500 font-bold uppercase">{isProperty ? 'Baseline (0 DC):' : 'Baseline (0 CP):'}</span>
+          <span>
+            {baselineItems
+              .map(b => (typeof b === 'string' ? b : String(b?.label || '').replace(/^(Chassis|Size|Movement):\s*/i, '')))
+              .filter(Boolean)
+              .join(' • ')}
+          </span>
         </div>
       )}
 
       {/* Formula Accounted Items with Cost */}
-      {isSpecies ? (
+      {isItemized ? (
         <div className="space-y-1">
           <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-slate-400 px-0.5">
-            <span>Items with Cost (Formula Accounted)</span>
+            <span>{isProperty ? 'Build Cost & DC Breakdown (Formula Accounted)' : 'Items with Cost (Formula Accounted)'}</span>
             <span>{accountedItems.length} Item{accountedItems.length === 1 ? '' : 's'}</span>
           </div>
 
@@ -1094,26 +1104,34 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
             <div className={accountedItems.length > 10 ? 'grid grid-cols-1 sm:grid-cols-2 gap-1' : 'space-y-1'}>
               {accountedItems.map((item, idx) => {
                 const isNegative = Number(item.cost || 0) < 0;
+                const badgeVal = item.formattedCost || item.value;
                 return (
                   <div
                     key={`${item.category}-${item.label}-${idx}`}
-                    className="flex items-center justify-between gap-2 px-2 py-1 rounded-lg bg-slate-900/90 border border-slate-800/90 text-[10.5px]"
+                    className="px-2 py-1 rounded-lg bg-slate-900/90 border border-slate-800/90 text-[10.5px] space-y-0.5"
                   >
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <span className="text-[8.5px] font-bold uppercase px-1.5 py-0.2 rounded bg-slate-800 text-cyan-300 border border-cyan-500/25 shrink-0">
-                        {item.category}
-                      </span>
-                      <span className="text-slate-100 truncate" title={item.label}>
-                        {item.label.replace(/^(Chassis|Size|Movement|Trait|Feature|Flaw|Stigma):\s*/i, '')}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className="text-[8.5px] font-bold uppercase px-1.5 py-0.2 rounded bg-slate-800 text-cyan-300 border border-cyan-500/25 shrink-0">
+                          {item.category}
+                        </span>
+                        <span className="text-slate-100 truncate" title={item.label}>
+                          {String(item.label || '').replace(/^(Chassis|Size|Movement|Trait|Feature|Flaw|Stigma):\s*/i, '')}
+                        </span>
+                      </div>
+                      <span className={`font-bold shrink-0 px-1.5 py-0.2 rounded text-[10px] ${
+                        isNegative
+                          ? 'text-sky-300 bg-sky-950/60 border border-sky-500/30'
+                          : 'text-emerald-300 bg-emerald-950/60 border border-emerald-500/30'
+                      }`}>
+                        {badgeVal}
                       </span>
                     </div>
-                    <span className={`font-bold shrink-0 px-1.5 py-0.2 rounded text-[10px] ${
-                      isNegative
-                        ? 'text-sky-300 bg-sky-950/60 border border-sky-500/30'
-                        : 'text-emerald-300 bg-emerald-950/60 border border-emerald-500/30'
-                    }`}>
-                      {item.formattedCost}
-                    </span>
+                    {isProperty && item.note && (
+                      <div className="text-[9px] text-slate-400 font-sans leading-snug">
+                        {item.note}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -1124,13 +1142,13 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
             </div>
           )}
 
-          {/* Unaccounted Items Highlighted in Amber */}
+          {/* Unaccounted / Discrepancy Items Highlighted in Amber */}
           {unaccountedItems.length > 0 && (
             <div className="pt-1.5 space-y-1">
               <div className="flex items-center justify-between text-[9.5px] font-bold uppercase tracking-wider text-amber-300 px-0.5">
                 <span className="flex items-center gap-1">
                   <AlertTriangle size={11} className="text-amber-400 shrink-0" />
-                  <span>Unaccounted by Formula</span>
+                  <span>{isProperty ? 'Cost & Formula Discrepancies' : 'Unaccounted by Formula'}</span>
                 </span>
                 <span>{unaccountedItems.length} Flagged</span>
               </div>
@@ -1150,7 +1168,7 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
                         </span>
                       </div>
                       <span className="font-bold text-[10px] px-1.5 py-0.2 rounded bg-amber-500/30 text-amber-200 border border-amber-400/60 shrink-0">
-                        {u.formattedCost}
+                        {u.formattedCost || u.value}
                       </span>
                     </div>
                     {u.note && (
