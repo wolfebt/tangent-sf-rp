@@ -15,7 +15,13 @@ export const useAuth = () => useContext(AuthContext) || {};
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(() => {
+    try {
+      return localStorage.getItem('hasDismissedWelcome') !== 'true';
+    } catch {
+      return true;
+    }
+  });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isHandleModalOpen, setIsHandleModalOpen] = useState(false);
   const [userHandle, setUserHandle] = useState(localStorage.getItem('userHandle') || '');

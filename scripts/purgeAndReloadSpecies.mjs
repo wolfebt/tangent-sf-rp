@@ -22,14 +22,12 @@ const sizeDataJsPath = path.join(projectRoot, 'src', 'data', 'speciesSizeData.js
 const movementDataJsPath = path.join(projectRoot, 'src', 'data', 'speciesMovementData.js');
 const traitsDataJsPath = path.join(projectRoot, 'src', 'data', 'speciesTraitsData.js');
 
-const jsonCollectionDir = path.join(projectRoot, 'docs', 'recommendations and revison plans', 'omnicortex json', 'current collection');
-
 console.log('================================================================');
 console.log('STARTING MASTER PURGE, INHERITANCE, AND SPECIES RELOAD PIPELINE');
 console.log('================================================================');
 
 // Ensure directories
-[omniSpeciesDir, omniTypesDir, omniSizesDir, omniMovementsDir, omniTraitsDir, jsonCollectionDir].forEach(d => {
+[omniSpeciesDir, omniTypesDir, omniSizesDir, omniMovementsDir, omniTraitsDir].forEach(d => {
   if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
 });
 
@@ -579,14 +577,6 @@ export const getSpeciesBpCost = (speciesObj) => {
 
 fs.writeFileSync(speciesDataJsPath, speciesDataJsContent, 'utf8');
 console.log(`Updated: ${speciesDataJsPath}`);
-
-// Update JSON Backups
-fs.writeFileSync(path.join(jsonCollectionDir, 'species_database.json'), JSON.stringify(compiledSpeciesList, null, 2), 'utf8');
-fs.writeFileSync(path.join(jsonCollectionDir, 'species_type_database.json'), JSON.stringify(speciesTypes, null, 2), 'utf8');
-fs.writeFileSync(path.join(jsonCollectionDir, 'species_size_database.json'), JSON.stringify(speciesSizes, null, 2), 'utf8');
-fs.writeFileSync(path.join(jsonCollectionDir, 'species_movement_database.json'), JSON.stringify(movementList, null, 2), 'utf8');
-fs.writeFileSync(path.join(jsonCollectionDir, 'trait_database.json'), JSON.stringify(allTraitsArray, null, 2), 'utf8');
-console.log('Updated all JSON backup files in current collection.');
 
 console.log('\n================================================================');
 console.log('MASTER PURGE, INHERITANCE AND SPECIES RELOAD COMPLETE!');

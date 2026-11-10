@@ -30,12 +30,44 @@ export const toolHandlers = {
     const targetDir = path.resolve(rootDir, subDirectory);
     const results = {
       appRoot: rootDir,
+      canonicalRoutes: {},
+      pillarNavigation: [
+        { id: "folio", label: "FOLIO", path: "/folio" },
+        { id: "rules", label: "RULES", path: "/compendium" },
+        { id: "network", label: "NETWORK", path: "/network" },
+        { id: "foundry", label: "ADE", path: "/foundry" },
+        { id: "dbm", label: "CORTEX", path: "/dbm" },
+      ],
+      workspaceQueryViews: {
+        foundryViews: ["hub", "scenarios", "campaigns", "stories", "arcs", "scenes", "encounters", "elements", "forge", "map", "maps", "bestiary", "loot", "stage", "live"],
+        networkViews: ["comms", "squads"],
+        codexToCortexRedirects: {
+          "/codex": "/dbm?cat=species&mode=studio",
+          "/codex?matrix=weaponry": "/dbm?cat=equipment&mode=studio",
+          "/codex?matrix=traits": "/dbm?cat=traits&mode=studio",
+          "/codex?matrix=manifestations": "/dbm?cat=powers&mode=studio",
+        },
+      },
       reactAppRoutes: [],
       foundryRoutes: [],
       pageModules: [],
       detectedRouteFiles: [],
       cloudFunctions: [],
     };
+
+    // Parse canonical ROUTES object from src/constants/routes.js if present
+    const routesJsPath = path.join(rootDir, "src", "constants", "routes.js");
+    if (fs.existsSync(routesJsPath)) {
+      const routesJsContent = fs.readFileSync(routesJsPath, "utf-8");
+      const routesBlockMatch = routesJsContent.match(/export\s+const\s+ROUTES\s*=\s*\{([\s\S]*?)\};/);
+      if (routesBlockMatch) {
+        const kvRegex = /([A-Z0-9_]+)\s*:\s*['"`]([^'"`]+)['"`]/g;
+        let kv;
+        while ((kv = kvRegex.exec(routesBlockMatch[1])) !== null) {
+          results.canonicalRoutes[kv[1]] = kv[2];
+        }
+      }
+    }
 
     // Helper: Parse React Router JSX routes from a file
     const parseRouteFile = (filePath) => {
@@ -179,6 +211,8 @@ export const toolHandlers = {
     const priorityFiles = [
       path.join(rootDir, "src", "pages", "Foundry", "ElementForge", "elementSchemas.js"),
       path.join(rootDir, "firestore.rules"),
+      path.join(rootDir, "storage.rules"),
+      path.join(rootDir, "firestore.indexes.json"),
     ];
 
     for (const pFile of priorityFiles) {
@@ -263,6 +297,7 @@ export const toolHandlers = {
     return {
       appRoot: rootDir,
       totalSchemasDetected: schemaFiles.length,
+      totalDetected: schemaFiles.length,
       detectedSchemas: schemaFiles,
     };
   },
@@ -350,13 +385,44 @@ export const toolHandlers = {
         const resolvedDir = path.resolve(rootDir, playwrightInfo.testDir);
         if (fs.existsSync(resolvedDir)) {
           playwrightInfo.specFilesCount = fs
-            .readdirSync(resolvedDir)
-            .filter((f) => /\.(spec|test)\./.test(f)).length;
+            .readdirSync(resolvedDir, { withFileTypes: true })
+            .filter((entry) => entry.isFile() && /\.(spec|test)\.(ts|js|mjs|tsx|jsx)$/.test(entry.name)).length;
         }
       } catch (err) {
         playwrightInfo.parseError = err.message;
       }
     }
+
+    // Count Test Battery Files across all layers
+    const countMatchingFiles = (dir, regex) => {
+      if (!fs.existsSync(dir)) return 0;
+      let count = 0;
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory() && entry.name !== "node_modules" && entry.name !== "_archive") {
+          count += countMatchingFiles(full, regex);
+        } else if (entry.isFile() && regex.test(entry.name)) {
+          count++;
+        }
+      }
+      return count;
+    };
+
+    const testBattery = {
+      e2eSpecFiles: playwrightInfo.specFilesCount,
+      engineTestFiles:
+        countMatchingFiles(path.join(rootDir, "tests", "engine"), /\.test\.(js|mjs|ts)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "engines", "__tests__"), /\.test\.(js|mjs|ts)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "services"), /\.test\.(js|mjs|ts)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "schemas"), /\.test\.(js|mjs|ts)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "components", "VTT", "tree"), /\.test\.(js|mjs|ts)$/),
+      hookAndComponentTestFiles:
+        countMatchingFiles(path.join(rootDir, "src", "hooks", "__tests__"), /\.test\.(js|jsx|ts|tsx)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "components"), /\.test\.(js|jsx|ts|tsx)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "utils", "__tests__"), /\.test\.(js|jsx|ts|tsx)$/) +
+        countMatchingFiles(path.join(rootDir, "src", "data", "__tests__"), /\.test\.(js|jsx|ts|tsx)$/),
+      canonicalRuleFiles: countMatchingFiles(path.join(rootDir, "docs", "game_rules"), /\.md$/),
+    };
 
     return {
       appRoot: rootDir,
@@ -371,6 +437,7 @@ export const toolHandlers = {
       devDependencies: packageInfo.devDependencies || {},
       git: gitInfo,
       playwright: playwrightInfo,
+      testBattery,
       memoryUsageMB: {
         rss: (process.memoryUsage().rss / 1024 / 1024).toFixed(2),
         heapUsed: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
@@ -397,9 +464,17 @@ export const toolHandlers = {
         const statCmd = isStaged ? "git diff --cached --stat" : "git diff --stat";
         statOutput = execSync(statCmd, { cwd: rootDir, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"] });
       }
+      const porcelain = execSync("git status --porcelain", {
+        cwd: rootDir,
+        encoding: "utf-8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }).trim();
+      const modifiedLines = porcelain ? porcelain.split("\n").filter(Boolean) : [];
       return {
         appRoot: rootDir,
         stagedOnly: isStaged,
+        isClean: modifiedLines.length === 0,
+        totalModifiedFiles: modifiedLines.length,
         statusOrDiff: output,
         diffStat: statOutput || undefined,
       };
@@ -410,6 +485,8 @@ export const toolHandlers = {
     return {
       appRoot: rootDir,
       stagedOnly: isStaged,
+      isClean: false,
+      totalModifiedFiles: 0,
       statusOrDiff: output,
       diffStat: statOutput || undefined,
     };
@@ -783,6 +860,8 @@ export const toolHandlers = {
       await page.addInitScript(() => {
         window.localStorage.setItem("userHandle", "Inspector Agent");
         window.localStorage.setItem("hasDismissedWelcome", "true");
+        window.localStorage.setItem("terran_net_guest_dismissed", "true");
+        window.localStorage.setItem("omnicortex_admin_override", "true");
         window.localStorage.setItem("audioMuted", "true");
       });
 
@@ -807,7 +886,11 @@ export const toolHandlers = {
       if (args.waitForSelector) {
         await page.waitForSelector(args.waitForSelector, { timeout: 5000 }).catch(() => {});
       } else {
-        await page.waitForTimeout(500);
+        await page.waitForSelector("main", { timeout: 5000 }).catch(() => {});
+        await page
+          .waitForFunction(() => !document.body.innerText.includes("LOADING SYSTEM MODULE"), { timeout: 5000 })
+          .catch(() => {});
+        await page.waitForTimeout(350);
       }
 
       const pageTitle = await page.title();
@@ -873,6 +956,14 @@ export const toolHandlers = {
         serverReachable: true,
         status: "LOADED",
         domMetrics,
+        dom: {
+          hasMainElement: domMetrics.mainExists,
+          headingText: domMetrics.headingText,
+        },
+        webgl: {
+          canvasCount: domMetrics.canvases.length,
+          contextLost: domMetrics.canvases.length > 0 ? domMetrics.canvases.some((c) => c.isContextLost) : false,
+        },
         consoleErrors: consoleLogs.filter((c) => c.type === "error"),
         pageErrors,
         consoleWarnings: consoleLogs.filter((c) => c.type === "warning").slice(0, 10),

@@ -317,6 +317,7 @@ export const UniversalCatalogModal = ({
 }) => {
   // Global DBM context for pre-synced database records
   const dbm = useDBM();
+  const dbData = dbm?.dbData;
   const { isAdmin } = useAuth() || {};
   const [cloudItems, setCloudItems] = useState([]);
   const [loading, setLoading] = useState(false);

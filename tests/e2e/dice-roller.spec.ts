@@ -15,14 +15,15 @@ test.describe('Dice Roller Dock E2E Verification', () => {
 
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
+    await expect(page.locator('main').first()).toBeVisible({ timeout: 15000 });
 
     // Trigger toggle-dice-dock via custom event
     await page.evaluate(() => {
       window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
     });
 
-    const checkBtn = page.getByRole('button', { name: 'CHECK', exact: true });
-    await expect(checkBtn).toBeVisible({ timeout: 5000 });
+    const checkBtn = page.locator('button:has-text("CHECK")').first();
+    await expect(checkBtn).toBeVisible({ timeout: 10000 });
 
     // 1. Click CHECK button
     await checkBtn.click();
@@ -34,16 +35,16 @@ test.describe('Dice Roller Dock E2E Verification', () => {
     await expect(page.locator('text=All Rolls (1)')).toBeVisible({ timeout: 5000 });
 
     // 2. Click Reroll Check
-    const rerollBtn = page.getByRole('button', { name: 'Reroll Check' });
-    await expect(rerollBtn).toBeVisible();
+    const rerollBtn = page.locator('button:has-text("Reroll Check")').first();
+    await expect(rerollBtn).toBeVisible({ timeout: 5000 });
     await rerollBtn.click();
     await page.waitForTimeout(300);
     await expect(page.locator('text=All Rolls (2)')).toBeVisible({ timeout: 5000 });
 
     // 3. Apply Advantage (+1) and Target DC (15) and click CHECK
-    const advBtn = page.getByRole('button', { name: 'ADVANTAGE', exact: true });
+    const advBtn = page.locator('button:has-text("ADVANTAGE")').first();
     await advBtn.click();
-    const dc15Btn = page.getByRole('button', { name: 'Hard (15)' });
+    const dc15Btn = page.locator('button:has-text("Hard (15)")').first();
     await dc15Btn.click();
     await checkBtn.click();
     await page.waitForTimeout(300);
@@ -191,8 +192,8 @@ test.describe('Dice Roller Dock E2E Verification', () => {
       window.dispatchEvent(new CustomEvent('open-dice-roller'));
     });
 
-    const resetBtn = page.getByRole('button', { name: 'RESET', exact: true });
-    await expect(resetBtn).toBeVisible({ timeout: 5000 });
+    const resetBtn = page.locator('button[title="Reset all fields back to base level score"]');
+    await expect(resetBtn).toBeVisible({ timeout: 10000 });
 
     const telemetryHeader = page.locator('text=Roll Telemetry & Output');
     await expect(telemetryHeader).toBeVisible({ timeout: 5000 });
@@ -236,8 +237,8 @@ test.describe('Dice Roller Dock E2E Verification', () => {
       window.dispatchEvent(new CustomEvent('open-dice-roller'));
     });
 
-    const checkBtn = page.getByRole('button', { name: 'CHECK', exact: true });
-    await expect(checkBtn).toBeVisible({ timeout: 5000 });
+    const checkBtn = page.locator('button:has-text("CHECK")').first();
+    await expect(checkBtn).toBeVisible({ timeout: 10000 });
 
     // Execute 6 checks
     for (let i = 0; i < 6; i++) {

@@ -163,7 +163,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
       colorTheme: conf?.colorTheme || def.colorTheme || (isBottom ? 'emerald' : 'cyan'),
       icon: conf?.icon || def.icon || (isBottom ? 'Shield' : 'Radio'),
       showBackground: conf?.showBackground !== undefined ? Boolean(conf.showBackground) : true,
-      badge: conf?.badge || def.badge,
+      badge: conf?.badge !== undefined ? conf.badge : def.badge,
       linkLabel: conf?.linkLabel || '',
       linkUrl: conf?.linkUrl || '',
       allowDismiss: false
@@ -240,7 +240,11 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
               localStorage.setItem('customEndpoint', data.customEndpoint);
             }
           }
-        }).catch(err => console.warn("Failed to fetch private user cloud settings:", err));
+        }).catch(err => {
+          if (err?.code !== 'permission-denied') {
+            console.warn("Failed to fetch private user cloud settings:", err);
+          }
+        });
       }
     }
   }, [isOpen, currentUser, initialTab]);
@@ -365,7 +369,11 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
             geminiApiKey: deleteField(),
             otherAiApiKey: deleteField(),
             updatedAt: nowIso
-          }, { merge: true })
+          }, { merge: true }).catch((privErr) => {
+            if (privErr?.code !== 'permission-denied') {
+              console.warn("Failed to sync private settings to Firestore:", privErr);
+            }
+          })
         ]);
         const timeoutPromise = new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Firestore user sync timed out')), 800)
@@ -1269,14 +1277,14 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess, initialTab =
                                     </div>
                                   )}
 
-                                  {bannerForm.badge && (
+                                  {bannerForm.badge && bannerForm.badge.trim().length > 0 && (
                                     <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${
                                       hasBg
                                         ? curTheme.badgeBg
                                         : 'text-slate-400 bg-transparent border border-slate-700/60'
                                     }`}>
                                       {IconComp && <IconComp size={12} className="shrink-0" />}
-                                      <span className="whitespace-nowrap">{bannerForm.badge}</span>
+                                      <span className="whitespace-nowrap">{bannerForm.badge.trim()}</span>
                                     </div>
                                   )}
                                 </div>

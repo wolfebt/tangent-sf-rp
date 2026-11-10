@@ -1,16 +1,16 @@
-# Tangent SF RP - Tile Requirements & Specifications
+# Tangent SF RP — Tile Requirements & Specifications
 
-**Document Version:** 1.0.0  
-**Target Environment:** 2D Canvas (Konva.js), WebGL (PixiJS), 3D Isometric View (Three.js), Universal VTT (`.dd2vtt`)  
-**Applicable Modules:** PCG AI Studio, Map Maker, Tactical Stage Engine, Omnicortex Asset Catalog  
+**Document Version:** 1.1.0 (Nov 2026 Canonical Revision)  
+**Target Environment:** 2D Canvas (Konva.js), WebGL (PixiJS v8), 3D Isometric View (Three.js), Universal VTT (`.dd2vtt`)  
+**Applicable Modules:** PCG AI Studio, Map Maker, Tactical Stage Engine, HIFI CHROMA Tile Recipe Engine (`tileAiRecipeService.ts`), Omnicortex Asset Catalog  
 
 ---
 
 ## 1. Executive Summary & Architecture Overview
 
-In **Tangent SF RP**, a *Tile* is the fundamental unit of spatial, tactical, and environmental composition. The tile system supports multi-scale visualization ranging from intergalactic space sectors down to 5-foot tactical combat grids and microscopic inventory containers.
+In **Tangent SF RP**, a *Tile* is the fundamental unit of spatial, tactical, and environmental composition. The tile system supports multi-scale visualization ranging from intergalactic space sectors down to 5-foot tactical combat grids and modular inventory containers, governed by canonical `2d10` and `Challenge Rating (CR)` mechanics.
 
-```
+```text
 +-----------------------------------------------------------------------------------+
 |                                 TILE SYSTEM ARCHITECTURE                          |
 +-----------------------------------------------------------------------------------+
@@ -21,7 +21,7 @@ In **Tangent SF RP**, a *Tile* is the fundamental unit of spatial, tactical, and
 |  1. Raster / Vector Data: Seamless SVG Patterns + WebP Texture Sheets             |
 |  2. Auto-Tiling Engine: 4-Bit & 8-Bit Marching Squares (Beveled Contours)         |
 |  3. Spatial Physics: BVH Spatial Partitioning, LoS Raycasting, Movement Cost      |
-|  4. Atmospheric Engine: Dynamic Light Emitters, Environmental Hazards, Particles  |
+|  4. Atmospheric & Shader Engine: HIFI CHROMA Ligne Claire + Dynamic Light Emitters|
 |  5. Serialization: Story Foundry Stage Manifests & Universal VTT (.dd2vtt)        |
 +-----------------------------------------------------------------------------------+
 ```
@@ -36,7 +36,7 @@ The engine operates across eight distinct operational scales. Each scale defines
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Tactical Interior** | Deckplans, Outposts, Labs | Square Grid (Orthogonal) | `50px` (5 ft / 1.5 m) | `100px` / `140px` | Tactical miniatures combat, LoS, AP movement |
 | **Tactical Exterior** | Camps, Landing Zones, Trenches | Square or Hex Grid | `50px` (5 ft / 1.5 m) | `100px` / `140px` | Vehicle maneuvers, skirmish cover, sightlines |
-| **Container / Inventory**| Lockers, Crates, Body Loot | Square Slots | `40px` - `60px` | `80px` | Diablo-style volumetric inventory grid |
+| **Container / Inventory**| Lockers, Crates, Body Loot | Square Slots | `40px` - `60px` | `80px` | Volumetric UDU (`Node` / `Socket` / `Mount`) grid |
 | **City / Settlement** | Urban Blocks, Docks, Maglev | Square / Hex Blocks | `60px` (25 m blocks) | `120px` | Vehicle chase mechanics, district infiltration |
 | **Regional** | Continents, Valleys, Fjords | Hexagonal Grid | `64px` - `128px` (5 km) | `256px` | Overland hex-crawling, supply logistics |
 | **Planetary** | Global Hemispheres, Globes | Simplex Raster / Hex | `200` - `512` Cells | `2048px` texture | Astrogation orbit scans, biome dropsites |
@@ -55,20 +55,21 @@ For encounter and combat maps (**Tactical Interior & Exterior**), the engine sup
 
 ### 2.2 Hexagonal Grid Geometry
 
-For hexagonal scales (**Regional, Sector, and Hex-Mode Planetary**), tiles must conform to precise mathematical constraints:
+For hexagonal scales (**Regional, Sector, and Hex-Mode Planetary**), tiles conform to exact geometric formulas:
 
-$$\text{Width} = 2 \cdot r \quad \text{or} \quad \sqrt{3} \cdot r$$
+```text
+Flat-Topped Hexagons:
+  Width              = 2 * Radius
+  Height             = sqrt(3) * Radius
+  Horizontal Spacing = 1.5 * Radius
+  Vertical Spacing   = sqrt(3) * Radius
 
-*   **Flat-Topped Hexagons:**
-    *   $\text{Width} = 2 \cdot \text{Radius}$
-    *   $\text{Height} = \sqrt{3} \cdot \text{Radius}$
-    *   $\text{Horizontal Spacing} = 1.5 \cdot \text{Radius}$
-    *   $\text{Vertical Spacing} = \sqrt{3} \cdot \text{Radius}$
-*   **Pointy-Topped Hexagons:**
-    *   $\text{Width} = \sqrt{3} \cdot \text{Radius}$
-    *   $\text{Height} = 2 \cdot \text{Radius}$
-    *   $\text{Horizontal Spacing} = \sqrt{3} \cdot \text{Radius}$
-    *   $\text{Vertical Spacing} = 1.5 \cdot \text{Radius}$
+Pointy-Topped Hexagons:
+  Width              = sqrt(3) * Radius
+  Height             = 2 * Radius
+  Horizontal Spacing = sqrt(3) * Radius
+  Vertical Spacing   = 1.5 * Radius
+```
 
 ---
 
@@ -76,10 +77,10 @@ $$\text{Width} = 2 \cdot r \quad \text{or} \quad \sqrt{3} \cdot r$$
 
 All tiles in Tangent SF RP are classified into eight core functional categories:
 
-```
+```text
 [ TILE ASSET ]
        +---> 1. Ground & Floor Tiles (Walkable substrate, audio dampening)
-       +---> 2. Structural & Wall Tiles (Occlusion, ballistic cover, hitpoints)
+       +---> 2. Structural & Wall Tiles (Occlusion, ballistic cover, Structure Points)
        +---> 3. Portal & Door Tiles (Airlocks, blast doors, security hatches)
        +---> 4. Liquid & Hazard Tiles (Caustic pools, magma flows, radiation)
        +---> 5. Transition & Auto-Tile Edge Tiles (Marching Squares contours)
@@ -92,28 +93,28 @@ All tiles in Tangent SF RP are classified into eight core functional categories:
 
 Floor tiles represent traversable surfaces with defined acoustic, frictional, and structural properties.
 
-| Subtype ID | Label | Base Color | Texture Pattern | Audio Footstep Profile | Tactical / Engine Modifiers |
+| Subtype ID | Label | Base Color | Texture Pattern | Audio Footstep Profile | Tactical / Engine Modifiers (`2d10` vs `CR`) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `metal_deck` | Heavy Metal Decking | `#334155` | `metalDecking` | Metallic Stomp (High Ping) | Base Move: 1.0; Dropped items echo |
-| `ceramic_tile` | Sterile Laboratory Tile | `#f8fafc` | Solid Gloss | Sharp Click | Clean surface; blood spills cause slip Reflex CR 12 |
-| `acoustic_mat` | Rubberized Acoustic Mat | `#0f172a` | Micro-Stipple | Silent / Muffled | Stealth noise -100% (+4 Stealth checks) |
+| `ceramic_tile` | Sterile Laboratory Tile | `#f8fafc` | Solid Gloss | Sharp Click | Clean surface; fluid spills trigger slip `Reflex Save CR 12` |
+| `acoustic_mat` | Rubberized Acoustic Mat | `#0f172a` | Micro-Stipple | Silent / Muffled | Stealth noise -100% (`+4` to Stealth checks) |
 | `grating_mesh` | Industrial Steel Grate | `#475569` | Slotted Grate | Hollow Echo | LoS penetrates downward; gas venting eligible |
 | `packed_dirt` | Compacted Earth / Soil | `#78350f` | Fine Grain | Dull Thud | Base Move: 1.0; Tracks visible for 5 rounds |
-| `cavern_stone` | Raw Cavern Rock Floor | `#1e293b` | Jagged Fractures | Rocky Crunch | Move cost: 1.5; Dash requires Acrobatics DC 10 |
-| `chitin_matrix`| Organic Xenomoss / Chitin | `#14532d` | `chitinHive` | Wet Squish | Alien speed +25%; Human movement cost: 1.5 |
+| `cavern_stone` | Raw Cavern Rock Floor | `#1e293b` | Jagged Fractures | Rocky Crunch | Move cost: 1.5; Running/Sprinting requires `Acrobatics CR 10` |
+| `chitin_matrix`| Organic Xenomoss / Chitin | `#14532d` | `chitinHive` | Wet Squish | Kitin speed +25%; non-Kitin movement cost: 1.5 |
 
 ### 3.2 Category 2: Structural & Wall Tiles
 
-Wall tiles provide physical obstruction, visual occlusion, and cover values.
+Wall tiles provide physical obstruction, visual occlusion, Armor Damage Reduction (DR), and Structure Points (SP).
 
-| Subtype ID | Classification | Thickness (px) | Default Armor / HP | LoS Occlusion | Tactical Rules & Properties |
+| Subtype ID | Classification | Thickness (px) | Default DR / SP | LoS Occlusion | Tactical Rules & Properties |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `bulkhead_heavy`| Armored Starship Bulkhead | `12px` - `16px` | Hardness 25 / 150 HP | Complete (Blocks All) | Immune to small arms; requires plasma cutter/breach |
-| `wall_reinforced`| Concrete / Composite Wall | `8px` - `12px` | Hardness 15 / 80 HP | Complete (Blocks All) | Standard room separation; ricochet risk on kinetic |
-| `glass_plasteel`| Transparent Plasteel Viewport | `6px` - `8px` | Hardness 10 / 40 HP | Transparent (Passes Vision)| Vision passes; ballistic cover (+4 DEF); sound sealed |
-| `forcefield_mesh`| Holographic Energy Barrier | `4px` - `6px` | Shield Points 100 HP | Translucent / Cyan | Blocks matter; passes laser/energy weapons |
-| `barricade_sandbag`| Deployable Tactical Sandbags| `20px` - `24px` | Hardness 5 / 50 HP | Low (Half Cover) | Height: 3 ft; grants +2 Cover DEF to crouched units |
-| `natural_chasm_wall`| Tectonic Basalt Chasm Lip | `16px` - `30px` | Infinite (Terrain) | Blocks Movement | Sheer drop hazard; falling deals 1d6 per 10ft |
+| `bulkhead_heavy`| Armored Starship Bulkhead | `12px` - `16px` | DR 25 / 150 SP | Complete (Blocks All) | Immune to small arms; requires plasma cutter or breaching charge |
+| `wall_reinforced`| Concrete / Composite Wall | `8px` - `12px` | DR 15 / 80 SP | Complete (Blocks All) | Standard room separation; ricochet risk on kinetic fumbles |
+| `glass_plasteel`| Transparent Plasteel Viewport | `6px` - `8px` | DR 10 / 40 SP | Transparent (Passes Vision)| Vision passes; provides ballistic cover (`+4 Defense`); sound sealed |
+| `forcefield_mesh`| Holographic Energy Barrier | `4px` - `6px` | Shield 100 SP | Translucent / Cyan | Blocks physical matter; passes coherent laser/energy optics |
+| `barricade_sandbag`| Deployable Tactical Sandbags| `20px` - `24px` | DR 5 / 50 SP | Low (Half Cover) | Height: 3 ft; grants `+2 Cover Defense` to crouched units |
+| `natural_chasm_wall`| Tectonic Basalt Chasm Lip | `16px` - `30px` | Infinite (Terrain) | Blocks Movement | Sheer drop hazard; falling inflicts `2d10` kinetic damage per 10 ft |
 
 ### 3.3 Category 3: Portal & Door Tiles
 
@@ -122,25 +123,26 @@ Portals bridge wall segments and dynamically modify line of sight, atmospheric c
 *   **Door States:**
     *   `CLOSED`: Blocks movement, vision, and atmospheric exchange.
     *   `OPEN`: Full movement, unrestricted vision, atmospheric venting enabled.
-    *   `LOCKED`: Requires Keycard, Decryption Tool, or Bypass DC (14-25).
-    *   `BARRICADED`: Reinforced with tactical crates or welds; HP increased by 200%.
-    *   `BREACHED`: Damaged/exploded open; counts as rough terrain (Move Cost: 1.5).
+    *   `LOCKED`: Requires Keycard, Decryption Tool, or Computers/Mechanics Bypass check (`CR 15` to `CR 25`).
+    *   `BARRICADED`: Reinforced with tactical crates or spot-welds; SP increased by 200%.
+    *   `BREACHED`: Damaged or blown open; counts as difficult terrain (Move Cost: `1.5`).
 *   **Portal Dimensions:**
-    *   Standard Corridor Portal: `1 cell` wide ($50\text{px} \times 12\text{px}$).
-    *   Vehicle / Cargo Airlock: `2` - `4 cells` wide ($100\text{px}\text{--}200\text{px} \times 16\text{px}$).
-    *   Vertical Bulkhead Iris Hatch: $50\text{px} \times 50\text{px}$ floor plate.
+    *   Standard Corridor Portal: `1 cell` wide (`50px x 12px`).
+    *   Vehicle / Cargo Airlock: `2` to `4 cells` wide (`100px–200px x 16px`).
+    *   Vertical Bulkhead Iris Hatch: `50px x 50px` floor plate.
 
 ### 3.4 Category 4: Liquid & Environmental Hazard Tiles
 
-Hazard tiles apply continuous or entry-based damage, movement penalties, and light emissions.
+Hazard tiles apply continuous or entry-based `2d10` damage, movement penalties, and dynamic light emissions (aligned with `src/services/tileAiRecipeService.ts`).
 
-| Hazard ID | Liquid / Phase | Base Color | Emission Glow | Tactical Effect |
+| Hazard ID | Liquid / Phase | Base Color | Emission Glow | Canonical `2d10` Tactical Effect |
 | :--- | :--- | :--- | :--- | :--- |
-| `volcanic_magma` | Liquid Basalt | `#ea580c` | Amber/Red (`#f97316`, radius 4 cells) | 4d10 Thermal Damage/turn; destroys organic matter |
-| `toxic_acid` | Caustic Chemical Waste | `#84cc16` | Emerald (`#10b981`, radius 2 cells) | 2d6 Chemical Damage; degrades armor by 1 each turn |
-| `deep_water` | Pelagic Water | `#0284c7` | None | Move Cost: 3.0; Requires Athletics (Swim); drown risk |
-| `alien_slime` | Xenobiotic Gel | `#a855f7` | Violet (`#c026d3`, radius 1 cell) | Slows to 25% speed; inflicts Bio-Toxin on contact |
-| `void_rift` | Gravitational Singularity | `#020617` | Cold Blue Pulse (`#38bdf8`) | Pulls units 1 cell toward center per round; 3d8 Force |
+| `volcanic_magma` | Liquid Basalt | `#ea580c` | Amber/Red (`#f97316`, radius 4 cells) | `2d10+4 thermal` damage/turn; ignites flammable materials |
+| `toxic_acid` | Caustic Chemical Waste | `#84cc16` | Emerald (`#10b981`, radius 2 cells) | `2d10+2 acid` damage/turn; ablates Armor DR by 1 per round |
+| `plasma_conduit` | Exposed Plasma Vent | `#38bdf8` | Cyan (`#0ea5e9`, radius 3 cells) | `2d10+4 plasma` damage/turn; `Fortitude Save CR 15` vs blind |
+| `deep_water` | Pelagic Water | `#0284c7` | None | Move Cost: `2.0`; requires `Athletics (Swim) CR 10+` |
+| `alien_slime` | Xenobiotic Gel | `#a855f7` | Violet (`#c026d3`, radius 1 cell) | Slows to 25% speed; `Fortitude Save CR 15` vs Bio-Toxin |
+| `void_rift` | Gravitational Singularity | `#020617` | Cold Blue Pulse (`#38bdf8`) | Pulls units 1 cell toward center (`Might Save CR 15`); `2d10+6 force` |
 
 ---
 
@@ -148,12 +150,12 @@ Hazard tiles apply continuous or entry-based damage, movement penalties, and lig
 
 Tangent SF RP incorporates 11 first-class environmental palettes. Every biome specifies 12 elevation strata, seamless texture mappings, and atmospheric parameters.
 
-```
+```text
 Elevation Strata:
 [11. Summit]  -> Snow / Peak Glaciers
 [10. Peak]    -> High Crags & Cirques
 [09. Mount]   -> Granite / Basalt Faces
-[08. Highland]-> Scree / Scree Slopes
+[08. Highland]-> Scree Slopes
 [07. Midland] -> Old-Growth Forests / Shrub
 [06. Lowland] -> Arable Plains / Terraces
 [05. Coast]   -> Beach / Alluvial Flats
@@ -229,20 +231,22 @@ Elevation Strata:
 
 ## 5. Marching Squares & Auto-Tiling Specifications
 
-The auto-tiling system is responsible for eliminating rigid, blocky tile edges. It evaluates adjacent neighbor matrices to calculate bitmasks and contour bevels.
+The auto-tiling system (`src/engine/canvas/MarchingSquaresAutoTiler.ts`) eliminates rigid, blocky tile edges by evaluating adjacent neighbor matrices to calculate bitmasks and contour bevels.
 
 ### 5.1 4-Bit Cardinal Bitmasking (16-Tile Set)
 
 The 4-bit algorithm evaluates cardinal neighbors:
 
-$$\text{Bitmask} = \sum (\text{Flag}_i \cdot 2^i) \quad \text{where } i \in \{\text{North}: 0, \text{East}: 1, \text{South}: 2, \text{West}: 3\}$$
-
-*   **Bit 0 ($\text{Value } 1$):** North Neighbor matches material
-*   **Bit 1 ($\text{Value } 2$):** East Neighbor matches material
-*   **Bit 2 ($\text{Value } 4$):** South Neighbor matches material
-*   **Bit 3 ($\text{Value } 8$):** West Neighbor matches material
-
+```text
+Bitmask4 = (North * 1) + (East * 2) + (South * 4) + (West * 8)
 ```
+
+*   **Bit 0 (`Value 1`):** North Neighbor matches material
+*   **Bit 1 (`Value 2`):** East Neighbor matches material
+*   **Bit 2 (`Value 4`):** South Neighbor matches material
+*   **Bit 3 (`Value 8`):** West Neighbor matches material
+
+```text
        [ North: 1 ]
              ^
              |
@@ -266,9 +270,11 @@ $$\text{Bitmask} = \sum (\text{Flag}_i \cdot 2^i) \quad \text{where } i \in \{\t
 
 For seamless corners and diagonal awareness, the 8-bit bitmask registers diagonal neighbors if and only if both bounding cardinal neighbors exist:
 
-$$\text{Bitmask8} = \text{N}(1) + \text{NE}(2) + \text{E}(4) + \text{SE}(8) + \text{S}(16) + \text{SW}(32) + \text{W}(64) + \text{NW}(128)$$
-
+```text
+Bitmask8 = N(1) + NE(2) + E(4) + SE(8) + S(16) + SW(32) + W(64) + NW(128)
 ```
+
+```text
 [ NW: 128 ]  [ N: 1 ]   [ NE: 2 ]
 [ W: 64   ]    [ + ]    [ E: 4  ]
 [ SW: 32  ]  [ S: 16 ]  [ SE: 8 ]
@@ -278,7 +284,7 @@ $$\text{Bitmask8} = \text{N}(1) + \text{NE}(2) + \text{E}(4) + \text{SE}(8) + \t
 
 When rendering vector polygons (`MarchingSquaresAutoTiler.getMarchingPolygonPoints`), cells are subdivided into beveled points to produce smooth, non-grid contours:
 
-```
+```text
 (x0, y0)             (x1, y0)    (x2, y0)             (x3, y0)
    +--------------------+-----------+--------------------+
    |                   /             \                   |
@@ -295,8 +301,8 @@ When rendering vector polygons (`MarchingSquaresAutoTiler.getMarchingPolygonPoin
 (x0, y3)             (x1, y3)    (x2, y3)             (x3, y3)
 ```
 
-*   **Bevel Ratio ($\beta$):** Defaults to `0.5` (midpoint subdivision).
-*   **Curve Tension ($\tau$):** Set to `0.15` in Konva.js to create rounded organic landmasses without vertex jitter.
+*   **Bevel Ratio:** Defaults to `0.5` (midpoint subdivision).
+*   **Curve Tension:** Set to `0.15` in Konva.js to create rounded organic landmasses without vertex jitter.
 
 ---
 
@@ -310,7 +316,7 @@ All custom tile assets contributed by artists or generated procedurally must adh
 *   **ViewBox:** Strictly `viewBox="0 0 100 100"` or `viewBox="0 0 50 50"`.
 *   **Tiling Pattern Requirements:**
     *   Must define a `<pattern id="..." width="X" height="Y" patternUnits="userSpaceOnUse">`.
-    *   Texture patterns must tile seamlessly along both $X$ and $Y$ axes with zero pixel border seams.
+    *   Texture patterns must tile seamlessly along both X and Y axes with zero pixel border seams.
 *   **Color Parameterization:**
     *   Support CSS variable inheritance or `currentColor` for dynamic biome recoloring.
 
@@ -319,12 +325,12 @@ All custom tile assets contributed by artists or generated procedurally must adh
 *   **Format Priority:** **WebP** is the primary format (lossless compression with 8-bit alpha). PNG is supported as fallback.
 *   **Color Space:** sRGB (with embedded profile stripped to reduce payload).
 *   **Bit Depth:** 32-bit (RGBA with 8-bit transparency channel).
-*   **Dimensions:** Always Power-of-Two ($2^n$) for WebGL mipmapping:
-    *   Individual Tile: $128 \times 128\text{px}$, $256 \times 256\text{px}$, or $512 \times 512\text{px}$.
-    *   Sprite Atlas / Tilesheet: $1024 \times 1024\text{px}$, $2048 \times 2048\text{px}$, or $4096 \times 4096\text{px}$.
+*   **Dimensions:** Always Power-of-Two (`2^n`) for WebGL mipmapping:
+    *   Individual Tile: `128x128px`, `256x256px`, or `512x512px`.
+    *   Sprite Atlas / Tilesheet: `1024x1024px`, `2048x2048px`, or `4096x4096px`.
 *   **Gutter Padding:** Tilesheets must include a **`2px` border extrusion (gutter)** around every tile sprite to eliminate texture bleed during bilinear WebGL filtering.
 
-```
+```text
 +-----+-----+-----+-----+
 | 2px |     | 2px |     |  <- Bleed margin duplicated from edge pixels
 | Ext |     | Ext |     |
@@ -337,7 +343,7 @@ All custom tile assets contributed by artists or generated procedurally must adh
 
 ## 7. Lighting, Emission & Vision Occlusion Metadata
 
-Tiles can act as spatial light emitters or vision occluders. The engine uses this metadata to drive the Raycast Vision Service and GPU shadow shaders.
+Tiles can act as spatial light emitters or vision occluders. The engine uses this metadata to drive `raycastVisionService.ts` and GPU shadow shaders.
 
 ### 7.1 Light Emitter Schema
 
@@ -364,7 +370,7 @@ export interface TileOcclusionDescriptor {
     sound: boolean;      // Acoustic audio pings
   };
   coverBonusDefense: number; // Bonus Defense (+2 Half Cover, +4 Three-Quarters)
-  elevationLayer: number;// Height in feet (0 = Floor, 3 = Half Wall, 10 = Full Bulkhead)
+  elevationLayer: number;    // Height in feet (0 = Floor, 3 = Half Wall, 10 = Full Bulkhead)
 }
 ```
 
@@ -372,7 +378,7 @@ export interface TileOcclusionDescriptor {
 
 ## 8. Universal VTT (`.dd2vtt`) Export Compliance
 
-When maps composed of these tiles are committed or exported to external VTT platforms (Foundry VTT, Fantasy Grounds, Roll20), the engine serializes the tile layout using the **Universal VTT (.dd2vtt)** specification:
+When maps composed of these tiles are committed or exported to external VTT platforms (Foundry VTT, Fantasy Grounds, Roll20), `UniversalVttPackager.ts` serializes the tile layout using the **Universal VTT (`.dd2vtt`) Format 0.2** specification:
 
 ```json
 {
@@ -405,18 +411,27 @@ When maps composed of these tiles are committed or exported to external VTT plat
 }
 ```
 
-*   **Collinear Segment Merging:** Contiguous wall tiles on the same line must be merged into single polyline segments to minimize vertex counts in external engines.
-*   **Coordinate Normalization:** Coordinates are exported in float grid space ($x / \text{cellSize}, y / \text{cellSize}$) with sub-pixel precision.
+*   **Collinear Segment Merging:** Contiguous wall tiles on the same line are merged into single polyline segments to minimize vertex counts in external engines.
+*   **Coordinate Normalization:** Coordinates are exported in float grid space (`x / cellSize`, `y / cellSize`) with sub-pixel precision.
 
 ---
 
-## 9. Validation Checklist for Asset Creators
+## 9. HIFI CHROMA Procedural Shader & AI Tile Recipe Engine
 
-Before registering any new tile into `MASTER_TERRAINS` or `MASTER_OBJECTS`:
+In addition to static SVG/WebP patterns, `src/services/tileAiRecipeService.ts` and `src/schemas/tileSynthesisSchema.ts` provide a deterministic **Natural-Language Prompt-to-Recipe Engine**:
 
-1. [ ] **Seamless Tiling:** Tiled horizontally and vertically without visible seams or seams at boundaries.
-2. [ ] **Palette Compliance:** Uses colors from one of the 11 canonical biomes or provides explicit hex entries.
+1. **Deterministic Local Inference (`inferTileRecipeFromPrompt`):** Converts any natural-language tile description into a validated `TileSynthesisRecipe` with HIFI CHROMA Ligne Claire color palettes (`primaryHex`, `secondaryHex`, `accentHex`, `inkOutlineHex`), procedural noise/weathering parameters, and canonical `2d10` VTT mechanics.
+2. **Gemini-Enhanced Refinement (`generateTileRecipeWithAi`):** Optionally refines Ligne Claire shader parameters and `2d10` hazard/cover formulas via Gemini structured JSON output while falling back seamlessly to deterministic local synthesis.
+
+---
+
+## 10. Validation Checklist for Asset Creators
+
+Before registering any new tile into `MASTER_TERRAINS`, `MASTER_OBJECTS`, or `science_fantasy_core.json`:
+
+1. [ ] **Seamless Tiling:** Tiled horizontally and vertically without visible seams at cell boundaries.
+2. [ ] **Palette Compliance:** Uses colors from one of the 11 canonical biomes or HIFI CHROMA Ligne Claire palettes.
 3. [ ] **Marching Squares Support:** If a ground or liquid tile, provides 4-bit cardinal variants or conforms to polygon contour beveling.
-4. [ ] **Lighting & Shadows:** If an emitter, specifies valid hex color, radius, and animation mode.
-5. [ ] **Collision Flags:** Declares whether tile blocks movement, line of sight, and acoustic sound.
-6. [ ] **Performance Budget:** SVG file size under `25 KB` per pattern; WebP textures under `150 KB` per $512 \times 512$ tile.
+4. [ ] **Lighting & Shadows:** If an emitter, specifies valid hex color, cell radius, and animation mode.
+5. [ ] **Canonical 2d10 Mechanics:** Declares movement cost, occlusion flags, cover Defense bonus, and strictly `2d10` + `CR` hazard formulas (never legacy `d6`/`d8`/`d20` or `DC`).
+6. [ ] **Performance Budget:** SVG file size under `25 KB` per pattern; WebP textures under `150 KB` per `512x512` tile.

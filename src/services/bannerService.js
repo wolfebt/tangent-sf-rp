@@ -487,9 +487,17 @@ export const getCachedHomeBanner = (position = 'top') => {
     const raw = typeof window !== 'undefined' && window.localStorage ? localStorage.getItem(storageKey) : null;
     if (raw) {
       const parsed = JSON.parse(raw);
+      const hasCustomText = Boolean(
+        (typeof parsed?.textBlock === 'string' && parsed.textBlock.trim().length > 0) ||
+        (Array.isArray(parsed?.lines) && parsed.lines.some(l => typeof l === 'string' && l.trim().length > 0)) ||
+        (typeof parsed?.line1 === 'string' && parsed.line1.trim().length > 0) ||
+        (typeof parsed?.line2 === 'string' && parsed.line2.trim().length > 0) ||
+        (typeof parsed?.line3 === 'string' && parsed.line3.trim().length > 0) ||
+        (typeof parsed?.message === 'string' && parsed.message.trim().length > 0)
+      );
       const merged = { ...defaultConfig, ...parsed };
-      // Ensure lines array is properly populated
-      merged.lines = normalizeBannerLines(merged);
+      // Ensure lines array is properly populated from parsed first (without defaultConfig.textBlock shadowing parsed.lines)
+      merged.lines = normalizeBannerLines(hasCustomText ? parsed : merged);
       merged.textBlock = typeof parsed.textBlock === 'string' && parsed.textBlock.trim().length > 0
         ? parsed.textBlock
         : merged.lines.filter(l => l.trim().length > 0).join('\n');
@@ -572,8 +580,16 @@ export const subscribeToHomeBanner = (callback, position = 'top') => {
           return;
         }
 
+        const hasCustomText = Boolean(
+          (typeof data?.textBlock === 'string' && data.textBlock.trim().length > 0) ||
+          (Array.isArray(data?.lines) && data.lines.some(l => typeof l === 'string' && l.trim().length > 0)) ||
+          (typeof data?.line1 === 'string' && data.line1.trim().length > 0) ||
+          (typeof data?.line2 === 'string' && data.line2.trim().length > 0) ||
+          (typeof data?.line3 === 'string' && data.line3.trim().length > 0) ||
+          (typeof data?.message === 'string' && data.message.trim().length > 0)
+        );
         const merged = { ...defaultConfig, ...data };
-        merged.lines = normalizeBannerLines(merged);
+        merged.lines = normalizeBannerLines(hasCustomText ? data : merged);
         merged.textBlock = typeof data.textBlock === 'string' && data.textBlock.trim().length > 0
           ? data.textBlock
           : merged.lines.filter(l => l.trim().length > 0).join('\n');

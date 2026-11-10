@@ -233,14 +233,14 @@ export const AdminBannerModal = ({ isOpen, onClose, initialConfig, onSaved }) =>
                       </div>
                     )}
 
-                    {form.badge && (
+                    {form.badge && form.badge.trim().length > 0 && (
                       <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${
                         hasBg
                           ? currentTheme.badgeBg
                           : 'text-slate-400 bg-transparent border border-slate-700/60'
                       }`}>
                         <SelectedIcon size={12} className="shrink-0" />
-                        <span className="whitespace-nowrap">{form.badge}</span>
+                        <span className="whitespace-nowrap">{form.badge.trim()}</span>
                       </div>
                     )}
                   </div>

@@ -12,13 +12,14 @@ test.describe('Tangent SF RP — Canvas & WebGL Visual Regression Suite (toHaveS
     await page.addInitScript(() => {
       window.localStorage.setItem('userHandle', 'Architect Prime');
       window.localStorage.setItem('hasDismissedWelcome', 'true');
+      window.localStorage.setItem('terran_net_guest_dismissed', 'true');
       window.localStorage.setItem('audioMuted', 'true');
     });
   });
 
   test('1. Tactical Stage 2D & 3D WebGL Canvas Visual Baseline Snapshots', async ({ page }) => {
     await page.goto('/stage');
-    const canvas = page.locator('canvas').first();
+    const canvas = page.locator('main canvas').first();
     await expect(canvas).toBeVisible({ timeout: 15000 });
 
     // 2D Tactical Stage Canvas Baseline
@@ -34,7 +35,7 @@ test.describe('Tangent SF RP — Canvas & WebGL Visual Regression Suite (toHaveS
       await toggle3DBtn.click();
     }
 
-    const activeCanvas = page.locator('canvas').first();
+    const activeCanvas = page.locator('main canvas').first();
     await expect(activeCanvas).toBeVisible({ timeout: 10000 });
     await expect(activeCanvas).toHaveScreenshot('stage-3d-viewport.png', {
       maxDiffPixelRatio: 0.08,
@@ -44,8 +45,8 @@ test.describe('Tangent SF RP — Canvas & WebGL Visual Regression Suite (toHaveS
   });
 
   test('2. MapMaker Konva Cartography Canvas & Story Weaver Graph Visual Baselines', async ({ page }) => {
-    await page.goto('/story-foundry?tab=maps');
-    const mapCanvas = page.locator('canvas').first();
+    await page.goto('/foundry/map');
+    const mapCanvas = page.locator('main canvas').first();
     await expect(mapCanvas).toBeVisible({ timeout: 15000 });
 
     await expect(mapCanvas).toHaveScreenshot('mapmaker-canvas.png', {
@@ -54,10 +55,11 @@ test.describe('Tangent SF RP — Canvas & WebGL Visual Regression Suite (toHaveS
       timeout: 15000
     });
 
-    // Navigate to Story Weaver / Scenarios view
-    await page.goto('/story-foundry?tab=scenarios');
+    // Navigate to Story Weaver / Scenarios Graph view
+    await page.goto('/foundry?view=scenarios&tab=graph');
     const mainRegion = page.locator('main').first();
     await expect(mainRegion).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText('LOADING SYSTEM MODULE')).toHaveCount(0, { timeout: 10000 });
 
     await expect(mainRegion).toHaveScreenshot('story-weaver-graph.png', {
       maxDiffPixelRatio: 0.08,

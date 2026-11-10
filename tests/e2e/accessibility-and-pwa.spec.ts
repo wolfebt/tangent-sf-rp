@@ -8,12 +8,13 @@ test.describe('Tangent SF RP — Accessibility (a11y), Multi-Role Isolation, Can
     await page.addInitScript(() => {
       window.localStorage.setItem('userHandle', 'Architect Prime');
       window.localStorage.setItem('hasDismissedWelcome', 'true');
+      window.localStorage.setItem('terran_net_guest_dismissed', 'true');
       window.localStorage.setItem('audioMuted', 'true');
     });
   });
 
   test('1. Core Routes Semantic Landmarks, Accessible Controls & @axe-core/playwright Audit', async ({ page }, testInfo) => {
-    const routesToAudit = ['/', '/folio', '/codex'];
+    const routesToAudit = ['/', '/folio', '/dbm', '/compendium', '/network'];
 
     for (const route of routesToAudit) {
       await page.goto(route);
@@ -73,7 +74,9 @@ test.describe('Tangent SF RP — Accessibility (a11y), Multi-Role Isolation, Can
 
       for (const p of [architectPage, operativePage]) {
         await p.addInitScript(() => {
+          window.localStorage.setItem('userHandle', 'Architect Prime');
           window.localStorage.setItem('hasDismissedWelcome', 'true');
+          window.localStorage.setItem('terran_net_guest_dismissed', 'true');
           window.localStorage.setItem('audioMuted', 'true');
         });
       }
@@ -83,8 +86,8 @@ test.describe('Tangent SF RP — Accessibility (a11y), Multi-Role Isolation, Can
         operativePage.goto('/vtt')
       ]);
 
-      const archCanvas = architectPage.locator('canvas').first();
-      const opCanvas = operativePage.locator('canvas').first();
+      const archCanvas = architectPage.locator('main canvas').first();
+      const opCanvas = operativePage.locator('main canvas').first();
 
       await expect(archCanvas).toBeVisible({ timeout: 15000 });
       await expect(opCanvas).toBeVisible({ timeout: 15000 });
@@ -94,12 +97,15 @@ test.describe('Tangent SF RP — Accessibility (a11y), Multi-Role Isolation, Can
         ['Architect Stage', architectPage, archCanvas],
         ['Operative VTT', operativePage, opCanvas]
       ] as const) {
-        const box = await canvas.boundingBox();
-        expect(box?.width, `${label} canvas width`).toBeGreaterThan(100);
-        expect(box?.height, `${label} canvas height`).toBeGreaterThan(100);
+        await expect(async () => {
+          const box = await canvas.boundingBox();
+          expect(box).not.toBeNull();
+          expect(box!.width, `${label} canvas width`).toBeGreaterThan(100);
+          expect(box!.height, `${label} canvas height`).toBeGreaterThan(100);
+        }).toPass({ timeout: 10000 });
 
         const canvasDataUri = await pageInstance.evaluate(() => {
-          const c = document.querySelector('canvas');
+          const c = document.querySelector('main canvas') as HTMLCanvasElement | null;
           return c ? c.toDataURL('image/png').slice(0, 64) : '';
         });
         expect(canvasDataUri.startsWith('data:image/png;base64,')).toBe(true);

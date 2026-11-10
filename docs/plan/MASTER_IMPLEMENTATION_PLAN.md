@@ -2,9 +2,9 @@
 
 **Document Path:** `docs/plan/MASTER_IMPLEMENTATION_PLAN.md`  
 **Workspace:** `TANGENT SF RP react project` (`tangent-sfr` v1.0.0)  
-**Last Revised:** October 7, 2026  
+**Last Revised:** November 10, 2026  
 **Status:** Live Architectural Roadmap — Aligned with Production State  
-**Core Philosophy:** **Zero AI Image Generation.** 100% deterministic Procedural Content Generation (PCG), LLM-driven JSON logic scripting, Human-in-the-Loop semantic painting, and Native VTT metadata export.
+**Core Philosophy:** **Zero AI Image Generation.** 100% deterministic Procedural Content Generation (PCG), LLM-driven JSON logic scripting, HIFI CHROMA Ligne Claire procedural tile synthesis, Human-in-the-Loop semantic painting, and Native VTT metadata export.
 
 ---
 
@@ -64,9 +64,8 @@ All cartography, asset ingestion, and map generation subsystems must integrate d
 TANGENT SF RP react project/
 ├── docs/
 │   └── plan/
-│       ├── MAP GEN – MASTER_IMPLEMENTATION_PLAN.md  <-- (Canonical Map Gen Plan)
-│       ├── MASTER_IMPLEMENTATION_PLAN.md            <-- (Mirror / Primary Ref)
-│       └── -map gen.md                              <-- (Taxonomy & concept research)
+│       ├── MASTER_IMPLEMENTATION_PLAN.md            <-- (Canonical Map Gen Plan)
+│       └── MAP_GEN_WORKFLOW_CHECKLIST.md            <-- (Live Integration Checklist)
 ├── src/
 │   ├── components/
 │   │   └── VTT/
@@ -681,7 +680,7 @@ export interface AssetUnit {
    * Run the full engine test suite: `npm.cmd test` (includes `test:engine` and `test:data`).
    * Run co-located engine tests: `node --test src/engines/__tests__/*.test.js`.
    * Run production build typecheck: `npm.cmd run build`.
-   * All 665+ automated test assertions (633 engine tests + 32 data integrity tests) must pass with 0 regressions before committing.
+   * All 814+ automated test assertions (731+ engine tests + 83 data integrity tests) must pass with 0 regressions before committing.
 
 ---
 *End of Master Implementation Plan — Tangent SF ADE*

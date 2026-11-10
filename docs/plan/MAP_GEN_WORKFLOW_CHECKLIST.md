@@ -2,8 +2,8 @@
 ## Architectural Intent vs. Current Live Integration Matrix
 
 **Project:** `tangent-sfr` (v1.0.0) — Tactical VTT & ADE Cartography Engine  
-**Authoritative Plan Reference:** [`docs/plan/MAP GEN – MASTER_IMPLEMENTATION_PLAN.md`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/docs/plan/MAP%20GEN%20%E2%80%93%20MASTER_IMPLEMENTATION_PLAN.md)  
-**Verification Baseline:** 665 / 665 Automated Tests Passing (100%) | 0 TypeScript Errors | Vite Production Build Clean  
+**Authoritative Plan Reference:** [`docs/plan/MASTER_IMPLEMENTATION_PLAN.md`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/docs/plan/MASTER_IMPLEMENTATION_PLAN.md)  
+**Verification Baseline:** 814+ Automated Tests Passing (100% — 731+ Engine + 83 Data Integrity) | 0 TypeScript Errors | Vite Production Build Clean  
 
 ---
 
@@ -193,8 +193,8 @@
 
 | Check | Target | Assertions | Result |
 | :--- | :--- | :---: | :---: |
-| **Engine Test Suite** | `npm.cmd test` (`test:engine`) | 633 | ✅ **633 / 633 Passed (100%)** |
-| **Data Integrity Suite** | `scripts/validateDataIntegrity.mjs` | 32 | ✅ **32 / 32 Passed (100%)** |
+| **Engine Test Suite** | `npm.cmd test` (`test:engine`) | 731+ | ✅ **731+ / 731+ Passed (100%)** |
+| **Data Integrity Suite** | `scripts/validateDataIntegrity.mjs` | 83 | ✅ **83 / 83 Passed (100%)** |
 | **PCG Algorithms** | `tests/engine/pcgAlgorithms.test.mjs` | 5 | ✅ **5 / 5 Passed (100%)** |
 | **PCG Executor & Clearance** | `tests/engine/pcgExecutor.test.mjs` | 4 | ✅ **4 / 4 Passed (100%)** |
 | **Asset Ingestion Pipeline** | `tests/engine/assetIngestion.test.mjs` | 3 | ✅ **3 / 3 Passed (100%)** |
@@ -202,8 +202,8 @@
 | **Marching Squares Auto-Tiler** | `tests/engine/marchingSquaresAutoTiler.test.mjs` | 5 | ✅ **5 / 5 Passed (100%)** |
 | **Map Graphics Compiler** | `tests/engine/mapGraphicsCompiler.test.mjs` | 2 | ✅ **2 / 2 Passed (100%)** |
 | **Universal VTT Packager** | `tests/engine/universalVttPackager.test.mjs` | 3 | ✅ **3 / 3 Passed (100%)** |
-| **Production TypeScript & Vite Bundle** | `npm.cmd run build` | 4,354 modules | ✅ **0 Errors (Passed in ~5.8s)** |
-| **Total Test Assertions** | **Complete Suite** | **665** | ✅ **665 / 665 Passed (100%)** |
+| **Production TypeScript & Vite Bundle** | `npm.cmd run build` | 4,354+ modules | ✅ **0 Errors** |
+| **Total Test Assertions** | **Complete Suite** | **814+** | ✅ **814+ / 814+ Passed (100%)** |
 
 ---
 *Checklist generated and maintained for Tangent SF RP Cartography Engine.*

@@ -125,4 +125,14 @@ describe('Admin Marquee & Banner Service', () => {
     assert.equal(bottom.badge, 'SYSTEM TELEMETRY');
     assert.notEqual(top.line1, bottom.line1);
   });
+
+  it('preserves long multi-line paragraphs without truncation in normalizeBannerLines', () => {
+    const longParagraph = 'The TANGENT Science Fantasy Role Playing Engine is an integrated tabletop roleplaying ruleset and full-stack Virtual Tabletop (VTT), character creation, and narrative authoring platform built for science-fantasy campaigns.';
+    const normalized = normalizeBannerLines({
+      textBlock: `WELCOME TO TANGENT SCIENCE FANTASY ROLE PLAYING ENGINE\n${longParagraph}`
+    });
+    assert.equal(normalized.length, 2);
+    assert.equal(normalized[0], 'WELCOME TO TANGENT SCIENCE FANTASY ROLE PLAYING ENGINE');
+    assert.equal(normalized[1], longParagraph);
+  });
 });

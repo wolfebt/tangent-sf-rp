@@ -10,7 +10,6 @@ const projectRoot = path.resolve(__dirname, '..');
 const omnicortexRoot = path.join(projectRoot, 'src', 'data', 'omnicortex');
 const movementDir = path.join(omnicortexRoot, 'species_movement');
 const movementJsPath = path.join(projectRoot, 'src', 'data', 'speciesMovementData.js');
-const jsonBackupDir = path.join(projectRoot, 'docs', 'recommendations and revison plans', 'omnicortex json', 'current collection');
 
 console.log('================================================================');
 console.log('STARTING DEDUPLICATED CANONICAL MOVEMENT CATALOG REBUILD');
@@ -574,15 +573,6 @@ ALL_MOVEMENT_ENTRIES.forEach(item => {
   fs.writeFileSync(filePath, fullContent, 'utf8');
 });
 console.log(`Wrote ${ALL_MOVEMENT_ENTRIES.length} Markdown files to omnicortex/species_movement`);
-
-// ============================================================================
-// 6. UPDATE JSON BACKUPS
-// ============================================================================
-if (!fs.existsSync(jsonBackupDir)) {
-  fs.mkdirSync(jsonBackupDir, { recursive: true });
-}
-fs.writeFileSync(path.join(jsonBackupDir, 'species_movement_database.json'), JSON.stringify(ALL_MOVEMENT_ENTRIES, null, 2), 'utf8');
-console.log('Updated JSON backups in current collection.');
 
 console.log('\n================================================================');
 console.log('MOVEMENT REORGANIZATION & CATALOG REBUILD COMPLETE!');

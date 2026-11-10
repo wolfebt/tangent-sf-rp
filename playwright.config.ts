@@ -13,7 +13,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 2,
   reporter: [
     ['list'],
     ['html', { open: 'never' }]
@@ -48,6 +48,20 @@ export default defineConfig({
       name: 'mobile-tablet',
       use: {
         ...devices['iPad Pro 11'],
+        browserName: 'chromium',
+        launchOptions: {
+          args: process.env.CI ? [
+            '--use-gl=angle',
+            '--use-angle=swiftshader',
+            '--enable-webgl',
+            '--enable-unsafe-webgpu',
+            '--ignore-gpu-blocklist',
+            '--disable-dev-shm-usage',
+          ] : [
+            '--enable-webgl',
+            '--ignore-gpu-blocklist',
+          ],
+        },
       },
     },
   ],

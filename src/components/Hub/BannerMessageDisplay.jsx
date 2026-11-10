@@ -165,16 +165,40 @@ export const BannerMessageDisplay = ({
               ? 'text-[10.5px] sm:text-[12px]'
               : 'text-[9.5px] sm:text-[11px]';
 
+          const untypedText = lineText.slice(displayedText.length);
+
+          if (isRightAligned) {
+            return (
+              <div 
+                key={idx} 
+                className={`w-full font-mono font-semibold tracking-wide grid grid-cols-1 items-start justify-items-end text-right min-h-[17px] leading-snug whitespace-pre-wrap break-words ${textColor} ${textGlow} ${fontSizeClass}`}
+              >
+                <span
+                  className="col-start-1 row-start-1 w-full text-right whitespace-pre-wrap break-words invisible select-none opacity-0 pointer-events-none"
+                  aria-hidden="true"
+                >
+                  {lineText}
+                </span>
+                <span className="col-start-1 row-start-1 w-full text-right whitespace-pre-wrap break-words">
+                  {displayedText}
+                </span>
+              </div>
+            );
+          }
+
           return (
             <div 
               key={idx} 
-              className={`w-full font-mono font-semibold tracking-wide flex items-center ${isRightAligned ? 'justify-end text-right' : 'justify-start text-left'} min-h-[17px] leading-tight overflow-hidden text-ellipsis whitespace-nowrap ${textColor} ${textGlow} ${fontSizeClass}`}
+              className={`w-full font-mono font-semibold tracking-wide flex items-start justify-start text-left min-h-[17px] leading-snug whitespace-pre-wrap break-words ${textColor} ${textGlow} ${fontSizeClass}`}
             >
-              {displayedText ? (
-                <span className={`truncate ${isRightAligned ? 'text-right' : 'text-left'}`}>{displayedText}</span>
-              ) : (
-                <span className="invisible select-none opacity-0 pointer-events-none">&nbsp;</span>
-              )}
+              <span className="w-full text-left whitespace-pre-wrap break-words">
+                <span>{displayedText}</span>
+                {untypedText && (
+                  <span className="invisible select-none opacity-0 pointer-events-none" aria-hidden="true">
+                    {untypedText}
+                  </span>
+                )}
+              </span>
             </div>
           );
         })}

@@ -9,14 +9,12 @@ const projectRoot = path.resolve(__dirname, '..');
 
 const omnicortexRoot = path.join(projectRoot, 'src', 'data', 'omnicortex');
 const supportingJsPath = path.join(projectRoot, 'src', 'data', 'supportingCatalogsData.js');
-const jsonBackupDir = path.join(projectRoot, 'docs', 'recommendations and revison plans', 'omnicortex json', 'current collection');
 
 console.log('================================================================');
 console.log('STARTING MASTER SUPPORTING CATALOGS INGESTION & GENERATION');
 console.log('================================================================');
 
 if (!fs.existsSync(omnicortexRoot)) fs.mkdirSync(omnicortexRoot, { recursive: true });
-if (!fs.existsSync(jsonBackupDir)) fs.mkdirSync(jsonBackupDir, { recursive: true });
 
 const standardCostsAndSockets = {
   costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
@@ -721,15 +719,6 @@ export const DEFAULT_ECONOMATRIX = COMMODITIES_CATALOG.map(c => ({
 
 fs.writeFileSync(supportingJsPath, jsExportContent, 'utf8');
 console.log(`Updated JavaScript seed catalogs in: ${supportingJsPath}`);
-
-// ============================================================================
-// 4. UPDATE JSON BACKUPS
-// ============================================================================
-Object.entries(ALL_COLLECTIONS).forEach(([catKey, items]) => {
-  const backupFile = path.join(jsonBackupDir, `${catKey}_database.json`);
-  fs.writeFileSync(backupFile, JSON.stringify(items, null, 2), 'utf8');
-});
-console.log('Updated JSON backups in current collection.');
 
 console.log('\n================================================================');
 console.log('SUPPORTING CATALOGS INGESTION COMPLETE!');

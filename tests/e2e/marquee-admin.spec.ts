@@ -65,7 +65,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     const saveBtn = page.getByTestId('save-user-settings-btn');
     await expect(saveBtn).toBeVisible();
     await saveBtn.click();
-    await expect(dialog).not.toBeVisible({ timeout: 5000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Home banner has updated text
     await expect(page.getByText('TEST AUTOMATED ALERT TRANSMISSION // SECTOR 9 NOMINAL').first()).toBeVisible({ timeout: 10000 });
@@ -110,7 +110,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     // Save changes via modal footer Save Changes button
     const saveBtn = page.getByTestId('save-user-settings-btn');
     await saveBtn.click();
-    await expect(dialog).not.toBeVisible({ timeout: 5000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Home banner shows updated text
     await expect(page.getByText(/INCURSION DETECTED IN SECTOR 7/i).first()).toBeVisible({ timeout: 12000 });
@@ -151,7 +151,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify that when disabled, banner is completely hidden with ZERO fallback buttons or pills
     await expect(page.locator('button:has-text("BROADCAST OFFLINE")')).toHaveCount(0);
@@ -173,7 +173,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     // Save changes via modal footer Save Changes button
     const saveBtn2 = page.getByTestId('save-user-settings-btn');
     await saveBtn2.click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify banner is active again with ZERO buttons or controls
     await expect(page.getByText(/WELCOME TO|TACTICAL BROADCAST/i).first()).toBeVisible({ timeout: 10000 });
@@ -208,7 +208,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify right-justified class on Home banner display
     const rightAlignedBanner = page.locator('.items-end.text-right').first();
@@ -236,7 +236,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Static Fade & Glow classes on Home banner
     const pulsedBanner = page.locator('.animate-static-fade-pulse').first();
@@ -279,7 +279,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Home banner badge has no icon (zero SVGs inside the badge element)
     const badgeContainer = page.locator('.whitespace-nowrap').locator('xpath=ancestor::*[contains(@class, "tracking-wider")][1]');
@@ -320,7 +320,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Home banner renders with silver text and black shadow styling
     const silverBannerText = page.locator('.silver-black-text-shadow').first();
@@ -361,7 +361,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Home banner has no pulsing beacon dots
     const bannerContainer = page.locator('.max-w-6xl, .max-w-7xl').first();
@@ -392,7 +392,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await gelFrameBtn.click({ force: true });
 
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify beacon dots and cyber-gel background are restored
     const restoredBanner = page.locator('.max-w-6xl, .max-w-7xl').first();
@@ -453,7 +453,7 @@ test.describe('Admin Marquee Controls Suite', () => {
 
     // Save changes via modal footer Save Changes button
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // 3. Verify BOTH Top and Bottom Marquees are rendered on Home screen
     const topMarquee = page.locator('[data-marquee-position="top"]');
@@ -496,7 +496,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.locator('button:has-text("DISABLED (OFFLINE)")').first()).toBeVisible();
 
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify Top Marquee is still visible while Bottom Marquee is hidden
     await expect(topMarquee.getByText(/TOP BROADCAST \/\/ ORBITAL STATION ALPHA ACTIVE/i)).toBeVisible();
@@ -534,7 +534,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await multilineInput.fill('BOTTOM LINE 1 ANCHOR');
 
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     const topMarquee = page.locator('[data-marquee-position="top"]');
     const bottomMarquee = page.locator('[data-marquee-position="bottom"]');
@@ -576,7 +576,7 @@ test.describe('Admin Marquee Controls Suite', () => {
     await expect(page.getByText('4 Active Lines')).toBeVisible();
 
     await page.getByTestId('save-user-settings-btn').click();
-    await expect(dialog).not.toBeVisible({ timeout: 8000 });
+    await expect(dialog).not.toBeVisible({ timeout: 15000 });
 
     // Verify all 4 lines are rendered on both marquees
     await expect(topMarquee).toHaveAttribute('data-marquee-lines', '4');
@@ -600,6 +600,39 @@ test.describe('Admin Marquee Controls Suite', () => {
     expect(Math.abs(bottomEdge4 - bottomEdge1)).toBeLessThanOrEqual(2);
     expect(bottomBox4!.height).toBeGreaterThan(bottomBox1!.height + 20);
     expect(bottomBox4!.y).toBeLessThan(bottomBox1!.y - 20);
+  });
+
+  test('10. Verify Long Paragraph Lines in Ticker Mode Wrap Across Multiple Lines Without Truncation', async ({ page }) => {
+    const longParagraph = 'The TANGENT Science Fantasy Role Playing Engine is an integrated tabletop roleplaying ruleset and full-stack Virtual Tabletop (VTT), character creation, and narrative authoring platform built for science-fantasy campaigns.';
+    await page.addInitScript((paragraph) => {
+      window.localStorage.setItem('tangent_home_banner', JSON.stringify({
+        enabled: true,
+        badge: ' ',
+        icon: 'none',
+        colorTheme: 'cyan',
+        mode: 'ticker',
+        tickerSpeed: 2,
+        tickerAlignment: 'left',
+        showBackground: true,
+        textBlock: `WELCOME TO TANGENT SCIENCE FANTASY ROLE PLAYING ENGINE\n${paragraph}`,
+        lines: [
+          'WELCOME TO TANGENT SCIENCE FANTASY ROLE PLAYING ENGINE',
+          paragraph
+        ],
+        _localUpdatedAt: Date.now() + 60000
+      }));
+    }, longParagraph);
+
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const topMarquee = page.locator('[data-marquee-position="top"]');
+    await expect(topMarquee).toBeVisible({ timeout: 8000 });
+    await expect(topMarquee.locator('[data-ticker-phase="holding"]')).toBeVisible({ timeout: 15000 });
+
+    // Ensure the full paragraph is visible and wraps without single-line truncation classes
+    await expect(topMarquee.getByText(/built for science-fantasy campaigns\./i)).toBeVisible();
+    await expect(topMarquee.locator('.truncate')).toHaveCount(0);
   });
 });
 

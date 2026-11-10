@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-12T07:14:34.061Z",
+  "timestamp": "2026-11-10T13:05:53.364Z",
   "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
   "diagnostics": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
@@ -24,11 +24,22 @@
       "sync:species-traits",
       "sync:species-disadvantages",
       "build:data",
+      "sync:staging",
+      "sync:cross-vault",
+      "audit:markdown",
       "test:data",
       "test:engine",
+      "test:security",
+      "test:security:emulator",
+      "test:functions",
+      "test:fuzz",
+      "test:stores",
+      "test:hooks",
       "test:e2e",
       "test:e2e:smoke",
       "test:e2e:journeys",
+      "test:e2e:a11y",
+      "test:e2e:visual",
       "test"
     ],
     "dependencies": {
@@ -60,16 +71,25 @@
       "zustand": "^5.0.15"
     },
     "devDependencies": {
+      "@axe-core/playwright": "^4.13.0",
+      "@firebase/rules-unit-testing": "^5.0.0",
       "@playwright/test": "^1.51.0",
       "@tailwindcss/vite": "^4.3.3",
+      "@testing-library/dom": "^10.4.2",
+      "@testing-library/jest-dom": "^7.0.1",
+      "@testing-library/react": "^16.3.3",
+      "@types/react": "^19.2.7",
       "@types/react-dom": "^19.2.5",
       "@types/three": "^0.185.4",
       "@vitejs/plugin-react": "^6.0.3",
+      "fast-check": "^4.10.2",
       "firebase-admin": "^14.2.0",
+      "jsdom": "^30.1.2",
       "tailwindcss": "^4.3.3",
       "typescript": "~6.0.2",
       "vite": "^8.1.1",
       "vite-plugin-pwa": "^1.3.0",
+      "vitest": "^5.0.4",
       "workbox-core": "^7.4.1",
       "workbox-precaching": "^7.4.1",
       "workbox-routing": "^7.4.1",
@@ -79,7 +99,7 @@
     "git": {
       "isRepo": true,
       "branch": "main",
-      "lastCommit": "0a462e4 - feat(guide): modularize Comprehensive User Guide into interactive chapters with fast search, topic filters, and dedicated wiki view (2026-10-12 01:48:53 -0500)",
+      "lastCommit": "3cab6c54 - feat(codex, dbm, engines): implement itemized property build cost validator, formula sync patch, and bottom rail valuation cards (2026-11-10 06:13:48 -0600)",
       "hasUncommittedChanges": true
     },
     "playwright": {
@@ -87,7 +107,7 @@
       "version": "^1.51.0",
       "configFile": "playwright.config.ts",
       "testDir": "./tests/e2e",
-      "specFilesCount": 4,
+      "specFilesCount": 6,
       "projects": [
         "chromium-webgl",
         "mobile-tablet"
@@ -97,13 +117,92 @@
         "url": "http://127.0.0.1:4173"
       }
     },
+    "testBattery": {
+      "e2eSpecFiles": 6,
+      "engineTestFiles": 120,
+      "hookAndComponentTestFiles": 3,
+      "canonicalRuleFiles": 316
+    },
     "memoryUsageMB": {
-      "rss": "74.95",
-      "heapUsed": "18.60"
+      "rss": "80.69",
+      "heapUsed": "22.44"
     }
   },
   "routes": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+    "canonicalRoutes": {
+      "HOME": "/",
+      "CODEX": "/codex",
+      "COMPENDIUM": "/compendium",
+      "DBM": "/dbm",
+      "FOLIO": "/folio",
+      "FOUNDRY": "/foundry",
+      "FOUNDRY_HUB": "/foundry/hub",
+      "FOUNDRY_MISSION_CONTROL": "/foundry/mission-control",
+      "FOUNDRY_LIVE": "/foundry/live",
+      "FOUNDRY_LIVE_STUDIO": "/foundry/live-studio",
+      "FOUNDRY_MAP": "/foundry/map",
+      "FOUNDRY_ADE": "/foundry/ade",
+      "STAGE": "/stage",
+      "COMMS": "/comms",
+      "TEAMS": "/teams"
+    },
+    "pillarNavigation": [
+      {
+        "id": "folio",
+        "label": "FOLIO",
+        "path": "/folio"
+      },
+      {
+        "id": "rules",
+        "label": "RULES",
+        "path": "/compendium"
+      },
+      {
+        "id": "network",
+        "label": "NETWORK",
+        "path": "/network"
+      },
+      {
+        "id": "foundry",
+        "label": "ADE",
+        "path": "/foundry"
+      },
+      {
+        "id": "dbm",
+        "label": "CORTEX",
+        "path": "/dbm"
+      }
+    ],
+    "workspaceQueryViews": {
+      "foundryViews": [
+        "hub",
+        "scenarios",
+        "campaigns",
+        "stories",
+        "arcs",
+        "scenes",
+        "encounters",
+        "elements",
+        "forge",
+        "map",
+        "maps",
+        "bestiary",
+        "loot",
+        "stage",
+        "live"
+      ],
+      "networkViews": [
+        "comms",
+        "squads"
+      ],
+      "codexToCortexRedirects": {
+        "/codex": "/dbm?cat=species&mode=studio",
+        "/codex?matrix=weaponry": "/dbm?cat=equipment&mode=studio",
+        "/codex?matrix=traits": "/dbm?cat=traits&mode=studio",
+        "/codex?matrix=manifestations": "/dbm?cat=powers&mode=studio"
+      }
+    },
     "reactAppRoutes": [
       {
         "path": "/",
@@ -143,11 +242,11 @@
       },
       {
         "path": "/codex",
-        "element": "<CodexApp />"
+        "element": "<CodexToCortexRedirect />"
       },
       {
         "path": "/codex/*",
-        "element": "<CodexApp />"
+        "element": "<CodexToCortexRedirect />"
       },
       {
         "path": "/compendium",
@@ -167,6 +266,10 @@
       },
       {
         "path": "/dbm",
+        "element": "<DBM />"
+      },
+      {
+        "path": "/dbm/*",
         "element": "<DBM />"
       },
       {
@@ -380,6 +483,7 @@
       "src/pages/Codex/CodexAiSynthesizerModal.jsx",
       "src/pages/Codex/CodexApp.jsx",
       "src/pages/Codex/codexAssetBridge.js",
+      "src/pages/Codex/codexBuildCostValidator.js",
       "src/pages/Codex/codexConfig.js",
       "src/pages/Codex/CodexDatasetDashboard.jsx",
       "src/pages/Codex/codexDatasetGuidance.js",
@@ -388,6 +492,7 @@
       "src/pages/Codex/CodexMatrixBuilder.jsx",
       "src/pages/Codex/codexPromptRegistry.js",
       "src/pages/Codex/CodexSidebar.jsx",
+      "src/pages/Codex/codexSynthesizerConfig.js",
       "src/pages/Codex/components/ArchetypeConfigurator.jsx",
       "src/pages/Codex/components/ArchitectureBlueprintConfigurator.jsx",
       "src/pages/Codex/components/ArmorCoverageSelector.jsx",
@@ -414,11 +519,11 @@
       "src/pages/Codex/components/WeaponModStacker.jsx",
       "src/pages/Codex/EconomatrixDashboard.jsx",
       "src/pages/Codex/hooks/useComputedState.js",
+      "src/pages/Codex/hooks/__tests__/useComputedState.test.jsx",
       "src/pages/Codex/ScalingCodex.jsx",
       "src/pages/Codex/TechnologyCodex.jsx",
       "src/pages/CommsPage.jsx",
       "src/pages/Compendium/CompendiumApp.jsx",
-      "src/pages/Compendium/OmnicortexCatalogView.jsx",
       "src/pages/Compendium.jsx",
       "src/pages/DBM.jsx",
       "src/pages/Folio.jsx",
@@ -438,20 +543,31 @@
       "src/pages/Foundry/ElementForge/ElementForge.jsx",
       "src/pages/Foundry/ElementForge/elementSchemas.js",
       "src/pages/Foundry/ElementForge/ElementSelectorModal.jsx",
+      "src/pages/Foundry/ElementForge/guided/elementPlaybooks.js",
+      "src/pages/Foundry/ElementForge/guided/guidedElementAiService.ts",
+      "src/pages/Foundry/ElementForge/guided/stages/Stage1SparkAndCanon.jsx",
+      "src/pages/Foundry/ElementForge/guided/stages/Stage2DirectorialLens.jsx",
+      "src/pages/Foundry/ElementForge/guided/stages/Stage3CoreReality.jsx",
+      "src/pages/Foundry/ElementForge/guided/stages/Stage4TacticalSystems.jsx",
+      "src/pages/Foundry/ElementForge/guided/stages/Stage5WebAndFinalize.jsx",
       "src/pages/Foundry/FoundryApp.jsx",
       "src/pages/Foundry/hooks/useWaypointEngine.js",
       "src/pages/Foundry/MapMaker/components/AssetStudioTab.tsx",
+      "src/pages/Foundry/MapMaker/components/ChunkStudioModal.tsx",
       "src/pages/Foundry/MapMaker/components/MapMaker3DPreviewModal.jsx",
       "src/pages/Foundry/MapMaker/components/MapMakerTabBar.jsx",
       "src/pages/Foundry/MapMaker/components/PcgAiStudioTab.tsx",
       "src/pages/Foundry/MapMaker/components/VttExportTab.tsx",
       "src/pages/Foundry/MapMaker/hooks/useMapCanvasEvents.js",
       "src/pages/Foundry/MapMaker/hooks/useMapHistory.js",
+      "src/pages/Foundry/MapMaker/hooks/__tests__/useMapHistory.test.jsx",
       "src/pages/Foundry/MapMaker/map/AoEResolutionModal.jsx",
       "src/pages/Foundry/MapMaker/map/ArchitectAssetCockpit.jsx",
       "src/pages/Foundry/MapMaker/map/ArchitectConsoleRail.jsx",
       "src/pages/Foundry/MapMaker/map/ArchitectDirectorDeck.jsx",
       "src/pages/Foundry/MapMaker/map/AssetDrawingStudio.jsx",
+      "src/pages/Foundry/MapMaker/map/ChunkGhostPreviewOverlay.jsx",
+      "src/pages/Foundry/MapMaker/map/ChunkToolDrawerContent.tsx",
       "src/pages/Foundry/MapMaker/map/CombatResolutionModal.jsx",
       "src/pages/Foundry/MapMaker/map/ConditionManagerModal.jsx",
       "src/pages/Foundry/MapMaker/map/DraggablePanel.jsx",
@@ -475,6 +591,7 @@
       "src/pages/Foundry/MapMaker/map/OmnicortexAssetDrawer.jsx",
       "src/pages/Foundry/MapMaker/map/OperativeCockpitRail.jsx",
       "src/pages/Foundry/MapMaker/map/OperativeTacticalHud.jsx",
+      "src/pages/Foundry/MapMaker/map/PlacedChunkInspectorBar.jsx",
       "src/pages/Foundry/MapMaker/map/ReactionPromptModal.jsx",
       "src/pages/Foundry/MapMaker/map/ScenarioObjectivesModal.jsx",
       "src/pages/Foundry/MapMaker/map/StarshipBridgeModal.jsx",
@@ -556,9 +673,9 @@
       "src/pages/Foundry/StoryModule/workspaces/StoryGallery.jsx",
       "src/pages/Foundry/StoryModule/workspaces/StoryWeaver.jsx",
       "src/pages/Foundry/StoryModule/workspaces/VisualStoryGraph.jsx",
+      "src/pages/Foundry/Weaver/tabs/assetGraphUtils.js",
       "src/pages/Foundry/Weaver/tabs/BrainstormTab.jsx",
       "src/pages/Foundry/Weaver/tabs/ElementsTab.jsx",
-      "src/pages/Foundry/Weaver/tabs/GemsTab.jsx",
       "src/pages/Foundry/Weaver/tabs/WeaverGraphTab.jsx",
       "src/pages/Foundry/Weaver/WeaverWorkspace.jsx",
       "src/pages/Home.jsx",
@@ -570,6 +687,7 @@
       "src/components/VTT/hooks/useCombatController.ts",
       "src/components/VTT/hooks/useDesignModeController.ts",
       "src/components/VTT/hooks/useMapIngestion.ts",
+      "src/components/VTT/hooks/__tests__/vttControllers.test.tsx",
       "src/constants/routes.js",
       "src/services/aimeTierRouter.ts"
     ],
@@ -579,25 +697,38 @@
   },
   "schemas": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
-    "totalSchemasDetected": 11,
+    "totalSchemasDetected": 14,
+    "totalDetected": 14,
     "detectedSchemas": [
       {
         "file": "src/pages/Foundry/ElementForge/elementSchemas.js",
         "priority": "canonical",
-        "totalBytes": 34471,
-        "snippet": "/**\n * @file elementSchemas.js\n * @description Element Input Schemas & Field Definitions for Story Foundry & AIME Creative Suite.\n * Grounded in \"The Art of AI Crafting\" Layer 2 (Traits - The Objective Reality).\n * Defines the 7 Core Element Modules and supports legacy RPG extensions.\n */\n\nexport const AIME_CORE_MODULES = [\n  {\n    type: 'World Anvil',\n    canonicalType: 'World',\n    ext: '.world',\n    icon: '🌍',\n    pillStyle: 'bg-sky-500/20 text-sky-300 border-sky-500/40',\n    description: 'Establishes foundational world, factions, history timeline, and unique physics.'\n  },\n  {\n    type: 'Persona Maker',\n    canonicalType: 'Persona',\n    ext: '.persona',\n    icon: '👤',\n    pillStyle: 'bg-purple-500/20 text-purple-300 border-purple-500/40',\n    description: 'Creates detailed characters, archetypes, motivations, flaws, and relationships.'\n  },\n  {\n    type: 'Setting Architect',\n    canonicalType: 'Setting',\n    ext: '.setting',\n    icon: '🏛️',\n    pillStyle: 'bg-rose-500/20 text-rose-300 border-rose-500/40',\n    description: 'Designs specific geographic, architectural, and demographic locations.'\n  },\n  {\n    type: 'Species Creator',\n    canonicalType: 'Species',\n    ext: '.species',\n    icon: '🧬',\n    pillStyle: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40',\n    description: 'Fleshes out sentient species, xenobiology, powers, behavior, and habitats.'\n  },\n  {\n    type: 'Technology Forge',\n    canonicalType: 'Technology',\n    ext: '.tech',\n    icon: '⚙️',\n    pillStyle: 'bg-amber-500/20 text-amber-300 border-amber-500/40',\n    description: 'Defines technologies, tech levels, power sources, and societal impact.'\n  },\n  {\n    type: 'Philosophy Scribe',\n    canonicalType: 'Philosophy',\n    ext: '.philosophy',\n    icon: '📜',\n    pillStyle: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',\n    description: 'Codifies religions, belief systems, rituals, iconography, and social influence.'\n  },\n  {\n    type: 'Scene Builder',\n    canonicalType: 'Scene',\n    ext: '.scene',\n    icon: '🎬',\n    pillStyle: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',\n    description: 'Constructs narrative scenes, sluglines, sensory details, and key interactivity.'\n  }\n];\n\nexport const AIME_CORE_ELEMENT_TYPES = AIME_CORE_MODULES.map(m => m.type);\n\nexport const ELEMENT_TYPES = [\n  // 7 Core AIME Modules\n  'World Anvil', 'Persona Maker', 'Setting Architect', 'Species Creator', \n  'Technology Forge', 'Philosophy Scribe', 'Scene Builder',\n  // Canonical Single-Word Aliases & RPG Extensions\n  'Persona', 'Scene', 'Setting', 'World', 'Species', 'Technology', 'Philosophy',\n  'Story Arc', 'Adventure', 'Faction', 'Encounter', 'Item', 'Clue', 'Handout', 'Map', 'Custom', 'Universe'\n];\n\n/**\n * Returns canonical file extension for an element type.\n */\nexport const getElementFileExtension = (type = '') => {\n  const norm = (type || '').toLowerCase();\n  if (norm.includes('persona')) return '.persona';\n  if (norm.includes('world') || norm.includes('anvil"
+        "totalBytes": 54343,
+        "snippet": "/**\n * @file elementSchemas.js\n * @description Element Input Schemas & Field Definitions for Story Foundry & AIME Creative Suite.\n * Grounded in \"The Art of AI Crafting\" Layer 2 (Traits - The Objective Reality).\n * Defines the 7 Core Element Modules and supports legacy RPG extensions.\n */\n\nexport const AIME_CORE_MODULES = [\n  {\n    type: 'World Anvil',\n    canonicalType: 'World',\n    ext: '.world',\n    icon: '🌍',\n    pillStyle: 'bg-sky-500/20 text-sky-300 border-sky-500/40',\n    description: 'Establishes foundational world, factions, history timeline, and unique physics.'\n  },\n  {\n    type: 'Persona Maker',\n    canonicalType: 'Persona',\n    ext: '.persona',\n    icon: '👤',\n    pillStyle: 'bg-purple-500/20 text-purple-300 border-purple-500/40',\n    description: 'Creates detailed characters, archetypes, motivations, flaws, and relationships.'\n  },\n  {\n    type: 'Setting Architect',\n    canonicalType: 'Setting',\n    ext: '.setting',\n    icon: '🏛️',\n    pillStyle: 'bg-rose-500/20 text-rose-300 border-rose-500/40',\n    description: 'Designs specific geographic, architectural, and demographic locations.'\n  },\n  {\n    type: 'Species Creator',\n    canonicalType: 'Species',\n    ext: '.species',\n    icon: '🧬',\n    pillStyle: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40',\n    description: 'Fleshes out sentient species, xenobiology, powers, behavior, and habitats.'\n  },\n  {\n    type: 'Technology Forge',\n    canonicalType: 'Property',\n    ext: '.tech',\n    icon: '⚙️',\n    pillStyle: 'bg-amber-500/20 text-amber-300 border-amber-500/40',\n    description: 'Defines property, technologies, weaponry, armoring, augmentations, gear, mecha, and architecture.'\n  },\n  {\n    type: 'Philosophy Scribe',\n    canonicalType: 'Philosophy',\n    ext: '.philosophy',\n    icon: '📜',\n    pillStyle: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',\n    description: 'Codifies religions, belief systems, rituals, iconography, and social influence.'\n  },\n  {\n    type: 'Scene Builder',\n    canonicalType: 'Scene',\n    ext: '.scene',\n    icon: '🎬',\n    pillStyle: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',\n    description: 'Constructs narrative scenes, sluglines, sensory details, and key interactivity.'\n  }\n];\n\nexport const AIME_CORE_ELEMENT_TYPES = AIME_CORE_MODULES.map(m => m.type);\n\nexport const PROPERTY_SUBCATEGORIES = [\n  { id: 'weaponry', label: 'Weaponry', shortLabel: 'WEAPONRY', dbmCollection: 'weaponry', codexMatrixId: 'weaponry', icon: '⚔️' },\n  { id: 'armoring', label: 'Armoring', shortLabel: 'ARMORING', dbmCollection: 'armoring', codexMatrixId: 'armor', icon: '🛡️' },\n  { id: 'augmentations', label: 'Augmentations', shortLabel: 'AUGMENTS', dbmCollection: 'augmentations', codexMatrixId: 'augmentations', icon: '🦾' },\n  { id: 'gear', label: 'Gear & Equipment', shortLabel: 'GEAR', dbmCollection: 'gear', codexMatrixId: 'equipment', icon: '🎒' },\n  { id: 'mecha', label: 'Mecha & Vehicles', shortLabel: 'MECHA', dbmCollection: 'mecha', codexMatr"
       },
       {
         "file": "firestore.rules",
         "priority": "canonical",
-        "totalBytes": 17711,
-        "snippet": "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n\n    // =========================================================================\n    // HELPER FUNCTIONS\n    // =========================================================================\n    function isAuthenticated() {\n      return request.auth != null;\n    }\n\n    function isAdmin() {\n      return isAuthenticated() && (request.auth.token.admin == true || request.auth.token.role == 'GM');\n    }\n\n    function isOwner(userId) {\n      return isAuthenticated() && request.auth.uid == userId;\n    }\n\n    // =========================================================================\n    // 1. OMNICORTEX (DBM) REFERENCE COLLECTIONS: Public Read, Admin/GM Write\n    // =========================================================================\n    match /archetypes/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /architecture/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /area/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /armoring/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /attributes/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /augmentation_type/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /augmentations/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /availability/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /body_location/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /classification/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /compendium/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /component/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /conditions/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /creator/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_failure_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_success_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /cybernetics/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /damage_types/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /design/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /disadvantages/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /disciplines/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /economatrix/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /equipment/{document} { allow read: if true; allow write: if isAdmin(); }\n    matc"
+        "totalBytes": 26637,
+        "snippet": "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n\n    // =========================================================================\n    // HELPER FUNCTIONS\n    // =========================================================================\n    function isAuthenticated() {\n      return request.auth != null;\n    }\n\n    function isAdmin() {\n      return isAuthenticated() && (\n        request.auth.token.admin == true || \n        request.auth.token.role == 'GM' ||\n        request.auth.token.email == 'btw.284@gmail.com'\n      );\n    }\n\n    function isOwner(userId) {\n      return isAuthenticated() && request.auth.uid == userId;\n    }\n\n    // =========================================================================\n    // 1. OMNICORTEX (DBM) REFERENCE COLLECTIONS: Public Read, Admin/GM Write\n    // =========================================================================\n    match /archetypes/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /architecture/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /area/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /armoring/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /attributes/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /augmentation_type/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /augmentations/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /availability/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /body_location/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /classification/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /compendium/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /component/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /conditions/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /creator/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_failure_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /critical_success_effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /cybernetics/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /damage_types/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /design/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /disadvantages/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /disciplines/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /economatrix/{document} { allow read: if true; allow write: if isAdmin(); }\n    match /effect/{document} { allow read: if true; allow write: if isAdmin(); }\n    matc"
+      },
+      {
+        "file": "storage.rules",
+        "priority": "canonical",
+        "totalBytes": 1284,
+        "snippet": "rules_version = '2';\nservice firebase.storage {\n  match /b/{bucket}/o {\n    \n    // Character folio image slot files: users/{userId}/personas/{personaId}/{slotFile}\n    // Enforces user ownership, 350 KB client-compression quota, and allowed slot patterns\n    match /users/{userId}/personas/{personaId}/{slotFile} {\n      \n      // Allow read for authenticated users (required for party rosters, VTT sessions, and campaigns)\n      allow read: if request.auth != null;\n\n      // Allow write ONLY if:\n      // 1. The user owns this directory\n      // 2. File size does not exceed 350 KB (enforces client-side WebP compression)\n      // 3. Content type is an image\n      // 4. File name matches canonical slot names: portrait, token, standee, or gallery index\n      allow write: if request.auth != null\n        && request.auth.uid == userId\n        && request.resource.size <= 350 * 1024\n        && request.resource.contentType.matches('image/(webp|png|jpeg)')\n        && slotFile.matches('^(portrait|token|standee|gallery_[0-9]+)[.](webp|png|jpg)$');\n\n      // Allow deletion only by the owner\n      allow delete: if request.auth != null && request.auth.uid == userId;\n    }\n\n    // Default deny all other paths\n    match /{allPaths=**} {\n      allow read, write: if false;\n    }\n  }\n}\n"
+      },
+      {
+        "file": "firestore.indexes.json",
+        "priority": "canonical",
+        "totalBytes": 1198,
+        "snippet": "{\n  \"indexes\": [\n    {\n      \"collectionGroup\": \"messages\",\n      \"queryScope\": \"COLLECTION\",\n      \"fields\": [\n        { \"fieldPath\": \"channelId\", \"order\": \"ASCENDING\" },\n        { \"fieldPath\": \"createdAt\", \"order\": \"DESCENDING\" }\n      ]\n    },\n    {\n      \"collectionGroup\": \"messages\",\n      \"queryScope\": \"COLLECTION\",\n      \"fields\": [\n        { \"fieldPath\": \"channelId\", \"order\": \"ASCENDING\" },\n        { \"fieldPath\": \"createdAt\", \"order\": \"ASCENDING\" }\n      ]\n    },\n    {\n      \"collectionGroup\": \"personas\",\n      \"queryScope\": \"COLLECTION_GROUP\",\n      \"fields\": [\n        { \"fieldPath\": \"isPublic\", \"order\": \"ASCENDING\" },\n        { \"fieldPath\": \"updatedAt\", \"order\": \"DESCENDING\" }\n      ]\n    },\n    {\n      \"collectionGroup\": \"personas\",\n      \"queryScope\": \"COLLECTION\",\n      \"fields\": [\n        { \"fieldPath\": \"ownerUid\", \"order\": \"ASCENDING\" },\n        { \"fieldPath\": \"updatedAt\", \"order\": \"DESCENDING\" }\n      ]\n    },\n    {\n      \"collectionGroup\": \"characters\",\n      \"queryScope\": \"COLLECTION\",\n      \"fields\": [\n        { \"fieldPath\": \"userId\", \"order\": \"ASCENDING\" },\n        { \"fieldPath\": \"updatedAt\", \"order\": \"DESCENDING\" }\n      ]\n    }\n  ],\n  \"fieldOverrides\": []\n}\n"
       },
       {
         "file": "src/components/Folio/schema.js",
         "priority": "detected",
-        "totalBytes": 14751,
-        "snippet": "import { z } from 'zod';\r\n\r\nexport const traitItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Unnamed Trait'),\r\n    cp: z.union([z.number(), z.string()]).optional().default(0),\r\n    category: z.string().optional(),\r\n    description: z.string().optional(),\r\n    mechanic: z.string().optional(),\r\n    notes: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const inventoryItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Unnamed Item'),\r\n    qty: z.union([z.number(), z.string()]).optional().default(1),\r\n    weight: z.union([z.number(), z.string()]).optional().default(0),\r\n    cost: z.union([z.number(), z.string()]).optional().default(0),\r\n    tl: z.union([z.string(), z.number()]).optional(),\r\n    description: z.string().optional(),\r\n    notes: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const attackSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Attack'),\r\n    range: z.union([z.string(), z.number()]).optional(),\r\n    damage: z.union([z.string(), z.number()]).optional(),\r\n    score: z.union([z.string(), z.number()]).optional(),\r\n    weaponId: z.union([z.string(), z.number()]).nullable().optional(),\r\n    type: z.string().optional(),\r\n    notes: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const noteItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    title: z.string().optional(),\r\n    text: z.string().optional().default('')\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const specializationItemSchema = z.union([\r\n  z.object({\r\n    id: z.string().optional(),\r\n    name: z.string().optional().default('Unnamed Specialization'),\r\n    baseSkillId: z.string().optional().default(''),\r\n    rank: z.union([z.number(), z.string()]).transform(val => Math.min(10, Math.max(0, typeof val === 'string' ? parseInt(val, 10) || 0 : val))).optional().default(0),\r\n    mod: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),\r\n    category: z.string().optional()\r\n  }).passthrough(),\r\n  z.string()\r\n]);\r\n\r\nexport const trackedModificationSchema = z.object({\r\n  id: z.string().optional(),\r\n  timestamp: z.string().optional(),\r\n  field: z.string().optional().default(''),\r\n  fieldLabel: z.string().optional().default(''),\r\n  oldValue: z.any().optional(),\r\n  newValue: z.any().optional(),\r\n  playerNote: z.string().optional().default(''),\r\n  status: z.enum(['pending', 'accepted', 'refused', 'adjusted']).optional().default('pending'),\r\n  gmFeedback: z.string().nullable().optional().default(''),\r\n  reviewedAt: z.string().nullable().optional()\r\n}).passthrough();\r\n\r\nexport const companionSchema = z.object({\r\n  id: z.string().optional(),\r\n  name: z.string().optional().default('Unnamed Companion'),\r\n  chassisType: z.enum(['biological', 's"
+        "totalBytes": 15606,
+        "snippet": "import { z } from 'zod';\n\nexport const traitItemSchema = z.union([\n  z.object({\n    id: z.string().optional(),\n    name: z.string().optional().default('Unnamed Trait'),\n    cp: z.union([z.number(), z.string()]).optional().default(0),\n    category: z.string().optional(),\n    description: z.string().optional(),\n    mechanic: z.string().optional(),\n    notes: z.string().optional()\n  }).passthrough(),\n  z.string()\n]);\n\nexport const inventoryItemSchema = z.union([\n  z.object({\n    id: z.string().optional(),\n    name: z.string().optional().default('Unnamed Item'),\n    qty: z.union([z.number(), z.string()]).optional().default(1),\n    weight: z.union([z.number(), z.string()]).optional().default(0),\n    cost: z.union([z.number(), z.string()]).optional().default(0),\n    tl: z.union([z.string(), z.number()]).optional(),\n    description: z.string().optional(),\n    notes: z.string().optional()\n  }).passthrough(),\n  z.string()\n]);\n\nexport const attackSchema = z.union([\n  z.object({\n    id: z.string().optional(),\n    name: z.string().optional().default('Attack'),\n    range: z.union([z.string(), z.number()]).optional(),\n    damage: z.union([z.string(), z.number()]).optional(),\n    score: z.union([z.string(), z.number()]).optional(),\n    weaponId: z.union([z.string(), z.number()]).nullable().optional(),\n    type: z.string().optional(),\n    notes: z.string().optional()\n  }).passthrough(),\n  z.string()\n]);\n\nexport const noteItemSchema = z.union([\n  z.object({\n    id: z.string().optional(),\n    title: z.string().optional(),\n    text: z.string().optional().default('')\n  }).passthrough(),\n  z.string()\n]);\n\nexport const specializationItemSchema = z.union([\n  z.object({\n    id: z.string().optional(),\n    name: z.string().optional().default('Unnamed Specialization'),\n    baseSkillId: z.string().optional().default(''),\n    rank: z.union([z.number(), z.string()]).transform(val => Math.min(10, Math.max(0, typeof val === 'string' ? parseInt(val, 10) || 0 : val))).optional().default(0),\n    mod: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),\n    category: z.string().optional()\n  }).passthrough(),\n  z.string()\n]);\n\nexport const trackedModificationSchema = z.object({\n  id: z.string().optional(),\n  timestamp: z.string().optional(),\n  field: z.string().optional().default(''),\n  fieldLabel: z.string().optional().default(''),\n  oldValue: z.any().optional(),\n  newValue: z.any().optional(),\n  playerNote: z.string().optional().default(''),\n  status: z.enum(['pending', 'accepted', 'refused', 'adjusted']).optional().default('pending'),\n  gmFeedback: z.string().nullable().optional().default(''),\n  reviewedAt: z.string().nullable().optional()\n}).passthrough();\n\nexport const companionSchema = z.object({\n  id: z.string().optional(),\n  name: z.string().optional().default('Unnamed Companion'),\n  chassisType: z.enum(['biological', 'synthetic', 'metaphysical']).optional().default('biological'),\n  formPackageId: z"
       },
       {
         "file": "src/engine/migration/migrate_omnicortex_schema.mjs",
@@ -624,10 +755,16 @@
         "snippet": "/**\n * @file assetUnitSchema.ts\n * @description Canonical Polymorphic AssetUnit Schema for Tangent SF Cartography.\n * Validates all map assets: terrain brushes, doodads, tokens, creatures,\n * vehicles, hazards, and wall portals with exhaustive VTT metadata.\n */\n\nimport { z } from 'zod';\n\nexport const ASSET_CATEGORIES = [\n  'terrain_brush',\n  'doodad',\n  'token',\n  'creature',\n  'vehicle',\n  'hazard',\n  'wall_portal'\n] as const;\nexport type AssetCategory = (typeof ASSET_CATEGORIES)[number];\nexport const AssetCategorySchema = z.enum(ASSET_CATEGORIES);\n\nexport const AUTO_TILE_ALGORITHMS = [\n  'none',\n  'marching_squares_4bit',\n  'marching_squares_8bit',\n  'wang_tiles'\n] as const;\nexport type AutoTileAlgorithm = (typeof AUTO_TILE_ALGORITHMS)[number];\nexport const AutoTileAlgorithmSchema = z.enum(AUTO_TILE_ALGORITHMS);\n\nexport const STAGE_Z_LAYERS = [\n  'background_map',      // ZLayer 0\n  'underlay_debris',     // ZLayer 10\n  'interactive_objects', // ZLayer 15\n  'tokens',              // ZLayer 20\n  'roof_canopy',         // ZLayer 30\n  'dynamic_fx',          // ZLayer 40\n  'lighting_darkness',   // ZLayer 50\n  'fog_of_war',          // ZLayer 60\n  'foreground_ui'       // ZLayer 70\n] as const;\nexport type StageZLayerName = (typeof STAGE_Z_LAYERS)[number];\nexport const StageZLayerNameSchema = z.enum(STAGE_Z_LAYERS);\n\nexport const SURFACE_MATERIALS = [\n  'metal_deck',\n  'stone_masonry',\n  'dirt_packed',\n  'sand_loose',\n  'water_shallow',\n  'water_deep',\n  'ice_slick',\n  'organic_flesh',\n  'plasma_fluid',\n  'acid_corrosive',\n  'glass_translucent'\n] as const;\nexport type SurfaceMaterialType = (typeof SURFACE_MATERIALS)[number];\nexport const SurfaceMaterialTypeSchema = z.enum(SURFACE_MATERIALS);\n\nexport const COVER_RATINGS = [\n  'none',\n  'quarter_cover',\n  'half_cover',\n  'three_quarters',\n  'full_cover'\n] as const;\nexport type CoverRating = (typeof COVER_RATINGS)[number];\nexport const CoverRatingSchema = z.enum(COVER_RATINGS);\n\n// Visual Variants & Shader Customization Schema\nexport const VisualVariantsSchema = z.object({\n  thumbnail: z.string().default(''),\n  baseTexture: z.string().default(''),\n  variants: z.array(z.string()).default([]),\n  normalMap: z.string().optional(),\n  roughnessMap: z.string().optional(),\n  auto_tile: AutoTileAlgorithmSchema.default('none'),\n  customization: z.object({\n    tintColor: z.string().optional(),\n    hueRotation: z.number().min(0).max(360).optional(),\n    saturation: z.number().min(0).max(5).optional(),\n    brightness: z.number().min(0).max(5).optional(),\n    contrast: z.number().min(0).max(5).optional()\n  }).optional(),\n  stateTextures: z.object({\n    pristine: z.string().optional(),\n    damaged: z.string().optional(),\n    destroyed: z.string().optional(),\n    overgrown: z.string().optional(),\n    corrupted: z.string().optional()\n  }).optional()\n});\nexport type VisualVariants = z.infer<typeof VisualVariantsSchema>;\n\n// Category-Specific Sub-Properties Schemas\nexport const TerrainPropertiesSchema = z.object({\n  mate"
       },
       {
+        "file": "src/schemas/mapChunkSchema.ts",
+        "priority": "detected",
+        "totalBytes": 15344,
+        "snippet": "/**\n * @file mapChunkSchema.ts\n * @description Canonical Schema & Type Definitions for the Hybrid Chunk / Tile System.\n * Supports reusable multi-tile MapChunkBlueprints, Perimeter Snap Sockets,\n * Internal Construction Points (Hardpoints/Slots), Adjustable Assigned Properties,\n * Dihedral D4 (90° CW North-Side Rotation & Horizontal/Vertical Flip) transformations,\n * and non-destructive PlacedChunkInstances.\n */\n\nimport { z } from 'zod';\n\nexport const CHUNK_CATEGORIES = [\n  'room_module',\n  'corridor_junction',\n  'starship_compartment',\n  'perimeter_defense',\n  'hazard_setpiece',\n  'urban_block',\n  'natural_formation',\n  'custom'\n] as const;\nexport type ChunkCategory = (typeof CHUNK_CATEGORIES)[number];\nexport const ChunkCategorySchema = z.enum(CHUNK_CATEGORIES);\n\nexport const CHUNK_CATEGORY_LABELS: Record<ChunkCategory, string> = {\n  room_module: 'Room Modules',\n  corridor_junction: 'Corridors & Junctions',\n  starship_compartment: 'Starship Compartments',\n  perimeter_defense: 'Perimeter & Bunkers',\n  hazard_setpiece: 'Hazards & Setpieces',\n  urban_block: 'Urban & Settlement',\n  natural_formation: 'Caverns & Natural',\n  custom: 'Custom Blueprints'\n};\n\nexport const CARDINAL_EDGES = ['north', 'east', 'south', 'west'] as const;\nexport type CardinalEdge = (typeof CARDINAL_EDGES)[number];\nexport const CardinalEdgeSchema = z.enum(CARDINAL_EDGES);\n\nexport const NORTH_FACING_DIRECTIONS = ['N', 'E', 'S', 'W'] as const;\nexport type NorthFacingDirection = (typeof NORTH_FACING_DIRECTIONS)[number];\nexport const NorthFacingDirectionSchema = z.enum(NORTH_FACING_DIRECTIONS);\n\nexport type ChunkRotationDeg = 0 | 90 | 180 | 270;\n\nexport function getNorthCardinalDirection(rotationDeg: ChunkRotationDeg = 0): NorthFacingDirection {\n  const normalized = (((rotationDeg % 360) + 360) % 360) as ChunkRotationDeg;\n  if (normalized === 90) return 'E';\n  if (normalized === 180) return 'S';\n  if (normalized === 270) return 'W';\n  return 'N';\n}\n\nexport function getNorthIndicatorLabel(\n  rotationDeg: ChunkRotationDeg = 0,\n  flipX = false,\n  flipY = false\n): string {\n  const dir = getNorthCardinalDirection(rotationDeg);\n  const arrow = dir === 'N' ? '▲' : dir === 'E' ? '▶' : dir === 'S' ? '▼' : '◀';\n  const flipTags = [flipX ? 'FlipH' : '', flipY ? 'FlipV' : ''].filter(Boolean).join('+');\n  return `NORTH ${arrow} (${dir})${flipTags ? ` [${flipTags}]` : ''}`;\n}\n\nexport const SOCKET_TYPES = [\n  'corridor_1x',\n  'corridor_2x',\n  'airlock',\n  'bulkhead_door',\n  'open_arch',\n  'vent_duct',\n  'power_conduit',\n  'wall_seam'\n] as const;\nexport type SocketType = (typeof SOCKET_TYPES)[number];\nexport const SocketTypeSchema = z.enum(SOCKET_TYPES);\n\nexport const INTERNAL_SLOT_CATEGORIES = [\n  'prop_mount',\n  'turret_hardpoint',\n  'terminal_node',\n  'loot_cache',\n  'hazard_emitter',\n  'unit_spawn'\n] as const;\nexport type InternalSlotCategory = (typeof INTERNAL_SLOT_CATEGORIES)[number];\nexport const InternalSlotCategorySchema = z.enum(INTERNAL_SLOT_CATEGORIES);\n\nexport const CHUNK_POWER_STATES"
+      },
+      {
         "file": "src/schemas/sharedSchemas.js",
         "priority": "detected",
-        "totalBytes": 15798,
-        "snippet": "/**\n * TANGENT SFF RP: Canonical Unified Cross-Module Schema & Adapters\n * Provides seamless bidirectional data transformation between:\n * 1. Omnicortex DBM Catalog Items\n * 2. Story Foundry Creative Elements\n * 3. Persona Folio Characters & Operatives\n * 4. Battlemap Tactical Tokens\n */\n\nimport { z } from 'zod';\n\n// Canonical Core Attribute Keys\nexport const CANONICAL_ATTRIBUTES = [\n  'strength',\n  'agility',\n  'stamina',\n  'intellect',\n  'wisdom',\n  'charisma'\n];\n\n/**\n * Standardizes an entity name across formats ('name', 'char-name', 'title', 'label')\n */\nexport function extractCanonicalName(entity = {}) {\n  return entity.name || entity['char-name'] || entity.title || entity.label || 'Unnamed Entity';\n}\n\n/**\n * Converts an Omnicortex DBM Item into a Story Foundry Element\n */\nexport function dbmItemToFoundryElement(dbmItem = {}, categoryKey = 'compendium') {\n  const name = extractCanonicalName(dbmItem);\n  return {\n    id: dbmItem.id || `elem_${categoryKey}_${Date.now()}`,\n    type: categoryKey === 'species' ? 'Species' : categoryKey === 'occupations' ? 'Occupation' : categoryKey === 'factions' ? 'Faction' : 'Lore',\n    title: name,\n    content: dbmItem.description || dbmItem.content || dbmItem.summary || '',\n    fields: {\n      tl: dbmItem.tl || dbmItem.techLevel || 3,\n      ml: dbmItem.ml || dbmItem.metaLevel || 0,\n      cost: dbmItem.cost || dbmItem.price || 0,\n      category: categoryKey,\n      tags: dbmItem.tags || [categoryKey],\n      ...dbmItem\n    },\n    updatedAt: new Date().toISOString()\n  };\n}\n\n/**\n * Converts a Story Foundry Element into an Omnicortex DBM Item\n */\nexport function foundryElementToDbmItem(foundryElement = {}) {\n  const fields = foundryElement.fields || {};\n  return {\n    id: foundryElement.id || `dbm_${Date.now()}`,\n    name: foundryElement.title || 'Untitled Item',\n    description: foundryElement.content || '',\n    tl: fields.tl !== undefined ? fields.tl : 3,\n    ml: fields.ml !== undefined ? fields.ml : 0,\n    cost: fields.cost || 0,\n    tags: fields.tags || [foundryElement.type || 'compendium'],\n    updatedAt: new Date().toISOString(),\n    ...fields\n  };\n}\n\n/**\n * Converts a Persona Folio Character into a Story Foundry Persona Element\n */\nexport function folioCharacterToFoundryPersona(character = {}) {\n  const name = character['char-name'] || character.name || 'Operative';\n  const speciesStr = String(character['char-species'] || character.species || '').toLowerCase();\n  const archetypeStr = String(character['char-archetype'] || character.archetype || '').toLowerCase();\n  const isSynthetic = Boolean(\n    character.isSynthetic ?? character.is_synthetic ?? (\n      speciesStr.includes('synthetic') || speciesStr.includes('mekan') || \n      speciesStr.includes('construct') || speciesStr.includes('golem') || \n      speciesStr.includes('ooze') || speciesStr.includes('undead') ||\n      speciesStr.includes('mecha') || speciesStr.includes('robot') || speciesStr.includes('drone') ||\n      archetypeStr.includes('synthetic')\n    "
+        "totalBytes": 19577,
+        "snippet": "/**\n * TANGENT SFF RP: Canonical Unified Cross-Module Schema & Adapters\n * Provides seamless bidirectional data transformation between:\n * 1. Omnicortex DBM Catalog Items\n * 2. Story Foundry Creative Elements\n * 3. Persona Folio Characters & Operatives\n * 4. Battlemap Tactical Tokens\n */\n\nimport { z } from 'zod';\n\n// Canonical Core Attribute Keys\nexport const CANONICAL_ATTRIBUTES = [\n  'strength',\n  'agility',\n  'stamina',\n  'intellect',\n  'wisdom',\n  'charisma'\n];\n\n/**\n * Standardizes an entity name across formats ('name', 'char-name', 'title', 'label')\n */\nexport function extractCanonicalName(entity = {}) {\n  return entity.name || entity['char-name'] || entity.title || entity.label || 'Unnamed Entity';\n}\n\n/**\n * Converts an Omnicortex DBM Item into a Story Foundry Element\n */\nexport function dbmItemToFoundryElement(dbmItem = {}, categoryKey = 'compendium') {\n  const name = extractCanonicalName(dbmItem);\n  const propCats = new Set(['weaponry', 'armoring', 'augmentations', 'gear', 'mecha', 'architecture', 'technology', 'other', 'property']);\n  const metaCats = new Set(['invocations', 'disciplines', 'special_abilities']);\n  const resolvedType =\n    categoryKey === 'species'\n      ? 'Species'\n      : categoryKey === 'occupations'\n      ? 'Occupation'\n      : categoryKey === 'factions'\n      ? 'Faction'\n      : categoryKey === 'philosophy'\n      ? 'Philosophy'\n      : metaCats.has(categoryKey)\n      ? 'Metaphysics'\n      : categoryKey === 'modular_characters' || categoryKey === 'archetypes'\n      ? 'Persona'\n      : propCats.has(categoryKey)\n      ? 'Property'\n      : 'Lore';\n  return {\n    id: dbmItem.id || `elem_${categoryKey}_${Date.now()}`,\n    type: resolvedType,\n    ...(propCats.has(categoryKey) ? { propertySubcategory: categoryKey === 'property' ? 'gear' : categoryKey } : {}),\n    ...(metaCats.has(categoryKey) ? { metaphysicsSubcategory: categoryKey } : {}),\n    title: name,\n    content: dbmItem.description || dbmItem.content || dbmItem.summary || '',\n    fields: {\n      tl: dbmItem.tl || dbmItem.techLevel || 3,\n      ml: dbmItem.ml || dbmItem.metaLevel || 0,\n      cost: dbmItem.cost || dbmItem.price || 0,\n      category: categoryKey,\n      tags: dbmItem.tags || [categoryKey],\n      ...dbmItem\n    },\n    updatedAt: new Date().toISOString()\n  };\n}\n\n/**\n * Converts a Story Foundry Element into an Omnicortex DBM Item\n */\nexport function foundryElementToDbmItem(foundryElement = {}) {\n  const fields = foundryElement.fields || {};\n  return {\n    ...fields,\n    id: foundryElement.id || fields.id || `dbm_${Date.now()}`,\n    name: foundryElement.title || fields.name || 'Untitled Item',\n    description: foundryElement.content || fields.description || '',\n    tl: fields.tl !== undefined ? fields.tl : 3,\n    ml: fields.ml !== undefined ? fields.ml : 0,\n    cost: fields.cost || 0,\n    tags: fields.tags || [foundryElement.type || 'compendium'],\n    updatedAt: new Date().toISOString()\n  };\n}\n\n/**\n * Converts a Persona Folio Character into a Story Foundry Pe"
       },
       {
         "file": "src/schemas/vttWallSchema.js",
@@ -638,22 +775,24 @@
       {
         "file": "src/services/aimeVttSchemaService.ts",
         "priority": "detected",
-        "totalBytes": 19402,
+        "totalBytes": 19546,
         "snippet": "/**\n * @file aimeVttSchemaService.ts\n * @description RAG-augmented generation of canonical .persona and .scene schemas for the VTT.\n * Integrates Omnicortex rules retrieval with Gemini API structured JSON generation,\n * translating user creative mandates into ready-to-deploy Stage tokens and maps.\n */\n\nimport { getGeminiApiKey, fetchGeminiContent } from './bastionService.js';\nimport { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag.ts';\nimport type { StaticEntity } from '../engine/state/VolatileSharder.ts';\n\n// ── SCHEMA DEFINITIONS ──\n\nexport interface AimePersonaSchema {\n  id: string;\n  type: 'Persona';\n  name: string;\n  archetype: string;\n  oneLinePitch: string;\n  physicalDescription: string;\n  personalityMannerisms: string;\n  backgroundHistory: string;\n  goalsMotivations: string;\n  strengthsFlaws: string;\n  roleInStory: string;\n  relationships: string;\n  \n  // Tactical MCM & Mechanics\n  mcmTier: number;\n  mcmDesignation: 'Adversary' | 'Ally' | 'Companion' | 'Neutral';\n  mcmChassis: 'Combatant' | 'Specialist' | 'Socialite' | 'Balanced';\n  mcmRole: 'Bruiser' | 'Commando' | 'Sniper' | 'Guardian' | 'Slicer' | 'Medic' | 'Boss';\n  \n  // Vitals & Attributes\n  health: number;\n  vitality: number;\n  structure?: number;\n  karma: number;\n  techLevel: number;\n  magicLevel: number;\n  armorDr: number;\n  speedFt: number;\n  \n  attacks: Array<{\n    name: string;\n    damageFormula: string;\n    rangeFt: number;\n    type: string;\n  }>;\n  gear: string[];\n  features: string[];\n}\n\nexport interface AimeSceneSchema {\n  id: string;\n  type: 'Scene';\n  sceneName: string;\n  location: string;\n  sensoryDetails: string;\n  moodAtmosphere: string;\n  keyObjects: string;\n  sceneBeats: string[];\n  readAloud: string;\n  \n  // Tactical Stage Map Specifications\n  suggestedLighting: {\n    ambientColor: string;\n    darkness: number;\n    lights: Array<{\n      x: number;\n      y: number;\n      color: string;\n      radius: number;\n    }>;\n  };\n  suggestedObjects: Array<{\n    id: string;\n    name: string;\n    type: 'bulkhead' | 'terminal' | 'loot_container' | 'cover';\n    x: number;\n    y: number;\n  }>;\n  suggestedTokens: Array<{\n    id: string;\n    name: string;\n    archetype: string;\n    designation: 'Adversary' | 'Ally' | 'Neutral';\n    x: number;\n    y: number;\n    hp: number;\n    techLevel: number;\n  }>;\n}\n\nexport interface GeneratePersonaOptions {\n  prompt: string;\n  archetype?: string;\n  species?: string;\n  techLevel?: number;\n  mcmDesignation?: 'Adversary' | 'Ally' | 'Companion' | 'Neutral';\n  mcmRole?: 'Bruiser' | 'Commando' | 'Sniper' | 'Guardian' | 'Slicer' | 'Medic' | 'Boss';\n  threatTier?: number;\n  apiKey?: string;\n}\n\nexport interface GenerateSceneOptions {\n  prompt: string;\n  location?: string;\n  environmentType?: string;\n  techLevel?: number;\n  threatTier?: number;\n  apiKey?: string;\n}\n\n// ── GEMINI JSON SCHEMAS ──\n\nconst PERSONA_JSON_SCHEMA = {\n  type: \"OBJECT\",\n  properties: {\n    name: { type: \"STRING\" },\n    archetype: { type: \"STRING\" },\n    o"
       },
       {
         "file": "src/utils/tangentSchemaAdapters.js",
         "priority": "detected",
-        "totalBytes": 19187,
-        "snippet": "// ═══════════════════════════════════════════════════════════\n// TANGENT SF RP — OMNICORTEX SCHEMA ADAPTER & NORMALIZER\n// Bidirectional conversion between flat legacy documents and\n// modern consolidated nested NoSQL maps and universal arrays.\n// ═══════════════════════════════════════════════════════════\n\nexport const PROPERTY_CATEGORIES = new Set([\n  'augmentations',\n  'augmentation',\n  'armoring',\n  'armor',\n  'weaponry',\n  'weapons',\n  'gear',\n  'equipment',\n  'mecha',\n  'architecture',\n  'other',\n  'other_property',\n  'personal_property'\n]);\n\nexport const isPropertyCategory = (category) => {\n  if (!category) return false;\n  return PROPERTY_CATEGORIES.has(String(category).toLowerCase().trim());\n};\n\n/**\n * Normalizes any legacy or modern Omnicortex item into a guaranteed structured object.\n * Hardware/UDU fields (credits, nodes, sockets, modifications, critical_details)\n * are strictly restricted to property assets (augmentations, armor, weapons, gear, mecha, architecture).\n *\n * @param {object} item - Raw database document or form data\n * @param {string} [categoryHint] - Optional category override\n * @returns {object} Normalized item\n */\nexport function normalizeOmnicortexItem(item, categoryHint = null) {\n  const isProp = isPropertyCategory(item?.category || item?.collection || categoryHint);\n\n  if (!item || typeof item !== 'object') {\n    if (isProp) {\n      return {\n        costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },\n        modifiers: [],\n        modifications: [],\n        critical_details: { score: '', effect: [], success_effect: [], failure_effect: [] },\n        sockets: { max: 0, used: 0, tier: 'Socket', allocated: [] }\n      };\n    }\n    return {\n      costs: { bp: 0 },\n      modifiers: []\n    };\n  }\n\n  const normalized = { ...item };\n\n  // 1. Costs & Economy Consolidation\n  const costs = { ...(item.costs || {}) };\n  const bpVal = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp ?? item.cp_refund ?? costs.bp, 0);\n\n  if (isProp) {\n    if (costs.bp === undefined) costs.bp = bpVal;\n    if (costs.credits === undefined) {\n      costs.credits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);\n    }\n    if (costs.nodes === undefined) {\n      costs.nodes = parseNumeric(item.node_cost ?? item.nodes, 0);\n    }\n    if (costs.sockets === undefined) {\n      costs.sockets = parseNumeric(item.socket_cost ?? item.sockets_cost ?? item.sockets_used, 0);\n    }\n    if (costs.strain === undefined) {\n      costs.strain = parseNumeric(item.cost_essence ?? item.essence_cost ?? item.strain_cost ?? item.strain, 0);\n    }\n    if (costs.focus === undefined) {\n      costs.focus = parseNumeric(item.focus_cost ?? item.focus, 0);\n    }\n    if (costs.ap === undefined) {\n      costs.ap = parseNumeric(item.ap_cost ?? item.ap, 0);\n    }\n    normalized.costs = costs;\n  } else {\n    // Non-property items: strictly BP/CP cost, zero hardware economy\n    norma"
+        "totalBytes": 20079,
+        "snippet": "// ═══════════════════════════════════════════════════════════\n// TANGENT SF RP — OMNICORTEX SCHEMA ADAPTER & NORMALIZER\n// Bidirectional conversion between flat legacy documents and\n// modern consolidated nested NoSQL maps and universal arrays.\n// ═══════════════════════════════════════════════════════════\n\nimport { calculateCreditValue } from '../engines/tangentEconEngine.js';\n\nexport const PROPERTY_CATEGORIES = new Set([\n  'augmentations',\n  'augmentation',\n  'armoring',\n  'armor',\n  'weaponry',\n  'weapons',\n  'gear',\n  'equipment',\n  'mecha',\n  'architecture',\n  'technology',\n  'property',\n  'other',\n  'other_property',\n  'personal_property'\n]);\n\nexport const isPropertyCategory = (category) => {\n  if (!category) return false;\n  return PROPERTY_CATEGORIES.has(String(category).toLowerCase().trim());\n};\n\n/**\n * Normalizes any legacy or modern Omnicortex item into a guaranteed structured object.\n * Hardware/UDU fields (credits, nodes, sockets, modifications, critical_details)\n * are strictly restricted to property assets (augmentations, armor, weapons, gear, mecha, architecture).\n *\n * @param {object} item - Raw database document or form data\n * @param {string} [categoryHint] - Optional category override\n * @returns {object} Normalized item\n */\nexport function normalizeOmnicortexItem(item, categoryHint = null) {\n  const isProp = isPropertyCategory(item?.category || item?.collection || categoryHint);\n\n  if (!item || typeof item !== 'object') {\n    if (isProp) {\n      return {\n        costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },\n        modifiers: [],\n        modifications: [],\n        critical_details: { score: '', effect: [], success_effect: [], failure_effect: [] },\n        sockets: { max: 0, used: 0, tier: 'Socket', allocated: [] }\n      };\n    }\n    return {\n      costs: { bp: 0 },\n      modifiers: []\n    };\n  }\n\n  const normalized = { ...item };\n\n  // 1. Costs & Economy Consolidation\n  const costs = { ...(item.costs || {}) };\n  const bpVal = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp ?? item.cp_refund ?? costs.bp, 0);\n\n  if (isProp) {\n    if (costs.bp === undefined) costs.bp = bpVal;\n    const explicitCredits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);\n    if (!costs.credits || costs.credits === 0) {\n      if (explicitCredits > 0) {\n        costs.credits = explicitCredits;\n      } else {\n        const rawDc = item.craft_dc ?? item.design_dc ?? item.base_dc ?? item.dc;\n        if (rawDc !== undefined && rawDc !== null && rawDc !== '' && Number(rawDc) >= 0) {\n          costs.credits = calculateCreditValue(Number(rawDc));\n        } else {\n          costs.credits = 0;\n        }\n      }\n    }\n    if (costs.nodes === undefined) {\n      costs.nodes = parseNumeric(item.node_cost ?? item.nodes, 0);\n    }\n    if (costs.sockets === undefined) {\n      costs.sockets = parseNumeric(item.socket_cost ?? item.sockets_cost ?? item.soc"
       }
     ]
   },
   "diff": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "stagedOnly": false,
-    "statusOrDiff": " M src/components/Folio/FolioContainer.jsx\n M src/components/Folio/views/RosterCatalogView.jsx\n M src/components/Hub/drawers/FolioRosterDrawer.jsx\n M src/context/folio/FolioIdentityContext.jsx\n M src/pages/Foundry/Dashboard/DashboardCatalogPanel.jsx\n M src/utils/personaValidationUtils.js\n M tests/engine/personaLifecycle.test.mjs\n?? inspection-screenshots/\n?? scratch/\n",
-    "diffStat": " src/components/Folio/FolioContainer.jsx            |  24 ++-\n src/components/Folio/views/RosterCatalogView.jsx   |   4 +-\n src/components/Hub/drawers/FolioRosterDrawer.jsx   |   2 +-\n src/context/folio/FolioIdentityContext.jsx         | 230 +++++++++++++++------\n .../Foundry/Dashboard/DashboardCatalogPanel.jsx    |   2 +-\n src/utils/personaValidationUtils.js                |  70 ++++++-\n tests/engine/personaLifecycle.test.mjs             |  65 ++++++\n 7 files changed, 318 insertions(+), 79 deletions(-)\n"
+    "isClean": false,
+    "totalModifiedFiles": 691,
+    "statusOrDiff": " M .agents/skills/app-inspector/SKILL.md\n D \"docs/-- 2d10 Analysis.md\"\n M docs/APP_INSPECTOR_STATE_REPORT.md\n M \"docs/HIFI CHROMA.md\"\n D \"docs/STAGING/00.00 MASTER CODEX INDEX.md\"\n D \"docs/STAGING/00.01 BASTION SYSTEM PROMPT & ROUTING MANIFEST.md\"\n D \"docs/STAGING/00.02 BASTION CORE FORMULAS & ERRATA ENGINE.md\"\n D docs/STAGING/README.md\n D \"docs/STAGING/architect/00.00 GM GUIDELINES.md\"\n D \"docs/STAGING/architect/02 ECONOMY AND WEALTH.md\"\n D docs/STAGING/architect/05.00.CosmicEntities.md\n D \"docs/STAGING/architect/99. ARCHETYPES.md\"\n D \"docs/STAGING/architect/99. METAPHYSICS.md\"\n D \"docs/STAGING/architect/99. MODULAR CHARACTER MATRIX.md\"\n D \"docs/STAGING/architect/99. MODULAR COMPANION MATRIX.md\"\n D \"docs/STAGING/architect/99. MODULAR FACTION MATRIX.md\"\n D \"docs/STAGING/architect/99. MODULAR PLANETARY MATRIX.md\"\n D \"docs/STAGING/architect/99. MODULAR SPECIES MATRIX.md\"\n D \"docs/STAGING/architect/99. TECHNOLOGY.md\"\n D docs/STAGING/architect/archetypes/99.Archetypes.A_D.md\n D docs/STAGING/architect/archetypes/99.Archetypes.E_L.md\n D docs/STAGING/architect/archetypes/99.Archetypes.MBTIMapping.md\n D docs/STAGING/architect/archetypes/99.Archetypes.M_R.md\n D docs/STAGING/architect/archetypes/99.Archetypes.S_Z.md\n D docs/STAGING/architect/characters/04.03.BestiaryAndXenofauna.md\n D docs/STAGING/architect/characters/99.Character.ModuleA.TierChassis.md\n D docs/STAGING/architect/characters/99.Character.ModuleB.CompetencyRoles.md\n D docs/STAGING/architect/characters/99.Character.ModuleC_E.BiologySoulLifepath.md\n D docs/STAGING/architect/characters/99.Character.ModuleE.LifepathSchema.md\n D docs/STAGING/architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md\n D docs/STAGING/architect/companions/99.Companion.FormPackages.md\n D docs/STAGING/architect/companions/99.Companion.FunctionAndExamples.md\n D docs/STAGING/architect/economy/02.Economy.InterstellarTrade.md\n D docs/STAGING/architect/economy/02.Economy.UnifiedFieldTheory.md\n D docs/STAGING/architect/metaphysics/04.TheResonance.md\n D docs/STAGING/architect/metaphysics/99.Metaphysics.InvocationMatrix.md\n D docs/STAGING/architect/metaphysics/99.Metaphysics.MetaTechMatrix.md\n D docs/STAGING/architect/planetary/04.00.StarAtlasAndGazetteer.md\n D docs/STAGING/architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md\n D docs/STAGING/architect/planetary/99.Planetary.CivilizationAndEconomy.md\n D docs/STAGING/architect/planetary/99.Planetary.HazardsAndEncounters.md\n D docs/STAGING/architect/schemas/99.Schema.ArchitectureAndBase.md\n D docs/STAGING/architect/schemas/99.Schema.BastionLinterAndValidator.md\n D docs/STAGING/architect/schemas/99.Schema.EquipmentAndWeaponry.md\n D docs/STAGING/architect/schemas/99.Schema.MechaAndAutomata.md\n D docs/STAGING/architect/schemas/99.Schema.OperatorCharacter.md\n D docs/STAGING/architect/schemas/99.Schema.PlanetarySystem.md\n D docs/STAGING/architect/schemas/bastion_validator.py\n D docs/STAGING/architect/schemas/schemas.json\n D docs/STAGING/architect/species/04.03.01.DragonsCodex.md\n D docs/STAGING/architect/species/99.Species.ChassisAndMovement.md\n D docs/STAGING/architect/species/99.Species.TraitsAndDisadvantages.md\n D docs/STAGING/architect/technology/architecture/99.Tech.Architecture.ComponentCatalog.md\n D docs/STAGING/architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md\n D docs/STAGING/architect/technology/architecture/99.Tech.Architecture.ForgeProtocol.md\n D docs/STAGING/architect/technology/architecture/99.Tech.Architecture.MobileAndVFT.md\n D docs/STAGING/architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md\n D docs/STAGING/architect/technology/armor/99.Tech.Armor.EconomyAndExemplars.md\n D docs/STAGING/architect/technology/augmentations/99.Tech.Augmentations.Biological.md\n D docs/STAGING/architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md\n D docs/STAGING/architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md\n D docs/STAGING/architect/technology/core/06.AetheriumAndAetherite.md\n D docs/STAGING/architect/technology/core/06.PolyMatterAndPicotech.md\n D docs/STAGING/architect/technology/core/99.Tech.CivilizationDomains.md\n D docs/STAGING/architect/technology/core/99.Tech.Levels.md\n D docs/STAGING/architect/technology/equipment/99.Tech.Equipment.Framework.md\n D docs/STAGING/architect/technology/equipment/99.Tech.Equipment.SystemsAndMastercrafting.md\n D docs/STAGING/architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md\n D docs/STAGING/architect/technology/mecha/99.Tech.Mecha.ComponentsAndWeapons.md\n D docs/STAGING/architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md\n D docs/STAGING/architect/technology/weaponry/99.Tech.Weaponry.Catalog.md\n D docs/STAGING/architect/technology/weaponry/99.Tech.Weaponry.ForgeProtocol.md\n D \"docs/STAGING/operator/1.00 INTRODUCTION.md\"\n D \"docs/STAGING/operator/1.01 CHARACTER CREATION.md\"\n D \"docs/STAGING/operator/1.02 ARCHETYPES.md\"\n D \"docs/STAGING/operator/1.03 SPECIES.md\"\n D \"docs/STAGING/operator/1.04 FACTIONS.md\"\n D \"docs/STAGING/operator/1.05 ORIGINS.md\"\n D \"docs/STAGING/operator/1.06 OCCUPATIONS.md\"\n D \"docs/STAGING/operator/1.07 SKILLS.md\"\n D \"docs/STAGING/operator/1.08 FEATURES.md\"\n D \"docs/STAGING/operator/1.09 HINDRANCES.md\"\n D \"docs/STAGING/operator/1.10 SCALING.md\"\n D \"docs/STAGING/operator/2.00 ECONOMATRIX.md\"\n D \"docs/STAGING/operator/3.00 COMBAT.md\"\n D \"docs/STAGING/operator/4.00 METAPHYSICS.md\"\n D docs/STAGING/operator/archetypes/1.02.Operatives.md\n D docs/STAGING/operator/archetypes/1.02.Savants.md\n D docs/STAGING/operator/archetypes/1.02.Sentinels.md\n D docs/STAGING/operator/archetypes/1.02.SignatureFeatures.md\n D docs/STAGING/operator/archetypes/1.02.Visionaries.md\n D docs/STAGING/operator/character_creation/1.01.Attributes.md\n D docs/STAGING/operator/character_creation/1.01.Experience.md\n D docs/STAGING/operator/character_creation/1.01.Karma.md\n D docs/STAGING/operator/character_creation/1.01.Movement.md\n D docs/STAGING/operator/character_creation/1.01.Perception.md\n D docs/STAGING/operator/character_creation/1.01.PipelineCapabilities.md\n D docs/STAGING/operator/character_creation/1.01.PipelineIdentity.md\n D docs/STAGING/operator/character_creation/1.01.RestAndDying.md\n D docs/STAGING/operator/character_creation/1.01.StartingWealthAndMeta.md\n D docs/STAGING/operator/character_creation/1.01.VitalityHealthStructure.md\n D docs/STAGING/operator/combat/3.00.DamageAndLocations.md\n D docs/STAGING/operator/combat/3.00.DamageTypes.md\n D docs/STAGING/operator/combat/3.00.Edge.md\n D docs/STAGING/operator/combat/3.00.StatusEffects.md\n D docs/STAGING/operator/combat/3.00.VehicularCombat.md\n D docs/STAGING/operator/economatrix/2.00.Architecture.md\n D docs/STAGING/operator/economatrix/2.00.Armor.md\n D docs/STAGING/operator/economatrix/2.00.Augmentations.AdvancedAndFBC.md\n D docs/STAGING/operator/economatrix/2.00.Augmentations.md\n D docs/STAGING/operator/economatrix/2.00.CraftingAndValuation.md\n D docs/STAGING/operator/economatrix/2.00.Equipment.md\n D docs/STAGING/operator/economatrix/2.00.InterstellarTrade.md\n D docs/STAGING/operator/economatrix/2.00.Mecha.MilitaryAndAerospace.md\n D docs/STAGING/operator/economatrix/2.00.Mecha.NauticalAndWalkers.md\n D docs/STAGING/operator/economatrix/2.00.Mecha.md\n D docs/STAGING/operator/economatrix/2.00.WealthAndLiquidity.md\n D docs/STAGING/operator/economatrix/2.00.WeaponModifications.md\n D docs/STAGING/operator/factions/1.04.AeldProvidence.AlterianEnclave.md\n D docs/STAGING/operator/factions/1.04.AeldProvidence.DraconianOrder.md\n D docs/STAGING/operator/factions/1.04.AeldProvidence.KovianTribunal.md\n D docs/STAGING/operator/factions/1.04.AeldProvidence.SilvermoonVanguard.md\n D docs/STAGING/operator/factions/1.04.AeldProvidence.VajarTribes.md\n D docs/STAGING/operator/factions/1.04.AeldProvidence.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Alien.md\n D docs/STAGING/operator/factions/1.04.Archetypal.ArtificialLife.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Corporate.md\n D docs/STAGING/operator/factions/1.04.Archetypal.CosmicHorror.md\n D docs/STAGING/operator/factions/1.04.Archetypal.CosmicJustice.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Criminal.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Environmental.md\n D docs/STAGING/operator/factions/1.04.Archetypal.GeneticEngineering.md\n D docs/STAGING/operator/factions/1.04.Archetypal.HiveMind.md\n D docs/STAGING/operator/factions/1.04.Archetypal.InterstellarDiplomats.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Mercenary.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Military.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Mutant.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Planetary.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Political.md\n D docs/STAGING/operator/factions/1.04.Archetypal.PostApocalyptic.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Rebel.md\n D docs/STAGING/operator/factions/1.04.Archetypal.ReligiousCult.md\n D docs/STAGING/operator/factions/1.04.Archetypal.SentientIntelligence.md\n D docs/STAGING/operator/factions/1.04.Archetypal.SpaceExploration.md\n D docs/STAGING/operator/factions/1.04.Archetypal.SpacePirate.md\n D docs/STAGING/operator/factions/1.04.Archetypal.SpaceReligion.md\n D docs/STAGING/operator/factions/1.04.Archetypal.SpaceTourism.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Supernatural.md\n D docs/STAGING/operator/factions/1.04.Archetypal.Technological.md\n D docs/STAGING/operator/factions/1.04.Impyrium.Dominion.md\n D docs/STAGING/operator/factions/1.04.Impyrium.Radiant.md\n D docs/STAGING/operator/factions/1.04.Major.Ascendancy.md\n D docs/STAGING/operator/factions/1.04.Major.AuluranClans.md\n D docs/STAGING/operator/factions/1.04.Major.Coalition.md\n D docs/STAGING/operator/factions/1.04.Major.DraconDynasty.md\n D docs/STAGING/operator/factions/1.04.Major.EntariCombine.md\n D docs/STAGING/operator/factions/1.04.Major.KitinCollective.md\n D docs/STAGING/operator/factions/1.04.Major.MekanCollective.md\n D docs/STAGING/operator/factions/1.04.Major.Outworlds.md\n D docs/STAGING/operator/factions/1.04.Major.Syndicate.md\n D docs/STAGING/operator/features/1.08.AbilityFeatures.md\n D docs/STAGING/operator/features/1.08.CombatFeatures.D_W.md\n D docs/STAGING/operator/features/1.08.CombatFeatures.md\n D docs/STAGING/operator/features/1.08.DisciplineFeatures.md\n D docs/STAGING/operator/features/1.08.GeneralFeatures.N_Z.md\n D docs/STAGING/operator/features/1.08.GeneralFeatures.md\n D docs/STAGING/operator/features/1.08.KarmaFeatures.md\n D docs/STAGING/operator/features/1.08.SkillFeatures.M_Z.md\n D docs/STAGING/operator/features/1.08.SkillFeatures.md\n D docs/STAGING/operator/features/1.08.SpecialFeatures.md\n D docs/STAGING/operator/hindrances/1.09.MentalAndPsychological.md\n D docs/STAGING/operator/hindrances/1.09.Physical.md\n D docs/STAGING/operator/hindrances/1.09.SocialAndBackground.md\n D docs/STAGING/operator/introduction/1.00.Glossary.md\n D docs/STAGING/operator/introduction/1.00.Introduction.md\n D docs/STAGING/operator/metaphysics/4.00.Dimension.md\n D docs/STAGING/operator/metaphysics/4.00.Energy.md\n D docs/STAGING/operator/metaphysics/4.00.Entropy.md\n D docs/STAGING/operator/metaphysics/4.00.Illusion.md\n D docs/STAGING/operator/metaphysics/4.00.Matter.md\n D docs/STAGING/operator/metaphysics/4.00.Mental.md\n D docs/STAGING/operator/metaphysics/4.00.SensoryManifestations.md\n D docs/STAGING/operator/occupations/1.06.Adept.md\n D docs/STAGING/operator/occupations/1.06.Agent.md\n D docs/STAGING/operator/occupations/1.06.Builder.md\n D docs/STAGING/operator/occupations/1.06.Citizen.md\n D docs/STAGING/operator/occupations/1.06.Criminal.md\n D docs/STAGING/operator/occupations/1.06.Drifter.md\n D docs/STAGING/operator/occupations/1.06.Entertainer.md\n D docs/STAGING/operator/occupations/1.06.Merchant.md\n D docs/STAGING/operator/occupations/1.06.Representative.md\n D docs/STAGING/operator/occupations/1.06.Scholar.md\n D docs/STAGING/operator/occupations/1.06.Scout.md\n D docs/STAGING/operator/occupations/1.06.Soldier.md\n D docs/STAGING/operator/occupations/1.06.Specialist.md\n D docs/STAGING/operator/origins/1.05.Agricultural.md\n D docs/STAGING/operator/origins/1.05.Aquatic.md\n D docs/STAGING/operator/origins/1.05.Colony.md\n D docs/STAGING/operator/origins/1.05.Enlightened.md\n D docs/STAGING/operator/origins/1.05.Hostile.md\n D docs/STAGING/operator/origins/1.05.Industrial.md\n D docs/STAGING/operator/origins/1.05.Leisure.md\n D docs/STAGING/operator/origins/1.05.Militaristic.md\n D docs/STAGING/operator/origins/1.05.Research.md\n D docs/STAGING/operator/origins/1.05.Spacer.md\n D docs/STAGING/operator/origins/1.05.Urban.md\n D docs/STAGING/operator/skills/1.07.Combat.md\n D docs/STAGING/operator/skills/1.07.Mechanics.Learning.md\n D docs/STAGING/operator/skills/1.07.Mechanics.SkillChecks.md\n D docs/STAGING/operator/skills/1.07.Mechanics.SkillGroups.md\n D docs/STAGING/operator/skills/1.07.Mechanics.SkillUse.md\n D docs/STAGING/operator/skills/1.07.Mechanics.Specialization.md\n D docs/STAGING/operator/skills/1.07.Mechanics.SynergyAndAdvantage.md\n D docs/STAGING/operator/skills/1.07.Mechanics.TimeAndFocus.md\n D docs/STAGING/operator/skills/1.07.Mental.Core.md\n D docs/STAGING/operator/skills/1.07.Mental.Knowledge.N_T.md\n D docs/STAGING/operator/skills/1.07.Mental.Knowledge.md\n D docs/STAGING/operator/skills/1.07.Mental.Vocation.A_C.md\n D docs/STAGING/operator/skills/1.07.Mental.Vocation.C_G.md\n D docs/STAGING/operator/skills/1.07.Mental.Vocation.H_W.md\n D docs/STAGING/operator/skills/1.07.Mental.Vocation.md\n D docs/STAGING/operator/skills/1.07.Metaphysics.md\n D docs/STAGING/operator/skills/1.07.Physical.md\n D docs/STAGING/operator/skills/1.07.Social.Expression.O_W.md\n D docs/STAGING/operator/skills/1.07.Social.Expression.md\n D docs/STAGING/operator/skills/1.07.Social.Manipulation.md\n D docs/STAGING/operator/species/1.03.AeldAndAsi.md\n D docs/STAGING/operator/species/1.03.AwakenedAnimal.md\n D docs/STAGING/operator/species/1.03.Caprian.md\n D docs/STAGING/operator/species/1.03.HumansAuluransKitin.md\n D docs/STAGING/operator/species/1.03.Jorni.md\n D docs/STAGING/operator/species/1.03.Kannid.md\n D docs/STAGING/operator/species/1.03.Kizin.md\n D docs/STAGING/operator/species/1.03.Kongi.md\n D docs/STAGING/operator/species/1.03.Mobula.md\n D docs/STAGING/operator/species/1.03.Mondi.md\n D docs/STAGING/operator/species/1.03.Plasm.md\n D docs/STAGING/operator/species/1.03.Praeti.md\n D docs/STAGING/operator/species/1.03.Qeric.md\n D docs/STAGING/operator/species/1.03.Sefalin.md\n D docs/STAGING/operator/species/1.03.SyntheticsAndXeno.md\n D docs/STAGING/operator/species/1.03.Thorn.md\n D docs/STAGING/operator/species/1.03.Truldan.md\n D docs/STAGING/operator/species/1.03.Vassoth.md\n D docs/STAGING/operator/species/1.03.Weti.md\n D docs/STAGING/operator/species/Aeld/1.03.Aeld.Alterian.md\n D docs/STAGING/operator/species/Aeld/1.03.Aeld.Doppelganger.md\n D docs/STAGING/operator/species/Aeld/1.03.Aeld.Draconian.md\n D docs/STAGING/operator/species/Aeld/1.03.Aeld.Kovian.md\n D docs/STAGING/operator/species/Aeld/1.03.Aeld.Vajar.md\n D docs/STAGING/operator/species/Aeld/1.03.Aeld.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Ferren.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Fey.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Frellin.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Koban.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Sigal.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Tozen.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Whisper.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.Wildling.md\n D docs/STAGING/operator/species/Asi/1.03.Asi.md\n D docs/STAGING/operator/species/Aulurans/1.03.Aulurans.Dar.md\n D docs/STAGING/operator/species/Aulurans/1.03.Aulurans.Graa.md\n D docs/STAGING/operator/species/Aulurans/1.03.Aulurans.Koda.md\n D docs/STAGING/operator/species/Aulurans/1.03.Aulurans.Prokos.md\n D docs/STAGING/operator/species/Aulurans/1.03.Aulurans.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Aquarian.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Aquatican.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Argynt.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.BDren.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Base.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Brae.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Changeling.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Chimera.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Cyberform.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Danai.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Davae.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Digon.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Draconic.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Dwerg.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.GenE.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.ImpyriumPsion.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.ImpyriumRegi.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Janissary.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Kheen.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Lin.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Nian.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Premian.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Rautha.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Risakin.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.Varen.md\n D docs/STAGING/operator/species/Humans/1.03.Humans.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.Maantene.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.Manelli.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.Murex.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.Rakne.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.Riezen.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.Syndess.md\n D docs/STAGING/operator/species/Kitin/1.03.Kitin.md\n D docs/STAGING/operator/species/Orll/1.03.Orll.Base.md\n D docs/STAGING/operator/species/Orll/1.03.Orll.GraOr.md\n D docs/STAGING/operator/species/Orll/1.03.Orll.md\n D docs/STAGING/operator/species/Progenitors/1.03.Progenitors.Ila.md\n D docs/STAGING/operator/species/Progenitors/1.03.Progenitors.UNonn.md\n D docs/STAGING/operator/species/Progenitors/1.03.Progenitors.md\n D docs/STAGING/operator/species/ShaNor/1.03.ShaNor.Base.md\n D docs/STAGING/operator/species/ShaNor/1.03.ShaNor.Eakren.md\n D docs/STAGING/operator/species/ShaNor/1.03.ShaNor.Tenen.md\n D docs/STAGING/operator/species/ShaNor/1.03.ShaNor.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Aetherion.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Android.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Biomechanical.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Eidolon.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Golem.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.IntellectConstruct.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Mekan.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Protocol.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Scraps.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.SentientMachine.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Shell.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Skins.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.Swarm.md\n D docs/STAGING/operator/species/Synthetics/1.03.Synthetics.md\n M docs/TILE_SPECIFICATIONS_AND_REQUIREMENTS.md\n D docs/ade_comprehensive_review.md\n D \"docs/archiverules/architect/02 ECONOMY AND WEALTH.md\"\n D \"docs/archiverules/architect/99. ARCHETYPES.md\"\n D \"docs/archiverules/architect/99. METAPHYSICS.md\"\n D \"docs/archiverules/architect/99. MODULAR CHARACTER MATRIX.md\"\n D \"docs/archiverules/architect/99. MODULAR COMPANION MATRIX.md\"\n D \"docs/archiverules/architect/99. MODULAR FACTION MATRIX.md\"\n D \"docs/archiverules/architect/99. MODULAR PLANETARY MATRIX.md\"\n D \"docs/archiverules/architect/99. MODULAR SPECIES MATRIX.md\"\n D \"docs/archiverules/architect/99. TECHNOLOGY.md\"\n D docs/archiverules/architect/archetypes/99.Archetypes.A_D.md\n D docs/archiverules/architect/archetypes/99.Archetypes.E_L.md\n D docs/archiverules/architect/archetypes/99.Archetypes.M_R.md\n D docs/archiverules/architect/archetypes/99.Archetypes.S_Z.md\n D docs/archiverules/architect/characters/99.Character.ModuleA.TierChassis.md\n D docs/archiverules/architect/characters/99.Character.ModuleB.CompetencyRoles.md\n D docs/archiverules/architect/characters/99.Character.ModuleC_E.BiologySoulLifepath.md\n D docs/archiverules/architect/characters/99.Character.ModuleE.LifepathSchema.md\n D docs/archiverules/architect/characters/99.Character.ModuleF_G.GenreAndVisuals.md\n D docs/archiverules/architect/companions/99.Companion.FormPackages.md\n D docs/archiverules/architect/companions/99.Companion.FunctionAndExamples.md\n D docs/archiverules/architect/economy/02.Economy.InterstellarTrade.md\n D docs/archiverules/architect/economy/02.Economy.UnifiedFieldTheory.md\n D docs/archiverules/architect/metaphysics/99.Metaphysics.InvocationMatrix.md\n D docs/archiverules/architect/metaphysics/99.Metaphysics.MetaTechMatrix.md\n D docs/archiverules/architect/planetary/99.Planetary.AstrophysicsAndGeophysics.md\n D docs/archiverules/architect/planetary/99.Planetary.CivilizationAndEconomy.md\n D docs/archiverules/architect/planetary/99.Planetary.HazardsAndEncounters.md\n D docs/archiverules/architect/species/99.Species.ChassisAndMovement.md\n D docs/archiverules/architect/species/99.Species.TraitsAndDisadvantages.md\n D docs/archiverules/architect/technology/architecture/99.Tech.Architecture.ComponentCatalog.md\n D docs/archiverules/architect/technology/architecture/99.Tech.Architecture.ExamplesAndSkins.md\n D docs/archiverules/architect/technology/architecture/99.Tech.Architecture.ForgeProtocol.md\n D docs/archiverules/architect/technology/architecture/99.Tech.Architecture.MobileAndVFT.md\n D docs/archiverules/architect/technology/armor/99.Tech.Armor.DesignAndCatalog.md\n D docs/archiverules/architect/technology/armor/99.Tech.Armor.EconomyAndExemplars.md\n D docs/archiverules/architect/technology/augmentations/99.Tech.Augmentations.Biological.md\n D docs/archiverules/architect/technology/augmentations/99.Tech.Augmentations.Cybernetic.md\n D docs/archiverules/architect/technology/augmentations/99.Tech.Augmentations.Metaphysical.md\n D docs/archiverules/architect/technology/core/99.Tech.CivilizationDomains.md\n D docs/archiverules/architect/technology/core/99.Tech.Levels.md\n D docs/archiverules/architect/technology/equipment/99.Tech.Equipment.Framework.md\n D docs/archiverules/architect/technology/equipment/99.Tech.Equipment.SystemsAndMastercrafting.md\n D docs/archiverules/architect/technology/mecha/99.Tech.Mecha.AutomataAndGear.md\n D docs/archiverules/architect/technology/mecha/99.Tech.Mecha.ComponentsAndWeapons.md\n D docs/archiverules/architect/technology/mecha/99.Tech.Mecha.ForgeProtocol.md\n D docs/archiverules/architect/technology/weaponry/99.Tech.Weaponry.Catalog.md\n D docs/archiverules/architect/technology/weaponry/99.Tech.Weaponry.ForgeProtocol.md\n D \"docs/archiverules/operator/1.00 INTRODUCTION.md\"\n D \"docs/archiverules/operator/1.01 CHARACTER CREATION.md\"\n D \"docs/archiverules/operator/1.02 ARCHETYPES.md\"\n D \"docs/archiverules/operator/1.03 SPECIES.md\"\n D \"docs/archiverules/operator/1.04 FACTIONS.md\"\n D \"docs/archiverules/operator/1.05 ORIGINS.md\"\n D \"docs/archiverules/operator/1.06 OCCUPATIONS.md\"\n D \"docs/archiverules/operator/1.07 SKILLS.md\"\n D \"docs/archiverules/operator/1.08 FEATURES.md\"\n D \"docs/archiverules/operator/1.09 HINDRANCES.md\"\n D \"docs/archiverules/operator/1.10 SCALING.md\"\n D \"docs/archiverules/operator/2.00 ECONOMATRIX.md\"\n D \"docs/archiverules/operator/3.00 COMBAT.md\"\n D \"docs/archiverules/operator/4.00 METAPHYSICS.md\"\n D docs/archiverules/operator/archetypes/1.02.Operatives.md\n D docs/archiverules/operator/archetypes/1.02.Savants.md\n D docs/archiverules/operator/archetypes/1.02.Sentinels.md\n D docs/archiverules/operator/archetypes/1.02.SignatureFeatures.md\n D docs/archiverules/operator/archetypes/1.02.Visionaries.md\n D docs/archiverules/operator/character_creation/1.01.Attributes.MentalSocial.md\n D docs/archiverules/operator/character_creation/1.01.Attributes.Physical.md\n D docs/archiverules/operator/character_creation/1.01.Attributes.md\n D docs/archiverules/operator/character_creation/1.01.Experience.md\n D docs/archiverules/operator/character_creation/1.01.Karma.md\n D docs/archiverules/operator/character_creation/1.01.Movement.md\n D docs/archiverules/operator/character_creation/1.01.Perception.md\n D docs/archiverules/operator/character_creation/1.01.PipelineCapabilities.md\n D docs/archiverules/operator/character_creation/1.01.PipelineIdentity.md\n D docs/archiverules/operator/character_creation/1.01.RestAndDying.md\n D docs/archiverules/operator/character_creation/1.01.StartingWealthAndMeta.md\n D docs/archiverules/operator/character_creation/1.01.VitalityHealthStructure.md\n D docs/archiverules/operator/combat/3.00.DamageAndLocations.md\n D docs/archiverules/operator/combat/3.00.DamageTypes.Elemental.md\n D docs/archiverules/operator/combat/3.00.DamageTypes.Energy.md\n D docs/archiverules/operator/combat/3.00.DamageTypes.Kinetic.md\n D docs/archiverules/operator/combat/3.00.DamageTypes.PlanarAndMind.md\n D docs/archiverules/operator/combat/3.00.DamageTypes.md\n D docs/archiverules/operator/combat/3.00.Edge.md\n D docs/archiverules/operator/combat/3.00.StatusEffects.md\n D docs/archiverules/operator/combat/3.00.VehicularCombat.md\n D docs/archiverules/operator/economatrix/2.00.Architecture.md\n D docs/archiverules/operator/economatrix/2.00.Armor.md\n D docs/archiverules/operator/economatrix/2.00.Augmentations.AdvancedAndFBC.md\n D docs/archiverules/operator/economatrix/2.00.Augmentations.md\n D docs/archiverules/operator/economatrix/2.00.CraftingAndValuation.md\n D docs/archiverules/operator/economatrix/2.00.Equipment.md\n D docs/archiverules/operator/economatrix/2.00.InterstellarTrade.md\n D docs/archiverules/operator/economatrix/2.00.Mecha.MilitaryAndAerospace.md\n D docs/archiverules/operator/economatrix/2.00.Mecha.NauticalAndWalkers.md\n D docs/archiverules/operator/economatrix/2.00.Mecha.md\n D docs/archiverules/operator/economatrix/2.00.WealthAndLiquidity.md\n D docs/archiverules/operator/economatrix/2.00.WeaponModifications.md\n D docs/archiverules/operator/factions/1.04.AeldProvidence.AlterianEnclave.md\n D docs/archiverules/operator/factions/1.04.AeldProvidence.DraconianOrder.md\n D docs/archiverules/operator/factions/1.04.AeldProvidence.KovianTribunal.md\n D docs/archiverules/operator/factions/1.04.AeldProvidence.SilvermoonVanguard.md\n D docs/archiverules/operator/factions/1.04.AeldProvidence.VajarTribes.md\n D docs/archiverules/operator/factions/1.04.AeldProvidence.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Alien.md\n D docs/archiverules/operator/factions/1.04.Archetypal.ArtificialLife.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Corporate.md\n D docs/archiverules/operator/factions/1.04.Archetypal.CosmicHorror.md\n D docs/archiverules/operator/factions/1.04.Archetypal.CosmicJustice.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Criminal.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Environmental.md\n D docs/archiverules/operator/factions/1.04.Archetypal.GeneticEngineering.md\n D docs/archiverules/operator/factions/1.04.Archetypal.HiveMind.md\n D docs/archiverules/operator/factions/1.04.Archetypal.InterstellarDiplomats.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Mercenary.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Military.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Mutant.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Planetary.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Political.md\n D docs/archiverules/operator/factions/1.04.Archetypal.PostApocalyptic.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Rebel.md\n D docs/archiverules/operator/factions/1.04.Archetypal.ReligiousCult.md\n D docs/archiverules/operator/factions/1.04.Archetypal.SentientIntelligence.md\n D docs/archiverules/operator/factions/1.04.Archetypal.SpaceExploration.md\n D docs/archiverules/operator/factions/1.04.Archetypal.SpacePirate.md\n D docs/archiverules/operator/factions/1.04.Archetypal.SpaceReligion.md\n D docs/archiverules/operator/factions/1.04.Archetypal.SpaceTourism.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Supernatural.md\n D docs/archiverules/operator/factions/1.04.Archetypal.Technological.md\n D docs/archiverules/operator/factions/1.04.Impyrium.Dominion.md\n D docs/archiverules/operator/factions/1.04.Impyrium.Radiant.md\n D docs/archiverules/operator/factions/1.04.Major.Ascendancy.md\n D docs/archiverules/operator/factions/1.04.Major.AuluranClans.md\n D docs/archiverules/operator/factions/1.04.Major.Coalition.md\n D docs/archiverules/operator/factions/1.04.Major.DraconDynasty.md\n D docs/archiverules/operator/factions/1.04.Major.EntariCombine.md\n D docs/archiverules/operator/factions/1.04.Major.KitinCollective.md\n D docs/archiverules/operator/factions/1.04.Major.MekanCollective.md\n D docs/archiverules/operator/factions/1.04.Major.Outworlds.md\n D docs/archiverules/operator/factions/1.04.Major.Syndicate.md\n D docs/archiverules/operator/features/1.08.AbilityFeatures.md\n D docs/archiverules/operator/features/1.08.CombatFeatures.D_W.md\n D docs/archiverules/operator/features/1.08.CombatFeatures.md\n D docs/archiverules/operator/features/1.08.DisciplineFeatures.md\n D docs/archiverules/operator/features/1.08.GeneralFeatures.N_Z.md\n D docs/archiverules/operator/features/1.08.GeneralFeatures.md\n D docs/archiverules/operator/features/1.08.KarmaFeatures.md\n D docs/archiverules/operator/features/1.08.SkillFeatures.M_Z.md\n D docs/archiverules/operator/features/1.08.SkillFeatures.md\n D docs/archiverules/operator/features/1.08.SpecialFeatures.md\n D docs/archiverules/operator/hindrances/1.09.MentalAndPsychological.md\n D docs/archiverules/operator/hindrances/1.09.Physical.md\n D docs/archiverules/operator/hindrances/1.09.SocialAndBackground.md\n D docs/archiverules/operator/introduction/1.00.Glossary.md\n D docs/archiverules/operator/metaphysics/4.00.Dimension.md\n D docs/archiverules/operator/metaphysics/4.00.Energy.md\n D docs/archiverules/operator/metaphysics/4.00.Entropy.md\n D docs/archiverules/operator/metaphysics/4.00.Illusion.md\n D docs/archiverules/operator/metaphysics/4.00.Matter.md\n D docs/archiverules/operator/metaphysics/4.00.Mental.md\n D docs/archiverules/operator/metaphysics/4.00.SensoryManifestations.md\n D docs/archiverules/operator/occupations/1.06.Adept.md\n D docs/archiverules/operator/occupations/1.06.Agent.md\n D docs/archiverules/operator/occupations/1.06.Builder.md\n D docs/archiverules/operator/occupations/1.06.Citizen.md\n D docs/archiverules/operator/occupations/1.06.Criminal.md\n D docs/archiverules/operator/occupations/1.06.Drifter.md\n D docs/archiverules/operator/occupations/1.06.Entertainer.md\n D docs/archiverules/operator/occupations/1.06.Merchant.md\n D docs/archiverules/operator/occupations/1.06.Representative.md\n D docs/archiverules/operator/occupations/1.06.Scholar.md\n D docs/archiverules/operator/occupations/1.06.Scout.md\n D docs/archiverules/operator/occupations/1.06.Soldier.md\n D docs/archiverules/operator/occupations/1.06.Specialist.md\n D docs/archiverules/operator/origins/1.05.Agricultural.md\n D docs/archiverules/operator/origins/1.05.Aquatic.md\n D docs/archiverules/operator/origins/1.05.Colony.md\n D docs/archiverules/operator/origins/1.05.Enlightened.md\n D docs/archiverules/operator/origins/1.05.Hostile.md\n D docs/archiverules/operator/origins/1.05.Industrial.md\n D docs/archiverules/operator/origins/1.05.Leisure.md\n D docs/archiverules/operator/origins/1.05.Militaristic.md\n D docs/archiverules/operator/origins/1.05.Research.md\n D docs/archiverules/operator/origins/1.05.Spacer.md\n D docs/archiverules/operator/origins/1.05.Urban.md\n D docs/archiverules/operator/skills/1.07.Combat.md\n D docs/archiverules/operator/skills/1.07.Mechanics.Learning.md\n D docs/archiverules/operator/skills/1.07.Mechanics.SkillChecks.md\n D docs/archiverules/operator/skills/1.07.Mechanics.SkillGroups.md\n D docs/archiverules/operator/skills/1.07.Mechanics.SkillUse.md\n D docs/archiverules/operator/skills/1.07.Mechanics.Specialization.md\n D docs/archiverules/operator/skills/1.07.Mechanics.SynergyAndAdvantage.md\n D docs/archiverules/operator/skills/1.07.Mechanics.TimeAndFocus.md\n D docs/archiverules/operator/skills/1.07.Mental.Core.md\n D docs/archiverules/operator/skills/1.07.Mental.Knowledge.N_T.md\n D docs/archiverules/operator/skills/1.07.Mental.Knowledge.md\n D docs/archiverules/operator/skills/1.07.Mental.Vocation.A_C.md\n D docs/archiverules/operator/skills/1.07.Mental.Vocation.C_G.md\n D docs/archiverules/operator/skills/1.07.Mental.Vocation.H_W.md\n D docs/archiverules/operator/skills/1.07.Mental.Vocation.md\n D docs/archiverules/operator/skills/1.07.Metaphysics.md\n D docs/archiverules/operator/skills/1.07.Physical.md\n D docs/archiverules/operator/skills/1.07.Social.Expression.O_W.md\n D docs/archiverules/operator/skills/1.07.Social.Expression.md\n D docs/archiverules/operator/skills/1.07.Social.Manipulation.md\n D docs/archiverules/operator/species/1.03.AwakenedAnimal.md\n D docs/archiverules/operator/species/1.03.Caprian.md\n D docs/archiverules/operator/species/1.03.Jorni.md\n D docs/archiverules/operator/species/1.03.Kannid.md\n D docs/archiverules/operator/species/1.03.Kizin.md\n D docs/archiverules/operator/species/1.03.Kongi.md\n D docs/archiverules/operator/species/1.03.Mobula.md\n D docs/archiverules/operator/species/1.03.Mondi.md\n D docs/archiverules/operator/species/1.03.Plasm.md\n D docs/archiverules/operator/species/1.03.Praeti.md\n D docs/archiverules/operator/species/1.03.Qeric.md\n D docs/archiverules/operator/species/1.03.Sefalin.md\n D docs/archiverules/operator/species/1.03.Thorn.md\n D docs/archiverules/operator/species/1.03.Truldan.md\n D docs/archiverules/operator/species/1.03.Vassoth.md\n D docs/archiverules/operator/species/1.03.Weti.md\n D docs/archiverules/operator/species/Aeld/1.03.Aeld.Alterian.md\n D docs/archiverules/operator/species/Aeld/1.03.Aeld.Doppelganger.md\n D docs/archiverules/operator/species/Aeld/1.03.Aeld.Draconian.md\n D docs/archiverules/operator/species/Aeld/1.03.Aeld.Kovian.md\n D docs/archiverules/operator/species/Aeld/1.03.Aeld.Vajar.md\n D docs/archiverules/operator/species/Aeld/1.03.Aeld.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Ferren.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Fey.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Frellin.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Koban.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Sigal.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Tozen.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Whisper.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.Wildling.md\n D docs/archiverules/operator/species/Asi/1.03.Asi.md\n D docs/archiverules/operator/species/Aulurans/1.03.Aulurans.Dar.md\n D docs/archiverules/operator/species/Aulurans/1.03.Aulurans.Graa.md\n D docs/archiverules/operator/species/Aulurans/1.03.Aulurans.Koda.md\n D docs/archiverules/operator/species/Aulurans/1.03.Aulurans.Prokos.md\n D docs/archiverules/operator/species/Aulurans/1.03.Aulurans.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Aquarian.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Aquatican.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Argynt.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.BDren.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Base.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Brae.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Changeling.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Chimera.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Cyberform.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Danai.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Davae.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Digon.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Draconic.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Dwerg.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.GenE.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.ImpyriumPsion.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.ImpyriumRegi.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Janissary.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Kheen.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Lin.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Nian.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Premian.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Rautha.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Risakin.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.Varen.md\n D docs/archiverules/operator/species/Humans/1.03.Humans.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.Maantene.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.Manelli.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.Murex.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.Rakne.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.Riezen.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.Syndess.md\n D docs/archiverules/operator/species/Kitin/1.03.Kitin.md\n D docs/archiverules/operator/species/Orll/1.03.Orll.Base.md\n D docs/archiverules/operator/species/Orll/1.03.Orll.GraOr.md\n D docs/archiverules/operator/species/Orll/1.03.Orll.md\n D docs/archiverules/operator/species/Progenitors/1.03.Progenitors.Ila.md\n D docs/archiverules/operator/species/Progenitors/1.03.Progenitors.UNonn.md\n D docs/archiverules/operator/species/Progenitors/1.03.Progenitors.md\n D docs/archiverules/operator/species/ShaNor/1.03.ShaNor.Base.md\n D docs/archiverules/operator/species/ShaNor/1.03.ShaNor.Eakren.md\n D docs/archiverules/operator/species/ShaNor/1.03.ShaNor.Tenen.md\n D docs/archiverules/operator/species/ShaNor/1.03.ShaNor.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Aetherion.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Android.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Biomechanical.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Eidolon.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Golem.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.IntellectConstruct.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Mekan.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Protocol.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Scraps.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.SentientMachine.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Shell.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Skins.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.Swarm.md\n D docs/archiverules/operator/species/Synthetics/1.03.Synthetics.md\n D \"docs/plan/-map gen.md\"\n D \"docs/plan/MAP GEN \\342\\200\\223 MASTER_IMPLEMENTATION_PLAN.md\"\n M docs/plan/MAP_GEN_WORKFLOW_CHECKLIST.md\n M docs/plan/MASTER_IMPLEMENTATION_PLAN.md\n D \"docs/recommendations and revison plans/omnicortex json/current collection/area_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/augmentation_type_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/availability_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/body_location_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/classification_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/component_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/creator_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/critical_effect_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/critical_failure_effect_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/critical_success_effect_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/design_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/effect_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/gear_category_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/material_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/mode_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/modifier_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/prerequisite_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/range_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/resistance_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_agriculture_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_architecture_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_biotechnology_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_commerce_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_communication_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_devices_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_education_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_energy_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_manufacturing_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_materials_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_medicine_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_society_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_synthetics_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/society_weaponry_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/special_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/species_movement_database.json\"\n D \"docs/recommendations and revison plans/omnicortex json/current collection/target_database.json\"\n D docs/reviews/2026-10/00_MASTER_FEATURE_INVENTORY.md\n D docs/reviews/2026-10/01_FOLIO.md\n D docs/reviews/2026-10/02_RULES.md\n D docs/reviews/2026-10/03_CORTEX.md\n D docs/reviews/2026-10/04_ADE.md\n D docs/reviews/2026-10/05_TEAMS.md\n D docs/reviews/2026-10/06_COMMS.md\n D docs/reviews/2026-10/07_PLATFORM_RECOMMENDATIONS_REPORT.md\n D docs/reviews/2026-10/08_SPRINT_IMPLEMENTATION_PLAN.md\n D docs/webworx.txt\n M playwright.config.ts\n M scripts/buildSupportingCatalogs.js\n M scripts/extract-app-context.mjs\n M scripts/ingestStagedMarkdown.mjs\n M scripts/mcp-app-inspector.mjs\n M scripts/purgeAndReloadSpecies.mjs\n M scripts/rebuildMovementCatalogs.mjs\n M src/context/AuthContext.jsx\n M tests/e2e/accessibility-and-pwa.spec.ts\n M tests/e2e/canvas-visual-regression.spec.ts\n M tests/e2e/canvas-visual-regression.spec.ts-snapshots/mapmaker-canvas-chromium-webgl-win32.png\n M tests/e2e/canvas-visual-regression.spec.ts-snapshots/stage-2d-viewport-chromium-webgl-win32.png\n M tests/e2e/canvas-visual-regression.spec.ts-snapshots/story-weaver-graph-chromium-webgl-win32.png\n M tests/e2e/dice-roller.spec.ts\n M tests/e2e/marquee-admin.spec.ts\n M tests/e2e/smoke.spec.ts\n M tests/e2e/user-journeys.spec.ts\n?? \"docs/2d10 Analysis.md\"\n",
+    "diffStat": " .agents/skills/app-inspector/SKILL.md              |   16 +-\n docs/-- 2d10 Analysis.md                           |  186 --\n docs/APP_INSPECTOR_STATE_REPORT.md                 |  466 +---\n docs/HIFI CHROMA.md                                |  112 +-\n docs/STAGING/00.00 MASTER CODEX INDEX.md           |  441 ---\n ....01 BASTION SYSTEM PROMPT & ROUTING MANIFEST.md |  203 --\n .../00.02 BASTION CORE FORMULAS & ERRATA ENGINE.md |  284 --\n docs/STAGING/README.md                             |  441 ---\n docs/STAGING/architect/00.00 GM GUIDELINES.md      |  160 --\n docs/STAGING/architect/02 ECONOMY AND WEALTH.md    |  267 --\n docs/STAGING/architect/05.00.CosmicEntities.md     |  136 -\n docs/STAGING/architect/99. ARCHETYPES.md           |   64 -\n docs/STAGING/architect/99. METAPHYSICS.md          |  110 -\n .../architect/99. MODULAR CHARACTER MATRIX.md      |  222 --\n .../architect/99. MODULAR COMPANION MATRIX.md      |  146 -\n .../architect/99. MODULAR FACTION MATRIX.md        |  191 --\n .../architect/99. MODULAR PLANETARY MATRIX.md      |  262 --\n .../architect/99. MODULAR SPECIES MATRIX.md        |  206 --\n docs/STAGING/architect/99. TECHNOLOGY.md           |  162 --\n .../architect/archetypes/99.Archetypes.A_D.md      |  462 ----\n .../architect/archetypes/99.Archetypes.E_L.md      |  438 ---\n .../archetypes/99.Archetypes.MBTIMapping.md        |  258 --\n .../architect/archetypes/99.Archetypes.M_R.md      |  446 ---\n .../architect/archetypes/99.Archetypes.S_Z.md      |  438 ---\n .../characters/04.03.BestiaryAndXenofauna.md       |  289 --\n .../characters/99.Character.ModuleA.TierChassis.md |   66 -\n .../99.Character.ModuleB.CompetencyRoles.md        |  169 --\n .../99.Character.ModuleC_E.BiologySoulLifepath.md  |  164 --\n .../99.Character.ModuleE.LifepathSchema.md         |   56 -\n .../99.Character.ModuleF_G.GenreAndVisuals.md      |  115 -\n .../companions/99.Companion.FormPackages.md        |   98 -\n .../companions/99.Companion.FunctionAndExamples.md |  154 --\n .../economy/02.Economy.InterstellarTrade.md        |  157 --\n .../economy/02.Economy.UnifiedFieldTheory.md       |  258 --\n .../architect/metaphysics/04.TheResonance.md       |  491 ----\n .../metaphysics/99.Metaphysics.InvocationMatrix.md |  231 --\n .../metaphysics/99.Metaphysics.MetaTechMatrix.md   |  242 --\n .../planetary/04.00.StarAtlasAndGazetteer.md       |  728 -----\n .../99.Planetary.AstrophysicsAndGeophysics.md      |  114 -\n .../99.Planetary.CivilizationAndEconomy.md         |  284 --\n .../planetary/99.Planetary.HazardsAndEncounters.md |  204 --\n .../schemas/99.Schema.ArchitectureAndBase.md       |  115 -\n .../schemas/99.Schema.BastionLinterAndValidator.md |  117 -\n .../schemas/99.Schema.EquipmentAndWeaponry.md      |  400 ---\n .../schemas/99.Schema.MechaAndAutomata.md          |  213 --\n .../schemas/99.Schema.OperatorCharacter.md         |  261 --\n .../architect/schemas/99.Schema.PlanetarySystem.md |   98 -\n .../STAGING/architect/schemas/bastion_validator.py |   83 -\n docs/STAGING/architect/schemas/schemas.json        | 1373 ----------\n .../architect/species/04.03.01.DragonsCodex.md     |  143 -\n .../species/99.Species.ChassisAndMovement.md       |  146 -\n .../species/99.Species.TraitsAndDisadvantages.md   |  161 --\n .../99.Tech.Architecture.ComponentCatalog.md       |  156 --\n .../99.Tech.Architecture.ExamplesAndSkins.md       |  255 --\n .../99.Tech.Architecture.ForgeProtocol.md          |  265 --\n .../99.Tech.Architecture.MobileAndVFT.md           |   84 -\n .../armor/99.Tech.Armor.DesignAndCatalog.md        |  350 ---\n .../armor/99.Tech.Armor.EconomyAndExemplars.md     |  157 --\n .../99.Tech.Augmentations.Biological.md            |  155 --\n .../99.Tech.Augmentations.Cybernetic.md            |  346 ---\n .../99.Tech.Augmentations.Metaphysical.md          |  154 --\n .../technology/core/06.AetheriumAndAetherite.md    |  703 -----\n .../technology/core/06.PolyMatterAndPicotech.md    |  420 ---\n .../technology/core/99.Tech.CivilizationDomains.md |  150 -\n .../architect/technology/core/99.Tech.Levels.md    |  225 --\n .../equipment/99.Tech.Equipment.Framework.md       |  320 ---\n .../99.Tech.Equipment.SystemsAndMastercrafting.md  |  137 -\n .../mecha/99.Tech.Mecha.AutomataAndGear.md         |  164 --\n .../mecha/99.Tech.Mecha.ComponentsAndWeapons.md    |  238 --\n .../mecha/99.Tech.Mecha.ForgeProtocol.md           |  325 ---\n .../weaponry/99.Tech.Weaponry.Catalog.md           |  298 --\n .../weaponry/99.Tech.Weaponry.ForgeProtocol.md     |  595 ----\n docs/STAGING/operator/1.00 INTRODUCTION.md         |  183 --\n docs/STAGING/operator/1.01 CHARACTER CREATION.md   |  106 -\n docs/STAGING/operator/1.02 ARCHETYPES.md           |   91 -\n docs/STAGING/operator/1.03 SPECIES.md              |  629 -----\n docs/STAGING/operator/1.04 FACTIONS.md             |  784 ------\n docs/STAGING/operator/1.05 ORIGINS.md              |  866 ------\n docs/STAGING/operator/1.06 OCCUPATIONS.md          | 1007 -------\n docs/STAGING/operator/1.07 SKILLS.md               |  522 ----\n docs/STAGING/operator/1.08 FEATURES.md             |  349 ---\n docs/STAGING/operator/1.09 HINDRANCES.md           |  128 -\n docs/STAGING/operator/1.10 SCALING.md              |  136 -\n docs/STAGING/operator/2.00 ECONOMATRIX.md          |  947 -------\n docs/STAGING/operator/3.00 COMBAT.md               |  280 --\n docs/STAGING/operator/4.00 METAPHYSICS.md          |  306 ---\n .../STAGING/operator/archetypes/1.02.Operatives.md |  522 ----\n docs/STAGING/operator/archetypes/1.02.Savants.md   |  526 ----\n docs/STAGING/operator/archetypes/1.02.Sentinels.md |  522 ----\n .../operator/archetypes/1.02.SignatureFeatures.md  |  387 ---\n .../operator/archetypes/1.02.Visionaries.md        |  522 ----\n .../operator/character_creation/1.01.Attributes.md |  211 --\n .../operator/character_creation/1.01.Experience.md |   73 -\n .../operator/character_creation/1.01.Karma.md      |   97 -\n .../operator/character_creation/1.01.Movement.md   |  115 -\n .../operator/character_creation/1.01.Perception.md |   53 -\n .../1.01.PipelineCapabilities.md                   |  114 -\n .../character_creation/1.01.PipelineIdentity.md    |   94 -\n .../character_creation/1.01.RestAndDying.md        |   75 -\n .../1.01.StartingWealthAndMeta.md                  |  144 -\n .../1.01.VitalityHealthStructure.md                |   44 -\n .../operator/combat/3.00.DamageAndLocations.md     |   85 -\n docs/STAGING/operator/combat/3.00.DamageTypes.md   |  335 ---\n docs/STAGING/operator/combat/3.00.Edge.md          |   88 -\n docs/STAGING/operator/combat/3.00.StatusEffects.md |   22 -\n .../operator/combat/3.00.VehicularCombat.md        |  150 -\n .../operator/economatrix/2.00.Architecture.md      |  458 ----\n docs/STAGING/operator/economatrix/2.00.Armor.md    | 1485 ----------\n .../2.00.Augmentations.AdvancedAndFBC.md           |  571 ----\n .../operator/economatrix/2.00.Augmentations.md     |  326 ---\n .../economatrix/2.00.CraftingAndValuation.md       |  210 --\n .../STAGING/operator/economatrix/2.00.Equipment.md |  501 ----\n .../operator/economatrix/2.00.InterstellarTrade.md |  225 --\n .../economatrix/2.00.Mecha.MilitaryAndAerospace.md |  123 -\n .../economatrix/2.00.Mecha.NauticalAndWalkers.md   |   83 -\n docs/STAGING/operator/economatrix/2.00.Mecha.md    |  119 -\n .../economatrix/2.00.WealthAndLiquidity.md         |  168 --\n .../economatrix/2.00.WeaponModifications.md        |   53 -\n .../1.04.AeldProvidence.AlterianEnclave.md         |  203 --\n .../factions/1.04.AeldProvidence.DraconianOrder.md |   68 -\n .../factions/1.04.AeldProvidence.KovianTribunal.md |  263 --\n .../1.04.AeldProvidence.SilvermoonVanguard.md      |   70 -\n .../factions/1.04.AeldProvidence.VajarTribes.md    |  261 --\n .../operator/factions/1.04.AeldProvidence.md       |   76 -\n .../operator/factions/1.04.Archetypal.Alien.md     |   92 -\n .../factions/1.04.Archetypal.ArtificialLife.md     |   92 -\n .../operator/factions/1.04.Archetypal.Corporate.md |   92 -\n .../factions/1.04.Archetypal.CosmicHorror.md       |   92 -\n .../factions/1.04.Archetypal.CosmicJustice.md      |   92 -\n .../operator/factions/1.04.Archetypal.Criminal.md  |   92 -\n .../factions/1.04.Archetypal.Environmental.md      |   92 -\n .../factions/1.04.Archetypal.GeneticEngineering.md |   92 -\n .../operator/factions/1.04.Archetypal.HiveMind.md  |   92 -\n .../1.04.Archetypal.InterstellarDiplomats.md       |   92 -\n .../operator/factions/1.04.Archetypal.Mercenary.md |   92 -\n .../operator/factions/1.04.Archetypal.Military.md  |   92 -\n .../operator/factions/1.04.Archetypal.Mutant.md    |   92 -\n .../operator/factions/1.04.Archetypal.Planetary.md |   92 -\n .../operator/factions/1.04.Archetypal.Political.md |   92 -\n .../factions/1.04.Archetypal.PostApocalyptic.md    |   92 -\n .../operator/factions/1.04.Archetypal.Rebel.md     |   92 -\n .../factions/1.04.Archetypal.ReligiousCult.md      |   92 -\n .../1.04.Archetypal.SentientIntelligence.md        |   92 -\n .../factions/1.04.Archetypal.SpaceExploration.md   |   92 -\n .../factions/1.04.Archetypal.SpacePirate.md        |   92 -\n .../factions/1.04.Archetypal.SpaceReligion.md      |   92 -\n .../factions/1.04.Archetypal.SpaceTourism.md       |   92 -\n .../factions/1.04.Archetypal.Supernatural.md       |   92 -\n .../factions/1.04.Archetypal.Technological.md      |   92 -\n .../operator/factions/1.04.Impyrium.Dominion.md    |  284 --\n .../operator/factions/1.04.Impyrium.Radiant.md     |  267 --\n .../operator/factions/1.04.Major.Ascendancy.md     |  255 --\n .../operator/factions/1.04.Major.AuluranClans.md   |  261 --\n .../operator/factions/1.04.Major.Coalition.md      |  681 -----\n .../operator/factions/1.04.Major.DraconDynasty.md  |  259 --\n .../operator/factions/1.04.Major.EntariCombine.md  |  470 ----\n .../factions/1.04.Major.KitinCollective.md         | 2695 ------------------\n .../factions/1.04.Major.MekanCollective.md         |  275 --\n .../operator/factions/1.04.Major.Outworlds.md      |  254 --\n .../operator/factions/1.04.Major.Syndicate.md      |  289 --\n .../operator/features/1.08.AbilityFeatures.md      |  218 --\n .../operator/features/1.08.CombatFeatures.D_W.md   |  263 --\n .../operator/features/1.08.CombatFeatures.md       |  274 --\n .../operator/features/1.08.DisciplineFeatures.md   |  203 --\n .../operator/features/1.08.GeneralFeatures.N_Z.md  |  314 ---\n .../operator/features/1.08.GeneralFeatures.md      |  365 ---\n .../operator/features/1.08.KarmaFeatures.md        |  144 -\n .../operator/features/1.08.SkillFeatures.M_Z.md    |  277 --\n .../operator/features/1.08.SkillFeatures.md        |  293 --\n .../operator/features/1.08.SpecialFeatures.md      |  417 ---\n .../hindrances/1.09.MentalAndPsychological.md      |  120 -\n docs/STAGING/operator/hindrances/1.09.Physical.md  |   75 -\n .../hindrances/1.09.SocialAndBackground.md         |  107 -\n .../STAGING/operator/introduction/1.00.Glossary.md |   81 -\n .../operator/introduction/1.00.Introduction.md     |   55 -\n .../STAGING/operator/metaphysics/4.00.Dimension.md |  413 ---\n docs/STAGING/operator/metaphysics/4.00.Energy.md   |  646 -----\n docs/STAGING/operator/metaphysics/4.00.Entropy.md  |  611 -----\n docs/STAGING/operator/metaphysics/4.00.Illusion.md |  415 ---\n docs/STAGING/operator/metaphysics/4.00.Matter.md   |  543 ----\n docs/STAGING/operator/metaphysics/4.00.Mental.md   |  644 -----\n .../metaphysics/4.00.SensoryManifestations.md      |  233 --\n docs/STAGING/operator/occupations/1.06.Adept.md    |  164 --\n docs/STAGING/operator/occupations/1.06.Agent.md    |  188 --\n docs/STAGING/operator/occupations/1.06.Builder.md  |  190 --\n docs/STAGING/operator/occupations/1.06.Citizen.md  |  240 --\n docs/STAGING/operator/occupations/1.06.Criminal.md |  180 --\n docs/STAGING/operator/occupations/1.06.Drifter.md  |  212 --\n .../operator/occupations/1.06.Entertainer.md       |  164 --\n docs/STAGING/operator/occupations/1.06.Merchant.md |  182 --\n .../operator/occupations/1.06.Representative.md    |  164 --\n docs/STAGING/operator/occupations/1.06.Scholar.md  |  170 --\n docs/STAGING/operator/occupations/1.06.Scout.md    |  174 --\n docs/STAGING/operator/occupations/1.06.Soldier.md  |  198 --\n .../operator/occupations/1.06.Specialist.md        |  166 --\n docs/STAGING/operator/origins/1.05.Agricultural.md |  174 --\n docs/STAGING/operator/origins/1.05.Aquatic.md      |  174 --\n docs/STAGING/operator/origins/1.05.Colony.md       |  179 --\n docs/STAGING/operator/origins/1.05.Enlightened.md  |  176 --\n docs/STAGING/operator/origins/1.05.Hostile.md      |  172 --\n docs/STAGING/operator/origins/1.05.Industrial.md   |  178 --\n docs/STAGING/operator/origins/1.05.Leisure.md      |  180 --\n docs/STAGING/operator/origins/1.05.Militaristic.md |  180 --\n docs/STAGING/operator/origins/1.05.Research.md     |  178 --\n docs/STAGING/operator/origins/1.05.Spacer.md       |  171 --\n docs/STAGING/operator/origins/1.05.Urban.md        |  172 --\n docs/STAGING/operator/skills/1.07.Combat.md        |  261 --\n .../operator/skills/1.07.Mechanics.Learning.md     |  122 -\n .../operator/skills/1.07.Mechanics.SkillChecks.md  |  118 -\n .../operator/skills/1.07.Mechanics.SkillGroups.md  |  332 ---\n .../operator/skills/1.07.Mechanics.SkillUse.md     |  132 -\n .../skills/1.07.Mechanics.Specialization.md        |   83 -\n .../skills/1.07.Mechanics.SynergyAndAdvantage.md   |  213 --\n .../operator/skills/1.07.Mechanics.TimeAndFocus.md |  218 --\n docs/STAGING/operator/skills/1.07.Mental.Core.md   |   61 -\n .../operator/skills/1.07.Mental.Knowledge.N_T.md   |  258 --\n .../operator/skills/1.07.Mental.Knowledge.md       |  302 --\n .../operator/skills/1.07.Mental.Vocation.A_C.md    |  257 --\n .../operator/skills/1.07.Mental.Vocation.C_G.md    |  208 --\n .../operator/skills/1.07.Mental.Vocation.H_W.md    |  233 --\n .../operator/skills/1.07.Mental.Vocation.md        |   85 -\n docs/STAGING/operator/skills/1.07.Metaphysics.md   |  457 ---\n docs/STAGING/operator/skills/1.07.Physical.md      |  114 -\n .../operator/skills/1.07.Social.Expression.O_W.md  |  154 --\n .../operator/skills/1.07.Social.Expression.md      |  178 --\n .../operator/skills/1.07.Social.Manipulation.md    |  191 --\n docs/STAGING/operator/species/1.03.AeldAndAsi.md   | 1397 ----------\n .../operator/species/1.03.AwakenedAnimal.md        |   86 -\n docs/STAGING/operator/species/1.03.Caprian.md      |   83 -\n .../operator/species/1.03.HumansAuluransKitin.md   | 2898 --------------------\n docs/STAGING/operator/species/1.03.Jorni.md        |  103 -\n docs/STAGING/operator/species/1.03.Kannid.md       |   81 -\n docs/STAGING/operator/species/1.03.Kizin.md        |   99 -\n docs/STAGING/operator/species/1.03.Kongi.md        |   89 -\n docs/STAGING/operator/species/1.03.Mobula.md       |   63 -\n docs/STAGING/operator/species/1.03.Mondi.md        |  110 -\n docs/STAGING/operator/species/1.03.Plasm.md        |   79 -\n docs/STAGING/operator/species/1.03.Praeti.md       |   64 -\n docs/STAGING/operator/species/1.03.Qeric.md        |   72 -\n docs/STAGING/operator/species/1.03.Sefalin.md      |   95 -\n .../operator/species/1.03.SyntheticsAndXeno.md     | 2621 ------------------\n docs/STAGING/operator/species/1.03.Thorn.md        |   91 -\n docs/STAGING/operator/species/1.03.Truldan.md      |   84 -\n docs/STAGING/operator/species/1.03.Vassoth.md      |   76 -\n docs/STAGING/operator/species/1.03.Weti.md         |   67 -\n .../operator/species/Aeld/1.03.Aeld.Alterian.md    |  224 --\n .../species/Aeld/1.03.Aeld.Doppelganger.md         |  101 -\n .../operator/species/Aeld/1.03.Aeld.Draconian.md   |  107 -\n .../operator/species/Aeld/1.03.Aeld.Kovian.md      |  111 -\n .../operator/species/Aeld/1.03.Aeld.Vajar.md       |  111 -\n docs/STAGING/operator/species/Aeld/1.03.Aeld.md    |   46 -\n .../operator/species/Asi/1.03.Asi.Ferren.md        |   85 -\n docs/STAGING/operator/species/Asi/1.03.Asi.Fey.md  |   76 -\n .../operator/species/Asi/1.03.Asi.Frellin.md       |   89 -\n .../STAGING/operator/species/Asi/1.03.Asi.Koban.md |   92 -\n .../STAGING/operator/species/Asi/1.03.Asi.Sigal.md |   82 -\n .../STAGING/operator/species/Asi/1.03.Asi.Tozen.md |   65 -\n .../operator/species/Asi/1.03.Asi.Whisper.md       |   69 -\n .../operator/species/Asi/1.03.Asi.Wildling.md      |   88 -\n docs/STAGING/operator/species/Asi/1.03.Asi.md      |  148 -\n .../operator/species/Aulurans/1.03.Aulurans.Dar.md |   34 -\n .../species/Aulurans/1.03.Aulurans.Graa.md         |   40 -\n .../species/Aulurans/1.03.Aulurans.Koda.md         |   34 -\n .../species/Aulurans/1.03.Aulurans.Prokos.md       |  106 -\n .../operator/species/Aulurans/1.03.Aulurans.md     |  369 ---\n .../species/Humans/1.03.Humans.Aquarian.md         |   90 -\n .../species/Humans/1.03.Humans.Aquatican.md        |   85 -\n .../operator/species/Humans/1.03.Humans.Argynt.md  |   82 -\n .../operator/species/Humans/1.03.Humans.BDren.md   |   84 -\n .../operator/species/Humans/1.03.Humans.Base.md    |   53 -\n .../operator/species/Humans/1.03.Humans.Brae.md    |   84 -\n .../species/Humans/1.03.Humans.Changeling.md       |   75 -\n .../operator/species/Humans/1.03.Humans.Chimera.md |   73 -\n .../species/Humans/1.03.Humans.Cyberform.md        |   88 -\n .../operator/species/Humans/1.03.Humans.Danai.md   |   83 -\n .../operator/species/Humans/1.03.Humans.Davae.md   |  109 -\n .../operator/species/Humans/1.03.Humans.Digon.md   |   99 -\n .../species/Humans/1.03.Humans.Draconic.md         |   83 -\n .../operator/species/Humans/1.03.Humans.Dwerg.md   |   77 -\n .../operator/species/Humans/1.03.Humans.GenE.md    |   75 -\n .../species/Humans/1.03.Humans.ImpyriumPsion.md    |   74 -\n .../species/Humans/1.03.Humans.ImpyriumRegi.md     |  112 -\n .../species/Humans/1.03.Humans.Janissary.md        |   85 -\n .../operator/species/Humans/1.03.Humans.Kheen.md   |   72 -\n .../operator/species/Humans/1.03.Humans.Lin.md     |   83 -\n .../operator/species/Humans/1.03.Humans.Nian.md    |   70 -\n .../operator/species/Humans/1.03.Humans.Premian.md |   76 -\n .../operator/species/Humans/1.03.Humans.Rautha.md  |   75 -\n .../operator/species/Humans/1.03.Humans.Risakin.md |   71 -\n .../operator/species/Humans/1.03.Humans.Varen.md   |   87 -\n .../STAGING/operator/species/Humans/1.03.Humans.md |   70 -\n .../operator/species/Kitin/1.03.Kitin.Maantene.md  |   63 -\n .../operator/species/Kitin/1.03.Kitin.Manelli.md   |   76 -\n .../operator/species/Kitin/1.03.Kitin.Murex.md     |   58 -\n .../operator/species/Kitin/1.03.Kitin.Rakne.md     |   66 -\n .../operator/species/Kitin/1.03.Kitin.Riezen.md    |   68 -\n .../operator/species/Kitin/1.03.Kitin.Syndess.md   |   89 -\n docs/STAGING/operator/species/Kitin/1.03.Kitin.md  |   37 -\n .../operator/species/Orll/1.03.Orll.Base.md        |   66 -\n .../operator/species/Orll/1.03.Orll.GraOr.md       |   62 -\n docs/STAGING/operator/species/Orll/1.03.Orll.md    |   17 -\n .../species/Progenitors/1.03.Progenitors.Ila.md    |   60 -\n .../species/Progenitors/1.03.Progenitors.UNonn.md  |   70 -\n .../species/Progenitors/1.03.Progenitors.md        |  142 -\n .../operator/species/ShaNor/1.03.ShaNor.Base.md    |   89 -\n .../operator/species/ShaNor/1.03.ShaNor.Eakren.md  |   63 -\n .../operator/species/ShaNor/1.03.ShaNor.Tenen.md   |   80 -\n .../STAGING/operator/species/ShaNor/1.03.ShaNor.md |   19 -\n .../Synthetics/1.03.Synthetics.Aetherion.md        |   48 -\n .../species/Synthetics/1.03.Synthetics.Android.md  |   58 -\n .../Synthetics/1.03.Synthetics.Biomechanical.md    |   65 -\n .../species/Synthetics/1.03.Synthetics.Eidolon.md  |   93 -\n .../species/Synthetics/1.03.Synthetics.Golem.md    |   63 -\n .../1.03.Synthetics.IntellectConstruct.md          |   59 -\n .../species/Synthetics/1.03.Synthetics.Mekan.md    |  147 -\n .../species/Synthetics/1.03.Synthetics.Protocol.md |  100 -\n .../species/Synthetics/1.03.Synthetics.Scraps.md   |   54 -\n .../Synthetics/1.03.Synthetics.SentientMachine.md  |   59 -\n .../species/Synthetics/1.03.Synthetics.Shell.md    |   48 -\n .../species/Synthetics/1.03.Synthetics.Skins.md    |   62 -\n .../species/Synthetics/1.03.Synthetics.Swarm.md    |   48 -\n .../operator/species/Synthetics/1.03.Synthetics.md |   77 -\n docs/TILE_SPECIFICATIONS_AND_REQUIREMENTS.md       |  173 +-\n docs/ade_comprehensive_review.md                   |  614 -----\n .../architect/02 ECONOMY AND WEALTH.md             |  240 --\n docs/archiverules/architect/99. ARCHETYPES.md      |   35 -\n docs/archiverules/architect/99. METAPHYSICS.md     |  104 -\n .../architect/99. MODULAR CHARACTER MATRIX.md      |  142 -\n .../architect/99. MODULAR COMPANION MATRIX.md      |  303 --\n .../architect/99. MODULAR FACTION MATRIX.md        |  248 --\n .../architect/99. MODULAR PLANETARY MATRIX.md      |  322 ---\n .../architect/99. MODULAR SPECIES MATRIX.md        |  141 -\n docs/archiverules/architect/99. TECHNOLOGY.md      |  237 --\n .../architect/archetypes/99.Archetypes.A_D.md      |  286 --\n .../architect/archetypes/99.Archetypes.E_L.md      |  276 --\n .../architect/archetypes/99.Archetypes.M_R.md      |  276 --\n .../architect/archetypes/99.Archetypes.S_Z.md      |  271 --\n .../characters/99.Character.ModuleA.TierChassis.md |   61 -\n .../99.Character.ModuleB.CompetencyRoles.md        |  205 --\n .../99.Character.ModuleC_E.BiologySoulLifepath.md  |  195 --\n .../99.Character.ModuleE.LifepathSchema.md         |   66 -\n .../99.Character.ModuleF_G.GenreAndVisuals.md      |  201 --\n .../companions/99.Companion.FormPackages.md        |  205 --\n .../companions/99.Companion.FunctionAndExamples.md |  121 -\n .../economy/02.Economy.InterstellarTrade.md        |  153 --\n .../economy/02.Economy.UnifiedFieldTheory.md       |  384 ---\n .../metaphysics/99.Metaphysics.InvocationMatrix.md |  349 ---\n .../metaphysics/99.Metaphysics.MetaTechMatrix.md   |  388 ---\n .../99.Planetary.AstrophysicsAndGeophysics.md      |  149 -\n .../99.Planetary.CivilizationAndEconomy.md         |  391 ---\n .../planetary/99.Planetary.HazardsAndEncounters.md |  240 --\n .../species/99.Species.ChassisAndMovement.md       |  209 --\n .../species/99.Species.TraitsAndDisadvantages.md   |  182 --\n .../99.Tech.Architecture.ComponentCatalog.md       |  188 --\n .../99.Tech.Architecture.ExamplesAndSkins.md       |  395 ---\n .../99.Tech.Architecture.ForgeProtocol.md          |  359 ---\n .../99.Tech.Architecture.MobileAndVFT.md           |  118 -\n .../armor/99.Tech.Armor.DesignAndCatalog.md        |  350 ---\n .../armor/99.Tech.Armor.EconomyAndExemplars.md     |  169 --\n .../99.Tech.Augmentations.Biological.md            |  171 --\n .../99.Tech.Augmentations.Cybernetic.md            |  416 ---\n .../99.Tech.Augmentations.Metaphysical.md          |  169 --\n .../technology/core/99.Tech.CivilizationDomains.md |  216 --\n .../architect/technology/core/99.Tech.Levels.md    |  298 --\n .../equipment/99.Tech.Equipment.Framework.md       |  363 ---\n .../99.Tech.Equipment.SystemsAndMastercrafting.md  |  199 --\n .../mecha/99.Tech.Mecha.AutomataAndGear.md         |  325 ---\n .../mecha/99.Tech.Mecha.ComponentsAndWeapons.md    |  318 ---\n .../mecha/99.Tech.Mecha.ForgeProtocol.md           |  342 ---\n .../weaponry/99.Tech.Weaponry.Catalog.md           |  369 ---\n .../weaponry/99.Tech.Weaponry.ForgeProtocol.md     |  662 -----\n docs/archiverules/operator/1.00 INTRODUCTION.md    |   91 -\n .../operator/1.01 CHARACTER CREATION.md            |  127 -\n docs/archiverules/operator/1.02 ARCHETYPES.md      |   41 -\n docs/archiverules/operator/1.03 SPECIES.md         |  482 ----\n docs/archiverules/operator/1.04 FACTIONS.md        |   82 -\n docs/archiverules/operator/1.05 ORIGINS.md         |  131 -\n docs/archiverules/operator/1.06 OCCUPATIONS.md     |  179 --\n docs/archiverules/operator/1.07 SKILLS.md          |  421 ---\n docs/archiverules/operator/1.08 FEATURES.md        |  349 ---\n docs/archiverules/operator/1.09 HINDRANCES.md      |  156 --\n docs/archiverules/operator/1.10 SCALING.md         |  113 -\n docs/archiverules/operator/2.00 ECONOMATRIX.md     |   97 -\n docs/archiverules/operator/3.00 COMBAT.md          |  291 --\n docs/archiverules/operator/4.00 METAPHYSICS.md     |  268 --\n .../operator/archetypes/1.02.Operatives.md         |  484 ----\n .../operator/archetypes/1.02.Savants.md            |  482 ----\n .../operator/archetypes/1.02.Sentinels.md          |  484 ----\n .../operator/archetypes/1.02.SignatureFeatures.md  |  178 --\n .../operator/archetypes/1.02.Visionaries.md        |  484 ----\n .../1.01.Attributes.MentalSocial.md                |  203 --\n .../character_creation/1.01.Attributes.Physical.md |  199 --\n .../operator/character_creation/1.01.Attributes.md |  220 --\n .../operator/character_creation/1.01.Experience.md |   81 -\n .../operator/character_creation/1.01.Karma.md      |  252 --\n .../operator/character_creation/1.01.Movement.md   |  242 --\n .../operator/character_creation/1.01.Perception.md |   49 -\n .../1.01.PipelineCapabilities.md                   |  154 --\n .../character_creation/1.01.PipelineIdentity.md    |  164 --\n .../character_creation/1.01.RestAndDying.md        |  139 -\n .../1.01.StartingWealthAndMeta.md                  |  196 --\n .../1.01.VitalityHealthStructure.md                |   49 -\n .../operator/combat/3.00.DamageAndLocations.md     |  207 --\n .../operator/combat/3.00.DamageTypes.Elemental.md  |  209 --\n .../operator/combat/3.00.DamageTypes.Energy.md     |  259 --\n .../operator/combat/3.00.DamageTypes.Kinetic.md    |  132 -\n .../combat/3.00.DamageTypes.PlanarAndMind.md       |  125 -\n .../operator/combat/3.00.DamageTypes.md            |   40 -\n docs/archiverules/operator/combat/3.00.Edge.md     |  111 -\n .../operator/combat/3.00.StatusEffects.md          |   22 -\n .../operator/combat/3.00.VehicularCombat.md        |  166 --\n .../operator/economatrix/2.00.Architecture.md      |  471 ----\n .../operator/economatrix/2.00.Armor.md             |  469 ----\n .../2.00.Augmentations.AdvancedAndFBC.md           |  200 --\n .../operator/economatrix/2.00.Augmentations.md     |  242 --\n .../economatrix/2.00.CraftingAndValuation.md       |   76 -\n .../operator/economatrix/2.00.Equipment.md         |  503 ----\n .../operator/economatrix/2.00.InterstellarTrade.md |  104 -\n .../economatrix/2.00.Mecha.MilitaryAndAerospace.md |  127 -\n .../economatrix/2.00.Mecha.NauticalAndWalkers.md   |   87 -\n .../operator/economatrix/2.00.Mecha.md             |  126 -\n .../economatrix/2.00.WealthAndLiquidity.md         |  136 -\n .../economatrix/2.00.WeaponModifications.md        |   67 -\n .../1.04.AeldProvidence.AlterianEnclave.md         |    6 -\n .../factions/1.04.AeldProvidence.DraconianOrder.md |    6 -\n .../factions/1.04.AeldProvidence.KovianTribunal.md |   67 -\n .../1.04.AeldProvidence.SilvermoonVanguard.md      |    6 -\n .../factions/1.04.AeldProvidence.VajarTribes.md    |   66 -\n .../operator/factions/1.04.AeldProvidence.md       |   24 -\n .../operator/factions/1.04.Archetypal.Alien.md     |   48 -\n .../factions/1.04.Archetypal.ArtificialLife.md     |   48 -\n .../operator/factions/1.04.Archetypal.Corporate.md |   48 -\n .../factions/1.04.Archetypal.CosmicHorror.md       |   48 -\n .../factions/1.04.Archetypal.CosmicJustice.md      |   48 -\n .../operator/factions/1.04.Archetypal.Criminal.md  |   48 -\n .../factions/1.04.Archetypal.Environmental.md      |   48 -\n .../factions/1.04.Archetypal.GeneticEngineering.md |   48 -\n .../operator/factions/1.04.Archetypal.HiveMind.md  |   48 -\n .../1.04.Archetypal.InterstellarDiplomats.md       |   48 -\n .../operator/factions/1.04.Archetypal.Mercenary.md |   48 -\n .../operator/factions/1.04.Archetypal.Military.md  |   48 -\n .../operator/factions/1.04.Archetypal.Mutant.md    |   48 -\n .../operator/factions/1.04.Archetypal.Planetary.md |   48 -\n .../operator/factions/1.04.Archetypal.Political.md |   48 -\n .../factions/1.04.Archetypal.PostApocalyptic.md    |   48 -\n .../operator/factions/1.04.Archetypal.Rebel.md     |   48 -\n .../factions/1.04.Archetypal.ReligiousCult.md      |   48 -\n .../1.04.Archetypal.SentientIntelligence.md        |   48 -\n .../factions/1.04.Archetypal.SpaceExploration.md   |   48 -\n .../factions/1.04.Archetypal.SpacePirate.md        |   48 -\n .../factions/1.04.Archetypal.SpaceReligion.md      |   48 -\n .../factions/1.04.Archetypal.SpaceTourism.md       |   48 -\n .../factions/1.04.Archetypal.Supernatural.md       |   48 -\n .../factions/1.04.Archetypal.Technological.md      |   50 -\n .../operator/factions/1.04.Impyrium.Dominion.md    |   80 -\n .../operator/factions/1.04.Impyrium.Radiant.md     |   83 -\n .../operator/factions/1.04.Major.Ascendancy.md     |   78 -\n .../operator/factions/1.04.Major.AuluranClans.md   |   85 -\n .../operator/factions/1.04.Major.Coalition.md      |  102 -\n .../operator/factions/1.04.Major.DraconDynasty.md  |   79 -\n .../operator/factions/1.04.Major.EntariCombine.md  |   89 -\n .../factions/1.04.Major.KitinCollective.md         |   96 -\n .../factions/1.04.Major.MekanCollective.md         |  100 -\n .../operator/factions/1.04.Major.Outworlds.md      |   79 -\n .../operator/factions/1.04.Major.Syndicate.md      |   83 -\n .../operator/features/1.08.AbilityFeatures.md      |  201 --\n .../operator/features/1.08.CombatFeatures.D_W.md   |  208 --\n .../operator/features/1.08.CombatFeatures.md       |  273 --\n .../operator/features/1.08.DisciplineFeatures.md   |  202 --\n .../operator/features/1.08.GeneralFeatures.N_Z.md  |  273 --\n .../operator/features/1.08.GeneralFeatures.md      |  343 ---\n .../operator/features/1.08.KarmaFeatures.md        |  135 -\n .../operator/features/1.08.SkillFeatures.M_Z.md    |  225 --\n .../operator/features/1.08.SkillFeatures.md        |  292 --\n .../operator/features/1.08.SpecialFeatures.md      |  414 ---\n .../hindrances/1.09.MentalAndPsychological.md      |  113 -\n .../operator/hindrances/1.09.Physical.md           |   69 -\n .../hindrances/1.09.SocialAndBackground.md         |   98 -\n .../operator/introduction/1.00.Glossary.md         |   80 -\n .../operator/metaphysics/4.00.Dimension.md         |  415 ---\n .../operator/metaphysics/4.00.Energy.md            |  647 -----\n .../operator/metaphysics/4.00.Entropy.md           |  613 -----\n .../operator/metaphysics/4.00.Illusion.md          |  417 ---\n .../operator/metaphysics/4.00.Matter.md            |  545 ----\n .../operator/metaphysics/4.00.Mental.md            |  646 -----\n .../metaphysics/4.00.SensoryManifestations.md      |  215 --\n .../operator/occupations/1.06.Adept.md             |  184 --\n .../operator/occupations/1.06.Agent.md             |  218 --\n .../operator/occupations/1.06.Builder.md           |  220 --\n .../operator/occupations/1.06.Citizen.md           |  286 --\n .../operator/occupations/1.06.Criminal.md          |  204 --\n .../operator/occupations/1.06.Drifter.md           |  244 --\n .../operator/occupations/1.06.Entertainer.md       |  184 --\n .../operator/occupations/1.06.Merchant.md          |  206 --\n .../operator/occupations/1.06.Representative.md    |  184 --\n .../operator/occupations/1.06.Scholar.md           |  190 --\n .../operator/occupations/1.06.Scout.md             |  200 --\n .../operator/occupations/1.06.Soldier.md           |  230 --\n .../operator/occupations/1.06.Specialist.md        |  188 --\n .../operator/origins/1.05.Agricultural.md          |  177 --\n docs/archiverules/operator/origins/1.05.Aquatic.md |  179 --\n docs/archiverules/operator/origins/1.05.Colony.md  |  185 --\n .../operator/origins/1.05.Enlightened.md           |  179 --\n docs/archiverules/operator/origins/1.05.Hostile.md |  175 --\n .../operator/origins/1.05.Industrial.md            |  183 --\n docs/archiverules/operator/origins/1.05.Leisure.md |  191 --\n .../operator/origins/1.05.Militaristic.md          |  189 --\n .../archiverules/operator/origins/1.05.Research.md |  187 --\n docs/archiverules/operator/origins/1.05.Spacer.md  |  175 --\n docs/archiverules/operator/origins/1.05.Urban.md   |  181 --\n docs/archiverules/operator/skills/1.07.Combat.md   |  220 --\n .../operator/skills/1.07.Mechanics.Learning.md     |   74 -\n .../operator/skills/1.07.Mechanics.SkillChecks.md  |   76 -\n .../operator/skills/1.07.Mechanics.SkillGroups.md  |  204 --\n .../operator/skills/1.07.Mechanics.SkillUse.md     |   83 -\n .../skills/1.07.Mechanics.Specialization.md        |   48 -\n .../skills/1.07.Mechanics.SynergyAndAdvantage.md   |  136 -\n .../operator/skills/1.07.Mechanics.TimeAndFocus.md |  121 -\n .../operator/skills/1.07.Mental.Core.md            |   48 -\n .../operator/skills/1.07.Mental.Knowledge.N_T.md   |  213 --\n .../operator/skills/1.07.Mental.Knowledge.md       |  240 --\n .../operator/skills/1.07.Mental.Vocation.A_C.md    |  212 --\n .../operator/skills/1.07.Mental.Vocation.C_G.md    |  171 --\n .../operator/skills/1.07.Mental.Vocation.H_W.md    |  190 --\n .../operator/skills/1.07.Mental.Vocation.md        |   42 -\n .../operator/skills/1.07.Metaphysics.md            |  385 ---\n docs/archiverules/operator/skills/1.07.Physical.md |   91 -\n .../operator/skills/1.07.Social.Expression.O_W.md  |  123 -\n .../operator/skills/1.07.Social.Expression.md      |  150 -\n .../operator/skills/1.07.Social.Manipulation.md    |  152 -\n .../operator/species/1.03.AwakenedAnimal.md        |   87 -\n docs/archiverules/operator/species/1.03.Caprian.md |   83 -\n docs/archiverules/operator/species/1.03.Jorni.md   |  107 -\n docs/archiverules/operator/species/1.03.Kannid.md  |   83 -\n docs/archiverules/operator/species/1.03.Kizin.md   |  103 -\n docs/archiverules/operator/species/1.03.Kongi.md   |   91 -\n docs/archiverules/operator/species/1.03.Mobula.md  |   67 -\n docs/archiverules/operator/species/1.03.Mondi.md   |  117 -\n docs/archiverules/operator/species/1.03.Plasm.md   |   79 -\n docs/archiverules/operator/species/1.03.Praeti.md  |   67 -\n docs/archiverules/operator/species/1.03.Qeric.md   |   79 -\n docs/archiverules/operator/species/1.03.Sefalin.md |   97 -\n docs/archiverules/operator/species/1.03.Thorn.md   |   91 -\n docs/archiverules/operator/species/1.03.Truldan.md |   87 -\n docs/archiverules/operator/species/1.03.Vassoth.md |   75 -\n docs/archiverules/operator/species/1.03.Weti.md    |   73 -\n .../operator/species/Aeld/1.03.Aeld.Alterian.md    |  219 --\n .../species/Aeld/1.03.Aeld.Doppelganger.md         |   99 -\n .../operator/species/Aeld/1.03.Aeld.Draconian.md   |  103 -\n .../operator/species/Aeld/1.03.Aeld.Kovian.md      |  109 -\n .../operator/species/Aeld/1.03.Aeld.Vajar.md       |  111 -\n .../operator/species/Aeld/1.03.Aeld.md             |   47 -\n .../operator/species/Asi/1.03.Asi.Ferren.md        |   85 -\n .../operator/species/Asi/1.03.Asi.Fey.md           |   81 -\n .../operator/species/Asi/1.03.Asi.Frellin.md       |   91 -\n .../operator/species/Asi/1.03.Asi.Koban.md         |   91 -\n .../operator/species/Asi/1.03.Asi.Sigal.md         |   85 -\n .../operator/species/Asi/1.03.Asi.Tozen.md         |   69 -\n .../operator/species/Asi/1.03.Asi.Whisper.md       |   73 -\n .../operator/species/Asi/1.03.Asi.Wildling.md      |   89 -\n docs/archiverules/operator/species/Asi/1.03.Asi.md |  145 -\n .../operator/species/Aulurans/1.03.Aulurans.Dar.md |   33 -\n .../species/Aulurans/1.03.Aulurans.Graa.md         |   39 -\n .../species/Aulurans/1.03.Aulurans.Koda.md         |   31 -\n .../species/Aulurans/1.03.Aulurans.Prokos.md       |  111 -\n .../operator/species/Aulurans/1.03.Aulurans.md     |  371 ---\n .../species/Humans/1.03.Humans.Aquarian.md         |   87 -\n .../species/Humans/1.03.Humans.Aquatican.md        |   85 -\n .../operator/species/Humans/1.03.Humans.Argynt.md  |   79 -\n .../operator/species/Humans/1.03.Humans.BDren.md   |   85 -\n .../operator/species/Humans/1.03.Humans.Base.md    |   51 -\n .../operator/species/Humans/1.03.Humans.Brae.md    |   85 -\n .../species/Humans/1.03.Humans.Changeling.md       |   73 -\n .../operator/species/Humans/1.03.Humans.Chimera.md |   71 -\n .../species/Humans/1.03.Humans.Cyberform.md        |   85 -\n .../operator/species/Humans/1.03.Humans.Danai.md   |   81 -\n .../operator/species/Humans/1.03.Humans.Davae.md   |  107 -\n .../operator/species/Humans/1.03.Humans.Digon.md   |   97 -\n .../species/Humans/1.03.Humans.Draconic.md         |   81 -\n .../operator/species/Humans/1.03.Humans.Dwerg.md   |   75 -\n .../operator/species/Humans/1.03.Humans.GenE.md    |   97 -\n .../species/Humans/1.03.Humans.ImpyriumPsion.md    |   75 -\n .../species/Humans/1.03.Humans.ImpyriumRegi.md     |  115 -\n .../species/Humans/1.03.Humans.Janissary.md        |   83 -\n .../operator/species/Humans/1.03.Humans.Kheen.md   |   73 -\n .../operator/species/Humans/1.03.Humans.Lin.md     |   81 -\n .../operator/species/Humans/1.03.Humans.Nian.md    |   71 -\n .../operator/species/Humans/1.03.Humans.Premian.md |   77 -\n .../operator/species/Humans/1.03.Humans.Rautha.md  |   73 -\n .../operator/species/Humans/1.03.Humans.Risakin.md |   69 -\n .../operator/species/Humans/1.03.Humans.Varen.md   |   87 -\n .../operator/species/Humans/1.03.Humans.md         |   40 -\n .../operator/species/Kitin/1.03.Kitin.Maantene.md  |   57 -\n .../operator/species/Kitin/1.03.Kitin.Manelli.md   |   70 -\n .../operator/species/Kitin/1.03.Kitin.Murex.md     |   52 -\n .../operator/species/Kitin/1.03.Kitin.Rakne.md     |   60 -\n .../operator/species/Kitin/1.03.Kitin.Riezen.md    |   61 -\n .../operator/species/Kitin/1.03.Kitin.Syndess.md   |   83 -\n .../operator/species/Kitin/1.03.Kitin.md           |   11 -\n .../operator/species/Orll/1.03.Orll.Base.md        |   69 -\n .../operator/species/Orll/1.03.Orll.GraOr.md       |   65 -\n .../operator/species/Orll/1.03.Orll.md             |   10 -\n .../species/Progenitors/1.03.Progenitors.Ila.md    |   31 -\n .../species/Progenitors/1.03.Progenitors.UNonn.md  |   30 -\n .../species/Progenitors/1.03.Progenitors.md        |   12 -\n .../operator/species/ShaNor/1.03.ShaNor.Base.md    |   89 -\n .../operator/species/ShaNor/1.03.ShaNor.Eakren.md  |   61 -\n .../operator/species/ShaNor/1.03.ShaNor.Tenen.md   |   85 -\n .../operator/species/ShaNor/1.03.ShaNor.md         |   11 -\n .../Synthetics/1.03.Synthetics.Aetherion.md        |   49 -\n .../species/Synthetics/1.03.Synthetics.Android.md  |   55 -\n .../Synthetics/1.03.Synthetics.Biomechanical.md    |   63 -\n .../species/Synthetics/1.03.Synthetics.Eidolon.md  |  108 -\n .../species/Synthetics/1.03.Synthetics.Golem.md    |   61 -\n .../1.03.Synthetics.IntellectConstruct.md          |   57 -\n .../species/Synthetics/1.03.Synthetics.Mekan.md    |  180 --\n .../species/Synthetics/1.03.Synthetics.Protocol.md |   75 -\n .../species/Synthetics/1.03.Synthetics.Scraps.md   |   53 -\n .../Synthetics/1.03.Synthetics.SentientMachine.md  |   57 -\n .../species/Synthetics/1.03.Synthetics.Shell.md    |   49 -\n .../species/Synthetics/1.03.Synthetics.Skins.md    |   63 -\n .../species/Synthetics/1.03.Synthetics.Swarm.md    |   49 -\n .../operator/species/Synthetics/1.03.Synthetics.md |   59 -\n docs/plan/-map gen.md                              |  556 ----\n ...GEN \\342\\200\\223 MASTER_IMPLEMENTATION_PLAN.md\" |  687 -----\n docs/plan/MAP_GEN_WORKFLOW_CHECKLIST.md            |   12 +-\n docs/plan/MASTER_IMPLEMENTATION_PLAN.md            |   11 +-\n .../current collection/area_database.json          |   68 -\n .../augmentation_type_database.json                |   98 -\n .../current collection/availability_database.json  |   42 -\n .../current collection/body_location_database.json |   92 -\n .../classification_database.json                   |   62 -\n .../current collection/component_database.json     |   62 -\n .../current collection/creator_database.json       |   79 -\n .../critical_effect_database.json                  |   62 -\n .../critical_failure_effect_database.json          |   42 -\n .../critical_success_effect_database.json          |   42 -\n .../current collection/design_database.json        |   42 -\n .../current collection/effect_database.json        |   98 -\n .../current collection/gear_category_database.json |   52 -\n .../current collection/material_database.json      |   82 -\n .../current collection/mode_database.json          |   42 -\n .../current collection/modifier_database.json      |   82 -\n .../current collection/prerequisite_database.json  |   72 -\n .../current collection/range_database.json         |   65 -\n .../current collection/resistance_database.json    |   52 -\n .../society_agriculture_database.json              |   50 -\n .../society_architecture_database.json             |   50 -\n .../society_biotechnology_database.json            |   50 -\n .../society_commerce_database.json                 |   50 -\n .../society_communication_database.json            |   50 -\n .../society_devices_database.json                  |   50 -\n .../society_education_database.json                |   50 -\n .../society_energy_database.json                   |   50 -\n .../society_manufacturing_database.json            |   50 -\n .../society_materials_database.json                |   50 -\n .../society_medicine_database.json                 |   50 -\n .../society_society_database.json                  |   50 -\n .../society_synthetics_database.json               |   50 -\n .../society_weaponry_database.json                 |   50 -\n .../current collection/special_database.json       |   52 -\n .../species_movement_database.json                 | 1015 -------\n .../current collection/target_database.json        |   52 -\n .../reviews/2026-10/00_MASTER_FEATURE_INVENTORY.md |  226 --\n docs/reviews/2026-10/01_FOLIO.md                   |  165 --\n docs/reviews/2026-10/02_RULES.md                   |  158 --\n docs/reviews/2026-10/03_CORTEX.md                  |  176 --\n docs/reviews/2026-10/04_ADE.md                     |  172 --\n docs/reviews/2026-10/05_TEAMS.md                   |  135 -\n docs/reviews/2026-10/06_COMMS.md                   |  143 -\n .../2026-10/07_PLATFORM_RECOMMENDATIONS_REPORT.md  |  478 ----\n .../2026-10/08_SPRINT_IMPLEMENTATION_PLAN.md       |  367 ---\n docs/webworx.txt                                   |    6 -\n playwright.config.ts                               |   16 +-\n scripts/buildSupportingCatalogs.js                 |   11 -\n scripts/extract-app-context.mjs                    |   18 +-\n scripts/ingestStagedMarkdown.mjs                   |    3 +-\n scripts/mcp-app-inspector.mjs                      |   97 +-\n scripts/purgeAndReloadSpecies.mjs                  |   12 +-\n scripts/rebuildMovementCatalogs.mjs                |   10 -\n src/context/AuthContext.jsx                        |    8 +-\n tests/e2e/accessibility-and-pwa.spec.ts            |   20 +-\n tests/e2e/canvas-visual-regression.spec.ts         |   14 +-\n .../mapmaker-canvas-chromium-webgl-win32.png       |  Bin 286841 -> 166975 bytes\n .../stage-2d-viewport-chromium-webgl-win32.png     |  Bin 149166 -> 7647 bytes\n .../story-weaver-graph-chromium-webgl-win32.png    |  Bin 247910 -> 197046 bytes\n tests/e2e/dice-roller.spec.ts                      |   21 +-\n tests/e2e/marquee-admin.spec.ts                    |   28 +-\n tests/e2e/smoke.spec.ts                            |   62 +-\n tests/e2e/user-journeys.spec.ts                    |   82 +-\n 690 files changed, 518 insertions(+), 125631 deletions(-)\n"
   },
   "e2e_tests": {
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
@@ -671,14 +810,71 @@
         "url": "http://127.0.0.1:4173"
       }
     },
-    "totalSpecFiles": 4,
-    "totalTestsCount": 21,
+    "totalSpecFiles": 6,
+    "totalTestsCount": 32,
     "specFiles": [
+      {
+        "file": "tests/e2e/accessibility-and-pwa.spec.ts",
+        "fileName": "accessibility-and-pwa.spec.ts",
+        "sizeBytes": 7105,
+        "lastModified": "2026-11-10T12:38:23.435Z",
+        "suiteCount": 1,
+        "testCount": 3,
+        "suites": [
+          {
+            "title": "Tangent SF RP — Accessibility (a11y), Multi-Role Isolation, Canvas Snapshot & PWA Suite",
+            "line": 4,
+            "tests": [
+              {
+                "title": "1. Core Routes Semantic Landmarks, Accessible Controls & @axe-core/playwright Audit",
+                "line": 16,
+                "mode": "default"
+              },
+              {
+                "title": "2. Multi-Context Architect (/stage) vs Operative (/vtt) Role, Canvas Snapshot & Isolation",
+                "line": 67,
+                "mode": "default"
+              },
+              {
+                "title": "3. PWA Manifest, Service Worker Registration & Offline Local Storage Persistence",
+                "line": 123,
+                "mode": "default"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "file": "tests/e2e/canvas-visual-regression.spec.ts",
+        "fileName": "canvas-visual-regression.spec.ts",
+        "sizeBytes": 2638,
+        "lastModified": "2026-11-10T12:40:09.186Z",
+        "suiteCount": 1,
+        "testCount": 2,
+        "suites": [
+          {
+            "title": "Tangent SF RP — Canvas & WebGL Visual Regression Suite (toHaveScreenshot)",
+            "line": 3,
+            "tests": [
+              {
+                "title": "1. Tactical Stage 2D & 3D WebGL Canvas Visual Baseline Snapshots",
+                "line": 20,
+                "mode": "default"
+              },
+              {
+                "title": "2. MapMaker Konva Cartography Canvas & Story Weaver Graph Visual Baselines",
+                "line": 47,
+                "mode": "default"
+              }
+            ]
+          }
+        ]
+      },
       {
         "file": "tests/e2e/dice-roller.spec.ts",
         "fileName": "dice-roller.spec.ts",
-        "sizeBytes": 9910,
-        "lastModified": "2026-10-10T21:36:36.197Z",
+        "sizeBytes": 10013,
+        "lastModified": "2026-11-10T13:04:14.235Z",
         "suiteCount": 1,
         "testCount": 5,
         "suites": [
@@ -693,22 +889,22 @@
               },
               {
                 "title": "Base Score in Dice Roller Dock enforces minimum of 0 and maximum of 50",
-                "line": 56,
+                "line": 57,
                 "mode": "default"
               },
               {
                 "title": "Ad-Hoc Modifier in Dice Roller Dock enforces minimum of -20 and maximum of +20",
-                "line": 105,
+                "line": 106,
                 "mode": "default"
               },
               {
                 "title": "On mobile layout, Telemetry starts directly under the RESET button without space",
-                "line": 172,
+                "line": 173,
                 "mode": "default"
               },
               {
                 "title": "Desktop output block contents expand down to bottom of modal",
-                "line": 217,
+                "line": 218,
                 "mode": "default"
               }
             ]
@@ -718,10 +914,10 @@
       {
         "file": "tests/e2e/marquee-admin.spec.ts",
         "fileName": "marquee-admin.spec.ts",
-        "sizeBytes": 24669,
-        "lastModified": "2026-10-11T01:52:08.592Z",
+        "sizeBytes": 29307,
+        "lastModified": "2026-11-10T12:55:19.467Z",
         "suiteCount": 1,
-        "testCount": 8,
+        "testCount": 9,
         "suites": [
           {
             "title": "Admin Marquee Controls Suite",
@@ -729,42 +925,47 @@
             "tests": [
               {
                 "title": "1. Verify Admin Marquee Tab and Controls in UserSettingsModal",
-                "line": 15,
+                "line": 22,
                 "mode": "default"
               },
               {
                 "title": "2. Verify Quick Presets Are Removed and Multi-Line Transmission Persists Without In-Marquee Controls",
-                "line": 79,
+                "line": 78,
                 "mode": "default"
               },
               {
                 "title": "3. Verify Disabling Banner Hides it Completely (No Fallback Buttons or Pills)",
-                "line": 132,
+                "line": 128,
                 "mode": "default"
               },
               {
                 "title": "4. Verify Ticker Justification (Left vs Right) and Static Dynamics (Fade & Glow)",
-                "line": 186,
+                "line": 183,
                 "mode": "default"
               },
               {
                 "title": "5. Verify Option of No Category Icon (None / No Icon)",
-                "line": 258,
+                "line": 255,
                 "mode": "default"
               },
               {
                 "title": "6. Verify Silver Color Theme With Black Shadow",
-                "line": 301,
+                "line": 298,
                 "mode": "default"
               },
               {
                 "title": "7. Verify Option of Background (Current) or Clean Text Only (No Frame, Pulsing Dots, or Gel Background)",
-                "line": 342,
+                "line": 339,
                 "mode": "default"
               },
               {
                 "title": "8. Verify Independent Top and Bottom Marquees with Modal Sub-Tabs",
-                "line": 405,
+                "line": 402,
+                "mode": "default"
+              },
+              {
+                "title": "9. Verify Multi-Line Enter Key Input and Top-Down vs Bottom-Up Anchored Expansion",
+                "line": 506,
                 "mode": "default"
               }
             ]
@@ -774,10 +975,10 @@
       {
         "file": "tests/e2e/smoke.spec.ts",
         "fileName": "smoke.spec.ts",
-        "sizeBytes": 3250,
-        "lastModified": "2026-10-10T15:41:29.273Z",
+        "sizeBytes": 5514,
+        "lastModified": "2026-11-10T13:04:16.553Z",
         "suiteCount": 1,
-        "testCount": 4,
+        "testCount": 7,
         "suites": [
           {
             "title": "Tangent SF RP — Enterprise Smoke & Health Suite",
@@ -785,22 +986,37 @@
             "tests": [
               {
                 "title": "1. Core Application Boot & Route Integrity",
-                "line": 13,
+                "line": 14,
                 "mode": "default"
               },
               {
                 "title": "2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle",
-                "line": 38,
+                "line": 45,
                 "mode": "default"
               },
               {
                 "title": "3. Persona Folio Roster & Sheet Navigation",
-                "line": 67,
+                "line": 74,
                 "mode": "default"
               },
               {
                 "title": "4. Omnicortex DBM Compendium Browsing",
-                "line": 79,
+                "line": 86,
+                "mode": "default"
+              },
+              {
+                "title": "5. Rules Compendium & Canonical Rulebook Reader",
+                "line": 96,
+                "mode": "default"
+              },
+              {
+                "title": "6. Network 4-Zone Comm Center Workstation",
+                "line": 106,
+                "mode": "default"
+              },
+              {
+                "title": "7. Story Foundry (ADE) & Route Redirect Integrity",
+                "line": 115,
                 "mode": "default"
               }
             ]
@@ -810,10 +1026,10 @@
       {
         "file": "tests/e2e/user-journeys.spec.ts",
         "fileName": "user-journeys.spec.ts",
-        "sizeBytes": 4073,
-        "lastModified": "2026-10-08T07:59:54.410Z",
+        "sizeBytes": 5837,
+        "lastModified": "2026-11-10T12:37:49.967Z",
         "suiteCount": 1,
-        "testCount": 4,
+        "testCount": 6,
         "suites": [
           {
             "title": "Tangent SF RP — Fortune 500 Enterprise User Journeys",
@@ -821,22 +1037,32 @@
             "tests": [
               {
                 "title": "Journey 1: The Stage — 2D/3D Viewport Switching & Canvas Integrity",
-                "line": 13,
+                "line": 14,
                 "mode": "default"
               },
               {
                 "title": "Journey 2: Persona Folio & Accessible Modal Focus Trapping",
-                "line": 48,
+                "line": 50,
                 "mode": "default"
               },
               {
                 "title": "Journey 3: Omnicortex DBM Search & Compendium Categorization",
-                "line": 68,
+                "line": 70,
                 "mode": "default"
               },
               {
                 "title": "Journey 4: WebGL Context Loss Sentinel Diagnostic Reporting",
-                "line": 82,
+                "line": 85,
+                "mode": "default"
+              },
+              {
+                "title": "Journey 5: Story Foundry (ADE) — Workspace Navigation & Element Gallery",
+                "line": 108,
+                "mode": "default"
+              },
+              {
+                "title": "Journey 6: Network 4-Zone Workstation & Bastion AI Drawer Toggle",
+                "line": 121,
                 "mode": "default"
               }
             ]
@@ -848,7 +1074,7 @@
       "htmlReport": {
         "exists": true,
         "path": "playwright-report/index.html",
-        "lastGenerated": "2026-10-11T14:52:54.902Z"
+        "lastGenerated": "2026-11-01T11:08:12.526Z"
       },
       "testResultsDirExists": true,
       "totalArtifactFiles": 1
@@ -864,72 +1090,27 @@
       "status": "LOADED",
       "domMetrics": {
         "mainExists": true,
-        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
-        "canvases": [
-          {
-            "index": 0,
-            "width": 1280,
-            "height": 720,
-            "clientWidth": 1280,
-            "clientHeight": 720,
-            "hasWebGL": false,
-            "isContextLost": false
-          }
-        ],
+        "headingText": "TACTICAL BRIEFING // WELCOME OPERATOR",
+        "canvases": [],
         "dialogs": [],
         "elementCounts": {
           "buttons": 16,
-          "inputs": 1,
+          "inputs": 2,
           "links": 1,
           "images": 0
         }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": "TACTICAL BRIEFING // WELCOME OPERATOR"
+      },
+      "webgl": {
+        "canvasCount": 0,
+        "contextLost": false
       },
       "consoleErrors": [],
       "pageErrors": [],
       "consoleWarnings": [],
-      "screenshot": null
-    },
-    "/stage": {
-      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
-      "targetUrl": "http://127.0.0.1:4173/stage",
-      "httpStatus": 200,
-      "pageTitle": "Tangent SF RP",
-      "serverReachable": true,
-      "status": "LOADED",
-      "domMetrics": {
-        "mainExists": true,
-        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
-        "canvases": [
-          {
-            "index": 0,
-            "width": 1280,
-            "height": 720,
-            "clientWidth": 1280,
-            "clientHeight": 720,
-            "hasWebGL": false,
-            "isContextLost": false
-          }
-        ],
-        "dialogs": [],
-        "elementCounts": {
-          "buttons": 20,
-          "inputs": 3,
-          "links": 1,
-          "images": 0
-        }
-      },
-      "consoleErrors": [],
-      "pageErrors": [],
-      "consoleWarnings": [
-        {
-          "type": "warning",
-          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
-        },
-        {
-          "type": "warning",
-          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
-        }
-      ],
       "screenshot": null
     },
     "/folio": {
@@ -941,29 +1122,337 @@
       "status": "LOADED",
       "domMetrics": {
         "mainExists": true,
-        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
+        "headingText": null,
+        "canvases": [],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 39,
+          "inputs": 2,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": null
+      },
+      "webgl": {
+        "canvasCount": 0,
+        "contextLost": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [],
+      "screenshot": null
+    },
+    "/compendium": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/compendium",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "COMPENDIUM ARCHIVE",
+        "canvases": [],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 61,
+          "inputs": 2,
+          "links": 9,
+          "images": 0
+        }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": "COMPENDIUM ARCHIVE"
+      },
+      "webgl": {
+        "canvasCount": 0,
+        "contextLost": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [],
+      "screenshot": null
+    },
+    "/network": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/network",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": null,
+        "canvases": [],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 63,
+          "inputs": 3,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": null
+      },
+      "webgl": {
+        "canvasCount": 0,
+        "contextLost": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "[ChatService] Error listening to user presence: FirebaseError: Missing or insufficient permissions."
+        }
+      ],
+      "screenshot": null
+    },
+    "/foundry": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/foundry",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": "ACTIVE MODULE: TANGENT UNIVERSE",
+        "canvases": [],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 42,
+          "inputs": 5,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": "ACTIVE MODULE: TANGENT UNIVERSE"
+      },
+      "webgl": {
+        "canvasCount": 0,
+        "contextLost": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "[ChatService] Error listening to user presence: FirebaseError: Missing or insufficient permissions."
+        }
+      ],
+      "screenshot": null
+    },
+    "/foundry/map": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/foundry/map",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": null,
         "canvases": [
           {
             "index": 0,
-            "width": 1280,
-            "height": 720,
-            "clientWidth": 1280,
-            "clientHeight": 720,
+            "width": 1200,
+            "height": 652,
+            "clientWidth": 1200,
+            "clientHeight": 652,
+            "hasWebGL": false,
+            "isContextLost": false
+          },
+          {
+            "index": 1,
+            "width": 1200,
+            "height": 652,
+            "clientWidth": 1200,
+            "clientHeight": 652,
+            "hasWebGL": false,
+            "isContextLost": false
+          },
+          {
+            "index": 2,
+            "width": 1200,
+            "height": 652,
+            "clientWidth": 1200,
+            "clientHeight": 652,
+            "hasWebGL": false,
+            "isContextLost": false
+          },
+          {
+            "index": 3,
+            "width": 1200,
+            "height": 652,
+            "clientWidth": 1200,
+            "clientHeight": 652,
+            "hasWebGL": false,
+            "isContextLost": false
+          },
+          {
+            "index": 4,
+            "width": 1200,
+            "height": 652,
+            "clientWidth": 1200,
+            "clientHeight": 652,
+            "hasWebGL": false,
+            "isContextLost": false
+          },
+          {
+            "index": 5,
+            "width": 1200,
+            "height": 652,
+            "clientWidth": 1200,
+            "clientHeight": 652,
             "hasWebGL": false,
             "isContextLost": false
           }
         ],
         "dialogs": [],
         "elementCounts": {
-          "buttons": 22,
-          "inputs": 1,
+          "buttons": 74,
+          "inputs": 6,
           "links": 1,
           "images": 0
         }
       },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": null
+      },
+      "webgl": {
+        "canvasCount": 6,
+        "contextLost": false
+      },
       "consoleErrors": [],
       "pageErrors": [],
-      "consoleWarnings": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "Konva warning: The stage has 6 layers. Recommended maximum number of layers is 3-5. Adding more layers into the stage may drop the performance. Rethink your tree structure, you can use Konva.Group."
+        }
+      ],
+      "screenshot": null
+    },
+    "/stage": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/stage",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": null,
+        "canvases": [
+          {
+            "index": 0,
+            "width": 800,
+            "height": 600,
+            "clientWidth": 800,
+            "clientHeight": 600,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 86,
+          "inputs": 5,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": null
+      },
+      "webgl": {
+        "canvasCount": 1,
+        "contextLost": false
+      },
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "[RendererContext] WebGPU initialization error, attempting WebGL fallback: Error: This browser does not support WebGL. Try using the canvas renderer\n    at e.createContext (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:6486)\n    at e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:5563)\n    at vp.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:514:57471)\n    at async Oh (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:6832)\n    at async e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:8645)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:21158\n    at async e.initialize (http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:22378)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:332:237636"
+        },
+        {
+          "type": "error",
+          "text": "[RendererContext] Catastrophic Stage initialization failure: Error: This browser does not support WebGL. Try using the canvas renderer\n    at e.createContext (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:6486)\n    at e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:5563)\n    at vp.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:514:57471)\n    at async Oh (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:6832)\n    at async e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:8645)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:21910\n    at async e.initialize (http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:22378)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:332:237636"
+        }
+      ],
+      "pageErrors": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "No available adapters."
+        }
+      ],
+      "screenshot": null
+    },
+    "/vtt": {
+      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
+      "targetUrl": "http://127.0.0.1:4173/vtt",
+      "httpStatus": 200,
+      "pageTitle": "Tangent SF RP",
+      "serverReachable": true,
+      "status": "LOADED",
+      "domMetrics": {
+        "mainExists": true,
+        "headingText": null,
+        "canvases": [
+          {
+            "index": 0,
+            "width": 800,
+            "height": 600,
+            "clientWidth": 800,
+            "clientHeight": 600,
+            "hasWebGL": false,
+            "isContextLost": false
+          }
+        ],
+        "dialogs": [],
+        "elementCounts": {
+          "buttons": 49,
+          "inputs": 5,
+          "links": 1,
+          "images": 0
+        }
+      },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": null
+      },
+      "webgl": {
+        "canvasCount": 1,
+        "contextLost": false
+      },
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "[RendererContext] WebGPU initialization error, attempting WebGL fallback: Error: This browser does not support WebGL. Try using the canvas renderer\n    at e.createContext (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:6486)\n    at e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:5563)\n    at vp.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:514:57471)\n    at async Oh (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:6832)\n    at async e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:8645)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:21158\n    at async e.initialize (http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:22378)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:332:237636"
+        },
+        {
+          "type": "error",
+          "text": "[RendererContext] Catastrophic Stage initialization failure: Error: This browser does not support WebGL. Try using the canvas renderer\n    at e.createContext (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:6486)\n    at e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:572:5563)\n    at vp.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:514:57471)\n    at async Oh (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:6832)\n    at async e.init (http://127.0.0.1:4173/assets/vendor-pixi-CSOk1NqN.js:916:8645)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:21910\n    at async e.initialize (http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:2:22378)\n    at async http://127.0.0.1:4173/assets/TripartiteStageView-wTMIFmNM.js:332:237636"
+        }
+      ],
+      "pageErrors": [],
+      "consoleWarnings": [
+        {
+          "type": "warning",
+          "text": "No available adapters."
+        }
+      ],
       "screenshot": null
     },
     "/dbm": {
@@ -975,72 +1464,27 @@
       "status": "LOADED",
       "domMetrics": {
         "mainExists": true,
-        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
-        "canvases": [
-          {
-            "index": 0,
-            "width": 1280,
-            "height": 720,
-            "clientWidth": 1280,
-            "clientHeight": 720,
-            "hasWebGL": false,
-            "isContextLost": false
-          }
-        ],
+        "headingText": "SPECIES",
+        "canvases": [],
         "dialogs": [],
         "elementCounts": {
-          "buttons": 16,
-          "inputs": 1,
-          "links": 1,
-          "images": 0
-        }
-      },
-      "consoleErrors": [],
-      "pageErrors": [],
-      "consoleWarnings": [],
-      "screenshot": null
-    },
-    "/story-foundry": {
-      "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
-      "targetUrl": "http://127.0.0.1:4173/story-foundry",
-      "httpStatus": 200,
-      "pageTitle": "Tangent SF RP",
-      "serverReachable": true,
-      "status": "LOADED",
-      "domMetrics": {
-        "mainExists": true,
-        "headingText": "TANGENT SCIENCE FANTASY ENGINE",
-        "canvases": [
-          {
-            "index": 0,
-            "width": 1280,
-            "height": 720,
-            "clientWidth": 1280,
-            "clientHeight": 720,
-            "hasWebGL": false,
-            "isContextLost": false
-          }
-        ],
-        "dialogs": [],
-        "elementCounts": {
-          "buttons": 20,
+          "buttons": 48,
           "inputs": 3,
           "links": 1,
           "images": 0
         }
       },
+      "dom": {
+        "hasMainElement": true,
+        "headingText": "SPECIES"
+      },
+      "webgl": {
+        "canvasCount": 0,
+        "contextLost": false
+      },
       "consoleErrors": [],
       "pageErrors": [],
-      "consoleWarnings": [
-        {
-          "type": "warning",
-          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
-        },
-        {
-          "type": "warning",
-          "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio"
-        }
-      ],
+      "consoleWarnings": [],
       "screenshot": null
     }
   },
@@ -1048,10 +1492,10 @@
     "appRoot": "D:\\_ Data\\Tangent SF RP\\TANGENT SF RP react project",
     "status": "PASSED",
     "exitCode": 0,
-    "durationSeconds": "75.32",
+    "durationSeconds": "145.90",
     "summary": {
-      "total": 8,
-      "passed": 8,
+      "total": 14,
+      "passed": 14,
       "failed": 0,
       "skipped": 0,
       "flaky": 0
@@ -1061,49 +1505,85 @@
         "file": "smoke.spec.ts",
         "title": "1. Core Application Boot & Route Integrity",
         "project": "chromium-webgl",
-        "durationMs": 8815
+        "durationMs": 6323
       },
       {
         "file": "smoke.spec.ts",
         "title": "2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle",
         "project": "chromium-webgl",
-        "durationMs": 18479
+        "durationMs": 8666
       },
       {
         "file": "smoke.spec.ts",
         "title": "3. Persona Folio Roster & Sheet Navigation",
         "project": "chromium-webgl",
-        "durationMs": 7863
+        "durationMs": 4474
       },
       {
         "file": "smoke.spec.ts",
         "title": "4. Omnicortex DBM Compendium Browsing",
         "project": "chromium-webgl",
-        "durationMs": 15177
+        "durationMs": 8403
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "5. Rules Compendium & Canonical Rulebook Reader",
+        "project": "chromium-webgl",
+        "durationMs": 8176
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "6. Network 4-Zone Comm Center Workstation",
+        "project": "chromium-webgl",
+        "durationMs": 6680
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "7. Story Foundry (ADE) & Route Redirect Integrity",
+        "project": "chromium-webgl",
+        "durationMs": 9928
       },
       {
         "file": "smoke.spec.ts",
         "title": "1. Core Application Boot & Route Integrity",
         "project": "mobile-tablet",
-        "durationMs": 3716
+        "durationMs": 8154
       },
       {
         "file": "smoke.spec.ts",
         "title": "2. Tactical Stage (VTT) & WebGL Canvas Mount Lifecycle",
         "project": "mobile-tablet",
-        "durationMs": 5860
+        "durationMs": 13417
       },
       {
         "file": "smoke.spec.ts",
         "title": "3. Persona Folio Roster & Sheet Navigation",
         "project": "mobile-tablet",
-        "durationMs": 2653
+        "durationMs": 9736
       },
       {
         "file": "smoke.spec.ts",
         "title": "4. Omnicortex DBM Compendium Browsing",
         "project": "mobile-tablet",
-        "durationMs": 2512
+        "durationMs": 11885
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "5. Rules Compendium & Canonical Rulebook Reader",
+        "project": "mobile-tablet",
+        "durationMs": 11906
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "6. Network 4-Zone Comm Center Workstation",
+        "project": "mobile-tablet",
+        "durationMs": 12646
+      },
+      {
+        "file": "smoke.spec.ts",
+        "title": "7. Story Foundry (ADE) & Route Redirect Integrity",
+        "project": "mobile-tablet",
+        "durationMs": 16078
       }
     ],
     "failedTests": [],

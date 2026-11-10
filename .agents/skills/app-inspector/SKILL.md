@@ -12,16 +12,16 @@ This skill guides Antigravity agents and subagents in extracting, inspecting, an
 When the `app-inspector` plugin is active, the following MCP tools are available:
 
 1. **`inspect_routes`**:
-   - Parses React Router definitions in `src/App.jsx` and `src/pages/Foundry/FoundryApp.jsx`.
-   - Catalogs all page modules under `src/pages/`.
-   - Discovers API and Cloud Function handlers in `functions/`.
+   - Parses React Router definitions in `src/App.jsx`, `src/pages/Foundry/FoundryApp.jsx`, and `src/constants/routes.js`.
+   - Catalogs the 5 core platform pillars (`FOLIO` `/folio`, `RULES` `/compendium`, `NETWORK` `/network`, `ADE` `/foundry`, `CORTEX` `/dbm`) and workspace query views.
+   - Catalogs all page modules under `src/pages/` and Cloud Function handlers in `functions/`.
 2. **`inspect_models_and_schemas`**:
-   - Locates canonical schemas like `src/pages/Foundry/ElementForge/elementSchemas.js` and `firestore.rules`.
+   - Locates canonical schemas like `src/pages/Foundry/ElementForge/elementSchemas.js`, `firestore.rules`, `storage.rules`, and `firestore.indexes.json`.
    - Scans for model, schema, traits data, and TypeScript type definition files.
 3. **`get_runtime_diagnostics`**:
-   - Returns package versions, Node.js runtime information, Git branch state, and Playwright configuration status.
+   - Returns package versions, Node.js runtime information, Git branch state, Playwright configuration status, and a complete `testBattery` summary across E2E specs, Engine/Subsystem tests, React Hook/Component Vitest suites, and canonical game rules.
 4. **`fetch_workspace_diff`**:
-   - Retrieves staged or unstaged Git diffs, diffstats, or single-file diffs.
+   - Retrieves staged or unstaged Git diffs, diffstats, `isClean` status, or single-file diffs.
 5. **`inspect_e2e_tests`**:
    - Scans and catalogs all Playwright E2E test suites, individual `test(...)` cases, and tags under `tests/e2e/`.
    - Extracts browser/device project definitions (`chromium-webgl`, `mobile-tablet`) and webServer configuration from `playwright.config.ts`.
@@ -31,8 +31,8 @@ When the `app-inspector` plugin is active, the following MCP tools are available
    - Supports filtering by spec file (`spec`), project (`project`), or test name regex (`grep`).
    - Returns structured test summaries, pass/fail status, duration, and detailed error messages.
 7. **`inspect_live_page`**:
-   - Launches a headless Playwright Chromium instance with WebGL hardware/SwiftShader emulation.
-   - Navigates to a live application route (e.g. `/`, `/stage`, `/folio`, `/dbm`, `/story-foundry`).
+   - Launches a headless Playwright Chromium instance with WebGL hardware/SwiftShader emulation and pre-dismissed boot splash (`hasDismissedWelcome`).
+   - Navigates to a live application route (e.g. `/`, `/folio`, `/compendium`, `/network`, `/foundry`, `/foundry/map`, `/stage`, `/vtt`, `/dbm`).
    - Evaluates DOM health, `<main>` visibility, and canvas WebGL context health (`isContextLost()`).
    - Traps and reports browser console logs and uncaught page runtime exceptions.
    - Optionally captures a visual screenshot to `inspection-screenshots/`.

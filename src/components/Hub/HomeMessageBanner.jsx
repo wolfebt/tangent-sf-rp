@@ -146,14 +146,14 @@ export const HomeMessageBanner = ({ className = '', position = 'top' }) => {
             </div>
           )}
 
-          {banner.badge && (
+          {banner.badge && banner.badge.trim().length > 0 && (
             <div className={`hidden sm:flex px-2 py-0.5 rounded text-[9.5px] font-mono font-bold tracking-wider items-center gap-1.5 uppercase ${
               showBackground
                 ? currentTheme.badgeBg
                 : 'text-slate-300 bg-transparent border border-slate-700/80'
             }`}>
               {CategoryIcon && <CategoryIcon size={12} className="shrink-0" aria-hidden="true" />}
-              <span className="whitespace-nowrap">{banner.badge}</span>
+              <span className="whitespace-nowrap">{banner.badge.trim()}</span>
             </div>
           )}
         </div>

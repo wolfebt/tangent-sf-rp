@@ -210,6 +210,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal, onReturnToCatalog 
   };
 
   const dbm = useDBM();
+  const dbData = dbm?.dbData;
   const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const dbOptions = useMemo(() => ({

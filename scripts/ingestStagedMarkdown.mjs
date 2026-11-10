@@ -203,8 +203,7 @@ export function ingestStagedMarkdown(options = {}) {
 
   const candidateStagingDirs = stagingDirs || Array.from(new Set([
     path.join(workspaceRoot, 'staging'),
-    path.join(projectRoot, 'staging'),
-    path.join(projectRoot, 'docs', 'staging')
+    path.join(projectRoot, 'staging')
   ]));
 
   const index = buildCanonicalTargetIndex(projectRoot);
