@@ -21,6 +21,6 @@ Tangent uses a unified 7-tier skill progression ladder:
 | **1 - 5** | **Novice** | Apprentice standard. Foundational techniques; slow execution. |
 | **6 - 10** | **Trained** | Professional standard. Can earn a living. Unlocks **Trained Only** tasks. |
 | **11 - 15** | **Expert** | Specialist veteran. Rushed penalties reduced by 1; Meticulous bonus increased to +3/stage. |
-| **16 - 20** | **Master** | Sector-renowned virtuoso. Meticulous bonus increased to +4/stage (+50% bonus). |
-| **21 - 25** | **Grand Master** | Legendary master. May **Take 10 in any situation** (including combat). Rushed penalties halved. |
-| **26+** | **Pinnacle** | Demigod-like perfection. May roll checks with **Advantage**.
+| **16 - 20** | **Master** | Base Skill ceiling (`Max 20`). Sector-renowned virtuoso. Meticulous bonus increased to +4/stage (+50% bonus). |
+| **21 - 25** | **Grand Master** *(Base + Spec)* | Unlocked via `Base Skill (0–20) + 1 Specialization (1–10)`. May **Take 10 in any situation**; Rushed penalties halved. |
+| **26 - 30** | **Pinnacle** *(Base + Spec)* | Unlocked via `Base Skill (0–20) + 1 Specialization (1–10)`. Demigod-like perfection; may roll checks with **Advantage**. |

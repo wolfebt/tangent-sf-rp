@@ -5842,12 +5842,134 @@ export const resolveCanonicalSkillAlias = (idOrName) => {
   }) || null;
 };
 
+const NON_SKILL_DISCIPLINE_STUB_NAMES = new Set([
+  'dimension',
+  'entropy',
+  'illusion',
+  'matter',
+  'mental'
+]);
+
+const parseSkillGroupToken = (rawVal) => {
+  const clean = String(rawVal || '').trim().toLowerCase();
+  if (!clean) return '';
+  if (clean === 'skill group' || clean === 'groups' || clean === 'category group') return 'groups';
+  const head = clean.split(/[·•\-:/]/)[0].trim();
+  if (head.startsWith('phys')) return 'physical';
+  if (head.startsWith('ment')) return 'mental';
+  if (head.startsWith('soc')) return 'social';
+  if (head.startsWith('comb')) return 'combat';
+  if (head.startsWith('meta') || head.startsWith('psi') || head.startsWith('disc')) return 'meta';
+  return '';
+};
+
+const parseSkillSubcategoryToken = (skill, canonical) => {
+  if (canonical?.subcategory) return canonical.subcategory;
+  const direct = String(skill?.subcategory || skill?.subtype || skill?.discipline || '').trim();
+  let candidate = direct;
+  if (!candidate && typeof skill?.type === 'string') {
+    const parts = skill.type.split(/[·•\-]/).map((s) => s.trim()).filter(Boolean);
+    if (parts.length > 1) candidate = parts[1];
+  }
+  const lower = candidate.toLowerCase();
+  if (!lower || lower === 'core' || lower === 'general') return 'General';
+  if (lower.startsWith('know')) return 'Knowledges';
+  if (lower.startsWith('voc')) return 'Vocations';
+  if (lower.startsWith('exp')) return 'Expression';
+  if (lower.startsWith('manip')) return 'Manipulation';
+  if (lower.startsWith('arch')) return 'Archaic';
+  if (lower.startsWith('mod')) return 'Modern';
+  if (lower.startsWith('adv')) return 'Advanced';
+  if (lower.startsWith('dim')) return 'Dimension';
+  if (lower.startsWith('ener')) return 'Energy';
+  if (lower.startsWith('entr')) return 'Entropy';
+  if (lower.startsWith('illu')) return 'Illusion';
+  if (lower.startsWith('matt')) return 'Matter';
+  if (lower.startsWith('ment')) return 'Mental';
+  return candidate.charAt(0).toUpperCase() + candidate.slice(1);
+};
+
+export const SKILL_SUBCATEGORY_FILTERS = {
+  mental: ['General', 'Knowledges', 'Vocations'],
+  social: ['Expression', 'Manipulation'],
+  combat: ['Archaic', 'Modern', 'Advanced'],
+  meta: ['General', 'Dimension', 'Energy', 'Entropy', 'Illusion', 'Matter', 'Mental']
+};
+
+export const SKILL_ATTRIBUTE_FILTERS = ['STR', 'AGI', 'STA', 'INT', 'WIS', 'CHA'];
+
+export const CANONICAL_SKILL_GROUP_ITEMS = [
+  { id: 'grp_any_skill', name: 'Any Skill', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may allocate points into any skill from the full 1.07 Skills catalog.' },
+  { id: 'grp_any_non_combat', name: 'Any Non-Combat Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may allocate points into any Physical, Mental, or Social skill.' },
+  { id: 'grp_physical_skills', name: 'Physical Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill belonging to the Physical skill group (Acrobatics, Athletics, Piloting, Stealth).' },
+  { id: 'grp_mental_skills', name: 'Mental Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill belonging to the Mental skill group (General, Knowledges, or Vocations).' },
+  { id: 'grp_knowledge_skills', name: 'Any Knowledge Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill classified under Mental · Knowledges.' },
+  { id: 'grp_vocation_skills', name: 'Any Vocation Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill classified under Mental · Vocations.' },
+  { id: 'grp_social_skills', name: 'Social Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill belonging to the Social skill group (Expression or Manipulation).' },
+  { id: 'grp_expression_skills', name: 'Any Expression Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill classified under Social · Expression.' },
+  { id: 'grp_manipulation_skills', name: 'Any Manipulation Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill classified under Social · Manipulation.' },
+  { id: 'grp_combat_skills', name: 'Combat Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any skill belonging to the Combat skill group (Archaic, Modern, or Advanced).' },
+  { id: 'grp_meta_skills', name: 'Meta Skills', group: 'groups', subcategory: 'Skill Group', type: 'Skill Group', isSkillGroup: true, description: 'Operator may choose any Metafocus / Discipline skill (Attune or Discipline Focus skills).' }
+];
+
+export const extractSkillAttributeCodes = (skill) => {
+  if (!skill || skill.isSkillGroup || skill.type === 'Skill Group' || skill.group === 'groups') {
+    return [];
+  }
+  const gov = String(skill.governing_attribute || '').trim().toLowerCase();
+  const source = gov || String(skill.baseAttr || '').trim().toLowerCase();
+  const codes = [];
+  const pushUnique = (code) => {
+    if (!codes.includes(code)) codes.push(code);
+  };
+  const tokenRegex = /attr-strength|attr-agility|attr-stamina|attr-intellect|attr-wisdom|attr-charisma|\b(?:strength|str|agility|agi|dex|stamina|sta|con|intellect|int|wisdom|wis|charisma|cha|perception)\b/g;
+  let match;
+  while ((match = tokenRegex.exec(source)) !== null) {
+    const tok = match[0];
+    if (tok === 'perception') {
+      pushUnique('INT');
+      pushUnique('WIS');
+    } else if (tok.includes('str')) {
+      pushUnique('STR');
+    } else if (tok.includes('agi') || tok === 'dex') {
+      pushUnique('AGI');
+    } else if (tok.includes('sta') || tok === 'con') {
+      pushUnique('STA');
+    } else if (tok.includes('int')) {
+      pushUnique('INT');
+    } else if (tok.includes('wis')) {
+      pushUnique('WIS');
+    } else if (tok.includes('cha')) {
+      pushUnique('CHA');
+    }
+  }
+  return codes;
+};
+
+export const resolvePrimarySkillAttrBadge = (skill) => {
+  if (!skill || skill.isSkillGroup || skill.type === 'Skill Group' || skill.group === 'groups') {
+    return 'GROUP';
+  }
+  const codes = extractSkillAttributeCodes(skill);
+  if (codes.length === 0) return '';
+  return codes.slice(0, 2).join('/');
+};
+
 /**
  * Enriches a skill object with all canonical metadata (group, base attribute, description,
  * keywords, negative railguards, specialties, TL, ML) for Codex Matrix editing or DBM.
  */
 export const getEnrichedSkillData = (skill) => {
   if (!skill) return null;
+  if (skill.isSkillGroup || skill.type === 'Skill Group' || skill.group === 'groups') {
+    return {
+      ...skill,
+      group: 'groups',
+      subcategory: 'Skill Group',
+      type: 'Skill Group',
+      isSkillGroup: true
+    };
+  }
   const rawId = skill.id || '';
   const cleanId = rawId.replace(/^[a-z]+-/, '').toLowerCase();
   const rawName = (skill.name || skill.title || '').trim().toLowerCase();
@@ -5860,14 +5982,29 @@ export const getEnrichedSkillData = (skill) => {
     const sName = (s.name || '').toLowerCase();
     return (aliasedLower && (sId === aliasedLower || sName === aliasedLower)) ||
            (rawId && sId === rawId.toLowerCase()) ||
-           (cleanId && sCleanId === cleanId) ||
+           (cleanId && sCleanId === cleanId && (!skill.type || !NON_SKILL_DISCIPLINE_STUB_NAMES.has(rawName))) ||
            (rawName && sName === rawName);
   });
 
   const isLegacySkill = Boolean(aliasedLower && canonical);
-  const group = isLegacySkill ? canonical.group : (skill.group || canonical?.group || 'physical');
-  const name = isLegacySkill ? canonical.name : (skill.name || canonical?.name || 'Skill');
-  const id = isLegacySkill ? canonical.id : (skill.id || canonical?.id || `${group}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+  const parsedGroup =
+    canonical?.group ||
+    parseSkillGroupToken(skill.group) ||
+    parseSkillGroupToken(skill.type) ||
+    parseSkillGroupToken(skill.category) ||
+    parseSkillGroupToken(rawId) ||
+    'mental';
+  const group = isLegacySkill ? canonical.group : parsedGroup;
+  const subcategory = isLegacySkill
+    ? (canonical.subcategory || 'General')
+    : parseSkillSubcategoryToken(skill, canonical);
+  const name = (canonical && (isLegacySkill || canonical.name.toLowerCase() === rawName))
+    ? canonical.name
+    : (skill.name || canonical?.name || 'Skill');
+  const id = (canonical && (isLegacySkill || canonical.name.toLowerCase() === rawName))
+    ? canonical.id
+    : (skill.id || canonical?.id || `${group}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+  const groupTitle = group === 'meta' ? 'Metafocus' : group.charAt(0).toUpperCase() + group.slice(1);
 
   return {
     ...(canonical || {}),
@@ -5875,10 +6012,11 @@ export const getEnrichedSkillData = (skill) => {
     id,
     name,
     group,
-    type: isLegacySkill ? (canonical?.type || group) : (skill.type || canonical?.type || group),
-    subtype: isLegacySkill ? (canonical?.subcategory || canonical?.subtype || 'General') : (skill.subtype || canonical?.subcategory || canonical?.subtype || 'General'),
-    subcategory: isLegacySkill ? (canonical?.subcategory || 'General') : (skill.subcategory || canonical?.subcategory || 'General'),
-    baseAttr: isLegacySkill ? (canonical?.baseAttr || 'attr-agility') : (skill.baseAttr || canonical?.baseAttr || 'attr-agility'),
+    type: canonical?.type || `${groupTitle} · ${subcategory}`,
+    subtype: subcategory,
+    subcategory,
+    categoryLabel: `${groupTitle} · ${subcategory}`,
+    baseAttr: canonical?.baseAttr || skill.baseAttr || 'attr-agility',
     description: canonical?.description || skill.description || '',
     governing_attribute: canonical?.governing_attribute || skill.governing_attribute || '',
     mechanic: canonical?.mechanic || skill.mechanic || '',
@@ -5894,4 +6032,95 @@ export const getEnrichedSkillData = (skill) => {
     tl: skill.tech_level !== undefined ? skill.tech_level : (canonical?.tech_level ?? 0),
     ml: skill.meta_level !== undefined ? skill.meta_level : (canonical?.meta_level ?? 0),
   };
+};
+
+/**
+ * Builds a clean, deduplicated, group-normalized Skills catalog merging canonical 1.07 skills
+ * with live Omnicortex `dbSkills` (resolving legacy aliases and filtering non-skill discipline stubs).
+ */
+export const buildNormalizedSkillsCatalog = (dbSkills = [], { includeSkillGroups = false } = {}) => {
+  const seenNames = new Set();
+  const result = [];
+
+  if (includeSkillGroups) {
+    for (const grp of CANONICAL_SKILL_GROUP_ITEMS) {
+      const key = grp.name.toLowerCase();
+      seenNames.add(key);
+      result.push({
+        ...grp,
+        attrCodes: [],
+        primaryAttrBadge: 'GROUP',
+        categoryLabel: 'Skill Group Wildcard'
+      });
+    }
+  }
+
+  // 1. Seed all 93 authoritative 1.07 canonical skills first so group/subcategory/attribute metadata is never corrupted
+  const rawList = Array.isArray(dbSkills) ? dbSkills : [];
+  const dbByName = new Map();
+  for (const raw of rawList) {
+    if (!raw || typeof raw !== 'object') continue;
+    const n = String(raw.name || raw.title || '').trim().toLowerCase();
+    if (n && !dbByName.has(n)) dbByName.set(n, raw);
+  }
+
+  for (const canon of ALL_CANONICAL_SKILLS) {
+    const key = canon.name.toLowerCase();
+    if (seenNames.has(key)) continue;
+    seenNames.add(key);
+    const matchingDb = dbByName.get(key);
+    const merged = getEnrichedSkillData(matchingDb ? { ...canon, keywords: matchingDb.keywords || canon.keywords, note: matchingDb.note || canon.note } : canon);
+    result.push({
+      ...merged,
+      attrCodes: extractSkillAttributeCodes(merged),
+      primaryAttrBadge: resolvePrimarySkillAttrBadge(merged)
+    });
+  }
+
+  // 2. Append any genuinely custom user-created skills from dbSkills (excluding deprecated legacy aliases & bare discipline stubs)
+  for (const raw of rawList) {
+    if (!raw || typeof raw !== 'object') continue;
+    if (raw.type === 'Skill Group' || raw.isSkillGroup) {
+      const grpName = String(raw.name || raw.id || '').trim();
+      if (grpName && !seenNames.has(grpName.toLowerCase())) {
+        seenNames.add(grpName.toLowerCase());
+        result.push({
+          ...raw,
+          name: grpName,
+          group: 'groups',
+          subcategory: 'Skill Group',
+          type: 'Skill Group',
+          isSkillGroup: true,
+          attrCodes: [],
+          primaryAttrBadge: 'GROUP',
+          categoryLabel: 'Skill Group Wildcard'
+        });
+      }
+      continue;
+    }
+
+    const rawName = String(raw.name || raw.title || '').trim();
+    if (!rawName) continue;
+    const lowerName = rawName.toLowerCase();
+    const rawIdLower = String(raw.id || '').trim().toLowerCase();
+
+    // Skip legacy skill aliases (already represented by their canonical 1.07 skill above)
+    if (LEGACY_SKILL_ALIASES[lowerName] || LEGACY_SKILL_ALIASES[rawIdLower]) continue;
+
+    // Skip bare Metaphysical Discipline container names accidentally stored in legacy skills collections
+    if (NON_SKILL_DISCIPLINE_STUB_NAMES.has(lowerName)) continue;
+
+    if (seenNames.has(lowerName)) continue;
+    const enriched = getEnrichedSkillData(raw);
+    if (!enriched || seenNames.has(enriched.name.toLowerCase())) continue;
+
+    seenNames.add(enriched.name.toLowerCase());
+    result.push({
+      ...enriched,
+      attrCodes: extractSkillAttributeCodes(enriched),
+      primaryAttrBadge: resolvePrimarySkillAttrBadge(enriched)
+    });
+  }
+
+  return result;
 };

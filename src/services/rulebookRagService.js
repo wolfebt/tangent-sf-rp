@@ -16,12 +16,12 @@ export const RULEBOOK_CORPUS = [
     keywords: ['2d10', 'dual', 'resolution', 'roll', 'check', 'critical', 'fumble', 'triumph', 'double', 'skill check', 'combat'],
     summary: 'Roll 2d10 + Skill Rank + Linked Attribute Modifier + Modifiers vs. Target Defense or Challenge Rating (CR). Defender wins all ties.',
     content: `All checks in Tangent SF RP utilize the 2d10 Dual-Resolution System.
-- **Roll Formula:** 2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Target Defense / CR.
+- **Roll Formula:** 2d10 + Skill Rank + Attribute Modifier + Situational Modifiers vs. Target Defense / CR. Advantage or Disadvantage adds +1d10 keeping the highest or lowest 2 dice (3d10kh2 / 3d10kl2), cancelling 1-for-1.
 - **Opposed Rolls:** Attacker's Check vs. Defender's Defense Check (2d10 + Agility + Defense Skill). Attacker wins on higher roll. DEFENDER WINS ALL TIES.
 - **Unopposed Baseline:** Standard static difficulty baseline is CR 15 (Average difficulty for a typical medium target at short range, modified for target's Size, Range, and Movement).
-- **Critical Triumph (Natural Double 10s):** Automatic success / triumph, achieving exceptional narrative breakthrough, maximum weapon damage dice, or maximum effect.
-- **Critical Fumble (Natural Double 1s):** Automatic failure / setback, triggering weapon malfunction, accidental slip, or adverse narrative complication.
-- **Margin of Success (MoS):** Exceeding the Target Defense by significant margins triggers amplified effects (e.g. automatic weapon hit accumulation, called shot direct penetration).`
+- **Critical Triumph (Natural Double 10s / Expanded Threat 19, 18):** Adds +10 to the rolled dice value (e.g. 20 -> 30, 19 -> 29), doubles base weapon damage dice (2x), bypasses Vitality to strike Health directly, and triggers a Critical Effect (+1 Karma on natural Double 10s).
+- **Critical Fumble (Natural Double 1s / Expanded Fumble 3, 4):** Replaces the rolled dice total with a flat -10 (Base Score - 10) and triggers a situational complication.
+- **Margin of Success (MoS):** Exceeding the Target Defense by significant margins (+5 Superior, +10 Masterful) triggers amplified effects (e.g. automatic weapon hit accumulation, called shot direct penetration).`
   },
   {
     id: 'damage_pools',
@@ -147,21 +147,36 @@ export const RULEBOOK_CORPUS = [
     category: 'Economy & Equipment',
     source: 'docs/game_rules/operator/2.00 ECONOMATRIX.md & architect/02 ECONOMY AND WEALTH.md',
     page: 1,
-    keywords: ['economy', 'price', 'credits', 'tsc', 'dc', 'cr', 'valuation', 'wealth score', 'liquidity gap', 'financial status', 'tech level', 'meta level'],
-    summary: 'TSC Valuation V = 10 * 4^(CR/5) determined solely by Crafting CR/DC. Golden Rule: Purchase CR = Crafting CR <= Wealth Score.',
+    keywords: ['economy', 'price', 'credits', 'tsc', 'cr', 'valuation', 'wealth score', 'liquidity gap', 'financial status', 'tech level', 'meta level', 'micro-modifier'],
+    summary: 'TSC Valuation V = round(10 * 4^floor(CR/5) * MicroModifier[CR mod 5]) determined solely by Crafting CR. Golden Rule: Purchase CR = Crafting CR <= Wealth Score.',
     content: `Canonical Economatrix and Wealth System:
-- **Complexity Determines Value:** Item cost is determined solely by its final Crafting CR/DC (which incorporates base chassis size, modifications, Meta-Tech imbuements, cultural skin, and any TL/ML design modifiers).
-- **TSC Valuation Equation:** Value V = 10 * 4^(CR / 5) Credits (Tangent Standard Curve), where Purchase CR = Crafting CR.
-  - CR 0 = 10 TSC (Pauper ration, basic battery)
-  - CR 5 = 40 TSC (Basic tool, simple blade)
-  - CR 10 = 160 TSC (Standard sidearm, light ballistic armor)
-  - CR 15 = 640 TSC (Plasma carbine, cybernetic oculars)
-  - CR 20 = 2,560 TSC (Assault mecha hardpoint, starfighter thruster)
-  - CR 25 = 10,240 TSC (Heavy combat vehicle, planetary sensor)
-  - CR 30 = 40,960 TSC (Light starship hull, industrial refinery module)
-- **The Golden Rule:** Any requisition with Purchase CR ≤ operator's Wealth Score (WS) succeeds automatically without rolling or reducing WS.
-- **Liquidity Gap & Friction:** Purchasing above WS requires Wealth checks or burning liquidity. Illiquid assets liquidated in haste suffer Liquidity Drag (selling at 25%–50% book value).
+- **Complexity Determines Value:** Item cost is determined solely by its final Crafting CR (which incorporates base chassis size, modifications, Meta-Tech imbuements, cultural skin, and any TL/ML design modifiers).
+- **TSC Valuation Equation:** Base_5 = floor(CR / 5) * 5; Value V = round(10 * 4^(Base_5 / 5) * MicroModifier[CR - Base_5]) Credits, where MicroModifier = { -1: 0.75, 0: 1.00, +1: 1.30, +2: 1.75, +3: 2.30, +4: 3.00 } and Purchase CR = Crafting CR.
+  - CR 0 = 10 Cr (Pauper ration, basic battery)
+  - CR 5 = 40 Cr (Basic tool, simple blade)
+  - CR 10 = 160 Cr (Standard sidearm, light ballistic armor)
+  - CR 15 = 640 Cr (Plasma carbine, cybernetic oculars)
+  - CR 18 = 1,472 Cr (640 * 2.30 micro-modifier)
+  - CR 20 = 2,560 Cr (Assault mecha hardpoint, starfighter thruster)
+  - CR 25 = 10,240 Cr (Heavy combat vehicle, planetary sensor)
+  - CR 30 = 40,960 Cr (Light starship hull, industrial refinery module)
+  - CR 32 = 71,680 Cr (40,960 * 1.75 micro-modifier)
+- **The Golden Rule:** Any requisition with Purchase CR <= operator's Wealth Score (WS) succeeds automatically without rolling or reducing liquid Credits.
+- **Materials & Salvage:** Pristine Crafting Materials cost 50% of final Credit Value; Scavenged Scrap yields 10% liquidation value and requires 5x Credit Value in unrefined scrap mass.
 - **12-Tier Financial Status Hierarchy:** From Tier 0 (Indebted, WS 0) to Tier 11 (Faction Ruler, WS 50+).`
+  },
+  {
+    id: 'skills_and_specializations',
+    topic: 'Skills (Base 0–20), Specializations (1–10) & 60 Free Background SP',
+    category: 'Character Creation & Skills',
+    source: 'docs/game_rules/operator/1.07 SKILLS.md',
+    page: 1,
+    keywords: ['skills', 'specialization', 'specializations', 'rank', 'creation cap', '150 cp', '60 sp', 'background', 'grand master', 'pinnacle'],
+    summary: 'Base Skill Ranks span 0–20 (Creation Cap Rank 11) at 1 SP/CP per rank; Specializations (Rank 1–10, prereq Base 6+) add directly to Base Skill to unlock Ranks 21–30.',
+    content: `Canonical Skill & Specialization Architecture (150-CP Character Economy):
+- **Base Skill Ranks (0–20):** Purchased 1-for-1 at 1 SP or 1 CP per rank. Character creation cap is Rank 11 (Stage 3: Expert); natural Base Skill ceiling is Rank 20 (Stage 4: Master).
+- **Specializations (Rank 1–10 Sub-Skills):** Require Base Skill Rank 6+ (Professional) and cost 1 SP/CP per rank. Specializations do NOT grant a flat +2 bonus; instead, 1 viable Specialization adds its Rank (1–10) directly to the Base Skill Rank, unlocking Stage 5: Grand Master (21–25) and Stage 6: Pinnacle (26–30).
+- **60 Free Background SP:** Operators receive 20 Faction SP + 20 Origin SP + 20 Occupation SP = 60 Free Skill Points at 0 CP cost during creation.`
   },
   {
     id: 'starship_bridge',
@@ -182,7 +197,7 @@ export const RULEBOOK_CORPUS = [
   }
 ];
 
-export function queryRulebook(queryString) {
+export function queryRulebook(queryString, options = {}) {
   if (!queryString || !queryString.trim()) {
     return RULEBOOK_CORPUS;
   }
@@ -205,7 +220,10 @@ export function queryRulebook(queryString) {
 
   // Bridge with Omnicortex Vector RAG for broader rulebook recall while preserving top corpus priority
   try {
-    const ragMatches = queryOmnicortexRAG(queryString, 4);
+    const ragMatches = queryOmnicortexRAG(queryString, {
+      topK: options.topK ?? 4,
+      role: options.role,
+    });
     const seenIds = new Set(scored.map(s => s.id));
     for (const { chunk, score: ragScore } of ragMatches) {
       if (!seenIds.has(chunk.id)) {

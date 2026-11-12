@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { 
@@ -67,11 +67,17 @@ const ARCHETYPE_OPTIONS = [
   'Everyman', 'Special', 'Augmented', 'Cyborg', 'Synthetic', 'Mutant', 'Awakened', 'Esper', 'Mage', 'Monster'
 ];
 
-export const ModularStatBlockConfigurator = ({ formData = {}, onChange }) => {
+export const ModularStatBlockConfigurator = ({ formData = {}, onChange, stepSection = 'all' }) => {
   const navigate = useNavigate();
   const { dbData } = useDBM() || {};
   const storyCtx = useStory() || {};
   const [activeSubTab, setActiveSubTab] = useState('matrix');
+
+  useEffect(() => {
+    if (stepSection === 'classification') setActiveSubTab('matrix');
+    else if (stepSection === 'vitals') setActiveSubTab('attributes');
+    else if (stepSection === 'loadout') setActiveSubTab('loadout');
+  }, [stepSection]);
   const [activeNarrativeSec, setActiveNarrativeSec] = useState('profile');
   const [skillToAdd, setSkillToAdd] = useState('');
   const [customItemText, setCustomItemText] = useState({

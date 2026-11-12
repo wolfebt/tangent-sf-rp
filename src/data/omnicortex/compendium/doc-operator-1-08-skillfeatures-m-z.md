@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","features","1.08.skillfeatures.m_z","mechanics"]
-updatedAt: "2026-11-04T09:33:29.493Z"
+updatedAt: "2026-11-10T19:53:11.353Z"
 costs:
   bp: 0
   credits: 0
@@ -216,12 +216,12 @@ sockets:
 
 ## **Skill Specialization**
 
-* **Description:** The character drills deep into a specific niche of a broad skill.
+* **Description:** The character drills deep into a specific niche of a broad skill as a built-up sub-skill.
 
-  - **Prerequisite:** Chosen Skill Rank 6 (Trained)
-  - **Benefit:** Choose a sub-category of the skill (e.g., *Ballistic: Sniper Rifles* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to +10).
-  - **Mechanics:** When making a check in that specialization, you add your **Base Rank + Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).
-  - **Special:** [Multiple] Can be taken for different skills or different sub-categories.
+  - **Prerequisite:** Chosen Base Skill Rank 6 (Trained)
+  - **Benefit:** Choose a specialized sub-skill within the parent skill (e.g., *Ballistic: Sniper Rifles* or *Computers: Hacking*). Rather than granting a flat `+2`, the specialization advances independently from Rank `1` to `10` at the standard skill cost (`1 SP / 1 CP` per rank).
+  - **Mechanics:** When making a check within that specialization, add **Base Skill Rank (`0–20`) + Specialization Rank (`1–10`)**, with **only one specialization viable per check**. This combination unlocks the effective `21–30` skill range (**Grand Master `21–25`** and **Pinnacle `26–30`**).
+  - **Special:** [Multiple] Different specializations can be built up, though only one specialization may apply to any single check.
 
   
 

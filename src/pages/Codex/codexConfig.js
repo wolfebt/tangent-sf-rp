@@ -541,6 +541,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: true,
     hasModifications: true,
     hasDamageOrEffect: false,
+    customComponent: 'OtherPropertyConfigurator',
     defaultValues: {
       name: '',
       category: 'Commodities',
@@ -776,7 +777,7 @@ export const CODEX_MATRICES = [
     color: '#a855f7', // Purple
     theme: 'purple',
     targetCollection: 'gear',
-    ingestionKey: 'gear',
+    ingestionKey: 'meta-tech',
     altCollection: 'compendium',
     description: 'Devise psi-amplifiers, void-drive resonators, anomalous artifacts, ether batteries, and quantum catalyst devices.',
     category: 'Experimental Meta-Science',
@@ -837,7 +838,7 @@ export const CODEX_MATRICES = [
     color: '#8b5cf6', // Violet
     theme: 'violet',
     targetCollection: 'archetypes',
-    ingestionKey: 'other',
+    ingestionKey: 'archetypes',
     description: 'Thematic character chassis embodying core gameplay fantasies with pre-calculated 80 BP attribute, skill, and feature allocations.',
     category: 'Character Archetypes & Personas',
     badge: 'Archetype Matrix',
@@ -930,7 +931,7 @@ export const CODEX_MATRICES = [
     color: '#3b82f6', // Blue
     theme: 'blue',
     targetCollection: 'modular_characters',
-    ingestionKey: 'other',
+    ingestionKey: 'modular_characters',
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
     category: 'NPCs & Operator Templates',
     badge: 'NPC Modular Matrix',
@@ -1001,7 +1002,7 @@ export const CODEX_MATRICES = [
     color: '#10b981', // Emerald
     theme: 'emerald',
     targetCollection: 'origins',
-    ingestionKey: 'other',
+    ingestionKey: 'origins',
     description: 'Environmental homeworlds, planetary biomes, orbital stations, 20 SP society skills pool, typical archetypes, and homeworld traits.',
     category: 'Origins, Backgrounds & Habitats',
     badge: 'Origin Matrix',
@@ -1050,8 +1051,7 @@ export const CODEX_MATRICES = [
         ] 
       },
       { name: 'ws_modifier', label: 'Wealth Score Modifier (WS +0 to +3)', type: 'number', min: 0, max: 3, default: 1 },
-      { name: 'skill_points', label: 'Society Skill Points Pool', type: 'number', min: 0, max: 40, default: 20, helpText: 'Points granted to allocate across society skills (standard: 20 SP)' },
-      { name: 'society_skills', label: 'Society Skills (20 SP Pool)', type: 'array', placeholder: 'Skills granted for the 20-point pool' },
+      { name: 'society_skills', label: 'Society Skills (Fixed 20 SP Pool)', type: 'array', placeholder: 'Skills granted for the fixed 20-point pool' },
       { name: 'archetypes', label: 'Typical Archetypes / Vocations', type: 'array', placeholder: 'Typical background vocations (e.g. Farmer, Hunter, Pilot)' },
       { name: 'traits', label: 'Origin Traits List', type: 'array', placeholder: 'Traits selectable for this origin (2 free, +1 CP each for extra)' },
       { name: 'recommended_species', label: 'Recommended Species', type: 'array', placeholder: 'Select or add species (from cortex)' },
@@ -1066,8 +1066,8 @@ export const CODEX_MATRICES = [
       { name: 'note', label: 'Architect & Worldbuilding Notes', type: 'textarea' }
     ],
     computedOutputs: [],
-    computeOnSave: (formData) => ({
-      skill_points: Number(formData.skill_points || 20),
+    computeOnSave: () => ({
+      skill_points: 20,
       computed_at: new Date().toISOString()
     }),
     archetypes: [
@@ -1084,7 +1084,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'occupations',
-    ingestionKey: 'other',
+    ingestionKey: 'occupations',
     description: 'Formal vocational training, professional histories, 20 SP skill packages, recommended features, and occupational traits.',
     category: 'Occupations, Careers & Professions',
     badge: 'Occupation Matrix',
@@ -1131,8 +1131,7 @@ export const CODEX_MATRICES = [
         ] 
       },
       { name: 'base_ws', label: 'Base Wealth Score (WS 1-6)', type: 'number', min: 1, max: 6, default: 3 },
-      { name: 'skill_points', label: 'Professional Skill Points Pool', type: 'number', min: 0, max: 40, default: 20, helpText: 'Points granted to allocate across professional skills (standard: 20 SP, creation cap Rank 11)' },
-      { name: 'professional_skills', label: 'Professional Skills (20 SP Pool)', type: 'array', placeholder: 'Skills granted for the 20-point pool' },
+      { name: 'professional_skills', label: 'Professional Skills (Fixed 20 SP Pool)', type: 'array', placeholder: 'Skills granted for the fixed 20-point pool' },
       { name: 'recommended_species', label: 'Recommended Species', type: 'array', placeholder: 'Select or add species (from cortex)' },
       { name: 'recommended_factions', label: 'Recommended Factions', type: 'array', placeholder: 'Select or add factions (from cortex)' },
       { name: 'recommended_origins', label: 'Recommended Origins', type: 'array', placeholder: 'Select or add origins (from cortex)' },
@@ -1147,8 +1146,8 @@ export const CODEX_MATRICES = [
       { name: 'note', label: 'Architect & Worldbuilding Notes', type: 'textarea' }
     ],
     computedOutputs: [],
-    computeOnSave: (formData) => ({
-      skill_points: Number(formData.skill_points || 20),
+    computeOnSave: () => ({
+      skill_points: 20,
       computed_at: new Date().toISOString()
     }),
     archetypes: [
@@ -1173,6 +1172,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
+    customComponent: 'SkillConfigurator',
     defaultValues: {
       name: '',
       type: 'mental',
@@ -1241,6 +1241,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
+    customComponent: 'FeatureConfigurator',
     defaultValues: {
       name: '',
       type: 'ability',
@@ -1335,7 +1336,7 @@ export const CODEX_MATRICES = [
     color: '#10b981', // Green / Emerald
     theme: 'emerald',
     targetCollection: 'planetary_design',
-    ingestionKey: 'other',
+    ingestionKey: 'planetary_design',
     description: 'Map star systems, planetary biomes, orbital stations, atmospheric conditions, hazardous zones, and alien ecologies.',
     category: 'Cosmology & Worldbuilding',
     badge: 'Planetary Matrix',
@@ -1494,7 +1495,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'SpeciesSubcomponentConfigurator',
     defaultValues: {
       name: '',
       cp: 0,
@@ -1547,7 +1548,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'SpeciesSubcomponentConfigurator',
     defaultValues: {
       name: '',
       bp: 0,
@@ -1590,7 +1591,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'SpeciesSubcomponentConfigurator',
     defaultValues: {
       name: '',
       cp: 0,
@@ -1639,7 +1640,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'SpeciesSubcomponentConfigurator',
     defaultValues: {
       name: '',
       classification: 'basic',
@@ -1684,7 +1685,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'SpeciesSubcomponentConfigurator',
     defaultValues: {
       name: '',
       trait_type: 'Species Trait',
@@ -1729,7 +1730,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'TraitConfigurator',
     defaultValues: {
       name: '',
       trait_type: 'Origin Trait',
@@ -1774,7 +1775,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'DisadvantageConfigurator',
     defaultValues: {
       name: '',
       disadvantage_type: 'Species Disadvantage',
@@ -1914,7 +1915,7 @@ export const CODEX_MATRICES = [
     theme: 'slate',
     viewType: 'dashboard',
     targetCollection: 'economatrix',
-    ingestionKey: 'other',
+    ingestionKey: 'economatrix',
     description: 'Master economic reference suite, trade route simulator, currency converter, and standard curve calculator.',
     category: 'System Reference & Calculators',
     badge: 'Economic Engine',
@@ -1951,6 +1952,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
+    customComponent: 'FactionConfigurator',
     defaultValues: {
       name: '',
       faction_type: 'Major Polity',
@@ -1984,6 +1986,7 @@ export const CODEX_MATRICES = [
       naval_assets: '',
       unique_tech_materials: '',
       skill_package: '',
+      skill_points: 20,
       typical_archetypes: '',
       recommended_species: [],
       recommended_origins: [],
@@ -2097,6 +2100,7 @@ export const CODEX_MATRICES = [
       const wealth = Number(formData.wealth_modifier ?? 0) || 0;
       const influence = Math.min(5, Math.max(1, Math.round((tl + ml + (wealth >= 0 ? 1 : 0)) / 2)));
       return {
+        skill_points: 20,
         tech_level: tl,
         meta_level: ml,
         wealth_modifier: formData.wealth_modifier || '0',
@@ -2145,7 +2149,7 @@ export const CODEX_MATRICES = [
     theme: 'slate',
     viewType: 'dashboard',
     targetCollection: 'technology',
-    ingestionKey: 'other',
+    ingestionKey: 'technology',
     description: 'Tech Level encyclopedia, domain capability charts, schematic repositories, and adaptive material references.',
     category: 'System Reference & Calculators',
     badge: 'Tech Engine',
@@ -2182,7 +2186,7 @@ export const CODEX_MATRICES = [
     theme: 'amber',
     viewType: 'dashboard',
     targetCollection: 'scaling',
-    ingestionKey: 'other',
+    ingestionKey: 'scaling',
     description: 'Universal 14-Tier Size Categories, Fluid Combat Modifier Matchup Simulator, Meta-Tech Amplification & Asset Valuation Diagnostics.',
     category: 'System Reference & Calculators',
     badge: 'Scale Matrix',
@@ -2276,7 +2280,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: true,
-    customComponent: 'InvocationCalculator',
+    customComponent: 'InvocationParameterConfigurator',
     defaultValues: {
       name: '',
       isSpecialAbility: true,
@@ -2413,7 +2417,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'WorldElementConfigurator',
     defaultValues: {
       name: '',
       scale: 'Galaxy',
@@ -2449,7 +2453,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'WorldElementConfigurator',
     defaultValues: {
       name: '',
       world: '',
@@ -2485,7 +2489,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'WorldElementConfigurator',
     defaultValues: {
       name: '',
       origin: '',
@@ -2521,7 +2525,7 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent: 'WorldElementConfigurator',
     defaultValues: {
       name: '',
       scene_type: 'Action / Combat',
@@ -2608,7 +2612,14 @@ export const CODEX_MATRICES = [
     hasSocketsAndUDU: false,
     hasModifications: false,
     hasDamageOrEffect: false,
-    customComponent: null,
+    customComponent:
+      devDef.id === 'societies' || devDef.id.startsWith('society_')
+        ? 'SocietySphereConfigurator'
+        : devDef.id === 'disciplines'
+          ? 'DisciplineConfigurator'
+          : ['Condition', 'conditions', 'damage_types', 'maneuvers', 'rules', 'synthesis'].includes(devDef.id)
+            ? 'RuleAndConditionConfigurator'
+            : 'DevParameterConfigurator',
     defaultValues: {
       name: '',
       level: 0,

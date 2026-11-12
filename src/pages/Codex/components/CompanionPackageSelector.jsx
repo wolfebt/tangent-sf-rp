@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { 
   HeartHandshake, 
   Shield, 
@@ -33,8 +33,13 @@ const CANONICAL_BOND_OPTIONS = [
 
 const CANONICAL_5_FUNCTION_PACKAGES = COMPANION_FUNCTION_PACKAGES.slice(0, 5);
 
-export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
+export const CompanionPackageSelector = ({ formData = {}, onChange, stepSection = 'all' }) => {
   const [activeTab, setActiveTab] = useState('form'); // 'form', 'functions', 'bonds'
+
+  useEffect(() => {
+    if (stepSection === 'form') setActiveTab('form');
+    else if (stepSection === 'function') setActiveTab('functions');
+  }, [stepSection]);
 
   const companionRank = Number(formData.companion_rank || formData.companionRank || 1);
   const ownerTier = Number(formData.owner_tier || formData.ownerTier || 1);

@@ -2511,14 +2511,16 @@ export const derivePillarNarrative = ({
 };
 
 /**
- * 6. Calculate Canonical Rules Ledger (User-in-the-loop validation & 150 BP economics)
+ * 6. Calculate Canonical Rules Ledger (User-in-the-loop validation & 150-CP economics)
  * Enforces:
- * - 150 BP starting budget
- * - Raw attributes cost 5 BP per point, cap at +4 raw at creation
+ * - 150 CP starting budget (80 CP Archetype Chassis + 70 CP Customization)
+ * - Raw attributes cost 5 CP per point, soft cap at +4 raw at creation
  * - Sub-attributes: Base = 2 + (Primary * 2)
  * - 60 Free Skill Ranks: 20 SP Faction, 20 SP Origin, 20 SP Occupation packages
- * - Traits: Species inherent + 2 Origin + 2 Occupation
- * - Features: Archetype signature + recommended Faction + recommended Occupation
+ * - Base Skill Ranks span 0–20 (Creation Cap Rank 11); Specializations span 1–10 (Prereq Base 6+)
+ * - Free Background Traits: Species inherent + 1 Origin + 1 Faction + 2 Occupation (4 free; extra traits 1 CP)
+ * - Features: First 4 Recommended Features discounted (-1 CP -> 2 CP each); standard Features 3 CP
+ * - Personal Hindrances: Capped at +10 CP rebate (Species flaws & Social Stigmas exempt)
  * - Starting Property: Weapons, Armor, Gear calibrated to Tech Level
  */
 export const calculateRulesLedger = ({
@@ -2529,12 +2531,20 @@ export const calculateRulesLedger = ({
   occupation,
   techLevel = 3,
   rawAttributes = null,
+  purchasedSkills = null,
+  purchasedSpecializations = null,
+  purchasedSkillRanks = 0,
+  purchasedSpecRanks = 0,
+  purchasedFeaturesCp = 0,
+  extraTraitsCount = 0,
+  vitalityUpgradesCp = 0,
+  personalHindranceCp = 0,
   dbData = {}
 }) => {
   const tl = Number(techLevel) || 3;
   const attrData = derivePillarAttributes({ archetype, species });
 
-  // Base raw attributes (starts at 0, 5 BP per point, cap at 4 raw at creation)
+  // Base raw attributes (starts at 0, 5 CP per point, cap at 4 raw at creation)
   const baseRaw = rawAttributes ? { ...rawAttributes } : { ...attrData.rawAttributes };
 
   const validationErrors = [];
@@ -2550,16 +2560,59 @@ export const calculateRulesLedger = ({
     }
   }
 
-  // BP Costs according to compendium 1.00 / 1.01: TL3 is baseline (0 CP); 10 CP/BP per level difference
+  let extraSkillCp = Math.max(0, Number(purchasedSkillRanks) || 0) + Math.max(0, Number(purchasedSpecRanks) || 0);
+  if (purchasedSkills && typeof purchasedSkills === 'object') {
+    let customSkillTotal = 0;
+    for (const [skName, skRankRaw] of Object.entries(purchasedSkills)) {
+      const skRank = Math.max(0, Number(skRankRaw) || 0);
+      customSkillTotal += skRank;
+      if (skRank > 20) {
+        validationErrors.push(`Base Skill "${skName}" (${skRank}) exceeds maximum Base Skill ceiling (Rank 20).`);
+      } else if (skRank > 11) {
+        validationErrors.push(`Base Skill "${skName}" (${skRank}) exceeds creation ceiling (Rank 11 / Stage 3 Expert).`);
+      }
+    }
+    extraSkillCp = Math.max(extraSkillCp, Math.max(0, customSkillTotal - 60));
+  }
+
+  if (Array.isArray(purchasedSpecializations)) {
+    for (const spec of purchasedSpecializations) {
+      if (!spec) continue;
+      const specRank = Math.max(0, Number(spec.rank) || 0);
+      extraSkillCp += specRank;
+      if (specRank > 10) {
+        validationErrors.push(`Specialization "${spec.name}" (${specRank}) exceeds maximum Specialization Rank 10.`);
+      }
+    }
+  }
+
+  const featuresCostCp = Math.max(0, Number(purchasedFeaturesCp) || 0);
+  const traitsCostCp = Math.max(0, Number(extraTraitsCount) || 0) * 1;
+  const vitalsCostCp = Math.max(0, Number(vitalityUpgradesCp) || 0);
+  const rawHindranceRebate = Math.max(0, Number(personalHindranceCp) || 0);
+  const hindranceRebateCp = Math.min(10, rawHindranceRebate);
+  if (rawHindranceRebate > 10) {
+    validationErrors.push(`Personal Hindrance rebate (${rawHindranceRebate} CP) exceeds maximum +10 CP cap.`);
+  }
+
+  // CP Costs according to compendium 1.00 / 1.01: TL3 is baseline (0 CP); 10 CP per level difference
   const attrBPCost = totalRawAttrPoints * 5;
   const speciesBPCost = Number(species?.cp ?? species?.costs?.bp ?? 0) || 0;
   const tlBPCost = (tl - 3) * 10;
 
-  const totalSpent = attrBPCost + speciesBPCost + tlBPCost;
+  const totalSpent =
+    attrBPCost +
+    speciesBPCost +
+    tlBPCost +
+    extraSkillCp +
+    featuresCostCp +
+    traitsCostCp +
+    vitalsCostCp -
+    hindranceRebateCp;
   const bpRemaining = 150 - totalSpent;
 
   if (bpRemaining < 0) {
-    validationErrors.push(`Point budget exceeded: ${totalSpent} BP spent out of 150 BP available.`);
+    validationErrors.push(`Point budget exceeded: ${totalSpent} CP spent out of 150 CP available.`);
   }
 
   // Derive final attributes with species modifiers
@@ -2618,7 +2671,12 @@ export const calculateRulesLedger = ({
     breakdown: {
       attributesCost: attrBPCost,
       speciesCost: speciesBPCost,
-      techLevelCost: tlBPCost
+      techLevelCost: tlBPCost,
+      skillsCost: extraSkillCp,
+      featuresCost: featuresCostCp,
+      traitsCost: traitsCostCp,
+      vitalsCost: vitalsCostCp,
+      personalHindranceRebate: hindranceRebateCp
     },
     rawAttributes: baseRaw,
     speciesModifiers: attrData.speciesModifiers,

@@ -44,7 +44,7 @@ export const LOD_TIERS: Record<Exclude<LodTierKey, 'auto'>, LodTierConfig> = {
     gqaRatio: '4:1 (8 KV / 32 Q heads)',
     gqaSavingsMb: 1200,
     defaultLocalModel: 'meta-llama-3.1-8b-instruct.Q4_K_M.gguf',
-    defaultCloudModel: 'gemini-1.5-flash',
+    defaultCloudModel: 'gemini-2.5-flash',
     maxContextTokens: 8192,
     recommendedTemp: 0.7,
     description: 'High-fidelity reasoning for primary Operators, Major Antagonists, and narrative climaxes.'
@@ -59,7 +59,7 @@ export const LOD_TIERS: Record<Exclude<LodTierKey, 'auto'>, LodTierConfig> = {
     gqaRatio: '6:1 (4 KV / 24 Q heads)',
     gqaSavingsMb: 550,
     defaultLocalModel: 'llama-3.2-3b-instruct.Q4_K_M.gguf',
-    defaultCloudModel: 'gemini-1.5-flash-8b',
+    defaultCloudModel: 'gemini-2.5-flash',
     maxContextTokens: 4096,
     recommendedTemp: 0.6,
     description: 'Balanced speed and memory for fireteam coordination, skirmish NPCs, and standard encounters.'
@@ -74,7 +74,7 @@ export const LOD_TIERS: Record<Exclude<LodTierKey, 'auto'>, LodTierConfig> = {
     gqaRatio: '8:1 (2 KV / 16 Q heads)',
     gqaSavingsMb: 280,
     defaultLocalModel: 'llama-3.2-1b-instruct.Q4_K_M.gguf',
-    defaultCloudModel: 'gemini-1.5-flash-8b',
+    defaultCloudModel: 'gemini-2.5-flash-lite',
     maxContextTokens: 2048,
     recommendedTemp: 0.4,
     description: 'Ultra-lean compute for automated computer terminals, security claxons, and environmental sensor barks.'

@@ -142,7 +142,9 @@ export const TraitChoiceModal = ({
       cp: trait.cp || trait.bp || 1,
       bp: trait.bp || trait.cp || 1,
       tier: trait.tier || 'basic',
+      trait_type: trait.trait_type || 'Species Trait',
       classification: trait.classification || 'Trait',
+      mechanic: trait.mechanic,
       description: trait.description,
       is_configured: true,
       custom_choice: isCustomMode
@@ -159,6 +161,8 @@ export const TraitChoiceModal = ({
     : (selectedOptions.length === maxSelections || (maxSelections > 1 && selectedOptions.length > 0));
 
   const badgeColor = config.badgeColor || '#a855f7';
+  const resolvedTraitTypeLabel = trait.trait_type || 'Species Trait';
+  const isSpeciesTraitRecord = resolvedTraitTypeLabel.toLowerCase().includes('species');
 
   const modalContent = (
     <div 
@@ -199,7 +203,7 @@ export const TraitChoiceModal = ({
                 </span>
               </div>
               <span className="text-[11px] text-slate-400 block mt-0.5 font-sans">
-                BASTION Species Trait Parameterization
+                BASTION {resolvedTraitTypeLabel} Parameterization
               </span>
             </div>
           </div>
@@ -379,7 +383,9 @@ export const TraitChoiceModal = ({
                   )}
                 </div>
                 <p className="text-[10px] text-slate-500 font-sans">
-                  *Custom choices are stored directly in your species biological record and tallied in character point accounting.
+                  {isSpeciesTraitRecord
+                    ? '*Custom choices are stored directly in your species biological record and tallied in character point accounting.'
+                    : `*Custom choices are stored directly in this ${resolvedTraitTypeLabel.toLowerCase()} record and synced across linked pillar mechanics.`}
                 </p>
               </div>
             )}

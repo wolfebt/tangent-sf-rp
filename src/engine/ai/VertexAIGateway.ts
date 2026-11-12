@@ -19,16 +19,19 @@ import {
 } from '../../services/bastionService.js';
 
 export interface AIRequestOptions {
-  model?: 'gemini-1.5-pro' | 'gemini-1.5-flash' | 'gemini-2.0-flash' | 'gemini-2.5-flash';
+  model?: 'gemini-1.5-pro' | 'gemini-1.5-flash' | 'gemini-2.0-flash' | 'gemini-2.5-flash' | 'gemini-2.5-flash-lite';
   temperature?: number;
   maxOutputTokens?: number;
   responseMimeType?: 'text/plain' | 'application/json';
   responseSchema?: Record<string, any>;
+  systemInstruction?: string;
+  contents?: Array<Record<string, any>>;
   grammar?: string;
   tierKey?: LodTierKey;
   localEndpoint?: string;
   tools?: Array<Record<string, any>>;
   stream?: boolean;
+  onStreamChunk?: (chunkText: string, accumulatedText: string) => void;
 }
 
 export interface AIGatewayResponse<T = any> {
@@ -101,8 +104,16 @@ class VertexAIGatewayService {
     if (this.appCheckToken) {
       headers['X-Firebase-AppCheck'] = this.appCheckToken;
     }
-    if (this.authToken) {
-      headers['Authorization'] = `Bearer ${this.authToken}`;
+    let resolvedAuthToken = this.authToken;
+    if (!resolvedAuthToken) {
+      try {
+        if (typeof localStorage !== 'undefined') {
+          resolvedAuthToken = localStorage.getItem('firebaseIdToken');
+        }
+      } catch {}
+    }
+    if (resolvedAuthToken) {
+      headers['Authorization'] = `Bearer ${resolvedAuthToken}`;
     }
 
     try {
@@ -176,6 +187,10 @@ class VertexAIGatewayService {
         headers,
         body: JSON.stringify({
           prompt,
+          contents: options.contents,
+          systemInstruction: options.systemInstruction
+            ? { parts: [{ text: options.systemInstruction }] }
+            : undefined,
           model: options.model || 'gemini-2.5-flash',
           temperature: options.temperature ?? 0.7,
           maxOutputTokens: options.maxOutputTokens ?? 2048,
@@ -241,13 +256,18 @@ class VertexAIGatewayService {
             generationConfig.responseSchema = options.responseSchema;
           }
           const reqBody: Record<string, any> = {
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            contents: options.contents || [{ role: 'user', parts: [{ text: prompt }] }],
             generationConfig
           };
+          if (options.systemInstruction) {
+            reqBody.systemInstruction = { parts: [{ text: options.systemInstruction }] };
+          }
           if (options.tools) {
             reqBody.tools = options.tools;
           }
-          const directJson = await fetchGeminiContent(clientApiKey, reqBody);
+          const directJson = await fetchGeminiContent(clientApiKey, reqBody, {
+            onStreamChunk: options.onStreamChunk
+          });
           const directParts = directJson?.candidates?.[0]?.content?.parts || [];
           const candidateText = directParts.find((p: any) => typeof p?.text === 'string')?.text || directJson?.candidates?.[0]?.content?.parts?.[0]?.text || '';
           const directToolCalls = directParts
@@ -285,8 +305,8 @@ class VertexAIGatewayService {
   }
 
   /**
-   * Executes a prompt with Stage 7 Function Calling support, dispatching any
-   * model-requested tool calls (or heuristic tool triggers when simulated) via toolExecutor.
+   * Executes a prompt with Stage 7 Multi-Turn Function Calling support (bounded max 3 hops),
+   * dispatching any model-requested tool calls (or heuristic tool triggers when simulated) via toolExecutor.
    */
   public async executeWithTools<T = any>(
     prompt: string,
@@ -294,16 +314,34 @@ class VertexAIGatewayService {
     toolExecutor: (call: { name: string; args: Record<string, any> }) => Promise<any>,
     options: AIRequestOptions = {}
   ): Promise<AIGatewayResponse<T>> {
-    const response = await this.generateContent<T>(prompt, {
+    const toolsPayload = toolDeclarations.length > 0 ? [{ functionDeclarations: toolDeclarations }] : undefined;
+    const conversationContents: Array<Record<string, any>> = options.contents
+      ? [...options.contents]
+      : [{ role: 'user', parts: [{ text: prompt }] }];
+
+    let response = await this.generateContent<T>(prompt, {
       ...options,
-      tools: [{ functionDeclarations: toolDeclarations }]
+      contents: conversationContents,
+      tools: toolsPayload
     });
 
     const executedCalls: Array<{ name: string; args: Record<string, any>; result?: any }> = [];
     const lowerPrompt = (prompt || '').toLowerCase();
+    const MAX_TOOL_HOPS = 3;
+    let hop = 0;
 
-    // Execute any functionCall parts returned by the model
-    if (Array.isArray(response.toolCalls) && response.toolCalls.length > 0 && typeof toolExecutor === 'function') {
+    // Multi-turn neuro-symbolic tool loop when backed by a live Gemini model
+    while (
+      !response.isSimulated &&
+      Array.isArray(response.toolCalls) &&
+      response.toolCalls.length > 0 &&
+      typeof toolExecutor === 'function' &&
+      hop < MAX_TOOL_HOPS
+    ) {
+      hop++;
+      const modelCallParts: Array<Record<string, any>> = [];
+      const functionResponseParts: Array<Record<string, any>> = [];
+
       for (const call of response.toolCalls) {
         const res = await toolExecutor({
           name: call.name,
@@ -314,31 +352,71 @@ class VertexAIGatewayService {
           args: call.args || {},
           result: res
         });
+        modelCallParts.push({
+          functionCall: {
+            name: call.name,
+            args: call.args || {}
+          }
+        });
+        functionResponseParts.push({
+          functionResponse: {
+            name: call.name,
+            response: { result: res }
+          }
+        });
+      }
+
+      conversationContents.push({ role: 'model', parts: modelCallParts });
+      conversationContents.push({ role: 'user', parts: functionResponseParts });
+
+      const followUp = await this.generateContent<T>(prompt, {
+        ...options,
+        contents: conversationContents,
+        tools: toolsPayload
+      });
+
+      if (followUp.success && !followUp.isSimulated) {
+        response = followUp;
+      } else {
+        break;
       }
     }
 
     // If simulated or if the prompt explicitly requests a registered Stage 7 tool capability,
     // deterministically invoke the matching tool so Stage 7 agents always ground their response.
     if (executedCalls.length === 0 && response.isSimulated && typeof toolExecutor === 'function') {
-      if (lowerPrompt.includes('economatrix') || lowerPrompt.includes('purchase dc') || lowerPrompt.includes('cost dc')) {
+      const allowedNames = new Set(toolDeclarations.map((d) => d.name));
+      if (
+        allowedNames.has('evaluate_economatrix_acquisition') &&
+        (lowerPrompt.includes('economatrix') || lowerPrompt.includes('purchase cr') || lowerPrompt.includes('purchase dc') || lowerPrompt.includes('cost cr') || lowerPrompt.includes('cost dc'))
+      ) {
         const res = await toolExecutor({
           name: 'evaluate_economatrix_acquisition',
-          args: { itemCostDc: 15, wealthScore: 12 }
+          args: { itemCr: 15, itemCostDc: 15, wealthScore: 12 }
         });
-        executedCalls.push({ name: 'evaluate_economatrix_acquisition', args: { itemCostDc: 15, wealthScore: 12 }, result: res });
-      } else if (lowerPrompt.includes('called shot') || lowerPrompt.includes('headshot')) {
+        executedCalls.push({ name: 'evaluate_economatrix_acquisition', args: { itemCr: 15, wealthScore: 12 }, result: res });
+      } else if (
+        allowedNames.has('resolve_called_shot') &&
+        (lowerPrompt.includes('called shot') || lowerPrompt.includes('headshot'))
+      ) {
         const res = await toolExecutor({
           name: 'resolve_called_shot',
           args: { targetLocation: 'head', incomingDamage: 18, armorDr: 4 }
         });
         executedCalls.push({ name: 'resolve_called_shot', args: { targetLocation: 'head', incomingDamage: 18, armorDr: 4 }, result: res });
-      } else if (lowerPrompt.includes('statblock') || lowerPrompt.includes('150 bp')) {
+      } else if (
+        allowedNames.has('query_bastion_for_statblock') &&
+        (lowerPrompt.includes('statblock') || lowerPrompt.includes('150 cp') || lowerPrompt.includes('150 bp'))
+      ) {
         const res = await toolExecutor({
           name: 'query_bastion_for_statblock',
           args: { concept: prompt, species: 'Human', techLevel: 3 }
         });
         executedCalls.push({ name: 'query_bastion_for_statblock', args: { concept: prompt, species: 'Human', techLevel: 3 }, result: res });
-      } else if (lowerPrompt.includes('tactic') || lowerPrompt.includes('adversary')) {
+      } else if (
+        allowedNames.has('synthesize_adversary_tactic') &&
+        (lowerPrompt.includes('tactic') || lowerPrompt.includes('adversary'))
+      ) {
         const res = await toolExecutor({
           name: 'synthesize_adversary_tactic',
           args: { adversary: { id: 'adv_1', label: 'Syndicate Skirmisher', health: { current: 30, max: 30 } }, heroes: [] }
@@ -373,10 +451,10 @@ class VertexAIGatewayService {
         skills: {
           Firearms: 5,
           Athletics: 5,
-          Perception: 4,
+          Alertness: 4,
           Electronics: 4,
           Stealth: 4,
-          FirstAid: 4,
+          Computers: 4,
           Demolitions: 4,
           Piloting: 4,
           Survival: 4,
@@ -387,6 +465,7 @@ class VertexAIGatewayService {
           Security: 5
         },
         vitals: { health: 30, vitality: 30, structure: 60 },
+        totalCp: 150,
         totalBp: 150,
         isValid: true
       };

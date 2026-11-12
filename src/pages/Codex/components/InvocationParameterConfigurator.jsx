@@ -27,7 +27,12 @@ import {
 } from '../../../engines/tangentConstants';
 import { calculateInvocationDC, getSkillStageFromDC, calculateEssenceCost } from '../../../engines/tangentEntityEngines';
 
-export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => {
+export const InvocationParameterConfigurator = ({ formData = {}, onChange, stepSection = 'all' }) => {
+  const showFoundation = stepSection === 'all' || stepSection === 'foundation';
+  const showParameters = stepSection === 'all' || stepSection === 'parameters';
+  const showScaling = stepSection === 'all' || stepSection === 'scaling';
+  const showCriticals = stepSection === 'all' || stepSection === 'criticals';
+
   const isSpecialAbility = Boolean(formData.isSpecialAbility ?? formData.is_special_ability ?? formData.powerType === 'special_ability' ?? false);
   const selectedFoundationAttr = formData.foundationAttribute || formData.foundation_attribute || formData.baseAttr || 'attr-intellect';
   const foundAttrObj = SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES.find(a => a.id === selectedFoundationAttr) || SPECIAL_ABILITY_FOUNDATION_ATTRIBUTES[0];
@@ -164,6 +169,8 @@ export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => 
       </div>
 
       {/* CLASSIFICATION INDICATOR TOGGLE: Specialization Invocation vs Stand-Alone Special Ability */}
+      {showFoundation && (
+      <>
       <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <label className="text-[10px] uppercase font-bold text-slate-300 flex items-center gap-1.5">
@@ -284,8 +291,12 @@ export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => 
           </p>
         </div>
       </div>
+      </>
+      )}
 
       {/* Parameter Buttons Grid: Time, Range, AoE, Duration */}
+      {showParameters && (
+      <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Activation Time */}
         <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
@@ -443,8 +454,11 @@ export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => 
           })}
         </div>
       </div>
+      </>
+      )}
 
       {/* Skill Stages & Scaling Algorithm Preview */}
+      {showScaling && (
       <div className="p-3.5 bg-slate-950/90 rounded-xl border border-purple-500/30 space-y-2.5">
         <div className="flex items-center justify-between border-b border-slate-800 pb-2">
           <div className="flex items-center gap-2">
@@ -493,7 +507,82 @@ export const InvocationParameterConfigurator = ({ formData = {}, onChange }) => 
             );
           })}
         </div>
+
+        <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[10.5px] font-mono">
+          <span className="text-slate-300">
+            Canonical Essence Cost (<code className="text-amber-300">ceil(CR / 5)</code>):{' '}
+            <strong className="text-emerald-400">{Math.max(1, Math.ceil(finalDC / 5))} Essence</strong>
+          </span>
+          <span className="text-slate-400">
+            Overchannel Burn: +1 Vitality Strain per +1 CR pushed beyond Focus Pool
+          </span>
+        </div>
       </div>
+      )}
+
+      {/* Critical Surge (Double 10s +10) & Psychic Backlash (Double 1s -10) */}
+      {showCriticals && (
+        <div className="p-3.5 bg-slate-950/90 rounded-xl border border-rose-500/35 space-y-3">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-300">
+              <Flame size={14} className="text-rose-400" />
+              <span>2d10 Dual Resolution — Critical Surge & Psychic Backlash</span>
+            </div>
+            <span className="text-[10px] text-amber-300">Double 10s (+10) / Double 1s (-10)</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <label className="text-[10px] uppercase font-bold text-emerald-300 block">
+                Critical Triumph Surge (Double 10s)
+              </label>
+              <input
+                type="text"
+                value={formData.critical_surge || formData.critical_success || ''}
+                onChange={(e) => {
+                  onChange('critical_surge', e.target.value);
+                  onChange('critical_success', e.target.value);
+                }}
+                placeholder="E.g., Refund Essence cost and maximize AoE/potency"
+                className="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] uppercase font-bold text-rose-300 block">
+                Psychic Backlash Fumble (Double 1s)
+              </label>
+              <input
+                type="text"
+                value={formData.psychic_backlash || formData.critical_failure || ''}
+                onChange={(e) => {
+                  onChange('psychic_backlash', e.target.value);
+                  onChange('critical_failure', e.target.value);
+                }}
+                placeholder="E.g., Suffer 1d10 unresisted Vitality Strain & Dazed (1 rd)"
+                className="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-slate-200"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[10px] uppercase font-bold text-cyan-300 block">
+                Target Defense / Save Resistance
+              </label>
+              <select
+                value={formData.save_type || formData.resistance || 'Opposed Active Defense'}
+                onChange={(e) => onChange('save_type', e.target.value)}
+                className="w-full p-2 bg-slate-900 border border-slate-700 rounded-xl text-xs text-cyan-200"
+              >
+                <option value="Opposed Active Defense">Opposed Active Defense (2d10)</option>
+                <option value="Willpower Save">Willpower Save</option>
+                <option value="Fortitude Save">Fortitude Save</option>
+                <option value="Reflex Save">Reflex Save</option>
+                <option value="Unopposed / Utility">Unopposed / Utility</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -684,23 +684,6 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                     </div>
                   </button>
 
-                  {/* ADE */}
-                  <button
-                    type="button"
-                    onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
-                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
-                      isFoundry ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
-                    }`}
-                  >
-                    <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-300">
-                      <Layers size={16} />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-xs">ADE</div>
-                      <div className="text-[10px] text-slate-400">Story Weaver, Elements & Campaign Studio</div>
-                    </div>
-                  </button>
-
                   {/* NETWORK */}
                   <button
                     type="button"
@@ -722,6 +705,23 @@ export const GlobalHUD = ({ onToggleDiceDock, isDiceDockOpen, onToggleBastion, i
                         )}
                       </div>
                       <div className="text-[10px] text-slate-400">Tactical Teams, CommLink & Operator Relay</div>
+                    </div>
+                  </button>
+
+                  {/* ADE */}
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isFoundry ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-300">
+                      <Layers size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">ADE</div>
+                      <div className="text-[10px] text-slate-400">Story Weaver, Elements & Campaign Studio</div>
                     </div>
                   </button>
                 </div>

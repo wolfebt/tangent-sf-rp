@@ -11,16 +11,16 @@ import { AudioService } from '../../services/audioService';
 import {
   Users,
   BookOpen,
+  Database,
   Radio,
-  Layers,
-  Database
+  Layers
 } from 'lucide-react';
 
 /**
  * @file GlobalSideRail.jsx
  * @description Unified left-side guide rail for wider views (sm+):
  * - On the Landing Page (/ or /dashboard): Renders as an expanded drawer docked on the left side showing the Tactical Briefing.
- * - On App Pages (folio, rules, network, ade, cortex): Renders as a compact guide rail with icons and labels.
+ * - On App Pages (folio, rules, cortex, network, ade): Renders as a compact guide rail with icons and labels.
  */
 export const GlobalSideRail = () => {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ export const GlobalSideRail = () => {
     );
   }
 
-  // Persistent navigation items for app pages (Folio, Rules, Network, ADE, Cortex)
+  // Persistent navigation items for app pages (Folio, Rules, Cortex, Network, ADE)
   const globalNavItems = [
     {
       id: 'folio',
@@ -113,6 +113,19 @@ export const GlobalSideRail = () => {
       }
     },
     {
+      id: 'cortex',
+      label: 'CORTEX',
+      sublabel: 'Master Database, Catalogs & Galactic Lore',
+      icon: Database,
+      colorTheme: 'amber',
+      onMouseEnter: () => {
+        loadCompendiumCatalog();
+      },
+      onClick: () => {
+        navigate('/dbm');
+      }
+    },
+    {
       id: 'network',
       label: 'NETWORK',
       sublabel: hasNewOperatorLogins
@@ -142,19 +155,6 @@ export const GlobalSideRail = () => {
       colorTheme: 'purple',
       onClick: () => {
         navigate('/foundry');
-      }
-    },
-    {
-      id: 'cortex',
-      label: 'CORTEX',
-      sublabel: 'Master Database, Catalogs & Galactic Lore',
-      icon: Database,
-      colorTheme: 'amber',
-      onMouseEnter: () => {
-        loadCompendiumCatalog();
-      },
-      onClick: () => {
-        navigate('/dbm');
       }
     }
   ];

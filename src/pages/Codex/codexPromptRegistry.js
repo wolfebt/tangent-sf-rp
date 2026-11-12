@@ -24,7 +24,9 @@ import {
   Compass,
   UserCheck,
   Flame,
-  Scale
+  Scale,
+  Globe,
+  Dna
 } from 'lucide-react';
 
 /**
@@ -2269,11 +2271,451 @@ export const OMNICORTEX_DATASETS = [
       tags: ["combat", "called shots", "head", "arms", "legs", "optics", "trauma", "major wound"],
       status: "pending_approval"
     }
+  },
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ADDITIONAL EXPLICIT ASSET DATASETS (ZERO CROSS-ASSET FALLBACK LEAKS)
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    key: 'trait',
+    code: 'PROMPT T1',
+    label: 'Species Traits & Biological Adaptations',
+    matrixId: 'trait',
+    targetCollection: 'trait',
+    icon: Dna,
+    color: '#10b981',
+    description: 'Parse biological, synthetic, sensory, and evolutionary Species Traits (Basic 1 CP, Advanced 2 CP, Elite 4 CP).',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIES TRAIT PARSER
+Output ONLY a JSON array of Species Trait objects with keys: name, trait_type ("Species Trait"), trait_tier ("Basic" | "Advanced" | "Elite"), classification ("Physical" | "Mental" | "Sensory" | "Combat" | "Metaphysical"), cp (1 | 2 | 4), description, mechanic, modifiers.`,
+    expectedKeys: ['name', 'trait_type', 'trait_tier', 'classification', 'cp', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Active Camouflage',
+      trait_type: 'Species Trait',
+      trait_tier: 'Advanced',
+      classification: 'Sensory',
+      cp: 2,
+      description: 'Chromatophore dermal cells bend ambient light spectra around the organism.',
+      mechanic: '+4 bonus to Stealth checks; may hide without cover while stationary.'
+    }
+  },
+  {
+    key: 'species_lineage',
+    code: 'PROMPT SL',
+    label: 'Species Lineages & Bloodlines',
+    matrixId: 'species_lineage',
+    targetCollection: 'species_lineage',
+    icon: Dna,
+    color: '#10b981',
+    description: 'Parse ancestral species bloodlines, base heritage CP packages, subspecies castes, and taxonomic families.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIES LINEAGE PARSER
+Output ONLY a JSON array of Species Lineage objects with keys: name, cp, base_chassis, inherent_traits, subspecies, stigma, tech_level, meta_level, description, mechanic.`,
+    expectedKeys: ['name', 'cp', 'base_chassis', 'inherent_traits', 'subspecies', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Aeld',
+      cp: 5,
+      base_chassis: 'Humanoid (0 CP)',
+      inherent_traits: 'Awakened (Arcane) [2 CP], Longevity [1 CP], Sleepless [2 CP]',
+      subspecies: 'Alterian, Draconian, Kovian, Vajar',
+      description: 'Ancient starfaring lineage attuned to metaphysical resonance.',
+      mechanic: 'Grants base lineage package before subspecies adaptations.'
+    }
+  },
+  {
+    key: 'species_type',
+    code: 'PROMPT ST',
+    label: 'Species Chassis Types',
+    matrixId: 'species_type',
+    targetCollection: 'species_type',
+    icon: Dna,
+    color: '#10b981',
+    description: 'Parse canonical Species Chassis Types defining baseline biological, synthetic, or metaphysical physiology.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIES CHASSIS TYPE PARSER
+Output ONLY a JSON array of Species Chassis Type objects with keys: name, bp, senses, immunities, physiology, description, mechanic.`,
+    expectedKeys: ['name', 'bp', 'senses', 'immunities', 'physiology', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Synthetic',
+      bp: 10,
+      senses: 'Full-spectrum optical & telemetry suite',
+      immunities: 'Poison, biological disease, vacuum suffocation',
+      physiology: 'Requires power cells and maintenance instead of food or sleep.',
+      description: 'Engineered mechanical or cybernetic chassis frame.',
+      mechanic: 'Repaired via Mechanics checks rather than biological Medicine.'
+    }
+  },
+  {
+    key: 'species_size',
+    code: 'PROMPT SS',
+    label: 'Species Size & Scaling Categories',
+    matrixId: 'species_size',
+    targetCollection: 'species_size',
+    icon: Scale,
+    color: '#10b981',
+    description: 'Parse canonical 14-Tier Species Sizes, spatial footprints, and combat/stealth scaling multipliers.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIES SIZE PARSER
+Output ONLY a JSON array of Species Size objects with keys: name, cp, scaling, scaling_display, strength_mod, combat_mod, stealth_mod, reach, height_length_range, weight_range, description.`,
+    expectedKeys: ['name', 'cp', 'scaling', 'strength_mod', 'combat_mod', 'stealth_mod', 'reach', 'description'],
+    sampleItem: {
+      name: 'Large',
+      cp: 2,
+      scaling: 2.0,
+      scaling_display: '2x Base',
+      strength_mod: 4,
+      combat_mod: -1,
+      stealth_mod: -4,
+      reach: '10 ft',
+      description: 'Heavy megafauna or towering bipedal chassis.'
+    }
+  },
+  {
+    key: 'species_movement',
+    code: 'PROMPT SM',
+    label: 'Species Movement Modes & Paces',
+    matrixId: 'species_movement',
+    targetCollection: 'species_movement',
+    icon: Compass,
+    color: '#10b981',
+    description: 'Parse locomotion modes, speed modifiers, and tactical movement paces.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIES MOVEMENT PARSER
+Output ONLY a JSON array of Movement Mode objects with keys: name, classification, target_mode, cp, speed, speed_modifier, multiplier, description.`,
+    expectedKeys: ['name', 'classification', 'target_mode', 'cp', 'speed', 'description'],
+    sampleItem: {
+      name: 'Winged Flight',
+      classification: 'advanced',
+      target_mode: 'Flying',
+      cp: 4,
+      speed: 30,
+      description: 'Sustained atmospheric flight via biological wings or grav-thrusters.'
+    }
+  },
+  {
+    key: 'companions',
+    code: 'PROMPT C1',
+    label: 'Companions & Familiars',
+    matrixId: 'companions',
+    targetCollection: 'companions',
+    icon: Users,
+    color: '#fb923c',
+    description: 'Parse biological beasts, synthetic drones, metaphysical familiars, symbionts, and mounts with Form & Function packages.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX COMPANIONS PARSER
+Output ONLY a JSON array of Companion objects with keys: name, companion_type, form_package, function_packages, size, owner_tier, companion_rank, cp, description, mechanic.`,
+    expectedKeys: ['name', 'companion_type', 'form_package', 'function_packages', 'size', 'cp', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'K-9 Cyber-Hound Mk IV',
+      companion_type: 'Synthetic Drone / Automaton',
+      form_package: 'Quadruped / Predator',
+      function_packages: ['Recon / Scout', 'Guardian'],
+      size: 'Medium',
+      owner_tier: 2,
+      companion_rank: 3,
+      cp: 3,
+      description: 'Armored quadruped sensor-hound linked to its handler via encrypted neural telemetry.',
+      mechanic: 'Grants +2 Perception watch perimeter and 1d8 bite/taser grapple.'
+    }
+  },
+  {
+    key: 'modular_characters',
+    code: 'PROMPT MC',
+    label: 'Modular Characters & Adversaries',
+    matrixId: 'modular-characters',
+    targetCollection: 'modular_characters',
+    icon: Users,
+    color: '#3b82f6',
+    description: 'Parse NPC statblocks, tactical adversary templates, security squads, bosses, and synthetic operators.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX MODULAR CHARACTER PARSER
+Output ONLY a JSON array of Modular Character statblock objects with keys: name, threatTier, competencyRole, designation, bossType, sizeCategory, tech_level, meta_level, threat_rating, description, mechanic.`,
+    expectedKeys: ['name', 'threatTier', 'competencyRole', 'designation', 'bossType', 'tech_level', 'threat_rating', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Syndicate Ghost Infiltrator',
+      threatTier: 4,
+      competencyRole: 'Assassin',
+      designation: 'Adversary',
+      bossType: 'Standard',
+      sizeCategory: 'Medium',
+      tech_level: 4,
+      meta_level: 1,
+      threat_rating: 20,
+      description: 'Thermoptic-cloaked corporate wetwork operative armed with silenced flechette pistols.',
+      mechanic: 'Ambush Strike (+2d6 damage vs flat-footed targets); Thermoptic Cloak (+4 Stealth).'
+    }
+  },
+  {
+    key: 'special_abilities',
+    code: 'PROMPT SA',
+    label: 'Special Abilities (5 CP Matrix)',
+    matrixId: 'special_abilities',
+    targetCollection: 'special_abilities',
+    icon: Sparkles,
+    color: '#facc15',
+    description: 'Parse standalone Special Abilities (5 CP base) built on Attribute Foundations and the 5-Step Invocation Matrix.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIAL ABILITIES PARSER
+Output ONLY a JSON array of Special Ability objects with keys: name, isSpecialAbility (true), foundationAttribute, discipline, focus, meta_level, manifestation_dc, focus_cost, cp (5), description, mechanic.`,
+    expectedKeys: ['name', 'foundationAttribute', 'discipline', 'focus', 'manifestation_dc', 'focus_cost', 'cp', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Aetheric Resonance Pulse',
+      isSpecialAbility: true,
+      foundationAttribute: 'attr-wisdom',
+      discipline: 'Energy',
+      focus: 'Kinesis',
+      meta_level: 2,
+      manifestation_dc: 15,
+      focus_cost: 3,
+      cp: 5,
+      description: 'Releases a focused shockwave of harmonic aether from the caster.',
+      mechanic: 'CR 15 Wisdom + Rank check; 2d8 Force damage in 15 ft cone, Essence cost 3.'
+    }
+  },
+  {
+    key: 'meta-tech',
+    code: 'PROMPT MT',
+    label: 'Meta-Tech & Anomalous Artifacts',
+    matrixId: 'meta-tech',
+    targetCollection: 'gear',
+    icon: Zap,
+    color: '#a855f7',
+    description: 'Parse psi-amplifiers, imbued resonance weaponry, void-drive artifacts, and quantum catalyst devices.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX META-TECH PARSER
+Output ONLY a JSON array of Meta-Tech artifact objects with keys: name, enhancement_type ("Passive" | "Active" | "Consumable" | "Amplifier"), tech_level, meta_level, craft_dc, cost, description, mechanic.`,
+    expectedKeys: ['name', 'enhancement_type', 'tech_level', 'meta_level', 'craft_dc', 'cost', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Chrono-Harmonic Resonance Engine',
+      enhancement_type: 'Active',
+      tech_level: 4,
+      meta_level: 3,
+      craft_dc: 28,
+      cost: 20480,
+      description: 'Crystalline phase-capacitor that briefly dilates local reaction windows.',
+      mechanic: '1/scene spend 2 Focus to gain an extra Move Action; Backlash on natural 1.'
+    }
+  },
+  {
+    key: 'planetary_design',
+    code: 'PROMPT PD',
+    label: 'Planetary Design & Star Systems',
+    matrixId: 'planetary-design',
+    targetCollection: 'planetary_design',
+    icon: Globe,
+    color: '#10b981',
+    description: 'Parse star systems, planetary UWP telemetry, biomes, starports, settlements, and environmental hazards.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX PLANETARY DESIGN PARSER
+Output ONLY a JSON array of Planetary Design objects with keys: name, planet_type, starClass, starport, size, atmosphere, hydrography, population, techLevel, metaLevel, dominant_faction, survey_dc, settlements, hazards, description, mechanic.`,
+    expectedKeys: ['name', 'planet_type', 'starport', 'techLevel', 'dominant_faction', 'survey_dc', 'settlements', 'hazards', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Valerius-9 Arcology Prime',
+      planet_type: 'Ecumenopolis (City Planet)',
+      starClass: 'G',
+      starport: 'A',
+      techLevel: 4,
+      metaLevel: 1,
+      dominant_faction: 'The Syndicate',
+      survey_dc: 20,
+      settlements: 'Spire Meridian, Orbital Ring Alpha',
+      hazards: 'Acid rain inversions, lower-undercity radiation',
+      description: 'A continent-spanning corporate ecumenopolis crowned by orbital tether rings.',
+      mechanic: 'CR 20 Survival/Streetwise in Undercity sectors; Class A Starport shipyard access.'
+    }
+  },
+  {
+    key: 'world',
+    code: 'PROMPT W1',
+    label: 'World Profiles & UWP',
+    matrixId: 'world',
+    targetCollection: 'world',
+    icon: Globe,
+    color: '#818cf8',
+    description: 'Parse world profiles, Universal World Profile (UWP) codes, geography, biospheres, and planetary cultures.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX WORLD PROFILE PARSER
+Output ONLY a JSON array of World Profile objects with keys: name, universe, uwp, starport, size, atmosphere, population, tech_level, meta_level, highConcept, geography, culture, description.`,
+    expectedKeys: ['name', 'uwp', 'starport', 'tech_level', 'meta_level', 'highConcept', 'geography', 'culture', 'description'],
+    sampleItem: {
+      name: 'Auriga Prime',
+      universe: 'Tangent Space Continuum',
+      uwp: 'A647944-4',
+      starport: 'A',
+      tech_level: 4,
+      meta_level: 2,
+      highConcept: 'Tidally locked twilight trade hub bridging Core and Frontier lanes.',
+      geography: 'Habitable terminator ribbon between sun-scorched wastes and darkside glaciers.',
+      culture: 'Cosmopolitan mercantile guilds and solar-harvester syndicates.',
+      description: 'Strategic crossroads world renowned for terminator-belt spire cities.'
+    }
+  },
+  {
+    key: 'universe',
+    code: 'PROMPT U1',
+    label: 'Universe & Cosmology',
+    matrixId: 'universe',
+    targetCollection: 'universe',
+    icon: Sparkles,
+    color: '#818cf8',
+    description: 'Parse cosmological frameworks, dimensional planes, FTL physics, and overarching genre pillars.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX UNIVERSE & COSMOLOGY PARSER
+Output ONLY a JSON array of Universe objects with keys: name, scale, laws_of_physics, thematicTone, description, note.`,
+    expectedKeys: ['name', 'scale', 'laws_of_physics', 'thematicTone', 'description'],
+    sampleItem: {
+      name: 'Tangent Space Continuum',
+      scale: 'Galaxy',
+      laws_of_physics: 'Relativistic starflight bridged by Tangent Jump Lanes and Aetheric Metaphysics.',
+      thematicTone: 'Hard-edged tactical science fantasy with corporate intrigue and ancient precursors.',
+      description: 'Primary campaign continuum spanning Core Hegemonies and Frontier Sectors.'
+    }
+  },
+  {
+    key: 'setting',
+    code: 'PROMPT STG',
+    label: 'Settings & Locations',
+    matrixId: 'setting',
+    targetCollection: 'setting',
+    icon: Globe,
+    color: '#818cf8',
+    description: 'Parse stations, cities, outposts, landmarks, points of interest, and local environmental rules.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SETTING & LOCATION PARSER
+Output ONLY a JSON array of Setting objects with keys: name, world, points_of_interest, localRulesHazards, description, note.`,
+    expectedKeys: ['name', 'world', 'points_of_interest', 'localRulesHazards', 'description'],
+    sampleItem: {
+      name: 'Port Meridian Free-Station',
+      world: 'Auriga Orbit',
+      points_of_interest: 'Spindle Bazaar, Drydock Zero, Black-Box Exchange',
+      localRulesHazards: 'Strict heavy-weapon peace-bonding (Law Level 6); microgravity in Cargo Ring C.',
+      description: 'Bustling rotating freeport serving smugglers, marshals, and deep-void prospectors.'
+    }
+  },
+  {
+    key: 'philosophy',
+    code: 'PROMPT PH',
+    label: 'Philosophies & Religions',
+    matrixId: 'philosophy',
+    targetCollection: 'philosophy',
+    icon: BookOpen,
+    color: '#818cf8',
+    description: 'Parse belief systems, philosophical dogmas, metaphysical creeds, and sacred rituals.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX PHILOSOPHY & RELIGION PARSER
+Output ONLY a JSON array of Philosophy objects with keys: name, origin, coreDogmaTenets, practices, description, note.`,
+    expectedKeys: ['name', 'origin', 'coreDogmaTenets', 'practices', 'description'],
+    sampleItem: {
+      name: 'Creed of the Sol Invictus',
+      origin: 'Radiant Impyrium Core Worlds',
+      coreDogmaTenets: 'Stellar light is conscious order; entropy and void-corruption must be purified.',
+      practices: 'Dawn solar meditations, plasma-forge consecrations, and truth-oath tribunals.',
+      description: 'State metaphysical creed uniting civic duty with luminous solar mysticism.'
+    }
+  },
+  {
+    key: 'scene',
+    code: 'PROMPT SCN',
+    label: 'Scenes & Encounters (AIME)',
+    matrixId: 'scene',
+    targetCollection: 'scene',
+    icon: Compass,
+    color: '#818cf8',
+    description: 'Parse dramatic AIME scenes, read-aloud hooks, location beats, and tactical CR checks.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX AIME SCENE PARSER
+Output ONLY a JSON array of Scene objects with keys: name, scene_type, dramatic_hook, setting_location, description, mechanic, note.`,
+    expectedKeys: ['name', 'scene_type', 'dramatic_hook', 'setting_location', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Decompression at Spindle Dock 7',
+      scene_type: 'Action / Combat',
+      dramatic_hook: 'Saboteurs blow the docking clamps while syndicate enforcers breach the airlock.',
+      setting_location: 'Port Meridian — Cargo Ring C',
+      description: 'Three escalating beats across failing gravity plates and venting atmosphere.',
+      mechanic: 'CR 16 Athletics/Zero-G check each round near breach; CR 18 Computers to seal blast doors.'
+    }
+  },
+  {
+    key: 'societies',
+    code: 'PROMPT SOC',
+    label: 'Civilization & Society Spheres',
+    matrixId: 'societies',
+    targetCollection: 'societies',
+    icon: Building,
+    color: '#2dd4bf',
+    description: 'Parse civilization spheres, governance stages (0-5), citizen rights, and enforcement doctrines.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SOCIETY SPHERE PARSER
+Output ONLY a JSON array of Society Sphere objects with keys: name, stage, code, rights, enforcement, description, mechanic.`,
+    expectedKeys: ['name', 'stage', 'code', 'rights', 'enforcement', 'description', 'mechanic'],
+    sampleItem: {
+      name: 'Cyberocratic Mesh Consensus',
+      stage: 4,
+      code: '4',
+      rights: 'Tiered algorithmic citizenship tied to civic credit telemetry.',
+      enforcement: 'Automated contract arbitration and drone peacekeepers.',
+      description: 'High-trust networked governance administered through real-time consensus protocols.',
+      mechanic: '+2 Bureaucracy & Computers checks for registered citizens; -2 Streetwise illicit trade.'
+    }
   }
 ];
 
+const DATASET_KEY_ALIASES = {
+  armor: 'armoring',
+  equipment: 'gear',
+  personal_property: 'gear',
+  'modular-characters': 'modular_characters',
+  threats: 'modular_characters',
+  bestiary: 'modular_characters',
+  'planetary-design': 'planetary_design',
+  planets: 'planetary_design',
+  world_design: 'world',
+  invocation: 'invocations',
+  special_ability: 'special_abilities',
+  species_traits: 'trait',
+  faction: 'factions',
+  origin: 'origins',
+  occupation: 'occupations',
+  archetype: 'archetypes',
+  companion: 'companions',
+  discipline: 'disciplines',
+  disadvantage: 'disadvantages',
+  feature: 'features',
+  skill: 'skills',
+  metatech: 'meta-tech'
+};
+
 export const getDatasetByKey = (key) => {
-  return OMNICORTEX_DATASETS.find(d => d.key === key) || OMNICORTEX_DATASETS[0];
+  if (!key) return OMNICORTEX_DATASETS[0];
+  const rawKey = String(key).trim();
+  const lowerKey = rawKey.toLowerCase();
+  const resolvedKey = DATASET_KEY_ALIASES[rawKey] || DATASET_KEY_ALIASES[lowerKey] || lowerKey;
+
+  const exact = OMNICORTEX_DATASETS.find(
+    (d) => d.key === rawKey || d.key.toLowerCase() === resolvedKey || d.matrixId === rawKey
+  );
+  if (exact) return exact;
+
+  if (lowerKey.startsWith('society_')) {
+    const sphereLabel = rawKey
+      .replace(/^society_/i, '')
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+    const baseSoc = OMNICORTEX_DATASETS.find((d) => d.key === 'societies');
+    return {
+      ...baseSoc,
+      key: rawKey,
+      label: `Society Sphere: ${sphereLabel}`,
+      matrixId: rawKey,
+      targetCollection: rawKey
+    };
+  }
+
+  // Dynamic asset-explicit fallback for schema/reference collections (never leak Species!)
+  const humanLabel = rawKey
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return {
+    key: rawKey,
+    code: `SCHEMA: ${rawKey.toUpperCase()}`,
+    label: `${humanLabel} Records`,
+    matrixId: rawKey,
+    targetCollection: rawKey,
+    icon: HelpCircle,
+    color: '#38bdf8',
+    description: `Parse structured ${humanLabel} records or raw reference text into the ${rawKey} collection.`,
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX ${humanLabel.toUpperCase()} PARSER\nOutput ONLY a valid JSON array of ${humanLabel} objects containing at minimum: name, description, mechanic, note.`,
+    expectedKeys: ['name', 'description', 'mechanic', 'note'],
+    sampleItem: {
+      name: `Sample ${humanLabel} Entry`,
+      description: `Canonical ${humanLabel} definition for Tangent SF RP.`,
+      mechanic: `Structured rules and operational parameters for ${humanLabel}.`,
+      note: 'Reviewed by Architect.'
+    }
+  };
 };
 
 /**

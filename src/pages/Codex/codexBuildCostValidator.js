@@ -2579,50 +2579,59 @@ export function evaluateAssetBuildCost(data = {}, categoryOrMatrixId = 'equipmen
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 9. SKILLS CATALOG (1 SP/Rank, Governing Attribute & 6 Mastery Stages Rank 1–30)
+  // 9. SKILLS CATALOG (Base Rank 0–20 at 1 SP/Rank + Specialization Sub-Skill 0–10 = 21–30 Effective)
   // ─────────────────────────────────────────────────────────────────────────
   if (key === 'skills' || key === 'skill') {
     const attr = toCleanString(
       data.governing_attribute || data.baseAttr || data.attribute,
       'Intellect'
     ).replace(/^attr-/, '').toUpperCase();
-    const group = toCleanString(data.group || data.category || data.subtype, 'General');
+    const rawGroup = toCleanString(
+      data.group || data.type || (data.category && String(data.category).toLowerCase() !== 'skills' ? data.category : ''),
+      'General'
+    );
+    const rawSubtype = toCleanString(data.subtype, '');
+    const formatCap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
+    const group = rawSubtype && rawSubtype.toLowerCase() !== rawGroup.toLowerCase()
+      ? `${formatCap(rawGroup)} (${formatCap(rawSubtype)})`
+      : formatCap(rawGroup);
     const specs = parseList(data.specialties || data.specializations);
+    const specNames = specs.map((s) => String(s).split(':')[0].trim()).filter(Boolean);
 
     return {
-      title: 'Skill SP & 6 Mastery Stages Check',
+      title: 'Skill & Specialization Economy',
       isProperty: false,
       unit: 'SP',
-      primaryCostLabel: '1 SP / Rank (1–30)',
-      primaryValue: '1 SP / Rank (1–30)',
+      primaryCostLabel: '1 SP / Rank (0–20)',
+      primaryValue: '1 SP / Rank (0–20)',
       secondaryLabel: `${attr} • ${group}`,
       expectedValue: 1,
       actualValue: 1,
       status: 'valid',
-      statusLabel: '✓ 6 MASTERY STAGES (RANK 1–30) VERIFIED',
-      summary: '✓ 6 MASTERY STAGES (RANK 1–30) VERIFIED',
-      formulaSummary: '2d10 + Governing Attribute + Skill Rank vs. CR | 6 Mastery Stages (Rank 1–30, Pinnacle 26–30 Advantage) | Specialty = +2 Bonus',
+      statusLabel: '✓ BASE 0–20 + SPEC 0–10 (MAX 30) VERIFIED',
+      summary: '✓ BASE 0–20 + SPEC 0–10 (MAX 30) VERIFIED',
+      formulaSummary: '2d10 + Governing Attribute + Base Skill (0–20) + Specialization (0–10, max 1 viable) vs. CR | 1 SP/CP per Rank | 21–30 Requires Skill + Spec',
       breakdown: [
         {
           label: 'Governing Attribute',
           value: attr,
-          target: '2d10 + Attr + Rank',
+          target: '2d10 + Attr + Skill (+ Spec)',
           status: 'valid',
           note: `Skill Group: ${group}`
         },
         {
-          label: '6 Mastery Stages (Rank 1–30)',
-          value: 'Novice (1–5) → Pinnacle (26–30)',
-          target: 'Pinnacle 26–30 Advantage',
+          label: 'Base Skill Ranks (0–20)',
+          value: '1 SP / Rank (Max 20)',
+          target: 'Creation Cap: Rank 11',
           status: 'valid',
-          note: 'Novice 1–5, Trained 6–10, Expert 11–15, Master 16–20, Grandmaster 21–25, Pinnacle 26–30 (Advantage)'
+          note: 'Untrained 0, Novice 1–5, Trained 6–10, Expert 11–15 (Cap 11), Master 16–20'
         },
         {
-          label: 'Defined Specializations (+2)',
-          value: `${specs.length} Specialties`,
-          target: 'Focus Options',
+          label: 'Specialization Sub-Skill',
+          value: 'Rank 0–10 (1 SP/Rank)',
+          target: 'Max 1 Viable • Unlocks 21–30',
           status: 'valid',
-          note: specs.slice(0, 4).join(', ') || 'Standard skill checks'
+          note: `Built-up sub-skill adding to Base Skill (max 1 viable) for Grandmaster 21–25 & Pinnacle 26–30${specNames.length ? ` • ${specNames.length} Specialties: ${specNames.slice(0, 4).join(', ')}` : ''}`
         }
       ],
       syncPatch: null

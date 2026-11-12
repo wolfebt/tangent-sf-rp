@@ -4,7 +4,18 @@ import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
 import { useDBM } from '../../context/DBMContext';
-import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import {
+  ALL_CANONICAL_SKILLS,
+  CANONICAL_SKILL_GROUP_ITEMS,
+  SKILL_SUBCATEGORY_FILTERS,
+  SKILL_ATTRIBUTE_FILTERS,
+  buildNormalizedSkillsCatalog
+} from '../../data/skillsData';
+import {
+  DEFAULT_FEATURES,
+  FEATURE_CATEGORIES,
+  buildNormalizedFeaturesCatalog
+} from '../../data/featuresData';
 import { ALL_SPECIES_TRAITS, ALL_PILLAR_TRAITS } from '../../data/speciesTraitsData';
 import { getSizeTierIndex } from '../../data/speciesSizeData';
 import { getMovementClassification, getMovementClassificationOrderIndex } from '../../data/speciesMovementData';
@@ -44,14 +55,7 @@ export const FEATURE_CATEGORY_ITEMS = [
   { id: 'cat_special_abilities', name: 'Special Abilities', type: 'Category Group', description: 'Operator may choose any feature classified under Special Abilities.' }
 ];
 
-export const SKILL_GROUP_ITEMS = [
-  { id: 'grp_any_skill', name: 'Any Skill', type: 'Skill Group', description: 'Operator may choose any skill from the full skill database.' },
-  { id: 'grp_physical_skills', name: 'Physical Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Physical skill group.' },
-  { id: 'grp_mental_skills', name: 'Mental Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Mental skill group.' },
-  { id: 'grp_social_skills', name: 'Social Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Social skill group.' },
-  { id: 'grp_combat_skills', name: 'Combat Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Combat skill group.' },
-  { id: 'grp_meta_skills', name: 'Meta Skills', type: 'Skill Group', description: 'Operator may choose any skill belonging to the Meta skill group.' }
-];
+export const SKILL_GROUP_ITEMS = CANONICAL_SKILL_GROUP_ITEMS;
 
 export const CANONICAL_TECH_LEVEL_ITEMS = [
   { id: 'tl_0', name: 'TL 0', title: 'Stone Age / Primitive', type: 'Tech Level', level: 0, description: 'Primitive tools, fire, stone, muscle and wind power. Pre-industrial societies.' },
@@ -177,7 +181,9 @@ export const UnifiedRelationalSelectorModal = ({
 
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('groups');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [subcategoryFilter, setSubcategoryFilter] = useState('all');
+  const [attrFilter, setAttrFilter] = useState('all');
   const [loading, setLoading] = useState(false);
   const [currentSelected, setCurrentSelected] = useState([]);
   const [viewMode, setViewMode] = useState(() => {
@@ -205,6 +211,8 @@ export const UnifiedRelationalSelectorModal = ({
     }
     setCurrentSelected(Array.isArray(selectedValues) ? selectedValues : (selectedValues ? [selectedValues] : []));
     setSearchTerm('');
+    setSubcategoryFilter('all');
+    setAttrFilter('all');
     if (sourceCollection === 'traits') {
       const lbl = String(fieldLabel || '').toLowerCase();
       if (lbl.includes('origin')) setCategoryFilter('Origin Trait');
@@ -290,43 +298,32 @@ export const UnifiedRelationalSelectorModal = ({
     return true;
   });
 
-  // Prepend Category / Group Options if source is features, skills, technology, or meta_level
-  let categoryOptions = [];
-  if (sourceCollection === 'features') {
-    categoryOptions = FEATURE_CATEGORY_ITEMS;
-  } else if (sourceCollection === 'skills') {
-    categoryOptions = SKILL_GROUP_ITEMS;
-  } else if (sourceCollection === 'technology' || sourceCollection === 'tech_level' || sourceCollection === 'tl') {
-    categoryOptions = CANONICAL_TECH_LEVEL_ITEMS;
-  } else if (sourceCollection === 'meta_level' || sourceCollection === 'ml') {
-    categoryOptions = CANONICAL_META_LEVEL_ITEMS;
-  }
-
-  // Combine category options with database items and canonical base skills, ensuring no duplicates by name
-  const existingNames = new Set(categoryOptions.map(c => c.name.toLowerCase()));
-  const nonDuplicateItems = [];
-
-  // First include database / cloud items
-  for (const item of rawItems) {
-    const key = (item.name || item.id || '').toLowerCase();
-    if (key && !existingNames.has(key)) {
-      existingNames.add(key);
-      nonDuplicateItems.push(item);
-    }
-  }
-
-  // Include canonical skills if source is skills
+  // Build normalized, deduplicated catalog for skills & features; preserve generic merge for other collections
+  let allAvailableItems = [];
   if (sourceCollection === 'skills') {
-    for (const cItem of ALL_CANONICAL_SKILLS) {
-      const key = (cItem.name || cItem.id || '').toLowerCase();
+    allAvailableItems = buildNormalizedSkillsCatalog(rawItems, { includeSkillGroups: true });
+  } else if (sourceCollection === 'features') {
+    allAvailableItems = buildNormalizedFeaturesCatalog([...FEATURE_CATEGORY_ITEMS, ...rawItems], {
+      includeFeatureGroups: true
+    });
+  } else {
+    let categoryOptions = [];
+    if (sourceCollection === 'technology' || sourceCollection === 'tech_level' || sourceCollection === 'tl') {
+      categoryOptions = CANONICAL_TECH_LEVEL_ITEMS;
+    } else if (sourceCollection === 'meta_level' || sourceCollection === 'ml') {
+      categoryOptions = CANONICAL_META_LEVEL_ITEMS;
+    }
+    const existingNames = new Set(categoryOptions.map(c => c.name.toLowerCase()));
+    const nonDuplicateItems = [];
+    for (const item of rawItems) {
+      const key = (item.name || item.id || '').toLowerCase();
       if (key && !existingNames.has(key)) {
         existingNames.add(key);
-        nonDuplicateItems.push(cItem);
+        nonDuplicateItems.push(item);
       }
     }
+    allAvailableItems = [...categoryOptions, ...nonDuplicateItems];
   }
-
-  const allAvailableItems = [...categoryOptions, ...nonDuplicateItems];
 
   if (sourceCollection === 'species_size') {
     allAvailableItems.sort((a, b) => getSizeTierIndex(a) - getSizeTierIndex(b));
@@ -339,7 +336,19 @@ export const UnifiedRelationalSelectorModal = ({
   }
 
   const filteredItems = allAvailableItems.filter(item => {
-    if (categoryFilter !== 'all') {
+    if (sourceCollection === 'skills') {
+      if (categoryFilter === 'groups') {
+        if (item.group !== 'groups' && item.type !== 'Skill Group' && !item.isSkillGroup) return false;
+      } else if (categoryFilter !== 'all') {
+        if (item.group !== categoryFilter) return false;
+      }
+      if (subcategoryFilter !== 'all') {
+        if (String(item.subcategory || '').toLowerCase() !== subcategoryFilter.toLowerCase()) return false;
+      }
+      if (attrFilter !== 'all') {
+        if (!Array.isArray(item.attrCodes) || !item.attrCodes.includes(attrFilter)) return false;
+      }
+    } else if (categoryFilter !== 'all') {
       if (sourceCollection === 'species_movement') {
         if (getMovementClassification(item) !== categoryFilter) return false;
       } else if (sourceCollection === 'traits' && ['Origin Trait', 'Occupational Trait', 'Signature Trait', 'Archetype Trait', 'Faction Trait'].includes(categoryFilter)) {
@@ -353,7 +362,11 @@ export const UnifiedRelationalSelectorModal = ({
         const tierKey = String(item.trait_tier || '').trim().toLowerCase();
         if (!tierKey || !categoryFilter.toLowerCase().startsWith(tierKey)) return false;
       } else if (categoryFilter === 'groups') {
-        if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
+        if (item.type !== 'Category Group' && item.type !== 'Skill Group' && item.group !== 'groups') return false;
+      } else if (sourceCollection === 'features') {
+        if (item.type === 'Category Group' || item.group === 'groups') return false;
+        const featCat = String(item.category || item.group || item.type || '').trim().toLowerCase();
+        if (featCat !== categoryFilter.toLowerCase()) return false;
       } else if (item.group !== categoryFilter) {
         return false;
       }
@@ -364,6 +377,9 @@ export const UnifiedRelationalSelectorModal = ({
       (item.name && item.name.toLowerCase().includes(term)) ||
       (item.description && item.description.toLowerCase().includes(term)) ||
       (item.type && item.type.toLowerCase().includes(term)) ||
+      (item.subcategory && String(item.subcategory).toLowerCase().includes(term)) ||
+      (item.governing_attribute && String(item.governing_attribute).toLowerCase().includes(term)) ||
+      (item.primaryAttrBadge && String(item.primaryAttrBadge).toLowerCase().includes(term)) ||
       (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term)) ||
       (item.keywords && String(item.keywords).toLowerCase().includes(term)) ||
       (item.negative_keywords && String(item.negative_keywords).toLowerCase().includes(term)) ||
@@ -570,79 +586,193 @@ export const UnifiedRelationalSelectorModal = ({
               </span>
             </div>
 
-            {/* Category Sub-Filter Header Bar for Skills */}
-            {sourceCollection === 'skills' && (
+            {/* Category, Subcategory & Governing Ability Sub-Filter Header Bar for Skills */}
+            {sourceCollection === 'skills' && (() => {
+              const skillGroupsCount = allAvailableItems.filter(i => i.group === 'groups' || i.type === 'Skill Group').length;
+              const physicalCount = allAvailableItems.filter(i => i.group === 'physical').length;
+              const mentalCount = allAvailableItems.filter(i => i.group === 'mental').length;
+              const socialCount = allAvailableItems.filter(i => i.group === 'social').length;
+              const combatCount = allAvailableItems.filter(i => i.group === 'combat').length;
+              const metaCount = allAvailableItems.filter(i => i.group === 'meta').length;
+              const activeSubOptions = SKILL_SUBCATEGORY_FILTERS[categoryFilter] || [];
+              const attrScopeItems = allAvailableItems.filter(i => {
+                if (i.group === 'groups' || i.type === 'Skill Group') return false;
+                if (categoryFilter !== 'all' && categoryFilter !== 'groups' && i.group !== categoryFilter) return false;
+                if (subcategoryFilter !== 'all' && String(i.subcategory || '').toLowerCase() !== subcategoryFilter.toLowerCase()) return false;
+                return true;
+              });
+
+              return (
+                <div className="bg-slate-950/80 border-b border-slate-800 shrink-0">
+                  <div className="px-4 py-2 flex items-center gap-1.5 overflow-x-auto">
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('all'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'all'
+                          ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      All ({allAvailableItems.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('groups'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'groups'
+                          ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                          : 'bg-slate-900 text-amber-400/80 hover:text-amber-300 border border-slate-800'
+                      }`}
+                    >
+                      📂 Skill Groups ({skillGroupsCount})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('physical'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'physical'
+                          ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      🏃 Physical ({physicalCount})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('mental'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'mental'
+                          ? 'bg-blue-950 text-blue-300 border border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      🧠 Mental ({mentalCount})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('social'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'social'
+                          ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      💬 Social ({socialCount})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('combat'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'combat'
+                          ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      ⚔️ Combat ({combatCount})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCategoryFilter('meta'); setSubcategoryFilter('all'); }}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === 'meta'
+                          ? 'bg-purple-950 text-purple-300 border border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      🔮 Metafocus ({metaCount})
+                    </button>
+                  </div>
+
+                  {categoryFilter !== 'groups' && (
+                    <div className="px-4 pb-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800/60 pt-1.5">
+                      {activeSubOptions.length > 0 ? (
+                        <div className="flex items-center gap-1 flex-wrap">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 mr-1">
+                            Subcategory:
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setSubcategoryFilter('all')}
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase transition-colors cursor-pointer ${
+                              subcategoryFilter === 'all'
+                                ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60'
+                                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                            }`}
+                          >
+                            All Subtypes
+                          </button>
+                          {activeSubOptions.map((sub) => {
+                            const subCount = allAvailableItems.filter(
+                              (i) => i.group === categoryFilter && String(i.subcategory || '').toLowerCase() === sub.toLowerCase()
+                            ).length;
+                            return (
+                              <button
+                                key={sub}
+                                type="button"
+                                onClick={() => setSubcategoryFilter(subcategoryFilter === sub ? 'all' : sub)}
+                                className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase transition-colors cursor-pointer ${
+                                  subcategoryFilter === sub
+                                    ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60'
+                                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                                }`}
+                              >
+                                {sub} ({subCount})
+                              </button>
+                            );
+                          })}
+                        </div>
+                      ) : <span />}
+
+                      <div className="flex items-center gap-1 flex-wrap">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 mr-1">
+                          Ability:
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setAttrFilter('all')}
+                          className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer ${
+                            attrFilter === 'all'
+                              ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/60'
+                              : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                          }`}
+                        >
+                          All
+                        </button>
+                        {SKILL_ATTRIBUTE_FILTERS.map((attrCode) => {
+                          const attrCount = attrScopeItems.filter(
+                            (i) => Array.isArray(i.attrCodes) && i.attrCodes.includes(attrCode)
+                          ).length;
+                          return (
+                            <button
+                              key={attrCode}
+                              type="button"
+                              title={`Filter by ${attrCode}`}
+                              onClick={() => setAttrFilter(attrFilter === attrCode ? 'all' : attrCode)}
+                              className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase transition-colors cursor-pointer ${
+                                attrFilter === attrCode
+                                  ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/60'
+                                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                              }`}
+                            >
+                              {attrCode} ({attrCount})
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Category Sub-Filter Header Bar for Features */}
+            {sourceCollection === 'features' && (
               <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
                 <button
                   type="button"
-                  onClick={() => setCategoryFilter('groups')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'groups'
-                      ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                      : 'bg-slate-900 text-amber-400/80 hover:text-amber-300 border border-slate-800'
-                  }`}
-                >
-                  📂 Skill Groups (6)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('physical')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'physical'
-                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  🏃 Physical (5)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('mental')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'mental'
-                      ? 'bg-blue-950 text-blue-300 border border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  🧠 Mental (49)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('social')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'social'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  💬 Social (19)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('combat')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'combat'
-                      ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  ⚔️ Combat (8)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCategoryFilter('meta')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'meta'
-                      ? 'bg-purple-950 text-purple-300 border border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  🔮 Metafocus (7)
-                </button>
-                <button
-                  type="button"
                   onClick={() => setCategoryFilter('all')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
                     categoryFilter === 'all'
                       ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
@@ -650,6 +780,36 @@ export const UnifiedRelationalSelectorModal = ({
                 >
                   All ({allAvailableItems.length})
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('groups')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                    categoryFilter === 'groups'
+                      ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                      : 'bg-slate-900 text-amber-400/80 hover:text-amber-300 border border-slate-800'
+                  }`}
+                >
+                  📂 Feature Groups ({allAvailableItems.filter(i => i.type === 'Category Group' || i.group === 'groups').length})
+                </button>
+                {FEATURE_CATEGORIES.map((fCat) => {
+                  const count = allAvailableItems.filter(
+                    (i) => i.type !== 'Category Group' && i.group !== 'groups' && String(i.category || i.group || i.type || '').trim().toLowerCase() === fCat.toLowerCase()
+                  ).length;
+                  return (
+                    <button
+                      key={fCat}
+                      type="button"
+                      onClick={() => setCategoryFilter(fCat)}
+                      className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer ${
+                        categoryFilter === fCat
+                          ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                          : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                      }`}
+                    >
+                      {fCat} ({count})
+                    </button>
+                  );
+                })}
               </div>
             )}
 
@@ -836,9 +996,16 @@ export const UnifiedRelationalSelectorModal = ({
                               {item.name || item.id}
                             </td>
                             <td className="py-2.5 px-3 whitespace-nowrap">
-                              <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700/80 text-[10px] font-mono text-cyan-300">
-                                {item.type || item.category || 'Standard'}
-                              </span>
+                              <div className="inline-flex items-center gap-1">
+                                <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700/80 text-[10px] font-mono text-cyan-300">
+                                  {item.categoryLabel || item.type || item.category || 'Standard'}
+                                </span>
+                                {item.primaryAttrBadge && (
+                                  <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-500/40 text-[10px] font-mono font-bold text-emerald-300">
+                                    {item.primaryAttrBadge}
+                                  </span>
+                                )}
+                              </div>
                             </td>
                             <td className="py-2.5 px-3 text-slate-400 max-w-xs hidden md:table-cell">
                               <div className="truncate">{item.description || '—'}</div>
@@ -859,7 +1026,7 @@ export const UnifiedRelationalSelectorModal = ({
               <VirtualizedList
                 items={filteredItems}
                 itemHeight={84}
-                resetScrollDeps={[searchTerm, categoryFilter, sourceCollection, items.length]}
+                resetScrollDeps={[searchTerm, categoryFilter, subcategoryFilter, attrFilter, sourceCollection, items.length]}
                 getKey={(item, index) => item.id || item.name || index}
                 containerClassName="flex-1 overflow-y-auto p-4 bg-slate-950/40"
                 renderItem={(item) => {
@@ -894,7 +1061,12 @@ export const UnifiedRelationalSelectorModal = ({
                               {item.name || item.id}
                             </span>
                             <div className="flex items-center gap-1 shrink-0">
-                              {item.type && (
+                              {item.primaryAttrBadge && (
+                                <span className="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold bg-slate-800/90 text-slate-200 border border-slate-700 shrink-0">
+                                  {item.primaryAttrBadge}
+                                </span>
+                              )}
+                              {(item.categoryLabel || item.type) && (
                                 <span className={`text-[10px] px-2 py-0.5 rounded font-mono shrink-0 ${
                                   isCategoryGroup
                                     ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
@@ -910,7 +1082,7 @@ export const UnifiedRelationalSelectorModal = ({
                                     ? 'bg-purple-950/90 text-purple-300 border border-purple-500/50 font-bold'
                                     : 'bg-slate-800 text-cyan-300'
                                 }`}>
-                                  {item.type}
+                                  {item.categoryLabel || item.type}
                                 </span>
                               )}
                             </div>

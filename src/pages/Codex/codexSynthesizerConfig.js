@@ -536,7 +536,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Independent • Used Future',
         suggestedName: 'Outer Rim Mining Confederacy',
         prompt: 'Hardened border systems tamed by heavy industrial rigs, siege-haulers, and stubborn colonists; gritty dieselpunk aesthetic with corporate robber-barons.',
-        presetParams: { faction_type: 'Independent / Frontier', government_type: 'Kleptocratic Republic', wealth_modifier: '0 (Standard Baseline)', tl: 3, ml: 0 }
+        presetParams: { faction_type: 'Independent / Frontier', government_type: 'Kleptocratic Republic', wealth_modifier: '0 (Standard Baseline)', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-independent-grit', 'trait-federal-authority-marshal', 'trait-industrial-connections', 'trait-penal-recruit-ranger', 'trait-rugged-survival', 'trait-scavenger-instinct']
       },
       {
         id: 'cyberocracy_megacorp',
@@ -544,7 +545,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Corporate Syndicate • TL 4',
         suggestedName: 'Aegis-Veritas Consortium',
         prompt: 'Hyper-connected corporate syndicate governing through AR data meshes, algorithmic law, transhumanist bioware, and covert black-ops strike teams.',
-        presetParams: { faction_type: 'Corporate Syndicate', government_type: 'Corporate Oligarchy', wealth_modifier: '+2 (Old Money / Megacorp)', tl: 4, ml: 1 }
+        presetParams: { faction_type: 'Corporate Syndicate', government_type: 'Corporate Oligarchy', wealth_modifier: '+2 (Old Money / Megacorp)', tl: 4, ml: 1 },
+        suggestedTraits: ['trait-industrial-connections', 'trait-machine-logic', 'trait-reinforced-chassis', 'trait-shadowmeld', 'trait-zero-g-veteran']
       },
       {
         id: 'feudal_dynasty',
@@ -552,7 +554,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Sovereign Kingdom • Chivalric',
         suggestedName: 'House Valerius Star-Dynasty',
         prompt: 'Aristocratic star-nobility governed by knightly orders, honor duels, mastercrafted vibro-armaments, and flying citadel dreadnoughts.',
-        presetParams: { faction_type: 'Sovereign Clan / Kingdom', government_type: 'Feudal Technocracy / Monarchy', wealth_modifier: '+2 (Old Money / Megacorp)', tl: 4, ml: 1 }
+        presetParams: { faction_type: 'Sovereign Clan / Kingdom', government_type: 'Feudal Technocracy / Monarchy', wealth_modifier: '+2 (Old Money / Megacorp)', tl: 4, ml: 1 },
+        suggestedTraits: ['trait-high-imperial-status', 'trait-imperial-discipline', 'trait-incorruptible-will', 'trait-solar-aura']
       },
       {
         id: 'theocratic_hegemony',
@@ -560,7 +563,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Major Power • Zealous',
         suggestedName: 'Order of the Radiant Corona',
         prompt: 'Zealous interstellar theocracy enforcing doctrinal purity through inquisitorial arbiters, plasma cathedral ships, and sacred solar relics.',
-        presetParams: { faction_type: 'Major Galactic Power', government_type: 'Theocratic Hegemony', wealth_modifier: '+1 (Prosperous Trade Hub)', tl: 3, ml: 2 }
+        presetParams: { faction_type: 'Major Galactic Power', government_type: 'Theocratic Hegemony', wealth_modifier: '+1 (Prosperous Trade Hub)', tl: 3, ml: 2 },
+        suggestedTraits: ['trait-solar-aura', 'trait-incorruptible-will', 'trait-imperial-discipline', 'trait-awakened-mind', 'trait-deep-attunement']
       },
       {
         id: 'nomadic_fleet',
@@ -568,7 +572,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Clan Fleet • Void-Born',
         suggestedName: 'Seventh Horizon Migrant Flotilla',
         prompt: 'Self-sustaining generation-ship armada bound by clan honor, deep-space salvage mastery, and unmatched astrogation across uncharted sectors.',
-        presetParams: { faction_type: 'Sovereign Clan / Kingdom', government_type: 'Nomadic Clan Federation', wealth_modifier: '-1 (Developing Frontier Economy)', tl: 3, ml: 1 }
+        presetParams: { faction_type: 'Sovereign Clan / Kingdom', government_type: 'Nomadic Clan Federation', wealth_modifier: '-1 (Developing Frontier Economy)', tl: 3, ml: 1 },
+        suggestedTraits: ['trait-zero-g-veteran', 'trait-rugged-survival', 'trait-primal-resilience', 'trait-beast-hunter', 'trait-scavenger-instinct']
       },
       {
         id: 'shadow_cartel',
@@ -576,7 +581,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Criminal Cartel • Covert',
         suggestedName: 'Crimson Eclipse Syndicate',
         prompt: 'Sprawling black-market smuggling network, information brokers, and unlicensed cyber-clinics operating in the shadow of core arcologies.',
-        presetParams: { faction_type: 'Criminal Syndicate / Cartel', government_type: 'Shadow Syndicate Cartel', wealth_modifier: '+1 (Prosperous Trade Hub)', tl: 3, ml: 1 }
+        presetParams: { faction_type: 'Criminal Syndicate / Cartel', government_type: 'Shadow Syndicate Cartel', wealth_modifier: '+1 (Prosperous Trade Hub)', tl: 3, ml: 1 },
+        suggestedTraits: ['trait-shadowmeld', 'trait-scavenger-instinct', 'trait-independent-grit', 'trait-bio-crafting-intuition']
       }
     ],
     directivesLabel: '3. Sociological, Military & HIFI CHROMA Directives (Optional)',
@@ -641,7 +647,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Sentinels • STA / STR',
         suggestedName: 'The Aegis Vanguard',
         prompt: 'Unshakable tactical protector who anchors breaches, absorbs heavy fire, and safeguards the squad through heavy armor and iron resolve.',
-        presetParams: { sphere: 'Sentinels (The Stabilizers)', primary_attribute: 'Stamina', secondary_attribute: 'Strength' }
+        presetParams: { sphere: 'Sentinels (The Stabilizers)', primary_attribute: 'Stamina', secondary_attribute: 'Strength' },
+        suggestedTraits: ['trait-defensive-stance', 'trait-protective-stance', 'trait-guardian', 'trait-unflinching', 'trait-heavy-weapon-mastery']
       },
       {
         id: 'operative_infiltrator',
@@ -649,7 +656,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Operatives • AGI / INT',
         suggestedName: 'The Ghost Infiltrator',
         prompt: 'High-precision stealth specialist, marksman, and infiltration artisan who neutralizes high-value targets before alarms sound.',
-        presetParams: { sphere: 'Operatives (The Artisans)', primary_attribute: 'Agility', secondary_attribute: 'Intellect' }
+        presetParams: { sphere: 'Operatives (The Artisans)', primary_attribute: 'Agility', secondary_attribute: 'Intellect' },
+        suggestedTraits: ['trait-infiltrator', 'trait-silent-killer', 'trait-adaptive-camouflage', 'trait-quick-reflexes', 'trait-undercover-operations']
       },
       {
         id: 'visionary_envoy',
@@ -657,7 +665,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Visionaries • CHA / WIS',
         suggestedName: 'The Sovereign Envoy',
         prompt: 'Inspirational diplomat, tactical face, or awakened mystic who bends negotiations and rallies allies under extreme pressure.',
-        presetParams: { sphere: 'Visionaries (The Idealists)', primary_attribute: 'Charisma', secondary_attribute: 'Wisdom' }
+        presetParams: { sphere: 'Visionaries (The Idealists)', primary_attribute: 'Charisma', secondary_attribute: 'Wisdom' },
+        suggestedTraits: ['trait-commanding-presence', 'trait-inspiring-leader', 'trait-master-negotiator', 'trait-diplomatic-immunity', 'trait-silver-tongue']
       },
       {
         id: 'savant_architect',
@@ -665,7 +674,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Savants • INT / WIS',
         suggestedName: 'The Quantum Artificer',
         prompt: 'Master engineer, cyber-hacker, and analytical tactician who weaponizes drones, electronics, and battlefield fabrication.',
-        presetParams: { sphere: 'Savants (The Rationals)', primary_attribute: 'Intellect', secondary_attribute: 'Wisdom' }
+        presetParams: { sphere: 'Savants (The Rationals)', primary_attribute: 'Intellect', secondary_attribute: 'Wisdom' },
+        suggestedTraits: ['trait-adaptive-engineering', 'trait-cyber-intrusion', 'trait-technical-expertise', 'trait-robotic-affinity', 'trait-analytical-mind']
       },
       {
         id: 'sentinel_logistics',
@@ -673,7 +683,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Sentinels • INT / CHA',
         suggestedName: 'The Quartermaster Broker',
         prompt: 'Resourceful fixer and administrative strategist who weaponizes wealth, supply chains, and legal authority to keep the team operational.',
-        presetParams: { sphere: 'Sentinels (The Stabilizers)', primary_attribute: 'Intellect', secondary_attribute: 'Charisma' }
+        presetParams: { sphere: 'Sentinels (The Stabilizers)', primary_attribute: 'Intellect', secondary_attribute: 'Charisma' },
+        suggestedTraits: ['trait-master-of-logistics', 'trait-bureaucratic-efficiency', 'trait-corporate-backing', 'trait-market-savvy', 'trait-black-market-connections']
       },
       {
         id: 'visionary_psion',
@@ -681,7 +692,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Visionaries • WIS / INT',
         suggestedName: 'The Void Channeler',
         prompt: 'Metaphysical adept who commands psionic disciplines, spatial anomalies, and heightened consciousness in combat and exploration.',
-        presetParams: { sphere: 'Visionaries (The Idealists)', primary_attribute: 'Wisdom', secondary_attribute: 'Intellect' }
+        presetParams: { sphere: 'Visionaries (The Idealists)', primary_attribute: 'Wisdom', secondary_attribute: 'Intellect' },
+        suggestedTraits: ['trait-arcane-mastery', 'trait-embrace-the-void', 'trait-spiritual-attunement', 'trait-enlightened-mind', 'trait-iron-will']
       }
     ],
     directivesLabel: '3. 80 CP Skill Package, Signature Traits & Role Directives (Optional)',
@@ -706,7 +718,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
       label: 'Origin / Habitat Name',
       placeholder: 'E.g., Subterranean Forge-Hive, Deep Void Flotilla...'
     },
-    parametersSectionLabel: '2. Environmental Classification & Society Pool',
+    parametersSectionLabel: '2. Environmental Classification & Wealth Modifier (Fixed 20 SP Pool)',
     showTechLevel: true,
     showMetaLevel: true,
     defaultTl: 3,
@@ -732,12 +744,11 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         ]
       },
       {
-        key: 'skill_points',
-        label: 'Society Skill Pool (SP)',
-        type: 'number',
-        defaultValue: 20,
-        min: 10,
-        max: 30
+        key: 'ws_modifier',
+        label: 'Wealth Score Mod (WS +0 to +3)',
+        type: 'select',
+        defaultValue: '1',
+        options: ['0', '1', '2', '3']
       }
     ],
     concepts: [
@@ -747,7 +758,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Urban • High Density',
         suggestedName: 'Neon Tiered Mega-Arcology',
         prompt: 'Towering vertical city-state of neon sub-levels, corporate sky-bridges, dense data networks, and relentless street hustling.',
-        presetParams: { habitat: 'Sprawl & Arcology', skill_points: 20, tl: 4, ml: 0 }
+        presetParams: { habitat: 'Sprawl & Arcology', ws_modifier: '2', tl: 4, ml: 0 },
+        suggestedTraits: ['trait-urban-survival', 'trait-streetwise', 'trait-contacts', 'trait-tech-savvy', 'trait-smooth-talking']
       },
       {
         id: 'deep_void_station',
@@ -755,7 +767,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Zero-G • Orbital/Fleet',
         suggestedName: 'Deep-Rim Orbital Tether',
         prompt: 'Born and raised in microgravity habitats, asteroid hollows, or nomadic starship hulls where airlock discipline is life.',
-        presetParams: { habitat: 'Deep Void & Station', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { habitat: 'Deep Void & Station', ws_modifier: '1', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-zero-g-acclimation', 'trait-pilot-skills', 'trait-mechanical-aptitude', 'trait-resource-management', 'trait-teamwork']
       },
       {
         id: 'death_world',
@@ -763,7 +776,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Extreme Hazard • Survival',
         suggestedName: 'Lethal Biosphere Frontier',
         prompt: 'Unforgiving planet of apex megafauna, corrosive storms, or crushing gravity that breeds unmatched survivalists.',
-        presetParams: { habitat: 'Death World & Extreme', skill_points: 20, tl: 2, ml: 1 }
+        presetParams: { habitat: 'Death World & Extreme', ws_modifier: '0', tl: 2, ml: 1 },
+        suggestedTraits: ['trait-survival-skills', 'trait-toughness', 'trait-physical-endurance', 'trait-environmental-awareness', 'trait-persistence']
       },
       {
         id: 'industrial_foundry',
@@ -771,7 +785,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Refinery • Smog & Steel',
         suggestedName: 'Tectonic Slag-Refinery Basin',
         prompt: 'Planet-scale manufacturing complexes, orbital shipyards, and strip-mining basins run on heavy machinery and grit.',
-        presetParams: { habitat: 'Industrial Heavy', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { habitat: 'Industrial Heavy', ws_modifier: '1', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-mechanical-skills', 'trait-technical-skills', 'trait-physical-strength', 'trait-practicality', 'trait-tough']
       },
       {
         id: 'arcane_sanctuary',
@@ -779,7 +794,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Arcane • High ML',
         suggestedName: 'Aetheric Monastic Enclave',
         prompt: 'Secluded world or cloaked habitat saturated with dimensional resonance, monastic academies, and awakened traditions.',
-        presetParams: { habitat: 'Sanctuary & Arcane', skill_points: 20, tl: 3, ml: 3 }
+        presetParams: { habitat: 'Sanctuary & Arcane', ws_modifier: '1', tl: 3, ml: 3 },
+        suggestedTraits: ['trait-spiritual-awareness', 'trait-shared-wisdom', 'trait-disciplined', 'trait-intuition', 'trait-studious']
       },
       {
         id: 'aquatic_pelagic',
@@ -787,7 +803,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Aquatic • Sub-Surface',
         suggestedName: 'Abyssal Trench Hydro-Colony',
         prompt: 'Submerged pressure-domes, floating kelp-harvester cities, and deep-trench thermal vents teeming with marine life.',
-        presetParams: { habitat: 'Aquatic & Oceanic', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { habitat: 'Aquatic & Oceanic', ws_modifier: '1', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-aquatic-construction', 'trait-sea-piloting', 'trait-adaptability', 'trait-sustainable-practices', 'trait-environmental-awareness']
       }
     ],
     directivesLabel: '3. Environmental Lore, 20 SP Society Skills & Origin Traits (Optional)',
@@ -812,7 +829,7 @@ export const CODEX_SYNTHESIZER_PROFILES = {
       label: 'Occupation / Career Designation',
       placeholder: 'E.g., Void Pathfinder, Cyber-Medicus, Syndicate Fixer...'
     },
-    parametersSectionLabel: '2. Career Field & Professional Skill Pool',
+    parametersSectionLabel: '2. Career Field & Base Wealth Score (Fixed 20 SP Pool)',
     showTechLevel: true,
     showMetaLevel: true,
     defaultTl: 3,
@@ -836,12 +853,11 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         ]
       },
       {
-        key: 'skill_points',
-        label: 'Professional Skill Pool (SP)',
-        type: 'number',
-        defaultValue: 20,
-        min: 10,
-        max: 30
+        key: 'base_ws',
+        label: 'Base Wealth Score (WS 1–6)',
+        type: 'select',
+        defaultValue: '3',
+        options: ['1', '2', '3', '4', '5', '6']
       }
     ],
     concepts: [
@@ -851,7 +867,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Military • Combat/Command',
         suggestedName: 'Shock-Drop Marine',
         prompt: 'Formal armed forces, mercenary company, or marshal service trained in coordinated fireteams, ordnance, and battlefield survival.',
-        presetParams: { field: 'Military & Security', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { field: 'Military & Security', base_ws: '3', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-combat-training', 'trait-rapid-response', 'trait-strategic-thinking', 'trait-well-equipped', 'trait-team-oriented']
       },
       {
         id: 'covert_intelligence',
@@ -859,7 +876,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Covert • Espionage',
         suggestedName: 'Black-Vault Intelligence Operative',
         prompt: 'Clandestine espionage agent, corporate saboteur, or bounty hunter skilled in tradecraft, slicing, and silent elimination.',
-        presetParams: { field: 'Underworld & Covert', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { field: 'Underworld & Covert', base_ws: '3', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-stealth', 'trait-guile', 'trait-deception', 'trait-investigation', 'trait-street-smarts']
       },
       {
         id: 'technical_artificer',
@@ -867,7 +885,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Technical • Fabrication',
         suggestedName: 'Mecha & Warp-Core Artificer',
         prompt: 'Licensed guild engineer, cyber-surgeon, or starship mechanic who builds, repairs, and overclocks complex hardware under fire.',
-        presetParams: { field: 'Technical & Crafting', skill_points: 20, tl: 4, ml: 0 }
+        presetParams: { field: 'Technical & Crafting', base_ws: '4', tl: 4, ml: 0 },
+        suggestedTraits: ['trait-trade-tools', 'trait-technical-knowledge', 'trait-machine-affinity', 'trait-hacking', 'trait-mecha-physics']
       },
       {
         id: 'frontier_pathfinder',
@@ -875,7 +894,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Exploration • Astrogation',
         suggestedName: 'Uncharted Rim Survey Scout',
         prompt: 'Deep-space prospector, xeno-tracker, and blockade runner charting hazardous jump routes and ancient precursor ruins.',
-        presetParams: { field: 'Frontier & Exploration', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { field: 'Frontier & Exploration', base_ws: '2', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-navigation', 'trait-pilot', 'trait-survival', 'trait-terrain-expert', 'trait-scavenging']
       },
       {
         id: 'corporate_executive',
@@ -883,7 +903,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Commerce • High Wealth',
         suggestedName: 'Syndicate Acquisitions Arbiter',
         prompt: 'High-stakes negotiator, legal advocate, or trade consortium executive leveraging contracts, credit lines, and influence.',
-        presetParams: { field: 'Corporate & Commerce', skill_points: 20, tl: 3, ml: 0 }
+        presetParams: { field: 'Corporate & Commerce', base_ws: '5', tl: 3, ml: 0 },
+        suggestedTraits: ['trait-high-pay', 'trait-business-acumen', 'trait-negotiation', 'trait-networking', 'trait-high-social-standing']
       },
       {
         id: 'arcane_adept',
@@ -891,7 +912,8 @@ export const CODEX_SYNTHESIZER_PROFILES = {
         badge: 'Arcane • Awakened',
         suggestedName: 'Resonance Crucible Adept',
         prompt: 'Initiated practitioner of psionic disciplines, dimensional anomalies, and meta-tech attunement.',
-        presetParams: { field: 'Arcane & Psionic', skill_points: 20, tl: 3, ml: 2 }
+        presetParams: { field: 'Arcane & Psionic', base_ws: '3', tl: 3, ml: 2 },
+        suggestedTraits: ['trait-mastery-of-a-discipline', 'trait-metacognition', 'trait-mystical-or-spiritual-connection', 'trait-mental-resilience']
       }
     ],
     directivesLabel: '3. Career Dossier, 20 SP Skills & Occupational Traits (Optional)',
@@ -988,11 +1010,11 @@ export const CODEX_SYNTHESIZER_PROFILES = {
       }
     ],
     directivesLabel: '3. Governing Attribute, CR Benchmarks & Specialization Directives (Optional)',
-    directivesPlaceholder: 'E.g., Specify Governing Attribute, routine/challenging/heroic CR benchmarks (CR 10 / 15 / 20 / 25), opposed check rules, and common +2 specializations...',
+    directivesPlaceholder: 'E.g., Specify Governing Attribute, routine/challenging/heroic CR benchmarks (CR 10 / 15 / 20 / 25), opposed check rules, and sub-skill specializations (Rank 1–10, max 1 viable)...',
     quickDirectives: [
       'CR 10/15/20/25 Benchmarks',
       'Opposed 2d10 Check Rules',
-      '+2 Specialization Examples',
+      'Sub-Skill Specializations (1–10)',
       'Tool & Kit Requirements',
       'Failure / Fumble Consequences'
     ]
@@ -2881,6 +2903,342 @@ export const CODEX_SYNTHESIZER_PROFILES = {
     directivesLabel: '3. Pace Multipliers & Maneuverability Directives (Optional)',
     directivesPlaceholder: 'E.g., Specify Walk, Jog, and Sprint paces, zero-G interaction, and encumbrance limits...',
     quickDirectives: ['Walk / Jog / Sprint Paces', 'Zero-G Adaptation', 'No Athletics Check Required']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 22. SPECIES LINEAGE MATRIX
+  // ─────────────────────────────────────────────────────────────────────────────
+  species_lineage: {
+    id: 'species_lineage',
+    synthesizerSubtitle: 'Synthesize ancestral bloodline, heritage CP & subspecies castes',
+    conceptSectionLabel: '1. Ancestral Taxonomic Family & Lineage Concept',
+    nameField: {
+      label: 'Lineage / Bloodline Name',
+      placeholder: 'E.g., Aeld, Draconic Bloodline, Vesperian Clade...'
+    },
+    parametersSectionLabel: '2. Base Chassis, Heritage Cost & Stigma',
+    showTechLevel: true,
+    showMetaLevel: true,
+    defaultTl: 3,
+    defaultMl: 0,
+    parameters: [
+      { key: 'base_chassis', label: 'Base Chassis Type', type: 'select', defaultValue: 'Humanoid (0 CP)', options: ['Humanoid (0 CP)', 'Beast (2 CP)', 'Dragon (6 CP)', 'Elemental (5 CP)', 'Synthetic (10 CP)', 'Aberration (4 CP)', 'Verdant (3 CP)'] },
+      { key: 'cp', label: 'Base Heritage Cost (CP)', type: 'number', defaultValue: 4, min: 0, max: 20 },
+      { key: 'stigma', label: 'Social Stigma / Rebate', type: 'select', defaultValue: 'None (0 CP)', options: ['None (0 CP)', 'Minor Xeno (-1 CP)', 'Outsider Caste (-2 CP)', 'Feared / Restricted (-4 CP)'] }
+    ],
+    concepts: [
+      { id: 'ancient_starfarer', label: 'Ancient Starfaring Lineage', badge: 'Humanoid • Awakened', suggestedName: 'Aeld Star-Lineage', prompt: 'Long-lived metaphysical progenitor bloodline branching into specialized core, void, and arcane subspecies castes.', presetParams: { base_chassis: 'Humanoid (0 CP)', cp: 5, stigma: 'None (0 CP)', tl: 4, ml: 2 } },
+      { id: 'engineered_clade', label: 'Gene-Forged / Uplifted Clade', badge: 'Bio-Crafted • Caste System', suggestedName: 'Kovian Gene-Clade', prompt: 'Purpose-engineered genetic family divided into labor, military, and navigator subspecies variants.', presetParams: { base_chassis: 'Humanoid (0 CP)', cp: 4, stigma: 'Minor Xeno (-1 CP)', tl: 4, ml: 0 } },
+      { id: 'synthetic_series', label: 'Synthetic / Machine Foundry Series', badge: 'Synthetic • Modular Line', suggestedName: 'Mekan Foundry Series', prompt: 'Foundational cybernetic or android chassis lineage supporting scout, industrial, and tactical frame variants.', presetParams: { base_chassis: 'Synthetic (10 CP)', cp: 10, stigma: 'Outsider Caste (-2 CP)', tl: 4, ml: 0 } },
+      { id: 'xeno_predator_clade', label: 'Xeno-Predator Taxonomic Family', badge: 'Xeno • Evolutionary', suggestedName: 'Saurian Apex Clade', prompt: 'Fierce evolutionary family of scaled or chitinous xeno-lifeforms adapted across multiple planetary biomes.', presetParams: { base_chassis: 'Beast (2 CP)', cp: 6, stigma: 'Minor Xeno (-1 CP)', tl: 3, ml: 0 } }
+    ],
+    directivesLabel: '3. Inherent Heritage Traits, Subspecies & Taxonomic Lore (Optional)',
+    directivesPlaceholder: 'E.g., List shared base heritage traits, 3-5 canonical subspecies branches, evolutionary origin, and cultural standing...',
+    quickDirectives: ['Shared Heritage Traits', '3-5 Subspecies Branches', 'Evolutionary History', 'Social Stigma Rules']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 23. COMPANIONS & FAMILIARS MATRIX
+  // ─────────────────────────────────────────────────────────────────────────────
+  companions: {
+    id: 'companions',
+    synthesizerSubtitle: 'Synthesize companion Form & Function packages',
+    conceptSectionLabel: '1. Companion Chassis, Bond & Tactical Role',
+    nameField: {
+      label: 'Companion / Familiar Designation',
+      placeholder: 'E.g., K-9 Cyber-Hound Mk IV, Aether-Wisp Familiar, Razorwing...'
+    },
+    parametersSectionLabel: '2. Companion Type, Form Package, Scale & CP',
+    showTechLevel: true,
+    showMetaLevel: true,
+    defaultTl: 3,
+    defaultMl: 0,
+    parameters: [
+      { key: 'companion_type', label: 'Companion Classification', type: 'select', defaultValue: 'Biological Beast', options: ['Biological Beast', 'Synthetic Drone / Automaton', 'Metaphysical Familiar / Spirit', 'Symbiont', 'Mount / Steed'] },
+      { key: 'form_package', label: 'Form Package', type: 'select', defaultValue: 'Quadruped / Predator', options: ['Quadruped / Predator', 'Avian / Flyer', 'Serpentine / Coiler', 'Insectoid / Arachnid', 'Aquatic / Amphibian', 'Hover Drone / Sphere', 'Bipedal Construct', 'Amorphous / Spectral'] },
+      { key: 'size', label: 'Size Category', type: 'select', defaultValue: 'Small', options: ['Tiny', 'Small', 'Medium', 'Large', 'Huge'] },
+      { key: 'cp', label: 'Character Points (CP)', type: 'number', defaultValue: 3, min: 1, max: 30 }
+    ],
+    concepts: [
+      { id: 'tactical_cyber_hound', label: 'Tactical Cyber-Hound / Tracker', badge: 'Synthetic/Bio • Guardian', suggestedName: 'Vanguard K-9 Cyber-Hound', prompt: 'Loyal armored quadruped equipped with thermal scent-trackers, encrypted handler link, and takedown jaws.', presetParams: { companion_type: 'Synthetic Drone / Automaton', form_package: 'Quadruped / Predator', size: 'Medium', cp: 4, tl: 3, ml: 0 } },
+      { id: 'recon_hover_orb', label: 'Stealth Recon Hover-Drone', badge: 'Drone • Recon/EW', suggestedName: 'Argus Whisper-Sphere', prompt: 'Whisper-quiet gravimetric sensor drone providing 360-degree holo-mapping, slicing relays, and target lock.', presetParams: { companion_type: 'Synthetic Drone / Automaton', form_package: 'Hover Drone / Sphere', size: 'Tiny', cp: 3, tl: 4, ml: 0 } },
+      { id: 'metaphysical_familiar', label: 'Awakened Aether Familiar', badge: 'Familiar • Focus Conduit', suggestedName: 'Luminous Void-Lynx', prompt: 'Semi-corporeal metaphysical entity bonded to an awakened operator, storing Focus and sensing anomalies.', presetParams: { companion_type: 'Metaphysical Familiar / Spirit', form_package: 'Amorphous / Spectral', size: 'Tiny', cp: 4, tl: 0, ml: 3 } },
+      { id: 'frontier_war_mount', label: 'Armored Frontier War-Mount', badge: 'Mount • High Mobility', suggestedName: 'Draconis Ridge-Stalker', prompt: 'Powerful domesticated xeno-steed capable of carrying an armored rider across jagged badlands and combat zones.', presetParams: { companion_type: 'Mount / Steed', form_package: 'Quadruped / Predator', size: 'Large', cp: 5, tl: 2, ml: 0 } },
+      { id: 'bio_symbiont', label: 'Living Bio-Symbiont', badge: 'Symbiont • Metabolic', suggestedName: 'Vesperian Neural Symbiont', prompt: 'Bio-integrated organism sharing its host nervous system to filter toxins, stabilize wounds, and sharpen reflexes.', presetParams: { companion_type: 'Symbiont', form_package: 'Serpentine / Coiler', size: 'Tiny', cp: 3, tl: 3, ml: 1 } }
+    ],
+    directivesLabel: '3. Function Packages, Handler Commands & Scaling Directives (Optional)',
+    directivesPlaceholder: 'E.g., Specify Function Packages (Recon, Guardian, Striker, Support, Mount), action economy with handler, and Owner Tier scaling...',
+    quickDirectives: ['15 CP Form / 25 CP Function Math', 'Handler Command Economy', 'Owner Tier Scaling', 'Sensor & Attack Profile']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 24. DISCIPLINES MATRIX (PSIONIC PATHS & TRADITIONS)
+  // ─────────────────────────────────────────────────────────────────────────────
+  disciplines: {
+    id: 'disciplines',
+    synthesizerSubtitle: 'Synthesize psionic discipline tradition & tier ladder',
+    conceptSectionLabel: '1. Metaphysical Tradition & Discipline Domain',
+    nameField: {
+      label: 'Discipline / Path Name',
+      placeholder: 'E.g., Psychokinesis, Dimensional Weaving, Biokinesis...'
+    },
+    parametersSectionLabel: '2. Governing Attribute, Canonical Sphere & Base CP',
+    showTechLevel: false,
+    showMetaLevel: true,
+    defaultTl: 0,
+    defaultMl: 2,
+    parameters: [
+      { key: 'governing_attribute', label: 'Governing Attribute', type: 'select', defaultValue: 'Wisdom', options: ['Wisdom', 'Intellect', 'Charisma', 'Stamina'] },
+      { key: 'canonical_sphere', label: 'Canonical Sphere', type: 'select', defaultValue: 'Energy', options: ['Dimension', 'Energy', 'Entropy', 'Illusion', 'Matter', 'Mental'] },
+      { key: 'cp', label: 'Unlock Cost (CP)', type: 'number', defaultValue: 10, min: 5, max: 25 }
+    ],
+    concepts: [
+      { id: 'energy_kinesis_path', label: 'Energy & Kinetic Mastery', badge: 'Energy • Kinesis/Thermal', suggestedName: 'Order of Vector Kinesis', prompt: 'Commands kinetic force vectors, electromagnetic discharges, and plasma excitation across 5 mastery tiers.', presetParams: { governing_attribute: 'Wisdom', canonical_sphere: 'Energy', cp: 10, ml: 2 } },
+      { id: 'dimensional_folding_path', label: 'Dimensional & Spatial Folding', badge: 'Dimension • Apportation', suggestedName: 'Void-Fold Spatial Tradition', prompt: 'Manipulates spacetime geometry, blink teleportation, gravity wells, and pocket-plane apertures.', presetParams: { governing_attribute: 'Intellect', canonical_sphere: 'Dimension', cp: 10, ml: 3 } },
+      { id: 'mental_telepathy_path', label: 'Mental & Telepathic Cognition', badge: 'Mental • Telepathy', suggestedName: 'Synaptic Sovereign Path', prompt: 'Governs mind-links, psychic shielding, precognitive combat reads, and neural domination.', presetParams: { governing_attribute: 'Charisma', canonical_sphere: 'Mental', cp: 10, ml: 2 } },
+      { id: 'matter_biokinesis_path', label: 'Matter & Cellular Biokinesis', badge: 'Matter • Biokinesis', suggestedName: 'Somatic Crucible Path', prompt: 'Reshapes molecular bonds, accelerates cellular regeneration, and transmutes physical materials.', presetParams: { governing_attribute: 'Stamina', canonical_sphere: 'Matter', cp: 10, ml: 2 } }
+    ],
+    directivesLabel: '3. Strain Mechanics, Foci & Tier I-V Progression Directives (Optional)',
+    directivesPlaceholder: 'E.g., Define Tier 1-5 progression milestones, passive bonuses, Focus/Strain backlash rules, and unlocked invocations...',
+    quickDirectives: ['Tier I-V Progression', 'Focus & Strain Backlash', 'Associated Foci', 'Passive Attunement Perks']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 25. SPECIAL ABILITIES MATRIX (STANDALONE 5 CP ABILITIES)
+  // ─────────────────────────────────────────────────────────────────────────────
+  special_abilities: {
+    id: 'special_abilities',
+    synthesizerSubtitle: 'Synthesize standalone 5 CP Special Ability & Essence CR',
+    conceptSectionLabel: '1. Standalone Special Ability Archetype',
+    nameField: {
+      label: 'Special Ability Name',
+      placeholder: 'E.g., Aetheric Resonance Pulse, Phase-Step Blink, Chrono-Snap...'
+    },
+    parametersSectionLabel: '2. Attribute Foundation, Canonical Discipline & CR',
+    showTechLevel: true,
+    showMetaLevel: true,
+    defaultTl: 0,
+    defaultMl: 2,
+    parameters: [
+      { key: 'foundationAttribute', label: 'Foundational Attribute', type: 'select', defaultValue: 'attr-wisdom', options: ['attr-intellect', 'attr-wisdom', 'attr-charisma', 'attr-agility', 'attr-strength', 'attr-stamina'] },
+      { key: 'discipline', label: 'Canonical Discipline (6)', type: 'select', defaultValue: 'Energy', options: ['Dimension', 'Energy', 'Entropy', 'Illusion', 'Matter', 'Mental'] },
+      { key: 'manifestation_dc', label: 'Manifestation CR', type: 'number', defaultValue: 15, min: 10, max: 60 },
+      { key: 'cp', label: 'Base CP Cost', type: 'number', defaultValue: 5, min: 1, max: 15 }
+    ],
+    concepts: [
+      { id: 'phase_blink_ability', label: 'Innate Phase-Step / Blink', badge: 'Dimension • 5 CP', suggestedName: 'Quantum Phase-Step', prompt: 'Standalone spatial ability allowing instant short-range teleportation without full Awakened Discipline training.', presetParams: { foundationAttribute: 'attr-agility', discipline: 'Dimension', manifestation_dc: 15, cp: 5, tl: 0, ml: 2 } },
+      { id: 'aether_pulse_ability', label: 'Harmonic Force / Energy Blast', badge: 'Energy • 5 CP', suggestedName: 'Aetheric Resonance Pulse', prompt: 'Focused kinetic or thermal discharge scaling off Attribute + Ability Rank with Essence = ceil(CR / 5).', presetParams: { foundationAttribute: 'attr-wisdom', discipline: 'Energy', manifestation_dc: 15, cp: 5, tl: 0, ml: 2 } },
+      { id: 'bio_mending_ability', label: 'Somatic Self-Mending Surge', badge: 'Matter • 5 CP', suggestedName: 'Cellular Knit Surge', prompt: 'Metabolic biokinetic surge that knits trauma and purges toxins as a tactical action.', presetParams: { foundationAttribute: 'attr-stamina', discipline: 'Matter', manifestation_dc: 15, cp: 5, tl: 0, ml: 1 } },
+      { id: 'mind_veil_ability', label: 'Cognitive Veil / Glamour', badge: 'Illusion • 5 CP', suggestedName: 'Sensory Blindspot Veil', prompt: 'Subtle psychic distortion that erases the user from immediate visual and optical notice.', presetParams: { foundationAttribute: 'attr-charisma', discipline: 'Illusion', manifestation_dc: 15, cp: 5, tl: 0, ml: 2 } }
+    ],
+    directivesLabel: '3. 5-Step Parameter Math, Essence Cost & Save Directives (Optional)',
+    directivesPlaceholder: 'E.g., Calibrate Base Difficulty + Range + Area + Duration modifiers, Essence = ceil(CR / 5), and 2d10 Attribute + Rank check...',
+    quickDirectives: ['5 CP Standalone Rules', 'Essence = ceil(CR / 5)', '5-Step Parameter Breakdown', 'Opposed Save Mechanics']
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // 26. WORLD, UNIVERSE, SETTING, PHILOSOPHY, SCENE & SOCIETIES MATRICES
+  // ─────────────────────────────────────────────────────────────────────────────
+  world: {
+    id: 'world',
+    synthesizerSubtitle: 'Synthesize UWP world profile, biosphere & planetary culture',
+    conceptSectionLabel: '1. Planetary World Concept & Classification',
+    nameField: { label: 'World Name', placeholder: 'E.g., Auriga Prime, Copia, Vesperia IV...' },
+    parametersSectionLabel: '2. Starport Class, Atmosphere & Population Telemetry',
+    showTechLevel: true,
+    showMetaLevel: true,
+    defaultTl: 3,
+    defaultMl: 1,
+    parameters: [
+      { key: 'starport', label: 'Starport Class', type: 'select', defaultValue: 'B', options: ['A', 'B', 'C', 'D', 'E', 'X'] },
+      { key: 'atmosphere', label: 'Atmosphere Code (0-15)', type: 'number', defaultValue: 6, min: 0, max: 15 },
+      { key: 'population', label: 'Population Code (0-15)', type: 'number', defaultValue: 7, min: 0, max: 15 }
+    ],
+    concepts: [
+      { id: 'core_trade_world', label: 'Core Trade Hub World', badge: 'Starport A • High Pop', suggestedName: 'Auriga Prime', prompt: 'Major interstellar crossroads with orbital shipyards, cosmopolitan spire-cities, and dense trade lanes.', presetParams: { starport: 'A', atmosphere: 6, population: 9, tl: 4, ml: 1 } },
+      { id: 'twilight_frontier_world', label: 'Tidally Locked Frontier World', badge: 'Starport C • Terminator Belt', suggestedName: 'Meridian Dusk', prompt: 'Habitable twilight ribbon wedged between scorched dayside deserts and frozen nightside glaciers.', presetParams: { starport: 'C', atmosphere: 5, population: 6, tl: 3, ml: 1 } },
+      { id: 'anomalous_relic_world', label: 'Quarantined Precursor World', badge: 'Starport E • High ML', suggestedName: 'Onyx Monolith', prompt: 'Restricted frontier planet dotted with non-Euclidean progenitor ruins and leyline storms.', presetParams: { starport: 'E', atmosphere: 4, population: 3, tl: 3, ml: 4 } }
+    ],
+    directivesLabel: '3. UWP Code, Geography, Cultures & Planetary Hooks (Optional)',
+    directivesPlaceholder: 'E.g., Generate canonical UWP string, continental geography, dominant polities, and adventure hooks...',
+    quickDirectives: ['Valid UWP String', 'Geography & Biosphere', 'Dominant Cultures', 'Planetary Conflict Hooks']
+  },
+
+  universe: {
+    id: 'universe',
+    synthesizerSubtitle: 'Synthesize cosmology, physical laws & genre pillars',
+    conceptSectionLabel: '1. Cosmological Scale & Continuum Concept',
+    nameField: { label: 'Universe / Continuum Name', placeholder: 'E.g., Tangent Space Continuum, The Shimmering Reach...' },
+    parametersSectionLabel: '2. Cosmic Scale & Metaphysical Saturation',
+    showTechLevel: true,
+    showMetaLevel: true,
+    defaultTl: 4,
+    defaultMl: 2,
+    parameters: [
+      { key: 'scale', label: 'Cosmic Scale', type: 'select', defaultValue: 'Galaxy', options: ['Multiverse', 'Galaxy', 'Solar System', 'Single Planet', 'Microcosm'] }
+    ],
+    concepts: [
+      { id: 'science_fantasy_sector', label: 'Science-Fantasy Galactic Continuum', badge: 'Galaxy • Tech + Aether', suggestedName: 'The Tangent Continuum', prompt: 'Hard-edged interstellar civilization where relativistic engineering coexists with awakened psionics and ancient dimensional rifts.', presetParams: { scale: 'Galaxy', tl: 4, ml: 2 } },
+      { id: 'pocket_cluster', label: 'Isolated Rift Cluster', badge: 'Cluster • Cut-Off', suggestedName: 'The Severed Veil Cluster', prompt: 'Pocket star cluster cut off from core jump-lanes by a violent dimensional storm wall.', presetParams: { scale: 'Solar System', tl: 3, ml: 3 } },
+      { id: 'multiversal_nexus', label: 'Planar / Multiversal Convergence', badge: 'Multiverse • High Meta', suggestedName: 'Lattice of Convergent Spheres', prompt: 'Layered reality where parallel timelines and dimensional planes bleed across threshold gates.', presetParams: { scale: 'Multiverse', tl: 4, ml: 4 } }
+    ],
+    directivesLabel: '3. Laws of Physics, FTL Travel & Thematic Tone Directives (Optional)',
+    directivesPlaceholder: 'E.g., Define FTL travel constraints, metaphysical resonance rules, and core thematic pillars...',
+    quickDirectives: ['FTL & Comm Laws', 'Metaphysical Ruleset', 'Thematic Genre Pillars', 'Historical Epochs']
+  },
+
+  setting: {
+    id: 'setting',
+    synthesizerSubtitle: 'Synthesize location landmarks, vibe & local hazards',
+    conceptSectionLabel: '1. Location & District Archetype',
+    nameField: { label: 'Setting / Location Name', placeholder: 'E.g., Port Meridian Free-Station, Undercity Sector 9...' },
+    parametersSectionLabel: '2. Ambient Tech & Security Context',
+    showTechLevel: true,
+    showMetaLevel: true,
+    defaultTl: 3,
+    defaultMl: 1,
+    parameters: [],
+    concepts: [
+      { id: 'freeport_station', label: 'Lawless Orbital Freeport', badge: 'Orbital • Smuggler Hub', suggestedName: 'Spindle-7 Free-Port', prompt: 'Rotating neutral trade station packed with black-box brokers, drydock rigs, and neon cantinas.', presetParams: { tl: 3, ml: 1 } },
+      { id: 'arcology_undercity', label: 'Arcology Sub-Level Sprawl', badge: 'Urban • Cyberpunk', suggestedName: 'Sump-Tier Neon Market', prompt: 'Rain-slicked lower arcology district beneath massive atmospheric scrubbers and syndicate surveillance.', presetParams: { tl: 4, ml: 0 } },
+      { id: 'precursor_dig_site', label: 'Excavated Precursor Vault', badge: 'Ruins • Hazardous', suggestedName: 'Vault Zero Dig-Site', prompt: 'Flooded subterranean monolith chamber surrounded by corporate security cordons and gravity anomalies.', presetParams: { tl: 4, ml: 3 } }
+    ],
+    directivesLabel: '3. Points of Interest, Sensory Atmosphere & Local Rules (Optional)',
+    directivesPlaceholder: 'E.g., Include 3-5 Points of Interest, local law enforcement rules, environmental hazards, and NPC hooks...',
+    quickDirectives: ['3-5 Points of Interest', 'Local Security & Law Rules', 'Environmental Hazards', 'Sensory Read-Aloud Vibe']
+  },
+
+  philosophy: {
+    id: 'philosophy',
+    synthesizerSubtitle: 'Synthesize creed dogma, tenets & ritual practices',
+    conceptSectionLabel: '1. Philosophical Creed & Religious Tradition',
+    nameField: { label: 'Philosophy / Religion Name', placeholder: 'E.g., Creed of the Sol Invictus, Machine-Logic Accord...' },
+    parametersSectionLabel: '2. Cultural Tech & Metaphysical Context',
+    showTechLevel: false,
+    showMetaLevel: true,
+    defaultTl: 3,
+    defaultMl: 2,
+    parameters: [],
+    concepts: [
+      { id: 'solar_theocracy_creed', label: 'Luminous Civic Theocracy', badge: 'Creed • Order & Light', suggestedName: 'Path of the Unbroken Corona', prompt: 'Structured stellar religion venerating cosmic order, truth-oaths, and the purification of void entropy.', presetParams: { ml: 2 } },
+      { id: 'cybernetic_logic_creed', label: 'Transhuman / Machine Logic Philosophy', badge: 'Philosophy • Rationalist', suggestedName: 'The Prime Axiom', prompt: 'Philosophical movement pursuing cognitive clarity, cybernetic synthesis, and freedom from biological impulse.', presetParams: { ml: 0 } },
+      { id: 'void_mystic_order', label: 'Esoteric Void Mysticism', badge: 'Mystic • Awakened', suggestedName: 'Whisperers of the Horizon', prompt: 'Contemplative monastic tradition studying dimensional currents, ego-dissolution, and precognitive harmony.', presetParams: { ml: 3 } }
+    ],
+    directivesLabel: '3. Core Dogma, Tenets, Taboos & Ritual Directives (Optional)',
+    directivesPlaceholder: 'E.g., Detail founding origin, 3-5 core tenets, sacred rites/practices, and schisms...',
+    quickDirectives: ['Core Dogma & Tenets', 'Sacred Rites & Practices', 'Taboos & Schisms', 'Faction & Species Ties']
+  },
+
+  scene: {
+    id: 'scene',
+    synthesizerSubtitle: 'Synthesize AIME scene beats, dramatic hook & CR checks',
+    conceptSectionLabel: '1. Dramatic Scene Structure (AIME)',
+    nameField: { label: 'Scene Title', placeholder: 'E.g., Decompression at Dock 7, Midnight Syndicate Exchange...' },
+    parametersSectionLabel: '2. Scene Classification & Escalation Context',
+    showTechLevel: false,
+    showMetaLevel: false,
+    defaultTl: 3,
+    defaultMl: 1,
+    parameters: [
+      { key: 'scene_type', label: 'Scene Type', type: 'select', defaultValue: 'Action / Combat', options: ['Action / Combat', 'Investigation / Clue', 'Social / Intrigue', 'Exploration / Survival', 'Downtime / Recovery', 'Cinematic Revelation'] }
+    ],
+    concepts: [
+      { id: 'tactical_setpiece', label: 'Dynamic Combat Set-Piece', badge: 'Action • Environmental', suggestedName: 'Airlock Breach at Spindle 7', prompt: 'High-stakes firefight complicated by shifting gravity, failing bulkheads, or a ticking countdown.', presetParams: { scene_type: 'Action / Combat' } },
+      { id: 'noir_investigation', label: 'Forensic / Cyber Investigation', badge: 'Investigation • Clues', suggestedName: 'Ghost in the Black-Box', prompt: 'Multi-layered crime scene requiring forensic slicing, witness interrogation, and physical recon.', presetParams: { scene_type: 'Investigation / Clue' } },
+      { id: 'diplomatic_standoff', label: 'High-Tension Social Intrigue', badge: 'Social • Negotiation', suggestedName: 'Summit of the Three Houses', prompt: 'Tense diplomatic parley where concealed agendas, etiquette traps, and leverage decide the outcome.', presetParams: { scene_type: 'Social / Intrigue' } },
+      { id: 'hazard_traversal', label: 'Hostile Survival Traversal', badge: 'Exploration • Hazard CR', suggestedName: 'Crossing the Glass Storm', prompt: 'Perilous expedition across lethal terrain testing endurance, navigation, and equipment integrity.', presetParams: { scene_type: 'Exploration / Survival' } }
+    ],
+    directivesLabel: '3. Read-Aloud Hook, 3-Act Beats & 2d10 CR Checks (Optional)',
+    directivesPlaceholder: 'E.g., Include sensory read-aloud opening, 3 escalating scene beats, 2d10 skill CR benchmarks, and Architect secrets...',
+    quickDirectives: ['Sensory Read-Aloud Box', '3 Escalating Beats', '2d10 Skill CR Benchmarks', 'Architect Twist / Secret']
+  },
+
+  societies: {
+    id: 'societies',
+    synthesizerSubtitle: 'Synthesize civilization sphere stage, rights & enforcement',
+    conceptSectionLabel: '1. Civilization Sphere & Governance Tier',
+    nameField: { label: 'Society / Governance Designation', placeholder: 'E.g., Cyberocratic Mesh Consensus, Frontier Charter...' },
+    parametersSectionLabel: '2. Development Stage & UWP Code',
+    showTechLevel: true,
+    showMetaLevel: false,
+    defaultTl: 3,
+    defaultMl: 0,
+    parameters: [
+      { key: 'stage', label: 'Development Stage (0-5)', type: 'number', defaultValue: 3, min: 0, max: 5 }
+    ],
+    concepts: [
+      { id: 'frontier_charter_soc', label: 'Frontier Colonial Charter', badge: 'Stage 2 • Decentralized', suggestedName: 'Autonomous Rim Charter', prompt: 'Pragmatic self-governing frontier framework prioritizing resource output, mutual defense, and local marshals.', presetParams: { stage: 2, tl: 3 } },
+      { id: 'high_core_consensus', label: 'Networked Core Technocracy', badge: 'Stage 4 • Algorithmic', suggestedName: 'Mesh-Verified Civic Order', prompt: 'High-infrastructure planetary governance managed through transparent telemetry, guild charters, and drones.', presetParams: { stage: 4, tl: 4 } },
+      { id: 'martial_directorate_soc', label: 'Fortress Martial Directorate', badge: 'Stage 3 • Regimented', suggestedName: 'Citadel Defense Mandate', prompt: 'Militarized civic structure where rights, rationing, and status derive from defense service.', presetParams: { stage: 3, tl: 3 } }
+    ],
+    directivesLabel: '3. Citizen Rights, Enforcement & Social Friction Directives (Optional)',
+    directivesPlaceholder: 'E.g., Detail citizen rights, law enforcement mechanisms, trade restrictions, and 2d10 social check modifiers...',
+    quickDirectives: ['Citizen Rights & Duties', 'Law Enforcement Model', '2d10 Social Check Mods', 'Internal Friction Hooks']
+  },
+
+  economatrix: {
+    id: 'economatrix',
+    synthesizerSubtitle: 'Synthesize TSC valuation profile & trade parameters',
+    conceptSectionLabel: '1. Economic Market & Trade Archetype',
+    nameField: { label: 'Economic Profile Name', placeholder: 'E.g., Core Sector Trade Index, Blockade Surge Tariff...' },
+    parametersSectionLabel: '2. Standard Curve CR & Market Calibration',
+    showTechLevel: true,
+    showMetaLevel: false,
+    defaultTl: 3,
+    defaultMl: 0,
+    parameters: [
+      { key: 'craft_dc', label: 'Standard Curve CR (0-80)', type: 'number', defaultValue: 20, min: 0, max: 80 }
+    ],
+    concepts: [
+      { id: 'core_free_market', label: 'Core Free-Port Market', badge: 'CR 20 • High Liquidity', suggestedName: 'Core Exchange Standard', prompt: 'High-liquidity interstellar market hub adhering strictly to the Tangent Standard Curve (TSC).', presetParams: { craft_dc: 20, tl: 4 } },
+      { id: 'frontier_scarcity_market', label: 'Frontier Scarcity / Embargo Index', badge: 'CR 25 • Scarcity Markup', suggestedName: 'Outer Rim Embargo Tariff', prompt: 'Supply-constrained border economy with steep markups on refined fuel, medical tech, and ordnance.', presetParams: { craft_dc: 25, tl: 2 } }
+    ],
+    directivesLabel: '3. Liquidity, Wealth Score & Tariff Directives (Optional)',
+    directivesPlaceholder: 'E.g., Specify Wealth Score (WS) thresholds, black-market surcharges, and crafting time modifiers...',
+    quickDirectives: ['TSC Valuation Formula', 'Wealth Score Thresholds', 'Supply & Scarcity Modifiers']
+  },
+
+  technology: {
+    id: 'technology',
+    synthesizerSubtitle: 'Synthesize Tech Level era capabilities & material specs',
+    conceptSectionLabel: '1. Technological Paradigm & Era',
+    nameField: { label: 'Technology Profile Designation', placeholder: 'E.g., TL 4 Gravimetric & Nanocarbon Matrix...' },
+    parametersSectionLabel: '2. Tech Level Calibration',
+    showTechLevel: true,
+    showMetaLevel: false,
+    defaultTl: 3,
+    defaultMl: 0,
+    parameters: [],
+    concepts: [
+      { id: 'tl3_fusion_industrial', label: 'TL 3 Interstellar Fusion Standard', badge: 'TL 3 • Galactic Baseline', suggestedName: 'TL 3 Fusion & Plasteel Standard', prompt: 'Reliable fusion reactors, cybernetic prosthetics, ballistic/plasma hybrids, and jump-lane starflight.', presetParams: { tl: 3 } },
+      { id: 'tl4_gravimetric_high', label: 'TL 4 Gravimetric & Nanotech Era', badge: 'TL 4 • Core Apex', suggestedName: 'TL 4 Gravimetric & Bioware Paradigm', prompt: 'Compact anti-gravity, smart nanocarbon composites, cultured bioware, and quantum mesh computing.', presetParams: { tl: 4 } },
+      { id: 'tl5_singularity_relic', label: 'TL 5 Singularity / Precursor Tech', badge: 'TL 5 • Post-Scarcity', suggestedName: 'TL 5 Quantum-Metric Fabrication', prompt: 'Matter-energy conversion, metric engineering, and near-indestructible progenitor metamaterials.', presetParams: { tl: 5 } }
+    ],
+    directivesLabel: '3. Domain Capabilities, Power Sources & Operator Penalty Directives (Optional)',
+    directivesPlaceholder: 'E.g., Detail energy generation, materials, computing, medical capabilities, and low-TL operator penalties...',
+    quickDirectives: ['Energy & Materials Specs', 'Medical & Cyber Capabilities', 'Operator TL Discrepancy Rules']
+  },
+
+  scaling: {
+    id: 'scaling',
+    synthesizerSubtitle: 'Synthesize 14-tier scale profile & combat matchup math',
+    conceptSectionLabel: '1. Scale Tier & Volumetric Profile',
+    nameField: { label: 'Scaling Reference Designation', placeholder: 'E.g., Heavy Walker Colossal Matchup Profile...' },
+    parametersSectionLabel: '2. Size Tier Calibration',
+    showTechLevel: false,
+    showMetaLevel: false,
+    defaultTl: 3,
+    defaultMl: 0,
+    parameters: [
+      { key: 'size', label: 'Size Category', type: 'select', defaultValue: 'Large', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal'] }
+    ],
+    concepts: [
+      { id: 'personal_vs_vehicular', label: 'Infantry vs. Heavy Walker Scale', badge: 'Medium vs Huge', suggestedName: 'Anti-Armor Scale Benchmark', prompt: 'Reference profile calibrating attack modifiers, reach, and structural damage scaling between infantry and heavy frames.', presetParams: { size: 'Huge' } },
+      { id: 'capital_structural_scale', label: 'Colossal Structural / Starship Scale', badge: 'Colossal • Capital Tier', suggestedName: 'Capital Hull Scaling Profile', prompt: 'Volumetric mass, structure point multipliers, and weapon die steps for colossal installations and vessels.', presetParams: { size: 'Colossal' } }
+    ],
+    directivesLabel: '3. Fluid Combat Matchup & Structure Multiplier Directives (Optional)',
+    directivesPlaceholder: 'E.g., Include STR/Defense/Stealth modifiers, reach, and opposed size matchup deltas...',
+    quickDirectives: ['14-Tier Canonical Math', 'Fluid Matchup Modifiers', 'Structure & Mass Multipliers']
   }
 };
 
@@ -2889,11 +3247,9 @@ CODEX_SYNTHESIZER_PROFILES.armoring = CODEX_SYNTHESIZER_PROFILES.armor;
 CODEX_SYNTHESIZER_PROFILES.gear = CODEX_SYNTHESIZER_PROFILES.equipment;
 CODEX_SYNTHESIZER_PROFILES.personal_property = CODEX_SYNTHESIZER_PROFILES.other;
 CODEX_SYNTHESIZER_PROFILES.invocations = CODEX_SYNTHESIZER_PROFILES.invocation;
-CODEX_SYNTHESIZER_PROFILES.disciplines = CODEX_SYNTHESIZER_PROFILES.invocation;
-CODEX_SYNTHESIZER_PROFILES.special_abilities = CODEX_SYNTHESIZER_PROFILES.invocation;
 CODEX_SYNTHESIZER_PROFILES.modular_characters = CODEX_SYNTHESIZER_PROFILES['modular-characters'];
 CODEX_SYNTHESIZER_PROFILES.planetary_design = CODEX_SYNTHESIZER_PROFILES['planetary-design'];
-CODEX_SYNTHESIZER_PROFILES.world_design = CODEX_SYNTHESIZER_PROFILES['planetary-design'];
+CODEX_SYNTHESIZER_PROFILES.world_design = CODEX_SYNTHESIZER_PROFILES.world;
 CODEX_SYNTHESIZER_PROFILES.planets = CODEX_SYNTHESIZER_PROFILES['planetary-design'];
 
 /**
@@ -2902,11 +3258,12 @@ CODEX_SYNTHESIZER_PROFILES.planets = CODEX_SYNTHESIZER_PROFILES['planetary-desig
  * from the matrix's own fields, archetypes, and category metadata.
  */
 export const getSynthesizerProfile = (matrix, datasetKey = '') => {
+  const matrixObj = typeof matrix === 'object' && matrix !== null ? matrix : null;
   const candidates = [
-    matrix?.id,
+    typeof matrix === 'string' ? matrix : matrixObj?.id,
     datasetKey,
-    matrix?.targetCollection,
-    matrix?.ingestionKey
+    matrixObj?.targetCollection,
+    matrixObj?.ingestionKey
   ]
     .filter(Boolean)
     .map(k => String(k).toLowerCase().trim());
@@ -2915,10 +3272,33 @@ export const getSynthesizerProfile = (matrix, datasetKey = '') => {
     if (CODEX_SYNTHESIZER_PROFILES[key]) {
       return CODEX_SYNTHESIZER_PROFILES[key];
     }
+    if (key.startsWith('society_')) {
+      const sphereName = key
+        .replace(/^society_/i, '')
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+      const baseSoc = CODEX_SYNTHESIZER_PROFILES.societies;
+      return {
+        ...baseSoc,
+        id: key,
+        synthesizerSubtitle: `Synthesize ${sphereName} sphere stage, rights & mechanics`,
+        conceptSectionLabel: `1. ${sphereName} Sphere Archetypes`,
+        nameField: {
+          label: `${sphereName} Profile Designation`,
+          placeholder: `E.g., Stage 3 ${sphereName} Standard...`
+        }
+      };
+    }
   }
 
-  // Dynamic fallback built from the matrix definition itself
-  const primaryField = matrix?.fields?.[0] || { label: `${matrix?.name || 'Entry'} Designation`, placeholder: `E.g., Custom ${matrix?.label || 'Entry'}...` };
+  // Dynamic fallback built strictly from the matrix definition itself (NEVER leak equipment/species!)
+  const matrixTitle = matrix?.label || matrix?.name || 'Codex Asset';
+  const matrixShortName = matrix?.name || 'ASSET';
+  const primaryField = matrix?.fields?.[0] || { label: `${matrixShortName} Designation`, placeholder: `E.g., Canonical ${matrixTitle}...` };
+  const fieldNames = new Set((matrix?.fields || []).map((f) => f.name));
+  const hasTlField = fieldNames.has('tl') || fieldNames.has('tech_level') || fieldNames.has('techLevel') || Boolean(matrix?.isProperty);
+  const hasMlField = fieldNames.has('ml') || fieldNames.has('meta_level') || fieldNames.has('metaLevel');
+
   const dynamicParams = (matrix?.fields || [])
     .filter(f => f.name !== 'name' && (f.type === 'select' || f.type === 'number') && !['tl', 'tech_level', 'ml', 'meta_level'].includes(f.name))
     .slice(0, 3)
@@ -2941,25 +3321,50 @@ export const getSynthesizerProfile = (matrix, datasetKey = '') => {
         prompt: arch.prompt,
         presetParams: arch.preset || {}
       }))
-    : CODEX_SYNTHESIZER_PROFILES.equipment.concepts;
+    : [
+        {
+          id: `${matrix?.id || 'asset'}_baseline`,
+          label: `Baseline ${matrixTitle}`,
+          badge: `${matrix?.badge || matrixShortName} • Standard`,
+          suggestedName: `Standard ${matrixTitle}`,
+          prompt: `Canonical baseline ${matrixTitle.toLowerCase()} calibrated to core Tangent SFF RP 2d10 rules and lore.`,
+          presetParams: {}
+        },
+        {
+          id: `${matrix?.id || 'asset'}_specialized`,
+          label: `Specialized ${matrixTitle}`,
+          badge: `${matrix?.badge || matrixShortName} • Tactical`,
+          suggestedName: `Specialized ${matrixTitle}`,
+          prompt: `High-impact situational or tactical ${matrixTitle.toLowerCase()} with clear triggers, modifiers, and counterplay.`,
+          presetParams: {}
+        },
+        {
+          id: `${matrix?.id || 'asset'}_advanced`,
+          label: `Advanced / Variant ${matrixTitle}`,
+          badge: `${matrix?.badge || matrixShortName} • Tiered`,
+          suggestedName: `Advanced ${matrixTitle}`,
+          prompt: `Upper-tier or edge-case ${matrixTitle.toLowerCase()} incorporating advanced scaling or campaign-level hooks.`,
+          presetParams: {}
+        }
+      ];
 
   return {
     id: matrix?.id || 'custom',
-    synthesizerSubtitle: `Synthesize ${matrix?.label || 'blueprint'} with BASTION AI`,
-    conceptSectionLabel: `1. ${matrix?.name || 'Subject'} Concept Archetypes`,
+    synthesizerSubtitle: `Synthesize ${matrixTitle} with BASTION AI`,
+    conceptSectionLabel: `1. ${matrixShortName} Concept Archetypes`,
     nameField: {
-      label: primaryField.label || `${matrix?.name || 'Entry'} Designation`,
-      placeholder: primaryField.placeholder || `E.g., Custom ${matrix?.label || 'Entry'}...`
+      label: primaryField.label || `${matrixShortName} Designation`,
+      placeholder: primaryField.placeholder || `E.g., Custom ${matrixTitle}...`
     },
-    parametersSectionLabel: `2. ${matrix?.name || 'Subject'} Parameters & Calibration`,
-    showTechLevel: true,
-    showMetaLevel: true,
+    parametersSectionLabel: `2. ${matrixShortName} Parameters & Calibration`,
+    showTechLevel: hasTlField,
+    showMetaLevel: hasMlField,
     defaultTl: matrix?.defaultValues?.tl ?? matrix?.defaultValues?.tech_level ?? 3,
     defaultMl: matrix?.defaultValues?.ml ?? matrix?.defaultValues?.meta_level ?? 0,
     parameters: dynamicParams,
     concepts: dynamicConcepts,
-    directivesLabel: `3. ${matrix?.name || 'Tactical'} Directives & Mechanical Focus (Optional)`,
-    directivesPlaceholder: `Specify mechanical focus, lore hooks, and canonical Tangent SFF RP parameters for this ${matrix?.label || 'entry'}...`,
+    directivesLabel: `3. ${matrixShortName} Directives & Mechanical Focus (Optional)`,
+    directivesPlaceholder: `Specify mechanical focus, lore hooks, and canonical Tangent SFF RP parameters for this ${matrixTitle}...`,
     quickDirectives: [
       'Canonical Rules Math',
       'Detailed Lore & Overview',

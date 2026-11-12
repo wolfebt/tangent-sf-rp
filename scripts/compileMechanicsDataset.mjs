@@ -336,7 +336,7 @@ addMechanic({
 - 150 Character Points (CP) starting budget.
 - Universal Straight Build Cost (Zero Package Discount): Across Character Creation, Species Packages, Companion Packages, and Bestiary Point-Buy, +1 Attribute = 5 CP (-1 Attribute Penalty = -5 CP refund) and 1 Skill Rank = 1 CP (5 Skill Ranks = 5 CP).
 - 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1 (-5 CP refund per -1), soft cap +4 at creation.
-- Skills: Cost 1 CP per rank (5 CP per 5 ranks) universally.
+- Skills & Specializations: Base Skill Ranks span 0–20 at 1 CP (1 SP) per rank universally (Creation cap Rank 11; Base max Rank 20). Specializations are built-up sub-skills (Rank 1–10 at 1 CP/SP per rank, Prerequisite Base Rank 6+, NOT a flat +2) adding directly to Base Skill (max 1 specialization viable per check) to unlock effective Ranks 21–30 (Grand Master 21–25 & Pinnacle 26–30).
 - Features: Base cost 3 CP (Recommended Feature: 2 CP, minimum 1 CP). Species Traits: Basic 1 CP, Advanced 2 CP, Elite 4 CP.
 - Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.
 - Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.`,

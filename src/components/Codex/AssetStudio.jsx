@@ -92,6 +92,7 @@ import { useDBM } from '../../context/DBMContext';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
+import { useConfirm } from '../../context/ConfirmContext';
 import { AudioService } from '../../services/audioService';
 import { showToast } from '../../context/ToastContext';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
@@ -120,11 +121,36 @@ import {
   OriginConfigurator,
   OccupationConfigurator,
   ArchetypeConfigurator,
+  FactionConfigurator,
+  SpeciesSubcomponentConfigurator,
+  SkillConfigurator,
+  FeatureConfigurator,
+  TraitConfigurator,
+  DisadvantageConfigurator,
+  DisciplineConfigurator,
+  OtherPropertyConfigurator,
+  WorldElementConfigurator,
+  SocietySphereConfigurator,
+  RuleAndConditionConfigurator,
+  DevParameterConfigurator,
   EconomatrixStudioWorkflow,
   TechnologyStudioWorkflow,
   ScalingStudioWorkflow,
   PlanetaryCivilizationWorkflow
 } from '../../pages/Codex/components';
+
+import {
+  resolveStudioPlaybook,
+  normalizeStudioDomainKey,
+  SOCIETY_SPHERE_KEYS,
+  DEV_PARAMETER_KEYS,
+  SPECIES_SUBSCHEMA_KEYS,
+  WORLD_ELEMENT_KEYS,
+  RULES_DOCUMENT_KEYS
+} from './GuidedStudio/studioPlaybooks';
+import { GuidedStepRail } from './GuidedStudio/GuidedStepRail';
+import { StepFooterBar } from './GuidedStudio/StepFooterBar';
+import { GuidedStageRenderer } from './GuidedStudio/GuidedStageRenderer';
 
 import * as econEngine from '../../engines/tangentEconEngine';
 import * as techEngine from '../../engines/tangentTechEngine';
@@ -179,7 +205,119 @@ const CUSTOM_COMPONENTS = {
   PlanetaryDesignConfigurator,
   OriginConfigurator,
   OccupationConfigurator,
-  ArchetypeConfigurator
+  ArchetypeConfigurator,
+  FactionConfigurator,
+  SpeciesSubcomponentConfigurator,
+  SkillConfigurator,
+  FeatureConfigurator,
+  TraitConfigurator,
+  DisadvantageConfigurator,
+  DisciplineConfigurator,
+  OtherPropertyConfigurator,
+  WorldElementConfigurator,
+  SocietySphereConfigurator,
+  RuleAndConditionConfigurator,
+  DevParameterConfigurator
+};
+
+const SECTION_AWARE_CONFIGURATORS = new Set([
+  'FactionConfigurator',
+  'SpeciesSubcomponentConfigurator',
+  'SkillConfigurator',
+  'FeatureConfigurator',
+  'TraitConfigurator',
+  'DisadvantageConfigurator',
+  'DisciplineConfigurator',
+  'OtherPropertyConfigurator',
+  'WorldElementConfigurator',
+  'SocietySphereConfigurator',
+  'RuleAndConditionConfigurator',
+  'DevParameterConfigurator',
+  'OriginConfigurator',
+  'OccupationConfigurator',
+  'ArchetypeConfigurator',
+  'InvocationParameterConfigurator',
+  'CompanionPackageSelector',
+  'ModularStatBlockConfigurator',
+  'PlanetaryDesignConfigurator'
+]);
+
+const resolveCustomConfiguratorName = (domainKey, matrix) => {
+  if (matrix?.customComponent && CUSTOM_COMPONENTS[matrix.customComponent]) {
+    if (domainKey !== 'species' && matrix.customComponent === 'SpeciesTraitSelector') {
+      // Sub-schemas under species use SpeciesSubcomponentConfigurator
+      if (SPECIES_SUBSCHEMA_KEYS.has(domainKey)) return 'SpeciesSubcomponentConfigurator';
+    }
+    return matrix.customComponent;
+  }
+  if (domainKey === 'factions') return 'FactionConfigurator';
+  if (SPECIES_SUBSCHEMA_KEYS.has(domainKey)) return 'SpeciesSubcomponentConfigurator';
+  if (domainKey === 'skills') return 'SkillConfigurator';
+  if (domainKey === 'features') return 'FeatureConfigurator';
+  if (domainKey === 'traits') return 'TraitConfigurator';
+  if (domainKey === 'disadvantages') return 'DisadvantageConfigurator';
+  if (domainKey === 'disciplines') return 'DisciplineConfigurator';
+  if (domainKey === 'other') return 'OtherPropertyConfigurator';
+  if (WORLD_ELEMENT_KEYS.has(domainKey)) return 'WorldElementConfigurator';
+  if (SOCIETY_SPHERE_KEYS.has(domainKey)) return 'SocietySphereConfigurator';
+  if (RULES_DOCUMENT_KEYS.has(domainKey)) return 'RuleAndConditionConfigurator';
+  if (DEV_PARAMETER_KEYS.has(domainKey)) return 'DevParameterConfigurator';
+  return null;
+};
+
+const getDedicatedHandledFieldsForDomain = (domainKey, matrixId) => {
+  if (domainKey === 'factions' || matrixId === 'factions') {
+    return new Set([
+      'skill_points', 'skill_package', 'recommended_skills', 'recommended_features', 'bonus_features', 'typical_archetypes',
+      'mechanic', 'military_doctrine', 'key_units', 'naval_assets', 'unique_tech_materials',
+      'economic_model', 'primary_exports', 'wealth_modifier', 'law_level', 'lawLevel', 'law_order',
+      'ideological_profile', 'ideology_economic', 'ideology_authority', 'ideology_technocratic',
+      'ideology_metaphysical', 'ideology_diplomatic', 'traits'
+    ]);
+  }
+  if (domainKey === 'origins' || matrixId === 'origins') {
+    return new Set(['skill_points', 'society_skills', 'recommended_skills', 'recommended_features', 'archetypes', 'traits', 'ws_modifier']);
+  }
+  if (domainKey === 'occupations' || matrixId === 'occupations') {
+    return new Set(['skill_points', 'professional_skills', 'recommended_skills', 'recommended_features', 'archetypes', 'traits', 'base_ws']);
+  }
+  if (domainKey === 'archetypes' || matrixId === 'archetypes') {
+    return new Set(['essential_skills', 'supporting_skills', 'signature_traits', 'signature_features', 'traits', 'mbti_alignment']);
+  }
+  if (domainKey === 'skills' || matrixId === 'skills') {
+    return new Set(['attribute', 'linked_attribute', 'skill_group', 'group', 'specializations', 'dc_benchmarks', 'synergies', 'untrained_allowed', 'armor_check_penalty', 'action_type']);
+  }
+  if (domainKey === 'features' || matrixId === 'features') {
+    return new Set(['cp_cost', 'cost_cp', 'tier', 'prerequisites', 'prerequisite', 'action_type', 'activation', 'scaling_notes', 'synergy_skills', 'synergy_archetypes']);
+  }
+  if (domainKey === 'traits' || matrixId === 'traits') {
+    return new Set(['cp_cost', 'cost_cp', 'trait_category', 'polarity', 'requires_choice', 'choice_prompt', 'choice_options', 'incompatible_traits']);
+  }
+  if (domainKey === 'disadvantages' || matrixId === 'disadvantages') {
+    return new Set(['cp_refund', 'cp_value', 'cost_cp', 'severity', 'trigger_condition', 'save_dc', 'mitigation', 'incompatible_features']);
+  }
+  if (domainKey === 'disciplines' || matrixId === 'disciplines') {
+    return new Set(['tradition', 'governing_attribute', 'resonance_sphere', 'core_invocations', 'granted_skills', 'tier_progression', 'tenets']);
+  }
+  if (domainKey === 'other' || matrixId === 'other') {
+    return new Set(['property_subtype', 'trade_code', 'cr', 'craft_dc', 'base_dc', 'containment_class', 'legality', 'cargo_units', 'shelf_life']);
+  }
+  if (SPECIES_SUBSCHEMA_KEYS.has(domainKey)) {
+    return new Set(['cp_cost', 'cost_cp', 'size_index', 'reach', 'space', 'stealth_mod', 'vitality_pool', 'health_pool', 'structural_points', 'healing_model', 'speed_meters', 'speed_squares', 'maneuverability', 'homeworld_gravity', 'compatible_types', 'grants_traits']);
+  }
+  if (WORLD_ELEMENT_KEYS.has(domainKey)) {
+    return new Set(['era', 'cosmology_laws', 'active_pillars', 'sector_coordinates', 'dominant_factions', 'threat_rating', 'core_tenets', 'virtues', 'anathemas', 'practicing_factions', 'scene_type', 'lighting_condition', 'gravity_zone', 'atmosphere_hazard', 'recommended_threats', 'loot_tier']);
+  }
+  if (SOCIETY_SPHERE_KEYS.has(domainKey)) {
+    return new Set(['sphere', 'index_rating', 'uwp_code', 'enforcement_agency', 'citizen_rights', 'restricted_tech', 'restricted_invocations', 'ws_impact', 'associated_factions', 'cultural_taboos']);
+  }
+  if (RULES_DOCUMENT_KEYS.has(domainKey)) {
+    return new Set(['section_code', 'chapter', 'rule_scope', 'severity_stage', 'duration_unit', 'cure_condition', 'penetration_interaction', 'armor_channel', 'crit_effect', 'ap_cost', 'action_economy', 'trigger', 'opposed_check', 'catalyst_tier', 'material_yield', 'formula_expression']);
+  }
+  if (DEV_PARAMETER_KEYS.has(domainKey)) {
+    return new Set(['param_key', 'code', 'sort_order', 'numeric_modifier', 'multiplier', 'dice_step', 'parent_group', 'applies_to_collections', 'engine_constant_ref', 'validation_rule']);
+  }
+  return new Set();
 };
 
 /**
@@ -341,7 +479,6 @@ const SPECS_FIELD_NAMES = new Set([
   'primary_attribute',
   'secondary_attribute',
   'bp_chassis',
-  'skill_points',
   'style',
   'faction_skin',
   'frame_type',
@@ -642,6 +779,7 @@ export const AssetStudio = ({
 }) => {
   const { dbData: contextDbData, saveEntry: contextSaveEntry, deleteEntry: contextDeleteEntry } = useDBM() || {};
   const { currentUser, isAdmin: authIsAdmin, isGM: authIsGM, userRole } = useAuth() || {};
+  const confirm = useConfirm();
   const isAuthorizedRole = Boolean(
     propIsAdmin !== undefined
       ? propIsAdmin
@@ -652,14 +790,30 @@ export const AssetStudio = ({
   const saveEntry = directSaveEntry || contextSaveEntry;
   const deleteEntry = directDeleteEntry || contextDeleteEntry;
 
-  // Resolve target item and key
+  // Resolve target item and authoritative Omnicortex / Codex domain key
   const activeItem = useMemo(() => initialData || selectedItem || {}, [initialData, selectedItem]);
-  const resolvedKey = currentKey || activeItem.category || activeItem.collection || 'species';
+  const resolvedKey = useMemo(() => {
+    if (currentKey) return currentKey;
+    if (propMatrix?.targetCollection || propMatrix?.id) {
+      return propMatrix.targetCollection || propMatrix.id;
+    }
+    if (activeItem.collection && (categoryConfig[activeItem.collection] || getMatrixIdForAssetKey(activeItem.collection))) {
+      return activeItem.collection;
+    }
+    if (activeItem.category && (categoryConfig[activeItem.category] || getMatrixById(activeItem.category))) {
+      return activeItem.category;
+    }
+    return 'species';
+  }, [currentKey, propMatrix, activeItem.collection, activeItem.category]);
 
   // Resolve canonical matrix
   const resolvedMatrix = useMemo(() => {
     const mId = getMatrixIdForAssetKey(resolvedKey);
     if (propMatrix) {
+      // If currentKey explicitly points to a more granular sub-matrix (e.g., species_lineage vs species), honor it
+      if (currentKey && mId && propMatrix.id !== mId && propMatrix.targetCollection !== currentKey) {
+        return getMatrixById(mId) || propMatrix;
+      }
       if (!isPropertyCategory(resolvedKey) && propMatrix.isProperty && mId) {
         return getMatrixById(mId) || getMatrixById('features');
       }
@@ -670,16 +824,49 @@ export const AssetStudio = ({
       return getMatrixById('features');
     }
     return getMatrixById('equipment');
-  }, [propMatrix, resolvedKey]);
+  }, [propMatrix, resolvedKey, currentKey]);
 
   const matrix = resolvedMatrix || (isPropertyCategory(resolvedKey) ? getMatrixById('equipment') : getMatrixById('features'));
-  const isSpeciesStudio = Boolean(
-    matrix?.id?.toLowerCase() === 'species' || 
-    matrix?.targetCollection?.toLowerCase() === 'species' || 
-    matrix?.customComponent === 'SpeciesTraitSelector' ||
-    matrix?.name?.toLowerCase() === 'species' ||
-    resolvedKey?.toLowerCase() === 'species'
+
+  // Normalize Guided Studio domain key & resolve Playbook across all 84 categoryConfig keys & Codex matrices
+  const normalizedDomainKey = useMemo(
+    () => normalizeStudioDomainKey(resolvedKey, matrix),
+    [resolvedKey, matrix]
   );
+  const playbook = useMemo(
+    () => resolveStudioPlaybook(resolvedKey, matrix),
+    [resolvedKey, matrix]
+  );
+
+  // Full 20-CP Species Genetics Studio applies strictly to playable species ('species'), not atomic sub-schemas
+  const isSpeciesStudio = Boolean(
+    normalizedDomainKey === 'species' &&
+    !SPECIES_SUBSCHEMA_KEYS.has(String(resolvedKey || '').toLowerCase())
+  );
+
+  // Determine whether opening an existing saved record ('workbench') vs creating a new entry ('guided')
+  const isExistingRecord = useMemo(() => {
+    if (selectedItem && typeof selectedItem === 'object') {
+      if (
+        selectedItem.id ||
+        (typeof selectedItem.name === 'string' && selectedItem.name.trim()) ||
+        (typeof selectedItem.title === 'string' && selectedItem.title.trim())
+      ) {
+        return true;
+      }
+    }
+    if (!initialData || typeof initialData !== 'object') return false;
+    if (
+      (typeof initialData.name === 'string' && initialData.name.trim()) ||
+      (typeof initialData.title === 'string' && initialData.title.trim())
+    ) {
+      return true;
+    }
+    if (initialData.id && !/^codex_[a-z0-9_-]+_\d{10,}$/i.test(String(initialData.id))) {
+      return true;
+    }
+    return false;
+  }, [selectedItem, initialData]);
   const isProperty = !isSpeciesStudio && Boolean(
     isPropertyCategory(resolvedKey) && (matrix?.isProperty || isPropertyMatrix(matrix?.id) || isPropertyCategory(matrix?.id))
   );
@@ -787,6 +974,17 @@ export const AssetStudio = ({
 
   // View & Edit mode state: Architect / Edit is default when authorized by roles
   const isEditMode = Boolean(isAdmin);
+
+  // Dual Studio Mode: 'guided' when creating new entries; 'workbench' when editing existing records
+  const [studioMode, setStudioMode] = useState(() => (isExistingRecord ? 'workbench' : 'guided'));
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const [activeSubStepId, setActiveSubStepId] = useState(null);
+
+  useEffect(() => {
+    setStudioMode(isExistingRecord ? 'workbench' : 'guided');
+    setActiveStepIndex(0);
+    setActiveSubStepId(null);
+  }, [isExistingRecord, activeItem?.id, resolvedKey]);
 
   // Studio Sub-Tab navigation state: 'specs' | 'mechanics' | 'narrative' | 'relational' | 'inspector'
   const [activeStudioTab, setActiveStudioTab] = useState('specs');
@@ -1113,8 +1311,9 @@ export const AssetStudio = ({
   const handleDelete = async () => {
     const itemName = formData.name || activeItem.name || 'this entry';
     const confirmed = await confirmTypedDeletion(
+      confirm,
       itemName,
-      `delete the ${matrix.name} record "${itemName}" from Omnicortex`
+      `${matrix.name} record`
     );
 
     if (confirmed) {
@@ -1144,13 +1343,66 @@ export const AssetStudio = ({
     }
   };
 
-  if (isModal && !isOpen) return null;
+  const handleOpenPicker = useCallback((field) => {
+    setActiveSelectorField(
+      typeof field === 'string' ? { source: field, target: field, label: field } : field
+    );
+  }, []);
+
+  const handleApplyBatchUpdates = useCallback((updates = []) => {
+    if (!Array.isArray(updates) || updates.length === 0) return;
+    updates.forEach((u) => {
+      if (u && u.field) {
+        const nextVal = u.proposedValue !== undefined
+          ? u.proposedValue
+          : (u.suggestedValue !== undefined ? u.suggestedValue : u.value);
+        handleFieldChange(u.field, nextVal);
+      }
+    });
+    AudioService.playTerminalBeep(1350, 0.04);
+    showToast({
+      type: 'success',
+      title: 'Step Updates Applied',
+      text: `Applied ${updates.length} calibrated field update${updates.length === 1 ? '' : 's'} to ${formData.name || matrix.name}.`
+    });
+  }, [handleFieldChange, formData.name, matrix.name]);
+
+  const handleApplySeed = useCallback((seedPayload = {}, meta = {}) => {
+    if (!seedPayload || typeof seedPayload !== 'object') return;
+    const adapted = adaptItemToCodexFormData(seedPayload, matrix);
+    setFormData((prev) => ({
+      ...prev,
+      ...adapted,
+      ...seedPayload,
+      id: prev.id || adapted.id,
+      name: prev.name?.trim() ? prev.name : (seedPayload.name || adapted.name || prev.name || '')
+    }));
+    AudioService.playTerminalBeep(1320, 0.04);
+    showToast({
+      type: 'success',
+      title: 'Blueprint Seeded',
+      text: meta?.sourceName
+        ? `Seeded blueprint parameters from "${meta.sourceName}".`
+        : 'Seeded canonical archetype template.'
+    });
+  }, [matrix]);
 
   const Icon = matrix.icon;
   const showSocketsAndUDU = Boolean(matrix.hasSocketsAndUDU);
   const showDamageOrEffect = Boolean(matrix.hasDamageOrEffect);
   const showModifications = Boolean(matrix.hasModifications);
-  const CustomConfigurator = matrix.customComponent ? CUSTOM_COMPONENTS[matrix.customComponent] : null;
+  const customConfiguratorName = useMemo(
+    () => resolveCustomConfiguratorName(normalizedDomainKey, matrix),
+    [normalizedDomainKey, matrix]
+  );
+  const CustomConfigurator = customConfiguratorName ? CUSTOM_COMPONENTS[customConfiguratorName] : null;
+  const isSectionAwareConfigurator = Boolean(
+    customConfiguratorName && SECTION_AWARE_CONFIGURATORS.has(customConfiguratorName)
+  );
+  const visibleMechanicsFields = useMemo(() => {
+    const dedicatedSet = getDedicatedHandledFieldsForDomain(normalizedDomainKey, matrix.id);
+    return relativeMechanicsFields.filter((f) => !dedicatedSet.has(f.name));
+  }, [relativeMechanicsFields, normalizedDomainKey, matrix.id]);
 
   // Contextual labels & icons for Tab 2 depending on dataset
   const mechanicsTabConfig = useMemo(() => {
@@ -1512,6 +1764,249 @@ export const AssetStudio = ({
     setTimeout(() => setCopiedBracketLink(false), 2000);
   }, [formData.name, formData.title, activeItem?.name, activeItem?.title, matrix.name]);
 
+  const renderFieldControl = useCallback((field, variant = 'specs') => {
+    const rawVal = variant === 'specs'
+      ? ((field.name === 'tech_level' || field.name === 'tl')
+          ? (formData.tech_level ?? formData.tl)
+          : (field.name === 'meta_level' || field.name === 'ml')
+            ? (formData.meta_level ?? formData.ml)
+            : field.name === 'parent_species'
+              ? (resolveSpeciesLineageName(
+                  formData,
+                  Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0
+                    ? dbData.species_lineage
+                    : SPECIES_LINEAGES
+                ) || formData.parent_species)
+              : formData[field.name])
+      : formData[field.name];
+    const val = rawVal ?? '';
+    const guidanceItem = CODEX_DATASET_GUIDANCE[matrix.id]?.sections?.find(s => s.id === field.name);
+    const inputBg = variant === 'specs' ? 'bg-slate-950/80' : 'bg-slate-900';
+
+    return (
+      <div key={field.name} className="space-y-1">
+        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+          <span>{field.label} {field.required && <span className="text-amber-400">*</span>}</span>
+          <CodexTooltip
+            title={field.label}
+            description={field.helpText || guidanceItem?.description || `Canonical metric for ${field.label}.`}
+            rule={`BASTION Chapter 6 / ${matrix.name}`}
+            color={matrix.color}
+          />
+        </label>
+        {isEditMode ? (
+          field.type === 'select' ? (
+            <select
+              value={toScalarSelectValue(val)}
+              onChange={(e) => handleFieldChange(field.name, e.target.value)}
+              className={`w-full p-2.5 ${inputBg} border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono`}
+            >
+              {(field.name === 'size' || field.name === 'sizeCategory' || field.source === 'species_size'
+                ? [...(field.options || [])].sort((a, b) => getSizeTierIndex(a) - getSizeTierIndex(b))
+                : field.options)?.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          ) : field.type === 'number' ? (
+            <input
+              type="number"
+              min={field.min}
+              max={field.max}
+              value={toScalarNumberValue(val)}
+              onChange={(e) => handleFieldChange(field.name, e.target.value === '' ? '' : (parseFloat(e.target.value) || 0))}
+              className={`w-full p-2.5 ${inputBg} border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400`}
+            />
+          ) : field.type === 'boolean' || field.type === 'checkbox' ? (
+            <label className={`flex items-center gap-2 p-2.5 ${inputBg} border border-slate-700/80 rounded-xl cursor-pointer`}>
+              <input
+                type="checkbox"
+                checked={Boolean(val)}
+                onChange={(e) => handleFieldChange(field.name, e.target.checked)}
+                className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-slate-950"
+              />
+              <span className="text-xs font-mono text-slate-300">{field.label} Active</span>
+            </label>
+          ) : Array.isArray(val) ? (
+            <input
+              type="text"
+              value={val.map(formatFieldValue).join(', ')}
+              onChange={(e) => handleFieldChange(field.name, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
+              placeholder={field.placeholder || `Comma-separated ${field.label.toLowerCase()}...`}
+              className={`w-full p-2.5 ${inputBg} border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400`}
+            />
+          ) : (
+            <input
+              type="text"
+              value={typeof val === 'object' ? formatFieldValue(val) : val}
+              onChange={(e) => handleFieldChange(field.name, e.target.value)}
+              placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}...`}
+              className={`w-full p-2.5 ${inputBg} border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400`}
+            />
+          )
+        ) : (
+          <div className="p-2.5 bg-slate-950/40 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+            {Array.isArray(val) ? (
+              val.length > 0 ? (
+                <div className="flex flex-wrap gap-1">
+                  {val.map((item, idx) => (
+                    <span key={idx} className={`px-1.5 py-0.5 bg-slate-800 ${variant === 'specs' ? 'text-cyan-300' : 'text-amber-300'} rounded text-[10px] font-mono`}>
+                      {formatFieldValue(item)}
+                    </span>
+                  ))}
+                </div>
+              ) : '—'
+            ) : typeof val === 'object' ? (
+              formatFieldValue(val)
+            ) : (
+              String(val || '—')
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }, [formData, dbData?.species_lineage, matrix.id, matrix.name, matrix.color, isEditMode, handleFieldChange]);
+
+  const renderRelationalGuidance = useCallback(() => {
+    const sharedProps = {
+      formData,
+      handleFieldChange,
+      isEditMode,
+      onOpenPicker: handleOpenPicker,
+      dbData
+    };
+    if (matrix.id === 'species' || isSpeciesStudio) return <SpeciesArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'invocation' || matrix.id === 'invocations') return <InvocationArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'features') return <FeatureArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'skills') return <SkillArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'factions') return <FactionArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'origins') return <OriginArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'occupations') return <OccupationArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'gear' || matrix.id === 'equipment') return <GearArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'weaponry') return <WeaponArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'armor' || matrix.id === 'armoring') return <ArmorArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'augmentations' || matrix.id === 'augmentation' || matrix.id === 'cybernetics') return <AugmentationArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'mecha' || matrix.id === 'vehicles') return <MechaArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'architecture') return <ArchitectureArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'other' || matrix.id === 'other_property' || formData.category === 'other' || resolvedKey === 'other') return <OtherArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'archetypes' || matrix.id === 'archetype') return <ArchetypeArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'disadvantages' || matrix.id === 'disadvantage') return <DisadvantageArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'modular-characters' || matrix.id === 'modular_characters' || matrix.id === 'threats' || matrix.id === 'threat' || matrix.id === 'bestiary') return <ThreatArchitectGuidance {...sharedProps} />;
+    if (matrix.id === 'planetary-design' || matrix.id === 'planetary_design' || matrix.id === 'world' || matrix.id === 'planets') return <PlanetaryArchitectGuidance {...sharedProps} />;
+    if (['universe', 'philosophy', 'technology', 'setting', 'scene', 'world_design'].includes(matrix.id) || ['universe', 'philosophy', 'technology', 'setting', 'scene'].includes(formData.category) || WORLD_ELEMENT_KEYS.has(normalizedDomainKey)) {
+      return <WorldElementArchitectGuidance {...sharedProps} matrix={matrix} />;
+    }
+
+    return (
+      <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl">
+        <h4 className="text-xs font-mono font-bold uppercase text-cyan-400 mb-2 flex items-center gap-1.5">
+          <Compass size={14} />
+          <span>Omnicortex Relational Entity Linking</span>
+        </h4>
+        <p className="text-xs text-slate-400 leading-relaxed mb-4">
+          Link this {matrix.name} record to parent species lineages, homeworlds, factions, tactical requirements, or associated skills.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {['species', 'factions', 'skills', 'occupations', 'origins'].map(colKey => {
+            const linked = formData[colKey] || formData[`${colKey}_id`] || [];
+            const count = Array.isArray(linked) ? linked.length : (linked ? 1 : 0);
+
+            return (
+              <div key={colKey} className="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
+                <div>
+                  <div className="text-xs font-mono font-bold text-slate-200 uppercase">{colKey}</div>
+                  <div className="text-[10px] font-mono text-slate-500">{count} attached</div>
+                </div>
+                {isEditMode && (
+                  <button
+                    type="button"
+                    onClick={() => handleOpenPicker(colKey)}
+                    className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold uppercase transition-colors cursor-pointer"
+                  >
+                    Browse
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }, [formData, handleFieldChange, isEditMode, handleOpenPicker, dbData, matrix, isSpeciesStudio, resolvedKey, normalizedDomainKey]);
+
+  const handleSelectGuidedStep = useCallback((idx) => {
+    const steps = playbook?.steps || [];
+    const bounded = Math.max(0, Math.min(steps.length - 1, idx));
+    AudioService.playTerminalBeep(1100, 0.02);
+    setActiveStepIndex(bounded);
+    const nextStepObj = steps[bounded];
+    setActiveSubStepId(nextStepObj?.subSteps?.[0]?.id || null);
+    if (isSpeciesStudio && nextStepObj?.geneticsTab) {
+      setActiveGeneticsTab(nextStepObj.geneticsTab);
+    }
+  }, [playbook, isSpeciesStudio]);
+
+  const handleSelectGuidedSubStep = useCallback((subOrId) => {
+    const subId = typeof subOrId === 'object' ? subOrId?.id : subOrId;
+    AudioService.playTerminalBeep(1120, 0.02);
+    setActiveSubStepId(subId || null);
+    if (isSpeciesStudio && typeof subOrId === 'object' && subOrId?.geneticsTab) {
+      setActiveGeneticsTab(subOrId.geneticsTab);
+    }
+  }, [isSpeciesStudio]);
+
+  const activeGuidedStep = playbook?.steps?.[activeStepIndex] || playbook?.steps?.[0] || null;
+  const canDeleteRecord = Boolean(isExistingRecord && (activeItem?.id || formData?.id));
+
+  const workbenchNarrativeCopy = useMemo(() => {
+    const dk = String(normalizedDomainKey || matrix?.id || '').toLowerCase();
+    if (isSpeciesStudio || dk.startsWith('species')) {
+      return {
+        overviewLabel: 'Biological Overview & Visual Morphology',
+        overviewPlaceholder: 'Describe anatomy, physiology, lifespan, sensory organs, and visual appearance...',
+        mechanicLabel: 'Biological Mechanics & Environmental Adaptations',
+        mechanicPlaceholder: 'Inherent biological rules, sensory modifiers, environmental tolerances, or metabolic traits...',
+        lorePlaceholder: 'Evolutionary origin, homeworld ecology, cultural structure, and diaspora history...'
+      };
+    }
+    if (['factions', 'origins', 'occupations', 'archetypes', 'societies'].includes(dk) || SOCIETY_SPHERE_KEYS.has(dk)) {
+      return {
+        overviewLabel: `${matrix?.name || 'Pillar'} Overview & Identity Profile`,
+        overviewPlaceholder: 'Define core mandate, cultural identity, institutional structure, or iconic persona silhouette...',
+        mechanicLabel: 'Canonical Rules Summary & Pillar Mechanics',
+        mechanicPlaceholder: '2d10 resolution benefits, skill/trait interactions, authority jurisdiction, or pillar rules...',
+        lorePlaceholder: 'Historical founding, ideological tenets, political rivalries, and in-universe cultural standing...'
+      };
+    }
+    if (['planetary_design', 'planetary-design', 'world', 'universe', 'setting', 'philosophy', 'scene'].includes(dk) || WORLD_ELEMENT_KEYS.has(dk)) {
+      return {
+        overviewLabel: `${matrix?.name || 'World'} Overview & Atmospheric Profile`,
+        overviewPlaceholder: 'Describe astrography, environment, core tenets, or dramatic scene atmosphere...',
+        mechanicLabel: 'Environmental Hazards, Laws & Encounter Mechanics',
+        mechanicPlaceholder: 'Gravity/atmosphere modifiers, regional rules, environmental CR checks, or encounter triggers...',
+        lorePlaceholder: 'Chronicle history, major settlements, faction flashpoints, and in-universe significance...'
+      };
+    }
+    if (!isProperty) {
+      return {
+        overviewLabel: `${matrix?.name || 'Codex'} Summary & Conceptual Overview`,
+        overviewPlaceholder: 'Define high-concept role, narrative expression, and in-game application...',
+        mechanicLabel: '2d10 Resolution Mechanics & System Rules',
+        mechanicPlaceholder: 'Exact 2d10 Dual Resolution check, CR benchmarks, action economy, modifiers, or duration...',
+        lorePlaceholder: 'In-universe practitioners, training traditions, metaphysical origins, and tactical doctrine...'
+      };
+    }
+    return {
+      overviewLabel: 'Technical Overview & Visual Profile',
+      overviewPlaceholder: 'Enter comprehensive design specifications, tactical role, and visual aesthetics...',
+      mechanicLabel: 'Tactical Mechanics & Environmental Operations',
+      mechanicPlaceholder: 'Environmental tolerances, operating conditions, fail-safe procedures...',
+      lorePlaceholder: 'Corporate provenance, manufacturing history, cultural significance...'
+    };
+  }, [normalizedDomainKey, matrix?.id, matrix?.name, isSpeciesStudio, isProperty]);
+
+  if (isModal && !isOpen) return null;
+
   const content = (
     <div className={`bg-[#070a13] flex flex-col overflow-hidden text-slate-100 w-full h-full min-w-0 min-h-0 ${
       isModal 
@@ -1542,7 +2037,7 @@ export const AssetStudio = ({
               </span>
               <span className="text-slate-600 hidden sm:inline">•</span>
               <span className="text-[10px] font-mono text-slate-400 uppercase hidden sm:inline">
-                COLLECTION: {matrix.targetCollection}
+                COLLECTION: {resolvedKey || matrix.targetCollection}
               </span>
             </div>
             <h2 className="text-base sm:text-lg font-bold font-mono text-white mt-0.5 truncate max-w-md">
@@ -1553,6 +2048,41 @@ export const AssetStudio = ({
 
         {/* Header Action Controls */}
         <div className="flex flex-wrap items-center gap-2">
+          {/* Guided Walkthrough <-> Expert Workbench Mode Switcher */}
+          <div className="flex items-center bg-slate-900/95 border border-slate-700/90 rounded-xl p-0.5 font-mono text-[11px]">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.02);
+                setStudioMode('guided');
+              }}
+              className={`px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+                studioMode === 'guided'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.22)]'
+                  : 'text-slate-400 hover:text-slate-200 border border-transparent'
+              }`}
+              title="Progressive step-by-step Guided Walkthrough with Omnicortex RAG citations & peer benchmarks"
+            >
+              <Compass size={12} className={studioMode === 'guided' ? 'text-cyan-400' : 'text-slate-400'} />
+              <span>Guided</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.02);
+                setStudioMode('workbench');
+              }}
+              className={`px-2.5 py-1 rounded-lg font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+                studioMode === 'workbench'
+                  ? 'bg-amber-950/90 text-amber-300 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                  : 'text-slate-400 hover:text-slate-200 border border-transparent'
+              }`}
+              title="All-tabs Expert Workbench for rapid direct multi-field editing"
+            >
+              <Wrench size={12} className={studioMode === 'workbench' ? 'text-amber-400' : 'text-slate-400'} />
+              <span>Workbench</span>
+            </button>
+          </div>
           {/* Live Rules Codex Build Cost & Value Check Pill */}
           {liveBuildCheck && (
             <OmnicortexTooltip
@@ -1649,10 +2179,25 @@ export const AssetStudio = ({
 
 
 
-      {/* ── Studio Body with Left Navigation Rail + Workbench Viewport ── */}
+      {/* ── Studio Body with Left Navigation Rail + Guided/Workbench Viewport ── */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
 
-        {/* ── Standardized Left Navigation Sidebar with Expanding Subcategory Branch ── */}
+        {studioMode === 'guided' ? (
+          <GuidedStepRail
+            playbook={playbook}
+            matrix={matrix}
+            activeStepIndex={activeStepIndex}
+            activeSubStepId={activeSubStepId}
+            onSelectStep={handleSelectGuidedStep}
+            onSelectSubStep={handleSelectGuidedSubStep}
+            formData={formData}
+            liveBuildCheck={liveBuildCheck}
+            speciesSummary={speciesSummary}
+            isSpeciesStudio={isSpeciesStudio}
+            isProperty={isProperty}
+          />
+        ) : (
+        /* ── Standardized Left Navigation Sidebar with Expanding Subcategory Branch ── */
         <nav 
           aria-label="Studio Sub-Sections"
           className="w-full md:w-44 shrink-0 bg-[#070a12]/95 backdrop-blur-md border-b md:border-b-0 md:border-r border-slate-800/90 flex flex-col justify-between py-2 md:py-2.5 px-2 select-none z-20 font-sans shadow-lg"
@@ -1857,11 +2402,67 @@ export const AssetStudio = ({
             </div>
           </div>
         </nav>
+        )}
 
-        {/* ── Main Studio Workbench (Left Forms + Right Live Metrics) ── */}
+        {/* ── Main Studio Stage (Left Guided Walkthrough OR Workbench + Right Live Metrics) ── */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 pb-12 sm:pb-16 flex flex-col lg:flex-row gap-6 min-h-0">
-          
-          {/* Left Column: Studio Forms & Configurators */}
+          {studioMode === 'guided' ? (
+            <div className="flex-1 flex flex-col gap-5 min-w-0">
+              <GuidedStageRenderer
+                playbook={playbook}
+                step={activeGuidedStep}
+                activeStepIndex={activeStepIndex}
+                onSelectStep={handleSelectGuidedStep}
+                activeSubStepId={activeSubStepId}
+                onSelectSubStep={handleSelectGuidedSubStep}
+                domainKey={normalizedDomainKey}
+                matrix={matrix}
+                isSpeciesStudio={isSpeciesStudio}
+                isProperty={isProperty}
+                showSocketsAndUDU={showSocketsAndUDU}
+                showDamageOrEffect={showDamageOrEffect}
+                showModifications={showModifications}
+                CustomConfigurator={CustomConfigurator}
+                isSectionAwareConfigurator={isSectionAwareConfigurator}
+                specsFields={specsFields}
+                visibleMechanicsFields={visibleMechanicsFields}
+                formData={formData}
+                computedValues={computedValues}
+                liveBuildCheck={liveBuildCheck}
+                speciesSummary={speciesSummary}
+                dbData={dbData}
+                isEditMode={isEditMode}
+                loreViewMode={loreViewMode}
+                setLoreViewMode={setLoreViewMode}
+                activeGeneticsTab={activeGeneticsTab}
+                onGeneticsTabChange={handleGeneticsTabChange}
+                omnicortexMarkdownComponents={omnicortexMarkdownComponents}
+                handleFieldChange={handleFieldChange}
+                handleApplyBatchUpdates={handleApplyBatchUpdates}
+                handleApplySeed={handleApplySeed}
+                onOpenPicker={handleOpenPicker}
+                renderFieldControl={renderFieldControl}
+                renderRelationalGuidance={renderRelationalGuidance}
+              />
+              <StepFooterBar
+                steps={playbook?.steps || []}
+                activeStepIndex={activeStepIndex}
+                onPrevStep={() => handleSelectGuidedStep(activeStepIndex - 1)}
+                onNextStep={() => handleSelectGuidedStep(activeStepIndex + 1)}
+                onSwitchToWorkbench={() => setStudioMode('workbench')}
+                onReset={handleResetForm}
+                onDelete={handleDelete}
+                onSave={handleSave}
+                isEditMode={isEditMode}
+                isAdmin={isAdmin}
+                canDelete={canDeleteRecord}
+                isSaving={isSaving}
+                errorMessage={errorMessage}
+                saveSuccess={saveSuccess}
+              />
+            </div>
+          ) : (
+          /* Left Column: Expert Workbench Studio Forms & Configurators */
           <div className="flex-1 flex flex-col gap-5 min-w-0">
             
             {/* UDU Capacity Meter (if property matrix and budgets exist) */}
@@ -1882,672 +2483,72 @@ export const AssetStudio = ({
             {activeStudioTab === 'specs' && (
               <div className="space-y-4 animate-fade-in">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {specsFields.map(field => {
-                    const rawVal = (field.name === 'tech_level' || field.name === 'tl')
-                      ? (formData.tech_level ?? formData.tl)
-                      : (field.name === 'meta_level' || field.name === 'ml')
-                        ? (formData.meta_level ?? formData.ml)
-                        : field.name === 'parent_species'
-                          ? (resolveSpeciesLineageName(
-                              formData,
-                              Array.isArray(dbData?.species_lineage) && dbData.species_lineage.length > 0
-                                ? dbData.species_lineage
-                                : SPECIES_LINEAGES
-                            ) || formData.parent_species)
-                          : formData[field.name];
-                    const val = rawVal ?? '';
-                    const guidanceItem = CODEX_DATASET_GUIDANCE[matrix.id]?.sections?.find(s => s.id === field.name);
-
-                    return (
-                      <div key={field.name} className="space-y-1">
-                        <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                          <span>{field.label} {field.required && <span className="text-amber-400">*</span>}</span>
-                          <CodexTooltip
-                            title={field.label}
-                            description={field.helpText || guidanceItem?.description || `Canonical metric for ${field.label}.`}
-                            rule={`BASTION Chapter 6 / ${matrix.name}`}
-                            color={matrix.color}
-                          />
-                        </label>
-                        {isEditMode ? (
-                          field.type === 'select' ? (
-                            <select
-                              value={toScalarSelectValue(val)}
-                              onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                              className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono"
-                            >
-                              {(field.name === 'size' || field.name === 'sizeCategory' || field.source === 'species_size'
-                                ? [...(field.options || [])].sort((a, b) => getSizeTierIndex(a) - getSizeTierIndex(b))
-                                : field.options)?.map(opt => (
-                                <option key={opt} value={opt}>{opt}</option>
-                              ))}
-                            </select>
-                          ) : field.type === 'number' ? (
-                            <input
-                              type="number"
-                              min={field.min}
-                              max={field.max}
-                              value={toScalarNumberValue(val)}
-                              onChange={(e) => handleFieldChange(field.name, e.target.value === '' ? '' : (parseFloat(e.target.value) || 0))}
-                              className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                            />
-                          ) : field.type === 'boolean' || field.type === 'checkbox' ? (
-                            <label className="flex items-center gap-2 p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={Boolean(val)}
-                                onChange={(e) => handleFieldChange(field.name, e.target.checked)}
-                                className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-slate-950"
-                              />
-                              <span className="text-xs font-mono text-slate-300">{field.label} Active</span>
-                            </label>
-                          ) : Array.isArray(val) ? (
-                            <input
-                              type="text"
-                              value={val.map(formatFieldValue).join(', ')}
-                              onChange={(e) => handleFieldChange(field.name, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
-                              placeholder={field.placeholder || `Comma-separated ${field.label.toLowerCase()}...`}
-                              className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                            />
-                          ) : (
-                            <input
-                              type="text"
-                              value={typeof val === 'object' ? formatFieldValue(val) : val}
-                              onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                              placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}...`}
-                              className="w-full p-2.5 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                            />
-                          )
-                        ) : (
-                          <div className="p-2.5 bg-slate-950/40 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {Array.isArray(val) ? (
-                              val.length > 0 ? (
-                                <div className="flex flex-wrap gap-1">
-                                  {val.map((item, idx) => (
-                                    <span key={idx} className="px-1.5 py-0.5 bg-slate-800 text-cyan-300 rounded text-[10px] font-mono">
-                                      {formatFieldValue(item)}
-                                    </span>
-                                  ))}
-                                </div>
-                              ) : '—'
-                            ) : typeof val === 'object' ? (
-                              formatFieldValue(val)
-                            ) : (
-                              String(val || '—')
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                  {specsFields.map(field => renderFieldControl(field, 'specs'))}
                 </div>
 
-              {/* Primary Overview / Description */}
-              <div className="space-y-1">
-                <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-                  Technical Overview & Visual Profile
-                </label>
-                {isEditMode ? (
-                  <textarea
-                    rows={4}
-                    value={formData.description || ''}
-                    onChange={(e) => handleFieldChange('description', e.target.value)}
-                    placeholder="Enter comprehensive design specifications, tactical role, and visual aesthetics..."
-                    className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 resize-y leading-relaxed"
-                  />
-                ) : (
-                  <div className="p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
-                      {formData.description || 'No description provided.'}
-                    </ReactMarkdown>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* ── TAB 2: GAME MECHANICS & SYSTEMS ── */}
-          {(activeStudioTab === 'mechanics' || (isSpeciesStudio && activeStudioTab === 'genetics')) && (
-            <div className="space-y-5 animate-fade-in">
-              {/* Specialized Matrix Configurator (e.g. Weapon Mods, Armor Coverage, Augmentation Nodes, Species Traits, Invocations, Occupations, Archetypes) */}
-              {CustomConfigurator && (
-                <div className={isSpeciesStudio ? "space-y-4" : "p-4 bg-slate-950/70 border border-amber-500/30 rounded-2xl shadow-inner"}>
-                  {!isSpeciesStudio && (
-                    <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                      <Sparkles size={14} />
-                      <span>Specialized {matrix.name} Studio Configurator</span>
+                {/* Primary Overview / Description */}
+                <div className="space-y-1">
+                  <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
+                    {workbenchNarrativeCopy.overviewLabel}
+                  </label>
+                  {isEditMode ? (
+                    <textarea
+                      rows={4}
+                      value={formData.description || ''}
+                      onChange={(e) => handleFieldChange('description', e.target.value)}
+                      placeholder={workbenchNarrativeCopy.overviewPlaceholder}
+                      className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 resize-y leading-relaxed"
+                    />
+                  ) : (
+                    <div className="p-4 bg-slate-950/50 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]} components={omnicortexMarkdownComponents}>
+                        {formData.description || 'No description provided.'}
+                      </ReactMarkdown>
                     </div>
                   )}
-                  <CustomConfigurator
-                    formData={formData}
-                    onChange={handleFieldChange}
-                    isEditMode={isEditMode}
-                    onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                    dbData={dbData}
-                    activeTab={isSpeciesStudio ? activeGeneticsTab : undefined}
-                    onTabChange={isSpeciesStudio ? handleGeneticsTabChange : undefined}
-                    hideNavRail={isSpeciesStudio}
-                  />
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Dedicated Faction Mechanics & Doctrine Sections (when matrix is factions) */}
-              {matrix.id === 'factions' && (
-                <div className="space-y-4">
-                  {/* Faction Player Character Options & Skill Packages */}
-                  <div className="p-4 bg-slate-950/60 border border-emerald-500/30 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
-                      <Flag size={14} />
-                      <span>Faction Operator Character Options & Skill Packages</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Faction Skill Package (20 Points Allocation)
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formatFieldValue(formData.skill_package)}
-                            onChange={(e) => handleFieldChange('skill_package', e.target.value)}
-                            placeholder="E.g., Bluff (+4), Survival (+3), Streetwise (+3), Mechanics (+3), Pilot (+3), Combat/Utility (+4)"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.skill_package) || 'None specified.'}
-                          </div>
-                        )}
+            {/* ── TAB 2: GAME MECHANICS & SYSTEMS ── */}
+            {(activeStudioTab === 'mechanics' || (isSpeciesStudio && activeStudioTab === 'genetics')) && (
+              <div className="space-y-5 animate-fade-in">
+                {/* Specialized Matrix Configurator */}
+                {CustomConfigurator && (
+                  <div className={(isSpeciesStudio || isSectionAwareConfigurator) ? 'space-y-4' : 'p-4 bg-slate-950/70 border border-amber-500/30 rounded-2xl shadow-inner'}>
+                    {!isSpeciesStudio && !isSectionAwareConfigurator && (
+                      <div className="flex items-center gap-2 mb-3 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                        <Sparkles size={14} />
+                        <span>Specialized {matrix.name} Studio Configurator</span>
                       </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Recommended Features (1 CP Discount in Folio)
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formatFieldValue(formData.recommended_features)}
-                            onChange={(e) => handleFieldChange('recommended_features', e.target.value)}
-                            placeholder="E.g., Tough, Pain Tolerance, Endurance, Burst Attack, Weapon Improvisation, Gearhead, Benefit (Authority), Tracker"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.recommended_features) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Bonus Features & Origin Traits
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formatFieldValue(formData.bonus_features)}
-                            onChange={(e) => handleFieldChange('bonus_features', e.target.value)}
-                            placeholder="E.g., Independent Grit, Jack of All Trades, Penal Recruit, Federal Authority"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.bonus_features) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Typical Character Archetypes
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formatFieldValue(formData.typical_archetypes)}
-                            onChange={(e) => handleFieldChange('typical_archetypes', e.target.value)}
-                            placeholder="E.g., The Munitions Magnate, The Field Medic, The Demolisher, The Veteran, The Marshal, The Raider"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.typical_archetypes) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-1 pt-1">
-                      <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                        Faction-Specific Rules & Mechanical Perks
-                      </label>
-                      {isEditMode ? (
-                        <textarea
-                          rows={3}
-                          value={formatFieldValue(formData.mechanic)}
-                          onChange={(e) => handleFieldChange('mechanic', e.target.value)}
-                          placeholder="Faction standing rules, diplomatic bonuses, environmental traits, or mechanical perks..."
-                          className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                        />
-                      ) : (
-                        <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                          {formatFieldValue(formData.mechanic) || 'None defined.'}
-                        </div>
-                      )}
-                    </div>
+                    )}
+                    <CustomConfigurator
+                      formData={formData}
+                      onChange={handleFieldChange}
+                      isEditMode={isEditMode}
+                      onOpenPicker={handleOpenPicker}
+                      dbData={dbData}
+                      domainKey={normalizedDomainKey}
+                      stepSection="all"
+                      activeTab={isSpeciesStudio ? activeGeneticsTab : undefined}
+                      onTabChange={isSpeciesStudio ? handleGeneticsTabChange : undefined}
+                      hideNavRail={isSpeciesStudio}
+                    />
                   </div>
+                )}
 
-                  {/* Military Doctrine & Defense Assets */}
-                  <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-red-400 uppercase tracking-wider">
-                      <Shield size={14} />
-                      <span>Military Doctrine & Strategic Assets</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Military Doctrine & Combat Strategy
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formatFieldValue(formData.military_doctrine)}
-                            onChange={(e) => handleFieldChange('military_doctrine', e.target.value)}
-                            placeholder="E.g., Attrition and overwhelming kinetic firepower. Blunt instruments."
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.military_doctrine) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Key Military Formations & Elite Units
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={3}
-                            value={formatFieldValue(formData.key_units)}
-                            onChange={(e) => handleFieldChange('key_units', e.target.value)}
-                            placeholder="E.g., Colonial Rangers (Neural Shunt Recruits), Frontier Marshals"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.key_units) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Naval & Void Fleet Assets
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formatFieldValue(formData.naval_assets)}
-                            onChange={(e) => handleFieldChange('naval_assets', e.target.value)}
-                            placeholder="E.g., Goliath Siege-Haulers, Rust-Devil Gunships, Leviathan Land-Trains"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.naval_assets) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Unique Tech, Signatures & Precursor Relics
-                        </label>
-                        {isEditMode ? (
-                          <textarea
-                            rows={2}
-                            value={formatFieldValue(formData.unique_tech_materials)}
-                            onChange={(e) => handleFieldChange('unique_tech_materials', e.target.value)}
-                            placeholder="E.g., Reverse-Engineered Precursor Tech, Heavy Fission Batteries"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.unique_tech_materials) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Strategic Commodities, Wealth Modifier (-4 to +8 WS) & Law Level */}
-                  <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-2xl space-y-3">
+                {/* Relative Combat & Operational Parameters */}
+                {visibleMechanicsFields.length > 0 && !isSpeciesStudio && (
+                  <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                      <Globe size={14} />
-                      <span>Trade System, Wealth Modifier & Law Level</span>
+                      <Zap size={14} />
+                      <span>{matrix.name} {isProperty ? 'Operational Parameters & Combat Mechanics' : 'Game Mechanics & Tactical Parameters'}</span>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider">
-                          Wealth Modifier (-4 to +8 WS)
-                        </label>
-                        {isEditMode ? (
-                          <div className="flex gap-2">
-                            <select
-                              value={(() => {
-                                const m = String(formData.wealth_modifier ?? '0').match(/([+-]?\d+)/);
-                                if (!m) return '0';
-                                const n = Math.max(-4, Math.min(8, parseInt(m[1], 10)));
-                                return n > 0 ? `+${n}` : String(n);
-                              })()}
-                              onChange={(e) => handleFieldChange('wealth_modifier', e.target.value)}
-                              className="w-32 p-2.5 bg-slate-900 border border-amber-500/40 rounded-xl text-xs text-amber-200 font-mono focus:outline-none focus:border-amber-400"
-                            >
-                              {[-4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8].map(ws => {
-                                const valStr = ws > 0 ? `+${ws}` : String(ws);
-                                return (
-                                  <option key={ws} value={valStr}>{valStr} WS</option>
-                                );
-                              })}
-                            </select>
-                            <input
-                              type="text"
-                              value={formatFieldValue(formData.wealth_modifier)}
-                              onChange={(e) => handleFieldChange('wealth_modifier', e.target.value)}
-                              placeholder="E.g., 0 (Standard), +2 (Old Money)"
-                              className="flex-1 p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                            />
-                          </div>
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-amber-200">
-                            {formatFieldValue(formData.wealth_modifier) || '0 WS (Baseline)'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
-                          Law Level (0–15) & Enforcement Bodies
-                        </label>
-                        {isEditMode ? (
-                          <div className="flex gap-2">
-                            <input
-                              type="number"
-                              min={0}
-                              max={15}
-                              value={toScalarNumberValue(formData.law_level ?? formData.lawLevel ?? 4)}
-                              onChange={(e) => {
-                                const v = e.target.value === '' ? '' : Math.max(0, Math.min(15, parseInt(e.target.value, 10) || 0));
-                                handleFieldChange('law_level', v);
-                                handleFieldChange('lawLevel', v);
-                              }}
-                              title="UWP Law Level (0-15)"
-                              className="w-20 p-2.5 bg-slate-900 border border-cyan-500/40 rounded-xl text-xs text-cyan-200 font-mono focus:outline-none focus:border-cyan-400"
-                            />
-                            <input
-                              type="text"
-                              value={formatFieldValue(formData.law_order)}
-                              onChange={(e) => handleFieldChange('law_order', e.target.value)}
-                              placeholder="E.g., Federal Marshals (Code of Harm) vs Colonial Rangers"
-                              className="flex-1 p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-400"
-                            />
-                          </div>
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formData.law_level !== undefined ? `Law Level ${formData.law_level} — ` : ''}{formatFieldValue(formData.law_order) || 'Standard'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Polity Trade & Resource System
-                        </label>
-                        {isEditMode ? (
-                          <input
-                            type="text"
-                            value={formatFieldValue(formData.economic_model)}
-                            onChange={(e) => handleFieldChange('economic_model', e.target.value)}
-                            placeholder="E.g., Guild Syndicalism, Frontier Barter"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.economic_model) || 'Standard'}
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                          Primary Exports & Strategic Commodities
-                        </label>
-                        {isEditMode ? (
-                          <input
-                            type="text"
-                            value={formatFieldValue(formData.primary_exports)}
-                            onChange={(e) => handleFieldChange('primary_exports', e.target.value)}
-                            placeholder="E.g., Heavy metals, Aetherite, Food"
-                            className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-emerald-400"
-                          />
-                        ) : (
-                          <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                            {formatFieldValue(formData.primary_exports) || 'None specified.'}
-                          </div>
-                        )}
-                      </div>
+                      {visibleMechanicsFields.map(field => renderFieldControl(field, 'mechanics'))}
                     </div>
                   </div>
-
-                  {/* 5 Canonical Ideological Profile Axes */}
-                  <div className="p-4 bg-slate-950/60 border border-purple-500/30 rounded-2xl space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">
-                        <Compass size={14} />
-                        <span>5-Axis Ideological Profile (Economic, Authority, Technocratic, Metaphysical, Diplomatic)</span>
-                      </div>
-                      <span className="text-[10px] font-mono text-purple-300 bg-purple-950/80 border border-purple-500/30 px-2 py-0.5 rounded">
-                        Sociological Alignment
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                      {[
-                        {
-                          key: 'economic',
-                          field: 'ideology_economic',
-                          label: 'Economic Axis',
-                          options: ['Balanced / Mixed', 'Collectivist / Communal', 'Syndicalist / Guild', 'Mercantilist / State', 'Corporatist / Laissez-Faire', 'Post-Scarcity']
-                        },
-                        {
-                          key: 'authority',
-                          field: 'ideology_authority',
-                          label: 'Authority Axis',
-                          options: ['Constitutional / Federal', 'Anarcho-Frontier', 'Libertarian / Decentralized', 'Oligarchic / Plutocratic', 'Authoritarian / Martial', 'Totalitarian / Hive']
-                        },
-                        {
-                          key: 'technocratic',
-                          field: 'ideology_technocratic',
-                          label: 'Technocratic Axis',
-                          options: ['Pragmatic / Standard', 'Bioconservative / Luddite', 'Industrial / Utilitarian', 'Cyber-Integrated', 'Transhumanist / Synthetic', 'Singularity / AI-Led']
-                        },
-                        {
-                          key: 'metaphysical',
-                          field: 'ideology_metaphysical',
-                          label: 'Metaphysical Axis',
-                          options: ['Secular / Agnostic', 'Strict Materialist / Null', 'Regulated Psionics', 'Esoteric / Scholastic', 'Resonant / Awakened', 'Theocratic / Cultic']
-                        },
-                        {
-                          key: 'diplomatic',
-                          field: 'ideology_diplomatic',
-                          label: 'Diplomatic Axis',
-                          options: ['Pragmatic / Neutral', 'Isolationist / Xenophobic', 'Defensive / Protectionist', 'Coalition / Multilateral', 'Mercantile / Cosmopolitan', 'Hegemonic / Expansionist']
-                        }
-                      ].map(axis => {
-                        const profileObj = (typeof formData.ideological_profile === 'object' && formData.ideological_profile !== null)
-                          ? formData.ideological_profile
-                          : {};
-                        const currentVal = formData[axis.field] || profileObj[axis.key] || axis.options[0];
-                        return (
-                          <div key={axis.key} className="space-y-1">
-                            <label className="block text-[10px] font-mono font-bold text-purple-300 uppercase tracking-wider">
-                              {axis.label}
-                            </label>
-                            {isEditMode ? (
-                              <select
-                                value={currentVal}
-                                onChange={(e) => {
-                                  const nextVal = e.target.value;
-                                  handleFieldChange(axis.field, nextVal);
-                                  handleFieldChange('ideological_profile', {
-                                    ...profileObj,
-                                    [axis.key]: nextVal
-                                  });
-                                }}
-                                className="w-full p-2 bg-slate-900 border border-purple-500/40 rounded-xl text-[11px] text-slate-200 font-mono focus:outline-none focus:border-purple-400"
-                              >
-                                {axis.options.map(opt => (
-                                  <option key={opt} value={opt}>{opt}</option>
-                                ))}
-                              </select>
-                            ) : (
-                              <div className="p-2 bg-slate-900/60 border border-slate-800 rounded-xl text-[11px] font-mono text-purple-200">
-                                {currentVal}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Relative Combat & Operational Parameters (including any remaining schema fields not rendered in dedicated sections above) */}
-              {(() => {
-                const DEDICATED_HANDLED_FIELDS = new Set(
-                  matrix.id === 'factions'
-                    ? [
-                        'skill_package', 'recommended_features', 'bonus_features', 'typical_archetypes',
-                        'mechanic', 'military_doctrine', 'key_units', 'naval_assets', 'unique_tech_materials',
-                        'economic_model', 'primary_exports', 'wealth_modifier', 'law_level', 'lawLevel', 'law_order',
-                        'ideological_profile', 'ideology_economic', 'ideology_authority', 'ideology_technocratic',
-                        'ideology_metaphysical', 'ideology_diplomatic', 'traits'
-                      ]
-                    : matrix.id === 'origins'
-                      ? ['society_skills', 'archetypes', 'traits', 'ws_modifier']
-                      : matrix.id === 'occupations'
-                        ? ['professional_skills', 'archetypes', 'traits', 'base_ws']
-                        : matrix.id === 'archetypes'
-                          ? ['essential_skills', 'supporting_skills', 'signature_traits', 'signature_features', 'traits', 'mbti_alignment']
-                          : []
-                );
-                const visibleMechanicsFields = relativeMechanicsFields.filter(f => !DEDICATED_HANDLED_FIELDS.has(f.name));
-                if (visibleMechanicsFields.length === 0 || isSpeciesStudio) return null;
-                return (
-                <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                    <Zap size={14} />
-                    <span>{matrix.name} {isProperty ? 'Operational Parameters & Combat Mechanics' : 'Game Mechanics & Tactical Parameters'}</span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {visibleMechanicsFields.map(field => {
-                      const rawVal = formData[field.name];
-                      const val = rawVal ?? '';
-                      const guidanceItem = CODEX_DATASET_GUIDANCE[matrix.id]?.sections?.find(s => s.id === field.name);
-
-                      return (
-                        <div key={field.name} className="space-y-1">
-                          <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                            <span>{field.label} {field.required && <span className="text-amber-400">*</span>}</span>
-                            <CodexTooltip
-                              title={field.label}
-                              description={field.helpText || guidanceItem?.description || `Operational combat/game mechanic for ${field.label}.`}
-                              rule={`BASTION Chapter 6 / ${matrix.name}`}
-                              color={matrix.color}
-                            />
-                          </label>
-                          {isEditMode ? (
-                            field.type === 'select' ? (
-                              <select
-                                value={toScalarSelectValue(val)}
-                                onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                                className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 focus:outline-none focus:border-amber-400 font-mono"
-                              >
-                                {(field.name === 'size' || field.name === 'sizeCategory' || field.source === 'species_size'
-                                  ? [...(field.options || [])].sort((a, b) => getSizeTierIndex(a) - getSizeTierIndex(b))
-                                  : field.options)?.map(opt => (
-                                  <option key={opt} value={opt}>{opt}</option>
-                                ))}
-                              </select>
-                            ) : field.type === 'number' ? (
-                              <input
-                                type="number"
-                                min={field.min}
-                                max={field.max}
-                                value={toScalarNumberValue(val)}
-                                onChange={(e) => handleFieldChange(field.name, e.target.value === '' ? '' : (parseFloat(e.target.value) || 0))}
-                                className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                              />
-                            ) : field.type === 'boolean' || field.type === 'checkbox' ? (
-                              <label className="flex items-center gap-2 p-2 bg-slate-900 border border-slate-700/80 rounded-xl cursor-pointer">
-                                <input
-                                  type="checkbox"
-                                  checked={Boolean(val)}
-                                  onChange={(e) => handleFieldChange(field.name, e.target.checked)}
-                                  className="w-4 h-4 rounded border-slate-700 text-amber-500 focus:ring-amber-400 bg-slate-950"
-                                />
-                                <span className="text-xs font-mono text-slate-300">{field.label} Active</span>
-                              </label>
-                            ) : Array.isArray(val) ? (
-                              <input
-                                type="text"
-                                value={val.map(formatFieldValue).join(', ')}
-                                onChange={(e) => handleFieldChange(field.name, e.target.value.split(',').map(s => s.trim()).filter(Boolean))}
-                                placeholder={field.placeholder || `Comma-separated ${field.label.toLowerCase()}...`}
-                                className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                              />
-                            ) : (
-                              <input
-                                type="text"
-                                value={typeof val === 'object' ? formatFieldValue(val) : val}
-                                onChange={(e) => handleFieldChange(field.name, e.target.value)}
-                                placeholder={field.placeholder || `Enter ${field.label.toLowerCase()}...`}
-                                className="w-full p-2.5 bg-slate-900 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400"
-                              />
-                            )
-                          ) : (
-                            <div className="p-2.5 bg-slate-900/60 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
-                              {Array.isArray(val) ? (
-                                val.length > 0 ? (
-                                  <div className="flex flex-wrap gap-1">
-                                    {val.map((item, idx) => (
-                                      <span key={idx} className="px-1.5 py-0.5 bg-slate-800 text-amber-300 rounded text-[10px] font-mono">
-                                        {formatFieldValue(item)}
-                                      </span>
-                                    ))}
-                                  </div>
-                                ) : '—'
-                              ) : typeof val === 'object' ? (
-                                formatFieldValue(val)
-                              ) : (
-                                String(val || '—')
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                );
-              })()}
+                )}
 
               {/* Consolidated DBM Widgets - Filtered relative to dataset */}
               <div className="space-y-4">
@@ -2653,14 +2654,14 @@ export const AssetStudio = ({
             <div className="space-y-4 animate-fade-in">
               <div className="space-y-1">
                 <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
-                  Tactical Mechanics & Environmental Operations
+                  {workbenchNarrativeCopy.mechanicLabel}
                 </label>
                 {isEditMode ? (
                   <textarea
                     rows={4}
                     value={formData.mechanic || ''}
                     onChange={(e) => handleFieldChange('mechanic', e.target.value)}
-                    placeholder="Environmental tolerances, operating conditions, fail-safe procedures..."
+                    placeholder={workbenchNarrativeCopy.mechanicPlaceholder}
                     className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 leading-relaxed"
                   />
                 ) : (
@@ -2731,7 +2732,7 @@ export const AssetStudio = ({
                           rows={14}
                           value={formData.body || formData.lore || ''}
                           onChange={(e) => handleFieldChange('body', e.target.value)}
-                          placeholder="Corporate provenance, manufacturing history, cultural significance..."
+                          placeholder={workbenchNarrativeCopy.lorePlaceholder}
                           className="w-full flex-1 p-3 bg-slate-950/90 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 leading-relaxed font-sans resize-y"
                         />
                       </div>
@@ -2750,7 +2751,7 @@ export const AssetStudio = ({
                         rows={12}
                         value={formData.body || formData.lore || ''}
                         onChange={(e) => handleFieldChange('body', e.target.value)}
-                        placeholder="Corporate provenance, manufacturing history, cultural significance..."
+                        placeholder={workbenchNarrativeCopy.lorePlaceholder}
                         className="w-full p-3 bg-slate-950/80 border border-slate-700/80 rounded-xl text-xs text-slate-200 font-mono focus:outline-none focus:border-amber-400 leading-relaxed font-sans"
                       />
                       <span className="text-[10px] font-mono text-slate-500">Supports Markdown formatting (# Heading 1, ## Heading 2, ### Subhead, **bold**, bullet points)</span>
@@ -2916,195 +2917,7 @@ export const AssetStudio = ({
           {/* ── TAB 4: RELATIONAL LINKS ── */}
           {activeStudioTab === 'relational' && (
             <div className="space-y-4 animate-fade-in">
-              {matrix.id === 'species' || isSpeciesStudio ? (
-                <SpeciesArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'invocation' || matrix.id === 'invocations' ? (
-                <InvocationArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'features' ? (
-                <FeatureArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'skills' ? (
-                <SkillArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'factions' ? (
-                <FactionArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'origins' ? (
-                <OriginArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'occupations' ? (
-                <OccupationArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'gear' || matrix.id === 'equipment') ? (
-                <GearArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : matrix.id === 'weaponry' ? (
-                <WeaponArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'armor' || matrix.id === 'armoring') ? (
-                <ArmorArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'augmentations' || matrix.id === 'augmentation' || matrix.id === 'cybernetics') ? (
-                <AugmentationArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'mecha' || matrix.id === 'vehicles') ? (
-                <MechaArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'architecture') ? (
-                <ArchitectureArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'other' || matrix.id === 'other_property' || formData.category === 'other' || resolvedKey === 'other') ? (
-                <OtherArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'archetypes' || matrix.id === 'archetype') ? (
-                <ArchetypeArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'disadvantages' || matrix.id === 'disadvantage') ? (
-                <DisadvantageArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'modular-characters' || matrix.id === 'modular_characters' || matrix.id === 'threats' || matrix.id === 'threat' || matrix.id === 'bestiary') ? (
-                <ThreatArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (matrix.id === 'planetary-design' || matrix.id === 'planetary_design' || matrix.id === 'world' || matrix.id === 'planets') ? (
-                <PlanetaryArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                />
-              ) : (['universe', 'philosophy', 'technology', 'setting', 'scene', 'world_design'].includes(matrix.id) || ['universe', 'philosophy', 'technology', 'setting', 'scene'].includes(formData.category)) ? (
-                <WorldElementArchitectGuidance
-                  formData={formData}
-                  handleFieldChange={handleFieldChange}
-                  isEditMode={isEditMode}
-                  onOpenPicker={(field) => setActiveSelectorField(typeof field === 'string' ? { source: field, target: field, label: field } : field)}
-                  dbData={dbData}
-                  matrix={matrix}
-                />
-              ) : (
-                <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl">
-                  <h4 className="text-xs font-mono font-bold uppercase text-cyan-400 mb-2 flex items-center gap-1.5">
-                    <Compass size={14} />
-                    <span>Omnicortex Relational Entity Linking</span>
-                  </h4>
-                  <p className="text-xs text-slate-400 leading-relaxed mb-4">
-                    Link this {matrix.name} record to parent species lineages, homeworlds, factions, tactical requirements, or associated skills.
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {['species', 'factions', 'skills', 'occupations', 'origins'].map(colKey => {
-                      const linked = formData[colKey] || formData[`${colKey}_id`] || [];
-                      const count = Array.isArray(linked) ? linked.length : (linked ? 1 : 0);
-
-                      return (
-                        <div key={colKey} className="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between">
-                          <div>
-                            <div className="text-xs font-mono font-bold text-slate-200 uppercase">{colKey}</div>
-                            <div className="text-[10px] font-mono text-slate-500">{count} attached</div>
-                          </div>
-                          {isEditMode && (
-                            <button
-                              type="button"
-                              onClick={() => setActiveSelectorField(colKey)}
-                              className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold uppercase transition-colors"
-                            >
-                              Browse
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+              {renderRelationalGuidance()}
             </div>
           )}
 
@@ -3147,7 +2960,7 @@ export const AssetStudio = ({
                 </button>
               )}
 
-              {activeItem && (activeItem.id || formData.id) && isAdmin && (
+              {canDeleteRecord && isAdmin && (
                 <button
                   type="button"
                   onClick={handleDelete}
@@ -3189,6 +3002,7 @@ export const AssetStudio = ({
             </div>
           </div>
         </div>
+          )}
 
         {/* Right Column: Live Rules Codex Design Framework & Build Cost Value Checker (All Assets) */}
         <div className="w-full lg:w-84 xl:w-96 shrink-0">
@@ -3263,10 +3077,34 @@ export const AssetStudio = ({
             type: 'multiselect',
             source: typeof activeSelectorField === 'object' ? activeSelectorField.source : activeSelectorField
           }}
-          currentValue={formData[typeof activeSelectorField === 'object' ? activeSelectorField.target : activeSelectorField] || []}
+          currentValue={(() => {
+            const targetKey = typeof activeSelectorField === 'object' ? activeSelectorField.target : activeSelectorField;
+            const rawVal = formData[targetKey];
+            if (Array.isArray(rawVal)) {
+              return rawVal
+                .map((v) => (typeof v === 'object' && v !== null ? (v.name || v.title || v.id || '') : String(v)))
+                .map((s) => s.trim())
+                .filter(Boolean);
+            }
+            if (typeof rawVal === 'string' && rawVal.trim()) {
+              return rawVal.split(',').map((s) => s.trim()).filter(Boolean);
+            }
+            return [];
+          })()}
           onSelect={(selectedValues) => {
             const targetKey = typeof activeSelectorField === 'object' ? activeSelectorField.target : activeSelectorField;
-            handleFieldChange(targetKey, selectedValues);
+            const fmt = typeof activeSelectorField === 'object' ? activeSelectorField.valueFormat : undefined;
+            const formattedValue = fmt === 'csv' && Array.isArray(selectedValues)
+              ? selectedValues.join(', ')
+              : selectedValues;
+            handleFieldChange(targetKey, formattedValue);
+            if (typeof activeSelectorField === 'object' && Array.isArray(activeSelectorField.alsoSyncFields)) {
+              activeSelectorField.alsoSyncFields.forEach((syncKey) => {
+                if (syncKey && syncKey !== targetKey) {
+                  handleFieldChange(syncKey, selectedValues);
+                }
+              });
+            }
             setActiveSelectorField(null);
           }}
           dbData={dbData}

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { CortexSmartPicker } from '../../../components/Codex/GuidedStudio/CortexSmartPicker';
 
 /**
  * Common Traits available to all Occupations per 1.06 OCCUPATIONS.md
@@ -60,8 +61,14 @@ export const OccupationConfigurator = ({
   formData = {},
   onChange,
   isEditMode = false,
-  dbData = {}
+  onOpenPicker = null,
+  dbData = {},
+  stepSection = 'all'
 }) => {
+  const showOverview = stepSection === 'all' || stepSection === 'overview' || stepSection === 'wealth';
+  const showSkills = stepSection === 'all' || stepSection === 'skills';
+  const showWealth = stepSection === 'all' || stepSection === 'wealth';
+
   const [newSkillInput, setNewSkillInput] = useState('');
   const [newFeatureInput, setNewFeatureInput] = useState('');
   const [newArchetypeInput, setNewArchetypeInput] = useState('');
@@ -207,6 +214,7 @@ export const OccupationConfigurator = ({
     <div className="space-y-6 text-slate-200 font-sans">
 
       {/* ── Rulebook Alignment Banner (1.06 OCCUPATIONS.MD) ── */}
+      {showOverview && (
       <div className="p-4 rounded-2xl bg-amber-950/40 border border-amber-500/40 shadow-lg space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -226,7 +234,7 @@ export const OccupationConfigurator = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-1 font-mono text-[11px]">
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span><strong>20 Skill Points</strong> for Professional Skills</span>
+            <span><strong>Fixed 20 SP Pool</strong> for Professional Skills</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Tag className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -270,30 +278,33 @@ export const OccupationConfigurator = ({
           </div>
         </div>
       </div>
+      )}
 
-      {/* ── Section 1: Professional Skills (20 SP Pool) ── */}
+      {/* ── Section 1: Professional Skills (Fixed 20 SP Pool) ── */}
+      {showSkills && (
+      <>
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-amber-400" />
             <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-              Professional Skills Package (20 SP Pool)
+              Professional Skills Package (Fixed 20 SP Pool)
             </h4>
             <CodexTooltip
-              title="Professional Skills (20 SP)"
-              description="Characters gain a pool of 20 Skill Points (SP) to distribute among skills listed under their Occupation. Creation Cap: No skill may exceed Rank 11 (Expert). Recommended cap: Rank 6 (Trained)."
+              title="Professional Skills (Fixed 20 SP Pool)"
+              description="Characters gain a fixed, non-adjustable pool of 20 Skill Points (SP) to distribute among skills listed under their Occupation. Creation Cap: No skill may exceed Rank 11 (Expert). Recommended cap: Rank 6 (Trained)."
               rule="1.06 OCCUPATIONS.md"
               color="#f59e0b"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-amber-950 border border-amber-500/40 text-amber-300">
-            20 SP Pool (Cap: Rank 11)
+            Fixed 20 SP Pool (Cap: Rank 11)
           </span>
         </div>
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
           Formal disciplines mastered through professional career experience. When brought into the Persona Folio, 
-          the operator allocates 20 points across these skills (1 SP = 1 Skill Rank, maximum starting cap of Rank 11):
+          the operator allocates a fixed 20-point pool across these skills (1 SP = 1 Skill Rank, maximum starting cap of Rank 11):
         </p>
 
         {/* Skill Chips */}
@@ -342,6 +353,27 @@ export const OccupationConfigurator = ({
               <span>Add Skill</span>
             </button>
           </div>
+        )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Skill Catalog — Professional Skills (Fixed 20 SP Pool)"
+            sourceCollection="skills"
+            targetField="professional_skills"
+            alsoSyncFields={['recommended_skills']}
+            value={professionalSkills}
+            onChange={(vals) => {
+              onChange('professional_skills', vals);
+              onChange('recommended_skills', vals);
+            }}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            accentColor="#f59e0b"
+            helperText="Browse the canonical Skill Catalog to curate skills eligible for the fixed 20-Point Professional Pool."
+            placeholder="Search Skill Catalog (e.g. Stealth, Medicine, Computers)..."
+          />
         )}
       </div>
 
@@ -418,6 +450,28 @@ export const OccupationConfigurator = ({
               <span>Add Feature</span>
             </button>
           </div>
+        )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Feature Catalog — Recommended Features (-1 CP Discount)"
+            sourceCollection="features"
+            targetField="recommended_features"
+            alsoSyncFields={['features']}
+            value={recommendedFeatures}
+            onChange={(vals) => {
+              onChange('recommended_features', vals);
+              onChange('features', vals);
+            }}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            isDiscountedFeaturePool={true}
+            accentColor="#10b981"
+            helperText="Browse the canonical Feature Catalog to select career features receiving the -1 CP Folio discount."
+            placeholder="Search Feature Catalog (e.g. Gearhead, Lightning Reflexes, Connected)..."
+          />
         )}
       </div>
 
@@ -522,6 +576,21 @@ export const OccupationConfigurator = ({
           </div>
         )}
 
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Occupational Traits Selector"
+            sourceCollection="traits"
+            targetField="traits"
+            value={traits.map(t => typeof t === 'object' ? (t.name || t.id) : String(t))}
+            onChange={(vals) => onChange('traits', vals)}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            accentColor="#f59e0b"
+          />
+        )}
+
         {/* ── Universal Common Traits Banner ── */}
         <div className="p-3 rounded-xl bg-slate-950/90 border border-slate-800 space-y-2 mt-2">
           <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">
@@ -539,8 +608,33 @@ export const OccupationConfigurator = ({
           </div>
         </div>
       </div>
+      </>
+      )}
 
       {/* ── Section 4: Associated Archetypes & Career Progression ── */}
+      {showWealth && (
+      <div className="space-y-4">
+        {isEditMode && (
+          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
+            <CortexSmartPicker
+              label="Standard-Issue Career Kit & Gear (Omnicortex)"
+              sourceCollection="gear"
+              targetField="starting_gear"
+              alsoSyncFields={['gear']}
+              value={formData.starting_gear || formData.gear || []}
+              onChange={(vals) => {
+                onChange('starting_gear', vals);
+                onChange('gear', vals);
+              }}
+              dbData={dbData}
+              formData={formData}
+              isEditMode={isEditMode}
+              onOpenPicker={onOpenPicker}
+              accentColor="#10b981"
+            />
+          </div>
+        )}
+
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
@@ -610,7 +704,24 @@ export const OccupationConfigurator = ({
             </button>
           </div>
         )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Associated Archetypes Selector"
+            sourceCollection="archetypes"
+            targetField="archetypes"
+            value={archetypes}
+            onChange={(vals) => onChange('archetypes', vals)}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            accentColor="#f59e0b"
+          />
+        )}
       </div>
+      </div>
+      )}
     </div>
   );
 };

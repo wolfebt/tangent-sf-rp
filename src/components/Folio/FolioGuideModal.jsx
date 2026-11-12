@@ -272,13 +272,13 @@ const CONTENT = {
   skills: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Skills</strong> represent learned expertise. When rolling skill tests, your persona adds <code className="text-amber-300 font-mono">Linked Attribute Mod + Skill Rank Mod</code> to the 2d10 roll.
+        <strong className="text-cyan-300 font-mono">Skills</strong> represent learned expertise. When rolling skill tests, your persona adds <code className="text-amber-300 font-mono">Governing Attribute + Base Skill (0–20) + 1 Specialization (0–10)</code> to the 2d10 roll.
       </p>
       <div className="space-y-2">
         {[
-          { label: 'Skill Ranks', desc: 'Novice (+1), Adept (+2), Expert (+3), Master (+4), Legend (+5).' },
-          { label: 'Specializations', desc: 'Targeted sub-disciplines granting an extra +2 circumstance bonus when acting within that exact niche.' },
-          { label: 'Category Filter', desc: 'Browse skills filtered by Combat, Technical, Physical, Social, Psionic, and Academic groups.' },
+          { label: 'Base Skill Ranks (0–20)', desc: '1 SP / 1 CP per rank (Creation Cap: Rank 11). Untrained (0), Novice (1–5), Trained (6–10), Expert (11–15), Master (16–20).' },
+          { label: 'Specialization Sub-Skills (0–10)', desc: 'Built-up sub-skills (up to Rank 10 at 1 SP / 1 CP per rank; requires Base Rank 6+) adding directly to the Base Skill. Only one specialization applies per check, unlocking Grand Master (21–25) and Pinnacle (26–30).' },
+          { label: 'Category Filter', desc: 'Browse skills filtered by Physical, Mental, Social, Combat, and Metafocus groups.' },
         ].map(f => (
           <div key={f.label} className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
             <div className="text-amber-300 font-bold text-xs uppercase font-mono mb-0.5">{f.label}</div>

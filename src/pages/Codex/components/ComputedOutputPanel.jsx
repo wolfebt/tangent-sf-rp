@@ -414,13 +414,13 @@ export const ComputedOutputPanel = ({
         })}
       </div>
 
-      {/* Non-Property Contextual Metrics (Characters, Species, Invocations, Worlds) */}
-      {!isProperty && (
+      {/* Embodied Entity Physical Scale Profile (Species, Modular Characters, Companions & Size Tiers Only) */}
+      {!isProperty && ['species', 'modular-characters', 'modular_characters', 'companions', 'species_size', 'scaling'].includes(String(matrix?.id || '').toLowerCase()) && (
         <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5 shadow-md text-xs">
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
               <Maximize2 size={13} />
-              <span>{matrix?.name} Tactical Profile</span>
+              <span>{matrix?.name} Physical Scale Profile</span>
             </span>
             <span className="text-[10px] text-slate-400 font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700">
               {sizeCat.name} ({sizeCat.scaleDisplay})

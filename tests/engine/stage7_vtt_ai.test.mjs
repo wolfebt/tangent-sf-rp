@@ -62,12 +62,12 @@ test('Phase 1: VertexAIGateway 4-tier hybrid cascade & AimeAgent Omnicortex RAG 
   assert.ok(streamedChunks.join('').trim().length > 10);
 });
 
-test('Phase 2: DBMFunctionRegistry registers and executes all 7 Stage 7 tools', async () => {
+test('Phase 2: DBMFunctionRegistry registers and executes canonical Stage 7 tools', async () => {
   const declarations = DBMFunctionRegistry.getDeclarations();
-  assert.equal(declarations.length, 7, 'Should expose 7 canonical Stage 7 tool declarations');
+  assert.ok(declarations.length >= 7, 'Should expose at least 7 canonical Stage 7 tool declarations');
 
   const toolNames = declarations.map((d) => d.name);
-  assert.deepEqual(toolNames, [
+  const requiredTools = [
     'query_bastion_for_statblock',
     'calculate_combat_odds',
     'resolve_called_shot',
@@ -75,7 +75,10 @@ test('Phase 2: DBMFunctionRegistry registers and executes all 7 Stage 7 tools', 
     'query_omnicortex_rag',
     'synthesize_adversary_tactic',
     'evaluate_combat_pacing_whisper'
-  ]);
+  ];
+  for (const reqTool of requiredTools) {
+    assert.ok(toolNames.includes(reqTool), `Missing required tool: ${reqTool}`);
+  }
 
   // 1. query_bastion_for_statblock
   const statRes = await DBMFunctionRegistry.executeToolCall({

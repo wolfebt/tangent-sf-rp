@@ -34,7 +34,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.833Z"
+    "updatedAt": "2026-11-10T19:54:49.317Z"
   },
   {
     "id": "mech-combat-actions-by-skill-tier",
@@ -62,7 +62,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.833Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-combat-initiative",
@@ -86,7 +86,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.833Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-combat-edge-system",
@@ -119,7 +119,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-combat-damage-calculation",
@@ -147,7 +147,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-combat-called-shots-locations",
@@ -181,7 +181,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-combat-disabled-destroyed-thresholds",
@@ -209,7 +209,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-combat-mortality-state",
@@ -237,7 +237,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-scaling-14-tiers",
@@ -264,7 +264,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-economatrix-standard-curve",
@@ -290,7 +290,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-metaphysics-triad-casting",
@@ -317,7 +317,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-character-150cp-creation",
@@ -326,7 +326,7 @@ export const BASTION_MECHANICS_DATASET = [
     "citation": "docs/game_rules/operator/1.01 CHARACTER CREATION.md § Character Points",
     "summary": "Characters start with 150 CP (Character Points). Faction, Origin, and Occupation grant 60 skill ranks, 4 features, and 4 traits for free.",
     "mechanic_formula": "Total Budget = 150 CP | Attributes: 5 CP per +1 (-5 CP per -1; no package discount) | Skills: 1 CP/rank (5 CP per 5 ranks; no package discount) | Features: 3 CP base",
-    "rules_text": "Operative creation is governed by strict mathematical allocation:\n- 150 Character Points (CP) starting budget.\n- Universal Straight Build Cost (Zero Package Discount): Across Character Creation, Species Packages, Companion Packages, and Bestiary Point-Buy, +1 Attribute = 5 CP (-1 Attribute Penalty = -5 CP refund) and 1 Skill Rank = 1 CP (5 Skill Ranks = 5 CP).\n- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1 (-5 CP refund per -1), soft cap +4 at creation.\n- Skills: Cost 1 CP per rank (5 CP per 5 ranks) universally.\n- Features: Base cost 3 CP (Recommended Feature: 2 CP, minimum 1 CP). Species Traits: Basic 1 CP, Advanced 2 CP, Elite 4 CP.\n- Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.\n- Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.",
+    "rules_text": "Operative creation is governed by strict mathematical allocation:\n- 150 Character Points (CP) starting budget.\n- Universal Straight Build Cost (Zero Package Discount): Across Character Creation, Species Packages, Companion Packages, and Bestiary Point-Buy, +1 Attribute = 5 CP (-1 Attribute Penalty = -5 CP refund) and 1 Skill Rank = 1 CP (5 Skill Ranks = 5 CP).\n- 6 Core Attributes: STR, AGI, STA, INT, WIS, CHA. Starting base 0, cost 5 CP per +1 (-5 CP refund per -1), soft cap +4 at creation.\n- Skills & Specializations: Base Skill Ranks span 0–20 at 1 CP (1 SP) per rank universally (Creation cap Rank 11; Base max Rank 20). Specializations are built-up sub-skills (Rank 1–10 at 1 CP/SP per rank, Prerequisite Base Rank 6+, NOT a flat +2) adding directly to Base Skill (max 1 specialization viable per check) to unlock effective Ranks 21–30 (Grand Master 21–25 & Pinnacle 26–30).\n- Features: Base cost 3 CP (Recommended Feature: 2 CP, minimum 1 CP). Species Traits: Basic 1 CP, Advanced 2 CP, Elite 4 CP.\n- Foundational Backgrounds (Faction, Origin, Occupation): Free (0 CP). In total, they grant 60 skill ranks (20 Faction + 20 Origin + 20 Occupation), 4 features, and 4 traits.\n- Award Points (AP): Experience points awarded during play, spent 1-for-1 like CP ($1\\text{ AP} = 1\\text{ CP}$) to advance the character.",
     "examples": [
       "Operative invests 45 CP into attributes (+3 STR, +3 AGI, +3 STA), 20 CP into extra skills, 12 CP into 4 features, and spends 60 background skill ranks from Faction, Origin, and Career."
     ],
@@ -345,7 +345,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-companion-40cp-formula",
@@ -375,7 +375,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-vitals-30-30-60",
@@ -404,7 +404,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-karma-spending-actions",
@@ -434,7 +434,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-augmentations-body-alteration-tiers",
@@ -463,7 +463,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-mecha-vehicles-all-sorts",
@@ -493,7 +493,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-euft-micro-modifiers-productivity",
@@ -522,7 +522,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-udu-hierarchy-compression-garaging",
@@ -551,7 +551,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   },
   {
     "id": "mech-archetype-80cp-chassis-and-cosmic-entities",
@@ -580,7 +580,7 @@ export const BASTION_MECHANICS_DATASET = [
       "bastion"
     ],
     "status": "pending_approval",
-    "updatedAt": "2026-11-04T09:35:51.834Z"
+    "updatedAt": "2026-11-10T19:54:49.318Z"
   }
 ];
 

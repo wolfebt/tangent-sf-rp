@@ -1,12 +1,12 @@
 /**
  * @file CockpitPanel.tsx
- * @description Right Zone: Operational Cockpit (Player) & Dynamic Inspector (GM).
- * Built strictly on Tangent SF RP rules: 4 AP Action Economy, Armor DR,
- * Called Shots & Trauma thresholds, Essence invocations, Mecha sockets,
- * and multi-monitor Popout Portal.
+ * @description Right Zone: Operational Cockpit (Operator) & Dynamic Inspector (Architect).
+ * Built strictly on Tangent SF RP rules: 6-Stage Skill Tier Action Economy (No AP),
+ * Armor DR, Called Shots & Trauma thresholds, Essence invocations, Mecha sockets,
+ * Epistemic Role Firewall ("you" vs "we"), Multi-Group lens, and Popout Portal.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Heart, 
   Target, 
@@ -16,9 +16,12 @@ import {
   Swords,
   Shield,
   ExternalLink,
-  Sparkles
+  Sparkles,
+  MessageSquare
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useBastion } from '../../../context/BastionContext';
+import { BastionRoleAndGroupBar } from '../../Bastion/BastionRoleAndGroupBar';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { TangentActionDeck } from './TangentActionDeck';
 import type { CalledShotLocation } from './TangentActionDeck';
@@ -27,7 +30,7 @@ import { GMInspector } from './GMInspector';
 import { PopoutPortal } from './PopoutPortal';
 import { AimeCockpitDeck } from './AimeCockpitDeck';
 import { queryOmnicortexRAG } from '../../../services/omnicortexVectorRag';
-import { parseRollCommand } from '../../../services/bastionService.js';
+import { parseRollCommand, sendBastionChatMessage } from '../../../services/bastionService.js';
 import { analyzeCombatPacing, executeWhisperCardAction, CANONICAL_WHISPER_CARDS } from '../../../services/bastionWhisperService.js';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 
@@ -40,7 +43,33 @@ export const CockpitPanel: React.FC = () => {
   } = useUILayoutStore();
 
   const folio = (useFolio() || {}) as any;
-  const character = folio?.characterData || {};
+  const bastionCtx = (useBastion() || {}) as any;
+  const sessionState = bastionCtx?.sessionState;
+  const activePersona = sessionState?.activePersona || folio?.characterData || {};
+  const character = activePersona;
+
+  // Epistemic & Role Authority: Operator Preview ("you") or non-GM strictly locks out GM tools
+  const canActAsArchitect = sessionState ? Boolean(sessionState.canToggleOperatorPreview) : true;
+  const isArchitectMode = sessionState
+    ? Boolean(sessionState.isArchitect && userRole === 'gm')
+    : userRole === 'gm';
+  const effectiveBastionRole: 'operator' | 'architect' = isArchitectMode ? 'architect' : 'operator';
+
+  useEffect(() => {
+    if (!isArchitectMode && (activeCockpitTab === 'inspector' || activeCockpitTab === 'aime')) {
+      setActiveCockpitTab('bastion');
+    }
+  }, [isArchitectMode, activeCockpitTab, setActiveCockpitTab]);
+
+  // Register VTT surface into unified BASTION registry
+  useEffect(() => {
+    if (typeof bastionCtx?.registerSurfaceContext !== 'function') return undefined;
+    bastionCtx.registerSurfaceContext('vtt-cockpit', {
+      surfaceType: 'vtt',
+      defaultRouteRole: userRole === 'gm' ? 'architect' : 'operator',
+    });
+    return () => bastionCtx.unregisterSurfaceContext?.('vtt-cockpit');
+  }, [bastionCtx?.registerSurfaceContext, bastionCtx?.unregisterSurfaceContext, userRole]);
 
   // Tangent Rules State
   const [calledShotTarget, setCalledShotTarget] = useState<CalledShotLocation>('torso');
@@ -53,18 +82,75 @@ export const CockpitPanel: React.FC = () => {
     return localStorage.getItem('tangent_vtt_notes') || '';
   });
 
-  // Bastion HQ Tactical Rules & Logistics State
+  // Bastion HQ Tactical Rules, Live Sub-Chat & Logistics State
   const stageTokens = useEngineStore(selectAllFusedTokens);
   const [bastionRuleQuery, setBastionRuleQuery] = useState<string>('2d10 dual resolution opposed defense');
   const [bastionRollInput, setBastionRollInput] = useState<string>('/roll 2d10+4 vs 15');
   const [bastionRollResult, setBastionRollResult] = useState<any>(null);
   const [bastionWhisperBanner, setBastionWhisperBanner] = useState<string>('');
+  const [cockpitChatInput, setCockpitChatInput] = useState<string>('');
+  const [isCockpitChatLoading, setIsCockpitChatLoading] = useState<boolean>(false);
+  const [localCockpitMsgs, setLocalCockpitMsgs] = useState<any[]>([]);
   const [strongholdSystems, setStrongholdSystems] = useState<Record<string, boolean>>({
     perimeterShields: true,
     orbitalDropBeacon: true,
     medBayAutodoc: true,
     omnicortexUplink: true
   });
+
+  const activeThreadKey = bastionCtx?.activeThreadKey || `vtt_${effectiveBastionRole}`;
+  const cockpitMessages: any[] = bastionCtx?.getThreadMessages
+    ? bastionCtx.getThreadMessages(activeThreadKey)
+    : localCockpitMsgs;
+
+  const pushCockpitMessages = (updater: (prev: any[]) => any[]) => {
+    if (bastionCtx?.setThreadMessages) {
+      bastionCtx.setThreadMessages(updater, activeThreadKey);
+    } else {
+      setLocalCockpitMsgs(updater);
+    }
+  };
+
+  const handleSendCockpitChat = async (overridePrompt?: string) => {
+    const promptText = (overridePrompt ?? cockpitChatInput).trim();
+    if (!promptText || isCockpitChatLoading) return;
+    if (!overridePrompt) setCockpitChatInput('');
+
+    const priorHistory = [...cockpitMessages];
+    pushCockpitMessages((prev) => [...prev, { sender: 'user', text: promptText }]);
+    setIsCockpitChatLoading(true);
+
+    try {
+      const response: any = await sendBastionChatMessage({
+        prompt: promptText,
+        history: priorHistory,
+        role: effectiveBastionRole,
+        sessionState,
+        contextData: {
+          activeCharacter: character,
+          calledShotTarget,
+          stageEntityCount: stageTokens.length,
+          pathname: '/stage',
+        },
+      });
+      pushCockpitMessages((prev) => [
+        ...prev,
+        {
+          sender: 'bastion',
+          text: response.text,
+          toolCalls: response.toolCalls || [],
+          ragCitations: response.ragCitations || [],
+        },
+      ]);
+    } catch (err: any) {
+      pushCockpitMessages((prev) => [
+        ...prev,
+        { sender: 'bastion', text: `BASTION Tactical Link Error: ${err?.message || 'Unknown error'}` },
+      ]);
+    } finally {
+      setIsCockpitChatLoading(false);
+    }
+  };
 
   const bastionWhisperPacing = React.useMemo(() => {
     return analyzeCombatPacing(stageTokens as any[], 1);
@@ -109,8 +195,10 @@ export const CockpitPanel: React.FC = () => {
   };
 
   const bastionRagResults = React.useMemo(() => {
-    return queryOmnicortexRAG(bastionRuleQuery || '2d10 combat resolution', 3);
-  }, [bastionRuleQuery]);
+    return queryOmnicortexRAG(bastionRuleQuery || '2d10 combat resolution', 3, {
+      role: effectiveBastionRole,
+    });
+  }, [bastionRuleQuery, effectiveBastionRole]);
 
   const handleBastionRoll = () => {
     const res = parseRollCommand(bastionRollInput.trim().startsWith('/roll') ? bastionRollInput.trim() : `/roll ${bastionRollInput.trim()}`);
@@ -163,7 +251,7 @@ export const CockpitPanel: React.FC = () => {
         <div className="flex items-center gap-1.5 min-w-0">
           <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
             <Activity size={13} />
-            {userRole === 'gm' ? 'DYNAMIC INSPECTOR' : 'OPERATOR COCKPIT'}
+            {isArchitectMode ? 'DYNAMIC INSPECTOR' : 'OPERATOR COCKPIT'}
           </span>
         </div>
 
@@ -178,36 +266,42 @@ export const CockpitPanel: React.FC = () => {
             <ExternalLink size={13} />
           </button>
 
-          {/* Role Toggle Switcher */}
+          {/* Role Toggle Switcher (Architect option available only to Campaign Architects/Admins) */}
           <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-[10px] font-mono">
             <button
               type="button"
               onClick={() => {
                 setUserRole('player');
-                if (activeCockpitTab === 'inspector') setActiveCockpitTab('vitals');
+                bastionCtx?.toggleOperatorPreview?.(true);
+                if (activeCockpitTab === 'inspector' || activeCockpitTab === 'aime') {
+                  setActiveCockpitTab('vitals');
+                }
               }}
               className={`px-2 py-0.5 rounded font-bold uppercase transition-colors cursor-pointer ${
-                userRole === 'player'
+                !isArchitectMode
                   ? 'bg-amber-950 text-amber-300 border border-amber-500/50'
                   : 'text-slate-500 hover:text-slate-300'
               }`}
             >
               Operator
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                setUserRole('gm');
-                setActiveCockpitTab('inspector');
-              }}
-              className={`px-2 py-0.5 rounded font-bold uppercase transition-colors cursor-pointer ${
-                userRole === 'gm'
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
-                  : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
-              Architect
-            </button>
+            {canActAsArchitect && (
+              <button
+                type="button"
+                onClick={() => {
+                  setUserRole('gm');
+                  bastionCtx?.toggleOperatorPreview?.(false);
+                  setActiveCockpitTab('inspector');
+                }}
+                className={`px-2 py-0.5 rounded font-bold uppercase transition-colors cursor-pointer ${
+                  isArchitectMode
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
+                    : 'text-slate-500 hover:text-slate-300'
+                }`}
+              >
+                Architect
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -352,31 +446,35 @@ export const CockpitPanel: React.FC = () => {
           <span>Bastion</span>
         </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveCockpitTab('inspector')}
-          className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
-            activeCockpitTab === 'inspector'
-              ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Target size={11} />
-          <span>Inspector</span>
-        </button>
+        {isArchitectMode && (
+          <button
+            type="button"
+            onClick={() => setActiveCockpitTab('inspector')}
+            className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
+              activeCockpitTab === 'inspector'
+                ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Target size={11} />
+            <span>Inspector</span>
+          </button>
+        )}
 
-        <button
-          type="button"
-          onClick={() => setActiveCockpitTab('aime')}
-          className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
-            activeCockpitTab === 'aime'
-              ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Sparkles size={11} className="text-amber-400" />
-          <span>AIME</span>
-        </button>
+        {isArchitectMode && (
+          <button
+            type="button"
+            onClick={() => setActiveCockpitTab('aime')}
+            className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
+              activeCockpitTab === 'aime'
+                ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Sparkles size={11} className="text-amber-400" />
+            <span>AIME</span>
+          </button>
+        )}
 
         <button
           type="button"
@@ -409,27 +507,164 @@ export const CockpitPanel: React.FC = () => {
           <MechaCompanionDeck />
         )}
 
-        {/* TAB: BASTION HQ — COMMAND, TACTICAL RULES & LOGISTICS */}
+        {/* TAB: BASTION HQ — ROLE-SCOPED ADVISOR ("YOU") vs CO-ARCHITECT ("WE") */}
         {activeCockpitTab === 'bastion' && (
           <div className="space-y-3 text-xs font-mono">
+            {/* Multi-Group Campaign Lens & Operator Preview Control Bar */}
+            <div className="rounded-lg overflow-hidden border border-slate-800">
+              <BastionRoleAndGroupBar
+                compact
+                onRoleChange={(nextRole: string) => {
+                  setUserRole(nextRole === 'architect' ? 'gm' : 'player');
+                }}
+              />
+            </div>
+
             {/* Header Banner */}
-            <div className="p-3 rounded-lg bg-slate-950/80 border border-amber-500/40 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-lg bg-amber-950/60 border border-amber-500/40">
+            <div className="p-3 rounded-lg bg-slate-950/80 border border-amber-500/40 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="p-2 rounded-lg bg-amber-950/60 border border-amber-500/40 shrink-0">
                   <Shield size={18} className="text-amber-400" />
                 </div>
-                <div>
-                  <p className="text-amber-300 font-bold uppercase tracking-wider text-[11px]">
-                    Bastion HQ — Command &amp; Rules Engine
+                <div className="min-w-0">
+                  <p className="text-amber-300 font-bold uppercase tracking-wider text-[11px] truncate">
+                    {isArchitectMode
+                      ? 'Bastion Co-Architect — Our Command Engine'
+                      : 'Bastion Advisor — Your Tactical Uplink'}
                   </p>
-                  <p className="text-slate-400 text-[10px] font-sans">
-                    Omnicortex v6 Vector RAG, 2d10 Dual Resolution &amp; Garrison Readiness
+                  <p className="text-slate-400 text-[10px] font-sans truncate">
+                    {isArchitectMode
+                      ? 'Partnered ("we") pacing, multi-group sync & Volume I+II Omnicortex'
+                      : 'Direct ("you") tactical odds, Karma leverage & Volume I rules'}
                   </p>
                 </div>
               </div>
-              <span className="px-2 py-0.5 rounded text-[9px] bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold">
-                ONLINE
-              </span>
+              {bastionCtx?.openBastion && (
+                <button
+                  type="button"
+                  onClick={() => bastionCtx.openBastion({ tab: 'chat' })}
+                  className="px-2 py-0.5 rounded text-[9px] bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 font-bold uppercase shrink-0 cursor-pointer"
+                  title="Open Full Unified BASTION Drawer"
+                >
+                  ↗ Drawer
+                </button>
+              )}
+            </div>
+
+            {/* Embedded Live Tactical BASTION Sub-Chat */}
+            <div className="p-3 rounded-lg bg-slate-950/70 border border-cyan-900/50 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-cyan-300 flex items-center gap-1">
+                  <MessageSquare size={11} />
+                  <span>
+                    {isArchitectMode ? 'Co-Architect Tactical Comms ("We")' : 'Your Tactical Advisor ("You")'}
+                  </span>
+                </span>
+                <span className="text-[9px] text-slate-500">Synced Thread</span>
+              </div>
+
+              {/* Role-Specific Quick Action Chips */}
+              <div className="flex flex-wrap gap-1">
+                {(isArchitectMode
+                  ? [
+                      {
+                        label: 'Multi-Group Sync',
+                        prompt: 'How should we synchronize combat pacing and spotlight across our active campaign groups right now?',
+                      },
+                      {
+                        label: 'Calibrate CR',
+                        prompt: `Evaluate encounter CR and threat balance for our ${stageTokens.length} stage entities.`,
+                      },
+                      {
+                        label: 'Adversary Doctrine',
+                        prompt: 'Synthesize tactical target priority and cover doctrine for our stage hostiles this round.',
+                      },
+                    ]
+                  : [
+                      {
+                        label: 'My Action Stages',
+                        prompt: 'Break down how many actions and multi-attack stages I get this round under the 6-Stage Skill Tier economy.',
+                      },
+                      {
+                        label: `Called Shot (${calledShotTarget})`,
+                        prompt: `Evaluate my Called Shot odds and trauma payoff targeting ${calledShotTarget} vs CR 15.`,
+                      },
+                      {
+                        label: 'Spend 1 Karma',
+                        prompt: 'What are my highest-leverage ways to spend 1 Karma right now in 2d10 combat?',
+                      },
+                      {
+                        label: 'My Armor Soak',
+                        prompt: `Calculate my mitigation with Kinetic DR ${kineticDr}, Energy DR ${energyDr}, and Stamina soak +${staminaDr}.`,
+                      },
+                    ]
+                ).map((chip) => (
+                  <button
+                    key={chip.label}
+                    type="button"
+                    disabled={isCockpitChatLoading}
+                    onClick={() => handleSendCockpitChat(chip.prompt)}
+                    className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-cyan-950/80 border border-slate-700 hover:border-cyan-500/50 text-[9.5px] text-cyan-200 transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    ⚡ {chip.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Compact Recent Thread Feed */}
+              {cockpitMessages.length > 0 && (
+                <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1 bg-slate-900/60 p-2 rounded border border-slate-800/80">
+                  {cockpitMessages.slice(-4).map((m, i) => (
+                    <div
+                      key={i}
+                      className={`text-[10.5px] leading-snug p-1.5 rounded font-sans whitespace-pre-wrap ${
+                        m.sender === 'user'
+                          ? 'bg-cyan-950/70 text-cyan-200 border border-cyan-700/40 ml-4'
+                          : 'bg-slate-950/90 text-slate-200 border border-slate-800 mr-2'
+                      }`}
+                    >
+                      <span className="font-mono text-[8.5px] uppercase font-bold text-slate-400 block mb-0.5">
+                        {m.sender === 'user'
+                          ? isArchitectMode
+                            ? 'Architect (We)'
+                            : 'You (Operator)'
+                          : isArchitectMode
+                          ? 'BASTION Co-Architect'
+                          : 'BASTION Advisor'}
+                      </span>
+                      {m.text}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex gap-1.5">
+                <input
+                  type="text"
+                  value={cockpitChatInput}
+                  onChange={(e) => setCockpitChatInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleSendCockpitChat();
+                    }
+                  }}
+                  placeholder={
+                    isArchitectMode
+                      ? 'Ask our Co-Architect...'
+                      : 'Ask your Tactical Advisor...'
+                  }
+                  className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-cyan-500/60"
+                />
+                <button
+                  type="button"
+                  disabled={isCockpitChatLoading}
+                  onClick={() => handleSendCockpitChat()}
+                  className="px-2.5 py-1 rounded bg-cyan-600/80 hover:bg-cyan-500 text-black font-bold text-[10px] uppercase cursor-pointer disabled:opacity-50"
+                >
+                  {isCockpitChatLoading ? '...' : 'Ask'}
+                </button>
+              </div>
             </div>
 
             {/* 2d10 Dual Resolution Roll Tester */}
@@ -438,14 +673,14 @@ export const CockpitPanel: React.FC = () => {
                 <span className="text-[10px] uppercase font-bold text-cyan-400">
                   🎲 2d10 Dual Resolution Resolver
                 </span>
-                <span className="text-[9px] text-slate-500">Defender Wins Ties</span>
+                <span className="text-[9px] text-slate-500">adv / dis • Defender Wins Ties</span>
               </div>
               <div className="flex gap-1.5">
                 <input
                   type="text"
                   value={bastionRollInput}
                   onChange={(e) => setBastionRollInput(e.target.value)}
-                  placeholder="/roll 2d10+4 vs 15"
+                  placeholder="/roll 2d10+4 adv vs 15"
                   className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-amber-500/60"
                 />
                 <button
@@ -462,7 +697,9 @@ export const CockpitPanel: React.FC = () => {
                     <span className="text-slate-400">
                       Dice: [{bastionRollResult.d1}, {bastionRollResult.d2}] ({bastionRollResult.modifier >= 0 ? `+${bastionRollResult.modifier}` : bastionRollResult.modifier})
                     </span>
-                    <span className="font-bold text-amber-300">Total: {bastionRollResult.total}</span>
+                    <span className="font-bold text-amber-300">
+                      Total: {bastionRollResult.effectiveTotal ?? bastionRollResult.total}
+                    </span>
                   </div>
                   <div className="text-cyan-300 font-bold">{bastionRollResult.outcomeText}</div>
                   <div className="text-slate-400 font-sans text-[10px]">{bastionRollResult.degreeDetails}</div>
@@ -470,11 +707,11 @@ export const CockpitPanel: React.FC = () => {
               )}
             </div>
 
-            {/* Omnicortex Canonical Rulebook RAG Lookup */}
+            {/* Omnicortex Canonical Rulebook RAG Lookup (Epistemically Scoped by Role!) */}
             <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] uppercase font-bold text-amber-400">
-                  📚 Omnicortex Canonical RAG Lookup
+                  📚 Omnicortex Canonical RAG ({isArchitectMode ? 'Vol I + II' : 'Player Vol I'})
                 </span>
                 <span className="text-[9px] text-slate-500">Top {bastionRagResults.length} Chunks</span>
               </div>
@@ -502,64 +739,66 @@ export const CockpitPanel: React.FC = () => {
               </div>
             </div>
 
-            {/* BASTION Co-GM Whisper Pacing Deck & 1-Click Stage Mutations */}
-            <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold text-purple-400">
-                  🧠 BASTION Co-Architect Pacing Whispers
-                </span>
-                <span
-                  className="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase"
-                  style={{
-                    backgroundColor: `${bastionWhisperPacing.pacingColor}22`,
-                    color: bastionWhisperPacing.pacingColor,
-                    border: `1px solid ${bastionWhisperPacing.pacingColor}55`
-                  }}
-                >
-                  Tension {bastionWhisperPacing.tensionScore}%
-                </span>
-              </div>
-              <div className="text-[10px] text-slate-300 font-semibold">
-                {bastionWhisperPacing.pacingLabel}
-              </div>
-              {bastionWhisperPacing.advice && (
-                <p className="text-[9.5px] text-slate-400 font-sans leading-snug">
-                  {bastionWhisperPacing.advice}
-                </p>
-              )}
-              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-                {(bastionWhisperPacing.suggestedCards?.length
-                  ? bastionWhisperPacing.suggestedCards
-                  : CANONICAL_WHISPER_CARDS.slice(0, 3)
-                ).map((card: any) => (
-                  <div
-                    key={card.id}
-                    className="p-2 rounded bg-slate-900/90 border border-slate-800/90 flex items-center justify-between gap-2"
+            {/* BASTION Co-Architect Whisper Pacing Deck (STRICTLY GATED TO ARCHITECT MODE!) */}
+            {isArchitectMode && (
+              <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] uppercase font-bold text-purple-400">
+                    🧠 BASTION Co-Architect Pacing Whispers
+                  </span>
+                  <span
+                    className="text-[9px] px-1.5 py-0.5 rounded font-bold uppercase"
+                    style={{
+                      backgroundColor: `${bastionWhisperPacing.pacingColor}22`,
+                      color: bastionWhisperPacing.pacingColor,
+                      border: `1px solid ${bastionWhisperPacing.pacingColor}55`
+                    }}
                   >
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[10px] font-bold text-slate-200 truncate">
-                        {card.icon} {card.label}
-                      </div>
-                      <div className="text-[9px] text-slate-400 font-sans truncate">
-                        {card.actionEffect}
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleExecuteWhisperCard(card.id)}
-                      className="px-2 py-1 rounded bg-purple-900/70 hover:bg-purple-700 text-purple-200 border border-purple-500/40 text-[9px] font-bold uppercase shrink-0 cursor-pointer"
-                    >
-                      Inject
-                    </button>
-                  </div>
-                ))}
-              </div>
-              {bastionWhisperBanner && (
-                <div className="p-2 rounded bg-purple-950/50 border border-purple-500/40 text-[9.5px] text-purple-200 font-sans">
-                  {bastionWhisperBanner}
+                    Tension {bastionWhisperPacing.tensionScore}%
+                  </span>
                 </div>
-              )}
-            </div>
+                <div className="text-[10px] text-slate-300 font-semibold">
+                  {bastionWhisperPacing.pacingLabel}
+                </div>
+                {bastionWhisperPacing.advice && (
+                  <p className="text-[9.5px] text-slate-400 font-sans leading-snug">
+                    {bastionWhisperPacing.advice}
+                  </p>
+                )}
+                <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                  {(bastionWhisperPacing.suggestedCards?.length
+                    ? bastionWhisperPacing.suggestedCards
+                    : CANONICAL_WHISPER_CARDS.slice(0, 3)
+                  ).map((card: any) => (
+                    <div
+                      key={card.id}
+                      className="p-2 rounded bg-slate-900/90 border border-slate-800/90 flex items-center justify-between gap-2"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[10px] font-bold text-slate-200 truncate">
+                          {card.icon} {card.label}
+                        </div>
+                        <div className="text-[9px] text-slate-400 font-sans truncate">
+                          {card.actionEffect}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleExecuteWhisperCard(card.id)}
+                        className="px-2 py-1 rounded bg-purple-900/70 hover:bg-purple-700 text-purple-200 border border-purple-500/40 text-[9px] font-bold uppercase shrink-0 cursor-pointer"
+                      >
+                        Inject
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                {bastionWhisperBanner && (
+                  <div className="p-2 rounded bg-purple-950/50 border border-purple-500/40 text-[9.5px] text-purple-200 font-sans">
+                    {bastionWhisperBanner}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Stronghold & Garrison Logistics */}
             <div className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 space-y-2">
@@ -595,13 +834,13 @@ export const CockpitPanel: React.FC = () => {
           </div>
         )}
 
-        {/* TAB 3: GM DYNAMIC INSPECTOR & MULTI-ENTITY BATCH CONTROLS */}
-        {activeCockpitTab === 'inspector' && (
+        {/* TAB 3: GM DYNAMIC INSPECTOR & MULTI-ENTITY BATCH CONTROLS (Architect Only) */}
+        {isArchitectMode && activeCockpitTab === 'inspector' && (
           <GMInspector />
         )}
 
-        {/* TAB 4: AIME CO-PILOT DECK (Sensory Read-Aloud, Tactical Barks, Transmutation) */}
-        {activeCockpitTab === 'aime' && (
+        {/* TAB 4: AIME CO-PILOT DECK (Architect Only) */}
+        {isArchitectMode && activeCockpitTab === 'aime' && (
           <AimeCockpitDeck />
         )}
 

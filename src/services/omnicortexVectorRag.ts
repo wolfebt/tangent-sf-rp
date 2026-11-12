@@ -20,6 +20,7 @@ export interface RuleChunk {
   embedding?: number[];
   formula?: string;
   status?: string;
+  visibility?: 'public' | 'architect';
 }
 
 /**
@@ -127,7 +128,7 @@ Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +
     text: `Operators in Tangent SFF RP are created using a strict 150 Character Point (CP) budget (80 CP Archetype package + 70 CP Customization):
 - Attributes: 5 CP per +1 attribute rank above base 0 (soft cap +4 at creation).
 - Check Bonuses: 1 CP per +1 sub-attribute check score.
-- Skills: 1 CP per rank (Creation Skill Rank cap is 11 [Expert Stage 3]; absolute maximum is Rank 30 [Pinnacle Stage 6]).
+- Skills & Specializations: Base Skill Ranks span 0–20 at 1 SP/CP per rank (Creation cap is Rank 11 [Expert Stage 3]; Base Skill max is Rank 20 [Master Stage 4]). Specializations do NOT grant a flat +2; they are built-up sub-skills (Rank 1–10 at 1 SP/CP per rank, Prerequisite Base Rank 6+, max 1 viable per check) adding directly to Base Skill to unlock the 21–30 range (Grand Master 21–25 & Pinnacle 26–30).
 - Three 20-Point Background Skill Pools (0 CP): Faction (20 SP), Origin (20 SP), and Occupation (20 SP) = 60 free skill ranks.
 - Personal Hindrances & Flaws: Grant up to +10 CP maximum rebate at creation (Social Stigmas and innate Species flaws are exempt from this cap).
 - Increment Rule: Advancement is restricted to +1 point per attribute or skill rank per milestone award.`
@@ -200,6 +201,7 @@ Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +
   {
     id: 'rule-architect-directives-keywords',
     category: 'directives',
+    visibility: 'architect',
     title: 'Architect Directives & Thematic Guidance Keywords (+Weight)',
     citation: 'Codex 1.00 AI Guidance & Architect Directives',
     tags: ['directives', 'keywords', 'guidance', 'positive keywords', 'thematic weight', 'synergy', 'ai guidance', 'cybernetic', 'high-tech'],
@@ -211,6 +213,7 @@ Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +
   {
     id: 'rule-architect-railguards-exclusions',
     category: 'railguards',
+    visibility: 'architect',
     title: 'Architect Railguards & Boundary Exclusions (-Weight / Exclusions)',
     citation: 'Codex 1.00 AI Railguards & Boundary Exclusions',
     tags: ['railguards', 'negative keywords', 'exclusions', 'boundary', 'restrictions', 'penalties', 'contraindications', 'synthetic exclusions'],
@@ -376,6 +379,14 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
     const cleanNote = (item.note || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
     const baseId = `compendium-${item.id || item.name}`;
     const baseTags = [...(Array.isArray(item.tags) ? item.tags : []), item.name, item.parent || '', cat].filter(Boolean);
+    const itemSourceLower = String(item.sourcePath || item.path || '').toLowerCase();
+    const isArchitectSource =
+      String(item.perspective || '').toLowerCase() === 'architect' ||
+      itemSourceLower.startsWith('architect/') ||
+      itemSourceLower.includes('/architect/') ||
+      p.includes('gm guidelines') ||
+      p.includes('architect guide');
+    const articleVisibility: 'public' | 'architect' = isArchitectSource ? 'architect' : 'public';
 
     let levelMeta = '';
     if (item.tl !== undefined && item.tl !== null) levelMeta += `Tech Level: TL ${item.tl} | `;
@@ -387,6 +398,7 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
       chunks.push({
         id: baseId,
         category: cat,
+        visibility: articleVisibility,
         title: item.name || 'Untitled Article',
         citation: item.parent || 'Omnicortex Compendium',
         text: `${item.name || 'Untitled Article'}\n${levelMeta}`.trim(),
@@ -406,6 +418,7 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
         chunks.push({
           id: idx === 0 ? baseId : `${baseId}-sec-${idx}`,
           category: cat,
+          visibility: articleVisibility,
           title: secTitle,
           citation: secCitation,
           text: `${headerPrefix}${cleanSecText}`.trim(),
@@ -484,6 +497,7 @@ function buildCompendiumChunks(seedList: any[] = []): RuleChunk[] {
       chunks.push({
         id: `compendium-${item.id || item.name}-note`,
         category: cat,
+        visibility: 'architect',
         title: `${item.name} [Architect Notes & Railguards]`,
         citation: `${item.parent || 'Omnicortex'} > Architect Notes`,
         text: architectText.trim(),
@@ -974,6 +988,7 @@ export function detectIntentCategories(query: string): string[] {
 export interface RagSearchOptions {
   topK?: number;
   categoryFilter?: string;
+  role?: 'operator' | 'architect' | string;
   positiveKeywords?: string[] | string;
   negativeKeywords?: string[] | string;
   directiveKeywords?: string[] | string;
@@ -983,43 +998,69 @@ export interface RagSearchOptions {
 }
 
 /**
+ * Determine whether a RAG chunk is restricted to Architects (Game Masters) only.
+ */
+export function isArchitectRestrictedChunk(chunk: RuleChunk): boolean {
+  if (!chunk) return false;
+  if (chunk.visibility === 'architect') return true;
+  if (chunk.id && chunk.id.endsWith('-note')) return true;
+  if (chunk.title && chunk.title.includes('[Architect Notes & Railguards]')) return true;
+  const citLower = String(chunk.citation || '').toLowerCase();
+  if (citLower.includes('> architect notes') || citLower.startsWith('architect/')) return true;
+  return false;
+}
+
+/**
  * Queries the Omnicortex Vector RAG index for the top most relevant rule and lore chunks.
  * Evaluates semantic vector similarity, adds weight for positive guidance keywords,
- * and reduces weight for negative keywords and railguards.
+ * reduces weight for negative keywords and railguards, and enforces epistemic role filtering.
  */
 export function queryOmnicortexRAG(
   query: string, 
   topKOrOptions: number | RagSearchOptions = 4, 
-  categoryFilter?: string
+  categoryFilter?: string | RagSearchOptions
 ): RagSearchResult[] {
   if (!query || !query.trim()) {
     return [];
   }
 
   let topK = 4;
-  let activeCatFilter = categoryFilter;
+  let activeCatFilter = typeof categoryFilter === 'string' ? categoryFilter : undefined;
+  let activeRole: string | undefined = undefined;
   let posKeywords: string[] = [];
   let negKeywords: string[] = [];
 
-  if (typeof topKOrOptions === 'object' && topKOrOptions !== null) {
-    topK = topKOrOptions.topK ?? 4;
-    activeCatFilter = topKOrOptions.categoryFilter || categoryFilter;
-    const rawPos = topKOrOptions.positiveKeywords || topKOrOptions.directiveKeywords;
+  const mergedOptions: RagSearchOptions | null =
+    typeof topKOrOptions === 'object' && topKOrOptions !== null
+      ? topKOrOptions
+      : typeof categoryFilter === 'object' && categoryFilter !== null
+        ? categoryFilter
+        : null;
+
+  if (typeof topKOrOptions === 'number') {
+    topK = topKOrOptions;
+  }
+
+  if (mergedOptions) {
+    if (mergedOptions.topK !== undefined) {
+      topK = mergedOptions.topK;
+    }
+    activeCatFilter = mergedOptions.categoryFilter || activeCatFilter;
+    activeRole = mergedOptions.role ? String(mergedOptions.role).trim().toLowerCase() : undefined;
+    const rawPos = mergedOptions.positiveKeywords || mergedOptions.directiveKeywords;
     if (rawPos) {
       posKeywords = (Array.isArray(rawPos) 
         ? rawPos 
         : String(rawPos).split(/[,;\n]+/)
       ).map(k => k.trim().toLowerCase()).filter(Boolean);
     }
-    const rawNeg = topKOrOptions.negativeKeywords || topKOrOptions.railguardKeywords;
+    const rawNeg = mergedOptions.negativeKeywords || mergedOptions.railguardKeywords;
     if (rawNeg) {
       negKeywords = (Array.isArray(rawNeg) 
         ? rawNeg 
         : String(rawNeg).split(/[,;\n]+/)
       ).map(k => k.trim().toLowerCase()).filter(Boolean);
     }
-  } else if (typeof topKOrOptions === 'number') {
-    topK = topKOrOptions;
   }
 
   // Trigger lazy loading of compendium seed in background if not yet loaded
@@ -1048,8 +1089,11 @@ export function queryOmnicortexRAG(
   const isQuerySpecificallyAboutRailguards = lowerQuery.includes('railguard') || lowerQuery.includes('avoid') || lowerQuery.includes('not recommended');
   const results: RagSearchResult[] = [];
 
+  const restrictOperator = activeRole === 'operator' || activeRole === 'operative' || activeRole === 'player';
+
   for (const chunk of CANONICAL_RULES_COMPENDIUM) {
     if (!chunk.embedding) continue;
+    if (restrictOperator && isArchitectRestrictedChunk(chunk)) continue;
 
     let chunkContentLower = CHUNK_LOWER_CACHE.get(chunk);
     if (!chunkContentLower) {
@@ -1160,11 +1204,19 @@ export function queryOmnicortexRAG(
 /**
  * Formats retrieved RAG chunks into a structured system context for BASTION
  */
-export function formatRagContextForBastion(ragResults: RagSearchResult[]): string {
-  if (ragResults.length === 0) return '';
+export function formatRagContextForBastion(
+  ragResults: RagSearchResult[],
+  role?: 'operator' | 'architect' | string
+): string {
+  const restrictOperator =
+    role && ['operator', 'operative', 'player'].includes(String(role).trim().toLowerCase());
+  const visibleResults = restrictOperator
+    ? ragResults.filter(({ chunk }) => !isArchitectRestrictedChunk(chunk))
+    : ragResults;
+  if (visibleResults.length === 0) return '';
 
   let context = 'CANONICAL OMNICORTEX RULES & BASTION MECHANICS CITATIONS:\n';
-  for (const { chunk, score } of ragResults) {
+  for (const { chunk, score } of visibleResults) {
     const isApproved = chunk.status === 'approved' || chunk.id.startsWith('mech-');
     const statusBadge = isApproved ? '[APPROVED CANON MECHANIC]' : '[COMPENDIUM LORE]';
     context += `\n--- ${statusBadge} [${chunk.citation}] ${chunk.title} (Relevance: ${(score * 100).toFixed(0)}%) ---\n`;
@@ -1192,10 +1244,74 @@ export function formatRagContextForAIME(ragResults: RagSearchResult[]): string {
   return context;
 }
 
+export interface StudioStepRagRequest {
+  query: string;
+  domainKey?: string;
+  tags?: string[];
+  dbData?: Record<string, any[]>;
+  topK?: number;
+}
+
+/**
+ * Retrieves step-scoped canonical rules citations + matching live Omnicortex entity summaries
+ * for the Guided Asset Studio with zero network latency.
+ */
+export function queryStudioStepContext(req: StudioStepRagRequest): {
+  ruleCitations: RagSearchResult[];
+  entityCitations: Array<{ id: string; name: string; collection: string; summary: string; score: number }>;
+} {
+  const combinedQuery = [req.query || '', ...(req.tags || []), req.domainKey || '']
+    .filter(Boolean)
+    .join(' ')
+    .trim();
+
+  const ruleCitations = combinedQuery
+    ? queryOmnicortexRAG(combinedQuery, { topK: req.topK || 3, positiveKeywords: req.tags || [] })
+    : [];
+
+  const entityCitations: Array<{ id: string; name: string; collection: string; summary: string; score: number }> = [];
+  if (req.dbData && req.domainKey) {
+    const candidates = req.dbData[req.domainKey] || [];
+    const tokens = combinedQuery
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter((t) => t.length >= 4);
+
+    if (Array.isArray(candidates) && candidates.length > 0) {
+      for (const item of candidates.slice(0, 120)) {
+        if (!item || typeof item !== 'object') continue;
+        const name = String(item.name || item.title || item.id || '').trim();
+        const desc = String(item.mechanic || item.description || '').trim();
+        if (!name) continue;
+        const hay = `${name} ${desc}`.toLowerCase();
+        let s = 1;
+        for (const t of tokens) {
+          if (hay.includes(t)) s += 2;
+        }
+        entityCitations.push({
+          id: String(item.id || name),
+          name,
+          collection: req.domainKey,
+          summary: desc.slice(0, 180),
+          score: s
+        });
+      }
+      entityCitations.sort((a, b) => b.score - a.score);
+    }
+  }
+
+  return {
+    ruleCitations,
+    entityCitations: entityCitations.slice(0, 4)
+  };
+}
+
 export default {
   CANONICAL_RULES_COMPENDIUM,
   loadCompendiumSeedDataset,
   queryOmnicortexRAG,
+  queryStudioStepContext,
   formatRagContextForBastion,
   formatRagContextForAIME
 };

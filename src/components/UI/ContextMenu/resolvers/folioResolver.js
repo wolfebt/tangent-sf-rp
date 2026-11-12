@@ -125,7 +125,7 @@ export function resolveFolioMenu(context, appState, handlers) {
         aiType: 'BASTION',
         onClick: () => executeBastionPrompt({
           title: `5 Pillars Audit: ${operativeName}`,
-          prompt: `Perform an analytical rules audit for ${operativeName}. Verify that their Persona Chassis complies with the Tangent SFF RPG canonical protocol: 150 BP base chassis, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rules, and Karma Debt limit (Charisma + 1). Identify any rules discrepancies or unspent pools.`,
+          prompt: `Perform an analytical rules audit for ${operativeName}. Verify that this Persona Chassis complies with the Tangent SFF RPG canonical protocol: 150 CP base chassis, three 20 SP background pools (Faction, Origin, Occupation = 60 Free SP), Base Skill Ranks 0–20 (Creation Cap 11) + Specializations 1–10, +1 increment advancement rules, and Karma Debt limit (Charisma + 1). Identify any rules discrepancies or unspent pools.`,
           context: `Operator: ${operativeName}`
         })
       },

@@ -4,6 +4,10 @@ import { Shield, Dna, Globe, Briefcase, Activity, FileText, Pin } from 'lucide-r
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { useFolio } from '../../context/FolioContext';
 import { useDBM } from '../../context/DBMContext';
+import { useCampaign } from '../../context/CampaignContext';
+import { useBastion } from '../../context/BastionContext';
+import { BastionRoleAndGroupBar } from '../Bastion/BastionRoleAndGroupBar';
+import { BastionWorkspaceFieldGenerator } from '../Bastion/BastionWorkspaceFieldGenerator';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
 import {
   synthesizeCharacterWithBastion,
@@ -94,22 +98,69 @@ const CATEGORIES = [
   'Psychology & Metanarrative'
 ];
 
-const BASTION_CHAT_STORAGE_KEY = 'tangent_bastion_chat_history_v1';
-
-const DEFAULT_BASTION_GREETING = [
-  {
-    sender: 'bastion',
-    text: 'Greetings, OPERATOR. BASTION AI Assistant online across the platform. How can I assist with rules, Omnicortex lore, or your Tangent SFF RPG persona today? Type /persona [concept] to synthesize a canonical 5-pillar persona, /roll [dice] to roll dice (e.g. /roll 2d10+4), or /clear to reset our conversation.'
+function buildDefaultBastionGreeting(sessionState) {
+  if (sessionState?.isArchitect) {
+    const groupCount = sessionState?.sessionGroups?.length || 0;
+    const groupNote =
+      groupCount > 1
+        ? ` We are tracking ${groupCount} active groups in this campaign.`
+        : '';
+    return [
+      {
+        sender: 'bastion',
+        text: `BASTION Co-Architect Engine online.${groupNote} How should we calibrate encounters, Omnicortex entries, Economatrix CR valuations, or multi-group pacing today? Type /roll [dice] (e.g. /roll 2d10+6 vs 15), /persona [concept], or /clear to reset our thread.`,
+      },
+    ];
   }
-];
+  const previewTag = sessionState?.isOperatorPreview
+    ? ' [Operator Preview Lens Active]'
+    : '';
+  return [
+    {
+      sender: 'bastion',
+      text: `BASTION Tactical Advisor online.${previewTag} How can I assist you with rules, Omnicortex lore, or your Tangent SFF RPG persona today? Type /persona [concept] to synthesize a 5-pillar build, /roll [dice] (e.g. /roll 2d10+4 adv vs 15), or /clear to reset your conversation.`,
+    },
+  ];
+}
 
 const BastionDrawer = ({ isOpen, onClose }) => {
   const location = useLocation();
   const { characterData, updateField, applyGuidedCharacter } = useFolio() || {};
   const dbmContext = useDBM() || {};
-  const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'generator'
+  const campaignContext = useCampaign() || {};
+  const bastionCtx = useBastion() || {};
+  const {
+    sessionState,
+    activeThreadKey = 'default',
+    getThreadMessages,
+    setThreadMessages,
+    clearThreadMessages,
+    queuedPrompt,
+    consumeQueuedPrompt,
+    activeSurface,
+    activeDrawerTab,
+    setActiveDrawerTab,
+  } = bastionCtx;
+
+  const [localTab, setLocalTab] = useState('chat');
+  const activeTab = activeDrawerTab || localTab;
+  const setActiveTab = setActiveDrawerTab || setLocalTab;
+
   const [isMinimized, setIsMinimized] = useState(false);
+  const [openToolProofs, setOpenToolProofs] = useState({});
   const messagesEndRef = useRef(null);
+
+  const isFoundryRoute = Boolean(location?.pathname?.startsWith('/foundry'));
+  const isDbmOrCompendiumRoute = Boolean(
+    location?.pathname?.startsWith('/dbm') ||
+      location?.pathname?.startsWith('/compendium') ||
+      location?.pathname?.startsWith('/rules')
+  );
+  const hasWorkspaceGeneratorTarget = Boolean(
+    isFoundryRoute ||
+      isDbmOrCompendiumRoute ||
+      (activeSurface && ['dbm', 'compendium', 'foundry'].includes(activeSurface.surfaceType))
+  );
 
   // Dock / Undock state (Persisted in localStorage)
   const [isDocked, setIsDocked] = useState(() => {
@@ -131,31 +182,42 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     });
   };
 
-  // Persistent Platform-Wide Chat State (stays in conversation across all routes until cleared)
-  const [messages, setMessages] = useState(() => {
-    try {
-      const saved = localStorage.getItem(BASTION_CHAT_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
+  // Fallback local state if rendered outside BastionProvider in isolated unit tests
+  const [fallbackMessages, setFallbackMessages] = useState(() =>
+    buildDefaultBastionGreeting(sessionState)
+  );
+
+  const defaultGreeting = useMemo(
+    () => buildDefaultBastionGreeting(sessionState),
+    [sessionState?.isArchitect, sessionState?.isOperatorPreview, sessionState?.sessionGroups?.length]
+  );
+
+  const storedThreadMessages = getThreadMessages ? getThreadMessages(activeThreadKey) : null;
+  const messages =
+    storedThreadMessages && storedThreadMessages.length > 0
+      ? storedThreadMessages
+      : getThreadMessages
+      ? defaultGreeting
+      : fallbackMessages;
+
+  const setMessages = useCallback(
+    (updater) => {
+      if (setThreadMessages) {
+        setThreadMessages((prev) => {
+          const base = prev && prev.length > 0 ? prev : defaultGreeting;
+          return typeof updater === 'function' ? updater(base) : updater;
+        }, activeThreadKey);
+      } else {
+        setFallbackMessages(updater);
       }
-    } catch (e) {}
-    return DEFAULT_BASTION_GREETING;
-  });
+    },
+    [setThreadMessages, activeThreadKey, defaultGreeting]
+  );
+
   const [inputVal, setInputVal] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [copiedConversation, setCopiedConversation] = useState(false);
   const [copiedBlockIdx, setCopiedBlockIdx] = useState(null);
-  const [expandedBlocks, setExpandedBlocks] = useState({});
-
-  // Persist conversation history across routes & reloads until cleared
-  useEffect(() => {
-    try {
-      localStorage.setItem(BASTION_CHAT_STORAGE_KEY, JSON.stringify(messages));
-    } catch (e) {}
-  }, [messages]);
 
   // Auto-scroll to newest message when open on chat tab
   useEffect(() => {
@@ -164,7 +226,15 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     }
   }, [messages, isChatLoading, isOpen, activeTab]);
 
-  // Listen for prefilled prompts from context menus or global triggers
+  // Consume queued prompts from BastionContext or legacy window custom events
+  useEffect(() => {
+    if (queuedPrompt?.text) {
+      setActiveTab('chat');
+      setInputVal(queuedPrompt.text);
+      consumeQueuedPrompt?.();
+    }
+  }, [queuedPrompt, consumeQueuedPrompt, setActiveTab]);
+
   useEffect(() => {
     const handlePrefillPrompt = (e) => {
       const prefill = e?.detail?.prompt;
@@ -181,26 +251,29 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       window.removeEventListener('toggle-bastion-drawer', handlePrefillPrompt);
       window.removeEventListener('open-bastion-drawer', handlePrefillPrompt);
     };
-  }, []);
+  }, [setActiveTab]);
 
   const handleClearChat = useCallback(() => {
-    setMessages(DEFAULT_BASTION_GREETING);
-    setExpandedBlocks({});
-    try {
-      localStorage.removeItem(BASTION_CHAT_STORAGE_KEY);
-    } catch (e) {}
-  }, []);
+    if (clearThreadMessages) {
+      clearThreadMessages(activeThreadKey);
+    } else {
+      setFallbackMessages(buildDefaultBastionGreeting(sessionState));
+    }
+    setOpenToolProofs({});
+  }, [clearThreadMessages, activeThreadKey, sessionState]);
 
   const handleCopyConversation = useCallback(() => {
+    const userLabel = sessionState?.isArchitect ? 'ARCHITECT' : 'OPERATOR';
+    const assistantLabel = sessionState?.isArchitect ? 'BASTION CO-ARCHITECT' : 'BASTION ADVISOR';
     const transcript = messages
-      .map(m => `[${m.sender === 'user' ? 'OPERATOR' : 'BASTION'}]:\n${m.text}`)
+      .map(m => `[${m.sender === 'user' ? userLabel : assistantLabel}]:\n${m.text}`)
       .join('\n\n---\n\n');
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(transcript).catch(() => {});
     }
     setCopiedConversation(true);
     setTimeout(() => setCopiedConversation(false), 2000);
-  }, [messages]);
+  }, [messages, sessionState?.isArchitect]);
 
   const handleCopyBlock = useCallback((text, idx) => {
     if (navigator.clipboard?.writeText) {
@@ -212,12 +285,22 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     }, 2000);
   }, []);
 
-  const toggleExpandBlock = useCallback((idx) => {
-    setExpandedBlocks(prev => ({ ...prev, [idx]: !prev[idx] }));
+  const toggleToolProof = useCallback((idx) => {
+    setOpenToolProofs(prev => ({ ...prev, [idx]: !prev[idx] }));
   }, []);
 
   // Generator State
-  const [generatorMode, setGeneratorMode] = useState('staged'); // 'staged' (user-in-the-loop) | 'synthesis' (1-click 5 pillars) | 'fields' (selective)
+  const [generatorMode, setGeneratorMode] = useState(() =>
+    hasWorkspaceGeneratorTarget ? 'workspace' : 'staged'
+  ); // 'workspace' (DBM/Compendium/Foundry) | 'staged' | 'synthesis' | 'fields'
+
+  useEffect(() => {
+    if (hasWorkspaceGeneratorTarget) {
+      setGeneratorMode('workspace');
+    } else if (generatorMode === 'workspace') {
+      setGeneratorMode('staged');
+    }
+  }, [hasWorkspaceGeneratorTarget]);
   const [synthesizedResult, setSynthesizedResult] = useState(null);
   const [selectedFields, setSelectedFields] = useState({
     'char-name': true,
@@ -484,33 +567,30 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     return matches;
   };
 
-  const getSummarizedDisplayText = (text, isExpanded) => {
-    if (!text || isExpanded || text.length <= 420) {
-      return { displayText: text, isTruncated: false };
-    }
-    const lines = text.split('\n').filter(l => l.trim().length > 0);
-    if (lines.length > 6) {
-      return {
-        displayText: lines.slice(0, 6).join('\n') + '\n…',
-        isTruncated: true
-      };
-    }
-    return {
-      displayText: text.slice(0, 400).trimEnd() + '…',
-      isTruncated: true
-    };
-  };
-
   const runBastionQuery = async (userText, baseHistory, replaceAtIdx = null) => {
     // Check for /roll command
     if (userText.startsWith('/roll')) {
       const rollResult = parseRollCommand(userText);
+      const effectiveDisplay =
+        rollResult.effectiveTotal !== undefined && rollResult.effectiveTotal !== rollResult.total
+          ? `${rollResult.effectiveTotal} (Natural Total: ${rollResult.total})`
+          : `${rollResult.total}`;
+      const dicePoolLabel =
+        rollResult.advantageState !== 'normal' && Array.isArray(rollResult.allDice)
+          ? `3d10 [${rollResult.allDice.join(', ')}] → Kept [${rollResult.rolls.join(', ')}]`
+          : `Rolls: [${(rollResult.rolls || []).join(', ')}]`;
       const replyMsg = rollResult.success
         ? {
             sender: 'bastion',
             isRoll: true,
             promptText: userText,
-            text: `🎲 DICE ROLL RESULT [${rollResult.expr}]: Total = ${rollResult.total} (Rolls: [${rollResult.rolls.join(', ')}] ${rollResult.mod !== 0 ? `Mod: ${rollResult.mod}` : ''})`
+            text:
+              `🎲 DICE ROLL [${rollResult.expr}]: Effective Total = ${effectiveDisplay} (${dicePoolLabel}${
+                rollResult.mod !== 0 ? `, Mod: ${rollResult.mod >= 0 ? `+${rollResult.mod}` : rollResult.mod}` : ''
+              })\n` +
+              `${rollResult.outcomeText ? `• ${rollResult.outcomeText}` : ''}${
+                rollResult.degreeDetails ? `\n• ${rollResult.degreeDetails}` : ''
+              }`,
           }
         : { sender: 'bastion', promptText: userText, text: rollResult.error };
 
@@ -525,19 +605,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       return;
     }
 
-    // Check for /character command or character creation queries
+    // Check for explicit /persona, /character, or /char command
     const lowerText = userText.toLowerCase();
     if (
       lowerText.startsWith('/persona') ||
       lowerText.startsWith('/character') ||
-      lowerText.startsWith('/char') ||
-      lowerText.includes('create a character') ||
-      lowerText.includes('create character') ||
-      lowerText.includes('build a character') ||
-      lowerText.includes('build an operative') ||
-      lowerText.includes('build a persona') ||
-      lowerText.includes('create a persona') ||
-      lowerText.includes('create persona')
+      lowerText.startsWith('/char')
     ) {
       const promptQuery = userText.replace(/^\/(persona|character|char)\s*/i, '').trim() || 'Tactical persona';
       const synth = synthesizeCharacterWithBastion({
@@ -547,6 +620,9 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
       if (synth.success) {
         const { pillars, character, allocationsReport } = synth;
+        const framingNote = sessionState?.isArchitect
+          ? `*(Open **⚡ Generator** tab so we can inspect or apply this 5-pillar build).*`
+          : `*(Open **⚡ Generator** tab to inspect or apply this build to your Folio).*`;
         const replyText =
           `🤖 **BASTION 5-PILLAR PERSONA SUMMARY**\n` +
           `• **1. Archetype**: ${pillars.archetype.name} (${pillars.archetype.sphere})\n` +
@@ -554,8 +630,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
           `• **3. Faction**: ${pillars.faction.name}\n` +
           `• **4. Origin**: ${pillars.origin.name}\n` +
           `• **5. Occupation**: ${pillars.occupation.name}\n` +
-          `• **Stats & Loadout**: STR ${character['attr-strength']}, AGI ${character['attr-agility']}, STA ${character['attr-stamina']}, INT ${character['attr-intellect']}, WIS ${character['attr-wisdom']}, CHA ${character['attr-charisma']} | ${allocationsReport.skillsCount} Skill Ranks | ${character.weapons.map(w => w.name).join(', ')}\n\n` +
-          `*(Open **⚡ Generator** tab to inspect or apply, or click any pillar below to expand).*`;
+          `• **Stats & Loadout**: STR ${character['attr-strength']}, AGI ${character['attr-agility']}, STA ${character['attr-stamina']}, INT ${character['attr-intellect']}, WIS ${character['attr-wisdom']}, CHA ${character['attr-charisma']} | ${allocationsReport.skillsCount} Skills | ${character.weapons.map(w => w.name).join(', ')}\n\n` +
+          framingNote;
 
         setSynthesizedResult(synth);
         const replyMsg = { sender: 'bastion', promptText: userText, text: replyText };
@@ -575,19 +651,49 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     const activeDbCategory =
       location?.pathname?.startsWith('/compendium') || location?.pathname?.startsWith('/rules')
         ? 'compendium'
-        : dbmContext?.activeCategory || undefined;
+        : activeSurface?.currentKey || dbmContext?.activeCategory || undefined;
 
-    const isExpandRequest = /^expand\b/i.test(userText);
-    const formattedPrompt = isExpandRequest
-      ? userText
-      : `${userText}\n\n[Formatting Directive: Provide a concise summary first (1-2 sentence overview + 3-5 short bullet points "• **Topic**: 1-sentence summary"). Keep initial reply brief so the user can expand on individual points as needed.]`;
+    const activePersonaForSession = sessionState?.activePersona || characterData;
+
+    // Seed streaming placeholder when appending a new turn
+    const streamingMessageId = `stream_${Date.now()}`;
+    if (replaceAtIdx === null) {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: streamingMessageId,
+          sender: 'bastion',
+          promptText: userText,
+          text: '',
+          isStreaming: true,
+        },
+      ]);
+    }
 
     const response = await sendBastionChatMessage({
-      prompt: formattedPrompt,
+      prompt: userText,
       history: baseHistory,
+      role: sessionState?.effectiveRole,
+      sessionState,
+      onStreamChunk: (_delta, fullSoFar) => {
+        setMessages(prev =>
+          prev.map((m, i) => {
+            if (replaceAtIdx !== null && i === replaceAtIdx) {
+              return { ...m, text: fullSoFar, isStreaming: true };
+            }
+            if (m.id === streamingMessageId) {
+              return { ...m, text: fullSoFar, isStreaming: true };
+            }
+            return m;
+          })
+        );
+      },
       contextData: {
-        activeCharacter: characterData,
+        activeCharacter: activePersonaForSession,
         activeDatabaseCategory: activeDbCategory,
+        selectedEntryData: activeSurface?.editFormData || activeSurface?.selectedItem || undefined,
+        elementContext: activeSurface?.activeNode || undefined,
+        universeState: campaignContext?.universeState || undefined,
         pathname: location?.pathname || '/'
       }
     });
@@ -597,20 +703,21 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       sender: 'bastion',
       promptText: userText,
       text: response.text,
-      isExpandedResponse: isExpandRequest
+      toolCalls: response.toolCalls || [],
+      ragCitations: response.ragCitations || [],
+      role: response.role || sessionState?.effectiveRole,
     };
-
-    if (isExpandRequest) {
-      setExpandedBlocks(prev => ({
-        ...prev,
-        [replaceAtIdx !== null ? replaceAtIdx : baseHistory.length + 1]: true
-      }));
-    }
 
     setMessages(prev => {
       if (replaceAtIdx !== null && prev[replaceAtIdx]) {
         const next = [...prev];
         next[replaceAtIdx] = replyMsg;
+        return next;
+      }
+      const streamIdx = prev.findIndex(m => m.id === streamingMessageId);
+      if (streamIdx >= 0) {
+        const next = [...prev];
+        next[streamIdx] = replyMsg;
         return next;
       }
       return [...prev, replyMsg];
@@ -837,6 +944,9 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
       {(!isMinimized || isDocked) && (
         <>
+          {/* Multi-Group Campaign Lens & Role / Operator Preview Bar */}
+          <BastionRoleAndGroupBar />
+
           {/* Mode Selection Tabs */}
           <div className="flex border-b border-slate-800 bg-slate-900/80 p-1 gap-1 shrink-0">
             <button
@@ -876,11 +986,17 @@ const BastionDrawer = ({ isOpen, onClose }) => {
             <div className="flex-1 flex flex-col min-h-0 overflow-hidden bg-[#0d1117]/80">
               {/* Session Status, Copy Conversation & Clear Chat Bar */}
               <div className="px-3.5 py-1.5 bg-slate-950/90 border-b border-slate-800/80 flex items-center justify-between text-[10px] font-mono shrink-0">
-                <span className="text-slate-400 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  <span>Persistent Session ({messages.length} {messages.length === 1 ? 'msg' : 'msgs'})</span>
+                <span className="text-slate-400 flex items-center gap-1.5 truncate">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                  <span className="truncate">
+                    {sessionState?.isArchitect
+                      ? `Architect Thread (${messages.length})`
+                      : sessionState?.isOperatorPreview
+                      ? `Preview Thread • ${sessionState.focusedGroup?.name || 'Solo'} (${messages.length})`
+                      : `Your Session (${messages.length})`}
+                  </span>
                 </span>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     type="button"
                     onClick={handleCopyConversation}
@@ -912,22 +1028,29 @@ const BastionDrawer = ({ isOpen, onClose }) => {
               <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#0d1117]/90 text-xs font-mono">
                 {messages.map((msg, idx) => {
                   const isUser = msg.sender === 'user';
-                  const isBlockExpanded = Boolean(expandedBlocks[idx] || msg.isExpandedResponse);
-                  const { displayText, isTruncated } = isUser
-                    ? { displayText: msg.text, isTruncated: false }
-                    : getSummarizedDisplayText(msg.text, isBlockExpanded);
                   const expandablePoints = !isUser && idx > 0 ? extractExpandablePoints(msg.text) : [];
+                  const toolCalls = Array.isArray(msg.toolCalls) ? msg.toolCalls : [];
+                  const ragCitations = Array.isArray(msg.ragCitations) ? msg.ragCitations : [];
+                  const isProofOpen = Boolean(openToolProofs[idx]);
+
+                  const senderLabel = isUser
+                    ? sessionState?.isArchitect
+                      ? 'ARCHITECT (WE)'
+                      : 'YOU (OPERATOR)'
+                    : sessionState?.isArchitect
+                    ? 'BASTION CO-ARCHITECT'
+                    : 'BASTION ADVISOR';
 
                   return (
                     <div
-                      key={idx}
+                      key={msg.id || idx}
                       className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
                     >
                       <span className="text-[9px] uppercase font-bold text-slate-500 mb-0.5">
-                        {isUser ? 'OPERATOR' : 'BASTION System'}
+                        {senderLabel}
                       </span>
                       <div
-                        className={`p-3 rounded-lg max-w-[88%] leading-relaxed whitespace-pre-wrap ${
+                        className={`p-3 rounded-lg max-w-[90%] leading-relaxed whitespace-pre-wrap ${
                           isUser
                             ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/40 rounded-br-none font-sans'
                             : msg.isRoll
@@ -935,13 +1058,61 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                             : 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none font-sans'
                         }`}
                       >
-                        <div>{displayText}</div>
+                        <div>
+                          {msg.text || (msg.isStreaming ? '…' : '')}
+                        </div>
+
+                        {/* Deterministic Engine Math Proof Pill & Collapsible Drawer */}
+                        {!isUser && toolCalls.length > 0 && (
+                          <div className="mt-2.5 pt-2 border-t border-slate-800/80 space-y-1.5">
+                            <button
+                              type="button"
+                              onClick={() => toggleToolProof(idx)}
+                              className="px-2 py-0.5 rounded bg-emerald-950/70 hover:bg-emerald-900/80 border border-emerald-500/50 text-emerald-300 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
+                            >
+                              <span>🧮 Engine Math Verified ({toolCalls.length})</span>
+                              <span>{isProofOpen ? '▴' : '▾'}</span>
+                            </button>
+                            {isProofOpen && (
+                              <div className="p-2 rounded bg-slate-950/90 border border-emerald-900/60 font-mono text-[10px] text-emerald-200 overflow-x-auto space-y-1.5">
+                                {toolCalls.map((tc, tIdx) => (
+                                  <div key={tIdx} className="space-y-0.5">
+                                    <div className="font-bold text-emerald-400">
+                                      ▸ {tc.name}({JSON.stringify(tc.args || {})})
+                                    </div>
+                                    <pre className="text-[9.5px] text-slate-300 whitespace-pre-wrap">
+                                      {JSON.stringify(tc.result || {}, null, 2)}
+                                    </pre>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Omnicortex Canonical Citations */}
+                        {!isUser && ragCitations.length > 0 && (
+                          <div className="mt-2 pt-1.5 border-t border-slate-800/70 flex flex-wrap items-center gap-1">
+                            <span className="text-[9px] text-amber-400/90 font-mono uppercase tracking-wider mr-0.5">
+                              📚 Sources:
+                            </span>
+                            {ragCitations.slice(0, 3).map((cit, cIdx) => (
+                              <span
+                                key={cit.id || cIdx}
+                                className="px-1.5 py-0.5 rounded bg-amber-950/50 border border-amber-700/40 text-[9.5px] font-mono text-amber-200 truncate max-w-[210px]"
+                                title={`${cit.title} (${cit.category})`}
+                              >
+                                {cit.title}
+                              </span>
+                            ))}
+                          </div>
+                        )}
 
                         {/* Expandable Bullet Topics (Drill-down on specific points as needed) */}
                         {expandablePoints.length > 0 && (
                           <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex flex-wrap items-center gap-1">
                             <span className="text-[9px] text-slate-400 font-mono uppercase tracking-wider mr-1">
-                              Expand Point:
+                              Drill Down:
                             </span>
                             {expandablePoints.map((pt, pIdx) => (
                               <button
@@ -958,19 +1129,9 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                           </div>
                         )}
 
-                        {/* Output Block Actions: Copy, Retry, and Expand/Summarize Toggle */}
-                        {!isUser && (
+                        {/* Output Block Actions: Copy & Retry */}
+                        {!isUser && !msg.isStreaming && (
                           <div className="mt-2 pt-1.5 border-t border-slate-800/70 flex items-center justify-end gap-1.5 text-[10px] font-mono">
-                            {(isTruncated || (msg.text && msg.text.length > 420)) && (
-                              <button
-                                type="button"
-                                onClick={() => toggleExpandBlock(idx)}
-                                className="px-2 py-0.5 rounded bg-slate-950/80 hover:bg-slate-800 border border-slate-700/70 text-amber-300 hover:text-amber-200 transition-colors cursor-pointer mr-auto"
-                                title={isBlockExpanded ? 'Collapse back to concise summary' : 'Expand full output text'}
-                              >
-                                {isBlockExpanded ? '▴ Summarize' : '▾ Expand Full Text'}
-                              </button>
-                            )}
                             <button
                               type="button"
                               onClick={() => handleCopyBlock(msg.text, idx)}
@@ -1001,7 +1162,11 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                 {isChatLoading && (
                   <div className="flex items-center gap-2 text-xs text-cyan-400 italic">
                     <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                    <span>BASTION analyzing request...</span>
+                    <span>
+                      {sessionState?.isArchitect
+                        ? 'BASTION synchronizing our Co-Architect analysis...'
+                        : 'BASTION analyzing your tactical query...'}
+                    </span>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
@@ -1013,7 +1178,11 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   type="text"
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="Ask BASTION, /roll 2d10+4, or /clear..."
+                  placeholder={
+                    sessionState?.isArchitect
+                      ? 'Ask our Co-Architect, /roll 2d10+6 vs 15, or /clear...'
+                      : 'Ask your Tactical Advisor, /roll 2d10+4 adv vs 15, or /clear...'
+                  }
                   className="flex-1 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none font-mono"
                 />
                 <button
@@ -1026,30 +1195,45 @@ const BastionDrawer = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* Tab 2: Character Field Generator & 5 Pillars Persona Synthesizer */}
+          {/* Tab 2: Context-Adaptive Workspace Field Generator & 5-Pillar Persona Synthesizer */}
           {activeTab === 'generator' && (
             <div className="flex-1 flex flex-col min-h-0 overflow-hidden text-xs bg-[#0d1117]/80">
               <div className="p-3 pb-2.5 border-b border-slate-800/80 space-y-2.5 shrink-0 bg-[#0d1117]/95">
-                <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 flex justify-between items-center">
-                  <div>
-                    <span className="text-[9px] text-cyan-400 uppercase font-bold tracking-wider block">
-                      Active Persona
-                    </span>
-                    <span className="font-bold text-amber-400 text-xs truncate block max-w-[260px]">
-                      {characterData['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED PERSONA'}
+                {generatorMode !== 'workspace' && (
+                  <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 flex justify-between items-center">
+                    <div>
+                      <span className="text-[9px] text-cyan-400 uppercase font-bold tracking-wider block">
+                        Active Persona
+                      </span>
+                      <span className="font-bold text-amber-400 text-xs truncate block max-w-[260px]">
+                        {characterData?.['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED PERSONA'}
+                      </span>
+                    </div>
+                    <span className="text-[10px] bg-slate-950 text-slate-300 border border-slate-800 px-2 py-0.5 rounded font-mono">
+                      TL-{characterData?.['tech-level'] || 3}
                     </span>
                   </div>
-                  <span className="text-[10px] bg-slate-950 text-slate-300 border border-slate-800 px-2 py-0.5 rounded font-mono">
-                    TL-{characterData['tech-level'] || 3}
-                  </span>
-                </div>
+                )}
 
                 {/* Generator Sub-Mode Selector */}
-                <div className="flex bg-slate-950 p-1 rounded-lg border border-cyan-900/40 gap-1 shrink-0">
+                <div className="flex bg-slate-950 p-1 rounded-lg border border-cyan-900/40 gap-1 shrink-0 overflow-x-auto">
+                  {hasWorkspaceGeneratorTarget && (
+                    <button
+                      type="button"
+                      onClick={() => setGeneratorMode('workspace')}
+                      className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap ${
+                        generatorMode === 'workspace'
+                          ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.25)]'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <span>🗂️ {isFoundryRoute ? 'Foundry Node' : 'Studio Fields'}</span>
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => setGeneratorMode('staged')}
-                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap ${
                       generatorMode === 'staged'
                         ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
                         : 'text-slate-400 hover:text-white'
@@ -1060,7 +1244,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => setGeneratorMode('synthesis')}
-                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap ${
                       generatorMode === 'synthesis'
                         ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
                         : 'text-slate-400 hover:text-white'
@@ -1071,16 +1255,23 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => setGeneratorMode('fields')}
-                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                    className={`flex-1 py-1.5 px-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap ${
                       generatorMode === 'fields'
                         ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
-                    <span>📝 Selective</span>
+                    <span>📝 Persona Fields</span>
                   </button>
                 </div>
               </div>
+
+              {/* Merged Workspace Selective Field Generator (DBM, Compendium, StoryFoundry) */}
+              {generatorMode === 'workspace' && (
+                <BastionWorkspaceFieldGenerator
+                  mode={isFoundryRoute ? 'foundry' : 'dbm'}
+                />
+              )}
 
               {/* Sub-Mode 0: Staged Persona Generator with Platform Guide Rail */}
               {generatorMode === 'staged' && (
@@ -2359,8 +2550,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* Status Message (for non-staged modes) */}
-              {generatorMode !== 'staged' && genStatus && (
+              {/* Status Message (for non-staged & non-workspace modes) */}
+              {generatorMode !== 'staged' && generatorMode !== 'workspace' && genStatus && (
                 <div className={`mx-4 mb-3 p-2.5 rounded border text-xs leading-relaxed shrink-0 ${
                   genStatus.error 
                     ? 'bg-red-950/60 border-red-800 text-red-300' 
@@ -2372,15 +2563,19 @@ const BastionDrawer = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* Tab 3: BASTION Key Instructions & Rules Directives */}
+          {/* Tab 3: BASTION Key Instructions & Canonical Rules Directives */}
           {activeTab === 'directives' && (
             <div className="flex-1 flex flex-col p-4 overflow-y-auto space-y-3.5 text-xs bg-[#0d1117]/80 text-slate-300">
               <div className="bg-slate-900/90 border border-purple-900/50 rounded-lg p-3 space-y-1">
                 <span className="text-[10px] text-purple-400 uppercase font-bold tracking-wider block">
-                  BASTION Key Operational Directives
+                  {sessionState?.isArchitect
+                    ? 'BASTION Co-Architect Directives ("We" View)'
+                    : 'BASTION Operator Field Directives ("You" View)'}
                 </span>
                 <p className="text-[11px] text-slate-300">
-                  Canonical guidelines, setting tier economatrix, and resolution mechanics for all Tangent SFF RPG sessions.
+                  {sessionState?.isArchitect
+                    ? 'Canonical math axioms, EUFT Economatrix valuation, and multi-group session invariants we enforce across Tangent SF RP.'
+                    : 'Canonical rules, 150 CP creation budgets, EUFT Economatrix pricing, and 2d10 combat mechanics for your Tangent SF RP persona.'}
                 </p>
               </div>
 
@@ -2390,10 +2585,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   1. Canonical 5-Pillar Architecture
                 </span>
                 <p className="text-[11px] text-slate-300">
-                  Personas must synthesize sequentially through the 5 canonical pillars:
+                  {sessionState?.isArchitect
+                    ? 'Every Operative persona we validate builds sequentially through the 5 canonical pillars:'
+                    : 'Your Operative persona synthesizes sequentially through the 5 canonical pillars:'}
                 </p>
                 <div className="flex flex-wrap items-center gap-1 text-[10px] font-mono">
-                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-600/60">1. Archetype</span>
+                  <span className="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-600/60">1. Archetype (80 CP)</span>
                   <span className="text-slate-600">→</span>
                   <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-600/60">2. Species</span>
                   <span className="text-slate-600">→</span>
@@ -2404,61 +2601,83 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <span className="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-600/60">5. Occupation</span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  Every selection grounds the persona in the Cortex database without fabricating extraneous canon.
+                  Grants <strong>4 Free Background Traits</strong> (1 Origin + 1 Faction + 2 Occupation) grounded strictly in the Omnicortex database.
                 </p>
               </div>
 
               {/* 2. Budget & Point Buy Economics */}
               <div className="p-3 bg-slate-950/90 border border-amber-900/60 rounded-lg space-y-1.5">
                 <span className="text-[10px] text-amber-400 uppercase font-bold tracking-wider block">
-                  2. 150 CP Budget &amp; 60 SP Foundation
+                  2. 150 CP Budget, Base Skills (0–20) &amp; Specializations (1–10)
                 </span>
                 <div className="space-y-1 text-[10px] font-mono">
-                  <div>• <strong>150 CP Budget:</strong> Raw Stats (5 CP/pt, max +4 at creation), Traits (1 CP), Features (3 CP), TL/ML Upgrades (10 CP/tier).</div>
-                  <div>• <strong>60 SP Foundation:</strong> 20 Origin SP + 20 Faction SP + 20 Occupation SP (Rank 11 max cap).</div>
-                  <div>• <strong>Free Skills:</strong> Ranks beyond foundation pools cost 1 CP each.</div>
+                  <div>• <strong>150 CP Total Budget:</strong> 80 CP Archetype Chassis + 70 CP Discretionary Pool (+up to 10 CP from Personal Hindrances).</div>
+                  <div>• <strong>60 Free Background SP:</strong> 20 Origin SP + 20 Faction SP + 20 Occupation SP.</div>
+                  <div>• <strong>Base Skills (Ranks 0–20):</strong> 1 CP/rank; <strong>Creation Cap is Rank 11</strong>.</div>
+                  <div>• <strong>Specializations (Ranks 1–10):</strong> Requires Base Skill Rank 6+; costs 1 CP/rank and adds directly to Base Skill to reach effective ranks 21–30.</div>
+                  <div>• <strong>Upgrades:</strong> Raw Attributes 5 CP/pt (Creation Cap +4); Extra Traits 1 CP; Features 2 CP (Recommended) / 3 CP (Standard); TL/ML/WS +10 CP/tier.</div>
                 </div>
               </div>
 
-              {/* 3. Setting Tiers & Economatrix Law */}
+              {/* 3. Setting Tiers & EUFT Economatrix Law */}
               <div className="p-3 bg-slate-950/90 border border-purple-900/60 rounded-lg space-y-1.5">
                 <span className="text-[10px] text-purple-400 uppercase font-bold tracking-wider block">
-                  3. Setting Tiers (TL/ML) &amp; Economatrix
+                  3. Setting Tiers (TL/ML) &amp; EUFT Economatrix
                 </span>
                 <p className="text-[11px] text-slate-300">
-                  Tech Level (TL 0–5) and Meta Level (ML 0–5) define equipment access and metaphysics. Baseline is <strong>TL3 / ML3 (0 CP)</strong>.
+                  Tech Level (TL 0–5), Meta Level (ML 0–5), and Wealth Score (WS) govern acquisition. Baseline is <strong>TL3 / ML3 (0 CP)</strong>; <strong>Purchase CR = Crafting CR</strong> (auto-acquired if Item CR &le; WS).
                 </p>
-                <div className="p-2 bg-slate-900 rounded border border-purple-800/50 font-mono text-[10px] text-purple-200">
-                  <div className="text-amber-300 font-bold">Value (Cr) = 10 &times; 4<sup>(Crafting DC / 5)</sup></div>
-                  <div className="text-slate-400 text-[9px] mt-0.5">Cost is determined solely by final Crafting DC (modified by design aspects, sockets, and TL/ML). Exceeding persona TL/ML generates railguard alerts.</div>
+                <div className="p-2 bg-slate-900 rounded border border-purple-800/50 font-mono text-[10px] text-purple-200 space-y-0.5">
+                  <div className="text-amber-300 font-bold">
+                    Base<sub>5</sub> = 10 &times; 4<sup>floor(CR / 5)</sup> &times; [1.00, 1.30, 1.75, 2.30, 3.00]<sub>CR mod 5</sub>
+                  </div>
+                  <div className="text-slate-400 text-[9px]">
+                    CR -1 = 0.75&times; (8 Cr) • CR 0 = 10 Cr • CR 15 = 640 Cr • CR 18 = 1,472 Cr • CR 20 = 2,560 Cr • Pristine Materials = 50% • Scrap = 10% (5&times; mass).
+                  </div>
                 </div>
               </div>
 
-              {/* 4. Searchable Keywords & Railguards */}
-              <div className="p-3 bg-slate-950/90 border border-emerald-900/60 rounded-lg space-y-1.5">
-                <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider block">
-                  4. Keywords (+Weight) &amp; Negative Railguards
-                </span>
-                <div className="space-y-1 text-[11px]">
-                  <p className="text-emerald-300">
-                    <strong>Positive Keywords (+Weight):</strong> Match persona concept and directives to earn BASTION synergy boosts and situational bonuses.
-                  </p>
-                  <p className="text-red-300">
-                    <strong>Negative Railguards (Exclusions):</strong> Prevent contraindicated weapon/armor combos, incompatible biology, or setting tier breaches.
-                  </p>
+              {/* 4. Role-Scoped Section: Architect Railguards vs Operator Tactical Leverage */}
+              {sessionState?.isArchitect ? (
+                <div className="p-3 bg-slate-950/90 border border-emerald-900/60 rounded-lg space-y-1.5">
+                  <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider block">
+                    4. Architect Directives, Railguards &amp; Multi-Group Firewall
+                  </span>
+                  <div className="space-y-1 text-[11px]">
+                    <p className="text-emerald-300">
+                      <strong>Positive Directives (+Weight):</strong> Guide our synthesis toward faction doctrine, species biology, and scenario tone.
+                    </p>
+                    <p className="text-red-300">
+                      <strong>Negative Railguards &amp; Epistemic Firewall:</strong> Block TL/ML breaches and keep GM notes (`visibility: architect`) and cross-squad secrets isolated per group.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="p-3 bg-slate-950/90 border border-emerald-900/60 rounded-lg space-y-1.5">
+                  <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-wider block">
+                    4. Your Karma Pool &amp; Setting Tier Access
+                  </span>
+                  <div className="space-y-1 text-[11px]">
+                    <p className="text-emerald-300">
+                      <strong>Karma Spend:</strong> Spend 1 Karma to roll with Advantage (3d10 keep highest 2), force a reroll, or stabilize mortality. Natural 20 restores +1 Karma.
+                    </p>
+                    <p className="text-amber-300">
+                      <strong>TL/ML Compatibility:</strong> Operating gear above your personal TL/ML imposes -2 per tier deficit unless adapted.
+                    </p>
+                  </div>
+                </div>
+              )}
 
-              {/* 5. Dual 2d10 Combat Engine */}
+              {/* 5. Dual 2d10 Combat & 6-Stage Skill Action Economy */}
               <div className="p-3 bg-slate-950/90 border border-blue-900/60 rounded-lg space-y-1.5">
                 <span className="text-[10px] text-blue-400 uppercase font-bold tracking-wider block">
-                  5. Dual 2d10 Resolution Engine
+                  5. Dual 2d10 Resolution &amp; Skill Stage Action Economy
                 </span>
                 <div className="space-y-0.5 text-[10px] font-mono text-slate-300">
-                  <div>• <strong>Core Roll:</strong> 2d10 + Stat + Skill Rank vs. CR 15.</div>
-                  <div>• <strong>Ties:</strong> Defender wins contested roll ties.</div>
-                  <div>• <strong>Degrees:</strong> &plusmn;5 above/below CR = &plusmn;1 Degree of Success/Failure.</div>
-                  <div>• <strong>Economy:</strong> 2 Actions + 1 Free/Reaction per combat round.</div>
+                  <div>• <strong>Core Roll:</strong> 2d10 + Attribute + Skill Rank vs. Target CR (Standard CR 15); Defender wins ties.</div>
+                  <div>• <strong>Crit / Fumble:</strong> Natural 20 (or Crit Range) grants <strong>+10</strong>, <strong>2&times; base weapon dice</strong>, bypasses Vitality → Health, and +1 Karma. Natural 2 imposes <strong>flat -10</strong>.</div>
+                  <div>• <strong>Degrees:</strong> Every &plusmn;5 above/below Target CR = &plusmn;1 Degree of Success/Failure.</div>
+                  <div>• <strong>Action Economy (No AP):</strong> Skill Rank determines attacks/actions per round — Rank 0: Full Round; 1–5: 1 action; 6–10: 2nd at -5; 11–15: 3rd at -10; 16–20: 4th at -15; 21–25: 5th at -20; 26–30: 6th at -25.</div>
                 </div>
               </div>
             </div>

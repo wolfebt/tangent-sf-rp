@@ -1042,7 +1042,7 @@ export const SpeciesBuildCostTooltipCard = ({ buildCheck }) => {
                 ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
                 : 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
             }`}>
-              {buildCheck.title || 'Species Build Cost'}
+              {buildCheck.title || (buildCheck.isSpecies ? 'Species Build Cost' : 'Asset Build & Valuation Check')}
             </span>
             {hasUnaccounted && (
               <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/50 flex items-center gap-1">

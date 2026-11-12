@@ -964,73 +964,106 @@ export const CodexIngestionEngine = ({
               )}
 
               {/* TAB 3: UNIVERSAL TABULAR PARSER (CSV, TSV, MARKDOWN, SEMICOLON) */}
-              {activeTab === 'table' && (
-                <div className="flex-1 flex flex-col space-y-3 min-h-[360px]">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
-                        Default Sub-Category
-                      </label>
-                      <input
-                        type="text"
-                        value={defaultCategory}
-                        onChange={(e) => setDefaultCategory(e.target.value)}
-                        placeholder="E.g., Heavy Ballistics"
-                        className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
-                        Default Tech Level (TL)
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="5"
-                        value={defaultTL}
-                        onChange={(e) => setDefaultTL(parseInt(e.target.value) || 0)}
-                        className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200"
-                      />
-                    </div>
-                  </div>
+              {activeTab === 'table' && (() => {
+                const sample = currentDataset?.sampleItem || {};
+                const sampleSubCat =
+                  sample.subcategory ||
+                  sample.category ||
+                  sample.faction_type ||
+                  sample.classification ||
+                  sample.habitat ||
+                  sample.field ||
+                  sample.discipline ||
+                  sample.planet_type ||
+                  currentDataset?.label ||
+                  'General';
+                const hasTechLevel =
+                  sample.tech_level !== undefined ||
+                  sample.tl !== undefined ||
+                  sample.techLevel !== undefined ||
+                  ['weaponry', 'armoring', 'gear', 'augmentations', 'mecha', 'architecture', 'meta-tech', 'other', 'factions', 'planetary_design', 'world'].includes(currentDataset?.key);
+                const sampleCols = (currentDataset?.expectedKeys || ['name', 'description', 'mechanic']).slice(0, 5);
+                const headerLine = sampleCols.map((k) => k.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())).join(',');
+                const valueLine = sampleCols
+                  .map((k) => {
+                    const v = sample[k];
+                    if (v === undefined || v === null) return k === 'name' ? `Sample ${currentDataset?.label || 'Record'}` : '—';
+                    if (Array.isArray(v)) return v.slice(0, 2).join('; ');
+                    if (typeof v === 'object') return JSON.stringify(v);
+                    return String(v).replace(/,/g, ';').slice(0, 32);
+                  })
+                  .join(',');
 
-                  {/* CSV / TSV File Drop / Selector */}
-                  <div
-                    onClick={() => tableFileInputRef.current && tableFileInputRef.current.click()}
-                    className="border border-dashed border-slate-800 hover:border-emerald-500/50 bg-slate-950/40 hover:bg-slate-950/80 rounded-xl p-2.5 flex items-center justify-center gap-2 cursor-pointer transition-all text-slate-400 hover:text-slate-200"
-                  >
-                    <input
-                      ref={tableFileInputRef}
-                      type="file"
-                      accept=".csv,.tsv,.txt"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          handleTableFileUpload(e.target.files[0]);
-                        }
-                      }}
-                      className="hidden"
+                return (
+                  <div className="flex-1 flex flex-col space-y-3 min-h-[360px]">
+                    <div className={`grid ${hasTechLevel ? 'grid-cols-2' : 'grid-cols-1'} gap-3`}>
+                      <div>
+                        <label className="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
+                          Default {currentDataset?.label || 'Dataset'} Classification / Sub-Category
+                        </label>
+                        <input
+                          type="text"
+                          value={defaultCategory}
+                          onChange={(e) => setDefaultCategory(e.target.value)}
+                          placeholder={`E.g., ${sampleSubCat}`}
+                          className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200"
+                        />
+                      </div>
+                      {hasTechLevel && (
+                        <div>
+                          <label className="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
+                            Default Tech Level (TL)
+                          </label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="5"
+                            value={defaultTL}
+                            onChange={(e) => setDefaultTL(parseInt(e.target.value) || 0)}
+                            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-200"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CSV / TSV File Drop / Selector */}
+                    <div
+                      onClick={() => tableFileInputRef.current && tableFileInputRef.current.click()}
+                      className="border border-dashed border-slate-800 hover:border-emerald-500/50 bg-slate-950/40 hover:bg-slate-950/80 rounded-xl p-2.5 flex items-center justify-center gap-2 cursor-pointer transition-all text-slate-400 hover:text-slate-200"
+                    >
+                      <input
+                        ref={tableFileInputRef}
+                        type="file"
+                        accept=".csv,.tsv,.txt"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            handleTableFileUpload(e.target.files[0]);
+                          }
+                        }}
+                        className="hidden"
+                      />
+                      <FileSpreadsheet size={15} className="text-emerald-400" />
+                      <span className="text-xs font-mono">Upload or drop .CSV, .TSV, or .TXT tabular file for {currentDataset?.label}</span>
+                    </div>
+
+                    <textarea
+                      value={rawTableText}
+                      onChange={(e) => setRawTableText(e.target.value)}
+                      placeholder={`Auto-detects Markdown pipes (|), CSV (comma), TSV (tab/Excel copy-paste), or semicolon (;)...\n\n${headerLine}\n${valueLine}`}
+                      className="flex-1 w-full bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-200 resize-none focus:outline-none focus:border-emerald-500/60 shadow-inner"
                     />
-                    <FileSpreadsheet size={15} className="text-emerald-400" />
-                    <span className="text-xs font-mono">Upload or drop .CSV, .TSV, or .TXT tabular file</span>
+
+                    <button
+                      type="button"
+                      onClick={() => handleParseTable()}
+                      className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all cursor-pointer"
+                    >
+                      <Table size={15} />
+                      <span>Auto-Detect Delimiter & Parse {currentDataset?.label || 'Table'}</span>
+                    </button>
                   </div>
-
-                  <textarea
-                    value={rawTableText}
-                    onChange={(e) => setRawTableText(e.target.value)}
-                    placeholder="Auto-detects Markdown pipes (|), CSV (comma), TSV (tab/Excel copy-paste), or semicolon (;)...&#10;&#10;Name,Damage,Range,Cost,DC,Special&#10;Viper Carbine,3d8,60ft,1280,18,Thermal Melt"
-                    className="flex-1 w-full bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-200 resize-none focus:outline-none focus:border-emerald-500/60 shadow-inner"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => handleParseTable()}
-                    className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all cursor-pointer"
-                  >
-                    <Table size={15} />
-                    <span>Auto-Detect Delimiter & Parse Table</span>
-                  </button>
-                </div>
-              )}
+                );
+              })()}
 
             </div>
           </div>

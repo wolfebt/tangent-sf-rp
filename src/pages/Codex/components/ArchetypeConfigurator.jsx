@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { CortexSmartPicker } from '../../../components/Codex/GuidedStudio/CortexSmartPicker';
 
 const SPHERES = [
   { id: 'sentinels', name: 'Sentinels (The Stabilizers)', focus: 'Logistics, Protection, Tradition, and Economy' },
@@ -71,8 +72,15 @@ export const ArchetypeConfigurator = ({
   formData = {},
   onChange,
   isEditMode = false,
-  dbData = {}
+  onOpenPicker = null,
+  dbData = {},
+  stepSection = 'all'
 }) => {
+  const showConcept = stepSection === 'all' || stepSection === 'concept';
+  const showAttributes = stepSection === 'all' || stepSection === 'attributes';
+  const showSkills = stepSection === 'all' || stepSection === 'skills';
+  const showTalents = stepSection === 'all' || stepSection === 'talents';
+
   const [newSkillInput, setNewSkillInput] = useState('');
   const [newTraitInput, setNewTraitInput] = useState('');
   const [newFeatureInput, setNewFeatureInput] = useState('');
@@ -217,6 +225,8 @@ export const ArchetypeConfigurator = ({
     <div className="space-y-6 text-slate-200 font-sans">
 
       {/* ── Rulebook Alignment Banner (1.02 ARCHETYPES.MD) ── */}
+      {showConcept && (
+      <>
       <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 shadow-lg space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -355,8 +365,11 @@ export const ArchetypeConfigurator = ({
           )}
         </div>
       </div>
+      </>
+      )}
 
       {/* ── Section 2: Key Attributes (Chassis Allocation) ── */}
+      {showAttributes && (
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
@@ -436,8 +449,10 @@ export const ArchetypeConfigurator = ({
           </div>
         </div>
       </div>
+      )}
 
       {/* ── Section 3: Essential Skills (4 Trained + 6 Novice) ── */}
+      {showSkills && (
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
@@ -506,9 +521,41 @@ export const ArchetypeConfigurator = ({
             </button>
           </div>
         )}
+
+        {isEditMode && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+            <CortexSmartPicker
+              label="Omnicortex Essential Skills (4 @ Rank 6 = 24 CP)"
+              sourceCollection="skills"
+              targetField="essential_skills"
+              value={essentialSkills}
+              onChange={(vals) => onChange('essential_skills', vals)}
+              dbData={dbData}
+              formData={formData}
+              isEditMode={isEditMode}
+              onOpenPicker={onOpenPicker}
+              accentColor="#6366f1"
+            />
+            <CortexSmartPicker
+              label="Omnicortex Supporting Skills (6 @ Rank 3 = 18 CP)"
+              sourceCollection="skills"
+              targetField="supporting_skills"
+              value={formData.supporting_skills || []}
+              onChange={(vals) => onChange('supporting_skills', vals)}
+              dbData={dbData}
+              formData={formData}
+              isEditMode={isEditMode}
+              onOpenPicker={onOpenPicker}
+              accentColor="#10b981"
+            />
+          </div>
+        )}
       </div>
+      )}
 
       {/* ── Section 4: Signature Traits (2 Signature Traits @ 1 CP Each) ── */}
+      {showTalents && (
+      <>
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
@@ -689,6 +736,26 @@ export const ArchetypeConfigurator = ({
             </button>
           </div>
         )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Recommended Core Features (2 CP Discounted)"
+            sourceCollection="features"
+            targetField="recommended_features"
+            alsoSyncFields={['signature_features']}
+            value={recommendedCoreFeatures.map(f => typeof f === 'object' ? (f.name || f.id) : String(f))}
+            onChange={(vals) => {
+              onChange('recommended_features', vals);
+              onChange('signature_features', vals);
+            }}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            isDiscountedFeaturePool={true}
+            accentColor="#10b981"
+          />
+        )}
       </div>
 
       {/* ── Section 5: Recommended Interconnections (Occupations, Origins, Factions) ── */}
@@ -842,6 +909,8 @@ export const ArchetypeConfigurator = ({
           </div>
         )}
       </div>
+      </>
+      )}
     </div>
   );
 };

@@ -22,7 +22,7 @@
     "sync:cross-vault": "node scripts/syncRulebooksToOmnicortexEntities.mjs",
     "audit:markdown": "node scripts/auditMarkdownCompleteness.mjs",
     "test:data": "node scripts/validateDataIntegrity.mjs",
-    "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\" \"src/components/VTT/tree/*.test.mjs\"",
+    "test:engine": "node --test \"tests/engine/*.test.mjs\" \"src/engines/__tests__/*.test.js\" \"src/services/*.test.mjs\" \"src/schemas/*.test.mjs\" \"src/components/VTT/tree/*.test.mjs\" \"src/components/Codex/GuidedStudio/*.test.mjs\"",
     "test:security": "node --test \"tests/engine/firestoreRulesSecurity.test.mjs\"",
     "test:security:emulator": "firebase emulators:exec --only firestore \"node --test tests/engine/firestoreRulesSecurity.test.mjs\"",
     "test:functions": "node --test \"tests/engine/cloudFunctions.test.mjs\"",

@@ -1008,20 +1008,20 @@ export const DEFAULT_RULES = [
     },
     "modifiers": [],
     "description": "The 7-tier unified skill progression ladder from Untrained to Pinnacle, milestone perks, and tier benefits.",
-    "body": "# Unified Skill Rank Progression\n\nTangent uses a unified 7-tier skill progression ladder:\n\n| Rank Range | Tier Title | Description & Milestone Perks |\n| :---: | :--- | :--- |\n| **0** | **Untrained** | No formal training. Relies strictly on raw Ability Score modifier. |\n| **1 - 5** | **Novice** | Apprentice standard. Foundational techniques; slow execution. |\n| **6 - 10** | **Trained** | Professional standard. Can earn a living. Unlocks **Trained Only** tasks. |\n| **11 - 15** | **Expert** | Specialist veteran. Rushed penalties reduced by 1; Meticulous bonus increased to +3/stage. |\n| **16 - 20** | **Master** | Sector-renowned virtuoso. Meticulous bonus increased to +4/stage (+50% bonus). |\n| **21 - 25** | **Grand Master** | Legendary master. May **Take 10 in any situation** (including combat). Rushed penalties halved. |\n| **26+** | **Pinnacle** | Demigod-like perfection. May roll checks with **Advantage**."
+    "body": "# Unified Skill Rank Progression\n\nTangent uses a unified 7-tier skill progression ladder:\n\n| Rank Range | Tier Title | Description & Milestone Perks |\n| :---: | :--- | :--- |\n| **0** | **Untrained** | No formal training. Relies strictly on raw Ability Score modifier. |\n| **1 - 5** | **Novice** | Apprentice standard. Foundational techniques; slow execution. |\n| **6 - 10** | **Trained** | Professional standard. Can earn a living. Unlocks **Trained Only** tasks. |\n| **11 - 15** | **Expert** | Specialist veteran. Rushed penalties reduced by 1; Meticulous bonus increased to +3/stage. |\n| **16 - 20** | **Master** | Base Skill ceiling (`Max 20`). Sector-renowned virtuoso. Meticulous bonus increased to +4/stage (+50% bonus). |\n| **21 - 25** | **Grand Master** *(Base + Spec)* | Unlocked via `Base Skill (0–20) + 1 Specialization (1–10)`. May **Take 10 in any situation**; Rushed penalties halved. |\n| **26 - 30** | **Pinnacle** *(Base + Spec)* | Unlocked via `Base Skill (0–20) + 1 Specialization (1–10)`. Demigod-like perfection; may roll checks with **Advantage**. |"
   },
   {
     "id": "skill-specialization",
     "name": "Skill Specialization System",
     "category": "rules",
-    "summary": "Rules for unlocking specialized skill sub-categories, independent leveling, and exceeding the normal Rank 20 cap.",
+    "summary": "Built-up sub-skills (Rank 0–10 at 1 SP/CP per rank) adding directly to Base Skill Ranks (0–20) to unlock the 21–30 range, with max 1 viable per check.",
     "costs": {
       "cp": 0,
       "bp": 0
     },
     "modifiers": [],
     "description": "Rules for unlocking specialized skill sub-categories, independent leveling, and exceeding the normal Rank 20 cap.",
-    "body": "# Skill Specialization System\n\nSkill Specialization allows deep focus within a narrow sub-field of a skill (e.g., *Melee (Swords)* or *Medicine (Surgery)*).\n\n## Specialization Rules\n- **Prerequisite**: Character must possess **Rank 6 or higher (Trained)** in the base skill.\n- **Independent Advancement**: Specialization ranks advance independently of the base skill (Max Level 10).\n- **Stacking Bonus**: Specialization level is added directly to the base skill check for related tasks.\n- **Exceeding the Cap**: Adding the Specialization bonus to a Rank 20 Master allows a character to reach **Rank 30 Pinnacle** benchmarks.\n- **Single Specialization Limit**: Only one specialization bonus may apply to a single roll."
+    "body": "# Skill Specialization System\n\nSkill Specialization allows deep focus within a narrow sub-field of a skill (e.g., *Melee (Swords)* or *Medicine (Surgery)*). Specializations do **not** grant a flat `+2` bonus; they are built-up sub-skills advancing independently up to Rank 10.\n\n## Specialization Rules\n- **Base Skill Range**: Base Skill Ranks progress from **0 to 20** (capping at Master `16–20`, starting creation cap `11`).\n- **Prerequisite**: Character must possess **Rank 6 or higher (Trained)** in the base skill.\n- **Sub-Skill Cost & Cap**: Specialization ranks advance independently from **Rank 1 to 10** at **1 SP / 1 CP (1 AP) per rank**—the exact same price as base skills.\n- **Additive Total (`Skill + Specialization`)**: Specialization rank adds directly to the Base Skill Rank on checks within its scope.\n- **Unlocking the 21–30 Range**: Combining Base Skill (`0–20`) + Specialization (`1–10`) unlocks **Grand Master (`21–25`)** and **Pinnacle (`26–30`)** mastery.\n- **Single Specialization Limit**: Only **one** specialization is viable and may apply to any single check."
   },
   {
     "id": "skill-synergy",

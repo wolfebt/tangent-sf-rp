@@ -13,10 +13,12 @@ import {
   CheckCircle,
   HelpCircle,
   Shield,
-  Coins
+  Coins,
+  Tag
 } from 'lucide-react';
 import { CodexTooltip } from '../../../components/UI/CodexTooltip';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { CortexSmartPicker } from '../../../components/Codex/GuidedStudio/CortexSmartPicker';
 
 export const HABITAT_OPTIONS = [
   'Agricultural',
@@ -46,9 +48,16 @@ export const OriginConfigurator = ({
   formData = {},
   onChange,
   isEditMode = false,
-  dbData = {}
+  onOpenPicker = null,
+  dbData = {},
+  stepSection = 'all'
 }) => {
+  const showHabitat = stepSection === 'all' || stepSection === 'habitat';
+  const showSkills = stepSection === 'all' || stepSection === 'skills';
+  const showTraits = stepSection === 'all' || stepSection === 'traits';
+
   const [newSkillInput, setNewSkillInput] = useState('');
+  const [newFeatureInput, setNewFeatureInput] = useState('');
   const [newArchetypeInput, setNewArchetypeInput] = useState('');
   const [newTraitInput, setNewTraitInput] = useState('');
 
@@ -60,6 +69,15 @@ export const OriginConfigurator = ({
     }
     return [];
   }, [formData.society_skills, formData.recommended_skills]);
+
+  const recommendedFeatures = useMemo(() => {
+    const raw = formData.recommended_features || formData.features;
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+      return raw.split(',').map(f => f.trim()).filter(Boolean);
+    }
+    return [];
+  }, [formData.recommended_features, formData.features]);
 
   const archetypes = useMemo(() => {
     if (Array.isArray(formData.archetypes)) return formData.archetypes;
@@ -133,6 +151,19 @@ export const OriginConfigurator = ({
     onChange('recommended_skills', updated);
   };
 
+  const handleAddFeature = () => {
+    const val = newFeatureInput.trim();
+    if (!val || recommendedFeatures.includes(val)) return;
+    const updated = [...recommendedFeatures, val];
+    onChange('recommended_features', updated);
+    setNewFeatureInput('');
+  };
+
+  const handleRemoveFeature = (featToRemove) => {
+    const updated = recommendedFeatures.filter(f => f !== featToRemove);
+    onChange('recommended_features', updated);
+  };
+
   const handleAddArchetype = () => {
     const val = newArchetypeInput.trim();
     if (!val || archetypes.includes(val)) return;
@@ -167,6 +198,7 @@ export const OriginConfigurator = ({
     <div className="space-y-6 text-slate-200 font-sans">
 
       {/* ── Rulebook Alignment Banner ── */}
+      {showHabitat && (
       <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 shadow-lg space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -186,7 +218,7 @@ export const OriginConfigurator = ({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 font-mono text-[11px]">
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span><strong>20 Skill Points</strong> for Society Skills in Folio</span>
+            <span><strong>Fixed 20 SP Pool</strong> for Society Skills</span>
           </div>
           <div className="p-2 rounded bg-slate-900/80 border border-slate-800 flex items-center gap-2">
             <Coins className="w-3.5 h-3.5 text-amber-400 shrink-0" />
@@ -244,30 +276,33 @@ export const OriginConfigurator = ({
           </div>
         </div>
       </div>
+      )}
 
-      {/* ── Section 1: Society Skills (20 SP Pool) ── */}
+      {/* ── Section 1: Society Skills (Fixed 20 SP Pool) & Recommended Features (-1 CP) ── */}
+      {showSkills && (
+      <>
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-emerald-400" />
             <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
-              Society Skills Package (20 SP Pool)
+              Society Skills Package (Fixed 20 SP Pool)
             </h4>
             <CodexTooltip
-              title="Society Skills (20 SP)"
-              description="Choosing this origin grants characters 20 Points to allocate across these listed skills in their Persona Folio."
+              title="Society Skills (Fixed 20 SP Pool)"
+              description="Choosing this origin grants characters a non-adjustable pool of 20 Skill Points (SP) to allocate across these listed skills in their Persona Folio."
               rule="1.05 ORIGINS.md"
               color="#10b981"
             />
           </div>
           <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300">
-            20 SP Pool
+            Fixed 20 SP Pool (Non-Adjustable)
           </span>
         </div>
 
         <p className="text-xs text-slate-400 leading-relaxed font-sans">
           Skills typically acquired from upbringing and vocation within this environment. When brought into the Persona Folio, 
-          the operator receives 20 points specifically allotted to develop expertise in these areas:
+          the operator receives a fixed 20-point pool specifically allotted to develop expertise in these areas:
         </p>
 
         {/* Skill Chips */}
@@ -317,9 +352,125 @@ export const OriginConfigurator = ({
             </button>
           </div>
         )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Skill Catalog — Society Skills (Fixed 20 SP Pool)"
+            sourceCollection="skills"
+            targetField="society_skills"
+            alsoSyncFields={['recommended_skills']}
+            value={societySkills}
+            onChange={(vals) => {
+              onChange('society_skills', vals);
+              onChange('recommended_skills', vals);
+            }}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            accentColor="#10b981"
+            helperText="Browse the canonical Skill Catalog to curate skills eligible for the fixed 20-Point Society Pool."
+            placeholder="Search Skill Catalog (e.g. Survival, Piloting, Athletics)..."
+          />
+        )}
       </div>
 
+      {/* ── Section 1B: Recommended Features (Discounted -1 CP) ── */}
+      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+          <div className="flex items-center gap-2">
+            <Award className="w-4 h-4 text-emerald-400" />
+            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
+              Recommended Features (Discounted -1 CP)
+            </h4>
+            <CodexTooltip
+              title="Recommended Features Discount"
+              description="Recommended Features aligned with this Origin receive a -1 CP discount in the Persona Folio (costing 2 CP instead of the standard 3 CP)."
+              rule="1.05 ORIGINS.md"
+              color="#10b981"
+            />
+          </div>
+          <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300">
+            -1 CP Cost Discount
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-400 leading-relaxed font-sans">
+          Features naturally cultivated by inhabitants of this homeworld or habitat cost 1 less Character Point (2 CP instead of standard 3 CP):
+        </p>
+
+        <div className="flex flex-wrap gap-2 pt-1">
+          {recommendedFeatures.length === 0 ? (
+            <span className="text-xs text-slate-500 italic font-mono">No recommended features defined yet.</span>
+          ) : (
+            recommendedFeatures.map(feat => (
+              <span
+                key={feat}
+                className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-center gap-1.5 shadow-sm"
+              >
+                <Tag size={11} className="text-emerald-400" />
+                <span>{feat}</span>
+                <span className="text-[10px] text-emerald-400 ml-1 font-mono">(-1 CP)</span>
+                {isEditMode && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFeature(feat)}
+                    className="text-slate-400 hover:text-red-400 transition-colors ml-0.5 cursor-pointer"
+                    title="Remove feature"
+                  >
+                    <X size={12} />
+                  </button>
+                )}
+              </span>
+            ))
+          )}
+        </div>
+
+        {isEditMode && (
+          <div className="pt-2 flex items-center gap-2">
+            <input
+              type="text"
+              value={newFeatureInput}
+              onChange={(e) => setNewFeatureInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddFeature(); } }}
+              placeholder="Add recommended feature name..."
+              className="flex-1 p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono text-white focus:outline-none focus:border-emerald-400"
+            />
+            <button
+              type="button"
+              onClick={handleAddFeature}
+              className="px-3 py-2 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded-lg text-xs font-mono font-bold flex items-center gap-1 cursor-pointer"
+            >
+              <Plus size={13} />
+              <span>Add Feature</span>
+            </button>
+          </div>
+        )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Feature Catalog — Recommended Features (-1 CP Discount)"
+            sourceCollection="features"
+            targetField="recommended_features"
+            value={recommendedFeatures}
+            onChange={(vals) => onChange('recommended_features', vals)}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            isDiscountedFeaturePool={true}
+            accentColor="#10b981"
+            helperText="Browse the canonical Feature Catalog to select features receiving the -1 CP Folio discount."
+            placeholder="Search Feature Catalog (e.g. Environmental Adaptation, Tough, Alertness)..."
+          />
+        )}
+      </div>
+      </>
+      )}
+
       {/* ── Section 2: Origin Homeworld Traits Showcase ── */}
+      {showTraits && (
+      <>
       <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
           <div className="flex items-center gap-2">
@@ -420,6 +571,21 @@ export const OriginConfigurator = ({
             </button>
           </div>
         )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Pillar Traits Selector"
+            sourceCollection="traits"
+            targetField="traits"
+            value={traits.map(t => typeof t === 'object' ? (t.name || t.id) : String(t))}
+            onChange={(vals) => onChange('traits', vals)}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            accentColor="#10b981"
+          />
+        )}
       </div>
 
       {/* ── Section 3: Typical Archetypes & Background Roles ── */}
@@ -493,7 +659,24 @@ export const OriginConfigurator = ({
             </button>
           </div>
         )}
+
+        {isEditMode && (
+          <CortexSmartPicker
+            label="Omnicortex Native Archetypes Selector"
+            sourceCollection="archetypes"
+            targetField="archetypes"
+            value={archetypes}
+            onChange={(vals) => onChange('archetypes', vals)}
+            dbData={dbData}
+            formData={formData}
+            isEditMode={isEditMode}
+            onOpenPicker={onOpenPicker}
+            accentColor="#10b981"
+          />
+        )}
       </div>
+      </>
+      )}
     </div>
   );
 };

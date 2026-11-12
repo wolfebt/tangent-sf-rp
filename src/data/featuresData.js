@@ -8338,11 +8338,11 @@ export const DEFAULT_FEATURES = [
     "prerequisite_text": "Chosen Skill Rank 6 (Trained)",
     "modifiers": [],
     "description": "The character drills deep into a specific niche of a broad skill.",
-    "mechanic": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).  \n* **Mechanics:** When making a check in that specialization, you add your **Base Rank \\+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).",
-    "rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
-    "special_rules": "\\[Multiple\\] Can be taken for different skills or different sub-categories.",
-    "body": "# Skill Specialization\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Chosen Skill Rank 6 (Trained)\n\n## Description\nThe character drills deep into a specific niche of a broad skill.\n\n## Mechanics & Benefit\nChoose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).  \n* **Mechanics:** When making a check in that specialization, you add your **Base Rank \\+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).\n\n## Special Rules\n\\[Multiple\\] Can be taken for different skills or different sub-categories.",
-    "full_text": "# Skill Specialization\n\n**Category**: Skill Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Chosen Skill Rank 6 (Trained)\n\n## Description\nThe character drills deep into a specific niche of a broad skill.\n\n## Mechanics & Benefit\nChoose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).  \n* **Mechanics:** When making a check in that specialization, you add your **Base Rank \\+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).\n\n## Special Rules\n\\[Multiple\\] Can be taken for different skills or different sub-categories.",
+    "mechanic": "Choose a specialized sub-skill within the parent skill (e.g., *Ballistic: Sniper Rifles* or *Computers: Hacking*). Rather than granting a flat \\+2, specializations are built-up sub-skills advancing independently from Rank 1 to 10 at 1 SP / 1 CP per rank (same price as base skills).  \n* **Mechanics:** When making a check within that specialization, add **Base Skill Rank (0–20) \\+ Specialization Rank (1–10)**, with **only one specialization viable per check**. This combination unlocks the effective **21–30** skill range (**Grand Master 21–25** & **Pinnacle 26–30**).",
+    "rules": "\\[Multiple\\] Different specializations may be built up; max 1 applies per check.",
+    "special_rules": "\\[Multiple\\] Different specializations may be built up; max 1 applies per check.",
+    "body": "# Skill Specialization\n\n**Category**: Skill Sub-Skill Mechanics  \n**Cost**: 1 SP / 1 CP per Specialization Rank (Max Rank 10; same price as Base Skills)  \n**Prerequisite**: Chosen Base Skill Rank 6 (Trained)\n\n## Description\nThe character drills deep into a specific niche of a broad skill as a built-up sub-skill.\n\n## Mechanics & Benefit\nChoose a specialized sub-skill within the parent skill (e.g., *Ballistic: Sniper Rifles* or *Computers: Hacking*). Rather than granting a flat \\+2, specializations are built-up sub-skills advancing independently from Rank 1 to 10 at 1 SP / 1 CP per rank (same price as base skills).  \n* **Mechanics:** When making a check within that specialization, add **Base Skill Rank (0–20) \\+ Specialization Rank (1–10)**, with **only one specialization viable per check**. This combination unlocks the effective **21–30** skill range (**Grand Master 21–25** & **Pinnacle 26–30**).\n\n## Special Rules\n\\[Multiple\\] Different specializations may be built up; max 1 applies per check.",
+    "full_text": "# Skill Specialization\n\n**Category**: Skill Sub-Skill Mechanics  \n**Cost**: 1 SP / 1 CP per Specialization Rank (Max Rank 10; same price as Base Skills)  \n**Prerequisite**: Chosen Base Skill Rank 6 (Trained)\n\n## Description\nThe character drills deep into a specific niche of a broad skill as a built-up sub-skill.\n\n## Mechanics & Benefit\nChoose a specialized sub-skill within the parent skill (e.g., *Ballistic: Sniper Rifles* or *Computers: Hacking*). Rather than granting a flat \\+2, specializations are built-up sub-skills advancing independently from Rank 1 to 10 at 1 SP / 1 CP per rank (same price as base skills).  \n* **Mechanics:** When making a check within that specialization, add **Base Skill Rank (0–20) \\+ Specialization Rank (1–10)**, with **only one specialization viable per check**. This combination unlocks the effective **21–30** skill range (**Grand Master 21–25** & **Pinnacle 26–30**).\n\n## Special Rules\n\\[Multiple\\] Different specializations may be built up; max 1 applies per check.",
     "modifier_options": {
       "enabled": true,
       "mode": "group_pool",
@@ -8368,11 +8368,11 @@ export const DEFAULT_FEATURES = [
       "max_skills": 1,
       "value": 2
     },
-    "mechanics": "Choose a sub-category of the skill (e.g., *Firearms: Sniping* or *Computers: Hacking*). You gain a separate pool of ranks in this specialization equal to your base skill rank (up to \\+10).  \n* **Mechanics:** When making a check in that specialization, you add your **Base Rank \\+ Specialization Rank**. This allows you to exceed the normal Skill Rank cap of 20 (reaching Pinnacle+).",
-    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.\n[Prerequisite] Chosen Skill Rank 6 (Trained)",
+    "mechanics": "Choose a specialized sub-skill within the parent skill (e.g., *Ballistic: Sniper Rifles* or *Computers: Hacking*). Rather than granting a flat \\+2, specializations are built-up sub-skills advancing independently from Rank 1 to 10 at 1 SP / 1 CP per rank (same price as base skills).  \n* **Mechanics:** When making a check within that specialization, add **Base Skill Rank (0–20) \\+ Specialization Rank (1–10)**, with **only one specialization viable per check**. This combination unlocks the effective **21–30** skill range (**Grand Master 21–25** & **Pinnacle 26–30**).",
+    "notes": "[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Multiple\\] Different specializations may be built up; max 1 applies per check.\n[Prerequisite] Chosen Skill Rank 6 (Trained)",
     "notesList": [
       "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] \\[Multiple\\] Can be taken for different skills or different sub-categories.",
+      "[Rule] \\[Multiple\\] Different specializations may be built up; max 1 applies per check.",
       "[Prerequisite] Chosen Skill Rank 6 (Trained)"
     ]
   },
@@ -10660,4 +10660,87 @@ export const getEnrichedFeatureData = (rawInput) => {
     notes: feature.notes || canonical?.notes || '',
     notesList: Array.isArray(feature.notesList) ? feature.notesList : (Array.isArray(canonical?.notesList) ? canonical.notesList : [])
   };
+};
+
+export const CANONICAL_FEATURE_GROUP_ITEMS = [
+  { id: 'cat_any_feature', name: 'Any Feature', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature from the full 1.08 Features database.' },
+  { id: 'cat_general_features', name: 'General Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under General features.' },
+  { id: 'cat_combat_features', name: 'Combat Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under Combat features.' },
+  { id: 'cat_ability_features', name: 'Ability Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under Ability features.' },
+  { id: 'cat_discipline_features', name: 'Discipline Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under Discipline features.' },
+  { id: 'cat_karma_features', name: 'Karma Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under Karma features.' },
+  { id: 'cat_skill_features', name: 'Skill Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under Skill features.' },
+  { id: 'cat_special_features', name: 'Special Features', category: 'Feature Groups', group: 'groups', type: 'Category Group', isCategoryGroup: true, cp: 3, description: 'Operator may choose any feature classified under Special features.' }
+];
+
+const normalizeFeatureCategoryName = (rawVal) => {
+  const clean = String(rawVal || '').trim().toLowerCase();
+  if (!clean) return 'General';
+  if (clean === 'category group' || clean === 'feature groups' || clean === 'groups') return 'Feature Groups';
+  if (clean.startsWith('abil')) return 'Ability';
+  if (clean.startsWith('comb')) return 'Combat';
+  if (clean.startsWith('disc') || clean.startsWith('meta')) return 'Discipline';
+  if (clean.startsWith('karm')) return 'Karma';
+  if (clean.startsWith('skil')) return 'Skill';
+  if (clean.startsWith('spec') || clean.startsWith('exot')) return 'Special';
+  return 'General';
+};
+
+/**
+ * Builds a clean, deduplicated, category-normalized Features catalog merging canonical 1.08 features
+ * with live Omnicortex `dbFeatures`.
+ */
+export const buildNormalizedFeaturesCatalog = (dbFeatures = [], { includeFeatureGroups = false } = {}) => {
+  const seenNames = new Set();
+  const result = [];
+
+  if (includeFeatureGroups) {
+    for (const grp of CANONICAL_FEATURE_GROUP_ITEMS) {
+      seenNames.add(grp.name.toLowerCase());
+      result.push({ ...grp });
+    }
+  }
+
+  // 1. Seed all 241 authoritative canonical features first
+  for (const canon of DEFAULT_FEATURES) {
+    const key = String(canon.name || '').trim().toLowerCase();
+    if (!key || seenNames.has(key)) continue;
+    seenNames.add(key);
+    result.push({
+      ...canon,
+      category: normalizeFeatureCategoryName(canon.category || canon.type)
+    });
+  }
+
+  // 2. Append any genuinely custom user-created features from dbFeatures
+  const rawList = Array.isArray(dbFeatures) ? dbFeatures : [];
+  for (const raw of rawList) {
+    if (!raw || typeof raw !== 'object') continue;
+    if (raw.type === 'Category Group' || raw.isCategoryGroup) {
+      const grpName = String(raw.name || raw.id || '').trim();
+      if (grpName && !seenNames.has(grpName.toLowerCase())) {
+        seenNames.add(grpName.toLowerCase());
+        result.push({
+          ...raw,
+          name: grpName,
+          category: 'Feature Groups',
+          group: 'groups',
+          type: 'Category Group',
+          isCategoryGroup: true
+        });
+      }
+      continue;
+    }
+    const enriched = getEnrichedFeatureData(raw);
+    if (!enriched || !enriched.name) continue;
+    const key = enriched.name.trim().toLowerCase();
+    if (seenNames.has(key)) continue;
+    seenNames.add(key);
+    result.push({
+      ...enriched,
+      category: normalizeFeatureCategoryName(enriched.category || enriched.type)
+    });
+  }
+
+  return result;
 };

@@ -20,10 +20,10 @@ import { AudioService } from '../../services/audioService';
 const NAV_ITEMS = [
   { id: 'hub',     icon: Compass,    label: 'HUB',     path: '/',           color: 'cyan'    },
   { id: 'folio',   icon: Users,      label: 'FOLIO',   path: '/folio',      color: 'cyan'    },
-  { id: 'network', icon: Radio,      label: 'NETWORK', path: '/network',    color: 'emerald' },
-  { id: 'cortex',  icon: Database,   label: 'CORTEX',  path: '/dbm',        color: 'amber'   },
-  { id: 'ade',     icon: Layers,     label: 'ADE',     path: '/foundry',    color: 'purple'  },
   { id: 'rules',   icon: BookOpen,   label: 'RULES',   path: '/compendium', color: 'sky'     },
+  { id: 'cortex',  icon: Database,   label: 'CORTEX',  path: '/dbm',        color: 'amber'   },
+  { id: 'network', icon: Radio,      label: 'NETWORK', path: '/network',    color: 'emerald' },
+  { id: 'ade',     icon: Layers,     label: 'ADE',     path: '/foundry',    color: 'purple'  },
   { id: 'dice',    icon: TwoD10Icon, label: 'DICE',    isAction: true,      color: 'rose'    },
 ];
 
@@ -39,7 +39,7 @@ const COLOR_ACTIVE = {
 /**
  * MobileBottomNav
  * Fixed bottom navigation bar visible only on < sm (mobile) screens.
- * Provides primary navigation (Hub, Folio, Network, Cortex, ADE, Rules)
+ * Provides primary navigation (Hub, Folio, Rules, Cortex, Network, ADE)
  * and direct action access (Dice Tray) without crowding top-level headers.
  */
 export const MobileBottomNav = () => {

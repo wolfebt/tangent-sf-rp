@@ -215,10 +215,14 @@ export const ASSET_COLLECTION_TO_MATRIX_MAP = {
   society_transportation: 'society_transportation',
   society_weaponry: 'society_weaponry',
 
-  // System Engines
+  // System Engines & Compendium Documentation
   economatrix: 'economatrix',
   technology: 'technology',
-  scaling: 'scaling'
+  scaling: 'scaling',
+  compendium: 'rules',
+  user_guide: 'rules',
+  metaphysics: 'invocation',
+  world_design: 'planetary-design'
 };
 
 /**
@@ -534,6 +538,7 @@ export const adaptItemToCodexFormData = (item, matrix) => {
 
     const itemTraits = parseListField(item.traits);
     base.traits = itemTraits.length > 0 ? itemTraits : parseListField(seed?.traits || base.traits);
+    base.skill_points = 20;
 
     base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
       ? item.keywords
@@ -569,6 +574,7 @@ export const adaptItemToCodexFormData = (item, matrix) => {
 
     const itemTraits = parseListField(item.traits);
     base.traits = itemTraits.length > 0 ? itemTraits : parseListField(seed?.traits || base.traits);
+    base.skill_points = 20;
 
     base.keywords = (typeof item.keywords === 'string' && item.keywords.trim())
       ? item.keywords
@@ -614,7 +620,7 @@ export const adaptItemToCodexFormData = (item, matrix) => {
     base.traits = item.traits || seed?.traits || base.traits || [];
     base.archetypes = item.archetypes || seed?.archetypes || base.archetypes || [];
     base.field = item.field || seed?.field || base.field || 'General / Other';
-    base.skill_points = Number(item.skill_points || seed?.skill_points || base.skill_points || 20);
+    base.skill_points = 20;
     base.body = (typeof item.body === 'string' && item.body.trim())
       ? item.body
       : (seed?.body || base.body || '');

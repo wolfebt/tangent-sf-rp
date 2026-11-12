@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Globe, 
   Sun, 
@@ -85,8 +85,14 @@ const ML_LABELS = {
   6: 'ML 6: Deific (Reality-Warping Apex)'
 };
 
-export const PlanetaryDesignConfigurator = ({ formData, onChange }) => {
+export const PlanetaryDesignConfigurator = ({ formData = {}, onChange, stepSection = 'all' }) => {
   const [activeTab, setActiveTab] = useState('geophysics'); // 'geophysics' | 'sociology' | 'domains' | 'economy' | 'generator'
+
+  useEffect(() => {
+    if (stepSection === 'astrography' || stepSection === 'geophysics') setActiveTab('geophysics');
+    else if (stepSection === 'demographics') setActiveTab('sociology');
+    else if (stepSection === 'domains') setActiveTab('domains');
+  }, [stepSection]);
   const [hookFilter, setHookFilter] = useState('');
 
   // Extract or default current state values

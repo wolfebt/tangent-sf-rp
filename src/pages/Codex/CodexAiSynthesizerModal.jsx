@@ -16,7 +16,9 @@ import {
   RotateCcw,
   Sliders,
   Trash2,
-  Calculator
+  Calculator,
+  BookOpen,
+  Award
 } from 'lucide-react';
 import { synthesizeMatrixWithBastion } from '../../services/bastionService';
 import { AudioService } from '../../services/audioService';
@@ -39,7 +41,16 @@ import {
   getTraitChoiceConfig,
   getOptionsForChoiceType
 } from '../../data/speciesTraitChoices';
-import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+import {
+  ALL_CANONICAL_SKILLS,
+  SKILL_SUBCATEGORY_FILTERS,
+  SKILL_ATTRIBUTE_FILTERS,
+  buildNormalizedSkillsCatalog
+} from '../../data/skillsData';
+import {
+  FEATURE_CATEGORIES,
+  buildNormalizedFeaturesCatalog
+} from '../../data/featuresData';
 
 const DEFAULT_CURATED_SPECIES_TRAIT_IDS = [
   'trait-low-light-vision',
@@ -129,6 +140,65 @@ const MODIFIER_TYPE_OPTIONS = [
   { value: 'resistance', label: 'Resistance / Save Bonus' },
   { value: 'custom', label: 'Custom Modifier / Rule' }
 ];
+
+const PILLAR_TRAIT_META = {
+  factions: {
+    singularLabel: 'Faction Trait',
+    pluralLabel: 'Faction Traits',
+    traitType: 'Faction Trait',
+    panelTitle: 'Selectable Faction Traits & Polity Perks',
+    panelSubtitle:
+      'Curate canonical 1-CP Faction Traits available to operatives and citizens of this polity (plus optional custom polity perks)',
+    catalogTitle: 'Canonical Faction Traits Catalog',
+    autoLoadLabel: '+ Load Matching Faction Traits',
+    autoLoadTitle: 'Automatically select canonical Faction Traits matching your polity concept',
+    searchPlaceholder: 'Search Faction Traits (e.g. Federal Authority, Solar Aura, Shadowmeld)...',
+    customPlaceholder: 'Custom Faction Trait name (e.g. Syndicate Clearance, Fleet Birthright)...',
+    selectionRuleHint: 'Operatives may purchase Faction Traits (1 CP each)'
+  },
+  origins: {
+    singularLabel: 'Origin Trait',
+    pluralLabel: 'Origin Traits',
+    traitType: 'Origin Trait',
+    panelTitle: 'Selectable Origin & Homeworld Traits',
+    panelSubtitle:
+      'Curate canonical 1-CP Origin Traits shaped by this habitat (characters choose 2 free at creation, +1 CP for extras)',
+    catalogTitle: 'Canonical Origin Traits Catalog',
+    autoLoadLabel: '+ Load Matching Origin Traits',
+    autoLoadTitle: 'Automatically select canonical Origin Traits matching your habitat concept',
+    searchPlaceholder: 'Search Origin Traits (e.g. Zero-G Acclimation, Urban Survival)...',
+    customPlaceholder: 'Custom Origin Trait name (e.g. High-G Bone Density, Reef Navigator)...',
+    selectionRuleHint: '2 Free Origin Traits at creation (+1 CP for extras)'
+  },
+  occupations: {
+    singularLabel: 'Occupational Trait',
+    pluralLabel: 'Occupational Traits',
+    traitType: 'Occupational Trait',
+    panelTitle: 'Selectable Occupational & Guild Traits',
+    panelSubtitle:
+      'Curate canonical 1-CP Occupational Traits conferred by this career (characters choose 2 free at creation, +1 CP for extras)',
+    catalogTitle: 'Canonical Occupational Traits Catalog',
+    autoLoadLabel: '+ Load Matching Occupational Traits',
+    autoLoadTitle: 'Automatically select canonical Occupational Traits matching your career concept',
+    searchPlaceholder: 'Search Occupational Traits (e.g. Trade Tools, High Pay, Hacking)...',
+    customPlaceholder: 'Custom Occupational Trait name (e.g. Licensed Trauma Surgeon)...',
+    selectionRuleHint: '2 Free Occupational Traits at creation (+1 CP for extras)'
+  },
+  archetypes: {
+    singularLabel: 'Signature Archetype Trait',
+    pluralLabel: 'Archetype Signature Traits',
+    traitType: 'Archetype Trait',
+    panelTitle: 'Archetype Signature Traits (80 CP Chassis)',
+    panelSubtitle:
+      'Select canonical 1-CP Signature Traits embedded in this 80 CP Persona Chassis (standard allocation: 2 Signature Traits = 2 CP)',
+    catalogTitle: 'Canonical Archetype Signature Traits Catalog',
+    autoLoadLabel: '+ Load Matching Signature Traits',
+    autoLoadTitle: 'Automatically select Signature Archetype Traits matching your persona concept',
+    searchPlaceholder: 'Search Archetype Traits (e.g. Infiltrator, Master of Logistics)...',
+    customPlaceholder: 'Custom Signature Trait name (e.g. Breach Anchor, Tactical Broker)...',
+    selectionRuleHint: 'Standard 80 CP Chassis includes 2 Signature Traits (2 CP)'
+  }
+};
 
 const AXIS_CUSTOM_PLACEHOLDERS = {
   morphology:
@@ -373,7 +443,7 @@ export const CodexAiSynthesizerModal = ({
   initialMode = 'synthesize'
 }) => {
   const { dbData } = useDBM() || {};
-  const resolvedDatasetKey = initialDatasetKey || matrix?.ingestionKey || matrix?.targetCollection || 'species';
+  const resolvedDatasetKey = initialDatasetKey || matrix?.ingestionKey || matrix?.targetCollection || matrix?.id || 'compendium';
   const dataset = getDatasetByKey(resolvedDatasetKey);
   const profile = useMemo(
     () => getSynthesizerProfile(matrix, resolvedDatasetKey),
@@ -398,6 +468,25 @@ export const CodexAiSynthesizerModal = ({
   const [traitSearchQuery, setTraitSearchQuery] = useState('');
   const [showAllTraitsInTab, setShowAllTraitsInTab] = useState(false);
   const [adjustmentRows, setAdjustmentRows] = useState(() => [createBlankAdjustmentRow()]);
+  const [customPillarTraitInput, setCustomPillarTraitInput] = useState('');
+
+  const isSpeciesPackageBuilder = profile.id === 'species';
+  const pillarMeta = PILLAR_TRAIT_META[profile.id] || null;
+  const isPillarTraitSelector = Boolean(pillarMeta);
+  const is20SpPillarMatrix = ['origins', 'occupations', 'factions'].includes(profile.id);
+
+  // Fixed 20-SP Skill Pool & Recommended Features (-1 CP) Catalog state for Origins, Occupations & Factions
+  const [selectedPillarSkills, setSelectedPillarSkills] = useState([]);
+  const [selectedRecommendedFeatures, setSelectedRecommendedFeatures] = useState([]);
+  const [activePillarCatalogTab, setActivePillarCatalogTab] = useState('skills');
+  const [skillGroupFilter, setSkillGroupFilter] = useState('all');
+  const [skillSubcategoryFilter, setSkillSubcategoryFilter] = useState('all');
+  const [skillAttrFilter, setSkillAttrFilter] = useState('all');
+  const [skillCatalogSearch, setSkillCatalogSearch] = useState('');
+  const [showAllSkillsInCatalog, setShowAllSkillsInCatalog] = useState(false);
+  const [featureCategoryFilter, setFeatureCategoryFilter] = useState('all');
+  const [featureCatalogSearch, setFeatureCatalogSearch] = useState('');
+  const [showAllFeaturesInCatalog, setShowAllFeaturesInCatalog] = useState(false);
 
   const [customDirectives, setCustomDirectives] = useState('');
   const [targetName, setTargetName] = useState('');
@@ -504,22 +593,15 @@ export const CodexAiSynthesizerModal = ({
     return selectedConcept ? [selectedConcept] : [];
   }, [profile.concepts, selectedConceptIds, selectedConcept]);
 
-  // Build authoritative Cortex Species Traits & Pillar Traits library from Cortex datasets + DBMContext
+  // Build authoritative Cortex Species Traits (for Species Matrix) OR Pillar Traits (for Factions/Origins/Occupations/Archetypes)
   const cortexTraitsCatalog = useMemo(() => {
     const map = new Map();
-    const isSpeciesOrBio = [
-      'species',
-      'trait',
-      'modular-characters',
-      'species_type',
-      'species_size',
-      'species_movement'
-    ].includes(profile.id);
-    const isPillarMatrix = ['origins', 'occupations', 'archetypes', 'factions', 'traits'].includes(
-      profile.id
-    );
+    if (!isSpeciesPackageBuilder && !isPillarTraitSelector) return [];
 
-    if (!isSpeciesOrBio && !isPillarMatrix) return [];
+    const defaultTraitType = isPillarTraitSelector ? pillarMeta.traitType : 'Species Trait';
+    const defaultMechanicFallback = isPillarTraitSelector
+      ? `Canonical ${pillarMeta.singularLabel} benefit.`
+      : 'Canonical Cortex biological adaptation.';
 
     const addTrait = (raw, fallbackTier = 'Basic', fallbackCp = 1) => {
       if (!raw) return;
@@ -542,18 +624,18 @@ export const CodexAiSynthesizerModal = ({
         bp: cp,
         tier,
         tierKey: tier.toLowerCase(),
-        trait_type: raw.trait_type || 'Species Trait',
-        classification: raw.classification || raw.type || 'Physical',
-        mechanic: rawMech || 'Canonical Cortex biological adaptation.',
+        trait_type: raw.trait_type || defaultTraitType,
+        classification: raw.classification || raw.type || (isPillarTraitSelector ? 'General' : 'Physical'),
+        mechanic: rawMech || defaultMechanicFallback,
         description: (raw.description || raw.desc || rawMech || '').toString().trim(),
         modifiers: Array.isArray(raw.modifiers) ? raw.modifiers : []
       };
       traitObj.choiceConfig = getTraitChoiceConfig(traitObj);
-      traitObj.domains = classifySpeciesTraitDomain(traitObj);
+      traitObj.domains = isSpeciesPackageBuilder ? classifySpeciesTraitDomain(traitObj) : new Set();
       map.set(id, traitObj);
     };
 
-    if (isSpeciesOrBio) {
+    if (isSpeciesPackageBuilder) {
       SPECIES_TRAITS_BASIC.forEach((t) => addTrait(t, 'Basic', 1));
       SPECIES_TRAITS_ADVANCED.forEach((t) => addTrait(t, 'Advanced', 2));
       SPECIES_TRAITS_ELITE.forEach((t) => addTrait(t, 'Elite', 4));
@@ -563,7 +645,7 @@ export const CodexAiSynthesizerModal = ({
         (t) => !['Origin Trait', 'Occupational Trait', 'Archetype Trait', 'Faction Trait'].includes(t?.trait_type)
       );
       liveDbTraits.forEach((t) => addTrait(t));
-    } else if (isPillarMatrix) {
+    } else if (isPillarTraitSelector) {
       const sourceList =
         profile.id === 'origins'
           ? ORIGIN_TRAITS
@@ -571,27 +653,21 @@ export const CodexAiSynthesizerModal = ({
             ? OCCUPATIONAL_TRAITS
             : profile.id === 'archetypes'
               ? ARCHETYPE_TRAITS
-              : profile.id === 'factions'
-                ? FACTION_TRAITS
-                : [...ORIGIN_TRAITS, ...OCCUPATIONAL_TRAITS, ...ARCHETYPE_TRAITS, ...FACTION_TRAITS];
+              : FACTION_TRAITS;
       sourceList.forEach((t) => addTrait(t, 'Basic', 1));
 
-      const livePillarTraits = (dbData?.traits || []).filter((t) => {
-        if (profile.id === 'origins') return t?.trait_type === 'Origin Trait';
-        if (profile.id === 'occupations') return t?.trait_type === 'Occupational Trait';
-        if (profile.id === 'archetypes') return t?.trait_type === 'Archetype Trait';
-        if (profile.id === 'factions') return t?.trait_type === 'Faction Trait';
-        return true;
-      });
+      const livePillarTraits = (dbData?.traits || []).filter(
+        (t) => t?.trait_type === pillarMeta.traitType
+      );
       livePillarTraits.forEach((t) => addTrait(t, 'Basic', 1));
     }
 
     return Array.from(map.values());
-  }, [profile.id, dbData]);
+  }, [profile.id, dbData, isSpeciesPackageBuilder, isPillarTraitSelector, pillarMeta]);
 
-  // Build Cortex Species Disadvantages catalog
+  // Build Cortex Species Disadvantages catalog (Strictly Species Package Builder Only)
   const cortexDisadvantagesCatalog = useMemo(() => {
-    if (!['species', 'trait', 'disadvantages', 'modular-characters'].includes(profile.id)) return [];
+    if (!isSpeciesPackageBuilder) return [];
     const map = new Map();
     const addDisadv = (raw) => {
       if (!raw) return;
@@ -621,7 +697,7 @@ export const CodexAiSynthesizerModal = ({
     (DEFAULT_SPECIES_DISADVANTAGES || []).forEach(addDisadv);
     (dbData?.disadvantages || []).forEach(addDisadv);
     return Array.from(map.values());
-  }, [profile.id, dbData]);
+  }, [isSpeciesPackageBuilder, dbData]);
 
   const cortexTraitByIdMap = useMemo(() => {
     const map = new Map();
@@ -630,7 +706,25 @@ export const CodexAiSynthesizerModal = ({
     return map;
   }, [cortexTraitsCatalog, cortexDisadvantagesCatalog]);
 
-  // Compute Concept-Matched Cortex Traits based on active Part 1 Modular Selections
+  // Distinct classification categories available for Pillar Trait tabs
+  const pillarClassificationTabs = useMemo(() => {
+    if (!isPillarTraitSelector || cortexTraitsCatalog.length === 0) return [];
+    const counts = new Map();
+    cortexTraitsCatalog.forEach((t) => {
+      const cls = String(t.classification || 'General').trim();
+      if (!cls) return;
+      counts.set(cls, (counts.get(cls) || 0) + 1);
+    });
+    return Array.from(counts.entries())
+      .filter(([, count]) => count > 0)
+      .map(([cls, count]) => ({
+        id: `class_${cls.toLowerCase()}`,
+        classification: cls,
+        label: `${cls} (${count})`
+      }));
+  }, [isPillarTraitSelector, cortexTraitsCatalog]);
+
+  // Compute Concept-Matched Traits based on active Part 1 Modular/Concept Selections
   const conceptSuggestedTraits = useMemo(() => {
     if (cortexTraitsCatalog.length === 0) return [];
     const suggestedIds = new Set();
@@ -642,7 +736,8 @@ export const CodexAiSynthesizerModal = ({
       (conc.suggestedTraits || []).forEach((tId) => suggestedIds.add(tId));
     });
 
-    if (suggestedIds.size === 0) {
+    const hasExplicitConceptSelection = suggestedIds.size > 0;
+    if (!hasExplicitConceptSelection && isSpeciesPackageBuilder) {
       DEFAULT_CURATED_SPECIES_TRAIT_IDS.forEach((tId) => suggestedIds.add(tId));
     }
 
@@ -654,18 +749,13 @@ export const CodexAiSynthesizerModal = ({
       if (found) matched.push(found);
     });
 
-    if (matched.length < 12) {
-      for (const trait of cortexTraitsCatalog) {
-        if (matched.length >= 16) break;
-        if (!matched.some((m) => m.id === trait.id)) {
-          matched.push(trait);
-        }
-      }
+    if (!hasExplicitConceptSelection && matched.length === 0) {
+      return cortexTraitsCatalog.slice(0, Math.min(10, cortexTraitsCatalog.length));
     }
     return matched;
-  }, [cortexTraitsCatalog, selectedModules, selectedConceptsList]);
+  }, [cortexTraitsCatalog, selectedModules, selectedConceptsList, isSpeciesPackageBuilder]);
 
-  // Filtered Cortex Traits for the active Part 3 tab & search query
+  // Filtered Traits for the active Part 3 tab & search query
   const filteredCortexTraits = useMemo(() => {
     const q = traitSearchQuery.trim().toLowerCase();
     const filterBySearch = (list) => {
@@ -676,6 +766,7 @@ export const CodexAiSynthesizerModal = ({
           item.id.toLowerCase().includes(q) ||
           item.mechanic.toLowerCase().includes(q) ||
           item.description.toLowerCase().includes(q) ||
+          String(item.classification || '').toLowerCase().includes(q) ||
           `${item.cp} cp`.includes(q)
       );
     };
@@ -688,9 +779,18 @@ export const CodexAiSynthesizerModal = ({
       return filterBySearch([...cortexTraitsCatalog, ...cortexDisadvantagesCatalog]);
     }
 
+    if (activeTraitFilter.startsWith('class_')) {
+      const targetCls = activeTraitFilter.replace(/^class_/, '');
+      return cortexTraitsCatalog.filter(
+        (t) => String(t.classification || '').toLowerCase() === targetCls
+      );
+    }
+
     switch (activeTraitFilter) {
       case 'suggested':
         return conceptSuggestedTraits;
+      case 'all':
+        return cortexTraitsCatalog;
       case 'basic':
         return cortexTraitsCatalog.filter((t) => t.tierKey === 'basic' || t.cp === 1);
       case 'advanced':
@@ -875,6 +975,18 @@ export const CodexAiSynthesizerModal = ({
     setTraitSearchQuery('');
     setShowAllTraitsInTab(false);
     setAdjustmentRows([createBlankAdjustmentRow()]);
+    setCustomPillarTraitInput('');
+    setSelectedPillarSkills([]);
+    setSelectedRecommendedFeatures([]);
+    setActivePillarCatalogTab('skills');
+    setSkillGroupFilter('all');
+    setSkillSubcategoryFilter('all');
+    setSkillAttrFilter('all');
+    setSkillCatalogSearch('');
+    setShowAllSkillsInCatalog(false);
+    setFeatureCategoryFilter('all');
+    setFeatureCatalogSearch('');
+    setShowAllFeaturesInCatalog(false);
     setTargetName('');
     setCustomDirectives('');
     setGenerationError('');
@@ -1280,6 +1392,30 @@ export const CodexAiSynthesizerModal = ({
     });
   };
 
+  const handleAddCustomPillarTrait = () => {
+    const cleanName = customPillarTraitInput.trim();
+    if (!cleanName || !pillarMeta) return;
+    AudioService.playTerminalBeep(1140, 0.02);
+    setAdjustmentRows((prev) => {
+      const nonBlank = prev.filter(
+        (r) => r.traitId || r.customName.trim() || r.sourceType === 'standalone_mod' || r.modValue !== ''
+      );
+      if (nonBlank.some((r) => r.customName.trim().toLowerCase() === cleanName.toLowerCase())) {
+        return prev;
+      }
+      const newRow = createBlankAdjustmentRow({
+        sourceType: 'custom_trait',
+        customName: cleanName,
+        tier: 'Basic',
+        modType: 'trait_default',
+        modNotes: `Custom ${pillarMeta.singularLabel} (1 CP)`,
+        customCp: 1
+      });
+      return [...nonBlank, newRow];
+    });
+    setCustomPillarTraitInput('');
+  };
+
   const handleToggleQuickDirective = (directiveText) => {
     AudioService.playTerminalBeep(1050, 0.02);
     setCustomDirectives((prev) => {
@@ -1441,15 +1577,23 @@ export const CodexAiSynthesizerModal = ({
         return;
       }
 
+      const defaultCustomTraitName = isPillarTraitSelector
+        ? `Custom ${pillarMeta.singularLabel}`
+        : 'Custom Species Adaptation';
+      const defaultTraitType = isPillarTraitSelector ? pillarMeta.traitType : 'Species Trait';
+      const defaultTraitMechanic = isPillarTraitSelector
+        ? `Custom ${pillarMeta.singularLabel} (1 CP).`
+        : 'Custom biological adaptation.';
+
       const baseName =
-        linkedItem?.name || row.customName.trim() || 'Custom Species Adaptation';
+        linkedItem?.name || row.customName.trim() || defaultCustomTraitName;
       const fullName = choiceLabel ? `${baseName} (${choiceLabel})` : baseName;
       const slug = baseName
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
 
-      if (row.sourceType === 'cortex_flaw' || details.effectiveCp < 0) {
+      if (isSpeciesPackageBuilder && (row.sourceType === 'cortex_flaw' || details.effectiveCp < 0)) {
         const flawEntry = {
           id: linkedItem?.id || `disadvantage-custom-${slug}`,
           name: fullName,
@@ -1471,24 +1615,26 @@ export const CodexAiSynthesizerModal = ({
           bp: details.effectiveCp,
           tier: linkedItem?.tier || row.tier || 'Basic',
           trait_tier: linkedItem?.tier || row.tier || 'Basic',
-          trait_type: linkedItem?.trait_type || 'Species Trait',
-          classification: linkedItem?.classification || 'Physical',
+          trait_type: linkedItem?.trait_type || defaultTraitType,
+          classification: linkedItem?.classification || (isPillarTraitSelector ? 'General' : 'Physical'),
           choice: row.choiceValue || undefined,
           choiceLabel: choiceLabel || undefined,
-          mechanic: modSummaryText || linkedItem?.mechanic || 'Custom biological adaptation.',
-          description: linkedItem?.description || modSummaryText || 'Custom biological adaptation.',
+          mechanic: modSummaryText || linkedItem?.mechanic || defaultTraitMechanic,
+          description: linkedItem?.description || modSummaryText || defaultTraitMechanic,
           modifiers: rowModifiersList
         };
         traits.push(traitEntry);
         summaryParts.push(
-          `Trait: ${fullName} (+${details.effectiveCp} CP — ${traitEntry.mechanic})`
+          `${isPillarTraitSelector ? pillarMeta.singularLabel : 'Trait'}: ${fullName} (${details.effectiveCp} CP — ${traitEntry.mechanic})`
         );
       }
     });
 
     const promptSummary =
       summaryParts.length > 0
-        ? `${summaryParts.join('; ')}. Tracked Package Total: ${costTrackerSummary.totalPackageCp} CP.`
+        ? isSpeciesPackageBuilder
+          ? `${summaryParts.join('; ')}. Tracked Species Package Total: ${costTrackerSummary.totalPackageCp} CP.`
+          : `Selected ${pillarMeta?.pluralLabel || 'Traits'}: ${summaryParts.join('; ')}.`
         : '';
 
     return {
@@ -1500,10 +1646,145 @@ export const CodexAiSynthesizerModal = ({
       bonus_skills,
       movement_modes,
       modifiers,
-      totalCP: costTrackerSummary.totalPackageCp,
+      ...(isSpeciesPackageBuilder ? { totalCP: costTrackerSummary.totalPackageCp } : {}),
       promptSummary
     };
-  }, [adjustmentRows, cortexTraitByIdMap, dbData, costTrackerSummary.totalPackageCp]);
+  }, [
+    adjustmentRows,
+    cortexTraitByIdMap,
+    dbData,
+    costTrackerSummary.totalPackageCp,
+    isSpeciesPackageBuilder,
+    isPillarTraitSelector,
+    pillarMeta
+  ]);
+
+  // Dynamic, strictly asset-aligned header calibration pill & submit button suffix
+  const calibrationContextSummary = useMemo(() => {
+    const pid = profile.id;
+    if (isSpeciesPackageBuilder) {
+      const signed =
+        costTrackerSummary.totalPackageCp >= 0
+          ? `+${costTrackerSummary.totalPackageCp}`
+          : `${costTrackerSummary.totalPackageCp}`;
+      const targetPart =
+        costTrackerSummary.targetBudgetCp !== null
+          ? ` / ${costTrackerSummary.targetBudgetCp} CP Target`
+          : '';
+      return {
+        headerPill: `Species Package: ${signed} CP${targetPart}`,
+        buttonSuffix: `(${costTrackerSummary.totalPackageCp} CP)`
+      };
+    }
+
+    const activePillarCount = compiledAdjustmentsPayload.traits.length;
+    const pinnedSkillsCount = selectedPillarSkills.length;
+    const pinnedFeatsCount = selectedRecommendedFeatures.length;
+    const extraSelectionTag = `${
+      pinnedSkillsCount > 0 ? ` • ${pinnedSkillsCount} Skills` : ''
+    }${pinnedFeatsCount > 0 ? ` • ${pinnedFeatsCount} Features` : ''}`;
+
+    if (pid === 'factions') {
+      return {
+        headerPill: `Fixed 20 SP Faction Pool • TL ${targetTechLevel} • ML ${targetMetaLevel}${
+          activePillarCount > 0 ? ` • ${activePillarCount} Faction Traits` : ''
+        }${extraSelectionTag}`,
+        buttonSuffix: `(20 SP Pool)`
+      };
+    }
+    if (pid === 'origins') {
+      return {
+        headerPill: `Fixed 20 SP Society Pool • TL ${targetTechLevel}${
+          activePillarCount > 0 ? ` • ${activePillarCount} Origin Traits` : ''
+        }${extraSelectionTag}`,
+        buttonSuffix: `(20 SP Pool)`
+      };
+    }
+    if (pid === 'occupations') {
+      return {
+        headerPill: `Fixed 20 SP Career Pool • TL ${targetTechLevel}${
+          activePillarCount > 0 ? ` • ${activePillarCount} Occupational Traits` : ''
+        }${extraSelectionTag}`,
+        buttonSuffix: `(20 SP Pool)`
+      };
+    }
+    if (pid === 'archetypes') {
+      return {
+        headerPill: `80 CP Persona Chassis${
+          activePillarCount > 0 ? ` • ${activePillarCount}/2 Signature Traits` : ''
+        }`,
+        buttonSuffix: `(80 CP Chassis)`
+      };
+    }
+    if (matrix?.isProperty || categoryParams.craft_dc !== undefined) {
+      const cr = Number(categoryParams.craft_dc ?? 20);
+      return {
+        headerPill: `CR ${cr} • TL ${targetTechLevel}${
+          profile.showMetaLevel && targetMetaLevel > 0 ? ` • ML ${targetMetaLevel}` : ''
+        }`,
+        buttonSuffix: `(CR ${cr} • TL ${targetTechLevel})`
+      };
+    }
+    if (['features', 'trait', 'traits', 'companions', 'special_abilities', 'disciplines', 'species_lineage', 'species_size', 'species_movement', 'species_type'].includes(pid)) {
+      const cpVal = Number(categoryParams.cp ?? categoryParams.bp ?? 1);
+      return {
+        headerPill: `${cpVal} CP Valuation`,
+        buttonSuffix: `(${cpVal} CP)`
+      };
+    }
+    if (pid === 'disadvantages') {
+      const rebate = Math.abs(Number(categoryParams.refundCP ?? 2));
+      return {
+        headerPill: `-${rebate} CP Rebate`,
+        buttonSuffix: `(-${rebate} CP Rebate)`
+      };
+    }
+    if (pid === 'invocation') {
+      const cr = Number(categoryParams.manifestation_dc ?? 15);
+      const fp = Number(categoryParams.focus_cost ?? 2);
+      return {
+        headerPill: `CR ${cr} • ${fp} FP • ML ${targetMetaLevel}`,
+        buttonSuffix: `(CR ${cr} • ${fp} FP)`
+      };
+    }
+    if (pid === 'modular-characters') {
+      const tier = Number(categoryParams.threatTier ?? 3);
+      return {
+        headerPill: `Threat Tier ${tier} • ${categoryParams.bossType || 'Standard'}`,
+        buttonSuffix: `(Tier ${tier})`
+      };
+    }
+    if (pid === 'planetary-design' || pid === 'world') {
+      const spClass = categoryParams.starport || 'C';
+      return {
+        headerPill: `Starport ${spClass} • TL ${targetTechLevel}`,
+        buttonSuffix: `(Class ${spClass} • TL ${targetTechLevel})`
+      };
+    }
+    if (profile.showTechLevel || profile.showMetaLevel) {
+      const parts = [];
+      if (profile.showTechLevel) parts.push(`TL ${targetTechLevel}`);
+      if (profile.showMetaLevel) parts.push(`ML ${targetMetaLevel}`);
+      return {
+        headerPill: parts.join(' • '),
+        buttonSuffix: ''
+      };
+    }
+    return { headerPill: '', buttonSuffix: '' };
+  }, [
+    profile.id,
+    profile.showTechLevel,
+    profile.showMetaLevel,
+    isSpeciesPackageBuilder,
+    costTrackerSummary,
+    compiledAdjustmentsPayload.traits.length,
+    selectedPillarSkills.length,
+    selectedRecommendedFeatures.length,
+    targetTechLevel,
+    targetMetaLevel,
+    categoryParams,
+    matrix?.isProperty
+  ]);
 
   const handleSynthesize = async () => {
     setIsGenerating(true);
@@ -1528,6 +1809,8 @@ export const CodexAiSynthesizerModal = ({
         selectedModules,
         selectedCortexTraits: compiledAdjustmentsPayload.traits,
         selectedCortexDisadvantages: compiledAdjustmentsPayload.disadvantages,
+        selectedPillarSkills,
+        selectedRecommendedFeatures,
         customAdjustmentsPayload: compiledAdjustmentsPayload,
         categoryParams,
         customDirectives: combinedDirectives,
@@ -1582,6 +1865,234 @@ export const CodexAiSynthesizerModal = ({
     () => new Set(adjustmentRows.map((r) => r.traitId).filter(Boolean)),
     [adjustmentRows]
   );
+
+  // Concept keyword tokens for ranking 20-SP Skills & Recommended Features
+  const pillarConceptKeywords = useMemo(() => {
+    if (!is20SpPillarMatrix) return [];
+    const blob = [
+      composedArchetype?.name || '',
+      composedArchetype?.prompt || '',
+      targetName || '',
+      customDirectives || '',
+      Object.values(categoryParams || {}).join(' '),
+      selectedModules.map((m) => `${m.label} ${m.prompt}`).join(' ')
+    ]
+      .join(' ')
+      .toLowerCase();
+    return Array.from(
+      new Set(
+        blob
+          .replace(/[^a-z0-9\s]/g, ' ')
+          .split(/\s+/)
+          .filter((w) => w.length >= 4)
+      )
+    );
+  }, [
+    is20SpPillarMatrix,
+    composedArchetype,
+    targetName,
+    customDirectives,
+    categoryParams,
+    selectedModules
+  ]);
+
+  // Authoritative Skill Catalog for Fixed 20-SP Pool (Origins, Occupations, Factions)
+  const pillarSkillsCatalog = useMemo(() => {
+    if (!is20SpPillarMatrix) return [];
+    const normalized = buildNormalizedSkillsCatalog(dbData?.skills, { includeSkillGroups: true });
+    const list = normalized.map((item) => {
+      const name = String(item.name || '').trim();
+      const group = String(item.group || 'mental').toLowerCase();
+      const subcategory = String(item.subcategory || 'General').trim();
+      const governingAttr = String(item.governing_attribute || '').trim();
+      const desc = String(item.description || item.mechanic || '').trim();
+      const hay = `${name} ${group} ${subcategory} ${governingAttr} ${item.keywords || ''} ${desc}`.toLowerCase();
+      let score = 0;
+      for (const kw of pillarConceptKeywords) {
+        if (hay.includes(kw)) score += 3;
+      }
+      return {
+        id: item.id || name.toLowerCase(),
+        name,
+        group,
+        subcategory,
+        categoryLabel: item.categoryLabel || `${group} · ${subcategory}`,
+        governingAttr,
+        attrCodes: Array.isArray(item.attrCodes) ? item.attrCodes : [],
+        primaryAttrBadge: item.primaryAttrBadge || '',
+        isSkillGroup: Boolean(item.isSkillGroup),
+        description: desc,
+        hay,
+        score
+      };
+    });
+    list.sort((a, b) => {
+      if (a.isSkillGroup !== b.isSkillGroup && skillGroupFilter !== 'groups') {
+        return a.isSkillGroup ? 1 : -1;
+      }
+      return b.score - a.score || a.name.localeCompare(b.name);
+    });
+    return list;
+  }, [is20SpPillarMatrix, dbData?.skills, pillarConceptKeywords, skillGroupFilter]);
+
+  // Live counts per Skill Group, Subcategory, and Governing Attribute
+  const skillFilterStats = useMemo(() => {
+    const byGroup = { physical: 0, mental: 0, social: 0, combat: 0, meta: 0, groups: 0 };
+    const bySubcategory = {};
+    const byAttr = { STR: 0, AGI: 0, STA: 0, INT: 0, WIS: 0, CHA: 0 };
+    let suggestedCount = 0;
+
+    for (const sk of pillarSkillsCatalog) {
+      if (byGroup[sk.group] !== undefined) byGroup[sk.group] += 1;
+      const subKey = `${sk.group}:${sk.subcategory.toLowerCase()}`;
+      bySubcategory[subKey] = (bySubcategory[subKey] || 0) + 1;
+      const inAttrScope =
+        !sk.isSkillGroup &&
+        (skillGroupFilter === 'all' ||
+          (skillGroupFilter === 'suggested' && (sk.score > 0 || pillarConceptKeywords.length === 0)) ||
+          (sk.group === skillGroupFilter &&
+            (skillSubcategoryFilter === 'all' ||
+              sk.subcategory.toLowerCase() === skillSubcategoryFilter.toLowerCase())));
+      if (inAttrScope) {
+        for (const code of sk.attrCodes) {
+          if (byAttr[code] !== undefined) byAttr[code] += 1;
+        }
+      }
+      if (!sk.isSkillGroup && (sk.score > 0 || pillarConceptKeywords.length === 0)) {
+        suggestedCount += 1;
+      }
+    }
+
+    return { byGroup, bySubcategory, byAttr, suggestedCount };
+  }, [pillarSkillsCatalog, pillarConceptKeywords.length, skillGroupFilter, skillSubcategoryFilter]);
+
+  // Authoritative Feature Catalog for Recommended Features (-1 CP Discount)
+  const pillarFeaturesCatalog = useMemo(() => {
+    if (!is20SpPillarMatrix) return [];
+    const normalized = buildNormalizedFeaturesCatalog(dbData?.features, { includeFeatureGroups: true });
+    const list = normalized.map((raw) => {
+      const name = String(raw.name || raw.title || raw.id || '').trim();
+      const category = String(raw.category || 'General').trim();
+      const cp = Number(raw.cp ?? raw.costs?.cp ?? 3) || 3;
+      const prereq =
+        raw.prerequisites && String(raw.prerequisites).toLowerCase() !== 'none'
+          ? String(raw.prerequisites)
+          : '';
+      const desc = String(raw.mechanic || raw.description || '').trim();
+      const hay = `${name} ${category} ${prereq} ${desc}`.toLowerCase();
+      let score = 0;
+      for (const kw of pillarConceptKeywords) {
+        if (hay.includes(kw)) score += 3;
+      }
+      return {
+        id: raw.id || name.toLowerCase(),
+        name,
+        category,
+        isCategoryGroup: Boolean(raw.isCategoryGroup),
+        cp,
+        discountedCp: Math.max(1, cp - 1),
+        prereq,
+        description: desc,
+        hay,
+        score
+      };
+    });
+    list.sort((a, b) => {
+      if (a.isCategoryGroup !== b.isCategoryGroup && featureCategoryFilter !== 'Feature Groups') {
+        return a.isCategoryGroup ? 1 : -1;
+      }
+      return b.score - a.score || a.name.localeCompare(b.name);
+    });
+    return list;
+  }, [is20SpPillarMatrix, dbData?.features, pillarConceptKeywords, featureCategoryFilter]);
+
+  const featureFilterCounts = useMemo(() => {
+    const counts = { 'Feature Groups': 0 };
+    FEATURE_CATEGORIES.forEach((c) => {
+      counts[c] = 0;
+    });
+    let suggestedCount = 0;
+    for (const ft of pillarFeaturesCatalog) {
+      if (counts[ft.category] !== undefined) counts[ft.category] += 1;
+      if (!ft.isCategoryGroup && (ft.score > 0 || pillarConceptKeywords.length === 0)) {
+        suggestedCount += 1;
+      }
+    }
+    return { counts, suggestedCount };
+  }, [pillarFeaturesCatalog, pillarConceptKeywords.length]);
+
+  const filteredPillarSkills = useMemo(() => {
+    const q = skillCatalogSearch.trim().toLowerCase();
+    return pillarSkillsCatalog.filter((sk) => {
+      if (q && !sk.hay.includes(q)) return false;
+      if (skillAttrFilter !== 'all' && !sk.attrCodes.includes(skillAttrFilter)) return false;
+      if (skillGroupFilter === 'all') return true;
+      if (skillGroupFilter === 'suggested') {
+        if (sk.isSkillGroup) return false;
+        return sk.score > 0 || pillarConceptKeywords.length === 0;
+      }
+      if (sk.group !== skillGroupFilter) return false;
+      if (skillSubcategoryFilter !== 'all') {
+        return sk.subcategory.toLowerCase() === skillSubcategoryFilter.toLowerCase();
+      }
+      return true;
+    });
+  }, [
+    pillarSkillsCatalog,
+    skillCatalogSearch,
+    skillGroupFilter,
+    skillSubcategoryFilter,
+    skillAttrFilter,
+    pillarConceptKeywords.length
+  ]);
+
+  const filteredPillarFeatures = useMemo(() => {
+    const q = featureCatalogSearch.trim().toLowerCase();
+    return pillarFeaturesCatalog.filter((ft) => {
+      if (q && !ft.hay.includes(q)) return false;
+      if (featureCategoryFilter === 'all') return true;
+      if (featureCategoryFilter === 'suggested') {
+        if (ft.isCategoryGroup) return false;
+        return ft.score > 0 || pillarConceptKeywords.length === 0;
+      }
+      return ft.category.toLowerCase() === featureCategoryFilter.toLowerCase();
+    });
+  }, [pillarFeaturesCatalog, featureCatalogSearch, featureCategoryFilter, pillarConceptKeywords.length]);
+
+  const togglePillarSkill = (skillName) => {
+    setSelectedPillarSkills((prev) =>
+      prev.includes(skillName) ? prev.filter((s) => s !== skillName) : [...prev, skillName]
+    );
+  };
+
+  const toggleRecommendedFeature = (featName) => {
+    setSelectedRecommendedFeatures((prev) =>
+      prev.includes(featName) ? prev.filter((f) => f !== featName) : [...prev, featName]
+    );
+  };
+
+  const handleAutoLoadConceptSkills = () => {
+    const top = pillarSkillsCatalog
+      .filter((s) => !s.isSkillGroup)
+      .slice(0, 8)
+      .map((s) => s.name);
+    setSelectedPillarSkills((prev) => Array.from(new Set([...prev, ...top])));
+  };
+
+  const handleAutoLoadConceptFeatures = () => {
+    const top = pillarFeaturesCatalog
+      .filter((f) => !f.isCategoryGroup)
+      .slice(0, 4)
+      .map((f) => f.name);
+    setSelectedRecommendedFeatures((prev) => Array.from(new Set([...prev, ...top])));
+  };
+
+  const skillPoolTitleByPillar =
+    profile.id === 'origins'
+      ? 'Society Skills Pool (Fixed 20 SP)'
+      : profile.id === 'occupations'
+        ? 'Professional Skills Pool (Fixed 20 SP)'
+        : 'Faction Skill Package (Fixed 20 SP)';
 
   if (!isOpen) return null;
 
@@ -1918,7 +2429,12 @@ export const CodexAiSynthesizerModal = ({
                                       )}
                                       {traitCount > 0 && (
                                         <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-purple-950/70 border border-purple-500/30 text-purple-300 shrink-0">
-                                          {traitCount} Cortex Traits
+                                          {traitCount}{' '}
+                                          {isPillarTraitSelector
+                                            ? pillarMeta.pluralLabel
+                                            : isSpeciesPackageBuilder
+                                              ? 'Species Traits'
+                                              : 'Matching Traits'}
                                         </span>
                                       )}
                                     </div>
@@ -2109,10 +2625,22 @@ export const CodexAiSynthesizerModal = ({
                           type="button"
                           onClick={handleAutoLoadConceptTraits}
                           className="px-2 py-0.5 rounded-lg bg-purple-950/80 hover:bg-purple-900/80 border border-purple-400/50 text-purple-200 text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                          title="Automatically equip top Cortex Species Traits matching this modular concept"
+                          title={
+                            isPillarTraitSelector
+                              ? pillarMeta.autoLoadTitle
+                              : 'Automatically equip top Cortex Species Traits matching this modular concept'
+                          }
                         >
-                          <Dna size={11} className="text-purple-300" />
-                          <span>+ Auto-Load Matching Cortex Traits</span>
+                          {isPillarTraitSelector ? (
+                            <Icon size={11} className="text-purple-300" />
+                          ) : (
+                            <Dna size={11} className="text-purple-300" />
+                          )}
+                          <span>
+                            {isPillarTraitSelector
+                              ? pillarMeta.autoLoadLabel
+                              : '+ Auto-Load Matching Species Traits'}
+                          </span>
                         </button>
                       )}
                     </div>
@@ -2275,7 +2803,7 @@ export const CodexAiSynthesizerModal = ({
               </div>
 
               {/* ═══════════════════════════════════════════════════════════════════════
-                  3. DIRECTIVES, SPECIES TRAIT PULLDOWNS, ADJOINING MODIFIERS & COST TRACKING
+                  3. ASSET-EXPLICIT DIRECTIVES, TRAIT SELECTORS & CALIBRATION TRACKING
                  ═══════════════════════════════════════════════════════════════════════ */}
               <div className="space-y-3.5 bg-slate-950/40 border border-slate-800/90 rounded-xl p-3.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -2283,24 +2811,102 @@ export const CodexAiSynthesizerModal = ({
                     {profile.directivesLabel}
                   </label>
 
-                  {/* Live Cost Summary Pill */}
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-400/50 text-emerald-200 flex items-center gap-1">
-                      <Calculator size={11} className="text-emerald-300" />
-                      <span>
-                        Tracked Package: {costTrackerSummary.totalPackageCp >= 0 ? `+${costTrackerSummary.totalPackageCp}` : costTrackerSummary.totalPackageCp} CP
+                  {/* Context-Aligned Calibration Summary Pill (No cross-asset CP leaks) */}
+                  {calibrationContextSummary.headerPill && (
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-400/50 text-emerald-200 flex items-center gap-1">
+                        <Calculator size={11} className="text-emerald-300" />
+                        <span>{calibrationContextSummary.headerPill}</span>
                       </span>
-                      {costTrackerSummary.targetBudgetCp !== null && (
-                        <span className="text-slate-400">
-                          / {costTrackerSummary.targetBudgetCp} CP Target
-                        </span>
-                      )}
-                    </span>
-                  </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* 3A. CUSTOM ADJUSTMENTS BUILDER (PULLDOWNS FOR SPECIES TRAITS + ADJOINING MODIFIER FIELDS + LIVE COST TRACKING) */}
-                {cortexTraitsCatalog.length > 0 && (
+                {/* 3A-PILLAR. DEDICATED PILLAR TRAIT SELECTOR (FACTIONS, ORIGINS, OCCUPATIONS, ARCHETYPES ONLY) */}
+                {isPillarTraitSelector && cortexTraitsCatalog.length > 0 && (
+                  <div className="space-y-3 bg-slate-900/70 border border-cyan-500/40 rounded-xl p-3 shadow-[0_0_20px_rgba(6,182,212,0.08)]">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+                      <div className="flex items-center gap-2">
+                        <Icon size={15} className="text-cyan-400 shrink-0" />
+                        <div>
+                          <div className="text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                            {pillarMeta.panelTitle}
+                          </div>
+                          <div className="text-[10px] font-mono text-slate-400">
+                            {pillarMeta.panelSubtitle}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono">
+                        <span className="px-2.5 py-0.5 rounded-md bg-slate-950 border border-cyan-500/40 text-cyan-200 font-bold">
+                          Selected {pillarMeta.pluralLabel}: {compiledAdjustmentsPayload.traits.length}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-slate-950 border border-slate-700 text-slate-400">
+                          {pillarMeta.selectionRuleHint}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Selected Pillar Trait Chips */}
+                    {compiledAdjustmentsPayload.traits.length > 0 ? (
+                      <div className="flex flex-wrap gap-1.5">
+                        {adjustmentRows.map((row) => {
+                          const details = computeRowCostDetails(row);
+                          if (details.isBlank) return null;
+                          const item = details.linkedItem;
+                          const displayName = item?.name || row.customName.trim();
+                          if (!displayName) return null;
+                          return (
+                            <span
+                              key={row.rowId}
+                              onClick={() => handleRemoveAdjustmentRow(row.rowId)}
+                              title={`${displayName}: ${item?.mechanic || row.modNotes || 'Click to remove'}`}
+                              className="px-2.5 py-1 rounded-lg bg-cyan-950/75 hover:bg-red-950/70 border border-cyan-400/50 hover:border-red-400 text-cyan-100 hover:text-red-200 text-[10px] font-mono flex items-center gap-1.5 cursor-pointer transition-all"
+                            >
+                              <span className="font-bold">{displayName}</span>
+                              <span className="text-[9px] text-cyan-300/80">(1 CP)</span>
+                              <X size={10} />
+                            </span>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="text-[10px] font-mono text-slate-500 italic">
+                        No {pillarMeta.pluralLabel.toLowerCase()} pinned yet — click traits in the {pillarMeta.catalogTitle} below or let BASTION curate them automatically.
+                      </div>
+                    )}
+
+                    {/* Custom Pillar Trait Input */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 pt-1 border-t border-slate-800/70">
+                      <input
+                        type="text"
+                        value={customPillarTraitInput}
+                        onChange={(e) => setCustomPillarTraitInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddCustomPillarTrait();
+                          }
+                        }}
+                        placeholder={pillarMeta.customPlaceholder}
+                        className="flex-1 px-2.5 py-1.5 bg-slate-950 border border-slate-700/90 focus:border-cyan-400 rounded-lg text-[11px] font-mono text-white placeholder-slate-500 focus:outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddCustomPillarTrait}
+                        disabled={!customPillarTraitInput.trim()}
+                        className="px-2.5 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900/80 disabled:opacity-40 border border-amber-400/50 text-amber-200 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer shrink-0 transition-all"
+                      >
+                        <Plus size={11} />
+                        <span>Add Custom {pillarMeta.singularLabel}</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* 3A-SPECIES. SPECIES 20-CP PACKAGE BUILDER (SPECIES MATRIX ONLY) */}
+                {isSpeciesPackageBuilder && cortexTraitsCatalog.length > 0 && (
                   <div className="space-y-3 bg-slate-900/70 border border-cyan-500/40 rounded-xl p-3 shadow-[0_0_20px_rgba(6,182,212,0.08)]">
                     {/* Header & Live Cost Breakdown Bar */}
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 pb-2 border-b border-slate-800">
@@ -2308,7 +2914,7 @@ export const CodexAiSynthesizerModal = ({
                         <Sliders size={14} className="text-cyan-400 shrink-0" />
                         <div>
                           <div className="text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
-                            Custom Trait &amp; Modifier Adjustments + Live CP Cost Tracker
+                            Species Trait &amp; Modifier Adjustments + Live 20-CP Cost Tracker
                           </div>
                           <div className="text-[10px] font-mono text-slate-400">
                             Select Cortex Species Traits via pulldown, configure adjoining attribute/skill/stat modifiers, and track live CP costs
@@ -2749,23 +3355,24 @@ export const CodexAiSynthesizerModal = ({
                   </div>
                 )}
 
-                {/* 3B. Live Cortex Species Traits & Disadvantages Browser (Quick Visual Catalog) */}
+                {/* 3B. Live Canonical Traits Quick-Browser (Asset-Scoped to Species OR Active Pillar) */}
                 {cortexTraitsCatalog.length > 0 && (
                   <div className="space-y-2.5 bg-slate-900/60 border border-purple-500/30 rounded-xl p-3">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <Dna size={14} className="text-purple-400 shrink-0" />
+                        {isPillarTraitSelector ? (
+                          <Icon size={14} className="text-purple-400 shrink-0" />
+                        ) : (
+                          <Dna size={14} className="text-purple-400 shrink-0" />
+                        )}
                         <span className="text-[11px] font-mono font-bold text-purple-300 uppercase tracking-wider">
-                          Cortex{' '}
-                          {['origins', 'occupations', 'archetypes', 'factions', 'traits'].includes(
-                            profile.id
-                          )
-                            ? 'Pillar'
-                            : 'Species'}{' '}
-                          Traits Quick-Browser (Click to Add/Remove Row Above)
+                          {isPillarTraitSelector
+                            ? `${pillarMeta.catalogTitle} (Click to Pin/Unpin)`
+                            : 'Cortex Species Traits & Flaws Quick-Browser (Click to Add/Remove Row Above)'}
                         </span>
                         <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-purple-950/80 border border-purple-500/40 text-purple-200">
-                          {cortexTraitsCatalog.length} Canonical Traits
+                          {cortexTraitsCatalog.length} Canonical{' '}
+                          {isPillarTraitSelector ? pillarMeta.pluralLabel : 'Species Traits'}
                           {cortexDisadvantagesCatalog.length > 0
                             ? ` • ${cortexDisadvantagesCatalog.length} Flaws`
                             : ''}
@@ -2777,17 +3384,25 @@ export const CodexAiSynthesizerModal = ({
                           type="button"
                           onClick={handleAutoLoadConceptTraits}
                           className="px-2 py-0.5 rounded-lg bg-purple-950/80 hover:bg-purple-900/80 border border-purple-400/50 text-purple-200 text-[10px] font-mono font-bold flex items-center gap-1 transition-all cursor-pointer"
-                          title="Auto-select top Cortex traits matching your Part 1 concept"
+                          title={
+                            isPillarTraitSelector
+                              ? pillarMeta.autoLoadTitle
+                              : 'Auto-select top Cortex Species Traits matching your Part 1 concept'
+                          }
                         >
                           <Sparkles size={10} className="text-purple-300" />
-                          <span>+ Load Concept Traits</span>
+                          <span>
+                            {isPillarTraitSelector
+                              ? pillarMeta.autoLoadLabel
+                              : '+ Load Concept Traits'}
+                          </span>
                         </button>
 
                         <button
                           type="button"
                           onClick={handleRandomizeCortexTraits}
                           className="px-2 py-0.5 rounded-lg bg-slate-950 hover:bg-slate-800 border border-slate-700 text-slate-300 text-[10px] font-mono flex items-center gap-1 transition-all cursor-pointer"
-                          title="Pick 3 random Cortex traits"
+                          title={`Pick 3 random ${isPillarTraitSelector ? pillarMeta.pluralLabel : 'Cortex Species Traits'}`}
                         >
                           <Shuffle size={10} />
                           <span>Random 3</span>
@@ -2799,7 +3414,7 @@ export const CodexAiSynthesizerModal = ({
                             onClick={() => setAdjustmentRows([createBlankAdjustmentRow()])}
                             className="px-2 py-0.5 rounded-lg bg-slate-950 hover:bg-red-950/60 border border-slate-700 hover:border-red-500/50 text-slate-400 hover:text-red-200 text-[10px] font-mono transition-all cursor-pointer"
                           >
-                            Reset Rows ({costTrackerSummary.activeRowCount})
+                            Clear Selected ({costTrackerSummary.activeRowCount})
                           </button>
                         )}
                       </div>
@@ -2808,51 +3423,72 @@ export const CodexAiSynthesizerModal = ({
                     {/* Filter Tabs + Live Search Input */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex flex-wrap gap-1">
-                        {[
-                          {
-                            id: 'suggested',
-                            label: `★ Concept Match (${conceptSuggestedTraits.length})`
-                          },
-                          {
-                            id: 'basic',
-                            label: `Basic 1 CP (${
-                              cortexTraitsCatalog.filter((t) => t.tierKey === 'basic' || t.cp === 1)
-                                .length
-                            })`
-                          },
-                          ...(cortexTraitsCatalog.some(
-                            (t) => t.tierKey === 'advanced' || t.cp === 2
-                          )
-                            ? [
-                                {
-                                  id: 'advanced',
-                                  label: `Adv 2 CP (${
-                                    cortexTraitsCatalog.filter(
-                                      (t) => t.tierKey === 'advanced' || t.cp === 2
-                                    ).length
-                                  })`
-                                }
-                              ]
-                            : []),
-                          ...(cortexTraitsCatalog.some((t) => t.tierKey === 'elite' || t.cp >= 4)
-                            ? [
-                                {
-                                  id: 'elite',
-                                  label: `Elite 4 CP (${
-                                    cortexTraitsCatalog.filter(
-                                      (t) => t.tierKey === 'elite' || t.cp >= 4
-                                    ).length
-                                  })`
-                                }
-                              ]
-                            : []),
-                          { id: 'sensory_psi', label: 'Sensory & Psi' },
-                          { id: 'combat_armor', label: 'Combat & DR' },
-                          { id: 'mobility_form', label: 'Mobility & Form' },
-                          ...(cortexDisadvantagesCatalog.length > 0
-                            ? [{ id: 'flaws', label: `Flaws (${cortexDisadvantagesCatalog.length})` }]
-                            : [])
-                        ].map((tab) => (
+                        {(isPillarTraitSelector
+                          ? [
+                              {
+                                id: 'suggested',
+                                label: `★ Concept Match (${conceptSuggestedTraits.length})`
+                              },
+                              {
+                                id: 'all',
+                                label: `All ${pillarMeta.pluralLabel} (${cortexTraitsCatalog.length})`
+                              },
+                              ...pillarClassificationTabs
+                            ]
+                          : [
+                              {
+                                id: 'suggested',
+                                label: `★ Concept Match (${conceptSuggestedTraits.length})`
+                              },
+                              {
+                                id: 'basic',
+                                label: `Basic 1 CP (${
+                                  cortexTraitsCatalog.filter(
+                                    (t) => t.tierKey === 'basic' || t.cp === 1
+                                  ).length
+                                })`
+                              },
+                              ...(cortexTraitsCatalog.some(
+                                (t) => t.tierKey === 'advanced' || t.cp === 2
+                              )
+                                ? [
+                                    {
+                                      id: 'advanced',
+                                      label: `Adv 2 CP (${
+                                        cortexTraitsCatalog.filter(
+                                          (t) => t.tierKey === 'advanced' || t.cp === 2
+                                        ).length
+                                      })`
+                                    }
+                                  ]
+                                : []),
+                              ...(cortexTraitsCatalog.some(
+                                (t) => t.tierKey === 'elite' || t.cp >= 4
+                              )
+                                ? [
+                                    {
+                                      id: 'elite',
+                                      label: `Elite 4 CP (${
+                                        cortexTraitsCatalog.filter(
+                                          (t) => t.tierKey === 'elite' || t.cp >= 4
+                                        ).length
+                                      })`
+                                    }
+                                  ]
+                                : []),
+                              { id: 'sensory_psi', label: 'Sensory & Psi' },
+                              { id: 'combat_armor', label: 'Combat & DR' },
+                              { id: 'mobility_form', label: 'Mobility & Form' },
+                              ...(cortexDisadvantagesCatalog.length > 0
+                                ? [
+                                    {
+                                      id: 'flaws',
+                                      label: `Flaws (${cortexDisadvantagesCatalog.length})`
+                                    }
+                                  ]
+                                : [])
+                            ]
+                        ).map((tab) => (
                           <button
                             key={tab.id}
                             type="button"
@@ -2886,7 +3522,11 @@ export const CodexAiSynthesizerModal = ({
                             setTraitSearchQuery(e.target.value);
                             setShowAllTraitsInTab(false);
                           }}
-                          placeholder="Search Cortex traits (e.g. Carapace, Flight)..."
+                          placeholder={
+                            isPillarTraitSelector
+                              ? pillarMeta.searchPlaceholder
+                              : 'Search Cortex Species Traits (e.g. Carapace, Flight)...'
+                          }
                           className="w-full pl-7 pr-6 py-1 bg-slate-950 border border-slate-700/80 rounded-lg text-[10px] font-mono text-white placeholder-slate-500 focus:outline-none focus:border-purple-400"
                         />
                         {traitSearchQuery && (
@@ -2957,8 +3597,496 @@ export const CodexAiSynthesizerModal = ({
                         >
                           {showAllTraitsInTab
                             ? 'Show Compact List (15)'
-                            : `Show All ${filteredCortexTraits.length} Matching Cortex Traits`}
+                            : `Show All ${filteredCortexTraits.length} Matching ${
+                                isPillarTraitSelector ? pillarMeta.pluralLabel : 'Species Traits'
+                              }`}
                         </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 3B-CATALOGS. FIXED 20-SP SKILL CATALOG & RECOMMENDED FEATURES (-1 CP) CATALOG (ORIGINS, OCCUPATIONS, FACTIONS) */}
+                {is20SpPillarMatrix && (
+                  <div className="space-y-3 bg-slate-900/65 border border-emerald-500/40 rounded-xl p-3 shadow-[0_0_20px_rgba(16,185,129,0.08)]">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+                      <div className="flex items-center gap-2">
+                        <BookOpen size={15} className="text-emerald-400 shrink-0" />
+                        <div>
+                          <div className="text-[11px] font-mono font-bold text-emerald-300 uppercase tracking-wider">
+                            {skillPoolTitleByPillar} &amp; Recommended Features Catalog
+                          </div>
+                          <div className="text-[10px] font-mono text-slate-400">
+                            Fixed 20-Point Skill Pool (non-adjustable) + Omnicortex Feature Catalog (-1 CP Folio Discount)
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono">
+                        <span className="px-2.5 py-0.5 rounded-md bg-emerald-950/90 border border-emerald-400/50 text-emerald-200 font-bold">
+                          Fixed 20 SP Pool (Non-Adjustable)
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-slate-950 border border-cyan-500/40 text-cyan-200">
+                          Skills: <strong>{selectedPillarSkills.length}</strong>
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-slate-950 border border-amber-500/40 text-amber-200">
+                          Features (-1 CP): <strong>{selectedRecommendedFeatures.length}</strong>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Pinned Skills & Pinned Recommended Features Chips */}
+                    {(selectedPillarSkills.length > 0 || selectedRecommendedFeatures.length > 0) && (
+                      <div className="space-y-1.5">
+                        {selectedPillarSkills.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="text-[9.5px] font-mono font-bold uppercase text-emerald-400 mr-1">
+                              20-SP Pool Skills:
+                            </span>
+                            {selectedPillarSkills.map((sk) => (
+                              <button
+                                key={`pin_sk_${sk}`}
+                                type="button"
+                                onClick={() => togglePillarSkill(sk)}
+                                className="px-2 py-0.5 rounded-md bg-emerald-950/80 hover:bg-red-950/70 border border-emerald-500/50 hover:border-red-400 text-emerald-100 hover:text-red-200 text-[10px] font-mono flex items-center gap-1 cursor-pointer transition-all"
+                                title={`Remove ${sk} from 20-SP pool`}
+                              >
+                                <span>{sk}</span>
+                                <X size={10} />
+                              </button>
+                            ))}
+                          </div>
+                        )}
+
+                        {selectedRecommendedFeatures.length > 0 && (
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="text-[9.5px] font-mono font-bold uppercase text-amber-300 mr-1">
+                              Recommended Features (-1 CP):
+                            </span>
+                            {selectedRecommendedFeatures.map((ft) => (
+                              <button
+                                key={`pin_ft_${ft}`}
+                                type="button"
+                                onClick={() => toggleRecommendedFeature(ft)}
+                                className="px-2 py-0.5 rounded-md bg-amber-950/70 hover:bg-red-950/70 border border-amber-500/50 hover:border-red-400 text-amber-100 hover:text-red-200 text-[10px] font-mono flex items-center gap-1 cursor-pointer transition-all"
+                                title={`Remove ${ft} from Recommended Features`}
+                              >
+                                <span>{ft}</span>
+                                <span className="text-[9px] text-emerald-300">(-1 CP)</span>
+                                <X size={10} />
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Catalog Mode Switcher: Skill Catalog vs Feature Catalog */}
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setActivePillarCatalogTab('skills')}
+                          className={`px-3 py-1 rounded-lg text-[10.5px] font-mono font-bold uppercase border flex items-center gap-1.5 cursor-pointer transition-all ${
+                            activePillarCatalogTab === 'skills'
+                              ? 'bg-emerald-950/90 border-emerald-400 text-emerald-200 shadow-sm'
+                              : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          <BookOpen size={11} />
+                          <span>Skill Catalog ({pillarSkillsCatalog.length})</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActivePillarCatalogTab('features')}
+                          className={`px-3 py-1 rounded-lg text-[10.5px] font-mono font-bold uppercase border flex items-center gap-1.5 cursor-pointer transition-all ${
+                            activePillarCatalogTab === 'features'
+                              ? 'bg-amber-950/90 border-amber-400 text-amber-200 shadow-sm'
+                              : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          <Award size={11} />
+                          <span>Feature Catalog ({pillarFeaturesCatalog.length})</span>
+                        </button>
+                      </div>
+
+                      {activePillarCatalogTab === 'skills' ? (
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={handleAutoLoadConceptSkills}
+                            className="px-2 py-0.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-900/80 border border-emerald-400/50 text-emerald-200 text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer"
+                          >
+                            <Sparkles size={10} />
+                            <span>+ Load Concept Skills</span>
+                          </button>
+                          {selectedPillarSkills.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => setSelectedPillarSkills([])}
+                              className="px-2 py-0.5 rounded-lg bg-slate-950 hover:bg-red-950/60 border border-slate-700 text-slate-400 hover:text-red-200 text-[10px] font-mono cursor-pointer"
+                            >
+                              Clear Skills
+                            </button>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={handleAutoLoadConceptFeatures}
+                            className="px-2 py-0.5 rounded-lg bg-amber-950/80 hover:bg-amber-900/80 border border-amber-400/50 text-amber-200 text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer"
+                          >
+                            <Sparkles size={10} />
+                            <span>+ Load Concept Features</span>
+                          </button>
+                          {selectedRecommendedFeatures.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => setSelectedRecommendedFeatures([])}
+                              className="px-2 py-0.5 rounded-lg bg-slate-950 hover:bg-red-950/60 border border-slate-700 text-slate-400 hover:text-red-200 text-[10px] font-mono cursor-pointer"
+                            >
+                              Clear Features
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Active Catalog View: Skills OR Features */}
+                    {activePillarCatalogTab === 'skills' ? (
+                      <div className="space-y-2">
+                        {/* Primary Skill Group Filter Bar + Live Search */}
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
+                          <div className="flex flex-wrap gap-1">
+                            {[
+                              { id: 'all', label: `All (${pillarSkillsCatalog.length})` },
+                              { id: 'suggested', label: `★ Concept Match (${skillFilterStats.suggestedCount})` },
+                              { id: 'groups', label: `Skill Groups (${skillFilterStats.byGroup.groups})` },
+                              { id: 'physical', label: `Physical (${skillFilterStats.byGroup.physical})` },
+                              { id: 'mental', label: `Mental (${skillFilterStats.byGroup.mental})` },
+                              { id: 'social', label: `Social (${skillFilterStats.byGroup.social})` },
+                              { id: 'combat', label: `Combat (${skillFilterStats.byGroup.combat})` },
+                              { id: 'meta', label: `Metafocus (${skillFilterStats.byGroup.meta})` }
+                            ].map((tab) => (
+                              <button
+                                key={tab.id}
+                                type="button"
+                                onClick={() => {
+                                  setSkillGroupFilter(tab.id);
+                                  setSkillSubcategoryFilter('all');
+                                  setShowAllSkillsInCatalog(false);
+                                }}
+                                className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold border cursor-pointer transition-all ${
+                                  skillGroupFilter === tab.id
+                                    ? 'bg-emerald-950 border-emerald-400 text-emerald-200 shadow-sm'
+                                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                                }`}
+                              >
+                                {tab.label}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="relative min-w-[210px]">
+                            <Search
+                              size={12}
+                              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                            />
+                            <input
+                              type="text"
+                              value={skillCatalogSearch}
+                              onChange={(e) => {
+                                setSkillCatalogSearch(e.target.value);
+                                setShowAllSkillsInCatalog(false);
+                              }}
+                              placeholder="Search Skill Catalog (e.g. Pilot, Ballistic)..."
+                              className="w-full pl-7 pr-6 py-1 bg-slate-950 border border-slate-700/80 rounded-lg text-[10px] font-mono text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+                            />
+                            {skillCatalogSearch && (
+                              <button
+                                type="button"
+                                onClick={() => setSkillCatalogSearch('')}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                              >
+                                <X size={11} />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Subcategory Drill-Down Bar (Mental, Social, Combat, Metafocus) + Governing Attribute Filter Bar */}
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
+                          {Array.isArray(SKILL_SUBCATEGORY_FILTERS[skillGroupFilter]) && (
+                            <div className="flex flex-wrap items-center gap-1">
+                              <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-cyan-400 mr-0.5">
+                                Subcategory:
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setSkillSubcategoryFilter('all')}
+                                className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold border cursor-pointer transition-all ${
+                                  skillSubcategoryFilter === 'all'
+                                    ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                                    : 'bg-slate-950/90 border-slate-800 text-slate-400 hover:text-slate-200'
+                                }`}
+                              >
+                                All ({skillFilterStats.byGroup[skillGroupFilter] || 0})
+                              </button>
+                              {SKILL_SUBCATEGORY_FILTERS[skillGroupFilter].map((sub) => {
+                                const subCount =
+                                  skillFilterStats.bySubcategory[
+                                    `${skillGroupFilter}:${sub.toLowerCase()}`
+                                  ] || 0;
+                                return (
+                                  <button
+                                    key={sub}
+                                    type="button"
+                                    onClick={() => setSkillSubcategoryFilter(sub)}
+                                    className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold border cursor-pointer transition-all ${
+                                      skillSubcategoryFilter === sub
+                                        ? 'bg-cyan-950 border-cyan-400 text-cyan-200'
+                                        : 'bg-slate-950/90 border-slate-800 text-slate-400 hover:text-slate-200'
+                                    }`}
+                                  >
+                                    {sub} ({subCount})
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {skillGroupFilter !== 'groups' && (
+                            <div className="flex flex-wrap items-center gap-1">
+                              <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-400 mr-0.5">
+                                Ability:
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setSkillAttrFilter('all')}
+                                className={`px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold border cursor-pointer transition-all ${
+                                  skillAttrFilter === 'all'
+                                    ? 'bg-indigo-950 border-indigo-400 text-indigo-200'
+                                    : 'bg-slate-950/90 border-slate-800 text-slate-400 hover:text-slate-200'
+                                }`}
+                              >
+                                All
+                              </button>
+                              {SKILL_ATTRIBUTE_FILTERS.map((attrCode) => (
+                                <button
+                                  key={attrCode}
+                                  type="button"
+                                  onClick={() =>
+                                    setSkillAttrFilter((prev) =>
+                                      prev === attrCode ? 'all' : attrCode
+                                    )
+                                  }
+                                  className={`px-1.5 py-0.5 rounded text-[9.5px] font-mono font-bold border cursor-pointer transition-all ${
+                                    skillAttrFilter === attrCode
+                                      ? 'bg-indigo-950 border-indigo-400 text-indigo-200'
+                                      : 'bg-slate-950/90 border-slate-800 text-slate-400 hover:text-slate-200'
+                                  }`}
+                                  title={`Filter skills governed by ${attrCode}`}
+                                >
+                                  {attrCode} ({skillFilterStats.byAttr[attrCode] || 0})
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {filteredPillarSkills.length === 0 ? (
+                          <div className="py-4 text-center text-[11px] font-mono text-slate-400 bg-slate-950/60 border border-slate-800/80 rounded-lg">
+                            No skills match the active filter combination.{' '}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSkillGroupFilter('all');
+                                setSkillSubcategoryFilter('all');
+                                setSkillAttrFilter('all');
+                                setSkillCatalogSearch('');
+                              }}
+                              className="text-emerald-300 underline cursor-pointer ml-1"
+                            >
+                              Reset Skill Filters
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 max-h-56 overflow-y-auto pr-1">
+                            {(skillGroupFilter !== 'all' ||
+                            skillAttrFilter !== 'all' ||
+                            skillCatalogSearch.trim() ||
+                            showAllSkillsInCatalog
+                              ? filteredPillarSkills
+                              : filteredPillarSkills.slice(0, 30)
+                            ).map((sk) => {
+                              const isPinned = selectedPillarSkills.includes(sk.name);
+                              return (
+                                <button
+                                  key={sk.id}
+                                  type="button"
+                                  onClick={() => togglePillarSkill(sk.name)}
+                                  title={sk.description || sk.name}
+                                  className={`p-2 rounded-lg text-left border transition-all flex flex-col justify-between gap-0.5 cursor-pointer ${
+                                    isPinned
+                                      ? 'bg-emerald-950/60 border-emerald-400 text-emerald-100'
+                                      : 'bg-slate-950/80 border-slate-800/90 text-slate-300 hover:bg-slate-900 hover:border-slate-700'
+                                  }`}
+                                >
+                                  <div className="flex items-center justify-between gap-1.5">
+                                    <span className="text-[11px] font-mono font-bold text-slate-100 truncate">
+                                      {isPinned ? '✓ ' : '+ '}
+                                      {sk.name}
+                                    </span>
+                                    {sk.primaryAttrBadge && (
+                                      <span
+                                        className={`text-[9px] font-mono px-1.5 py-0.2 rounded border shrink-0 ${
+                                          sk.isSkillGroup
+                                            ? 'bg-amber-950/80 border-amber-500/40 text-amber-300'
+                                            : 'bg-slate-900 border-slate-700 text-cyan-300'
+                                        }`}
+                                      >
+                                        {sk.primaryAttrBadge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="text-[9px] font-mono text-slate-400 truncate">
+                                    {sk.categoryLabel}
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {skillGroupFilter === 'all' &&
+                          skillAttrFilter === 'all' &&
+                          !skillCatalogSearch.trim() &&
+                          filteredPillarSkills.length > 30 && (
+                            <div className="flex justify-center pt-1">
+                              <button
+                                type="button"
+                                onClick={() => setShowAllSkillsInCatalog((prev) => !prev)}
+                                className="px-3 py-1 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 text-[10px] font-mono text-emerald-300 cursor-pointer"
+                              >
+                                {showAllSkillsInCatalog
+                                  ? 'Show Top 30 Skills'
+                                  : `Show All ${filteredPillarSkills.length} Skills & Groups`}
+                              </button>
+                            </div>
+                          )}
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2">
+                          <div className="flex flex-wrap gap-1">
+                            {[
+                              { id: 'all', label: `All (${pillarFeaturesCatalog.length})` },
+                              { id: 'suggested', label: `★ Concept Match (${featureFilterCounts.suggestedCount})` },
+                              { id: 'Feature Groups', label: `Feature Groups (${featureFilterCounts.counts['Feature Groups'] || 0})` },
+                              ...FEATURE_CATEGORIES.map((cat) => ({
+                                id: cat,
+                                label: `${cat} (${featureFilterCounts.counts[cat] || 0})`
+                              }))
+                            ].map((tab) => (
+                              <button
+                                key={tab.id}
+                                type="button"
+                                onClick={() => {
+                                  setFeatureCategoryFilter(tab.id);
+                                  setShowAllFeaturesInCatalog(false);
+                                }}
+                                className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold border cursor-pointer transition-all ${
+                                  featureCategoryFilter === tab.id
+                                    ? 'bg-amber-950 border-amber-400 text-amber-200 shadow-sm'
+                                    : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                                }`}
+                              >
+                                {tab.label}
+                              </button>
+                            ))}
+                          </div>
+
+                          <div className="relative min-w-[210px]">
+                            <Search
+                              size={12}
+                              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
+                            />
+                            <input
+                              type="text"
+                              value={featureCatalogSearch}
+                              onChange={(e) => {
+                                setFeatureCatalogSearch(e.target.value);
+                                setShowAllFeaturesInCatalog(false);
+                              }}
+                              placeholder="Search Feature Catalog (e.g. Tough, Gearhead)..."
+                              className="w-full pl-7 pr-6 py-1 bg-slate-950 border border-slate-700/80 rounded-lg text-[10px] font-mono text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                            />
+                            {featureCatalogSearch && (
+                              <button
+                                type="button"
+                                onClick={() => setFeatureCatalogSearch('')}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
+                              >
+                                <X size={11} />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 max-h-56 overflow-y-auto pr-1">
+                          {(featureCategoryFilter !== 'all' ||
+                          featureCatalogSearch.trim() ||
+                          showAllFeaturesInCatalog
+                            ? filteredPillarFeatures
+                            : filteredPillarFeatures.slice(0, 30)
+                          ).map((ft) => {
+                            const isPinned = selectedRecommendedFeatures.includes(ft.name);
+                            return (
+                              <button
+                                key={ft.id}
+                                type="button"
+                                onClick={() => toggleRecommendedFeature(ft.name)}
+                                title={ft.description || ft.name}
+                                className={`p-2 rounded-lg text-left border transition-all flex flex-col justify-between gap-0.5 cursor-pointer ${
+                                  isPinned
+                                    ? 'bg-amber-950/60 border-amber-400 text-amber-100'
+                                    : 'bg-slate-950/80 border-slate-800/90 text-slate-300 hover:bg-slate-900 hover:border-slate-700'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between gap-1.5">
+                                  <span className="text-[11px] font-mono font-bold text-slate-100 truncate">
+                                    {isPinned ? '✓ ' : '+ '}
+                                    {ft.name}
+                                  </span>
+                                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 shrink-0">
+                                    {ft.isCategoryGroup ? 'GROUP (-1 CP)' : `${ft.discountedCp} CP (-1)`}
+                                  </span>
+                                </div>
+                                <div className="text-[9px] font-mono text-slate-400 truncate">
+                                  {ft.category}
+                                  {ft.prereq ? ` • Req: ${ft.prereq}` : ''}
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {featureCategoryFilter === 'all' &&
+                          !featureCatalogSearch.trim() &&
+                          filteredPillarFeatures.length > 30 && (
+                            <div className="flex justify-center pt-1">
+                              <button
+                                type="button"
+                                onClick={() => setShowAllFeaturesInCatalog((prev) => !prev)}
+                                className="px-3 py-1 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 text-[10px] font-mono text-amber-300 cursor-pointer"
+                              >
+                                {showAllFeaturesInCatalog
+                                  ? 'Show Top 30 Features'
+                                  : `Show All ${filteredPillarFeatures.length} Matching Features`}
+                              </button>
+                            </div>
+                          )}
                       </div>
                     )}
                   </div>
@@ -2969,7 +4097,10 @@ export const CodexAiSynthesizerModal = ({
                   <div className="space-y-2 bg-slate-900/50 border border-slate-800/80 rounded-xl p-2.5">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="text-[10px] font-mono font-bold text-slate-300 uppercase tracking-wider">
-                        Tactical, Biological &amp; Package Directive Examples:
+                        {profile.directiveExamplesLabel ||
+                          (isSpeciesPackageBuilder
+                            ? 'Species Biological & Package Directive Presets:'
+                            : `${matrix?.name || 'Matrix'} Synthesis Directive Presets:`)}
                       </span>
                       {Array.isArray(profile.directiveCategories) &&
                         profile.directiveCategories.length > 0 && (
@@ -3063,11 +4194,10 @@ export const CodexAiSynthesizerModal = ({
                   <>
                     <Cpu size={16} />
                     <span>
-                      BASTION Synthesize &amp; Pre-Fill {matrix?.name || 'Matrix'} (
-                      {costTrackerSummary.totalPackageCp >= 0
-                        ? `${costTrackerSummary.totalPackageCp} CP`
-                        : `${costTrackerSummary.totalPackageCp} CP`}
-                      )
+                      BASTION Synthesize &amp; Pre-Fill {matrix?.name || 'Matrix'}
+                      {calibrationContextSummary.buttonSuffix
+                        ? ` ${calibrationContextSummary.buttonSuffix}`
+                        : ''}
                     </span>
                   </>
                 )}

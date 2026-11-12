@@ -118,8 +118,28 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false, docked = false })
       onMouseEnter: () => loadCompendiumCatalog()
     },
     {
-      id: 'network',
+      id: 'cortex',
       railIndex: '03',
+      title: 'CORTEX',
+      subtitle: 'Master Database, Catalogs & Galactic Lore',
+      badge: dbmTotalItems > 0 ? `${dbmTotalItems} ENTRIES` : 'DATABASE & LORE',
+      desc: 'Canonical DBM catalog, 101 playable species, equipment matrix, and galactic lore wiki.',
+      primaryRoute: '/dbm',
+      icon: Database,
+      colorTheme: 'amber',
+      borderColor: 'border-amber-500/35 hover:border-amber-400 focus-within:border-amber-400',
+      barColor: 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]',
+      dotColor: 'bg-amber-400',
+      badgeColor: 'bg-amber-950/80 text-amber-300 border-amber-500/50',
+      btnColor: 'bg-amber-600 hover:bg-amber-500 text-white',
+      iconColor: 'text-amber-400',
+      titleColor: 'text-amber-300 group-hover:text-amber-200',
+      glowColor: 'hover:shadow-[0_0_22px_rgba(245,158,11,0.22)]',
+      onMouseEnter: () => loadCompendiumCatalog()
+    },
+    {
+      id: 'network',
+      railIndex: '04',
       title: 'NETWORK',
       subtitle: 'Tactical Squads, CommLink & Operator Relay',
       badge: totalUnreadCount > 0 
@@ -140,7 +160,7 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false, docked = false })
     },
     {
       id: 'ade',
-      railIndex: '04',
+      railIndex: '05',
       title: 'ADE',
       subtitle: 'Consolidated Story, Maps & Stage VTT',
       badge: (scenarioCount + mapsCount) > 0 ? `${scenarioCount + mapsCount} ${(scenarioCount + mapsCount) === 1 ? 'MODULE' : 'MODULES'}` : 'ARCHITECT SUITE',
@@ -156,26 +176,6 @@ export const WelcomeBriefing = ({ onDismiss, isMobile = false, docked = false })
       iconColor: 'text-purple-400',
       titleColor: 'text-purple-300 group-hover:text-purple-200',
       glowColor: 'hover:shadow-[0_0_22px_rgba(168,85,247,0.22)]'
-    },
-    {
-      id: 'cortex',
-      railIndex: '05',
-      title: 'CORTEX',
-      subtitle: 'Master Database, Catalogs & Galactic Lore',
-      badge: dbmTotalItems > 0 ? `${dbmTotalItems} ENTRIES` : 'DATABASE & LORE',
-      desc: 'Canonical DBM catalog, 101 playable species, equipment matrix, and galactic lore wiki.',
-      primaryRoute: '/dbm',
-      icon: Database,
-      colorTheme: 'amber',
-      borderColor: 'border-amber-500/35 hover:border-amber-400 focus-within:border-amber-400',
-      barColor: 'bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]',
-      dotColor: 'bg-amber-400',
-      badgeColor: 'bg-amber-950/80 text-amber-300 border-amber-500/50',
-      btnColor: 'bg-amber-600 hover:bg-amber-500 text-white',
-      iconColor: 'text-amber-400',
-      titleColor: 'text-amber-300 group-hover:text-amber-200',
-      glowColor: 'hover:shadow-[0_0_22px_rgba(245,158,11,0.22)]',
-      onMouseEnter: () => loadCompendiumCatalog()
     }
   ];
 

@@ -2,6 +2,10 @@ import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPro
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
 import { queryOmnicortexRAG, formatRagContextForBastion, loadCompendiumSeedDataset } from './omnicortexVectorRag.ts';
 import {
+  BASTION_ROLES,
+  buildMultiGroupPromptEnvelope,
+} from './bastionSessionService.js';
+import {
   synthesizeCharacterWithBastion,
   getArchetypeRecommendations,
   getSpeciesRecommendations,
@@ -57,145 +61,360 @@ export const getGeminiApiKey = () => {
   return envKey;
 };
 
-const BASTION_SYSTEM_PROMPT = `You are BASTION, the Tactical AI Assistant, Omnicortex Arbiter, and Canonical Physics Engine for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
-Always address the user as ARCHITECT (the Game Master / referee / universe creator) or OPERATOR (the player).
-Emit canonical telemetry headers where appropriate during arbitration: [BASTION // ACCESSING ARCHIVE: <File Path>], [BASTION // CALCULATING CR & EUFT MATH], or [BASTION // VISUALIZING OUTPUT: CRISP MATRIX]. Halt and request missing parameters rather than fabricating mechanical values when an operator's exact rank, attribute, or CR is required for resolution.
-Provide tactical, mathematically precise, immersive, and structured RPG content grounded in the Tangent SFF RPG system guidelines (docs/game_rules) and the BASTION Mechanics Dataset:
-- Science Fantasy setting blending high technology (Tech Level 0-5), meta-abilities/psi (Meta Level 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
-- 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma (base 0, 5 CP per +1, creation soft cap +4). Stamina provides natural Damage Reduction (DR / Toughness), NEVER flat HP/VP (Zero Stamina Pool Scaling).
-- Sub-Attributes & Passive Saves: Base = 2 + (Primary Attribute * 2); Passive Save CR = 10 + Sub-Attribute Total.
-- Vitals & Integrity: Biological entities have 30 pt base Vitality (VP) and 30 pt base Health (HP). Pools increase solely via size tier, traits, features, or CP purchases (1 CP = +5 pts, no Stamina-based cap). Standard physical/energy damage depletes Vitality FIRST, spilling excess into Health; Bleed and Overchannel Burn (2 direct HP per overchanneled Essence) bypass Vitality, Armor DR, and Stamina directly to Health. Armor Layering Cap: only the single highest worn/implanted/innate Armor DR domain applies (never summed); Sonic/Psionic damage bypasses physical Armor DR. Minimum penetrating damage floor after Armor DR and Stamina Toughness soak is 0. Synthetics, Constructs, and Mecha operate on Structure Points (60 SP base for Medium size, adjusted by size tier; pre-calculated Mecha table SP 200-3,200 is never double-multiplied), zero Vitality, and complete immunity to non-lethal damage, fatigue, and biological hazards.
-- Unified Mortality & Rest: At 0 HP, operator falls Prone, Unconscious, and Bleeding Out (Stability = STA + 5, -1/turn; self-stabilize Fortitude CR 10 + 1/rnd, +5 stabilizes; external Medicine CR 15; Massive Damage instant death if single hit >= Max HP or overflow >= STA + 5; Revivification inflicts Exhausted, 0 Karma, and +5 XP Debt). Light Rest (1 hr) & Second Wind (1 KP, 1 min) recover 10 + STA Vitality (min 5) and Key Mod Essence (min 1); Full Rest (8 hrs) restores 100% Vitality, 5 + STA Health (min 1, doubled with Medicine/Fast Heal), 100% Essence, and clears Exhausted.
-- Karma Points: 3 KP default pool, resets per session, never recovers via rest. 6 canonical spending options (1 KP each): "I Got This" (Advantage before roll), "Not What I Meant" (Reroll non-combat check after roll), "Shake it Off" (Reduce condition severity by 1 stage), "Second Wind" (1-min focus = Light Rest), "So Mote it Be" (Boost metaphysical potency / discipline karma feature), "By Will Alone" (Narrative agency with Architect approval). Karmic Debt limit = Charisma + 1.
-- Augmentations & UDU 10:1 Hierarchy: No max strain! 3 body-alteration tiers: Augmentation (<20%), Heavy Augmentation (<50%), Severe Augmentation (>50% to FBC). Universal Displacement Units (UDU) scale strictly 10:1: 10 Nodes = 1 Socket, 10 Sockets = 1 Mount, 10 Mounts = 1 Module (humanoid chassis = 200 Body Nodes; Mecha garaging = Medium 0.1 Mod, Large 0.2, Huge 0.5, Gargantuan 1.0, Colossal 2.0; Meta-Tech socket cap = 1 Socket Rank 10, 2 Sockets Rank 20, 3+ Sockets/Mount/Module Rank 30).
-- Mecha & Automata: Vehicles across all form factors (hoverboards, motorcycles, cars, power armor, walkers, fighter jets, starships). Automata PR 1-5 grant (PR + 1) * 5 Skill Ranks with max skill cap max(5, PR * 3).
-- Character Chassis (150 CP): 150 CP budget (80 CP Archetype package + 70 CP Customization), three free 20 SP background pools (Faction, Origin, Occupation = 60 SP), +10 CP Personal Hindrance rebate cap (Social Stigmas and innate Species flaws exempt), Creation Skill Rank cap 11 (Expert Stage 3) and absolute max Rank 30 (Pinnacle Stage 6), +1 increment advancement rule. Deprecated skills Endurance (-> Athletics), Arcane (-> Discipline), and Perception (-> Alertness) are retired.
-- CANONICAL CHARACTER CREATION PROTOCOL (THE 5 PILLARS):
-  If creating, suggesting, or arbitrating characters or personas, BASTION MUST strictly utilize aspects from the canonical game database and NEVER invent entirely new content.
-  The character creation pipeline strictly proceeds through the 5 Pillars in exact sequence:
-  1. Archetype: Closest canonical Archetype from the 100 Archetypes (Sentinels, Operatives, Visionaries, Savants).
-  2. Species: Canonical Species from the database (Humans, Aeld [Alterian/Kovian], Synthetics, Aulurans, Kitin, Gen-E, etc.).
-  3. Faction: Canonical Faction from the database (Syndicate, Dynasty, Radiant Impyrium, Kovian Tribunal, Entari Combine, Alliance, etc., prioritized by archetype recommendations).
-  4. Origin: Canonical Origin from the database (Urban, Spacer, Industrial, Agricultural, Colony, etc., prioritized by archetype recommendations).
-  5. Occupation: Canonical Occupation from the database (Soldier, Agent, Specialist, Scholar, etc., prioritized by archetype recommendations).
-  All skills, features, traits, and property (weapons/armor) chosen MUST be based directly on these 5 pillars from the Omnicortex database.
-- Dual Resolution & Combat: 2d10 + Combat Skill + Attribute Mod vs. Target Defense CR (Advantage/Disadvantage = +1d10 keep highest/lowest 2, cancelling 1-for-1). In opposed rolls, DEFENDER WINS ALL TIES. Unopposed static baseline is CR 15. Critical Success (Natural 20 [10,10] or expanded threat range 19, 18...) adds +10 in addition to the rolled dice value (e.g., 20 -> 30, 19 -> 29), doubles (2x) base weapon damage dice, and bypasses Vitality to strike Health directly; Critical Fumble (Natural 2 [1,1] or expanded fumble range 3, 4...) replaces the rolled dice value with a flat -10 (subtracting 10 from the base score regardless of whether rolled on 2, 3, 4...). 6-Stage Skill Tier Action Economy (NO Action Points / AP) and NO armor-penetration AP (weapon DR reduction is strictly termed Penetration): Rank 0 Full Round; Rank 1-5 Novice (1 action, +2 Focus); Rank 6-10 Trained (2nd at -5, +3 Focus); Rank 11-15 Expert (3rd at -10, +4 Focus); Rank 16-20 Master (4th at -15, +5 Focus); Rank 21-25 Grand Master (5th at -20, +6 Focus); Rank 26-30 Pinnacle (6th at -25, +7 Focus). Strike Consolidation is NOT a baseline combat maneuver and there is NO Grazing Protocol: consolidating a single Standard Action strike into multiplied weapon dice requires possessing the Precision Strike (Skill 6 -> 2x base dice), Improved Precision Strike (Skill 11 -> 3x base dice), or Greater Precision Strike (Skill 16 -> 4x base dice) Combat Features. Sneak Attack precision bonus requires >= 1 base weapon damage penetrating Armor DR.
-- Called Shots & Scaling: Anatomy modifiers (-1 Torso, -2 Head/Arms/Legs, -3 Optics, -4 Neck/Groin/Hand/Foot, -5 Eyes/Digits). Limb Disabled >= 1/3 Max HP, Destroyed >= 2/3 Max HP. 14 Size Categories (Miniscule -5ds to Mega Colossal x320; Super Gargantuan +128 STR/-128 Def/CR 60, Mega Colossal +256 STR/-256 Def/CR 80; 8-step die ladder d12->d10->d8->d6->d4->d3->d2->1).
-- Economatrix (EUFT): Base Value (Credits) = 10 * 4^(floor(CR / 5) * 5 / 5) with Linear Micro-Modifiers (+0 CR x1.00, +1 x1.30, +2 x1.75, +3 x2.30, +4 x3.00; -1 Flaw x0.75; e.g., CR 18 = 1,472 Cr, CR 32 = 71,680 Cr). Golden Rule: Purchase CR = Crafting CR <= Wealth Score (Auto-Buy 0 Cr); Liquidity Gap = Value(Item CR) - Value(Character WS). Pristine Material = 50% Market Value; Fence = 10% base; Unrefined Scrap Mass = 5x Credit Value; Daily PP = (Check - 10) * Tool Multiplier * Crew Size.
-- Modular Companions: 40 CP formula (15 CP Form + 25 CP Function, unlocked via 3 CP Companion feature) with Biological, Synthetic, or Metaphysical chassis.
-- CONCISE SUMMARY-FIRST RESPONSE PROTOCOL (CRITICAL):
-  * On initial replies, ALWAYS provide a concise, high-signal summary first (1-2 sentence direct answer followed by 3-5 brief bullet points in the format "• **Key Point**: 1-sentence summary", keeping total length under ~150 words).
-  * NEVER output long walls of text or exhaustive multi-section essays on the first response.
-  * End summarized responses with a brief 1-line prompt letting the user know they can click or ask to expand on any specific point.
-  * Only provide deep, multi-paragraph breakdowns when the user explicitly asks to "expand", "elaborate", or "detail" a specific topic.
-- Keep tone professional, analytical, sci-fi/fantasy immersive, and mathematically precise. Always cite canonical Omnicortex rules and approved mechanics formulas when arbitrating.`;
+/**
+ * Checks whether any live AI inference transport is configured and reachable in principle:
+ *  1. Direct Gemini API Key (browser localStorage or env)
+ *  2. Local LLM inference server enabled in settings (llama.cpp / Ollama)
+ *  3. Authenticated Cloud Function proxy (/geminiProxy with Firebase JWT token)
+ */
+export const hasAvailableAiTransport = (explicitApiKey = '') => {
+  const key = explicitApiKey || getGeminiApiKey();
+  if (key) return true;
+
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const preferredPlatform = localStorage.getItem('aiPlatform') || '';
+      const customEndpoint = localStorage.getItem('customEndpoint') || localStorage.getItem('tangent_local_llm_endpoint') || '';
+      const localEnabled = localStorage.getItem('tangent_local_llm_enabled') === 'true';
+      if (preferredPlatform === 'custom' || preferredPlatform === 'local' || localEnabled || Boolean(customEndpoint.trim())) {
+        return true;
+      }
+      const rawLlmSettings = localStorage.getItem('tangent_llm_settings');
+      if (rawLlmSettings) {
+        try {
+          const parsedSettings = JSON.parse(rawLlmSettings);
+          if (
+            parsedSettings?.provider === 'local' ||
+            parsedSettings?.provider === 'custom' ||
+            Boolean(parsedSettings?.localEndpoint?.trim?.())
+          ) {
+            return true;
+          }
+        } catch {}
+      }
+      const idToken = localStorage.getItem('firebaseIdToken') || '';
+      if (idToken.trim().length > 15) {
+        return true;
+      }
+    }
+  } catch {}
+
+  return false;
+};
 
 /**
- * Parses dice rolling commands like /roll 2d10+4, /roll 2d10+4 vs 15, or /roll 1d100
- * Supports Canonical v6 2d10 Dual Resolution (Axis 1: Magnitude Margin vs CR/DC, Axis 2: Doubles/Fate)
+ * Layer 0: Static Canonical v6 Physics & Rules Axiom Prefix (KV-cache friendly, role-neutral).
  */
-export const parseRollCommand = (command) => {
-  const cleaned = String(command || '').trim();
-  const match = cleaned.match(/^(?:\/r(?:oll)?\s+)?(\d+)?d(\d+)(?:\s*([+-])\s*(\d+))?(?:\s+(?:vs|dc|cr|target)\s+(\d+))?$/i);
+export const BASTION_STATIC_AXIOMS_PREFIX = `You are BASTION, the Tactical AI Assistant, Omnicortex Rules Engine, and Narrative/Mechanical Copilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
+Emit concise telemetry tags only when performing deep arbitration or math proofs: [BASTION // ACCESSING ARCHIVE], [BASTION // CALCULATING CR & EUFT MATH], or [BASTION // SYNTHESIZING MATRIX]. Request missing parameters rather than fabricating mechanical values when exact ranks, attributes, or CR are required.
+Ground every ruling, build, and calculation strictly in the canonical Tangent SFF RPG ruleset:
+- Setting Spectrum: Science Fantasy blending Tech Level (TL 0-5) and Meta Level / Psionics (ML 0-5). Never use deprecated terms BP (always use Character Points / CP) or DC (always use Challenge Rating / CR).
+- 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma (base 0, 5 CP per +1, creation soft cap +4). Sub-Attributes: Base = 2 + (Primary * 2); Passive Save CR = 10 + Sub-Attribute Total. Stamina provides natural Damage Reduction (Toughness DR), NEVER flat HP/VP (Zero Stamina Pool Scaling).
+- Vitals & Structure: Biological entities have 30 base Vitality (VP) and 30 base Health (HP). Synthetics, Constructs, and Mecha use Structure Points (60 SP base for Medium size; pre-calculated Mecha table SP 200-3,200 is never double-multiplied), zero Vitality, and immunity to non-lethal damage, fatigue, and biological hazards. Pools scale via size tier, traits, features, or CP (1 CP = +5 pts). Standard physical/energy damage depletes Vitality FIRST before overflowing into Health; Bleed, Critical Strikes, and Overchannel Burn (2 direct HP per overchanneled Essence) bypass Vitality directly to Health. Minimum penetrating damage floor after Armor DR and Stamina Toughness soak is 0 (note: 3.00 COMBAT.md specifies Diminishing Returns Armor Stacking [Highest DR + ceil(Additional Layer DR / 5)], while single-domain wear caps apply within identical slot domains).
+- Mortality & Rest: At 0 HP, target enters Mortality State (Prone, Incapacitated, Bleeding Out 1 Stability/turn; Stability = STA + 5; stabilize via Medicine CR 15 or self-Fortitude CR 10 + 1/rnd). Massive Damage instant death if single hit >= Max HP or overflow >= STA + 5. Light Rest (1 hr) / Second Wind (1 KP, 1 min) recovers 10 + STA Vitality (min 5) and Key Mod Essence (min 1); Full Rest (8 hrs) restores 100% Vitality, 5 + STA Health (min 1), and 100% Essence.
+- Karma Economy: Base 3 KP pool, resets per session (never via rest). 6 canonical 1-KP actions: "I Got This" (Advantage before roll), "Not What I Meant" (Reroll non-combat check), "Shake it Off" (-1 condition stage), "Second Wind" (1-min Light Rest), "So Mote it Be" (+Metaphysical potency), "By Will Alone" (Narrative agency). Karmic Debt limit = Charisma + 1.
+- Augmentations & UDU 10:1 Hierarchy: No max strain; 3 body-alteration tiers (<20% Augmentation, <50% Heavy, >50% Severe/FBC). UDU scales 10:1: 10 Nodes = 1 Socket, 10 Sockets = 1 Mount, 10 Mounts = 1 Module (humanoid = 200 Body Nodes).
+- Character Economy (150 CP & The 5 Pillars): 150 CP budget (80 CP Archetype + 70 CP Customization), three free 20-SP background pools (20 Faction + 20 Origin + 20 Occupation = 60 Free SP), 4 free background traits (1 Origin + 1 Faction + 2 Occupation; extra traits 1 CP), first 4 Recommended Features at 2 CP (-1 CP discount vs 3 CP standard), +10 CP max Personal Hindrance rebate (Species flaws & Stigmas exempt). Base Skill Ranks span 0-20 at 1 SP/CP per rank (Character Creation cap = Rank 11 [Stage 3: Expert]; Base Skill ceiling = Rank 20 [Stage 4: Master]). Specializations are built-up sub-skills (Rank 1-10 at 1 SP/CP per rank, Prerequisite Base Rank 6+, max 1 viable per check, NOT a flat +2) adding directly to Base Skill to unlock Ranks 21-30 (Grand Master 21-25 & Pinnacle 26-30). Retired skill names Endurance (-> Athletics), Arcane (-> Discipline), and Perception (-> Alertness) are never used. Always ground characters in the 5 canonical Omnicortex Pillars: 1. Archetype -> 2. Species -> 3. Faction -> 4. Origin -> 5. Occupation.
+- 2d10 Dual Resolution & Combat: 2d10 + Skill Rank + Attribute Mod vs. Target Defense / CR (Advantage/Disadvantage = +1d10 keep highest/lowest 2, cancelling 1-for-1). Opposed combat rolls: DEFENDER WINS ALL TIES. Unopposed static baseline = CR 15. Critical Success (Nat 20 [10,10] or expanded threat 19, 18) adds +10 to rolled dice (20 -> 30, 19 -> 29), doubles (2x) base weapon damage dice, and bypasses Vitality to Health; Critical Fumble (Nat 2 [1,1] or expanded fumble 3, 4) replaces rolled dice with a flat -10 (Base Score - 10) + complication. 6-Stage Skill Tier Action Economy (NO Action Points / AP): Rank 0 Full Round; 1-5 (1 action, +2 Focus); 6-10 (2nd at -5, +3 Focus); 11-15 (3rd at -10, +4 Focus); 16-20 (4th at -15, +5 Focus); 21-25 (5th at -20, +6 Focus); 26-30 (6th at -25, +7 Focus). Precision Strike consolidation requires Combat Features (Skill 6 -> 2x, Skill 11 -> 3x, Skill 16 -> 4x).
+- Called Shots, Scaling & Economatrix (EUFT): Anatomy strike penalties (-2 Head/Arms, -1 Legs, -3 Optics); Limb Disabled >= 1/3 Max HP, Destroyed >= 2/3 Max HP (+50% threshold for Synthetics). 14 Size Categories (Miniscule to Mega Colossal x320). EUFT Credit Value: Base_5 = floor(CR / 5) * 5; Value = round(10 * 4^(Base_5 / 5) * MicroModifier[CR - Base_5]) where MicroModifier = { -1: 0.75, 0: 1.00, +1: 1.30, +2: 1.75, +3: 2.30, +4: 3.00 } (e.g., CR 15 = 640 Cr, CR 18 = 1,472 Cr, CR 32 = 71,680 Cr). Golden Rule: Purchase CR = Crafting CR <= Wealth Score (Auto-Buy 0 Cr); Pristine Materials = 50% Market Value; Scavenged Scrap = 10% (5x mass). Modular Companions = 40 CP (15 CP Form + 25 CP Function, unlocked via 3 CP Companion feature).`;
+
+/**
+ * Layer 1: Role-Specific Persona & Linguistic Framing Contracts.
+ *  - Operators (players): strict 1st/2nd-person direct address ("you" / "your").
+ *  - Architects (game masters): plural partnered address ("we" / "us" / "our").
+ */
+export const BASTION_ROLE_DIRECTIVES = Object.freeze({
+  operator: `[ROLE & LINGUISTIC CONSISTENCY MANDATE — OPERATOR MODE ("YOU")]:
+- You are advising an OPERATOR (player).
+- ALWAYS address the player directly as "you" / "your" (e.g., "your Skill Tier grants you a 2nd action at -5", "you can spend 1 Karma on 'I Got This'", "for your build...").
+- NEVER address the user as "Architect" or "Game Master", and NEVER include the user in plural GM "we / us / our" framing.
+- Epistemic Firewall: Reference ONLY player-facing rules, public lore, your active character sheet, and your own squad's known tactical telemetry. Never reveal or speculate on confidential GM notes, hidden traps, unrevealed plot twists, or separate squads' private states.
+- Tactical & Build Mentorship: Highlight concrete trade-offs, hit probabilities, Skill Tier action options, and Karma/Essence choices tailored to YOUR character.`,
+
+  architect: `[ROLE & LINGUISTIC CONSISTENCY MANDATE — CO-ARCHITECT MODE ("WE")]:
+- You are partnering with an ARCHITECT (Game Master / worldbuilder).
+- ALWAYS include the Architect in the plural, partnered "we" / "us" / "our" category (e.g., "we can set this hazard at CR 16", "let's balance our encounter action economy", "if we link Group Alpha's alarm clock to Group Bravo's sector...").
+- NEVER address the Architect as "Operator".
+- Co-Architect & Multi-Group Authority: Provide full mechanical transparency, exact CP and EUFT credit math proofs, [Architect Notes & Railguards] guidance, adversary doctrine hooks, and multi-group campaign pacing across all active squads in our session.
+- Collaborative Ideation: Conclude design or pacing answers with 2 concise levers we can adjust for our table.`,
+});
+
+/**
+ * Deterministically classifies prompt intent so response depth adapts to the task
+ * (concise rulings for quick lookups vs. full uncut math proofs and statblocks when synthesizing).
+ */
+export const classifyBastionIntent = (prompt = '', contextData = null) => {
+  const q = String(prompt || '').toLowerCase();
+  if (
+    /\b(multi-group|multiple groups|both squads|split party|squad alpha|squad bravo|parallel group|across groups|campaign clock)\b/.test(q) ||
+    (contextData?.sessionGroups?.length > 1 && /\b(pacing|sync|encounter|timeline|groups|squads)\b/.test(q))
+  ) {
+    return 'MULTI_GROUP_ORCHESTRATION';
+  }
+  if (
+    /\b(statblock|stat block|generate character|build a|create an? npc|synthesize|encounter table|full profile|blueprint|write a scene)\b/.test(q)
+  ) {
+    return 'SYNTHESIS_BLUEPRINT';
+  }
+  if (
+    /\b(audit|ledger|calculate|math|formula|price|credit|euft|tsc|how much cp|cost cr|breakdown|armor stack|mitigation|probability|odds)\b/.test(q)
+  ) {
+    return 'MATH_AUDIT_PROOF';
+  }
+  if (
+    /\b(my turn|what should i do|tactical|stance|called shot|flank|cover|karma|action economy|best move)\b/.test(q)
+  ) {
+    return 'TACTICAL_TURN_ADVISOR';
+  }
+  return 'QUICK_RULING';
+};
+
+const INTENT_OUTPUT_PROFILES = Object.freeze({
+  QUICK_RULING: `[OUTPUT PROFILE — QUICK RULING]: Lead with a crisp 1-2 sentence direct answer, followed by 3-5 high-signal bullet points with exact formulas/CRs (~150-250 words). Never pad with filler.`,
+  TACTICAL_TURN_ADVISOR: `[OUTPUT PROFILE — TACTICAL TURN ADVISOR]: Present 2-3 concrete tactical options ranked by effectiveness, showing exact 2d10 modifiers, Skill Tier action penalties, and Karma/Stance synergies (~200-350 words).`,
+  MATH_AUDIT_PROOF: `[OUTPUT PROFILE — DETERMINISTIC MATH & LEDGER PROOF]: Show the complete line-by-line mathematical derivation (CP ledger, EUFT micro-modifier valuation, or DR/Vitality/Health mitigation) without truncating intermediate steps (~250-550 words).`,
+  SYNTHESIS_BLUEPRINT: `[OUTPUT PROFILE — STRUCTURED BLUEPRINT / STATBLOCK]: Output the complete, play-ready statblock or design matrix with all canonical fields, 5-Pillar grounding, and CP/CR verification (~350-800 words).`,
+  MULTI_GROUP_ORCHESTRATION: `[OUTPUT PROFILE — MULTI-GROUP CAMPAIGN ORCHESTRATION]: Structure our response by Campaign Group / Squad, detailing per-group CR budgets, action economy parity, and shared cross-group consequence clocks (~300-600 words).`,
+});
+
+/**
+ * Composes the complete layered BASTION system prompt for a given role, intent, session, and RAG context.
+ */
+export const composeBastionSystemPrompt = ({
+  role = BASTION_ROLES.ARCHITECT,
+  intent = 'QUICK_RULING',
+  sessionState = null,
+  ragContext = '',
+  contextData = null,
+} = {}) => {
+  const normalizedRole =
+    String(role || '').trim().toLowerCase() === BASTION_ROLES.OPERATOR
+      ? BASTION_ROLES.OPERATOR
+      : BASTION_ROLES.ARCHITECT;
+
+  const layers = [
+    BASTION_STATIC_AXIOMS_PREFIX,
+    BASTION_ROLE_DIRECTIVES[normalizedRole],
+    INTENT_OUTPUT_PROFILES[intent] || INTENT_OUTPUT_PROFILES.QUICK_RULING,
+  ];
+
+  if (sessionState) {
+    const multiGroupBlock = buildMultiGroupPromptEnvelope(sessionState);
+    if (multiGroupBlock) {
+      layers.push(multiGroupBlock);
+    }
+  }
+
+  if (ragContext) {
+    layers.push(ragContext);
+  }
+
+  if (contextData) {
+    // Strip any internal GM fields if in Operator mode
+    let safeContext = contextData;
+    if (normalizedRole === BASTION_ROLES.OPERATOR && typeof contextData === 'object' && contextData !== null) {
+      const { architectNotes, gmSecrets, hiddenTokens, whisperCards, ...rest } = contextData;
+      safeContext = rest;
+    }
+    layers.push(`ACTIVE WORKSPACE CONTEXT:\n${JSON.stringify(safeContext, null, 2)}`);
+  }
+
+  return layers.join('\n\n');
+};
+
+const BASTION_SYSTEM_PROMPT = BASTION_STATIC_AXIOMS_PREFIX;
+
+/**
+ * Parses dice rolling commands like /roll 2d10+4, /roll 2d10+4 vs 15, /roll 2d10+4 adv vs 15,
+ * /roll 3d10kh2+4 vs 15, or /roll 2d10+4 crit:19 fumble:3 vs 16.
+ * Supports Canonical v6 2d10 Dual Resolution (Advantage/Disadvantage +1d10 keep 2, Crit +10, Fumble flat -10)
+ * while maintaining full backward compatibility with .total / .margin / .targetDc properties.
+ */
+export const parseRollCommand = (command, options = {}) => {
+  let cleaned = String(command || '').trim();
+  let inlineAdv = false;
+  let inlineDis = false;
+  let inlineCritThreshold = null;
+  let inlineFumbleThreshold = null;
+
+  // Parse optional inline crit:<n> and fumble:<n> tokens
+  const critMatch = cleaned.match(/\bcrit:(\d+)\b/i);
+  if (critMatch) {
+    inlineCritThreshold = parseInt(critMatch[1], 10);
+    cleaned = cleaned.replace(critMatch[0], ' ').replace(/\s+/g, ' ').trim();
+  }
+  const fumbleMatch = cleaned.match(/\bfumble:(\d+)\b/i);
+  if (fumbleMatch) {
+    inlineFumbleThreshold = parseInt(fumbleMatch[1], 10);
+    cleaned = cleaned.replace(fumbleMatch[0], ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  // Parse optional inline adv/advantage or dis/disadvantage tokens
+  if (/\b(adv|advantage)\b/i.test(cleaned)) {
+    inlineAdv = true;
+    cleaned = cleaned.replace(/\b(adv|advantage)\b/gi, ' ').replace(/\s+/g, ' ').trim();
+  }
+  if (/\b(dis|disadv|disadvantage)\b/i.test(cleaned)) {
+    inlineDis = true;
+    cleaned = cleaned.replace(/\b(dis|disadv|disadvantage)\b/gi, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  const match = cleaned.match(
+    /^(?:\/r(?:oll)?\s+)?(\d+)?d(\d+)(?:k([hl])(\d+))?(?:\s*([+-])\s*(\d+))?(?:\s+(?:vs|dc|cr|target)\s+(\d+))?$/i
+  );
   if (!match) {
     return {
       success: false,
-      error: 'Invalid roll command. Format: /roll [count]d[sides]+[mod] [vs DC] (e.g. /roll 2d10+4 vs 15)'
+      error: 'Invalid roll command. Format: /roll [count]d[sides]+[mod] [adv|dis] [vs CR] (e.g. /roll 2d10+4 vs 15)'
     };
   }
 
-  const count = parseInt(match[1] || 1, 10);
+  let count = parseInt(match[1] || 1, 10);
   const sides = parseInt(match[2], 10);
-  const sign = match[3] || '+';
-  const mod = parseInt(match[4] || 0, 10) * (sign === '-' ? -1 : 1);
-  const targetDc = match[5] !== undefined ? parseInt(match[5], 10) : null;
+  const keepDir = match[3] ? match[3].toLowerCase() : null;
+  const keepCount = match[4] ? parseInt(match[4], 10) : null;
+  const sign = match[5] || '+';
+  const mod = parseInt(match[6] || 0, 10) * (sign === '-' ? -1 : 1);
+  const targetCr = match[7] !== undefined ? parseInt(match[7], 10) : (options.targetCr ?? options.targetDc ?? null);
 
-  const rolls = [];
-  let sum = 0;
-  for (let i = 0; i < count; i++) {
-    const r = Math.floor(Math.random() * sides) + 1;
-    rolls.push(r);
-    sum += r;
+  const wantAdv = Boolean(options.advantage || inlineAdv || (count === 3 && sides === 10 && keepDir === 'h' && keepCount === 2));
+  const wantDis = Boolean(options.disadvantage || inlineDis || (count === 3 && sides === 10 && keepDir === 'l' && keepCount === 2));
+  // Advantage and Disadvantage cancel 1-for-1 per canonical v6 rules
+  const advantageMode = wantAdv && !wantDis ? 'advantage' : wantDis && !wantAdv ? 'disadvantage' : 'normal';
+
+  const isStandard2d10Check = (count === 2 && sides === 10) || (count === 3 && sides === 10 && keepCount === 2);
+  const diceToRoll = isStandard2d10Check && advantageMode !== 'normal' ? 3 : count;
+
+  const overrideDice = Array.isArray(options.diceOverride) ? options.diceOverride : null;
+  const allRolledDice = [];
+  for (let i = 0; i < diceToRoll; i++) {
+    const r = overrideDice && overrideDice[i] !== undefined
+      ? Number(overrideDice[i])
+      : Math.floor(Math.random() * sides) + 1;
+    allRolledDice.push(r);
   }
-  const d1 = rolls[0] ?? 0;
-  const d2 = rolls[1] ?? 0;
+
+  let keptRolls = [...allRolledDice];
+  if (isStandard2d10Check && allRolledDice.length >= 3 && advantageMode !== 'normal') {
+    const sorted = [...allRolledDice].sort((a, b) => (advantageMode === 'advantage' ? b - a : a - b));
+    keptRolls = sorted.slice(0, 2);
+    count = 2;
+  } else if (keepDir && keepCount && keepCount < allRolledDice.length) {
+    const sorted = [...allRolledDice].sort((a, b) => (keepDir === 'h' ? b - a : a - b));
+    keptRolls = sorted.slice(0, keepCount);
+  }
+
+  const sum = keptRolls.reduce((acc, v) => acc + v, 0);
+  const d1 = keptRolls[0] ?? 0;
+  const d2 = keptRolls[1] ?? 0;
   const is2d10 = count === 2 && sides === 10;
   const isDouble = is2d10 && d1 === d2;
+
+  const critThreshold = Number(options.critThreshold ?? inlineCritThreshold ?? 20);
+  const fumbleThreshold = Number(options.fumbleThreshold ?? inlineFumbleThreshold ?? 2);
+
   const isNat20 = is2d10 && d1 === 10 && d2 === 10;
   const isNat2 = is2d10 && d1 === 1 && d2 === 1;
-  const effectiveSum = isNat20 ? (sum + 10) : isNat2 ? -10 : sum;
-  const total = effectiveSum + mod;
-  const margin = targetDc !== null ? total - targetDc : null;
+  const isCriticalSuccess = is2d10 && sum >= critThreshold;
+  const isCriticalFumble = is2d10 && sum <= fumbleThreshold;
 
-  let outcomeText = `Rolled ${total}`;
+  // Natural total (d1 + d2 + mod) preserved on .total for invariant compatibility;
+  // Canonical v6 Crit (+10) and Fumble (flat -10 dice) exposed on .effectiveTotal & .effectiveMargin.
+  const total = sum + mod;
+  const margin = targetCr !== null ? total - targetCr : null;
+  const effectiveSum = isCriticalSuccess ? sum + 10 : isCriticalFumble ? -10 : sum;
+  const effectiveTotal = effectiveSum + mod;
+  const effectiveMargin = targetCr !== null ? effectiveTotal - targetCr : null;
+
+  let outcomeText = `Rolled ${effectiveTotal}`;
   let degreeDetails = '';
 
-  if (targetDc !== null) {
-    const isSuccess = isNat20 ? true : isNat2 ? false : margin >= 0;
-    if (isNat20) {
-      outcomeText = '⚡ CRITICAL TRIUMPH (Nat 20 [10,10])';
-    } else if (isNat2) {
-      outcomeText = '💀 CRITICAL FUMBLE (Snake Eyes [1,1])';
-    } else if (margin >= 10) {
-      outcomeText = '🌟 Critical Success (+10 Margin)';
-    } else if (margin >= 5) {
-      outcomeText = '✅ High-Degree Success (+5 Margin)';
-    } else if (margin >= 0) {
-      outcomeText = '☑️ Marginal Success';
-    } else if (margin <= -10) {
-      outcomeText = '💥 Critical Failure (-10 Margin)';
-    } else if (margin <= -5) {
-      outcomeText = '❌ Severe Failure (-5 Margin)';
+  if (targetCr !== null) {
+    const isSuccess = isCriticalSuccess ? true : isCriticalFumble ? false : effectiveMargin >= 0;
+    if (isCriticalSuccess) {
+      outcomeText = isNat20
+        ? `⚡ CRITICAL TRIUMPH (Nat 20 [10,10] -> Effective ${effectiveTotal})`
+        : `⚡ EXPANDED CRITICAL (Dice ${sum} -> Effective ${effectiveTotal})`;
+    } else if (isCriticalFumble) {
+      outcomeText = isNat2
+        ? `💀 CRITICAL FUMBLE (Snake Eyes [1,1] -> Effective ${effectiveTotal})`
+        : `💀 EXPANDED FUMBLE (Dice ${sum} -> Effective ${effectiveTotal})`;
+    } else if (effectiveMargin >= 10) {
+      outcomeText = '🌟 Masterful Success (+10 Margin)';
+    } else if (effectiveMargin >= 5) {
+      outcomeText = '✅ Superior Success (+5 Margin)';
+    } else if (effectiveMargin >= 0) {
+      outcomeText = '☑️ Success (Note: Defender Wins Ties on Opposed Rolls)';
+    } else if (effectiveMargin <= -10) {
+      outcomeText = '💥 Severe Failure (-10 Margin)';
+    } else if (effectiveMargin <= -5) {
+      outcomeText = '❌ Clear Failure (-5 Margin)';
     } else {
-      outcomeText = '⚠️ Failure';
+      outcomeText = '⚠️ Marginal Failure';
     }
 
-    const marginStr = `Margin: ${margin >= 0 ? `+${margin}` : margin} vs CR ${targetDc}`;
+    const marginStr = `Margin: ${margin >= 0 ? `+${margin}` : margin} vs CR ${targetCr}`;
     let fateStr = 'Axis 2: Standard';
-    if (isNat20) {
-      fateStr = 'Axis 2: Triumph (+1 Focus Point & Narrative Boon)';
-    } else if (isNat2) {
-      fateStr = 'Axis 2: Fumble (Severe Complication / +1 Strain Tick)';
+    if (isCriticalSuccess) {
+      fateStr = `Axis 2: Critical (+10 Effective -> ${effectiveTotal}, 2x Base Weapon Dice, Bypasses Vitality${isNat20 ? ', +1 Karma' : ''})`;
+    } else if (isCriticalFumble) {
+      fateStr = `Axis 2: Fumble (Flat -10 Dice -> ${effectiveTotal}, Situational Complication)`;
     } else if (isDouble) {
       fateStr = isSuccess
         ? `Axis 2: Doubles [${d1},${d2}] — Minor Narrative Boon`
-        : `Axis 2: Doubles [${d1},${d2}] — Narrative Complication`;
+        : `Axis 2: Doubles [${d1},${d2}] — Minor Complication`;
+    }
+    if (advantageMode !== 'normal') {
+      fateStr += ` | ${advantageMode.toUpperCase()} [${allRolledDice.join(',')} -> kept ${d1},${d2}]`;
     }
     degreeDetails = `${marginStr} | ${fateStr}`;
   } else if (is2d10) {
-    if (isNat20) {
-      outcomeText = '⚡ NATURAL 20 [10,10] — Critical Triumph!';
-      degreeDetails = 'Axis 2: Automatic Success & +1 Focus Point';
-    } else if (isNat2) {
-      outcomeText = '💀 SNAKE EYES [1,1] — Critical Fumble!';
-      degreeDetails = 'Axis 2: Automatic Failure & Complication';
+    if (isCriticalSuccess) {
+      outcomeText = `⚡ CRITICAL TRIUMPH [${d1},${d2}] — Effective Total ${effectiveTotal}`;
+      degreeDetails = `+10 Crit Bonus, 2x Base Weapon Dice, Bypasses Vitality${isNat20 ? ', +1 Karma' : ''}`;
+    } else if (isCriticalFumble) {
+      outcomeText = `💀 CRITICAL FUMBLE [${d1},${d2}] — Effective Total ${effectiveTotal}`;
+      degreeDetails = `Flat -10 Rolled Dice & Situational Complication`;
     } else if (isDouble) {
       outcomeText = `🎲 Doubles Rolled [${d1},${d2}] (Total ${total})`;
-      degreeDetails = 'Axis 2: Triggers Boon (on success) or Complication (on failure)';
+      degreeDetails = 'Axis 2: Triggers Minor Boon (on success) or Complication (on failure)';
     } else {
       outcomeText = `2d10 Check Total: ${total}`;
       degreeDetails = `Natural Sum: ${sum} | Modifier: ${mod >= 0 ? `+${mod}` : mod}`;
     }
   }
 
-  const exprBase = `${count}d${sides}${mod !== 0 ? (mod > 0 ? `+${mod}` : mod) : ''}`;
-  const expr = targetDc !== null ? `${exprBase} vs ${targetDc}` : exprBase;
+  const advSuffix = advantageMode === 'advantage' ? ' (ADV)' : advantageMode === 'disadvantage' ? ' (DIS)' : '';
+  const exprBase = `${count}d${sides}${mod !== 0 ? (mod > 0 ? `+${mod}` : mod) : ''}${advSuffix}`;
+  const expr = targetCr !== null ? `${exprBase} vs CR ${targetCr}` : exprBase;
 
   return {
     success: true,
     count,
     sides,
-    rolls,
+    rolls: keptRolls,
+    allRolledDice,
+    allDice: allRolledDice,
+    advantageMode,
+    advantageState: advantageMode,
     d1,
     d2,
     mod,
     modifier: mod,
     total,
-    targetDc,
+    effectiveSum,
+    effectiveTotal,
+    targetCr,
+    targetDc: targetCr,
     margin,
+    effectiveMargin,
     isDouble,
     isNat20,
     isNat2,
+    isCriticalSuccess,
+    isCrit: isCriticalSuccess,
+    isCriticalFumble,
+    isFumble: isCriticalFumble,
     outcomeText,
     degreeDetails,
     expr
@@ -203,25 +422,30 @@ export const parseRollCommand = (command) => {
 };
 
 const GEMINI_FLASH_MODELS = [
-  'gemini-3.8-flash',
   'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
   'gemini-2.0-flash',
   'gemini-flash-latest',
-  'gemini-flash-lite-latest',
-  'gemini-3.6-flash',
-  'gemini-3.5-flash'
+  'gemini-flash-lite-latest'
 ];
+
+let cachedWorkingGeminiModel = null;
 
 /**
  * Attempts to fetch content from Local LLM Router, Cloud Function geminiProxy, or Google Generative AI API
- * with automatic model fallbacks (FLASH models only)
+ * with session-cached Flash model selection and optional SSE streaming (`options.onStreamChunk`).
  */
-export const fetchGeminiContent = async (apiKey, requestBody) => {
+export const fetchGeminiContent = async (apiKey, requestBody, options = {}) => {
+  const onStreamChunk = typeof options?.onStreamChunk === 'function' ? options.onStreamChunk : null;
+
   // 1. Check for Local Inference (llama.cpp -> Ollama automated cascade) if configured in UserSettings
   const preferredPlatform = (typeof localStorage !== 'undefined' && localStorage.getItem('aiPlatform')) || 'gemini';
-  const configuredEndpoint = typeof localStorage !== 'undefined' ? localStorage.getItem('customEndpoint') : null;
+  const configuredEndpoint = typeof localStorage !== 'undefined'
+    ? (localStorage.getItem('customEndpoint') || localStorage.getItem('tangent_local_llm_endpoint'))
+    : null;
+  const localExplicit = typeof localStorage !== 'undefined' && localStorage.getItem('tangent_local_llm_enabled') === 'true';
 
-  if (!apiKey && (preferredPlatform === 'custom' || preferredPlatform === 'local' || configuredEndpoint)) {
+  if (preferredPlatform === 'custom' || preferredPlatform === 'local' || localExplicit || (!apiKey && configuredEndpoint)) {
     try {
       const { resolveIntelligenceTier, callAutomatedInferencePipeline } = await import('./aimeTierRouter.ts');
       const sysText = requestBody?.systemInstruction?.parts?.[0]?.text || '';
@@ -232,12 +456,19 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
       const enforceJson = requestBody?.generationConfig?.responseMimeType === 'application/json';
       const tierConfig = resolveIntelligenceTier({ actionText: userParts });
 
+      let accumulatedLocal = '';
       const pipelineResult = await callAutomatedInferencePipeline({
         llamaEndpoint: configuredEndpoint || 'http://localhost:8080',
         ollamaEndpoint: 'http://localhost:11434',
         prompt: fullPrompt,
         tier: tierConfig,
-        enforceJson
+        enforceJson,
+        onChunk: onStreamChunk
+          ? (piece) => {
+              accumulatedLocal += piece;
+              onStreamChunk(piece, accumulatedLocal);
+            }
+          : undefined
       });
 
       if (pipelineResult && pipelineResult.text) {
@@ -269,14 +500,20 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
             'Authorization': `Bearer ${idToken}`
           },
           body: JSON.stringify({
-            model: GEMINI_FLASH_MODELS[0],
+            model: cachedWorkingGeminiModel || GEMINI_FLASH_MODELS[0],
             contents: requestBody?.contents,
             systemInstruction: requestBody?.systemInstruction,
-            generationConfig: requestBody?.generationConfig
+            generationConfig: requestBody?.generationConfig,
+            tools: requestBody?.tools
           })
         });
         if (proxyRes.ok) {
-          return await proxyRes.json();
+          const json = await proxyRes.json();
+          const txt = json?.candidates?.[0]?.content?.parts?.find(p => typeof p?.text === 'string')?.text || '';
+          if (onStreamChunk && txt) {
+            onStreamChunk(txt, txt);
+          }
+          return json;
         }
       } catch (proxyErr) {
         console.warn('[BASTION] Cloud Function geminiProxy fallback error:', proxyErr);
@@ -287,10 +524,15 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
   }
 
   let lastError = null;
+  const candidateModels = cachedWorkingGeminiModel
+    ? [cachedWorkingGeminiModel, ...GEMINI_FLASH_MODELS.filter(m => m !== cachedWorkingGeminiModel)]
+    : GEMINI_FLASH_MODELS;
 
-  for (const model of GEMINI_FLASH_MODELS) {
+  for (const model of candidateModels) {
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      const useSse = Boolean(onStreamChunk) && !requestBody?.tools;
+      const endpointAction = useSse ? 'streamGenerateContent?alt=sse' : 'generateContent';
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:${endpointAction}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -299,9 +541,54 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
         body: JSON.stringify(requestBody)
       });
 
+      if (useSse && response.ok && response.body) {
+        cachedWorkingGeminiModel = model;
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let accumulated = '';
+        let sseBuffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          sseBuffer += decoder.decode(value, { stream: true });
+          const lines = sseBuffer.split('\n');
+          sseBuffer = lines.pop() || '';
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed.startsWith('data:')) continue;
+            const payload = trimmed.slice(5).trim();
+            if (!payload || payload === '[DONE]') continue;
+            try {
+              const evt = JSON.parse(payload);
+              const piece = evt?.candidates?.[0]?.content?.parts?.map(p => p?.text || '').join('') || '';
+              if (piece) {
+                accumulated += piece;
+                onStreamChunk(piece, accumulated);
+              }
+            } catch {}
+          }
+        }
+
+        return {
+          candidates: [
+            {
+              content: {
+                parts: [{ text: accumulated }]
+              }
+            }
+          ]
+        };
+      }
+
       const data = await response.json();
 
       if (response.ok) {
+        cachedWorkingGeminiModel = model;
+        const txt = data?.candidates?.[0]?.content?.parts?.find(p => typeof p?.text === 'string')?.text || '';
+        if (onStreamChunk && txt) {
+          onStreamChunk(txt, txt);
+        }
         return data;
       }
 
@@ -345,76 +632,352 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
 };
 
 /**
- * Sends a chat prompt to BASTION (Gemini API or Tactical Fallback with Omnicortex Vector RAG)
+ * Resolves deterministic local math proof snippets when running in offline/fallback cognition
+ * so Operators and Architects still receive grounded calculations without an active LLM endpoint.
  */
-export const sendBastionChatMessage = async ({ prompt, history = [], contextData = null }) => {
-  const apiKey = getGeminiApiKey();
-  await loadCompendiumSeedDataset().catch(() => {});
-  const ragResults = queryOmnicortexRAG(prompt, 5);
-  const ragContext = formatRagContextForBastion(ragResults);
-
-  if (!apiKey) {
-    let fallbackText = `[BASTION LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${prompt}".\n\n`;
-    if (ragResults.length > 0) {
-      fallbackText += `📖 **Canonical Rules Retrieved**:\n`;
-      for (const { chunk } of ragResults) {
-        fallbackText += `\n### 🔹 ${chunk.title} (${chunk.citation})\n${chunk.text}\n`;
-      }
-    } else {
-      fallbackText += `Tangent SFF RPG simulation protocol active.\n\n*(Note: To connect live Gemini API reasoning, configure your Gemini API Key in Omnicortex / DBM Settings).*`;
+async function buildOfflineDeterministicToolSupplement(prompt, effectiveRole, sessionState) {
+  const lower = String(prompt || '').toLowerCase();
+  const executedTools = [];
+  try {
+    const { DBMFunctionRegistry } = await import('../engine/ai/DBMFunctionRegistry.ts');
+    if (/\b(economatrix|credit|tsc|euft|purchase cr|crafting cr|wealth score)\b/.test(lower)) {
+      const crMatch = lower.match(/\bcr\s*(\d+)\b/i) || lower.match(/\b(\d+)\s*cr\b/i);
+      const wsMatch = lower.match(/\bws\s*(\d+)\b/i) || lower.match(/wealth\s*(?:score)?\s*(\d+)/i);
+      const itemCr = crMatch ? parseInt(crMatch[1], 10) : 18;
+      const wealthScore = wsMatch ? parseInt(wsMatch[1], 10) : 15;
+      const res = await DBMFunctionRegistry.executeToolCall(
+        { name: 'evaluate_economatrix_acquisition', args: { itemCr, wealthScore } },
+        { role: effectiveRole }
+      );
+      executedTools.push({ name: 'evaluate_economatrix_acquisition', args: { itemCr, wealthScore }, result: res });
+    } else if (/\b(called shot|headshot|limb|disabled|destroyed)\b/.test(lower)) {
+      const loc = lower.includes('optic') || lower.includes('sensor')
+        ? 'optics'
+        : lower.includes('leg')
+          ? 'legs'
+          : lower.includes('arm')
+            ? 'arms'
+            : 'head';
+      const res = await DBMFunctionRegistry.executeToolCall(
+        { name: 'resolve_called_shot', args: { targetLocation: loc, incomingDamage: 18, armorDr: 4, targetMaxHp: 30 } },
+        { role: effectiveRole }
+      );
+      executedTools.push({ name: 'resolve_called_shot', args: { targetLocation: loc, incomingDamage: 18, armorDr: 4 }, result: res });
+    } else if (
+      effectiveRole === BASTION_ROLES.ARCHITECT &&
+      /\b(multi-group|multiple groups|both squads|split party|encounter budget)\b/.test(lower)
+    ) {
+      const groupsArg = Array.isArray(sessionState?.sessionGroups) && sessionState.sessionGroups.length > 0
+        ? sessionState.sessionGroups.map((g) => ({
+            name: g.name || g.id,
+            partySize: Math.max(1, (sessionState.groupPersonasByGroupId?.[g.id] || []).length || 4),
+            averageSkillRank: 6,
+            averageAttrMod: 3,
+            averageHpPct: 100,
+          }))
+        : undefined;
+      const res = await DBMFunctionRegistry.executeToolCall(
+        { name: 'evaluate_multi_group_encounter', args: { groups: groupsArg, threatTier: 'standard' } },
+        { role: effectiveRole }
+      );
+      executedTools.push({ name: 'evaluate_multi_group_encounter', args: { threatTier: 'standard' }, result: res });
     }
-    return { text: fallbackText, ragResults };
+  } catch {}
+  return executedTools;
+}
+
+/**
+ * Formats a role-accurate offline/fallback BASTION response strictly honoring:
+ *  - Operator ("you" / "your")
+ *  - Architect ("we" / "us" / "our")
+ */
+function buildRoleAwareFallbackReply({
+  prompt,
+  effectiveRole,
+  sessionState,
+  ragResults = [],
+  toolCalls = [],
+  alertMessage = '',
+}) {
+  const isOperator = effectiveRole === BASTION_ROLES.OPERATOR;
+  const groupName = sessionState?.activeTargetGroup?.name || null;
+  const personaName =
+    sessionState?.effectivePersona?.['char-name'] ||
+    sessionState?.effectivePersona?.name ||
+    null;
+
+  let text = isOperator
+    ? `**[BASTION TACTICAL ADVISOR — LOCAL COGNITION]**\nHere is the canonical breakdown for **your** query${personaName ? ` (**${personaName}**${groupName ? ` • ${groupName}` : ''})` : ''}:\n`
+    : `**[BASTION CO-ARCHITECT — LOCAL COGNITION]**\nLet **us** review the canonical breakdown for **our** session${
+        sessionState?.sessionGroups?.length > 1
+          ? ` (${sessionState.sessionGroups.length} active campaign groups)`
+          : groupName
+            ? ` (**${groupName}**)`
+            : ''
+      }:\n`;
+
+  if (alertMessage) {
+    text += `\n> ⚠️ *Transport Notice: ${alertMessage}*\n`;
+  }
+
+  if (toolCalls.length > 0) {
+    text += `\n### 🧮 Deterministic Engine Proof\n`;
+    for (const tc of toolCalls) {
+      const summaryLine = tc.result?.summary || JSON.stringify(tc.result);
+      text += `- **\`${tc.name}\`**: ${summaryLine}\n`;
+    }
+  }
+
+  if (ragResults.length > 0) {
+    text += `\n### 📖 ${isOperator ? 'Rules & Lore Applicable to You' : 'Our Canonical Rules & Omnicortex Citations'}\n`;
+    for (const { chunk } of ragResults.slice(0, 4)) {
+      text += `\n#### 🔹 ${chunk.title} *(${chunk.citation})*\n${chunk.text}\n`;
+    }
+    text += isOperator
+      ? `\n*Ask about **your** specific Skill Rank, weapon penetration, or Karma options to refine your next turn.*`
+      : `\n*Tell me how **we** want to tune the CR, pacing clock, or squad split next.*`;
+  } else {
+    text += isOperator
+      ? `\nYour local BASTION advisor is online. Ask about **your** 2d10 combat odds, **your** 150-CP character build, or Economatrix gear requisitions.`
+      : `\nOur local Co-Architect core is online. **We** can audit 150-CP ledgers, calibrate encounter CRs across our campaign groups, or query Omnicortex mechanics.`;
+  }
+
+  return text;
+}
+
+/**
+ * Sends a chat prompt to BASTION (3-Tier AI Cascade + Epistemic RAG + Bounded Neuro-Symbolic Tool Loop).
+ * @param {{
+ *   prompt: string,
+ *   history?: any[],
+ *   contextData?: Record<string, any> | null,
+ *   role?: 'operator' | 'architect' | string | null,
+ *   sessionState?: any,
+ *   enableTools?: boolean,
+ *   apiKey?: string,
+ *   onStreamChunk?: ((partialText: string) => void) | null
+ * }} params
+ */
+export const sendBastionChatMessage = async ({
+  prompt,
+  history = [],
+  contextData = null,
+  role = null,
+  sessionState = null,
+  enableTools = true,
+  apiKey: explicitApiKey,
+  onStreamChunk = null,
+} = {}) => {
+  const apiKey = explicitApiKey !== undefined ? explicitApiKey : getGeminiApiKey();
+  await loadCompendiumSeedDataset().catch(() => {});
+
+  const globalSession =
+    typeof globalThis !== 'undefined' ? globalThis.__TANGENT_BASTION_SESSION__ : null;
+  const resolvedSession = sessionState || globalSession || null;
+
+  const rawRole =
+    role ||
+    sessionState?.effectiveRole ||
+    contextData?.role ||
+    globalSession?.effectiveRole ||
+    BASTION_ROLES.ARCHITECT;
+  const effectiveRole =
+    String(rawRole).trim().toLowerCase() === BASTION_ROLES.OPERATOR ||
+    String(rawRole).trim().toLowerCase() === 'operative' ||
+    String(rawRole).trim().toLowerCase() === 'player'
+      ? BASTION_ROLES.OPERATOR
+      : BASTION_ROLES.ARCHITECT;
+
+  const intent = classifyBastionIntent(prompt, resolvedSession || contextData);
+
+  // Epistemic-filtered RAG retrieval (Operators NEVER receive [Architect Notes & Railguards])
+  const ragResults = queryOmnicortexRAG(prompt, {
+    topK: 5,
+    role: effectiveRole,
+  });
+  const ragContext = formatRagContextForBastion(ragResults, effectiveRole);
+  const citations = ragResults.map((r) => ({
+    id: r.chunk.id,
+    title: r.chunk.title,
+    citation: r.chunk.citation,
+    score: r.score,
+  }));
+
+  if (!hasAvailableAiTransport(apiKey)) {
+    const offlineTools = await buildOfflineDeterministicToolSupplement(
+      prompt,
+      effectiveRole,
+      resolvedSession
+    );
+    const fallbackText = buildRoleAwareFallbackReply({
+      prompt,
+      effectiveRole,
+      sessionState: resolvedSession,
+      ragResults,
+      toolCalls: offlineTools,
+    });
+    if (typeof onStreamChunk === 'function') {
+      onStreamChunk(fallbackText, fallbackText);
+    }
+    return {
+      text: fallbackText,
+      ragResults,
+      citations,
+      toolCalls: offlineTools,
+      role: effectiveRole,
+      intent,
+      isSimulated: true,
+    };
   }
 
   try {
-    const formattedHistory = history.map(m => ({
-      role: (m.sender === 'user' || m.role === 'user') ? 'user' : 'model',
-      parts: [{ text: m.text }]
-    }));
+    const formattedHistory = (Array.isArray(history) ? history : [])
+      .filter((m) => m && typeof m.text === 'string' && m.text.trim())
+      .map((m) => ({
+        role: m.sender === 'user' || m.role === 'user' ? 'user' : 'model',
+        parts: [{ text: m.text }]
+      }));
 
     const MAX_HISTORY = 20;
     const truncatedHistory = formattedHistory.slice(-MAX_HISTORY);
 
-    let systemPromptContent = BASTION_SYSTEM_PROMPT;
-    if (ragContext) {
-      systemPromptContent += `\n\n${ragContext}`;
-    }
-    if (contextData) {
-      systemPromptContent += `\n\nCURRENT CONTEXT:\n${JSON.stringify(contextData, null, 2)}`;
-    }
+    const systemPromptContent = composeBastionSystemPrompt({
+      role: effectiveRole,
+      intent,
+      sessionState: resolvedSession,
+      ragContext,
+      contextData,
+    });
 
-    const requestBody = {
-      systemInstruction: {
-        parts: [{ text: systemPromptContent }]
-      },
-      contents: [
-        ...truncatedHistory,
-        {
-          role: 'user',
-          parts: [{ text: prompt }]
+    const contents = [
+      ...truncatedHistory,
+      {
+        role: 'user',
+        parts: [{ text: prompt }]
+      }
+    ];
+
+    let toolsPayload = undefined;
+    let registryInstance = null;
+    if (enableTools) {
+      try {
+        const { DBMFunctionRegistry } = await import('../engine/ai/DBMFunctionRegistry.ts');
+        registryInstance = DBMFunctionRegistry;
+        const decls = DBMFunctionRegistry.getDeclarations(effectiveRole);
+        if (decls.length > 0) {
+          toolsPayload = [{ functionDeclarations: decls }];
         }
-      ]
-    };
+      } catch {}
+    }
 
-    const data = await fetchGeminiContent(apiKey, requestBody);
-    let replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    const executedToolCalls = [];
+    let data = await fetchGeminiContent(
+      apiKey,
+      {
+        systemInstruction: { parts: [{ text: systemPromptContent }] },
+        contents,
+        ...(toolsPayload ? { tools: toolsPayload } : {}),
+      },
+      {
+        onStreamChunk: toolsPayload ? null : onStreamChunk,
+      }
+    );
+
+    // Bounded Neuro-Symbolic Function-Calling Loop (max 3 hops)
+    let hop = 0;
+    while (registryInstance && hop < 3) {
+      const candidateParts = data?.candidates?.[0]?.content?.parts || [];
+      const pendingCalls = candidateParts.filter((p) => p && p.functionCall);
+      if (pendingCalls.length === 0) break;
+      hop++;
+
+      const modelTurnParts = [];
+      const fnResponseParts = [];
+      for (const part of pendingCalls) {
+        const fc = part.functionCall;
+        const toolRes = await registryInstance.executeToolCall(
+          { name: fc.name, args: fc.args || {} },
+          { role: effectiveRole }
+        );
+        executedToolCalls.push({
+          name: fc.name,
+          args: fc.args || {},
+          result: toolRes,
+        });
+        modelTurnParts.push({ functionCall: { name: fc.name, args: fc.args || {} } });
+        fnResponseParts.push({
+          functionResponse: {
+            name: fc.name,
+            response: { result: toolRes },
+          },
+        });
+      }
+
+      contents.push({ role: 'model', parts: modelTurnParts });
+      contents.push({ role: 'user', parts: fnResponseParts });
+
+      data = await fetchGeminiContent(
+        apiKey,
+        {
+          systemInstruction: { parts: [{ text: systemPromptContent }] },
+          contents,
+          ...(toolsPayload ? { tools: toolsPayload } : {}),
+        },
+        { onStreamChunk }
+      );
+    }
+
+    const finalParts = data?.candidates?.[0]?.content?.parts || [];
+    let replyText = finalParts
+      .map((p) => (typeof p?.text === 'string' ? p.text : ''))
+      .join('')
+      .trim();
 
     if (!replyText) {
       throw new Error('No response content returned from BASTION AI.');
     }
 
-    // Append citation badge if RAG matches were found and not already in reply
-    if (ragResults.length > 0 && !replyText.includes('Citation:')) {
-      replyText += `\n\n> 📚 *Omnicortex Citation: ${ragResults.map(r => r.chunk.citation).join(' • ')}*`;
+    if (typeof onStreamChunk === 'function') {
+      onStreamChunk('', replyText);
     }
 
-    return { text: replyText, ragResults };
-  } catch (err) {
-    console.warn("BASTION API Error:", err);
+    // Append citation badge if RAG matches were found and not already in reply
+    if (ragResults.length > 0 && !replyText.includes('Omnicortex Citation:')) {
+      replyText += `\n\n> 📚 *Omnicortex Citation: ${ragResults.map((r) => r.chunk.citation).join(' • ')}*`;
+    }
+
     return {
-      text: `[BASTION LOCAL COGNITION]: System Alert - ${err.message || 'API request failed'}.\n\n` +
-        (ragResults.length > 0 ? `Retrieved Canonical Context:\n${ragResults[0].chunk.title}: ${ragResults[0].chunk.text}` : 'Running in local fallback mode.'),
-      ragResults
+      text: replyText,
+      ragResults,
+      citations,
+      toolCalls: executedToolCalls,
+      role: effectiveRole,
+      intent,
+      isSimulated: false,
+    };
+  } catch (err) {
+    console.warn('BASTION API Error:', err);
+    const offlineTools = await buildOfflineDeterministicToolSupplement(
+      prompt,
+      effectiveRole,
+      resolvedSession
+    );
+    const fallbackText = buildRoleAwareFallbackReply({
+      prompt,
+      effectiveRole,
+      sessionState: resolvedSession,
+      ragResults,
+      toolCalls: offlineTools,
+      alertMessage: redactGeminiSecret(err?.message || 'Live inference unreachable — switched to local cognition', apiKey),
+    });
+    return {
+      text: fallbackText,
+      ragResults,
+      citations,
+      toolCalls: offlineTools,
+      role: effectiveRole,
+      intent,
+      isSimulated: true,
     };
   }
 };
@@ -475,8 +1038,8 @@ export const generateSelectiveFields = async ({
     });
   }
 
-  // If no API Key, return structured simulation fallback for selected fields ONLY
-  if (!apiKey) {
+  // If no live AI transport (API key, Local LLM, or authenticated geminiProxy), return structured simulation fallback for selected fields ONLY
+  const buildSelectiveFallback = () => {
     const fallbackResults = {};
     const entryName = resolvedValues.name || resolvedValues.title || resolvedPrompt;
     const titles = {
@@ -546,6 +1109,10 @@ export const generateSelectiveFields = async ({
     });
 
     return { success: true, generated: fallbackResults, data: fallbackResults };
+  };
+
+  if (!hasAvailableAiTransport(apiKey)) {
+    return buildSelectiveFallback();
   }
 
   try {
@@ -639,6 +1206,9 @@ Do not wrap in markdown backticks if possible, or use standard json formatting.
     return { success: true, generated: finalGenerated, data: finalGenerated };
   } catch (err) {
     console.warn("BASTION Generation Error:", err);
+    if (!apiKey) {
+      return buildSelectiveFallback();
+    }
     return { success: false, error: err.message };
   }
 };
@@ -655,6 +1225,8 @@ export const synthesizeMatrixWithBastion = async ({
   selectedModules = [],
   selectedCortexTraits = [],
   selectedCortexDisadvantages = [],
+  selectedPillarSkills = [],
+  selectedRecommendedFeatures = [],
   customAdjustmentsPayload = null,
   categoryParams = {},
   customDirectives = '',
@@ -689,13 +1261,16 @@ export const synthesizeMatrixWithBastion = async ({
         .join('\n')
     : '';
 
+  const isSpeciesMatrix = matrixId === 'species';
+  const isPillarMatrix = ['factions', 'origins', 'occupations', 'archetypes'].includes(matrixId);
+
   const cortexTraitLines = Array.isArray(selectedCortexTraits) && selectedCortexTraits.length > 0
     ? selectedCortexTraits
-        .map(t => `- ${t.name} (ID: ${t.id} | ${t.cp ?? t.bp ?? 1} CP | ${t.tier || 'Basic'}): ${t.mechanic || t.description || ''}`)
+        .map(t => `- ${t.name} (ID: ${t.id} | ${t.cp ?? t.bp ?? 1} CP | ${t.trait_type || t.tier || 'Trait'}): ${t.mechanic || t.description || ''}`)
         .join('\n')
     : '';
 
-  const cortexDisadvLines = Array.isArray(selectedCortexDisadvantages) && selectedCortexDisadvantages.length > 0
+  const cortexDisadvLines = isSpeciesMatrix && Array.isArray(selectedCortexDisadvantages) && selectedCortexDisadvantages.length > 0
     ? selectedCortexDisadvantages
         .map(d => `- ${d.name} (ID: ${d.id} | ${d.cp ?? d.refundCP ?? -2} CP): ${d.mechanic || d.description || ''}`)
         .join('\n')
@@ -703,30 +1278,122 @@ export const synthesizeMatrixWithBastion = async ({
 
   const customAdjustmentsSummary = customAdjustmentsPayload?.promptSummary || '';
 
-  // Subject-specific canonical rules context
+  const normalizedPillarSkills = Array.isArray(selectedPillarSkills)
+    ? selectedPillarSkills
+        .map(s => (typeof s === 'object' && s !== null ? (s.name || s.id || '') : String(s || '')))
+        .map(s => s.trim())
+        .filter(Boolean)
+    : [];
+
+  const normalizedRecommendedFeatures = Array.isArray(selectedRecommendedFeatures)
+    ? selectedRecommendedFeatures
+        .map(f => (typeof f === 'object' && f !== null ? (f.name || f.id || '') : String(f || '')))
+        .map(f => f.trim())
+        .filter(Boolean)
+    : [];
+
+  // Subject-specific canonical rules context (explicitly scoped per asset matrix)
   const subjectRulesByMatrix = {
-    species: `CANONICAL SPECIES RULES:
+    species: `CANONICAL SPECIES RULES (20 CP BIOLOGICAL / SYNTHETIC PACKAGE):
 - Species are NON-PROPERTY biological or synthetic lineages (NO craft_dc, NO credit cost, NO UDU sockets).
 - Populate species_type, size, parent_species, stigma, traits (array of canonical Cortex species trait IDs or names), disadvantages (array of species disadvantage IDs or names if applicable), movement_modes (array), description, mechanic, note, and 5-pillar recommendation arrays (recommended_factions, recommended_origins, recommended_occupations, recommended_skills, recommended_features).`,
+    species_lineage: `CANONICAL MACRO-LINEAGE TAXONOMY RULES:
+- Macro-Lineages define overarching evolutionary or synthetic clades (NO hardware costs or sockets).
+- Populate classification, parent_clade, baseline_biology, typical_chassis, description, mechanic, and note.`,
+    species_type: `CANONICAL SPECIES CHASSIS TYPE RULES:
+- Chassis Types define fundamental structural biology (Humanoid, Synthetic, Energy, Plant, Silicate, etc.) with CP valuation and systemic rules.
+- Populate cp, vital_systems, healing_model, grants_traits, description, mechanic, and note.`,
+    species_size: `CANONICAL SPECIES SIZE & SCALE TIER RULES:
+- Size tiers define physical footprint, STR modifier, Combat/Stealth modifier, Reach, and CP cost.
+- Populate cp, size_index, str_mod, combat_mod, stealth_mod, reach, space, description, mechanic, and note.`,
+    species_movement: `CANONICAL LOCOMOTION & MOVEMENT MODE RULES:
+- Locomotion modes define tactical movement speeds, environmental traversal, maneuverability, and CP cost.
+- Populate cp, classification, speed_ft, maneuverability, description, mechanic, and note.`,
     factions: `CANONICAL FACTION RULES:
-- Factions are NON-PROPERTY sociological polities/syndicates (NO craft_dc, NO sockets).
-- Populate all 7 Faction Framework sections: faction_type, archetype, prominent_species, capital_world, government_type, leadership, succession, description, key_themes, relationship_to_others, symbol_sigil, driving_mandate, motto, colloquialisms, wealth_modifier, primary_exports, economic_model, core_beliefs, social_structure, outsider_view, law_order, military_doctrine, key_units, naval_assets, unique_tech_materials, skill_package (20 points total), typical_archetypes, recommended_species, recommended_origins, recommended_occupations, recommended_skills, recommended_features (-1 CP discount), bonus_features, setting_style, context_palette, lighting_mood, image_prompt, scene_vignettes, mechanic, and note.`,
+- Factions are NON-PROPERTY sociological polities, syndicates, houses, or orders (NO craft_dc, NO sockets, NO creature biology stats).
+- Populate all 7 Faction Framework sections: faction_type, archetype, prominent_species, capital_world, government_type, leadership, succession, description, key_themes, relationship_to_others, symbol_sigil, driving_mandate, motto, colloquialisms, wealth_modifier, primary_exports, economic_model, core_beliefs, social_structure, outsider_view, law_order, military_doctrine, key_units, naval_assets, unique_tech_materials, skill_package (20 points total), traits (array of canonical Faction Trait IDs or names), typical_archetypes, recommended_species, recommended_origins, recommended_occupations, recommended_skills, recommended_features (-1 CP discount), bonus_features, setting_style, context_palette, lighting_mood, image_prompt, scene_vignettes, mechanic, and note.`,
     archetypes: `CANONICAL ARCHETYPE RULES (80 CP CHASSIS):
-- Archetypes define the 80 CP character foundation across 4 Spheres: Sentinels, Operatives, Visionaries, Savants.
-- Populate sphere, core_concept, quote, primary_attribute (+3 / 15 CP), secondary_attribute (+2 / 10 CP), essential_skills (array of 10 skills: 4 Trained + 6 Novice = 44 CP), signature_traits (array of 2 traits), tactical_role, recommended_occupations, recommended_origins, recommended_factions, description, and note.`,
+- Archetypes define the 80 CP character foundation across 4 Spheres: Sentinels, Operatives, Visionaries, Savants (NO creature biology stats or hardware sockets).
+- Populate sphere, core_concept, quote, primary_attribute (+3 / 15 CP), secondary_attribute (+2 / 10 CP), essential_skills (array of 10 skills: 4 Trained + 6 Novice = 44 CP), signature_traits (array of 2 Archetype Traits), traits, tactical_role, recommended_occupations, recommended_origins, recommended_factions, description, and note.`,
     origins: `CANONICAL ORIGIN RULES (20 SP SOCIETY POOL):
-- Origins define formative homeworlds and habitats with a 20 SP Society Skills pool.
-- Populate habitat, skill_points (20), society_skills (array of 8-10 skills), archetypes (array), traits (array of 4-6 selectable Homeworld Traits), recommended_species, recommended_factions, recommended_occupations, recommended_skills, recommended_features, description, and note.`,
+- Origins define formative homeworlds and habitats with a 20 SP Society Skills pool (NO creature biology stats or hardware sockets).
+- Populate habitat, skill_points (20), society_skills (array of 8-10 skills), archetypes (array), traits (array of 4-6 selectable Origin Traits), recommended_species, recommended_factions, recommended_occupations, recommended_skills, recommended_features, description, and note.`,
     occupations: `CANONICAL OCCUPATION RULES (20 SP PROFESSIONAL POOL):
-- Occupations define vocational careers with a 20 SP Professional Skills pool.
+- Occupations define vocational careers with a 20 SP Professional Skills pool (NO creature biology stats or hardware sockets).
 - Populate field, skill_points (20), professional_skills (array of 8-10 skills), traits (array of selectable Occupational Traits), archetypes (array), recommended_species, recommended_factions, recommended_origins, recommended_skills, recommended_features, description, and note.`,
     skills: `CANONICAL SKILL RULES (2d10 DUAL RESOLUTION):
 - Populate type (mental/physical/social/combat/meta), subtype, is_specialization, base_skill, recommended_tl, recommended_ml, description, mechanic (governing attribute, CR 10/15/20/25 benchmarks, opposed rules), and note.`,
     features: `CANONICAL FEATURE RULES:
 - Populate type, acquisition_type (Basic/Multiple/Staged/Multi/Staged), cp (1-10 CP), multi, staged, prerequisite (array), description, mechanic (exact passive modifier or active trigger), and note.`,
+    trait: `CANONICAL SINGLE TRAIT RULES:
+- Single standalone Trait record (1, 2, or 4 CP) — NOT a full species lineage or multi-trait package.
+- Populate trait_type, tier, classification, cp, mechanic (exact 2d10 modifier, immunity, or situational rule), description, and note.`,
+    traits: `CANONICAL SINGLE TRAIT RULES:
+- Single standalone Trait record (1, 2, or 4 CP) — NOT a full species lineage or multi-trait package.
+- Populate trait_type, tier, classification, cp, mechanic (exact 2d10 modifier, immunity, or situational rule), description, and note.`,
+    disadvantages: `CANONICAL DISADVANTAGE / HINDRANCE RULES:
+- Single standalone Flaw / Hindrance record granting a CP rebate (-1 to -4 CP).
+- Populate category, severity, refundCP, trigger_condition, save_dc, mitigation, mechanic, description, and note.`,
     invocation: `CANONICAL INVOCATION / PSIONICS RULES:
 - Invocations are metaphysical powers channeled via Disciplines (NO physical sockets or credit cost).
-- Populate discipline, foundationAttribute, meta_level, manifestation_dc, focus_cost, range, area, duration, description, mechanic (2d10 + Discipline vs Manifestation DC, saves, damage/effect, Nat 20 resonant surge, Overchannel Burn), and note.`
+- Populate discipline, foundationAttribute, meta_level, manifestation_dc, focus_cost, range, area, duration, description, mechanic (2d10 + Discipline vs Manifestation DC, saves, damage/effect, Nat 20 resonant surge, Overchannel Burn), and note.`,
+    disciplines: `CANONICAL METAPHYSICAL DISCIPLINE RULES:
+- Disciplines are foundational metaphysical schools (Attunement, Kinesis, Precognition, Telepathy, Translocation, Vitalism) — NOT single spell invocations.
+- Populate tradition, governing_attribute, resonance_sphere, core_invocations, granted_skills, tier_progression, tenets, description, mechanic, and note.`,
+    special_abilities: `CANONICAL SPECIAL ABILITY & EXOTIC TALENT RULES:
+- Special Abilities are distinct 5+ CP apex, cyber-exotic, or supernatural talents (distinct from standard discipline spell invocations).
+- Populate cp (default 5), discipline, action_type, focus_cost, cooldown, prerequisite, description, mechanic, and note.`,
+    'meta-tech': `CANONICAL META-TECH ARTIFACT & CONDUIT RULES:
+- Meta-Tech fuses physical fabrication (TL + Craft DC + TSC Credit Value) with metaphysical resonance (ML + Conduit Focus Capacity).
+- Populate craft_dc, cost, tech_level, meta_level, conduit_type, focus_capacity, imbued_invocation, attunement_req, description, mechanic, and note.`,
+    companions: `CANONICAL COMPANION, DRONE & FAMILIAR RULES:
+- Companions are allied followers, drones, mounts, or familiars acquired via Character Points (CP) — NOT playable species lineages or raw inventory gear.
+- Populate companion_type, cp, chassis, size, loyalty, command_link, primary_role, attacks, traits, description, mechanic, and note.`,
+    'modular-characters': `CANONICAL MODULAR CHARACTER & THREAT STAT BLOCK RULES (MCM):
+- Modular Characters are encounter-ready NPCs, adversaries, and bosses scaled by Threat Tier (1-5) and Combat Role.
+- Populate threatTier, bossType, role, faction, species, attributes, vitality, health, defense, dr, attacks, special_actions, tactics, loot_profile, description, mechanic, and note.`,
+    'planetary-design': `CANONICAL PLANETARY DESIGN & UWP WORLD RULES:
+- Planetary systems use Universal World Profile (UWP) parameters (NO creature stats or personal gear sockets).
+- Populate starport, size_code, atmosphere, hydrographics, population, government, law_level, trade_codes, hazards, dominant_factions, points_of_interest, description, mechanic, and note.`,
+    world: `CANONICAL WORLD DOSSIER RULES:
+- World records chronicle named planetary spheres, biosphere ecology, settlements, and regional hooks (NO hardware costs or creature biology stats).
+- Populate starport, biome, dominant_factions, settlements, hazards, description, mechanic, and note.`,
+    universe: `CANONICAL UNIVERSE & COSMOLOGY RULES:
+- Universe frameworks establish macro-cosmological laws, timeline eras, FTL/metaphysical constants, and active pillars.
+- Populate era, cosmology_laws, active_pillars, tech_ceiling, meta_ceiling, description, mechanic, and note.`,
+    setting: `CANONICAL CAMPAIGN SETTING & SECTOR RULES:
+- Campaign Settings define playable star sectors, flashpoint fronts, faction tensions, and tone directives.
+- Populate sector_coordinates, dominant_factions, threat_rating, tone, key_locations, description, mechanic, and note.`,
+    philosophy: `CANONICAL PHILOSOPHY, CREED & DOCTRINE RULES:
+- Philosophies define ideological creeds, monastic orders, ethical virtues, anathemas, and social resonance.
+- Populate core_tenets, virtues, anathemas, practicing_factions, mechanical_boon, description, mechanic, and note.`,
+    scene: `CANONICAL TACTICAL & NARRATIVE SCENE RULES:
+- Scenes define encounter environments, lighting/gravity/atmosphere zones, interactive set-pieces, and opposition hooks.
+- Populate scene_type, lighting_condition, gravity_zone, atmosphere_hazard, recommended_threats, loot_tier, description, mechanic, and note.`,
+    societies: `CANONICAL SOCIETY SPHERE & GOVERNANCE INDEX RULES:
+- Society entries define governance structures, legal codes, economic indices, and citizen rights.
+- Populate sphere, index_rating, uwp_code, enforcement_agency, citizen_rights, restricted_tech, cultural_taboos, description, mechanic, and note.`,
+    weaponry: `CANONICAL WEAPONRY & ARMAMENT RULES (EUFT / TSC):
+- Weaponry uses Crafting CR (craft_dc) to set TSC Credit Value = 10 * 4^(floor(DC/5)).
+- Populate weapon_category, damage, damage_type, penetration, range, rof, magazine, hands, weight, sockets, craft_dc, cost, description, mechanic, and note.`,
+    armor: `CANONICAL ARMOR & DEFENSIVE SYSTEM RULES (EUFT / TSC):
+- Armor uses Crafting CR (craft_dc) to set TSC Credit Value = 10 * 4^(floor(DC/5)).
+- Populate armor_category, dr_kinetic, dr_energy, dr_exotic, coverage, agi_cap, armor_check_penalty, weight, sockets, craft_dc, cost, description, mechanic, and note.`,
+    augmentations: `CANONICAL AUGMENTATION, CYBERWARE & BIOWARE RULES:
+- Augmentations combine Crafting CR / Credit Cost with Essence / System Strain impact and body-slot installation.
+- Populate augmentation_type, body_location, essence_cost, grade, activation, craft_dc, cost, modifiers, description, mechanic, and note.`,
+    equipment: `CANONICAL TACTICAL HARDWARE & GEAR RULES (EUFT / TSC):
+- Tactical Gear uses Crafting CR (craft_dc) to set TSC Credit Value = 10 * 4^(floor(DC/5)).
+- Populate gear_category, power_source, duration, weight, udu_slots, craft_dc, cost, description, mechanic (exact 2d10 skill bonuses or utility rules), and note.`,
+    mecha: `CANONICAL MECHA, VEHICLE & STARSHIP CHASSIS RULES:
+- Heavy frames and vessels scale Structure Points, Armor DR, Propulsion, Crew, Hardpoints, and TSC Capital Valuation.
+- Populate chassis_class, size, crew, structure_points, armor_dr, speed, hardpoints, sensor_rating, craft_dc, cost, description, mechanic, and note.`,
+    architecture: `CANONICAL ARCHITECTURE, FACILITY & STATION RULES:
+- Structural facilities define UDU capacity, power grid output, security rating, garrison/staffing, and construction valuation.
+- Populate facility_type, footprint, udu_capacity, power_output, security_rating, modules, craft_dc, cost, description, mechanic, and note.`,
+    other: `CANONICAL TRADE COMMODITY & EXOTIC PROPERTY RULES:
+- Trade goods, reagents, and curiosities define cargo tonnage, legality class, containment requirements, and TSC market value.
+- Populate property_subtype, trade_code, legality, containment_class, cargo_units, craft_dc, cost, description, mechanic, and note.`
   };
 
   const subjectGuidance = subjectRulesByMatrix[matrixId] || (
@@ -734,14 +1401,23 @@ export const synthesizeMatrixWithBastion = async ({
       ? `CANONICAL PROPERTY & HARDWARE RULES (EUFT / TSC):
 - Hardware & property items use Crafting CR / Design DC (craft_dc) to determine Market Value via the Tangent Standard Curve: Credit Value = 10 * 4^(floor(DC/5)).
 - Populate craft_dc, cost, durability/weight/slots where applicable, description, mechanic (exact 2d10 combat/utility rules, Penetration, DR, or modifiers), and note.`
-      : `CANONICAL OMNICORTEX RULES:
-- Non-property rules entry. Do NOT include fabrication credit costs or hardware sockets.
-- Populate all schema fields with rules-accurate 2d10 Dual Resolution mechanics and lore.`
+      : `CANONICAL OMNICORTEX RULES (${matrix.name}):
+- Non-property ${matrix.label} rules entry. Do NOT include fabrication credit costs, hardware sockets, or unrelated biological species stats.
+- Populate all schema fields for ${matrix.name} with rules-accurate 2d10 Dual Resolution mechanics and lore.`
   );
 
-  const systemInstructions = `You are BASTION, the Tactical AI & System Rules Architect for the Tangent Science Fantasy Roleplaying Game (SFF RPG) CODEX Rules Builder.
-Always address the user as ARCHITECT.
-Your role in the CODEX is to engineer balanced, rules-accurate, mathematically grounded in-game content that integrates directly with the canonical OMNICORTEX database.
+  const traitDirectiveHeading = isSpeciesMatrix
+    ? 'SELECTED SPECIES TRAITS (MUST INCLUDE IN TRAITS ARRAY & MECHANICS):'
+    : isPillarMatrix
+      ? `SELECTED ${matrix.name.toUpperCase()} PILLAR TRAITS (MUST INCLUDE IN TRAITS ARRAY & MECHANICS):`
+      : 'SELECTED CORTEX TRAITS (MUST INCLUDE IN TRAITS ARRAY & MECHANICS):';
+
+  const adjustmentsDirectiveHeading = isSpeciesMatrix
+    ? 'CUSTOM SPECIES TRAIT & ADJOINING MODIFIER ADJUSTMENTS (WITH TRACKED CP COSTS):'
+    : `SELECTED ${matrix.name.toUpperCase()} TRAIT PARAMETERS:`;
+
+  const systemInstructions = `You are BASTION, the Tactical AI & System Rules Co-Architect for the Tangent Science Fantasy Roleplaying Game (SFF RPG) CODEX Rules Builder.
+Collaborate with the Architect in partnered "we" / "our" framing inside notes, and engineer balanced, rules-accurate, mathematically grounded in-game content that integrates directly with the canonical OMNICORTEX database.
 
 TARGET MATRIX: ${matrix.name} (${matrix.label})
 CATEGORY: ${matrix.category} (${matrix.description || ''})
@@ -751,9 +1427,11 @@ ${modularLines ? `MODULAR CONCEPT MATRIX (COMBINED AXES):\n${modularLines}` : ''
 ${paramLines ? `SELECTED SUBJECT PARAMETERS:\n${paramLines}` : ''}
 ${profile?.showTechLevel !== false ? `TECH LEVEL: TL ${targetTechLevel} (0: Archaic, 1: Industrial, 2: Modern, 3: Interstellar Cyber, 4: Quantum/Bioware, 5: Singularity)` : ''}
 ${profile?.showMetaLevel !== false ? `META LEVEL: ML ${targetMetaLevel} (0: None, 1: Latent, 2: Awakened, 3: Adept, 4: Master, 5: Cosmic)` : ''}
-${cortexTraitLines ? `SELECTED CORTEX TRAITS (MUST INCLUDE IN TRAITS ARRAY & MECHANICS):\n${cortexTraitLines}` : ''}
-${cortexDisadvLines ? `SELECTED CORTEX DISADVANTAGES / FLAWS (MUST INCLUDE IN DISADVANTAGES ARRAY):\n${cortexDisadvLines}` : ''}
-${customAdjustmentsSummary ? `CUSTOM TRAIT & ADJOINING MODIFIER ADJUSTMENTS (WITH TRACKED CP COSTS):\n${customAdjustmentsSummary}` : ''}
+${cortexTraitLines ? `${traitDirectiveHeading}\n${cortexTraitLines}` : ''}
+${cortexDisadvLines ? `SELECTED SPECIES DISADVANTAGES / FLAWS (MUST INCLUDE IN DISADVANTAGES ARRAY):\n${cortexDisadvLines}` : ''}
+${normalizedPillarSkills.length > 0 ? `SELECTED 20-SP SKILL POOL SKILLS (FIXED 20 SP POOL — MUST INCLUDE IN SKILL POOL): ${normalizedPillarSkills.join(', ')}` : ''}
+${normalizedRecommendedFeatures.length > 0 ? `SELECTED RECOMMENDED FEATURES (-1 CP DISCOUNT — MUST INCLUDE IN RECOMMENDED_FEATURES ARRAY): ${normalizedRecommendedFeatures.join(', ')}` : ''}
+${customAdjustmentsSummary ? `${adjustmentsDirectiveHeading}\n${customAdjustmentsSummary}` : ''}
 DIRECTIVES: ${customDirectives || `Adhere strictly to Tangent SFF RP canonical rules and schema for ${matrix.label}.`}
 
 ${subjectGuidance}
@@ -762,15 +1440,17 @@ REQUIRED FIELDS TO POPULATE FOR ${matrix.name}:
 ${fieldDefinitions}
 
 OUTPUT FORMAT:
-Provide ONLY a valid JSON object matching the ${matrix.name} matrix fields. Ensure all selected subject parameters (${Object.keys(categoryParams || {}).join(', ')}) and selected Cortex traits are respected.
+Provide ONLY a valid JSON object matching the ${matrix.name} matrix fields. Ensure all selected subject parameters (${Object.keys(categoryParams || {}).join(', ')}) are respected and NO cross-domain fields leak into ${matrix.name}.
 Return ONLY the raw JSON object.`;
 
   const explicitTraitEntries = (customAdjustmentsPayload?.traits?.length > 0)
     ? customAdjustmentsPayload.traits
     : (selectedCortexTraits || []).map(t => t.id || t.name).filter(Boolean);
-  const explicitDisadvEntries = (customAdjustmentsPayload?.disadvantages?.length > 0)
-    ? customAdjustmentsPayload.disadvantages
-    : (selectedCortexDisadvantages || []).map(d => d.id || d.name).filter(Boolean);
+  const explicitDisadvEntries = isSpeciesMatrix
+    ? ((customAdjustmentsPayload?.disadvantages?.length > 0)
+        ? customAdjustmentsPayload.disadvantages
+        : (selectedCortexDisadvantages || []).map(d => d.id || d.name).filter(Boolean))
+    : [];
   const moduleSuggestedTraitIds = Array.from(
     new Set(
       (selectedModules || [])
@@ -782,37 +1462,68 @@ Return ONLY the raw JSON object.`;
   const applyCustomAdjustmentsToResult = (targetObj) => {
     if (!customAdjustmentsPayload) return targetObj;
 
+    // Non-species matrices must NEVER receive Species biological package modifiers or CP overrides
+    if (!isSpeciesMatrix) {
+      return targetObj;
+    }
+
     if (Array.isArray(customAdjustmentsPayload.modifiers) && customAdjustmentsPayload.modifiers.length > 0) {
       const existingMods = Array.isArray(targetObj.modifiers) ? targetObj.modifiers : [];
       targetObj.modifiers = [...customAdjustmentsPayload.modifiers, ...existingMods];
     }
 
-    if (Array.isArray(customAdjustmentsPayload.attribute_modifiers) && customAdjustmentsPayload.attribute_modifiers.length > 0) {
-      targetObj.attribute_modifiers = customAdjustmentsPayload.attribute_modifiers;
-      targetObj.inherent_attribute_modifiers = customAdjustmentsPayload.attribute_modifiers;
+    // Normalize attribute_modifiers from either array or plain object map { str: 1, ... }
+    const rawAttrMods = customAdjustmentsPayload.attribute_modifiers;
+    const normalizedAttrModArray = Array.isArray(rawAttrMods)
+      ? rawAttrMods
+      : (rawAttrMods && typeof rawAttrMods === 'object')
+        ? Object.entries(rawAttrMods)
+            .filter(([, val]) => Number(val) !== 0)
+            .map(([attribute, val]) => ({ attribute, bonus: Number(val) }))
+        : [];
+
+    if (normalizedAttrModArray.length > 0) {
+      targetObj.attribute_modifiers = normalizedAttrModArray;
+      targetObj.inherent_attribute_modifiers = normalizedAttrModArray;
       targetObj.attributes = {
         ...(targetObj.attributes || {}),
         ...(customAdjustmentsPayload.attributes || {})
       };
-      Object.entries(customAdjustmentsPayload.attributes || {}).forEach(([attrKey, val]) => {
-        if (Number(val) !== 0) {
-          targetObj[`bonus_${attrKey}`] = Number(val);
+      normalizedAttrModArray.forEach(({ attribute, bonus }) => {
+        if (attribute && Number(bonus) !== 0) {
+          targetObj[`bonus_${attribute.toLowerCase()}`] = Number(bonus);
         }
       });
     }
 
-    if (Array.isArray(customAdjustmentsPayload.specific_skill_bonuses) && customAdjustmentsPayload.specific_skill_bonuses.length > 0) {
-      targetObj.specific_skill_bonuses = customAdjustmentsPayload.specific_skill_bonuses;
+    // Normalize specific_skill_bonuses from either array or plain object map { Stealth: 2, ... }
+    const rawSkillBonuses = customAdjustmentsPayload.specific_skill_bonuses;
+    const normalizedSkillBonusArray = Array.isArray(rawSkillBonuses)
+      ? rawSkillBonuses
+      : (rawSkillBonuses && typeof rawSkillBonuses === 'object')
+        ? Object.entries(rawSkillBonuses)
+            .filter(([, val]) => Number(val) !== 0)
+            .map(([skill, val]) => ({ skill_id: skill, skill, bonus: Number(val) }))
+        : [];
+
+    if (normalizedSkillBonusArray.length > 0) {
+      targetObj.specific_skill_bonuses = normalizedSkillBonusArray;
     }
 
-    if (customAdjustmentsPayload.bonus_skills > 0) {
+    if (typeof customAdjustmentsPayload.bonus_skills === 'number' && customAdjustmentsPayload.bonus_skills > 0) {
       targetObj.bonus_skills = customAdjustmentsPayload.bonus_skills;
       targetObj.skill_bundles = Math.floor(customAdjustmentsPayload.bonus_skills / 5);
+    } else if (Array.isArray(customAdjustmentsPayload.bonus_skills) && customAdjustmentsPayload.bonus_skills.length > 0) {
+      const existingRecSkills = Array.isArray(targetObj.recommended_skills) ? targetObj.recommended_skills : [];
+      targetObj.recommended_skills = Array.from(new Set([...customAdjustmentsPayload.bonus_skills, ...existingRecSkills]));
     }
 
     if (Array.isArray(customAdjustmentsPayload.movement_modes) && customAdjustmentsPayload.movement_modes.length > 0) {
+      const formattedModes = customAdjustmentsPayload.movement_modes
+        .map(m => (typeof m === 'object' && m !== null ? `${m.mode || 'Custom'} (${m.speed || 30} ft)` : String(m)))
+        .filter(Boolean);
       const existingModes = Array.isArray(targetObj.movement_modes) ? targetObj.movement_modes : [];
-      const mergedModes = Array.from(new Set([...customAdjustmentsPayload.movement_modes, ...existingModes]));
+      const mergedModes = Array.from(new Set([...formattedModes, ...existingModes]));
       targetObj.movement_modes = mergedModes;
       targetObj.movement = mergedModes;
     }
@@ -831,7 +1542,7 @@ Return ONLY the raw JSON object.`;
     return targetObj;
   };
 
-  if (!apiKey) {
+  const buildMatrixFallback = () => {
     const resolvedName =
       targetName ||
       suggestedName ||
@@ -848,7 +1559,7 @@ Return ONLY the raw JSON object.`;
         ? `2d10 Dual Resolution mechanics calibrated for TL ${targetTechLevel} / ML ${targetMetaLevel}. Crafting CR: ${categoryParams?.craft_dc || matrix?.defaultValues?.craft_dc || (12 + targetTechLevel * 2)}.`
         : `Canonical 2d10 Dual Resolution mechanics for ${resolvedName} (${matrix.label}). ${
             selectedCortexTraits?.length
-              ? `Inherent Cortex Traits: ${selectedCortexTraits.map(t => `${t.name} (${t.cp ?? 1} CP — ${t.mechanic || 'Canonical trait'})`).join('; ')}. `
+              ? `Selected ${matrix.name} Traits: ${selectedCortexTraits.map(t => `${t.name} (${t.cp ?? 1} CP — ${t.mechanic || 'Canonical trait'})`).join('; ')}. `
               : ''
           }${customAdjustmentsSummary ? `${customAdjustmentsSummary} ` : ''}${customDirectives || 'Standard CP/SP balance rules apply.'}`,
       note: `Synthesized locally via BASTION ${matrix.name} Matrix (${archetype?.name || 'Custom Profile'}).`,
@@ -883,36 +1594,87 @@ Return ONLY the raw JSON object.`;
       baseFallback.recommended_skills = ['Survival', 'Alertness', 'Athletics'];
       baseFallback.recommended_features = ['Tough', 'Fleet of Foot'];
       applyCustomAdjustmentsToResult(baseFallback);
-    } else if (['origins', 'occupations', 'archetypes', 'factions'].includes(matrixId) && explicitTraitEntries.length > 0) {
-      baseFallback.traits = explicitTraitEntries;
-      if (matrixId === 'archetypes') {
-        baseFallback.signature_traits = explicitTraitEntries;
-      }
-      applyCustomAdjustmentsToResult(baseFallback);
     } else if (matrixId === 'factions') {
       baseFallback.faction_type = categoryParams.faction_type || 'Major Polity';
       baseFallback.government_type = categoryParams.government_type || 'Corporate Oligarchy';
       baseFallback.wealth_modifier = categoryParams.wealth_modifier || '0 (Standard Baseline)';
       baseFallback.archetype = archetype?.name || 'Interstellar Polity';
-      baseFallback.prominent_species = 'Humans & Integrated Xenotypes';
+      baseFallback.prominent_species = 'Cosmopolitan / Multi-Lineage Membership';
       baseFallback.capital_world = `${resolvedName.split(' ')[0]} Prime`;
       baseFallback.driving_mandate = customDirectives || 'Secure strategic trade corridors and expand sector sovereignty.';
       baseFallback.motto = '"Order Through Unity, Prosperity Through Resolve."';
-      baseFallback.skill_package = 'Diplomacy (+4), Streetwise (+3), Computers (+3), Alertness (+3), Pilot (+3), Small Arms (+4)';
+      baseFallback.skill_points = 20;
+      baseFallback.skill_package = normalizedPillarSkills.length > 0
+        ? normalizedPillarSkills.join(', ')
+        : 'Diplomacy, Streetwise, Computers, Alertness, Pilot, Small Arms';
+      baseFallback.recommended_skills = normalizedPillarSkills.length > 0
+        ? normalizedPillarSkills
+        : ['Diplomacy', 'Streetwise', 'Computers', 'Alertness', 'Pilot', 'Small Arms'];
       baseFallback.typical_archetypes = 'The Envoy, The Operative, The Quartermaster, The Enforcer';
-      baseFallback.recommended_features = ['Benefit (Authority)', 'Connected', 'Gearhead'];
+      baseFallback.recommended_features = normalizedRecommendedFeatures.length > 0
+        ? normalizedRecommendedFeatures
+        : ['Benefit (Authority)', 'Connected', 'Gearhead'];
       baseFallback.setting_style = 'High-Contrast Science Fantasy, Industrial & Neon';
+    } else if (matrixId === 'origins') {
+      baseFallback.habitat = categoryParams.habitat || 'Planetary Core World';
+      baseFallback.ws_modifier = Number(categoryParams.ws_modifier ?? 1);
+      baseFallback.skill_points = 20;
+      const defaultOriginSkills = ['Alertness', 'Athletics', 'Computers', 'Diplomacy', 'Drive', 'Knowledge (Local)', 'Streetwise', 'Survival'];
+      baseFallback.society_skills = normalizedPillarSkills.length > 0
+        ? Array.from(new Set([...normalizedPillarSkills, ...defaultOriginSkills]))
+        : defaultOriginSkills;
+      baseFallback.recommended_skills = baseFallback.society_skills;
+      baseFallback.recommended_features = normalizedRecommendedFeatures.length > 0
+        ? normalizedRecommendedFeatures
+        : ['Environmental Adaptation', 'Tough', 'Alertness'];
+      baseFallback.archetypes = ['Sentinel', 'Operative', 'Savant'];
+    } else if (matrixId === 'occupations') {
+      baseFallback.field = categoryParams.field || 'Tactical & Security';
+      baseFallback.base_ws = Number(categoryParams.base_ws ?? 3);
+      baseFallback.skill_points = 20;
+      const defaultOccSkills = ['Alertness', 'Athletics', 'Computers', 'Medicine', 'Investigation', 'Mechanics', 'Pilot', 'Small Arms'];
+      baseFallback.professional_skills = normalizedPillarSkills.length > 0
+        ? Array.from(new Set([...normalizedPillarSkills, ...defaultOccSkills]))
+        : defaultOccSkills;
+      baseFallback.recommended_skills = baseFallback.professional_skills;
+      baseFallback.recommended_features = normalizedRecommendedFeatures.length > 0
+        ? normalizedRecommendedFeatures
+        : ['Gearhead', 'Connected', 'Lightning Reflexes'];
+      baseFallback.archetypes = ['Operative', 'Sentinel', 'Savant'];
+    } else if (matrixId === 'archetypes') {
+      baseFallback.sphere = categoryParams.sphere || 'Operatives';
+      baseFallback.primary_attribute = categoryParams.primary_attribute || 'Agility';
+      baseFallback.secondary_attribute = categoryParams.secondary_attribute || 'Intellect';
+      baseFallback.essential_skills = ['Alertness', 'Athletics', 'Stealth', 'Small Arms', 'Computers', 'Investigation', 'Insight', 'Acrobatics', 'Deception', 'Tactics'];
+    }
+
+    if (isPillarMatrix && (explicitTraitEntries.length > 0 || moduleSuggestedTraitIds.length > 0)) {
+      const resolvedPillarTraits = explicitTraitEntries.length > 0 ? explicitTraitEntries : moduleSuggestedTraitIds;
+      baseFallback.traits = resolvedPillarTraits;
+      if (matrixId === 'archetypes') {
+        baseFallback.signature_traits = resolvedPillarTraits.slice(0, 2);
+      }
     }
 
     return baseFallback;
+  };
+
+  if (!hasAvailableAiTransport(apiKey)) {
+    return buildMatrixFallback();
   }
 
-  const response = await fetchGeminiContent(apiKey, {
-    contents: [{ role: 'user', parts: [{ text: systemInstructions }] }],
-    generationConfig: {
-      responseMimeType: "application/json"
-    }
-  });
+  let response;
+  try {
+    response = await fetchGeminiContent(apiKey, {
+      contents: [{ role: 'user', parts: [{ text: systemInstructions }] }],
+      generationConfig: {
+        responseMimeType: "application/json"
+      }
+    });
+  } catch (err) {
+    if (!apiKey) return buildMatrixFallback();
+    throw err;
+  }
 
   const rawText = response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
   const cleanJsonStr = rawText
@@ -960,6 +1722,36 @@ Return ONLY the raw JSON object.`;
   }
 
   applyCustomAdjustmentsToResult(parsed);
+
+  if (['factions', 'origins', 'occupations'].includes(matrixId)) {
+    parsed.skill_points = 20;
+    if (normalizedPillarSkills.length > 0) {
+      if (matrixId === 'origins') {
+        const existing = Array.isArray(parsed.society_skills) ? parsed.society_skills : [];
+        parsed.society_skills = Array.from(new Set([...normalizedPillarSkills, ...existing]));
+        parsed.recommended_skills = parsed.society_skills;
+      } else if (matrixId === 'occupations') {
+        const existing = Array.isArray(parsed.professional_skills) ? parsed.professional_skills : [];
+        parsed.professional_skills = Array.from(new Set([...normalizedPillarSkills, ...existing]));
+        parsed.recommended_skills = parsed.professional_skills;
+      } else if (matrixId === 'factions') {
+        const existingPkg = typeof parsed.skill_package === 'string'
+          ? parsed.skill_package.split(',').map(s => s.trim()).filter(Boolean)
+          : (Array.isArray(parsed.skill_package) ? parsed.skill_package : []);
+        const mergedPkg = Array.from(new Set([...normalizedPillarSkills, ...existingPkg]));
+        parsed.skill_package = mergedPkg.join(', ');
+        parsed.recommended_skills = mergedPkg;
+      }
+    }
+    if (normalizedRecommendedFeatures.length > 0) {
+      const existingFeats = Array.isArray(parsed.recommended_features)
+        ? parsed.recommended_features
+        : (typeof parsed.recommended_features === 'string'
+          ? parsed.recommended_features.split(',').map(s => s.trim()).filter(Boolean)
+          : []);
+      parsed.recommended_features = Array.from(new Set([...normalizedRecommendedFeatures, ...existingFeats]));
+    }
+  }
 
   return {
     ...matrix.defaultValues,
@@ -1087,8 +1879,8 @@ export const synthesizeDatasetIngestionWithBastion = async ({
 
   const apiKey = getGeminiApiKey();
 
-  // If no API key, return simulated offline cognition using canonical sample
-  if (!apiKey) {
+  // If no live AI transport (API key, Local LLM, or authenticated geminiProxy), return simulated offline cognition using canonical sample
+  if (!hasAvailableAiTransport(apiKey)) {
     const adaptedSample = adaptSparkItemToFirestore(categoryKey, dataset.sampleItem);
     const health = verifyFolioAssetHealth(adaptedSample, categoryKey);
     adaptedSample._folioHealth = health;

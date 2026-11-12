@@ -513,7 +513,7 @@ export const OriginArchitectGuidance = ({
                 {isEditMode && onOpenPicker && (
                   <button
                     type="button"
-                    onClick={() => onOpenPicker({ source: 'skills', target: 'recommended_skills', label: 'Recommended Skills' })}
+                    onClick={() => onOpenPicker({ source: 'skills', target: 'recommended_skills', alsoSyncFields: ['society_skills'], label: 'Society Skills (Fixed 20 SP Pool)' })}
                     className="px-2 py-0.5 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 rounded text-[10px] font-mono font-bold uppercase transition-colors flex items-center gap-1"
                   >
                     <Compass size={10} />

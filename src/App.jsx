@@ -9,6 +9,7 @@ import { VoiceChatProvider } from './context/VoiceChatContext';
 import { VoiceCommsBar } from './components/Chat/VoiceCommsBar';
 import { DiceProvider } from './context/DiceContext';
 import { ContextMenuProvider } from './context/ContextMenuContext';
+import { BastionProvider } from './context/BastionContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
 import { GlobalSideRail } from './components/Layout/GlobalSideRail';
 import { MobileBottomNav } from './components/Layout/MobileBottomNav';
@@ -154,6 +155,10 @@ export function App() {
               <ChatProvider>
                 <VoiceChatProvider>
                   <DiceProvider>
+                    <BastionProvider
+                      isDrawerOpen={isBastionOpen}
+                      onDrawerOpenChange={setIsBastionOpen}
+                    >
                     <ContextMenuProvider>
                       <div className="h-screen h-dvh w-screen tangent-grid-bg flex flex-col font-sans overflow-hidden text-slate-100 select-none">
                       {/* Persistent Global HUD (Height: 52px on sub-routes) */}
@@ -233,6 +238,7 @@ export function App() {
                       />
                     </div>
                   </ContextMenuProvider>
+                  </BastionProvider>
                 </DiceProvider>
                 </VoiceChatProvider>
               </ChatProvider>

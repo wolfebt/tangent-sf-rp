@@ -26,6 +26,7 @@ import { Toast } from '../UI/Toast';
 import { BreadcrumbNav } from '../UI/BreadcrumbNav';
 
 import { useDBM } from '../../context/DBMContext';
+import { useBastion } from '../../context/BastionContext';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
 import { SPECIES_LINEAGES, resolveSpeciesLineageName, doesSpeciesMatchLineage } from '../../data/speciesData';
@@ -569,6 +570,41 @@ export const DBMContainer = () => {
     }
     AudioService.playTerminalBeep(1200, 0.03);
   };
+
+  // Register active DBM studio context into unified BASTION surface registry
+  const { registerSurfaceContext, unregisterSurfaceContext, openBastion } = useBastion();
+  useEffect(() => {
+    if (typeof registerSurfaceContext !== 'function') return undefined;
+    registerSurfaceContext('dbm-workspace', {
+      surfaceType: 'dbm',
+      currentKey,
+      activeCategory,
+      currentConfig,
+      selectedItem,
+      isEntryModalOpen,
+      editFormData,
+      setEditFormData,
+      handleCreateNew,
+    });
+    return () => unregisterSurfaceContext?.('dbm-workspace');
+  }, [
+    registerSurfaceContext,
+    unregisterSurfaceContext,
+    currentKey,
+    activeCategory,
+    currentConfig,
+    selectedItem,
+    isEntryModalOpen,
+    editFormData,
+  ]);
+
+  // Bridge DBMContext isBastionOpen toggles to unified global BASTION drawer
+  useEffect(() => {
+    if (isBastionOpen && typeof openBastion === 'function') {
+      openBastion();
+      setIsBastionOpen?.(false);
+    }
+  }, [isBastionOpen, openBastion, setIsBastionOpen]);
 
   const handleDuplicateEntry = async (itemToDuplicate) => {
     const target = itemToDuplicate || selectedItem;

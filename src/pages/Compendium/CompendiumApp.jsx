@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { categoryConfig } from '../../components/DBM/categoryConfig';
 import { useAuth } from '../../context/AuthContext';
 import { useDBM } from '../../context/DBMContext';
+import { useBastion } from '../../context/BastionContext';
 import { useFirestoreSync } from '../../components/DBM/hooks/useFirestoreSync';
 import { DBMWikiView } from '../../components/DBM/DBMWikiView';
 import { DBMItemModal, DBMItemTransferBar } from '../../components/DBM/DBMItemModal';
@@ -303,6 +304,32 @@ export const CompendiumApp = () => {
 
   // Config for current active item in modal
   const activeItemConfig = categoryConfig[activeItemCategoryKey] || rulesConfig;
+
+  // Register Compendium workspace context into unified BASTION surface registry
+  const { registerSurfaceContext, unregisterSurfaceContext } = useBastion();
+  useEffect(() => {
+    if (typeof registerSurfaceContext !== 'function') return undefined;
+    registerSurfaceContext('compendium-workspace', {
+      surfaceType: 'compendium',
+      currentKey: activeItemCategoryKey || 'compendium',
+      activeCategory: 'compendium',
+      currentConfig: activeItemConfig,
+      selectedItem,
+      isEntryModalOpen,
+      editFormData,
+      setEditFormData,
+      handleCreateNew,
+    });
+    return () => unregisterSurfaceContext?.('compendium-workspace');
+  }, [
+    registerSurfaceContext,
+    unregisterSurfaceContext,
+    activeItemCategoryKey,
+    activeItemConfig,
+    selectedItem,
+    isEntryModalOpen,
+    editFormData,
+  ]);
 
   return (
     <div className="flex flex-col h-full w-full tangent-grid-bg text-slate-100 font-sans overflow-hidden select-none">

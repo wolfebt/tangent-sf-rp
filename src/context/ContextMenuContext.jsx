@@ -149,8 +149,16 @@ export const ContextMenuProvider = ({ children }) => {
         rawGeneratedFields = fieldsRes?.generated || fieldsRes?.data || fieldsRes;
         generatedResult = rawGeneratedFields;
       } else {
+        const activeBastionSession = globalThis.__TANGENT_BASTION_SESSION__ || null;
+        // On /folio or /vtt, default to 'operator' ("you") when no explicit Architect session is active
+        const fallbackRouteRole =
+          location.pathname.startsWith('/folio') || location.pathname.startsWith('/vtt')
+            ? (activeBastionSession?.effectiveRole || 'operator')
+            : (activeBastionSession?.effectiveRole || 'architect');
         const response = await sendBastionChatMessage({
           prompt,
+          role: fallbackRouteRole,
+          sessionState: activeBastionSession,
           contextData: { context, pathname: location.pathname }
         });
         generatedResult = response.text || response;

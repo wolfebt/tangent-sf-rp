@@ -34,6 +34,7 @@ import { ScalingCodex } from './ScalingCodex';
 import { CodexIngestionEngine } from './CodexIngestionEngine';
 import { CodexDatasetDashboard } from './CodexDatasetDashboard';
 import { AudioService } from '../../services/audioService';
+import { useConfirm } from '../../context/ConfirmContext';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 export const CodexApp = () => {
@@ -61,6 +62,7 @@ export const CodexApp = () => {
   });
 
   const { dbData, deleteEntry } = useDBM() || {};
+  const confirm = useConfirm();
   const currentMatrix = getMatrixById(activeMatrixId);
   const [parsingDatasetKey, setParsingDatasetKey] = useState(currentMatrix.ingestionKey || 'species');
 
@@ -332,8 +334,9 @@ export const CodexApp = () => {
     if (e?.stopPropagation) e.stopPropagation();
     const itemName = item.name || item.title || 'this entry';
     const confirmed = await confirmTypedDeletion(
+      confirm,
       itemName,
-      `delete the ${currentMatrix.name} entry "${itemName}" from Omnicortex`
+      `${currentMatrix.name} entry`
     );
 
     if (confirmed) {

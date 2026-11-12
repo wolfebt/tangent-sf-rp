@@ -261,9 +261,12 @@ const AddSkillModal = ({
                   min="0"
                   max="10"
                   value={specRank}
-                  onChange={(e) => setSpecRank(Math.min(10, Math.max(0, parseInt(specRank, 10) || 0)))}
+                  onChange={(e) => setSpecRank(Math.min(10, Math.max(0, parseInt(e.target.value, 10) || 0)))}
                   className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-sm text-slate-100 outline-none"
                 />
+                <span className="text-[11px] text-slate-400 mt-1">
+                  1 SP/CP per rank • Adds to Base Skill (0–20) to reach 21–30 (max 1 specialization applies per check).
+                </span>
               </div>
             </>
           )}

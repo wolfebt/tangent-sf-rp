@@ -627,21 +627,21 @@ export const DATASET_GUIDANCE = {
   skills: {
     id: 'skills',
     title: 'Skills & Specializations Design Framework',
-    subtitle: 'BASTION 1.03 — 6 Mastery Stages (Rank 1–30) & Specialty Trees',
+    subtitle: 'Operator Guide 1.07 — Base Ranks (0–20) + Sub-Skill Specializations (0–10)',
     category: 'Character Progression',
     isProperty: false,
-    overview: 'Skills govern trained competency across Physical, Mental, Combat, Social, and Technical domains. Skill ranks cost 1 SP/CP per rank across 6 Mastery Stages (Rank 1–30), resolved via 2d10 + Governing Attribute + Skill Rank vs. CR, with Pinnacle Mastery (Rank 26–30) granting Advantage.',
+    overview: 'Skills govern trained competency across Physical, Mental, Combat, Social, and Metafocus domains. Base Skill Ranks progress from 0 to 20 at 1 SP/CP per rank. Specializations do not grant a flat +2; they are built-up sub-skills (Rank 0–10 at 1 SP/CP per rank, max 1 viable per check) that add directly to the Base Skill to unlock the 21–30 effective range (Grand Master 21–25 & Pinnacle 26–30 Advantage).',
     canonicalRules: [
-      { id: 'RULE-SKILL-01', title: 'Linear 1 SP/CP Rank Cost', summary: 'Each Skill Rank costs 1 Skill Point (or 1 CP). Starting creation cap is Rank 11 (Expert); mastery progresses through Rank 30 (Pinnacle).' },
-      { id: 'RULE-SKILL-02', title: '6 Mastery Stages (Rank 1–30)', summary: '2d10 + Governing Attribute + Skill Rank vs. CR across 6 Mastery Stages (Novice 1–5, Trained 6–10, Expert 11–15, Master 16–20, Grandmaster 21–25, Pinnacle 26–30 Advantage).' },
-      { id: 'RULE-SKILL-03', title: 'Specializations (+2 Bonus)', summary: 'Specialties grant +2 to focused checks within the parent skill.' }
+      { id: 'RULE-SKILL-01', title: 'Base Skill Ranks (0–20) at 1 SP/CP', summary: 'Base Skill Ranks progress from Untrained (0) through Master (16–20) at 1 Skill Point (or 1 CP) per rank. Starting character creation cap is Rank 11 (Expert).' },
+      { id: 'RULE-SKILL-02', title: 'Specialization Sub-Skills (Rank 0–10)', summary: 'Specializations are built-up sub-skills (max Rank 10, Prerequisite Base Rank 6+) purchased at the same 1 SP/CP per rank cost as skills. Only one specialization can apply to a check.' },
+      { id: 'RULE-SKILL-03', title: 'Effective 21–30 Range (Skill + Spec)', summary: 'Adding Base Skill (0–20) + 1 Specialization (1–10) unlocks Grand Master (21–25) and Pinnacle (26–30, Take 10 anywhere & Advantage).' }
     ],
     sections: [
       {
         id: 'skill_taxonomy',
         name: 'Governing Attribute & Skill Group',
         description: 'Bind the skill to one of the 6 primary attributes (STR, AGI, STA, INT, WIS, CHA) and a functional skill group.',
-        formula: 'Check = 2d10 + Governing Attribute + Skill Rank vs. CR (Pinnacle 26–30 Advantage)'
+        formula: 'Check = 2d10 + Governing Attribute + Base Skill (0–20) + 1 Specialization (0–10) vs. CR'
       }
     ]
   },
@@ -805,10 +805,202 @@ DATASET_GUIDANCE.species_traits = DATASET_GUIDANCE.trait;
 DATASET_GUIDANCE.species_disadvantages = DATASET_GUIDANCE.disadvantages;
 DATASET_GUIDANCE.other_property = DATASET_GUIDANCE.other;
 
+const EXTENDED_DOMAIN_GUIDANCE = {
+  species_lineage: {
+    id: 'species_lineage',
+    title: 'Parent Species Lineage Framework',
+    subtitle: 'Operator Guide 1.03 — 10 Canonical Macro-Lineages',
+    category: 'Biological & Synthetic Lineages',
+    isProperty: false,
+    overview: 'Defines ancestral taxon umbrellas (Aeld, Asi, Aulurans, Humans Gen-E/Variants, Independent Xenotypes, Kitin, Progenitors, Sha’Nor, Synthetics) shared across playable sub-species.',
+    canonicalRules: [
+      { id: 'RULE-LIN-01', title: 'Self-Contained Sub-Species Lore', summary: 'Sub-species inherit ancestral biology and history from their parent lineage.' }
+    ],
+    sections: [{ id: 'lineage_core', name: 'Ancestral Taxonomy', description: 'Define macro-lineage morphology, home sector, and baseline traits.', formula: 'Inherited by child sub-species' }]
+  },
+  species_type: {
+    id: 'species_type',
+    title: 'Physiological & Synthetic Chassis Framework',
+    subtitle: 'Operator Guide 1.03 & 3.00 — Vitality/Health vs. 60 SP Structure',
+    category: 'Biological & Synthetic Lineages',
+    isProperty: false,
+    overview: 'Distinguishes Biological organisms (Base 30 VP / 30 HP) from Synthetics & Constructs (Base 60 SP unified Structure Pool, immune to non-lethal damage, vacuum, and biological toxins).',
+    canonicalRules: [
+      { id: 'RULE-TYPE-01', title: 'Bio vs. Synthetic Pools', summary: 'Biological = 30 VP + 30 HP; Synthetic = 60 SP Structure + 50% limb durability.' }
+    ],
+    sections: [{ id: 'type_core', name: 'Chassis Immunities & Vitals', description: 'Specify hit-pool model, metabolic needs, and innate immunities.', formula: 'Bio: 30 VP/30 HP | Synth: 60 SP' }]
+  },
+  species_size: {
+    id: 'species_size',
+    title: 'Volumetric Size Tier Framework',
+    subtitle: 'Codex 5.00 — Fine to Colossal Scaling',
+    category: 'Biological & Synthetic Lineages',
+    isProperty: false,
+    overview: 'Governs physical stature, combat Defense/Stealth modifiers, melee reach, carrying capacity, and base Vitality/Health/Structure multipliers.',
+    canonicalRules: [
+      { id: 'RULE-SIZE-01', title: 'Size Defense & Reach', summary: 'Smaller sizes gain Defense/Stealth bonuses; larger sizes gain Reach and Hit Pool scale.' }
+    ],
+    sections: [{ id: 'size_core', name: 'Tier Multipliers', description: 'Define footprint, Defense offset, Reach, and UDU garaging.', formula: 'Medium Baseline = +0 Defense, 5ft Reach' }]
+  },
+  species_movement: {
+    id: 'species_movement',
+    title: 'Locomotion & Movement Mode Framework',
+    subtitle: 'Codex 3.05 — Tactical Kinematics & Paces',
+    category: 'Biological & Synthetic Lineages',
+    isProperty: false,
+    overview: 'Standardizes Bipedal, Quadrupedal, Flight, Hover, Aquatic, Climb, and Burrow movement rates and maneuverability.',
+    canonicalRules: [
+      { id: 'RULE-MOVE-01', title: 'Evasive Movement', summary: 'Moving 20+ ft grants +2 Defense; 40+ ft grants +4 Defense.' }
+    ],
+    sections: [{ id: 'move_core', name: 'Base Speed & Maneuverability', description: 'Set base tactical speed (ft/round) and terrain interaction.', formula: 'Standard Humanoid Pace = 30ft / round' }]
+  },
+  universe: {
+    id: 'universe',
+    title: 'Cosmology & Continuum Framework',
+    subtitle: 'Architect Guide — Macro-Physics & Dimensional Laws',
+    category: 'Worldbuilding & Sociology',
+    isProperty: false,
+    overview: 'Defines physical laws, FTL Tangent Space translation rules, active Metaphysical Disciplines, and overarching thematic tone.',
+    canonicalRules: [
+      { id: 'RULE-COS-01', title: 'TL & ML Ceiling', summary: 'Establishes cosmic Tech Level (0–5) and Meta Level (0–5) boundaries.' }
+    ],
+    sections: [{ id: 'cos_core', name: 'Cosmic Constants', description: 'Configure FTL rules, active disciplines, and era timeline.', formula: 'TL 0–5 | ML 0–5' }]
+  },
+  setting: {
+    id: 'setting',
+    title: 'Setting, Highport & District Framework',
+    subtitle: 'Architect Guide — Playable Locations & Security Zones',
+    category: 'Worldbuilding & Sociology',
+    isProperty: false,
+    overview: 'Anchors playable cities, orbital stations, and frontier sectors to a parent World with Law Levels, Points of Interest, and environmental hazards.',
+    canonicalRules: [
+      { id: 'RULE-SET-01', title: 'Local Law & Customs', summary: 'Local Law Level (0–15) governs weapon/augmentation restrictions.' }
+    ],
+    sections: [{ id: 'set_core', name: 'POIs & Hazards', description: 'Detail key landmarks, security checkpoints, and environmental CRs.', formula: 'Unopposed Hazard Baseline = CR 15' }]
+  },
+  philosophy: {
+    id: 'philosophy',
+    title: 'Philosophy, Creed & Mystic Order Framework',
+    subtitle: 'Worldbuilding — Ideologies, Dogmas & Practices',
+    category: 'Worldbuilding & Sociology',
+    isProperty: false,
+    overview: 'Codifies religious orders, transhumanist movements, and harmonic traditions shaping character motivations and Metaphysical Disciplines.',
+    canonicalRules: [
+      { id: 'RULE-PHIL-01', title: 'Doctrinal Alignment', summary: 'Links beliefs to favored Skills, Traits, and Metaphysical Disciplines.' }
+    ],
+    sections: [{ id: 'phil_core', name: 'Tenets & Practices', description: 'Record core dogma, observances, and schisms.', formula: 'Grants thematic Pillar Trait access' }]
+  },
+  scene: {
+    id: 'scene',
+    title: 'Dramatic Scene & Encounter Beat Framework',
+    subtitle: 'AIME Story Engine — Tactical & Narrative Beats',
+    category: 'Worldbuilding & Sociology',
+    isProperty: false,
+    overview: 'Structures actionable adventure scenes with dramatic hooks, 2d10 CR skill challenges, cover/terrain modifiers, and MCM threat rosters.',
+    canonicalRules: [
+      { id: 'RULE-SCN-01', title: '2d10 Challenge Benchmarks', summary: 'CR 10 Routine | CR 15 Standard | CR 20 Challenging | CR 25 Formidable.' }
+    ],
+    sections: [{ id: 'scn_core', name: 'Stakes, Checks & Roster', description: 'Pair dramatic hooks with Cortex MCM threats and skill CRs.', formula: '2d10 + Attr + Skill vs. Scene CR' }]
+  },
+  societies: {
+    id: 'societies',
+    title: 'Civilization & 18-Sphere Societal Framework',
+    subtitle: 'Architect Guide — Stage 0–5 Societal Infrastructure',
+    category: 'Worldbuilding & Sociology',
+    isProperty: false,
+    overview: 'Models civilizational development from Stage 0 (Tribal/Archaic) to Stage 5 (Post-Scarcity/Progenitor) across 18 specialized infrastructure spheres.',
+    canonicalRules: [
+      { id: 'RULE-SOC-01', title: 'Stage 0–5 Spectrum', summary: 'Aligns local commerce, law, medicine, energy, and warfare with TL/ML.' }
+    ],
+    sections: [{ id: 'soc_core', name: 'Sphere Stage & Effects', description: 'Define infrastructure capabilities and market/availability modifiers.', formula: 'Stage 0–5 <-> TL 0–5 Baseline' }]
+  },
+  rules: {
+    id: 'rules',
+    title: 'Canonical Core Rules & Resolution Framework',
+    subtitle: 'Omnicortex Rules Registry — 2d10 Dual Resolution',
+    category: 'Rules & Reference',
+    isProperty: false,
+    overview: 'Authoritative system procedures, mathematical formulas, and BASTION RAG reference entries.',
+    canonicalRules: [
+      { id: 'RULE-CORE-01', title: '2d10 Dual Resolution', summary: '2d10 + Attr + Skill vs. Defense/CR (Defender wins ties; Double 10s +10; Double 1s -10).' }
+    ],
+    sections: [{ id: 'rule_core', name: 'Citation & Formula', description: 'Specify chapter citation, resolution math, and RAG tags.', formula: 'Unopposed Baseline = CR 15' }]
+  },
+  conditions: {
+    id: 'conditions',
+    title: 'Status Conditions & Trauma Framework',
+    subtitle: 'Codex 3.03 — Combat Debuffs, Trauma & Recovery',
+    category: 'Rules & Reference',
+    isProperty: false,
+    overview: 'Defines tactical status effects (Blind, Disoriented, Crippled Leg, Bleeding Out, Strain) and their active roll/defense penalties.',
+    canonicalRules: [
+      { id: 'RULE-COND-01', title: '33.3% Major Wound Threshold', summary: 'Called shots dealing >= 1/3 Max HP inflict limb/sensory trauma conditions.' }
+    ],
+    sections: [{ id: 'cond_core', name: 'Penalties & Save CR', description: 'Configure check/defense modifiers and recovery CR.', formula: 'Stabilization Baseline = Medicine CR 15' }]
+  },
+  damage_types: {
+    id: 'damage_types',
+    title: 'Damage Vectors & Resistance Framework',
+    subtitle: 'Codex 3.02 — Kinetic, Energy, Radiation & Mental',
+    category: 'Rules & Reference',
+    isProperty: false,
+    overview: 'Governs how Kinetic, Energy, Radiation (Ra-D), Force (ignores 1/2 DR), Bleed, and Mental damage interact with Armor DR, Toughness, Vitality, Health, and Structure.',
+    canonicalRules: [
+      { id: 'RULE-DMG-01', title: 'Armor Layering & Bypass', summary: 'Single highest Armor DR applies; Force ignores 1/2 DR; Mental ignores physical DR.' }
+    ],
+    sections: [{ id: 'dmg_core', name: 'DR Interaction & Secondary Trauma', description: 'Define DR mitigation rules and critical trauma triggers.', formula: 'Net Damage = Raw - (Max Armor DR + STA)' }]
+  },
+  maneuvers: {
+    id: 'maneuvers',
+    title: 'Tactical Combat Maneuvers Framework',
+    subtitle: 'Codex 3.05 — Stances, Called Shots & Opposed Actions',
+    category: 'Rules & Reference',
+    isProperty: false,
+    overview: 'Codifies Guard (+2 DR), Aim (+2 Strike), Overcharge (+6 DMG/+2 Heat), Called Shots, Feints, Grapples, and Evasive Movement.',
+    canonicalRules: [
+      { id: 'RULE-MAN-01', title: 'Skill Tier Action Unlock', summary: 'Rank 1–5 = 1st action; Rank 6–10 = 2nd at -5; Rank 11–15 = 3rd at -10.' }
+    ],
+    sections: [{ id: 'man_core', name: 'Action Cost & Opposed Check', description: 'Specify action type, Strike/Defense offset, and resolution roll.', formula: 'Attacker Check vs. Defender Defense (Ties -> Defender)' }]
+  },
+  synthesis: {
+    id: 'synthesis',
+    title: 'Fabrication & Synthesis Blueprint Framework',
+    subtitle: 'Codex 2.02 — 7-Tier Crafting & Scrap Economy',
+    category: 'Rules & Reference',
+    isProperty: false,
+    overview: 'Defines item fabrication blueprints using the Golden Rule of Wealth (Purchase CR = Crafting CR = Cost CR) and Daily Productivity Points (PP).',
+    canonicalRules: [
+      { id: 'RULE-SYN-01', title: 'Materials & Daily PP', summary: 'Pristine materials = 50% Market Value; Salvage = 5x Scrap Mass; Daily PP = (Check - 10) * Tool Mult * Crew.' }
+    ],
+    sections: [{ id: 'syn_core', name: 'Craft CR, Materials & Tool Tier', description: 'Configure target item, Craft CR, material inputs, and required Tool Tier.', formula: 'Daily PP = (Craft Check - 10) * Tool Mult * Crew' }]
+  }
+};
+
+Object.assign(DATASET_GUIDANCE, EXTENDED_DOMAIN_GUIDANCE);
+DATASET_GUIDANCE.compendium = DATASET_GUIDANCE.rules;
+DATASET_GUIDANCE.user_guide = DATASET_GUIDANCE.rules;
+
 export const CODEX_DATASET_GUIDANCE = DATASET_GUIDANCE;
 
 export const getGuidanceForDataset = (datasetKey) => {
   if (!datasetKey) return null;
   const key = String(datasetKey).toLowerCase().trim();
-  return DATASET_GUIDANCE[key] || DATASET_GUIDANCE[key.replace(/_/g, '-')] || DATASET_GUIDANCE[key.replace(/-/g, '_')] || null;
+  if (DATASET_GUIDANCE[key]) return DATASET_GUIDANCE[key];
+  if (DATASET_GUIDANCE[key.replace(/_/g, '-')]) return DATASET_GUIDANCE[key.replace(/_/g, '-')];
+  if (DATASET_GUIDANCE[key.replace(/-/g, '_')]) return DATASET_GUIDANCE[key.replace(/-/g, '_')];
+  if (key.startsWith('society_')) return DATASET_GUIDANCE.societies;
+  return {
+    id: key,
+    title: `${key.replace(/[_-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} Parameter Framework`,
+    subtitle: 'Omnicortex System Reference Schema',
+    category: 'System Parameters',
+    isProperty: false,
+    overview: 'Canonical mechanical token referenced across Omnicortex hardware, character capabilities, and metaphysical matrices.',
+    canonicalRules: [
+      { id: 'RULE-PARAM-01', title: 'CR & Cost Delta Parity', summary: 'Parameter CR offsets propagate directly into Purchase/Crafting CR and Economatrix TSC value.' }
+    ],
+    sections: [
+      { id: 'param_core', name: 'Token Offset & Modifiers', description: 'Define CR delta, socket/node weight, and universal modifiers.', formula: 'Final CR = Base CR + Sum(Parameter Deltas)' }
+    ]
+  };
 };
