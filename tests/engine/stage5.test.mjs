@@ -142,8 +142,8 @@ test('Stage 5.5: DamagePipeline Canonical 3.00 COMBAT.md Rules (CON Soak, Force 
     is_selected: false
   };
 
-  // 1. Layered Armor [20, 15] -> 20. Raw Damage 35, AP 5 -> effective DR 15.
-  // Target CON Mod = 3 -> total mitigation = 15 + 3 = 18. Net Damage = 35 - 18 = 17.
+  // 1. Layered Armor [20, 15] -> 20 + ceil(15/5)=3 -> 23. Raw Damage 35, AP 5 -> effective DR 18.
+  // Target CON Mod = 3 -> total mitigation = 18 + 3 = 21. Net Damage = 35 - 21 = 14.
   const strike1 = pipeline.resolveStrike({
     rawDamage: 35,
     armorPenetration: 5,
@@ -151,9 +151,9 @@ test('Stage 5.5: DamagePipeline Canonical 3.00 COMBAT.md Rules (CON Soak, Force 
     isCalledShot: false
   }, mockTarget, [20, 15], 3); // targetConMod = 3
 
-  assert.equal(strike1.effectiveDR, 15);
+  assert.equal(strike1.effectiveDR, 18);
   assert.equal(strike1.conModSoak, 3);
-  assert.equal(strike1.netDamage, 17);
+  assert.equal(strike1.netDamage, 14);
   // Net damage 17 >= 33.3% of 30 (10) -> causes internal trauma
   assert.ok(strike1.appliedStatuses.includes('status_trauma_internal'));
 

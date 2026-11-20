@@ -1395,7 +1395,9 @@ export const FolioStatsSliceProvider = ({ children }) => {
     const explicitMaxEssence = parseInt(characterData.max_essence ?? characterData.essence, 10);
     const maxEssence = !isNaN(explicitMaxEssence) && explicitMaxEssence > 0 ? explicitMaxEssence : calculatedMaxEssence;
 
-    // Canonical Armor Layering Cap (3.00 COMBAT.md): Bio, Cybernetic, and Wearable Armor DO NOT STACK — apply ONLY highest single domain DR
+    // Canonical Cross-Domain Diminishing Returns Armor Stacking (3.00 COMBAT.md & 00.02):
+    // Within each domain (Bio, Cybernetic, Wearable), take the highest single item DR;
+    // across distinct domains, use Highest Domain DR + ceil(Additional Domain DR / 5) (+1 DR per stage of 5 DR).
     const parseItemDR = (entry) => {
       if (!entry || typeof entry !== 'object') return 0;
       if (entry.equipped === false) return 0;
@@ -1418,8 +1420,12 @@ export const FolioStatsSliceProvider = ({ children }) => {
     ];
     const bioDR = bioItems.reduce((mx, it) => Math.max(mx, parseItemDR(it)), 0);
     const explicitArmorDR = Math.max(0, parseInt(characterData.armor_dr ?? characterData['armor-rating'] ?? 0, 10) || 0);
-    const effectiveArmorRating = Math.max(bioDR, cyberDR, wearableDR, explicitArmorDR);
-    const armorDomains = { bioDR, cyberDR, wearableDR };
+    const activeDomainDRs = [bioDR, cyberDR, wearableDR].filter((v) => v > 0).sort((a, b) => b - a);
+    const stackedCrossDomainDR = activeDomainDRs.length === 0
+      ? 0
+      : activeDomainDRs[0] + activeDomainDRs.slice(1).reduce((sum, v) => sum + Math.ceil(v / 5), 0);
+    const effectiveArmorRating = Math.max(stackedCrossDomainDR, explicitArmorDR);
+    const armorDomains = { bioDR, cyberDR, wearableDR, stackedCrossDomainDR };
 
     // Structure is calculated by combining Vitality and Health for non-typical anatomies
     const speciesStr = String(characterData?.['char-species'] || '').toLowerCase();

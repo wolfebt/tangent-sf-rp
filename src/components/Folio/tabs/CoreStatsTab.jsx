@@ -1162,12 +1162,12 @@ const CoreStatsTab = () => {
                   title="Natural DR (Toughness)"
                   badge="Stamina DR"
                   badgeColor="emerald"
-                  description="All persona Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the persona's defenses, minimum of 1 point."
+                  description="All persona Stamina is a natural damage reduction (DR / Base Toughness) and automatically reduces incoming damage penetrating Armor DR down to a minimum of 0."
                   formula={`Natural DR = Stamina Total (${derivedStats?.stamina ?? derivedStats?.toughness ?? 0})`}
-                  tags={['Stamina', 'Natural DR', 'Min 1 Point']}
+                  tags={['Stamina', 'Natural DR', 'Min 0 Damage']}
                   className="w-full block"
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-2.5 py-1 rounded border border-emerald-900/40 w-full hover:border-emerald-400 transition-colors gap-2 min-h-[34px]" title="All persona Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-2.5 py-1 rounded border border-emerald-900/40 w-full hover:border-emerald-400 transition-colors gap-2 min-h-[34px]" title="All persona Stamina is a natural damage reduction (DR / Base Toughness) and reduces penetrating damage down to a minimum of 0.">
                     <label className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 shrink-0">
                       Natural DR (STA)
                     </label>
@@ -1315,18 +1315,18 @@ const CoreStatsTab = () => {
                       onClick={async () => {
                         const ok = await confirm({
                           title: 'Perform Revivification',
-                          message: "Perform Revivification? 'The High Cost of Dying' applies: Persona loses ALL remaining Karma Points and suffers a -5 Experience Debt.",
+                          message: "Perform Revivification? 'The High Cost of Dying' applies: Persona loses ALL remaining Karma Points and suffers a -5 Award Points (AP) Debt.",
                           danger: true,
-                          confirmLabel: 'Revivify (-5 XP Debt)'
+                          confirmLabel: 'Revivify (-5 AP Debt)'
                         });
                         if (ok) {
                           revivifyCharacter();
                         }
                       }}
                       className="px-2.5 py-1 bg-red-900 hover:bg-red-800 text-red-100 border border-red-500 rounded text-[10px] font-bold tracking-wide uppercase transition-colors shadow flex items-center gap-1 cursor-pointer"
-                      title="Revivify persona (High Cost of Dying: -All Karma, -5 Experience Debt)"
+                      title="Revivify persona (High Cost of Dying: -All Karma, -5 Award Points [AP] Debt)"
                     >
-                      <span>⚡</span> Revivify (-5 XP Debt)
+                      <span>⚡</span> Revivify (-5 AP Debt)
                     </button>
                   </div>
                 );

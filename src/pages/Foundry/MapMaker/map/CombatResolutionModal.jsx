@@ -374,11 +374,11 @@ export default function CombatResolutionModal({
 
       // Remaining damage after armor
       const damageAfterArmor = Math.max(0, rawDamage - soakedByArmor);
-      // Canonical rule: All character Stamina is a natural damage reduction (DR)
-      // and automatically reduces all incoming damage which penetrates the characters defenses, minimum of 1 point.
+      // Canonical rule: All character Stamina is a natural damage reduction (DR / Base Toughness)
+      // and automatically reduces penetrating damage point-for-point down to a minimum of 0.
       if (damageAfterArmor > 0) {
         if (targetToughness > 0) {
-          netDamage = Math.max(1, damageAfterArmor - targetToughness);
+          netDamage = Math.max(0, damageAfterArmor - targetToughness);
           soakedByToughness = damageAfterArmor - netDamage;
         } else {
           netDamage = damageAfterArmor;

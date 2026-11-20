@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["operator","core-rules","modular-rule","introduction","1.00.introduction","mechanics"]
-updatedAt: "2026-11-04T09:33:29.500Z"
+updatedAt: "2026-11-12T18:39:51.774Z"
 costs:
   bp: 0
   credits: 0
@@ -68,11 +68,11 @@ Whether you're a seasoned enthusiast or a newcomer to the RPG genre, Tangent off
   * **Universal Straight CP Pricing:** Species attribute modifiers cost `+5 CP` per `+1` and refund `-5 CP` per `-1`; innate species skill allowances cost `1 CP` per `1 Rank` (`5 CP` per `5 Ranks`) with zero package discount.
   * **Recommended Features & Hindrance Exemption:** Each species provides a curated list of **Recommended Features** (`-1 CP` discount: `2 CP` instead of `3 CP`, minimum `1 CP`). Innate species-level hindrances and cultural Stigmas do **not** count toward the `+10 CP` personal hindrance cap.
 * **3. Origins & Upbringing (`1.05 ORIGINS.md`):**
-  * **Origin Mechanical Allocation (`0 CP` Baseline):** Grants **`20 Skill Points (SP)`** distributed across core upbringing skills, **`1 Origin Recommended Feature`**, and **`1 Origin Trait`** at `0 CP`, alongside planetary Technology Level (`TL`), Metafocus Level (`ML`), and EUFT Wealth modifiers.
+  * **Origin Mechanical Allocation (`0 CP` Baseline):** Grants **`20 Skill Points (SP)`** distributed across core upbringing skills, **`1 Origin Recommended Feature`**, and **`2 Origin Traits`** at `0 CP`, alongside planetary Technology Level (`TL`), Metafocus Level (`ML`), and EUFT Wealth modifiers.
 * **4. Factions & Galactic Polities (`1.04 FACTIONS.md`):**
-  * **Faction Mechanical Allocation (`0 CP` Baseline):** Grants **`20 Skill Points (SP)`** in culturally favored skills, **`1 Faction Recommended Feature`**, and **`1 Faction Trait`** at `0 CP`, plus access to factional CRISP visual skins, networks, and EUFT starting Wealth modifiers.
+  * **Faction Mechanical Allocation (`0 CP` Baseline):** Grants **`20 Skill Points (SP)`** in culturally favored skills and **`1 Faction Recommended Feature`** (optional Faction Traits may be purchased at `1 CP` each; Faction free-trait revisions remain configurable), plus access to factional CRISP visual skins, networks, and EUFT starting Wealth modifiers.
 * **5. Occupations & Careers (`1.06 OCCUPATIONS.md`):**
-  * **Occupation Mechanical Allocation (`0 CP` Baseline):** Grants **`20 Skill Points (SP)`** in vocational and career skills (completing the **`60 SP` total background skill allocation**: `20 SP Faction + 20 SP Origin + 20 SP Occupation`), **`2 Occupation Recommended Features`**, and **`2 Occupation Traits`** at `0 CP` (completing the **`4 Recommended Features` and `4 Traits` foundational background package**).
+  * **Occupation Mechanical Allocation (`0 CP` Baseline):** Grants **`20 Skill Points (SP)`** in vocational and career skills (completing the **`60 SP` total background skill allocation**: `20 SP Faction + 20 SP Origin + 20 SP Occupation`), **`2 Occupation Recommended Features`**, and **`2 Occupation Traits`** at `0 CP` (completing the **`4 Recommended Features` and `4 Traits` [`2 Origin + 2 Occupation`] foundational background package**).
 * **6. Archetypes, Personality, Bonds & Progression (`1.01` & `1.02 ARCHETYPES.md`):**
   * **150-CP Operator Budget:** Divided into a pre-calculated **80-CP Archetype Chassis** (`+3` Primary Attribute `[15 CP]`, `+2` Secondary Attribute `[10 CP]`, 4 Essential Skills at Rank 6 `[24 CP]`, 6 Supporting Skills at Rank 3 `[18 CP]`, 2 Signature Traits `[2 CP]`, and 3 Recommended Core Features `[9 CP]`) and a **70-CP Customization Budget** for Species, Saving Throws (`Active Save = 2d10 + 2 + [2 * Attribute] + Feature Bonus`), **Vitality** and **Health** pools (`Base 30` each or `Base 60 Structure Points` for Synthetics, increased strictly by `+5 points per 1 CP spent` with **zero Stamina scaling**; Stamina Modifier acts as point-for-point **Base Toughness** after Armor DR), personal Hindrances (up to `+10 CP`), and EUFT equipment (`2.00 ECONOMATRIX.md`).
 

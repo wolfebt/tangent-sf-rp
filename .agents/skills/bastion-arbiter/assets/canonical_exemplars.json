@@ -1,0 +1,572 @@
+{
+  "OperatorCharacter": {
+    "name": "Xy'larra",
+    "power_tier": "Tier 1: Operative (150-199 CP)",
+    "cp_budget": {
+      "total_cp_budget": 150,
+      "archetype_chassis_cp": 80,
+      "customization_cp_spent": 80,
+      "personal_hindrance_cp_gained": 10,
+      "species_disadvantage_cp_refund": 0,
+      "award_points_earned": 0,
+      "ap_debt": 0,
+      "background_trait_policy": "origin_2_occupation_2",
+      "net_cp_balanced": true
+    },
+    "identity": {
+      "species": "Alterian",
+      "archetype": "The Ghost (Infiltrator)",
+      "faction": "Alterian Enclave (20 SP)",
+      "origin": "Urban Core Spire (20 SP)",
+      "occupation": "Scout / Operative (20 SP)",
+      "mbti_profile": "INTJ"
+    },
+    "attributes": {
+      "STR": 1,
+      "AGI": 4,
+      "STA": 2,
+      "INT": 3,
+      "WIS": 2,
+      "CHA": 2
+    },
+    "saves": {
+      "might": {
+        "active_bonus": 4,
+        "passive_cr": 14
+      },
+      "reflex": {
+        "active_bonus": 10,
+        "passive_cr": 20
+      },
+      "fortitude": {
+        "active_bonus": 6,
+        "passive_cr": 16
+      },
+      "reason": {
+        "active_bonus": 8,
+        "passive_cr": 18
+      },
+      "willpower": {
+        "active_bonus": 6,
+        "passive_cr": 16
+      },
+      "etiquette": {
+        "active_bonus": 6,
+        "passive_cr": 16
+      }
+    },
+    "pools": {
+      "chassis_biology": "Biological",
+      "vitality_max": 40,
+      "health_max": 35,
+      "structure_max": 0,
+      "cp_spent_on_pools": 3,
+      "base_toughness_from_sta": 2,
+      "armor_domains": {
+        "biological_dr": 0,
+        "cybernetic_dr": 5,
+        "metaphysical_dr": 0,
+        "wearable_dr": 10
+      },
+      "effective_stacked_armor_dr": 11,
+      "stability_points_max": 7,
+      "karma_max": 3,
+      "essence_max": 20
+    },
+    "skills": {
+      "background_sp_allocated": 60,
+      "customization_sp_allocated": 28,
+      "entries": [
+        {
+          "skill_name": "Stealth",
+          "rank": 10,
+          "governing_attribute": "AGI",
+          "specializations": [
+            {
+              "name": "Shadowing & Optical Camouflage",
+              "rank": 2
+            }
+          ],
+          "specialties": [
+            "Shadowing",
+            "Silent Movement"
+          ],
+          "total_modifier": 16
+        },
+        {
+          "skill_name": "Alertness",
+          "rank": 10,
+          "governing_attribute": "WIS",
+          "specialties": [
+            "Visual"
+          ],
+          "total_modifier": 12
+        },
+        {
+          "skill_name": "Energy",
+          "rank": 10,
+          "governing_attribute": "AGI",
+          "specialties": [
+            "Laser Pistols & Carbines"
+          ],
+          "total_modifier": 14
+        },
+        {
+          "skill_name": "Computers",
+          "rank": 10,
+          "governing_attribute": "INT",
+          "specialties": [
+            "Intrusion"
+          ],
+          "total_modifier": 13
+        },
+        {
+          "skill_name": "Insight",
+          "rank": 10,
+          "governing_attribute": "WIS",
+          "specialties": [],
+          "total_modifier": 12
+        },
+        {
+          "skill_name": "Athletics",
+          "rank": 10,
+          "governing_attribute": "STR",
+          "specialties": [
+            "Rock & Hull Climbing"
+          ],
+          "total_modifier": 11
+        },
+        {
+          "skill_name": "Acrobatics",
+          "rank": 10,
+          "governing_attribute": "AGI",
+          "specialties": [
+            "Tumbling"
+          ],
+          "total_modifier": 14
+        },
+        {
+          "skill_name": "Attune",
+          "rank": 6,
+          "governing_attribute": "INT",
+          "specialties": [
+            "Dimension"
+          ],
+          "total_modifier": 9
+        },
+        {
+          "skill_name": "Knowledge (Language)",
+          "rank": 4,
+          "governing_attribute": "INT",
+          "specialties": [
+            "Trade Cant"
+          ],
+          "total_modifier": 7
+        },
+        {
+          "skill_name": "Knowledge (Technology)",
+          "rank": 6,
+          "governing_attribute": "INT",
+          "specialties": [
+            "Security Systems"
+          ],
+          "total_modifier": 9
+        }
+      ]
+    },
+    "features": [
+      "Awakened (Dimension)",
+      "Precision Strike",
+      "Keen Sight",
+      "Skill Mastery (Stealth)"
+    ],
+    "traits": [
+      "Spire-Born Acute",
+      "Grid-Literate",
+      "Reconnaissance Protocol",
+      "Silent Step"
+    ],
+    "hindrances": [
+      "Code of Honor (Enclave Vow) [+5 CP]",
+      "Wanted (Syndicate) [+5 CP]"
+    ],
+    "equipment_udu": {
+      "wealth_score": 15,
+      "liquid_credits": 640,
+      "sockets_used": 6,
+      "sockets_max": 12
+    }
+  },
+  "MechaAndAutomata": {
+    "designation": "Aegis-V Automated Siege Walker",
+    "classification": "Heavy Autonomous Walker",
+    "tech_level": 4,
+    "meta_level": 0,
+    "faction_skin": "The Syndicate",
+    "size_and_scale": {
+      "size_category": "Huge",
+      "scale_multiplier": 5,
+      "garaging_mounts_required": 5,
+      "garaging_modules_required": 0.5
+    },
+    "structure_and_defense": {
+      "table_base_sp_precalculated": 250,
+      "tl_sp_multiplier": 3.0,
+      "final_sp": 750,
+      "armor_dr": 15,
+      "shield_dr": 15,
+      "defense_cr": 12
+    },
+    "udu_mounts": {
+      "total_mounts_capacity": 25,
+      "mounts_allocated": 22,
+      "vft_extra_forms": 0
+    },
+    "economics": {
+      "final_crafting_cr": 30,
+      "credit_value": 40960,
+      "pristine_material_cost_50pct": 20480,
+      "scrap_mass_value_required_5x": 204800
+    },
+    "propulsion": {
+      "system_type": "Reverse-Joint Myomer (TL 4)",
+      "base_speed_ft": 40,
+      "scaled_tactical_speed_ft": 200,
+      "handling_mod": 2
+    },
+    "automata_core": {
+      "is_automata": true,
+      "processor_rating": 2,
+      "total_skill_ranks": 15,
+      "max_skill_rank_cap": 6,
+      "initiative_formula": "2d10 + 2 (AGI) + 6 (Alertness) + 2 (PR) = 2d10 + 10"
+    },
+    "loadout": [
+      {
+        "name": "Reverse-Joint Myomer Actuators (TL 4 Propulsion)",
+        "mounts_used": 2,
+        "base_damage": "N/A",
+        "scaled_damage": "Speed 200 ft/rnd (40 ft x 5 Scale)",
+        "range": "Self",
+        "notes": "+10 ft Base Speed, +2 Jump checks"
+      },
+      {
+        "name": "Nanocarbon Weave Plating",
+        "mounts_used": 5,
+        "base_damage": "N/A",
+        "scaled_damage": "DR 15",
+        "range": "Self",
+        "notes": "1 x Scale Multiplier (5 Mounts)"
+      },
+      {
+        "name": "Kinetic Barrier Generator",
+        "mounts_used": 10,
+        "base_damage": "N/A",
+        "scaled_damage": "Shield DR 15",
+        "range": "Self",
+        "notes": "2 x Scale Multiplier (10 Mounts)"
+      },
+      {
+        "name": "Heavy Railgun (Linear Cannon)",
+        "mounts_used": 4,
+        "base_damage": "4d10 Piercing",
+        "scaled_damage": "20d10 Piercing",
+        "range": "10 Miles (2 Miles x 5 Scale)",
+        "notes": "Penetration 10"
+      },
+      {
+        "name": "Vulcan Minigun",
+        "mounts_used": 1,
+        "base_damage": "2d10 Piercing",
+        "scaled_damage": "10d10 Piercing",
+        "range": "10,000 ft (2,000 ft x 5 Scale)",
+        "notes": "Auto-Fire Point Defense"
+      }
+    ]
+  },
+  "ArchitectureAndBase": {
+    "model_name": "Impyrium Forward Command Bunker",
+    "footprint_size": "Gargantuan (80x80 ft / 6,400 sq. ft)",
+    "height_class": "Single",
+    "stories": 1,
+    "tech_level": 3,
+    "frame_type": "Subterranean",
+    "faction_style": "The Radiant Impyrium",
+    "statistics": {
+      "structure_points_sp": 1600,
+      "damage_resistance_dr": 25,
+      "total_modules_capacity": 16,
+      "is_mobile_structure": false,
+      "mobile_chassis_tax_modules": 0
+    },
+    "economics": {
+      "final_crafting_cr": 32,
+      "credit_value": 71680,
+      "pristine_material_cost_50pct": 35840,
+      "scrap_mass_value_required_5x": 358400,
+      "annual_upkeep_2pct": 1433.6
+    },
+    "module_configuration": [
+      {
+        "name": "Command Center",
+        "udu_type": "Module",
+        "capacity_used": 4,
+        "component_cr": 10,
+        "role": "Tactical oversight and planetary comms hub"
+      },
+      {
+        "name": "Barracks",
+        "udu_type": "Module",
+        "capacity_used": 4,
+        "component_cr": 12,
+        "role": "High-density bunks supporting 24 legionnaires"
+      },
+      {
+        "name": "Micro-Fusion Core & Deflector Screen",
+        "udu_type": "Module",
+        "capacity_used": 4,
+        "component_cr": 22,
+        "role": "Continuous power grid + DR 10 Ray Shield"
+      },
+      {
+        "name": "Vulcan Point-Defense Battery (40 Mounts)",
+        "udu_type": "Mount",
+        "capacity_used": 40,
+        "component_cr": 15,
+        "role": "4 Modules partitioned into 40 Mounts for overlapping auto-fire turrets"
+      }
+    ]
+  },
+  "PlanetarySystem": {
+    "world_name": "Sentaris Prime",
+    "sector": "Core Worlds Sector (Sol-Analogue)",
+    "controlling_faction": "The Syndicate",
+    "astrophysics": {
+      "stellar_class": "G2V (Yellow Main Sequence)",
+      "gravity_g": 1.0,
+      "atmosphere_type": "Standard Breathable (Nitrogen-Oxygen)",
+      "hydrosphere_pct": 72,
+      "climate_band": "Temperate Garden"
+    },
+    "civilization": {
+      "population_tier": "High Population (10+ Billion)",
+      "government_type": "Corporate Hegemony / Plutocratic Board",
+      "law_level": 7,
+      "starport_class": "Class A",
+      "tech_level": 4,
+      "meta_level": 3,
+      "trade_codes": [
+        "Hi",
+        "In",
+        "Ri",
+        "Ga",
+        "Cp"
+      ]
+    },
+    "hazards_and_encounters": {
+      "required_epr": 0,
+      "environmental_save_cr": 10,
+      "signature_hazards": [
+        "Mesh Surveillance Grid (CR 25 Computers to spoof)",
+        "Lower-Hive Industrial Smog Plumes (EPR 1 in Sub-Sector Slums)"
+      ]
+    }
+  },
+  "WeaponExemplar": {
+    "asset_category": "Tier 1 Weapon",
+    "designation": "Syndicate Phase-Carbine Mk IV",
+    "tech_level": 4,
+    "meta_level": 0,
+    "faction_skin": "The Syndicate",
+    "udu_allocation": {
+      "tier_0_nodes": 20,
+      "tier_1_sockets": 2.0,
+      "tier_2_mounts": 0.2
+    },
+    "euft_economics": {
+      "base_cr_tier": 20,
+      "micro_modifier_delta": 2,
+      "micro_multiplier": 1.75,
+      "final_item_cr": 22,
+      "credit_value": 4480,
+      "pristine_material_cost_50pct": 2240,
+      "scrap_salvage_value_10pct": 448,
+      "scrap_mass_value_required_5x": 22400
+    },
+    "weapon_profile": {
+      "weapon_class": "Two-Handed Energy Carbine",
+      "governing_skill": "Energy",
+      "damage_dice": "3d10+4",
+      "damage_domain": "Pyro / Fire",
+      "penetration": 5,
+      "critical_protocol": {
+        "natural_trigger_min": 20,
+        "score_bonus": 10,
+        "base_dice_multiplier": 2,
+        "critical_effect": "6d10+4 Pyro / Fire (bypasses Vitality to Health) + Ignite (1/2 dmg for 2 rnds, Fortitude Save CR 16)"
+      },
+      "fumble_protocol": {
+        "natural_trigger_max": 2,
+        "replaced_dice_value": -10,
+        "complication": "Magnetic containment vent lock; requires 1 Action (CR 15 Knowledge [Technology]) to cycle"
+      },
+      "range_increment_ft": 300,
+      "magazine_capacity": 30,
+      "modifications": [
+        "Smart-Link Telemetry Optic (+1 Socket)",
+        "Double-Capacity Power Cell (+2 CR = x1.75 Base Cost)"
+      ]
+    }
+  },
+  "ArmorExemplar": {
+    "asset_category": "Tier 1 Armor Loadout",
+    "designation": "Draconis Dragoon Powered Assault Loadout",
+    "tech_level": 4,
+    "meta_level": 2,
+    "faction_skin": "The Dracon Dynasty",
+    "udu_allocation": {
+      "tier_0_nodes": 80,
+      "tier_1_sockets": 8.0,
+      "tier_2_mounts": 0.8
+    },
+    "euft_economics": {
+      "base_cr_tier": 35,
+      "micro_modifier_delta": 0,
+      "micro_multiplier": 1.0,
+      "final_item_cr": 35,
+      "credit_value": 163840,
+      "pristine_material_cost_50pct": 81920,
+      "scrap_salvage_value_10pct": 16384,
+      "scrap_mass_value_required_5x": 819200
+    },
+    "armor_layering_profile": {
+      "layers_worn": [
+        {
+          "layer_name": "Natural Draconian Scales",
+          "source_type": "Biological",
+          "primary_dr": 4,
+          "secondary_dr": 4,
+          "agility_penalty": 0
+        },
+        {
+          "layer_name": "Subdermal Nanocarbon Mesh",
+          "source_type": "Cybernetic/Subdermal",
+          "primary_dr": 8,
+          "secondary_dr": 6,
+          "agility_penalty": 0
+        },
+        {
+          "layer_name": "Dragoon Powered Assault Armor",
+          "source_type": "Powered Exosuit",
+          "primary_dr": 18,
+          "secondary_dr": 15,
+          "agility_penalty": -1
+        }
+      ],
+      "stacking_model": "diminishing_returns",
+      "effective_stacked_dr": {
+        "primary_domain_dr": 21,
+        "secondary_domain_dr": 18,
+        "highest_base_primary_dr": 18,
+        "diminishing_returns_bonus_primary_dr": 3
+      },
+      "stamina_base_toughness": 3,
+      "total_damage_mitigation": 24,
+      "cumulative_agility_penalty": -1,
+      "cumulative_speed_penalty_ft": 0,
+      "suit_structure_points": 120
+    }
+  },
+  "CompanionExemplar": {
+    "asset_category": "Companion Cohort Profile",
+    "designation": "Mekan Recon Hound Cohort (MK-IV)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "faction_skin": "The Mekan Collective",
+    "udu_allocation": {
+      "tier_0_nodes": 50,
+      "tier_1_sockets": 5.0,
+      "tier_2_mounts": 0.5
+    },
+    "euft_economics": {
+      "base_cr_tier": 15,
+      "micro_modifier_delta": 0,
+      "micro_multiplier": 1.0,
+      "final_item_cr": 15,
+      "credit_value": 640,
+      "pristine_material_cost_50pct": 320,
+      "scrap_salvage_value_10pct": 64,
+      "scrap_mass_value_required_5x": 3200
+    },
+    "companion_cohort_profile": {
+      "companion_feature_cp_paid": 3,
+      "form_package_name": "Synthetic Quadruped Drone (15 CP)",
+      "form_package_cp": 15,
+      "function_package_name": "Reconnaissance & Point-Tracker (25 CP)",
+      "function_package_cp": 25,
+      "extra_rank_upgrades_cp": 0,
+      "total_cohort_cp": 40,
+      "chassis_biology": "Synthetic/Construct",
+      "pools": {
+        "vitality_max": 0,
+        "health_max": 0,
+        "structure_max": 70,
+        "cp_spent_on_pools": 2,
+        "base_toughness_from_sta": 1
+      }
+    }
+  },
+  "CosmicEntityExemplar": {
+    "asset_category": "Cosmic Entity Profile",
+    "designation": "The Entity (Luminous Resonance Sovereign)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "faction_skin": "The Radiant Impyrium",
+    "udu_allocation": {
+      "tier_0_nodes": 0,
+      "tier_1_sockets": 0,
+      "tier_2_mounts": 5.0
+    },
+    "euft_economics": {
+      "base_cr_tier": 30,
+      "micro_modifier_delta": 0,
+      "micro_multiplier": 1.0,
+      "final_item_cr": 30,
+      "credit_value": 40960,
+      "pristine_material_cost_50pct": 20480,
+      "scrap_salvage_value_10pct": 4096,
+      "scrap_mass_value_required_5x": 204800
+    },
+    "cosmic_entity_profile": {
+      "ontological_classification": "Non-Corporeal Sentient Resonance Phenomenon (05.00.CosmicEntities.md)",
+      "cp_package_audit": {
+        "mental_attributes_cp": 50,
+        "innate_skills_cp": 20,
+        "innate_features_cp": 18,
+        "species_hindrance_refund_cp": -75,
+        "personal_hindrance_cap_exempt": true,
+        "net_species_cp": 13
+      },
+      "attributes": {
+        "STR": 0,
+        "AGI": 0,
+        "STA": 0,
+        "INT": 4,
+        "WIS": 4,
+        "CHA": 2
+      },
+      "non_corporeal_pools": {
+        "base_structure_points": 60,
+        "cp_spent_on_sp": 6,
+        "total_sp": 90,
+        "stability_points_wis_plus_5": 9,
+        "essence_max": 50
+      },
+      "aetherite_avatar_projection": {
+        "focus_udu_tier": "1 Mount",
+        "max_avatar_size": "Huge (5x)",
+        "projected_sp": 250
+      }
+    }
+  }
+}

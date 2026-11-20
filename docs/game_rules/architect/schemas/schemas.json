@@ -2,7 +2,7 @@
   "OperatorCharacter": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://tangent-rpg.bastion/schemas/operator_character.schema.json",
-    "title": "Tangent Operator Character Sheet",
+    "title": "Tangent Operator Character Sheet (v6 Canonical)",
     "type": "object",
     "required": [
       "name",
@@ -41,11 +41,16 @@
         "properties": {
           "total_cp_budget": {
             "type": "integer",
-            "minimum": 150
+            "minimum": 150,
+            "description": "Base creation budget (150 CP for starting Tier 1 Operators)"
           },
           "archetype_chassis_cp": {
             "type": "integer",
-            "const": 80
+            "enum": [
+              0,
+              80
+            ],
+            "description": "80 CP standard Archetype Chassis or 0 CP for 150-CP Free-Build"
           },
           "customization_cp_spent": {
             "type": "integer",
@@ -54,11 +59,31 @@
           "personal_hindrance_cp_gained": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 10
+            "maximum": 10,
+            "description": "Capped at +10 CP; Species disadvantages and Stigmas are exempt"
           },
           "species_disadvantage_cp_refund": {
             "type": "integer",
             "minimum": 0
+          },
+          "award_points_earned": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Post-creation Award Points (AP) spent 1-for-1 (1 AP = 1 CP)"
+          },
+          "ap_debt": {
+            "type": "integer",
+            "maximum": 0,
+            "description": "Revivification Award Points Debt (-5 AP Debt per clinical death revivification)"
+          },
+          "background_trait_policy": {
+            "type": "string",
+            "enum": [
+              "origin_2_occupation_2",
+              "origin_1_faction_1_occupation_2",
+              "origin_2_occupation_2_faction_1"
+            ],
+            "description": "Default origin_2_occupation_2 grants 2 Origin + 2 Occupation = 4 Free Traits (0 CP)"
           },
           "net_cp_balanced": {
             "type": "boolean",
@@ -117,7 +142,7 @@
           },
           "STA": {
             "type": "integer",
-            "description": "Stamina (Fortitude & Base Toughness)"
+            "description": "Stamina (Fortitude & Base Toughness; never scales Vitality/Health)"
           },
           "INT": {
             "type": "integer",
@@ -202,11 +227,34 @@
             "minimum": 0
           },
           "base_toughness_from_sta": {
-            "type": "integer"
-          },
-          "armor_dr_highest_domain": {
             "type": "integer",
-            "minimum": 0
+            "description": "Equals STA score; subtracts point-for-point after Armor DR down to a 0 damage floor"
+          },
+          "effective_stacked_armor_dr": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Diminishing Returns Cross-Domain Armor DR: Highest Domain DR + sum(ceil(Additional Domain DR / 5))"
+          },
+          "armor_domains": {
+            "type": "object",
+            "properties": {
+              "biological_dr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cybernetic_dr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "metaphysical_dr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "wearable_dr": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
           },
           "stability_points_max": {
             "type": "integer",
@@ -218,7 +266,8 @@
           },
           "essence_max": {
             "type": "integer",
-            "minimum": 0
+            "minimum": 0,
+            "description": "STR + AGI + STA + INT + WIS + CHA + Attune Rank"
           }
         }
       },
@@ -254,8 +303,9 @@
                 },
                 "rank": {
                   "type": "integer",
-                  "minimum": 1,
-                  "maximum": 30
+                  "minimum": 0,
+                  "maximum": 20,
+                  "description": "Base Skill Rank (0-20; Character Creation cap = Rank 11)"
                 },
                 "governing_attribute": {
                   "type": "string",
@@ -267,6 +317,27 @@
                     "WIS",
                     "CHA"
                   ]
+                },
+                "specializations": {
+                  "type": "array",
+                  "description": "Built-up Specialization sub-skills (Rank 1-10 at 1 SP/CP each; requires Base Skill Rank >= 6; unlocks effective Ranks 21-30)",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "rank"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "rank": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10
+                      }
+                    }
+                  }
                 },
                 "specialties": {
                   "type": "array",
@@ -377,7 +448,7 @@
       "meta_level": {
         "type": "integer",
         "minimum": 0,
-        "maximum": 5
+        "maximum": 6
       },
       "faction_skin": {
         "type": "string"
@@ -394,30 +465,36 @@
           "size_category": {
             "type": "string",
             "enum": [
+              "Small",
               "Medium",
               "Large",
               "Huge",
               "Gargantuan",
               "Colossal",
               "Enormous",
-              "Titanic"
+              "Titanic",
+              "Super Gargantuan",
+              "Mega Colossal"
             ]
           },
           "scale_multiplier": {
-            "type": "integer",
+            "type": "number",
             "enum": [
+              0.5,
               1,
               2,
               5,
               10,
               20,
               40,
-              80
+              80,
+              160,
+              320
             ]
           },
           "garaging_mounts_required": {
-            "type": "integer",
-            "description": "Equals scale_multiplier"
+            "type": "number",
+            "description": "Equals scale_multiplier (1 Mount = 1x Scale Multiplier)"
           },
           "garaging_modules_required": {
             "type": "number",
@@ -437,7 +514,8 @@
         "properties": {
           "table_base_sp_precalculated": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "description": "Pre-calculated SP from Size Table; never multiply by scale_multiplier"
           },
           "tl_sp_multiplier": {
             "type": "number",
@@ -470,17 +548,17 @@
         ],
         "properties": {
           "total_mounts_capacity": {
-            "type": "integer",
-            "minimum": 1
+            "type": "number",
+            "minimum": 0.5
           },
           "mounts_allocated": {
-            "type": "integer",
+            "type": "number",
             "minimum": 0
           },
           "vft_extra_forms": {
             "type": "integer",
             "minimum": 0,
-            "description": "-10% Mount capacity per extra form"
+            "description": "-10% Mount capacity per extra Variable Form Technology mode"
           }
         }
       },
@@ -499,15 +577,15 @@
           },
           "credit_value": {
             "type": "integer",
-            "minimum": 10
+            "minimum": 8
           },
           "pristine_material_cost_50pct": {
-            "type": "integer",
-            "minimum": 5
+            "type": "number",
+            "minimum": 4
           },
           "scrap_mass_value_required_5x": {
-            "type": "integer",
-            "minimum": 50
+            "type": "number",
+            "minimum": 40
           }
         }
       },
@@ -524,11 +602,11 @@
             "type": "string"
           },
           "base_speed_ft": {
-            "type": "integer",
+            "type": "number",
             "minimum": 0
           },
           "scaled_tactical_speed_ft": {
-            "type": "integer",
+            "type": "number",
             "minimum": 0
           },
           "handling_mod": {
@@ -551,6 +629,7 @@
               0,
               1,
               2,
+              3,
               4
             ]
           },
@@ -580,7 +659,7 @@
               "type": "string"
             },
             "mounts_used": {
-              "type": "integer",
+              "type": "number",
               "minimum": 0
             },
             "base_damage": {
@@ -634,6 +713,11 @@
         "type": "integer",
         "minimum": 0,
         "maximum": 5
+      },
+      "meta_level": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 6
       },
       "frame_type": {
         "type": "string",
@@ -695,17 +779,32 @@
             "type": "integer",
             "minimum": 0
           },
+          "shell_crafting_cr": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Optional Structural Shell CR when pricing via the Architectural Disconnected Module Rule"
+          },
+          "disconnected_modules_credit_value": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Sum of specialized internal module Credit Values added separately to Shell Value"
+          },
+          "mobile_chassis_tax_20pct_credits": {
+            "type": "number",
+            "minimum": 0,
+            "description": "+20% Mobile Structure Chassis Tax when is_mobile_structure is true"
+          },
           "credit_value": {
             "type": "integer",
-            "minimum": 10
+            "minimum": 8
           },
           "pristine_material_cost_50pct": {
-            "type": "integer",
-            "minimum": 5
+            "type": "number",
+            "minimum": 4
           },
           "scrap_mass_value_required_5x": {
-            "type": "integer",
-            "minimum": 50
+            "type": "number",
+            "minimum": 40
           },
           "annual_upkeep_2pct": {
             "type": "number",
@@ -845,7 +944,7 @@
           "meta_level": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 5
+            "maximum": 6
           },
           "trade_codes": {
             "type": "array",
@@ -885,7 +984,7 @@
   "EquipmentAndWeaponry": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://tangent-rpg.bastion/schemas/equipment_weaponry_entity.schema.json",
-    "title": "Tangent Tier 1 Equipment, Weaponry, Armor Layering & Cosmic Entity Schema",
+    "title": "Tangent Tier 0/1 Equipment, Weaponry, Diminishing Returns Armor, Companion & Cosmic Entity Schema",
     "type": "object",
     "required": [
       "asset_category",
@@ -898,8 +997,11 @@
       "asset_category": {
         "type": "string",
         "enum": [
+          "Tier 0 Augmentation",
           "Tier 1 Weapon",
           "Tier 1 Armor Loadout",
+          "Tier 1 Equipment",
+          "Companion Cohort Profile",
           "Cosmic Entity Profile"
         ]
       },
@@ -963,13 +1065,12 @@
           },
           "micro_modifier_delta": {
             "type": "integer",
-            "minimum": -4,
+            "minimum": -1,
             "maximum": 4
           },
           "micro_multiplier": {
             "type": "number",
             "enum": [
-              0.25,
               0.75,
               1.0,
               1.3,
@@ -1020,11 +1121,14 @@
             "type": "string",
             "enum": [
               "Melee",
-              "Brawl",
+              "Ranged",
+              "Unarmed",
               "Ballistic",
-              "Energy Weapons",
               "Heavy Weapons",
-              "Athletics"
+              "Energy",
+              "Heavy Energy",
+              "Athletics",
+              "Attune"
             ]
           },
           "damage_dice": {
@@ -1033,15 +1137,45 @@
           "damage_domain": {
             "type": "string",
             "enum": [
+              "Pyro / Fire",
+              "Cryo / Cold",
+              "Spectral / Phase",
+              "Sonic / Sound",
+              "Voltic / Electrical",
+              "Corrosive / Disintegration",
+              "Ra-D / Radiation",
+              "Force Pulse / Disruption",
+              "Blunt",
+              "Slashing",
+              "Piercing",
+              "Concussive / Impact",
+              "Bleed",
+              "Radiant / Light",
+              "Umbral / Shadow",
+              "Air Elemental",
+              "Fire Elemental",
+              "Earth Elemental",
+              "Water Elemental",
+              "Celestial",
+              "Infernal",
+              "Dimensional",
+              "Psyche / Mental",
+              "Pyro",
+              "Cryo",
+              "Spectral",
+              "Sonic",
+              "Voltic",
+              "Corrosive",
+              "Radiation",
+              "Force",
               "Kinetic",
               "Ballistic",
               "Energy",
               "Plasma",
-              "Sonic",
-              "Cryo",
               "Thermal",
-              "Entropic",
-              "Resonance"
+              "Radiant",
+              "Umbral",
+              "Psyche"
             ]
           },
           "penetration": {
@@ -1070,7 +1204,7 @@
               "base_dice_multiplier": {
                 "type": "integer",
                 "const": 2,
-                "description": "2x Base Weapon Damage Dice"
+                "description": "2x Base Weapon Damage Dice (bypasses Vitality to Health)"
               },
               "critical_effect": {
                 "type": "string"
@@ -1120,7 +1254,8 @@
         "type": "object",
         "required": [
           "layers_worn",
-          "effective_single_highest_dr",
+          "stacking_model",
+          "effective_stacked_dr",
           "stamina_base_toughness",
           "total_damage_mitigation",
           "cumulative_agility_penalty",
@@ -1148,6 +1283,7 @@
                   "enum": [
                     "Biological",
                     "Cybernetic/Subdermal",
+                    "Metaphysical",
                     "Wearable Garment",
                     "Powered Exosuit"
                   ]
@@ -1167,15 +1303,18 @@
               }
             }
           },
-          "dr_stacking_prohibited": {
-            "type": "boolean",
-            "const": true
+          "stacking_model": {
+            "type": "string",
+            "const": "diminishing_returns",
+            "description": "Cross-Domain Diminishing Returns: Highest Base DR + sum(ceil(Additional Cross-Domain Layer DR / 5)); same-domain wearables use single highest"
           },
-          "effective_single_highest_dr": {
+          "effective_stacked_dr": {
             "type": "object",
             "required": [
               "primary_domain_dr",
-              "secondary_domain_dr"
+              "secondary_domain_dr",
+              "highest_base_primary_dr",
+              "diminishing_returns_bonus_primary_dr"
             ],
             "properties": {
               "primary_domain_dr": {
@@ -1183,6 +1322,14 @@
                 "minimum": 0
               },
               "secondary_domain_dr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "highest_base_primary_dr": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "diminishing_returns_bonus_primary_dr": {
                 "type": "integer",
                 "minimum": 0
               }
@@ -1193,7 +1340,7 @@
           },
           "total_damage_mitigation": {
             "type": "integer",
-            "description": "Effective Single Highest Domain DR + Stamina Base Toughness (before Weapon Penetration)"
+            "description": "Effective Stacked Primary DR + Stamina Base Toughness (before Weapon Penetration; 0 minimum damage floor)"
           },
           "cumulative_agility_penalty": {
             "type": "integer",
@@ -1206,6 +1353,89 @@
           "suit_structure_points": {
             "type": "integer",
             "minimum": 1
+          }
+        }
+      },
+      "companion_cohort_profile": {
+        "type": "object",
+        "required": [
+          "companion_feature_cp_paid",
+          "form_package_name",
+          "form_package_cp",
+          "function_package_name",
+          "function_package_cp",
+          "extra_rank_upgrades_cp",
+          "total_cohort_cp",
+          "chassis_biology",
+          "pools"
+        ],
+        "properties": {
+          "companion_feature_cp_paid": {
+            "type": "integer",
+            "minimum": 2,
+            "description": "3 CP Standard Companion Feature (or 2 CP Recommended) unlocks a 40-CP Cohort"
+          },
+          "form_package_name": {
+            "type": "string"
+          },
+          "form_package_cp": {
+            "type": "integer",
+            "const": 15
+          },
+          "function_package_name": {
+            "type": "string"
+          },
+          "function_package_cp": {
+            "type": "integer",
+            "const": 25
+          },
+          "extra_rank_upgrades_cp": {
+            "type": "integer",
+            "minimum": 0,
+            "multipleOf": 10,
+            "description": "+10 CP Cohort budget per extra Companion Feature rank"
+          },
+          "total_cohort_cp": {
+            "type": "integer",
+            "minimum": 40
+          },
+          "chassis_biology": {
+            "type": "string",
+            "enum": [
+              "Biological",
+              "Synthetic/Construct"
+            ]
+          },
+          "pools": {
+            "type": "object",
+            "required": [
+              "vitality_max",
+              "health_max",
+              "structure_max",
+              "cp_spent_on_pools",
+              "base_toughness_from_sta"
+            ],
+            "properties": {
+              "vitality_max": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "health_max": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "structure_max": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "cp_spent_on_pools": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "base_toughness_from_sta": {
+                "type": "integer"
+              }
+            }
           }
         }
       },
@@ -1270,21 +1500,30 @@
             ],
             "properties": {
               "STR": {
-                "type": "nullable_integer_or_zero",
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "enum": [
                   0,
                   null
                 ]
               },
               "AGI": {
-                "type": "nullable_integer_or_zero",
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "enum": [
                   0,
                   null
                 ]
               },
               "STA": {
-                "type": "nullable_integer_or_zero",
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "enum": [
                   0,
                   null

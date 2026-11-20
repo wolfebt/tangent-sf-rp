@@ -16,9 +16,42 @@ import {
   resolveBastionSessionState,
   resolveBastionThreadKey,
 } from '../services/bastionSessionService';
+import {
+  BACKGROUND_TRAIT_POLICIES,
+  DEFAULT_BACKGROUND_TRAIT_POLICY,
+  resolveBackgroundTraitPolicy,
+} from '../services/bastionCharacterEngine';
 
 const PREVIEW_STORAGE_KEY = 'bastion_preview_config_v1';
 const THREADS_STORAGE_KEY = 'tangent_bastion_threads_v2';
+const TRAIT_POLICY_STORAGE_KEY = 'tangent_background_trait_policy';
+const DIRECTIVES_STORAGE_KEY = 'tangent_bastion_custom_directives_v1';
+const SAFETY_STORAGE_KEY = 'tangent_bastion_safety_boundaries_v1';
+
+const DEFAULT_SAFETY_BOUNDARIES = Object.freeze({
+  lines: '',
+  veils: '',
+  xCardEnabled: true,
+});
+
+function loadCustomDirectives() {
+  try {
+    return localStorage.getItem(DIRECTIVES_STORAGE_KEY) || '';
+  } catch {
+    return '';
+  }
+}
+
+function loadSafetyBoundaries() {
+  try {
+    const raw = localStorage.getItem(SAFETY_STORAGE_KEY);
+    if (!raw) return { ...DEFAULT_SAFETY_BOUNDARIES };
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_SAFETY_BOUNDARIES, ...(parsed || {}) };
+  } catch {
+    return { ...DEFAULT_SAFETY_BOUNDARIES };
+  }
+}
 
 function loadPreviewConfig() {
   try {
@@ -39,6 +72,14 @@ function loadThreadsByKey() {
     return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
   } catch {
     return {};
+  }
+}
+
+function loadTraitPolicyId() {
+  try {
+    return localStorage.getItem(TRAIT_POLICY_STORAGE_KEY) || DEFAULT_BACKGROUND_TRAIT_POLICY;
+  } catch {
+    return DEFAULT_BACKGROUND_TRAIT_POLICY;
   }
 }
 
@@ -80,6 +121,44 @@ export const BastionProvider = ({
   const [activeDrawerTab, setActiveDrawerTab] = useState('chat');
   const [queuedPrompt, setQueuedPrompt] = useState(null);
   const [previewConfig, setPreviewConfigState] = useState(loadPreviewConfig);
+  const [traitPolicyId, setTraitPolicyState] = useState(loadTraitPolicyId);
+  const [customDirectives, setCustomDirectivesState] = useState(loadCustomDirectives);
+  const [safetyBoundaries, setSafetyBoundariesState] = useState(loadSafetyBoundaries);
+
+  const setCustomDirectives = useCallback((nextValue) => {
+    const resolved =
+      typeof nextValue === 'function' ? nextValue(customDirectives) : String(nextValue || '');
+    setCustomDirectivesState(resolved);
+    try {
+      localStorage.setItem(DIRECTIVES_STORAGE_KEY, resolved);
+    } catch {}
+  }, [customDirectives]);
+
+  const setSafetyBoundaries = useCallback((updater) => {
+    setSafetyBoundariesState((prev) => {
+      const next = {
+        ...DEFAULT_SAFETY_BOUNDARIES,
+        ...(typeof updater === 'function' ? updater(prev) : updater || {}),
+      };
+      try {
+        localStorage.setItem(SAFETY_STORAGE_KEY, JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+  }, []);
+
+  const setTraitPolicy = useCallback((nextPolicyId) => {
+    const resolved = resolveBackgroundTraitPolicy(nextPolicyId);
+    setTraitPolicyState(resolved.id);
+    try {
+      localStorage.setItem(TRAIT_POLICY_STORAGE_KEY, resolved.id);
+    } catch {}
+  }, []);
+
+  const activeTraitPolicy = useMemo(
+    () => resolveBackgroundTraitPolicy(traitPolicyId),
+    [traitPolicyId]
+  );
 
   // Merged Surface Context Registry (DBM, Folio, Foundry, Compendium, VTT)
   const [registeredSurfaces, setRegisteredSurfaces] = useState({});
@@ -236,6 +315,8 @@ export const BastionProvider = ({
     globalThis.__TANGENT_BASTION_SESSION__ = {
       ...sessionState,
       activeThreadKey,
+      customDirectives,
+      safetyBoundaries,
       activeSurface: activeSurface
         ? {
             surfaceType: activeSurface.surfaceType,
@@ -248,7 +329,7 @@ export const BastionProvider = ({
           }
         : null,
     };
-  }, [sessionState, activeThreadKey, activeSurface]);
+  }, [sessionState, activeThreadKey, activeSurface, customDirectives, safetyBoundaries]);
 
   const openBastion = useCallback(
     (options = {}) => {
@@ -354,6 +435,13 @@ export const BastionProvider = ({
       registeredSurfaces,
       registerSurfaceContext,
       unregisterSurfaceContext,
+      traitPolicy: activeTraitPolicy,
+      setTraitPolicy,
+      availableTraitPolicies: BACKGROUND_TRAIT_POLICIES,
+      customDirectives,
+      setCustomDirectives,
+      safetyBoundaries,
+      setSafetyBoundaries,
     }),
     [
       isOpen,
@@ -379,6 +467,12 @@ export const BastionProvider = ({
       registeredSurfaces,
       registerSurfaceContext,
       unregisterSurfaceContext,
+      activeTraitPolicy,
+      setTraitPolicy,
+      customDirectives,
+      setCustomDirectives,
+      safetyBoundaries,
+      setSafetyBoundaries,
     ]
   );
 

@@ -20,25 +20,27 @@ export const BASTION_ROLES = Object.freeze({
 export const BASTION_VOICE_CONTRACTS = Object.freeze({
   operator: Object.freeze({
     role: 'operator',
+    voiceRegister: 'modern_minimalist',
     pronounMode: 'you',
     pronouns: 'you / your',
     userAddress: 'you / your',
-    assistantFraming: 'Direct Tactical Advisor & Build Copilot',
+    assistantFraming: 'Modern Minimalist Tactical Advisor',
     badgeLabel: 'OPERATOR ("YOU")',
     previewBadgeLabel: 'OPERATOR PREVIEW ("YOU")',
     directiveSummary:
-      'Address the player strictly as "you" / "your". Frame tactical options, build trade-offs, and rules rulings around your character, your squad, and your decisions. NEVER address the user as "Architect" and NEVER use partnered GM "we / us / our" framing.',
+      'Use a clean, plain-English Modern Minimalist voice with zero filler or terminal roleplay. Address the player strictly as "you" / "your". Frame tactical options, build trade-offs, and rules rulings around your character, your squad, and your decisions. NEVER address the user as "Architect", NEVER use partnered GM "we / us / our" framing, and ALWAYS halt if information is missing rather than guessing.',
   }),
   architect: Object.freeze({
     role: 'architect',
+    voiceRegister: 'modern_minimalist',
     pronounMode: 'we',
     pronouns: 'we / us / our',
     userAddress: 'we / us / our',
-    assistantFraming: 'Partnered Co-Architect, Rules Co-Arbiter & Encounter Engineer',
+    assistantFraming: 'Modern Minimalist Co-Architect & Rules Arbiter',
     badgeLabel: 'ARCHITECT ("WE")',
     previewBadgeLabel: 'ARCHITECT ("WE")',
     directiveSummary:
-      'Include the Game Master in the plural partnered "we" / "us" / "our" category (e.g., "we can tune this CR", "our pacing budget", "let us check how Group Alpha and Group Bravo intersect"). Frame rulings, encounter math, worldbuilding, and multi-group orchestration as collaborative co-design.',
+      'Use a clean, plain-English Modern Minimalist voice with zero filler or terminal roleplay. Include the Game Master in the plural partnered "we" / "us" / "our" category (e.g., "we can tune this CR", "our pacing budget", "let us check how Group Alpha and Group Bravo intersect"). ALWAYS halt if information is unavailable in the archive and extrapolate ONLY by explicit request.',
   }),
 });
 

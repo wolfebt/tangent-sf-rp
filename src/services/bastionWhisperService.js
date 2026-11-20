@@ -52,7 +52,7 @@ export const CANONICAL_WHISPER_CARDS = [
     pacingTrigger: 'blowout',
     title: 'Adversaries Pop Smoke & Fall Back',
     description: 'Surviving hostiles deploy thermobaric smoke cannisters and retreat toward reinforced blast doors.',
-    actionEffect: 'Grants Full Cover (+4 DC) to retreating enemies for 1 round.'
+    actionEffect: 'Grants Full Cover (+4 Defense / CR) to retreating enemies for 1 round.'
   },
   {
     id: 'heroic_inspiration',
@@ -62,7 +62,7 @@ export const CANONICAL_WHISPER_CARDS = [
     pacingTrigger: 'crisis',
     title: 'Karmic Spark in the Dark',
     description: 'The party faces overwhelming odds. An operator notices a structural weakpoint in the adversary’s kinetic shielding.',
-    actionEffect: 'Grants +1 Karma to the party and lowers adversary Defense DC by 2 for 1 round.'
+    actionEffect: 'Grants +1 Karma to the party and lowers adversary Defense CR by 2 for 1 round.'
   }
 ];
 

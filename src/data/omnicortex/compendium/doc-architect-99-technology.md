@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","source-of-truth","99. technology","matrix"]
-updatedAt: "2026-11-08T20:27:25.737Z"
+updatedAt: "2026-11-16T13:43:45.916Z"
 costs:
   bp: 0
   credits: 0
@@ -61,7 +61,7 @@ Every rule, formula, and procedural matrix in this master compendium is governed
 | **`./technology/augmentations/`** | Tier 0: Nodes (`< 10 g`) | `99.Tech.Augmentations.Cybernetic.md`, `Biological.md`, `Metaphysical.md` (`10 Nodes = 1 Socket`). |
 | **`./technology/equipment/`** | Tier 1: Sockets (`< 1 kg`) | `99.Tech.Equipment.Framework.md`, `SystemsAndMastercrafting.md` (Personal gear & drones). |
 | **`./technology/weaponry/`** | Tier 1–2: Sockets/Mounts | `99.Tech.Weaponry.ForgeProtocol.md`, `Catalog.md` (5-Step Weapon Forge & Archaic/Modern/Advanced Catalog). |
-| **`./technology/armor/`** | Tier 1: Sockets (`< 1 kg`) | `99.Tech.Armor.DesignAndCatalog.md`, `EconomyAndExemplars.md` (Armor Layering Cap & 9 Armor Grades). |
+| **`./technology/armor/`** | Tier 1: Sockets (`< 1 kg`) | `99.Tech.Armor.DesignAndCatalog.md`, `EconomyAndExemplars.md` (Diminishing Returns Armor Stacking & 9 Armor Grades). |
 | **`./technology/mecha/`** | Tier 2: Mounts (`< 100 kg`) | `99.Tech.Mecha.ForgeProtocol.md`, `ComponentsAndWeapons.md`, `AutomataAndGear.md` (`1 Mount = 10 Sockets`). |
 | **`./technology/architecture/`** | Tier 3: Modules (`< 10 T`) | `99.Tech.Architecture.ForgeProtocol.md`, `ComponentCatalog.md`, `MobileAndVFT.md`, `ExamplesAndSkins.md`. |
 

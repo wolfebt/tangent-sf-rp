@@ -22,6 +22,7 @@ import {
 import { useFolio } from '../../../context/FolioContext';
 import { useBastion } from '../../../context/BastionContext';
 import { BastionRoleAndGroupBar } from '../../Bastion/BastionRoleAndGroupBar';
+import BastionFollowUpAndGems from '../../Bastion/BastionFollowUpAndGems';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import { TangentActionDeck } from './TangentActionDeck';
 import type { CalledShotLocation } from './TangentActionDeck';
@@ -30,7 +31,11 @@ import { GMInspector } from './GMInspector';
 import { PopoutPortal } from './PopoutPortal';
 import { AimeCockpitDeck } from './AimeCockpitDeck';
 import { queryOmnicortexRAG } from '../../../services/omnicortexVectorRag';
-import { parseRollCommand, sendBastionChatMessage } from '../../../services/bastionService.js';
+import {
+  parseRollCommand,
+  sendBastionChatMessage,
+  parseAndEnrichBastionTurnPayload,
+} from '../../../services/bastionService.js';
 import { analyzeCombatPacing, executeWhisperCardAction, CANONICAL_WHISPER_CARDS } from '../../../services/bastionWhisperService.js';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 
@@ -126,6 +131,8 @@ export const CockpitPanel: React.FC = () => {
         history: priorHistory,
         role: effectiveBastionRole,
         sessionState,
+        customDirectives: bastionCtx?.customDirectives || '',
+        safetyBoundaries: bastionCtx?.safetyBoundaries || null,
         contextData: {
           activeCharacter: character,
           calledShotTarget,
@@ -137,9 +144,15 @@ export const CockpitPanel: React.FC = () => {
         ...prev,
         {
           sender: 'bastion',
+          promptText,
           text: response.text,
+          followUps: response.followUps || [],
+          gems: response.gems || [],
+          isHalted: Boolean(response.isHalted),
+          isSafetyPause: Boolean(response.isSafetyPause),
+          role: response.role || effectiveBastionRole,
           toolCalls: response.toolCalls || [],
-          ragCitations: response.ragCitations || [],
+          ragCitations: response.ragCitations || response.citations || [],
         },
       ]);
     } catch (err: any) {
@@ -613,28 +626,68 @@ export const CockpitPanel: React.FC = () => {
 
               {/* Compact Recent Thread Feed */}
               {cockpitMessages.length > 0 && (
-                <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1 bg-slate-900/60 p-2 rounded border border-slate-800/80">
-                  {cockpitMessages.slice(-4).map((m, i) => (
-                    <div
-                      key={i}
-                      className={`text-[10.5px] leading-snug p-1.5 rounded font-sans whitespace-pre-wrap ${
-                        m.sender === 'user'
-                          ? 'bg-cyan-950/70 text-cyan-200 border border-cyan-700/40 ml-4'
-                          : 'bg-slate-950/90 text-slate-200 border border-slate-800 mr-2'
-                      }`}
-                    >
-                      <span className="font-mono text-[8.5px] uppercase font-bold text-slate-400 block mb-0.5">
-                        {m.sender === 'user'
-                          ? isArchitectMode
-                            ? 'Architect (We)'
-                            : 'You (Operator)'
-                          : isArchitectMode
-                          ? 'BASTION Co-Architect'
-                          : 'BASTION Advisor'}
-                      </span>
-                      {m.text}
-                    </div>
-                  ))}
+                <div className="max-h-56 overflow-y-auto space-y-1.5 pr-1 bg-slate-900/60 p-2 rounded border border-slate-800/80">
+                  {cockpitMessages.slice(-4).map((m, i) => {
+                    const isUserMsg = m.sender === 'user';
+                    const hasMeta =
+                      (Array.isArray(m.followUps) && m.followUps.length > 0) ||
+                      (Array.isArray(m.gems) && m.gems.length > 0);
+                    const fallbackMeta =
+                      !isUserMsg && !hasMeta && m.text
+                        ? parseAndEnrichBastionTurnPayload(m.text, {
+                            role: m.role || effectiveBastionRole,
+                            prompt: m.promptText || '',
+                          })
+                        : null;
+                    const resolvedFollowUps = hasMeta ? m.followUps || [] : fallbackMeta?.followUps || [];
+                    const resolvedGems = hasMeta ? m.gems || [] : fallbackMeta?.gems || [];
+
+                    return (
+                      <div
+                        key={i}
+                        className={`text-[10.5px] leading-snug p-1.5 rounded font-sans whitespace-pre-wrap ${
+                          isUserMsg
+                            ? 'bg-cyan-950/70 text-cyan-200 border border-cyan-700/40 ml-4'
+                            : m.isHalted
+                            ? 'bg-slate-950/90 text-slate-200 border border-amber-500/60 mr-2'
+                            : 'bg-slate-950/90 text-slate-200 border border-slate-800 mr-2'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between gap-1 mb-0.5">
+                          <span className="font-mono text-[8.5px] uppercase font-bold text-slate-400">
+                            {isUserMsg
+                              ? isArchitectMode
+                                ? 'Architect (We)'
+                                : 'You (Operator)'
+                              : isArchitectMode
+                              ? 'BASTION Co-Architect'
+                              : 'BASTION Advisor'}
+                          </span>
+                          {!isUserMsg && m.isHalted && (
+                            <span className="px-1 py-0.2 rounded bg-amber-950/80 border border-amber-500/50 text-[8px] font-mono uppercase text-amber-300">
+                              ⏸ Archive Halt
+                            </span>
+                          )}
+                          {!isUserMsg && m.isSafetyPause && (
+                            <span className="px-1 py-0.2 rounded bg-rose-950/80 border border-rose-500/50 text-[8px] font-mono uppercase text-rose-300">
+                              [X] Pause
+                            </span>
+                          )}
+                        </div>
+                        <div>{fallbackMeta ? fallbackMeta.cleanText : m.text}</div>
+                        {!isUserMsg && (
+                          <BastionFollowUpAndGems
+                            compact
+                            followUps={resolvedFollowUps}
+                            gems={resolvedGems}
+                            isHalted={Boolean(m.isHalted)}
+                            disabled={isCockpitChatLoading}
+                            onSelectPrompt={(p: string) => handleSendCockpitChat(p)}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 

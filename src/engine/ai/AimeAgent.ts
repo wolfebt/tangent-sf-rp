@@ -90,6 +90,7 @@ export class AimeNarrativeAgent {
 - Active Scene: "${context.activeSceneTitle || 'Tactical Breach'}"
 - Scene Beats: ${context.sceneBeats || 'Infiltration -> Breach -> Discovery'}
 - Transmutation Directive: Never expose raw math formulas (e.g. "2d10+4", "Armor DR 6"). Transmute them into visceral sensory descriptions (e.g. "high-velocity rail discharge shrieking against ceramic composite ablative plating").
+- Tabletop Safety & X-Card: Respect Session Zero Lines (never include) and Veils (fade to black). If "[X]" or the X-Card is invoked, immediately halt the beat and fade cleanly to black with zero questions asked.
 `;
 
     let tier2Entities = '';

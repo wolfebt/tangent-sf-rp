@@ -22,6 +22,15 @@ import {
 import { DBMFunctionRegistry } from '../../src/engine/ai/DBMFunctionRegistry.ts';
 import { BastionAgent } from '../../src/engine/ai/BastionAgent.ts';
 import { VertexAIGateway } from '../../src/engine/ai/VertexAIGateway.ts';
+import {
+  DamagePipeline,
+  calculateCrossDomainArmorDR,
+} from '../../src/engine/rules/DamagePipeline.ts';
+import {
+  DEFAULT_BACKGROUND_TRAIT_POLICY,
+  resolveBackgroundTraitPolicy,
+  synthesizeCharacterWithBastion,
+} from '../../src/services/bastionCharacterEngine.js';
 
 const MOCK_UNIVERSE = {
   id: 'camp-horizon',
@@ -365,4 +374,104 @@ test('BastionAgent 150-CP validator respects Rank 11 Creation Cap and never dump
       `Expected skill ${skillName} (${rank}) to respect Creation Cap 11`
     );
   }
+});
+
+test('Phase 2 Canonical Rulings: Cross-Domain Armor Diminishing Returns, 0 Stamina Floor, Award Points (AP), and Configurable Background Trait Policy', async () => {
+  // 1. Cross-Domain Armor Diminishing Returns (+1 per 5 DR of additional layers) & 0 Stamina Floor
+  assert.equal(calculateCrossDomainArmorDR([4, 8, 6]), 11); // 8 + ceil(6/5)=2 + ceil(4/5)=1 = 11
+  assert.equal(calculateCrossDomainArmorDR([10, 5, 1]), 12); // 10 + 1 + 1 = 12
+  assert.equal(calculateCrossDomainArmorDR([]), 0);
+
+  const pipeline = new DamagePipeline();
+  const target = {
+    id: 'op-test',
+    name: 'Vanguard',
+    current_hp: 30,
+    base_hp: 30,
+    current_vitality: 30,
+    base_vitality: 30,
+    armor_dr: 0,
+  };
+  const mitigatedToZero = pipeline.resolveStrike(
+    {
+      rawDamage: 13,
+      armorPenetration: 0,
+      damageType: 'kinetic',
+      isCalledShot: false,
+    },
+    target,
+    [4, 8, 6], // 11 effective DR -> 2 penetrating -> Stamina 3 absorbs down to 0!
+    3,
+    3
+  );
+  assert.equal(mitigatedToZero.effectiveDR, 11);
+  assert.equal(mitigatedToZero.netDamage, 0);
+  assert.equal(mitigatedToZero.vitalityDamage, 0);
+  assert.equal(mitigatedToZero.healthDamage, 0);
+
+  // Default stackingMode on DBMFunctionRegistry.calculate_armor_mitigation is now diminishing_returns
+  const defaultMitigation = await DBMFunctionRegistry.executeToolCall({
+    name: 'calculate_armor_mitigation',
+    args: {
+      incomingDamage: 14,
+      armorLayers: [4, 8, 6],
+      staminaToughness: 3,
+    },
+  });
+  assert.equal(defaultMitigation.stackingMode, 'diminishing_returns');
+  assert.equal(defaultMitigation.effectiveArmorDr, 11);
+  assert.equal(defaultMitigation.finalDamage, 0);
+
+  // 2. Award Points (AP) standardization (1 AP = 1 CP) in CP Ledger & System Prompt
+  const apLedger = await DBMFunctionRegistry.executeToolCall({
+    name: 'audit_operator_cp_ledger',
+    args: {
+      attributes: { strength: 4, agility: 4, stamina: 4, intellect: 2, wisdom: 2, charisma: 0 }, // 16 * 5 = 80 CP
+      skills: { Firearms: 11, Stealth: 11, Athletics: 11, Defense: 11, Alertness: 11, Insight: 11, Medicine: 9 }, // 75 SP - 60 free = 15 CP
+      featuresCp: 65, // 80 + 15 + 65 = 160 CP total
+      awardPointsEarned: 15, // 150 + 15 AP = 165 CP ceiling
+    },
+  });
+  assert.equal(apLedger.awardPointsEarned, 15);
+  assert.equal(apLedger.effectiveCpCeiling, 165);
+  assert.equal(apLedger.totalCpSpent, 160);
+  assert.equal(apLedger.remainingCp, 5);
+  assert.equal(apLedger.isCompliant, true);
+
+  const sysPrompt = composeBastionSystemPrompt({ role: 'operator', intent: 'QUICK_RULING' });
+  assert.ok(sysPrompt.includes('Award Points (AP)'));
+  assert.ok(sysPrompt.includes('2 Origin + 2 Occupation'));
+
+  // 3. Canonical Background Traits (2 Origin + 2 Occupation = 4 Free) + Future Faction Trait Policy Switch
+  const defaultPolicy = resolveBackgroundTraitPolicy();
+  assert.equal(defaultPolicy.id, DEFAULT_BACKGROUND_TRAIT_POLICY);
+  assert.equal(defaultPolicy.originFreeTraits, 2);
+  assert.equal(defaultPolicy.occupationFreeTraits, 2);
+  assert.equal(defaultPolicy.factionFreeTraits, 0);
+  assert.equal(defaultPolicy.totalFreeBackgroundTraits, 4);
+
+  const defaultSynth = synthesizeCharacterWithBastion({
+    prompt: 'Cybernetic Vanguard Operator',
+    techLevel: 3,
+  });
+  const defaultOriginTraits = defaultSynth.character.traits.filter((t) => t.source === 'origin');
+  const defaultOccuTraits = defaultSynth.character.traits.filter((t) => t.source === 'occupation');
+  const defaultFactionTraits = defaultSynth.character.traits.filter((t) => t.source === 'faction');
+  assert.equal(defaultOriginTraits.length, 2);
+  assert.equal(defaultOccuTraits.length, 2);
+  assert.equal(defaultFactionTraits.length, 0);
+
+  // Verify future platform revision policy ('origin_2_occupation_2_faction_1') works seamlessly when enabled
+  const expandedFactionSynth = synthesizeCharacterWithBastion({
+    prompt: 'Cybernetic Vanguard Operator',
+    techLevel: 3,
+    traitPolicy: 'origin_2_occupation_2_faction_1',
+    awardPointsEarned: 10,
+  });
+  assert.equal(expandedFactionSynth.rulesLedger.effectiveCpBudget, 160);
+  assert.equal(expandedFactionSynth.rulesLedger.traitPolicy.factionFreeTraits, 1);
+  assert.equal(
+    expandedFactionSynth.character.traits.filter((t) => t.source === 'faction').length,
+    1
+  );
 });

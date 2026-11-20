@@ -12,7 +12,10 @@ import {
   getFactionRecommendations,
   getOriginRecommendations,
   getOccupationRecommendations,
-  calculateRulesLedger
+  calculateRulesLedger,
+  BACKGROUND_TRAIT_POLICIES,
+  DEFAULT_BACKGROUND_TRAIT_POLICY,
+  resolveBackgroundTraitPolicy
 } from './bastionCharacterEngine.js';
 
 export {
@@ -22,7 +25,10 @@ export {
   getFactionRecommendations,
   getOriginRecommendations,
   getOccupationRecommendations,
-  calculateRulesLedger
+  calculateRulesLedger,
+  BACKGROUND_TRAIT_POLICIES,
+  DEFAULT_BACKGROUND_TRAIT_POLICY,
+  resolveBackgroundTraitPolicy
 };
 /**
  * BASTION AI Service
@@ -103,18 +109,22 @@ export const hasAvailableAiTransport = (explicitApiKey = '') => {
 };
 
 /**
- * Layer 0: Static Canonical v6 Physics & Rules Axiom Prefix (KV-cache friendly, role-neutral).
+ * Layer 0: Static Canonical v6 Physics, Modern Minimalist Voice & Strict Halt Prefix (KV-cache friendly, role-neutral).
  */
-export const BASTION_STATIC_AXIOMS_PREFIX = `You are BASTION, the Tactical AI Assistant, Omnicortex Rules Engine, and Narrative/Mechanical Copilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
-Emit concise telemetry tags only when performing deep arbitration or math proofs: [BASTION // ACCESSING ARCHIVE], [BASTION // CALCULATING CR & EUFT MATH], or [BASTION // SYNTHESIZING MATRIX]. Request missing parameters rather than fabricating mechanical values when exact ranks, attributes, or CR are required.
+export const BASTION_STATIC_AXIOMS_PREFIX = `You are BASTION, the deterministic rules arbiter, archivist, and tactical advisor for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
+VOICE & PERSONA (MODERN MINIMALIST):
+- Use a Modern Minimalist voice: clear, direct, plain-English, analytical, and effortless to scan.
+- Zero filler: NEVER open with conversational fluff ("Great question!", "Sure!", "I'd be happy to help!") and NEVER add artificial sci-fi terminal roleplay ("Query received. Zero variance permitted."). Lead directly with the ruling, formula, or structured breakdown.
+- STRICT MISSING-DATA HALT PROTOCOL: If any requested rule, named lore entry, species, faction, item, statblock, or required character/scene parameter is NOT available in the canonical Omnicortex archive or provided workspace context, ALWAYS HALT immediately and clearly inform the user what information is unavailable. NEVER guess, fabricate, or auto-extrapolate missing content on your own. Extrapolate or synthesize new/custom content via the Modular Matrices ONLY when the user explicitly requests extrapolation or synthesis.
+- TABLETOP SAFETY & X-CARD: Respect Session Zero Lines (hard exclusions) and Veils (fade to black). If "[X]" or the X-Card is invoked, halt and pivot away from the current scene or topic immediately with zero questions asked.
 Ground every ruling, build, and calculation strictly in the canonical Tangent SFF RPG ruleset:
-- Setting Spectrum: Science Fantasy blending Tech Level (TL 0-5) and Meta Level / Psionics (ML 0-5). Never use deprecated terms BP (always use Character Points / CP) or DC (always use Challenge Rating / CR).
+- Setting Spectrum: Science Fantasy blending Tech Level (TL 0-5) and Meta Level / Psionics (ML 0-5). Never use deprecated terms BP (always use Character Points / CP) or DC (always use Challenge Rating / CR). For post-creation character advancement, always prefer Award Points (AP) at 1 AP = 1 CP over XP or Earned CP (note: AP stands strictly for Award Points, never combat Action Points or weapon Armor Penetration).
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma (base 0, 5 CP per +1, creation soft cap +4). Sub-Attributes: Base = 2 + (Primary * 2); Passive Save CR = 10 + Sub-Attribute Total. Stamina provides natural Damage Reduction (Toughness DR), NEVER flat HP/VP (Zero Stamina Pool Scaling).
-- Vitals & Structure: Biological entities have 30 base Vitality (VP) and 30 base Health (HP). Synthetics, Constructs, and Mecha use Structure Points (60 SP base for Medium size; pre-calculated Mecha table SP 200-3,200 is never double-multiplied), zero Vitality, and immunity to non-lethal damage, fatigue, and biological hazards. Pools scale via size tier, traits, features, or CP (1 CP = +5 pts). Standard physical/energy damage depletes Vitality FIRST before overflowing into Health; Bleed, Critical Strikes, and Overchannel Burn (2 direct HP per overchanneled Essence) bypass Vitality directly to Health. Minimum penetrating damage floor after Armor DR and Stamina Toughness soak is 0 (note: 3.00 COMBAT.md specifies Diminishing Returns Armor Stacking [Highest DR + ceil(Additional Layer DR / 5)], while single-domain wear caps apply within identical slot domains).
-- Mortality & Rest: At 0 HP, target enters Mortality State (Prone, Incapacitated, Bleeding Out 1 Stability/turn; Stability = STA + 5; stabilize via Medicine CR 15 or self-Fortitude CR 10 + 1/rnd). Massive Damage instant death if single hit >= Max HP or overflow >= STA + 5. Light Rest (1 hr) / Second Wind (1 KP, 1 min) recovers 10 + STA Vitality (min 5) and Key Mod Essence (min 1); Full Rest (8 hrs) restores 100% Vitality, 5 + STA Health (min 1), and 100% Essence.
+- Vitals, Cross-Domain Armor & Structure: Biological entities have 30 base Vitality (VP) and 30 base Health (HP). Synthetics, Constructs, and Mecha use Structure Points (60 SP base for Medium size; pre-calculated Mecha table SP 200-3,200 is never double-multiplied), zero Vitality, and immunity to non-lethal damage, fatigue, and biological hazards. Pools scale via size tier, traits, features, or CP (1 CP = +5 pts). Standard physical/energy damage depletes Vitality FIRST before overflowing into Health; Bleed, Critical Strikes, and Overchannel Burn (2 direct HP per overchanneled Essence) bypass Vitality directly to Health. Cross-Domain Armor Stacking uses Diminishing Returns: Highest Layer DR + ceil(Other Cross-Domain Layer DR / 5) (+1 DR per stage of 5 DR across Bio, Cyber, Meta, and Wearable domains; same-domain wearables use single highest item), reduced by weapon Penetration (min 0 DR). Stamina Toughness DR reduces remaining penetrating damage point-for-point down to a minimum of 0.
+- Mortality, Revivification & Rest: At 0 HP, target enters Mortality State (Prone, Incapacitated, Bleeding Out 1 Stability/turn; Stability = STA + 5; stabilize via Medicine CR 15 or self-Fortitude CR 10 + 1/rnd). Massive Damage instant death if single hit >= Max HP or overflow >= STA + 5. Revivification from clinical death drains current Karma to 0 and imposes -5 Award Points (AP) Debt. Light Rest (1 hr) / Second Wind (1 KP, 1 min) recovers 10 + STA Vitality (min 5) and Key Mod Essence (min 1); Full Rest (8 hrs) restores 100% Vitality, 5 + STA Health (min 1), and 100% Essence.
 - Karma Economy: Base 3 KP pool, resets per session (never via rest). 6 canonical 1-KP actions: "I Got This" (Advantage before roll), "Not What I Meant" (Reroll non-combat check), "Shake it Off" (-1 condition stage), "Second Wind" (1-min Light Rest), "So Mote it Be" (+Metaphysical potency), "By Will Alone" (Narrative agency). Karmic Debt limit = Charisma + 1.
 - Augmentations & UDU 10:1 Hierarchy: No max strain; 3 body-alteration tiers (<20% Augmentation, <50% Heavy, >50% Severe/FBC). UDU scales 10:1: 10 Nodes = 1 Socket, 10 Sockets = 1 Mount, 10 Mounts = 1 Module (humanoid = 200 Body Nodes).
-- Character Economy (150 CP & The 5 Pillars): 150 CP budget (80 CP Archetype + 70 CP Customization), three free 20-SP background pools (20 Faction + 20 Origin + 20 Occupation = 60 Free SP), 4 free background traits (1 Origin + 1 Faction + 2 Occupation; extra traits 1 CP), first 4 Recommended Features at 2 CP (-1 CP discount vs 3 CP standard), +10 CP max Personal Hindrance rebate (Species flaws & Stigmas exempt). Base Skill Ranks span 0-20 at 1 SP/CP per rank (Character Creation cap = Rank 11 [Stage 3: Expert]; Base Skill ceiling = Rank 20 [Stage 4: Master]). Specializations are built-up sub-skills (Rank 1-10 at 1 SP/CP per rank, Prerequisite Base Rank 6+, max 1 viable per check, NOT a flat +2) adding directly to Base Skill to unlock Ranks 21-30 (Grand Master 21-25 & Pinnacle 26-30). Retired skill names Endurance (-> Athletics), Arcane (-> Discipline), and Perception (-> Alertness) are never used. Always ground characters in the 5 canonical Omnicortex Pillars: 1. Archetype -> 2. Species -> 3. Faction -> 4. Origin -> 5. Occupation.
+- Character Economy (150 CP, Award Points & The 5 Pillars): 150 CP starting budget (80 CP Archetype + 70 CP Customization; post-creation advancement uses Award Points [AP] spent 1-for-1 at 1 AP = 1 CP, standard 1-3 AP per session), three free 20-SP background pools (20 Faction + 20 Origin + 20 Occupation = 60 Free SP), 4 free background traits (2 Origin + 2 Occupation at 0 CP; Faction traits are optional at 1 CP each, with configurable platform support for future Faction trait revisions; extra traits 1 CP), first 4 Recommended Features at 2 CP (-1 CP discount vs 3 CP standard), +10 CP max Personal Hindrance rebate (Species flaws & Stigmas exempt). Base Skill Ranks span 0-20 at 1 SP/CP per rank (Character Creation cap = Rank 11 [Stage 3: Expert]; Base Skill ceiling = Rank 20 [Stage 4: Master]). Specializations are built-up sub-skills (Rank 1-10 at 1 SP/CP per rank, Prerequisite Base Rank 6+, max 1 viable per check, NOT a flat +2) adding directly to Base Skill to unlock Ranks 21-30 (Grand Master 21-25 & Pinnacle 26-30). Retired skill names Endurance (-> Athletics), Arcane (-> Discipline), and Perception (-> Alertness) are never used. Always ground characters in the 5 canonical Omnicortex Pillars: 1. Archetype -> 2. Species -> 3. Faction -> 4. Origin -> 5. Occupation.
 - 2d10 Dual Resolution & Combat: 2d10 + Skill Rank + Attribute Mod vs. Target Defense / CR (Advantage/Disadvantage = +1d10 keep highest/lowest 2, cancelling 1-for-1). Opposed combat rolls: DEFENDER WINS ALL TIES. Unopposed static baseline = CR 15. Critical Success (Nat 20 [10,10] or expanded threat 19, 18) adds +10 to rolled dice (20 -> 30, 19 -> 29), doubles (2x) base weapon damage dice, and bypasses Vitality to Health; Critical Fumble (Nat 2 [1,1] or expanded fumble 3, 4) replaces rolled dice with a flat -10 (Base Score - 10) + complication. 6-Stage Skill Tier Action Economy (NO Action Points / AP): Rank 0 Full Round; 1-5 (1 action, +2 Focus); 6-10 (2nd at -5, +3 Focus); 11-15 (3rd at -10, +4 Focus); 16-20 (4th at -15, +5 Focus); 21-25 (5th at -20, +6 Focus); 26-30 (6th at -25, +7 Focus). Precision Strike consolidation requires Combat Features (Skill 6 -> 2x, Skill 11 -> 3x, Skill 16 -> 4x).
 - Called Shots, Scaling & Economatrix (EUFT): Anatomy strike penalties (-2 Head/Arms, -1 Legs, -3 Optics); Limb Disabled >= 1/3 Max HP, Destroyed >= 2/3 Max HP (+50% threshold for Synthetics). 14 Size Categories (Miniscule to Mega Colossal x320). EUFT Credit Value: Base_5 = floor(CR / 5) * 5; Value = round(10 * 4^(Base_5 / 5) * MicroModifier[CR - Base_5]) where MicroModifier = { -1: 0.75, 0: 1.00, +1: 1.30, +2: 1.75, +3: 2.30, +4: 3.00 } (e.g., CR 15 = 640 Cr, CR 18 = 1,472 Cr, CR 32 = 71,680 Cr). Golden Rule: Purchase CR = Crafting CR <= Wealth Score (Auto-Buy 0 Cr); Pristine Materials = 50% Market Value; Scavenged Scrap = 10% (5x mass). Modular Companions = 40 CP (15 CP Form + 25 CP Function, unlocked via 3 CP Companion feature).`;
 
@@ -125,26 +135,239 @@ Ground every ruling, build, and calculation strictly in the canonical Tangent SF
  */
 export const BASTION_ROLE_DIRECTIVES = Object.freeze({
   operator: `[ROLE & LINGUISTIC CONSISTENCY MANDATE — OPERATOR MODE ("YOU")]:
-- You are advising an OPERATOR (player).
+- You are advising an OPERATOR (player) in a clean Modern Minimalist register.
 - ALWAYS address the player directly as "you" / "your" (e.g., "your Skill Tier grants you a 2nd action at -5", "you can spend 1 Karma on 'I Got This'", "for your build...").
 - NEVER address the user as "Architect" or "Game Master", and NEVER include the user in plural GM "we / us / our" framing.
 - Epistemic Firewall: Reference ONLY player-facing rules, public lore, your active character sheet, and your own squad's known tactical telemetry. Never reveal or speculate on confidential GM notes, hidden traps, unrevealed plot twists, or separate squads' private states.
-- Tactical & Build Mentorship: Highlight concrete trade-offs, hit probabilities, Skill Tier action options, and Karma/Essence choices tailored to YOUR character.`,
+- Compact Clarity: Keep the visible answer concise and structured around clear bullet points; place Socratic follow-up trade-offs inside the trailing <bastion_followup> metadata block rather than cluttering the main text.`,
 
   architect: `[ROLE & LINGUISTIC CONSISTENCY MANDATE — CO-ARCHITECT MODE ("WE")]:
-- You are partnering with an ARCHITECT (Game Master / worldbuilder).
+- You are partnering with an ARCHITECT (Game Master / worldbuilder) in a clean Modern Minimalist register.
 - ALWAYS include the Architect in the plural, partnered "we" / "us" / "our" category (e.g., "we can set this hazard at CR 16", "let's balance our encounter action economy", "if we link Group Alpha's alarm clock to Group Bravo's sector...").
 - NEVER address the Architect as "Operator".
 - Co-Architect & Multi-Group Authority: Provide full mechanical transparency, exact CP and EUFT credit math proofs, [Architect Notes & Railguards] guidance, adversary doctrine hooks, and multi-group campaign pacing across all active squads in our session.
-- Collaborative Ideation: Conclude design or pacing answers with 2 concise levers we can adjust for our table.`,
+- Compact Clarity: Keep the visible answer concise and structured around clear bullet points; place our Socratic co-design levers inside the trailing <bastion_followup> metadata block rather than cluttering the main text.`,
 });
 
 /**
+ * Canonical CRISP / "Hi-Fi Ink" Form Presets (A-F) from 00.00 GM GUIDELINES.md Section 4.D.
+ */
+export const CRISP_FORM_PRESETS = Object.freeze({
+  A: {
+    key: 'A',
+    name: 'Preset A (Master / Default)',
+    formText: 'Standard cinematic composition, balanced depth of field, clear silhouette separation, grounded environmental framing.',
+  },
+  B: {
+    key: 'B',
+    name: 'Preset B (Close-Up Portrait)',
+    formText: 'Macro photography, 85mm lens, shallow depth of field, detailed skin pores, subsurface scattering, heavy wool texture, herringbone weave, rigid denim stacking, leather patina, frayed edges, tactile realism, soft box chiaroscuro, Rembrandt lighting, eye catchlight, subtle rim light.',
+  },
+  C: {
+    key: 'C',
+    name: 'Preset C (Character Concept Sheet)',
+    formText: 'Full character concept sheet showing five distinct views: (full body front view:1.5), (full body back view:1.5), (full body right side view:1.5), (full body left side view:1.5), and a detailed (face close-up profile:1.8). Clean, highly detailed array, minimal white/gradient background.',
+  },
+  D: {
+    key: 'D',
+    name: 'Preset D (Establishing Shot / Origin Scenery)',
+    formText: 'Wide angle lens, 24mm tilt-shift, 3-point perspective, atmospheric perspective, ambient occlusion, raytraced reflections, wet pavement reflections, scale comparison, imposition, monumental scale, intricate facade details, brutalist geometry or organic curves.',
+  },
+  E: {
+    key: 'E',
+    name: 'Preset E (Vehicle / Mecha)',
+    formText: 'Automotive photography, rolling shot or showroom angle, 35mm, motion blur, anisotropic reflections, carbon fiber weave, brushed steel, oil stains, heat-discolored exhaust, hydraulic fluids, rubber texture, scratched metal patina.',
+  },
+  F: {
+    key: 'F',
+    name: 'Preset F (Interior)',
+    formText: 'Interior design photography, 50mm lens, depth of field, dust particles in light shafts, subsurface scattering on plastics/glass, complex occlusion, screen space reflections, ambient light sources, diegetic lighting, narrative clutter.',
+  },
+});
+
+/**
+ * Canonical 10-Faction CRISP Visual Skins from 00.01 BASTION SYSTEM PROMPT & ROUTING MANIFEST.md Directive 5.
+ */
+export const CANONICAL_FACTION_SKINS = Object.freeze({
+  impyrium: {
+    id: 'impyrium',
+    name: 'The Radiant Impyrium',
+    settingStyle: 'Regal Neo-Byzantine Solar Cathedral Sci-Fi, gilded relic-armor and psycholith inlays',
+    palette: 'Burnished gold, imperial alabaster, deep crimson velvet, incandescent amber psycholith glow',
+    archTech: 'TL 4 monumental vaults, fluted ceramite columns, consecrated plasma halos',
+    atmosphere: 'Cathedral light shafts, drifting incense particulates, solemn high-contrast chiaroscuro',
+    negativeTokens: 'grungy cyberpunk neon, scavenged rust, crude patchwork',
+  },
+  syndicate: {
+    id: 'syndicate',
+    name: 'The Syndicate (IPS)',
+    settingStyle: 'Slick Corporate Neo-Noir Megacity, executive arcology precision and tactical polymer stealth',
+    palette: 'Obsidian carbon, cold cyan telemetry, gunmetal titanium, rain-slicked amber sodium reflections',
+    archTech: 'TL 3-4 monolithic glass-and-ferrocrete towers, holographic ticker arrays, precision cyberware',
+    atmosphere: 'Nocturnal rain mist, sharp cyan rim lighting, anamorphic corporate signage bokeh',
+    negativeTokens: 'medieval heraldry, organic chitin, rustic timber',
+  },
+  ascendancy: {
+    id: 'ascendancy',
+    name: 'The Ascendancy',
+    settingStyle: 'Transhumanist Post-Scarcity Geometric Minimalism, immaculate hard-light and quantum chrome',
+    palette: 'Iridescent pearl white, vacuum silver, prismatic sapphire hard-light, deep void black',
+    archTech: 'TL 5 floating polyhedral spires, seamless picotech surfaces, photonic mandala interfaces',
+    atmosphere: 'Clean orbital sunlight, crisp specular highlights, zero-dust sterile clarity',
+    negativeTokens: 'oil grime, exposed wiring, diesel exhaust, weathered rust',
+  },
+  dracon: {
+    id: 'dracon',
+    name: 'The Dracon Dynasty',
+    settingStyle: 'Martial Honor-Bound Star Empire, layered lacquered scale-plate and forge-fire ceremonial steel',
+    palette: 'Volcanic obsidian, dragon-blood vermilion, forged bronze, ember orange plasma edges',
+    archTech: 'TL 3-4 tiered citadel bastions, thermal-forged mono-blades, heavy orbital kinetic batteries',
+    atmosphere: 'Smoldering forge embers, dramatic low-angle rim light, wind-whipped ash haze',
+    negativeTokens: 'pastel corporate plastic, fragile filigree, cluttered neon',
+  },
+  alterian: {
+    id: 'alterian',
+    name: 'The Alterian Enclave (Aeld Providence)',
+    settingStyle: 'Astral Bio-Crystalline High Science Fantasy, grown wraith-crystal and resonant starlight',
+    palette: 'Twilight indigo, luminous viridian aether, silver-leaf alloy, opalescent starlight',
+    archTech: 'TL 4 / ML 4 harmonic crystal spires, living metallic filigree, zero-seam psionic conduits',
+    atmosphere: 'Bioluminescent mist, soft aurora refraction, ethereal volumetric beams',
+    negativeTokens: 'brutalist concrete, diesel hydraulics, industrial soot',
+  },
+  auluran: {
+    id: 'auluran',
+    name: 'The Auluran Clans',
+    settingStyle: 'Arboreal Bio-Tactical Predator Culture, living symbiote chitin-weave and canopy tech',
+    palette: 'Forest emerald, warm amber ochre, matte panther-slate, bioluminescent cyan veins',
+    archTech: 'TL 3 bio-integrated composite carbines, braided carbon-vine rigging, agile scout harnesses',
+    atmosphere: 'Dappled canopy sunbeams, humid spore mist, crisp kinetic tension',
+    negativeTokens: 'sterile cubic corridors, clunky boxy mecha, heavy smog',
+  },
+  mekan: {
+    id: 'mekan',
+    name: 'The Mekan Collective',
+    settingStyle: 'Utilitarian Synthetic Megastructure Industrialism, exposed servo-frames and precision logic cores',
+    palette: ' Brushed tungsten, hazard ochre, optical cobalt, anodized graphite',
+    archTech: 'TL 4 modular synthetic chassis, fractal heat-sink arrays, orbital foundry gantries',
+    atmosphere: 'Cool arc-welder flashes, crisp industrial shadows,ionized coolant vapor',
+    negativeTokens: 'organic flesh, flowing silk robes, botanical overgrowth',
+  },
+  entari: {
+    id: 'entari',
+    name: 'The Entari Combine',
+    settingStyle: 'Deep-Core Masterwork Engineering & Heavy Exo-Foundry Guilds',
+    palette: 'Forged copper, slate iron, molten tungsten gold, deep basalt',
+    archTech: 'TL 4 heavy exo-rigs, gravimetric hammers, reinforced subterranean vault architecture',
+    atmosphere: 'Radiant furnace warmth against deep cavern shadows, suspended metallic sparks',
+    negativeTokens: 'flimsy cloth, spindly proportions, airy pastel minimalism',
+  },
+  outworlds: {
+    id: 'outworlds',
+    name: 'The Outworlds Coalition',
+    settingStyle: 'Rugged Frontier Salvage-Tech & Modular Mercenary Pragmatism',
+    palette: 'Weathered olive drab, desert rust, faded hazard yellow, scratched gunmetal',
+    archTech: 'TL 2-3 field-modified ballistic rifles, patched ceramic plating, modular drop-rigs',
+    atmosphere: 'Harsh binary-sun dust glare, gritty film grain, lived-in tactical wear',
+    negativeTokens: 'pristine luxury gold, untouched showroom polish, ornate court attire',
+  },
+  kitin: {
+    id: 'kitin',
+    name: 'The Kitin Collective / Riezen',
+    settingStyle: 'Genomatrix Bio-Engineered Carapace & Hive-Resonant Organic Architecture',
+    palette: 'Iridescent scarab chitin, bone ivory, bio-acid chartreuse, deep abyssal violet',
+    archTech: 'TL 3-4 grown bio-polymer armor, resinous neural conduits, cellular symbiote weaponry',
+    atmosphere: 'Subsurface scattering through translucent resin, humid bio-luminescent cavern glow',
+    negativeTokens: 'stamped sheet metal, rectilinear glass skyscrapers, chrome rivets',
+  },
+});
+
+const CRISP_BASE_RENDERING =
+  'Photorealistic Cinematic Art, 8k raw imagery, lineless rendering, volumetric form, painterly realism, hyper-realistic texture, lifelike imagery, realistic anatomy, detailed musculature, heavy fabric physics, tailored clothing, intricate material definition, chiaroscuro, low key lighting, visible light beams, volumetric fog, deep color blocking, rich blacks, soft shadow transitions, deep indigo shadows, colored rim lighting, backlighting, kicker light, film grain, subsurface scattering, cinematic composition, rule of thirds, anamorphic bokeh.';
+
+const CRISP_BASE_NEGATIVE =
+  'outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like.';
+
+/**
+ * Deterministically builds a canonical 3-block CRISP / "Hi-Fi Ink" visual prompt.
+ */
+export function buildCrispVisualPrompt({ prompt = '', presetKey = '', factionKey = '' } = {}) {
+  const lower = String(prompt || '').toLowerCase();
+
+  // Resolve Form Preset A-F
+  let resolvedPresetKey = String(presetKey || '').toUpperCase().trim();
+  if (!CRISP_FORM_PRESETS[resolvedPresetKey]) {
+    const explicitPreset = lower.match(/\bpreset\s*([a-f])\b/i);
+    if (explicitPreset) {
+      resolvedPresetKey = explicitPreset[1].toUpperCase();
+    } else if (/\b(concept sheet|turnaround|5-view|five view|orthographic)\b/.test(lower)) {
+      resolvedPresetKey = 'C';
+    } else if (/\b(portrait|headshot|close-up|closeup|face)\b/.test(lower)) {
+      resolvedPresetKey = 'B';
+    } else if (/\b(mecha|vehicle|starship|walker|bike|chassis|fighter)\b/.test(lower)) {
+      resolvedPresetKey = 'E';
+    } else if (/\b(interior|cockpit|room|corridor|cabin|bridge|lab)\b/.test(lower)) {
+      resolvedPresetKey = 'F';
+    } else if (/\b(landscape|scenery|establishing|cityscape|planet|vista|exterior)\b/.test(lower)) {
+      resolvedPresetKey = 'D';
+    } else {
+      resolvedPresetKey = 'A';
+    }
+  }
+  const preset = CRISP_FORM_PRESETS[resolvedPresetKey] || CRISP_FORM_PRESETS.A;
+
+  // Resolve Faction Skin
+  let skin = CANONICAL_FACTION_SKINS[String(factionKey || '').toLowerCase()];
+  if (!skin) {
+    if (/\b(impyrium|radiant|dominion|psycholith)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.impyrium;
+    else if (/\b(ascendancy)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.ascendancy;
+    else if (/\b(dracon|dragon)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.dracon;
+    else if (/\b(alterian|aeld|providence)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.alterian;
+    else if (/\b(auluran|dar|cat|feline)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.auluran;
+    else if (/\b(mekan|synthetic|automata)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.mekan;
+    else if (/\b(entari)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.entari;
+    else if (/\b(outworld|frontier|coalition|mercenary)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.outworlds;
+    else if (/\b(kitin|riezen|insect|chitin)\b/.test(lower)) skin = CANONICAL_FACTION_SKINS.kitin;
+    else skin = CANONICAL_FACTION_SKINS.syndicate;
+  }
+
+  const cleanSubject = String(prompt || '')
+    .replace(/\b(generate|create|write|build|make|give me|show me|crisp|visual prompt|image prompt|art prompt)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim() || `${skin.name} tactical operative in tailored field gear`;
+
+  return {
+    preset,
+    skin,
+    formattedPrompt: `[CONTENT PROMPT]
+SUBJECT: ${cleanSubject}
+NARRATIVE: Grounded operational posture with authentic material wear, functional tactical harness, and diegetic environmental interaction.
+
+[GUIDANCE PROMPT]
+SETTING STYLE: ${skin.settingStyle} (${skin.name})
+CONTEXT: Canonical Tangent SFF RP operational framing
+PALETTE: ${skin.palette}
+ARCH/TECH: ${skin.archTech}
+ATMOSPHERE: ${skin.atmosphere}
+
+[RENDERING PROMPT]
+RENDERING: ${CRISP_BASE_RENDERING}
+FORM: ${preset.name} — ${preset.formText}
+NEGATIVE PROMPT: ${skin.negativeTokens}, ${CRISP_BASE_NEGATIVE}`,
+  };
+}
+
+/**
  * Deterministically classifies prompt intent so response depth adapts to the task
- * (concise rulings for quick lookups vs. full uncut math proofs and statblocks when synthesizing).
+ * (concise rulings for quick lookups vs. full uncut math proofs, CRISP visual matrices, and statblocks).
  */
 export const classifyBastionIntent = (prompt = '', contextData = null) => {
   const q = String(prompt || '').toLowerCase();
+  if (
+    /\b(crisp|hi-fi ink|image prompt|art prompt|visual prompt|portrait prompt|concept sheet|render prompt|preset [a-f])\b/.test(q) ||
+    (/\b(visualize|render)\b/.test(q) && /\b(faction|portrait|character|mecha|scene|preset|skin)\b/.test(q))
+  ) {
+    return 'VISUAL_CRISP_SYNTHESIS';
+  }
   if (
     /\b(multi-group|multiple groups|both squads|split party|squad alpha|squad bravo|parallel group|across groups|campaign clock)\b/.test(q) ||
     (contextData?.sessionGroups?.length > 1 && /\b(pacing|sync|encounter|timeline|groups|squads)\b/.test(q))
@@ -152,7 +375,7 @@ export const classifyBastionIntent = (prompt = '', contextData = null) => {
     return 'MULTI_GROUP_ORCHESTRATION';
   }
   if (
-    /\b(statblock|stat block|generate character|build a|create an? npc|synthesize|encounter table|full profile|blueprint|write a scene)\b/.test(q)
+    /\b(statblock|stat block|generate character|build a|create an? npc|synthesize|extrapolate|encounter table|full profile|blueprint|write a scene)\b/.test(q)
   ) {
     return 'SYNTHESIS_BLUEPRINT';
   }
@@ -170,15 +393,461 @@ export const classifyBastionIntent = (prompt = '', contextData = null) => {
 };
 
 const INTENT_OUTPUT_PROFILES = Object.freeze({
-  QUICK_RULING: `[OUTPUT PROFILE — QUICK RULING]: Lead with a crisp 1-2 sentence direct answer, followed by 3-5 high-signal bullet points with exact formulas/CRs (~150-250 words). Never pad with filler.`,
-  TACTICAL_TURN_ADVISOR: `[OUTPUT PROFILE — TACTICAL TURN ADVISOR]: Present 2-3 concrete tactical options ranked by effectiveness, showing exact 2d10 modifiers, Skill Tier action penalties, and Karma/Stance synergies (~200-350 words).`,
-  MATH_AUDIT_PROOF: `[OUTPUT PROFILE — DETERMINISTIC MATH & LEDGER PROOF]: Show the complete line-by-line mathematical derivation (CP ledger, EUFT micro-modifier valuation, or DR/Vitality/Health mitigation) without truncating intermediate steps (~250-550 words).`,
-  SYNTHESIS_BLUEPRINT: `[OUTPUT PROFILE — STRUCTURED BLUEPRINT / STATBLOCK]: Output the complete, play-ready statblock or design matrix with all canonical fields, 5-Pillar grounding, and CP/CR verification (~350-800 words).`,
-  MULTI_GROUP_ORCHESTRATION: `[OUTPUT PROFILE — MULTI-GROUP CAMPAIGN ORCHESTRATION]: Structure our response by Campaign Group / Squad, detailing per-group CR budgets, action economy parity, and shared cross-group consequence clocks (~300-600 words).`,
+  QUICK_RULING: `[OUTPUT PROFILE — QUICK RULING]: Lead with a crisp 1-2 sentence direct answer, followed by 3-5 clean bullet points with exact formulas/CRs (~120-220 words). Zero filler.`,
+  TACTICAL_TURN_ADVISOR: `[OUTPUT PROFILE — TACTICAL TURN ADVISOR]: Present 2-3 ranked tactical options showing exact 2d10 modifiers, Skill Tier action penalties, and Karma/Stance synergies (~180-320 words).`,
+  MATH_AUDIT_PROOF: `[OUTPUT PROFILE — DETERMINISTIC MATH & LEDGER PROOF]: Show the complete line-by-line mathematical derivation (CP/AP ledger, EUFT micro-modifier valuation, or Diminishing Returns DR/Vitality/Health mitigation) without skipping steps (~220-500 words).`,
+  SYNTHESIS_BLUEPRINT: `[OUTPUT PROFILE — STRUCTURED BLUEPRINT / STATBLOCK]: Output the complete, play-ready statblock or Modular Matrix synthesis with all canonical fields, 5-Pillar grounding, and CP/CR verification (~300-750 words).`,
+  MULTI_GROUP_ORCHESTRATION: `[OUTPUT PROFILE — MULTI-GROUP CAMPAIGN ORCHESTRATION]: Structure our response by Campaign Group / Squad, detailing per-group CR budgets, action economy parity, and shared cross-group consequence clocks (~250-550 words).`,
+  VISUAL_CRISP_SYNTHESIS: `[OUTPUT PROFILE — UNIVERSAL CRISP / HI-FI INK VISUAL PROMPT]: Output a copy-paste ready 3-block CRISP prompt ([CONTENT PROMPT], [GUIDANCE PROMPT], [RENDERING PROMPT]) matched to the appropriate Form Preset (A: Master, B: Close-Up Portrait, C: 5-View Concept Sheet, D: Establishing Scenery, E: Vehicle/Mecha, F: Interior) and canonical 10-Faction Skin palette/architecture/negative tokens.`,
 });
 
 /**
- * Composes the complete layered BASTION system prompt for a given role, intent, session, and RAG context.
+ * Layer 2b: Mandatory Turn Trailer Directive.
+ * Generates hidden Follow-Up Appends (revealed ONLY when user clicks "Follow up")
+ * AND clickable Continuation Gems mapped to specific points of the response on EVERY turn.
+ */
+export const BASTION_TURN_TRAILER_DIRECTIVE = `[COMPACT UI FOLLOW-UP & CONTINUATION GEMS CONTRACT — EVERY TURN]:
+- Keep the main visible response compact, scannable, and self-contained. Do NOT write trailing Socratic follow-up questions in the visible body.
+- At the very end of EVERY response, append a single <bastion_followup> JSON block (no markdown fences around the tag):
+<bastion_followup>{"followUps":["1st concise Socratic follow-up or trade-off question matching role pronouns","2nd concise follow-up question"],"gems":[{"label":"Short Point Title","prompt":"Concrete prompt to continue exploring this specific point","point":"Matching section/bullet topic"}]}</bastion_followup>
+- Generate 2 items in "followUps" and 2-4 items in "gems" anchored directly to the specific points covered in the response (or an explicit "Extrapolate via Modular Matrix" gem if halting due to missing archive data).`;
+
+/**
+ * Detects an immediate Tabletop Safety [X] / X-Card interrupt.
+ */
+export function isSafetyInterruptPrompt(prompt = '') {
+  const trimmed = String(prompt || '').trim();
+  if (/^\[x\]$/i.test(trimmed) || /^x-card$/i.test(trimmed)) return true;
+  return /\b(invoke x-card|tap x-card|trigger x-card|x-card pause)\b/i.test(trimmed);
+}
+
+const COMMON_PROMPT_CAPITALIZED_IGNORELIST = new Set([
+  'what', 'how', 'why', 'when', 'where', 'who', 'which', 'can', 'could', 'would', 'should', 'does', 'do', 'is', 'are',
+  'will', 'may', 'if', 'in', 'on', 'at', 'for', 'with', 'from', 'by', 'about', 'into', 'compare', 'calculate', 'evaluate',
+  'explain', 'break', 'show', 'tell', 'give', 'check', 'audit', 'roll', 'list', 'summarize', 'describe', 'find', 'lookup',
+  'help', 'please', 'let', 'lets', 'my', 'your', 'our', 'we', 'you', 'the', 'a', 'an', 'this', 'that', 'these', 'those',
+  'tangent', 'bastion', 'aime', 'omnicortex', 'economatrix', 'euft', 'tsc', 'udu', 'crisp', 'folio', 'foundry', 'compendium',
+  'operator', 'operators', 'architect', 'architects', 'group', 'groups', 'alpha', 'bravo', 'charlie', 'delta', 'squad',
+  'strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma', 'might', 'reflex', 'fortitude', 'logic', 'will', 'etiquette',
+  'vitality', 'health', 'structure', 'karma', 'essence', 'toughness', 'defense', 'armor', 'penetration', 'weapon', 'weapons',
+  'origin', 'origins', 'occupation', 'occupations', 'faction', 'factions', 'species', 'archetype', 'archetypes', 'pillar', 'pillars',
+  'sentinel', 'sentinels', 'operative', 'operatives', 'visionary', 'visionaries', 'savant', 'savants',
+  'award', 'points', 'point', 'character', 'skill', 'skills', 'specialization', 'specializations', 'feature', 'features',
+  'trait', 'traits', 'hindrance', 'hindrances', 'stigma', 'stigmas', 'companion', 'companions', 'mecha', 'augmentations',
+  'called', 'shot', 'shots', 'head', 'arms', 'legs', 'torso', 'optics', 'critical', 'fumble', 'advantage', 'disadvantage',
+  'precision', 'strike', 'light', 'full', 'rest', 'second', 'wind', 'mortality', 'stability', 'bleed', 'overchannel',
+  'tech', 'meta', 'level', 'wealth', 'score', 'credits', 'pristine', 'scrap', 'nodes', 'sockets', 'mounts', 'modules',
+  'impyrium', 'syndicate', 'ascendancy', 'dracon', 'alterian', 'aeld', 'auluran', 'dar', 'mekan', 'entari', 'outworlds', 'kitin', 'riezen',
+  'athletics', 'alertness', 'discipline', 'insight', 'firearms', 'medicine', 'stealth', 'computers', 'vocation', 'knowledge',
+  'cr', 'cp', 'ap', 'sp', 'vp', 'hp', 'kp', 'dr', 'ws', 'tl', 'ml', 'pp', 'npc', 'gm', 'vtt', 'rpg', 'sff',
+]);
+
+const CORE_MECHANICS_COVERAGE_REGEX =
+  /\b(2d10|150\s*cp|\bcp\b|\bap\b|award point|character point|skill|specialization|attribute|stamina|vitality|health|structure|armor|diminishing return|toughness|karma|called shot|crit|fumble|advantage|disadvantage|rest|mortality|revivif|economatrix|euft|tsc|credit|wealth score|liquidity|udu|socket|node|mount|module|mecha|augmentation|archetype|origin|occupation|faction|species|hindrance|trait|feature|multi-group|pacing|encounter|session zero|x-card|lines and veils|action economy|precision strike|combat|defense|tie)\b/i;
+
+/**
+ * Evaluates whether a user prompt requests information that is unavailable in the canonical archive
+ * without an explicit request to extrapolate/synthesize.
+ * Enforces Decision 3: ALWAYS HALT AND INFORM USER IF ANY INFORMATION IS NOT AVAILABLE; EXTRAPOLATE ONLY BY REQUEST.
+ */
+export function evaluateArchiveCoverageAndExtrapolation({
+  prompt = '',
+  ragResults = [],
+  contextData = null,
+  intent = 'QUICK_RULING',
+} = {}) {
+  const raw = String(prompt || '').trim();
+  const lower = raw.toLowerCase();
+
+  const extrapolationRequested =
+    intent === 'VISUAL_CRISP_SYNTHESIS' ||
+    /\b(extrapolate|extrapolation|synthesize|create|generate|build|homebrew|custom|design|draft|invent|propose a modular|make a new|modular matrix build|forge a new)\b/i.test(raw) ||
+    /^expand in detail on:/i.test(raw);
+
+  if (extrapolationRequested) {
+    return {
+      extrapolationRequested: true,
+      shouldHalt: false,
+      missingTerms: [],
+      reason: null,
+    };
+  }
+
+  const combinedArchiveText = [
+    ...(Array.isArray(ragResults)
+      ? ragResults.map((r) => `${r.chunk?.title || ''} ${(r.chunk?.tags || []).join(' ')} ${r.chunk?.text || ''}`)
+      : []),
+    contextData ? JSON.stringify(contextData) : '',
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  // Extract explicit quoted terms ("...") or distinctive Proper Nouns not found in the archive
+  const candidateEntities = [];
+
+  const quotedMatches = raw.matchAll(/"([^"]{3,60})"/g);
+  for (const m of quotedMatches) {
+    const phrase = m[1].trim();
+    if (phrase && !COMMON_PROMPT_CAPITALIZED_IGNORELIST.has(phrase.toLowerCase())) {
+      candidateEntities.push(phrase);
+    }
+  }
+
+  // Multi-word or hyphenated capitalized proper designations (e.g., "Xylosian Void-Kraken", "Chronos-9")
+  const tokens = raw.replace(/[?!.,;:()[\]]/g, ' ').split(/\s+/).filter(Boolean);
+  tokens.forEach((tok, idx) => {
+    const cleanTok = tok.replace(/^['"]|['"]$/g, '');
+    if (cleanTok.length < 4) return;
+    const isCapitalized = /^[A-Z][a-zA-Z0-9-]+$/.test(cleanTok);
+    const isHyphenatedCode = /^[A-Za-z]+-[A-Za-z0-9]+$/.test(cleanTok) && idx > 0;
+    if (!isCapitalized && !isHyphenatedCode) return;
+    if (COMMON_PROMPT_CAPITALIZED_IGNORELIST.has(cleanTok.toLowerCase())) return;
+    // Skip sentence-opening verb/question word if idx === 0 unless hyphenated proper code
+    if (idx === 0 && !cleanTok.includes('-')) return;
+    candidateEntities.push(cleanTok);
+  });
+
+  const missingTerms = Array.from(
+    new Set(
+      candidateEntities.filter((term) => {
+        const tLower = term.toLowerCase();
+        if (combinedArchiveText.includes(tLower)) return false;
+        // Check individual parts if hyphenated
+        return true;
+      })
+    )
+  );
+
+  if (missingTerms.length > 0) {
+    return {
+      extrapolationRequested: false,
+      shouldHalt: true,
+      missingTerms,
+      reason: `Unavailable in canonical Omnicortex archive: ${missingTerms.join(', ')}`,
+    };
+  }
+
+  const topScore = Array.isArray(ragResults) && ragResults.length > 0 ? Number(ragResults[0]?.score || 0) : 0;
+  const coveredByCoreMechanics = CORE_MECHANICS_COVERAGE_REGEX.test(lower);
+
+  if (!coveredByCoreMechanics && (ragResults.length === 0 || topScore < 0.08) && raw.length >= 12) {
+    return {
+      extrapolationRequested: false,
+      shouldHalt: true,
+      missingTerms: [raw.slice(0, 60)],
+      reason: 'No matching record found in the canonical Omnicortex archive or active workspace context.',
+    };
+  }
+
+  return {
+    extrapolationRequested: false,
+    shouldHalt: false,
+    missingTerms: [],
+    reason: null,
+  };
+}
+
+/**
+ * Formats a clean, Modern Minimalist Missing-Data Halt response honoring role pronouns ("you" vs "we")
+ * and refusing to extrapolate unless explicitly requested.
+ */
+export function buildMissingDataHaltReply({
+  prompt = '',
+  effectiveRole = BASTION_ROLES.ARCHITECT,
+  missingTerms = [],
+  reason = '',
+} = {}) {
+  const isOperator = effectiveRole === BASTION_ROLES.OPERATOR;
+  const subjectLabel =
+    Array.isArray(missingTerms) && missingTerms.length > 0
+      ? missingTerms.join(', ')
+      : String(prompt || 'Requested entry').trim();
+
+  if (isOperator) {
+    return (
+      `**Archive Halt — Information Unavailable**\n\n` +
+      `The requested record (**${subjectLabel}**) is not present in your accessible Omnicortex archive or active persona context.\n` +
+      `- **Status:** Halted to prevent ungrounded fabrication.\n` +
+      `- **Next Step:** Provide the missing parameters from your sheet/table, or explicitly ask me to **extrapolate** a rules-legal option for you using the canonical Modular Matrices.`
+    );
+  }
+
+  return (
+    `**Archive Halt — Information Unavailable**\n\n` +
+    `The requested record (**${subjectLabel}**) is not present in our canonical Omnicortex archive or active workspace context${reason ? ` (${reason})` : ''}.\n` +
+    `- **Status:** Halted so we never mix unverified extrapolation with official canon.\n` +
+    `- **Next Step:** Supply the missing source parameters, or explicitly instruct BASTION to **extrapolate** a rules-legal profile for our session using the Volume II Modular Matrices.`
+  );
+}
+
+/**
+ * Strips any complete or partial <bastion_followup> block from live streaming text
+ * so raw metadata tags never flash in the compact chat UI.
+ */
+export function stripStreamingFollowupTag(rawText = '') {
+  const str = String(rawText || '');
+  const cleaned = str.replace(/<bastion_followup>[\s\S]*?<\/bastion_followup>/gi, '');
+  const partialIdx = cleaned.toLowerCase().indexOf('<bastion_follow');
+  if (partialIdx >= 0) {
+    return cleaned.slice(0, partialIdx).trimEnd();
+  }
+  return cleaned.trim();
+}
+
+/**
+ * Extracts key topical points from markdown headings or bolded list items to power Continuation Gems
+ * whenever an LLM omits explicit gems or when running in deterministic local cognition.
+ */
+function deriveGemsFromContentPoints(cleanText = '', { prompt = '', isOperator = false, intent = 'QUICK_RULING', isHalted = false, missingTerms = [] } = {}) {
+  if (isHalted) {
+    const subject = (missingTerms && missingTerms[0]) || String(prompt || 'this concept').replace(/\?/g, '').trim();
+    return [
+      {
+        label: 'Extrapolate via Modular Matrix',
+        point: 'Modular Extrapolation',
+        prompt: isOperator
+          ? `Extrapolate a rules-legal build for you using the canonical Modular Matrix for: ${subject}`
+          : `Extrapolate a rules-legal profile for our campaign using the Volume II Modular Matrix for: ${subject}`,
+      },
+      {
+        label: 'Search Closest Canon Equivalent',
+        point: 'Canonical Alternatives',
+        prompt: isOperator
+          ? `List the closest official Omnicortex canonical options available to you for: ${subject}`
+          : `List the closest official Omnicortex canonical entries we can adapt for: ${subject}`,
+      },
+    ];
+  }
+
+  if (intent === 'VISUAL_CRISP_SYNTHESIS') {
+    return [
+      {
+        label: 'Preset C (5-View Concept Sheet)',
+        point: 'Character Turnaround',
+        prompt: `Regenerate this CRISP visual prompt using Preset C (5-view Character Concept Sheet): ${prompt}`,
+      },
+      {
+        label: 'Preset B (Close-Up Portrait)',
+        point: 'Portrait Framing',
+        prompt: `Regenerate this CRISP visual prompt using Preset B (85mm Close-Up Portrait): ${prompt}`,
+      },
+      {
+        label: 'Switch Faction Skin',
+        point: 'Faction Palette',
+        prompt: isOperator
+          ? `Show how this CRISP visual prompt shifts across 3 contrasting canonical Faction Skins for your concept.`
+          : `Compare 3 contrasting canonical Faction Skins we can apply to this CRISP visual prompt.`,
+      },
+    ];
+  }
+
+  const extractedTopics = [];
+  const seen = new Set();
+
+  // Match bold bullet headers or markdown subheadings
+  const boldPointRegex = /(?:^|\n)\s*(?:[•*-]|\d+\.|#{2,4})\s*\*\*?([^*\n:]{3,42})\*\*?/g;
+  let m;
+  while ((m = boldPointRegex.exec(cleanText)) !== null) {
+    const topic = m[1]
+      .replace(/^[🔹⚡🧮📚🎲•*-]+\s*/, '')
+      .replace(/:$/, '')
+      .trim();
+    const lower = topic.toLowerCase();
+    if (
+      topic.length >= 3 &&
+      !seen.has(lower) &&
+      !lower.includes('omnicortex citation') &&
+      !lower.includes('transport notice') &&
+      !lower.includes('archive halt')
+    ) {
+      seen.add(lower);
+      extractedTopics.push(topic);
+    }
+    if (extractedTopics.length >= 4) break;
+  }
+
+  if (extractedTopics.length > 0) {
+    return extractedTopics.slice(0, 4).map((topic) => ({
+      label: topic.length > 32 ? `${topic.slice(0, 30)}…` : topic,
+      point: topic,
+      prompt: isOperator
+        ? `Continue in detail on "${topic}" and show how it applies to your character and tactical options.`
+        : `Continue in detail on "${topic}" and show how we can apply or tune it in our session.`,
+    }));
+  }
+
+  // Intent-aware fallback gems
+  return isOperator
+    ? [
+        {
+          label: 'Your 2d10 Hit & Crit Odds',
+          point: '2d10 Resolution',
+          prompt: `Break down your exact 2d10 hit, Advantage (+1d10kh2), and Critical (+10) probabilities for: ${prompt}`,
+        },
+        {
+          label: 'Karma & Skill Stage Leverage',
+          point: 'Action Economy',
+          prompt: `Show how you can combine your Skill Tier actions and 1 Karma Point for maximum leverage on: ${prompt}`,
+        },
+        {
+          label: 'CP / AP Cost Breakdown',
+          point: 'Character Ledger',
+          prompt: `Show the exact Character Point (CP) or Award Point (AP) cost breakdown for you on: ${prompt}`,
+        },
+      ]
+    : [
+        {
+          label: 'Calibrate Encounter CR',
+          point: 'CR & Action Parity',
+          prompt: `Show how we can scale the Challenge Rating (CR) and adversary action economy around: ${prompt}`,
+        },
+        {
+          label: 'EUFT & Salvage Valuation',
+          point: 'Economatrix Proof',
+          prompt: `Calculate the exact EUFT Credit Value, Pristine Material cost (50%), and Salvage mass (5x) for our table on: ${prompt}`,
+        },
+        {
+          label: 'Multi-Group Consequence Link',
+          point: 'Cross-Squad Pacing',
+          prompt: `How can we link consequences from "${prompt}" across multiple active squads in our campaign?`,
+        },
+      ];
+}
+
+/**
+ * Deterministically synthesizes role-accurate Socratic follow-up appends when omitted by transport.
+ * Hidden behind the compact "Follow up" button in the UI until clicked.
+ */
+function deriveFallbackFollowUps({ prompt = '', isOperator = false, intent = 'QUICK_RULING', isHalted = false, missingTerms = [] } = {}) {
+  if (isHalted) {
+    const subject = (missingTerms && missingTerms[0]) || 'this missing entry';
+    return isOperator
+      ? [
+          `Do you want me to extrapolate a custom rules-legal "${subject}" option for you using the Modular Matrices, or keep strictly to published Operator's Manual catalog entries?`,
+          `Which Tech Level (TL 0-5) and Faction background should anchor any custom extrapolation for your build?`,
+        ]
+      : [
+          `Should we extrapolate a canonical Modular Matrix profile for "${subject}", or map it onto an existing Bestiary / Economatrix chassis first?`,
+          `If we extrapolate "${subject}" for our campaign, what Threat Tier or Crafting CR benchmark do we want it to target?`,
+        ];
+  }
+
+  if (intent === 'VISUAL_CRISP_SYNTHESIS') {
+    return isOperator
+      ? [
+          `Would you like to lock this into Preset C (5-view Character Concept Sheet) for your Folio portrait reference, or Preset B for a tight 85mm close-up?`,
+          `Should your gear show pristine faction issue or frontier salvage wear to reflect your Origin and Wealth Score?`,
+        ]
+      : [
+          `Should we pair this visual prompt with Preset D (Establishing Scenery) to set our scene backdrop for the squad?`,
+          `Do we want to blend a secondary Faction palette into the wardrobe/architecture to signal covert allegiance?`,
+        ];
+  }
+
+  return isOperator
+    ? [
+        `How do you want to balance your Skill Tier multi-action penalties (-5 / -10) against taking an Aim (+2) or Guard (+2 DR) stance in this situation?`,
+        `Would spending 1 Karma Point ("I Got This" for +1d10kh2) or investing future Award Points (1 AP = 1 CP) better solve this bottleneck for your build?`,
+      ]
+    : [
+        `How should we tune the Target CR (CR 15 Professional vs. CR 20 Expert) and terrain cover so this challenge pressures our squad's action economy cleanly?`,
+        `If our Operators bypass or crit through this beat early, what secondary consequence clock or cross-group hook should we advance next?`,
+      ];
+}
+
+/**
+ * Parses `<bastion_followup>` JSON metadata out of raw LLM / fallback text, returning:
+ *  - `cleanText`: compact visible response with zero trailing Socratic clutter or raw tags
+ *  - `followUps`: 1-2 pre-generated Socratic appends (hidden until "Follow up" is clicked)
+ *  - `gems`: 2-4 clickable Continuation Gems tied to points in the content
+ */
+export function parseAndEnrichBastionTurnPayload(
+  rawText = '',
+  {
+    prompt = '',
+    role = BASTION_ROLES.ARCHITECT,
+    intent = 'QUICK_RULING',
+    isHalted = false,
+    missingTerms = [],
+  } = {}
+) {
+  const isOperator = String(role || '').toLowerCase() === BASTION_ROLES.OPERATOR;
+  const raw = String(rawText || '');
+  let parsedFollowUps = [];
+  let parsedGems = [];
+
+  const tagMatch = raw.match(/<bastion_followup>([\s\S]*?)<\/bastion_followup>/i);
+  if (tagMatch && tagMatch[1]) {
+    const inner = tagMatch[1]
+      .trim()
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
+    try {
+      const parsed = JSON.parse(inner);
+      if (Array.isArray(parsed?.followUps)) {
+        parsedFollowUps = parsed.followUps
+          .map((item) => (typeof item === 'string' ? item.trim() : String(item?.text || item?.question || '').trim()))
+          .filter(Boolean)
+          .slice(0, 3);
+      }
+      if (Array.isArray(parsed?.gems)) {
+        parsedGems = parsed.gems
+          .map((g) => {
+            if (!g) return null;
+            if (typeof g === 'string') {
+              const clean = g.trim();
+              return clean
+                ? {
+                    label: clean.slice(0, 34),
+                    point: clean,
+                    prompt: isOperator
+                      ? `Continue on "${clean}" for your character.`
+                      : `Continue on "${clean}" for our session.`,
+                  }
+                : null;
+            }
+            const label = String(g.label || g.point || g.title || '').trim();
+            const gemPrompt = String(g.prompt || '').trim();
+            if (!label) return null;
+            return {
+              label: label.length > 36 ? `${label.slice(0, 34)}…` : label,
+              point: String(g.point || label).trim(),
+              prompt:
+                gemPrompt ||
+                (isOperator
+                  ? `Continue in detail on "${label}" for your character.`
+                  : `Continue in detail on "${label}" for our session.`),
+            };
+          })
+          .filter(Boolean)
+          .slice(0, 4);
+      }
+    } catch {}
+  }
+
+  const cleanText = stripStreamingFollowupTag(raw);
+
+  const followUps =
+    parsedFollowUps.length > 0
+      ? parsedFollowUps
+      : deriveFallbackFollowUps({ prompt, isOperator, intent, isHalted, missingTerms });
+
+  const gems =
+    parsedGems.length > 0
+      ? parsedGems
+      : deriveGemsFromContentPoints(cleanText, { prompt, isOperator, intent, isHalted, missingTerms });
+
+  return {
+    cleanText,
+    followUps,
+    gems,
+  };
+}
+
+/**
+ * Composes the complete layered BASTION system prompt for a given role, intent, session, directives, and RAG context.
  */
 export const composeBastionSystemPrompt = ({
   role = BASTION_ROLES.ARCHITECT,
@@ -186,6 +855,9 @@ export const composeBastionSystemPrompt = ({
   sessionState = null,
   ragContext = '',
   contextData = null,
+  archiveCoverage = null,
+  customDirectives = '',
+  safetyBoundaries = null,
 } = {}) => {
   const normalizedRole =
     String(role || '').trim().toLowerCase() === BASTION_ROLES.OPERATOR
@@ -196,7 +868,40 @@ export const composeBastionSystemPrompt = ({
     BASTION_STATIC_AXIOMS_PREFIX,
     BASTION_ROLE_DIRECTIVES[normalizedRole],
     INTENT_OUTPUT_PROFILES[intent] || INTENT_OUTPUT_PROFILES.QUICK_RULING,
+    BASTION_TURN_TRAILER_DIRECTIVE,
   ];
+
+  if (intent === 'VISUAL_CRISP_SYNTHESIS') {
+    const presetGuide = Object.values(CRISP_FORM_PRESETS)
+      .map((p) => `- ${p.name}: ${p.formText}`)
+      .join('\n');
+    const skinGuide = Object.values(CANONICAL_FACTION_SKINS)
+      .map((s) => `- ${s.name}: Style=${s.settingStyle} | Palette=${s.palette} | Arch/Tech=${s.archTech} | Negative=${s.negativeTokens}`)
+      .join('\n');
+    layers.push(
+      `[CRISP / HI-FI INK VISUAL MATRIX REFERENCE]:\nForm Presets:\n${presetGuide}\n\nCanonical 10-Faction Skins:\n${skinGuide}\n\nBase Rendering Tokens: ${CRISP_BASE_RENDERING}\nBase Negative Tokens: ${CRISP_BASE_NEGATIVE}`
+    );
+  }
+
+  const resolvedSafety = safetyBoundaries || sessionState?.safetyBoundaries || null;
+  if (resolvedSafety && (resolvedSafety.lines || resolvedSafety.veils)) {
+    layers.push(
+      `[ACTIVE TABLETOP SAFETY BOUNDARIES]:\n` +
+        `${resolvedSafety.lines ? `- Hard Lines (NEVER include or reference): ${resolvedSafety.lines}\n` : ''}` +
+        `${resolvedSafety.veils ? `- Soft Veils (keep off-screen / fade to black): ${resolvedSafety.veils}` : ''}`.trim()
+    );
+  }
+
+  const resolvedDirectives = String(customDirectives || sessionState?.customDirectives || '').trim();
+  if (resolvedDirectives) {
+    layers.push(`[USER CUSTOM DIRECTIVES]:\n${resolvedDirectives}`);
+  }
+
+  if (archiveCoverage?.shouldHalt) {
+    layers.push(
+      `[MANDATORY ARCHIVE HALT ACTIVE]: The requested subject (${(archiveCoverage.missingTerms || []).join(', ') || 'unindexed parameter'}) was NOT found in the canonical Omnicortex archive and the user did NOT request extrapolation. You MUST HALT immediately, inform the user clearly that this information is unavailable in canonical records, and DO NOT extrapolate or invent stats unless the user explicitly asks to extrapolate.`
+    );
+  }
 
   if (sessionState) {
     const multiGroupBlock = buildMultiGroupPromptEnvelope(sessionState);
@@ -687,16 +1392,19 @@ async function buildOfflineDeterministicToolSupplement(prompt, effectiveRole, se
 }
 
 /**
- * Formats a role-accurate offline/fallback BASTION response strictly honoring:
+ * Formats a Modern Minimalist, role-accurate offline/fallback BASTION response strictly honoring:
  *  - Operator ("you" / "your")
  *  - Architect ("we" / "us" / "our")
+ *  - Strict Missing-Data Halt (never extrapolates unless explicitly requested)
  */
 function buildRoleAwareFallbackReply({
   prompt,
   effectiveRole,
+  intent = 'QUICK_RULING',
   sessionState,
   ragResults = [],
   toolCalls = [],
+  archiveCoverage = null,
   alertMessage = '',
 }) {
   const isOperator = effectiveRole === BASTION_ROLES.OPERATOR;
@@ -706,9 +1414,30 @@ function buildRoleAwareFallbackReply({
     sessionState?.effectivePersona?.name ||
     null;
 
+  if (archiveCoverage?.shouldHalt) {
+    let haltBody = buildMissingDataHaltReply({
+      prompt,
+      effectiveRole,
+      missingTerms: archiveCoverage.missingTerms,
+      reason: archiveCoverage.reason,
+    });
+    if (alertMessage) {
+      haltBody += `\n\n> *Note: ${alertMessage}*`;
+    }
+    return haltBody;
+  }
+
+  if (intent === 'VISUAL_CRISP_SYNTHESIS') {
+    const crisp = buildCrispVisualPrompt({ prompt });
+    const lead = isOperator
+      ? `**CRISP Visual Prompt (${crisp.preset.name} • ${crisp.skin.name})**\nPrepared for **your** concept:\n\n`
+      : `**CRISP Visual Prompt (${crisp.preset.name} • ${crisp.skin.name})**\nPrepared for **our** scene / asset:\n\n`;
+    return `${lead}\`\`\`text\n${crisp.formattedPrompt}\n\`\`\``;
+  }
+
   let text = isOperator
-    ? `**[BASTION TACTICAL ADVISOR — LOCAL COGNITION]**\nHere is the canonical breakdown for **your** query${personaName ? ` (**${personaName}**${groupName ? ` • ${groupName}` : ''})` : ''}:\n`
-    : `**[BASTION CO-ARCHITECT — LOCAL COGNITION]**\nLet **us** review the canonical breakdown for **our** session${
+    ? `Here is the canonical breakdown for **your** query${personaName ? ` (**${personaName}**${groupName ? ` • ${groupName}` : ''})` : ''}:\n`
+    : `Here is the canonical breakdown for **our** session${
         sessionState?.sessionGroups?.length > 1
           ? ` (${sessionState.sessionGroups.length} active campaign groups)`
           : groupName
@@ -717,11 +1446,11 @@ function buildRoleAwareFallbackReply({
       }:\n`;
 
   if (alertMessage) {
-    text += `\n> ⚠️ *Transport Notice: ${alertMessage}*\n`;
+    text += `\n> *Note: ${alertMessage}*\n`;
   }
 
   if (toolCalls.length > 0) {
-    text += `\n### 🧮 Deterministic Engine Proof\n`;
+    text += `\n### Engine Math Proof\n`;
     for (const tc of toolCalls) {
       const summaryLine = tc.result?.summary || JSON.stringify(tc.result);
       text += `- **\`${tc.name}\`**: ${summaryLine}\n`;
@@ -729,45 +1458,38 @@ function buildRoleAwareFallbackReply({
   }
 
   if (ragResults.length > 0) {
-    text += `\n### 📖 ${isOperator ? 'Rules & Lore Applicable to You' : 'Our Canonical Rules & Omnicortex Citations'}\n`;
+    text += `\n### ${isOperator ? 'Applicable Rules & Lore for You' : 'Canonical Rules & Omnicortex Citations'}\n`;
     for (const { chunk } of ragResults.slice(0, 4)) {
-      text += `\n#### 🔹 ${chunk.title} *(${chunk.citation})*\n${chunk.text}\n`;
+      text += `\n#### **${chunk.title}** *(${chunk.citation})*\n${chunk.text}\n`;
     }
-    text += isOperator
-      ? `\n*Ask about **your** specific Skill Rank, weapon penetration, or Karma options to refine your next turn.*`
-      : `\n*Tell me how **we** want to tune the CR, pacing clock, or squad split next.*`;
   } else {
     text += isOperator
-      ? `\nYour local BASTION advisor is online. Ask about **your** 2d10 combat odds, **your** 150-CP character build, or Economatrix gear requisitions.`
-      : `\nOur local Co-Architect core is online. **We** can audit 150-CP ledgers, calibrate encounter CRs across our campaign groups, or query Omnicortex mechanics.`;
+      ? `\nAsk about **your** 2d10 combat odds, **your** 150-CP / Award Point (AP) build, or Economatrix gear requisitions.`
+      : `\n**We** can audit 150-CP / Award Point (AP) ledgers, calibrate encounter CRs across our campaign groups, or query Omnicortex mechanics.`;
   }
 
-  return text;
+  return text.trim();
 }
 
 /**
- * Sends a chat prompt to BASTION (3-Tier AI Cascade + Epistemic RAG + Bounded Neuro-Symbolic Tool Loop).
- * @param {{
- *   prompt: string,
- *   history?: any[],
- *   contextData?: Record<string, any> | null,
- *   role?: 'operator' | 'architect' | string | null,
- *   sessionState?: any,
- *   enableTools?: boolean,
- *   apiKey?: string,
- *   onStreamChunk?: ((partialText: string) => void) | null
- * }} params
+ * Sends a chat prompt to BASTION (3-Tier AI Cascade + Epistemic RAG + Strict Missing-Data Halt + Bounded Tool Loop).
+ * Every turn generates compact visible content PLUS hidden `followUps` (revealed when "Follow up" is clicked)
+ * and clickable `gems` mapped to the content points.
+ * @param {Record<string, any>} [options]
  */
-export const sendBastionChatMessage = async ({
-  prompt,
-  history = [],
-  contextData = null,
-  role = null,
-  sessionState = null,
-  enableTools = true,
-  apiKey: explicitApiKey,
-  onStreamChunk = null,
-} = {}) => {
+export const sendBastionChatMessage = async (options = {}) => {
+  const {
+    prompt,
+    history = [],
+    contextData = null,
+    role = null,
+    sessionState = null,
+    customDirectives = '',
+    safetyBoundaries = null,
+    enableTools = true,
+    apiKey: explicitApiKey,
+    onStreamChunk = null,
+  } = options;
   const apiKey = explicitApiKey !== undefined ? explicitApiKey : getGeminiApiKey();
   await loadCompendiumSeedDataset().catch(() => {});
 
@@ -788,6 +1510,37 @@ export const sendBastionChatMessage = async ({
       ? BASTION_ROLES.OPERATOR
       : BASTION_ROLES.ARCHITECT;
 
+  // Immediate X-Card / Tabletop Safety Interrupt (zero questions asked)
+  if (isSafetyInterruptPrompt(prompt)) {
+    const isOp = effectiveRole === BASTION_ROLES.OPERATOR;
+    const xCardText = isOp
+      ? `**X-Card Acknowledged — Scene Paused**\n\nCurrent topic halted immediately with no explanation required. Tell me where **you** would like to resume or pivot next.`
+      : `**X-Card Acknowledged — Scene Paused**\n\nCurrent content halted immediately with zero questions asked. Let **us** fade to black or pivot **our** scene whenever ready.`;
+    const enrichedSafety = parseAndEnrichBastionTurnPayload(xCardText, {
+      prompt,
+      role: effectiveRole,
+      intent: 'QUICK_RULING',
+      isHalted: false,
+    });
+    if (typeof onStreamChunk === 'function') {
+      onStreamChunk(enrichedSafety.cleanText, enrichedSafety.cleanText);
+    }
+    return {
+      text: enrichedSafety.cleanText,
+      followUps: enrichedSafety.followUps,
+      gems: enrichedSafety.gems,
+      isHalted: false,
+      isSafetyPause: true,
+      ragResults: [],
+      citations: [],
+      ragCitations: [],
+      toolCalls: [],
+      role: effectiveRole,
+      intent: 'QUICK_RULING',
+      isSimulated: false,
+    };
+  }
+
   const intent = classifyBastionIntent(prompt, resolvedSession || contextData);
 
   // Epistemic-filtered RAG retrieval (Operators NEVER receive [Architect Notes & Railguards])
@@ -800,8 +1553,57 @@ export const sendBastionChatMessage = async ({
     id: r.chunk.id,
     title: r.chunk.title,
     citation: r.chunk.citation,
+    category: r.chunk.category,
     score: r.score,
   }));
+
+  // Strict Missing-Data Halt Gate: ALWAYS halt & inform user when requested info is unavailable; extrapolate ONLY by request
+  const archiveCoverage = evaluateArchiveCoverageAndExtrapolation({
+    prompt,
+    ragResults,
+    contextData,
+    intent,
+  });
+
+  if (archiveCoverage.shouldHalt) {
+    const haltRaw = buildMissingDataHaltReply({
+      prompt,
+      effectiveRole,
+      missingTerms: archiveCoverage.missingTerms,
+      reason: archiveCoverage.reason,
+    });
+    const enrichedHalt = parseAndEnrichBastionTurnPayload(haltRaw, {
+      prompt,
+      role: effectiveRole,
+      intent,
+      isHalted: true,
+      missingTerms: archiveCoverage.missingTerms,
+    });
+    if (typeof onStreamChunk === 'function') {
+      onStreamChunk(enrichedHalt.cleanText, enrichedHalt.cleanText);
+    }
+    return {
+      text: enrichedHalt.cleanText,
+      followUps: enrichedHalt.followUps,
+      gems: enrichedHalt.gems,
+      isHalted: true,
+      missingTerms: archiveCoverage.missingTerms,
+      ragResults: [],
+      citations: [],
+      ragCitations: [],
+      toolCalls: [],
+      role: effectiveRole,
+      intent,
+      isSimulated: false,
+    };
+  }
+
+  const safeStreamChunk =
+    typeof onStreamChunk === 'function'
+      ? (delta, accumulated) => {
+          onStreamChunk(delta, stripStreamingFollowupTag(accumulated));
+        }
+      : null;
 
   if (!hasAvailableAiTransport(apiKey)) {
     const offlineTools = await buildOfflineDeterministicToolSupplement(
@@ -809,20 +1611,33 @@ export const sendBastionChatMessage = async ({
       effectiveRole,
       resolvedSession
     );
-    const fallbackText = buildRoleAwareFallbackReply({
+    const fallbackRaw = buildRoleAwareFallbackReply({
       prompt,
       effectiveRole,
+      intent,
       sessionState: resolvedSession,
       ragResults,
       toolCalls: offlineTools,
+      archiveCoverage,
+    });
+    const enrichedFallback = parseAndEnrichBastionTurnPayload(fallbackRaw, {
+      prompt,
+      role: effectiveRole,
+      intent,
+      isHalted: Boolean(archiveCoverage.shouldHalt),
+      missingTerms: archiveCoverage.missingTerms,
     });
     if (typeof onStreamChunk === 'function') {
-      onStreamChunk(fallbackText, fallbackText);
+      onStreamChunk(enrichedFallback.cleanText, enrichedFallback.cleanText);
     }
     return {
-      text: fallbackText,
+      text: enrichedFallback.cleanText,
+      followUps: enrichedFallback.followUps,
+      gems: enrichedFallback.gems,
+      isHalted: Boolean(archiveCoverage.shouldHalt),
       ragResults,
       citations,
+      ragCitations: citations,
       toolCalls: offlineTools,
       role: effectiveRole,
       intent,
@@ -847,6 +1662,9 @@ export const sendBastionChatMessage = async ({
       sessionState: resolvedSession,
       ragContext,
       contextData,
+      archiveCoverage,
+      customDirectives: customDirectives || resolvedSession?.customDirectives || '',
+      safetyBoundaries: safetyBoundaries || resolvedSession?.safetyBoundaries || null,
     });
 
     const contents = [
@@ -879,7 +1697,7 @@ export const sendBastionChatMessage = async ({
         ...(toolsPayload ? { tools: toolsPayload } : {}),
       },
       {
-        onStreamChunk: toolsPayload ? null : onStreamChunk,
+        onStreamChunk: toolsPayload ? null : safeStreamChunk,
       }
     );
 
@@ -923,7 +1741,7 @@ export const sendBastionChatMessage = async ({
           contents,
           ...(toolsPayload ? { tools: toolsPayload } : {}),
         },
-        { onStreamChunk }
+        { onStreamChunk: safeStreamChunk }
       );
     }
 
@@ -937,19 +1755,33 @@ export const sendBastionChatMessage = async ({
       throw new Error('No response content returned from BASTION AI.');
     }
 
-    if (typeof onStreamChunk === 'function') {
-      onStreamChunk('', replyText);
-    }
+    const enriched = parseAndEnrichBastionTurnPayload(replyText, {
+      prompt,
+      role: effectiveRole,
+      intent,
+      isHalted: Boolean(archiveCoverage.shouldHalt),
+      missingTerms: archiveCoverage.missingTerms,
+    });
+
+    let finalVisibleText = enriched.cleanText;
 
     // Append citation badge if RAG matches were found and not already in reply
-    if (ragResults.length > 0 && !replyText.includes('Omnicortex Citation:')) {
-      replyText += `\n\n> 📚 *Omnicortex Citation: ${ragResults.map((r) => r.chunk.citation).join(' • ')}*`;
+    if (ragResults.length > 0 && !finalVisibleText.includes('Omnicortex Citation:')) {
+      finalVisibleText += `\n\n> 📚 *Omnicortex Citation: ${ragResults.map((r) => r.chunk.citation).join(' • ')}*`;
+    }
+
+    if (typeof onStreamChunk === 'function') {
+      onStreamChunk('', finalVisibleText);
     }
 
     return {
-      text: replyText,
+      text: finalVisibleText,
+      followUps: enriched.followUps,
+      gems: enriched.gems,
+      isHalted: Boolean(archiveCoverage.shouldHalt),
       ragResults,
       citations,
+      ragCitations: citations,
       toolCalls: executedToolCalls,
       role: effectiveRole,
       intent,
@@ -962,18 +1794,31 @@ export const sendBastionChatMessage = async ({
       effectiveRole,
       resolvedSession
     );
-    const fallbackText = buildRoleAwareFallbackReply({
+    const fallbackRaw = buildRoleAwareFallbackReply({
       prompt,
       effectiveRole,
+      intent,
       sessionState: resolvedSession,
       ragResults,
       toolCalls: offlineTools,
+      archiveCoverage,
       alertMessage: redactGeminiSecret(err?.message || 'Live inference unreachable — switched to local cognition', apiKey),
     });
+    const enrichedErr = parseAndEnrichBastionTurnPayload(fallbackRaw, {
+      prompt,
+      role: effectiveRole,
+      intent,
+      isHalted: Boolean(archiveCoverage.shouldHalt),
+      missingTerms: archiveCoverage.missingTerms,
+    });
     return {
-      text: fallbackText,
+      text: enrichedErr.cleanText,
+      followUps: enrichedErr.followUps,
+      gems: enrichedErr.gems,
+      isHalted: Boolean(archiveCoverage.shouldHalt),
       ragResults,
       citations,
+      ragCitations: citations,
       toolCalls: offlineTools,
       role: effectiveRole,
       intent,
@@ -1129,9 +1974,23 @@ CANONICAL CHARACTER CREATION 5 PILLARS:
 CRITICAL MANDATE: Ground all generated fields strictly in these 5 canonical pillars from the Omnicortex game database. Do NOT invent new species, factions, or archetypes.`;
     }
 
+    const activeSessionSnapshot =
+      typeof globalThis !== 'undefined' ? globalThis.__TANGENT_BASTION_SESSION__ : null;
+    const isOperatorFieldGen =
+      String(campaignContext?.role || activeSessionSnapshot?.effectiveRole || '').toLowerCase() ===
+      BASTION_ROLES.OPERATOR;
+
     const promptInstructions = `
-You are BASTION, tactical AI content generator for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
-Strictly follow Tangent SFF RPG system guidelines and lore conventions.
+You are BASTION, operating in a Modern Minimalist register (concise, plain-English, zero filler) for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
+${
+  isOperatorFieldGen
+    ? 'Frame any player-facing guidance in direct 2nd-person ("you" / "your").'
+    : 'Frame any Architect notes in partnered plural ("we" / "our").'
+}
+Canonical Rules Guardrails:
+- Always use Challenge Rating (CR) — NEVER "DC". Always use Character Points (CP) and Award Points (AP, 1 AP = 1 CP) — NEVER "BP" or d20 mechanics.
+- Resolution: 2d10 + Skill Rank + Attribute Mod vs. CR (Defender wins ties; Unopposed baseline CR 15).
+- Vitals & Armor: Base 30 Vitality / 30 Health (60 SP Constructs; zero Stamina pool scaling; Stamina = Base Toughness DR down to 0; Cross-Domain Armor uses Diminishing Returns +1 DR per 5 DR).
 
 Campaign & Scenario Context:
 - Project / Universe Name: "${project}"
@@ -1336,7 +2195,7 @@ export const synthesizeMatrixWithBastion = async ({
 - Populate category, severity, refundCP, trigger_condition, save_dc, mitigation, mechanic, description, and note.`,
     invocation: `CANONICAL INVOCATION / PSIONICS RULES:
 - Invocations are metaphysical powers channeled via Disciplines (NO physical sockets or credit cost).
-- Populate discipline, foundationAttribute, meta_level, manifestation_dc, focus_cost, range, area, duration, description, mechanic (2d10 + Discipline vs Manifestation DC, saves, damage/effect, Nat 20 resonant surge, Overchannel Burn), and note.`,
+- Populate discipline, foundationAttribute, meta_level, manifestation_dc (express all prose mechanics as Manifestation CR, never "DC"), focus_cost, range, area, duration, description, mechanic (2d10 + Discipline vs Manifestation CR, saves, damage/effect, Nat 20 resonant surge, Overchannel Burn), and note.`,
     disciplines: `CANONICAL METAPHYSICAL DISCIPLINE RULES:
 - Disciplines are foundational metaphysical schools (Attunement, Kinesis, Precognition, Telepathy, Translocation, Vitalism) — NOT single spell invocations.
 - Populate tradition, governing_attribute, resonance_sphere, core_invocations, granted_skills, tier_progression, tenets, description, mechanic, and note.`,
@@ -1344,8 +2203,8 @@ export const synthesizeMatrixWithBastion = async ({
 - Special Abilities are distinct 5+ CP apex, cyber-exotic, or supernatural talents (distinct from standard discipline spell invocations).
 - Populate cp (default 5), discipline, action_type, focus_cost, cooldown, prerequisite, description, mechanic, and note.`,
     'meta-tech': `CANONICAL META-TECH ARTIFACT & CONDUIT RULES:
-- Meta-Tech fuses physical fabrication (TL + Craft DC + TSC Credit Value) with metaphysical resonance (ML + Conduit Focus Capacity).
-- Populate craft_dc, cost, tech_level, meta_level, conduit_type, focus_capacity, imbued_invocation, attunement_req, description, mechanic, and note.`,
+- Meta-Tech fuses physical fabrication (TL + Crafting CR + EUFT Credit Value) with metaphysical resonance (ML + Conduit Focus Capacity; 1 Socket = Rank 10, 2 Sockets = Rank 20, 3+ Sockets = Rank 30).
+- Populate craft_dc (Crafting CR integer), cost, tech_level, meta_level, conduit_type, focus_capacity, imbued_invocation, attunement_req, description, mechanic (always write "CR" in prose, never "DC"), and note.`,
     companions: `CANONICAL COMPANION, DRONE & FAMILIAR RULES:
 - Companions are allied followers, drones, mounts, or familiars acquired via Character Points (CP) — NOT playable species lineages or raw inventory gear.
 - Populate companion_type, cp, chassis, size, loyalty, command_link, primary_role, attacks, traits, description, mechanic, and note.`,
@@ -1374,16 +2233,16 @@ export const synthesizeMatrixWithBastion = async ({
 - Society entries define governance structures, legal codes, economic indices, and citizen rights.
 - Populate sphere, index_rating, uwp_code, enforcement_agency, citizen_rights, restricted_tech, cultural_taboos, description, mechanic, and note.`,
     weaponry: `CANONICAL WEAPONRY & ARMAMENT RULES (EUFT / TSC):
-- Weaponry uses Crafting CR (craft_dc) to set TSC Credit Value = 10 * 4^(floor(DC/5)).
+- Weaponry uses Crafting CR (stored in craft_dc) to set EUFT Credit Value = round(10 * 4^(floor(CR/5)) * MicroModifier[CR mod 5]) where MicroModifier = {0: 1.00, 1: 1.30, 2: 1.75, 3: 2.30, 4: 3.00}. Always write "CR" in prose, never "DC".
 - Populate weapon_category, damage, damage_type, penetration, range, rof, magazine, hands, weight, sockets, craft_dc, cost, description, mechanic, and note.`,
     armor: `CANONICAL ARMOR & DEFENSIVE SYSTEM RULES (EUFT / TSC):
-- Armor uses Crafting CR (craft_dc) to set TSC Credit Value = 10 * 4^(floor(DC/5)).
+- Armor uses Crafting CR (stored in craft_dc) to set EUFT Credit Value = round(10 * 4^(floor(CR/5)) * MicroModifier[CR mod 5]) and Cross-Domain Diminishing Returns (+1 DR per 5 DR of additional cross-domain layers). Always write "CR" in prose, never "DC".
 - Populate armor_category, dr_kinetic, dr_energy, dr_exotic, coverage, agi_cap, armor_check_penalty, weight, sockets, craft_dc, cost, description, mechanic, and note.`,
     augmentations: `CANONICAL AUGMENTATION, CYBERWARE & BIOWARE RULES:
-- Augmentations combine Crafting CR / Credit Cost with Essence / System Strain impact and body-slot installation.
+- Augmentations combine Crafting CR / EUFT Credit Cost with Body-Alteration Tiers (<20%, <50%, >50% FBC; no max strain) and UDU 10:1 Node/Socket installation.
 - Populate augmentation_type, body_location, essence_cost, grade, activation, craft_dc, cost, modifiers, description, mechanic, and note.`,
     equipment: `CANONICAL TACTICAL HARDWARE & GEAR RULES (EUFT / TSC):
-- Tactical Gear uses Crafting CR (craft_dc) to set TSC Credit Value = 10 * 4^(floor(DC/5)).
+- Tactical Gear uses Crafting CR (stored in craft_dc) to set EUFT Credit Value = round(10 * 4^(floor(CR/5)) * MicroModifier[CR mod 5]). Always write "CR" in prose, never "DC".
 - Populate gear_category, power_source, duration, weight, udu_slots, craft_dc, cost, description, mechanic (exact 2d10 skill bonuses or utility rules), and note.`,
     mecha: `CANONICAL MECHA, VEHICLE & STARSHIP CHASSIS RULES:
 - Heavy frames and vessels scale Structure Points, Armor DR, Propulsion, Crew, Hardpoints, and TSC Capital Valuation.
@@ -1399,7 +2258,7 @@ export const synthesizeMatrixWithBastion = async ({
   const subjectGuidance = subjectRulesByMatrix[matrixId] || (
     isProperty
       ? `CANONICAL PROPERTY & HARDWARE RULES (EUFT / TSC):
-- Hardware & property items use Crafting CR / Design DC (craft_dc) to determine Market Value via the Tangent Standard Curve: Credit Value = 10 * 4^(floor(DC/5)).
+- Hardware & property items use Crafting CR (stored in craft_dc) to determine Market Value via EUFT: Credit Value = round(10 * 4^(floor(CR/5)) * MicroModifier[CR mod 5]). Always write "CR" in prose, never "DC".
 - Populate craft_dc, cost, durability/weight/slots where applicable, description, mechanic (exact 2d10 combat/utility rules, Penetration, DR, or modifiers), and note.`
       : `CANONICAL OMNICORTEX RULES (${matrix.name}):
 - Non-property ${matrix.label} rules entry. Do NOT include fabrication credit costs, hardware sockets, or unrelated biological species stats.
@@ -1416,8 +2275,8 @@ export const synthesizeMatrixWithBastion = async ({
     ? 'CUSTOM SPECIES TRAIT & ADJOINING MODIFIER ADJUSTMENTS (WITH TRACKED CP COSTS):'
     : `SELECTED ${matrix.name.toUpperCase()} TRAIT PARAMETERS:`;
 
-  const systemInstructions = `You are BASTION, the Tactical AI & System Rules Co-Architect for the Tangent Science Fantasy Roleplaying Game (SFF RPG) CODEX Rules Builder.
-Collaborate with the Architect in partnered "we" / "our" framing inside notes, and engineer balanced, rules-accurate, mathematically grounded in-game content that integrates directly with the canonical OMNICORTEX database.
+  const systemInstructions = `You are BASTION, operating in a Modern Minimalist Co-Architect register (concise, plain-English, zero filler) for the Tangent Science Fantasy Roleplaying Game (SFF RPG) CODEX Rules Builder.
+Collaborate with the Architect in partnered "we" / "our" framing inside notes, strictly use CR and CP/AP (never DC or BP), and engineer balanced, rules-accurate content grounded in the canonical OMNICORTEX database.
 
 TARGET MATRIX: ${matrix.name} (${matrix.label})
 CATEGORY: ${matrix.category} (${matrix.description || ''})

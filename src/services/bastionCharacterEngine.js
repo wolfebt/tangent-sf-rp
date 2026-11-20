@@ -1564,6 +1564,58 @@ export const derivePillarSkills = ({
 };
 
 /**
+ * Configurable Background Free Trait Policies.
+ * - Default ('origin_2_occupation_2'): 2 Free Origin Traits + 2 Free Occupation Traits = 4 Free Background Traits
+ *   (Faction traits are optional 1 CP purchases; Faction free traits are reserved for potential future revision).
+ * - Future Revision Options ('origin_1_faction_1_occupation_2' | 'origin_2_occupation_2_faction_1'):
+ *   Selectable via traitPolicy parameter or localStorage ('tangent_background_trait_policy').
+ */
+export const DEFAULT_BACKGROUND_TRAIT_POLICY = 'origin_2_occupation_2';
+
+export const BACKGROUND_TRAIT_POLICIES = Object.freeze({
+  origin_2_occupation_2: Object.freeze({
+    id: 'origin_2_occupation_2',
+    label: '2 Origin + 2 Occupation (4 Free Traits; Faction Optional at 1 CP)',
+    originFreeTraits: 2,
+    occupationFreeTraits: 2,
+    factionFreeTraits: 0,
+    totalFreeBackgroundTraits: 4,
+  }),
+  origin_1_faction_1_occupation_2: Object.freeze({
+    id: 'origin_1_faction_1_occupation_2',
+    label: '1 Origin + 1 Faction + 2 Occupation (4 Free Traits Revision Option)',
+    originFreeTraits: 1,
+    occupationFreeTraits: 2,
+    factionFreeTraits: 1,
+    totalFreeBackgroundTraits: 4,
+  }),
+  origin_2_occupation_2_faction_1: Object.freeze({
+    id: 'origin_2_occupation_2_faction_1',
+    label: '2 Origin + 2 Occupation + 1 Faction (5 Free Traits Revision Option)',
+    originFreeTraits: 2,
+    occupationFreeTraits: 2,
+    factionFreeTraits: 1,
+    totalFreeBackgroundTraits: 5,
+  }),
+});
+
+export const resolveBackgroundTraitPolicy = (policyOption = null) => {
+  let key = policyOption;
+  if (!key) {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        key = localStorage.getItem('tangent_background_trait_policy') || '';
+      }
+    } catch {}
+  }
+  const normalized = String(key || '').trim();
+  return (
+    BACKGROUND_TRAIT_POLICIES[normalized] ||
+    BACKGROUND_TRAIT_POLICIES[DEFAULT_BACKGROUND_TRAIT_POLICY]
+  );
+};
+
+/**
  * Derives Traits and Features grounded in the 5 Pillars
  */
 export const derivePillarTraitsAndFeatures = ({
@@ -1575,8 +1627,10 @@ export const derivePillarTraitsAndFeatures = ({
   featuresList = DEFAULT_FEATURES,
   traitsList = ALL_CANONICAL_TRAITS,
   techLevel = 3,
-  metaLevel = 0
+  metaLevel = 0,
+  traitPolicy = null
 }) => {
+  const activeTraitPolicy = resolveBackgroundTraitPolicy(traitPolicy);
   const finalTraits = [];
   const finalFeatures = [];
   const seenTraits = new Set();
@@ -1675,17 +1729,45 @@ export const derivePillarTraitsAndFeatures = ({
     });
   }
 
-  // 2. Origin Traits (Select 2 from Origin's traits list)
-  if (origin && Array.isArray(origin.traits)) {
-    const originPicks = origin.traits.slice(0, 2);
+  // 2. Origin Traits (Default: 2 Free Origin Traits; governed by activeTraitPolicy)
+  if (origin && Array.isArray(origin.traits) && activeTraitPolicy.originFreeTraits > 0) {
+    const originPicks = origin.traits.slice(0, activeTraitPolicy.originFreeTraits);
     originPicks.forEach(t => {
       addTrait(typeof t === 'object' ? (t.name || t.id) : t, 'origin', 'Origin Trait', 0, true);
     });
   }
 
-  // 3. Occupation Traits (Select 2 from Occupation's traits list)
-  if (occupation && Array.isArray(occupation.traits)) {
-    const occuPicks = occupation.traits.slice(0, 2);
+  // 2b. Optional Faction Free Traits (Default: 0 Free; active only when a future revision policy enables factionFreeTraits > 0)
+  if (faction && activeTraitPolicy.factionFreeTraits > 0) {
+    const rawFactionTraits = Array.isArray(faction.traits) && faction.traits.length > 0
+      ? faction.traits
+      : Array.isArray(faction.recommended_traits) && faction.recommended_traits.length > 0
+        ? faction.recommended_traits
+        : [];
+    let factionPicks = rawFactionTraits.slice(0, activeTraitPolicy.factionFreeTraits);
+    // Fallback to grounded canonical traitsList when a Faction catalog entry has not yet been populated with explicit .traits
+    if (factionPicks.length < activeTraitPolicy.factionFreeTraits && Array.isArray(traitsList) && traitsList.length > 0) {
+      const facKeywords = String(faction.keywords || faction.name || '').toLowerCase();
+      const unseenCanonical = traitsList.filter(t => {
+        const nm = String(t?.name || t?.id || '').toLowerCase();
+        return nm && !seenTraits.has(nm);
+      });
+      unseenCanonical.sort((a, b) => {
+        const aMatch = facKeywords && String(a.keywords || a.category || '').toLowerCase().split(/[,;\s]+/).some(k => k && facKeywords.includes(k)) ? 1 : 0;
+        const bMatch = facKeywords && String(b.keywords || b.category || '').toLowerCase().split(/[,;\s]+/).some(k => k && facKeywords.includes(k)) ? 1 : 0;
+        return bMatch - aMatch;
+      });
+      const needed = activeTraitPolicy.factionFreeTraits - factionPicks.length;
+      factionPicks = [...factionPicks, ...unseenCanonical.slice(0, needed)];
+    }
+    factionPicks.forEach(t => {
+      addTrait(typeof t === 'object' ? (t.name || t.id) : t, 'faction', 'Faction Trait', 0, true);
+    });
+  }
+
+  // 3. Occupation Traits (Default: 2 Free Occupation Traits; governed by activeTraitPolicy)
+  if (occupation && Array.isArray(occupation.traits) && activeTraitPolicy.occupationFreeTraits > 0) {
+    const occuPicks = occupation.traits.slice(0, activeTraitPolicy.occupationFreeTraits);
     occuPicks.forEach(t => {
       addTrait(typeof t === 'object' ? (t.name || t.id) : t, 'occupation', 'Occupation Trait', 0, true);
     });
@@ -2513,12 +2595,12 @@ export const derivePillarNarrative = ({
 /**
  * 6. Calculate Canonical Rules Ledger (User-in-the-loop validation & 150-CP economics)
  * Enforces:
- * - 150 CP starting budget (80 CP Archetype Chassis + 70 CP Customization)
+ * - 150 CP starting budget (80 CP Archetype Chassis + 70 CP Customization) + Award Points (AP, 1 AP = 1 CP)
  * - Raw attributes cost 5 CP per point, soft cap at +4 raw at creation
  * - Sub-attributes: Base = 2 + (Primary * 2)
  * - 60 Free Skill Ranks: 20 SP Faction, 20 SP Origin, 20 SP Occupation packages
  * - Base Skill Ranks span 0–20 (Creation Cap Rank 11); Specializations span 1–10 (Prereq Base 6+)
- * - Free Background Traits: Species inherent + 1 Origin + 1 Faction + 2 Occupation (4 free; extra traits 1 CP)
+ * - Free Background Traits: Species inherent + 2 Origin + 2 Occupation (4 free; extra traits 1 CP; configurable traitPolicy for future Faction trait revision)
  * - Features: First 4 Recommended Features discounted (-1 CP -> 2 CP each); standard Features 3 CP
  * - Personal Hindrances: Capped at +10 CP rebate (Species flaws & Social Stigmas exempt)
  * - Starting Property: Weapons, Armor, Gear calibrated to Tech Level
@@ -2539,9 +2621,14 @@ export const calculateRulesLedger = ({
   extraTraitsCount = 0,
   vitalityUpgradesCp = 0,
   personalHindranceCp = 0,
+  awardPointsEarned = 0,
+  traitPolicy = DEFAULT_BACKGROUND_TRAIT_POLICY,
   dbData = {}
 }) => {
   const tl = Number(techLevel) || 3;
+  const apEarned = Math.max(0, Number(awardPointsEarned) || 0);
+  const effectiveBudget = 150 + apEarned;
+  const resolvedTraitPolicy = resolveBackgroundTraitPolicy(traitPolicy);
   const attrData = derivePillarAttributes({ archetype, species });
 
   // Base raw attributes (starts at 0, 5 CP per point, cap at 4 raw at creation)
@@ -2609,10 +2696,10 @@ export const calculateRulesLedger = ({
     traitsCostCp +
     vitalsCostCp -
     hindranceRebateCp;
-  const bpRemaining = 150 - totalSpent;
+  const bpRemaining = effectiveBudget - totalSpent;
 
   if (bpRemaining < 0) {
-    validationErrors.push(`Point budget exceeded: ${totalSpent} CP spent out of 150 CP available.`);
+    validationErrors.push(`Point budget exceeded: ${totalSpent} CP spent out of ${effectiveBudget} CP available (150 Base CP + ${apEarned} Award Points).`);
   }
 
   // Derive final attributes with species modifiers
@@ -2646,7 +2733,8 @@ export const calculateRulesLedger = ({
     origin,
     occupation,
     featuresList: dbData.features || DEFAULT_FEATURES,
-    traitsList: dbData.traits || ALL_CANONICAL_TRAITS
+    traitsList: dbData.traits || ALL_CANONICAL_TRAITS,
+    traitPolicy: resolvedTraitPolicy.id
   });
 
   const propertyData = derivePillarProperty({
@@ -2663,11 +2751,14 @@ export const calculateRulesLedger = ({
 
   return {
     startingCP: 150,
+    awardPointsEarned: apEarned,
+    effectiveCpBudget: effectiveBudget,
     cpSpent: totalSpent,
     cpRemaining: bpRemaining,
     startingBP: 150,
     bpSpent: totalSpent,
     bpRemaining,
+    traitPolicy: resolvedTraitPolicy,
     breakdown: {
       attributesCost: attrBPCost,
       speciesCost: speciesBPCost,
@@ -2732,8 +2823,11 @@ export const synthesizeCharacterWithBastion = ({
   preferredOccupation = null,
   techLevel = 3,
   rawAttributes = null,
+  traitPolicy = DEFAULT_BACKGROUND_TRAIT_POLICY,
+  awardPointsEarned = 0,
   dbData = {}
 }) => {
+  const resolvedTraitPolicy = resolveBackgroundTraitPolicy(traitPolicy);
   const archetypesList = dbData.archetypes && dbData.archetypes.length > 0 ? dbData.archetypes : DEFAULT_ARCHETYPES;
   const speciesList = dbData.species && dbData.species.length > 0 ? dbData.species : DEFAULT_SPECIES;
   const factionsList = dbData.factions && dbData.factions.length > 0 ? dbData.factions : DEFAULT_FACTIONS;
@@ -2788,6 +2882,8 @@ export const synthesizeCharacterWithBastion = ({
     occupation,
     techLevel,
     rawAttributes,
+    traitPolicy: resolvedTraitPolicy.id,
+    awardPointsEarned,
     dbData: { skills: skillsList, features: featuresList, traits: traitsList, weaponry: weaponryList, armoring: armoringList, armoringList, gear: gearList, augmentations: augmentationsList, augmentationsList, mecha: mechaList, architecture: architectureList, other: otherList }
   });
 
@@ -2811,7 +2907,7 @@ export const synthesizeCharacterWithBastion = ({
   };
 
   const skillData = derivePillarSkills({ archetype, species, faction, origin, occupation, skillsList, techLevel, metaLevel: 3 });
-  const traitFeatData = derivePillarTraitsAndFeatures({ archetype, species, faction, origin, occupation, featuresList, traitsList, techLevel, metaLevel: 3 });
+  const traitFeatData = derivePillarTraitsAndFeatures({ archetype, species, faction, origin, occupation, featuresList, traitsList, techLevel, metaLevel: 3, traitPolicy: resolvedTraitPolicy.id });
   const propertyData = derivePillarProperty({ archetype, occupation, faction, species, techLevel, metaLevel: 0, weaponryList, armoringList, gearList, augmentationsList, mechaList, architectureList, otherList });
   const narrativeData = derivePillarNarrative({ archetype, species, faction, origin, occupation, skills: skillData.finalSkillsList, features: traitFeatData.features, gear: propertyData.gear, weapons: propertyData.weapons, armor: propertyData.armor, augmentations: propertyData.augmentations, mecha: propertyData.mecha, architecture: propertyData.architecture, other: propertyData.other, prompt });
 

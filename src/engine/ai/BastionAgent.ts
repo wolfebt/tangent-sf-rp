@@ -164,9 +164,9 @@ Rules:
 - Baseline attributes start at 0 (soft cap +4 at creation). Each +1 costs 5 CP.
 - Three Background Skill Pools grant 60 Free Skill Points (20 Faction + 20 Origin + 20 Occupation = 0 CP).
 - Base Skill Ranks span 0–20 at 1 SP/CP per rank (Character Creation cap is Rank 11 [Stage 3: Expert]; Base Skill ceiling is Rank 20 [Stage 4: Master]). Specializations (Rank 1–10, prerequisite Base Rank 6+) add directly to Base Skill to unlock Ranks 21–30.
-- 4 Background Traits are free (1 Origin + 1 Faction + 2 Occupation); extra traits cost 1 CP. First 4 Recommended Features cost 2 CP each (standard Features 3 CP).
-- Base Vitals: 30 Vitality, 30 Health (60 Structure for Synthetics/Mecha; 1 CP = +5 points). Stamina provides Toughness DR (min 0 damage floor), never flat VP/HP.
-- Total net CP spent must equal 150 CP.
+- 4 Background Traits are free (2 Origin + 2 Occupation; Faction traits are optional at 1 CP each, with configurable platform support for future Faction trait revisions); extra traits cost 1 CP. First 4 Recommended Features cost 2 CP each (standard Features 3 CP).
+- Base Vitals: 30 Vitality, 30 Health (60 Structure for Synthetics/Mecha; 1 CP = +5 points). Cross-domain Armor stacks via Diminishing Returns (Highest DR + ceil[Other Layer DR / 5]), and Stamina provides Toughness DR reducing penetrating damage down to a minimum of 0 (never flat VP/HP).
+- Total net CP spent must equal 150 CP (post-creation advancement uses Award Points [AP] at 1 AP = 1 CP).
 `;
 
     const schema = {
@@ -330,7 +330,7 @@ Rules:
 
     const skillsBp = Math.max(0, (rawSkillRanks + specRanks - freeBackgroundSp) * this.SKILL_COST_PER_RANK);
 
-    // 4 Background Traits are free (1 Origin + 1 Faction + 2 Occupation); extra traits cost 1 CP each
+    // 4 Background Traits are free (2 Origin + 2 Occupation; Faction traits optional at 1 CP); extra traits cost 1 CP each
     const traitCount = Array.isArray(draft.traits) ? draft.traits.length : 0;
     const traitsBp = Math.max(0, traitCount - 4) * 1;
 

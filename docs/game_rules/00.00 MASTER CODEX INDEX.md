@@ -83,7 +83,7 @@ Every document across **Volume I: The Operator's Manual (Player Compendium)** an
 | **00.01** | `00.01 BASTION SYSTEM PROMPT & ROUTING MANIFEST.md` | `./` (Root) | 1 | Deterministic arbiter system directives, telemetry headers, and file routing tables. | 
 | **00.02** | `00.02 BASTION CORE FORMULAS & ERRATA ENGINE.md` | `./` (Root) | 1 | 12 Mandatory Normalization Rules, EUFT valuation table, UDU hierarchy, and combat formulas. | 
 | **1.00** | `operator/1.00 INTRODUCTION.md` | `operator/introduction/` | 1 | Core engine introduction, 2d10 bell-curve probabilities, CR benchmarks, and system glossary. | 
-| **1.01** | `operator/1.01 CHARACTER CREATION.md` | `operator/character_creation/` | 10 | 150 CP creation pipeline, Attributes, Perception, Vitality/Health/SP, Karma, Movement, Dying, XP. | 
+| **1.01** | `operator/1.01 CHARACTER CREATION.md` | `operator/character_creation/` | 10 | 150 CP creation pipeline, Attributes, Perception, Vitality/Health/SP, Karma, Movement, Dying, Award Points (`AP`). | 
 | **1.02** | `operator/1.02 ARCHETYPES.md` | `operator/archetypes/` | 5 | 80-CP Playable Archetype Chassis across Operatives, Savants, Sentinels, Visionaries, and Signature Features. | 
 | **1.03** | `operator/1.03 SPECIES.md` | `operator/species/` | 93 | Playable Species and Sub-Species packages across 9 major taxonomic families and independent Xenos. | 
 | **1.04** | `operator/1.04 FACTIONS.md` | `operator/factions/` | 42 | 20-SP Faction Background packages covering Major Polities, Aeld Schisms, Impyrium, and 25 Archetypal Factions. | 
@@ -160,11 +160,11 @@ Every document across **Volume I: The Operator's Manual (Player Compendium)** an
 
   * `1.01.Movement.md` — Tactical combat movement, overland travel paces, jumping, climbing, swimming, zero-G maneuvering, and Strength-based carrying capacity.
 
-  * `1.01.RestAndDying.md` — Short and extended rest recovery, wound treatment, the **Mortality State** at `0 Health` (`Stability Points = Stamina Score + 5`), stabilization (`CR 15 Medicine`), and the High Cost of Dying (`-5 Experience Debt` and `0 Karma` upon revivification).
+  * `1.01.RestAndDying.md` — Short and extended rest recovery, wound treatment, the **Mortality State** at `0 Health` (`Stability Points = Stamina Score + 5`), stabilization (`CR 15 Medicine`), and the High Cost of Dying (`-5 Award Points [AP] Debt` and `0 Karma` upon revivification).
 
   * `1.01.StartingWealthAndMeta.md` — Starting **Wealth Score (WS)** calculation, Auto-Buy equipment rules, Liquidity Gap financing, and initial Metaphysical Awakening parameters.
 
-  * `1.01.Experience.md` — Experience Point (XP) awards, CP conversion milestones, and Power Scale Tiers: Tier 1 Operative (`150–199 CP`), Tier 2 Tactical (`200–299 CP`), Tier 3 Strategic (`300–449 CP`), and Tier 4 Mythic (`450+ CP`).
+  * `1.01.Experience.md` — Post-creation **Award Point (AP)** progression (`1 AP = 1 CP`), milestone awards, and Power Scale Tiers: Tier 1 Operative (`150–199 CP`), Tier 2 Tactical (`200–299 CP`), Tier 3 Strategic (`300–449 CP`), and Tier 4 Mythic (`450+ CP`).
 
 ### 1.02. Archetypes (`./operator/`)
 
@@ -340,7 +340,7 @@ Every document across **Volume I: The Operator's Manual (Player Compendium)** an
 
 * *"Vitality is just sweat and luck. When the plasma hits Health, start praying to whatever Resonance you believe in."* — **Coalition Medic**
 
-* **Hub Document:** `operator/3.00 COMBAT.md` — Master tactical combat engine covering Initiative, Action Economy (Standard, Move, Swift, Free, Reaction), Ranged and Melee attack resolution, Critical Hits (`Rolled Dice + 10` + `2x Base Weapon Damage Dice` + Critical Effect), Fumbles (`-10` + Complication), Armor Layering Cap, Weapon Penetration, and Stamina Base Toughness.
+* **Hub Document:** `operator/3.00 COMBAT.md` — Master tactical combat engine covering Initiative, Action Economy (Standard, Move, Swift, Free, Reaction), Ranged and Melee attack resolution, Critical Hits (`Rolled Dice + 10` + `2x Base Weapon Damage Dice` + Critical Effect), Fumbles (`-10` + Complication), Diminishing Returns Armor Stacking (`+1 DR` per `5 DR` of secondary cross-domain layers), Weapon Penetration, and Stamina Base Toughness (`0` damage floor).
 
 * **Sub-Module Files (`operator/combat/` — 5 files):**
 

@@ -122,16 +122,16 @@ Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +
   {
     id: 'rule-character-creation-150cp',
     category: 'character_creation',
-    title: '150 Character Point (CP) Operator Creation Economy',
-    citation: 'Operator Guide 1.01 Character Creation',
-    tags: ['150 cp', 'character points', '150 bp', 'build points', 'character creation', 'skill pools', 'attributes'],
+    title: '150 Character Point (CP) Operator Creation & Award Points (AP) Economy',
+    citation: 'Operator Guide 1.01 Character Creation & 1.05 Origins',
+    tags: ['150 cp', 'character points', 'award points', 'ap', 'character creation', 'skill pools', 'attributes', 'traits'],
     text: `Operators in Tangent SFF RP are created using a strict 150 Character Point (CP) budget (80 CP Archetype package + 70 CP Customization):
-- Attributes: 5 CP per +1 attribute rank above base 0 (soft cap +4 at creation).
+- Attributes: 5 CP per +1 attribute rank above base 0 (soft cap +4 at creation; -5 CP refund per -1 penalty).
 - Check Bonuses: 1 CP per +1 sub-attribute check score.
 - Skills & Specializations: Base Skill Ranks span 0–20 at 1 SP/CP per rank (Creation cap is Rank 11 [Expert Stage 3]; Base Skill max is Rank 20 [Master Stage 4]). Specializations do NOT grant a flat +2; they are built-up sub-skills (Rank 1–10 at 1 SP/CP per rank, Prerequisite Base Rank 6+, max 1 viable per check) adding directly to Base Skill to unlock the 21–30 range (Grand Master 21–25 & Pinnacle 26–30).
-- Three 20-Point Background Skill Pools (0 CP): Faction (20 SP), Origin (20 SP), and Occupation (20 SP) = 60 free skill ranks.
+- Three 20-Point Background Skill Pools (0 CP): Faction (20 SP), Origin (20 SP), and Occupation (20 SP) = 60 free skill ranks, plus 4 Free Background Traits (2 Origin Traits + 2 Occupation Traits at 0 CP; extra or optional Faction Traits cost 1 CP each; platform maintains a configurable policy option for future Faction trait revisions).
 - Personal Hindrances & Flaws: Grant up to +10 CP maximum rebate at creation (Social Stigmas and innate Species flaws are exempt from this cap).
-- Increment Rule: Advancement is restricted to +1 point per attribute or skill rank per milestone award.`
+- Award Points (AP) Advancement: Post-creation character progression uses Award Points (AP) at 1 AP = 1 CP (preferred over legacy XP or earned CP), restricted to +1 point per attribute or skill rank per milestone award.`
   },
   {
     id: 'rule-planetary-uwp',
@@ -149,11 +149,12 @@ Base Value (Credits) = 10 * 4^(floor(CR / 5)) * Micro-Modifier (+0 CR = x1.00, +
     category: 'vitals_integrity',
     title: 'Vitals & Structure Pools: 30 VP / 30 HP / 60 SP Base',
     citation: 'Operator Guide 1.01 Character Creation & 3.00 Combat',
-    tags: ['vitals', 'vitality', 'health', 'structure', '30 base', '60 base', 'stamina', 'toughness', 'synthetics'],
-    text: `Canonical Vitals and Structure Architecture:
-- Biological Entities: 30 pt base Vitality (VP) and 30 pt base Health (HP). Standard physical/energy damage depletes Vitality FIRST, spilling excess into Health (Bleed and Overchannel Burn bypass directly to Health).
-- Zero Stamina Pool Scaling: No Stamina-based bonus on Vitality or Health directly. Stamina functions as natural Damage Reduction (Toughness), absorbing penetrating damage point-for-point down to a minimum of 0 damage taken. Armor Layering Cap: only the highest single Armor DR domain applies (never summed).
-- Pools increase strictly through Size categories, Traits, Features, or Character Point (CP) purchases (1 CP = +5 points, no Stamina cap).
+    tags: ['vitals', 'vitality', 'health', 'structure', '30 base', '60 base', 'stamina', 'toughness', 'synthetics', 'armor stacking', 'diminishing returns'],
+    text: `Canonical Vitals, Armor Stacking, and Structure Architecture:
+- Biological Entities: 30 pt base Vitality (VP) and 30 pt base Health (HP). Standard physical/energy damage depletes Vitality FIRST, spilling excess into Health (Bleed and Overchannel Burn bypass directly to Health; Revivification from clinical death imposes -5 Award Points [AP] Debt and drains Karma to 0).
+- Zero Stamina Pool Scaling & 0 Damage Floor: No Stamina-based bonus on Vitality or Health directly. Stamina functions as natural Damage Reduction (Base Toughness), absorbing penetrating damage point-for-point down to a minimum of 0 damage taken.
+- Cross-Domain Armor Diminishing Returns: Across Biological/Natural, Cybernetic/Subdermal, Metaphysical, and Wearable armor domains, use the single highest Armor DR as the base and add +1 DR per stage of 5 DR (ceil[Layer DR / 5]: 1-5 = +1, 6-10 = +2, etc.) calculated separately for each additional active armor layer.
+- Pools increase strictly through Size categories, Traits, Features, or Character Point (CP) / Award Point (AP) purchases (1 CP/AP = +5 points, no Stamina cap).
 - Synthetics, Constructs & Mecha: 60 pt base Structure Points (SP) for Medium size (adjusted by size tier multiplier; pre-calculated Mecha table SP 200-3,200 is not double-multiplied). Zero Vitality, complete immunity to non-lethal damage, fatigue, and biological hazards.`
   },
   {

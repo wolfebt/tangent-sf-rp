@@ -93,9 +93,9 @@ export function adaptSparkItemToFirestore(datasetKey, rawItem) {
     // SPECIES (Prompt A)
     // ─────────────────────────────────────────────────────────────────────────
     case 'species': {
-      const bpCost = sanitized.costs && typeof sanitized.costs === 'object' && sanitized.costs.bp !== undefined
-        ? parseNumericValue(sanitized.costs.bp, 0)
-        : parseNumericValue(sanitized.prerequisites ?? sanitized.bp ?? sanitized.cp, 0);
+      const bpCost = sanitized.costs && typeof sanitized.costs === 'object' && (sanitized.costs.cp !== undefined || sanitized.costs.bp !== undefined)
+        ? parseNumericValue(sanitized.costs.cp ?? sanitized.costs.bp, 0)
+        : parseNumericValue(sanitized.prerequisites ?? sanitized.cp ?? sanitized.bp, 0);
 
       const combinedLore = sanitized.body || [
         sanitized.fullLore || '',

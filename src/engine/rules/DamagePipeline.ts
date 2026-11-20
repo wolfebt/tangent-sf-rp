@@ -3,7 +3,8 @@
  * @description Canonical Tangent SF RP Damage & Trauma Pipeline.
  * Strictly adheres to docs/game_rules/operator/3.00 COMBAT.md:
  * - Total Damage = max(0, Raw Damage - Effective Armor DR - Target STA Mod)
- * - Armor Layering Cap: Highest single domain DR only (biological, cybernetic, wearable never stack)
+ * - Cross-Domain Armor Stacking (Diminishing Returns): Highest layer DR + ceil(other layer DR / 5) per additional cross-domain layer (+1 DR per stage of 5 DR); same-domain wearables use highest single item
+ * - Stamina Base Toughness reduces penetrating damage point-for-point down to a minimum of 0
  * - Sneak Attack DR Gate: Precision/Sneak bonus dice apply ONLY if base weapon damage deals >= 1 pt past Armor DR
  * - Specialized damage types:
  *   - Force / Concussive: ignores 1/2 Armor DR (Concussive splits 50/50 between Vitality and Health)
@@ -58,6 +59,18 @@ export interface DamageResult {
   limbStatus?: 'normal' | 'disabled' | 'destroyed';
 }
 
+export function calculateCrossDomainArmorDR(layers: number[] = []): number {
+  const positiveLayers = (Array.isArray(layers) ? layers : [])
+    .map((v) => Math.max(0, Number(v) || 0))
+    .filter((v) => v > 0)
+    .sort((a, b) => b - a);
+  if (positiveLayers.length === 0) return 0;
+  return (
+    positiveLayers[0] +
+    positiveLayers.slice(1).reduce((sum, dr) => sum + Math.ceil(dr / 5), 0)
+  );
+}
+
 export class DamagePipeline {
   private readonly DISABLED_LIMB_THRESHOLD = 1 / 3; // 33.3% of Max Health
   private readonly DESTROYED_LIMB_THRESHOLD = 2 / 3; // 66.7% of Max Health
@@ -83,8 +96,11 @@ export class DamagePipeline {
         ? Math.floor(payload.attackMargin / 2)
         : 0);
 
-    // 1. Calculate highest active Armor layer (Armor Layering Cap: highest single domain DR only; never summed)
-    let highestDR = activeArmorLayers.length > 0 ? Math.max(...activeArmorLayers) : (target.armor_dr || 0);
+    // 1. Calculate Cross-Domain Diminishing Returns Armor DR:
+    // Highest cross-domain layer DR + ceil(each additional cross-domain layer DR / 5)
+    let highestDR = activeArmorLayers.length > 0
+      ? calculateCrossDomainArmorDR(activeArmorLayers)
+      : (target.armor_dr || 0);
 
     // 2. Special damage type interactions with Armor DR
     const bypassesAllMitigation = dmgType === 'bleed' || Boolean(payload.isOverchannelBurn);

@@ -839,10 +839,10 @@ const PerceptionEssenceMovementModal = ({
                     </code>
                   </div>
                   <p className="text-slate-300 text-[11px] leading-relaxed">
-                    All persona Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the persona's defenses, minimum of 1 point.
+                    All persona Stamina is a natural damage reduction (DR / Base Toughness) and automatically reduces incoming damage penetrating Armor DR down to a minimum of 0.
                   </p>
                   <div className="text-[10px] text-slate-400 font-mono border-t border-slate-800/80 pt-1.5">
-                    Natural DR: <strong className="text-emerald-300">+{toughness} DR (Min 1 penetrating damage)</strong>
+                    Natural DR: <strong className="text-emerald-300">+{toughness} DR (Min 0 penetrating damage)</strong>
                   </div>
                 </div>
               </div>
@@ -1187,7 +1187,7 @@ const PerceptionEssenceMovementModal = ({
                 </div>
 
                 <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 col-span-2 sm:col-span-1">
-                  <div className="text-[10px] uppercase font-bold text-slate-400">Active XP Debt</div>
+                  <div className="text-[10px] uppercase font-bold text-slate-400">Active AP Debt</div>
                   <div className={`text-lg font-black ${experienceDebt > 0 ? 'text-rose-400' : 'text-slate-400'}`}>
                     {experienceDebt > 0 ? `-${experienceDebt} AP` : '0 AP'}
                   </div>

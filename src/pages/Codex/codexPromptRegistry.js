@@ -130,7 +130,7 @@ export const OMNICORTEX_DATASETS = [
 
 **PARSING HEURISTICS & RULES:**
 1. **Self-Contained Records:** Embed the parent species' foundational history and biology directly into the body field so the sub-species requires zero database joins.
-2. **Numeric Types:** tech_level, meta_level, and costs.bp MUST be numbers, never strings.
+2. **Numeric Types & CP Mapping:** tech_level, meta_level, and costs.bp MUST be numbers, never strings (canonical Character Point [CP] cost is stored in the Firestore 'costs.bp' key).
 3. **Structured Modifiers:** Dissect '+1 Agility, +1 Int, +5 Skills' into structured objects in modifiers. Valid types: attribute, skill, feature, discipline, combat. Valid modes: inherent, bonus_pool, choice_pool, recommended.
 4. **No LaTeX:** Do not use $ or $$. Write standard text formulas.
 5. **Output Requirement:** Output ONLY the valid JSON block.

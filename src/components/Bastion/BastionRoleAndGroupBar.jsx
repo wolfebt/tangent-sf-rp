@@ -16,6 +16,9 @@ export const BastionRoleAndGroupBar = ({ compact = false, onRoleChange }) => {
     setFocusGroupId,
     setPreviewGroupId,
     setPreviewPersonaId,
+    traitPolicy,
+    setTraitPolicy,
+    availableTraitPolicies,
   } = useBastion();
   const folio = useFolio() || {};
 
@@ -252,6 +255,33 @@ export const BastionRoleAndGroupBar = ({ compact = false, onRoleChange }) => {
               {safeSession.operatorGroups.map((g) => (
                 <option key={g.id} value={g.id}>
                   {g.name || g.id}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
+      {/* Architect Platform Policy Toggle: Background Trait Allocation (Canonical 2 Origin + 2 Occupation vs Future Faction Revision) */}
+      {!compact &&
+        safeSession.isArchitect &&
+        availableTraitPolicies &&
+        setTraitPolicy && (
+          <div className="flex items-center gap-1.5 pt-0.5">
+            <span
+              className="text-slate-400 uppercase text-[9px] font-bold shrink-0"
+              title="Platform revision switch for free Background Trait distribution during 150-CP Operator synthesis"
+            >
+              Trait Policy:
+            </span>
+            <select
+              aria-label="Background Trait Policy"
+              value={traitPolicy?.id || 'origin_2_occupation_2'}
+              onChange={(e) => setTraitPolicy(e.target.value)}
+              className="flex-1 min-w-0 bg-slate-900 border border-slate-700 hover:border-purple-500/50 rounded px-2 py-0.5 text-[10px] text-purple-200 outline-none cursor-pointer"
+            >
+              {Object.values(availableTraitPolicies).map((pol) => (
+                <option key={pol.id} value={pol.id}>
+                  {pol.label}
                 </option>
               ))}
             </select>

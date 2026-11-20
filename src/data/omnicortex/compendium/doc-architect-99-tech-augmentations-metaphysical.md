@@ -14,7 +14,7 @@ tl: 3
 ml: 0
 cost: 0
 tags: ["architect","core-rules","modular-rule","technology","99.tech.augmentations.metaphysical","matrix"]
-updatedAt: "2026-11-04T09:33:29.320Z"
+updatedAt: "2026-11-16T13:43:47.627Z"
 costs:
   bp: 0
   credits: 0
@@ -146,7 +146,7 @@ Below is a standardized catalog of available Meta-Augs, detailing their Node req
 **Aegis Runes (Tattoos of Warding)**
 * **Location:** Torso or Full Body | **Nodes:** 10 (1 Socket) | **TL/ML:** 2/3 | **CR:** 15 | **Value:** 640 Cr
 * **Description:** Intricate, geometric tattoos inked using crushed Resonance Crystals. They glow faintly with Entropy (Order) energy when struck.
-* **Mechanic:** A Passive Enhancement granting the host Damage Resistance. Functions identically to the *Stoneskin* or *Force Armor* invocations. Grants a permanent DR 5 against physical (Kinetic/Blunt/Slashing) damage (subject to the Armor Layering Cap).
+* **Mechanic:** A Passive Enhancement granting the host Damage Resistance. Functions identically to the *Stoneskin* or *Force Armor* invocations. Grants a permanent DR 5 against physical (Kinetic/Blunt/Slashing) damage (stacks across domains via Diminishing Returns Armor Stacking: `+1 DR` per stage of 5 DR when combined with higher worn or cybernetic armor).
 
 **Conduit Scarification (Energy Channeling)**
 * **Location:** Arms (Both) | **Nodes:** 10 per arm | **TL/ML:** 2/4 | **CR:** 20 | **Value:** 2,560 Cr

@@ -189,7 +189,7 @@ describe('Phase 2 Canonical Axioms & 99.Schema.BastionLinterAndValidator Regress
     assert.equal(burn.fortitudeSaveCR, 14);
   });
 
-  it('6. Armor Layering Cap, Sneak Attack DR Gate, 0 Minimum Toughness Floor & Vitality-First Routing', () => {
+  it('6. Cross-Domain Armor Diminishing Returns, Sneak Attack DR Gate, 0 Minimum Toughness Floor & Vitality-First Routing', () => {
     const pipeline = new DamagePipeline();
     const targetToken = {
       id: 'op-1',
@@ -201,29 +201,10 @@ describe('Phase 2 Canonical Axioms & 99.Schema.BastionLinterAndValidator Regress
       armor_dr: 2
     };
 
-    // Armor Layering Cap: [4 bio, 8 cyber, 6 wearable] -> highest single DR = 8 (NEVER 18)
-    // Sneak Attack DR Gate: baseWeaponRawDamage (7) <= effectiveDR (8) -> sneakAttackBonusDamage (12) = 0 applied!
-    // 0 Minimum Toughness Floor: 7 - 8 - 3 STA = 0 net damage!
+    // Cross-Domain Diminishing Returns: [4 bio, 8 cyber, 6 wearable] -> 8 + ceil(6/5)=2 + ceil(4/5)=1 = 11 effectiveDR
+    // Sneak Attack DR Gate: baseWeaponRawDamage (10) <= effectiveDR (11) -> sneakAttackBonusDamage (12) = 0 applied!
+    // 0 Minimum Toughness Floor: 10 - 11 - 3 STA = 0 net damage!
     const blockedSneak = pipeline.resolveStrike(
-      {
-        rawDamage: 19,
-        baseWeaponRawDamage: 7,
-        sneakAttackBonusDamage: 12,
-        armorPenetration: 0,
-        damageType: 'kinetic',
-        isCalledShot: false
-      },
-      targetToken,
-      [4, 8, 6],
-      3,
-      3
-    );
-    assert.equal(blockedSneak.effectiveDR, 8);
-    assert.equal(blockedSneak.sneakAttackBonusApplied, 0);
-    assert.equal(blockedSneak.netDamage, 0);
-
-    // Penetrating Sneak Attack: baseWeaponRawDamage (10) > effectiveDR (8) -> +12 precision applies -> 22 - 8 - 3 = 11 to Vitality first!
-    const penetratingSneak = pipeline.resolveStrike(
       {
         rawDamage: 22,
         baseWeaponRawDamage: 10,
@@ -237,9 +218,28 @@ describe('Phase 2 Canonical Axioms & 99.Schema.BastionLinterAndValidator Regress
       3,
       3
     );
+    assert.equal(blockedSneak.effectiveDR, 11);
+    assert.equal(blockedSneak.sneakAttackBonusApplied, 0);
+    assert.equal(blockedSneak.netDamage, 0);
+
+    // Penetrating Sneak Attack: baseWeaponRawDamage (12) > effectiveDR (11) -> +12 precision applies -> 24 - 11 - 3 = 10 to Vitality first!
+    const penetratingSneak = pipeline.resolveStrike(
+      {
+        rawDamage: 24,
+        baseWeaponRawDamage: 12,
+        sneakAttackBonusDamage: 12,
+        armorPenetration: 0,
+        damageType: 'kinetic',
+        isCalledShot: false
+      },
+      targetToken,
+      [4, 8, 6],
+      3,
+      3
+    );
     assert.equal(penetratingSneak.sneakAttackBonusApplied, 12);
-    assert.equal(penetratingSneak.netDamage, 11);
-    assert.equal(penetratingSneak.vitalityDamage, 11);
+    assert.equal(penetratingSneak.netDamage, 10);
+    assert.equal(penetratingSneak.vitalityDamage, 10);
     assert.equal(penetratingSneak.healthDamage, 0);
 
     // Bleed bypasses Armor DR, Stamina Toughness, AND Vitality directly to Health

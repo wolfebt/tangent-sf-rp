@@ -8,7 +8,13 @@ import { useCampaign } from '../../context/CampaignContext';
 import { useBastion } from '../../context/BastionContext';
 import { BastionRoleAndGroupBar } from '../Bastion/BastionRoleAndGroupBar';
 import { BastionWorkspaceFieldGenerator } from '../Bastion/BastionWorkspaceFieldGenerator';
-import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
+import { BastionFollowUpAndGems } from '../Bastion/BastionFollowUpAndGems';
+import {
+  sendBastionChatMessage,
+  parseRollCommand,
+  generateSelectiveFields,
+  parseAndEnrichBastionTurnPayload,
+} from '../../services/bastionService';
 import {
   synthesizeCharacterWithBastion,
   getArchetypeRecommendations,
@@ -103,22 +109,66 @@ function buildDefaultBastionGreeting(sessionState) {
     const groupCount = sessionState?.sessionGroups?.length || 0;
     const groupNote =
       groupCount > 1
-        ? ` We are tracking ${groupCount} active groups in this campaign.`
+        ? ` We have ${groupCount} active groups in this campaign.`
         : '';
     return [
       {
         sender: 'bastion',
-        text: `BASTION Co-Architect Engine online.${groupNote} How should we calibrate encounters, Omnicortex entries, Economatrix CR valuations, or multi-group pacing today? Type /roll [dice] (e.g. /roll 2d10+6 vs 15), /persona [concept], or /clear to reset our thread.`,
+        isGreeting: true,
+        text: `Ready to assist with our session.${groupNote} Ask about **Encounter CR**, **150-CP / AP Ledgers**, **EUFT Valuation**, **CRISP Visual Prompts**, or **Multi-Group Pacing**. Commands: \`/roll 2d10+6 vs 15\`, \`/persona [concept]\`, \`[X]\` (safety pause), or \`/clear\`.`,
+        followUps: [
+          'Should we audit our squad CP/AP ledgers or calibrate encounter CR parity first?',
+          'Do we want to set any Session Zero Lines & Veils or custom directives in the Directives tab?',
+        ],
+        gems: [
+          {
+            label: 'Encounter CR Parity',
+            point: 'Encounter CR',
+            prompt: 'Break down encounter CR parity and adversary budgeting for our active campaign group.',
+          },
+          {
+            label: 'EUFT Valuation Table',
+            point: 'EUFT Valuation',
+            prompt: 'Show the canonical EUFT Base-5 CR credit valuation formula and Linear Micro-Modifiers for our table.',
+          },
+          {
+            label: 'CRISP Visual Prompt',
+            point: 'CRISP Visual Prompts',
+            prompt: 'Generate a CRISP visual prompt (Preset D Establishing Shot) for our current campaign sector.',
+          },
+        ],
       },
     ];
   }
   const previewTag = sessionState?.isOperatorPreview
-    ? ' [Operator Preview Lens Active]'
+    ? ' *(Operator Preview)*'
     : '';
   return [
     {
       sender: 'bastion',
-      text: `BASTION Tactical Advisor online.${previewTag} How can I assist you with rules, Omnicortex lore, or your Tangent SFF RPG persona today? Type /persona [concept] to synthesize a 5-pillar build, /roll [dice] (e.g. /roll 2d10+4 adv vs 15), or /clear to reset your conversation.`,
+      isGreeting: true,
+      text: `Ready to help with your character and rules questions.${previewTag} Ask about **2d10 Combat Odds**, **Your 150-CP / AP Build**, **Economatrix Gear**, or **CRISP Character Art**. Commands: \`/persona [concept]\`, \`/roll 2d10+4 adv vs 15\`, \`[X]\` (safety pause), or \`/clear\`.`,
+      followUps: [
+        'Would you like to review your current Skill Stage action economy or audit your 150-CP allocation first?',
+        'Are you looking to price new gear against your Wealth Score or plan your next Award Point (AP) upgrade?',
+      ],
+      gems: [
+        {
+          label: 'Your 2d10 Action Economy',
+          point: '2d10 Combat Odds',
+          prompt: 'Break down how many actions you get per round under the 6-Stage Skill Tier economy and how Karma affects your rolls.',
+        },
+        {
+          label: '150-CP & AP Build Guide',
+          point: 'Your 150-CP / AP Build',
+          prompt: 'Summarize how your 150-CP starting budget, 60 free Background SP, 4 free Traits (2 Origin + 2 Occupation), and Award Points (AP) work.',
+        },
+        {
+          label: 'CRISP Portrait Prompt',
+          point: 'CRISP Character Art',
+          prompt: 'Create a CRISP Preset B close-up portrait prompt tailored to your active persona.',
+        },
+      ],
     },
   ];
 }
@@ -140,6 +190,11 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     activeSurface,
     activeDrawerTab,
     setActiveDrawerTab,
+    traitPolicy,
+    customDirectives = '',
+    setCustomDirectives,
+    safetyBoundaries = {},
+    setSafetyBoundaries,
   } = bastionCtx;
 
   const [localTab, setLocalTab] = useState('chat');
@@ -429,6 +484,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   const activeOccupation = stagedOccupation || occupationRecs[0]?.occupation || DEFAULT_OCCUPATIONS[0];
 
   // Rules Ledger for Stage 4
+  const activeTraitPolicyId = traitPolicy?.id;
   const stagedRulesLedger = useMemo(() => {
     return calculateRulesLedger({
       archetype: activeArchetype,
@@ -437,9 +493,10 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       origin: activeOrigin,
       occupation: activeOccupation,
       techLevel: stagedTechLevel,
-      rawAttributes: stagedRawAttrs
+      rawAttributes: stagedRawAttrs,
+      traitPolicy: activeTraitPolicyId
     });
-  }, [activeArchetype, activeSpecies, activeFaction, activeOrigin, activeOccupation, stagedTechLevel, stagedRawAttrs]);
+  }, [activeArchetype, activeSpecies, activeFaction, activeOrigin, activeOccupation, stagedTechLevel, stagedRawAttrs, activeTraitPolicyId]);
 
   // Complete Dossier Synthesis for Stage 5
   const stagedPersonaResult = useMemo(() => {
@@ -451,9 +508,10 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       preferredOrigin: activeOrigin?.name,
       preferredOccupation: activeOccupation?.name,
       techLevel: stagedTechLevel,
-      rawAttributes: stagedRawAttrs
+      rawAttributes: stagedRawAttrs,
+      traitPolicy: activeTraitPolicyId
     });
-  }, [stagedPrompt, activeArchetype, activeSpecies, activeFaction, activeOrigin, activeOccupation, stagedTechLevel, stagedRawAttrs]);
+  }, [stagedPrompt, activeArchetype, activeSpecies, activeFaction, activeOrigin, activeOccupation, stagedTechLevel, stagedRawAttrs, activeTraitPolicyId]);
 
   const handleApplyStagedPersona = async () => {
     if (!stagedPersonaResult?.character || !applyGuidedCharacter) return;
@@ -518,7 +576,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     try {
       const result = synthesizeCharacterWithBastion({
         prompt: genPrompt,
-        techLevel: characterData?.['tech-level'] || 3
+        techLevel: characterData?.['tech-level'] || 3,
+        traitPolicy: activeTraitPolicyId
       });
       if (result.success) {
         setSynthesizedResult(result);
@@ -615,7 +674,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       const promptQuery = userText.replace(/^\/(persona|character|char)\s*/i, '').trim() || 'Tactical persona';
       const synth = synthesizeCharacterWithBastion({
         prompt: promptQuery,
-        techLevel: characterData?.['tech-level'] || 3
+        techLevel: characterData?.['tech-level'] || 3,
+        traitPolicy: activeTraitPolicyId
       });
 
       if (synth.success) {
@@ -624,7 +684,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
           ? `*(Open **⚡ Generator** tab so we can inspect or apply this 5-pillar build).*`
           : `*(Open **⚡ Generator** tab to inspect or apply this build to your Folio).*`;
         const replyText =
-          `🤖 **BASTION 5-PILLAR PERSONA SUMMARY**\n` +
+          `**5-Pillar Persona Summary**\n` +
           `• **1. Archetype**: ${pillars.archetype.name} (${pillars.archetype.sphere})\n` +
           `• **2. Species**: ${pillars.species.name}\n` +
           `• **3. Faction**: ${pillars.faction.name}\n` +
@@ -634,7 +694,18 @@ const BastionDrawer = ({ isOpen, onClose }) => {
           framingNote;
 
         setSynthesizedResult(synth);
-        const replyMsg = { sender: 'bastion', promptText: userText, text: replyText };
+        const personaEnriched = parseAndEnrichBastionTurnPayload(replyText, {
+          prompt: promptQuery,
+          role: sessionState?.effectiveRole,
+          intent: 'SYNTHESIS_BLUEPRINT',
+        });
+        const replyMsg = {
+          sender: 'bastion',
+          promptText: userText,
+          text: personaEnriched.cleanText,
+          followUps: personaEnriched.followUps,
+          gems: personaEnriched.gems,
+        };
         setMessages(prev => {
           if (replaceAtIdx !== null && prev[replaceAtIdx]) {
             const next = [...prev];
@@ -675,6 +746,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       history: baseHistory,
       role: sessionState?.effectiveRole,
       sessionState,
+      customDirectives,
+      safetyBoundaries,
       onStreamChunk: (_delta, fullSoFar) => {
         setMessages(prev =>
           prev.map((m, i) => {
@@ -703,8 +776,12 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       sender: 'bastion',
       promptText: userText,
       text: response.text,
+      followUps: response.followUps || [],
+      gems: response.gems || [],
+      isHalted: Boolean(response.isHalted),
+      isSafetyPause: Boolean(response.isSafetyPause),
       toolCalls: response.toolCalls || [],
-      ragCitations: response.ragCitations || [],
+      ragCitations: response.ragCitations || response.citations || [],
       role: response.role || sessionState?.effectiveRole,
     };
 
@@ -775,12 +852,17 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     await runBastionQuery(userPromptToRetry, priorHistory, blockIdx);
   };
 
+  const handleSelectPromptFromGem = async (promptText) => {
+    const cleanPrompt = String(promptText || '').trim();
+    if (isChatLoading || !cleanPrompt) return;
+    const historySnapshot = [...messages];
+    setMessages(prev => [...prev, { sender: 'user', text: cleanPrompt }]);
+    await runBastionQuery(cleanPrompt, historySnapshot, null);
+  };
+
   const handleExpandPoint = async (pointTitle) => {
     if (isChatLoading || !pointTitle) return;
-    const expandText = `Expand in detail on: ${pointTitle}`;
-    const historySnapshot = [...messages];
-    setMessages(prev => [...prev, { sender: 'user', text: expandText }]);
-    await runBastionQuery(expandText, historySnapshot, null);
+    await handleSelectPromptFromGem(`Expand in detail on: ${pointTitle}`);
   };
 
   const safeCharData = characterData || {};
@@ -1028,10 +1110,26 @@ const BastionDrawer = ({ isOpen, onClose }) => {
               <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#0d1117]/90 text-xs font-mono">
                 {messages.map((msg, idx) => {
                   const isUser = msg.sender === 'user';
-                  const expandablePoints = !isUser && idx > 0 ? extractExpandablePoints(msg.text) : [];
                   const toolCalls = Array.isArray(msg.toolCalls) ? msg.toolCalls : [];
                   const ragCitations = Array.isArray(msg.ragCitations) ? msg.ragCitations : [];
                   const isProofOpen = Boolean(openToolProofs[idx]);
+
+                  const hasStoredTurnMeta =
+                    (Array.isArray(msg.followUps) && msg.followUps.length > 0) ||
+                    (Array.isArray(msg.gems) && msg.gems.length > 0);
+                  const derivedPayload =
+                    !isUser && !msg.isRoll && !msg.isStreaming && !hasStoredTurnMeta && msg.text
+                      ? parseAndEnrichBastionTurnPayload(msg.text, {
+                          role: msg.role || (sessionState?.isArchitect ? 'architect' : 'operator'),
+                          prompt: msg.promptText || '',
+                        })
+                      : null;
+                  const resolvedFollowUps = hasStoredTurnMeta
+                    ? msg.followUps || []
+                    : derivedPayload?.followUps || [];
+                  const resolvedGems = hasStoredTurnMeta
+                    ? msg.gems || []
+                    : derivedPayload?.gems || [];
 
                   const senderLabel = isUser
                     ? sessionState?.isArchitect
@@ -1055,11 +1153,27 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                             ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/40 rounded-br-none font-sans'
                             : msg.isRoll
                             ? 'bg-amber-950/60 text-amber-200 border border-amber-500/60 font-mono shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                            : msg.isHalted
+                            ? 'bg-slate-900 text-slate-200 border border-amber-500/60 rounded-bl-none font-sans'
                             : 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none font-sans'
                         }`}
                       >
+                        {!isUser && (msg.isHalted || msg.isSafetyPause) && (
+                          <div className="mb-1.5 flex items-center gap-1.5">
+                            {msg.isHalted && (
+                              <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-500/60 text-[9px] font-mono font-bold uppercase tracking-wider text-amber-300">
+                                ⏸ Archive Halt — Extrapolate Only By Request
+                              </span>
+                            )}
+                            {msg.isSafetyPause && (
+                              <span className="px-1.5 py-0.5 rounded bg-rose-950/80 border border-rose-500/60 text-[9px] font-mono font-bold uppercase tracking-wider text-rose-300">
+                                [X] Safety Pause Active
+                              </span>
+                            )}
+                          </div>
+                        )}
                         <div>
-                          {msg.text || (msg.isStreaming ? '…' : '')}
+                          {derivedPayload ? derivedPayload.cleanText : (msg.text || (msg.isStreaming ? '…' : ''))}
                         </div>
 
                         {/* Deterministic Engine Math Proof Pill & Collapsible Drawer */}
@@ -1108,25 +1222,15 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                           </div>
                         )}
 
-                        {/* Expandable Bullet Topics (Drill-down on specific points as needed) */}
-                        {expandablePoints.length > 0 && (
-                          <div className="mt-2.5 pt-2 border-t border-slate-800/80 flex flex-wrap items-center gap-1">
-                            <span className="text-[9px] text-slate-400 font-mono uppercase tracking-wider mr-1">
-                              Drill Down:
-                            </span>
-                            {expandablePoints.map((pt, pIdx) => (
-                              <button
-                                key={pIdx}
-                                type="button"
-                                disabled={isChatLoading}
-                                onClick={() => handleExpandPoint(pt)}
-                                className="px-1.5 py-0.5 rounded bg-slate-950/90 hover:bg-cyan-950/80 border border-slate-700/80 hover:border-cyan-500/50 text-[10px] font-mono text-cyan-300 transition-colors cursor-pointer disabled:opacity-50"
-                                title={`Ask BASTION to expand in detail on "${pt}"`}
-                              >
-                                + {pt}
-                              </button>
-                            ))}
-                          </div>
+                        {/* Collapsible Follow-Up Appends + Content Continuation Gems */}
+                        {!isUser && !msg.isRoll && !msg.isStreaming && (
+                          <BastionFollowUpAndGems
+                            followUps={resolvedFollowUps}
+                            gems={resolvedGems}
+                            isHalted={Boolean(msg.isHalted)}
+                            disabled={isChatLoading}
+                            onSelectPrompt={handleSelectPromptFromGem}
+                          />
                         )}
 
                         {/* Output Block Actions: Copy & Retry */}
@@ -2574,9 +2678,22 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                 </span>
                 <p className="text-[11px] text-slate-300">
                   {sessionState?.isArchitect
-                    ? 'Canonical math axioms, EUFT Economatrix valuation, and multi-group session invariants we enforce across Tangent SF RP.'
-                    : 'Canonical rules, 150 CP creation budgets, EUFT Economatrix pricing, and 2d10 combat mechanics for your Tangent SF RP persona.'}
+                    ? 'Modern Minimalist advisor voice, strict archive halt protocol, canonical math axioms, and multi-group session invariants we enforce across Tangent SF RP.'
+                    : 'Modern Minimalist advisor voice, strict archive halt protocol, 150 CP creation budgets, EUFT pricing, and 2d10 combat mechanics for your Tangent SF RP persona.'}
                 </p>
+              </div>
+
+              {/* 0. Operational Persona, Strict Halt & CRISP Protocol */}
+              <div className="p-3 bg-slate-950/90 border border-slate-700/80 rounded-lg space-y-1.5">
+                <span className="text-[10px] text-slate-200 uppercase font-bold tracking-wider block">
+                  Operational Persona, Archive Halt &amp; CRISP Engine
+                </span>
+                <div className="space-y-1 text-[10px] font-mono text-slate-300">
+                  <div>• <strong>Voice Register:</strong> Modern Minimalist — concise, direct, analytical prose with zero filler or artificial terminal roleplay.</div>
+                  <div className="text-amber-300">• <strong>Strict Missing-Data Halt:</strong> Always halts and informs {sessionState?.isArchitect ? 'us' : 'you'} when requested lore, items, or parameters are absent from the archive. Extrapolates via Modular Matrices <strong>only when explicitly requested</strong>.</div>
+                  <div>• <strong>Turn Cadence:</strong> Pre-generates collapsible <strong>Follow up</strong> appends (hidden until clicked) plus clickable <strong>◆ Continuation Gems</strong> per point.</div>
+                  <div>• <strong>CRISP Visual Engine:</strong> Generates 3-block Hi-Fi Ink prompts (Presets A–F + 10 Canonical Faction Skins) on visual art requests.</div>
+                </div>
               </div>
 
               {/* 1. The 5 Canonical Pillars Pipeline */}
@@ -2601,17 +2718,18 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <span className="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-600/60">5. Occupation</span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  Grants <strong>4 Free Background Traits</strong> (1 Origin + 1 Faction + 2 Occupation) grounded strictly in the Omnicortex database.
+                  Grants <strong>4 Free Background Traits</strong> (<strong>2 Origin + 2 Occupation</strong>; Faction traits optional at 1 CP, with configurable support for future Faction trait revisions) grounded strictly in the Omnicortex database.
                 </p>
               </div>
 
               {/* 2. Budget & Point Buy Economics */}
               <div className="p-3 bg-slate-950/90 border border-amber-900/60 rounded-lg space-y-1.5">
                 <span className="text-[10px] text-amber-400 uppercase font-bold tracking-wider block">
-                  2. 150 CP Budget, Base Skills (0–20) &amp; Specializations (1–10)
+                  2. 150 CP Budget, Award Points (AP) &amp; Skills (0–20 + Spec 1–10)
                 </span>
                 <div className="space-y-1 text-[10px] font-mono">
                   <div>• <strong>150 CP Total Budget:</strong> 80 CP Archetype Chassis + 70 CP Discretionary Pool (+up to 10 CP from Personal Hindrances).</div>
+                  <div>• <strong>Award Points (AP):</strong> Post-creation advancement currency spent 1-for-1 (<strong>1 AP = 1 CP</strong>; revivification imposes <strong>-5 AP Debt</strong>).</div>
                   <div>• <strong>60 Free Background SP:</strong> 20 Origin SP + 20 Faction SP + 20 Occupation SP.</div>
                   <div>• <strong>Base Skills (Ranks 0–20):</strong> 1 CP/rank; <strong>Creation Cap is Rank 11</strong>.</div>
                   <div>• <strong>Specializations (Ranks 1–10):</strong> Requires Base Skill Rank 6+; costs 1 CP/rank and adds directly to Base Skill to reach effective ranks 21–30.</div>
@@ -2679,6 +2797,76 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   <div>• <strong>Degrees:</strong> Every &plusmn;5 above/below Target CR = &plusmn;1 Degree of Success/Failure.</div>
                   <div>• <strong>Action Economy (No AP):</strong> Skill Rank determines attacks/actions per round — Rank 0: Full Round; 1–5: 1 action; 6–10: 2nd at -5; 11–15: 3rd at -10; 16–20: 4th at -15; 21–25: 5th at -20; 26–30: 6th at -25.</div>
                 </div>
+              </div>
+
+              {/* 6. Shared Custom Directives & Tabletop Safety (Lines, Veils & [X] X-Card) */}
+              <div className="p-3 bg-slate-950/90 border border-rose-900/60 rounded-lg space-y-2.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-rose-300 uppercase font-bold tracking-wider">
+                    6. Shared Custom Directives &amp; Tabletop Safety
+                  </span>
+                  <span className="text-[9px] font-mono text-slate-500">
+                    Synced across all workspaces
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[10px] font-mono text-slate-300 block">
+                    {sessionState?.isArchitect
+                      ? 'Campaign / Co-Architect Custom Directives'
+                      : 'Your Custom Advisory Directives'}
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={customDirectives || ''}
+                    onChange={(e) => setCustomDirectives?.(e.target.value)}
+                    placeholder={
+                      sessionState?.isArchitect
+                        ? 'Optional campaign notes or formatting preferences we want BASTION to honor...'
+                        : 'Optional tone or formatting preferences you want BASTION to honor...'
+                    }
+                    className="w-full px-2 py-1.5 rounded bg-slate-900 border border-slate-700/80 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500/70"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-mono text-rose-300 block">
+                      Hard Lines (Never Include)
+                    </label>
+                    <input
+                      type="text"
+                      value={safetyBoundaries?.lines || ''}
+                      onChange={(e) => setSafetyBoundaries?.({ lines: e.target.value })}
+                      placeholder="Comma-separated hard boundaries..."
+                      className="w-full px-2 py-1 rounded bg-slate-900 border border-rose-900/60 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-rose-500/70"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-mono text-amber-300 block">
+                      Veils (Fade to Black / Off-Screen Only)
+                    </label>
+                    <input
+                      type="text"
+                      value={safetyBoundaries?.veils || ''}
+                      onChange={(e) => setSafetyBoundaries?.({ veils: e.target.value })}
+                      placeholder="Comma-separated veiled topics..."
+                      className="w-full px-2 py-1 rounded bg-slate-900 border border-amber-900/60 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500/70"
+                    />
+                  </div>
+                </div>
+
+                <label className="flex items-center justify-between gap-2 pt-1 text-[10px] font-mono text-slate-300 cursor-pointer">
+                  <span>
+                    Enable <strong>[X]</strong> X-Card Immediate Pause (zero questions asked)
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={safetyBoundaries?.xCardEnabled !== false}
+                    onChange={(e) => setSafetyBoundaries?.({ xCardEnabled: e.target.checked })}
+                    className="accent-rose-500 cursor-pointer"
+                  />
+                </label>
               </div>
             </div>
           )}

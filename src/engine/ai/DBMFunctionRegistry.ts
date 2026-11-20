@@ -110,7 +110,7 @@ export class DBMFunctionRegistryService {
         name: 'calculate_armor_mitigation',
         allowedRoles: ['operator', 'architect'],
         description:
-          'Computes effective Armor DR (supporting Diminishing Returns stacking Highest + ceil(Additional/5) or Single-Highest cap), Stamina Toughness DR, Armor Penetration, and Vitality/Health/Structure pool overflow.',
+          'Computes effective Armor DR using canonical Cross-Domain Diminishing Returns stacking (Highest DR + ceil[Other Cross-Domain Layer DR / 5], or optional single_highest for same-domain comparisons), Stamina Toughness DR (reducing penetrating damage down to 0), Weapon Penetration, and Vitality/Health/Structure pool overflow.',
         parameters: {
           type: 'object',
           properties: {
@@ -118,10 +118,10 @@ export class DBMFunctionRegistryService {
             armorLayers: {
               type: 'array',
               items: { type: 'integer' },
-              description: 'Array of Armor DR values on the hit location (e.g. [8, 5])'
+              description: 'Array of cross-domain Armor DR values on the hit location (e.g. [8, 5])'
             },
-            staminaToughness: { type: 'integer', description: 'Natural Stamina Toughness DR (default 0)' },
-            penetration: { type: 'integer', description: 'Weapon Armor Penetration value (default 0)' },
+            staminaToughness: { type: 'integer', description: 'Natural Stamina Toughness DR (reduces penetrating damage down to min 0)' },
+            penetration: { type: 'integer', description: 'Weapon Penetration value (default 0)' },
             isForceDamage: { type: 'boolean', description: 'Force kinetic damage halves effective Armor DR' },
             isSynthetic: { type: 'boolean', description: 'True for 60 SP Synthetic/Mecha structure chassis' },
             currentVitality: { type: 'integer', description: 'Current Vitality Pool (default 30)' },
@@ -129,7 +129,7 @@ export class DBMFunctionRegistryService {
             stackingMode: {
               type: 'string',
               enum: ['diminishing_returns', 'single_highest'],
-              description: 'Armor layering rule mode (default diminishing_returns per 3.00 COMBAT.md)'
+              description: 'Armor layering mode: diminishing_returns (canonical cross-domain default: +1 per 5 DR of other armors) or single_highest (same-domain wearables)'
             }
           },
           required: ['incomingDamage', 'armorLayers']
@@ -139,7 +139,7 @@ export class DBMFunctionRegistryService {
         name: 'audit_operator_cp_ledger',
         allowedRoles: ['operator', 'architect'],
         description:
-          'Deterministically audits a character build against the 150-CP budget, 60 Free Background SP, Base Skill (0-20, Creation Cap 11) + Specialization (1-10) rules, 4 Free Background Traits, and +10 CP Personal Hindrance cap.',
+          'Deterministically audits a character build against the 150-CP budget (and optional post-creation Award Points / AP), 60 Free Background SP, Base Skill (0-20, Creation Cap 11) + Specialization (1-10) rules, 4 Free Background Traits (2 Origin + 2 Occupation by default; configurable traitPolicy for future Faction trait revisions), and +10 CP Personal Hindrance cap.',
         parameters: {
           type: 'object',
           properties: {
@@ -166,7 +166,13 @@ export class DBMFunctionRegistryService {
             freeBackgroundSpUsed: { type: 'integer', description: 'Free Background SP allocated (max 60: 20 Faction + 20 Origin + 20 Occupation)' },
             recommendedFeatureCount: { type: 'integer', description: 'Count of Recommended Features purchased at 2 CP each (max 4 discounted)' },
             standardFeatureRanks: { type: 'integer', description: 'Total standard Feature ranks at 3 CP each' },
-            extraTraitCount: { type: 'integer', description: 'Traits beyond the 4 free background traits (1 CP each)' },
+            extraTraitCount: { type: 'integer', description: 'Traits beyond free background traits (1 CP each)' },
+            traitPolicy: {
+              type: 'string',
+              enum: ['origin_2_occupation_2', 'origin_1_faction_1_occupation_2', 'origin_2_occupation_2_faction_1'],
+              description: 'Background free trait policy (default origin_2_occupation_2: 2 Origin + 2 Occupation = 4 Free Traits)'
+            },
+            awardPointsEarned: { type: 'integer', description: 'Post-creation Award Points (AP) earned (1 AP = 1 CP budget expansion)' },
             personalHindranceCp: { type: 'integer', description: 'CP gained from Personal Hindrances (capped at +10 CP)' },
             vitalityUpgradesCp: { type: 'integer', description: 'CP spent on +5 VP/HP/SP upgrades' },
             isCreationStage: { type: 'boolean', description: 'Enforce Creation Cap (Base Skill Rank <= 11, Attributes soft cap +4)' }
@@ -492,11 +498,21 @@ export class DBMFunctionRegistryService {
           freeBackgroundSpUsed = 60,
           recommendedFeatureCount = 0,
           standardFeatureRanks = 0,
+          featuresCp: directFeaturesCp,
           extraTraitCount = 0,
+          traitPolicy = 'origin_2_occupation_2',
+          awardPointsEarned = 0,
           personalHindranceCp = 0,
           vitalityUpgradesCp = 0,
           isCreationStage = true,
         } = tool.args || {};
+
+        const policyMap: Record<string, { originFree: number; factionFree: number; occupationFree: number; totalFree: number }> = {
+          origin_2_occupation_2: { originFree: 2, factionFree: 0, occupationFree: 2, totalFree: 4 },
+          origin_1_faction_1_occupation_2: { originFree: 1, factionFree: 1, occupationFree: 2, totalFree: 4 },
+          origin_2_occupation_2_faction_1: { originFree: 2, factionFree: 1, occupationFree: 2, totalFree: 5 },
+        };
+        const resolvedTraitPolicy = policyMap[String(traitPolicy)] || policyMap.origin_2_occupation_2;
 
         const attrKeys = ['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'];
         let attributesCp = 0;
@@ -542,8 +558,10 @@ export class DBMFunctionRegistryService {
         const discountedRecFeatures = Math.min(4, Math.max(0, Number(recommendedFeatureCount) || 0));
         const overflowRecFeatures = Math.max(0, (Number(recommendedFeatureCount) || 0) - 4);
         const featuresCp =
-          discountedRecFeatures * 2 +
-          (overflowRecFeatures + Math.max(0, Number(standardFeatureRanks) || 0)) * 3;
+          directFeaturesCp !== undefined
+            ? Math.max(0, Number(directFeaturesCp) || 0)
+            : discountedRecFeatures * 2 +
+              (overflowRecFeatures + Math.max(0, Number(standardFeatureRanks) || 0)) * 3;
         const traitsCp = Math.max(0, Number(extraTraitCount) || 0) * 1;
         const vitalsCp = Math.max(0, Number(vitalityUpgradesCp) || 0);
         const cappedHindranceRebate = Math.min(10, Math.max(0, Number(personalHindranceCp) || 0));
@@ -551,18 +569,28 @@ export class DBMFunctionRegistryService {
           warnings.push(`Personal Hindrance rebate capped at +10 CP (submitted +${personalHindranceCp} CP; Species flaws & Stigmas exempt).`);
         }
 
+        const earnedAp = Math.max(0, Number(awardPointsEarned) || 0);
+        const effectiveCpCeiling = 150 + earnedAp;
         const netCpSpent =
           attributesCp + skillsCp + featuresCp + traitsCp + vitalsCp - cappedHindranceRebate;
 
         return {
           startingCpBudget: 150,
+          awardPointsEarned: earnedAp,
+          effectiveCpCeiling,
           netCpSpent,
-          remainingCp: 150 - netCpSpent,
-          isCompliant: netCpSpent <= 150 && warnings.length === 0,
+          totalCpSpent: netCpSpent,
+          remainingCp: effectiveCpCeiling - netCpSpent,
+          isCompliant: netCpSpent <= effectiveCpCeiling && warnings.length === 0,
+          activeTraitPolicy: {
+            id: policyMap[String(traitPolicy)] ? String(traitPolicy) : 'origin_2_occupation_2',
+            ...resolvedTraitPolicy,
+          },
           breakdown: {
             attributesCp,
             totalSkillAndSpecRanks: totalBaseSkillRanks + totalSpecRanks,
             freeBackgroundSpApplied: cappedFreeSp,
+            freeBackgroundTraitsGranted: resolvedTraitPolicy.totalFree,
             skillsCp,
             featuresCp,
             traitsCp,
