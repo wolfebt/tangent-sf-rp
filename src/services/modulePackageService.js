@@ -75,6 +75,21 @@ export function buildModulePackagePayload(universeState = {}, elementsCatalog = 
   };
 }
 
+export function stripGmSecretHtmlBlocks(html) {
+  let clean = String(html ?? '');
+  if (!clean) return '';
+  let prev = '';
+  // Iteratively strip any <div ...ade-gm-secret...> or data-gm-secret="true" containers safely
+  while (clean !== prev) {
+    prev = clean;
+    clean = clean
+      .replace(/<div[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, '')
+      .replace(/<div[^>]*\bdata-gm-secret\s*=\s*["']true["'][^>]*>[\s\S]*?<\/div>/gi, '')
+      .replace(/<blockquote[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/blockquote>/gi, '');
+  }
+  return clean;
+}
+
 /**
  * Builds a sanitized, player-safe module package payload for Operator Mode.
  * Strips developer secrets, GM-only notes, hidden trap coordinates, and monster mechanics.
@@ -97,7 +112,11 @@ export function buildSanitizedOperatorPackagePayload(universeState = {}, element
     delete fields.complications;
     delete fields.hiddenNotes;
 
-    const copy = { ...sc, fields };
+    const copy = {
+      ...sc,
+      ...(typeof sc.content === 'string' ? { content: stripGmSecretHtmlBlocks(sc.content) } : {}),
+      fields
+    };
     delete copy.gmNotes;
     delete copy.gmSecrets;
     delete copy.gmSecretNotes;

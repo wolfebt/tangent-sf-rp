@@ -37,7 +37,8 @@ export type AdeModalKey =
   | 'artistHub'
   | 'floatingAime'
   | 'moduleExport'
-  | 'moduleImport';
+  | 'moduleImport'
+  | 'commandPalette';
 
 export type PreflightTelemetry = AdePreflightTelemetry;
 
@@ -251,7 +252,8 @@ export const useADEStore = create<ADEStoreState>()(
           artistHub: false,
           floatingAime: false,
           moduleExport: false,
-          moduleImport: false
+          moduleImport: false,
+          commandPalette: false
         },
         storyFlags: {},
         lorebookConfig: {

@@ -23,6 +23,8 @@ import {
 import { useStageStore } from '../stageStore';
 import { useStory } from '../../../../context/CampaignContext';
 import { AudioService } from '../../../../services/audioService';
+import { proAudioMixerService } from '../../../../services/proAudioMixerService';
+import { StageAudioMixerDrawer } from '../../../../components/VTT/stage/StageAudioMixerDrawer';
 
 export default function EnvironmentTab() {
   const { stageManifest, updateEnvironment, setStageVariable, removeStageVariable } = useStageStore();
@@ -30,6 +32,7 @@ export default function EnvironmentTab() {
 
   const [varKey, setVarKey] = useState('');
   const [varValue, setVarValue] = useState('');
+  const [isMixerOpen, setIsMixerOpen] = useState(false);
 
   const env = stageManifest.environment || {};
   const currentLighting = env.lighting?.mode || 'normal';
@@ -75,6 +78,17 @@ export default function EnvironmentTab() {
 
   const handleSetAudio = (ambientAudio) => {
     updateEnvironment({ ambientAudio });
+    if (ambientAudio === 'none') {
+      proAudioMixerService.stopBus('ambient', true);
+    } else if (ambientAudio === 'cyber_drone') {
+      void proAudioMixerService.playCue('ambient', 'bridge_hum', true);
+    } else if (ambientAudio === 'rain_industrial') {
+      void proAudioMixerService.playCue('ambient', 'acid_rain', true);
+    } else if (ambientAudio === 'combat_pulse') {
+      void proAudioMixerService.playCue('music', 'combat_pulse', true);
+    } else if (ambientAudio === 'alarm_klaxon') {
+      void proAudioMixerService.playCue('sfx', 'klaxon_alert', true);
+    }
     AudioService.playTerminalBeep(950, 0.02);
   };
 
@@ -175,10 +189,19 @@ export default function EnvironmentTab() {
 
         {/* ── CARD 3: AMBIENT SOUNDSCAPE ── */}
         <div className="p-4 md:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3 shadow-lg">
-          <span className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800 pb-2">
-            <Volume2 size={14} />
-            <span>3. Audio Ambience & Soundscape</span>
-          </span>
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <span className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+              <Volume2 size={14} />
+              <span>3. Audio Ambience & Soundscape</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsMixerOpen(true)}
+              className="px-2.5 py-1 rounded-lg bg-purple-950/70 hover:bg-purple-900 border border-purple-500/40 text-purple-200 text-[10px] font-bold cursor-pointer"
+            >
+              3-Bus Mixer
+            </button>
+          </div>
 
           <div className="space-y-1.5">
             <label className="text-[10px] font-bold text-slate-400 uppercase">Active Ambience Track</label>
@@ -254,6 +277,8 @@ export default function EnvironmentTab() {
           </div>
         </div>
       </div>
+
+      <StageAudioMixerDrawer isOpen={isMixerOpen} onClose={() => setIsMixerOpen(false)} />
     </div>
   );
 }

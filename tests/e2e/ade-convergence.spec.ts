@@ -31,6 +31,14 @@ test.describe('Tangent SF RP — ADE Convergence (Pair Author, MapMaker, Stage V
     const main = page.locator('main').first();
     await expect(main).toBeVisible({ timeout: 15000 });
     await expect(main.locator('button').first()).toBeVisible({ timeout: 10000 });
+
+    // Verify Global Ctrl+K Command Palette shortcut opens & Escape dismisses cleanly
+    await page.keyboard.press('Control+k');
+    const paletteInput = page.locator('input[placeholder*="Jump to Scenario"], [aria-label="ADE Command Palette"]').first();
+    await expect(paletteInput).toBeVisible({ timeout: 5000 });
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[aria-label="ADE Command Palette"]')).toHaveCount(0);
+
     expect(filterBenignErrors(pageErrors)).toHaveLength(0);
   });
 
@@ -59,6 +67,13 @@ test.describe('Tangent SF RP — ADE Convergence (Pair Author, MapMaker, Stage V
     await expect(main).toBeVisible({ timeout: 15000 });
     const a11yFeed = page.locator('[aria-label^="Tactical Accessibility Feed"]');
     await expect(a11yFeed).toBeAttached({ timeout: 15000 });
+
+    // Verify extracted Pro Stage Tactical Toolbar renders Sensor Vision, AoE, Fog, and Audio controls
+    await expect(page.getByLabel('Sensor Vision Mode')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('button', { name: /^AoE$/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('button', { name: /^Fog$/i })).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('button', { name: /^Audio$/i })).toBeVisible({ timeout: 5000 });
+
     expect(filterBenignErrors(pageErrors)).toHaveLength(0);
   });
 

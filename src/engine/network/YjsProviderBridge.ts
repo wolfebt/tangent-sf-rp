@@ -15,10 +15,11 @@ export class YjsProviderBridge {
   private ownsDoc: boolean;
   public room: Room;
   private isConnected: boolean = false;
-  private updateHandler?: (update: Uint8Array, origin: any) => void;
-  private dataReceivedHandler?: (payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => void;
-  private connectedHandler?: () => void;
-  private disconnectedHandler?: () => void;
+  private updateHandler?: ((update: Uint8Array, origin: any) => void) | undefined;
+  private dataReceivedHandler?: ((payload: Uint8Array, participant?: RemoteParticipant, kind?: DataPacket_Kind) => void) | undefined;
+  private connectedHandler?: (() => void) | undefined;
+  private disconnectedHandler?: (() => void) | undefined;
+  private participantConnectedHandler?: ((participant: RemoteParticipant) => void) | undefined;
   
   // High-level CRDT structures mapped to Tangent mechanics
   public personaSheets: Y.Map<any>;
@@ -27,6 +28,15 @@ export class YjsProviderBridge {
   public interactiveObjects: Y.Map<any>;
   public campaignWiki: Y.Text;
   public scenarioManuscripts: Y.Map<any>;
+  public doorsMap: Y.Map<any>;
+  public fogStateMap: Y.Map<any>;
+  public tokenVitalsMap: Y.Map<any>;
+  public turnStateMap: Y.Map<any>;
+  public tacticalPingsArray: Y.Array<any>;
+  public chatFeedArray: Y.Array<any>;
+  public handoutsMap: Y.Map<any>;
+  public audioStateMap: Y.Map<any>;
+  public sessionMetaMap: Y.Map<any>;
 
   constructor(room: Room, existingDoc?: Y.Doc) {
     this.room = room;
@@ -43,6 +53,15 @@ export class YjsProviderBridge {
     this.interactiveObjects = this.doc.getMap('interactive_objects');
     this.campaignWiki = this.doc.getText('campaign_wiki');
     this.scenarioManuscripts = this.doc.getMap('scenario_manuscripts');
+    this.doorsMap = this.doc.getMap('doors');
+    this.fogStateMap = this.doc.getMap('fog_state');
+    this.tokenVitalsMap = this.doc.getMap('token_vitals');
+    this.turnStateMap = this.doc.getMap('turn_state');
+    this.tacticalPingsArray = this.doc.getArray('tactical_pings');
+    this.chatFeedArray = this.doc.getArray('chat_feed');
+    this.handoutsMap = this.doc.getMap('handouts');
+    this.audioStateMap = this.doc.getMap('audio_state');
+    this.sessionMetaMap = this.doc.getMap('session_meta');
 
     this.setupLiveKitListeners();
     this.setupYjsListeners();
@@ -67,9 +86,16 @@ export class YjsProviderBridge {
       this.isConnected = false;
     };
 
+    this.participantConnectedHandler = () => {
+      if (this.isConnected && this.room?.localParticipant) {
+        this.broadcastStateVector();
+      }
+    };
+
     this.room?.on?.(RoomEvent.DataReceived, this.dataReceivedHandler);
     this.room?.on?.(RoomEvent.Connected, this.connectedHandler);
     this.room?.on?.(RoomEvent.Disconnected, this.disconnectedHandler);
+    this.room?.on?.(RoomEvent.ParticipantConnected, this.participantConnectedHandler);
   }
 
   private setupYjsListeners() {
@@ -161,9 +187,11 @@ export class YjsProviderBridge {
     detachRoomListener(RoomEvent.DataReceived, this.dataReceivedHandler);
     detachRoomListener(RoomEvent.Connected, this.connectedHandler);
     detachRoomListener(RoomEvent.Disconnected, this.disconnectedHandler);
+    detachRoomListener(RoomEvent.ParticipantConnected, this.participantConnectedHandler);
     this.dataReceivedHandler = undefined;
     this.connectedHandler = undefined;
     this.disconnectedHandler = undefined;
+    this.participantConnectedHandler = undefined;
     this.isConnected = false;
 
     if (this.updateHandler) {

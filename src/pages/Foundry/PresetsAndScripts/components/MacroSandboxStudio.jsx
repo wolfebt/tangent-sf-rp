@@ -21,10 +21,12 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { QuickJSSandbox } from '../../../../engine/scripting/QuickJSSandbox';
+import { dispatchStageMacroActions } from '../../../../services/stageMacroDispatcher';
+import { useAdeStore } from '../../store/adeStore';
 import { AudioService } from '../../../../services/audioService';
-import { MACRO_TEMPLATES } from '../constants/macroTemplates.js';
+import { MACRO_TEMPLATES, STAGE_API_MACRO_TEMPLATES } from '../constants/macroTemplates.js';
 
-export { MACRO_TEMPLATES };
+export { MACRO_TEMPLATES, STAGE_API_MACRO_TEMPLATES };
 
 
 export const MacroSandboxStudio = ({
@@ -53,11 +55,19 @@ export const MacroSandboxStudio = ({
 
     const startTime = performance.now();
     try {
-      // Execute in isolated sandbox
-      const result = await sandboxRef.current.execute(activeCode, {
+      // Execute in isolated sandbox & capture StageAPI intents
+      const { result, actions } = await sandboxRef.current.executeWithActions(activeCode, {
         targetAsset: selectedAsset ? { id: selectedAsset.id, title: selectedAsset.title, type: selectedAsset.type } : null,
         timestamp: Date.now()
       });
+      let dispatchReport = null;
+      if (Array.isArray(actions) && actions.length > 0) {
+        const adeState = useAdeStore.getState();
+        dispatchReport = dispatchStageMacroActions(actions, {
+          role: adeState.perspectiveMode === 'operator' ? 'operative' : 'architect',
+          onSetStoryFlag: (k, v) => adeState.setStoryFlag(k, v)
+        });
+      }
       const elapsed = performance.now() - startTime;
 
       setExecutionLogs(prev => [
@@ -66,7 +76,9 @@ export const MacroSandboxStudio = ({
           timestamp: new Date().toLocaleTimeString(),
           status: 'success',
           elapsedMs: elapsed.toFixed(2),
-          output: result
+          output: dispatchReport
+            ? { result, stageActions: actions, dispatchReport }
+            : result
         },
         ...prev.slice(0, 15)
       ]);
@@ -200,7 +212,7 @@ export const MacroSandboxStudio = ({
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 shrink-0">
           Snippets:
         </span>
-        {MACRO_TEMPLATES.map(tpl => (
+        {[...MACRO_TEMPLATES, ...STAGE_API_MACRO_TEMPLATES].map(tpl => (
           <button
             key={tpl.id}
             type="button"

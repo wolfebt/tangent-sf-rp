@@ -218,9 +218,9 @@ export class MapGraphicsCompiler {
         ctx.fill();
       } else if ((t.renderType === 'polygon' || t.closed) && t.points && t.points.length >= 4) {
         ctx.beginPath();
-        ctx.moveTo(t.points[0], t.points[1]);
+        ctx.moveTo(t.points[0] ?? 0, t.points[1] ?? 0);
         for (let i = 2; i < t.points.length; i += 2) {
-          ctx.lineTo(t.points[i], t.points[i + 1]);
+          ctx.lineTo(t.points[i] ?? 0, t.points[i + 1] ?? 0);
         }
         ctx.closePath();
         ctx.fill();
@@ -241,9 +241,9 @@ export class MapGraphicsCompiler {
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.beginPath();
-        ctx.moveTo(t.points[0], t.points[1]);
+        ctx.moveTo(t.points[0] ?? 0, t.points[1] ?? 0);
         for (let i = 2; i < t.points.length; i += 2) {
-          ctx.lineTo(t.points[i], t.points[i + 1]);
+          ctx.lineTo(t.points[i] ?? 0, t.points[i + 1] ?? 0);
         }
         ctx.stroke();
       } else {

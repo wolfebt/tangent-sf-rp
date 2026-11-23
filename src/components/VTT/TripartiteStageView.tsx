@@ -40,6 +40,8 @@ import { useEngineStore, selectAllFusedTokens, type StaticEntity } from '../../e
 import { useUILayoutStore, type UserVttRole } from './store/uiLayoutStore';
 import { AudioService } from '../../services/audioService';
 import { VttEventBus } from '../../utils/vttEventBus';
+import { StageAudioMixerDrawer } from './stage/StageAudioMixerDrawer';
+import { HandoutBroadcastOverlay } from './stage/HandoutBroadcastOverlay';
 
 const LazyAIMEChatBox = React.lazy(() =>
   import('../../pages/Foundry/AIME/AIMEChatBox').then((m) => ({
@@ -118,6 +120,8 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
   const [isModuleIngestionOpen, setIsModuleIngestionOpen] = useState(false);
   const [isStageSettingsOpen, setIsStageSettingsOpen] = useState(false);
   const [isStageAimeOpen, setIsStageAimeOpen] = useState(false);
+  const [isAudioMixerOpen, setIsAudioMixerOpen] = useState(false);
+  const [isHandoutPushOpen, setIsHandoutPushOpen] = useState(false);
   const [tacticalPlayCharacter, setTacticalPlayCharacter] = useState<any | null>(null);
   const [activeStageTab, setActiveStageTab] = useState<'map' | 'tree' | 'architect'>('map');
   const hasBootstrappedStartersRef = useRef(false);
@@ -700,6 +704,8 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
             activeStageTab={activeStageTab}
             onSelectStageTab={handleSelectStageTab}
             onSwitchToWeaver={props.onSwitchToWeaver}
+            onOpenAudioMixer={() => setIsAudioMixerOpen(true)}
+            onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
           />
         }
         leftPanel={renderLeftPanel()}
@@ -833,6 +839,12 @@ export const TripartiteStageView: React.FC<TripartiteStageViewProps> = ({
           />
         </Suspense>
       )}
+
+      <StageAudioMixerDrawer isOpen={isAudioMixerOpen} onClose={() => setIsAudioMixerOpen(false)} />
+      <HandoutBroadcastOverlay
+        isPushModalOpen={isHandoutPushOpen}
+        onClosePushModal={() => setIsHandoutPushOpen(false)}
+      />
 
     </div>
   );

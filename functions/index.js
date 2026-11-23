@@ -418,3 +418,158 @@ exports.geminiProxy = functions.https.onRequest(async (req, res) => {
     return res.status(500).json({ error: safeMsg });
   }
 });
+
+const ALLOWED_IMAGE_MODELS = new Set([
+  'imagen-3.0-generate-002',
+  'imagen-3.0-fast-generate-001',
+  'gemini-2.5-flash-image-preview'
+]);
+const ALLOWED_IMAGE_ASPECT_RATIOS = new Set(['1:1', '16:9', '9:16', '4:3', '3:4']);
+
+/**
+ * Firebase Cloud Function: geminiImageProxy
+ * Securely proxies authenticated concept art / token generation requests to Imagen 3
+ * and Gemini image models without exposing server API keys to browser clients.
+ */
+exports.geminiImageProxy = functions.https.onRequest(async (req, res) => {
+  applyCorsHeaders(req, res);
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send('');
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed. Use POST.' });
+  }
+
+  let decodedUser;
+  try {
+    decodedUser = await authenticateRequest(req);
+  } catch (authErr) {
+    return res.status(401).json({ error: authErr.message || 'Authentication required for image generation' });
+  }
+
+  const appCheckToken = req.headers?.['x-firebase-appcheck'];
+  if (process.env.ENFORCE_APP_CHECK === 'true' && !appCheckToken) {
+    return res.status(401).json({ error: 'App Check token required.' });
+  }
+  if (appCheckToken && typeof admin.appCheck === 'function') {
+    try {
+      await admin.appCheck().verifyToken(String(appCheckToken));
+    } catch {
+      return res.status(401).json({ error: 'Invalid App Check token.' });
+    }
+  }
+
+  if (!checkUserRateLimit(decodedUser.uid)) {
+    return res.status(429).json({ error: 'Rate limit exceeded (max 60 requests/minute per user).' });
+  }
+
+  let geminiKey = '';
+  try {
+    geminiKey = process.env.GEMINI_API_KEY || functions.config().gemini?.key || '';
+    if (!geminiKey) {
+      return res.status(500).json({ error: 'Server configuration error: Gemini API key missing.' });
+    }
+
+    const rawBodyString = JSON.stringify(req.body || {});
+    if (Buffer.byteLength(rawBodyString, 'utf8') > MAX_PROXY_BODY_BYTES) {
+      return res.status(413).json({ error: 'Payload exceeds maximum allowed size (512 KB).' });
+    }
+
+    const {
+      prompt,
+      model = 'imagen-3.0-generate-002',
+      aspectRatio = '1:1'
+    } = req.body || {};
+
+    if (typeof prompt !== 'string' || prompt.trim().length === 0) {
+      return res.status(400).json({ error: 'Prompt string is required for image generation.' });
+    }
+    if (prompt.length > 4000) {
+      return res.status(400).json({ error: 'Prompt exceeds maximum length (4000 characters).' });
+    }
+
+    const safeModel = String(model || 'imagen-3.0-generate-002').trim();
+    if (!ALLOWED_IMAGE_MODELS.has(safeModel)) {
+      return res.status(400).json({ error: 'Invalid or disallowed image model identifier.' });
+    }
+
+    const safeAspectRatio = ALLOWED_IMAGE_ASPECT_RATIOS.has(aspectRatio) ? aspectRatio : '1:1';
+    const isImagen = safeModel.startsWith('imagen-');
+    const endpoint = isImagen
+      ? `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(safeModel)}:predict`
+      : `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(safeModel)}:generateContent`;
+
+    const payload = isImagen
+      ? {
+          instances: [{ prompt: prompt.trim() }],
+          parameters: { sampleCount: 1, aspectRatio: safeAspectRatio }
+        }
+      : {
+          contents: [{ parts: [{ text: prompt.trim() }] }],
+          generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
+        };
+
+    const fetchInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': geminiKey
+      },
+      body: JSON.stringify(payload)
+    };
+    if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+      fetchInit.signal = AbortSignal.timeout(45000);
+    }
+
+    const fetchResponse = await fetch(endpoint, fetchInit);
+    let data;
+    if (typeof fetchResponse.text === 'function') {
+      const rawText = await fetchResponse.text();
+      try {
+        data = rawText ? JSON.parse(rawText) : {};
+      } catch {
+        return res.status(502).json({
+          error: redactSecret(`Upstream Gemini Image returned non-JSON response (HTTP ${fetchResponse.status})`, geminiKey)
+        });
+      }
+    } else {
+      data = await fetchResponse.json();
+    }
+
+    if (fetchResponse.status >= 400) {
+      const errMsg = redactSecret(data?.error?.message || `Upstream image error (HTTP ${fetchResponse.status})`, geminiKey);
+      return res.status(fetchResponse.status).json({ error: errMsg });
+    }
+
+    let imageBase64 = '';
+    let mimeType = 'image/png';
+    if (isImagen) {
+      const pred = Array.isArray(data?.predictions) ? data.predictions[0] : null;
+      imageBase64 = String(pred?.bytesBase64Encoded || '');
+      mimeType = String(pred?.mimeType || 'image/png');
+    } else {
+      const parts = data?.candidates?.[0]?.content?.parts || [];
+      const inlinePart = Array.isArray(parts) ? parts.find((p) => p?.inlineData?.data) : null;
+      if (inlinePart?.inlineData) {
+        imageBase64 = String(inlinePart.inlineData.data || '');
+        mimeType = String(inlinePart.inlineData.mimeType || 'image/png');
+      }
+    }
+
+    if (!imageBase64) {
+      return res.status(502).json({ error: 'Upstream image provider returned empty image data.' });
+    }
+
+    return res.status(200).json({
+      mimeType,
+      imageBase64,
+      model: safeModel
+    });
+  } catch (err) {
+    const safeMsg = redactSecret(err?.message || 'Internal server error', geminiKey);
+    console.error('Error proxying Gemini Image API request:', safeMsg);
+    return res.status(500).json({ error: safeMsg });
+  }
+});

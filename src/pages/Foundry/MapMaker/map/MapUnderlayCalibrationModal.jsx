@@ -6,28 +6,65 @@
  */
 
 import React, { useState } from 'react';
-import { Image, Sliders, Upload, Eye, X, RefreshCw, Check, Move } from 'lucide-react';
+import { Image, Sliders, Upload, Eye, X, RefreshCw, Check, Move, Film } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
+import { uploadAdeMediaAsset } from '../../../../services/adeMediaStorageService';
+
+const isVideoSourceUrl = (url = '') => {
+  const clean = String(url || '').toLowerCase();
+  return /\.(webm|mp4)(\?|#|$)/.test(clean) || clean.startsWith('data:video/') || clean.includes('/ade/video_maps/');
+};
 
 export const MapUnderlayCalibrationModal = ({
   isOpen,
   onClose,
   currentUnderlay,
+  currentVideoUrl = '',
+  userId = null,
+  mapId = 'map',
   onApplyUnderlay,
   onClearUnderlay
 }) => {
-  const [imageUrl, setImageUrl] = useState(currentUnderlay?.url || '');
+  const [imageUrl, setImageUrl] = useState(currentUnderlay?.url || currentVideoUrl || '');
   const [opacity, setOpacity] = useState(currentUnderlay?.opacity ?? 0.45);
   const [scale, setScale] = useState(currentUnderlay?.scale ?? 1.0);
   const [offsetX, setOffsetX] = useState(currentUnderlay?.offsetX ?? 0);
   const [offsetY, setOffsetY] = useState(currentUnderlay?.offsetY ?? 0);
   const [visible, setVisible] = useState(currentUnderlay?.visible ?? true);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  const [uploadError, setUploadError] = useState('');
 
   if (!isOpen) return null;
 
-  const handleFileUpload = (e) => {
+  const isVideo = isVideoSourceUrl(imageUrl);
+
+  const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setUploadError('');
+
+    const fileType = String(file.type || '').toLowerCase();
+    const isVideoFile = fileType === 'video/webm' || fileType === 'video/mp4' || /\.(webm|mp4)$/i.test(file.name || '');
+
+    if (isVideoFile) {
+      setIsUploadingMedia(true);
+      try {
+        const res = await uploadAdeMediaAsset(file, {
+          userId,
+          category: 'video_maps',
+          fileName: `${mapId || 'map'}_video`
+        });
+        if (res?.url) {
+          setImageUrl(res.url);
+          AudioService.playCriticalChime(true);
+        }
+      } catch (err) {
+        setUploadError(err?.message || 'Failed to upload animated video map.');
+      } finally {
+        setIsUploadingMedia(false);
+      }
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -38,13 +75,16 @@ export const MapUnderlayCalibrationModal = ({
   };
 
   const handleApply = () => {
+    const videoMode = isVideoSourceUrl(imageUrl);
     onApplyUnderlay({
       url: imageUrl,
       opacity,
       scale,
       offsetX,
       offsetY,
-      visible
+      visible,
+      mediaType: videoMode ? 'video' : 'image',
+      ...(videoMode ? { videoBackgroundUrl: imageUrl } : { videoBackgroundUrl: '' })
     });
     AudioService.playCriticalChime(true);
     onClose();
@@ -89,39 +129,55 @@ export const MapUnderlayCalibrationModal = ({
         <div className="p-4 sm:p-5 space-y-4 text-xs text-slate-200 flex-1 min-h-0 overflow-y-auto custom-scrollbar">
           {/* File Upload / URL Input */}
           <div className="space-y-1.5">
-            <label className="text-[11px] font-bold text-cyan-300 uppercase block">
-              Blueprint Image Source:
+            <label className="text-[11px] font-bold text-cyan-300 uppercase flex items-center gap-1.5">
+              {isVideo ? <Film size={13} className="text-amber-400" /> : <Image size={13} className="text-cyan-400" />}
+              <span>{isVideo ? 'Animated Video Map Source (.webm/.mp4):' : 'Blueprint Image or Video Map Source (.png/.jpg/.webm/.mp4):'}</span>
             </label>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={imageUrl.startsWith('data:') ? '[Local Data Image Loaded]' : imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="Paste Image URL or select file..."
+                placeholder="Paste Image/Video URL (.png, .webm, .mp4) or select file..."
                 className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400"
               />
               <label className="px-3 py-1.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 rounded-lg font-bold flex items-center gap-1.5 cursor-pointer transition-colors text-[11px] shrink-0">
                 <Upload size={14} />
-                <span>Upload</span>
+                <span>{isUploadingMedia ? 'Uploading...' : 'Upload'}</span>
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*,video/webm,video/mp4,.webm,.mp4"
                   onChange={handleFileUpload}
                   className="hidden"
                 />
               </label>
             </div>
+            {uploadError && (
+              <p className="text-[11px] text-rose-400">{uploadError}</p>
+            )}
           </div>
 
           {/* Live Preview Thumbnail */}
           {imageUrl && (
             <div className="h-28 bg-slate-950 rounded-xl border border-slate-800 relative overflow-hidden flex items-center justify-center p-2">
-              <img
-                src={imageUrl}
-                alt="Underlay Preview"
-                className="max-h-full max-w-full object-contain rounded"
-                style={{ opacity }}
-              />
+              {isVideo ? (
+                <video
+                  src={imageUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="max-h-full max-w-full object-contain rounded"
+                  style={{ opacity }}
+                />
+              ) : (
+                <img
+                  src={imageUrl}
+                  alt="Underlay Preview"
+                  className="max-h-full max-w-full object-contain rounded"
+                  style={{ opacity }}
+                />
+              )}
               <span className="absolute bottom-1 right-2 text-[9px] text-slate-400 bg-slate-900/80 px-1.5 py-0.5 rounded border border-slate-700">
                 Opacity: {Math.round(opacity * 100)}% • Scale: {scale.toFixed(2)}x
               </span>

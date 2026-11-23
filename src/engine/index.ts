@@ -5,7 +5,7 @@
 
 // Stage 1: Core State, Relational OPFS & Network Sync
 export { useEngineStore, selectFusedToken, selectAllFusedTokens, selectVehicle, selectAllVehicles } from './state/VolatileSharder.ts';
-export type { StaticEntity, EphemeralState, FusedToken, EngineState } from './state/VolatileSharder.ts';
+export type { StaticEntity, EphemeralState, ActiveEffectRecord, FusedToken, EngineState } from './state/VolatileSharder.ts';
 
 export type { DbRequest, DbResponse } from './database/OPFSDatabaseWorker.ts';
 
@@ -35,6 +35,10 @@ export { GCMonitor } from './memory/GCMonitor.ts';
 export { WGSLComputeContext } from './vision/WGSLComputeContext.ts';
 export { BVHBuilder, BVHNode } from './vision/BVHBuilder.ts';
 export type { WallSegment, Point2D, AABB } from './vision/BVHBuilder.ts';
+export { FogOfWarManager, fogOfWarManager } from './vision/FogOfWarManager.ts';
+export type { FogPoint, FogPolygon, ExploredFogSnapshot } from './vision/FogOfWarManager.ts';
+export { SceneRegionManager } from './cartography/SceneRegionManager.ts';
+export type { SceneRegionTriggerType, SceneRegionBounds, SceneRegion, RegionTriggerEvent } from './cartography/SceneRegionManager.ts';
 export { FUSED_VISION_WGSL } from './vision/shaders/fused_vision.wgsl.ts';
 export { SDF_CSG_CORE_WGSL } from './vision/shaders/sdf_csg_core.wgsl.ts';
 export { ELEMENTAL_FLUID_WGSL } from './physics/shaders/elemental_fluid.wgsl.ts';
@@ -105,7 +109,7 @@ export { ContextActionBar } from './ui/widgets/ContextActionBar.tsx';
 export { DiceASTParser } from './math/DiceASTParser.ts';
 export type { ASTNode } from './math/DiceASTParser.ts';
 export { QuickJSSandbox } from './scripting/QuickJSSandbox.ts';
-export type { SandboxRequest, SandboxResponse, SandboxStandardContext } from './scripting/QuickJSSandbox.ts';
+export type { SandboxRequest, SandboxResponse, SandboxStandardContext, StageMacroAction } from './scripting/QuickJSSandbox.ts';
 export { EssenceTracker } from './rules/EssenceTracker.ts';
 export type { OngoingSpellEffect, OverchannelResult } from './rules/EssenceTracker.ts';
 
@@ -124,6 +128,15 @@ export type { AutoWallRequest, DetectedWall, AutoWallResponse } from './ai/MapWa
 // Stage 9: Publishing Compilers, VTT Packagers & Exporters
 export { PagedPdfCompiler } from './compilers/PagedPdfCompiler.ts';
 export type { ScenarioExportNode, CompileOptions } from './compilers/PagedPdfCompiler.ts';
+export {
+  crc32,
+  buildZipBytes,
+  compileToEpubBytes,
+  compileToEpubBlob,
+  compileToWordHtmlString,
+  compileToWordHtmlBlob,
+  compileToRtfString
+} from './compilers/DocumentExporters.ts';
 export { FoundryVttJsonExporter } from './compilers/FoundryVttJsonExporter.ts';
 export type { FoundryExportPayload, FoundryCompendiumPack } from './compilers/FoundryVttJsonExporter.ts';
 export { UniversalVttPackager } from './compilers/UniversalVttPackager.ts';

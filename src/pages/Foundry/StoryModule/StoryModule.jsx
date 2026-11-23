@@ -572,6 +572,8 @@ export default function StoryModule({ defaultView = 'mission_control', defaultWo
         setGalleryModifiers={setGalleryModifiers}
         updateCreativeState={updateCreativeState}
         updateCronicle={updateCronicle}
+        onSwitchView={handleSwitchView}
+        onToggleSplitView={() => useAdeStore.getState().toggleSplitView()}
         isStoryReadOnly={isStoryReadOnly}
       />
     </div>

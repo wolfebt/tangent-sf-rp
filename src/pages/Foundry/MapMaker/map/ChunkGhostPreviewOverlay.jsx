@@ -168,18 +168,38 @@ export const ChunkGhostPreviewOverlay = ({
               dash={[10, 5]}
             />
 
-            {/* Perimeter Snap Socket Markers */}
-            {worldSockets.map((sock, idx) => (
-              <Circle
-                key={`gsock_${idx}`}
-                x={sock.worldMid.x}
-                y={sock.worldMid.y}
-                radius={7}
-                fill="#10b981"
-                stroke="#052e16"
-                strokeWidth={2}
-              />
-            ))}
+            {/* Perimeter Snap Socket Markers (Green when matched, Amber when open) */}
+            {worldSockets.map((sock, idx) => {
+              const targetMid = snapCandidate?.targetSocket?.worldMid;
+              const draggedMid = snapCandidate?.draggedSocket?.worldMid || snapCandidate?.placedSocket?.worldMid;
+              const isMatched = Boolean(
+                snapCandidate &&
+                ((draggedMid && Math.hypot(sock.worldMid.x - draggedMid.x, sock.worldMid.y - draggedMid.y) < 12) ||
+                  (targetMid && Math.hypot(sock.worldMid.x - targetMid.x, sock.worldMid.y - targetMid.y) < 12))
+              );
+              return (
+                <Group key={`gsock_${idx}`}>
+                  {isMatched && (
+                    <Circle
+                      x={sock.worldMid.x}
+                      y={sock.worldMid.y}
+                      radius={13}
+                      stroke="#10b981"
+                      strokeWidth={2}
+                      dash={[4, 3]}
+                    />
+                  )}
+                  <Circle
+                    x={sock.worldMid.x}
+                    y={sock.worldMid.y}
+                    radius={isMatched ? 8 : 6}
+                    fill={isMatched ? '#10b981' : '#f59e0b'}
+                    stroke={isMatched ? '#052e16' : '#451a03'}
+                    strokeWidth={2}
+                  />
+                </Group>
+              );
+            })}
 
             {/* Magnetic Socket Snap Weld Indicator */}
             {snapCandidate && (
@@ -187,15 +207,19 @@ export const ChunkGhostPreviewOverlay = ({
                 <Circle
                   x={snapCandidate.targetSocket.worldMid.x}
                   y={snapCandidate.targetSocket.worldMid.y}
-                  radius={14}
+                  radius={16}
                   stroke="#10b981"
                   strokeWidth={3}
                   fill="rgba(16, 185, 129, 0.35)"
                 />
                 <KonvaText
-                  x={snapCandidate.targetSocket.worldMid.x - 65}
-                  y={snapCandidate.targetSocket.worldMid.y - 26}
-                  text="⚡ SOCKET SNAP & WELD"
+                  x={snapCandidate.targetSocket.worldMid.x - 75}
+                  y={snapCandidate.targetSocket.worldMid.y - 28}
+                  text={
+                    typeof snapCandidate.distancePx === 'number'
+                      ? `⚡ SOCKET SNAP (${Math.round(snapCandidate.distancePx)}px)`
+                      : '⚡ SOCKET SNAP & WELD'
+                  }
                   fill="#34d399"
                   fontSize={11}
                   fontStyle="bold"

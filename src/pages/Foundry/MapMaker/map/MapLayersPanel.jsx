@@ -10,7 +10,11 @@ const MapLayersPanel = ({
   deleteCustomLayer,
   newLayerNameInput,
   setNewLayerNameInput,
-  addCustomLayer
+  addCustomLayer,
+  enableWallShadows = true,
+  onToggleWallShadows = undefined,
+  paintRoofLayer = false,
+  onTogglePaintRoofLayer = undefined
 }) => {
   if (!showLayersPanel) return null;
 
@@ -85,6 +89,33 @@ const MapLayersPanel = ({
             + Add Layer
           </button>
         </form>
+
+        {(onToggleWallShadows || onTogglePaintRoofLayer) && (
+          <div className="pt-2 border-t border-[#0D5C63]/40 flex flex-col gap-1.5 text-[11px]">
+            {onToggleWallShadows && (
+              <button
+                type="button"
+                onClick={onToggleWallShadows}
+                className={`px-2 py-1 rounded border text-left font-bold cursor-pointer ${
+                  enableWallShadows ? 'bg-slate-800 border-cyan-500/60 text-cyan-300' : 'bg-[#0d1117] border-slate-700 text-slate-400'
+                }`}
+              >
+                Shadow Pass: {enableWallShadows ? 'ON' : 'OFF'}
+              </button>
+            )}
+            {onTogglePaintRoofLayer && (
+              <button
+                type="button"
+                onClick={onTogglePaintRoofLayer}
+                className={`px-2 py-1 rounded border text-left font-bold cursor-pointer ${
+                  paintRoofLayer ? 'bg-amber-950/70 border-amber-500/60 text-amber-200' : 'bg-[#0d1117] border-slate-700 text-slate-400'
+                }`}
+              >
+                Roof Canopy Mode: {paintRoofLayer ? 'ACTIVE' : 'OFF'}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </DraggablePanel>
   );

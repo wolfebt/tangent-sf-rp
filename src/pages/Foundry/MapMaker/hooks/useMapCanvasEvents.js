@@ -21,6 +21,8 @@ export const useMapCanvasEvents = ({
   pencilWidth,
   selectedTerrain,
   terrainWidth = 30,
+  softTerrainEdge = false,
+  paintRoofLayer = false,
   selectedObjectType,
   selectedWallType = 'solid',
   doorLockDc = 14,
@@ -125,11 +127,11 @@ export const useMapCanvasEvents = ({
         return;
       }
 
-      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'hazard', 'light'].includes(activeTool)) {
+      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'curved_wall', 'hazard', 'light'].includes(activeTool)) {
         recordHistory();
       }
 
-      if (activeTool === 'wall') {
+      if (activeTool === 'wall' || activeTool === 'curved_wall') {
         setIsDrawing(true);
         setWallStartPoint(pos);
         setWallPreviewEnd(pos);
@@ -155,7 +157,9 @@ export const useMapCanvasEvents = ({
             points: [pos.x, pos.y],
             terrainTypeId: selectedTerrain.id,
             label: selectedTerrain.label,
-            textureUrl: selectedTerrain.textureUrl || getTextureUrlFromColor(selectedTerrain.color || selectedTerrain.id)
+            textureUrl: selectedTerrain.textureUrl || getTextureUrlFromColor(selectedTerrain.color || selectedTerrain.id),
+            softEdge: Boolean(softTerrainEdge),
+            isRoofLayer: Boolean(paintRoofLayer)
           }]
         });
       } else if (activeTool === 'fog') {
@@ -264,7 +268,7 @@ export const useMapCanvasEvents = ({
           setChunkCaptureMarquee(prev => (prev ? { ...prev, endX: point.x, endY: point.y } : null));
           return;
         }
-        if (activeTool === 'wall') {
+        if (activeTool === 'wall' || activeTool === 'curved_wall') {
           setWallPreviewEnd(point);
         } else if (activeTool === 'pencil' || activeTool === 'terrain' || activeTool === 'fog') {
           const prevPt = lastDrawPointRef.current;
@@ -299,11 +303,24 @@ export const useMapCanvasEvents = ({
       if (chunkCaptureMarquee?.active) {
         setChunkCaptureMarquee(prev => (prev ? { ...prev, active: false } : null));
       }
-      if (activeTool === 'wall' && wallStartPoint && wallPreviewEnd) {
-        const dist = Math.hypot(wallPreviewEnd.x - wallStartPoint.x, wallPreviewEnd.y - wallStartPoint.y);
+      if ((activeTool === 'wall' || activeTool === 'curved_wall') && wallStartPoint && wallPreviewEnd) {
+        const dx = wallPreviewEnd.x - wallStartPoint.x;
+        const dy = wallPreviewEnd.y - wallStartPoint.y;
+        const dist = Math.hypot(dx, dy);
         if (dist > 10) {
+          let bezierControl;
+          if (activeTool === 'curved_wall') {
+            const mx = (wallStartPoint.x + wallPreviewEnd.x) / 2;
+            const my = (wallStartPoint.y + wallPreviewEnd.y) / 2;
+            const arcOffset = dist * 0.25;
+            bezierControl = {
+              x: Math.round(mx - (dy / dist) * arcOffset),
+              y: Math.round(my + (dx / dist) * arcOffset)
+            };
+          }
           const newWall = createWallSegment(wallStartPoint, wallPreviewEnd, selectedWallType, {
-            hackDc: doorLockDc
+            hackDc: doorLockDc,
+            ...(bezierControl ? { bezierControl } : {})
           });
           updateMap(activeMapId, { walls: [...walls, newWall] });
         }

@@ -534,3 +534,59 @@ return {
 };`
   }
 ];
+
+export const STAGE_API_MACRO_TEMPLATES = [
+  {
+    id: 'stage_api_door_lockdown',
+    name: 'StageAPI Emergency Lockdown',
+    category: 'Stage Automation',
+    description: 'Uses StageAPI to toggle a bulkhead, trigger Red Alert klaxon audio, and broadcast an encrypted warning card.',
+    code: `// StageAPI Emergency Lockdown Sequence
+const bulkheadId = targetAsset?.id || 'bulkhead-main-01';
+StageAPI.toggleDoor(bulkheadId);
+StageAPI.playAudio('klaxon_alert', 'sfx');
+StageAPI.setFlag('SECTOR_LOCKDOWN_ACTIVE', true);
+StageAPI.emitChat(
+  'Emergency Containment',
+  \`Bulkhead \${bulkheadId} cycled and red-alert klaxons armed.\`,
+  'public'
+);
+
+return {
+  lockedDown: true,
+  bulkheadId,
+  queuedActions: StageAPI.getActions().length
+};`
+  },
+  {
+    id: 'stage_api_plasma_dot',
+    name: 'StageAPI Plasma Burn Over-Time',
+    category: 'Stage Automation',
+    description: 'Applies immediate plasma burn damage plus a 3-round burning ActiveEffect onto the targeted token.',
+    code: `// StageAPI Plasma DoT Injection
+const targetId = targetAsset?.id || 'target-operative';
+const hit = Dice.check2d10(4, 15);
+if (hit.success) {
+  StageAPI.applyDamage(targetId, 8, false);
+  StageAPI.addEffect(targetId, 'Superheated Plasma Burn', 3, 4, false);
+  StageAPI.emitChat('Plasma Burn Applied', \`2d10 roll \${hit.total} seared target for 8 DMG + 4 DoT/round (3 rounds).\`);
+} else {
+  StageAPI.emitChat('Plasma Vent Missed', \`Target evaded vent burst (roll \${hit.total} vs CR 15).\`);
+}
+
+return { hit: hit.success, total: hit.total, actionsQueued: StageAPI.getActions().length };`
+  },
+  {
+    id: 'stage_api_evac_extraction',
+    name: 'StageAPI Cryo Stasis & Reposition',
+    category: 'Stage Automation',
+    description: 'Repositions an operative onto the extraction pad and triggers Warp Chime SFX.',
+    code: `// StageAPI Tactical Reposition & Audio Cue
+const opId = targetAsset?.id || 'op-lead';
+StageAPI.moveToken(opId, 450, 320);
+StageAPI.playAudio('warp_chime', 'sfx');
+StageAPI.emitChat('Extraction Beacon', \`Unit \${opId} beamed to extraction pad (450, 320).\`, 'public');
+
+return { repositioned: opId, coords: { x: 450, y: 320 } };`
+  }
+];

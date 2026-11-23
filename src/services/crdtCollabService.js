@@ -108,6 +108,9 @@ export function subscribeToScenarioProse(scenarioId, callback) {
  */
 export function attachLiveKitBridge(room) {
   if (!room) return null;
+  if (activeBridge?.room === room) {
+    return activeBridge;
+  }
   if (activeBridge) {
     activeBridge.disconnect();
     activeBridge = null;
@@ -143,7 +146,7 @@ export function getCollabStatus() {
   const remoteCount = activeBridge?.room?.remoteParticipants?.size;
   return {
     isConnected,
-    peerCount: isConnected ? (typeof remoteCount === 'number' && remoteCount > 0 ? remoteCount : 1) : 0,
+    peerCount: isConnected ? (typeof remoteCount === 'number' ? remoteCount + 1 : 1) : 0,
     doc: sharedDoc
   };
 }

@@ -29,8 +29,12 @@ import {
   Hammer,
   ArrowLeft,
   Sliders,
-  Scissors
+  Scissors,
+  Volume2,
+  Send,
+  Search
 } from 'lucide-react';
+import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { showToast } from '../../../context/ToastContext';
 import { useConfirm } from '../../../context/ConfirmContext';
@@ -59,6 +63,8 @@ export interface StageBreadcrumbTabsProps {
   activeStageTab?: 'map' | 'tree' | 'architect';
   onSelectStageTab?: (tab: 'map' | 'tree' | 'architect') => void;
   onSwitchToWeaver?: () => void;
+  onOpenAudioMixer?: () => void;
+  onOpenHandoutPush?: () => void;
 }
 
 export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
@@ -69,7 +75,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   onToggle3D,
   activeStageTab = 'map',
   onSelectStageTab,
-  onSwitchToWeaver
+  onSwitchToWeaver,
+  onOpenAudioMixer,
+  onOpenHandoutPush
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
   const confirm = useConfirm();
@@ -85,7 +93,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
     scaleTier,
     setScaleTier,
     is3DActive: storeIs3DActive,
-    toggle3DActive
+    toggle3DActive,
+    viewportMode,
+    setViewportMode
   } = useUILayoutStore();
 
   const effectiveIs3DActive = onToggle3D ? is3DActive : storeIs3DActive;
@@ -831,6 +841,58 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
         >
           <Box size={11} className={effectiveIs3DActive ? 'text-cyan-400 animate-pulse' : 'text-slate-400'} />
           <span>{effectiveIs3DActive ? '3D HOLO' : '2D PLAN'}</span>
+        </button>
+
+        {/* Theater Scene Mode Toggle */}
+        <button
+          type="button"
+          onClick={() => {
+            const nextMode = viewportMode === 'theater' ? '2d' : 'theater';
+            setViewportMode(nextMode);
+            VttEventBus.emit('stage-theater-mode-changed', { mode: nextMode });
+            AudioService.playTerminalBeep(nextMode === 'theater' ? 1050 : 650, 0.04);
+          }}
+          className={`px-2 py-1 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
+            viewportMode === 'theater'
+              ? 'bg-purple-500/25 text-purple-200 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.3)]'
+              : 'bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+          }`}
+          title="Toggle Cinematic Theater-of-the-Mind Scene Mode"
+        >
+          <span>THEATER</span>
+        </button>
+
+        {onOpenAudioMixer && (
+          <button
+            type="button"
+            onClick={onOpenAudioMixer}
+            className="p-1.5 rounded-lg border bg-slate-900/90 border-slate-800 text-purple-300 hover:text-white hover:bg-slate-800 cursor-pointer"
+            title="Open 3-Bus Tabletop Audio Mixer & Soundboard"
+          >
+            <Volume2 size={12} />
+          </button>
+        )}
+
+        {onOpenHandoutPush && (
+          <button
+            type="button"
+            onClick={onOpenHandoutPush}
+            className="p-1.5 rounded-lg border bg-slate-900/90 border-slate-800 text-amber-300 hover:text-white hover:bg-slate-800 cursor-pointer"
+            title="Push Handout / Clue to Operatives"
+          >
+            <Send size={12} />
+          </button>
+        )}
+
+        {/* AIME Tactical Co-Pilot Launcher */}
+        <button
+          type="button"
+          onClick={() => useAdeStore.getState().setModal('commandPalette', true)}
+          className="px-2 py-1 rounded-lg border text-[10.5px] font-mono bg-slate-900/90 border-slate-800 text-cyan-300 hover:bg-slate-800 flex items-center gap-1 cursor-pointer"
+          title="Open ADE Command Palette (Ctrl+K)"
+        >
+          <Search size={11} />
+          <span className="hidden md:inline">⌘K</span>
         </button>
 
         {/* AIME Tactical Co-Pilot Launcher */}

@@ -15,6 +15,7 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { useStory } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
+import { useVoiceChat } from '../../../../context/VoiceChatContext';
 import { useFolio } from '../../../../context/FolioContext';
 import { useDBM } from '../../../../context/DBMContext';
 import { persistAdeElement } from '../../../../utils/adeElementPersistence';
@@ -33,6 +34,11 @@ import { parseAimeAssetFile } from '../../../../services/aimeAssetFileService';
 import AimeCanvasSculptor from './AimeCanvasSculptor';
 import ArchitectIdeationModal from './ArchitectIdeationModal';
 import EpistemicPlayPanel from './EpistemicPlayPanel';
+import WeaverSlashCommandMenu from './weaver/WeaverSlashCommandMenu';
+import WikiHoverDossierCard from './weaver/WikiHoverDossierCard';
+import RevisionHistoryDrawer from './weaver/RevisionHistoryDrawer';
+import { createRevisionSnapshot, appendRevisionSnapshot } from '../../../../services/revisionSnapshotService';
+import { lintCanonContent, applyAutoFix } from '../../../../services/canonRulesLinterService';
 import { 
   Feather, 
   UserCheck, 
@@ -113,6 +119,7 @@ export default function StoryWeaver({
   } = useStory();
 
   const { currentUser, userHandle } = useAuth();
+  const { activeRoom = null, participants = [] } = useVoiceChat() || {};
   const navigate = useNavigate();
 
   // Outliner tree collapse/expand state from ADE store
@@ -141,6 +148,10 @@ export default function StoryWeaver({
   const [isExtractorModalOpen, setIsExtractorModalOpen] = useState(false);
   const [extractInitialText, setExtractInitialText] = useState('');
   const [isAimeGuidanceOpen, setIsAimeGuidanceOpen] = useState(false);
+  const [isSlashMenuOpen, setIsSlashMenuOpen] = useState(false);
+  const [isRevisionDrawerOpen, setIsRevisionDrawerOpen] = useState(false);
+  const [isCanonPanelOpen, setIsCanonPanelOpen] = useState(false);
+  const [hoveredWikiElement, setHoveredWikiElement] = useState(null);
 
   // Weaver Sub-Modes: 'manuscript' | 'outline' | 'tactical' | 'genesis'
   const [weaverTab, setWeaverTab] = useState('manuscript');
@@ -187,6 +198,8 @@ export default function StoryWeaver({
 
   // Real-time collaborative CRDT state
   const [collabStatus, setCollabStatus] = useState(() => crdtCollabService.getCollabStatus());
+  const [remoteMergeNotice, setRemoteMergeNotice] = useState(null);
+  const lastUserInputAtRef = useRef(0);
 
   // In-Book Element Editor State
   const [editingWikiElement, setEditingWikiElement] = useState(null);
@@ -459,6 +472,24 @@ export default function StoryWeaver({
     return unsub;
   }, []);
 
+  // Bridge LiveKit voice room into Yjs CRDT collaboration when connected
+  useEffect(() => {
+    if (activeRoom) {
+      crdtCollabService.attachLiveKitBridge?.(activeRoom);
+      if (typeof crdtCollabService.getCollabStatus === 'function') {
+        setCollabStatus(crdtCollabService.getCollabStatus());
+      }
+      return () => {
+        crdtCollabService.detachLiveKitBridge?.();
+      };
+    }
+    crdtCollabService.detachLiveKitBridge?.();
+    if (typeof crdtCollabService.getCollabStatus === 'function') {
+      setCollabStatus(crdtCollabService.getCollabStatus());
+    }
+    return undefined;
+  }, [activeRoom, participants?.length]);
+
   const lastLocalContentRef = useRef('');
   const updateStoryRef = useRef(updateStory);
   updateStoryRef.current = updateStory;
@@ -496,6 +527,9 @@ export default function StoryWeaver({
 
       const unsubProse = crdtCollabService.subscribeToScenarioProse(targetNodeId, (newText, _event, transaction) => {
         if (transaction?.origin !== 'local') {
+          if (Date.now() - lastUserInputAtRef.current < 4000) {
+            setRemoteMergeNotice('Peer CRDT update merged with your active draft.');
+          }
           lastLocalContentRef.current = newText;
           setContent(newText);
           if (!isStoryReadOnlyRef.current && typeof updateStoryRef.current === 'function') {
@@ -602,11 +636,48 @@ export default function StoryWeaver({
 
   const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
 
+  const canonDiagnostics = useMemo(() => {
+    const knownTitles = (elementsCatalog || []).map((e) => e?.title || e?.name).filter(Boolean);
+    return lintCanonContent({ text: content, knownTitles });
+  }, [content, elementsCatalog]);
+
+  const handleInsertSlashBlock = (blockHtml) => {
+    if (isStoryReadOnly || !blockHtml) return;
+    let nextHtml = String(content || '');
+    // Replace trailing "/" line trigger if invoked by typing /
+    nextHtml = nextHtml.replace(/<p>\s*\/\s*<\/p>\s*$/i, '');
+    const updated = `${nextHtml}${blockHtml}`;
+    handleContentChange(updated, null, 'user');
+    AudioService.playTerminalBeep(1260, 0.03);
+  };
+
+  const handleCreateRevisionSnapshot = (label) => {
+    if (!activeNode?.id || isStoryReadOnly) return;
+    const snap = createRevisionSnapshot(content, label);
+    const nextRevs = appendRevisionSnapshot(activeNode.revisions, snap, 30);
+    updateStory?.(activeNode.id, { revisions: nextRevs });
+    showToast?.('✓ Snapshot saved');
+  };
+
+  const handleRestoreRevisionSnapshot = (rev) => {
+    if (!activeNode?.id || !rev || isStoryReadOnly) return;
+    // Non-destructive backup before restoring
+    const backup = createRevisionSnapshot(content, 'Pre-Restore Auto Backup');
+    const nextRevs = appendRevisionSnapshot(activeNode.revisions, backup, 30);
+    updateStory?.(activeNode.id, { revisions: nextRevs, content: rev.content });
+    handleContentChange(rev.content, null, 'user');
+    showToast?.(`✓ Restored "${rev.label}"`);
+  };
+
   const handleContentChange = (val, _delta, source) => {
     if (isStoryReadOnly) return;
     if (source && source !== 'user') return;
+    lastUserInputAtRef.current = Date.now();
     lastLocalContentRef.current = val;
     setContent(val);
+    if (typeof val === 'string' && /<p>\s*\/\s*<\/p>\s*$/i.test(val)) {
+      setIsSlashMenuOpen(true);
+    }
     if (activeNode?.id) {
       const targetNodeId = activeNode.id;
       crdtCollabService.updateScenarioProse(targetNodeId, val, 'local');
@@ -1374,8 +1445,58 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           </div>
         </div>
 
-        {/* Right: Words & Reading Time + CRDT + Stage Handoff */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        {/* Right: Words & Reading Time + Slash Block + Revision + Canon + CRDT + Stage Handoff */}
+        <div className="flex items-center gap-2 shrink-0">
+          {weaverTab === 'manuscript' && activeNode && (
+            <>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsSlashMenuOpen((v) => !v)}
+                  className="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+                  title="Insert Story Block (/command: Read-Aloud, GM Secret, Statblock, 2d10 Check)"
+                >
+                  <Plus size={11} />
+                  <span>Block</span>
+                </button>
+                {isSlashMenuOpen && (
+                  <div className="absolute right-0 mt-1.5 z-50">
+                    <WeaverSlashCommandMenu
+                      isOpen={isSlashMenuOpen}
+                      onClose={() => setIsSlashMenuOpen(false)}
+                      elementsCatalog={elementsCatalog}
+                      onInsertBlockHtml={handleInsertSlashBlock}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsRevisionDrawerOpen(true)}
+                className="px-2 py-0.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-[10px] font-bold flex items-center gap-1 cursor-pointer"
+                title="Open Manuscript Revision Snapshots & Diffs"
+              >
+                <Clock size={11} className="text-purple-400" />
+                <span className="hidden xl:inline">History</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsCanonPanelOpen((v) => !v)}
+                className={`px-2 py-0.5 rounded-lg border text-[10px] font-bold flex items-center gap-1 cursor-pointer ${
+                  canonDiagnostics.length > 0
+                    ? 'bg-amber-950/70 border-amber-500/50 text-amber-300'
+                    : 'bg-emerald-950/50 border-emerald-500/40 text-emerald-300'
+                }`}
+                title="Tangent v6 Canon Rules Linter Diagnostics"
+              >
+                <ShieldAlert size={11} />
+                <span>Canon: {canonDiagnostics.length}</span>
+              </button>
+            </>
+          )}
+
           {/* Words & Reading Time */}
           <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-400">
             <span><strong className="text-slate-200">{words}</strong> words</span>
@@ -1385,11 +1506,19 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
           {/* CRDT Indicator */}
           <div 
-            className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9.5px] font-mono tracking-tight bg-slate-900 border border-slate-800 text-slate-300 shrink-0"
-            title="CRDT Yjs P2P Prose Synchronization Active"
+            className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9.5px] font-mono tracking-tight border shrink-0 ${
+              collabStatus.isConnected
+                ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                : 'bg-slate-900 border-slate-800 text-slate-300'
+            }`}
+            title="CRDT Yjs P2P Prose Synchronization Status"
           >
             <span className={`w-1.5 h-1.5 rounded-full ${collabStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-cyan-400'}`} />
-            <span>CRDT {collabStatus.isConnected ? 'LIVE' : 'READY'}</span>
+            <span>
+              {collabStatus.isConnected
+                ? `Live CRDT · ${Math.max(1, collabStatus.peerCount || 1)} ${collabStatus.peerCount === 1 ? 'Peer' : 'Peers'}`
+                : 'Solo Local'}
+            </span>
           </div>
 
           {/* Stage Handoff (When passed from WeaverWorkspace) */}
@@ -1399,7 +1528,7 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
 
       {/* ── REFERENCED STORY ELEMENTS HORIZONTAL QUICK STRIP ── */}
       {referencedElements.length > 0 && weaverTab === 'manuscript' && (
-        <div className="px-3 py-1 bg-slate-950/90 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-mono scrollbar-none z-10 shrink-0">
+        <div className="relative px-3 py-1 bg-slate-950/90 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto text-xs font-mono scrollbar-none z-20 shrink-0">
           <span className="text-[10px] uppercase font-bold text-amber-400/90 flex items-center gap-1 shrink-0 pr-1.5 border-r border-slate-800">
             <span>🔗</span> Referenced ({referencedElements.length}):
           </span>
@@ -1407,6 +1536,8 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
             <button
               key={el.id}
               type="button"
+              onMouseEnter={() => setHoveredWikiElement(el)}
+              onMouseLeave={() => setHoveredWikiElement((prev) => (prev?.id === el.id ? null : prev))}
               onClick={() => {
                 setEditingWikiElement(el);
                 AudioService.playTerminalBeep(1100, 0.02);
@@ -1421,6 +1552,73 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
               <Edit3 size={10} className="text-slate-400 hover:text-amber-300" />
             </button>
           ))}
+        </div>
+      )}
+
+      {/* Wiki Hover Dossier Preview */}
+      {hoveredWikiElement && (
+        <div
+          className="fixed bottom-14 left-6 z-50"
+          onMouseEnter={() => setHoveredWikiElement(hoveredWikiElement)}
+          onMouseLeave={() => setHoveredWikiElement(null)}
+        >
+          <WikiHoverDossierCard
+            element={hoveredWikiElement}
+            onEdit={(el) => {
+              setHoveredWikiElement(null);
+              setEditingWikiElement(el);
+            }}
+          />
+        </div>
+      )}
+
+      {/* Canon Rules Linter Collapsible Panel */}
+      {isCanonPanelOpen && (
+        <div className="px-4 py-2 bg-slate-950/95 border-b border-amber-500/40 text-xs font-mono space-y-1.5 max-h-40 overflow-y-auto shrink-0">
+          <div className="flex items-center justify-between text-[10px] uppercase font-bold text-amber-300">
+            <span>Tangent v6 Canon Linter ({canonDiagnostics.length} diagnostic{canonDiagnostics.length === 1 ? '' : 's'})</span>
+            <button type="button" onClick={() => setIsCanonPanelOpen(false)} className="text-slate-400 hover:text-white cursor-pointer">
+              ✕
+            </button>
+          </div>
+          {canonDiagnostics.length === 0 ? (
+            <div className="text-emerald-300 text-[11px]">✓ All checks conform to Tangent SF RP v6 Canon!</div>
+          ) : (
+            canonDiagnostics.map((diag) => (
+              <div key={diag.id} className="p-2 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="text-[11px] font-bold text-amber-200">{diag.message}</div>
+                  <div className="text-[10px] text-slate-400">{diag.suggestion}</div>
+                </div>
+                {diag.autoFixReplacement && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const fixed = applyAutoFix(content, diag);
+                      handleContentChange(fixed, null, 'user');
+                    }}
+                    className="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-black font-bold text-[10px] shrink-0 cursor-pointer"
+                  >
+                    Auto-Fix
+                  </button>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* CRDT Remote Merge Notice Banner */}
+      {remoteMergeNotice && (
+        <div className="px-4 py-1.5 bg-emerald-950/80 border-b border-emerald-500/40 text-emerald-200 text-xs flex items-center justify-between gap-2 font-mono shrink-0">
+          <span>⇄ {remoteMergeNotice}</span>
+          <button
+            type="button"
+            onClick={() => setRemoteMergeNotice(null)}
+            className="text-emerald-300 hover:text-white text-[10px] px-2 py-0.5 rounded border border-emerald-500/40 cursor-pointer"
+          >
+            Dismiss
+          </button>
         </div>
       )}
 
@@ -1836,6 +2034,15 @@ Keep it to 1-2 evocative prose paragraphs detailing the immediate physical impac
           onInsertToProse={handleInsertEpistemicToProse}
         />
       )}
+
+      <RevisionHistoryDrawer
+        isOpen={isRevisionDrawerOpen}
+        onClose={() => setIsRevisionDrawerOpen(false)}
+        revisions={activeNode?.revisions || []}
+        currentContent={content}
+        onCreateSnapshot={handleCreateRevisionSnapshot}
+        onRestoreSnapshot={handleRestoreRevisionSnapshot}
+      />
     </div>
   );
 }

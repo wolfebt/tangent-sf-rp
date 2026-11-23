@@ -5,7 +5,7 @@
  * and the floating TokenContextualPill action HUD.
  */
 
-import React, { useState, useRef, useEffect, Suspense } from 'react';
+import React, { useState, useRef, useEffect, useMemo, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TokenContextualPill } from './TokenContextualPill';
 import { StageSplitView } from './StageSplitView';
@@ -14,6 +14,7 @@ import type { StageViewProps } from '../StageView';
 import { lazyWithRetry } from '../../../utils/lazyWithRetry';
 
 const Stage3DViewport = lazyWithRetry(() => import('./Stage3DViewport'));
+import { TheaterSceneViewport } from './TheaterSceneViewport';
 import { A11yStageFeed } from '../A11yStageFeed';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/index';
@@ -71,8 +72,14 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     setActiveSplitTab,
     is3DActive,
     toggle3DActive,
-    set3DActive
+    viewportMode,
+    setViewportMode
   } = useUILayoutStore();
+  const { elementsCatalog = [], universeState: stageUniverse, activeScenarioId } = (useCampaign() as any) || {};
+  const activeScenario = useMemo(() => {
+    const scenarios = stageUniverse?.scenarios || [];
+    return scenarios.find((s: any) => s.id === activeScenarioId) || scenarios[0] || null;
+  }, [stageUniverse?.scenarios, activeScenarioId]);
   const viewportRef = useRef<HTMLDivElement>(null);
 
   // Sync with Architect Design Mode events
@@ -373,21 +380,29 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
               <span className="hidden sm:inline">FULL STUDIO</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                toggle3DActive();
-                AudioService.playTerminalBeep(!is3DActive ? 880 : 440, 0.05);
-              }}
-              className={`px-2 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 ${
-                is3DActive
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
-                  : 'text-slate-400 hover:text-slate-200 bg-slate-900'
-              }`}
-              title="Toggle 2D / 3D Stage (Hotkey: V)"
-            >
-              <span>{is3DActive ? '3D' : '2D'}</span>
-            </button>
+            <div className="flex items-center bg-slate-900 rounded-lg border border-slate-800 p-0.5 text-[10px] font-bold">
+              {(['2d', '3d', 'theater'] as const).map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => {
+                    setViewportMode(mode);
+                    VttEventBus.emit('stage-theater-mode-changed', { mode });
+                    AudioService.playTerminalBeep(mode === 'theater' ? 1020 : mode === '3d' ? 880 : 440, 0.05);
+                  }}
+                  className={`px-2 py-0.5 rounded transition-colors cursor-pointer uppercase ${
+                    viewportMode === mode
+                      ? mode === 'theater'
+                        ? 'bg-purple-950 text-purple-200 border border-purple-500/50'
+                        : 'bg-cyan-950 text-cyan-300 border border-cyan-500/50'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title={`Switch Stage Viewport to ${mode.toUpperCase()} mode`}
+                >
+                  {mode === 'theater' ? 'Theater' : mode}
+                </button>
+              ))}
+            </div>
 
             <button
               type="button"
@@ -456,9 +471,20 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
             isDraggingOver ? 'ring-2 ring-inset ring-cyan-400 bg-cyan-950/10' : ''
           }`}
         >
-          {is3DActive ? (
+          {viewportMode === 'theater' ? (
+            <TheaterSceneViewport
+              currentMap={currentMap}
+              activeScenario={activeScenario}
+              tokens={currentMap?.tokens || []}
+              elementsCatalog={elementsCatalog}
+              onSwitchMode={(mode) => {
+                setViewportMode(mode);
+                VttEventBus.emit('stage-theater-mode-changed', { mode });
+              }}
+            />
+          ) : viewportMode === '3d' || is3DActive ? (
             <Suspense fallback={<div className="flex items-center justify-center w-full h-full bg-[#050811] text-cyan-400 font-mono text-xs">Initializing 3D Viewport...</div>}>
-              <Stage3DViewport onSwitchTo2D={() => set3DActive(false)} />
+              <Stage3DViewport onSwitchTo2D={() => setViewportMode('2d')} />
             </Suspense>
           ) : (
             <StageView

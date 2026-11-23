@@ -61,9 +61,11 @@ import {
 import { MapGraphicsCompiler } from '../../engine/compilers/MapGraphicsCompiler';
 import { 
   Box, 
-  X 
+  X
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import SpatialAudio from '../../services/spatialAudioService';
+import { SENSOR_MODES } from '../../services/sensorVisionService.js';
 import { createTacticalPing, filterExpiredPings } from '../../services/mapPingService';
 import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
 import { createDefaultAssetUnit } from '../../schemas/assetUnitSchema';
@@ -74,6 +76,12 @@ import { StageModalsContainer } from './stage/StageModalsContainer';
 import { useStageLighting } from './stage/useStageLighting';
 import { useStageRaycast } from './stage/useStageRaycast';
 import { useStageTools } from './stage/useStageTools';
+import { useStageMultiplayerBridge } from './stage/useStageMultiplayerBridge';
+import { useStageAoEController } from './stage/useStageAoEController';
+import { useStageFogAndRegions } from './stage/useStageFogAndRegions';
+import { StageAudioMixerDrawer } from './stage/StageAudioMixerDrawer';
+import { HandoutBroadcastOverlay } from './stage/HandoutBroadcastOverlay';
+import { StageTopHudBar } from './stage/StageTopHudBar';
 import { StageTokenLayer } from './stage/StageTokenLayer';
 import { StageTacticalConsole } from './cockpit/StageTacticalConsole';
 import { useMultiplayerCursors } from './hooks/useMultiplayerCursors';
@@ -113,6 +121,8 @@ export const StageView: React.FC<StageViewProps> = ({
   const transformGizmoContainerRef = useRef<Container | null>(null);
   const lightsContainerRef = useRef<Container | null>(null);
   const atmosphereOverlayRef = useRef<Container | null>(null);
+  const sensorOverlayRef = useRef<Container | null>(null);
+  const aoeContainerRef = useRef<Container | null>(null);
   const underlayContainerRef = useRef<Container | null>(null);
   const waypointsContainerRef = useRef<Container | null>(null);
   const lightSourceMgrRef = useRef<LightSourceManager>(new LightSourceManager());
@@ -195,7 +205,11 @@ export const StageView: React.FC<StageViewProps> = ({
     selectedObjectType: storeObjectType,
     setSelectedObjectType: setStoreObjectType,
     lastCompiledPackage: storeLastCompiledPackage,
-    setLastCompiledPackage: setStoreLastCompiledPackage
+    setLastCompiledPackage: setStoreLastCompiledPackage,
+    selectedAoEPresetId,
+    setSelectedAoEPresetId,
+    activeSensorMode,
+    setActiveSensorMode
   } = useUILayoutStore();
 
   // In-Situ Architect Design Mode & Simulation Control Hook
@@ -264,6 +278,16 @@ export const StageView: React.FC<StageViewProps> = ({
   const [isTacticalConsoleCollapsed, setIsTacticalConsoleCollapsed] = useState<boolean>(false);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
   const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
+  const [isAoEMode, setIsAoEMode] = useState<boolean>(false);
+  const [isFogEnabled, setIsFogEnabled] = useState<boolean>(false);
+  const [isAudioMixerOpen, setIsAudioMixerOpen] = useState<boolean>(false);
+  const [isHandoutPushOpen, setIsHandoutPushOpen] = useState<boolean>(false);
+  const tokens = useEngineStore(selectAllFusedTokens);
+  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(storeSelectedTokenId || null);
+  const [targetTokenId, setTargetTokenId] = useState<string | null>(storeTargetTokenId || null);
+  const selectedToken = tokens.find(t => t.id === selectedTokenId) || null;
+  const targetToken = tokens.find(t => t.id === targetTokenId) || null;
+
   const {
     atmosphericWeather,
     setAtmosphericWeather,
@@ -278,10 +302,14 @@ export const StageView: React.FC<StageViewProps> = ({
     canvasGeneration,
     atmosphereOverlayRef,
     lightingContainerRef: lightsContainerRef,
+    sensorOverlayRef,
     hazardSimulatorRef,
     isDynamicLightingEnabled,
     toggleDynamicLighting,
-    updateMap
+    updateMap,
+    activeSensorMode,
+    tokens,
+    selectedToken
   });
 
   const isDynamicLightingRef = useRef<boolean>(isDynamicLightingEnabled);
@@ -291,10 +319,31 @@ export const StageView: React.FC<StageViewProps> = ({
   const currentMapRef = useRef<any>(currentMap);
   currentMapRef.current = currentMap;
 
-  // Initialize VTT Multiplayer Synchronization (CRDT + LiveKit + Multi-Window Mesh)
+  // Spatial Audio Listener & Map Sound Emitter Synchronization
   useEffect(() => {
-    getVttMultiplayerSync().init();
-  }, []);
+    if (selectedToken) {
+      SpatialAudio.setListenerPosition(selectedToken.x, selectedToken.y, currentMap?.gridSize || 50);
+    }
+  }, [selectedToken?.x, selectedToken?.y, currentMap?.gridSize]);
+
+  useEffect(() => {
+    const emitters = Array.isArray(currentMap?.soundEmitters) ? currentMap.soundEmitters : [];
+    const gridScale = currentMap?.gridSize || 50;
+    if (emitters.length > 0 && !AudioService.muted) {
+      emitters.forEach((em: any, idx: number) => {
+        SpatialAudio.createProceduralEmitter(em.id || `emitter-${idx}`, {
+          x: em.x ?? 0,
+          y: em.y ?? 0,
+          type: em.type || 'reactor_hum',
+          maxDistance: em.maxDistance || 25,
+          gridScale
+        });
+      });
+    }
+    return () => {
+      SpatialAudio.clearAllEmitters();
+    };
+  }, [currentMap?.id, currentMap?.soundEmitters, currentMap?.gridSize]);
 
   // Map Maker Modal Launcher States
   const [isLandmassModalOpen, setIsLandmassModalOpen] = useState<boolean>(false);
@@ -369,9 +418,7 @@ export const StageView: React.FC<StageViewProps> = ({
     activeMapId: currentMap?.id || ''
   });
 
-  // Viewport & Coordinate States
-  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(storeSelectedTokenId || null);
-  const [targetTokenId, setTargetTokenId] = useState<string | null>(storeTargetTokenId || null);
+  // Viewport & Coordinate States (selectedTokenId / targetTokenId initialized above)
 
   // Synchronize selection state with uiLayoutStore
   useEffect(() => {
@@ -445,10 +492,6 @@ export const StageView: React.FC<StageViewProps> = ({
   const [isMoveModeActive, setIsMoveModeActive] = useState(false);
   const mouseWorldPosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  const tokens = useEngineStore(selectAllFusedTokens);
-  const selectedToken = tokens.find(t => t.id === selectedTokenId) || null;
-  const targetToken = tokens.find(t => t.id === targetTokenId) || null;
-
   // Combat Resolution, Damage Pipeline & Turn Tracker Hook
   const {
     combatLog,
@@ -464,8 +507,11 @@ export const StageView: React.FC<StageViewProps> = ({
     customDiceExpr,
     setCustomDiceExpr,
     roundNumber,
+    setRoundNumber,
     currentTurnIndex,
+    setCurrentTurnIndex,
     initiativeScores,
+    setInitiativeScores,
     combatArbRef,
     handleExecuteCombatStrike,
     handleRollCustomDice,
@@ -479,6 +525,63 @@ export const StageView: React.FC<StageViewProps> = ({
     isSimulationPaused,
     selectedTokenId,
     setSelectedTokenId
+  });
+
+  // Measured AoE Template Controller
+  const {
+    aoePresets,
+    activePreset: activeAoEPreset,
+    aoeOrigin,
+    isAimingAoE,
+    hasCommittedTemplate,
+    affectedResults: aoeAffectedResults,
+    startAoETemplate,
+    updateAoETarget,
+    commitAoETemplate,
+    clearAoETemplate,
+    resolveActiveAoE
+  } = useStageAoEController({
+    aoeContainerRef,
+    isCanvasReady,
+    canvasGeneration,
+    tokens,
+    selectedAoEPresetId,
+    isAoEToolActive: isAoEMode || activeDesignTool === 'aoe',
+    setCombatLog
+  });
+
+  // Live Multiplayer Bridge (VoiceChat LiveKit Room + Yjs CRDT + Firestore Persistence)
+  const { syncStatus } = useStageMultiplayerBridge({
+    campaignId: universeState?.id || campaignId,
+    currentMap,
+    bvhBuilderRef,
+    interactiveObjMgrRef,
+    setLocalWalls,
+    setLocalObjects,
+    setActivePings,
+    onRemoteTurnUpdate: (turnState) => {
+      if (typeof turnState.roundNumber === 'number') setRoundNumber(turnState.roundNumber);
+      if (typeof turnState.currentTurnIndex === 'number') setCurrentTurnIndex(turnState.currentTurnIndex);
+      if (turnState.initiativeScores) setInitiativeScores(turnState.initiativeScores);
+    }
+  });
+
+  // Persistent 3-Tier Explored Fog-of-War & Multi-Deck / Story Scene Regions
+  const { revealAllFog, resetFog } = useStageFogAndRegions({
+    layerCompositorRef,
+    isCanvasReady,
+    canvasGeneration,
+    currentMap,
+    localWalls,
+    tokens,
+    selectedToken,
+    activeSensorMode,
+    isFogEnabled,
+    onUpdateMap: updateMap,
+    onSwitchMap: (nextMapId) => {
+      setCurrentMapId(nextMapId);
+      setActiveMapId?.(nextMapId);
+    }
   });
 
   // Calculate dynamic effective speed taking into account trauma/conditions
@@ -1106,6 +1209,8 @@ export const StageView: React.FC<StageViewProps> = ({
       pingsContainerRef.current = null;
       lightsContainerRef.current = null;
       atmosphereOverlayRef.current = null;
+      sensorOverlayRef.current = null;
+      aoeContainerRef.current = null;
       textsContainerRef.current = null;
       transformGizmoContainerRef.current = null;
       waypointsContainerRef.current = null;
@@ -1179,6 +1284,18 @@ export const StageView: React.FC<StageViewProps> = ({
       atmoContainer.label = 'AtmosphericWeatherOverlay';
       compositor.addToLayer(atmoContainer, ZLayer.DynamicFX);
       atmosphereOverlayRef.current = atmoContainer;
+
+      // 8b. Multi-Spectrum Sensor Vision Overlay (ZLayer.DynamicFX)
+      const sensorContainer = new Container();
+      sensorContainer.label = 'SensorVisionOverlay';
+      compositor.addToLayer(sensorContainer, ZLayer.DynamicFX);
+      sensorOverlayRef.current = sensorContainer;
+
+      // 8c. Measured AoE Template Overlay (ZLayer.DynamicFX)
+      const aoeContainer = new Container();
+      aoeContainer.label = 'MeasuredAoEOverlay';
+      compositor.addToLayer(aoeContainer, ZLayer.DynamicFX);
+      aoeContainerRef.current = aoeContainer;
 
       // 9. Text Labels Container (ZLayer.ForegroundUI)
       const textsContainer = new Container();
@@ -1951,6 +2068,10 @@ export const StageView: React.FC<StageViewProps> = ({
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const worldPos = screenToWorld(e.clientX, e.clientY);
     mouseWorldPosRef.current = worldPos;
+    if (isAimingAoE) {
+      updateAoETarget(worldPos);
+      return;
+    }
     if ((isMoveModeActive || activeDesignTool === 'ruler') && moveRulerContainer && selectedToken) {
       redrawMoveRuler();
     }
@@ -1997,6 +2118,10 @@ export const StageView: React.FC<StageViewProps> = ({
 
     if (e.button === 0) {
       const worldPos = screenToWorld(e.clientX, e.clientY);
+      if (isAoEMode || activeDesignTool === 'aoe') {
+        startAoETemplate(worldPos);
+        return;
+      }
       const engine = coordEngineRef.current;
       let snapped = gridSnap ? engine.snapPixelToGrid(worldPos) : worldPos;
 
@@ -2257,9 +2382,15 @@ export const StageView: React.FC<StageViewProps> = ({
   };
 
   // Canvas Mouse Up
-  const handleCanvasMouseUp = () => {
+  const handleCanvasMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (isDraggingPan) {
       setIsDraggingPan(false);
+    }
+
+    if (isAimingAoE) {
+      const worldPos = screenToWorld(e.clientX, e.clientY);
+      commitAoETemplate(worldPos);
+      return;
     }
 
     if (isMarqueeActive && isDesignModeActive) {
@@ -2405,7 +2536,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
   // Canvas Click (Token Movement & Stamp Placement)
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDraggingPan || isDrawingToolActive) return;
+    if (isDraggingPan || isDrawingToolActive || isAoEMode || activeDesignTool === 'aoe' || isAimingAoE || hasCommittedTemplate) return;
 
     if (isDesignModeActive) {
       // Prevent double-placement since handleCanvasPointerDown already deploys architect items & tokens
@@ -2664,6 +2795,14 @@ export const StageView: React.FC<StageViewProps> = ({
     const res = interactiveObjMgrRef.current.interact(objId, selectedTokenId);
     if (res.success) {
       persistInteractiveState(objId);
+      const targetObj = interactiveObjMgrRef.current.getObject(objId);
+      if (targetObj?.bvhWallId) {
+        getVttMultiplayerSync().broadcastDoorToggle(
+          targetObj.bvhWallId,
+          Boolean(res.data?.isOpen),
+          res.data?.isOpen ? 'open' : 'closed'
+        );
+      }
       AudioService.playTerminalBeep(800, 0.06);
       setCombatLog(prev => [
         `[OBJECT] ${selectedToken?.name || 'Operator'} toggled ${objId} => ${res.data.isOpen ? 'OPEN' : 'SEALED'}`,
@@ -2743,6 +2882,7 @@ export const StageView: React.FC<StageViewProps> = ({
     const py = mouseWorldPosRef.current.y;
     const newPing = createTacticalPing(px, py, pingType, null, 'Architect', null);
     setActivePings(prev => [...prev, newPing]);
+    getVttMultiplayerSync().broadcastPing(newPing);
     AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
   };
 
@@ -3082,6 +3222,19 @@ export const StageView: React.FC<StageViewProps> = ({
 
       {/* ── MAIN VIEWPORT AREA ── */}
       <div className="relative flex-1 w-full h-full overflow-hidden">
+        {/* Optional Animated Looped Video Battlemap Underlay (.webm / .mp4) */}
+        {currentMap?.videoBackgroundUrl && (
+          <video
+            src={currentMap.videoBackgroundUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
+          />
+        )}
+
         {/* WebGPU / WebGL Stage Canvas */}
         <canvas
           ref={canvasRef}
@@ -3113,6 +3266,47 @@ export const StageView: React.FC<StageViewProps> = ({
           </div>
         )}
 
+
+        {/* ── Pro Stage Tactical Toolbar & Resolve AoE Chip ── */}
+        <StageTopHudBar
+          isZenMode={isZenMode}
+          syncStatus={syncStatus}
+          activeSensorMode={activeSensorMode}
+          sensorModes={SENSOR_MODES as any}
+          onChangeSensorMode={(mode) => {
+            setActiveSensorMode(mode as any);
+            if (selectedTokenId) {
+              useEngineStore.getState().setSensorMode(selectedTokenId, mode as any);
+            }
+            VttEventBus.emit('stage-sensor-mode-changed', { mode: mode as any, tokenId: selectedTokenId });
+            AudioService.playTerminalBeep(1180, 0.03);
+          }}
+          isAoEMode={isAoEMode}
+          onToggleAoEMode={() => {
+            const next = !isAoEMode;
+            setIsAoEMode(next);
+            if (!next) clearAoETemplate();
+            AudioService.playTerminalBeep(next ? 1300 : 900, 0.03);
+          }}
+          selectedAoEPresetId={selectedAoEPresetId}
+          onSelectAoEPresetId={setSelectedAoEPresetId}
+          aoePresets={aoePresets as any}
+          isFogEnabled={isFogEnabled}
+          onToggleFog={() => {
+            setIsFogEnabled((v) => !v);
+            AudioService.playTerminalBeep(!isFogEnabled ? 1150 : 750, 0.03);
+          }}
+          onRevealAllFog={revealAllFog}
+          onResetFog={resetFog}
+          onOpenAudioMixer={() => setIsAudioMixerOpen(true)}
+          onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
+          aoeOrigin={aoeOrigin}
+          hasCommittedTemplate={hasCommittedTemplate}
+          activeAoEPreset={activeAoEPreset as any}
+          aoeAffectedCount={aoeAffectedResults.length}
+          onResolveAoE={() => resolveActiveAoE()}
+          onClearAoE={() => clearAoETemplate()}
+        />
 
         {/* ── Tripartite Armed Placement Floating HUD Pill ── */}
         {isEmbeddedInTripartite && isDesignModeActive && activeDesignTool !== 'select' && (
@@ -3217,6 +3411,7 @@ export const StageView: React.FC<StageViewProps> = ({
           setCustomDiceExpr={setCustomDiceExpr}
           handleRollCustomDice={handleRollCustomDice}
           combatLog={combatLog}
+          onOpenHandoutPush={() => setIsHandoutPushOpen(true)}
         />
 
         {/* ── Contextual Token Radial Action Wheel ── */}
@@ -3435,6 +3630,15 @@ export const StageView: React.FC<StageViewProps> = ({
         onAssetIngested={handleAssetIngested}
         isSpriteSheetCutterOpen={isSpriteSheetCutterOpen}
         setIsSpriteSheetCutterOpen={setIsSpriteSheetCutterOpen}
+      />
+
+      <StageAudioMixerDrawer
+        isOpen={isAudioMixerOpen}
+        onClose={() => setIsAudioMixerOpen(false)}
+      />
+      <HandoutBroadcastOverlay
+        isPushModalOpen={isHandoutPushOpen}
+        onClosePushModal={() => setIsHandoutPushOpen(false)}
       />
     </div>
   );

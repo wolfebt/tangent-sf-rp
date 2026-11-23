@@ -1,0 +1,239 @@
+/**
+ * @file TheaterSceneViewport.tsx
+ * @description Cinematic Alchemy-style Theater-of-the-Mind Scene Mode for Stage.
+ * Renders full-bleed scene backdrop (image or looping video), atmospheric particle glow,
+ * Spotlight NPC/Persona cards, Read-Aloud teleprompter, quick 2d10 check roller, and Story Flags.
+ */
+
+import React, { useMemo, useState } from 'react';
+import { BookOpen, Dices, Flag, Sparkles, User, Map as MapIcon } from 'lucide-react';
+import { resolveTangent2d10Check } from '../../../engine/index';
+import { VttEventBus } from '../../../utils/vttEventBus';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
+import { useAdeStore } from '../../../pages/Foundry/store/adeStore';
+import { AudioService } from '../../../services/audioService';
+
+export interface TheaterSceneViewportProps {
+  currentMap?: any;
+  activeScenario?: any;
+  tokens?: any[];
+  elementsCatalog?: any[];
+  onSwitchMode?: (mode: '2d' | '3d' | 'theater') => void;
+}
+
+export const TheaterSceneViewport: React.FC<TheaterSceneViewportProps> = ({
+  currentMap,
+  activeScenario,
+  tokens = [],
+  elementsCatalog = [],
+  onSwitchMode
+}) => {
+  const storyFlags = useAdeStore((s) => s.storyFlags);
+  const [spotlightId, setSpotlightId] = useState<string | null>(null);
+  const [lastCheckResult, setLastCheckResult] = useState<string | null>(null);
+  const [showReadAloud, setShowReadAloud] = useState<boolean>(true);
+
+  const backdropVideoUrl = currentMap?.videoBackgroundUrl || currentMap?.videoUrl || '';
+  const backdropImageUrl =
+    currentMap?.backgroundUrl ||
+    currentMap?.backgroundImage ||
+    currentMap?.underlayUrl ||
+    activeScenario?.fields?.backdropUrl ||
+    '';
+
+  const readAloudText = useMemo(() => {
+    const raw =
+      activeScenario?.fields?.readAloud ||
+      activeScenario?.summary ||
+      activeScenario?.content ||
+      'Systems humming softly along the bulkheads as emergency amber strobes sweep across the observation deck.';
+    return String(raw).replace(/<[^>]+>/g, '').slice(0, 650);
+  }, [activeScenario]);
+
+  const spotlightCast = useMemo(() => {
+    if (tokens.length > 0) return tokens.slice(0, 6);
+    return (elementsCatalog || [])
+      .filter((e: any) => e?.type === 'Persona')
+      .slice(0, 6)
+      .map((e: any) => ({
+        id: e.id,
+        name: e.title || e.name || 'Operative',
+        archetype: e.fields?.archetype || 'Operative',
+        image_url: e.fields?.imageUrl || e.imageUrl,
+        is_persona: true
+      }));
+  }, [tokens, elementsCatalog]);
+
+  const handleQuick2d10 = () => {
+    const res = resolveTangent2d10Check({ modifier: 4, targetCR: 15, isOpposed: false });
+    const msg = `2d10 (${res.d1}+${res.d2}) + 4 = ${res.total} vs CR 15 — ${res.isCrit ? 'CRIT!' : res.isFumble ? 'GLITCH' : res.isSuccess ? 'SUCCESS' : 'MISS'}`;
+    setLastCheckResult(msg);
+    const card = {
+      id: `theater_roll_${Date.now()}`,
+      timestamp: new Date().toISOString(),
+      sender: 'Theater Scene',
+      visibility: 'public' as const,
+      kind: 'dice' as const,
+      title: `${activeScenario?.title || 'Theater'} Check`,
+      body: msg,
+      diceBreakdown: {
+        d1: res.d1,
+        d2: res.d2,
+        modifier: 4,
+        total: res.total,
+        dcOrCr: 15,
+        outcome: res.isCrit ? 'CRIT' : res.isFumble ? 'GLITCH' : res.isSuccess ? 'SUCCESS' : 'MISS',
+        crit: res.isCrit,
+        fumble: res.isFumble
+      }
+    };
+    VttEventBus.emit('stage-chat-card', card);
+    getVttMultiplayerSync().broadcastChatCard(card);
+    AudioService.playCriticalChime(res.isSuccess);
+  };
+
+  return (
+    <div className="relative w-full h-full overflow-hidden bg-gradient-to-br from-[#060914] via-[#0c152b] to-[#140c24] text-slate-100 select-none flex flex-col justify-between">
+      {/* Backdrop Visual Media */}
+      {backdropVideoUrl ? (
+        <video
+          src={backdropVideoUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-55"
+        />
+      ) : backdropImageUrl ? (
+        <img
+          src={backdropImageUrl}
+          alt={currentMap?.title || 'Theater Scene'}
+          className="absolute inset-0 w-full h-full object-cover opacity-50 scale-105"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 opacity-60 pointer-events-none"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 22% 30%, rgba(34,211,238,0.22), transparent 45%), radial-gradient(circle at 78% 72%, rgba(168,85,247,0.24), transparent 50%)'
+          }}
+        />
+      )}
+
+      {/* Atmospheric vignette */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050811] via-[#050811]/35 to-[#050811]/70 pointer-events-none" />
+
+      {/* Top Narrative Telemetry Bar */}
+      <div className="relative z-10 px-4 py-3 flex items-center justify-between gap-2 flex-wrap font-mono">
+        <div className="flex items-center gap-2 bg-slate-950/80 backdrop-blur-md border border-purple-500/40 rounded-xl px-3 py-1.5">
+          <Sparkles size={13} className="text-purple-400" />
+          <span className="text-xs font-bold uppercase tracking-wider text-purple-200">
+            Theater Mode · {activeScenario?.title || currentMap?.title || 'Narrative Encounter'}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowReadAloud((v) => !v)}
+            className="px-2.5 py-1.5 rounded-xl bg-slate-950/85 border border-amber-500/40 text-amber-200 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer"
+          >
+            <BookOpen size={12} />
+            <span>{showReadAloud ? 'Hide Teleprompter' : 'Show Teleprompter'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleQuick2d10}
+            className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer"
+          >
+            <Dices size={12} />
+            <span>Quick 2d10</span>
+          </button>
+
+          {onSwitchMode && (
+            <button
+              type="button"
+              onClick={() => onSwitchMode('2d')}
+              className="px-2.5 py-1.5 rounded-xl bg-cyan-950/85 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-200 text-[11px] font-bold flex items-center gap-1.5 cursor-pointer"
+            >
+              <MapIcon size={12} />
+              <span>Return to 2D Grid</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Center Read-Aloud Teleprompter & Roll Readout */}
+      <div className="relative z-10 px-6 flex flex-col items-center justify-center gap-4 max-w-3xl mx-auto">
+        {showReadAloud && (
+          <div className="w-full p-5 rounded-2xl bg-slate-950/80 backdrop-blur-xl border border-amber-500/35 shadow-[0_0_40px_rgba(0,0,0,0.65)]">
+            <div className="text-[10px] font-mono uppercase tracking-widest text-amber-400 mb-2">
+              Scene Narration · Read-Aloud Box
+            </div>
+            <p className="text-base md:text-lg font-serif italic text-slate-100 leading-relaxed">
+              &ldquo;{readAloudText}&rdquo;
+            </p>
+          </div>
+        )}
+
+        {lastCheckResult && (
+          <div className="px-4 py-1.5 rounded-full bg-emerald-950/90 border border-emerald-400/50 text-emerald-200 font-mono text-xs font-bold shadow-lg">
+            {lastCheckResult}
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Cast Spotlight Cards & Active Story Flags */}
+      <div className="relative z-10 px-4 py-3 space-y-2.5">
+        {Object.keys(storyFlags || {}).length > 0 && (
+          <div className="flex items-center gap-1.5 flex-wrap font-mono text-[10px]">
+            <Flag size={11} className="text-cyan-400" />
+            {Object.entries(storyFlags).slice(0, 6).map(([key, rec]) => (
+              <span
+                key={key}
+                className="px-2 py-0.5 rounded-full bg-slate-950/85 border border-cyan-500/30 text-cyan-200"
+              >
+                {key}: {String((rec as any)?.value ?? rec)}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="flex items-center gap-3 overflow-x-auto pb-1">
+          {spotlightCast.map((char: any) => {
+            const isActive = spotlightId === char.id;
+            return (
+              <button
+                key={char.id}
+                type="button"
+                onClick={() => setSpotlightId(isActive ? null : char.id)}
+                className={`min-w-[165px] p-2.5 rounded-2xl border backdrop-blur-md text-left transition-all cursor-pointer flex items-center gap-2.5 ${
+                  isActive
+                    ? 'bg-cyan-950/85 border-cyan-400 shadow-[0_0_24px_rgba(34,211,238,0.4)] -translate-y-1'
+                    : 'bg-slate-950/80 border-slate-800 hover:border-slate-600'
+                }`}
+              >
+                <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 overflow-hidden flex items-center justify-center shrink-0">
+                  {char.image_url ? (
+                    <img src={char.image_url} alt={char.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <User size={18} className="text-cyan-400" />
+                  )}
+                </div>
+                <div className="min-w-0 font-mono">
+                  <div className="text-xs font-bold text-white truncate">{char.name}</div>
+                  <div className="text-[10px] text-slate-400 truncate">
+                    {char.archetype || (char.is_persona ? 'Operative' : 'Cast')}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TheaterSceneViewport;

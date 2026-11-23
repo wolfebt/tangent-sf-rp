@@ -19,8 +19,24 @@ export const ALLOWED_ADE_MEDIA_CATEGORIES = new Set([
   'maps',
   'elements',
   'tokens',
-  'handouts'
+  'handouts',
+  'audio',
+  'video_maps'
 ]);
+
+const AUDIO_MIME_EXT = {
+  'audio/mpeg': 'mp3',
+  'audio/mp3': 'mp3',
+  'audio/ogg': 'ogg',
+  'audio/wav': 'wav',
+  'audio/x-wav': 'wav',
+  'audio/webm': 'webm'
+};
+
+const VIDEO_MIME_EXT = {
+  'video/webm': 'webm',
+  'video/mp4': 'mp4'
+};
 
 export const FIRESTORE_SAFE_INLINE_IMAGE_BYTES = 180 * 1024; // Offload embedded data URLs > 180 KB when online
 
@@ -330,4 +346,116 @@ export async function offloadMapBinaryFields(
   }
 
   return nextMap;
+}
+
+/**
+ * Validates and uploads audio soundboard tracks (<= 15 MB) or animated video map backdrops (<= 25 MB)
+ * under owner-scoped Firebase Storage paths, with offline ObjectURL fallback.
+ *
+ * @param {File | Blob | string} fileOrUrl
+ * @param {Object} [options]
+ * @param {string | null} [options.userId]
+ * @param {'audio' | 'video_maps'} [options.category]
+ * @param {string} [options.fileName]
+ * @param {any} [options.storage]
+ * @param {((path: string, blob: Blob, meta?: { contentType?: string }) => Promise<string>) | null} [options.uploadFn]
+ */
+export async function uploadAdeMediaAsset(
+  fileOrUrl,
+  {
+    userId = undefined,
+    category = 'audio',
+    fileName = undefined,
+    storage = defaultStorage,
+    uploadFn = null
+  } = {}
+) {
+  if (typeof fileOrUrl === 'string') {
+    const trimmed = fileOrUrl.trim();
+    if (!/^https?:\/\//i.test(trimmed)) {
+      throw new Error('Only HTTP(S) external URLs or binary File/Blob media uploads are permitted.');
+    }
+    return {
+      url: trimmed,
+      storagePath: null,
+      contentType: null,
+      byteLength: 0,
+      offloaded: true
+    };
+  }
+
+  if (!fileOrUrl || typeof fileOrUrl.size !== 'number') {
+    throw new Error('Expected File or Blob for media upload.');
+  }
+
+  const safeCategory = category === 'video_maps' ? 'video_maps' : 'audio';
+  const maxBytes = safeCategory === 'video_maps' ? 25 * 1024 * 1024 : 15 * 1024 * 1024;
+  if (fileOrUrl.size > maxBytes) {
+    throw new Error(`Media payload exceeds ${Math.round(maxBytes / (1024 * 1024))} MB limit.`);
+  }
+
+  const rawType = String(fileOrUrl.type || '').toLowerCase();
+  const mimeTable = safeCategory === 'video_maps' ? VIDEO_MIME_EXT : AUDIO_MIME_EXT;
+  const resolvedExt = mimeTable[rawType];
+  if (!resolvedExt) {
+    throw new Error(
+      safeCategory === 'video_maps'
+        ? 'Unsupported video format. Allowed: video/webm, video/mp4.'
+        : 'Unsupported audio format. Allowed: audio/mpeg, audio/ogg, audio/wav, audio/webm.'
+    );
+  }
+
+  const normalizedMime = rawType === 'audio/mp3'
+    ? 'audio/mpeg'
+    : rawType === 'audio/x-wav'
+      ? 'audio/wav'
+      : rawType;
+
+  const rawBase = String(fileName || fileOrUrl.name || `ade_${safeCategory}`)
+    .replace(/\.[^.]+$/, '')
+    .replace(/\.\.+/g, '_')
+    .replace(/[^A-Za-z0-9_-]+/g, '_')
+    .replace(/^[^A-Za-z0-9]+/, '');
+  const safeStem = rawBase || `ade_${safeCategory}_${Date.now()}`;
+  const finalName = `${safeStem.slice(0, 48)}_${Date.now().toString(36)}.${resolvedExt}`;
+
+  const resolvedUid = userId || defaultAuth?.currentUser?.uid || null;
+  if (resolvedUid && (typeof uploadFn === 'function' || storage)) {
+    const path = `users/${resolvedUid.replace(/[^A-Za-z0-9_-]/g, '')}/ade/${safeCategory}/${finalName}`;
+    try {
+      let url;
+      if (typeof uploadFn === 'function') {
+        url = await uploadFn(path, fileOrUrl, { contentType: normalizedMime });
+      } else {
+        const refObj = storageRef(storage, path);
+        const snap = await uploadBytes(refObj, fileOrUrl, {
+          contentType: normalizedMime,
+          cacheControl: 'public, max-age=31536000'
+        });
+        url = await getDownloadURL(snap.ref);
+      }
+      if (url) {
+        return {
+          url,
+          storagePath: path,
+          contentType: normalizedMime,
+          byteLength: fileOrUrl.size,
+          offloaded: true
+        };
+      }
+    } catch (err) {
+      console.warn('[adeMediaStorageService] Media cloud upload failed, using local fallback:', err?.message || err);
+    }
+  }
+
+  const fallbackUrl = typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function'
+    ? URL.createObjectURL(fileOrUrl)
+    : '';
+  return {
+    url: fallbackUrl,
+    storagePath: null,
+    contentType: normalizedMime,
+    byteLength: fileOrUrl.size,
+    offloaded: false
+  };
 }

@@ -21,6 +21,7 @@ export const VoiceChatProvider = ({ children }) => {
   const roomRef = useRef(null);
   const audioElementsRef = useRef(new Map()); // trackSid -> HTMLAudioElement
 
+  const [activeRoom, setActiveRoom] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [currentRoomName, setCurrentRoomName] = useState(null);
@@ -92,6 +93,7 @@ export const VoiceChatProvider = ({ children }) => {
       roomRef.current = null;
     }
     cleanupAudioElements();
+    setActiveRoom(null);
     setIsConnected(false);
     setIsConnecting(false);
     setCurrentRoomName(null);
@@ -219,6 +221,7 @@ export const VoiceChatProvider = ({ children }) => {
       }
 
       roomRef.current = room;
+      setActiveRoom(room);
       setIsConnected(true);
       setIsConnecting(false);
       setCurrentRoomName(roomName);
@@ -331,12 +334,15 @@ export const VoiceChatProvider = ({ children }) => {
     return () => {
       if (roomRef.current) {
         roomRef.current.disconnect();
+        roomRef.current = null;
       }
+      setActiveRoom(null);
       cleanupAudioElements();
     };
   }, [cleanupAudioElements]);
 
   const value = useMemo(() => ({
+    activeRoom,
     isConnected,
     isConnecting,
     currentRoomName,
@@ -359,6 +365,7 @@ export const VoiceChatProvider = ({ children }) => {
     setParticipantVolume,
     isConfigured: isLiveKitConfigured()
   }), [
+    activeRoom,
     isConnected,
     isConnecting,
     currentRoomName,

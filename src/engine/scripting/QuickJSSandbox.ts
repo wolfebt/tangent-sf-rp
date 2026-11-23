@@ -7,6 +7,15 @@
  * Never executes arbitrary code via main-thread `new Function` or `eval`.
  */
 
+export type StageMacroAction =
+  | { type: 'move_token'; tokenId: string; x: number; y: number }
+  | { type: 'apply_damage'; tokenId: string; amount: number; isLethal?: boolean }
+  | { type: 'add_effect'; tokenId: string; name: string; rounds: number; tickDamage?: number; isLethal?: boolean }
+  | { type: 'toggle_door'; wallId: string }
+  | { type: 'emit_chat'; title: string; message: string; visibility?: 'public' | 'whisper_gm' | 'blind_gm' }
+  | { type: 'play_audio'; cueId: string; bus?: 'music' | 'ambient' | 'sfx' }
+  | { type: 'set_flag'; key: string; value: boolean | number | string };
+
 export interface SandboxRequest {
   id: string;
   code: string;
@@ -16,6 +25,7 @@ export interface SandboxRequest {
 export interface SandboxResponse {
   id: string;
   result?: any;
+  actions?: StageMacroAction[];
   error?: string;
   executionTimeMs: number;
 }
@@ -60,6 +70,16 @@ export interface SandboxStandardContext {
     has: (key: string) => boolean;
     all: () => Record<string, any>;
   };
+  StageAPI: {
+    moveToken: (tokenId: string, x: number, y: number) => void;
+    applyDamage: (tokenId: string, amount: number, isLethal?: boolean) => void;
+    addEffect: (tokenId: string, name: string, rounds: number, tickDamage?: number, isLethal?: boolean) => void;
+    toggleDoor: (wallId: string) => void;
+    emitChat: (title: string, message: string, visibility?: 'public' | 'whisper_gm' | 'blind_gm') => void;
+    playAudio: (cueId: string, bus?: 'music' | 'ambient' | 'sfx') => void;
+    setFlag: (key: string, value: boolean | number | string) => void;
+    getActions: () => StageMacroAction[];
+  };
 }
 
 const VALID_IDENTIFIER_REGEX = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
@@ -96,6 +116,7 @@ const RESTRICTED_GLOBAL_NAMES = new Set([
   'MathOps',
   'Trauma',
   'StoryFlags',
+  'StageAPI',
   'performance'
 ]);
 
@@ -144,6 +165,11 @@ function buildSandboxStandardLibrary(context: Record<string, any> = {}): Sandbox
       flagStore[key] = rawFlags[key];
     }
   }
+  const queuedActions: StageMacroAction[] = [];
+  const pushAction = (action: StageMacroAction) => {
+    if (queuedActions.length >= 64) return;
+    queuedActions.push(action);
+  };
 
   return {
     Dice: {
@@ -277,6 +303,58 @@ function buildSandboxStandardLibrary(context: Record<string, any> = {}): Sandbox
         }
         return JSON.parse(JSON.stringify(out));
       }
+    },
+    StageAPI: {
+      moveToken: (tokenId: string, x: number, y: number) => {
+        if (!tokenId) return;
+        pushAction({ type: 'move_token', tokenId: String(tokenId), x: Number(x) || 0, y: Number(y) || 0 });
+      },
+      applyDamage: (tokenId: string, amount: number, isLethal: boolean = false) => {
+        if (!tokenId) return;
+        pushAction({
+          type: 'apply_damage',
+          tokenId: String(tokenId),
+          amount: Math.max(0, Number(amount) || 0),
+          isLethal: Boolean(isLethal)
+        });
+      },
+      addEffect: (tokenId: string, name: string, rounds: number = 1, tickDamage: number = 0, isLethal: boolean = false) => {
+        if (!tokenId || !name) return;
+        pushAction({
+          type: 'add_effect',
+          tokenId: String(tokenId),
+          name: String(name),
+          rounds: Math.max(1, Math.floor(Number(rounds) || 1)),
+          tickDamage: Math.max(0, Number(tickDamage) || 0),
+          isLethal: Boolean(isLethal)
+        });
+      },
+      toggleDoor: (wallId: string) => {
+        if (!wallId) return;
+        pushAction({ type: 'toggle_door', wallId: String(wallId) });
+      },
+      emitChat: (title: string, message: string, visibility: 'public' | 'whisper_gm' | 'blind_gm' = 'public') => {
+        pushAction({
+          type: 'emit_chat',
+          title: String(title || 'Macro Notice'),
+          message: String(message || ''),
+          visibility: visibility === 'whisper_gm' || visibility === 'blind_gm' ? visibility : 'public'
+        });
+      },
+      playAudio: (cueId: string, bus: 'music' | 'ambient' | 'sfx' = 'sfx') => {
+        if (!cueId) return;
+        pushAction({
+          type: 'play_audio',
+          cueId: String(cueId),
+          bus: bus === 'music' || bus === 'ambient' ? bus : 'sfx'
+        });
+      },
+      setFlag: (key: string, value: boolean | number | string) => {
+        if (!key || key === '__proto__' || key === 'constructor' || key === 'prototype') return;
+        flagStore[key] = value;
+        pushAction({ type: 'set_flag', key: String(key), value });
+      },
+      getActions: () => queuedActions.slice()
     }
   };
 }
@@ -363,7 +441,7 @@ export class QuickJSSandbox {
   private async executeInSandboxedIframe(
     wrappedBody: string,
     safeContext: Record<string, any>
-  ): Promise<{ result: any; finalFlags: Record<string, any> }> {
+  ): Promise<{ result: any; finalFlags: Record<string, any>; actions: StageMacroAction[] }> {
     const nonce = `${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
     const serializedContext = escapeInlineScriptJson(JSON.stringify(safeContext || {}));
     const serializedBody = escapeInlineScriptJson(JSON.stringify(wrappedBody));
@@ -404,13 +482,14 @@ export class QuickJSSandbox {
       '      MathOps: stdLib.MathOps,',
       '      Trauma: stdLib.Trauma,',
       '      StoryFlags: stdLib.StoryFlags,',
+      '      StageAPI: stdLib.StageAPI,',
       '      performance: { now: function() { return Date.now(); } }',
       '    }, ctx || {});',
       '    var keys = Object.keys(env);',
       '    var values = keys.map(function(k) { return env[k]; });',
       '    var runner = new Function(...keys, d.body);',
       '    var result = runner(...values);',
-      '    self.postMessage({ ok: true, result: result, finalFlags: stdLib.StoryFlags.all() });',
+      '    self.postMessage({ ok: true, result: result, finalFlags: stdLib.StoryFlags.all(), actions: stdLib.StageAPI.getActions() });',
       '  } catch (err) {',
       '    self.postMessage({ ok: false, error: err && err.message ? err.message : String(err) });',
       '  }',
@@ -426,7 +505,7 @@ export class QuickJSSandbox {
     });
     __worker.onmessage = function(evt) {
       var res = evt.data || {};
-      __finish({ __sandboxNonce: __nonce, ok: Boolean(res.ok), result: res.result, finalFlags: res.finalFlags, error: res.error });
+      __finish({ __sandboxNonce: __nonce, ok: Boolean(res.ok), result: res.result, finalFlags: res.finalFlags, actions: res.actions || [], error: res.error });
     };
     __worker.onerror = function(err) {
       __finish({ __sandboxNonce: __nonce, ok: false, error: err && err.message ? err.message : 'Worker execution failed' });
@@ -444,13 +523,14 @@ export class QuickJSSandbox {
         MathOps: stdLibFallback.MathOps,
         Trauma: stdLibFallback.Trauma,
         StoryFlags: stdLibFallback.StoryFlags,
+        StageAPI: stdLibFallback.StageAPI,
         performance: { now: function() { return Date.now(); } }
       }, ctxFallback || {});
       var fKeys = Object.keys(envFallback);
       var fVals = Object.values(envFallback);
       var fRunner = new Function(...fKeys, ${serializedBody});
       var fResult = fRunner(...fVals);
-      __finish({ __sandboxNonce: __nonce, ok: true, result: fResult, finalFlags: stdLibFallback.StoryFlags.all() });
+      __finish({ __sandboxNonce: __nonce, ok: true, result: fResult, finalFlags: stdLibFallback.StoryFlags.all(), actions: stdLibFallback.StageAPI.getActions() });
     } catch (innerErr) {
       __finish({ __sandboxNonce: __nonce, ok: false, error: innerErr && innerErr.message ? innerErr.message : String(innerErr) });
     }
@@ -493,7 +573,7 @@ export class QuickJSSandbox {
         clearTimeout(watchdog);
         cleanup();
         if (payload.ok) {
-          resolve({ result: payload.result, finalFlags: payload.finalFlags });
+          resolve({ result: payload.result, finalFlags: payload.finalFlags, actions: payload.actions || [] });
         } else {
           reject(new Error(`[QuickJS Sandbox] Macro Execution Error: ${payload.error || 'Unknown sandbox iframe error'}`));
         }
@@ -507,7 +587,7 @@ export class QuickJSSandbox {
   private async executeInBrowserWorker(
     wrappedBody: string,
     safeContext: Record<string, any>
-  ): Promise<{ result: any; finalFlags: Record<string, any> }> {
+  ): Promise<{ result: any; finalFlags: Record<string, any>; actions: StageMacroAction[] }> {
     const workerSource = `
       const __buildStdLib = ${buildSandboxStandardLibrary.toString()};
       const __postResult = self.postMessage.bind(self);
@@ -534,6 +614,7 @@ export class QuickJSSandbox {
               MathOps: stdLib.MathOps,
               Trauma: stdLib.Trauma,
               StoryFlags: stdLib.StoryFlags,
+              StageAPI: stdLib.StageAPI,
               performance: typeof performance !== 'undefined' ? performance : { now: () => Date.now() }
             },
             safeContext || {}
@@ -542,7 +623,7 @@ export class QuickJSSandbox {
           const values = Object.values(sandboxEnv);
           const runner = new Function(...keys, wrappedBody);
           const result = runner(...values);
-          __postResult({ ok: true, result, finalFlags: stdLib.StoryFlags.all() });
+          __postResult({ ok: true, result, finalFlags: stdLib.StoryFlags.all(), actions: stdLib.StageAPI.getActions() });
         } catch (err) {
           __postResult({ ok: false, error: err && err.message ? err.message : String(err) });
         }
@@ -589,7 +670,7 @@ export class QuickJSSandbox {
         cleanup();
         const payload = event.data || {};
         if (payload.ok) {
-          resolve({ result: payload.result, finalFlags: payload.finalFlags });
+          resolve({ result: payload.result, finalFlags: payload.finalFlags, actions: payload.actions || [] });
         } else {
           reject(new Error(`[QuickJS Sandbox] Macro Execution Error: ${payload.error || 'Unknown worker error'}`));
         }
@@ -610,7 +691,7 @@ export class QuickJSSandbox {
   private async executeInNodeVm(
     wrappedBody: string,
     safeContext: Record<string, any>
-  ): Promise<{ result: any; finalFlags: Record<string, any> }> {
+  ): Promise<{ result: any; finalFlags: Record<string, any>; actions: StageMacroAction[] }> {
     const vmModuleSpec = 'node:' + 'vm';
     const vm: any = await import(/* @vite-ignore */ vmModuleSpec);
 
@@ -634,19 +715,21 @@ export class QuickJSSandbox {
       const __stdLib = __buildStdLib(__ctx);
       const __perf = { now: () => Date.now() };
       const __runUserMacro = (${Object.keys(safeContext).length > 0
-        ? `function(${['Dice', 'MathOps', 'Trauma', 'StoryFlags', 'performance', ...Object.keys(safeContext)].join(', ')}) {\n${wrappedBody}\n}`
-        : `function(Dice, MathOps, Trauma, StoryFlags, performance) {\n${wrappedBody}\n}`});
+        ? `function(${['Dice', 'MathOps', 'Trauma', 'StoryFlags', 'StageAPI', 'performance', ...Object.keys(safeContext)].join(', ')}) {\n${wrappedBody}\n}`
+        : `function(Dice, MathOps, Trauma, StoryFlags, StageAPI, performance) {\n${wrappedBody}\n}`});
       const __macroResult = __runUserMacro(
         __stdLib.Dice,
         __stdLib.MathOps,
         __stdLib.Trauma,
         __stdLib.StoryFlags,
+        __stdLib.StageAPI,
         __perf${Object.keys(safeContext).length > 0 ? ', ' + Object.keys(safeContext).map((k) => `__ctx[${JSON.stringify(k)}]`).join(', ') : ''}
       );
       JSON.stringify({
         result: __macroResult === undefined ? null : __macroResult,
         hasUndefinedResult: __macroResult === undefined,
-        finalFlags: __stdLib.StoryFlags.all()
+        finalFlags: __stdLib.StoryFlags.all(),
+        actions: __stdLib.StageAPI.getActions()
       });
     `;
 
@@ -658,7 +741,8 @@ export class QuickJSSandbox {
       const parsed = JSON.parse(rawJson);
       return {
         result: parsed.hasUndefinedResult ? undefined : parsed.result,
-        finalFlags: parsed.finalFlags || {}
+        finalFlags: parsed.finalFlags || {},
+        actions: Array.isArray(parsed.actions) ? parsed.actions : []
       };
     } catch (err: any) {
       if (err?.code === 'ERR_SCRIPT_EXECUTION_TIMEOUT' || /timed out/i.test(String(err?.message || ''))) {
@@ -669,10 +753,13 @@ export class QuickJSSandbox {
   }
 
   /**
-   * Executes untrusted macro code safely in an isolated runtime
-   * with injected standard game utilities and hard watchdog timeouts.
+   * Executes untrusted macro code safely in an isolated runtime and returns both
+   * the macro's return value and any queued StageAPI actions.
    */
-  public async execute(code: string, context: Record<string, any> = {}): Promise<any> {
+  public async executeWithActions(
+    code: string,
+    context: Record<string, any> = {}
+  ): Promise<{ result: any; actions: StageMacroAction[]; executionTimeMs: number }> {
     const startTime = typeof performance !== 'undefined' ? performance.now() : Date.now();
     try {
       const safeContext = validateAndFilterContext(context);
@@ -691,7 +778,7 @@ export class QuickJSSandbox {
         typeof URL !== 'undefined' &&
         typeof URL.createObjectURL === 'function';
 
-      const { result, finalFlags } = canUseSandboxedIframe
+      const { result, finalFlags, actions } = canUseSandboxedIframe
         ? await this.executeInSandboxedIframe(wrappedBody, safeContext)
         : canUseBrowserWorker
           ? await this.executeInBrowserWorker(wrappedBody, safeContext)
@@ -700,7 +787,7 @@ export class QuickJSSandbox {
       syncStoryFlagsBack(context, finalFlags);
       const elapsed = (typeof performance !== 'undefined' ? performance.now() : Date.now()) - startTime;
       console.log(`[QuickJS Sandbox] Macro executed cleanly in ${elapsed.toFixed(2)}ms`);
-      return result;
+      return { result, actions: actions || [], executionTimeMs: elapsed };
     } catch (error: any) {
       const msg = String(error?.message || error || 'Unknown sandbox error');
       if (msg.startsWith('[QuickJS Sandbox]')) {
@@ -708,5 +795,14 @@ export class QuickJSSandbox {
       }
       throw new Error(`[QuickJS Sandbox] Macro Execution Error: ${msg}`);
     }
+  }
+
+  /**
+   * Executes untrusted macro code safely in an isolated runtime
+   * with injected standard game utilities and hard watchdog timeouts.
+   */
+  public async execute(code: string, context: Record<string, any> = {}): Promise<any> {
+    const { result } = await this.executeWithActions(code, context);
+    return result;
   }
 }

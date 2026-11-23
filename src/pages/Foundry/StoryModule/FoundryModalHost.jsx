@@ -19,9 +19,11 @@ import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/Cronicl
 import VttCompilerModal from '../../../components/StoryFoundry/VttCompilerModal';
 import ModulePackageModal from '../../../components/StoryFoundry/ModulePackageModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
+import CommandPaletteModal from './CommandPaletteModal';
 import { generateScratchbookMarkdown } from './scratchbookService';
 import { persistAdeElement } from '../../../utils/adeElementPersistence';
 import { hydrateModuleIntoCampaign } from '../../../services/modulePackageService';
+import { useAdeStore } from '../store/adeStore';
 
 export default function FoundryModalHost({
   modals = {},
@@ -51,6 +53,8 @@ export default function FoundryModalHost({
   setGalleryModifiers,
   updateCreativeState,
   updateCronicle,
+  onSwitchView,
+  onToggleSplitView,
   isStoryReadOnly = false
 }) {
   const isCatalogOpen = Boolean(modals.catalog);
@@ -64,6 +68,18 @@ export default function FoundryModalHost({
   const isFloatingAimeOpen = Boolean(modals.floatingAime);
   const isModuleExportOpen = Boolean(modals.moduleExport);
   const isModuleImportOpen = Boolean(modals.moduleImport);
+  const isCommandPaletteOpen = Boolean(modals.commandPalette);
+
+  React.useEffect(() => {
+    const handleGlobalKey = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setModal?.('commandPalette', !isCommandPaletteOpen);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKey);
+    return () => window.removeEventListener('keydown', handleGlobalKey);
+  }, [isCommandPaletteOpen, setModal]);
 
   return (
     <>
@@ -230,6 +246,22 @@ export default function FoundryModalHost({
               });
             }
           }}
+        />
+      )}
+
+      {isCommandPaletteOpen && (
+        <CommandPaletteModal
+          isOpen={isCommandPaletteOpen}
+          onClose={() => setModal('commandPalette', false)}
+          universeState={universeState}
+          elementsCatalog={elementsCatalog}
+          onSelectScenario={(scId) => setActiveScenarioId?.(scId)}
+          onEditElement={(el) => useAdeStore.getState().openGuidedElementCreator({ element: el, mode: 'sheet' })}
+          onOpenNewElement={() => useAdeStore.getState().openGuidedElementCreator({ mode: 'guided' })}
+          onSelectMap={(mapId) => setActiveMapId?.(mapId)}
+          onSwitchView={onSwitchView}
+          onToggleSplitView={onToggleSplitView}
+          onOpenModal={(key) => setModal(key, true)}
         />
       )}
     </>

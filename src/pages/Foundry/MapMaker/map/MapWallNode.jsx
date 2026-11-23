@@ -1,6 +1,6 @@
 import React from 'react';
 import { Group, Line, Circle, Rect, Text as KonvaText } from 'react-konva';
-import { WALL_TYPES, DOOR_STATES } from '../../../../schemas/vttWallSchema';
+import { WALL_TYPES, DOOR_STATES, tessellateBezierWall } from '../../../../schemas/vttWallSchema';
 import { AudioService } from '../../../../services/audioService';
 
 export const MapWallNode = ({
@@ -8,6 +8,7 @@ export const MapWallNode = ({
   isSelected = false,
   isEraser = false,
   isLocked = false,
+  enableWallShadows = true,
   onSelect,
   onErase,
   onToggleDoor,
@@ -68,6 +69,13 @@ export const MapWallNode = ({
     }
   };
 
+  const bezierSegments = wall.bezierControl
+    ? tessellateBezierWall(p1, wall.bezierControl, p2, 12)
+    : null;
+  const linePoints = bezierSegments && bezierSegments.length > 0
+    ? [bezierSegments[0].p1.x, bezierSegments[0].p1.y, ...bezierSegments.flatMap((s) => [s.p2.x, s.p2.y])]
+    : [p1.x, p1.y, p2.x, p2.y];
+
   return (
     <Group
       onClick={(e) => {
@@ -79,12 +87,28 @@ export const MapWallNode = ({
         }
       }}
     >
+      {/* Wall Drop Shadow Pass */}
+      {enableWallShadows && !isOpen && (
+        <Line
+          x={4}
+          y={5}
+          points={linePoints}
+          stroke="#020617"
+          strokeWidth={(isSelected ? strokeWidth + 2 : strokeWidth) + 4}
+          lineCap="round"
+          lineJoin="round"
+          opacity={0.42}
+          listening={false}
+        />
+      )}
+
       {/* Base Wall Segment Line */}
       <Line
-        points={[p1.x, p1.y, p2.x, p2.y]}
+        points={linePoints}
         stroke={isSelected ? '#22d3ee' : strokeColor}
         strokeWidth={isSelected ? strokeWidth + 2 : strokeWidth}
         lineCap="round"
+        lineJoin="round"
         dash={isDoor && isOpen ? [6, 6] : (isEthereal ? [8, 4] : undefined)}
         shadowColor={isSelected ? '#22d3ee' : (isDoor ? strokeColor : undefined)}
         shadowBlur={isSelected ? 10 : (isDoor ? 4 : 0)}

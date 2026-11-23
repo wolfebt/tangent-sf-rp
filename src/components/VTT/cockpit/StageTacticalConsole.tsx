@@ -1,6 +1,7 @@
 import React from 'react';
-import { Crosshair, ChevronLeft, Minus, Users, Clock, Box, Dices, Bot } from 'lucide-react';
+import { Crosshair, ChevronLeft, Minus, Users, Clock, Box, Dices, Bot, Send } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
+import { StageChatRollFeed } from '../stage/StageChatRollFeed';
 
 export interface StageTacticalConsoleProps {
   isEmbeddedInTripartite: boolean;
@@ -34,6 +35,7 @@ export interface StageTacticalConsoleProps {
   setCustomDiceExpr: (expr: string) => void;
   handleRollCustomDice: () => void;
   combatLog: string[];
+  onOpenHandoutPush?: () => void;
 }
 
 export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
@@ -67,7 +69,8 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
   customDiceExpr,
   setCustomDiceExpr,
   handleRollCustomDice,
-  combatLog
+  combatLog,
+  onOpenHandoutPush
 }) => {
   if (isEmbeddedInTripartite || isDesignModeActive || isZenMode) {
     return null;
@@ -230,7 +233,7 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
         {/* 2. SPAWNER TAB */}
         {activeTab === 'spawner' && (
           <div className="space-y-2">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Quick Spawners:</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">Quick Spawners & Handouts:</span>
             <div className="grid grid-cols-2 gap-1.5">
               <button
                 onClick={() => setIsHeroDrawerOpen(true)}
@@ -251,6 +254,15 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
                 <p className="text-[10px] text-slate-400">Codex Units</p>
               </button>
             </div>
+            {onOpenHandoutPush && (
+              <button
+                type="button"
+                onClick={onOpenHandoutPush}
+                className="w-full py-1.5 px-2.5 bg-amber-950/60 hover:bg-amber-900 border border-amber-500/40 rounded-xl text-amber-200 font-bold text-[11px] flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <Send size={12} /> Push Handout to Operatives
+              </button>
+            )}
           </div>
         )}
 
@@ -332,8 +344,15 @@ export const StageTacticalConsole: React.FC<StageTacticalConsoleProps> = ({
         )}
       </div>
 
+      {/* Interactive Pro Roll Cards & Visibility Feed */}
+      <StageChatRollFeed
+        selectedToken={selectedToken}
+        targetToken={targetToken}
+        compact
+      />
+
       {/* Tactical Combat Log */}
-      <div className="bg-slate-950/80 p-2 border-t border-slate-800 text-[9.5px] font-mono text-slate-400 space-y-1 max-h-28 overflow-y-auto">
+      <div className="bg-slate-950/80 p-2 border-t border-slate-800 text-[9.5px] font-mono text-slate-400 space-y-1 max-h-24 overflow-y-auto">
         {combatLog.map((log, i) => (
           <div key={i} className="leading-tight">{log}</div>
         ))}

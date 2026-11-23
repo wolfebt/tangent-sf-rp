@@ -1,142 +1,15 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Stage, Layer, Rect, Circle, Line, RegularPolygon, Group, Image as KonvaImage, Text, Shape } from 'react-konva';
-import { drawSquareGridOnCanvas, drawHexGridOnCanvas } from './map/gridGeometry';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../../firebase';
 import { useCampaign } from '../../../context/CampaignContext';
-import { TokenNode, MapObjectNode, TextLabelNode } from './map/MapObjectNode';
-import MapWallNode from './map/MapWallNode';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
-import { getBiomeTextureUrl } from './map/landmassGenerator';
-import { getTextureUrlFromColor } from './map/MapTextures';
-import { Maximize, Minimize, Compass, RotateCcw, Volume2, VolumeX, Shield, Swords, Eye } from 'lucide-react';
+import { Maximize, Minimize, Compass, Volume2, VolumeX, Shield, Swords, X, FileText } from 'lucide-react';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 import { sanitizeMapForSpectator } from '../../../utils/spectatorSanitizer';
-
-const SpectatorTerrainNode = ({ t }) => {
-  const [patternImg, setPatternImg] = useState(null);
-  const [canvasImg, setCanvasImg] = useState(null);
-  const isImageTerrain = t.renderType === 'canvasImage' || t.renderType === 'image' || (!t.points && Boolean(t.imageUrl));
-  const textureUrl = !isImageTerrain
-    ? (t.textureUrl || getBiomeTextureUrl(t.biomeType || t.terrainTypeId) || getTextureUrlFromColor(t.color || t.terrainTypeId))
-    : null;
-
-  useEffect(() => {
-    if (isImageTerrain && t.imageUrl) {
-      let cancelled = false;
-      const img = new window.Image();
-      if (typeof t.imageUrl === 'string' && !t.imageUrl.startsWith('data:')) {
-        img.crossOrigin = 'anonymous';
-      }
-      img.onload = () => { if (!cancelled) setCanvasImg(img); };
-      img.onerror = () => { if (!cancelled) setCanvasImg(null); };
-      img.src = t.imageUrl;
-      return () => { cancelled = true; };
-    }
-    setCanvasImg(null);
-    return undefined;
-  }, [isImageTerrain, t.imageUrl]);
-
-  useEffect(() => {
-    if (textureUrl) {
-      let cancelled = false;
-      const img = new window.Image();
-      if (typeof textureUrl === 'string' && !textureUrl.startsWith('data:')) {
-        img.crossOrigin = 'anonymous';
-      }
-      img.onload = () => { if (!cancelled) setPatternImg(img); };
-      img.onerror = () => { if (!cancelled) setPatternImg(null); };
-      img.src = textureUrl;
-      return () => { cancelled = true; };
-    }
-    setPatternImg(null);
-    return undefined;
-  }, [textureUrl]);
-
-  if (isImageTerrain) {
-    if (!canvasImg) return null;
-    return (
-      <KonvaImage
-        image={canvasImg}
-        x={t.x || 0}
-        y={t.y || 0}
-        width={t.width}
-        height={t.height}
-        listening={false}
-      />
-    );
-  }
-
-  if (t.renderType === 'rect') {
-    return (
-      <Rect
-        x={t.x || 0}
-        y={t.y || 0}
-        width={t.width || 40}
-        height={t.height || 40}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke={t.strokeColor || t.color}
-        strokeWidth={t.strokeWidth || 1}
-        listening={false}
-      />
-    );
-  }
-
-  if (t.renderType === 'hexTile') {
-    return (
-      <RegularPolygon
-        x={t.x}
-        y={t.y}
-        sides={6}
-        radius={t.radius}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke="rgba(0, 0, 0, 0.2)"
-        strokeWidth={1}
-      />
-    );
-  }
-
-  if (!Array.isArray(t.points) || t.points.length < 2) {
-    return null;
-  }
-
-  if (t.closed || t.renderType === 'polygon') {
-    return (
-      <Line
-        points={t.points}
-        fill={t.color}
-        fillPatternImage={patternImg}
-        fillPatternRepeat="repeat"
-        stroke={t.strokeColor || t.color}
-        strokeWidth={t.strokeWidth || 1.5}
-        closed={true}
-        tension={t.tension || 0.35}
-        lineCap="round"
-        lineJoin="round"
-      />
-    );
-  }
-
-  return (
-    <Line
-      points={t.points}
-      fill={t.color}
-      fillPatternImage={patternImg}
-      fillPatternRepeat="repeat"
-      stroke={t.color}
-      strokeWidth={t.strokeWidth || 30}
-      tension={t.tension || 0.2}
-      lineCap="round"
-      lineJoin="round"
-    />
-  );
-};
+import { SpectatorPixiCanvas } from '../../../components/VTT/SpectatorPixiCanvas';
+import { VttEventBus } from '../../../utils/vttEventBus';
 
 export const PlayerSpectatorView = () => {
   const isMobile = useIsMobile();
@@ -149,14 +22,13 @@ export const PlayerSpectatorView = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [activeFloats, setActiveFloats] = useState([]);
+  const [activeHandout, setActiveHandout] = useState(null);
   const [stageDimensions, setStageDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: typeof window !== 'undefined' ? window.innerWidth : 1280,
+    height: typeof window !== 'undefined' ? window.innerHeight : 720
   });
 
   const containerRef = useRef(null);
-  const stageRef = useRef(null);
 
   // 1. Listen to Live sanitized Spectator Map document updates, with owner/local fallbacks
   useEffect(() => {
@@ -214,6 +86,13 @@ export const PlayerSpectatorView = () => {
     };
   }, [isMobile, mapId, universeState?.maps]);
 
+  // Listen for pushed player handouts
+  useEffect(() => {
+    return VttEventBus.on('stage-remote-handout', (handout) => {
+      if (handout) setActiveHandout(handout);
+    });
+  }, []);
+
   // Handle Fullscreen Toggle
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -233,43 +112,29 @@ export const PlayerSpectatorView = () => {
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
-  // Center / Fit Camera to Map
   const handleResetCamera = () => {
     setScale(1);
     setPosition({ x: 0, y: 0 });
   };
 
-  // Zoom with Wheel
-  const handleWheel = (e) => {
-    e.evt.preventDefault();
-    const stage = stageRef.current;
-    if (!stage) return;
-
+  const handleWheelZoom = (clientX, clientY, deltaY) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    const pointerX = rect ? clientX - rect.left : clientX;
+    const pointerY = rect ? clientY - rect.top : clientY;
     const oldScale = scale;
-    const pointer = stage.getPointerPosition();
-    if (!pointer) return;
-
     const mousePointTo = {
-      x: (pointer.x - position.x) / oldScale,
-      y: (pointer.y - position.y) / oldScale
+      x: (pointerX - position.x) / oldScale,
+      y: (pointerY - position.y) / oldScale
     };
-
     const scaleBy = 1.08;
-    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    const newScale = deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
     const clampedScale = Math.max(0.2, Math.min(newScale, 3.5));
 
     setScale(clampedScale);
     setPosition({
-      x: pointer.x - mousePointTo.x * clampedScale,
-      y: pointer.y - mousePointTo.y * clampedScale
+      x: pointerX - mousePointTo.x * clampedScale,
+      y: pointerY - mousePointTo.y * clampedScale
     });
-  };
-
-  // Pan with drag on stage
-  const handleDragEnd = (e) => {
-    if (e.target === stageRef.current) {
-      setPosition({ x: e.target.x(), y: e.target.y() });
-    }
   };
 
   // Security Sanitization: Strip GM-hidden tokens and layers
@@ -326,7 +191,7 @@ export const PlayerSpectatorView = () => {
   }, [mapData?.walls]);
 
   const activeHeroToken = useMemo(() => {
-    return visibleTokens.find(t => t.type === 'hero' || t.linkedHeroId) || visibleTokens[0];
+    return visibleTokens.find(t => t.type === 'hero' || t.linkedHeroId || t.is_persona) || visibleTokens[0];
   }, [visibleTokens]);
 
   const spectatorGridSize = Math.max(15, mapData?.gridSize || 50);
@@ -347,33 +212,6 @@ export const PlayerSpectatorView = () => {
 
   const lines = mapData?.lines || [];
   const gridMode = mapData?.gridMode || 'hex';
-
-  // Grid Generator (single-Shape canvas render for 60 FPS performance)
-  const renderGrid = () => {
-    if (gridMode !== 'square' && gridMode !== 'hex') return null;
-
-    return (
-      <Shape
-        listening={false}
-        perfectDrawEnabled={false}
-        sceneFunc={(ctx) => {
-          const boundedBox = { width: spectatorWidth, height: spectatorHeight };
-          if (gridMode === 'square') {
-            drawSquareGridOnCanvas(ctx, null, spectatorGridSize, {
-              minorStroke: 'rgba(255, 255, 255, 0.08)',
-              majorStroke: null,
-              boundedBox
-            });
-          } else {
-            drawHexGridOnCanvas(ctx, null, spectatorGridSize, {
-              stroke: 'rgba(255, 255, 255, 0.08)',
-              boundedBox
-            });
-          }
-        }}
-      />
-    );
-  };
 
   if (isMobile) {
     return (
@@ -409,12 +247,11 @@ export const PlayerSpectatorView = () => {
     >
       {/* Top HUD: Spectator Stream Telemetry Header */}
       <div className="absolute top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
-        
         {/* Stream Live Pulse & Name */}
         <div className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-[#0d1117]/85 backdrop-blur-md border border-cyan-500/30 text-xs font-mono text-slate-200 shadow-[0_0_20px_rgba(0,0,0,0.5)] pointer-events-auto">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
           <span className="font-bold text-cyan-300 uppercase tracking-wider">
-            LIVE SPECTATOR:
+            LIVE SPECTATOR (PIXI):
           </span>
           <span className="text-slate-100 font-bold truncate max-w-xs sm:max-w-md">
             {mapData.title || mapData.name || 'Tactical Encounter'}
@@ -424,7 +261,7 @@ export const PlayerSpectatorView = () => {
           </span>
         </div>
 
-        {/* Floating Quick Controls (Fullscreen, Reset Camera, Mute) */}
+        {/* Floating Quick Controls */}
         <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[#0d1117]/85 backdrop-blur-md border border-slate-800 shadow-lg pointer-events-auto">
           <button
             onClick={handleResetCamera}
@@ -448,173 +285,70 @@ export const PlayerSpectatorView = () => {
             {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
           </button>
         </div>
-
       </div>
 
       {/* Floating Combat Feedback / Tokens HUD */}
       <div className="absolute bottom-4 left-4 z-50 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-slate-800 text-[11px] font-mono text-slate-400">
         <Shield size={13} className="text-cyan-400" />
-        <span>Active Hero Tokens: <strong className="text-cyan-300">{visibleTokens.filter(t => t.type === 'hero' || t.linkedHeroId).length}</strong></span>
+        <span>Active Hero Tokens: <strong className="text-cyan-300">{visibleTokens.filter(t => t.type === 'hero' || t.linkedHeroId || t.is_persona).length}</strong></span>
         <span className="text-slate-700">|</span>
         <Swords size={13} className="text-rose-400" />
-        <span>Hostiles: <strong className="text-rose-300">{visibleTokens.filter(t => t.type !== 'hero' && !t.linkedHeroId && t.type !== 'link').length}</strong></span>
+        <span>Hostiles: <strong className="text-rose-300">{visibleTokens.filter(t => t.type !== 'hero' && !t.linkedHeroId && !t.is_persona && t.type !== 'link').length}</strong></span>
       </div>
 
-      {/* Main Konva Tabletop Canvas */}
-      <Stage
-        ref={stageRef}
+      {/* Synchronized Player Handout Overlay */}
+      {activeHandout && (
+        <div className="absolute inset-0 z-[120] bg-black/75 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="max-w-xl w-full bg-[#0d1117] border border-cyan-500/40 rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-cyan-300 font-mono text-xs font-bold uppercase">
+                <FileText size={14} />
+                <span>{activeHandout.title || 'Tactical Handout'}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveHandout(null)}
+                className="p-1 text-slate-400 hover:text-white rounded"
+                aria-label="Close Handout"
+              >
+                <X size={15} />
+              </button>
+            </div>
+            <div className="p-4 space-y-3 max-h-[75vh] overflow-y-auto">
+              {activeHandout.imageUrl && (
+                <img src={activeHandout.imageUrl} alt={activeHandout.title || 'Handout'} className="w-full rounded-xl border border-slate-800 object-contain max-h-96" />
+              )}
+              {activeHandout.text && (
+                <p className="text-sm text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">{activeHandout.text}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Unified PixiJS v8 Tabletop Canvas (with automatic Canvas2D fallback) */}
+      <SpectatorPixiCanvas
         width={stageDimensions.width}
         height={stageDimensions.height}
-        scaleX={scale}
-        scaleY={scale}
-        x={position.x}
-        y={position.y}
-        draggable={true}
-        onWheel={handleWheel}
-        onDragEnd={handleDragEnd}
-      >
-        {/* Layer 1: Background & Terrain & Grid */}
-        <Layer id="spectator_terrain">
-          <Rect
-            x={-5000}
-            y={-5000}
-            width={14000}
-            height={13000}
-            fill="#0a0e17"
-          />
-
-          {/* Grid lines */}
-          {renderGrid()}
-
-          {/* Terrains */}
-          {visibleTerrains.map((t) => (
-            <SpectatorTerrainNode key={t.id} t={t} />
-          ))}
-
-          {/* Freehand pencil lines */}
-          {lines.map((l) => (
-            <Line
-              key={l.id}
-              points={l.points}
-              stroke={l.color || '#22d3ee'}
-              strokeWidth={l.width || 3}
-              tension={0.5}
-              lineCap="round"
-              lineJoin="round"
-            />
-          ))}
-        </Layer>
-
-        {/* Layer 2: Player-Visible POI Objects & Labels */}
-        <Layer id="spectator_objects">
-          {visibleObjects.map((obj) => (
-            <MapObjectNode
-              key={obj.id}
-              shapeProps={obj}
-              isSelected={false}
-              isLocked={true}
-              onSelect={() => {}}
-              onChange={() => {}}
-              isEraser={false}
-              onErase={() => {}}
-              zoomScale={scale}
-            />
-          ))}
-
-          {visibleTexts.map((txt) => (
-            <TextLabelNode
-              key={txt.id}
-              shapeProps={txt}
-              isSelected={false}
-              isLocked={true}
-              onSelect={() => {}}
-              onChange={() => {}}
-              isEraser={false}
-              onErase={() => {}}
-            />
-          ))}
-        </Layer>
-
-        {/* Layer 2.5: Visible Walls, Bulkheads & Doors */}
-        {visibleWalls.length > 0 && (
-          <Layer id="spectator_walls">
-            {visibleWalls.map((w) => (
-              <MapWallNode
-                key={w.id}
-                wall={w}
-                isSelected={false}
-                isLocked={true}
-                zoomScale={scale}
-                onSelect={() => {}}
-                onErase={() => {}}
-                onToggleDoor={() => {}}
-              />
-            ))}
-          </Layer>
-        )}
-
-        {/* Layer 3: Player-Visible Tokens & Initiative Tracker */}
-        <Layer id="spectator_tokens">
-          {visibleTokens.map((token) => (
-            <TokenNode
-              key={token.id}
-              shapeProps={token}
-              isSelected={false}
-              isActiveTurn={false}
-              isLocked={true}
-              onSelect={() => {}}
-              onChange={() => {}}
-              isEraser={false}
-              onErase={() => {}}
-            />
-          ))}
-        </Layer>
-
-        {/* Layer 4: Dynamic Fog of War Mask & Line of Sight */}
-        {(visibleFog.length > 0 || mapData.fogEnabled) && (
-          <Layer id="spectator_fog" opacity={0.94}>
-            {mapData.fogEnabled && (
-              <Group>
-                <Rect x={-5000} y={-5000} width={14000} height={13000} fill="#05070a" listening={false} />
-                {visibilityPolygon && (
-                  <Line
-                    points={visibilityPolygon}
-                    fill="#000000"
-                    closed={true}
-                    globalCompositeOperation="destination-out"
-                    listening={false}
-                  />
-                )}
-              </Group>
-            )}
-            {visibleFog.map((f) =>
-              f.closed ? (
-                <Line
-                  key={f.id}
-                  points={f.points}
-                  fill="#05070a"
-                  closed={true}
-                  tension={0.2}
-                  globalCompositeOperation={f.isEraser || f.erase ? 'destination-out' : 'source-over'}
-                  listening={false}
-                />
-              ) : (
-                <Line
-                  key={f.id}
-                  points={f.points}
-                  stroke={f.color || '#05070a'}
-                  strokeWidth={f.strokeWidth || 50}
-                  tension={0.4}
-                  lineCap="round"
-                  lineJoin="round"
-                  globalCompositeOperation={f.isEraser || f.erase ? 'destination-out' : 'source-over'}
-                  listening={false}
-                />
-              )
-            )}
-          </Layer>
-        )}
-      </Stage>
+        scale={scale}
+        position={position}
+        onPositionChange={setPosition}
+        onWheelZoom={handleWheelZoom}
+        mapData={mapData}
+        gridMode={gridMode}
+        gridSize={spectatorGridSize}
+        worldWidth={spectatorWidth}
+        worldHeight={spectatorHeight}
+        visibleTerrains={visibleTerrains}
+        lines={lines}
+        visibleObjects={visibleObjects}
+        visibleTexts={visibleTexts}
+        visibleWalls={visibleWalls}
+        visibleTokens={visibleTokens}
+        visibleFog={visibleFog}
+        visibilityPolygon={visibilityPolygon}
+        fogEnabled={Boolean(mapData.fogEnabled)}
+      />
     </div>
   );
 };

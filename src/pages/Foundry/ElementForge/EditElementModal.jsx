@@ -40,6 +40,12 @@ import Stage4TacticalSystems from './guided/stages/Stage4TacticalSystems';
 import Stage5WebAndFinalize from './guided/stages/Stage5WebAndFinalize';
 import { ModifierService } from '../../../services/modifierService';
 import { AudioService } from '../../../services/audioService';
+import { lintCanonContent } from '../../../services/canonRulesLinterService';
+import {
+  listCustomTemplates,
+  saveCustomTemplate,
+  applyCustomTemplate
+} from '../../../services/customElementTemplateService';
 import { useDirtyModalClose } from '../../../hooks/useDirtyModalClose';
 import {
   sendMcmToFolioRoster,
@@ -142,6 +148,45 @@ const EditElementModal = ({
 
   const [linkToActiveScenario, setLinkToActiveScenario] = useState(false);
   const [registerModifierOnSave, setRegisterModifierOnSave] = useState(false);
+  const [savedTemplates, setSavedTemplates] = useState(() => listCustomTemplates(universeState));
+
+  useEffect(() => {
+    if (isOpen) {
+      setSavedTemplates(listCustomTemplates(universeState));
+    }
+  }, [isOpen, universeState]);
+
+  const handleSaveAsTemplate = () => {
+    const rawTags = typeof fields.tags === 'string'
+      ? fields.tags.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
+    const { template, templates } = saveCustomTemplate(
+      {
+        name: `${(title || type || 'Element').trim()} Template`,
+        type,
+        description: fields.summary || '',
+        attributes: { ...fields },
+        tags: rawTags
+      },
+      universeState
+    );
+    setSavedTemplates(templates);
+    showToast({ type: 'success', text: `Saved blueprint template: "${template.name}"` });
+  };
+
+  const handleApplyCustomTemplate = (template) => {
+    if (!template) return;
+    const merged = applyCustomTemplate(template, {
+      type,
+      description: fields.summary || '',
+      attributes: { ...fields }
+    });
+    if (merged.type) setType(merged.type);
+    if (merged.attributes) {
+      setFields((prev) => ({ ...prev, ...merged.attributes }));
+    }
+    showToast({ type: 'info', text: `Applied template "${template.name}"` });
+  };
 
   const [pendingType, setPendingType] = useState(null);
   const [showTypeConfirm, setShowTypeConfirm] = useState(false);
@@ -235,6 +280,16 @@ const EditElementModal = ({
 
   const playbook = useMemo(() => getPlaybookForType(type), [type]);
   const readiness = useMemo(() => computeGuidedElementReadiness(currentDraft), [currentDraft]);
+  const canonDiagnostics = useMemo(
+    () =>
+      lintCanonContent({
+        text: `${content || ''} ${fields?.summary || ''}`,
+        element: currentDraft,
+        knownTitles: (elementsCatalog || []).map((e) => e?.title || e?.name).filter(Boolean),
+        isCreationPhase: true
+      }),
+    [content, fields?.summary, currentDraft, elementsCatalog]
+  );
 
   const allMapsList = useMemo(() => {
     const merged = [...(universeState?.maps || []), ...(mapsCatalog || [])];
@@ -659,6 +714,16 @@ const EditElementModal = ({
                     ? ` • ${fields.propertySubcategory || element.propertySubcategory}`
                     : ''}
                 </span>
+                <span
+                  className={`text-[9px] font-mono px-2 py-0.2 rounded-full border font-bold uppercase ${
+                    canonDiagnostics.length > 0
+                      ? 'bg-amber-950/70 border-amber-500/50 text-amber-300'
+                      : 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                  }`}
+                  title={canonDiagnostics.map((d) => d.message).join('\n') || 'Conforms to Tangent v6 Canon'}
+                >
+                  Canon: {canonDiagnostics.length}
+                </span>
                 {type === 'Persona' && (
                   <div className="flex items-center gap-1.5">
                     {!element.isFolioPersona && (
@@ -966,6 +1031,15 @@ const EditElementModal = ({
 
                 <button
                   type="button"
+                  onClick={handleSaveAsTemplate}
+                  className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-indigo-500/50 text-indigo-200 text-xs font-mono font-bold uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
+                  title="Save current element configuration as a reusable Custom Blueprint Template"
+                >
+                  Save Template
+                </button>
+
+                <button
+                  type="button"
                   onClick={handleSubmit}
                   className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 border border-emerald-400/70 text-white text-xs font-mono font-extrabold uppercase tracking-wider rounded-xl transition-all shadow-[0_0_14px_rgba(16,185,129,0.28)] cursor-pointer"
                 >
@@ -994,6 +1068,8 @@ const EditElementModal = ({
                   setActiveTabIdx(1); // Open Narrative Prose & Lore directly after Markdown Dump
                 }}
                 elementsCatalog={elementsCatalog || []}
+                customTemplates={savedTemplates}
+                onApplyCustomTemplate={handleApplyCustomTemplate}
               />
             )}
 
@@ -1414,6 +1490,13 @@ const EditElementModal = ({
                 {isDirty && <span className="text-amber-400 font-bold">• Unsaved Changes</span>}
               </div>
               <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleSaveAsTemplate}
+                  className="px-3 py-2 bg-slate-900 hover:bg-slate-800 border border-indigo-500/50 text-indigo-200 text-xs font-bold uppercase rounded-lg transition-colors cursor-pointer"
+                >
+                  Save Template
+                </button>
                 <button
                   type="button"
                   onClick={handleRequestClose}

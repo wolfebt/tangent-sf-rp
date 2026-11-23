@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { UniversalVttPackager } from '../../../../engine/compilers/UniversalVttPackager';
 import { FoundryVttJsonExporterService } from '../../../../engine/compilers/FoundryVttJsonExporter';
-import { MapGraphicsCompiler } from '../../../../engine/compilers/MapGraphicsCompiler';
+import { exportMapWithWorker } from '../../../../services/mapWorkerExportService';
 
 export interface VttExportTabProps {
   currentMap: any;
@@ -23,6 +23,7 @@ export interface VttExportTabProps {
 export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExportPNG }) => {
   const [pixelsPerGrid, setPixelsPerGrid] = useState<number>(100);
   const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
+  const [isWorkerExporting, setIsWorkerExporting] = useState<boolean>(false);
 
   const sourceGridSize = currentMap?.gridSize || 50;
   const mapWidthCells = currentMap?.gridWidth || Math.max(1, Math.round((currentMap?.width || 1500) / sourceGridSize));
@@ -116,16 +117,26 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
   const handleDownloadUvtt = async () => {
     const rawThumb = currentMap?.thumbnail || '';
     const thumbBase64Idx = rawThumb.indexOf('base64,');
-    const base64Image = rawThumb
-      ? (thumbBase64Idx !== -1 ? rawThumb.slice(thumbBase64Idx + 'base64,'.length) : rawThumb)
-      : await MapGraphicsCompiler.compileForUniversalVttAsync({
-          widthCells: mapWidthCells,
-          heightCells: mapHeightCells,
-          pixelsPerGrid,
-          sourceGridSize,
-          terrains: currentMap?.terrains || [],
-          underlays: currentMap?.underlays || []
-        });
+    let base64Image = '';
+    if (rawThumb) {
+      base64Image = thumbBase64Idx !== -1 ? rawThumb.slice(thumbBase64Idx + 'base64,'.length) : rawThumb;
+    } else {
+      const workerRes = await exportMapWithWorker({
+        widthCells: mapWidthCells,
+        heightCells: mapHeightCells,
+        pixelsPerGrid,
+        sourceGridSize,
+        terrains: currentMap?.terrains || [],
+        underlays: currentMap?.underlays || [],
+        walls: currentMap?.walls || [],
+        lights: currentMap?.lights || [],
+        format: 'image/webp',
+        quality: 0.85
+      });
+      const marker = 'base64,';
+      const idx = workerRes.dataUrl.indexOf(marker);
+      base64Image = idx !== -1 ? workerRes.dataUrl.slice(idx + marker.length) : workerRes.dataUrl;
+    }
 
     const result = UniversalVttPackager.package({
       widthCells: mapWidthCells,
@@ -169,6 +180,38 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
 
     setDownloadSuccess('Foundry VTT Compendium package downloaded successfully!');
     setTimeout(() => setDownloadSuccess(null), 3000);
+  };
+
+  const handleWorker4kSnapshot = async () => {
+    setIsWorkerExporting(true);
+    try {
+      const targetScale = Math.max(pixelsPerGrid, Math.min(200, Math.floor(3840 / Math.max(1, mapWidthCells))));
+      const res = await exportMapWithWorker({
+        widthCells: mapWidthCells,
+        heightCells: mapHeightCells,
+        pixelsPerGrid: targetScale,
+        sourceGridSize,
+        enableWallShadows: currentMap?.enableWallShadows !== false,
+        terrains: currentMap?.terrains || [],
+        underlays: currentMap?.underlays || [],
+        walls: currentMap?.walls || [],
+        lights: currentMap?.lights || [],
+        format: 'image/png',
+        quality: 0.95
+      });
+      const a = document.createElement('a');
+      a.href = res.dataUrl;
+      a.download = `${(currentMap?.title || 'tactical-map').toLowerCase().replace(/[^a-z0-9-_]+/g, '-')}-4k.png`;
+      a.click();
+      setDownloadSuccess(
+        res.usedWorker
+          ? '4K PNG Snapshot exported via OffscreenCanvas Worker!'
+          : '4K PNG Snapshot exported cleanly (fallback compiler).'
+      );
+      setTimeout(() => setDownloadSuccess(null), 3500);
+    } finally {
+      setIsWorkerExporting(false);
+    }
   };
 
   return (
@@ -308,13 +351,23 @@ export const VttExportTab: React.FC<VttExportTabProps> = ({ currentMap, onExport
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={onExportPNG}
-              className="w-full py-2.5 rounded-lg bg-slate-800 hover:bg-cyan-700 text-slate-200 hover:text-white font-mono text-xs font-semibold border border-slate-700 hover:border-cyan-600 transition-colors"
-            >
-              Export High-Res Image
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={onExportPNG}
+                className="w-full py-2.5 rounded-lg bg-slate-800 hover:bg-cyan-700 text-slate-200 hover:text-white font-mono text-xs font-semibold border border-slate-700 hover:border-cyan-600 transition-colors"
+              >
+                Export High-Res Image
+              </button>
+              <button
+                type="button"
+                disabled={isWorkerExporting}
+                onClick={handleWorker4kSnapshot}
+                className="w-full py-2 rounded-lg bg-cyan-950/70 hover:bg-cyan-800 text-cyan-200 font-mono text-[11px] font-semibold border border-cyan-500/40 transition-colors disabled:opacity-50"
+              >
+                {isWorkerExporting ? 'Rendering 4K Worker Snapshot...' : '4K PNG Snapshot (Worker)'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

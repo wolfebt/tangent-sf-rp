@@ -18,7 +18,7 @@ function bytesToBase64(bytes: Uint8Array): string {
   let binary = '';
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCharCode(bytes[i] ?? 0);
   }
   return btoa(binary);
 }
@@ -34,11 +34,11 @@ export class FirestoreDebouncer {
   private isFlushing: boolean = false;
   private dirtyDuringFlush: boolean = false;
   private isDestroyed: boolean = false;
-  private ownerId?: string;
-  private memberIds?: string[];
-  private updateHandler?: (_update: Uint8Array, origin: any) => void;
-  private unloadHandler?: (event: Event) => void;
-  private visibilityHandler?: () => void;
+  private ownerId?: string | undefined;
+  private memberIds?: string[] | undefined;
+  private updateHandler?: ((_update: Uint8Array, origin: any) => void) | undefined;
+  private unloadHandler?: ((event: Event) => void) | undefined;
+  private visibilityHandler?: (() => void) | undefined;
 
   constructor(
     campaignId: string,

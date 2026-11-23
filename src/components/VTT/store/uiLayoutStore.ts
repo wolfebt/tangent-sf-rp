@@ -33,6 +33,32 @@ export type CockpitTab =
 
 export type UserVttRole = 'player' | 'gm' | 'operative' | 'architect' | 'spectator';
 
+export type ViewportMode = '2d' | '3d' | 'theater';
+
+export type SensorModeId =
+  | 'standard_optical'
+  | 'night_vision'
+  | 'thermal_infrared'
+  | 'cyber_motion_radar'
+  | 'meta_attunement';
+
+export type ArchitectToolId =
+  | 'select'
+  | 'wall'
+  | 'terrain'
+  | 'fill'
+  | 'light'
+  | 'pencil'
+  | 'text'
+  | 'eraser'
+  | 'object'
+  | 'hazard'
+  | 'token'
+  | 'ruler'
+  | 'aoe'
+  | 'waypoint'
+  | 'chunk';
+
 export interface VttLayoutPreferences {
   isLeftCollapsed: boolean;
   isRightCollapsed: boolean;
@@ -96,7 +122,9 @@ export interface UILayoutState extends VttLayoutPreferences {
   targetTokenId: string | null;
 
   // Architect Cartography State
-  activeArchitectTool: 'select' | 'wall' | 'terrain' | 'fill' | 'light' | 'pencil' | 'text' | 'eraser' | 'object' | 'hazard' | 'token' | 'ruler';
+  activeArchitectTool: ArchitectToolId;
+  selectedAoEPresetId: string;
+  activeSensorMode: SensorModeId;
   selectedWallType: string;
   doorLockDc: number;
   selectedTerrain: string;
@@ -112,10 +140,11 @@ export interface UILayoutState extends VttLayoutPreferences {
   activeLeftTab: 'cockpit' | 'catalog' | 'scenario';
   isLeftWideMode: boolean;
 
-  // Split View & 3D Mode
+  // Split View & 3D / Theater Mode
   isSplitOpen: boolean;
   activeSplitTab: 'folio' | 'roster' | 'story' | 'bestiary';
   is3DActive: boolean;
+  viewportMode: ViewportMode;
 
   // Actions
   toggleSplitOpen: () => void;
@@ -123,6 +152,7 @@ export interface UILayoutState extends VttLayoutPreferences {
   setActiveSplitTab: (tab: 'folio' | 'roster' | 'story' | 'bestiary') => void;
   toggle3DActive: () => void;
   set3DActive: (active: boolean) => void;
+  setViewportMode: (mode: ViewportMode) => void;
   toggleLeftWideMode: () => void;
   setLeftWideMode: (wide: boolean) => void;
   setRulerSelectedPace: (pace: 'walk' | 'jog' | 'run' | 'sprint') => void;
@@ -157,7 +187,9 @@ export interface UILayoutState extends VttLayoutPreferences {
   setTargetTokenId: (id: string | null) => void;
 
   // Cartography Tool Actions
-  setActiveArchitectTool: (tool: 'select' | 'wall' | 'terrain' | 'fill' | 'light' | 'pencil' | 'text' | 'eraser' | 'object' | 'hazard' | 'token' | 'ruler') => void;
+  setActiveArchitectTool: (tool: ArchitectToolId) => void;
+  setSelectedAoEPresetId: (id: string) => void;
+  setActiveSensorMode: (mode: SensorModeId) => void;
   setSelectedWallType: (type: string) => void;
   setDoorLockDc: (dc: number) => void;
   setSelectedTerrain: (terrain: string) => void;
@@ -220,6 +252,8 @@ export const useUILayoutStore = create<UILayoutState>()(
 
       // Architect Cartography Defaults
       activeArchitectTool: 'select',
+      selectedAoEPresetId: 'frag_grenade',
+      activeSensorMode: 'standard_optical',
       selectedWallType: 'solid',
       doorLockDc: 14,
       selectedTerrain: 'grassland',
@@ -237,8 +271,9 @@ export const useUILayoutStore = create<UILayoutState>()(
       isSplitOpen: false,
       activeSplitTab: 'folio',
       is3DActive: false,
+      viewportMode: '2d',
 
-      // Split View & 3D Actions
+      // Split View & 3D / Theater Actions
       toggleSplitOpen: () => set((draft) => {
         draft.isSplitOpen = !draft.isSplitOpen;
       }),
@@ -249,10 +284,17 @@ export const useUILayoutStore = create<UILayoutState>()(
         draft.activeSplitTab = tab;
       }),
       toggle3DActive: () => set((draft) => {
-        draft.is3DActive = !draft.is3DActive;
+        const next = !draft.is3DActive;
+        draft.is3DActive = next;
+        draft.viewportMode = next ? '3d' : '2d';
       }),
       set3DActive: (active: boolean) => set((draft) => {
         draft.is3DActive = active;
+        draft.viewportMode = active ? '3d' : '2d';
+      }),
+      setViewportMode: (mode: ViewportMode) => set((draft) => {
+        draft.viewportMode = mode;
+        draft.is3DActive = mode === '3d';
       }),
 
       // Tactical Actions
@@ -278,6 +320,12 @@ export const useUILayoutStore = create<UILayoutState>()(
       // Cartography Tool Actions
       setActiveArchitectTool: (tool) => set((draft) => {
         draft.activeArchitectTool = tool;
+      }),
+      setSelectedAoEPresetId: (id) => set((draft) => {
+        draft.selectedAoEPresetId = id;
+      }),
+      setActiveSensorMode: (mode) => set((draft) => {
+        draft.activeSensorMode = mode;
       }),
       setSelectedWallType: (type) => set((draft) => {
         draft.selectedWallType = type;

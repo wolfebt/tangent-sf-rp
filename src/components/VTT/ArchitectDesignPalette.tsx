@@ -76,7 +76,8 @@ export type ArchitectDesignTool =
   | 'hazard' 
   | 'light'
   | 'chunk'
-  | 'ruler' 
+  | 'ruler'
+  | 'aoe'
   | 'eraser';
 
 export interface PaletteItem {

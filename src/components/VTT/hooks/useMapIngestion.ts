@@ -19,6 +19,7 @@ import {
   type SceneInteractiveObject
 } from '../../../engine/index';
 import { useUILayoutStore } from '../store/uiLayoutStore';
+import { expandWallsForGeometry } from '../../../schemas/vttWallSchema.js';
 import { 
   LightSourceManager, 
   type SceneLightSource, 
@@ -85,10 +86,11 @@ export function useMapIngestion({
 
       // 1. Ingest Walls & Bulkheads into BVH spatial tree & local state
       if (Array.isArray(currentMap.walls) && currentMap.walls.length > 0) {
-        const bvhWalls: WallSegment[] = currentMap.walls.map((w: any) => ({
+        const rawNormalizedWalls: any[] = currentMap.walls.map((w: any) => ({
           id: w.id || `wall-${Math.random()}`,
           p1: w.p1 || { x: w.x1 || 0, y: w.y1 || 0 },
           p2: w.p2 || { x: w.x2 || 100, y: w.y2 || 100 },
+          ...(w.bezierControl ? { bezierControl: w.bezierControl } : {}),
           isDynamic: Boolean(
             w.isDynamic ||
             w.isDoor ||
@@ -104,8 +106,16 @@ export function useMapIngestion({
           ),
           isTransparent: Boolean(w.isTransparent || w.type === 'window' || w.wallType?.includes('window') || w.wallType?.includes('glass'))
         }));
+        const bvhWalls: WallSegment[] = expandWallsForGeometry(rawNormalizedWalls, 8).map((seg: any) => ({
+          id: seg.id || `wall-${Math.random()}`,
+          p1: seg.p1,
+          p2: seg.p2,
+          isDynamic: Boolean(seg.isDynamic),
+          isOpen: Boolean(seg.isOpen),
+          isTransparent: Boolean(seg.isTransparent)
+        }));
         bvhBuilderRef.current.build(bvhWalls);
-        setLocalWalls(bvhWalls);
+        setLocalWalls(rawNormalizedWalls as WallSegment[]);
       } else {
         bvhBuilderRef.current.build([]);
         setLocalWalls([]);

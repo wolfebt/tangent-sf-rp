@@ -24,7 +24,10 @@ export interface CompileOptions {
   adventureTitle?: string;
   authorName?: string;
   includeCoverPage?: boolean;
+  includeToc?: boolean;
+  includeGmSecrets?: boolean;
   pageSize?: 'letter' | 'a4';
+  mapImages?: Array<{ title: string; dataUrl: string }>;
 }
 
 function escapeHtml(val: unknown): string {
@@ -68,6 +71,19 @@ function sanitizeRichHtml(rawHtml: unknown): string {
   return clean;
 }
 
+function stripGmSecretMarkup(rawHtml: string): string {
+  let clean = String(rawHtml ?? '');
+  let prev = '';
+  while (clean !== prev) {
+    prev = clean;
+    clean = clean
+      .replace(/<div[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/div>/gi, '')
+      .replace(/<div[^>]*\bdata-gm-secret\s*=\s*["']true["'][^>]*>[\s\S]*?<\/div>/gi, '')
+      .replace(/<blockquote[^>]*\bclass\s*=\s*["'][^"']*\bade-gm-secret\b[^"']*["'][^>]*>[\s\S]*?<\/blockquote>/gi, '');
+  }
+  return clean;
+}
+
 export class PagedPdfCompilerService {
   /**
    * Compiles an array of scenario nodes into print-ready Paged.js HTML.
@@ -81,6 +97,8 @@ export class PagedPdfCompilerService {
     const title = escapeHtml(rawTitle);
     const author = escapeHtml(rawAuthor);
     const pageSize = options.pageSize === 'a4' ? 'a4' : 'letter';
+    const includeGmSecrets = options.includeGmSecrets !== false;
+    const includeToc = Boolean(options.includeToc);
 
     const pagedStyles = `
       <style>
@@ -129,7 +147,7 @@ export class PagedPdfCompilerService {
           column-gap: 8mm;
         }
 
-        .sensory-box {
+        .sensory-box, blockquote.ade-read-aloud {
           background-color: #f8fafc;
           border-left: 3px solid #f59e0b;
           padding: 8px 12px;
@@ -138,7 +156,17 @@ export class PagedPdfCompilerService {
           break-inside: avoid;
         }
 
-        .threat-card {
+        .ade-gm-secret {
+          background-color: #fff7ed;
+          border: 1px dashed #ea580c;
+          border-radius: 4px;
+          padding: 8px 10px;
+          margin: 8px 0;
+          font-size: 9pt;
+          break-inside: avoid;
+        }
+
+        .threat-card, .ade-statblock-card {
           background-color: #fef2f2;
           border: 1px solid #f87171;
           border-radius: 4px;
@@ -147,6 +175,42 @@ export class PagedPdfCompilerService {
           font-family: 'Helvetica Neue', sans-serif;
           font-size: 9pt;
           break-inside: avoid;
+        }
+
+        .ade-skill-check {
+          font-family: 'Helvetica Neue', sans-serif;
+          font-weight: bold;
+          background: #e0f2fe;
+          color: #0369a1;
+          padding: 1px 5px;
+          border-radius: 3px;
+          font-size: 9pt;
+        }
+
+        .toc-section {
+          border: 1px solid #cbd5e1;
+          background: #f8fafc;
+          padding: 10px 14px;
+          margin: 14px 0;
+          break-inside: avoid;
+        }
+
+        .toc-section ul {
+          margin: 6px 0 0 16px;
+          padding: 0;
+          font-family: 'Helvetica Neue', sans-serif;
+          font-size: 9.5pt;
+        }
+
+        .map-plate {
+          margin: 14px 0;
+          text-align: center;
+          break-inside: avoid;
+        }
+
+        .map-plate img {
+          max-width: 100%;
+          border: 1px solid #94a3b8;
         }
 
         .threat-title {
@@ -171,21 +235,50 @@ export class PagedPdfCompilerService {
       </style>
     `;
 
-    let bodyHtml = `
-      <div class="cover-section">
-        <h1>${title}</h1>
-        <p style="font-style: italic; color: #475569;">Written by ${author} &bull; Tangent SF RP Master Module</p>
-      </div>
-    `;
+    let bodyHtml = '';
+    if (options.includeCoverPage !== false) {
+      bodyHtml += `
+        <div class="cover-section">
+          <h1>${title}</h1>
+          <p style="font-style: italic; color: #475569;">Written by ${author} &bull; Tangent SF RP Master Module</p>
+        </div>
+      `;
+    }
+
+    const collectTocEntries = (list: ScenarioExportNode[], depth = 0): Array<{ id: string; title: string; depth: number }> => {
+      const items: Array<{ id: string; title: string; depth: number }> = [];
+      for (const n of list || []) {
+        const anchorId = `sec_${String(n.id || items.length).replace(/[^A-Za-z0-9_-]/g, '_')}`;
+        items.push({ id: anchorId, title: n.title || 'Untitled Section', depth });
+        if (Array.isArray(n.children) && n.children.length > 0) {
+          items.push(...collectTocEntries(n.children, depth + 1));
+        }
+      }
+      return items;
+    };
+
+    if (includeToc && Array.isArray(nodes) && nodes.length > 0) {
+      const entries = collectTocEntries(nodes);
+      bodyHtml += `
+        <nav class="toc-section">
+          <h3>Table of Contents</h3>
+          <ul>
+            ${entries.map((e) => `<li style="margin-left:${e.depth * 12}px"><a href="#${escapeHtml(e.id)}">${escapeHtml(e.title)}</a></li>`).join('')}
+          </ul>
+        </nav>
+      `;
+    }
 
     const renderNodeHtml = (node: ScenarioExportNode, depth: number = 2): string => {
       const headingTag = `h${Math.min(6, Math.max(2, depth))}`;
+      const anchorId = `sec_${String(node.id || 'node').replace(/[^A-Za-z0-9_-]/g, '_')}`;
+      const rawContent = includeGmSecrets ? node.content : stripGmSecretMarkup(node.content || '');
       const childrenHtml = Array.isArray(node.children) && node.children.length > 0
         ? node.children.map(child => renderNodeHtml(child, depth + 1)).join('')
         : '';
 
       return `
-        <div class="scenario-section">
+        <div class="scenario-section" id="${escapeHtml(anchorId)}">
           <${headingTag}>${escapeHtml(node.title)}</${headingTag}>
           <div class="two-columns">
             ${node.summary ? `<p><strong>Overview:</strong> ${escapeHtml(node.summary)}</p>` : ''}
@@ -196,7 +289,7 @@ export class PagedPdfCompilerService {
               </div>
             ` : ''}
 
-            ${node.content ? `<div>${sanitizeRichHtml(node.content)}</div>` : ''}
+            ${rawContent ? `<div>${sanitizeRichHtml(rawContent)}</div>` : ''}
 
             ${node.fields?.bulletPoints && node.fields.bulletPoints.length > 0 ? `
               <ul class="bullet-list">
@@ -204,7 +297,7 @@ export class PagedPdfCompilerService {
               </ul>
             ` : ''}
 
-            ${node.fields?.threats && node.fields.threats.length > 0 ? `
+            ${includeGmSecrets && node.fields?.threats && node.fields.threats.length > 0 ? `
               <div class="threat-matrix">
                 ${node.fields.threats.map(t => `
                   <div class="threat-card">
@@ -222,6 +315,18 @@ export class PagedPdfCompilerService {
 
     for (const node of nodes || []) {
       bodyHtml += renderNodeHtml(node, 2);
+    }
+
+    if (Array.isArray(options.mapImages) && options.mapImages.length > 0) {
+      for (const mapImg of options.mapImages) {
+        if (!mapImg?.dataUrl) continue;
+        bodyHtml += `
+          <div class="map-plate">
+            <h3>Tactical Plate: ${escapeHtml(mapImg.title)}</h3>
+            <img src="${escapeHtml(mapImg.dataUrl)}" alt="${escapeHtml(mapImg.title)}" />
+          </div>
+        `;
+      }
     }
 
     const fullHtml = `<!DOCTYPE html>

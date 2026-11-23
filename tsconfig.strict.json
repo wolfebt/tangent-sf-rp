@@ -21,6 +21,20 @@
     "src/engine/assets/assetVisualFallbacks.ts",
     "src/engine/scripting/QuickJSSandbox.ts",
     "src/engine/canvas/LayerCompositor.ts",
-    "src/engine/canvas/RendererContext.ts"
+    "src/engine/canvas/RendererContext.ts",
+    "src/engine/vision/FogOfWarManager.ts",
+    "src/engine/cartography/SceneRegionManager.ts",
+    "src/engine/compilers/DocumentExporters.ts",
+    "src/engine/compilers/PagedPdfCompiler.ts",
+    "src/services/proAudioMixerService.ts",
+    "src/services/stageMacroDispatcher.ts",
+    "src/services/revisionSnapshotService.ts",
+    "src/services/canonRulesLinterService.ts",
+    "src/services/campaignCalendarService.ts",
+    "src/services/mapWorkerExportService.ts",
+    "src/services/artistHubImageService.ts",
+    "src/services/customElementTemplateService.ts",
+    "src/workers/mapExportWorker.ts",
+    "src/components/VTT/stage/StageTopHudBar.tsx"
   ]
 }

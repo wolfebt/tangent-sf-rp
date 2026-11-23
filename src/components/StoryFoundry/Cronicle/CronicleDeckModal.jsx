@@ -34,6 +34,7 @@ import CronicleTimelineTab from './tabs/CronicleTimelineTab';
 import CronicleDeltaReviewTab from './tabs/CronicleDeltaReviewTab';
 import CronicleWorkingCopiesTab from './tabs/CronicleWorkingCopiesTab';
 import CronicleScratchbookDocTab from './tabs/CronicleScratchbookDocTab';
+import CronicleCalendarTab from './tabs/CronicleCalendarTab';
 
 export default function CronicleDeckModal({ 
   isOpen, 
@@ -712,6 +713,19 @@ export default function CronicleDeckModal({
 
           <button
             type="button"
+            onClick={() => setMemoryTab('calendar')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+              memoryTab === 'calendar'
+                ? 'bg-indigo-950 text-indigo-200 border border-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+          >
+            <span>🗓️</span>
+            <span>Sci-Fi Calendar</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => setMemoryTab('working_copies')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
               memoryTab === 'working_copies'
@@ -819,6 +833,13 @@ export default function CronicleDeckModal({
               setNewTimelineEntities={setNewTimelineEntities}
               handleAddTimelineEvent={handleAddTimelineEvent}
               handleDeleteTimelineEvent={handleDeleteTimelineEvent}
+            />
+          )}
+
+          {memoryTab === 'calendar' && (
+            <CronicleCalendarTab
+              calendarState={cronicle?.calendar || null}
+              onUpdateCalendar={(nextCalendar) => updateCronicle?.({ calendar: nextCalendar })}
             />
           )}
 

@@ -88,6 +88,38 @@ export function useStageRenderers({
     clearPixiContainer(wallsContainer);
 
     const g = new Graphics();
+    const enableWallShadows = currentMap?.enableWallShadows !== false;
+
+    const traceWallPath = (wall: any, offsetX = 0, offsetY = 0) => {
+      g.moveTo(wall.p1.x + offsetX, wall.p1.y + offsetY);
+      if (wall.bezierControl && typeof wall.bezierControl.x === 'number' && typeof wall.bezierControl.y === 'number') {
+        g.quadraticCurveTo(
+          wall.bezierControl.x + offsetX,
+          wall.bezierControl.y + offsetY,
+          wall.p2.x + offsetX,
+          wall.p2.y + offsetY
+        );
+      } else {
+        g.lineTo(wall.p2.x + offsetX, wall.p2.y + offsetY);
+      }
+    };
+
+    if (enableWallShadows) {
+      localWalls.forEach(wall => {
+        const isDoor = wall.isDynamic;
+        const isWindow = (wall as any).isTransparent;
+        if (wall.isOpen) return;
+        const baseWidth = isDoor ? 5 : isWindow ? 3 : 4;
+        traceWallPath(wall, 5, 6);
+        g.stroke({
+          width: baseWidth + 5,
+          color: 0x000000,
+          alpha: 0.34,
+          cap: 'round'
+        });
+      });
+    }
+
     localWalls.forEach(wall => {
       const isDoor = wall.isDynamic;
       const isOpen = wall.isOpen;
@@ -99,8 +131,7 @@ export function useStageRenderers({
           ? 0x38bdf8 
           : 0x06b6d4;
 
-      g.moveTo(wall.p1.x, wall.p1.y);
-      g.lineTo(wall.p2.x, wall.p2.y);
+      traceWallPath(wall);
       g.stroke({ 
         width: isDoor ? 5 : isWindow ? 3 : 4, 
         color: strokeColor, 
@@ -115,7 +146,7 @@ export function useStageRenderers({
     });
 
     wallsContainer.addChild(g);
-  }, [layerCompositorRef, isCanvasReady, canvasGeneration, localWalls]);
+  }, [layerCompositorRef, isCanvasReady, canvasGeneration, localWalls, currentMap?.enableWallShadows]);
 
   // ── Render Terrains (Hex Tiles & Organic Polygons) onto BackgroundMap Layer ──
   useEffect(() => {
@@ -124,11 +155,33 @@ export function useStageRenderers({
     let isCancelled = false;
     clearPixiContainer(container);
 
+    const compositor = layerCompositorRef.current;
+    const roofLayer = compositor?.getLayer(ZLayer.RoofCanopy);
+    let roofTerrainContainer: Container | undefined;
+    if (roofLayer) {
+      roofTerrainContainer = roofLayer.children.find((c: any) => c.label === 'RoofTerrainLayer') as Container | undefined;
+      if (!roofTerrainContainer) {
+        roofTerrainContainer = new Container();
+        roofTerrainContainer.label = 'RoofTerrainLayer';
+        roofLayer.addChild(roofTerrainContainer);
+      }
+      clearPixiContainer(roofTerrainContainer);
+    }
+
     const terrains = currentMap?.terrains || [];
     if (terrains.length === 0) return;
 
     const g = new Graphics();
+    const gRoof = new Graphics();
+    let hasRoofItems = false;
+
     terrains.forEach((t: any) => {
+      const targetGraphics = t.isRoofLayer && roofTerrainContainer ? gRoof : g;
+      const targetSpriteContainer = t.isRoofLayer && roofTerrainContainer ? roofTerrainContainer : container;
+      if (t.isRoofLayer && roofTerrainContainer) {
+        hasRoofItems = true;
+      }
+
       let colorHex = 0x14532d;
       if (t.color) {
         if (typeof t.color === 'string') {
@@ -146,58 +199,73 @@ export function useStageRenderers({
           const angle = (i * Math.PI) / 3;
           pts.push(t.x + radius * Math.cos(angle), t.y + radius * Math.sin(angle));
         }
-        g.poly(pts);
-        g.fill({ color: colorHex, alpha: 0.85 });
-        g.stroke({ width: 1, color: 0x000000, alpha: 0.3 });
+        targetGraphics.poly(pts);
+        targetGraphics.fill({ color: colorHex, alpha: 0.85 });
+        targetGraphics.stroke({ width: 1, color: 0x000000, alpha: 0.3 });
       } else if (t.points && t.points.length >= 4) {
         if (t.closed || t.renderType === 'polygon') {
-          g.poly(t.points);
-          g.fill({ color: colorHex, alpha: 0.85 });
-          g.stroke({ width: t.strokeWidth || 2, color: colorHex, alpha: 0.95 });
+          if (t.softEdge) {
+            targetGraphics.poly(t.points);
+            targetGraphics.stroke({ width: (t.strokeWidth || 2) + 16, color: colorHex, alpha: 0.22 });
+          }
+          targetGraphics.poly(t.points);
+          targetGraphics.fill({ color: colorHex, alpha: 0.85 });
+          targetGraphics.stroke({ width: t.strokeWidth || 2, color: colorHex, alpha: 0.95 });
 
           if (t.edgeLines && t.edgeLines.length > 0) {
             t.edgeLines.forEach((edge: [number, number, number, number]) => {
-              g.moveTo(edge[0], edge[1]);
-              g.lineTo(edge[2], edge[3]);
+              targetGraphics.moveTo(edge[0], edge[1]);
+              targetGraphics.lineTo(edge[2], edge[3]);
             });
-            g.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
+            targetGraphics.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
           }
         } else {
-          g.moveTo(t.points[0], t.points[1]);
-          for (let i = 2; i < t.points.length; i += 2) {
-            g.lineTo(t.points[i], t.points[i+1]);
+          if (t.softEdge) {
+            targetGraphics.moveTo(t.points[0], t.points[1]);
+            for (let i = 2; i < t.points.length; i += 2) {
+              targetGraphics.lineTo(t.points[i], t.points[i + 1]);
+            }
+            targetGraphics.stroke({ width: (t.strokeWidth || 30) + 18, color: colorHex, cap: 'round', join: 'round', alpha: 0.22 });
           }
-          g.stroke({ width: t.strokeWidth || 30, color: colorHex, cap: 'round', join: 'round', alpha: 0.85 });
+          targetGraphics.moveTo(t.points[0], t.points[1]);
+          for (let i = 2; i < t.points.length; i += 2) {
+            targetGraphics.lineTo(t.points[i], t.points[i+1]);
+          }
+          targetGraphics.stroke({ width: t.strokeWidth || 30, color: colorHex, cap: 'round', join: 'round', alpha: 0.85 });
         }
       } else if (t.renderType === 'rect' || (t.width !== undefined && t.height !== undefined && t.x !== undefined && t.y !== undefined)) {
         const x = t.x ?? 0;
         const y = t.y ?? 0;
         const w = t.width ?? 50;
         const h = t.height ?? 50;
-        g.rect(x, y, w, h);
-        g.fill({ color: colorHex, alpha: t.opacity ?? 0.88 });
+        targetGraphics.rect(x, y, w, h);
+        targetGraphics.fill({ color: colorHex, alpha: t.opacity ?? 0.88 });
+        if (t.softEdge) {
+          targetGraphics.rect(x - 6, y - 6, w + 12, h + 12);
+          targetGraphics.stroke({ width: 12, color: colorHex, alpha: 0.22 });
+        }
 
         // Auto-tile edge lines from Marching Squares bitmasks
         const edges = t.edgeLines || (t.bitmask4Bit !== undefined ? MarchingSquaresAutoTiler.getEdgeLines(x, y, w, h, t.bitmask4Bit) : null);
         if (edges && edges.length > 0) {
           edges.forEach((edge: [number, number, number, number]) => {
-            g.moveTo(edge[0], edge[1]);
-            g.lineTo(edge[2], edge[3]);
+            targetGraphics.moveTo(edge[0], edge[1]);
+            targetGraphics.lineTo(edge[2], edge[3]);
           });
-          g.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
+          targetGraphics.stroke({ width: 2, color: t.isLiquid ? 0x38bdf8 : 0x0ea5e9, alpha: 0.8 });
         }
 
         // Render MicroTile / Chunk Studio custom textureUrl if present
         if (t.textureUrl) {
           Assets.load(t.textureUrl).then((tex) => {
-            if (!isCancelled && !container.destroyed && tex) {
+            if (!isCancelled && !targetSpriteContainer.destroyed && tex) {
               const sprite = new Sprite(tex);
               sprite.x = x;
               sprite.y = y;
               sprite.width = w;
               sprite.height = h;
               sprite.alpha = t.opacity ?? 0.92;
-              container.addChild(sprite);
+              targetSpriteContainer.addChild(sprite);
             }
           }).catch(() => {});
         }
@@ -205,10 +273,15 @@ export function useStageRenderers({
     });
 
     container.addChild(g);
+    if (hasRoofItems && roofTerrainContainer) {
+      roofTerrainContainer.addChild(gRoof);
+    } else {
+      gRoof.destroy();
+    }
     return () => {
       isCancelled = true;
     };
-  }, [terrainsContainerRef, isCanvasReady, canvasGeneration, currentMap?.terrains]);
+  }, [terrainsContainerRef, layerCompositorRef, isCanvasReady, canvasGeneration, currentMap?.terrains]);
 
   // ── Render Freehand Tactical Pencil Lines onto UnderlayDebris Layer ──
   useEffect(() => {

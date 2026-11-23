@@ -69,7 +69,9 @@ export default function Stage1SparkAndCanon({
   initialSeedTab = 'spark',
   onAdvanceStage,
   onSwitchToSheet,
-  elementsCatalog = []
+  elementsCatalog = [],
+  customTemplates = [],
+  onApplyCustomTemplate
 }) {
   const playbook = useMemo(() => getPlaybookForType(type), [type]);
   const { dbData = {} } = useDBM() || {};
@@ -317,6 +319,25 @@ export default function Stage1SparkAndCanon({
             />
           </div>
         </div>
+
+        {/* Saved Custom Blueprint Templates Bar */}
+        {Array.isArray(customTemplates) && customTemplates.length > 0 && onApplyCustomTemplate && (
+          <div className="bg-slate-950/80 border border-indigo-500/40 rounded-xl p-2.5 flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-mono font-bold text-indigo-300 uppercase tracking-wider">
+              Saved Blueprints:
+            </span>
+            {customTemplates.slice(0, 6).map((tpl) => (
+              <button
+                key={tpl.id}
+                type="button"
+                onClick={() => onApplyCustomTemplate(tpl)}
+                className="px-2.5 py-1 rounded-lg bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-500/40 text-[11px] font-mono text-indigo-200 cursor-pointer transition-colors"
+              >
+                + {tpl.name}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Property Subcategory Selector (Consolidated Cortex Property Collections) */}
         {type === 'Property' && (

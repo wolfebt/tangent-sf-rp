@@ -19,6 +19,8 @@ import WaypointRulerOverlay from './map/WaypointRulerOverlay';
 import UvttImportModal from './map/UvttImportModal';
 import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
 import { toggleDoorState, damageWallSegment, createWallSegment, WALL_TYPES, DOOR_STATES } from '../../../schemas/vttWallSchema';
+import { useMapBezierAndExport } from './hooks/useMapBezierAndExport';
+import MapUnderlayCalibrationModal from './map/MapUnderlayCalibrationModal';
 import SpatialAudio from '../../../services/spatialAudioService';
 import MapToolbar from './map/MapToolbar';
 import ArchitectConsoleRail from './map/ArchitectConsoleRail';
@@ -51,7 +53,6 @@ import { MapMakerTabBar } from './components/MapMakerTabBar';
 import { AssetStudioTab } from './components/AssetStudioTab';
 import { PcgAiStudioTab } from './components/PcgAiStudioTab';
 import { VttExportTab } from './components/VttExportTab';
-import { MapGraphicsCompiler } from '../../../engine/compilers/MapGraphicsCompiler';
 import { MobileTacticalBlocker } from '../../../components/StoryFoundry/MobileTacticalBlocker';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 const ChunkStudioModal = lazyWithRetry(() => import('./components/ChunkStudioModal'));
@@ -197,19 +198,34 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
   }
 
   return (
-    <Line
-      ref={shapeRef}
-      points={t.points}
-      fill={t.color}
-      fillPatternImage={patternImg}
-      fillPatternRepeat="repeat"
-      stroke={strokePattern || t.color}
-      strokeWidth={t.strokeWidth || 30}
-      tension={t.tension || 0.2}
-      lineCap={t.lineCap || "round"}
-      lineJoin="round"
-      onClick={() => !isLocked && isEraser && onErase(t.id)}
-    />
+    <Group>
+      {t.softEdge && (
+        <Line
+          points={t.points}
+          stroke={t.color || '#15803d'}
+          strokeWidth={(t.strokeWidth || 30) + 18}
+          tension={t.tension || 0.2}
+          lineCap={t.lineCap || 'round'}
+          lineJoin="round"
+          opacity={0.22}
+          listening={false}
+        />
+      )}
+      <Line
+        ref={shapeRef}
+        points={t.points}
+        fill={t.color}
+        fillPatternImage={patternImg}
+        fillPatternRepeat="repeat"
+        stroke={strokePattern || t.color}
+        strokeWidth={t.strokeWidth || 30}
+        tension={t.tension || 0.2}
+        lineCap={t.lineCap || "round"}
+        lineJoin="round"
+        opacity={t.isRoofLayer ? 0.92 : 1}
+        onClick={() => !isLocked && isEraser && onErase(t.id)}
+      />
+    </Group>
   );
 };
 
@@ -241,6 +257,9 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   // Tool Sub-Options State
   const [selectedTerrain, setSelectedTerrain] = useState(MASTER_TERRAINS['Planetary'][0]);
   const [terrainWidth, setTerrainWidth] = useState(30);
+  const [softTerrainEdge, setSoftTerrainEdge] = useState(true);
+  const [paintRoofLayer, setPaintRoofLayer] = useState(false);
+  const [isUnderlayModalOpen, setIsUnderlayModalOpen] = useState(false);
   const [selectedObjectType, setSelectedObjectType] = useState(MASTER_OBJECTS['Planetary'][0]);
   const [selectedWallType, setSelectedWallType] = useState('solid');
   const [doorLockDc, setDoorLockDc] = useState(14);
@@ -847,7 +866,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
   } = useMapCanvasEvents({
     currentMap, activeMapId, updateMap, recordHistory,
     activeTool, lines, terrains, walls, fog, objects, tokens, texts, lights,
-    pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
+    pencilColor, pencilWidth, selectedTerrain, terrainWidth, softTerrainEdge, paintRoofLayer, selectedObjectType,
     selectedWallType, doorLockDc,
     selectedLightColor, selectedLightRadius, selectedLightAnimation,
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize,
@@ -1635,43 +1654,12 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
     updateMap(activeMapId, { lines: [], terrains: [], walls: [], objects: [], lights: [], texts: [], fog: [] });
   };
 
-  const handleExportPNG = () => {
-    if (!currentMap) return;
-    setSelectedId(null);
-    setTimeout(() => {
-      try {
-        let dataURL = '';
-        if (stageRef.current) {
-          dataURL = stageRef.current.toDataURL({ pixelRatio: 2 });
-        } else {
-          const gridSz = currentMap.gridSize || 50;
-          const widthCells = currentMap.gridWidth || Math.max(1, Math.round((currentMap.width || 1500) / gridSz));
-          const heightCells = currentMap.gridHeight || Math.max(1, Math.round((currentMap.height || 1000) / gridSz));
-          dataURL = MapGraphicsCompiler.compileToDataUrl({
-            widthCells,
-            heightCells,
-            pixelsPerGrid: gridSz,
-            terrains: currentMap.terrains || [],
-            underlays: currentMap.underlays || []
-          }, 'image/png', 1);
-        }
-        const link = document.createElement('a');
-        link.download = formatExportFilename(currentMap.title || 'map', 'map', 'png');
-        link.href = dataURL;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } catch (err) {
-        console.error("PNG export error:", err);
-        showToast({ type: 'error', text: 'Failed to export PNG map image.' });
-      }
-    }, 50);
-  };
-
-  useEffect(() => {
-    if (mapExportPngRef) {
-      mapExportPngRef.current = handleExportPNG;
-    }
+  const { handleExportPNG, computeWallPreviewPoints } = useMapBezierAndExport({
+    currentMap,
+    stageRef,
+    setSelectedId,
+    showToast,
+    mapExportPngRef
   });
 
   /**
@@ -2371,6 +2359,57 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
               </button>
             </div>
 
+            {/* Pro Cartography & Animated Underlay Controls */}
+            <button
+              type="button"
+              onClick={() => setIsUnderlayModalOpen(true)}
+              className={`px-2.5 py-1.5 rounded-xl font-mono text-[11px] font-bold transition-all shadow-lg backdrop-blur-md flex items-center gap-1 cursor-pointer border ${
+                currentMap?.videoBackgroundUrl || currentMap?.underlay?.url
+                  ? 'bg-amber-950/85 border-amber-400 text-amber-200'
+                  : 'bg-black/80 hover:bg-slate-900 border-slate-700 text-slate-300'
+              }`}
+              title="Calibrate Blueprint Underlay or Animated .webm/.mp4 Video Battlemap"
+            >
+              <span>🎬</span>
+              <span>Underlay</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => updateMap(activeMapId, { enableWallShadows: currentMap?.enableWallShadows === false })}
+              className={`px-2 py-1.5 rounded-xl font-mono text-[10px] font-bold transition-all backdrop-blur-md cursor-pointer border ${
+                currentMap?.enableWallShadows !== false
+                  ? 'bg-cyan-950/80 border-cyan-500/60 text-cyan-200'
+                  : 'bg-black/80 border-slate-700 text-slate-400'
+              }`}
+              title="Toggle Wall Drop-Shadow Pass"
+            >
+              Shadows
+            </button>
+            <button
+              type="button"
+              onClick={() => setSoftTerrainEdge(prev => !prev)}
+              className={`px-2 py-1.5 rounded-xl font-mono text-[10px] font-bold transition-all backdrop-blur-md cursor-pointer border ${
+                softTerrainEdge
+                  ? 'bg-emerald-950/80 border-emerald-500/60 text-emerald-200'
+                  : 'bg-black/80 border-slate-700 text-slate-400'
+              }`}
+              title="Toggle Soft Terrain Brush Feathering"
+            >
+              Soft Brush
+            </button>
+            <button
+              type="button"
+              onClick={() => setPaintRoofLayer(prev => !prev)}
+              className={`px-2 py-1.5 rounded-xl font-mono text-[10px] font-bold transition-all backdrop-blur-md cursor-pointer border ${
+                paintRoofLayer
+                  ? 'bg-purple-950/80 border-purple-500/60 text-purple-200'
+                  : 'bg-black/80 border-slate-700 text-slate-400'
+              }`}
+              title="Toggle Painting Onto Roof Canopy Layer"
+            >
+              Roof
+            </button>
+
             {/* VTT Console Launcher */}
             <button
               type="button"
@@ -2394,7 +2433,19 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
               Please create or select a map.
             </div>
           ) : (
-            <Stage
+            <>
+              {currentMap?.videoBackgroundUrl && (
+                <video
+                  src={currentMap.videoBackgroundUrl}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover opacity-85 pointer-events-none"
+                />
+              )}
+              <Stage
               ref={stageRef}
               width={stageSize.width}
               height={stageSize.height}
@@ -2424,7 +2475,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
             >
               {/* Layer 1: Background & Tactical Grid */}
               <Layer id="layer_bg_grid">
-                <Rect x={-100000} y={-100000} width={200000} height={200000} fill="#111827" name="bgRect" />
+                <Rect x={-100000} y={-100000} width={200000} height={200000} fill={currentMap?.videoBackgroundUrl ? 'transparent' : '#111827'} name="bgRect" />
                 {/* Primary Tactical Sector Boundary Frame */}
                 <Rect
                   x={0}
@@ -2519,6 +2570,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                       isSelected={w.id === selectedId}
                       isEraser={activeTool === 'eraser'}
                       isLocked={isLayerLocked('layer_walls')}
+                      enableWallShadows={currentMap?.enableWallShadows !== false}
                       zoomScale={scale}
                       onSelect={(id) => { if (activeTool === 'select' && !isLayerLocked('layer_walls')) setSelectedId(id); }}
                       onErase={(id) => eraseElement(id)}
@@ -2526,9 +2578,9 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                     />
                   ))}
                   {/* Active Wall Drawing Line Preview */}
-                  {isDrawing && activeTool === 'wall' && wallStartPoint && wallPreviewEnd && (
+                  {isDrawing && (activeTool === 'wall' || activeTool === 'curved_wall') && wallStartPoint && wallPreviewEnd && (
                     <Line
-                      points={[wallStartPoint.x, wallStartPoint.y, wallPreviewEnd.x, wallPreviewEnd.y]}
+                      points={computeWallPreviewPoints(wallStartPoint, wallPreviewEnd, activeTool === 'curved_wall')}
                       stroke={selectedWallType === 'door' ? '#f59e0b' : (selectedWallType === 'window' ? '#38bdf8' : (selectedWallType === 'ethereal' ? '#c084fc' : '#22d3ee'))}
                       strokeWidth={5}
                       dash={[6, 4]}
@@ -2720,6 +2772,7 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
                 </Layer>
               )}
             </Stage>
+            </>
           )}
         </div>
 
@@ -2934,6 +2987,29 @@ const MapPane = ({ mapExportPngRef, defaultRole = 'architect', onBackToStory, on
           setIsTokenSelectorOpen(false);
         }}
         fieldLabel="Import Stats"
+      />
+
+      {/* Blueprint & Video Underlay Calibration Modal */}
+      <MapUnderlayCalibrationModal
+        isOpen={isUnderlayModalOpen}
+        onClose={() => setIsUnderlayModalOpen(false)}
+        currentUnderlay={currentMap?.underlay}
+        currentVideoUrl={currentMap?.videoBackgroundUrl || ''}
+        mapId={activeMapId || 'map'}
+        onApplyUnderlay={(cfg) => {
+          updateMap(activeMapId, {
+            underlay: cfg,
+            videoBackgroundUrl: cfg.videoBackgroundUrl || ''
+          });
+          showToast({
+            type: 'success',
+            text: cfg.videoBackgroundUrl ? 'Animated video map underlay applied!' : 'Blueprint underlay calibrated.'
+          });
+        }}
+        onClearUnderlay={() => {
+          updateMap(activeMapId, { underlay: null, videoBackgroundUrl: '' });
+          showToast({ type: 'info', text: 'Map underlay cleared.' });
+        }}
       />
 
       {/* Omnicortex Compendium Item Sheet Modal */}

@@ -16,9 +16,16 @@ import {
   CheckSquare, 
   Square, 
   Layers, 
-  Sliders
+  Sliders,
+  Download,
+  Shield
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { PagedPdfCompiler } from '../../engine/compilers/PagedPdfCompiler';
+import {
+  compileToEpubBlob,
+  compileToWordHtmlBlob
+} from '../../engine/compilers/DocumentExporters';
 
 export const SelectivePrintModal = ({
   isOpen,
@@ -44,6 +51,8 @@ export const SelectivePrintModal = ({
   });
 
   const [printLayout, setPrintLayout] = useState('osr_module'); // 'osr_module' | 'novel' | 'cards'
+  const [operatorSafeMode, setOperatorSafeMode] = useState(false);
+  const [includeToc, setIncludeToc] = useState(true);
 
   if (!isOpen) return null;
 
@@ -81,6 +90,45 @@ export const SelectivePrintModal = ({
   const scenarios = universeState?.scenarios || (activeScenario ? [activeScenario] : []);
   const maps = universeState?.maps || (activeMap ? [activeMap] : []);
   const activeTargetMap = activeMap || maps[0] || null;
+
+  const triggerDownload = (blob, filename) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    AudioService.playCriticalChime(true);
+  };
+
+  const buildExportOptions = () => ({
+    adventureTitle: title,
+    authorName: author,
+    includeCoverPage: selectedSections.cover,
+    includeToc,
+    includeGmSecrets: !operatorSafeMode
+  });
+
+  const handleDownloadEpub = () => {
+    const blob = compileToEpubBlob(scenarios, buildExportOptions());
+    const slug = String(title).toLowerCase().replace(/[^a-z0-9_-]+/g, '_');
+    triggerDownload(blob, `${slug}${operatorSafeMode ? '_operator' : ''}.epub`);
+  };
+
+  const handleDownloadWord = () => {
+    const blob = compileToWordHtmlBlob(scenarios, buildExportOptions());
+    const slug = String(title).toLowerCase().replace(/[^a-z0-9_-]+/g, '_');
+    triggerDownload(blob, `${slug}${operatorSafeMode ? '_operator' : ''}.doc`);
+  };
+
+  const handleDownloadPagedHtml = () => {
+    const { html } = PagedPdfCompiler.compileToPagedHtml(scenarios, buildExportOptions());
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const slug = String(title).toLowerCase().replace(/[^a-z0-9_-]+/g, '_');
+    triggerDownload(blob, `${slug}${operatorSafeMode ? '_operator' : ''}.print.html`);
+  };
 
   // Resolved scene beats
   const beatsRaw = activeScenario?.fields?.sceneBeats || universeState?.creativeState?.sceneBeats || '';
@@ -165,6 +213,63 @@ export const SelectivePrintModal = ({
                 <span>Architect Cards</span>
               </button>
             </div>
+
+            <button
+              type="button"
+              onClick={() => setOperatorSafeMode((v) => !v)}
+              className={`px-2 py-1 rounded-xl font-mono font-bold text-[10.5px] flex items-center gap-1 cursor-pointer border transition-colors ${
+                operatorSafeMode
+                  ? 'bg-amber-950/80 border-amber-400 text-amber-200'
+                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:text-white'
+              }`}
+              title="Strip GM Secrets & Threat Stats for Player-Safe Distribution"
+            >
+              <Shield size={11} />
+              <span>{operatorSafeMode ? 'Operator Safe' : 'Architect Full'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIncludeToc((v) => !v)}
+              className={`px-2 py-1 rounded-xl font-mono font-bold text-[10.5px] cursor-pointer border transition-colors ${
+                includeToc
+                  ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-200'
+                  : 'bg-slate-900 border-slate-700 text-slate-400'
+              }`}
+              title="Include Auto Table of Contents"
+            >
+              TOC {includeToc ? 'ON' : 'OFF'}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDownloadEpub}
+              className="px-2.5 py-1.5 bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-500/50 font-mono font-bold text-[11px] rounded-xl flex items-center gap-1 cursor-pointer"
+              title="Download Valid EPUB 3 E-Book"
+            >
+              <Download size={12} />
+              <span>EPUB</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDownloadWord}
+              className="px-2.5 py-1.5 bg-indigo-950/80 hover:bg-indigo-900 text-indigo-200 border border-indigo-500/50 font-mono font-bold text-[11px] rounded-xl flex items-center gap-1 cursor-pointer"
+              title="Download Word-Compatible Manuscript (.doc)"
+            >
+              <Download size={12} />
+              <span>WORD</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDownloadPagedHtml}
+              className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-mono font-bold text-[11px] rounded-xl flex items-center gap-1 cursor-pointer"
+              title="Download Paged Media Print HTML"
+            >
+              <Download size={12} />
+              <span>HTML</span>
+            </button>
 
             <button
               type="button"

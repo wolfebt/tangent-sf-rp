@@ -37,7 +37,15 @@ export const createWallSegment = (p1, p2, type = WALL_TYPES.SOLID, options = {})
     hackDc: isDoor ? (options.hackDc || 14) : null,
     athleticsDc: isDoor ? (options.athleticsDc || 16) : 24,
     color: options.color || (isDoor ? '#f59e0b' : (type === WALL_TYPES.WINDOW ? '#38bdf8' : '#e2e8f0')),
-    isSecret: options.isSecret || false
+    isSecret: options.isSecret || false,
+    ...(options.bezierControl && Number.isFinite(options.bezierControl.x) && Number.isFinite(options.bezierControl.y)
+      ? {
+          bezierControl: {
+            x: Math.round(options.bezierControl.x),
+            y: Math.round(options.bezierControl.y)
+          }
+        }
+      : {})
   };
 };
 
@@ -166,4 +174,51 @@ export const findNearestWallVertex = (point, walls = [], snapThreshold = 18) => 
   }
 
   return closest ? { x: closest.x, y: closest.y } : null;
+};
+
+/**
+ * Evaluates and tessellates a quadratic Bezier wall curve into linear sub-segments for BVH/LoS collision.
+ */
+export const tessellateBezierWall = (p1, control, p2, segments = 8) => {
+  if (!p1 || !p2 || !control) {
+    return p1 && p2 ? [{ p1, p2 }] : [];
+  }
+  const safeSegments = Math.max(2, Math.min(32, Math.floor(Number(segments) || 8)));
+  const out = [];
+  let prev = { x: p1.x, y: p1.y };
+  for (let i = 1; i <= safeSegments; i++) {
+    const t = i / safeSegments;
+    const inv = 1 - t;
+    const x = Math.round(inv * inv * p1.x + 2 * inv * t * control.x + t * t * p2.x);
+    const y = Math.round(inv * inv * p1.y + 2 * inv * t * control.y + t * t * p2.y);
+    const next = { x, y };
+    out.push({ p1: prev, p2: next });
+    prev = next;
+  }
+  return out;
+};
+
+/**
+ * Expands any curved Bezier walls into piecewise linear segments while passing straight walls through unchanged.
+ */
+export const expandWallsForGeometry = (walls = [], segments = 8) => {
+  if (!Array.isArray(walls)) return [];
+  const expanded = [];
+  for (const wall of walls) {
+    if (!wall) continue;
+    if (wall.bezierControl && wall.p1 && wall.p2) {
+      const subs = tessellateBezierWall(wall.p1, wall.bezierControl, wall.p2, segments);
+      subs.forEach((seg, idx) => {
+        expanded.push({
+          ...wall,
+          id: `${wall.id || 'wall'}_seg_${idx}`,
+          p1: seg.p1,
+          p2: seg.p2
+        });
+      });
+    } else {
+      expanded.push(wall);
+    }
+  }
+  return expanded;
 };

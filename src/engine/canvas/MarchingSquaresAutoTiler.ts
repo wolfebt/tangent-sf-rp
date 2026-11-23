@@ -143,10 +143,12 @@ export class MarchingSquaresAutoTiler {
     const bitmasks: number[][] = Array.from({ length: rows }, () => new Array(cols).fill(0));
 
     for (let r = 0; r < rows; r++) {
+      const rowArr = bitmasks[r];
+      if (!rowArr) continue;
       for (let c = 0; c < cols; c++) {
         const currentMat = getCellMaterial(c, r);
         if (!currentMat) {
-          bitmasks[r][c] = 0;
+          rowArr[c] = 0;
           continue;
         }
 
@@ -160,7 +162,7 @@ export class MarchingSquaresAutoTiler {
           return neighbor !== undefined && neighbor.materialId === currentMat;
         };
 
-        bitmasks[r][c] = this.calculateBitmask4Bit(c, r, getCell, isSame);
+        rowArr[c] = this.calculateBitmask4Bit(c, r, getCell, isSame);
       }
     }
 
@@ -178,10 +180,12 @@ export class MarchingSquaresAutoTiler {
     const bitmasks: number[][] = Array.from({ length: rows }, () => new Array(cols).fill(0));
 
     for (let r = 0; r < rows; r++) {
+      const rowArr = bitmasks[r];
+      if (!rowArr) continue;
       for (let c = 0; c < cols; c++) {
         const currentMat = getCellMaterial(c, r);
         if (!currentMat) {
-          bitmasks[r][c] = 0;
+          rowArr[c] = 0;
           continue;
         }
 
@@ -195,7 +199,7 @@ export class MarchingSquaresAutoTiler {
           return neighbor !== undefined && neighbor.materialId === currentMat;
         };
 
-        bitmasks[r][c] = this.calculateBitmask8Bit(c, r, getCell, isSame);
+        rowArr[c] = this.calculateBitmask8Bit(c, r, getCell, isSame);
       }
     }
 
@@ -286,9 +290,10 @@ export class MarchingSquaresAutoTiler {
     for (let i = 0; i < rawPts.length; i += 2) {
       const px = rawPts[i];
       const py = rawPts[i + 1];
+      if (px === undefined || py === undefined) continue;
       const lastX = cleanPts[cleanPts.length - 2];
       const lastY = cleanPts[cleanPts.length - 1];
-      if (lastX === undefined || Math.abs(px - lastX) > 0.001 || Math.abs(py - lastY) > 0.001) {
+      if (lastX === undefined || lastY === undefined || Math.abs(px - lastX) > 0.001 || Math.abs(py - lastY) > 0.001) {
         cleanPts.push(px, py);
       }
     }
@@ -299,7 +304,14 @@ export class MarchingSquaresAutoTiler {
       const firstY = cleanPts[1];
       const lastX = cleanPts[cleanPts.length - 2];
       const lastY = cleanPts[cleanPts.length - 1];
-      if (Math.abs(firstX - lastX) < 0.001 && Math.abs(firstY - lastY) < 0.001) {
+      if (
+        firstX !== undefined &&
+        firstY !== undefined &&
+        lastX !== undefined &&
+        lastY !== undefined &&
+        Math.abs(firstX - lastX) < 0.001 &&
+        Math.abs(firstY - lastY) < 0.001
+      ) {
         cleanPts.pop();
         cleanPts.pop();
       }

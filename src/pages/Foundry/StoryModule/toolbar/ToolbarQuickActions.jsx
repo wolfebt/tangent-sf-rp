@@ -7,9 +7,11 @@ import {
   PanelRight,
   Sparkles,
   Columns,
-  Palette
+  Palette,
+  Search
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
+import { useAdeStore } from '../../store/adeStore';
 
 export default function ToolbarQuickActions({
   activeView,
@@ -49,6 +51,21 @@ export default function ToolbarQuickActions({
 
   return (
     <div className="flex items-center gap-1.5 shrink-0 font-mono">
+      {/* Global Command Palette Search Trigger */}
+      <button
+        type="button"
+        onClick={() => {
+          AudioService.playTerminalBeep(1200, 0.02);
+          useAdeStore.getState().setModal('commandPalette', true);
+        }}
+        className="px-2 py-1 rounded-xl text-[11px] font-bold bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-cyan-300 flex items-center gap-1.5 cursor-pointer"
+        title="Open Command Palette (Ctrl+K / Cmd+K)"
+      >
+        <Search size={11} />
+        <span className="hidden xl:inline">Search</span>
+        <kbd className="text-[9px] px-1 rounded bg-slate-950 border border-slate-800 text-slate-400">⌘K</kbd>
+      </button>
+
       {/* Module Health Badge */}
       {moduleHealth && (
         <button

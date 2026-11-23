@@ -19,6 +19,8 @@ import { AudioService } from '../../../services/audioService';
 import { CANONICAL_DEFAULT_DEFENSE_CR } from '../../../engine/rules/CanonicalCombatMath';
 import { showToast } from '../../../context/ToastContext';
 import { AimeAgent } from '../../../engine/ai/AimeAgent';
+import { VttEventBus } from '../../../utils/vttEventBus';
+import { getVttMultiplayerSync } from '../../../services/vttMultiplayerSyncService';
 
 export interface UseCombatControllerOptions {
   selectedToken: any;
@@ -195,6 +197,27 @@ export function useCombatController({
         `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. 2d10 Roll: ${d1}+${d2}=${d1+d2} (Total Attack: ${totalAttack} vs CR ${targetDefenseDC} - Defender Wins Ties). [Cover: ${coverCheck.coverType.toUpperCase()}]`,
         ...prev.slice(0, 8)
       ]);
+      const missCard = {
+        id: `atk_miss_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        sender: selectedToken.name,
+        visibility: 'public' as const,
+        kind: 'attack' as const,
+        title: `${attackWeapon.toUpperCase()} Strike vs ${targetToken.name}`,
+        body: missNarration.narrativeText,
+        diceBreakdown: {
+          d1,
+          d2,
+          modifier: totalAttack - (d1 + d2),
+          total: totalAttack,
+          dcOrCr: targetDefenseDC,
+          outcome: isDoubleOnes ? 'FUMBLE' : 'MISS',
+          crit: false,
+          fumble: isDoubleOnes
+        }
+      };
+      VttEventBus.emit('stage-chat-card', missCard);
+      getVttMultiplayerSync().broadcastChatCard(missCard);
       return;
     }
 
@@ -280,6 +303,42 @@ export function useCombatController({
       logMsg,
       ...prev.slice(0, 8)
     ]);
+
+    const updatedEph = useEngineStore.getState().ephemeralData[targetToken.id];
+    if (updatedEph) {
+      getVttMultiplayerSync().broadcastTokenVitals(targetToken.id, updatedEph);
+    }
+
+    const hitCard = {
+      id: `atk_hit_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      timestamp: new Date().toISOString(),
+      sender: selectedToken.name,
+      visibility: 'public' as const,
+      kind: 'attack' as const,
+      title: `${attackWeapon.toUpperCase()} Hit (${targetedLimb.toUpperCase()}) -> ${targetToken.name}`,
+      body: hitNarration.narrativeText,
+      diceBreakdown: {
+        d1,
+        d2,
+        modifier: totalAttack - (d1 + d2),
+        total: totalAttack,
+        dcOrCr: targetDefenseDC,
+        outcome: isDoubleTens ? 'CRITICAL HIT' : 'HIT',
+        crit: isDoubleTens,
+        fumble: false
+      },
+      damagePayload: {
+        targetTokenId: targetToken.id,
+        targetLabel: targetToken.name,
+        rawDamage: baseDamage + stanceDmg,
+        netDamage: strikeResult.netDamage,
+        damageType: attackWeapon,
+        isLethal: targetedLimb === 'head',
+        saveCr: targetDefenseDC
+      }
+    };
+    VttEventBus.emit('stage-chat-card', hitCard);
+    getVttMultiplayerSync().broadcastChatCard(hitCard);
   }, [
     isSimulationPaused,
     selectedToken,
@@ -299,6 +358,17 @@ export function useCombatController({
         `[DICE ROLL] ${customDiceExpr} => TOTAL: ${res.total} (${res.breakdown})`,
         ...prev.slice(0, 8)
       ]);
+      const card = {
+        id: `dice_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        timestamp: new Date().toISOString(),
+        sender: selectedToken?.name || 'Roller',
+        visibility: 'public' as const,
+        kind: 'dice' as const,
+        title: `AST Formula (${customDiceExpr})`,
+        body: `Total: ${res.total} (${res.breakdown})`
+      };
+      VttEventBus.emit('stage-chat-card', card);
+      getVttMultiplayerSync().broadcastChatCard(card);
     } catch (err: any) {
       showToast({
         type: 'error',
@@ -306,18 +376,22 @@ export function useCombatController({
         text: err?.message || 'Invalid dice expression.'
       });
     }
-  }, [customDiceExpr, selectedTokenId]);
+  }, [customDiceExpr, selectedTokenId, selectedToken?.name]);
 
   const handleNextTurn = useCallback(() => {
     if (tokens.length === 0) return;
     AudioService.playTerminalBeep(1050, 0.03);
 
     const nextIndex = (currentTurnIndex + 1) % tokens.length;
+    const nextToken = tokens[nextIndex];
     setCurrentTurnIndex(nextIndex);
-    setSelectedTokenId(tokens[nextIndex].id);
+    if (nextToken) {
+      setSelectedTokenId(nextToken.id);
+    }
 
+    let nextRound = roundNumber;
     if (nextIndex === 0) {
-      const nextRound = roundNumber + 1;
+      nextRound = roundNumber + 1;
       setRoundNumber(nextRound);
       essenceTrackerRef.current.processRoundDegradation([]);
       const entropyRoll = Math.floor(Math.random() * 10) + 1;
@@ -325,13 +399,50 @@ export function useCombatController({
         `[ROUND ${nextRound}] Initiated. Essence Degradation Protocol rolled -${entropyRoll} CR to active sustained effects.`,
         ...prev.slice(0, 8)
       ]);
-    } else {
+    } else if (nextToken) {
       setCombatLog(prev => [
-        `[TURN] Active combatant is now ${tokens[nextIndex].name}.`,
+        `[TURN] Active combatant is now ${nextToken.name}.`,
         ...prev.slice(0, 8)
       ]);
     }
-  }, [tokens, currentTurnIndex, roundNumber, setSelectedTokenId]);
+
+    if (nextToken) {
+      const tickRes = useEngineStore.getState().tickActiveEffectsForToken(nextToken.id);
+      if (tickRes.ticked.length > 0 || tickRes.expired.length > 0) {
+        const msgParts: string[] = [];
+        if (tickRes.totalDamage > 0) {
+          msgParts.push(`${tickRes.totalDamage} DoT damage applied`);
+        }
+        if (tickRes.expired.length > 0) {
+          msgParts.push(`Expired: ${tickRes.expired.map(e => e.name).join(', ')}`);
+        }
+        const effMsg = `[EFFECTS] ${nextToken.name}: ${msgParts.join(' • ') || `${tickRes.ticked.length} active effect(s) ticked`}`;
+        setCombatLog(prev => [effMsg, ...prev.slice(0, 8)]);
+        const effectCard = {
+          id: `eff_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          timestamp: new Date().toISOString(),
+          sender: nextToken.name,
+          visibility: 'public' as const,
+          kind: 'effect' as const,
+          title: `Turn Effects: ${nextToken.name}`,
+          body: effMsg
+        };
+        VttEventBus.emit('stage-chat-card', effectCard);
+        getVttMultiplayerSync().broadcastChatCard(effectCard);
+      }
+
+      const nextEph = useEngineStore.getState().ephemeralData[nextToken.id];
+      if (nextEph) {
+        getVttMultiplayerSync().broadcastTokenVitals(nextToken.id, nextEph);
+      }
+    }
+
+    getVttMultiplayerSync().broadcastTurnState({
+      roundNumber: nextRound,
+      currentTurnIndex: nextIndex,
+      initiativeScores
+    });
+  }, [tokens, currentTurnIndex, roundNumber, initiativeScores, setSelectedTokenId]);
 
   const handleRollAllInitiative = useCallback(() => {
     AudioService.playTerminalBeep(1200, 0.04);

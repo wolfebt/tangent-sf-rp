@@ -63,6 +63,18 @@ export interface StaticEntity {
   tactical_behaviors?: string[];
 }
 
+// Turn-based duration effect tracking
+export interface ActiveEffectRecord {
+  id: string;
+  name: string;
+  icon?: string;
+  remainingRounds: number;
+  tickDamage?: number;
+  isLethal?: boolean;
+  modifierBonus?: number;
+  sourceTokenId?: string;
+}
+
 // Data pulled from WebRTC/LiveKit/Yjs (Volatile Stage Session Data)
 export interface EphemeralState {
   x: number;
@@ -74,10 +86,12 @@ export interface EphemeralState {
   current_structure?: number;
   stability_points?: number;
   active_conditions: string[];
+  active_effects?: ActiveEffectRecord[];
   is_selected: boolean;
   elevation_ft?: number;
   facing_degrees?: number;
   is_hidden?: boolean;
+  sensor_mode?: 'standard_optical' | 'night_vision' | 'thermal_infrared' | 'cyber_motion_radar' | 'meta_attunement';
   parent_vehicle_id?: string;
   vehicle_node_id?: string;
 }
@@ -115,8 +129,16 @@ export interface EngineState {
   stabilizeEntity: (id: string) => void;
   addCondition: (id: string, condition: string) => void;
   toggleCondition: (id: string, condition: string) => void;
+  addActiveEffect: (id: string, effect: ActiveEffectRecord) => void;
+  removeActiveEffect: (id: string, effectId: string) => void;
+  tickActiveEffectsForToken: (id: string) => {
+    ticked: ActiveEffectRecord[];
+    expired: ActiveEffectRecord[];
+    totalDamage: number;
+  };
   toggleHidden: (id: string) => void;
   setElevation: (id: string, elevation: number) => void;
+  setSensorMode: (id: string, mode: NonNullable<EphemeralState['sensor_mode']>) => void;
   setSelection: (id: string, isSelected: boolean) => void;
   clearSelection: () => void;
   removeEntity: (id: string) => void;
@@ -502,6 +524,79 @@ export const useEngineStore = create<EngineState>()(
         }
       }),
 
+      addActiveEffect: (id, effect) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (!token || !effect) return;
+        if (!Array.isArray(token.active_effects)) {
+          token.active_effects = [];
+        }
+        const existingIdx = token.active_effects.findIndex((e) => e.id === effect.id);
+        if (existingIdx >= 0) {
+          token.active_effects[existingIdx] = { ...effect };
+        } else {
+          token.active_effects.push({ ...effect });
+        }
+      }),
+
+      removeActiveEffect: (id, effectId) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (!token || !Array.isArray(token.active_effects)) return;
+        token.active_effects = token.active_effects.filter((e) => e.id !== effectId);
+      }),
+
+      tickActiveEffectsForToken: (id) => {
+        const ticked: ActiveEffectRecord[] = [];
+        const expired: ActiveEffectRecord[] = [];
+        let totalDamage = 0;
+        set((draft) => {
+          const eph = draft.ephemeralData[id];
+          const stat = draft.staticData[id];
+          if (!eph || !stat || !Array.isArray(eph.active_effects) || eph.active_effects.length === 0) {
+            return;
+          }
+          const remaining: ActiveEffectRecord[] = [];
+          for (const effect of eph.active_effects) {
+            const dmg = Math.max(0, Number(effect.tickDamage || 0));
+            if (dmg > 0) {
+              totalDamage += dmg;
+              if (stat.is_synthetic) {
+                const curStruct = eph.current_structure ?? eph.current_hp ?? 60;
+                const nextStruct = Math.max(0, curStruct - dmg);
+                eph.current_structure = nextStruct;
+                eph.current_hp = nextStruct;
+              } else if (effect.isLethal) {
+                const curHp = eph.current_health ?? eph.current_hp ?? 30;
+                const nextHp = Math.max(0, curHp - dmg);
+                eph.current_health = nextHp;
+                eph.current_hp = nextHp;
+              } else {
+                const curVit = eph.current_vitality ?? 30;
+                if (curVit >= dmg) {
+                  eph.current_vitality = curVit - dmg;
+                } else {
+                  const spill = dmg - curVit;
+                  eph.current_vitality = 0;
+                  const curHp = eph.current_health ?? eph.current_hp ?? 30;
+                  const nextHp = Math.max(0, curHp - spill);
+                  eph.current_health = nextHp;
+                  eph.current_hp = nextHp;
+                }
+              }
+            }
+            const nextRounds = Number(effect.remainingRounds || 0) - 1;
+            const updated: ActiveEffectRecord = { ...effect, remainingRounds: nextRounds };
+            ticked.push(updated);
+            if (nextRounds <= 0) {
+              expired.push(updated);
+            } else {
+              remaining.push(updated);
+            }
+          }
+          eph.active_effects = remaining;
+        });
+        return { ticked, expired, totalDamage };
+      },
+
       toggleHidden: (id) => set((draft) => {
         const token = draft.ephemeralData[id];
         if (token) {
@@ -513,6 +608,13 @@ export const useEngineStore = create<EngineState>()(
         const token = draft.ephemeralData[id];
         if (token) {
           token.elevation_ft = elevation;
+        }
+      }),
+
+      setSensorMode: (id, mode) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (token) {
+          token.sensor_mode = mode;
         }
       }),
 

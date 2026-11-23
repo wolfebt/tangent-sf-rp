@@ -21,6 +21,14 @@ import {
 } from 'lucide-react';
 import { generateContent } from '../../services/aimeService';
 import { useToast } from '../../context/ToastContext';
+import { useAuth } from '../../context/AuthContext';
+import { getFreshFirebaseIdToken } from '../../utils/firebaseTokenStore';
+import { uploadAdeImageAsset } from '../../services/adeMediaStorageService';
+import {
+  generateConceptArt,
+  ALLOWED_ARTIST_IMAGE_MODELS
+} from '../../services/artistHubImageService';
+import TokenFramerPanel from './TokenFramerPanel';
 import {
   ARTIST_STYLE_OPTIONS,
   ARTIST_TEMPLATE_OPTIONS,
@@ -63,6 +71,7 @@ export const ArtistHubModal = ({
   elementContext = null
 }) => {
   const { toast } = useToast();
+  const { currentUser } = useAuth() || {};
 
   const resolvedDefaultTemplate = useMemo(
     () =>
@@ -99,6 +108,12 @@ export const ArtistHubModal = ({
   const [showModularEditor, setShowModularEditor] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [copiedMode, setCopiedMode] = useState(null); // 'full' | 'negative' | null
+  const [selectedImageModel, setSelectedImageModel] = useState(ALLOWED_ARTIST_IMAGE_MODELS[0]);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [imageGenError, setImageGenError] = useState('');
+  const [generatedImageUrl, setGeneratedImageUrl] = useState('');
+  const [framedTokenUrl, setFramedTokenUrl] = useState('');
+  const [showTokenFramer, setShowTokenFramer] = useState(false);
 
   // Re-sync seed & inferred defaults cleanly when modal opens with new context
   useEffect(() => {
@@ -212,8 +227,37 @@ export const ArtistHubModal = ({
     setTimeout(() => setCopiedMode(null), 2500);
   };
 
+  const handleGenerateConceptArt = async () => {
+    setImageGenError('');
+    setIsGeneratingImage(true);
+    try {
+      const idToken =
+        (currentUser && typeof currentUser.getIdToken === 'function' ? await currentUser.getIdToken() : null) ||
+        (await getFreshFirebaseIdToken()) ||
+        '';
+      const result = await generateConceptArt({
+        prompt: compiled.fullPrompt,
+        model: selectedImageModel,
+        aspectRatio: ['1:1', '16:9', '9:16', '4:3', '3:4'].includes(aspectRatio) ? aspectRatio : '1:1',
+        idToken,
+        persistToStorage: Boolean(currentUser?.uid),
+        userId: currentUser?.uid,
+        fileName: `${(elementContext?.title || 'concept').toLowerCase().replace(/[^a-z0-9_-]+/g, '_')}_${Date.now().toString(36)}`,
+        uploadAssetFn: uploadAdeImageAsset
+      });
+      const resolvedUrl = result.storageUrl || result.dataUrl;
+      setGeneratedImageUrl(resolvedUrl);
+      toast?.({ type: 'success', text: `Concept art synthesized via ${result.model}.` });
+    } catch (err) {
+      setImageGenError(err?.message || 'Concept art proxy call failed.');
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
+
   const handleApply = () => {
     if (onApplyAsset && hasAssembled) {
+      const resolvedAssetUrl = framedTokenUrl || generatedImageUrl;
       onApplyAsset({
         prompt: compiled.fullPrompt,
         style: activeStyle.name,
@@ -222,7 +266,8 @@ export const ArtistHubModal = ({
         templateId: activeTemplate.id,
         aspectRatio,
         negativePrompt: compiled.negativeTokens,
-        sections
+        sections,
+        ...(resolvedAssetUrl ? { url: resolvedAssetUrl, imageUrl: resolvedAssetUrl } : {})
       });
       onClose();
     }
@@ -602,6 +647,74 @@ export const ArtistHubModal = ({
                 <pre className="text-xs text-slate-200 font-mono leading-relaxed select-all whitespace-pre-wrap overflow-x-auto">
                   {compiled.fullPrompt}
                 </pre>
+
+                {/* Live Concept Art Proxy Generator & VTT Token Framer */}
+                <div className="mt-3 pt-3 border-t border-slate-800 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <select
+                        aria-label="Image Proxy Model"
+                        value={selectedImageModel}
+                        onChange={(e) => setSelectedImageModel(e.target.value)}
+                        className="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-[11px] font-mono text-slate-200 outline-none focus:border-cyan-400"
+                      >
+                        {ALLOWED_ARTIST_IMAGE_MODELS.map((m) => (
+                          <option key={m} value={m}>{m}</option>
+                        ))}
+                      </select>
+                      <button
+                        type="button"
+                        disabled={isGeneratingImage || !compiled.fullPrompt}
+                        onClick={handleGenerateConceptArt}
+                        className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-200 text-xs font-mono font-bold transition-all disabled:opacity-50 cursor-pointer"
+                      >
+                        <ImageIcon size={13} />
+                        <span>{isGeneratingImage ? 'Generating...' : 'Generate Concept Art'}</span>
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowTokenFramer((v) => !v)}
+                      className={`px-3 py-1 rounded-lg border text-xs font-mono font-bold transition-colors cursor-pointer ${
+                        showTokenFramer
+                          ? 'bg-emerald-950/80 border-emerald-400 text-emerald-200'
+                          : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-cyan-400'
+                      }`}
+                    >
+                      {showTokenFramer ? 'Hide Token Framer' : 'Open Token Framer'}
+                    </button>
+                  </div>
+
+                  {imageGenError && (
+                    <p className="text-[11px] text-rose-400 font-mono">{imageGenError}</p>
+                  )}
+
+                  {generatedImageUrl && (
+                    <div className="flex items-center gap-3 p-2 rounded-lg bg-slate-900/90 border border-cyan-500/30">
+                      <img
+                        src={generatedImageUrl}
+                        alt="Generated Concept Art"
+                        className="w-20 h-20 object-cover rounded-lg border border-slate-700"
+                      />
+                      <div className="text-[11px] text-slate-300 font-mono space-y-1">
+                        <div className="text-emerald-300 font-bold">Concept Art Ready</div>
+                        <div className="text-slate-400">Click Apply to Element or customize ring border inside Token Framer.</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {showTokenFramer && (
+                    <TokenFramerPanel
+                      sourceImageUrl={generatedImageUrl || elementContext?.imageUrl || elementContext?.image || ''}
+                      tokenLabel={elementContext?.title || 'Operative Token'}
+                      onExportToken={(dataUrl) => {
+                        setFramedTokenUrl(dataUrl);
+                        toast?.({ type: 'success', text: 'Framed VTT token snapshot staged!' });
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           )}

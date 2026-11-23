@@ -72,6 +72,29 @@ export interface VttEventMap {
   'ai-action-adjudicated': { request: any; mandate: any; appliedDelta?: any; error?: string };
   'vtt-spawn-entity': { name: string; hp?: number; armorDr?: number; isPersona?: boolean; storyElementId?: string; [key: string]: any };
   'chat-message': { sender: string; text: string; type?: string; timestamp?: string; [key: string]: any };
+  'stage-remote-door-toggled': { wallId: string; isOpen: boolean; doorState?: string; breachHp?: number; timestamp?: number };
+  'stage-remote-turn-update': { roundNumber: number; currentTurnIndex: number; initiativeScores?: Record<string, number>; timestamp?: number };
+  'stage-remote-ping': { id?: string; x: number; y: number; type?: string; color?: string; label?: string; author?: string; timestamp: number; [key: string]: any };
+  'stage-remote-handout': { id: string; title: string; imageUrl?: string; text?: string; sender?: string; targetOperativeIds?: string[]; timestamp: number };
+  'stage-remote-audio-cue': { bus: 'music' | 'ambient' | 'sfx'; action: 'play' | 'stop' | 'volume' | 'crossfade'; trackId?: string; trackUrl?: string; title?: string; volume?: number; timestamp?: number };
+  'stage-remote-fog-explored': { mapId: string; exploredAreas: any[]; fogEnabled?: boolean; timestamp?: number };
+  'stage-chat-card': {
+    id: string;
+    timestamp: string;
+    sender: string;
+    visibility: 'public' | 'whisper_gm' | 'blind_gm';
+    kind: 'attack' | 'aoe' | 'dice' | 'effect' | 'handout' | 'narration' | 'system';
+    title: string;
+    body: string;
+    diceBreakdown?: { d1: number; d2: number; modifier?: number; total: number; dcOrCr?: number; outcome?: string; crit?: boolean; fumble?: boolean };
+    damagePayload?: { targetTokenId?: string; targetLabel?: string; rawDamage: number; netDamage?: number; damageType?: string; isLethal?: boolean; saveType?: string; saveCr?: number };
+    handoutPayload?: { id: string; title: string; imageUrl?: string; text?: string };
+    remote?: boolean;
+  };
+  'stage-aoe-resolved': { presetId: string; label: string; affectedCount: number; results: any[]; origin?: { x: number; y: number } };
+  'stage-sensor-mode-changed': { mode: 'standard_optical' | 'night_vision' | 'thermal_infrared' | 'cyber_motion_radar' | 'meta_attunement'; tokenId?: string | null };
+  'stage-region-triggered': { regionId: string; regionName: string; triggerType: string; tokenId: string; payload?: any };
+  'stage-theater-mode-changed': { mode: '2d' | '3d' | 'theater' };
 }
 
 type VttEventCallback<K extends keyof VttEventMap> =
@@ -84,6 +107,7 @@ export const VttEventBus = {
     event: K,
     ...args: VttEventMap[K] extends void ? [undefined?] : [VttEventMap[K]]
   ): void {
+    if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') return;
     const detail = args[0] !== undefined ? args[0] : undefined;
     window.dispatchEvent(new CustomEvent(event, { detail }));
   },
@@ -92,6 +116,9 @@ export const VttEventBus = {
     event: K,
     handler: VttEventCallback<K>
   ): () => void {
+    if (typeof window === 'undefined' || typeof window.addEventListener !== 'function') {
+      return () => {};
+    }
     const wrapped = (e: Event) => {
       const ce = e as CustomEvent;
       (handler as any)(ce.detail);

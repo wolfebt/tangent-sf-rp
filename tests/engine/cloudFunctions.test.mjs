@@ -52,7 +52,7 @@ Module._load = function (request, parent, isMain) {
   return originalLoad.apply(this, arguments);
 };
 
-const { getLiveKitToken, geminiProxy } = await import('../../functions/index.js');
+const { getLiveKitToken, geminiProxy, geminiImageProxy } = await import('../../functions/index.js');
 
 /**
  * Helper to create Express-like mock req/res pairs
@@ -376,6 +376,96 @@ test('Cloud Functions [geminiProxy]: Validates auth, prompt parameter, and forwa
       });
       await geminiProxy(noGeminiCreds.req, noGeminiCreds.res);
       assert.equal(noGeminiCreds.res.getStatusCode(), 500);
+    } finally {
+      mockFunctionsConfig = savedConfig;
+    }
+  } finally {
+    globalThis.fetch = origFetch;
+  }
+});
+
+test('Cloud Functions [geminiImageProxy]: Auth guard, model allowlist, prompt bounds, Imagen success & secret redaction', async () => {
+  assert.equal(typeof geminiImageProxy, 'function');
+
+  // 1. Rejects missing auth with 401
+  const noAuth = createMockHttpContext({
+    method: 'POST',
+    body: { prompt: 'Orbital docking bay blueprint' }
+  });
+  await geminiImageProxy(noAuth.req, noAuth.res);
+  assert.equal(noAuth.res.getStatusCode(), 401);
+
+  // 2. Rejects disallowed model with 400
+  const badModel = createMockHttpContext({
+    method: 'POST',
+    headers: { authorization: 'Bearer valid-player-token' },
+    body: { prompt: 'Cyberpunk pilot portrait', model: 'dall-e-3' }
+  });
+  await geminiImageProxy(badModel.req, badModel.res);
+  assert.equal(badModel.res.getStatusCode(), 400);
+
+  // 3. Rejects oversized prompt > 4000 chars with 400
+  const oversized = createMockHttpContext({
+    method: 'POST',
+    headers: { authorization: 'Bearer valid-player-token' },
+    body: { prompt: 'A'.repeat(4005), model: 'imagen-3.0-generate-002' }
+  });
+  await geminiImageProxy(oversized.req, oversized.res);
+  assert.equal(oversized.res.getStatusCode(), 400);
+
+  const origFetch = globalThis.fetch;
+  try {
+    // 4. Valid Imagen 3 request forwards safely and returns normalized payload
+    let capturedHeaders = null;
+    globalThis.fetch = async (_url, init) => {
+      capturedHeaders = init.headers;
+      return {
+        status: 200,
+        json: async () => ({
+          predictions: [{ bytesBase64Encoded: 'iVBORw0KGgo=', mimeType: 'image/png' }]
+        })
+      };
+    };
+
+    const okReq = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: { prompt: 'Sci-fi reactor deck schematics', model: 'imagen-3.0-generate-002', aspectRatio: '16:9' }
+    });
+    await geminiImageProxy(okReq.req, okReq.res);
+    assert.equal(okReq.res.getStatusCode(), 200);
+    assert.equal(capturedHeaders['x-goog-api-key'], 'GEMINI_TEST_API_KEY');
+    assert.deepEqual(okReq.res.getBody(), {
+      mimeType: 'image/png',
+      imageBase64: 'iVBORw0KGgo=',
+      model: 'imagen-3.0-generate-002'
+    });
+
+    // 5. Redacts upstream API secrets from error messages
+    globalThis.fetch = async () => {
+      throw new Error('Upstream rejected key GEMINI_TEST_API_KEY in header');
+    };
+    const errReq = createMockHttpContext({
+      method: 'POST',
+      headers: { authorization: 'Bearer valid-player-token' },
+      body: { prompt: 'Trigger failure redaction' }
+    });
+    await geminiImageProxy(errReq.req, errReq.res);
+    assert.equal(errReq.res.getStatusCode(), 500);
+    assert.equal(String(errReq.res.getBody().error).includes('GEMINI_TEST_API_KEY'), false);
+    assert.match(String(errReq.res.getBody().error), /\[REDACTED_KEY\]/);
+
+    // 6. Returns 500 if Gemini API key is missing
+    const savedConfig = mockFunctionsConfig;
+    mockFunctionsConfig = {};
+    try {
+      const noKeyReq = createMockHttpContext({
+        method: 'POST',
+        headers: { authorization: 'Bearer valid-player-token' },
+        body: { prompt: 'Test missing key' }
+      });
+      await geminiImageProxy(noKeyReq.req, noKeyReq.res);
+      assert.equal(noKeyReq.res.getStatusCode(), 500);
     } finally {
       mockFunctionsConfig = savedConfig;
     }

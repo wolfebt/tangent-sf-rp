@@ -43,7 +43,9 @@ vi.mock('../../../services/crdtCollabService', () => ({
     onCollabStatusChange: () => () => {},
     syncScenarioProse: (_id, initialText) => ({ currentContent: initialText }),
     subscribeToScenarioProse: () => () => {},
-    updateScenarioProse: (...args) => mockCrdtUpdate(...args)
+    updateScenarioProse: (...args) => mockCrdtUpdate(...args),
+    attachLiveKitBridge: vi.fn(),
+    detachLiveKitBridge: vi.fn()
   }
 }));
 
